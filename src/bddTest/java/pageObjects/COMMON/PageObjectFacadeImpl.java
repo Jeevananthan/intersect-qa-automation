@@ -1,4 +1,4 @@
-package pageObjects.HE.commonPages;
+package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
 import selenium.SeleniumBase;
@@ -14,4 +14,6 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
     }
+
+
 }

@@ -4,7 +4,7 @@ import cucumber.api.DataTable;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import pageObjects.HE.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
 

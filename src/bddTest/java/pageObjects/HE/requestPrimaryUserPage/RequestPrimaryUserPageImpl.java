@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import pageObjects.HE.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.Map;
 

@@ -2,7 +2,7 @@ package pageObjects.SP.accountPages;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import pageObjects.SP.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class AccountPageImpl extends PageObjectFacadeImpl {
 

@@ -1,7 +1,7 @@
 package stepDefinitions.HE;
 
 import cucumber.api.java8.En;
-import pageObjects.HE.commonPages.GlobalSearch;
+import pageObjects.COMMON.GlobalSearch;
 
 public class GlobalSearchStepDefs implements En {
     public GlobalSearchStepDefs() {

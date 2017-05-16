@@ -1,4 +1,4 @@
-package pageObjects.HE.commonPages;
+package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -21,8 +21,13 @@ public class GlobalSearch extends SeleniumBase {
         doSearch(searchTerms);
     }
 
-    public void searchForAll(String searchTerm) {
-        setSearchCategory("All");
+    public void searchForHEInstitutions(String searchTerm) {
+        setSearchCategory("HE Accounts");
+        doSearch(searchTerm);
+    }
+
+    public void searchForUsers(String searchTerm) {
+        setSearchCategory("Users");
         doSearch(searchTerm);
     }
 
@@ -41,23 +46,38 @@ public class GlobalSearch extends SeleniumBase {
         doSearch(searchTerm);
     }
 
+    public void searchForAll(String searchTerm) {
+        setSearchCategory("All");
+        doSearch(searchTerm);
+    }
+
     private void setSearchCategory(String searchCategory) {
         getSearchSwitcher().click();
         switch(searchCategory) {
             case "All":
                 getSearchSwitcher().findElement(By.className("search")).click();
                 break;
-            case "People":
-                getSearchSwitcher().findElement(By.className("user")).click();
+            case "HE Accounts":
+                getSearchSwitcher().findElement(By.className("university")).findElement(By.xpath("./../../div[contains(text(), 'HE Accounts')]")).click();
+                break;
+            case "College Core":
+                getSearchSwitcher().findElement(By.className("graduation")).click();
                 break;
             case "Institutions":
-                getSearchSwitcher().findElement(By.className("university")).click();
+                getSearchSwitcher().findElement(By.className("university")).findElement(By.xpath("./../../div[contains(text(), 'Institutions')]")).click();
+                break;
+            case "Users":
+                getSearchSwitcher().findElement(By.className("user")).findElement(By.xpath("./../../div[contains(text(), 'Users')]")).click();
+                break;
+            case "People":
+                //getDriver().findElement(By.xpath("//*[@id=\"global-search-box-filter\"]/div/div[contains(text(), 'People')]")).click();
+                getSearchSwitcher().findElement(By.id("global-search-box-filter")).findElement(By.xpath("./div/div[contains(text(), 'People')]")).click();
                 break;
             case "Groups":
                 getSearchSwitcher().findElement(By.className("comments")).click();
                 break;
             default:
-                Assert.fail(searchCategory + " is not a valid search category.  Valid categories: All, People, Institutions, Groups");
+                Assert.fail(searchCategory + " is not a valid search category.  Valid categories: All, HE Accounts, College Core, Institutions, Users, People, Groups");
         }
         waitUntilPageFinishLoading();
     }
@@ -66,12 +86,6 @@ public class GlobalSearch extends SeleniumBase {
         getSearchBox().clear();
         getSearchBox().sendKeys(searchTerm);
         waitUntilPageFinishLoading();
-    }
-
-    public void goToAdvancedSearch(String category) {
-        setSearchCategory(category);
-        doSearch("a ");
-        link("More...").click();
     }
 
     //Makes sure all the results contain the search term
@@ -101,7 +115,7 @@ public class GlobalSearch extends SeleniumBase {
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
         for (WebElement category : categories) {
-            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("People") || category.findElement(By.className("name")).getText().equalsIgnoreCase("College Core")) {
+            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HE Accounts") || category.findElement(By.className("name")).getText().equalsIgnoreCase("College Core") || category.findElement(By.className("name")).getText().equalsIgnoreCase("People")) {
                 institutionsReturned = true;
                 List<WebElement> options = category.findElements(By.className("result"));
                 for (WebElement option : options) {
@@ -116,6 +130,13 @@ public class GlobalSearch extends SeleniumBase {
 
         Assert.assertTrue("No HE Institutions where returned on the search", institutionsReturned);
         Assert.assertTrue("Unable to click on " + optionToSelect, institutionClickedOn);
+    }
+
+    public void goToAdvancedSearch(String category) {
+        setSearchCategory(category);
+        doSearch("a ");
+        link("More...").click();
+        Assert.assertTrue("Did not end on Advanced Search page!  No Update Search buttons is present!", button("UPDATE SEARCH").isDisplayed());
     }
 
     //Getters

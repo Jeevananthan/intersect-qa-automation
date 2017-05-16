@@ -3,7 +3,7 @@ package pageObjects.SP.adminPages;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import pageObjects.SP.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 

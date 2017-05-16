@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import pageObjects.SP.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
 public class AdminLoginPageImpl extends PageObjectFacadeImpl {
