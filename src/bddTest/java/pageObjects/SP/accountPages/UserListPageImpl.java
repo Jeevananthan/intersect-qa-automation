@@ -47,7 +47,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
 
     private void takeUserAction(String userName, String action) {
         WebElement actionsButton = getParent(getParent(link(userName))).findElement(By.cssSelector("[aria-label=Actions]"));
-        WebElement button = actionsButton.findElement(By.xpath("./div/div[contains(text(),'"+action+"')]"));
+        WebElement button = actionsButton.findElement(By.xpath("./div/div/span[contains(text(),'"+action+"')]"));
         actionsButton.click();
         jsClick(button);
         waitUntilPageFinishLoading();

@@ -22,7 +22,7 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
     }
 
     public void updatePrimaryFreemiumUser(String institution) {
-        searchForInstitution(institution,true);
+        searchForInstitution(institution);
     }
 
     public void requestNewInstitution(String institution) {
@@ -32,17 +32,12 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
         link("Request new institution").click();
     }
 
-    private void searchForInstitution(String institution, boolean... updateExistingFreemiumAccount){
+    private void searchForInstitution(String institution){
 
         textbox("Search Institutions...").sendKeys(institution);
         WebElement results = getDriver().findElement(By.id("global-search-box-results"));
         results.findElement(By.id("search-box-item-0")).click();
-        if (updateExistingFreemiumAccount.length > 0) {
-            if (updateExistingFreemiumAccount[0])
-                link("please contact Hobsons").click();
-        } else {
-            link("Request new user").click();
-        }
+        link("please contact Hobsons").click();
     }
 
     public void fillFormAndVerifyMessaging(DataTable dataTable){
@@ -85,6 +80,6 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getSearchButton() {
-        return driver.findElement(By.cssSelector("button"));
+        return button("SEARCH");
     }
 }

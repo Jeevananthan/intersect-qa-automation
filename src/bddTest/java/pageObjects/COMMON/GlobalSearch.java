@@ -58,20 +58,20 @@ public class GlobalSearch extends SeleniumBase {
                 getSearchSwitcher().findElement(By.className("search")).click();
                 break;
             case "HE Accounts":
-                getSearchSwitcher().findElement(By.className("university")).findElement(By.xpath("./../../div[contains(text(), 'HE Accounts')]")).click();
+                getSearchSwitcher().findElement(By.className("university")).findElement(By.xpath("./../../div/span[contains(text(), 'HE Accounts')]")).click();
                 break;
             case "College Core":
                 getSearchSwitcher().findElement(By.className("graduation")).click();
                 break;
             case "Institutions":
-                getSearchSwitcher().findElement(By.className("university")).findElement(By.xpath("./../../div[contains(text(), 'Institutions')]")).click();
+                getSearchSwitcher().findElement(By.className("university")).findElement(By.xpath("./../../div/span[contains(text(), 'Institutions')]")).click();
                 break;
             case "Users":
-                getSearchSwitcher().findElement(By.className("user")).findElement(By.xpath("./../../div[contains(text(), 'Users')]")).click();
+                getSearchSwitcher().findElement(By.className("user")).findElement(By.xpath("./../../div/span[contains(text(), 'Users')]")).click();
                 break;
             case "People":
                 //getDriver().findElement(By.xpath("//*[@id=\"global-search-box-filter\"]/div/div[contains(text(), 'People')]")).click();
-                getSearchSwitcher().findElement(By.id("global-search-box-filter")).findElement(By.xpath("./div/div[contains(text(), 'People')]")).click();
+                getSearchSwitcher().findElement(By.id("global-search-box-filter")).findElement(By.xpath("./div/div/span[contains(text(), 'People')]")).click();
                 break;
             case "Groups":
                 getSearchSwitcher().findElement(By.className("comments")).click();
@@ -134,7 +134,7 @@ public class GlobalSearch extends SeleniumBase {
 
     public void goToAdvancedSearch(String category) {
         setSearchCategory(category);
-        doSearch("a ");
+        doSearch("t ");
         link("More...").click();
         Assert.assertTrue("Did not end on Advanced Search page!  No Update Search buttons is present!", button("UPDATE SEARCH").isDisplayed());
     }
