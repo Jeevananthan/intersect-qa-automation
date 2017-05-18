@@ -11,8 +11,11 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     And HE I successfully sign out
 
 
-  @MATCH-1602
+  @MATCH-1602 @1729
   Scenario: As an HE user I want to be able to use the Search and Schedule tab of RepVisits to browse HS availability.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then I verify the Search and Schedule tab of the RepVisits page
+    Then I search HS by location
+      | city    | state      | stateAbbreviation | county | postalCode |
+      | Chicago | California | CA                | Denver | 73301      |
     And HE I successfully sign out
