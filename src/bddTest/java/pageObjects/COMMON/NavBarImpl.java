@@ -103,6 +103,6 @@ public class NavBarImpl extends SeleniumBase {
         return link(By.id("js-main-nav-rep-visits-menu-link"));
     }
     private WebElement getUsersBtn() {
-        return link(By.id("js-main-nav-counselor-community-menu-link"));
+        return link(By.id("js-main-nav-manage-users-menu-link"));
     }
 }
