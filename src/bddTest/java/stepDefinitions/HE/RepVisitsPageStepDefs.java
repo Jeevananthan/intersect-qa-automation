@@ -11,7 +11,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the following tabs exist on the RepVisits page$", repVisits::checkRepVisitsSubTabs);
 
-        Then("^I verify the Search and Schedule tab of the RepVisits page$", repVisits::verifySearchAndSchedulePage);
+        Then("^HE I verify the Search and Schedule tab of the RepVisits page$", repVisits::verifySearchAndSchedulePage);
 
     }
 }

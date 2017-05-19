@@ -15,31 +15,36 @@ public class NavBarImpl extends SeleniumBase {
     }
 
     public void goToHome() {
-        getHomeBtn().click();
+        if(!isLinkActive(getHomeBtn()))
+            getHomeBtn().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Unable to navigate to Home tab", isLinkActive(getHomeBtn()));
     }
 
     public void goToCommunity() {
-        getCommunityBtn().click();
+        if(!isLinkActive(getCommunityBtn()))
+            getCommunityBtn().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Unable to navigate to Community", isLinkActive(getCommunityBtn()));
     }
 
     public void goToCollegeProfile() {
-        getCollegeProfileBtn().click();
+        if (!isLinkActive(getCollegeProfileBtn()))
+            getCollegeProfileBtn().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Unable to navigate to Community", isLinkActive(getCollegeProfileBtn()));
     }
 
     public void goToRepVisits() {
-        getRepVisitsBtn().click();
+        if (!isLinkActive(getRepVisitsBtn()))
+            getRepVisitsBtn().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Unable to navigate to Community", isLinkActive(getRepVisitsBtn()));
     }
 
     public void goToUsers() {
-        getUsersBtn().click();
+        if(!isLinkActive(getUsersBtn()))
+            getUsersBtn().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Unable to navigate to Community", isLinkActive(getUsersBtn()));
     }

@@ -14,5 +14,5 @@ Feature: As an HE user, I want to be able to access the features of the main Int
   @MATCH-1602
   Scenario: As an HE user I want to be able to use the Search and Schedule tab of RepVisits to browse HS availability.
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then I verify the Search and Schedule tab of the RepVisits page
+    Then HE I verify the Search and Schedule tab of the RepVisits page
     And HE I successfully sign out
