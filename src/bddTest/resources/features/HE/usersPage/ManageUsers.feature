@@ -54,8 +54,20 @@ Feature: As an HE administrator I want to manage users at my institution
       |Intersect Account has been Updated  |purpleheautomation+coordinator_updated@gmail.com  |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact  |
     Then HE I successfully sign out
 
+
   @MATCH-192
   Scenario: As an HE Admissions Administrator I can see the last login date for each user in Purple
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I can see the last login date for user type "administrator"
+    Then HE I successfully sign out
+
+
+  @MATCH-1416
+  Scenario: As an Intersect system I want HE user accounts that have been inactivated to also have their
+            corresponding Community user accounts inactivated.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I inactivate the user account for "yadav.arun24+qa1416@gmail.com"
+    And HE I search for "Arun Match1416" in "People"
+    Then HE I verify there are no search results returned
+    And HE I activate the user account for "yadav.arun24+qa1416@gmail.com"
     Then HE I successfully sign out
