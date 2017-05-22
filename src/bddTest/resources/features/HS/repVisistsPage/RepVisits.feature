@@ -10,3 +10,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications |
     And HS I verify the Availability & Settings tab of the RepVisits page
     And HS I successfully sign out
+
+  @MATCH-1579
+  Scenario: As a HS RepVisits user I can able to Scheduling the visits in the Availability Settings page
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the Visit Scheduling in the Availability Settings page in the RepVisits
+
+
