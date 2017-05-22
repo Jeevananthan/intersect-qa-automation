@@ -10,3 +10,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications & Tasks |
     And HS I verify the Availability & Settings tab of the RepVisits page
     And HS I successfully sign out
+
+  @MATCH-1625 @NotInQA
+  Scenario: As a high school counselor using Naviance and RepVisits,
+  I want to integrate my RepVisits account with Naviance college visits
+  So that I do not have to manually enter appointments.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the Naviance Settings contents of Availability & Settings tabs
+    And HS I successfully sign out
