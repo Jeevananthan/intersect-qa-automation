@@ -62,7 +62,7 @@ Feature: As an HE administrator I want to manage users at my institution
     Then HE I successfully sign out
 
 
-  @MATCH-1416
+  @MATCH-1416 @NotInQA
   Scenario: As an Intersect system I want HE user accounts that have been inactivated to also have their
             corresponding Community user accounts inactivated.
     Given HE I am logged in to Intersect HE as user type "administrator"
