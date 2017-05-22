@@ -132,6 +132,15 @@ public class GlobalSearch extends SeleniumBase {
         Assert.assertTrue("Unable to click on " + optionToSelect, institutionClickedOn);
     }
 
+    public void verifyNoSearchResults(){
+        waitUntilPageFinishLoading();
+        List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
+        if (categories.size()==0){
+            logger.info("No search results found.  This is the expected result.");
+        }else
+            Assert.assertTrue("Search results were found, but should not have been!", false);
+    }
+
     public void goToAdvancedSearch(String category) {
         setSearchCategory(category);
         doSearch("t ");
