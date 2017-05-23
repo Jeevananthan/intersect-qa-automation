@@ -28,6 +28,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Placeholder text for search box was not present!", textbox("Enter a school name or location").isDisplayed());
     }
 
+    public void searchforHighSchool(String schoolName) {
+        navBar.goToRepVisits();
+        getSearchAndScheduleBtn().click();
+        getSearchBox().sendKeys(schoolName);
+        getSearchButton().click();
+    }
+
+    public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
+        WebElement schoolLocation = text(location);
+        getParent(schoolLocation).findElement(By.tagName("a")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void viewMapPlugin() {
+        getMapButton().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void selectSchoolFromMap(String schoolName) {
+        button(schoolName).click();
+    }
+
     private WebElement getOverviewBtn() {
         return link("Overview");
     }
@@ -49,7 +71,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
-
+    private WebElement getSearchBox() { return textbox("Enter a school name or location");}
+    private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
+    private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}
 
 }
 

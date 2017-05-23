@@ -16,3 +16,16 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the Search and Schedule tab of the RepVisits page
     And HE I successfully sign out
+
+
+  @MATCH-1476 @MATCH-1902 @MATCH-1903
+  Scenario: As an HE user of an HE account with the Intersect Presence Subscription active I want to see the
+            10 high schools returned in the scheduling results on a map so I can plan my high school visits
+            travel efficiently by location.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "Lebanon High School" in RepVisits
+    Then HE I select "Lebanon High School" in "Lebanon, Ohio" from the RepVisits intermediate search results
+    Then HE I view the map plugin on RepVisits Search & Schedule subtab
+    And HE I select "Lebanon High School" from the RepVisists map plugin
+    #Then I verify the high school information popup with the following data:
+

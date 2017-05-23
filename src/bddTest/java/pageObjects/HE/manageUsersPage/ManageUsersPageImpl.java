@@ -113,10 +113,6 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Last login date is not correct for "+username, getDriver().findElement(By.xpath("//td[contains(text(),'"+username+"')]/following::span[contains(text(),'"+currentDate+"')]")).isDisplayed());
     }
 
-    private WebElement getParent(WebElement childElement) {
-        return childElement.findElement(By.xpath("./.."));
-    }
-
     // This is necessary because Selenium doesn't think that the action options are visible (even though they are),
     // so we interact with them directly through JS.
     private void jsClick(WebElement element) {

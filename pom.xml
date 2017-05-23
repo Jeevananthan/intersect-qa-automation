@@ -28,7 +28,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @HE --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @HE --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -62,7 +62,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @HS --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @HS --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -96,7 +96,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @SP --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @SP --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -130,7 +130,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @HUBS --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @HUBS --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -164,7 +164,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @CM --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @CM --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
