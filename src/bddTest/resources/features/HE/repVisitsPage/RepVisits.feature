@@ -18,7 +18,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     And HE I successfully sign out
 
 
-  @MATCH-1476 @MATCH-1902 @MATCH-1903
+  @MATCH-1476 @MATCH-1902 @MATCH-1903 @MATCH-1774
   Scenario: As an HE user of an HE account with the Intersect Presence Subscription active I want to see the
             10 high schools returned in the scheduling results on a map so I can plan my high school visits
             travel efficiently by location.
@@ -27,5 +27,12 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     Then HE I select "Lebanon High School" in "Lebanon, Ohio" from the RepVisits intermediate search results
     Then HE I view the map plugin on RepVisits Search & Schedule subtab
     And HE I select "Lebanon High School" from the RepVisists map plugin
-    #Then I verify the high school information popup with the following data:
-
+    Then I verify the high school information popup with the following data
+      |Details               |LEBANON HIGH SCHOOL  |
+      |High School Contact   |No Contact           |
+      |Address               |LEBANON, Ohio        |
+      |Phone                 |(513) 934-5105       |
+      |Senior Class Size     |335                  |
+      |District              |Lebanon City         |
+      |College Going Rate    |65                   |
+      |Type                  |PUBLIC               |
