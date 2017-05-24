@@ -68,4 +68,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         goToInstitution(institutionName);
         link("See All Users").click();
     }
+
+    public void goToLogHistory(String institutionName) {
+        goToInstitution(institutionName);
+        link("View Log History").click();
+        Assert.assertTrue(textbox("Search...").isDisplayed());
+    }
+
 }
