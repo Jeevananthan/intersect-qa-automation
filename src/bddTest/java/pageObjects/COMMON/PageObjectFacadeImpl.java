@@ -21,4 +21,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return childElement.findElement(By.xpath("./.."));
     }
 
+    protected void communityFrame() {
+        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
+    }
 }
