@@ -3,6 +3,7 @@ package pageObjects.HE.HUBSEditMode;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
@@ -17,7 +18,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         navBar.goToCollegeProfile();
         getStartedButton().click();
         waitUntilPageFinishLoading();
-        driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
         waitUntilPageFinishLoading();
     }
 
