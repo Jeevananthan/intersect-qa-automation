@@ -43,12 +43,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Naviance Settings").click();
+        waitUntilPageFinishLoading();
 
         String publishVisitsToNavianceText = getDriver().findElement(By.id("form-naviance-settings")).getText();
         String likeToPublishAutomaticallyOptionsText = "Automatically publish confirmed visits.";
         String likeToPublishManuallyOptionsText = "Manually choose which visits to publish. (If any)";
         String optionalNotificationText = "When publishing to Naviance, do you want to notify students who have expressed interest in that institution?";
         String displayDeadLineAndStatus = "Do you want to display a deadline and status to students?";
+
         Assert.assertTrue(likeToPublishAutomaticallyOptionsText + " Text is not displayed",
                 publishVisitsToNavianceText.contains(likeToPublishAutomaticallyOptionsText));
         Assert.assertTrue(likeToPublishManuallyOptionsText + " Text is not displayed",
