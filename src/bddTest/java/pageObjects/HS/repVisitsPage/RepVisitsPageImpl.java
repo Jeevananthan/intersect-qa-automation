@@ -58,6 +58,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }else if(Accept.equals("visits until I am fully booked.")){
             Assert.assertTrue("Name 'a maximum of...' is not selected",driver.findElement(By.xpath("//div[text()='visits until I am fully booked.']")).isDisplayed());
         }
+        //'Save Changes' button
+        Assert.assertTrue("'Save Changes' button is not displayed", driver.findElement(By.cssSelector("button[class='ui primary button']")).isDisplayed());
     }
 }
 
