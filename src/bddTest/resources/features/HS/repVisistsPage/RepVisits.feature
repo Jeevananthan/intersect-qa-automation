@@ -18,3 +18,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page
     And HS I successfully sign out
+
+  @MATCH-1595
+  Scenario: As a HS RepVisits user I can able to access the Visit Confirmation in the Availability Settings page
+  So that i can able to fix the appointment for the High school
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the Visits Confirmations Settings for the Availability & Settings tab of the RepVisits
+

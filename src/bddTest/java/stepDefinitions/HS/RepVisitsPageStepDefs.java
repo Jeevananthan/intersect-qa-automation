@@ -15,5 +15,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page$", repVisits::verifyContentsOfNavianceSettings);
 
+        Then("HS I verify the Visits Confirmations Settings for the Availability & Settings tab of the RepVisits$",repVisits::verifyVisitsConfirmationsPage);
     }
 }

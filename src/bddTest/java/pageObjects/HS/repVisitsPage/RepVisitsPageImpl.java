@@ -64,4 +64,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 publishVisitsToNavianceText.contains(displayDeadLineAndStatus));
         Assert.assertTrue("Button Save Changes is not showing.", button(By.cssSelector("button[class='ui primary button']")).isDisplayed());
     }
+
+    public void verifyVisitsConfirmationsPage() {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability Settings").click();
+        //Verify the Title
+        Assert.assertTrue("'Visit Confirmations' header is not displayed as expected!", text("Visit Confirmations").isDisplayed());
+        //'Visit Availability' Content
+        Assert.assertTrue("contents 'Automatically confirm all visit requests?'  is not displaying as expected!", text("Automatically confirm all visit requests?").isDisplayed());
+        //verify the Radio button and Label
+        Assert.assertTrue("radiobutton 'Yes, accept all incoming requests.' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='field']//label[text()='Yes, accept all incoming requests.']/input[@type='radio']")).isDisplayed());
+        Assert.assertTrue("radiobutton 'No, I want to manually review all incoming requests.' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='field']//label[text()='No, I want to manually review all incoming requests.']/input[@type='radio']")).isDisplayed());
+        Assert.assertTrue("radiobutton Label 'Yes, accept all incoming requests.' is not displaying as expected!", text("Yes, accept all incoming requests.").isDisplayed());
+        Assert.assertTrue("radiobutton Label 'No, I want to manually review all incoming requests.' is not displaying as expected!", text("No, I want to manually review all incoming requests.").isDisplayed());
+        //'Save Changes' button
+        Assert.assertTrue("'Save Changes' button is not displayed", driver.findElement(By.cssSelector("button[class='ui primary button']")).isDisplayed());
+    }
+
+
+
+
+
 }
