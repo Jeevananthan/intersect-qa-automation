@@ -72,7 +72,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 publishVisitsToNavianceText.contains(displayDeadLineAndStatus));
         Assert.assertTrue("Button Save Changes is not showing.", button(By.cssSelector("button[class='ui primary button']")).isDisplayed());
     }
-}
+
     public void verifyTimeZonePage(String ValueTZ){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
