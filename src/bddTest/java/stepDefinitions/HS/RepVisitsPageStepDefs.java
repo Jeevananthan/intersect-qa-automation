@@ -13,7 +13,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Availability & Settings tab of the RepVisits page$", repVisits::verifyAvailabilityAndSettingsPage);
 
-        Then("^HS I verify the Visit Scheduling in the Availability Settings page in the RepVisits$", repVisits::verifyVisitScheduling);
+        Then("^HS I verify the Availability Settings section of the Availability subtab in the Availability & Settings page in RepVisits$", repVisits::verifyVisitScheduling);
 
     }
 }
