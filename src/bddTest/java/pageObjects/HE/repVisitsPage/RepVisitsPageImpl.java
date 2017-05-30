@@ -9,9 +9,11 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
+    private Logger logger;
     public void checkRepVisitsSubTabs(DataTable dataTable){
         navBar.goToRepVisits();
         List<String> list = dataTable.asList(String.class);
@@ -20,14 +22,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void checkHighSchoolPopUp(DataTable dataTable){
+        List<String> list = dataTable.asList(String.class);
+        for (String repVisitsSubItem : list) {
+            Assert.assertTrue(repVisitsSubItem + " is not showing.",text(repVisitsSubItem).isDisplayed());
+        }
+        Assert.assertTrue( " 'Type 'is not showing.", driver.findElement(By.xpath("//div[contains(text(),'Type')]")).isDisplayed());
+        String getHighSchoolName = driver.findElement(By.xpath("//h3[contains(text(),'High School Contact')]")).getText();
+        Assert.assertTrue("School Nmae is not displayed",getHighSchoolName.contains("No Contact"));
 
-        Map<String,String> data = dataTable.asMap(String.class,String.class);
-        for (String field : data.keySet()){
-            Assert.assertTrue(field +"is not displayed",text(field).isDisplayed());
-        }
-        for (String field : data.values()){
-            Assert.assertTrue(field +"is not displayed",text(field).isDisplayed());
-        }
         validateInfolink();
     }
 

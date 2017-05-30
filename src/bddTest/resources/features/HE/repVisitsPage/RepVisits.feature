@@ -28,11 +28,6 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     Then HE I view the map plugin on RepVisits Search & Schedule subtab
     And HE I select "Lebanon High School" from the RepVisists map plugin
     Then I verify the high school information popup with the following data
-      |Details               |LEBANON HIGH SCHOOL  |
-      |High School Contact   |No Contact           |
-      |Address               |LEBANON, Ohio        |
-      |Phone                 |(513) 934-5105       |
-      |Senior Class Size     |335                  |
-      |District              |Lebanon City         |
-      |College Going Rate    |65                   |
-      |Type                  |PUBLIC               |
+     |Details |High School Contact: |Address |Phone |Senior Class Size |District |College Going Rate |LEBANON HIGH SCHOOL  |LEBANON, Ohio  |(513) 934-5105  |335 |Lebanon City |65 |PUBLIC |
+
+
