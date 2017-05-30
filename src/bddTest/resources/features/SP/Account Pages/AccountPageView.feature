@@ -52,3 +52,10 @@ Feature: Hobsons Support - View HE Institution Accounts
     And SP I select the following institution "Bowling Green State University-Main Campus" from the results
     Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
     And SP I successfully sign out
+
+  @MATCH-1895
+  Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I verify left navigation bar headings are updated as per mockup
+      | Awareness | Counselor Community |
+    And SP I successfully sign out
