@@ -71,7 +71,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     private void ensureWeAreOnUpdateProfilePage() {
         // Go into Community Frame
-        getCommunityFrame();
+        communityFrame();
 
         // This line should not be needed.  Current flow is broken.
         link("EDIT PROFILE").click();
@@ -139,5 +139,4 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return button(By.id("user-dropdown"));
     }
 
-    private void getCommunityFrame() { getDriver().switchTo().frame(driver.findElement(By.tagName("iframe"))); }
 }

@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
 
@@ -13,5 +14,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^I verify the Search and Schedule tab of the RepVisits page$", repVisits::verifySearchAndSchedulePage);
 
+        And("^HE I search for \"([^\"]*)\" in RepVisits$", repVisits::searchforHighSchool);
+
+        Then("^HE I select \"([^\"]*)\" in \"([^\"]*)\" from the RepVisits intermediate search results$", repVisits::selectHighSchoolFromIntermediateSearchResults);
+
+        Then("^HE I view the map plugin on RepVisits Search & Schedule subtab$", repVisits::viewMapPlugin);
+
+        And("^HE I select \"([^\"]*)\" from the RepVisists map plugin$", repVisits::selectSchoolFromMap);
     }
 }
