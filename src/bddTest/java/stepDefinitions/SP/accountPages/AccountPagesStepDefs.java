@@ -14,8 +14,8 @@ public class AccountPagesStepDefs implements En {
             accountPage.verifyImOnAnInstitutionPage();
         });
 
-        Then("^SP I verify the start date Feasibility$", accountPage::verifyStartDateFeasibility);
+        Then("^SP I verify subscription start date restrictions$", accountPage::verifyStartDateFeasibility);
 
-        Then("^SP I verify the end date Feasibility$", accountPage::verifyEndDateFeasibility);
+        Then("^SP I verify subscription end date restrictions$", accountPage::verifyEndDateFeasibility);
     }
 }

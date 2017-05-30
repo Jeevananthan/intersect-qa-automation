@@ -21,9 +21,10 @@ Feature: Hobsons Staff - View Individual Institution Accounts
     And SP I successfully sign out
 
   @MATCH-958
-  Scenario: As a Hobsons Support user I should not activate any module where the end date is earlier than the start date and vise-versa.
-    Given SP I am logged in to the Admin page as a Admin user
+  Scenario: As a Hobsons Support user I should not activate any module where the end date is earlier than the start date and vice-versa.
+    Given SP I am logged in to the Admin page as an Admin user
     When SP I click on an institution name
     Then SP I am able to view the individual account page
-    Then SP I verify the end date Feasibility
-    Then SP I verify the start date Feasibility
+    Then SP I verify subscription end date restrictions
+    Then SP I verify subscription start date restrictions
+    And SP I successfully sign out

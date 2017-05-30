@@ -40,6 +40,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         dateNo = String.valueOf(dateNumber);
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
         Assert.assertTrue("End date which is earlier then start date is enabled",Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
+        getEndDateButton().click();
     }
 
     public void verifyStartDateFeasibility(){
@@ -58,6 +59,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         dateNo = String.valueOf(dateNumber);
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
         Assert.assertTrue("Start date which is past then end date is enabled",Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
+        getStartDateButton().click();
     }
 
     //Getters
