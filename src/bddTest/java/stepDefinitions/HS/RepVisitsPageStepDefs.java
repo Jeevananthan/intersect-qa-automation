@@ -1,6 +1,5 @@
 package stepDefinitions.HS;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -14,6 +13,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Availability & Settings tab of the RepVisits page$", repVisits::verifyAvailabilityAndSettingsPage);
 
+        Then("^HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page$", repVisits::verifyContentsOfNavianceSettings);
+
         Then("^HS I verify the time zone in Repvisits Availability & Settings is \"([^\"]*)\"$",repVisits::verifyTimeZonePage);
 
         And("^HS I set the RepVisits Availability & Settings time zone to \"([^\"]*)\"$", repVisits::setTimeZone);
@@ -21,4 +22,3 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I click on Availability on the Availability & Settings tab in RepVisits$",repVisits::clickLinkAvailability);
     }
 }
-
