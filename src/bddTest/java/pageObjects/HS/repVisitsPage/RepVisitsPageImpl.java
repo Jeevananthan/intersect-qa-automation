@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.loginPage.LoginPageImpl;
 
@@ -44,7 +45,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Tab " + tab + " is not displaying as expected!",link(tab).isDisplayed());
         }
     }
-    public void verifyVisitScheduling(){
+
+    public void verifyVisitScheduling(String visitPerDay){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Availability Settings").click();
@@ -55,11 +57,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(Accept.equals("a maximum of...")){
             Assert.assertTrue("minimum and maximum user number of visit is not displayed",driver.findElement(By.cssSelector("input[name='rsvpDeadlineDays'][min='1'][max='99']")).isDisplayed());
             Assert.assertTrue("Text 'visits per day.' is not displayed",driver.findElement(By.xpath("//div/span[text()='visits per day.']")).isDisplayed());
+            String actualVisitPerDay = getDriver().findElement(By.cssSelector("input[name='rsvpDeadlineDays'][min='1'][max='99']")).getAttribute("value");
+            Assert.assertTrue("Visits per day is incorrect",visitPerDay.equals(actualVisitPerDay));
         }else if(Accept.equals("visits until I am fully booked.")){
             Assert.assertTrue("Name 'a maximum of...' is not selected",driver.findElement(By.xpath("//div[text()='visits until I am fully booked.']")).isDisplayed());
         }
         //'Save Changes' button
         Assert.assertTrue("'Save Changes' button is not displayed", driver.findElement(By.cssSelector("button[class='ui primary button']")).isDisplayed());
     }
+
+    public void setAcceptinAvailabilitySettings(String accept, String visitsPerDay){
+            navBar.goToRepVisits();
+            link("Availability & Settings").click();
+            link("Availability").click();
+            link("Availability Settings").click();
+        WebElement selectAccept = getDriver().findElement(By.cssSelector("div[class='ui selection dropdown']>div"));
+        selectAccept.click();
+        getDriver().findElement(By.xpath("//span[text()='" + accept + "']")).click();
+        if(accept.equals("a maximum of...")) {
+           getDriver().findElement(By.cssSelector("input[name='rsvpDeadlineDays'][min='1'][max='99']")).sendKeys(visitsPerDay);
+        }
+        button("Save Changes").click();
+    }
+
 }
 

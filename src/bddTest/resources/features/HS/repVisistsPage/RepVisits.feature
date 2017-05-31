@@ -14,6 +14,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1579
   Scenario: As a HS RepVisits user I can able to Scheduling the visits in the Availability Settings page
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I verify the Availability Settings section of the Availability subtab in the Availability & Settings page in RepVisits
-
-
+    And HS I set the RepVisits Availability Settings section of the Accept as "a maximum of..." and visits per day "5"
+    Then HS I verify the Availability Settings section of the Availability subtab in the Availability & Settings page in RepVisits and visits per day "5"
+    Then HS I set the RepVisits Availability Settings section of the Accept as "visits until I am fully booked." and visits per day ""
+    Then HS I verify the Availability Settings section of the Availability subtab in the Availability & Settings page in RepVisits and visits per day ""
+    And HS I successfully sign out
