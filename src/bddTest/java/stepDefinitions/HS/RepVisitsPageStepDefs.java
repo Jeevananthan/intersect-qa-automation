@@ -15,5 +15,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page$", repVisits::verifyContentsOfNavianceSettings);
 
+        Then("^HS I verify is able to pick specific date into date ranges calendar for college visits using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyDatesRangeForStartAndEndDate);
+
     }
 }

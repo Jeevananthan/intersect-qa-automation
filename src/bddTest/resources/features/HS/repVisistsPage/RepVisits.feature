@@ -13,8 +13,21 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1625
   Scenario: As a high school counselor using Naviance and RepVisits,
-            I want to integrate my RepVisits account with Naviance college visits
-            So that I do not have to manually enter appointments.
+  I want to integrate my RepVisits account with Naviance college visits
+  So that I do not have to manually enter appointments.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page
     And HS I successfully sign out
+
+  @MATCH-1577
+  Scenario Outline: As a high school community member,
+  I want to be able to indicate the date ranges for which I am available for college visits,
+  so that colleges know when to visit my high school.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify is able to pick specific date into date ranges calendar for college visits using "<StartDate>" and "<EndDate>"
+    And HS I successfully sign out
+
+    Examples:
+      |StartDate            |EndDate           |
+      |July 23 2017         |Jun 23 2018       |
+      |August 15 2017       |September 23 2018 |
