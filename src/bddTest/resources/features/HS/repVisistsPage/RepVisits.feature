@@ -11,6 +11,16 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the Availability & Settings tab of the RepVisits page
     And HS I successfully sign out
 
+  @MATCH-1586
+  Scenario: As an HS User I want to be able to use the Availability and Settings tab of RepVisits to Set Time Zone
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I verify the Availability & Settings tab of the RepVisits page
+    And HS I set the RepVisits Availability & Settings time zone to "US/Central"
+    And HS I click on Availability on the Availability & Settings tab in RepVisits
+    Then HS I verify the time zone in Repvisits Availability & Settings is "US/Central"
+    And HS I set the RepVisits Availability & Settings time zone to "US/Eastern"
+    And HS I successfully sign out
+
   @MATCH-1625
   Scenario: As a high school counselor using Naviance and RepVisits,
   I want to integrate my RepVisits account with Naviance college visits

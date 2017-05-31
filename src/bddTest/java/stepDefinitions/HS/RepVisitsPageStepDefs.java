@@ -17,5 +17,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify is able to pick specific date into date ranges calendar for college visits using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyDatesRangeForStartAndEndDate);
 
+        Then("^HS I verify the time zone in Repvisits Availability & Settings is \"([^\"]*)\"$",repVisits::verifyTimeZonePage);
+
+        And("^HS I set the RepVisits Availability & Settings time zone to \"([^\"]*)\"$", repVisits::setTimeZone);
+
+        And("^HS I click on Availability on the Availability & Settings tab in RepVisits$",repVisits::clickLinkAvailability);
     }
 }
