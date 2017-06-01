@@ -73,6 +73,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Button Save Changes is not showing.", button(By.cssSelector("button[class='ui primary button']")).isDisplayed());
     }
 
+    public void verifyContentsOfRegularWeeklyHours() {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+
+        String startEndDatesForVisitsText = getDriver().findElement(By.cssSelector("div[class='availability _17ehxT_27Cme444W6HfdTN']")).getText();
+        String dayTableText = getDriver().findElement(By.cssSelector("div[class='_10Tg7oamBO_AGbl5OgX9ba']")).getText();
+        String displayStartEndForVisitsText = "2017-2018 Start and End Dates For Visits";
+        Assert.assertTrue(dayTableText + " Text is not displayed",
+                startEndDatesForVisitsText.contains("MON TUE WED THU FRI"));
+        Assert.assertTrue(displayStartEndForVisitsText + " Text is not displayed",
+                startEndDatesForVisitsText.contains(displayStartEndForVisitsText));
+        Assert.assertTrue("Button Start Date is not showing.",
+                button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).isDisplayed());
+        Assert.assertTrue("Button End Date is not showing.",
+                button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(4)")).isDisplayed());
+        Assert.assertTrue("Button Add Time Slot is not showing.",
+                button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).isDisplayed());
+
     public void verifyTimeZonePage(String ValueTZ){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
