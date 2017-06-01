@@ -13,9 +13,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Availability & Settings tab of the RepVisits page$", repVisits::verifyAvailabilityAndSettingsPage);
 
-        Then("^HS I verify the Availability Settings section of the Availability subtab in the Availability & Settings page in RepVisits and visits per day \"([^\"]*)\"$", repVisits::verifyVisitScheduling);
+        Then("^HS I verify the Availability Settings section of the Availability subtab in the Availability & Settings page in RepVisits with \"([^\"]*)\" visits per day$", repVisits::verifyAvailabilitySettings);
 
-        Then("^HS I set the RepVisits Availability Settings section of the Accept as \"([^\"]*)\" and visits per day \"([^\"]*)\"$", repVisits::setAcceptinAvailabilitySettings);
+        Then("^HS I set the Accept option of RepVisits Visit Scheduling to \"([^\"]*)\" \"([^\"]*)\" visits per day$", repVisits::setAcceptinAvailabilitySettings);
+
+        Then("^HS I set the Accept option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setAcceptInVisitSchedulingToFullyBooked);
+
 
     }
 }

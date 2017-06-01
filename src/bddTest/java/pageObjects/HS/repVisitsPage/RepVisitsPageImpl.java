@@ -46,7 +46,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyVisitScheduling(String visitPerDay){
+    public void verifyAvailabilitySettings(String visitPerDay){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Availability Settings").click();
@@ -66,6 +66,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Save Changes' button is not displayed", driver.findElement(By.cssSelector("button[class='ui primary button']")).isDisplayed());
     }
 
+    public void setAcceptInVisitSchedulingToFullyBooked(String accept){
+        setAcceptinAvailabilitySettings(accept, "1");
+    }
     public void setAcceptinAvailabilitySettings(String accept, String visitsPerDay){
             navBar.goToRepVisits();
             link("Availability & Settings").click();
