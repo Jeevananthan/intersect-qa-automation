@@ -32,21 +32,21 @@ public class NavBarImpl extends SeleniumBase {
         if (!isLinkActive(getCollegeProfileBtn()))
             getCollegeProfileBtn().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Unable to navigate to Community", isLinkActive(getCollegeProfileBtn()));
+        Assert.assertTrue("Unable to navigate to Naviance College Profile", isLinkActive(getCollegeProfileBtn()));
     }
 
     public void goToRepVisits() {
         if (!isLinkActive(getRepVisitsBtn()))
             getRepVisitsBtn().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Unable to navigate to Community", isLinkActive(getRepVisitsBtn()));
+        Assert.assertTrue("Unable to navigate to RepVisits", isLinkActive(getRepVisitsBtn()));
     }
 
     public void goToUsers() {
         if(!isLinkActive(getUsersBtn()))
             getUsersBtn().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Unable to navigate to Community", isLinkActive(getUsersBtn()));
+        Assert.assertTrue("Unable to navigate to User List", isLinkActive(getUsersBtn()));
     }
 
     public void verifySubMenuIsVisible(String tabName) {
