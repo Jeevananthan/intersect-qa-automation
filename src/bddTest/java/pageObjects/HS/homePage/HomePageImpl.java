@@ -29,6 +29,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("User did not sign out", text("You have been logged out.").isDisplayed());
     }
 
+    public void goToCounselorCommunity(){
+        link(By.id("js-main-nav-home-menu-link")).click();
+        //navBar.goToCommunity();
+    }
+
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
