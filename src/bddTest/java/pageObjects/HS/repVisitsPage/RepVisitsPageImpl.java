@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -46,40 +47,92 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyAvailabilitySettings(String visitPerDay){
+    public void verifyAvailabilitySettings(DataTable dataTable){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Availability Settings").click();
         Assert.assertTrue("Title 'Visit Scheduling' is not displayed",text("Visit Scheduling").isDisplayed());
         Assert.assertTrue("Text 'Accept' is not displayed",text("Accept").isDisplayed());
         Assert.assertTrue("Listbox is not displayed",driver.findElement(By.cssSelector("div[class='ui selection dropdown'][role='listbox']")).isDisplayed());
-        String Accept = driver.findElement(By.cssSelector("div[class='ui selection dropdown']>div[class='text']")).getText();
-        if(Accept.equals("a maximum of...")){
-            Assert.assertTrue("minimum and maximum user number of visit is not displayed",driver.findElement(By.cssSelector("input[name='rsvpDeadlineDays'][min='1'][max='99']")).isDisplayed());
-            Assert.assertTrue("Text 'visits per day.' is not displayed",driver.findElement(By.xpath("//div/span[text()='visits per day.']")).isDisplayed());
-            String actualVisitPerDay = getDriver().findElement(By.cssSelector("input[name='rsvpDeadlineDays'][min='1'][max='99']")).getAttribute("value");
-            Assert.assertTrue("Visits per day is incorrect",visitPerDay.equals(actualVisitPerDay));
-        }else if(Accept.equals("visits until I am fully booked.")){
-            Assert.assertTrue("Name 'a maximum of...' is not selected",driver.findElement(By.xpath("//div[text()='visits until I am fully booked.']")).isDisplayed());
-        }
-        //'Save Changes' button
         Assert.assertTrue("'Save Changes' button is not displayed", driver.findElement(By.cssSelector("button[class='ui primary button']")).isDisplayed());
+        Assert.assertTrue("'Visit Confirmations' header is not displayed as expected!", text("Visits Confirmations").isDisplayed());
+        //'Visit Availability' Content
+        Assert.assertTrue("contents 'Automatically confirm all visit requests?' is not displaying as expected!", text("Automatically confirm all visit requests?").isDisplayed());
+        //verify the Radio button and Label
+        Assert.assertTrue("radiobutton 'Yes, accept all incoming requests.' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='field']//label[text()='Yes, accept all incoming requests.']/input[@type='radio']")).isDisplayed());
+        Assert.assertTrue("radiobutton 'No, I want to manually review all incoming requests.' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='field']//label[text()='No, I want to manually review all incoming requests.']/input[@type='radio']")).isDisplayed());
+
+        List<Map<String,String>> entities = dataTable.asMaps(String.class,String.class);
+        for (Map<String,String> availabilityData : entities ){
+            for (String key : availabilityData.keySet()){
+                switch (key){
+                    // This is where we verify the actual editable values on the screen.
+                    case "Accept":
+                        String currentOption = driver.findElement(By.cssSelector("div[class='ui selection dropdown']>div[class='text']")).getText();
+                        Assert.assertTrue("'Accept' value was not as expected.",currentOption.contains(availabilityData.get(key)));
+                        break;
+                    case "visits per day":
+                        String actualVisitPerDay = driver.findElement(By.cssSelector("input[name='maxDailyColleges'][min='1'][max='99']")).getAttribute("value");
+                        Assert.assertTrue("Visits per day were not set as expected.",actualVisitPerDay.equals(availabilityData.get(key)));
+                        break;
+                    case "Who can see your availability?":
+                        if (availabilityData.get(key).contains("All Repvisits Users")){
+                            Assert.assertTrue("Availability option is not set as expected",driver.findElement(By.cssSelector("[name=availabilityVisible][value=true]")).isSelected());
+                        } else if (availabilityData.get(key).contains("Only Me")) {
+                            Assert.assertTrue("Availability option is not set as expected", driver.findElement(By.cssSelector("[name=availabilityVisible][value=false]")).isSelected());
+                        } else {
+                            Assert.fail("\"" + availabilityData.get(key) + "\" is not a valid input for visit availability.");
+                        }
+                        break;
+                    case "Automatically confirm all visit requests?":
+                        if (availabilityData.get(key).contains("Yes, accept all incoming requests.")){
+                            Assert.assertTrue("Confirmation option is not set as expected",driver.findElement(By.cssSelector("[name=autoConfirmVisit][value=true]")).isSelected());
+                        } else if (availabilityData.get(key).contains("No, I want to manually review all incoming requests.")) {
+                            Assert.assertTrue("Confirmation option is not set as expected", driver.findElement(By.cssSelector("[name=autoConfirmVisit][value=false]")).isSelected());
+                        } else {
+                            Assert.fail("\"" + availabilityData.get(key) + "\" is not a valid input for visit request confirmations.");
+                        }
+                        break;
+                    case "Prevent colleges from scheduling new visits less than":
+                        String rsvpDeadline = driver.findElement(By.cssSelector("input[name='rsvpDeadlineDays'][min='1'][max='99']")).getAttribute("value");
+                        Assert.assertTrue("Visits per day were not set as expected.",rsvpDeadline.equals(availabilityData.get(key)));
+                        break;
+                    case "Prevent colleges from cancelling or rescheduling less than":
+                        String modifyDeadline = driver.findElement(By.cssSelector("input[name='modifyDeadlineDays'][min='1'][max='99']")).getAttribute("value");
+                        Assert.assertTrue("Visits per day were not set as expected.",modifyDeadline.equals(availabilityData.get(key)));
+                        break;
+                }
+            }
+        }
+
     }
 
     public void setAcceptInVisitSchedulingToFullyBooked(String accept){
         setAcceptinAvailabilitySettings(accept, "1");
     }
     public void setAcceptinAvailabilitySettings(String accept, String visitsPerDay){
-            navBar.goToRepVisits();
-            link("Availability & Settings").click();
-            link("Availability").click();
-            link("Availability Settings").click();
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Availability Settings").click();
         WebElement selectAccept = getDriver().findElement(By.cssSelector("div[class='ui selection dropdown']>div"));
         selectAccept.click();
         getDriver().findElement(By.xpath("//span[text()='" + accept + "']")).click();
         if(accept.equals("a maximum of...")) {
-           getDriver().findElement(By.cssSelector("input[name='rsvpDeadlineDays'][min='1'][max='99']")).sendKeys(visitsPerDay);
+            WebElement visitsBox = getDriver().findElement(By.cssSelector("input[name='maxDailyColleges'][min='1'][max='99']"));
+            visitsBox.clear();
+            visitsBox.sendKeys(visitsPerDay);
         }
+        button("Save Changes").click();
+    }
+
+    public void setVisitsConfirmations(String option){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Availability Settings").click();
+        WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
+        options.findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
         button("Save Changes").click();
     }
 
@@ -129,23 +182,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(4)")).isDisplayed());
         Assert.assertTrue("Button Add Time Slot is not showing.",
                 button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).isDisplayed());
-    }
-
-    public void verifyVisitsConfirmationsPage() {
-        navBar.goToRepVisits();
-        link("Availability & Settings").click();
-        link("Availability Settings").click();
-        //Verify the Title
-        Assert.assertTrue("'Visit Confirmations' header is not displayed as expected!", text("Visit Confirmations").isDisplayed());
-        //'Visit Availability' Content
-        Assert.assertTrue("contents 'Automatically confirm all visit requests?'  is not displaying as expected!", text("Automatically confirm all visit requests?").isDisplayed());
-        //verify the Radio button and Label
-        Assert.assertTrue("radiobutton 'Yes, accept all incoming requests.' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='field']//label[text()='Yes, accept all incoming requests.']/input[@type='radio']")).isDisplayed());
-        Assert.assertTrue("radiobutton 'No, I want to manually review all incoming requests.' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='field']//label[text()='No, I want to manually review all incoming requests.']/input[@type='radio']")).isDisplayed());
-        Assert.assertTrue("radiobutton Label 'Yes, accept all incoming requests.' is not displaying as expected!", text("Yes, accept all incoming requests.").isDisplayed());
-        Assert.assertTrue("radiobutton Label 'No, I want to manually review all incoming requests.' is not displaying as expected!", text("No, I want to manually review all incoming requests.").isDisplayed());
-        //'Save Changes' button
-        Assert.assertTrue("'Save Changes' button is not displayed", driver.findElement(By.cssSelector("button[class='ui primary button']")).isDisplayed());
     }
 
     public void verifyTimeZonePage(String ValueTZ){
