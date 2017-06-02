@@ -3,22 +3,28 @@ package pageObjects.HS.repVisitsPage;
 import cucumber.api.DataTable;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
-    public void checkRepVisitsSubTabs(DataTable dataTable){
+    public void checkRepVisitsSubTabs(DataTable dataTable) {
         navBar.goToRepVisits();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
-            Assert.assertTrue(repVisitsSubItem + " is not showing.",link(repVisitsSubItem).isDisplayed());
+            Assert.assertTrue(repVisitsSubItem + " is not showing.", link(repVisitsSubItem).isDisplayed());
         }
     }
 
-    public void verifyAvailabilityAndSettingsPage(){
+    public void verifyAvailabilityAndSettingsPage() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         List<String> tabs = new ArrayList<>();
@@ -35,7 +41,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         tabs.add("Exceptions");
         tabs.add("Availability Settings");
         for (String tab : tabs) {
-            Assert.assertTrue("Tab " + tab + " is not displaying as expected!",link(tab).isDisplayed());
+            Assert.assertTrue("Tab " + tab + " is not displaying as expected!", link(tab).isDisplayed());
         }
     }
 
@@ -63,5 +69,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(displayDeadLineAndStatus + " Text is not displayed",
                 publishVisitsToNavianceText.contains(displayDeadLineAndStatus));
         Assert.assertTrue("Button Save Changes is not showing.", button(By.cssSelector("button[class='ui primary button']")).isDisplayed());
+    }
+
+    public void VerifyMessagingOptionsUI() {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Messaging Options").click();
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("Confirmation Message header is not showing", text("Confirmation Message").isDisplayed());
+        Assert.assertTrue("Special Instruction for RepVisits header is not showing", text("Special Instruction for RepVisits").isDisplayed());
+        Assert.assertTrue("Confirmation message Information text is not showing", getDriver().findElement(By.cssSelector("[for=\"emailInstructions\"]")).getText().
+                contains("When appointments are confirmed, we will automatically email the higher education institution and include appointment details as well as your contact information. If you would like to add additional information, you can do so here."));
+        Assert.assertTrue("webInstructions Message text is not showing", getDriver().findElement(By.cssSelector("[for=\"webInstructions\"]")).getText().
+                contains("Is there anything you would like the representative to know before scheduling a visit? If so, include that information here. Please note we will display your contact information and the school's address."));
+        Assert.assertTrue("Email Instructions textbox is not showing", getDriver().findElement(By.cssSelector("[id=\"emailInstructions\"]")).isDisplayed());
+        Assert.assertTrue("Web Instructions textbox is not showing", getDriver().findElement(By.cssSelector("[id=\"webInstructions\"]")).isDisplayed());
+        Assert.assertTrue(button("Update Messaging").isDisplayed());
+    }
+
+    public void EnterSpecialInstructionsforHEUser() {
+        String WebInstructionsforHEUser = "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allowed are 250 . This text contains more than 250 characters";
+        getWebInstructions().clear();
+        getWebInstructions().sendKeys(WebInstructionsforHEUser);
+        button("Update Messaging").click();
+
+    }
+
+    public void VerifySpecialInstructionsTextCount(){
+        String instructionsText = getWebInstructions().getText();
+        Assert.assertTrue("Web Instructions are more than 250 characters",instructionsText.length() <= 250 );
+    }
+
+
+    /*locators for Messaging Options Page*/
+    private WebElement getWebInstructions() {
+        return getDriver().findElement(By.id("webInstructions"));
     }
 }
