@@ -21,5 +21,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I view the map plugin on RepVisits Search & Schedule subtab$", repVisits::viewMapPlugin);
 
         And("^HE I select \"([^\"]*)\" from the RepVisists map plugin$", repVisits::selectSchoolFromMap);
+
+        Then("HE I verify the high school information popup contains the following data", repVisits::checkHighSchoolPopUp);
     }
 }
