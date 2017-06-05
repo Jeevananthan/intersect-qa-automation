@@ -45,3 +45,4 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     Then SP I verify there are no search results returned
     And SP I "activate" the user account for "yadav.arun24+qa1416@gmail.com"
     Then SP I successfully sign out
+
