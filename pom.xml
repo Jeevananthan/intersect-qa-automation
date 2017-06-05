@@ -24,7 +24,7 @@
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnv</value>
+                    <value>qaEnvHE</value>
                 </property>
             </activation>
             <properties>
@@ -58,7 +58,7 @@
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnv</value>
+                    <value>qaEnvHS</value>
                 </property>
             </activation>
             <properties>
@@ -92,7 +92,7 @@
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnv</value>
+                    <value>qaEnvSP</value>
                 </property>
             </activation>
             <properties>
@@ -126,7 +126,7 @@
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnv</value>
+                    <value>qaEnvHUBS</value>
                 </property>
             </activation>
             <properties>
@@ -160,7 +160,7 @@
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnv</value>
+                    <value>qaEnvCM</value>
                 </property>
             </activation>
             <properties>
