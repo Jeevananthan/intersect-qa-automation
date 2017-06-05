@@ -27,5 +27,11 @@ public class AccountPagesStepDefs implements En {
         Then("^SP I verify subscription start date restrictions$", accountPage::verifyStartDateFeasibility);
 
         Then("^SP I verify subscription end date restrictions$", accountPage::verifyEndDateFeasibility);
+
+        Then ("SP I Select the Log history Filter option as \"([^\"]*)\"$",accountPage::selectVariousDateFilterInLogHistory);
+
+        And ("SP I verify the Log history filter option is selected as \"([^\"]*)\"$",accountPage::verifySelectedDateInLogHistory);
+
+        And ("SP I verify the Start and End Date is displayed after choosing custom option$",accountPage::verifyCustomOptionFieldsInLogHistory);
     }
 }

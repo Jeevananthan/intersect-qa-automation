@@ -94,4 +94,25 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void selectVariousDateFilterInLogHistory(String Option)
+    {
+        WebElement DateDrpdown = getDriver().findElement(By.xpath("//div[@class='ui compact selection _19k4ypXU6Xw9uZfY55mEYk dropdown']"));
+        DateDrpdown.click();
+        getDriver().findElement(By.xpath("//span[text()='" + Option + "']")).click();
+    }
+
+    public void verifySelectedDateInLogHistory(String Option)
+    {
+        //verifying the selected option in the dropdown in Log History page
+        String SelectedOption = getDriver().findElement(By.xpath("//div[@class='text']")).getText();
+        Assert.assertTrue("Selected option "+Option+" is not displayed in the dropdown",SelectedOption.contains(Option));
+    }
+
+    public void verifyCustomOptionFieldsInLogHistory(){
+
+       //verifying the start date ,end date fields are displaying after clicking "custom" as my search option
+        Assert.assertTrue("Start Date Field is not diaplyed",textbox(By.name("start-date-input")).isDisplayed());
+        Assert.assertTrue("End Date Field is not diaplyed",textbox(By.name("end-date-input")).isDisplayed());
+    }
+
 }
