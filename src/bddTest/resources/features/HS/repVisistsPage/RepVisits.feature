@@ -34,10 +34,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   I want to be able to indicate the date ranges for which I am available for college visits,
   so that colleges know when to visit my high school.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I verify is able to pick specific date into date ranges calendar for college visits using "<StartDate>" and "<EndDate>"
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I verify the "<StartDate>" and "<EndDate>" date was set in the calendar
     And HS I successfully sign out
 
     Examples:
       |StartDate            |EndDate           |
-      |July 23 2017         |Jun 23 2018       |
+      |July 23 2017         |June 23 2018       |
       |August 15 2017       |September 23 2018 |

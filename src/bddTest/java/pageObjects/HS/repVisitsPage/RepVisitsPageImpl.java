@@ -75,7 +75,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Button Save Changes is not showing.", button(By.cssSelector("button[class='ui primary button']")).isDisplayed());
     }
 
-    public void verifyDatesRangeForStartAndEndDate(String startDate, String endDate) {
+    public void setStartAndEndDates(String startDate, String endDate) {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Availability").click();
@@ -83,184 +83,65 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
         setDate(startDate);
-        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(4)")).click();
+        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
         setDate(endDate);
     }
 
     public void setDate(String inputDate) {
 
-        List<WebElement> allWeeks = driver.findElements(By.cssSelector("div[class='DayPicker-Month']"));
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
-        for(WebElement elem:allWeeks)
-        {
-            switch (calendarHeading) {
-                case "July 2017":
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Jul", parts[1], parts[2]);
-                    break;
-                case "August 2017":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Aug", parts[1], parts[2]);
-                    break;
-                case "September 2017":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Sep", parts[1], parts[2]);
-                    break;
-                case "October 2017":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Oct", parts[1], parts[2]);
-                    break;
-                case "November 2017":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Nov", parts[1], parts[2]);
-                    break;
-                case "December 2017":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Dec", parts[1], parts[2]);
-                    break;
-                case "January 2018":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Jan", parts[1], parts[2]);
-                    break;
-                case "February 2018":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Feb", parts[1], parts[2]);
-                    break;
-                case "March 2018":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Mar", parts[1], parts[2]);
-                    break;
-                case "April 2018":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Apr", parts[1], parts[2]);
-                    break;
-                case "May 2018":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("May", parts[1], parts[2]);
-                    break;
-                case "Jun 2018":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Jun", parts[1], parts[2]);
-                    break;
-                case "July 2018":
-                    findMonth(calendarHeading);
-                    clickOnDate(parts[1]);
-                    waitUntilPageFinishLoading();
-                    verifyCorrectDateRange("Jul", parts[1], parts[2]);
-                    break;
-            }
 
-        }
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
     }
+
     public void findMonth(String month) {
-        switch (month) {
-            case "August 2017":
-                for(int i=1; i<=2; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "September 2017":
-                for(int i=1; i<=3; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "October 2017":
-                for(int i=1; i<=4; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "November 2017":
-                for(int i=1; i<=5; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "December 2017":
-                for(int i=1; i<=6; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "January 2018":
-                for(int i=1; i<=7; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "February 2018":
-                for(int i=1; i<=8; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "March 2018":
-                for(int i=1; i<=9; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "May 2018":
-                for(int i=1; i<=10; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "Jun 2018":
-                for(int i=1; i<=11; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
-            case "July 2018":
-                for(int i=1; i<=12; i++) {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                }
-                waitUntilPageFinishLoading();
-                break;
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try{
+            while (!DayPickerCaption.contains(month)) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+        }
+        catch (Exception e) {
+            fail("The Date selected it's out of RANGE.");
         }
     }
 
-    public void clickOnDate(String date) {
+    public void clickOnDay(String date) {
 
         driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+date+")]")).click();
     }
 
-    public void verifyCorrectDateRange(String month, String day, String year){
+    public void verifyStartAndEndDates(String startDate, String endDate){
+        String[] partsStartDate = startDate.split(" ");
+        String[] partsEndDate = endDate.split(" ");
+        String startMonth = partsStartDate[0].substring(0, 3);
+        String startDay = partsStartDate[1];
+        String startYear = partsStartDate [2];
+        String endMonth = partsEndDate[0].substring(0, 3);
+        String endDay = partsEndDate[1];
+        String endYear = partsEndDate [2];
+
         try {
+
             Assert.assertTrue("Button Start Date is not showing.",
                     driver.findElement(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).
-                            findElement(By.xpath("//span[contains(text(), '" + month + " " + day + ", " + year + "')]")).isDisplayed());
+                            findElement(By.xpath("//span[contains(text(), '" + startMonth + " " + startDay + ", " + startYear + "')]")).isDisplayed());
+
+            Assert.assertTrue("Button End Date is not showing.",
+                    driver.findElement(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).
+                            findElement(By.xpath("//span[contains(text(), '" + endMonth + " " + endDay + ", " + endYear + "')]")).isDisplayed());
 
         } catch (Exception e) {
             fail("The Date selected it's out of RANGE.");
         }
+
+    }
 
     public void verifyTimeZonePage(String ValueTZ){
         navBar.goToRepVisits();
