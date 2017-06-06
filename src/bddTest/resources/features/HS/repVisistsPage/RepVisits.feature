@@ -67,3 +67,21 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Automatically confirm all visit requests?            |
       |No, I want to manually review all incoming requests. |
     Then HS I successfully sign out
+
+  @MATCH-1578
+  Scenario: As a HS RepVisits user I want to be able to use the Availability and Settings tab of RepVisits to Set Visit Scheduling
+  I want to able to set the scheduling new visits in advance and set the cancelling or rescheduling visits in advance
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "56"
+    Then HS I go to the Counselor Community
+    Then HS I verify the Availability Settings section of the Availability subtab in the Availability & Settings page in RepVisits has the following data
+      |Prevent colleges from scheduling new visits less than |
+      |56|
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "45"
+    Then HS I go to the Counselor Community
+    Then HS I verify the Availability Settings section of the Availability subtab in the Availability & Settings page in RepVisits has the following data
+      |Prevent colleges from cancelling or rescheduling less than |
+      |45|
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I successfully sign out

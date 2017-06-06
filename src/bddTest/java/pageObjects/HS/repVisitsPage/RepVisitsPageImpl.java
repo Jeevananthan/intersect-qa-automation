@@ -107,6 +107,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void setPreventCollegesSchedulingNewVisits(String Numberofdays){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Availability Settings").click();
+        WebElement visitBox = getDriver().findElement(By.cssSelector("input[title='Days in advance to prevent colleges from scheduling new visits.'][min='1'][max='99']"));
+        visitBox.clear();
+        visitBox.sendKeys(Numberofdays);
+        button("Save Changes").click();
+    }
+
+    public void setPreventCollegesCancellingorRescheduling(String DaysInAdvance){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Availability Settings").click();
+        WebElement visitBox = getDriver().findElement(By.cssSelector("input[title='Days in advance to prevent colleges from cancelling or rescheduling visits.'][min='1'][max='99']"));
+        visitBox.clear();
+        visitBox.sendKeys(DaysInAdvance);
+        button("Save Changes").click();
+    }
+
     public void setAcceptInVisitSchedulingToFullyBooked(String accept){
         setAcceptinAvailabilitySettings(accept, "1");
     }
