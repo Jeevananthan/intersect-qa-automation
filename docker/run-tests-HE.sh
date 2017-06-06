@@ -1,21 +1,9 @@
 #!/bin/bash
 
-if [ -z "$ENVIRONMENT" ]; then
-    ENVIRONMENT="qaEnv"
-fi
+echo "Invoking Maven Install lifecycle"
+echo "Profile: HE-QA"
+echo "Browser: GridDriver"
 
-if [ -z "$BROWSER" ]; then
-    BROWSER="GridDriver"
-fi
-
-echo "Environment: $ENVIRONMENT"
-echo "Browser: $BROWSER"
-
-if [ -z "$TAGS" ]; then
-    mvn install -Denvironment="$ENVIRONMENT" -Dbrowser="$BROWSER" -PHE-QA
-else
-    echo "Tags: $TAGS"
-    mvn install -Denvironment="$ENVIRONMENT" -Dbrowser="$BROWSER" -Dtags="$TAGS" -PHE-QA
-fi
+mvn install -P HE-QA -Dbrowser=GridDriver
 
 
