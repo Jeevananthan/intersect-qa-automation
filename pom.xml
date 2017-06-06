@@ -20,7 +20,7 @@
 
     <profiles>
         <profile>
-            <id>HE QA</id>
+            <id>HE-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
@@ -54,7 +54,7 @@
             </build>
         </profile>
         <profile>
-            <id>HS QA</id>
+            <id>HS-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
@@ -88,7 +88,7 @@
             </build>
         </profile>
         <profile>
-            <id>SP QA</id>
+            <id>SP-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
@@ -122,7 +122,7 @@
             </build>
         </profile>
         <profile>
-            <id>HUBS QA</id>
+            <id>HUBS-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
@@ -156,7 +156,7 @@
             </build>
         </profile>
         <profile>
-            <id>CM QA</id>
+            <id>CM-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
