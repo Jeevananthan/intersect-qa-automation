@@ -33,5 +33,8 @@ public class AccountPagesStepDefs implements En {
         And ("SP I verify the Log history filter option is selected as \"([^\"]*)\"$",accountPage::verifySelectedDateInLogHistory);
 
         And ("SP I verify the Start and End Date is displayed after choosing custom option$",accountPage::verifyCustomOptionFieldsInLogHistory);
+
+        And ("SP I verify the Log history results for the option \"([^\"]*)\"$",accountPage::verifyLogHistoryResultsTable);
+
     }
 }
