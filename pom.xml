@@ -11,7 +11,7 @@
     <properties>
         <!-- Expects a value to be pass if not it will default to the properties file -->
         <browser></browser>
-        <cucumber.options>--tags ~@ignore</cucumber.options>
+        <!--<cucumber.options>-tags ~@ignore</cucumber.options>-->
         <build.number>${maven.build.timestamp}</build.number>
         <folderFilePath>src/bddTest/resources/environments</folderFilePath>
         <configFilePath>${folderFilePath}/localEnv.properties</configFilePath>
