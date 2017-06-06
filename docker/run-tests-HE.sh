@@ -12,10 +12,10 @@ echo "Environment: $ENVIRONMENT"
 echo "Browser: $BROWSER"
 
 if [ -z "$TAGS" ]; then
-    mvn install -Denvironment="$ENVIRONMENT" -Dbrowser="$BROWSER" --activate-profiles HE-QA
+    mvn install -Denvironment="$ENVIRONMENT" -Dbrowser="$BROWSER" -PHE-QA
 else
     echo "Tags: $TAGS"
-    mvn install -Denvironment="$ENVIRONMENT" -Dbrowser="$BROWSER" -Dtags="$TAGS" --activate-profiles HE-QA
+    mvn install -Denvironment="$ENVIRONMENT" -Dbrowser="$BROWSER" -Dtags="$TAGS" -PHE-QA
 fi
 
 
