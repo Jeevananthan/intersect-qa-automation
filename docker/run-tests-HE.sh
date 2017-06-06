@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$ENVIRONMENT" ]; then
-    ENVIRONMENT="qaEnvHE"
+    ENVIRONMENT="qaEnv"
 fi
 
 if [ -z "$BROWSER" ]; then
