@@ -13,7 +13,5 @@ public class LoginPageStepDefs implements En {
 
         Given("^HS I am logged in to Intersect HS through Naviance with account \"([^\"]*)\" and username \"([^\"]*)\" and password \"([^\"]*)\"$", loginPage::loginThroughNaviance);
 
-        And("^HS I successfully sign out$", homePage::logout );
-
     }
 }

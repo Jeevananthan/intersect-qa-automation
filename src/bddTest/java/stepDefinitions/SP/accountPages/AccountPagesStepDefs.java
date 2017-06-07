@@ -1,6 +1,5 @@
 package stepDefinitions.SP.accountPages;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.SP.accountPages.AccountPageImpl;
@@ -25,6 +24,10 @@ public class AccountPagesStepDefs implements En {
         Then("^SP I do have access to View Log History$", () -> {
             accountPage.verifyAccessToLogHistory("Yes");
         });
+
+        Then("^SP I verify subscription start date restrictions$", accountPage::verifyStartDateFeasibility);
+
+        Then("^SP I verify subscription end date restrictions$", accountPage::verifyEndDateFeasibility);
 
         Then("^SP I verify the left navigation bar and section breadcrumbs are as follows$",navBar::verifyLeftNavAndBreadcrumbs);
     }
