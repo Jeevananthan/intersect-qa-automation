@@ -20,6 +20,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
         waitUntilPageFinishLoading();
+        logger.info("HUBS Editor Mode opened");
     }
 
     //Locators

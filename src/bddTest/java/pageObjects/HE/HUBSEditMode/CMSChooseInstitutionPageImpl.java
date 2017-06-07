@@ -26,11 +26,16 @@ public class CMSChooseInstitutionPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickSingleResult() {
-        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//tr[contains(@class, 'odd views-row-first')]/td[1]/a")));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//tr[contains(@class, 'odd views-row-first')]/td[2]/a")));
         singleResult().click();
         ArrayList<String> tabs = new ArrayList<String> (getDriver().getWindowHandles());
         getDriver().switchTo().window(tabs.get(tabs.size() - 1));
+    }
+
+    public void searchInstitution(String institutionName) {
+        enterSearchStringInTitle(institutionName);
+        clickApplyButton();
     }
 
     //Locators

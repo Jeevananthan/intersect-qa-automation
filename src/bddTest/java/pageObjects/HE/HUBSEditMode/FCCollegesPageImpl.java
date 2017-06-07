@@ -26,6 +26,12 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void searchAndOpenCollege(String searchString) {
+        enterSearchString(searchString);
+        clickGoButton();
+        clickSingleResult();
+    }
+
     //Locators
 
     private WebElement searchTextbox() {

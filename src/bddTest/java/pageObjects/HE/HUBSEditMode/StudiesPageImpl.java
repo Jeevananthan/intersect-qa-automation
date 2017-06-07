@@ -1,5 +1,6 @@
 package pageObjects.HE.HUBSEditMode;
 
+import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -14,23 +15,23 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
 
     Logger logger = null;
     public static HashMap<String, String> generatedValues;
+    private HUBSLoginPageImpl hubsLogin = new HUBSLoginPageImpl();
+    private FCMainPageImpl fcMain = new FCMainPageImpl();
+    private FCCollegesPageImpl collegesPage = new FCCollegesPageImpl();
+    private HUBSMainMenuPageImpl hubsMainMenu = new HUBSMainMenuPageImpl();
 
     public StudiesPageImpl() {
         logger = Logger.getLogger(StudiesPageImpl.class);
     }
 
     public void verifyAllElementsDisplayed() {
-        boolean result = false;
-        if (studentFacultyRatioText().isDisplayed()
-            && studentRetentionText().isDisplayed()
-            && graduationRateText().isDisplayed()
-            && degreesOfferedSection().isDisplayed()
-            && topAreasOfStudySection().isDisplayed()
-            && majorsOfferedSection().isDisplayed()
-            && studyOptionsSection().isDisplayed()) {
-            result = true;
-        }
-        assertTrue("One or more elements are not displayed in Studies tab", result);
+        assertTrue("Student Faculty Ratio is not displayed", studentFacultyRatioText().isDisplayed());
+        assertTrue("Student Retention is not displayed", studentRetentionText().isDisplayed());
+        assertTrue("Graduation Rate is not displayed", graduationRateText().isDisplayed());
+        assertTrue("Degrees Offered section is not dislpayed", degreesOfferedSection().isDisplayed());
+        assertTrue("Top Areas of Study section is not displayed", topAreasOfStudySection().isDisplayed());
+        assertTrue("Majors Offered section is not displayed", majorsOfferedSection().isDisplayed());
+        assertTrue("Study Options section is not displayed", studyOptionsSection().isDisplayed());
     }
 
     public HashMap<String, String> getValuesFromFields(List<String> fieldList) {
@@ -59,47 +60,55 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
+        logger.info("Generated values: \n");
+        for (String key : fieldValues.keySet()) {
+            logger.info(key + " : " + fieldValues.get(key));
+        }
         return fieldValues;
     }
 
-    public void verifyGeneratedValues(String studentOptionLabel, HashMap<String, String> generatedValues) {
+    private void verifyGeneratedValues(String studentOptionLabel, HashMap<String, String> generatedValues) {
         while (!generatedValues.get("Student/Faculty Ratio").equals(studentFacultyRatioText().getText())) {
             getDriver().get(getDriver().getCurrentUrl());
         }
-        boolean stuFacRatio = false;
-        boolean stuRetention = false;
-        boolean gradRate = false;
-        boolean topAreasStudy = false;
-        boolean studyOptions = false;
 
         for (String key : generatedValues.keySet()) {
             switch (key) {
                 case "Student/Faculty Ratio" :
-                    if (generatedValues.get(key).equals(studentFacultyRatioText().getText())) stuFacRatio = true;
+                    assertTrue("The value for " + key + " was not successfully generated",
+                            generatedValues.get(key).equals(studentFacultyRatioText().getText()));
                     break;
                 case "Student Retention (%)" :
-                    if (generatedValues.get(key).equals(studentRetentionText().getText())) stuRetention = true;
+                    assertTrue("The value for " + key + " was not successfully generated",
+                            generatedValues.get(key).equals(studentRetentionText().getText()));
                     break;
                 case "Graduation Rate (%)" :
-                    if (generatedValues.get(key).equals(graduationRateText().getText())) gradRate = true;
+                    assertTrue("The value for " + key + " was not successfully generated",
+                            generatedValues.get(key).equals(graduationRateText().getText()));
                     break;
                 case "Top Areas of Study" :
-                    if (generatedValues.get(key).equals(topAreasOfStudyList().get(0).getText())) topAreasStudy = true;
+                    assertTrue("The value for " + key + " was not successfully generated",
+                            generatedValues.get(key).equals(topAreasOfStudyList().get(0).getText()));
                     break;
                 case "Study Options" :
                     if (studyOption(studentOptionLabel).getAttribute("class").contains("--yes")) {
-                        if (generatedValues.get(key).equals("enabled")) studyOptions =  true;
+                        assertTrue("The value for " + key + " was not successfully generated",
+                                generatedValues.get(key).equals("enabled"));
                     } else {
-                        if (generatedValues.get(key).equals("disabled")) studyOptions = true;
+                        assertTrue("The value for " + key + " was not successfully generated",
+                                generatedValues.get(key).equals("disabled"));
                     }
             }
         }
-        System.out.println("Student/Faculty Ratio: "  + stuFacRatio);
-        System.out.println("Student Retention (%): " + stuRetention);
-        System.out.println("Graduation Rate (%): " + gradRate);
-        System.out.println("Top Areas of Study: " + topAreasStudy);
-        System.out.println("Study Options: " + studyOptions);
-        assertTrue(stuFacRatio && stuRetention && gradRate && topAreasStudy && studyOptions);
+    }
+
+    public void verifyChangesPublishedInHUBS(DataTable stringsDataTable) {
+        List<String> creds = stringsDataTable.asList(String.class);
+        hubsLogin.defaultLogIn(creds);
+        fcMain.clickCollegesTab();
+        collegesPage.searchAndOpenCollege(creds.get(2));
+        hubsMainMenu.clickStudiesTab();
+        verifyGeneratedValues(creds.get(3), generatedValues);
     }
 
     //Locators

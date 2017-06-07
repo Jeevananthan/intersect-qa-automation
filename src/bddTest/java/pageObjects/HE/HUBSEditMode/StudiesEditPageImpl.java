@@ -1,5 +1,6 @@
 package pageObjects.HE.HUBSEditMode;
 
+import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -23,70 +24,52 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(StudiesEditPageImpl.class);
     }
 
-    public void verifyFieldsInRealTime(List<String> fieldsAndValues) {
-        boolean verificationStuFacRatio = false;
-        boolean verificationStuRetention = false;
-        boolean verificationGradRate = false;
-        boolean verificationTopAreasOfStudy = false;
-        boolean verificationStudyOptions = false;
-        for (String fieldAndValueElement : fieldsAndValues) {
-            switch (fieldAndValueElement.split(";")[0]) {
+    public void verifyFieldsInRealTime(DataTable stringsDataTable) {
+        List<List<String>> fieldsAndValues = stringsDataTable.cells(0);
+        for (List<String> fieldAndValueElement : fieldsAndValues) {
+            switch (fieldAndValueElement.get(0)) {
                 case "Student/Faculty Ratio" :
                     studentFacultyRatioButton().click();
                     studentFacultyRatioTextBox().clear();
-                    studentFacultyRatioTextBox().sendKeys(fieldAndValueElement.split(";")[1]);
-                    verificationStuFacRatio = studiesPreview.studentFacultyRatioText().getText().equals(fieldAndValueElement.split(";")[1]);
-                    if (!verificationStuFacRatio) {
-                        System.out.println(fieldAndValueElement.split(";")[0] + ": " + verificationStuFacRatio);
-                    }
+                    studentFacultyRatioTextBox().sendKeys(fieldAndValueElement.get(1));
+                    assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
+                            studiesPreview.studentFacultyRatioText().getText().equals(fieldAndValueElement.get(1)));
                     break;
                 case "Student Retention (%)" :
                     studentRetentionButton().click();
                     studentRetentionTextBox().clear();
-                    studentRetentionTextBox().sendKeys(fieldAndValueElement.split(";")[1]);
-                    verificationStuRetention = studiesPreview.studentRetentionText().getText().equals(fieldAndValueElement.split(";")[1]);
-                    if (!verificationStuRetention) {
-                        System.out.println(fieldAndValueElement.split(";")[0] + ": " + verificationStuRetention);
-                    }
+                    studentRetentionTextBox().sendKeys(fieldAndValueElement.get(1));
+                    assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
+                            studiesPreview.studentRetentionText().getText().equals(fieldAndValueElement.get(1)));
                     break;
                 case "Graduation Rate (%)" :
                     gradRateButton().click();
                     gradRateTextBox().clear();
-                    gradRateTextBox().sendKeys(fieldAndValueElement.split(";")[1]);
-                    verificationGradRate = studiesPreview.graduationRateText().getText().equals(fieldAndValueElement.split(";")[1]);
-                    if (!verificationGradRate) {
-                        System.out.println(fieldAndValueElement.split(";")[0] + ": " + verificationGradRate);
-                    }
+                    gradRateTextBox().sendKeys(fieldAndValueElement.get(1));
+                    assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
+                            studiesPreview.graduationRateText().getText().equals(fieldAndValueElement.get(1)));
                     break;
                 case "Top Areas of Study" :
                     topAreasOfStudyButton().click();
-                    editTopAreaOfStudy(fieldAndValueElement.split(";")[1], fieldAndValueElement.split(";")[2]);
-                    WebElement topAreOfStudy = studiesPreview.topAreasOfStudyList().get(Integer.parseInt(fieldAndValueElement.split(";")[1]) - 1);
-                    verificationTopAreasOfStudy = topAreOfStudy.getText().equals(fieldAndValueElement.split(";")[2]);
-                    if (!verificationTopAreasOfStudy) {
-                        System.out.println("Preview: " + topAreOfStudy.getText());
-                        System.out.println(fieldAndValueElement.split(";")[0] + ": " + verificationTopAreasOfStudy);
-                    }
+                    editTopAreaOfStudy(fieldAndValueElement.get(1).split(";")[0], fieldAndValueElement.get(1).split(";")[1]);
+                    WebElement topAreOfStudy = studiesPreview.topAreasOfStudyList().get(Integer.parseInt(fieldAndValueElement.get(1).split(";")[0]) - 1);
+                    assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
+                            topAreOfStudy.getText().equals(fieldAndValueElement.get(1).split(";")[1]));
                     break;
                 case "Study Options" :
                     String enableDisable;
                     studyOptionsButton().click();
-                    if (fieldAndValueElement.split(";")[2].equals("enable")) {
+                    if (fieldAndValueElement.get(1).split(";")[1].equals("enabled")) {
                         enableDisable = "enabled";
                     } else {
                         enableDisable = "disabled";
                     }
-                    editStudyOption("Study Abroad Credit", enableDisable);
-                    verificationStudyOptions = studiesPreview.studyOption(fieldAndValueElement.split(";")[1]).getAttribute("class").contains("study-option__icon--no");
-                    if (!verificationStudyOptions) {
-                        System.out.println(fieldAndValueElement.split(";")[0] + ": " + verificationStudyOptions);
-                    }
+                    editStudyOption(fieldAndValueElement.get(1).split(";")[0], enableDisable);
+                    assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
+                            studiesPreview.studyOption(fieldAndValueElement.get(1).split(";")[0]).getAttribute("class").contains("study-option__icon--no"));
                     break;
             }
         }
-
-        assertTrue("It is not possible to edit one or more fields in real time", (verificationStuFacRatio && verificationStuRetention &&
-                verificationGradRate && verificationTopAreasOfStudy && verificationStudyOptions));
     }
 
     private void editTopAreaOfStudy(String areaOfStudyNumber, String value) {
@@ -106,7 +89,7 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void editFieldValuesWithGeneratedData(HashMap<String, String> generatedValues, List<String> topAreasOfStudyAndStudyOptionsDetails) {
+    public void editFieldValuesWithGeneratedData(HashMap<String, String> generatedValues, List<List<String>> topAreasOfStudyAndStudyOptionsDetails) {
         for (String key : generatedValues.keySet()) {
             switch (key) {
                 case "Student/Faculty Ratio" :
@@ -126,21 +109,21 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Top Areas of Study" :
                     topAreasOfStudyButton().click();
-                    editTopAreaOfStudy(topAreasOfStudyAndStudyOptionsDetails.get(0).split(";")[1], generatedValues.get(key));
+                    editTopAreaOfStudy(topAreasOfStudyAndStudyOptionsDetails.get(0).get(1), generatedValues.get(key));
                     break;
                 case "Study Options" :
                     studyOptionsButton().click();
                     if (generatedValues.get(key).equals("enabled")) {
-                        editStudyOption(topAreasOfStudyAndStudyOptionsDetails.get(1).split(";")[1], "enabled");
+                        editStudyOption(topAreasOfStudyAndStudyOptionsDetails.get(1).get(1), "enabled");
                     } else if (generatedValues.get(key).equals("disabled")){
-                        editStudyOption(topAreasOfStudyAndStudyOptionsDetails.get(1).split(";")[1], "disabled");
+                        editStudyOption(topAreasOfStudyAndStudyOptionsDetails.get(1).get(1), "disabled");
                     }
                     break;
             }
         }
     }
 
-    public HashMap<String, String> generateValues(HashMap<String, String> fieldValues, List<String> details) {
+    public HashMap<String, String> generateValues(HashMap<String, String> fieldValues, List<List<String>> details) {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss");
         HashMap<String, String> generatedValues = new HashMap<String, String>();
@@ -163,9 +146,9 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "Study Options" :
-                    if (studiesPreview.studyOption(details.get(1).split(";")[1]).getAttribute("class").contains("--yes")) {
+                    if (studiesPreview.studyOption(details.get(1).get(1)).getAttribute("class").contains("--yes")) {
                         generatedValues.put(key, "disabled");
-                    } else if (studiesPreview.studyOption(details.get(1).split(";")[1]).getAttribute("class").contains("--no")){
+                    } else if (studiesPreview.studyOption(details.get(1).get(1)).getAttribute("class").contains("--no")){
                         generatedValues.put(key, "enabled");
                     }
             }
@@ -173,21 +156,33 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
         return generatedValues;
     }
 
-    public void enterPublishReasonsText(String publishReason) {
+    private void enterPublishReasonsText(String publishReason) {
         publishReasonsTextArea().sendKeys(publishReason);
     }
 
-    public void clickSubmitChangesButton() {
+    private void clickSubmitChangesButton() {
         submitChangesButton().click();
         new WebDriverWait(getDriver(), 40).until(ExpectedConditions.elementToBeClickable(By.linkText("Continue editing")));
     }
 
-    public void clickContinueEditingLink() {
+    private void clickContinueEditingLink() {
         continueEditingLink().click();
     }
 
-    public void clickPublishButton() {
+    private void clickPublishButton() {
         publishButton().click();
+    }
+
+    public void editAllFieldsBasedOnGatheredValues(DataTable stringsDataTable, HashMap<String, String> originalValues) {
+        List<List<String>> topAreasOfStudyAndStudyOptions = stringsDataTable.cells(0);
+        HashMap<String, String> newValues = generateValues(originalValues, topAreasOfStudyAndStudyOptions);
+        StudiesPageImpl.generatedValues = newValues;
+        editFieldValuesWithGeneratedData(newValues, topAreasOfStudyAndStudyOptions);
+        clickPublishButton();
+        enterPublishReasonsText(topAreasOfStudyAndStudyOptions.get(2).get(1));
+        clickSubmitChangesButton();
+        clickContinueEditingLink();
+        logger.info("All changes were submitted");
     }
 
     //Locators

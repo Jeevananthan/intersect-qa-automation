@@ -15,7 +15,7 @@ public class Navigation extends SeleniumBase {
         return getDriver().getWindowHandle();
     }
 
-    public void closeCurrentTabAndSwitchToAnother(String originalHandle) {
+    public void closeNewTabAndSwitchToOriginal(String originalHandle) {
         for(String handle : getDriver().getWindowHandles()) {
             if (!handle.equals(originalHandle)) {
                 getDriver().switchTo().window(handle);

@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-import utilities.GetProperties;
 
 public class CMSInstitutionPageImpl extends PageObjectFacadeImpl {
 
@@ -35,6 +34,16 @@ public class CMSInstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.elementToBeClickable(studentBodyNodeLink()));
         studentBodyNodeLink().click();
         waitUntilPageFinishLoading();
+    }
+
+    public void openStudentBodyNode() {
+        clickStudentbodyButton();
+        clickStudentbodyNode();
+    }
+
+    public void openUndergradAdmissionsNode() {
+        clickUndergradAdmissionsButton();
+        clickUndergradNode();
     }
 
     //Locators

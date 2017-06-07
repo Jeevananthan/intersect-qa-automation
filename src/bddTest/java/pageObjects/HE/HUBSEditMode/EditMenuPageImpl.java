@@ -7,8 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
-import static org.junit.Assert.assertTrue;
-
 public class EditMenuPageImpl extends PageObjectFacadeImpl {
 
     Logger logger = null;
@@ -18,8 +16,10 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickEditMenuButton(String label) {
+        waitUntilPageFinishLoading();
         new WebDriverWait(getDriver(), 60).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='editor-status ng-scope']")));
         studiesButton().click();
+        logger.info(label + " button was clicked");
     }
 
     //Locators

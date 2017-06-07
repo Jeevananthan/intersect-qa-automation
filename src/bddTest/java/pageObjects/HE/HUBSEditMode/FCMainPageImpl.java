@@ -4,9 +4,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-import utilities.GetProperties;
-
-import java.util.List;
 
 public class FCMainPageImpl extends PageObjectFacadeImpl {
 

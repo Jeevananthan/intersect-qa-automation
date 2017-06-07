@@ -23,6 +23,7 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
         }
         button.click();
         waitUntilPageFinishLoading();
+        logger.info(buttonLabel + " button clicked");
     }
 
     //Locators
