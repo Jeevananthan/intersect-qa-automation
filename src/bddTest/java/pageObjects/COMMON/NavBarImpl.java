@@ -24,6 +24,13 @@ public class NavBarImpl extends SeleniumBase {
         Assert.assertTrue("Unable to navigate to Home tab", isLinkActive(getHomeBtn()));
     }
 
+    public void goToGraphiQL() {
+        if(!isLinkActive(getGraphiQLBtn()))
+            getGraphiQLBtn().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Unable to navigate to GraphiQL", isLinkActive(getGraphiQLBtn()));
+    }
+
     public void goToCommunity() {
         if(!isLinkActive(getCommunityBtn()))
             getCommunityBtn().click();
@@ -113,6 +120,10 @@ public class NavBarImpl extends SeleniumBase {
     private boolean isLinkActive(WebElement link) {
         //_28hxQ33nAx_7ae3SZ4XGnj is the class that is added to indicate css active
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
+    }
+
+    private WebElement getGraphiQLBtn() {
+        return link(By.id("js-main-nav-graphiql-menu-link"));
     }
 
     //Getters
