@@ -33,3 +33,5 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I "activate" the user account for "brian.bartizek@hobsons.com"
     Then SP I successfully sign out
+
+
