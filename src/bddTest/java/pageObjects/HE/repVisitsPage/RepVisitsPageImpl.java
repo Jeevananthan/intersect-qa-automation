@@ -65,6 +65,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchAndScheduleBtn().click();
         getSearchBox().sendKeys(schoolName);
         getSearchButton().click();
+        waitUntilPageFinishLoading();
     }
 
     public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
@@ -85,21 +86,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 getComingSoonMessageInOverviewPage().getText().equals("The Overview Dashboard is coming soon. It will provide a quick view of your upcoming appointments and most recent notifications."));
     }
 
-    //locators
     public void selectSchoolFromMap(String schoolName) {
         button(schoolName).click();
-        waitUntilPageFinishLoading();
-    }
-
-
-
-
-
-    // TODO - CLEAN
-    public void searchInSearchAndSchedulePage(String searchString){
-        getSearchInSearchAndSchedule().clear();
-        getSearchInSearchAndSchedule().sendKeys(searchString);
-        getSearchInSearchAndScheduleButton().click();
         waitUntilPageFinishLoading();
     }
 
@@ -108,21 +96,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Map<String,String> searchMap = transposedTable.asMap(String.class, String.class);
         Set<String> searchCategory = searchMap.keySet();
         for (String category : searchCategory ) {
-            searchInSearchAndSchedulePage(searchMap.get(category));
+            searchforHighSchool(searchMap.get(category));
             try {
                 Assert.assertTrue("HS data is showing while searching through "+category+" in Search And Schedule page", driver.findElement(By.xpath("//table[@class='ui very basic table']")).isDisplayed());
-            }catch (NoSuchElementException nsee){
+            } catch (NoSuchElementException nsee){
                 Assert.assertTrue("HS data is not showing while searching through "+category+" in Search And Schedule page", driver.findElement(By.xpath("//span[contains(text(),'No results found')]")).isDisplayed());
                 Assert.assertTrue("HS data is not showing while searching through "+category+" in Search And Schedule page", false);
             }
-
         }
-
     }
-
-
-
-
 
     private WebElement getOverviewBtn() {
         return link("Overview");
@@ -149,12 +131,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
-    //private WebElement getSearchInSearchAndSchedule(){ return getDriver().findElement(By.className("ui huge fluid action input")); }
-    private WebElement getSearchInSearchAndSchedule(){ return getDriver().findElement(By.xpath("//div[@class='ui huge fluid action input']/input")); }
-    //private WebElement getSearchInSearchAndScheduleButton(){ return getDriver().findElement(By.xpath("//div[@class='ui huge fluid action input']"));}
-    private WebElement getSearchInSearchAndScheduleButton(){ return getDriver().findElement(By.xpath("//button[@class='ui button button']"));}
-
-
 }
 
 

@@ -11,14 +11,15 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     And HE I successfully sign out
 
 
-  @MATCH-1602 @MATCH-1958 @MATCH-1729 @NotInQA
+  @MATCH-1602 @MATCH-1958 @MATCH-1729
   Scenario: As an HE user I want to be able to use the Search and Schedule tab of RepVisits to browse HS availability.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the Search and Schedule tab of the RepVisits page
     And HE I verify the Coming Soon message on the RepVisits Overview page
-    Then I search HS by location
-      | city    | state      | stateAbbreviation | county | postalCode |
-      | Chicago | California | CA                | Denver | 73301      |
+    #   This step is @NotInQA -- @MATCH-1729
+    #Then HE I search for High Schools with the following location data in RepVisits
+    #  |City    |State      |State Abbreviation |County |Postal Code |
+    #  |Chicago |California |CA                 |Denver |73301       |
     And HE I successfully sign out
 
 

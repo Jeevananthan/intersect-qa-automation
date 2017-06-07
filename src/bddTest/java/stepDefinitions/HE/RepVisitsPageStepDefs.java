@@ -13,7 +13,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the Search and Schedule tab of the RepVisits page$", repVisits::verifySearchAndSchedulePage);
 
-        Then("^HE I search HS by location$", repVisits::verifySearchResultOfSearchAndSchedule);
+        Then("^HE I search for High Schools with the following location data in RepVisits$", repVisits::verifySearchResultOfSearchAndSchedule);
 
         And("^HE I search for \"([^\"]*)\" in RepVisits$", repVisits::searchforHighSchool);
 
