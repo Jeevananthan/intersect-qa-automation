@@ -18,8 +18,8 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     And HE I verify the Coming Soon message on the RepVisits Overview page
     #   This step is @NotInQA -- @MATCH-1729
     #Then HE I search for High Schools with the following location data in RepVisits
-    #  |City    |State      |State Abbreviation |County |Postal Code |
-    #  |Chicago |California |CA                 |Denver |73301       |
+    #  |City    |State        |State Abbreviation |County |Postal Code |
+    #  |Chicago |Rhode Island |TX                 |Denver |73301       |
     And HE I successfully sign out
 
 
