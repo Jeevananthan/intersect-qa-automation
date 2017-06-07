@@ -64,7 +64,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     //Getters
-    public WebElement getHeadingBreadcrumbs(){ return driver.findElement(By.className("_2QGqPPgUAifsnRhFCwxMD7")); }
-    public WebElement getSubMeunBreadcrumbs(){ return driver.findElement(By.className("UDWEBAWmyRe5Hb8kD2Yoc")); }
+    private WebElement getHeadingBreadcrumbs(){ return driver.findElement(By.className("_2QGqPPgUAifsnRhFCwxMD7")); }
+    private WebElement getSubMeunBreadcrumbs(){ return driver.findElement(By.className("UDWEBAWmyRe5Hb8kD2Yoc")); }
 
 }
