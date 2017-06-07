@@ -28,13 +28,6 @@ public class NavBarImpl extends SeleniumBase {
         Assert.assertTrue("Unable to navigate to Community", isLinkActive(getCommunityBtn()));
     }
 
-    public void goToGraphiQL() {
-        if(!isLinkActive(getGraphiQLBtn()))
-            getGraphiQLBtn().click();
-        waitUntilPageFinishLoading();
-        Assert.assertTrue("Unable to navigate to GraphiQL", isLinkActive(getGraphiQLBtn()));
-    }
-
     public void goToCollegeProfile() {
         if (!isLinkActive(getCollegeProfileBtn()))
             getCollegeProfileBtn().click();
@@ -107,9 +100,6 @@ public class NavBarImpl extends SeleniumBase {
     }
     private WebElement getCommunityBtn() {
         return link(By.id("js-main-nav-counselor-community-menu-link"));
-    }
-    private WebElement getGraphiQLBtn() {
-        return link(By.id("js-main-nav-graphiql-menu-link"));
     }
 
     private WebElement getCollegeProfileBtn() {

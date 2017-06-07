@@ -34,13 +34,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         //navBar.goToCommunity();
     }
 
-    public void verifyTitleHS(String generalCategoryName,String pageName){
-
-        //this function is used to verify the page title in HS app
-        Assert.assertTrue("General Category Name is not displayed in the title name ",driver.findElement(By.xpath("//div[text()='"+generalCategoryName+"']")).isDisplayed());
-        Assert.assertTrue("Page Name is not displayed in the title name ",driver.findElement(By.xpath("//div[text()='"+pageName+"']")).isDisplayed());
-    }
-
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
