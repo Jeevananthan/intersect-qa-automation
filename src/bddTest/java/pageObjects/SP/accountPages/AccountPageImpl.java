@@ -49,22 +49,5 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    //The below method is to verify the Breadcrumbs along with corresponding heading.
-    public void verifyLeftNavigationBar(DataTable dataTable){
-        Map<String, String> map = dataTable.asMap(String.class, String.class);
-        for (Map.Entry pair : map.entrySet()){
-            String heading = pair.getKey().toString();
-            String[] content = pair.getValue().toString().split(",");
-            for (String subMenu : content) {
-                driver.findElement(By.xpath("(//span[contains(text(),'"+subMenu+"')])[2]")).click();
-                Assert.assertTrue(heading+ " is not correct in Breadcrumbs", heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
-                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs", subMenu.equals(getSubMeunBreadcrumbs().getText()));
-            }
-        }
-    }
-
-    //Getters
-    public WebElement getHeadingBreadcrumbs(){ return driver.findElement(By.className("_2QGqPPgUAifsnRhFCwxMD7")); }
-    public WebElement getSubMeunBreadcrumbs(){ return driver.findElement(By.className("UDWEBAWmyRe5Hb8kD2Yoc")); }
 
 }

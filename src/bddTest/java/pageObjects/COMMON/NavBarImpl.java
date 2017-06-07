@@ -1,10 +1,13 @@
 package pageObjects.COMMON;
 
+import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import selenium.SeleniumBase;
+
+import java.util.Map;
 
 public class NavBarImpl extends SeleniumBase {
 
@@ -89,6 +92,24 @@ public class NavBarImpl extends SeleniumBase {
         }
     }
 
+    //The below method is to verify the Breadcrumbs along with corresponding heading.
+    public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
+        Map<String, String> map = dataTable.asMap(String.class, String.class);
+        for (Map.Entry pair : map.entrySet()){
+            String heading = pair.getKey().toString();
+            String[] content = pair.getValue().toString().split(",");
+            for (String subMenu : content) {
+                WebElement itemLink = driver.findElement(By.xpath("(//span[contains(text(),'"+subMenu+"')])[2]"));
+                // Check Heading
+                Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect",getParent(itemLink).findElement(By.xpath("//span[contains(text(),'"+heading+"']")).isDisplayed());
+                itemLink.click();
+                //Check Breadcrumbs
+                Assert.assertTrue(heading+ " is not correct in Breadcrumbs", heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
+                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs", subMenu.equals(getSubMeunBreadcrumbs().getText()));
+            }
+        }
+    }
+
     private boolean isLinkActive(WebElement link) {
         //_28hxQ33nAx_7ae3SZ4XGnj is the class that is added to indicate css active
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
@@ -110,4 +131,6 @@ public class NavBarImpl extends SeleniumBase {
     private WebElement getUsersBtn() {
         return link(By.id("js-main-nav-manage-users-menu-link"));
     }
+    public WebElement getHeadingBreadcrumbs(){ return driver.findElement(By.className("_2QGqPPgUAifsnRhFCwxMD7")); }
+    public WebElement getSubMeunBreadcrumbs(){ return driver.findElement(By.className("UDWEBAWmyRe5Hb8kD2Yoc")); }
 }
