@@ -17,8 +17,12 @@ public class AdminLoginPageStepDefs extends SeleniumLibrary implements En {
 
         Given("^SP I am logged in to the Admin page as a Sales Ops user$", loginPage::loginAsASalesOpsUser);
 
-        Given("^SP I am logged in to the Admin page as a Admin user$", loginPage::loginAsAnAdminUser);
+        Given("^SP I am logged in to the Admin page as an Admin user$", loginPage::loginAsAnAdminUser);
 
         Given("^SP I am logged in to the Admin page as a Support user$", loginPage::loginAsASupportUser);
+
+        Given("^SP I am logged in to the Admin page as a Community user$", loginPage::loginAsACommunityUser);
+
+        Given("^SP I am logged in to the Admin page as a Community Manager user$", loginPage::loginAsACommunityManagerUser);
     }
 }

@@ -11,7 +11,7 @@
     <properties>
         <!-- Expects a value to be pass if not it will default to the properties file -->
         <browser></browser>
-        <cucumber.options>--tags ~@ignore</cucumber.options>
+        <!--<cucumber.options>-tags ~@ignore</cucumber.options>-->
         <build.number>${maven.build.timestamp}</build.number>
         <folderFilePath>src/bddTest/resources/environments</folderFilePath>
         <configFilePath>${folderFilePath}/localEnv.properties</configFilePath>
@@ -20,7 +20,7 @@
 
     <profiles>
         <profile>
-            <id>HE QA</id>
+            <id>HE-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
@@ -28,7 +28,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @HE --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @HE --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -54,7 +54,7 @@
             </build>
         </profile>
         <profile>
-            <id>HS QA</id>
+            <id>HS-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
@@ -62,7 +62,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @HS --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @HS --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -88,7 +88,7 @@
             </build>
         </profile>
         <profile>
-            <id>SP QA</id>
+            <id>SP-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
@@ -96,7 +96,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @SP --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @SP --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -122,7 +122,7 @@
             </build>
         </profile>
         <profile>
-            <id>CM QA</id>
+            <id>HUBS-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
@@ -130,7 +130,41 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @CM --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @HUBS --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete file="${configFilePath}"/>
+                                        <copy file="${folderFilePath}/qaEnv.properties" tofile="${configFilePath}"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>CM-QA</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>qaEnv</value>
+                </property>
+            </activation>
+            <properties>
+                <cucumber.options>--tags @CM --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
