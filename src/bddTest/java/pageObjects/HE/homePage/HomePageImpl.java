@@ -138,34 +138,37 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void accessFreemiumLearnMoreOption() {
         WebElement CounselorCommunity = driver.findElement(By.id("upgrade-message"));
         waitUntilElementExists(CounselorCommunity);
-        Assert.assertTrue("Learn More button is not displayed",driver.findElement(By.xpath("//button[@class='ui small inverted button _2RAreSxYNRmsb8gR5pSnkq' and @type='button']")).isDisplayed());
-        button(By.xpath("//button[@class='ui small inverted button _2RAreSxYNRmsb8gR5pSnkq' and @type='button']")).click();
+        Assert.assertTrue("Learn More button is not displayed",driver.findElement(By.cssSelector("button[class='ui small inverted button _2RAreSxYNRmsb8gR5pSnkq']")).isDisplayed());
+        button(By.cssSelector("button[class='ui small inverted button _2RAreSxYNRmsb8gR5pSnkq']")).click();
         waitUntilPageFinishLoading();
     }
 
     public void verifyFullBenefitsofCounselorCommunity(DataTable dataTable) {
-        Assert.assertTrue("'Experience the full benefits of the Counselor Community' Pop-up is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']")).isDisplayed());
-        Assert.assertTrue("'Experience the full benefits of the Counselor Community' Pop-up title is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//div[text()='Experience the full benefits of the Counselor Community']")).isDisplayed());
-        Assert.assertTrue("Image for the 'Connect with high school counselors'",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='Connect with high school counselors']")).isDisplayed());
-        Assert.assertTrue("Text 'Connect with high school counselors' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='Connect with high school counselors']/parent::div/following-sibling::div/span[text()='Connect with and message high school counselors']")).isDisplayed());
-        Assert.assertTrue("Image for the 'Create unlimited staff accounts'",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='Unlimited staff accounts']")).isDisplayed());
-        Assert.assertTrue("Text 'Create unlimited staff accounts' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='Unlimited staff accounts']/parent::div/following-sibling::div/span[text()='Create unlimited staff accounts']")).isDisplayed());
-        Assert.assertTrue("Image for the 'See who is following your institution'",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='See who is following']")).isDisplayed());
-        Assert.assertTrue("Text 'See who is following your institution' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='See who is following']/parent::div/following-sibling::div/span[text()='See who is following your institution']")).isDisplayed());
-        Assert.assertTrue("Image for the 'Utilize advanced search capabilities'",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='Search capabilities']")).isDisplayed());
-        Assert.assertTrue("Text 'Utilize advanced search capabilities' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='Search capabilities']/parent::div/following-sibling::div/span[text()='Utilize advanced search capabilities']")).isDisplayed());
-        Assert.assertTrue("Image for the 'Join groups and collaborate within the Community'",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='Join groups and collaborate']")).isDisplayed());
-        Assert.assertTrue("Text 'Join groups and collaborate within the Community' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//img[@alt='Join groups and collaborate']/parent::div/following-sibling::div/span[text()='Join groups and collaborate within the Community']")).isDisplayed());
-        Assert.assertTrue("Header Text 'Verify Your Contact Information' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//span[text()='Verify Your Contact Information']")).isDisplayed());
-        Assert.assertTrue("Label 'First Name' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//label/span[text()='First Name']")).isDisplayed());
-        Assert.assertTrue("Label 'Last Name' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//label/span[text()='Last Name']")).isDisplayed());
-        Assert.assertTrue("Label 'Work Email Address' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//label/span[text()='Work Email Address']")).isDisplayed());
-        Assert.assertTrue("Label 'Phone' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//label/span[text()='Phone']")).isDisplayed());
-        Assert.assertTrue("Label 'School / Institution Name' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//label/span[text()='School / Institution Name']")).isDisplayed());
-        Assert.assertTrue("Label 'Message' is not displayed",driver.findElement(By.xpath("//div[@id='upgrade-form']//label/span[text()='Message']")).isDisplayed());
+        WebElement counselorCommunity = driver.findElement(By.id("upgrade-form"));
+        waitUntilElementExists(counselorCommunity);
+        //verify the Title of the pop-up is displayed
+        Assert.assertTrue("'Experience the full benefits of the Counselor Community' Pop-up title is not displayed",text("Experience the full benefits of the Counselor Community").isDisplayed());
+        //verify the Image and followed by the label is displayed
+        Assert.assertTrue("Image for the 'Connect with high school counselors'",driver.findElement(By.cssSelector("img[alt='Connect with high school counselors']")).isDisplayed());
+        Assert.assertTrue("Text 'Connect with high school counselors' is not displayed",text("Connect with and message high school counselors").isDisplayed());
+        Assert.assertTrue("Image for the 'Create unlimited staff accounts'",driver.findElement(By.cssSelector("img[alt='Unlimited staff accounts']")).isDisplayed());
+        Assert.assertTrue("Text 'Create unlimited staff accounts' is not displayed",text("Create unlimited staff accounts").isDisplayed());
+        Assert.assertTrue("Image for the 'See who is following your institution'",driver.findElement(By.cssSelector("img[alt='See who is following']")).isDisplayed());
+        Assert.assertTrue("Text 'See who is following your institution' is not displayed",text("See who is following your institution").isDisplayed());
+        Assert.assertTrue("Image for the 'Utilize advanced search capabilities'",driver.findElement(By.cssSelector("img[alt='Search capabilities']")).isDisplayed());
+        Assert.assertTrue("Text 'Utilize advanced search capabilities' is not displayed",text("Utilize advanced search capabilities").isDisplayed());
+        Assert.assertTrue("Image for the 'Join groups and collaborate within the Community'",driver.findElement(By.cssSelector("img[alt='Join groups and collaborate']")).isDisplayed());
+        Assert.assertTrue("Text 'Join groups and collaborate within the Community' is not displayed",text("Join groups and collaborate within the Community").isDisplayed());
+        //verify the contact information of the user
+        Assert.assertTrue("Header Text 'Verify Your Contact Information' is not displayed",text("Verify Your Contact Information").isDisplayed());
+        Assert.assertTrue("Label 'Last Name' is not displayed",text("Last Name").isDisplayed());
+        Assert.assertTrue("Label 'Work Email Address' is not displayed",text("Work Email Address").isDisplayed());
+        Assert.assertTrue("Label 'Phone' is not displayed",text("Phone").isDisplayed());
+        Assert.assertTrue("Label 'School / Institution Name' is not displayed",text("School / Institution Name").isDisplayed());
+        Assert.assertTrue("Label 'Message' is not displayed",text("Message").isDisplayed());
         Assert.assertTrue("Receive Hobsons Communications Checkbox",driver.findElement(By.id("field20")).isEnabled());
-        Assert.assertTrue("Receive Hobsons Communication Text",driver.findElement(By.xpath("//input[@id='field20']/following-sibling::label/span[text()='Receive Hobsons Communications']")).isDisplayed());
-        Assert.assertTrue("Request Information", driver.findElement(By.xpath("//div[@id='upgrade-form']//button/span[text()='Request Information']")).isDisplayed());
+        Assert.assertTrue("Receive Hobsons Communication Text",text("Receive Hobsons Communications").isDisplayed());
+        Assert.assertTrue("Request Information",button("Request Information").isDisplayed());
 
         List<Map<String,String>> entities = dataTable.asMaps(String.class,String.class);
         for (Map<String,String> CounselorCommunity : entities ) {
@@ -192,7 +195,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                         Assert.assertTrue("School / Institution Name was not as expected.", actualSchoolInstitutionName.equals(CounselorCommunity.get(key)));
                         break;
                     case "Message":
-                        String actualMessage = driver.findElement(By.id("field15")).getAttribute("value");
+                        String actualMessage = driver.findElement(By.id("field15")).getText();
                         Assert.assertTrue("Messages was not as expected.", actualMessage.equals(CounselorCommunity.get(key)));
                         break;
                     }
@@ -200,10 +203,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
             }
         }
 
-
     public void accessCounselorCommunity() {
-        button(By.xpath("//div[@id='upgrade-form']//button/span[text()='Request Information']")).click();
-        waitUntilPageFinishLoading();
+        button("Request Information").click();
     }
 
     public void verifyRequestInformation(){
