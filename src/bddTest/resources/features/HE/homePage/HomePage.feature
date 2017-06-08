@@ -14,6 +14,22 @@ Feature: As an HE user, I want to be able to access the features of the main Int
 
 
     @MATCH-1344
-    Scenario: As a HE Premium user,I can able to access all the modules. But as a HE community user, I can able to access only home page
-              and Community page
+    Scenario: As a HE Users, I want to make sure that appropriate menu's are displaying for HE premium user and HE community user
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      And HE I verify the "Home" menu is displaying for this user
+      And HE I verify the "Counselor Community" menu is displaying for this user
+      And HE I verify the "Naviance College Profile" menu is displaying for this user
+      And HE I verify the "RepVisits" menu is displaying for this user
+      And HE I verify the "Users" menu is displaying for this user
+      Then HE I am logging out from HE interset app
+      When HE I am logged in to Intersect HE as user type "community"
+      And HE I verify the "Home" menu is displaying for this user
+      And HE I verify the "Counselor Community" menu is displaying for this user
+      And HE I verify the "RepVisits" menu is displaying for this user
+      And HE I verify the "Naviance college profile" menu is not displaying for this user
+      And HE I verify the "Users" menu is not displaying for this user
+      Then HE I am logging out from HE interset app
+
+
+
 
