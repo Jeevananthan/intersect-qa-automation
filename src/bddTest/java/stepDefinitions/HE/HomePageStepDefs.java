@@ -22,5 +22,9 @@ public class HomePageStepDefs implements En {
         Then("^HE I verify I have access the Intersect Help page$", homePage::accessHelpPage);
 
         Then("^HE I verify the upgrade message on the Community widget$", homePage::verifyCommunityUpgradeMessage);
+
+        Then("^I verify that \"([^\"]*)\" widget is displayed$",homePage::verifyWidgetIsVisible);
+
+
     }
 }
