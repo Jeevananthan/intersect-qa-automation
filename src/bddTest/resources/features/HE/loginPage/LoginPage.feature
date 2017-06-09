@@ -5,7 +5,7 @@ Feature: As an HE user I want to login to Intersect
   Scenario: As an HE user, I want to verify the content of the HE Login Page
     Given HE I verify the HE login screen
 
-  @MATCH-1101 @MATCH-1683
+  @MATCH-1101
   Scenario: As a system, users should be locked out after failing 5 login attempts in 60 minutes.
             As an administrator, I can unlock a users' account which has been locked.
     When HE I want to login to the HE app using "purpleheautomation+locked@gmail.com" as username and "boGusPassw0rd" as password
@@ -20,3 +20,4 @@ Feature: As an HE user I want to login to Intersect
     Then HE I am logged in to Intersect HE as user type "locked"
     And HE I am able to successfully login
     Then HE I successfully sign out
+
