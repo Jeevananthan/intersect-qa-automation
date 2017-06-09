@@ -25,12 +25,9 @@ public class HomePageStepDefs implements En {
 
         Then("^HE I verify the upgrade message on the Community widget$", homePage::verifyCommunityUpgradeMessage);
 
-        And("^HE I verify the \"([^\"]*)\" menu is displaying for this user$",navBar::verifySubMenuIsVisible);
+        And("^HE I verify the \"([^\"]*)\" nav link is displaying for this user$",navBar::verifySubMenuIsVisible);
 
-        And("^HE I verify the \"([^\"]*)\" menu is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
-
-        Then("^HE I am logging out from HE interset app$",homePage::logout);
-
+        And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
 
     }
 }
