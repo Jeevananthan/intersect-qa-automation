@@ -64,6 +64,4 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     private WebElement cancelButton() { return button("CANCEL"); }
 
 
-
-
 }
