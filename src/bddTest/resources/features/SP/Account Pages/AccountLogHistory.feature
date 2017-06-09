@@ -27,23 +27,19 @@ Feature: Hobsons Support - View Institution Log History
     Given SP I am logged in to the Admin page as a Support user
     When SP I click on an institution name
     And SP I go to the Log History for "University of Montevallo" from the institution dashboard
-    Then SP I Select the Log history Filter option as "Today"
-    And SP I verify the Log history filter option is selected as "Today"
-    And SP I verify the Log history results for the option "Today"
-    Then SP I Select the Log history Filter option as "Yesterday"
-    And SP I verify the Log history filter option is selected as "Yesterday"
-    And SP I verify the Log history results for the option "Yesterday"
-    Then SP I Select the Log history Filter option as "Last 7 days"
-    And SP I verify the Log history filter option is selected as "Last 7 days"
-    And SP I verify the Log history results for the option "Last 7 days"
-    Then SP I Select the Log history Filter option as "Last 30 days"
-    And SP I verify the Log history filter option is selected as "Last 30 days"
-    And SP I verify the Log history results for the option "Last 30 days"
-    Then SP I Select the Log history Filter option as "Custom"
-    And SP I verify the Log history filter option is selected as "Custom"
-    And SP I verify the Start and End Date is displayed after choosing custom option
-    Then SP I Select the Log history Filter option as "Last Week"
-    And SP I verify the Log history filter option is selected as "Last Week"
-    Then SP I Select the Log history Filter option as "Last Month"
-    And SP I verify the Log history filter option is selected as "Last Month"
+    Then SP I select "Today" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Today"
+    Then SP I select "Yesterday" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Yesterday"
+    Then SP I select "Last 7 days" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Last 7 days"
+    Then SP I select "Last 30 days" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Last 30 days"
+    Then SP I select "Custom" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Custom"
+    And SP I verify that Start and End Date are displayed in the Log History filter after choosing 'Custom'
+    Then SP I select "Last Week" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Last Week"
+    Then SP I select "Last Month" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Last Month"
     And SP I successfully sign out
