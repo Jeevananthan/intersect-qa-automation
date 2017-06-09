@@ -71,7 +71,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1496
   Scenario: As a HS RepVisits user, I can able to navigate to General tabs in HS app and verify the
-  page titles are showing appropriately for that page
+            page titles are showing appropriately for that page
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I go to the Counselor Community
     And HS I verify the page Title is showing as "Relationships" and "Community"
