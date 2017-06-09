@@ -101,7 +101,6 @@ public class NavBarImpl extends SeleniumBase {
     private WebElement getCommunityBtn() {
         return link(By.id("js-main-nav-counselor-community-menu-link"));
     }
-
     private WebElement getCollegeProfileBtn() {
         return link(By.id("js-main-nav-naviance-college-profile-menu-link"));
     }
