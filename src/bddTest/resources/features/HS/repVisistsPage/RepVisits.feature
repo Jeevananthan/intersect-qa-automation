@@ -67,7 +67,3 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Automatically confirm all visit requests?            |
       |No, I want to manually review all incoming requests. |
     Then HS I successfully sign out
-
-
-
-
