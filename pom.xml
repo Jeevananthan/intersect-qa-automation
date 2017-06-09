@@ -11,7 +11,7 @@
     <properties>
         <!-- Expects a value to be pass if not it will default to the properties file -->
         <browser></browser>
-        <cucumber.options>--tags ~@ignore</cucumber.options>
+        <!--<cucumber.options>-tags ~@ignore</cucumber.options>-->
         <build.number>${maven.build.timestamp}</build.number>
         <folderFilePath>src/bddTest/resources/environments</folderFilePath>
         <configFilePath>${folderFilePath}/localEnv.properties</configFilePath>
@@ -20,11 +20,11 @@
 
     <profiles>
         <profile>
-            <id>HE QA</id>
+            <id>HE-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnvHE</value>
+                    <value>qaEnv</value>
                 </property>
             </activation>
             <properties>
@@ -54,11 +54,11 @@
             </build>
         </profile>
         <profile>
-            <id>HS QA</id>
+            <id>HS-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnvHS</value>
+                    <value>qaEnv</value>
                 </property>
             </activation>
             <properties>
@@ -88,11 +88,11 @@
             </build>
         </profile>
         <profile>
-            <id>SP QA</id>
+            <id>SP-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnvSP</value>
+                    <value>qaEnv</value>
                 </property>
             </activation>
             <properties>
@@ -122,11 +122,11 @@
             </build>
         </profile>
         <profile>
-            <id>HUBS QA</id>
+            <id>HUBS-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnvHUBS</value>
+                    <value>qaEnv</value>
                 </property>
             </activation>
             <properties>
@@ -156,11 +156,11 @@
             </build>
         </profile>
         <profile>
-            <id>CM QA</id>
+            <id>CM-QA</id>
             <activation>
                 <property>
                     <name>environment</name>
-                    <value>qaEnvCM</value>
+                    <value>qaEnv</value>
                 </property>
             </activation>
             <properties>

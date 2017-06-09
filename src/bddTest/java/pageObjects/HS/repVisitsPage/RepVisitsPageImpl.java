@@ -9,10 +9,13 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import static org.junit.Assert.fail;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    //Creating instance of HE.RepVisitsPageImpl
+    pageObjects.HE.repVisitsPage.RepVisitsPageImpl repVisitsPageHEObj = new pageObjects.HE.repVisitsPage.RepVisitsPageImpl();
 
     public RepVisitsPageImpl() {
         logger = Logger.getLogger(RepVisitsPageImpl.class);
@@ -206,6 +209,74 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).isDisplayed());
     }
 
+    public void setStartAndEndDates(String startDate, String endDate) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        setDate(startDate);
+        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        setDate(endDate);
+    }
+
+    public void setDate(String inputDate) {
+
+        String[] parts = inputDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void findMonth(String month) {
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try{
+            while (!DayPickerCaption.contains(month)) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+        }
+        catch (Exception e) {
+            fail("The Date selected it's out of RANGE.");
+        }
+    }
+
+    public void clickOnDay(String date) {
+
+        driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+date+")]")).click();
+    }
+
+    public void verifyStartAndEndDates(String startDate, String endDate){
+        String[] partsStartDate = startDate.split(" ");
+        String[] partsEndDate = endDate.split(" ");
+        String startMonth = partsStartDate[0].substring(0, 3);
+        String startDay = partsStartDate[1];
+        String startYear = partsStartDate [2];
+        String endMonth = partsEndDate[0].substring(0, 3);
+        String endDay = partsEndDate[1];
+        String endYear = partsEndDate [2];
+
+        try {
+
+            Assert.assertTrue("Button Start Date is not showing.",
+                    driver.findElement(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).
+                            findElement(By.xpath("//span[contains(text(), '" + startMonth + " " + startDay + ", " + startYear + "')]")).isDisplayed());
+
+            Assert.assertTrue("Button End Date is not showing.",
+                    driver.findElement(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).
+                            findElement(By.xpath("//span[contains(text(), '" + endMonth + " " + endDay + ", " + endYear + "')]")).isDisplayed());
+
+        } catch (Exception e) {
+            fail("The Date selected it's out of RANGE.");
+        }
+
+    }
+
     public void verifyTimeZonePage(String ValueTZ){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -242,6 +313,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//span[text()='"+ timeZone +"']")).click();
     }
 
+    public void verifyOverviewPage(){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyOverviewPage();
+    }
+
+    //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }

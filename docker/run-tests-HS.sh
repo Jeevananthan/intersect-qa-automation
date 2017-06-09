@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo "Invoking Maven Install lifecycle"
-echo "Profile: HE-QA"
+echo "Profile: HS-QA"
 echo "Browser: GridDriver"
 
 mvn -version
-mvn install -P HE-QA -Dbrowser=GridDriver
+mvn install -P HS-QA -Dbrowser=GridDriver

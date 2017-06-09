@@ -46,7 +46,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void updateProfile() {
         // This line should not be needed.  Current flow is broken.
-        link(By.id("js-main-nav-community-menu-link")).click();
+        navBar.goToCommunity();
 
         userDropdown().click();
         button(By.id("user-dropdown-update-profile")).click();

@@ -33,3 +33,16 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I "activate" the user account for "brian.bartizek@hobsons.com"
     Then SP I successfully sign out
+
+
+  @MATCH-1416 @NotInQA
+  Scenario: As an Support system I want HE user accounts that have been inactivated to also have their
+            corresponding Community user accounts inactivated.
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I go to the users list for "The University of Alabama" from the institution dashboard
+    And SP I "inactivate" the user account for "yadav.arun24+qa1416@gmail.com"
+    And SP I search for "Arun Match1416" in "People"
+    Then SP I verify there are no search results returned
+    And SP I "activate" the user account for "yadav.arun24+qa1416@gmail.com"
+    Then SP I successfully sign out
+

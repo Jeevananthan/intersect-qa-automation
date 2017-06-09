@@ -4,12 +4,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.InterfaceImplementation;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class AccountPageImpl extends PageObjectFacadeImpl {
 

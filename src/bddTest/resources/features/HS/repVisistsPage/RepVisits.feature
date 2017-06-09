@@ -36,12 +36,13 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I set the RepVisits Availability & Settings time zone to "US/Eastern"
     And HS I successfully sign out
 
-  @MATCH-1625
+  @MATCH-1625 @MATCH-1958
   Scenario: As a high school counselor using Naviance and RepVisits,
             I want to integrate my RepVisits account with Naviance college visits
             So that I do not have to manually enter appointments.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page
+    And HS I verify the Coming Soon message on the RepVisits Overview page
     And HS I successfully sign out
 
   @MATCH-1574
@@ -67,6 +68,20 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Automatically confirm all visit requests?            |
       |No, I want to manually review all incoming requests. |
     Then HS I successfully sign out
+
+  @MATCH-1577
+  Scenario Outline: As a high school community member,
+            I want to be able to indicate the date ranges for which I am available for college visits,
+            so that colleges know when to visit my high school.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I verify the "<StartDate>" and "<EndDate>" date was set in the calendar
+    And HS I successfully sign out
+
+    Examples:
+      |StartDate            |EndDate           |
+      |July 23 2017         |June 23 2018      |
+      |August 15 2017       |September 23 2017 |
 
   @MATCH-1578
   Scenario: As a HS RepVisits user I want to be able to use the Availability and Settings tab of RepVisits to Set Visit Scheduling
