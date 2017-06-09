@@ -1,3 +1,4 @@
+@HE
 Feature: As an HE user I want to login to Intersect
 
   @MATCH-1428 @QASmokeTest

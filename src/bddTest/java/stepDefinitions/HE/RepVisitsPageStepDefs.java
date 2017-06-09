@@ -12,7 +12,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the following tabs exist on the RepVisits page$", repVisits::checkRepVisitsSubTabs);
 
-        Then("^I verify the Search and Schedule tab of the RepVisits page$", repVisits::verifySearchAndSchedulePage);
+        Then("^HE I verify the Search and Schedule tab of the RepVisits page$", repVisits::verifySearchAndSchedulePage);
 
         And("^HE I search for \"([^\"]*)\" in RepVisits$", repVisits::searchforHighSchool);
 
@@ -21,5 +21,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I view the map plugin on RepVisits Search & Schedule subtab$", repVisits::viewMapPlugin);
 
         And("^HE I select \"([^\"]*)\" from the RepVisists map plugin$", repVisits::selectSchoolFromMap);
+
+        And("^HE I verify the Coming Soon message on the RepVisits Overview page$", repVisits::verifyOverviewPage);
+
+        Then("HE I verify the high school information popup contains the following data", repVisits::checkHighSchoolPopUp);
     }
 }
