@@ -93,6 +93,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+
+
+
+    public void verifyUpgradeMessageInTravelPlanInRepVisits(){
+
+        navBar.goToRepVisits();
+        getTravelPlanBtn().click();
+        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
+}
+
     private WebElement getOverviewBtn() {
         return link("Overview");
     }
