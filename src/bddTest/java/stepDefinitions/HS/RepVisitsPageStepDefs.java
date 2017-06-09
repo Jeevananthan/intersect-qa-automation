@@ -8,7 +8,6 @@ public class RepVisitsPageStepDefs implements En {
 
     RepVisitsPageImpl repVisits = new RepVisitsPageImpl();
 
-
     public RepVisitsPageStepDefs() {
 
         Then("^HS I verify the following tabs exist on the RepVisits page$", repVisits::checkRepVisitsSubTabs);
