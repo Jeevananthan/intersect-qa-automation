@@ -11,6 +11,21 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     Given HE I want to login to the HE app using "mandeep.bhangu@hobsons.com" as username and "Hobsons!234" as password
     Then HE I verify the upgrade message on the Community widget
 
+  @MATCH-1799
+  Scenario: Force new user to Activate Community Profile first before accessing RepVisits
+    Given HE I want to login to the HE app using "yadav.arun24+auto_1799_1@gmail.com" as username and "Hobsons@2017" as password
+    When HE I verify that I am sent to the Community activate profile page when accessing RepVisits
+    Then HE I successfully sign out
+
+  @MATCH-1732
+  Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the left navigation bar and section breadcrumbs are as follows
+      | Awareness | Counselor Community,Naviance College Profile |
+      | Presence  | RepVisits                                    |
+      | Settings  | Users                                        |
+    And HE I successfully sign out
+
   @MATCH-1344
   Scenario: As a HE Users, I want to make sure that appropriate menu's are displaying for HE premium user and HE community user
     Given HE I am logged in to Intersect HE as user type "administrator"

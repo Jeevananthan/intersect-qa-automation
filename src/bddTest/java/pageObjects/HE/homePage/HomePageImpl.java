@@ -212,9 +212,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("We will contact you soon message ", driver.findElement(By.xpath("//*[@id='upgrade-form']//div/form/div//div/p/span")).isDisplayed());
     }
 
+    public void verifyCommunityActivationForRepVisits(){
+        navBar.goToRepVisits();
+        Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
+    }
+
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
-
+    private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
 }
