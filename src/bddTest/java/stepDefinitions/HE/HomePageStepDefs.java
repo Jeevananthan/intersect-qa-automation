@@ -25,6 +25,14 @@ public class HomePageStepDefs implements En {
 
         Then("^HE I verify the upgrade message on the Community widget$", homePage::verifyCommunityUpgradeMessage);
 
+        Then("^HE I click on Learn More button on Upgrade message on the Community Widget$",homePage::accessFreemiumLearnMoreOption);
+
+        Then("^HE I verify the benefits of the Counselor Community popup and the details of the following freemium user$", homePage::verifyFullBenefitsofCounselorCommunity);
+
+        Then("^HE I click on Request Information button Counselor Community popup$",homePage::accessCounselorCommunity);
+
+        Then("^HE I verify the Confirmation message for Request Information$",homePage::verifyRequestInformation);
+
         And("^HE I verify the \"([^\"]*)\" nav link is displaying for this user$",navBar::verifySubMenuIsVisible);
 
         And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
