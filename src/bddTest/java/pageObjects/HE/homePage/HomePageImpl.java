@@ -217,31 +217,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
     }
 
-    //The below method is to verify the Breadcrumbs along with corresponding heading.
-    public void verifyLeftNavigationBar(DataTable dataTable){
-        Map<String, String> map = dataTable.asMap(String.class, String.class);
-        for (Map.Entry pair : map.entrySet()){
-            String heading = pair.getKey().toString();
-            String[] content = pair.getValue().toString().split(",");
-            for (String subMenu : content) {
-                driver.findElement(By.xpath("(//span[contains(text(),'"+subMenu+"')])[2]")).click();
-                //The page load require some extra time, without using below sleep, Asserts were failing.
-                try {
-                    Thread.sleep(3000);
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-                Assert.assertTrue(heading+ " is not correct in Breadcrumbs", heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
-                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs", subMenu.equals(getSubMeunBreadcrumbs().getText()));
-            }
-        }
-    }
-
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
     private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
-    private WebElement getHeadingBreadcrumbs(){ return driver.findElement(By.className("_2QGqPPgUAifsnRhFCwxMD7")); }
-    private WebElement getSubMeunBreadcrumbs(){ return driver.findElement(By.className("UDWEBAWmyRe5Hb8kD2Yoc")); }
 }

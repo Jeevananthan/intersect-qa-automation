@@ -28,7 +28,7 @@ public class HomePageStepDefs implements En {
         When("^HE I verify that I am sent to the Community activate profile page when accessing RepVisits$",
                 homePage::verifyCommunityActivationForRepVisits);
 
-        Then("^HE I verify left navigation bar headings are updated as per mockup$", homePage::verifyLeftNavigationBar);
+        Then("^HE I verify the left navigation bar and section breadcrumbs are as follows$", navBar::verifyLeftNavAndBreadcrumbs);
 
         Then("^HE I click on Learn More button on Upgrade message on the Community Widget$",homePage::accessFreemiumLearnMoreOption);
 

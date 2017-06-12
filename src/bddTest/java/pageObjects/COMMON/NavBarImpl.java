@@ -101,8 +101,12 @@ public class NavBarImpl extends SeleniumBase {
             for (String subMenu : content) {
                 WebElement itemLink = driver.findElement(By.xpath("(//span[contains(text(),'"+subMenu+"')])[2]"));
                 // Check Heading
-                Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect",getParent(itemLink).findElement(By.xpath("//span[contains(text(),'"+heading+"']")).isDisplayed());
+                WebElement section = getParent(getParent(getParent(itemLink)));
+                WebElement container = section.findElement(By.className("_3zoxpD-z3dk4-NIOb73TRl"));
+                WebElement headerSpan = container.findElement(By.tagName("span"));
+                Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect, expected \"" + heading + "\"",headerSpan.getText().toLowerCase().contains(heading.toLowerCase()));
                 itemLink.click();
+                waitUntilPageFinishLoading();
                 //Check Breadcrumbs
                 Assert.assertTrue(heading+ " is not correct in Breadcrumbs", heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
                 Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs", subMenu.equals(getSubMeunBreadcrumbs().getText()));

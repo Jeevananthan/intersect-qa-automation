@@ -20,7 +20,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
   @MATCH-1732
   Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify left navigation bar headings are updated as per mockup
+    Then HE I verify the left navigation bar and section breadcrumbs are as follows
       | Awareness | Counselor Community,Naviance College Profile |
       | Presence  | RepVisits                                    |
       | Settings  | Users                                        |
