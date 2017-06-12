@@ -37,3 +37,4 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     |IntersectHE|Limited        |purpleheautomation+limited@gmail.com|Bowling Green State University-Main Campus|
     And HE I click on Request Information button Counselor Community popup
     Then HE I verify the Confirmation message for Request Information
+

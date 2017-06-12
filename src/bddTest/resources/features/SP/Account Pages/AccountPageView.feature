@@ -62,9 +62,18 @@ Feature: Hobsons Support - View HE Institution Accounts
     Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
     And SP I successfully sign out
 
-  @MATCH-1895
-  Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
-    Given SP I am logged in to the Admin page as an Admin user
-    Then SP I verify the left navigation bar and section breadcrumbs are as follows
-      | Awareness | Counselor Community |
-    And SP I successfully sign out
+
+
+  @MATCH-584
+    Scenario:As a support user or admin user or sales ops in support app .I could able to store an Institutional Account's Radius subdomain ID or Connect ID
+            on the Institutional Account page to support SSO in the future.
+      Given SP I am logged in to the Admin page as an Admin user
+      Then SP I select "Adrian College" from the institution dashboard
+      And SP I update Institutional Details with Connect Id as "connec-idte" and Radius Id as "radiu-idgg"
+      Then SP I verify the updated details are displaying in the account page
+          |Connect Id |Radius Id |
+          |connec-idte |radiu-idgg |
+      And SP I successfully sign out
+
+
+
