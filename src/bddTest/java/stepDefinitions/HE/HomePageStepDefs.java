@@ -24,7 +24,7 @@ public class HomePageStepDefs implements En {
 
         Then("^HE I verify the upgrade message on the Community widget$", homePage::verifyCommunityUpgradeMessage);
 
-        When("^HE I click on Repvisits link in left panel it will redirect to Community activate profile page$",
+        When("^HE I verify that I am sent to the Community activate profile page when accessing RepVisits$",
                 homePage::verifyCommunityActivationForRepVisits);
 
         Then("^HE I verify left navigation bar headings are updated as per mockup$", homePage::verifyLeftNavigationBar);
