@@ -22,6 +22,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I select \"([^\"]*)\" from the RepVisists map plugin$", repVisits::selectSchoolFromMap);
 
+        And("^HE I verify the Coming Soon message on the RepVisits Overview page$", repVisits::verifyOverviewPage);
+
         Then("HE I verify the high school information popup contains the following data", repVisits::checkHighSchoolPopUp);
     }
 }

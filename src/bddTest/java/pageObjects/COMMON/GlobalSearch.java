@@ -8,7 +8,7 @@ import selenium.SeleniumBase;
 
 import java.util.List;
 
-public class GlobalSearch extends SeleniumBase {
+public class    GlobalSearch extends SeleniumBase {
 
     private Logger logger;
 
