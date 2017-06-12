@@ -1,6 +1,7 @@
 package stepDefinitions.HE;
 
 import cucumber.api.java8.En;
+import pageObjects.COMMON.NavBarImpl;
 import pageObjects.HE.homePage.HomePageImpl;
 
 public class HomePageStepDefs implements En {
@@ -8,6 +9,7 @@ public class HomePageStepDefs implements En {
     public HomePageStepDefs() {
 
         HomePageImpl homePage = new HomePageImpl();
+        NavBarImpl navBar = new NavBarImpl();
 
         Then("^HE I am able to successfully login$", homePage::verifyUserIsLoggedIn);
 
@@ -31,6 +33,9 @@ public class HomePageStepDefs implements En {
 
         Then("^HE I verify the Confirmation message for Request Information$",homePage::verifyRequestInformation);
 
+        And("^HE I verify the \"([^\"]*)\" nav link is displaying for this user$",navBar::verifySubMenuIsVisible);
+
+        And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
 
     }
 }

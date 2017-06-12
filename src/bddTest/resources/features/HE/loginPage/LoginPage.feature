@@ -20,3 +20,4 @@ Feature: As an HE user I want to login to Intersect
     Then HE I am logged in to Intersect HE as user type "locked"
     And HE I am able to successfully login
     Then HE I successfully sign out
+
