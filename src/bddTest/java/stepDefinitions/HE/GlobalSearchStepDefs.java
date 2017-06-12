@@ -14,7 +14,7 @@ public class GlobalSearchStepDefs implements En {
 
         Then("^HE I verify there are no search results returned$", globalSearch::verifyNoSearchResults);
 
-        And("^HE I select the following result \"([^\"]*)\" from the results$", globalSearch::selectResult);
+        And("^HE I select \"([^\"]*)\" from the results$", globalSearch::selectResult);
 
     }
 }

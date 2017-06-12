@@ -36,7 +36,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
   Scenario: As an HE user Check RepVisits Availability Button and Sidebar on HS Profiles
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "Int QA High School 4" in "Institutions"
-    And HE I select the following result "Int QA High School 4" from the results
+    And HE I select "Int QA High School 4" from the results
     Then HE I verify the Check RepVisits Availability button
     And HE I successfully sign out
 
