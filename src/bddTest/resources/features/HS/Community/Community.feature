@@ -1,5 +1,5 @@
 @HS
-Feature: HS user cannot access Hubs View mode (bug)
+Feature: As a HS user, I want to be able to access HUBS Edit Mode
   @MATCH-1904
   Scenario: HS user cannot access Hubs View mode (bug)
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"

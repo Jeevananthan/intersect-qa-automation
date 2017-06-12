@@ -1,5 +1,5 @@
 @HS
-Feature: Support user cannot access Hubs View mode (bug)
+Feature: As a Support User, I want to be able to access HUBS Edit Mode
   @MATCH-1907
   Scenario: Support user cannot access Hubs View mode (bug)
     Given SP I am logged in to the Admin page as a Support user
