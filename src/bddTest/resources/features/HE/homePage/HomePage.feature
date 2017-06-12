@@ -14,10 +14,10 @@ Feature: As an HE user, I want to be able to access the features of the main Int
 
   @MATCH-1548
   Scenario: As an HE Freemium user, I want to be able to access Experience the full benefits of the Counselor Community page.
-    Given HE I want to login to the HE app using "mandeep.bhangu@hobsons.com" as username and "Hobsons!234" as password
+    Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I click on Learn More button on Upgrade message on the Community Widget
     Then HE I verify the benefits of the Counselor Community popup and the details of the following freemium user
-    |First Name |Last Name      |Work Email Address        |School / Institution Name|
-    |MandeepAlma|PrimaryUserAlma|mandeep.bhangu@hobsons.com|Alma College|
+    |First Name |Last Name      |Work Email Address                  |School / Institution Name|
+    |IntersectHE|Limited        |purpleheautomation+limited@gmail.com|Bowling Green State University-Main Campus|
     And HE I click on Request Information button Counselor Community popup
     Then HE I verify the Confirmation message for Request Information
