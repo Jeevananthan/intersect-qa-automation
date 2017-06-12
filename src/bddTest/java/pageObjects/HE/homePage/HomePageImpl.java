@@ -165,7 +165,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Label 'Work Email Address' is not displayed",text("Work Email Address").isDisplayed());
         Assert.assertTrue("Label 'Phone' is not displayed",text("Phone").isDisplayed());
         Assert.assertTrue("Label 'School / Institution Name' is not displayed",text("School / Institution Name").isDisplayed());
-        Assert.assertTrue("Label 'Message' is not displayed",text("Message").isDisplayed());
+        Assert.assertTrue("Label 'Message' is not displayed",driver.findElement(By.id("field18")).findElement(By.xpath("//span[contains(text(),'Message')]")).isDisplayed());
         Assert.assertTrue("Receive Hobsons Communications Checkbox",driver.findElement(By.id("field20")).isEnabled());
         Assert.assertTrue("Receive Hobsons Communication Text",text("Receive Hobsons Communications").isDisplayed());
         Assert.assertTrue("Request Information",button("Request Information").isDisplayed());
@@ -195,7 +195,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                         Assert.assertTrue("School / Institution Name was not as expected.", actualSchoolInstitutionName.equals(CounselorCommunity.get(key)));
                         break;
                     case "Message":
-                        String actualMessage = driver.findElement(By.id("field15")).getText();
+                        String actualMessage = driver.findElement(By.id("field18")).getText();
                         Assert.assertTrue("Messages was not as expected.", actualMessage.equals(CounselorCommunity.get(key)));
                         break;
                     }
