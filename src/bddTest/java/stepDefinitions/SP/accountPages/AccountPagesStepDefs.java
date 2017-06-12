@@ -30,5 +30,6 @@ public class AccountPagesStepDefs implements En {
         Then("^SP I verify subscription end date restrictions$", accountPage::verifyEndDateFeasibility);
 
         Then("^SP I verify the left navigation bar and section breadcrumbs are as follows$",navBar::verifyLeftNavAndBreadcrumbs);
+
     }
 }

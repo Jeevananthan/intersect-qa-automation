@@ -62,9 +62,11 @@ Feature: Hobsons Support - View HE Institution Accounts
     Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
     And SP I successfully sign out
 
-  @MATCH-1895
+  @MATCH-1895  @MATCH-1496
   Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I verify the left navigation bar and section breadcrumbs are as follows
       | Awareness | Counselor Community |
+    Then SP I verify the left navigation bar and section breadcrumbs are as follows
+      |Presence |RepVisits |
     And SP I successfully sign out

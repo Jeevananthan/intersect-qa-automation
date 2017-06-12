@@ -69,12 +69,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |No, I want to manually review all incoming requests. |
     Then HS I successfully sign out
 
+
   @MATCH-1496
-  Scenario: As a HS RepVisits user, I can able to navigate to General tabs in HS app and verify the
-            page titles are showing appropriately for that page
+  Scenario: As an HS user I want the Intersect left navigation bar to be better organized and labeled.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I go to the Counselor Community
-    And HS I verify the page Title is showing as "Relationships" and "Community"
-    Then HS I go to the Rep Visits
-    And HS I verify the page Title is showing as "Presence" and "RepVisits"
-    Then HS I successfully sign out
+    Then HS I verify the left navigation bar and section breadcrumbs are as follows
+      | Awareness | Counselor Community |
+    Then HS I verify the left navigation bar and section breadcrumbs are as follows
+      |Presence |RepVisits |
+    And HS I successfully sign out
