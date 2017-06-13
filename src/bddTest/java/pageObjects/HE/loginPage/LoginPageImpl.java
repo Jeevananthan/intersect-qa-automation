@@ -81,6 +81,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         link("Forgot Password").click();
         textbox("E-Mail Address").sendKeys(userName);
         button("RESET PASSWORD").click();
+
+
     }
 
     public void processResetPassword(String userType, DataTable data) {
