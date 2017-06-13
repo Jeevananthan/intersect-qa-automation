@@ -32,6 +32,13 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
       |School Name          |High School Contact: |Address                           |Phone          |District      |Type   |Senior Class Size |College Going Rate |
       |LEBANON HIGH SCHOOL  |No Contact           |1916 DRAKE RD LEBANON, Ohio 45036 |(513) 934-5105 |Lebanon City  |PUBLIC |335               |65                 |
 
+  @MATCH-1936
+  Scenario: As a HE user with Intersect Presence Subscription module Inactive.I should be able to see the
+           upgrade message on Travel Plan sub menu in the repvisits page
+  Given HE I want to login to the HE app using "mahibalan.k@indiumsoft.com" as username and "P@ssw0rd" as password
+  Then HE I verify the upsell messaging on the Travel Plan page in RepVisits
+  And HE I successfully sign out
+
   @MATCH-1667
   Scenario: As an HE user Check RepVisits Availability Button and Sidebar on HS Profiles
     Given HE I am logged in to Intersect HE as user type "administrator"
