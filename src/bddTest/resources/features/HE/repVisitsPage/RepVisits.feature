@@ -19,7 +19,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     #   This step is @NotInQA -- @MATCH-1729
     #Then HE I search for High Schools with the following location data in RepVisits
     #  |City    |State        |State Abbreviation |County |Postal Code |
-    #  |Chicago |Rhode Island |TX                 |Denver |73301       |
+    #  |Erlanger|Kentucky     |KY                 |Kenton |41018       |
     And HE I successfully sign out
 
 
