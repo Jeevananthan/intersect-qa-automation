@@ -63,6 +63,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     private WebElement getStartDateButton(){ return driver.findElement(By.xpath("(//button[@role='tooltip'])[1]")); }
     private WebElement getHubModuleRow(){ return driver.findElement(By.xpath("//table[@class='ui celled striped table']/tbody/tr[1]")); }
     private WebElement getCalender(){ return driver.findElement(By.xpath("//div[@role='application']")); }
+    private WebElement getSaveChangesButton(){ return button("Save Changes"); }
+
 
 
     public void verifyCreatePrimaryUser() {
@@ -88,6 +90,64 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         else {
             logger.error("Invalid parameter passed");
         }
+    }
+
+    public void clicksaveChangesButton(){
+        Assert.assertTrue("Save Changes button is not displayed",getSaveChangesButton().isDisplayed());
+        getSaveChangesButton().click();
+        waitUntilPageFinishLoading();
+    }
+
+
+
+    public void setModuleStatusAsActiveOrInActive(String status,String moduleName){
+
+        WebElement selectAccept;
+        String existingStatus;
+        switch (moduleName){
+
+            case "Legacy: Hub page management":
+                selectAccept = getDriver().findElement(By.xpath("//tr[1][@class='_1DGG2HyWJ6gNKsPPbiAbjY']/td[2]/div/div[@class='text']"));
+                existingStatus = selectAccept.getText();
+
+                if(!existingStatus.equalsIgnoreCase(status)){
+                    selectAccept.click();
+                    getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+                }
+                break;
+
+            case "Legacy: Community":
+                selectAccept = getDriver().findElement(By.xpath("//tr[2][@class='_1DGG2HyWJ6gNKsPPbiAbjY']/td[2]/div/div[@class='text']"));
+                existingStatus = selectAccept.getText();
+
+                if(!existingStatus.equalsIgnoreCase(status)){
+                    selectAccept.click();
+                    getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+                }
+                break;
+
+            case "Intersect Awareness Subscription":
+                selectAccept = getDriver().findElement(By.xpath("//tr[3][@class='_1DGG2HyWJ6gNKsPPbiAbjY']/td[2]/div/div[@class='text']"));
+                existingStatus = selectAccept.getText();
+
+                if(!existingStatus.equalsIgnoreCase(status)){
+                    selectAccept.click();
+                    getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+
+                }
+                break;
+
+            case "Intersect Presence Subscription":
+                selectAccept = getDriver().findElement(By.xpath("//tr[4][@class='_1DGG2HyWJ6gNKsPPbiAbjY']/td[2]/div/div[@class='text']"));
+                existingStatus = selectAccept.getText();
+
+                if(!existingStatus.equalsIgnoreCase(status)){
+                    selectAccept.click();
+                    getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+                }
+                break;
+        }
+
     }
 
 }

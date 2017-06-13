@@ -52,3 +52,32 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     |IntersectHE|Limited        |purpleheautomation+limited@gmail.com|Bowling Green State University-Main Campus|
     And HE I click on Request Information button Counselor Community popup
     Then HE I verify the Confirmation message for Request Information
+
+
+
+  @MATCH-1387
+  Scenario: When only ''HUBS Management module'' is active in support app, then the access to Community is limited
+  and ''User'' nav link is not available for HE publishing user in the HE app
+      Given SP I am logged in to the Admin page as an Admin user
+      Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+      And SP I "active" the module "Legacy: Hub page management" in the institution page
+      And SP I "inactive" the module "Legacy: Community" in the institution page
+      And SP I "inactive" the module "Intersect Awareness Subscription" in the institution page
+      And SP I "inactive" the module "Intersect Presence Subscription" in the institution page
+      And SP I Click the Save Changes button
+      Then SP I successfully sign out
+
+      Given HE I want to login to the HE app using "kpmahibalan93@gmail.com" as username and "P@ssw0rd" as password
+      Then HE I verify the upgrade message on the Community widget
+      And HE I verify the "Users" nav link is not displaying for this user
+      Then HE I successfully sign out
+
+      Given SP I am logged in to the Admin page as an Admin user
+      Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+      And SP I "inactive" the module "Legacy: Hub page management" in the institution page
+      And SP I "inactive" the module "Legacy: Community" in the institution page
+      And SP I "inactive" the module "Intersect Awareness Subscription" in the institution page
+      And SP I "inactive" the module "Intersect Presence Subscription" in the institution page
+      And SP I Click the Save Changes button
+      Then SP I successfully sign out
+
