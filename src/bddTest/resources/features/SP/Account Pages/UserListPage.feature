@@ -46,3 +46,18 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     And SP I "activate" the user account for "yadav.arun24+qa1416@gmail.com"
     Then SP I successfully sign out
 
+  @MATCH-1683
+  Scenario: As a Administrator and Support User, I want to unlock a HE user account which has been locked.
+    When HE I want to login to the HE app using "purpleheautomation+locked@gmail.com" as username and "boGusPassw0rd" as password
+    And HE I want to login to the HE app using "purpleheautomation+locked@gmail.com" as username and "boGusPassw0rd" as password
+    And HE I want to login to the HE app using "purpleheautomation+locked@gmail.com" as username and "boGusPassw0rd" as password
+    And HE I want to login to the HE app using "purpleheautomation+locked@gmail.com" as username and "boGusPassw0rd" as password
+    And HE I want to login to the HE app using "purpleheautomation+locked@gmail.com" as username and "boGusPassw0rd" as password
+    Then HE I am locked out from logging in as user type "locked"
+    Given SP I am logged in to the Admin page as a Support user
+    Then SP I go to the users list for "The University of Alabama" from the institution dashboard
+    And SP I "unlock" the user account for "purpleheautomation+locked@gmail.com"
+    And SP I successfully sign out
+    Then HE I am logged in to Intersect HE as user type "locked"
+    And HE I am able to successfully login
+    Then HE I successfully sign out
