@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+
+
 public class AccountPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -89,5 +91,11 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
             logger.error("Invalid parameter passed");
         }
     }
+
+
+
+
+
+
 
 }
