@@ -23,8 +23,8 @@ public class HomePageStepDefs implements En {
 
         Then("^HE I verify the upgrade message on the Community widget$", homePage::verifyCommunityUpgradeMessage);
 
-        Then("^I verify that \"([^\"]*)\" widget is displayed$",homePage::verifyWidgetIsVisible);
+        Then("^I verify that the \"([^\"]*)\" widget is displayed$",homePage::verifyWidgetIsVisible);
 
-
+        Then("^I verify that the \"([^\"]*)\" widget is not displayed$",homePage::verifyWidgetIsNotVisible);
     }
 }

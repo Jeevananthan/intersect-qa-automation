@@ -134,10 +134,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         }
     }
 
-
     public void verifyWidgetIsVisible(String widgetName){
 
         Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
+    }
+
+    public void verifyWidgetIsNotVisible(String widgetName){
+
+        Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
     //locators

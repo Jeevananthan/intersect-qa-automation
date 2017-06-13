@@ -16,14 +16,17 @@ Feature: As an HE user, I want to be able to access the features of the main Int
   Scenario: As an HE user I want a home page that familiarizes me with the Purple product and its features.
             so I am clear on what I can do within the app.
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then I verify that "The Hobsons Counselor Community" widget is displayed
-    Then I verify that "Manage and update your institution's profile" widget is displayed
-    Then I verify that "Configure your Account" widget is displayed
+    Then I verify that the "The Hobsons Counselor Community" widget is displayed
+    Then I verify that the "Manage and update your institution's profile" widget is displayed
+    Then I verify that the "Configure your Account" widget is displayed
     And HE I successfully sign out
     When HE I am logged in to Intersect HE as user type "publishing"
-    Then I verify that "The Hobsons Counselor Community" widget is displayed
-    Then I verify that "Manage and update your institution's profile" widget is displayed
+    Then I verify that the "The Hobsons Counselor Community" widget is displayed
+    Then I verify that the "Manage and update your institution's profile" widget is displayed
+    Then I verify that the "Configure your Account" widget is not displayed
     And HE I successfully sign out
     When HE I am logged in to Intersect HE as user type "community"
-    Then I verify that "The Hobsons Counselor Community" widget is displayed
+    Then I verify that the "The Hobsons Counselor Community" widget is displayed
+    Then I verify that the "Manage and update your institution's profile" widget is not displayed
+    Then I verify that the "Configure your Account" widget is not displayed
     And HE I successfully sign out
