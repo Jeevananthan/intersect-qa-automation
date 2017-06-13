@@ -38,3 +38,12 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
   Given HE I want to login to the HE app using "mahibalan.k@indiumsoft.com" as username and "P@ssw0rd" as password
   Then HE I verify the upsell messaging on the Travel Plan page in RepVisits
   And HE I successfully sign out
+
+  @MATCH-1667
+  Scenario: As an HE user Check RepVisits Availability Button and Sidebar on HS Profiles
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "Int QA High School 4" in "Institutions"
+    And HE I select "Int QA High School 4" from the results
+    Then HE I verify the Check RepVisits Availability button
+    And HE I successfully sign out
+
