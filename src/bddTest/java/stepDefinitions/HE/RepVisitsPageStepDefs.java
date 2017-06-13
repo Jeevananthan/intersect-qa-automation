@@ -26,6 +26,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HE I verify the high school information popup contains the following data", repVisits::checkHighSchoolPopUp);
 
-        Then ("^HE I verify the Upgrade message with lock icon in Travel Plan sub menu in Repvisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
+        Then ("^HE I verify the upsell messaging on the Travel Plan page in RepVisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
     }
 }

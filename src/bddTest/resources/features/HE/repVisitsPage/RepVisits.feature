@@ -36,5 +36,5 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
   Scenario: As a HE user with Intersect Presence Subscription module Inactive.I should be able to see the
            upgrade message on Travel Plan sub menu in the repvisits page
   Given HE I want to login to the HE app using "mahibalan.k@indiumsoft.com" as username and "P@ssw0rd" as password
-  Then HE I verify the Upgrade message with lock icon in Travel Plan sub menu in Repvisits
+  Then HE I verify the upsell messaging on the Travel Plan page in RepVisits
   And HE I successfully sign out
