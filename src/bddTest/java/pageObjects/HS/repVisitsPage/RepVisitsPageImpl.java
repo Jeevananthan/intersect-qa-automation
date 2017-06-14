@@ -198,6 +198,78 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Update Time Zone button is not displayed",getDriver().findElement(By.cssSelector(".button[class='ui primary button']")).isDisplayed());
     }
 
+    public void verifyManualBlockedHolidays(String holiday) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Holidays").click();
+
+        getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).click();
+
+        //Click on SAVE BLOCKED HOLIDAYS button
+        getDriver().findElement(By.cssSelector("button[class='ui primary button']")).click();
+
+        link("Availability & Settings").click();
+        link("Holidays").click();
+
+        Boolean checkBoxLaborHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxColumbusHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxVeteransHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxTanksGivenHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxDayAfterThanksGivenHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxChristmasEveHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxChristmasDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxNewYearEveHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxNewYearDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxMartinLutherDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxPresidentDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxMemorialDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxIndependenceDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+
+        switch (holiday){
+            case "LABOR_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxLaborHolidayStatus, holiday, 1);
+                break;
+            case "COLUMBUS_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxColumbusHolidayStatus, holiday, 2);
+                break;
+            case "VETERANS_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxVeteransHolidayStatus, holiday, 3);
+                break;
+            case "THANKSGIVING_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxTanksGivenHolidayStatus, holiday, 4);
+                break;
+            case "DAY_AFTER_THANKSGIVING":
+                verifyHolidayCheckBoxStatus(checkBoxDayAfterThanksGivenHolidayStatus, holiday, 5);
+                break;
+            case "CHRISTMAS_EVE":
+                verifyHolidayCheckBoxStatus(checkBoxChristmasEveHolidayStatus, holiday, 6);
+                break;
+            case "CHRISTMAS_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxChristmasDayHolidayStatus, holiday, 7);
+                break;
+            case "NEW_YEAR_EVE":
+                verifyHolidayCheckBoxStatus(checkBoxNewYearEveHolidayStatus, holiday, 8);
+                break;
+            case "NEW_YEAR_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxNewYearDayHolidayStatus, holiday, 9);
+                break;
+            case "MARTIN_LUTHER_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxMartinLutherDayHolidayStatus, holiday, 10);
+                break;
+            case "PRESIDENTS_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxPresidentDayHolidayStatus, holiday, 11);
+                break;
+            case "MEMORIAL_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxMemorialDayHolidayStatus, holiday, 12);
+                break;
+            case "INDEPENDENCE_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxIndependenceDayHolidayStatus, holiday, 13);
+                break;
+            default:
+                logger.info("Wrong Holiday!.");
+        }
+    }
+
     public void setTimeZone(String timeZone){
         if (!isLinkActive(link("Time Zone"))) {
             navBar.goToRepVisits();
@@ -206,6 +278,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         setTimeZoneValue(timeZone);
         button("Update time zone").click();
+    }
+
+    public void verifyHolidayCheckBoxStatus(Boolean holidayStatus, String holiday, int index){
+        if (holidayStatus) {
+            Assert.assertTrue("Was not set Holiday!", getDriver().findElement(By.cssSelector("div[title='"+ holiday +"']")).isDisplayed() && getDriver().findElement(By.xpath("(//div[starts-with(@class, 'ui checked checkbox _1mJoFw7NZ4cPX_1EWFCyjY')])['"+ index +"']")).isDisplayed());
+        }
+        else{
+            getDriver().findElement(By.cssSelector("div[title='"+ holiday +"']")).click();
+            Assert.assertTrue("Was not set Holiday!", getDriver().findElement(By.cssSelector("div[title='"+ holiday +"']")).isDisplayed() && getDriver().findElement(By.xpath("(//div[starts-with(@class, 'ui checked checkbox _1mJoFw7NZ4cPX_1EWFCyjY')])['"+ index +"']")).isDisplayed());
+        }
     }
 
     public void clickLinkAvailability() {

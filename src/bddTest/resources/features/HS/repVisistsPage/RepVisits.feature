@@ -68,3 +68,22 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Automatically confirm all visit requests?            |
       |No, I want to manually review all incoming requests. |
     Then HS I successfully sign out
+
+  @MATCH-1575
+  Scenario Outline: As a high school community member,
+  I want to be able to automatically block off U.S. Holidays
+  so that I do not have to manually block each holiday.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HE I verify the blocked "<Holiday>" page
+    Examples:
+      |Holiday           |
+      |LABOR_DAY         |
+      |VETERANS_DAY      |
+      |THANKSGIVING_DAY  |
+      |DAY_AFTER_THANKSGIVING|
+      |CHRISTMAS_EVE     |
+      |CHRISTMAS_DAY     |
+      |NEW_YEAR_EVE      |
+      |NEW_YEAR_DAY      |
+      |MARTIN_LUTHER_DAY |
+      |MEMORIAL_DAY      |

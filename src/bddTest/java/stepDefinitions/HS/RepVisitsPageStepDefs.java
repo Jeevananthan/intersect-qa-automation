@@ -32,5 +32,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the Coming Soon message on the RepVisits Overview page$", repVisits::verifyOverviewPage);
 
         Then("^HS I set the RepVisits Visits Confirmations option to \"([^\"]*)\"$", repVisits::setVisitsConfirmations);
+
+        Then("^HE I verify the blocked \"([^\"]*)\" page$", repVisits::verifyManualBlockedHolidays);
     }
 }
