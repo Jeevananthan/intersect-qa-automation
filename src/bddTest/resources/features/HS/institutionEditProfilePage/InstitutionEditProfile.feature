@@ -19,7 +19,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
       | Website URL | www.DIXIEHIGH.com |
-
     Then HS I access the PROFILE page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
@@ -32,7 +31,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
       | Website URL | www.DIXIEHIGH.com |
-
     Then HS I re-enter original data and click "Save"
       | Address     | 6840 LAKOTA LN   |
       | City        | LIBERTY TOWNSHIP |
@@ -43,7 +41,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Phone       | 360.555.1212     |
       | Fax         | 360.123.4567     |
       | Website URL | www.hobsons.com  |
-
     And HS I successfully sign out
 
 
@@ -83,7 +80,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Grade 12                         | 600                                 |
       | Title I Eligible                 | Yes                                 |
       | Title I Status                   | Not eligible for either TAS or SWP. |
-
     Then HS I access the PROFILE page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
@@ -113,7 +109,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Grade 12                         | 600                                 |
       | Title I Eligible                 | Yes                                 |
       | Title I Status                   | Not eligible for either TAS or SWP. |
-
     Then HS I re-enter original data and click "Save"
       | Male                             | 499     |
       | Female                           | 501     |
@@ -141,7 +136,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Grade 12                         | 280     |
       | Title I Eligible                 | Unknown |
       | Title I Status                   | Eligible for Title I SWP provides TAS program. |
-
     And HS I successfully sign out
 
 
@@ -166,7 +160,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | School Level                       | Combined (k-12)                              |
       | School Type Options                | Special education school                     |
       | School Year of Last Reported Data  | 2014-2016                                    |
-
     Then HS I access the PROFILE page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
@@ -180,7 +173,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | School Level                       | Combined (k-12)                               |
       | School Type Options                | Special education school                     |
       | School Year of Last Reported Data  | 2014-2016                                    |
-
     Then HS I re-enter original data and click "Save"
       | Charter School                     | No                                         |
       | Coeducational                      | Coed (school has male and female students) |
@@ -192,7 +184,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | School Level                       | Secondary (7-12)                           |
       | School Type Options                | Regular school                             |
       | School Year of Last Reported Data  | 2015-2017                                  |
-
     And HS I successfully sign out
 
 
@@ -209,7 +200,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Charter School                     | No                                         |
       | Coeducational                      | Coed (school has male and female students) |
     And HS I successfully sign out
-
     #Checking to make sure non_admin users do not have access to the edit profile button
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "nat.geo.dup" and password "password"
     Then HS I access the PROFILE page

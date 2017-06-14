@@ -16,15 +16,18 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
 
+    public InstitutionEditProfilePageImpl() {
+        logger = Logger.getLogger(InstitutionEditProfilePageImpl.class);
+    }
+
     public void editInstitutionProfile() {
         if (link("edit").isDisplayed()){
             link("edit").click();
             waitUntilPageFinishLoading();
         }
         else
-            System.out.println("There is no edit institution profile button");
+            Assert.fail("There is no edit institution profile button present");
     }
-
 
     public void fillAndInteract(String action, DataTable dataTable){
         waitUntilPageFinishLoading();
@@ -89,6 +92,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
                     WebElement drpStatus = driver.findElement(By.id("titleStatus"));
                     drpStatus.click();
                     waitUntilPageFinishLoading();
+                    //TODO - This doesn't work for all values of this dropdown, for unknown reasons.  "Unknown", in particular, does not work.
                     jsClick(drpStatus.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
@@ -97,7 +101,6 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
-
         switch (action) {
             case "Cancel":
                 cancelButton().click();
@@ -109,41 +112,15 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    private List<String> getAllDropdownOptions(By by){
-        List<String> allOptions = new ArrayList<>();
-        WebElement drop_down = driver.findElement(by);
-        Select select = new Select(drop_down);
-        List<WebElement> options = select.getOptions();
-
-        for(WebElement opt : options) {
-            String value = getLabelText(opt);
-            if(!value.isEmpty())
-                allOptions.add(value);
-        }
-
-        return allOptions;
-    }
-
-    private String getLabelText(WebElement opt) {
-        return opt.getAttribute("innerText");
-    }
-
-    public InstitutionEditProfilePageImpl() {
-        logger = Logger.getLogger(InstitutionEditProfilePageImpl.class);
-    }
-
-
     public void navigateToInstitutionProfile() {
         waitUntilPageFinishLoading();
         communityFrame();
         link("institution").click();
     }
 
-
     public void noInstitutionProfileEditButton(){
         Assert.assertTrue("Institution profile has and edit button option.", link("edit").isDisplayed());
     }
-
 
     public void verifyDataSaved(DataTable dataTable) {
         waitUntilPageFinishLoading();
@@ -195,22 +172,19 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         }
     }
 
-
     public void verifyDropdownListCompleteAndSorted(String dropDownField, DataTable dataTable){
         waitUntilPageFinishLoading();
         logger.info("Verifying that the " + dropDownField + " dropdown list is a complete list and sorted.");
         List<String> list = dataTable.asList(String.class);
         List<String> dropdownList = getAllDropdownOptions(By.name(dropDownField));
-        Assert.assertEquals(list, dropdownList);
+        Assert.assertEquals("Dropdown options did not match the expected list.",list, dropdownList);
     }
 
 
     public void verifyHeaderExist(String header){
         logger.info("Verifying that the " + header + " header is visible.");
         Assert.assertTrue("Institution header " + header + " was not found.", getParent(driver.findElement(By.xpath("//span[contains(text(),'" + header + "')]"))).getTagName().contains("h"));
-
     }
-
 
     public void verifyInstitutionProfileFieldsDoNotExist(DataTable dataTable){
         waitUntilPageFinishLoading();
@@ -221,7 +195,6 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         }
     }
 
-
     public void verifyInstitutionProfileFieldsExist(DataTable dataTable){
         waitUntilPageFinishLoading();
         logger.info("Verifying institution profile fields exist.");
@@ -230,14 +203,31 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Institution profile " + institutionFields + " field was not found.", textbox(""+ institutionFields).isDisplayed());
         }
     }
+
+    private List<String> getAllDropdownOptions(By by){
+        List<String> allOptions = new ArrayList<>();
+        WebElement drop_down = driver.findElement(by);
+        Select select = new Select(drop_down);
+        List<WebElement> options = select.getOptions();
+
+        for(WebElement opt : options) {
+            String value = getLabelText(opt);
+            if(!value.isEmpty())
+                allOptions.add(value);
+        }
+
+        return allOptions;
+    }
+
     private void jsClick(WebElement element) {
         driver.executeScript("arguments[0].click();",element);
     }
-
+    private String getLabelText(WebElement opt) {
+        return opt.getAttribute("innerText");
+    }
     private WebElement saveChanges() {
         return button("SAVE");
     }
-
     private WebElement cancelButton() {
         return button("CANCEL");
     }
