@@ -68,3 +68,24 @@ Feature: Hobsons Support - View HE Institution Accounts
     Then SP I verify the left navigation bar and section breadcrumbs are as follows
       | Awareness | Counselor Community |
     And SP I successfully sign out
+
+
+    @MATCH-128
+    Scenario: As a Support user with admin privilege or support privilege or sales ops privilege is able to edit
+              Activate/Inactivate modules/products within the institutional accounts
+      Given SP I am logged in to the Admin page as an Admin user
+      Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+      And SP I "inactive" the module "Legacy: Hub page management"
+      And SP I set the Start Date as "June 13 2017"
+      And SP I set the End Date as "June 15 2017"
+      And SP I click save button
+      Then SP I verify the "status" should be "inactive" for "Legacy: Hub page management"
+      Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Legacy: Hub page management"
+      Then SP I verify the "End Date" should be "Jun 15, 2017" for "Legacy: Hub page management"
+      And SP I "active" the module "Legacy: Hub page management"
+      And SP I set the Start Date as "June 13 2017"
+      And SP I set the End Date as "June 13 2017"
+      And SP I click save button
+      Then SP I verify the "status" should be "inactive" for "Legacy: Hub page management"
+      And SP I successfully sign out
+

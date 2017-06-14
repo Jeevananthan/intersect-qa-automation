@@ -30,5 +30,11 @@ public class AccountPagesStepDefs implements En {
         Then("^SP I verify subscription end date restrictions$", accountPage::verifyEndDateFeasibility);
 
         Then("^SP I verify the left navigation bar and section breadcrumbs are as follows$",navBar::verifyLeftNavAndBreadcrumbs);
+
+        And ("^SP I set the Start Date as \"([^\"]*)\"$",accountPage::setStartDateInAccountPage);
+
+        And ("^SP I set the End Date as \"([^\"]*)\"$",accountPage::setEndDateInAccountPage);
+        Then ("^SP I verify the \"([^\"]*)\" should be \"([^\"]*)\" for \"([^\"]*)\"$",accountPage::verifyModuleDetails);
+
     }
 }
