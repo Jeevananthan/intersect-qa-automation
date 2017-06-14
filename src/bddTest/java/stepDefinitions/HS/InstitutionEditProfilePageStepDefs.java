@@ -9,7 +9,7 @@ public class InstitutionEditProfilePageStepDefs implements En {
     InstitutionEditProfilePageImpl profile = new InstitutionEditProfilePageImpl();
 
     public InstitutionEditProfilePageStepDefs() {
-        Then("^HS I access the PROFILE page$", profile::navigateToInstitutionProfile);
+        Then("^HS I access the INSTITUTION page$", profile::navigateToInstitutionProfile);
         And( "^HS I access the EDIT PROFILE page by clicking edit button$", profile::editInstitutionProfile);
         Then("^HS I make sure the CONTACT INFORMATION FIELDS exist$", profile::verifyInstitutionProfileFieldsExist);
         And("^HS I enter the following CONTACT data on the Institution Profile page and click \"([^\"]*)\"$", profile::fillAndInteract );

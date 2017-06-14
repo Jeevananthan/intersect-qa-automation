@@ -5,7 +5,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
   Scenario: As an authorized HS User, I need to be able to update my contact information in the purple community.
             So I should be able to change my address, phone, fax, and website URL.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the CONTACT INFORMATION FIELDS exist
       | Address | City | State | Zip | County | Country | Phone | Fax | Website URL |
@@ -19,7 +19,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
       | Website URL | www.DIXIEHIGH.com |
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
       | Address     | 3480 DIXIE HWY    |
@@ -49,7 +49,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
   Scenario: As an authorized HS User, I need to be able to update my enrollment data in the purple community.
             So I should be able to change my address, phone, fax, and website URL.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the ENROLLMENT INFORMATION FIELDS exist
       | Male | Female | Nonbinary | Asian or Asian/Pacific Islander | American Indian/Alaska Native | Hawaiian Native/Pacific Islander | Hispanic or Latino | Black/African American | White | Two or More Races | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Title I Status |
@@ -80,7 +80,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Grade 12                         | 600                                 |
       | Title I Eligible                 | Yes                                 |
       | Title I Status                   | Not eligible for either TAS or SWP. |
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
       | Male                             | 600                                 |
@@ -144,7 +144,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
   Scenario: As an authorized HS User, I need to be able to update my academic data fields in the purple community.
             So I should be able to change any academic data attributes.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the ACADEMIC DATA FIELDS exist
       |Charter School |Coeducational |College-Going Rate |Student/Teacher ratio |Full Time Teachers |Highest Grade |Lowest Grade |School Level |School Type Options |School Year of Last Reported Data|
@@ -160,7 +160,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | School Level                       | Combined (k-12)                              |
       | School Type Options                | Special education school                     |
       | School Year of Last Reported Data  | 2014-2016                                    |
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
       | Charter School                     | Yes                                          |
@@ -192,7 +192,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
   Scenario: As a HS user with the appropriate permissions enabled in Naviance I need to be able to edit my HS institution's profile data that displays in Community
             So that data is always fresh and current.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the ACADEMIC DATA FIELDS exist
       | Charter School | Coeducational |
@@ -202,7 +202,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     And HS I successfully sign out
     #Checking to make sure non_admin users do not have access to the edit profile button
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "nat.geo.dup" and password "password"
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I verify that I do not have access to the institution profile edit button
     And HS I successfully sign out
 
@@ -211,7 +211,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
   @MATCH-1568
   Scenario: As a HS Intersect User on my HS Institution Edit page I want to see the right suffixes on grade levels in drop downs
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the LOWEST and HIGHEST GRADE LEVEL FIELDS exist
       | Highest Grade | Lowest Grade |
@@ -226,7 +226,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
   Scenario: As a HS User on my HS Institution Edit page I would like to see a header above the Title I data entry boxes
             To reduce the risk of confusion.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I verify the header exist above Title I data entry boxes "Title I Information"
     And HS I successfully sign out
@@ -235,7 +235,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
   Scenario: As an authenticated HS user on the HS Institution Edit Page I don't want to have a "total" box in demographic data
             So data entry is less confusing.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure that no total fields exist
       | Total |
@@ -245,7 +245,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
   Scenario: As an HS Intersect user viewing my HS Institution Edit page I want dropdowns that don't have too many options
             So I'm not confused during editing.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I access the PROFILE page
+    Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the Title I Eligibility dropdown only displays appropriate options "titleEligible"
       | Yes | No | Unknown |

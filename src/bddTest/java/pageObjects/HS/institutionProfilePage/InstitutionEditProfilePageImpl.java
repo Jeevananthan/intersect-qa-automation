@@ -180,7 +180,6 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals("Dropdown options did not match the expected list.",list, dropdownList);
     }
 
-
     public void verifyHeaderExist(String header){
         logger.info("Verifying that the " + header + " header is visible.");
         Assert.assertTrue("Institution header " + header + " was not found.", getParent(driver.findElement(By.xpath("//span[contains(text(),'" + header + "')]"))).getTagName().contains("h"));
