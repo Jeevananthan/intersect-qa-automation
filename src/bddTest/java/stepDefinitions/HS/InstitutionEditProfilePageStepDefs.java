@@ -31,5 +31,6 @@ public class InstitutionEditProfilePageStepDefs implements En {
         Then("^HS I make sure the Title I Status dropdown only displays appropriate options \"([^\"]*)\"$", profile::verifyDropdownListCompleteAndSorted);
         Then("^HS I make sure the Charter School dropdown only displays appropriate options \"([^\"]*)\"$", profile::verifyDropdownListCompleteAndSorted);
         Then("^HS I make sure the Coeducational dropdown only displays appropriate options \"([^\"]*)\"$", profile::verifyDropdownListCompleteAndSorted);
+        And("^HS I want to ensure placeholders exist for the appropriate fields click \"([^\"]*)\"$", profile::verifyPlaceholdersByID);
     }
 }
