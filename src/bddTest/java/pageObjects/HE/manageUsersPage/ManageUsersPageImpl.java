@@ -56,9 +56,10 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     public void verifyUserRoles() {
         navBar.goToUsers();
         button("ADD NEW USER").click();
-        String[] roles = {"administrator", "publishing", "community"};
+        String[] roles = {"Administrator (All access)", "Publishing (Community access + RepVisits + College Profile Management)", "Community (Community + RepVisits access)"};
         for (String role : roles) {
-            Assert.assertTrue("Expected to find role " + role + ", but it was not found.", (driver.findElement(By.cssSelector("input[value='"+role.toLowerCase()+"']")).getLocation().getX()) > 0);
+            //Assert.assertTrue("Expected to find role " + role + ", but it was not found.", (driver.findElement(By.cssSelector("input[value='"+role.toLowerCase()+"']")).getLocation().getX()) > 0);
+            Assert.assertTrue("Expected to find role " + role + ", but it was not found.", driver.findElement(By.xpath("//label[@class='lESlXEQvUQGVcUPjUzRud']/span[text()='"+role+"']")).isDisplayed());
         }
     }
 
