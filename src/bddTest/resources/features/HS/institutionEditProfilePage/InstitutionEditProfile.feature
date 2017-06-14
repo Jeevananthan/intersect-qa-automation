@@ -218,7 +218,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
 
 
-  @Match-1568
+  @MATCH-1568
   Scenario: As a HS Intersect User on my HS Institution Edit page I want to see the right suffixes on grade levels in drop downs
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the PROFILE page
@@ -227,14 +227,42 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Highest Grade | Lowest Grade |
     Then HS I make sure the LOWEST GRADE LEVEL dropdown is complete and sorted correctly and "lowestGrade"
       | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Not specified |
+    Then HS I make sure the HIGHEST GRADE LEVEL dropdown is complete and sorted correctly and "highestGrade"
+      | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Not specified |
     And HS I successfully sign out
 
 
-  @Match-1563
+  @MATCH-1563
   Scenario: As a HS User on my HS Institution Edit page I would like to see a header above the Title I data entry boxes
             To reduce the risk of confusion.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the PROFILE page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I verify the header exist above Title I data entry boxes "Title I Information"
+    And HS I successfully sign out
+
+  @MATCH-1562
+  Scenario: As an authenticated HS user on the HS Institution Edit Page I don't want to have a "total" box in demographic data
+            So data entry is less confusing.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I access the PROFILE page
+    And HS I access the EDIT PROFILE page by clicking edit button
+    Then HS I make sure that no total fields exist
+      | Total |
+    And HS I successfully sign out
+
+  @MATCH-1564
+  Scenario: As an HS Intersect user viewing my HS Institution Edit page I want dropdowns that don't have too many options
+            So I'm not confused during editing.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I access the PROFILE page
+    And HS I access the EDIT PROFILE page by clicking edit button
+    Then HS I make sure the Title I Eligibility dropdown only displays appropriate options "titleEligible"
+      | Yes | No | Unknown |
+    Then HS I make sure the Title I Status dropdown only displays appropriate options "titleStatus"
+      | Eligible for Title I TAS provides no program. | Eligible for Title I TAS provides TAS program. | Eligible for Title I SWP provides TAS program. | Eligible for Title I SWP provides no program. | Eligible for Title I SWP provides SWP program. | Not eligible for either TAS or SWP. | Unknown |
+    Then HS I make sure the Charter School dropdown only displays appropriate options "charterSchool"
+      | Yes | No | Unknown |
+    Then HS I make sure the Coeducational dropdown only displays appropriate options "coeducational"
+      | Coed (school has male and female students) | All-male (school only has all-male students) | All-female (school only has all-female students) | Unknown |
     And HS I successfully sign out

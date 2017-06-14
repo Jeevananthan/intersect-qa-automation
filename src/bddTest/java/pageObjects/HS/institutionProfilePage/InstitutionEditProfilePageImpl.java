@@ -197,6 +197,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyDropdownListCompleteAndSorted(String dropDownField, DataTable dataTable){
+        waitUntilPageFinishLoading();
         logger.info("Verifying that the " + dropDownField + " dropdown list is a complete list and sorted.");
         List<String> list = dataTable.asList(String.class);
         List<String> dropdownList = getAllDropdownOptions(By.name(dropDownField));
@@ -208,6 +209,16 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         logger.info("Verifying that the " + header + " header is visible.");
         Assert.assertTrue("Institution header " + header + " was not found.", getParent(driver.findElement(By.xpath("//span[contains(text(),'" + header + "')]"))).getTagName().contains("h"));
 
+    }
+
+
+    public void verifyInstitutionProfileFieldsDoNotExist(DataTable dataTable){
+        waitUntilPageFinishLoading();
+        logger.info("Verifying institution profile fields do not exist.");
+        List<String> list = dataTable.asList(String.class);
+        for (String institutionFields : list) {
+            Assert.assertFalse("Institution profile " + institutionFields + " field was not found.", textbox(""+ institutionFields).isDisplayed());
+        }
     }
 
 
