@@ -11,6 +11,24 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     Given HE I want to login to the HE app using "mandeep.bhangu@hobsons.com" as username and "Hobsons!234" as password
     Then HE I verify the upgrade message on the Community widget
 
+  @MATCH-1266
+  Scenario: As an HE user I want a home page that familiarizes me with the Purple product and its features.
+            so I am clear on what I can do within the app.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then I verify that the "The Hobsons Counselor Community" widget is displayed
+    Then I verify that the "Manage and update your institution's profile" widget is displayed
+    Then I verify that the "Configure your Account" widget is displayed
+    And HE I successfully sign out
+    When HE I am logged in to Intersect HE as user type "publishing"
+    Then I verify that the "The Hobsons Counselor Community" widget is displayed
+    Then I verify that the "Manage and update your institution's profile" widget is displayed
+    Then I verify that the "Configure your Account" widget is not displayed
+    And HE I successfully sign out
+    When HE I am logged in to Intersect HE as user type "community"
+    Then I verify that the "The Hobsons Counselor Community" widget is displayed
+    Then I verify that the "Manage and update your institution's profile" widget is not displayed
+    Then I verify that the "Configure your Account" widget is not displayed
+    And HE I successfully sign out
   @MATCH-1799
   Scenario: Force new user to Activate Community Profile first before accessing RepVisits
     Given HE I want to login to the HE app using "yadav.arun24+auto_1799_1@gmail.com" as username and "Hobsons@2017" as password

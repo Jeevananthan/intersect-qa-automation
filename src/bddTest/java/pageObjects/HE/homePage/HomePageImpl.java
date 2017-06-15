@@ -219,6 +219,16 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
     }
 
+    public void verifyWidgetIsVisible(String widgetName){
+
+        Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
+    }
+
+    public void verifyWidgetIsNotVisible(String widgetName){
+
+        Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
+    }
+
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));

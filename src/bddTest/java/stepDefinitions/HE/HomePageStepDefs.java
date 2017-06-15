@@ -1,6 +1,5 @@
 package stepDefinitions.HE;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.HE.homePage.HomePageImpl;
@@ -25,6 +24,10 @@ public class HomePageStepDefs implements En {
         Then("^HE I verify I have access the Intersect Help page$", homePage::accessHelpPage);
 
         Then("^HE I verify the upgrade message on the Community widget$", homePage::verifyCommunityUpgradeMessage);
+
+        Then("^I verify that the \"([^\"]*)\" widget is displayed$",homePage::verifyWidgetIsVisible);
+
+        Then("^I verify that the \"([^\"]*)\" widget is not displayed$",homePage::verifyWidgetIsNotVisible);
 
         When("^HE I verify that I am sent to the Community activate profile page when accessing RepVisits$",
                 homePage::verifyCommunityActivationForRepVisits);
