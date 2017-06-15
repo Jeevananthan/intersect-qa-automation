@@ -77,7 +77,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
   Scenario: When only ''HUBS Management module'' is active in support app, then the access to Community is limited
   and ''User'' nav link is not available for HE publishing user in the HE app
       Given SP I am logged in to the Admin page as an Admin user
-      Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+      Then SP I select "Alma College" from the institution dashboard
       And SP I "active" the module "Legacy: Hub page management" in the institution page
       And SP I "inactive" the module "Legacy: Community" in the institution page
       And SP I "inactive" the module "Intersect Awareness Subscription" in the institution page
@@ -91,7 +91,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
       Then HE I successfully sign out
 
       Given SP I am logged in to the Admin page as an Admin user
-      Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+      Then SP I select "Alma College" from the institution dashboard
       And SP I "inactive" the module "Legacy: Hub page management" in the institution page
       And SP I "inactive" the module "Legacy: Community" in the institution page
       And SP I "inactive" the module "Intersect Awareness Subscription" in the institution page

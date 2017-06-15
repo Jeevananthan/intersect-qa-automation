@@ -100,54 +100,68 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
 
 
-    public void setModuleStatusAsActiveOrInActive(String status,String moduleName){
+    public void setModuleStatusAsActiveOrInActiveWithDate(String status,String moduleName){
 
-        WebElement selectAccept;
-        String existingStatus;
-        switch (moduleName){
+        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
 
-            case "Legacy: Hub page management":
-                selectAccept = getDriver().findElement(By.xpath("//tr[1][@class='_1DGG2HyWJ6gNKsPPbiAbjY']/td[2]/div/div[@class='text']"));
-                existingStatus = selectAccept.getText();
+       WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
+       if(!ActualStatus.getText().equalsIgnoreCase(status)){
+           ActualStatus.click();
+           getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
 
-                if(!existingStatus.equalsIgnoreCase(status)){
-                    selectAccept.click();
-                    getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
-                }
-                break;
+           if(!status.equalsIgnoreCase("inactive")) {
+               WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
+               WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
 
-            case "Legacy: Community":
-                selectAccept = getDriver().findElement(By.xpath("//tr[2][@class='_1DGG2HyWJ6gNKsPPbiAbjY']/td[2]/div/div[@class='text']"));
-                existingStatus = selectAccept.getText();
+               StartDateButton.click();
+               setStartDateInModulePage();
+               StartDateButton.click();
+               EndDateButton.click();
+               setEndDateInModulePage();
+               EndDateButton.click();
+           }
+       }
+    }
 
-                if(!existingStatus.equalsIgnoreCase(status)){
-                    selectAccept.click();
-                    getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
-                }
-                break;
+    public void setStartDateInModulePage(){
 
-            case "Intersect Awareness Subscription":
-                selectAccept = getDriver().findElement(By.xpath("//tr[3][@class='_1DGG2HyWJ6gNKsPPbiAbjY']/td[2]/div/div[@class='text']"));
-                existingStatus = selectAccept.getText();
+        String startDate = "June 13, 2017";
+        String month = startDate.substring(0, 4);
+        String dateNo = startDate.substring(5, 7);
+        String year = startDate.substring(9, 13);
 
-                if(!existingStatus.equalsIgnoreCase(status)){
-                    selectAccept.click();
-                    getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+        Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        selectYear.selectByVisibleText(year);
 
-                }
-                break;
+        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        selectMonth.selectByVisibleText(month);
 
-            case "Intersect Presence Subscription":
-                selectAccept = getDriver().findElement(By.xpath("//tr[4][@class='_1DGG2HyWJ6gNKsPPbiAbjY']/td[2]/div/div[@class='text']"));
-                existingStatus = selectAccept.getText();
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        dateTemp.click();
 
-                if(!existingStatus.equalsIgnoreCase(status)){
-                    selectAccept.click();
-                    getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
-                }
-                break;
-        }
+
+    }
+    public void setEndDateInModulePage(){
+
+        String endDate = "June 13, 2018";
+        String month = endDate.substring(0, 4);
+        String dateNo = endDate.substring(5, 7);
+        String year = endDate.substring(9, 13);
+
+        Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        selectYear.selectByVisibleText(year);
+
+        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        dateTemp.click();
 
     }
 
+
+
 }
+
+
+
