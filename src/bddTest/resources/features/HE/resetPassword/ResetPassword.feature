@@ -19,3 +19,15 @@ tickets to Hobsons Support.
   @ignore
   Scenario: As an HE Admissions user, if I provide an invalid username or password, I am presented with an error message that informs me the information I provided does not match an existing user account
 
+  @MATCH-167
+  Scenario: As a System I need a platform-level password policy for all institutional accounts and their users in order
+            to secure the data within the Purple platform.
+
+    When HE I begin the reset password process for user type "administrator"
+    Then HE I verify the password reset policy for different combinations with "administrator"
+      |Subject                                      |To                   |Messages |
+      |Intersect Forgot Password Verification Email |jeevanece90@gmail.com|1        |
+
+    And HE I enter invalid password as "passw0rd" for verifying the warning message in reset password page
+    And HE I enter invalid password as "Passw0rd" for verifying the warning message in reset password page
+    And HE I enter invalid password as "Password@" for verifying the warning message in reset password page

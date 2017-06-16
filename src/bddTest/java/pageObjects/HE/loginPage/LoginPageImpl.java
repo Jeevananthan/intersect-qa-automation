@@ -132,6 +132,45 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Login error message is not displayed as expected!\nExpected: "+errorMessage+"\n",text(errorMessage).isDisplayed());
     }
 
+    public void resetPasswordWithUserPasswordPolicy(String userType, DataTable data) {
+        String emailBody = "";
+        GetProperties.setGmailAPIWait(60);     //Time unit is in seconds
+        try {
+            List<Email> emails = getGmailApi().getMessages(data);
+
+            boolean verified = false;
+            for (Email email : emails) {
+                System.out.print(email.toString());
+                emailBody = email.getBody();
+                logger.info(emailBody);
+            }
+        } catch (Exception e) {
+            logger.info("Exception while retrieving Gmail messages: " + e.getMessage());
+            e.printStackTrace();
+            fail("There was an error retrieving the password reset email from Gmail.");
+        }
+        Integer codeMessageIndex = emailBody.indexOf("Your password reset verification code is ");
+        String code = emailBody.substring(codeMessageIndex + 41,codeMessageIndex + 47);
+        logger.info("Verification code is: " + code + "\n");
+        textbox("Verification Code").sendKeys(code);
+
+    }
+
+    public void enterInvalidPassword(String invalidPassword){
+        textbox("New Password").sendKeys(GetProperties.get(invalidPassword));
+        textbox("Confirm Password").sendKeys(GetProperties.get(invalidPassword));
+        button("CHANGE PASSWORD").click();
+        validatePasswordFailureText();
+
+    }
+
+    public void validatePasswordFailureText(){
+
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", text("Password failed to satisfy security requirements.").isDisplayed());
+
+    }
+
+
     private WebElement usernameTextbox() {
         return textbox("E-mail Address");
     }
