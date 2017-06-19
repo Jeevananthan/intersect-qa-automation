@@ -17,5 +17,6 @@ public class GlobalSearchStepDefs implements En {
         Then("^HE I verify that only five or less results are listed in real-time results displayed$", globalSearch::verifySearchCategoryTabDisplaysFiveResults);
         Then("^HE I verify real-time search results are clickable and actionable \"([^\"]*)\"$", globalSearch::verifySearchDropBoxResultsActionable);
         Then("^HE I verify real-time search results are displayed correctly \"([^\"]*)\"$", globalSearch::verifyRealTimeSearchLayout);
+        Then("^HE I verify there is no global search options available$", globalSearch::verifyGlobalSearchNotDisplayed);
     }
 }

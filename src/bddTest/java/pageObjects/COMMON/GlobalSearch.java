@@ -239,6 +239,10 @@ public class    GlobalSearch extends SeleniumBase {
         }
     }
 
+    public void verifyGlobalSearchNotDisplayed(){
+        Assert.assertFalse("Global search feature is available, but shouldn't be.", getDriver().findElements(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']")).size() >= 1);
+    }
+
     //Getters
     private WebElement getSearchBox() {
         waitUntilPageFinishLoading();

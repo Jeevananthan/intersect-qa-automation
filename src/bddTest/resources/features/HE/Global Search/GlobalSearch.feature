@@ -9,6 +9,7 @@ Feature: As a HE user, I want to be able to use the Global search to help me fin
     Then HE I go to the advanced search page for "Groups"
     And HE I successfully sign out
 
+
   @MATCH-590 @MATCH-592 @MATCH-593 @MATCH-594 @MATCH-596 @MATCH-1051 @MATCH-1052 @MATCH-1053 @MATCH-1110
   Scenario: As a HE user I want real-time results displayed to me while performing a global search.
             so I can quickly find the person/institution/group/content/filter/event I want to view.
@@ -27,4 +28,12 @@ Feature: As a HE user, I want to be able to use the Global search to help me fin
       | People       | searchResultsTabpeople       |
       | Institutions | searchResultsTabinstitutions |
       | Groups       | searchResultsTabgroups       |
+    And HE I successfully sign out
+
+
+  @MATCH-1394
+  Scenario: As an HE freemium user or a Premium Legacy Hubs only user I should NOT be able to see the global search box in Intersect
+            so I cannot find too much value in my limited access to Community.
+    Given HE I am logged in to Intersect HE as user type "publishing"
+    Then HE I verify there is no global search options available
     And HE I successfully sign out
