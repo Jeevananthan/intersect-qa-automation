@@ -113,6 +113,23 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Last login date is not correct for "+username, getDriver().findElement(By.xpath("//td[contains(text(),'"+username+"')]/following::span[contains(text(),'"+currentDate+"')]")).isDisplayed());
     }
 
+
+    public void createHigherEducationUser(DataTable dataTable){
+
+        navBar.goToUsers();
+        button("Add New User").click();
+        Map<String,String> entity = dataTable.asMap(String.class,String.class);
+        for (String field : entity.keySet()) {
+            if (textbox(field).isDisplayed()) {
+                textbox(field).sendKeys(entity.get(field));
+            } else {
+                driver.findElement(By.cssSelector("input[value='"+entity.get(field).toLowerCase()+"']")).click();
+            }
+        }
+
+        button("SAVE").click();
+    }
+
     // This is necessary because Selenium doesn't think that the action options are visible (even though they are),
     // so we interact with them directly through JS.
     private void jsClick(WebElement element) {

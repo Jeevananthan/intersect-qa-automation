@@ -25,6 +25,8 @@ public class ManageUsersPageStepDefs implements En {
 
         Then("^HE I can see the last login date for user type \"([^\"]*)\"$", manageUsersPage::verifyLastLoginData);
 
+        And("^HE I can create a user in HE app$",manageUsersPage::createHigherEducationUser);
+
     }
 
 }

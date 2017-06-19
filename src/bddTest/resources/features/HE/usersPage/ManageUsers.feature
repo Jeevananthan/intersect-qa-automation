@@ -71,3 +71,21 @@ Feature: As an HE administrator I want to manage users at my institution
     Then HE I verify there are no search results returned
     And HE I activate the user account for "yadav.arun24+qa1416@gmail.com"
     Then HE I successfully sign out
+
+
+
+    @MATCH-130
+    Scenario: As a HE user with administrator role,I can able to create, edit, active and inactive users in HE app.
+
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      And HE I can create a user in HE app
+      |First Name |testing01|
+      |Last Name |automation |
+      |Email |kpmahi123@gmail.com |
+      Then HE I inactivate the user account for "kpmahi123@gmail.com"
+      And HE I activate the user account for "kpmahi123@gmail.com"
+      Then HE I edit the user account for "kpmahi123@gmail.com" with the following info
+        |Email  |purpleheautomation+rdinator@gmail.com |
+      Then HE I successfully sign out
+
+
