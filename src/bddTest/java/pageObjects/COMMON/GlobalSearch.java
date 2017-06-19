@@ -1,5 +1,6 @@
 package pageObjects.COMMON;
 
+import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -7,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import selenium.SeleniumBase;
 
 import java.util.List;
+import java.util.Map;
 
 public class    GlobalSearch extends SeleniumBase {
 
@@ -53,6 +55,7 @@ public class    GlobalSearch extends SeleniumBase {
 
     private void setSearchCategory(String searchCategory) {
         getSearchSwitcher().click();
+        waitUntilPageFinishLoading();
         switch(searchCategory) {
             case "All":
                 getSearchSwitcher().findElement(By.className("search")).click();
@@ -83,7 +86,9 @@ public class    GlobalSearch extends SeleniumBase {
     }
 
     private void doSearch(String searchTerm) {
+        waitUntilPageFinishLoading();
         getSearchBox().clear();
+        waitUntilPageFinishLoading();
         getSearchBox().sendKeys(searchTerm);
         waitUntilPageFinishLoading();
     }
@@ -142,17 +147,108 @@ public class    GlobalSearch extends SeleniumBase {
     }
 
     public void goToAdvancedSearch(String category) {
+        waitUntilPageFinishLoading();
         setSearchCategory(category);
+        waitUntilPageFinishLoading();
         doSearch("t ");
+        waitUntilPageFinishLoading();
         link("More...").click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("Did not end on Advanced Search page!  No Update Search buttons is present!", button("UPDATE SEARCH").isDisplayed());
+    }
+
+    public void verifyRealTimeSearch(String searchRequest) {
+        waitUntilPageFinishLoading();
+        System.out.println();
+        doSearch(searchRequest);
+        waitUntilPageFinishLoading();
+        clickSearchIcon().click();
+        waitUntilPageFinishLoading();
+        Assert.assertEquals("Did not end on Advanced Search page!  Original search data not entered in Keyword textBox!", searchRequest, textbox("keyword").getAttribute("value"));
+    }
+
+    public void verifySearchCategorized(DataTable dataTable) {
+        waitUntilPageFinishLoading();
+        System.out.println();
+        logger.info("Verifying real-time search category tabs exist.");
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        for (String categoryTab : data.keySet()) {
+            Assert.assertTrue("Search category " + categoryTab + " tab was not found.", getDriver().findElement(By.id(data.get(categoryTab))).isDisplayed());
+        }
+    }
+
+    public void verifySearchCategoryTabDisplaysFiveResults(DataTable dataTable){
+        waitUntilPageFinishLoading();
+        System.out.println();
+        logger.info("Verifying only 5 or less results are in each search category tab.");
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        for (String categoryTab : data.keySet()) {
+            getDriver().findElement(By.id(data.get(categoryTab))).click();
+            List<WebElement> list = getDriver().findElements(By.xpath("//div[@class=\"ui items\"]"));
+            Assert.assertTrue("Search category " + categoryTab + " tab was not found.", list.size() <= 5);
+        }
+    }
+
+    public void verifySearchDropBoxResultsActionable(String searchRequest){
+        waitUntilPageFinishLoading();
+        System.out.println();
+        logger.info("Verifying search dropdown results are clickable/actionable.");
+        doSearch(searchRequest);
+        waitUntilPageFinishLoading();
+        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-0"));
+        String url = driver.getCurrentUrl();
+        searchOption.click();
+        waitUntilPageFinishLoading();
+        Assert.assertNotEquals("Real-time search option was not clickable/actionable",url, driver.getCurrentUrl());
+    }
+
+    public void verifyRealTimeSearchLayout(String searchRequest, DataTable dataTable){
+        waitUntilPageFinishLoading();
+        System.out.println();
+        logger.info("Verifying search results layouts are displayed correctly.");
+        doSearch(searchRequest);
+        waitUntilPageFinishLoading();
+        clickSearchIcon().click();
+        waitUntilPageFinishLoading();
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        for (String categoryTab : data.keySet()) {
+            getDriver().findElement(By.id(data.get(categoryTab))).click();
+            waitUntilPageFinishLoading();
+            switch (categoryTab) {
+                case "People":
+                    Assert.assertTrue("Avatar is not displayed in the People tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _3oJrouWMnNDQa2_NMjysit']/img")).isDisplayed());
+                    Assert.assertTrue("Name is not displayed in the People tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _3oJrouWMnNDQa2_NMjysit']/div/div[@class='header _1E-fy-qQ1o0LGCa15nUQe0']")).isDisplayed());
+                    Assert.assertTrue("Institution is not displayed in the People tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _3oJrouWMnNDQa2_NMjysit']/div/div[@class='description _3FZFtAql1zqRcNrPTqtzKh']/a")).isDisplayed());
+                    break;
+                case "Institutions":
+                    boolean iconExist = false;
+                    if(getDriver().findElements(By.xpath("//div[@class='ui items']/div[@class='item _1mnhs5BYlolZXplMGBZCvC']/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@class='ui items']/div[@class='item _1mnhs5BYlolZXplMGBZCvC']/i")).size() != 0){
+                        iconExist = true;
+                    }
+                    Assert.assertTrue("Avatar/icon is not displayed in the Institutions tab for real-time search.", iconExist);
+                    Assert.assertTrue("Avatar/icon is not displayed in the Institutions tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _1mnhs5BYlolZXplMGBZCvC']/div/div[@class='header _1t0UcauZeLfM9p_w6ruYnP']")).isDisplayed());
+                    Assert.assertTrue("Avatar/icon is not displayed in the Institutions tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _1mnhs5BYlolZXplMGBZCvC']/div/div[@class='description _1ivc8V9w17QnsCFYF71bKh']")).isDisplayed());
+                    break;
+                case "Groups":
+                    Assert.assertTrue("Group name is not displayed in the Groups tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _3504j--xOPKDqROw_Eyuxk']/div/div[@class='header _1TUGVQiwKij6ggWIsdT60']")).isDisplayed());
+                    Assert.assertTrue("Description is not displayed in the Groups tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _3504j--xOPKDqROw_Eyuxk']/div/div[@class='description _1EgLJDbPRwye6oql2m3Mk1']")).isDisplayed());
+                    break;
+                default:
+                    Assert.fail(categoryTab + " is not a valid search tab.  Valid categories: People, Institutions, or Groups");
+            }
+        }
     }
 
     //Getters
     private WebElement getSearchBox() {
+        waitUntilPageFinishLoading();
         return getDriver().findElement(By.id("global-search-box-input"));
     }
     private WebElement getSearchSwitcher(){
+        waitUntilPageFinishLoading();
         return getDriver().findElement(By.id("global-search-box-filter"));
+    }
+    private WebElement clickSearchIcon(){
+        return driver.findElement(By.xpath("//i[contains(@class, \"search link icon\")]"));
     }
 }
