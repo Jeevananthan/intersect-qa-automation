@@ -79,12 +79,13 @@ Feature: As an HE administrator I want to manage users at my institution
 
       Given HE I am logged in to Intersect HE as user type "administrator"
       And HE I can create a user in HE app
-      |First Name |testing01|
-      |Last Name |automation |
-      |Email |kpmahi123@gmail.com |
-      Then HE I inactivate the user account for "kpmahi123@gmail.com"
-      And HE I activate the user account for "kpmahi123@gmail.com"
-      Then HE I edit the user account for "kpmahi123@gmail.com" with the following info
+      |First Name |testing03|
+      |Last Name |automation02 |
+      |Email |kpmahi13@gmail.com |
+      |role |publishing |
+      Then HE I inactivate the user account for "kpmahi13@gmail.com "
+      And HE I activate the user account for "kpmahi13@gmail.com "
+      Then HE I edit the user account for "kpmahi1234@gmail.com" with the following info
         |Email  |purpleheautomation+rdinator@gmail.com |
       Then HE I successfully sign out
 
