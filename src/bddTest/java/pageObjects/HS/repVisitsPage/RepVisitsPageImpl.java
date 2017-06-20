@@ -318,6 +318,102 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyOverviewPage();
     }
 
+    public void setBlockedDate(String blockdate,String reason){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Blocked Days").click();
+        setDate(blockdate);
+        WebElement selectReason = driver.findElement(By.cssSelector("div[class='ui button floating labeled icon _2r0LAIwbM94mTAqf-2YGUG dropdown']"));
+        selectReason.click();
+        getDriver().findElement(By.xpath("//span[text()='" + reason + "']")).click();
+        button(By.className("ui primary button _2r0LAIwbM94mTAqf-2YGUG")).click();
+
+    }
+
+    public void RemoveBlockedDate(String removeBlockdate){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Blocked Days").click();
+        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+removeBlockdate+"]//td[3]"));
+        BlockedDate.click();
+    }
+
+    public void verifyBlockedHolidaysAdded(String startDate, String endDate,String reason) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Blocked Days").click();
+
+        //verify the Start date present in the table
+        List<WebElement> tableHeader = driver.findElements(By.xpath("//table[@class='ui basic table']//thead/tr/th"));
+        int noofheader = tableHeader.size();
+        for (int i = 0; i <= noofheader; i++) {
+            //Get Header
+            String Header = driver.findElement(By.xpath("//table[@class='ui basic table']//thead/tr/th[" + i + "]")).getText();
+            if (Header.equals("Start Date")) {
+                //Get Exact Row
+                List<WebElement> tableRow = driver.findElements(By.xpath("//table[@class='ui basic table']//tbody/tr"));
+                int NooftableRow = tableRow.size();
+                for (int j = 0; j <= NooftableRow; j++) {
+                    String Row = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + j + "]//td[" + i + "]")).getText();
+                    if (Row.equals(startDate)) {
+                        //verify Start date
+                        Assert.assertTrue("Row is not found", Row.equals((startDate)));
+                        int selectedRow = j;
+                        //verify End date
+                        String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[2]")).getText();
+                        Assert.assertTrue("End date " + endDate + "is not displayed", endDate.equals(ActualEnddate));
+                        //verify Reason
+                        String ActualReason = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[0]")).getText();
+                        Assert.assertTrue("Reason " + reason + " is not displayed", reason.equals(ActualReason));
+                        //verify Remove link
+                        Assert.assertTrue("Reason " + reason + " is not displayed",driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[3]")).isDisplayed());
+                        break;
+                    } else {
+                        fail("The given row was not found in the Blocked days table");
+                    }
+                }
+            }
+        }
+    }
+
+    public void verifyBlockedHolidaysRemoved(String startDate, String endDate,String reason) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Blocked Days").click();
+
+        //verify the Start date present in the table
+        List<WebElement> tableHeader = driver.findElements(By.xpath("//table[@class='ui basic table']//thead/tr/th"));
+        int noofheader = tableHeader.size();
+        for (int i = 0; i <= noofheader; i++) {
+            //Get Header
+            String Header = driver.findElement(By.xpath("//table[@class='ui basic table']//thead/tr/th[" + i + "]")).getText();
+            if (Header.equals("Start Date")) {
+                //Get Exact Row
+                List<WebElement> tableRow = driver.findElements(By.xpath("//table[@class='ui basic table']//tbody/tr"));
+                int NooftableRow = tableRow.size();
+                for (int j = 0; j <= NooftableRow; j++) {
+                    String Row = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + j + "]//td[" + i + "]")).getText();
+                    if (Row.equals(startDate)) {
+                        //verify Start date
+                        Assert.assertTrue("Row is not found", Row.equals((startDate)));
+                        int selectedRow = j;
+                        //verify End date
+                        String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[2]")).getText();
+                        Assert.assertTrue("End date " + endDate + "is not displayed", endDate.equals(ActualEnddate));
+                        //verify Reason
+                        String ActualReason = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[0]")).getText();
+                        Assert.assertTrue("Reason " + reason + " is not displayed", reason.equals(ActualReason));
+                        //verify Remove link
+                        Assert.assertTrue("Reason " + reason + " is not displayed",driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[3]")).isDisplayed());
+                        fail("The given row was found in the Blocked days table");
+                        break;
+                    } else {
+                        logger.info("The given row was not found in the Blocked days table ");
+                    }
+                }
+            }
+        }
+    }
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
