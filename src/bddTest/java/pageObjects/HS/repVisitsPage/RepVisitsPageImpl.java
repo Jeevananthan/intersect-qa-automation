@@ -4,11 +4,14 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.fail;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -226,6 +229,132 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
         repVisitsPageHEObj.verifyOverviewPage();
     }
+
+    public void setStartAndEndDates(String startDate, String endDate) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        setDate(startDate);
+        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        setDate(endDate);
+    }
+
+    public void verifyTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
+
+        Assert.assertTrue("The Time Slot was not added" , driver.findElement(By.cssSelector("table[class='ui unstackable basic table']")).findElement(By.xpath("//button[contains(text(), '"+hourStartTime+ ":"+ minuteStartTime + meridianStartTime +"')]")).isDisplayed());
+
+    }
+
+    public void removeTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
+
+        WebElement tableBody = driver.findElement(By.cssSelector("table[class='ui unstackable basic table']>tbody"));
+        List<WebElement> tableRows = tableBody.findElements(By.cssSelector("i[class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+        for (WebElement deleteTimeSlot : tableRows) {
+            //Click on REMOVE button
+                if (driver.findElement(By.cssSelector("table[class='ui unstackable basic table']")).findElement(By.xpath("//button[contains(text(), '" + hourStartTime + ":" + minuteStartTime + meridianStartTime + "')]")).isDisplayed()) {
+                    deleteTimeSlot.click();
+                    waitUntilPageFinishLoading();
+                    driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+                    waitUntilPageFinishLoading();
+                    break;
+                }
+        }
+    }
+
+
+    public void addNewTimeSlot(String day, String hourStartTime, String hourEndTime, String minuteStartTime, String minuteEndTime, String meridianStartTime, String meridianEndTime, String numVisits) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+
+        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
+        selectDayForSlotTime("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']", day);
+        inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
+        inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
+        visitsNumber(numVisits);
+        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+    }
+
+    public void verifyTimeSlotRemoved(String hourStartTime, String minuteStartTime, String meridianStartTime) {
+
+        try {
+
+                Assert.assertTrue("The Time Slot was not removed", driver.findElement(By.cssSelector("table[class='ui unstackable basic table']")).findElement(By.xpath("//button[contains(text(), '" + hourStartTime + ":" + minuteStartTime + meridianStartTime + "')]")).isDisplayed());
+
+        } catch (Exception e) {
+            fail("Time Slot was not removed.");
+        }
+
+    }
+
+    public void selectDayForSlotTime(String element, String day)
+    {
+        WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
+        dayList.click();
+        driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
+    }
+
+    public void inputStartTime(String hour, String minute, String meridian)
+    {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='startTime']"));
+        inputStartTime.click();
+        inputStartTime.sendKeys(hour);
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
+
+    }
+
+    public void inputEndTime(String hour, String minute, String meridian)
+    {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='endTime']"));
+        inputStartTime.click();
+        inputStartTime.sendKeys(hour);
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
+        inputStartTime.sendKeys(Keys.TAB);
+    }
+
+    public void visitsNumber(String numVisits)
+    {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='numVisits']"));
+        inputStartTime.sendKeys(numVisits);
+    }
+
+    public void setDate(String inputDate) {
+
+        String[] parts = inputDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void findMonth(String month) {
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try{
+            while (!DayPickerCaption.contains(month)) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+        }
+        catch (Exception e) {
+            fail("The Date selected it's out of RANGE.");
+        }
+    }
+
+    public void clickOnDay(String date) {
+
+        driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+date+")]")).click();
+    }
+
 
     //locators
     private boolean isLinkActive(WebElement link) {

@@ -68,3 +68,19 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Automatically confirm all visit requests?            |
       |No, I want to manually review all incoming requests. |
     Then HS I successfully sign out
+
+  @MATCH-1803
+  Scenario Outline: As a high school staff member ,
+            I want to be able to define the weekly recurring appointment times that my school is available
+            so that colleges can schedule appointments to visit during those times.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+    Then HS I remove the Time Slot created with "<HourStartTime>", "<MinuteStartTime>" and "<MeridianStartTime>"
+    Then HS I verify the Time Slot time were removed with "<HourStartTime>", "<MinuteStartTime>" and "<MeridianStartTime>"
+    And HS I successfully sign out
+
+    Examples:
+      |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
+      |Monday           | 5             |06          | 11             | 7             | am                | pm              | 3          | July 23 2017         |June 23 2018      |
+      |Tuesday          | 5             |07          | 12             | 8             | am                | pm              | 99         | August 15 2017       |September 23 2017 |
