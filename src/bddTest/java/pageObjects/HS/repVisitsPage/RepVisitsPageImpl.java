@@ -322,11 +322,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
+        button(By.cssSelector("button[class='ui button _2TgAEzclbuAyQiI-jXUoxe']")).click();
         setDate(blockdate);
         WebElement selectReason = driver.findElement(By.cssSelector("div[class='ui button floating labeled icon _2r0LAIwbM94mTAqf-2YGUG dropdown']"));
         selectReason.click();
         getDriver().findElement(By.xpath("//span[text()='" + reason + "']")).click();
-        button(By.className("ui primary button _2r0LAIwbM94mTAqf-2YGUG")).click();
+        button(By.cssSelector("button[class='ui primary button _2r0LAIwbM94mTAqf-2YGUG']")).click();
 
     }
 
@@ -334,7 +335,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
-        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+removeBlockdate+"]//td[3]"));
+        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td[text()='"+removeBlockdate+"']/following-sibling::td/span[text()='Remove']"));
         BlockedDate.click();
     }
 
@@ -343,81 +344,95 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Blocked Days").click();
 
-        //verify the Start date present in the table
-        List<WebElement> tableHeader = driver.findElements(By.xpath("//table[@class='ui basic table']//thead/tr/th"));
-        int noofheader = tableHeader.size();
-        for (int i = 0; i <= noofheader; i++) {
-            //Get Header
-            String Header = driver.findElement(By.xpath("//table[@class='ui basic table']//thead/tr/th[" + i + "]")).getText();
-            if (Header.equals("Start Date")) {
-                //Get Exact Row
-                List<WebElement> tableRow = driver.findElements(By.xpath("//table[@class='ui basic table']//tbody/tr"));
-                int NooftableRow = tableRow.size();
-                for (int j = 0; j <= NooftableRow; j++) {
-                    String Row = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + j + "]//td[" + i + "]")).getText();
-                    if (Row.equals(startDate)) {
-                        //verify Start date
-                        Assert.assertTrue("Row is not found", Row.equals((startDate)));
-                        int selectedRow = j;
-                        //verify End date
-                        String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[2]")).getText();
-                        Assert.assertTrue("End date " + endDate + "is not displayed", endDate.equals(ActualEnddate));
-                        //verify Reason
-                        String ActualReason = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[0]")).getText();
-                        Assert.assertTrue("Reason " + reason + " is not displayed", reason.equals(ActualReason));
-                        //verify Remove link
-                        Assert.assertTrue("Reason " + reason + " is not displayed",driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[3]")).isDisplayed());
-                        break;
-                    } else {
-                        fail("The given row was not found in the Blocked days table");
-                    }
-                }
-            }
-        }
+        int columnID = getColumnIdByFieldName( "//table[@class='ui basic table']//thead/tr/th", "Start Date");
+        int rowID = getRowIdByColumnId("//table[@class='ui basic table']//tbody/tr", columnID, startDate);
+
+        //verify Start Date
+        String ActualStartDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + rowID + "]//td["+columnID+"]")).getText();
+        Assert.assertTrue("Start date " + startDate + "is not displayed", startDate.equals(ActualStartDate));
+        //verify End date
+        String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + rowID + "]//td[2]")).getText();
+        Assert.assertTrue("End date " + endDate + "is not displayed", endDate.equals(ActualEnddate));
+        //verify Reason
+        String ActualReason = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + rowID + "]//td[0]")).getText();
+        Assert.assertTrue("Reason " + reason + " is not displayed", reason.equals(ActualReason));
+        //verify Remove link
+        Assert.assertTrue("Reason " + reason + " is not displayed",driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + rowID + "]//td[3]")).isDisplayed());
     }
+
 
     public void verifyBlockedHolidaysRemoved(String startDate, String endDate,String reason) {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
+        int columnID = getColumnIdByFieldName( "//table[@class='ui basic table']//thead/tr/th", "Start Date");
+        int rowID = getRowIdByColumnId("//table[@class='ui basic table']//tbody/tr", columnID, startDate);
 
-        //verify the Start date present in the table
-        List<WebElement> tableHeader = driver.findElements(By.xpath("//table[@class='ui basic table']//thead/tr/th"));
-        int noofheader = tableHeader.size();
-        for (int i = 0; i <= noofheader; i++) {
-            //Get Header
-            String Header = driver.findElement(By.xpath("//table[@class='ui basic table']//thead/tr/th[" + i + "]")).getText();
-            if (Header.equals("Start Date")) {
-                //Get Exact Row
-                List<WebElement> tableRow = driver.findElements(By.xpath("//table[@class='ui basic table']//tbody/tr"));
-                int NooftableRow = tableRow.size();
-                for (int j = 0; j <= NooftableRow; j++) {
-                    String Row = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + j + "]//td[" + i + "]")).getText();
-                    if (Row.equals(startDate)) {
-                        //verify Start date
-                        Assert.assertTrue("Row is not found", Row.equals((startDate)));
-                        int selectedRow = j;
-                        //verify End date
-                        String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[2]")).getText();
-                        Assert.assertTrue("End date " + endDate + "is not displayed", endDate.equals(ActualEnddate));
-                        //verify Reason
-                        String ActualReason = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[0]")).getText();
-                        Assert.assertTrue("Reason " + reason + " is not displayed", reason.equals(ActualReason));
-                        //verify Remove link
-                        Assert.assertTrue("Reason " + reason + " is not displayed",driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + selectedRow + "]//td[3]")).isDisplayed());
-                        fail("The given row was found in the Blocked days table");
-                        break;
-                    } else {
-                        logger.info("The given row was not found in the Blocked days table ");
-                    }
+        if(rowID == -1){
+            logger.info("The Given row was not found on the table");
+        }else{
+            fail("The Given row was found on the table");
+        }
+      }
+
+    //Function Name  : getColumnIdByFieldName()
+    public int  getColumnIdByFieldName(String tableHeaderLocator, String fieldName)
+    {
+        int columnId=-1, colCount = 0;
+        String presentField=null;
+
+        WebElement webEleTableHeader=driver.findElement(By.xpath(tableHeaderLocator));
+        List<WebElement> webEleRows=webEleTableHeader.findElements(By.tagName("tr"));
+        List<WebElement> webEleColumns=webEleRows.get(0).findElements(By.tagName("th"));
+        colCount = webEleColumns.size();
+
+        if(colCount > 0)
+        {
+            for(int colNum=0;colNum<colCount;colNum++)
+            {
+                presentField = webEleColumns.get(colNum).getText().trim().replace("\"", "");
+
+                if(presentField.equals(fieldName))
+                {
+                    columnId = colNum;
+                    break;
                 }
             }
         }
+
+        return columnId;
+    }
+
+    //Function Name  : getRowIdByColumnId()
+    public int  getRowIdByColumnId(String tableBodyLocator, int columnId, String dataToFind)
+    {
+        int rowId=-1, rowCount = 0;
+
+        WebElement webEleTableBody=driver.findElement(By.xpath(tableBodyLocator));
+        List<WebElement> webEleRows=webEleTableBody.findElements(By.tagName("tr"));
+        rowCount = webEleRows.size();
+
+        if(rowCount > 0)
+        {
+            for(int rowNum=0;rowNum<rowCount;rowNum++)
+            {
+                List<WebElement> webEleColumns=webEleRows.get(rowNum).findElements(By.tagName("td"));
+                if(webEleColumns.get(columnId).getText().equals(dataToFind))
+                {
+                    rowId = rowNum;
+                    break;
+                }
+            }
+        }
+
+        return rowId;
     }
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+
+
 }
 
 
