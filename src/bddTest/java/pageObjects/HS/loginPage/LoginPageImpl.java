@@ -1,7 +1,9 @@
 package pageObjects.HS.loginPage;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -33,6 +35,47 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(intersectWindow);
         waitUntilPageFinishLoading();
+    }
+
+    public void openNonNavianceLoginPage(){
+
+        load(GetProperties.get("hs.app.url"));
+        waitUntilPageFinishLoading();
+
+    }
+
+    public void searchForHSInstitution(String institutionName,String institutionType){
+
+        if(institutionType.equalsIgnoreCase("high school")){
+            button("High School Staff Member").click();
+        }
+        else{
+            button("Higher Education Staff Member").click();
+        }
+
+        driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
+        button("Search").click();
+
+        while(button("More Institutions").isDisplayed()){
+            button("More Institutions").click();
+        }
+
+        link(institutionName).click();
+        Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
+
+        link("Back to search").click();
+
+    }
+
+    public void clickNewUserBtn(){
+
+        getNewUserBtn().click();
+        waitUntilPageFinishLoading();
+    }
+
+    private WebElement getNewUserBtn(){
+
+        return link("New User?");
     }
 
     private void openNavianceLoginPage() {
