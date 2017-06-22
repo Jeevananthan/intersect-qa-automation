@@ -210,6 +210,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyRequestInformation(){
         Assert.assertTrue("Thanks message",driver.findElement(By.xpath(".//*[@id='upgrade-form']//div/form/div//div/b/span[text()='Thanks!']")).isDisplayed());
         Assert.assertTrue("We will contact you soon message ", driver.findElement(By.xpath("//*[@id='upgrade-form']//div/form/div//div/p/span")).isDisplayed());
+
+
     }
 
     public void verifyCommunityActivationForRepVisits(){
