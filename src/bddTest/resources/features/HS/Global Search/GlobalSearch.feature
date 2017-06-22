@@ -43,3 +43,10 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
       | Institutions | searchResultsTabinstitutions |
       | Groups       | searchResultsTabgroups       |
     And HS I successfully sign out
+
+  @MATCH-1545
+  Scenario: As a HS user I want to see general recruitment territory details on all users returned to me when during advanced searches for people.
+            So I can find the other community user I want to network with more efficiently.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify advanced search returns the HS user's general description field below the title and institution fields "MatchSupportUIQA4"
+    And HS I successfully sign out

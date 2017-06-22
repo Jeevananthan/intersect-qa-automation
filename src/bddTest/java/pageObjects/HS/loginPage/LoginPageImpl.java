@@ -38,6 +38,5 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     private void openNavianceLoginPage() {
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
-
     }
 }
