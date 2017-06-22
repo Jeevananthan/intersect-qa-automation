@@ -53,3 +53,11 @@ Feature: As a HE user, I want to be able to use the Global search to help me fin
       | Institutions | searchResultsTabinstitutions |
       | Groups       | searchResultsTabgroups       |
     And HE I successfully sign out
+
+
+  @MATCH-1394
+  Scenario: As an HE freemium user or a Premium Legacy Hubs only user I should NOT be able to see the global search box in Intersect
+            so I cannot find too much value in my limited access to Community.
+    Given HE I am logged in to Intersect HE as user type "publishing"
+    Then HE I verify there is no global search options available
+    And HE I successfully sign out
