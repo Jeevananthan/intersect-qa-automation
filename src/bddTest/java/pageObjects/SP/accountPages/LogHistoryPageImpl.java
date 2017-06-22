@@ -5,10 +5,12 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 public class LogHistoryPageImpl extends PageObjectFacadeImpl{
     private Logger logger;
@@ -20,9 +22,15 @@ public class LogHistoryPageImpl extends PageObjectFacadeImpl{
     public void selectVariousDateFilterInLogHistory(String Option)
     {
         //selects the filter dropdown with the given option like today , yesterday ...etc in log history table.
-        WebElement DateDropdown = getDriver().findElement(By.className("_19k4ypXU6Xw9uZfY55mEYk "));
+        //WebElement DateDropdown = getDriver().findElement(By.className("_19k4ypXU6Xw9uZfY55mEYk "));
+        WebElement DateDropdown = getDriver().findElement(By.xpath("//div[@aria-label='Timeframe Switcher']"));
+
         DateDropdown.click();
         DateDropdown.findElement(By.xpath("//span[text()='" + Option + "']")).click();
+
+        while(button("More Log Entries").isDisplayed()){
+            button("More Log Entries").click();
+        }
     }
 
     public void verifySelectedDateInLogHistory(String Option)
@@ -50,6 +58,7 @@ public class LogHistoryPageImpl extends PageObjectFacadeImpl{
         return USDateFormat.format(LocaldateConversionToDate);
     }
 
+
     public void verifyLogHistoryResultsTable(String option)
     {
         //verifies the log history table is showng the related log records.
@@ -62,11 +71,14 @@ public class LogHistoryPageImpl extends PageObjectFacadeImpl{
                     logger.info("No ''log Results'' are displayed for the selection 'today' option");
 
                 } else {
-                    String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr[1]/td/span[1]")).getText();
-                    String ExpectedDate = returnTodayDate();
-
-                    if (Actualdate.contains(ExpectedDate)) {
-                        logger.info("Log History results is verified for 'Today' option");
+                    List<WebElement> rows = driver.findElements(By.xpath("//table[@class='ui table']/tbody/tr"));
+                    int  rowCount = rows.size();
+                    for(int row =1;row<=rowCount;row++){
+                        String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr["+row+"]/td/span[1]")).getText();
+                        String ExpectedDate = returnTodayDate();
+                        if (Actualdate.contains(ExpectedDate)) {
+                            logger.info("Log History results is verified for 'Today' option");
+                        }
                     }
                 }
                 break;
@@ -77,11 +89,15 @@ public class LogHistoryPageImpl extends PageObjectFacadeImpl{
                     logger.info("No ''log Results'' are displayed for the selection 'Yesterday' option");
 
                 } else {
-                    String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr[1]/td/span[1]")).getText();
-                    String ExpectedDate = returnSubtractedDteWithGivenDays(0,1,0);
 
-                    if (Actualdate.contains(ExpectedDate)) {
-                        logger.info("Log History results is verified for 'Yesterday' option");
+                    List<WebElement> rows = driver.findElements(By.xpath("//table[@class='ui table']/tbody/tr"));
+                    int  rowCount = rows.size();
+                    for(int row =1;row<=rowCount;row++){
+                        String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr["+row+"]/td/span[1]")).getText();
+                        String ExpectedDate = returnSubtractedDteWithGivenDays(0,1,0);
+                        if (Actualdate.contains(ExpectedDate)) {
+                            logger.info("Log History results is verified for 'Yesterday' option");
+                        }
                     }
                 }
                 break;
@@ -92,24 +108,24 @@ public class LogHistoryPageImpl extends PageObjectFacadeImpl{
                     logger.info("No ''log Results'' are displayed for the selection 'Last 7 Days' option");
 
                 } else {
-                    String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr[1]/td/span[1]")).getText();
-                    String ExpectedDate = returnSubtractedDteWithGivenDays(0,7,0);
-
-                    if (Actualdate.contains(ExpectedDate)) {
-                        logger.info("Log History results is verified for 'Last 7 Days' option");
+                    List<WebElement> rows = driver.findElements(By.xpath("//table[@class='ui table']/tbody/tr"));
+                    int  rowCount = rows.size();
+                    for(int row =1;row<=rowCount;row++){
+                        String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr["+row+"]/td/span[1]")).getText();
+                        String ExpectedDate = returnSubtractedDteWithGivenDays(0,7,0);
+                        if (Actualdate.contains(ExpectedDate)) {
+                            logger.info("Log History results is verified for 'Last 7 Days' option");
+                        }
                     }
                 }
                 break;
 
             case "Last 30 Days":
-
-                if(driver.findElements(By.cssSelector("div[class='ui info message']>span")).size() !=0){
-                    logger.info("No ''log Results'' are displayed for the selection 'Last 30 Days' option");
-
-                } else {
-                    String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr[1]/td/span[1]")).getText();
+                List<WebElement> rows = driver.findElements(By.xpath("//table[@class='ui table']/tbody/tr"));
+                int  rowCount = rows.size();
+                for(int row =1;row<=rowCount;row++){
+                    String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr["+row+"]/td/span[1]")).getText();
                     String ExpectedDate = returnSubtractedDteWithGivenDays(0,30,0);
-
                     if (Actualdate.contains(ExpectedDate)) {
                         logger.info("Log History results is verified for 'Last 30 Days' option");
                     }
