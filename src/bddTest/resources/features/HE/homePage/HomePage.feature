@@ -74,14 +74,14 @@ Feature: As an HE user, I want to be able to access the features of the main Int
 
 
   @MATCH-1387
-  Scenario: When only ''HUBS Management module'' is active in support app, then the access to Community is limited
-  and ''User'' nav link is not available for HE publishing user in the HE app
+  Scenario: If only ''HUBS Management module'' is active in support app, then the access to Community is limited
+            and ''User'' nav link is not available for HE publishing user in the HE app
       Given SP I am logged in to the Admin page as an Admin user
       Then SP I select "Alma College" from the institution dashboard
-      And SP I "active" the module "Legacy: Hub page management" in the institution page
-      And SP I "inactive" the module "Legacy: Community" in the institution page
-      And SP I "inactive" the module "Intersect Awareness Subscription" in the institution page
-      And SP I "inactive" the module "Intersect Presence Subscription" in the institution page
+      And SP I set the "Legacy: Hub page management" module to "active" in the institution page
+      And SP I set the "Legacy: Community" module to "inactive" in the institution page
+      And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
+      And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
       And SP I Click the Save Changes button
       Then SP I successfully sign out
 
@@ -92,10 +92,10 @@ Feature: As an HE user, I want to be able to access the features of the main Int
 
       Given SP I am logged in to the Admin page as an Admin user
       Then SP I select "Alma College" from the institution dashboard
-      And SP I "inactive" the module "Legacy: Hub page management" in the institution page
-      And SP I "inactive" the module "Legacy: Community" in the institution page
-      And SP I "inactive" the module "Intersect Awareness Subscription" in the institution page
-      And SP I "inactive" the module "Intersect Presence Subscription" in the institution page
+      And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
+      And SP I set the "Legacy: Community" module to "inactive" in the institution page
+      And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
+      And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
       And SP I Click the Save Changes button
       Then SP I successfully sign out
 
