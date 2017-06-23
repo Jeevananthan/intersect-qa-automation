@@ -23,11 +23,7 @@ tickets to Hobsons Support.
   Scenario: As a System I need a platform-level password policy for all institutional accounts and their users in order
             to secure the data within the Purple platform.
 
-    When HE I begin the reset password process for user type "administrator"
-    Then HE I verify the password reset policy for different combinations with "administrator"
-      |Subject                                      |To                   |Messages |
-      |Intersect Forgot Password Verification Email |jeevanece90@gmail.com|1        |
-
-    And HE I enter invalid password as "passw0rd" for verifying the warning message in reset password page
-    And HE I enter invalid password as "Passw0rd" for verifying the warning message in reset password page
-    And HE I enter invalid password as "Password@" for verifying the warning message in reset password page
+    When HE I begin the reset password process for user type "reset"
+    Then HE I receive the below reset password email and reset the password for user type "reset"
+      |Subject                                      |To                                           |Messages |
+      |Intersect Forgot Password Verification Email |kpmahibalan93+testingresetpassword@gmail.com |1        |

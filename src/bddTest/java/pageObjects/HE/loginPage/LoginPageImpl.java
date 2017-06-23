@@ -108,7 +108,14 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox("New Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         textbox("Confirm Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         button("CHANGE PASSWORD").click();
-        Assert.assertTrue("Password reset was not successful!", button("LOGIN").isDisplayed());
+        if (userType.equalsIgnoreCase("reset")) {
+            Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+        }
+        else{
+            Assert.assertTrue("Password reset was not successful!", button("LOGIN").isDisplayed());
+        }
+
+
     }
 
     public void verifyLoginScreen() {
@@ -132,33 +139,17 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Login error message is not displayed as expected!\nExpected: "+errorMessage+"\n",text(errorMessage).isDisplayed());
     }
 
-    public void resetPasswordWithUserPasswordPolicy(String userType, DataTable data) {
-        String emailBody = "";
-        GetProperties.setGmailAPIWait(60);     //Time unit is in seconds
-        try {
-            List<Email> emails = getGmailApi().getMessages(data);
+    public void enterDummyVerificationCode() {
+//
+       driver.findElement(By.xpath("//input[@name='verification']")).sendKeys("12345");
 
-            boolean verified = false;
-            for (Email email : emails) {
-                System.out.print(email.toString());
-                emailBody = email.getBody();
-                logger.info(emailBody);
-            }
-        } catch (Exception e) {
-            logger.info("Exception while retrieving Gmail messages: " + e.getMessage());
-            e.printStackTrace();
-            fail("There was an error retrieving the password reset email from Gmail.");
-        }
-        Integer codeMessageIndex = emailBody.indexOf("Your password reset verification code is ");
-        String code = emailBody.substring(codeMessageIndex + 41,codeMessageIndex + 47);
-        logger.info("Verification code is: " + code + "\n");
-        textbox("Verification Code").sendKeys(code);
 
     }
 
     public void enterInvalidPassword(String invalidPassword){
-        textbox("New Password").sendKeys(GetProperties.get(invalidPassword));
-        textbox("Confirm Password").sendKeys(GetProperties.get(invalidPassword));
+
+        driver.findElement(By.xpath("//input[@name='password']")).sendKeys(invalidPassword);
+        driver.findElement(By.xpath("//input[@name='confirmPassword']")).sendKeys(invalidPassword);
         button("CHANGE PASSWORD").click();
         validatePasswordFailureText();
 
@@ -166,7 +157,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void validatePasswordFailureText(){
 
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", text("Password failed to satisfy security requirements.").isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
 
     }
 

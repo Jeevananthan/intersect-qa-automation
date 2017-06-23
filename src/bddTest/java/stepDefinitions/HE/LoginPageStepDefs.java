@@ -24,9 +24,6 @@ public class LoginPageStepDefs implements En {
 
         Given("^HE I verify the HE login screen$",loginPage::verifyLoginScreen);
 
-        Then ("^HE I verify the password reset policy for different combinations with \"([^\"]*)\"$",loginPage::resetPasswordWithUserPasswordPolicy);
-
-        And("^HE I enter invalid password as \"([^\"]*)\" for verifying the warning message in reset password page$",loginPage::enterInvalidPassword);
 
     }
 }
