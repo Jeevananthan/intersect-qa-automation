@@ -123,7 +123,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
     }
 
-    public void goToRegistrationpage(String buttonName){
+    public void goToAppropriateRegistrationpage(String buttonName){
 
         Assert.assertTrue(buttonName+" button is not displayed in the registration page",button(buttonName).isDisplayed());
         button(buttonName).click();
