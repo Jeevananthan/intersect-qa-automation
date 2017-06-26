@@ -45,13 +45,9 @@ Feature: As a HE user, I want to be able to use the Global search to help me fin
       | Institutions | searchResultsTabinstitutions |
       | Groups       | searchResultsTabgroups       |
     Then HE I verify that only five or less results are listed for advanced search results displayed by category
-      | People       | searchResultsTabpeople       |
-      | Institutions | searchResultsTabinstitutions |
-      | Groups       | searchResultsTabgroups       |
+      | People | Institutions | Groups |
     Then HE I verify advanced search tab layouts are displayed correctly "admin"
-      | People       | searchResultsTabpeople       |
-      | Institutions | searchResultsTabinstitutions |
-      | Groups       | searchResultsTabgroups       |
+      | People | Institutions | Groups |
     And HE I successfully sign out
 
   @MATCH-1545
@@ -59,4 +55,65 @@ Feature: As a HE user, I want to be able to use the Global search to help me fin
             So I can find the other community user I want to network with more efficiently.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify advanced search returns the HS user's general description field below the title and institution fields "MatchSupportUIQA4"
+    And HE I successfully sign out
+
+  @MATCH-932 @MATCH-934 @MATCH-1076 @MATCH-1077 @MATCH-1078
+  Scenario: As a Community user I want to perform an advanced search for other Community users using any combination of the fields below.
+            So I can more accurately find the users I want to network with in the Community.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify I can perform an advanced search utilizing any combination of fields for "People"
+      | Keyword                                | Admin          |
+      | First Name                             | Admin          |
+      | Last Name                              | Administrator  |
+      | Email                                  | admin@fake.com |
+      | Alma Mater                             | UNC Capel Hill |
+      | Institution                            | Hobsons        |
+      | Institution Type                       | All            |
+      | Position                               | Manager        |
+      | Institution State                      | Ohio           |
+      | Zipcode                                | 45241          |
+      | State Served                           | Alabama        |
+      | County Served                          | Autauga        |
+      | Advises Students on Admissions Process | No             |
+      | Schedules College Visits               | No             |
+    And HE I successfully sign out
+
+  @MATCH-933 @MATCH-1103 @MATCH-1105 @MATCH-1107
+  Scenario: As a Community user I want to perform an advanced search for groups using any combination of the fields below.
+            So I can more accurately find the groups I want to join with in the Community.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify I can perform an advanced search utilizing any combination of fields for "Groups"
+      | Keyword     | Hobsons                                    |
+      | Name        | Hobsons                                    |
+      | Description | Stay up to date on what's new with Hobsons |
+      | Type        | Public                                     |
+    And HE I successfully sign out
+
+  @MATCH-934 @MATCH-1104 @MATCH-1106 @MATCH-1108
+  Scenario: As a Community user I want to perform an advanced search for institutions using any combination of the fields below.
+            So I can more accurately find the institutions I want to follow with in the Community.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify I can perform an advanced search utilizing any combination of fields for "Higher Education"
+      | Keyword                       | Arkansas                   |
+      | Institution Type              | Higher Education           |
+      | Name                          | Arkansas State             |
+      | College Type                  | Standard (4 Year)          |
+      | School Type                   | Public                     |
+      | Degree                        | 4                          |
+      | City                          | Jonesboro                  |
+      #Search Institution by state is not working ATM --- MATCH-2219 created 6/26/17
+      #| State                         | Arkansas                   |
+      | Postal Code                   | 72401                      |
+
+    Then HE I verify I can perform an advanced search utilizing any combination of fields for "High School"
+      | Keyword                       | Southern                   |
+      | Institution Type              | High School                |
+      | Name                          | Southern High School       |
+      | Type                          | Public                     |
+      | City                          | Wymore                     |
+      | State                         | Nebraska                   |
+      | Postal Code                   | 68466                      |
+      | Charter School                | Unknown                    |
+      | Title I Eligible              | No                         |
+      | College Going Rate            | 59-100                     |
     And HE I successfully sign out
