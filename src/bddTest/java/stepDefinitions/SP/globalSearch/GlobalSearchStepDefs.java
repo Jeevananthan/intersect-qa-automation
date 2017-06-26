@@ -1,5 +1,6 @@
 package stepDefinitions.SP.globalSearch;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.GlobalSearch;
 
@@ -21,5 +22,7 @@ public class GlobalSearchStepDefs implements En {
         Then("^SP I search for \"([^\"]*)\" in \"([^\"]*)\"$", globalSearch::search);
 
         Then("^SP I go to the advanced search page for \"([^\"]*)\"$", globalSearch::goToAdvancedSearch);
+
+        Then("^SP I verify there are no search results returned$", globalSearch::verifyNoSearchResults);
     }
 }

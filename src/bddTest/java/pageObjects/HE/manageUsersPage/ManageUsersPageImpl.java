@@ -28,6 +28,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     public void inactivateUser(String accountName) {
         takeUserAction(accountName,"Inactivate");
         button("Yes").click();
+        waitUntilPageFinishLoading();
     }
 
     public void activateUser(String accountName) {
@@ -111,10 +112,6 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         String currentDate = dtf.format(localDate);
 
         Assert.assertTrue("Last login date is not correct for "+username, getDriver().findElement(By.xpath("//td[contains(text(),'"+username+"')]/following::span[contains(text(),'"+currentDate+"')]")).isDisplayed());
-    }
-
-    private WebElement getParent(WebElement childElement) {
-        return childElement.findElement(By.xpath("./.."));
     }
 
     // This is necessary because Selenium doesn't think that the action options are visible (even though they are),

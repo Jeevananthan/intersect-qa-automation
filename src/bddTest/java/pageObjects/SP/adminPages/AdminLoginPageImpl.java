@@ -88,6 +88,16 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         adminPage.verifyUserIsLoggedIn();
     }
 
+    public void loginAsACommunityUser() {
+        login(GetProperties.get("sp.communityUser.username"), GetProperties.get("sp.communityUser.password"));
+        adminPage.verifyUserIsLoggedIn();
+    }
+
+    public void loginAsACommunityManagerUser() {
+        login(GetProperties.get("sp.communityManager.username"), GetProperties.get("sp.communityManager.password"));
+        adminPage.verifyUserIsLoggedIn();
+    }
+
     //Page Web Elements
     private TextboxImpl usernameTextbox() {
         return textbox(By.id("cred_userid_inputtext"));

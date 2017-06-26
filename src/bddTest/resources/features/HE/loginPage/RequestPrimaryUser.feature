@@ -19,7 +19,7 @@ Feature: As a potential freemium HE admissions user I need to be able to request
       |Verify Email |Success@simulator.amazonses.com |
 
 
-  @MATCH-203 @MATCH-1514
+  @MATCH-203 @MATCH-1514 @MATCH-1856
   Scenario: As a new freemium user, I want to utilize the Update Primary User page to request a new primary user account for an existing freemium institution
             As a tester, I want to verify the fields and messaging on the Request Primary User Page
     Given HE I want to create a New User via the Request Primary User page

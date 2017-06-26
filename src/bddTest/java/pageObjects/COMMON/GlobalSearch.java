@@ -8,7 +8,7 @@ import selenium.SeleniumBase;
 
 import java.util.List;
 
-public class GlobalSearch extends SeleniumBase {
+public class    GlobalSearch extends SeleniumBase {
 
     private Logger logger;
 
@@ -115,7 +115,7 @@ public class GlobalSearch extends SeleniumBase {
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
         for (WebElement category : categories) {
-            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HE Accounts") || category.findElement(By.className("name")).getText().equalsIgnoreCase("College Core") || category.findElement(By.className("name")).getText().equalsIgnoreCase("People")) {
+            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HE Accounts") || category.findElement(By.className("name")).getText().equalsIgnoreCase("College Core") || category.findElement(By.className("name")).getText().equalsIgnoreCase("People")||category.findElement(By.className("name")).getText().contains("Institutions")) {
                 institutionsReturned = true;
                 List<WebElement> options = category.findElements(By.className("result"));
                 for (WebElement option : options) {
@@ -130,6 +130,15 @@ public class GlobalSearch extends SeleniumBase {
 
         Assert.assertTrue("No HE Institutions where returned on the search", institutionsReturned);
         Assert.assertTrue("Unable to click on " + optionToSelect, institutionClickedOn);
+    }
+
+    public void verifyNoSearchResults(){
+        waitUntilPageFinishLoading();
+        List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
+        if (categories.size()==0){
+            logger.info("No search results found.  This is the expected result.");
+        }else
+            Assert.assertTrue("Search results were found, but should not have been!", false);
     }
 
     public void goToAdvancedSearch(String category) {
