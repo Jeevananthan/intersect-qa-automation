@@ -1,4 +1,4 @@
-package pageObjects.HE.HUBSEditMode;
+package pageObjects.HUBS;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -8,12 +8,12 @@ import utilities.GetProperties;
 
 import java.util.List;
 
-public class CMSLoginPageImpl extends PageObjectFacadeImpl {
+public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
 
     Logger logger = null;
 
-    public CMSLoginPageImpl() {
-        logger = Logger.getLogger(CMSLoginPageImpl.class);
+    public HUBSLoginPageImpl() {
+        logger = Logger.getLogger(HUBSLoginPageImpl.class);
     }
 
     public void login(final String username, final String password) {
@@ -31,18 +31,19 @@ public class CMSLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void open(){
-        load(GetProperties.get("cms.app.url"));
+        load(GetProperties.get("hubs.app.url"));
     }
+
 
     //Locators
 
     private WebElement usernameField() {
-        return textbox(By.id("edit-name"));
+        return textbox(By.name("username"));
     }
     private WebElement passwordField() {
-        return textbox(By.id("edit-pass"));
+        return textbox(By.name("password"));
     }
     private WebElement loginButton() {
-        return button(By.id("edit-submit"));
+        return button(By.cssSelector("input.yellow-button"));
     }
 }

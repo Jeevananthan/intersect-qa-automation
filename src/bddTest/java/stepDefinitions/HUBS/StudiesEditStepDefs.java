@@ -1,7 +1,7 @@
-package stepDefinitions.HE.HUBSEditMode;
+package stepDefinitions.HUBS;
 
 import cucumber.api.java8.En;
-import pageObjects.HE.HUBSEditMode.StudiesEditPageImpl;
+import pageObjects.HUBS.StudiesEditPageImpl;
 
 public class StudiesEditStepDefs implements En{
 

@@ -1,4 +1,4 @@
-package pageObjects.HE.HUBSEditMode;
+package pageObjects.HUBS;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;

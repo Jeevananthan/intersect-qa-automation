@@ -1,7 +1,7 @@
-package stepDefinitions.HE.HUBSEditMode;
+package stepDefinitions.HUBS;
 
 import cucumber.api.java8.En;
-import pageObjects.HE.HUBSEditMode.*;
+import pageObjects.HUBS.CMSNodeMenuPageImpl;
 
 public class CMSLoginStepDefs implements En{
 

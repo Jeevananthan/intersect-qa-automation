@@ -1,10 +1,10 @@
-package stepDefinitions.HE.HUBSEditMode;
+package stepDefinitions.HUBS;
 
 import cucumber.api.DataTable;
 import cucumber.api.java8.En;
-import pageObjects.HE.HUBSEditMode.HEMPreviewPageImpl;
-import pageObjects.HE.HUBSEditMode.StudiesEditPageImpl;
-import pageObjects.HE.HUBSEditMode.StudiesPageImpl;
+import pageObjects.HUBS.HEMPreviewPageImpl;
+import pageObjects.HUBS.StudiesEditPageImpl;
+import pageObjects.HUBS.StudiesPageImpl;
 
 import java.util.HashMap;
 
