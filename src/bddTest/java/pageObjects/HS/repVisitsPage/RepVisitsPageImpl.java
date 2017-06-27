@@ -138,6 +138,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save Changes").click();
     }
 
+    public void addDefaultMessage(String message){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Messaging Options").click();
+        waitUntilPageFinishLoading();
+        writeInConfirmationMessage().sendKeys(message);
+        waitUntilPageFinishLoading();
+        writeInSpecialInstructionForRepViists(message);
+        button("Update Messaging").click();
+    }
+
+    public void verifyMessageUpdated(String message){
+        navBar.goToRepVisits();
+        String confirmationMessageText = writeInConfirmationMessage().getText();
+        Assert.assertTrue(confirmationMessageText + " Text is not displayed",
+                confirmationMessageText.contains(message));
+    }
+
+    public void verifyMessageConfirmation(String message){
+        navBar.goToRepVisits();
+        String confirmationMessageText = getDriver().findElement(By.cssSelector("div[class='content']")).getText();
+        Assert.assertTrue(confirmationMessageText + " Text is not displayed",
+                confirmationMessageText.contains("Great! You've updated your messaging."));
+    }
+
     public void verifyContentsOfNavianceSettings() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -231,6 +256,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+    private WebElement writeInConfirmationMessage() { return getDriver().findElement(By.cssSelector("textarea[name='emailInstructions']"));}
+    private void writeInSpecialInstructionForRepViists(String message) {getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).sendKeys(message);}
+
 }
 
 

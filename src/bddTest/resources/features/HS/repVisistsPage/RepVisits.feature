@@ -68,3 +68,16 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Automatically confirm all visit requests?            |
       |No, I want to manually review all incoming requests. |
     Then HS I successfully sign out
+
+  @MATCH-1584
+  Scenario Outline: As a high school user,
+  when I confirm an appointment I need to email colleges with specific details about visiting my high school,
+  so that they are prepared to visit my high school.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I add default message that contains "<Message>"
+    And HS I verify the "<Message>" confirmation
+    And HS I verify the "<Message>" was updated
+
+    Examples:
+      |Message                 |
+      |Test update New Message |
