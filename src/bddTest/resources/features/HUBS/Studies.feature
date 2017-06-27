@@ -21,7 +21,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Top Areas of Study   |1;test |
       | Study Options        |Study Abroad Credit;disabled |
     And HE I successfully sign out
-
+@test
   Scenario: Changes done in HEM are successfully published to HUBS
     When HUBS I open "Studies" in the edit menu
     And HUBS I take note of the values from the following fields:
@@ -34,8 +34,8 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Top Areas of Study | 1                   |
       | Study Options      | Study Abroad Credit |
       | Publish Reason     | test                |
-    And HUBS I approve the changes in CMS for Studies with the following details:
-      | admin | hbcmsxx | Adelphi University | Published |
+    And HUBS I approve the changes in CMS with the following details:
+      | admin | hbcmsxx | Adelphi University | Published | Student Body;Undergraduate Admissions |
     Then HUBS I should be able to verify the changes published in HUBS, with the following credentials:
 #  The fourth parameter is the Study Option that will be evaluated.
     | benhubs | Hobsons!23 | Adelphi | Study Abroad Credit |

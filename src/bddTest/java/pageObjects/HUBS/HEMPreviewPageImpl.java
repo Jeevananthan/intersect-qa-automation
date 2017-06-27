@@ -15,19 +15,28 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickMenuButton(String buttonLabel) {
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), \"Studies\")]")));
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), \"" + buttonLabel + "\")]")));
         WebElement button = null;
         switch (buttonLabel) {
             case "Studies" : button = studiesButton();
                 break;
+            case "Costs" : button = costsButton();
+                break;
         }
         button.click();
         waitUntilPageFinishLoading();
+        if (!button.getText().equals(buttonLabel)) {
+            button.click();
+        }
         logger.info(buttonLabel + " button clicked");
     }
 
     //Locators
     private WebElement studiesButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Studies\")]"));
+    }
+    private WebElement costsButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), \"Costs\")]"));
     }
 }

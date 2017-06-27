@@ -3,6 +3,7 @@ package pageObjects.HUBS;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -33,27 +34,46 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     }
 
     public void approveChangesInCMS(DataTable CMSDetails) {
-        List<String> creds = CMSDetails.asList(String.class);
-        cmsLogin.defaultLogIn(creds);
-        chooseInstitution.searchInstitution(creds.get(2));
+        List<String> details = CMSDetails.asList(String.class);
+        cmsLogin.defaultLogIn(details);
+        chooseInstitution.searchInstitution(details.get(2));
         String originalWindow = navigation.getWindowHandle();
-        chooseInstitution.clickSingleResult();
-        institutionPage.openUndergradAdmissionsNode();
-        clickModerateButton();
-        selectOptionPublishDropdown(creds.get(3));
-        applyButton().click();
-        waitUntilPageFinishLoading();
-        navigation.closeNewTabAndSwitchToOriginal(originalWindow);
-        chooseInstitution.clickSingleResult();
-        institutionPage.openStudentBodyNode();
-        clickModerateButton();
-        selectOptionPublishDropdown(creds.get(3));
-        applyButton().click();
-        waitUntilPageFinishLoading();
-        navigation.closeNewTabAndSwitchToOriginal(originalWindow);
+        if (details.get(4).contains(";")) {
+            String[] sectionsToApprove = details.get(4).split(";");
+            for (String section : sectionsToApprove) {
+                approveChangesInSection(section, details.get(3), originalWindow);
+            }
+        } else {
+            approveChangesInSection(details.get(4), details.get(3), originalWindow);
+        }
         logger.info("Changes were approved in CMS");
     }
 
+    private void approveChangesInSection(String section, String publishOption, String originalWindowHandle) {
+        boolean dropdownPresenceChecker = true;
+        chooseInstitution.clickSingleResult();
+        switch (section) {
+            case "Student Body" : institutionPage.openStudentBodyNode();
+                break;
+            case "Undergraduate Admissions" : institutionPage.openUndergradAdmissionsNode();
+                break;
+            case "Undergraduate Financial Aid" : institutionPage.openUndergradFinancialAidNode();
+                break;
+        }
+        clickModerateButton();
+        while (dropdownPresenceChecker) {
+            try {
+                selectOptionPublishDropdown(publishOption);
+                dropdownPresenceChecker = false;
+            } catch (NoSuchElementException e) {
+                nextPageButton().click();
+                waitUntilPageFinishLoading();
+            }
+        }
+        applyButton().click();
+        waitUntilPageFinishLoading();
+        navigation.closeNewTabAndSwitchToOriginal(originalWindowHandle);
+    }
     //Locators
 
     private WebElement moderateButton() {
@@ -64,5 +84,8 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement applyButton() {
         return getDriver().findElement(By.id("edit-submit"));
+    }
+    private WebElement nextPageButton() {
+        return getDriver().findElement(By.cssSelector("a[title=\"Go to next page\"]"));
     }
 }
