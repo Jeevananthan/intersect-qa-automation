@@ -24,14 +24,26 @@ Feature: As a HE user, I want to be able to use the Global search to help me fin
       | People | Institutions | Groups |
     And HE I successfully sign out
 
-
-  #@MATCH-1394
-    #not sure how to set up a freemium account
-  #Scenario: As an HE freemium user or a Premium Legacy Hubs only user I should NOT be able to see the global search box in Intersect
-            #so I cannot find too much value in my limited access to Community.
-    #Given HE I am logged in to Intersect HE as user type "publishing"
-    #Then HE I verify there is no global search options available
-    #And HE I successfully sign out
+  @MATCH-1394
+  Scenario: As an HE freemium user for a Premium Legacy Hubs only user I should NOT be able to see the global search box in Intersect
+            so I cannot find too much value in my limited access to Community.
+    Given SP I am logged in to the Admin page as a Support user
+    And SP I set HE Account Subscriptions "Alma"
+      | Legacy: Hub page management       | active   |
+      | Legacy: Community                 | inactive |
+      | Intersect Awareness Subscription  | inactive |
+      | Intersect Presence Subscription   | inactive |
+    And SP I successfully sign out
+    Given HE I want to login to the HE app using "daniel.kirtman@hobsons.com" as username and "internHOBS25%" as password
+    Then HE I verify there is no global search options available
+    And HE I successfully sign out
+    Given SP I am logged in to the Admin page as a Support user
+    And SP I set HE Account Subscriptions "Alma"
+      | Legacy: Hub page management       | active |
+      | Legacy: Community                 | active |
+      | Intersect Awareness Subscription  | active |
+      | Intersect Presence Subscription   | active |
+    And SP I successfully sign out
 
   @MATCH-1063 @MATCH-1064 @MATCH-1065 @MATCH-1066 @MATCH-1067 @MATCH-1073 @MATCH-1074 @MATCH-1075
   Scenario: As a HE user I want to be taken to a search results page after performing a "hard" global search.
@@ -116,4 +128,13 @@ Feature: As a HE user, I want to be able to use the Global search to help me fin
       | Charter School                | Unknown                    |
       | Title I Eligible              | No                         |
       | College Going Rate            | 59-100                     |
+    And HE I successfully sign out
+
+  @MATCH-1400
+  Scenario: As a HE user I want to preform a global and advanced search for groups that do not return HS results.
+  So I can ensure only HS groups are returned.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify real-time search results do not return any results for HS groups "New Test HE Group"
+    Then HE I verify advanced search results do not return any results for HS groups "New Test HE Group"
+      | Groups |
     And HE I successfully sign out

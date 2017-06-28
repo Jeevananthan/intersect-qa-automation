@@ -74,7 +74,7 @@ Feature: As a support user, I want to be able to use the Global search to help m
 
   @MATCH-934 @MATCH-1104 @MATCH-1106 @MATCH-1108
   Scenario: As a Community user I want to perform an advanced search for institutions using any combination of the fields below.
-  So I can more accurately find the institutions I want to follow with in the Community.
+            So I can more accurately find the institutions I want to follow with in the Community.
     Given SP I am logged in to the Admin page as a Support user
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "Higher Education"
       | Keyword                       | Arkansas                   |
