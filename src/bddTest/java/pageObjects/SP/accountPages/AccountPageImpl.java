@@ -93,9 +93,11 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clicksaveChangesButton(){
-        Assert.assertTrue("Save Changes button is not displayed",getSaveChangesButton().isDisplayed());
-        getSaveChangesButton().click();
-        waitUntilPageFinishLoading();
+       if(getSaveChangesButton().isDisplayed()){
+           getSaveChangesButton().click();
+           waitUntilPageFinishLoading();
+       }
+
     }
 
 
@@ -107,7 +109,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
        WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
        if(!ActualStatus.getText().equalsIgnoreCase(status)){
            ActualStatus.click();
-           getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+          WebElement statusDrp = getDriver().findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
+            driver.executeScript("arguments[0].click();",statusDrp);
+
 
            if(!status.equalsIgnoreCase("inactive")) {
                WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));

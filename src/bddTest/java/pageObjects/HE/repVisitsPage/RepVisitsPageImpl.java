@@ -5,11 +5,14 @@ import cucumber.api.java.cs.A;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import pageObjects.HE.homePage.HomePageImpl;
 
 import org.apache.log4j.Logger;
 
@@ -101,6 +104,54 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void clickUpgradeButton(){
+        driver.findElement(By.xpath("//div[@class='seven wide column _2I5Wf1vjM_1kmY7BHT_G9k']//div/button/span[text()='UPGRADE']")).click();
+
+    }
+
+    public void verifyUpgradePopupAndInformations(DataTable dataTable){
+
+        List<Map<String,String>> entities = dataTable.asMaps(String.class,String.class);
+        for (Map<String,String> UpgradeInformationPopup : entities ) {
+            for (String key : UpgradeInformationPopup.keySet()) {
+                switch (key) {
+                    case "First Name":
+                        String actualFirstName = driver.findElement(By.id("field13")).getAttribute("value");
+                        Assert.assertTrue("First Name was not as expected.", actualFirstName.contains(UpgradeInformationPopup.get(key)));
+                        break;
+                    case "Last Name":
+                        String actualLastName = driver.findElement(By.id("field14")).getAttribute("value");
+                        Assert.assertTrue("Last Name was not as expected.", actualLastName.equals(UpgradeInformationPopup.get(key)));
+                        break;
+                    case "Work Email Address":
+                        String actualEmailAddress = driver.findElement(By.id("field12")).getAttribute("value");
+                        Assert.assertTrue("Work Email Address was not as expected.", actualEmailAddress.equals(UpgradeInformationPopup.get(key)));
+                        break;
+                    case "Phone":
+                        String actualPhone = driver.findElement(By.id("field15")).getAttribute("value");
+                        Assert.assertTrue("Phone was not as expected.", actualPhone.equals(UpgradeInformationPopup.get(key)));
+                        break;
+                    case "School / Institution Name":
+                        String actualSchoolInstitutionName = driver.findElement(By.id("field16")).getAttribute("value");
+                        Assert.assertTrue("School / Institution Name was not as expected.", actualSchoolInstitutionName.equals(UpgradeInformationPopup.get(key)));
+                        break;
+                    case "Message":
+                        String actualMessage = driver.findElement(By.id("field18")).getText();
+                        Assert.assertTrue("Messages was not as expected.", actualMessage.equals(UpgradeInformationPopup.get(key)));
+                        break;
+                }
+            }
+
+
+            button("Request Information").click();
+            WebElement signOutBtn = driver.findElement(By.id("user-dropdown"));
+            waitUntilElementExists(signOutBtn);
+        }
+
+    }
+
+
+
 
 
 
@@ -110,7 +161,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getTravelPlanBtn().click();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
-        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
 }
 
     private WebElement getOverviewBtn() {
