@@ -24,9 +24,9 @@ public class LoginPageStepDefs implements En {
 
         Given("^HE I verify the HE login screen$",loginPage::verifyLoginScreen);
 
-        Given("^HE I navigate to Registration Intersect url$",loginPage::navigateToRegistrationPage);
+        Given("^HE I navigate to the Intersect Registration app$",loginPage::navigateToRegistrationPage);
 
-        Then ("^HE I select \"([^\"]*)\" and verify the appropriate text displayed$",loginPage::goToAppropriateRegistrationpage);
+        Then ("^HE I select \"([^\"]*)\" and verify that the appropriate text is displayed$",loginPage::goToAppropriateRegistrationpage);
 
 
     }

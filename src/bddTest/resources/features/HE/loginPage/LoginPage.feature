@@ -24,6 +24,6 @@ Feature: As an HE user I want to login to Intersect
 @MATCH-1846
 Scenario: As a potential Intersect user, I need to go down the appropriate HE or HS path in the registration url.
           So I can request the correct user account.
-  Given HE I navigate to Registration Intersect url
-  Then HE I select "Higher Education Staff Member" and verify the appropriate text displayed
-  Then HE I select "High School Staff Member" and verify the appropriate text displayed
+  Given HE I navigate to the Intersect Registration app
+  Then HE I select "Higher Education Staff Member" and verify that the appropriate text is displayed
+  Then HE I select "High School Staff Member" and verify that the appropriate text is displayed
