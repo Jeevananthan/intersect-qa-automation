@@ -204,7 +204,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Button Start Date is not showing.",
                 button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).isDisplayed());
         Assert.assertTrue("Button End Date is not showing.",
-                button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(4)")).isDisplayed());
+                button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).isDisplayed());
         Assert.assertTrue("Button Add Time Slot is not showing.",
                 button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).isDisplayed());
     }
