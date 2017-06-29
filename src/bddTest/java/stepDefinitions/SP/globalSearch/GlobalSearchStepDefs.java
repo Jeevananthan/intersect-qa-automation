@@ -1,5 +1,6 @@
 package stepDefinitions.SP.globalSearch;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.GlobalSearch;
 
@@ -29,5 +30,6 @@ public class GlobalSearchStepDefs implements En {
         Then("^SP I verify I can perform an advanced search utilizing any combination of fields for \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchFieldsReturnResults);
         Then("^SP Global real-time search returns search results for HE Accounts \"([^\"]*)\"$", globalSearch::verifyHEAccountSearchResults);
         And("^SP I set HE Account Subscriptions \"([^\"]*)\"$", globalSearch::setHEAccountSubscriptions);
+        Then("^SP I verify the real-time results return for global search are a partial and full match \"([^\"]*)\"$", globalSearch::verifyRealTimeSearchMatch);
     }
 }

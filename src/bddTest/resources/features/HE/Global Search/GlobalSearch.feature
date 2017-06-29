@@ -1,6 +1,5 @@
 @HE
 Feature: As a HE user, I want to be able to use the Global search to help me find records.
-
   @MATCH-1069
   Scenario: As a HE user, I need to be able to access Advanced Search for community entities.
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -132,9 +131,17 @@ Feature: As a HE user, I want to be able to use the Global search to help me fin
 
   @MATCH-1400
   Scenario: As a HE user I want to preform a global and advanced search for groups that do not return HS results.
-  So I can ensure only HS groups are returned.
+            So I can ensure only HS groups are returned.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify real-time search results do not return any results for HS groups "New Test HE Group"
     Then HE I verify advanced search results do not return any results for HS groups "New Test HE Group"
       | Groups |
+    And HE I successfully sign out
+
+  @MATCH-1054
+  Scenario: As a Purple user I want the global search box to return results based on a full match.
+            So the results returned to me are as accurate and relevant as possible.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the real-time results return for global search are a partial and full match "Adrian College"
+      | People | Institutions |
     And HE I successfully sign out
