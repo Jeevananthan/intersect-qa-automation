@@ -24,5 +24,9 @@ public class LoginPageStepDefs implements En {
 
         Given("^HE I verify the HE login screen$",loginPage::verifyLoginScreen);
 
+        And ("^HE I click the link \"([^\"]*)\"$",loginPage::clickLinkInRegisterationPage);
+
+        Then ("^HE I verify all field type in request user page$",loginPage::validateFieldsInRequestUserForm);
+
     }
 }
