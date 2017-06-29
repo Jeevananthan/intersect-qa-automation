@@ -259,3 +259,16 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
 
 
+  @MATCH-1849
+  Scenario: As a HS user, I need to be able to request a user account by providing the necessary information about myself.
+  So Support can provision my user account.
+
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "INFINITY INSTITUTE" in "High School Staff Member" registeration page
+    And HE I click the link "please complete this form."
+    Then HS I verify all field type in request user page
+      |firstName |lastName |email |verifyEmail |jobTitle |
+      |text      |text     |email |email       |text     |
+    And HS I enter the following data in request user page
+      |firstName |lastName |email                 |verifyEmail           |jobTitle |
+      |mahi      |qateam   |kpmahi93+12@gmail.com |kpmahi93+12@gmail.com |test role     |

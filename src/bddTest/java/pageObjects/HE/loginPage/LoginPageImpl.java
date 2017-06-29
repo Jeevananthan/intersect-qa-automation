@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
@@ -125,10 +126,54 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
     }
 
+    public void enterDataInRequestUserForm(DataTable dataTable){
+
+        List<Map<String,String>> fieldCollections = dataTable.asMaps(String.class,String.class);
+        for (Map<String,String> individualField : fieldCollections ) {
+            for (String key : individualField.keySet()) {
+                switch (key) {
+                    case "firstName":
+                         driver.findElement(By.name(key)).sendKeys(individualField.get(key));
+                        break;
+                    case "lastName":
+                        driver.findElement(By.name(key)).sendKeys(individualField.get(key));
+                        break;
+                    case "email":
+                        driver.findElement(By.name(key)).sendKeys(individualField.get(key));
+                        break;
+                    case "verifyEmail":
+                        driver.findElement(By.name(key)).sendKeys(individualField.get(key));
+                        break;
+                    case "jobTitle":
+                        driver.findElement(By.name(key)).sendKeys(individualField.get(key));
+                        break;
+                    case "authorizedToPostPublicInformation":
+                        driver.findElement(By.name(key)).sendKeys(individualField.get(key));
+                        break;
+                    case "schedulesVisits":
+                        driver.findElement(By.name(key)).sendKeys(individualField.get(key));
+                        break;
+                }
+            }
+        }
+
+        Actions ob = new Actions(driver);
+        ob.click(iamNotRobotChk());
+
+        //driver.executeScript("arguments[0].click();",iamNotRobotChk());
+
+        button("Request User").click();
+        if(text("Your request has been submitted.").isDisplayed()){
+                button("OK").click();
+        }
+
+
+    }
+
 
     public void searchForHEInstitution(String institutionName,String institutionType){
 
-        if(institutionType.equalsIgnoreCase("high school")){
+        if(institutionType.contains("High School")){
             button("High School Staff Member").click();
         }
         else{
@@ -216,6 +261,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             }
         }
 
+    }
+    private WebElement iamNotRobotChk() {
+        return driver.findElement(By.xpath("//span[@id='recaptcha-anchor']"));
     }
 
     private WebElement usernameTextbox() {
