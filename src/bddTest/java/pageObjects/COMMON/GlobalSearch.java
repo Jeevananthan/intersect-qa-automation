@@ -115,7 +115,9 @@ public class    GlobalSearch extends SeleniumBase {
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
         for (WebElement category : categories) {
-            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HE Accounts") || category.findElement(By.className("name")).getText().equalsIgnoreCase("College Core") || category.findElement(By.className("name")).getText().equalsIgnoreCase("People")||category.findElement(By.className("name")).getText().contains("Institutions")) {
+            String sectionName = category.findElement(By.cssSelector("div.name div.name")).getText();
+            if (sectionName.equalsIgnoreCase("HE Accounts") || sectionName.equalsIgnoreCase("College Core") || sectionName.equalsIgnoreCase("People")
+                    || sectionName.equalsIgnoreCase("Institutions")) {
                 institutionsReturned = true;
                 List<WebElement> options = category.findElements(By.className("result"));
                 for (WebElement option : options) {
@@ -127,7 +129,6 @@ public class    GlobalSearch extends SeleniumBase {
                 }
             }
         }
-
         Assert.assertTrue("No HE Institutions where returned on the search", institutionsReturned);
         Assert.assertTrue("Unable to click on " + optionToSelect, institutionClickedOn);
     }
