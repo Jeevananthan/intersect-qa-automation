@@ -256,3 +256,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     Then HS I make sure the Coeducational dropdown only displays appropriate options "coeducational"
       | Coed (school has male and female students) | All-male (school only has all-male students) | All-female (school only has all-female students) | Unknown |
     And HS I successfully sign out
+
+
+

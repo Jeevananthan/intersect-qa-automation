@@ -26,11 +26,11 @@ Feature: As an HE user I want to login to Intersect
             So Support can provision my user account.
 
     Given HE I navigate to Registration Intersect url
-    Then HE I select "Higher Education Staff Member" and verify the appropriate text displayed
+    And HE I search for "The University of Alabama" in "Higher Education Staff Member" registeration page
     And HE I click the link "please complete this form."
     Then HE I verify all field type in request user page
       |firstName |lastName |email |verifyEmail |jobTitle |authorizedToPostPublicInformation |schedulesVisits |
-      |text      |text     |text  |text        |text     |checkbox                          |checkbox        |
+      |text      |text     |email |email       |text     |checkbox                          |checkbox        |
 
 
 

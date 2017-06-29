@@ -125,39 +125,29 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
     }
 
-    public void goToAppropriateRegistrationpage(String buttonName){
 
-        Assert.assertTrue(buttonName+" button is not displayed in the registration page",button(buttonName).isDisplayed());
-        button(buttonName).click();
+    public void searchForHEInstitution(String institutionName,String institutionType){
 
-        //verifying the text 'Already have an account'
-        Assert.assertTrue("'Already have an account' text is not displayed in the registration page",text("Already have an account?").isDisplayed());
-        //verifying 'Sign in' button exists in registration page
-        Assert.assertTrue("'Sign in'  button is not displayed in the registration page",button("Sign In").isDisplayed());
-
-        if(buttonName.contains("Higher Education")){
-            String ActualText = driver.findElement(By.xpath("//div[@class='sixteen wide computer sixteen wide mobile sixteen wide tablet column']//p[3]")).getText();
-            String line1 = "Please note there can be multiple free accounts per higher education institution but only one of these";
-            String line2 = "accounts can be the primary user. The primary user account should be the main point of contact for";
-            String line3 = "your admissions office.";
-
-            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line1));
-            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line2));
-            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line3));
+        if(institutionType.equalsIgnoreCase("high school")){
+            button("High School Staff Member").click();
         }
         else{
-            String ActualText = driver.findElement(By.xpath("//div[@class='sixteen wide computer sixteen wide mobile sixteen wide tablet column']//p[3]")).getText();
-            String line1 = "Please note there can be multiple free accounts per high school but only one of these accounts can ";
-            String line2 = "be the primary user. The primary user account should be the main point of contact for your guidance";
-            String line3 = " office.";
-
-            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line1));
-            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line2));
-            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line3));
-
+            button("Higher Education Staff Member").click();
         }
-    }
 
+        driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
+        button("Search").click();
+
+        while(button("More Institutions").isDisplayed()){
+            button("More Institutions").click();
+        }
+
+        link(institutionName).click();
+        Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
+
+        //link("Back to search").click();
+
+    }
     private void attemptLogin(String userType, String errorMessage) {
         openLoginPage();
         String username = GetProperties.get("he."+ userType + ".username");
@@ -194,31 +184,31 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             for (String key : individualField.keySet()) {
                 switch (key) {
                     case "firstName":
-                        String actualFirstName = driver.findElement(By.name(key)).getAttribute("value");
+                        String actualFirstName = driver.findElement(By.name(key)).getAttribute("type");
                         Assert.assertTrue("First Name was not as expected.", actualFirstName.contains(individualField.get(key)));
                         break;
                     case "lastName":
-                        String actualLastName = driver.findElement(By.name(key)).getAttribute("value");
+                        String actualLastName = driver.findElement(By.name(key)).getAttribute("type");
                         Assert.assertTrue("Last Name was not as expected.", actualLastName.equals(individualField.get(key)));
                         break;
                     case "email":
-                        String actualEmailAddress = driver.findElement(By.name(key)).getAttribute("value");
+                        String actualEmailAddress = driver.findElement(By.name(key)).getAttribute("type");
                         Assert.assertTrue("Work Email Address was not as expected.", actualEmailAddress.equals(individualField.get(key)));
                         break;
                     case "verifyEmail":
-                        String actualPhone = driver.findElement(By.name(key)).getAttribute("value");
+                        String actualPhone = driver.findElement(By.name(key)).getAttribute("type");
                         Assert.assertTrue("Phone was not as expected.", actualPhone.equals(individualField.get(key)));
                         break;
                     case "jobTitle":
-                        String actualSchoolInstitutionName = driver.findElement(By.name(key)).getAttribute("value");
+                        String actualSchoolInstitutionName = driver.findElement(By.name(key)).getAttribute("type");
                         Assert.assertTrue("School / Institution Name was not as expected.", actualSchoolInstitutionName.equals(individualField.get(key)));
                         break;
                     case "authorizedToPostPublicInformation":
-                        String actualMessage = driver.findElement(By.name(key)).getText();
+                        String actualMessage = driver.findElement(By.name(key)).getAttribute("type");
                         Assert.assertTrue("Messages was not as expected.", actualMessage.equals(individualField.get(key)));
                         break;
                     case "schedulesVisits":
-                        String actualSchedule = driver.findElement(By.name(key)).getAttribute("value");
+                        String actualSchedule = driver.findElement(By.name(key)).getAttribute("type");
                         Assert.assertTrue("First Name was not as expected.", actualSchedule.contains(individualField.get(key)));
                         break;
 
