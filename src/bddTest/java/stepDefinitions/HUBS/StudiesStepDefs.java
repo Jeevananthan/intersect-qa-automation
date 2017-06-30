@@ -17,9 +17,6 @@ public class StudiesStepDefs implements En{
         StudiesPageImpl studiesPage = new StudiesPageImpl();
         StudiesEditPageImpl studiesEditPage = new StudiesEditPageImpl();
 
-
-        And("^HUBS I open the \"([^\"]*)\" tab in the preview$", hemPreviewPage::clickMenuButton);
-
         Then("^HUBS All the elements of the studies tab should be displayed$", studiesPage::verifyAllElementsDisplayed);
 
         And("^HUBS I take note of the values from the following fields:$", (DataTable stringsDataTable) -> {
