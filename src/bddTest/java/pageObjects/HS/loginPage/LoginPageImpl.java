@@ -42,6 +42,26 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     }
 
+
+    public void verifyHSAddressPage(String schoolName,String navianceOrNonnaviance){
+
+        Assert.assertTrue("High School name is not displayed", text(schoolName).isDisplayed());
+        Assert.assertTrue("High School address is not displayed", driver.findElement(By.xpath("//div[@class='adr']")).isDisplayed());
+
+        if(navianceOrNonnaviance.equalsIgnoreCase("naviance")){
+            Assert.assertTrue("'access counselor community' text is not displayed for naviance HS", text(" Please access the Counselor Community via").isDisplayed());
+            Assert.assertTrue("'naviance' link is not displayed for naviance HS", link("Naviance").isDisplayed());
+            Assert.assertTrue("'sign in ' button is displayed for naviance HS", !button("Sign In").isDisplayed());
+        }
+        else{
+            Assert.assertTrue("'sign in ' button is not displayed for non-naviance HS", button("Sign In").isDisplayed());
+            Assert.assertTrue("'Already have an account? ' text is not displayed for non-naviance HS", text("Already have an account?").isDisplayed());
+            Assert.assertTrue("'please complete this form' link is not displayed for non-naviance HS", link("please complete this form.").isDisplayed());
+
+        }
+
+    }
+
     private void openHSLoginPage() {
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();

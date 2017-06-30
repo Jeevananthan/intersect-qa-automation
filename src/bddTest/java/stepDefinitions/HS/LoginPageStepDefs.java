@@ -15,5 +15,7 @@ public class LoginPageStepDefs implements En {
 
         Then("^HS I verify that the HS login page is displayed$", loginPage::verifyHSPage);
 
+        Then ("^HS I verify the address page of the \"([^\"]*)\" which is \"([^\"]*)\" school$",loginPage::verifyHSAddressPage);
+
     }
 }

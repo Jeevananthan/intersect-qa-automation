@@ -256,3 +256,18 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     Then HS I make sure the Coeducational dropdown only displays appropriate options "coeducational"
       | Coed (school has male and female students) | All-male (school only has all-male students) | All-female (school only has all-female students) | Unknown |
     And HS I successfully sign out
+
+
+
+  @MATCH-1848
+  Scenario: As a HS user, I need to see particular information and instructions on a HS Reg Institution Page.
+            So I can verify the institution is my high school and request a user account.
+#Some below steps are already defined in branch MAHI-MATCH-1857
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "INFINITY INSTITUTE" in "High School Staff Member" registeration page
+    Then HS I verify the address page of the "INFINITY INSTITUTE" which is "non-naviance" school
+    And HE I click the link "please complete this form."
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Int QA High School 4" in "High School Staff Member" registeration page
+    Then HS I verify the address page of the "Int QA High School 4" which is "naviance" school
+    And HE I click the link "Naviance"
