@@ -256,3 +256,14 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     Then HS I make sure the Coeducational dropdown only displays appropriate options "coeducational"
       | Coed (school has male and female students) | All-male (school only has all-male students) | All-female (school only has all-female students) | Unknown |
     And HS I successfully sign out
+
+
+    @MATCH-2052
+  Scenario: As a HS user, I need to be able to request a new user account AND a new high school institution during the registration process.
+            So I can still complete the registration workflow process when I am unable to successfully search and locate my high school.
+#below steps are already defined in MATCH-1857
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Request new institution" in "High School Staff Member" registeration page
+    Then HS I verify all field type in request user page
+      |firstName |lastName |email |verifyEmail |jobTitle |
+      |text      |text     |email |email       |text     |
