@@ -2,6 +2,8 @@
 Feature:  As an HS user, I want to be able to access the features of the RepVisits module.
 
 
+
+
   @MATCH-1779 @MATCH-1735 @NotInQA
   Scenario: As a HS RepVisits user I need to be able to navigate to a page for availability settings
             So that I can manage my college visits within the times that I am typically available.
@@ -83,9 +85,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |July 23 2017         |June 23 2018      |
       |August 15 2017       |September 23 2017 |
 
+
   @MATCH-1578
   Scenario: As a HS RepVisits user I want to be able to use the Availability and Settings tab of RepVisits to Set Visit Scheduling
-  I want to able to set the scheduling new visits in advance and set the cancelling or rescheduling visits in advance
+    I want to able to set the scheduling new visits in advance and set the cancelling or rescheduling visits in advance
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "56"
     Then HS I go to the Counselor Community
@@ -101,12 +104,19 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I successfully sign out
 
+
   @MATCH-1576
-  Scenario: As a HS RepVisits user, I want to be able to Block specific days and date ranges in the Holidays tab of the Availability and Settings page
+  Scenario Outline: As a HS RepVisits user, I want to be able to Block specific days and date ranges in the Holidays tab of the Availability and Settings page
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set the Blocked date as "September 23 2017" and select the reason as "School Event" in the Holiday tab
+    Then HS I set the Blocked date as "<BlockedDate>" and select the reason as "<Reason>" in the Holiday tab
     Then HS I go to the Counselor Community
-    Then HS I verify the "September 23 2017" and "September 23 2017" date with "School Event" was present in the Holidays tab in the Availability & Settings page in RepVisits
-    Then HS I Click the Remove option for the date as "September 23 2017" in the Holiday tab
+    Then HS I verify the "<BlockedDate>" and "<BlockedDate>" date with "<Reason>" was present in the Holidays tab in the Availability & Settings page in RepVisits
+    Then HS I Click the Remove option for the date as "<BlockedDate>" in the Holiday tab
     Then HS I go to the Counselor Community
-    Then HS I verify the "September 23 2017" and "September 23 2017" date with "School Event" was not present in the Holidays tab in the Availability & Settings page in RepVisits
+    Then HS I verify the "<BlockedDate>" and "<BlockedDate>" date with "<Reason>" was not present in the Holidays tab in the Availability & Settings page in RepVisits
+    And HS I successfully sign out
+      Examples:
+      |BlockedDate          |Reason       |
+      |September 23 2017    |School Event |
+      |October 15 2017      |Holiday      |
+

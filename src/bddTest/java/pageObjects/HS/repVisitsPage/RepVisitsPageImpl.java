@@ -322,13 +322,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
-        button(By.cssSelector("button[class='ui button _2TgAEzclbuAyQiI-jXUoxe']")).click();
+        chooseDates().click();
         setDate(blockdate);
-        WebElement selectReason = driver.findElement(By.cssSelector("div[class='ui button floating labeled icon _2r0LAIwbM94mTAqf-2YGUG dropdown']"));
-        selectReason.click();
-        getDriver().findElement(By.xpath("//span[text()='" + reason + "']")).click();
-        button(By.cssSelector("button[class='ui primary button _2r0LAIwbM94mTAqf-2YGUG']")).click();
-
+        selectReason().click();
+        pickReason(reason).click();
+        addBlockedTime().click();
     }
 
     public void RemoveBlockedDate(String removeBlockdate){
@@ -431,7 +429,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
-
+    private WebElement chooseDates(){
+        return button(By.cssSelector("button[class='ui button _2TgAEzclbuAyQiI-jXUoxe']"));
+    }
+    private WebElement selectReason(){
+        return driver.findElement(By.cssSelector("div[class='ui button floating labeled icon _2r0LAIwbM94mTAqf-2YGUG dropdown']"));
+    }
+    private WebElement pickReason(String reason){
+        return getDriver().findElement(By.xpath("//span[text()='" + reason + "']"));
+    }
+    private WebElement addBlockedTime(){
+        return button(By.cssSelector("button[class='ui primary button _2r0LAIwbM94mTAqf-2YGUG']"));
+    }
 
 }
 
