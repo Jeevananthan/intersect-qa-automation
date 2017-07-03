@@ -100,3 +100,28 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I successfully sign out
+
+
+  @MATCH-1631
+
+  Scenario: As a HS RepVisits user I want to be able to cancel the fair attendee for the registered fairs
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the following data to create the College Fair
+      |College Fair Name    |Date             |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|Instructions for College Representatives|Settings|Email Message to Colleges After Confirmation|
+      |QA Fair New Overview |September 23 2017|09:00 AM  |10:00 AM|September 20 2017|$25 |25                    |100                        |Should be here before 15 minutes        |Yes     |Your College fair event is conformed        |
+    Then HS I verify the Success Message for the College Fair "QA Fair New"
+    Then HS I Click on the "Add Attendees" button in the success page of the college fair
+    Then HS I Add the following Attendee "NidhuMontevallo ThomasAdmin" from the results in the Add Attendee pop-up page
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    Then HS I Click on the View Details button for the College Fair Event "QA Fair New Overview"
+    Then HS I verify the Fair Details in the Fair Details Page
+     |College Fair Name   |Date                           | Instructions for College Representatives |
+     |QA Fair New Overview|September 23, 2017 - 1 hr visit| Should be here before 15 minutes         |
+    Then HS I verify the list of registered college fair attendees for the Name "University of Montevallo"
+      |Name                     |Contact                                                  |Notes|Status   |
+      |University of Montevallo |NidhuMontevallo ThomasAdmin,nidhu.thomas@hobsons.com,513 |     |Attending|
+
+
+
+
+

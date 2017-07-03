@@ -40,5 +40,15 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesSchedulingNewVisits);
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
+
+        Then("^HS I Add the following Attendee \"([^\"]*)\" from the results in the Add Attendee pop-up page$",repVisits::accessAddAttendeePopUp);
+
+        Then("^HS I Click on the \"([^\"]*)\" button in the success page of the Add Attendees page$",repVisits::accessSuccessMessageforAddAttendees);
+
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessCollegeFairOverviewPage);
+
+        Then("^HS I verify the Fair Details in the Fair Details Page$",repVisits::verifyCollegeFairDetailsPage);
+
+        Then("^HS I verify the list of registered college fair attendees for the Name \"([^\"]*)\"$",repVisits::verifyListofRegisteredAttendee);
     }
 }
