@@ -114,23 +114,18 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void createHigherEducationUser(DataTable dataTable){
+    public void createHigherEducationUser(String firstName, String lastName,String Email,String role){
 
         navBar.goToUsers();
         button("Add New User").click();
-        Map<String,String> entity = dataTable.asMap(String.class,String.class);
-        for (String field : entity.keySet()) {
 
-            if(field.equalsIgnoreCase("role")){
+        textbox("First Name").sendKeys(firstName);
+        textbox("Last Name").sendKeys(lastName);
+        textbox("Email").sendKeys(Email);
+        driver.findElement(By.xpath("//input[@aria-label='"+role+"']")).click();
 
-                driver.findElement(By.xpath("//input[@name='"+field+"' and @aria-label='"+entity.get(field)+"']")).click();
-            }
-            if (textbox(field).isDisplayed()) {
-                textbox(field).sendKeys(entity.get(field));
-            } else {
-                driver.findElement(By.cssSelector("input[value='"+entity.get(field).toLowerCase()+"']")).click();
-            }
-        }
+
+//
 
         button("SAVE").click();
     }
