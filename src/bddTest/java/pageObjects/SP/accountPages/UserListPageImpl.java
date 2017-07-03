@@ -1,11 +1,14 @@
 package pageObjects.SP.accountPages;
 
+import cucumber.api.DataTable;
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+
+import java.util.Map;
 
 public class UserListPageImpl extends PageObjectFacadeImpl {
 
@@ -30,6 +33,34 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         } else {
             Assert.fail("Valid user actions are \"active\" and \"inactive\".");
         }
+    }
+
+    public void fillFormInCreateUserAndVerifyMessaging(DataTable dataTable){
+        Map<String,String> data = dataTable.asMap(String.class,String.class);
+        for (String field : data.keySet()){
+            if(field.equalsIgnoreCase("role")){
+                driver.findElement(By.xpath("//input[@name='role' and @value='"+data.get(field)+"']")).click();
+            }
+                else{
+                textbox(field).sendKeys(data.get(field));
+            }
+        }
+        button("Save").click();
+        Assert.assertTrue("\"Please enter a value\" message is not displayed",text("Please enter a value").isDisplayed());
+
+    }
+
+    public void createUserAndSubmit(DataTable dataTable){
+        Map<String,String> data = dataTable.asMap(String.class,String.class);
+        for (String field : data.keySet()){
+            if(field.equalsIgnoreCase("role")){
+                driver.findElement(By.xpath("//input[@name='role' and @value='"+data.get(field)+"']")).click();
+            }
+            else{
+                textbox(field).sendKeys(data.get(field));
+            }
+        }
+        button("Save").click();
     }
 
 

@@ -116,7 +116,7 @@ public class    GlobalSearch extends SeleniumBase {
         boolean institutionClickedOn = false;
         for (WebElement category : categories) {
             String sectionName = category.findElement(By.cssSelector("div.name div.name")).getText();
-            if (sectionName.equalsIgnoreCase("HE Accounts") || sectionName.equalsIgnoreCase("College Core") || sectionName.equalsIgnoreCase("People")
+            if (sectionName.equalsIgnoreCase("HE Accounts") || sectionName.equalsIgnoreCase("College Core") || sectionName.equalsIgnoreCase("HS Accounts") || sectionName.equalsIgnoreCase("People")
                     || sectionName.equalsIgnoreCase("Institutions")) {
                 institutionsReturned = true;
                 List<WebElement> options = category.findElements(By.className("result"));
