@@ -11,6 +11,7 @@ import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.fail;
 
@@ -130,6 +131,93 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         loginButton().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Login error message is not displayed as expected!\nExpected: "+errorMessage+"\n",text(errorMessage).isDisplayed());
+    }
+    public void navigateToRegistrationPage(){
+        load(GetProperties.get("he.registration.url"));
+        Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
+    }
+
+    public void searchForHEInstitutionWithInvalidData(String institutionName,String institutionType){
+
+        if(institutionType.contains("High School")){
+            button("High School Staff Member").click();
+        }
+        else{
+            button("Higher Education Staff Member").click();
+        }
+
+        driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
+        button("Search").click();
+
+        while(button("More Institutions").isDisplayed()){
+            button("More Institutions").click();
+        }
+        if(link(institutionName).isEnabled()){
+            link(institutionName).click();
+            Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
+        }
+       else{
+            Assert.assertTrue("Institution Page is not loaded",text("No Institutions Found").isDisplayed());
+            link("Request new institution").click();
+        }
+
+        //link("Back to search").click();
+
+    }
+
+    public void clickLinkInRegisterationPage(String linkToClick){
+        link(linkToClick).click();
+    }
+    public void validateFieldsInRequestUserForm(DataTable dataTable){
+
+        //validating header of this page
+        Assert.assertTrue("Header of this page doesnot contains 'Request User Account' text",text("Request User Account").isDisplayed());
+        //back - link validation
+        Assert.assertTrue("Back option is not displayed",link("Back").isDisplayed());
+        //Already have an account? -text validation
+        Assert.assertTrue("'Already have an account?' text is not displayed",text("Already have an account?").isDisplayed());
+        //Cancel -button validation
+        Assert.assertTrue("'Cancel' button is not displayed",button("Cancel").isDisplayed());
+        //Request User -button validation
+        Assert.assertTrue("'Request User' button is not displayed",button("Request User").isDisplayed());
+
+        List<Map<String,String>> fieldCollections = dataTable.asMaps(String.class,String.class);
+        for (Map<String,String> individualField : fieldCollections ) {
+            for (String key : individualField.keySet()) {
+                switch (key) {
+                    case "firstName":
+                        String actualFirstName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("First Name was not as expected.", actualFirstName.contains(individualField.get(key)));
+                        break;
+                    case "lastName":
+                        String actualLastName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Last Name was not as expected.", actualLastName.equals(individualField.get(key)));
+                        break;
+                    case "email":
+                        String actualEmailAddress = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Work Email Address was not as expected.", actualEmailAddress.equals(individualField.get(key)));
+                        break;
+                    case "verifyEmail":
+                        String actualPhone = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Phone was not as expected.", actualPhone.equals(individualField.get(key)));
+                        break;
+                    case "jobTitle":
+                        String actualSchoolInstitutionName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("School / Institution Name was not as expected.", actualSchoolInstitutionName.equals(individualField.get(key)));
+                        break;
+                    case "authorizedToPostPublicInformation":
+                        String actualMessage = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Messages was not as expected.", actualMessage.equals(individualField.get(key)));
+                        break;
+                    case "schedulesVisits":
+                        String actualSchedule = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("First Name was not as expected.", actualSchedule.contains(individualField.get(key)));
+                        break;
+
+                }
+            }
+        }
+
     }
 
     private WebElement usernameTextbox() {

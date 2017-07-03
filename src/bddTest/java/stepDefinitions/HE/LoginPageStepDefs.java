@@ -24,5 +24,14 @@ public class LoginPageStepDefs implements En {
 
         Given("^HE I verify the HE login screen$",loginPage::verifyLoginScreen);
 
+        Given("^HE I navigate to Registration Intersect url$",loginPage::navigateToRegistrationPage);
+
+        And("^HE I search for \"([^\"]*)\" in \"([^\"]*)\" register page$",loginPage::searchForHEInstitutionWithInvalidData);
+
+        And ("^HE I click the link \"([^\"]*)\"$",loginPage::clickLinkInRegisterationPage);
+
+        Then ("^HE I verify all field type in request user page$",loginPage::validateFieldsInRequestUserForm);
+
+
     }
 }
