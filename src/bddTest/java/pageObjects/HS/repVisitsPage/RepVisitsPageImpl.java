@@ -109,7 +109,32 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
     }
+    public void verifyinvalidcontact(String contactName){
+        String value = null;
+        getSearchBoxforContact().sendKeys(contactName);
+        getSearchButtonforContact().click();
+        Assert.assertTrue("the message of 'Your search did not return any contacts.' is not displayed",text("Your search did not return any contacts.").isDisplayed());
+    }
 
+    public void searchforContact(String contactName){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        getSearchBoxforContact().sendKeys(contactName);
+        getSearchButtonforContact().click();
+        Assert.assertTrue("the specified schoolname is not displayed",text("").isDisplayed());
+        Assert.assertTrue("Show more button is not displayed",button("").isDisplayed());
+    }
+    public void partialsearchforContact(String contactName) {
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        getSearchBoxforContact().sendKeys(contactName);
+        getSearchButtonforContact().click();
+        List<WebElement> searchedValueOfContactName = driver.findElements(By.xpath(""));
+        for (int i = 0; i < searchedValueOfContactName.size(); i++) {
+            String value = searchedValueOfContactName.get(i).getText();
+            Assert.assertTrue("Partial matching on institution name is not available", value.contains(contactName));
+        }
+    }
     public void setPreventCollegesSchedulingNewVisits(String Numberofdays){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -322,6 +347,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+    private WebElement getContactsBtn() {
+        return link("Contacts");
+    }
+    private WebElement getSearchBoxforContact() { return textbox("");}
+    private WebElement getSearchButtonforContact() { return driver.findElement(By.className(""));}
 }
 
 

@@ -1,15 +1,14 @@
 package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.cs.A;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -66,9 +65,34 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         getSearchAndScheduleBtn().click();
         getSearchBox().sendKeys(schoolName);
+       }
+
+    public void verifyinvalidcontact(String contactName){
+        String value = null;
+        getSearchBoxforContact().sendKeys(contactName);
         getSearchButton().click();
+        Assert.assertTrue("the message of 'Your search did not return any contacts.' is not displayed",text("Your search did not return any contacts.").isDisplayed());
     }
 
+    public void searchforContact(String contactName){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        getSearchBoxforContact().sendKeys(contactName);
+        getSearchButtonforContact().click();
+        Assert.assertTrue("the specified schoolname is not displayed",text("").isDisplayed());
+        Assert.assertTrue("Show more button is not displayed",button("").isDisplayed());
+    }
+    public void partialsearchforContact(String contactName){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        getSearchBoxforContact().sendKeys(contactName);
+        getSearchButtonforContact().click();
+        List<WebElement> searchedValueOfContactName = driver.findElements(By.xpath(""));
+        for(int i=0;i<searchedValueOfContactName.size();i++){
+            String value = searchedValueOfContactName.get(i).getText();
+            Assert.assertTrue("Partial matching on institution name is not available",value.contains(contactName));
+        }
+    }
     public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
         WebElement schoolLocation = text(location);
         getParent(schoolLocation).findElement(By.tagName("a")).click();
@@ -105,7 +129,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
-
         navBar.goToRepVisits();
         getTravelPlanBtn().click();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
@@ -135,7 +158,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return link("Notifications");
     }
     private WebElement getSearchBox() { return textbox("Enter a school name or location");}
+    private WebElement getSearchBoxforContact() { return textbox("");}
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
+    private WebElement getSearchButtonforContact() { return driver.findElement(By.className(""));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.className("check-repvisits-link")); }

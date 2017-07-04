@@ -40,5 +40,11 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesSchedulingNewVisits);
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
+
+        And("^HS I search for \"([^\"]*)\" in Contacts$", repVisits::searchforContact);
+
+        And("^HS I search for partial data of \"([^\"]*)\" in Contacts$", repVisits::partialsearchforContact);
+
+        And("^HS I search for invalid data of \"([^\"]*)\" in Contacts$", repVisits::verifyinvalidcontact);
     }
 }

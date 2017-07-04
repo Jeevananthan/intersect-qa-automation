@@ -29,5 +29,12 @@ public class RepVisitsPageStepDefs implements En {
         Then ("^HE I verify the upsell messaging on the Travel Plan page in RepVisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
 
         Then("^HE I verify the Check RepVisits Availability button$", repVisits::verifyCheckRepVisitsAvailabilityButton);
+
+        And("^HE I search for \"([^\"]*)\" in Contacts$", repVisits::searchforContact);
+
+        And("^HE I search for partial data of \"([^\"]*)\" in Contacts$", repVisits::partialsearchforContact);
+
+        And("^HE I search for invalid data of \"([^\"]*)\" in Contacts$", repVisits::verifyinvalidcontact);
     }
+
 }

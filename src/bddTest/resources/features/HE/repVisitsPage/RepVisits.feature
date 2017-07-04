@@ -47,3 +47,17 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     Then HE I verify the Check RepVisits Availability button
     And HE I successfully sign out
 
+  @MATCH-1881
+  Scenario: As an HE premium user or HS user I need be able to search through my RepVisits Contacts
+  so I can quickly find the contact I am looking to view.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "Tom" in Contacts
+    And HE I search for invalid data of "invalid data" in Contacts
+    And HE I search for partial data of "invalid data" in Contacts
+    And HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I search for "Tom" in Contacts
+    And HS I search for invalid data of "invalid data" in Contacts
+    And HS I search for partial data of "invalid data" in Contacts
+    And HS I successfully sign out
