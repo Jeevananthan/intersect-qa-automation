@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -318,8 +320,73 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyOverviewPage();
     }
 
+    public void verifyRepvisitsSetupWizardMessagingOptions(DataTable dataTable) {
+        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
+        // getStartedBtn().click();
+        waitUntilPageFinishLoading();
+        while (!driver.findElement(By.xpath("//div[@class='active step' and @name='Messaging Options']")).isDisplayed()) {
+            button("//button/span[text()='Next']").click();
+            waitUntilPageFinishLoading();
+        }
+        //verify UI
+        Assert.assertTrue("Confirmation Message header is not showing", text("Confirmation Message").isDisplayed());
+        Assert.assertTrue("Special Instruction for RepVisits header is not showing", text("Special Instruction for RepVisits").isDisplayed());
+        Assert.assertTrue("Confirmation message Information Label text is not showing", getDriver().findElement(By.cssSelector("label[for='emailInstructions']")).getText().contains("When appointments are confirmed, we will automatically email the higher education institution and include appointment details as well as your contact information. If you would like to add additional information, you can do so here."));
+        Assert.assertTrue("webInstructions Message text is not showing", getDriver().findElement(By.cssSelector("label[for='webInstructions']")).getText().contains("Is there anything you would like the representative to know before scheduling a visit? If so, include that information here. Please note we will display your contact information and the school's address."));
+        Assert.assertTrue("Email Instructions textbox is not showing", getDriver().findElement(By.xpath("//textarea[@id='emailInstructions']")).isDisplayed());
+        Assert.assertTrue("Web Instructions textbox is not showing", getDriver().findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']")).isDisplayed());
+        Assert.assertTrue(button("Back").isDisplayed());
+        Assert.assertTrue(button("Next").isDisplayed());
+
+        List<Map<String,String>> entities = dataTable.asMaps(String.class,String.class);
+        for (Map<String,String> messageData : entities ) {
+            for (String key : messageData.keySet()) {
+                switch (key) {
+                    // This is where we verify the actual editable values on the screen.
+                    case "Confirmation Message":
+                        String actualConfirmationMessage = driver.findElement(By.xpath("//textarea[@id='emailInstructions']")).getText();
+                        Assert.assertTrue("'Confirmation Message' value was not as expected.", actualConfirmationMessage.contains(messageData.get(key)));
+                        break;
+                    case "Special Instruction for RepVisits":
+                        String actualSpecialInstructionforRepVisits = driver.findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']")).getText();
+                        Assert.assertTrue("'Special Instruction for RepVisits' were not set as expected.", actualSpecialInstructionforRepVisits.equals(messageData.get(key)));
+                        break;
+                }
+            }
+        }
+    }
+
+    public void accessRepvisitsSetupWizardMessagingOptions(DataTable dataTable){
+        List<Map<String,String>> entities = dataTable.asMaps(String.class,String.class);
+        for (Map<String,String> messageData : entities ) {
+            for (String key : messageData.keySet()) {
+                switch (key) {
+                    case "Confirmation Message":
+                        WebElement actualConfirmationMessage = driver.findElement(By.xpath("//textarea[@id='emailInstructions']"));
+                        actualConfirmationMessage.sendKeys(messageData.get(key));
+                        break;
+                    case "Special Instruction for RepVisits":
+                        WebElement actualSpecialInstructionforRepVisits = driver.findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']"));
+                        actualSpecialInstructionforRepVisits.sendKeys(messageData.get(key));
+                        break;
+                    case "Button to Click":
+                        if (messageData.get(key).equals("Back")) {
+                            driver.findElement(By.xpath("//button/span[text()='Back']")).click();
+                           } else if (messageData.get(key).equals("Next")) {
+                             driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+                            } else {
+                             fail("The given option is not a valid one");
+                            }
+                        break;
+                }
+            }
+        }
+    }
     //locators
-    private boolean isLinkActive(WebElement link) {
+    private WebElement getStartedBtn() {
+        return button(By.xpath("//button/span[text()='Get Started!']"));
+    }
+      private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
 }

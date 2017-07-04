@@ -100,3 +100,25 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I successfully sign out
+
+  @MATCH-1947
+  Scenario: As a HS RepVisits user I want to be able to use the rep-visits setup page to set the Messaging options
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the Messaging Options Page in the repvists setup wizard
+      ||
+      ||
+    Then HS I enter the following message in the Message Option page for Repvists Setup wizard
+      |Confirmation Message                     |Special Instruction for RepVisits          |Button to Click|
+      |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|Next           |
+    Then HS I verify the Messaging Options Page in the repvists setup wizard
+      |Confirmation Message                     |Special Instruction for RepVisits          |
+      |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|
+    Then HS I enter the following message in the Message Option page for Repvists Setup wizard
+      |Confirmation Message                          |Special Instruction for RepVisits               |Button to Click|
+      |Confirmation Message for visits and Fairs Back|Special Instructions for the repvisits User Back|Back           |
+    Then HS I verify the Messaging Options Page in the repvists setup wizard
+      |Confirmation Message                     |Special Instruction for RepVisits          |
+      |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|
+
+
+
