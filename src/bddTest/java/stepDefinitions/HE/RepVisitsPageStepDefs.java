@@ -30,6 +30,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the Check RepVisits Availability button$", repVisits::verifyCheckRepVisitsAvailabilityButton);
 
+        And("^HE I verify empty contacts page in Contacts$", repVisits::verifyEmptyContactPage);
+
+        And("^HE I verify full contacts page in Contacts$", repVisits::verifyFullContactPage);
+
+        And("^HE I verify contacts details  in Contacts$", repVisits::verifyContactDetails);
+
         And("^HE I search for \"([^\"]*)\" in Contacts$", repVisits::searchforContact);
 
         And("^HE I search for partial data of \"([^\"]*)\" in Contacts$", repVisits::partialsearchforContact);

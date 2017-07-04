@@ -50,6 +50,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyEmptyContactPage(){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contact Header is not displayed",text("").isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",text("").isDisplayed());
+
+    }
+    public void verifyFullContactPage(){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contact Header is not displayed",text("").isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",text("").isDisplayed());
+        List<WebElement> searchedValueOfName = driver.findElements(By.xpath(""));
+        int size = searchedValueOfName.size();
+        Assert.assertTrue("RepVisits contact are not displayed",size>0);
+
+    }
+    public void verifyContactDetails(DataTable dataTable){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        List<String> list = dataTable.asList(String.class);
+        for (String repVisitsSubItem : list) {
+            Assert.assertTrue(repVisitsSubItem + " is not showing.",driver.findElement(By.xpath("")).isDisplayed());
+        }
+    }
     public void verifyAvailabilitySettings(DataTable dataTable){
         navBar.goToRepVisits();
         link("Availability & Settings").click();

@@ -67,6 +67,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchBox().sendKeys(schoolName);
        }
 
+    public void verifyEmptyContactPage(){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contact Header is not displayed",text("").isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",text("").isDisplayed());
+
+    }
+    public void verifyFullContactPage(){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contact Header is not displayed",text("").isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",text("").isDisplayed());
+        List<WebElement> searchedValueOfName = driver.findElements(By.xpath(""));
+        int size = searchedValueOfName.size();
+        Assert.assertTrue("RepVisits contact are not displayed",size>0);
+
+    }
+    public void verifyContactDetails(DataTable dataTable){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        List<String> list = dataTable.asList(String.class);
+        for (String repVisitsSubItem : list) {
+            Assert.assertTrue(repVisitsSubItem + " is not showing.",driver.findElement(By.xpath("")).isDisplayed());
+        }
+    }
     public void verifyinvalidcontact(String contactName){
         String value = null;
         getSearchBoxforContact().sendKeys(contactName);
@@ -124,9 +149,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button(schoolName).click();
         waitUntilPageFinishLoading();
     }
-
-
-
 
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
         navBar.goToRepVisits();
