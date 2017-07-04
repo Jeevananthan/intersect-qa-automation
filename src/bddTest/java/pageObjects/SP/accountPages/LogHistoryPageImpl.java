@@ -121,16 +121,70 @@ public class LogHistoryPageImpl extends PageObjectFacadeImpl{
                 break;
 
             case "Last 30 Days":
-                List<WebElement> rows = driver.findElements(By.xpath("//table[@class='ui table']/tbody/tr"));
-                int  rowCount = rows.size();
-                for(int row =1;row<=rowCount;row++){
-                    String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr["+row+"]/td/span[1]")).getText();
-                    String ExpectedDate = returnSubtractedDteWithGivenDays(0,30,0);
-                    if (Actualdate.contains(ExpectedDate)) {
-                        logger.info("Log History results is verified for 'Last 30 Days' option");
+                if(driver.findElements(By.cssSelector("div[class='ui info message']>span")).size() !=0){
+                    logger.info("No ''log Results'' are displayed for the selection 'Last 30 Days' option");
+
+                } else {
+                    List<WebElement> rows = driver.findElements(By.xpath("//table[@class='ui table']/tbody/tr"));
+                    int rowCount = rows.size();
+                    for (int row = 1; row <= rowCount; row++) {
+                        String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr[" + row + "]/td/span[1]")).getText();
+                        String ExpectedDate = returnSubtractedDteWithGivenDays(0, 30, 0);
+                        if (Actualdate.contains(ExpectedDate)) {
+                            logger.info("Log History results is verified for 'Last 30 Days' option");
+                        }
                     }
                 }
                 break;
+
+            case "Last Week":
+
+                if(driver.findElements(By.cssSelector("div[class='ui info message']>span")).size() !=0){
+                    logger.info("No ''log Results'' are displayed for the selection 'Last Week' option");
+
+                } else {
+                    List<WebElement> rows = driver.findElements(By.xpath("//table[@class='ui table']/tbody/tr"));
+                    int  rowCount = rows.size();
+                    for(int row =1;row<=rowCount;row++){
+                        String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr["+row+"]/td/span[1]")).getText();
+
+                        for (int daysBetweenAWeek= 6;daysBetweenAWeek>=0;daysBetweenAWeek--){
+                            String ExpectedDate = returnSubtractedDteWithGivenDays(0,daysBetweenAWeek,0);
+                            if (Actualdate.contains(ExpectedDate)) {
+                                logger.info("Log History results is verified for 'Last Week' option");
+                            }
+
+                        }
+
+                    }
+                }
+                break;
+
+            case "Last Month":
+
+                if(driver.findElements(By.cssSelector("div[class='ui info message']>span")).size() !=0){
+                    logger.info("No ''log Results'' are displayed for the selection 'Last Month' option");
+
+                } else {
+                    List<WebElement> rows = driver.findElements(By.xpath("//table[@class='ui table']/tbody/tr"));
+                    int  rowCount = rows.size();
+                    for(int row =1;row<=rowCount;row++){
+                        String Actualdate = driver.findElement(By.xpath("//table[@class='ui table']/tbody/tr["+row+"]/td/span[1]")).getText();
+
+                        for (int daysBetweenAMonth= 29;daysBetweenAMonth>=0;daysBetweenAMonth--){
+                            String ExpectedDate = returnSubtractedDteWithGivenDays(0,daysBetweenAMonth,0);
+                            if (Actualdate.contains(ExpectedDate)) {
+                                logger.info("Log History results is verified for 'Last Month' option");
+                            }
+
+                        }
+
+                    }
+                }
+
+
+
+
         }
 
     }
