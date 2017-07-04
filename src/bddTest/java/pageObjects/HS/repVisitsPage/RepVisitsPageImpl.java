@@ -313,6 +313,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//span[text()='"+ timeZone +"']")).click();
     }
 
+    public void verifyCalendarViewOnRepVisits(){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        Assert.assertTrue("add visit button is not displayed",button("add visit").isDisplayed());
+        Assert.assertTrue("small calendar next button is not displayed",driver.findElement(By.xpath("//button[@title='right']/i")).isDisplayed());
+        Assert.assertTrue("small calendar previous button is not displayed",driver.findElement(By.xpath("//button[@title='left']/i")).isDisplayed());
+
+        Assert.assertTrue("Main calendar next button is not displayed",driver.findElement(By.xpath("//button[@title='Forwards']/i")).isDisplayed());
+        Assert.assertTrue("Main calendar previous button is not displayed",driver.findElement(By.xpath("//button[@title='Backwards']/i")).isDisplayed());
+
+        Assert.assertTrue("export button is not displayed",button("Export").isDisplayed());
+       //need to add assertion
+        driver.findElement(By.xpath("//button[@title='print']/i")).isDisplayed();
+        button("Day").isDisplayed();
+        button("Week").isDisplayed();
+        button("Month").isDisplayed();
+
+
+
+
+    }
+
     public void verifyOverviewPage(){
         //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
         repVisitsPageHEObj.verifyOverviewPage();
