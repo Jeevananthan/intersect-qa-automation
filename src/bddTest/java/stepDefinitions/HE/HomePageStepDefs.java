@@ -54,5 +54,6 @@ public class HomePageStepDefs implements En {
                 homePage::clickRepVisits);
 
         And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
+
     }
 }
