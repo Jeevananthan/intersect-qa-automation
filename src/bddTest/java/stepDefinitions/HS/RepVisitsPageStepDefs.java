@@ -40,5 +40,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesSchedulingNewVisits);
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
+
+        And("^HS I verify the calendar view and click the appoinment at \"([^\"]*)\" on \"([^\"]*)\" in repvisits page$",repVisits::verifyCalendarViewOnRepVisits);
+
     }
 }

@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -313,25 +315,51 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//span[text()='"+ timeZone +"']")).click();
     }
 
-    public void verifyCalendarViewOnRepVisits(){
+    public void verifyCalendarViewOnRepVisits(String universityName,String appointmentTime) {
+
         navBar.goToRepVisits();
         link("Calendar").click();
         Assert.assertTrue("add visit button is not displayed",button("add visit").isDisplayed());
         Assert.assertTrue("small calendar next button is not displayed",driver.findElement(By.xpath("//button[@title='right']/i")).isDisplayed());
         Assert.assertTrue("small calendar previous button is not displayed",driver.findElement(By.xpath("//button[@title='left']/i")).isDisplayed());
 
-        Assert.assertTrue("Main calendar next button is not displayed",driver.findElement(By.xpath("//button[@title='Forwards']/i")).isDisplayed());
+//        WebDriverWait wait = new WebDriverWait(driver,20);
+//        wait.until(E)
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement mainCalendarNextBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Forwards']/i")));
+
+        Assert.assertTrue("Main calendar next button is not displayed",mainCalendarNextBtn.isDisplayed());
         Assert.assertTrue("Main calendar previous button is not displayed",driver.findElement(By.xpath("//button[@title='Backwards']/i")).isDisplayed());
 
         Assert.assertTrue("export button is not displayed",button("Export").isDisplayed());
        //need to add assertion
-        driver.findElement(By.xpath("//button[@title='print']/i")).isDisplayed();
-        button("Day").isDisplayed();
-        button("Week").isDisplayed();
-        button("Month").isDisplayed();
+        Assert.assertTrue("print button is not displayed",driver.findElement(By.xpath("//button[@title='print']/i")).isDisplayed());
+
+        Assert.assertTrue(" Day view button is not displayed",button("Day").isDisplayed());
+        Assert.assertTrue(" Week view button is not displayed",button("Week").isDisplayed());
+        Assert.assertTrue(" Month view button is not displayed",button("Month").isDisplayed());
+
+        button("Day").click();
+        button("Week").click();
+        button("Month").click();
+
+        Assert.assertTrue(" visit confirmed option is not displayed",text("Visits - Confirmed").isDisplayed());
+        Assert.assertTrue(" Fair confirmed option is not displayed",text("College Fair - Confirmed").isDisplayed());
+        Assert.assertTrue(" pending option is not displayed",text("Pending").isDisplayed());
 
 
 
+        driver.findElement(By.xpath("//div[@class='rbc-row-segment']//div//span[text()='"+universityName+"']/preceding::span[text()='"+appointmentTime+"']")).click();
+
+        String universityMatch = driver.findElement(By.xpath("//div[@class='ui large header']")).getText();
+        Assert.assertTrue(" university name is mismatching",universityMatch.contains(universityName));
+
+        driver.findElement(By.xpath("//button[@aria-label='Close']")).click();
+
+        driver.findElement(By.xpath("//input[@id='visit']/following::label")).click();
+        driver.findElement(By.xpath("//input[@id='fair']/following::label")).click();
+        driver.findElement(By.xpath("//input[@id='pending']/following::label")).click();
 
     }
 
