@@ -47,3 +47,10 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     Then HE I verify the Check RepVisits Availability button
     And HE I successfully sign out
 
+  @MATCH-1610
+  Scenario: As an HE Community member,I need to view a calendar of my appointments
+            so that I can easily see what my day/week/month schedule looks like.
+
+    Given HE I am logged in to Intersect HE as user type "community"
+    And HE I verify the calendar view and click the appoinment at "George Mason University" on "4:07PM" in repvisits page
+    And HE I successfully sign out

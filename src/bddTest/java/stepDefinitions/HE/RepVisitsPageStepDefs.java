@@ -29,5 +29,8 @@ public class RepVisitsPageStepDefs implements En {
         Then ("^HE I verify the upsell messaging on the Travel Plan page in RepVisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
 
         Then("^HE I verify the Check RepVisits Availability button$", repVisits::verifyCheckRepVisitsAvailabilityButton);
+
+        And("^HE I verify the calendar view and click the appoinment at \"([^\"]*)\" on \"([^\"]*)\" in repvisits page$",repVisits::verifyCalendarViewOnRepVisits);
+
     }
 }
