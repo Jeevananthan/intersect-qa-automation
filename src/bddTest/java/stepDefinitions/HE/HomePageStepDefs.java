@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.HE.homePage.HomePageImpl;
@@ -29,7 +30,7 @@ public class HomePageStepDefs implements En {
 
         Then("^I verify that the \"([^\"]*)\" widget is not displayed$",homePage::verifyWidgetIsNotVisible);
 
-        When("^HE I verify that I am sent to the Community activate profile page when accessing RepVisits$",
+        When("^HE I verify that I am redirecting to the Community activate profile page when accessing RepVisits$",
                 homePage::verifyCommunityActivationForRepVisits);
 
         Then("^HE I verify the left navigation bar and section breadcrumbs are as follows$", navBar::verifyLeftNavAndBreadcrumbs);
@@ -46,5 +47,12 @@ public class HomePageStepDefs implements En {
 
         And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
 
+        And("^HE I activated my community profile by providing OfficePhone as \"([^\"]*)\" and JobTitle as \"([^\"]*)\"$",
+            homePage::fillCommunityWelcomeMandatoryFields);
+
+        And("^HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits$",
+                homePage::clickRepVisits);
+
+        And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
     }
 }
