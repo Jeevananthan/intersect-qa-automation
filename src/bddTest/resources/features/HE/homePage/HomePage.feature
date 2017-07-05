@@ -29,6 +29,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     Then I verify that the "Manage and update your institution's profile" widget is not displayed
     Then I verify that the "Configure your Account" widget is not displayed
     And HE I successfully sign out
+
   @MATCH-1799
   Scenario: Force new user to Activate Community Profile first before accessing RepVisits
     Given HE I want to login to the HE app using "yadav.arun24+match1799@gmail.com" as username and "Password!1" as password
