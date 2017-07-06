@@ -258,7 +258,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
