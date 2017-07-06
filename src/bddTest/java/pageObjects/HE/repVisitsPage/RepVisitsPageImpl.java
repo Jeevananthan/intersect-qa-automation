@@ -129,9 +129,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Main calendar next button is not displayed",mainCalendarNextBtn.isDisplayed());
         Assert.assertTrue("Main calendar previous button is not displayed",driver.findElement(By.xpath("//button[@title='Backwards']/i")).isDisplayed());
 
-        Assert.assertTrue("export button is not displayed",button("Export").isDisplayed());
+        //Assert.assertTrue("export button is not displayed",button("Export").isDisplayed());
         //need to add assertion
-        Assert.assertTrue("print button is not displayed",driver.findElement(By.xpath("//button[@title='print']/i")).isDisplayed());
+        //Assert.assertTrue("print button is not displayed",driver.findElement(By.xpath("//button[@title='print']/i")).isDisplayed());
 
         Assert.assertTrue(" Day view button is not displayed",button("Day").isDisplayed());
         Assert.assertTrue(" Week view button is not displayed",button("Week").isDisplayed());
@@ -144,16 +144,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(" visit confirmed option is not displayed",text("Visits - Confirmed").isDisplayed());
         Assert.assertTrue(" Fair confirmed option is not displayed",text("College Fair - Confirmed").isDisplayed());
         Assert.assertTrue(" pending option is not displayed",text("Pending").isDisplayed());
-
-        WebElement appoinment = driver.findElement(By.xpath("//div[@class='rbc-row-segment']//div//span[text()='"+universityName+"']/preceding::span[text()='"+appointmentTime+"']"));
-        if(appoinment.isDisplayed()){
-            appoinment.click();
-
-        }
-        String universityMatch = driver.findElement(By.xpath("//div[@class='ui large header']")).getText();
-        Assert.assertTrue(" university name is mismatching",universityMatch.contains(universityName));
-
-        driver.findElement(By.xpath("//button[@aria-label='Close']")).click();
 
         driver.findElement(By.xpath("//input[@id='visit']/following::label")).click();
         driver.findElement(By.xpath("//input[@id='fair']/following::label")).click();
