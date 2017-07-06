@@ -39,7 +39,6 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     And HE I clear the account to get the community welcome page again
     Then HE I successfully sign out
 
-
   @MATCH-1732
   Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
     Given HE I am logged in to Intersect HE as user type "administrator"
