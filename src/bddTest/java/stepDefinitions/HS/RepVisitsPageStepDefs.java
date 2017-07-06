@@ -40,5 +40,11 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesSchedulingNewVisits);
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
+
+        And ("^HS I verify the repvisit setup wizard displayed for high school information$",repVisits::verifyRepvisitsSetupWizardTimeZoneMilestones);
+
+        Then ("^HS I set the time zone and verify the time zone is saved successfully$",repVisits::verifyTimeZoneInRepVisits);
+
+        And ("^I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
     }
 }
