@@ -408,6 +408,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 
+    public void verifyWelcomeWizard(){
+
+        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/");
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Welcome to Repvisits' text is not displayed",text("Welcome to RepVisits").isDisplayed());
+        Assert.assertTrue("'Get Started' button is not displayed",getStartedBtn().isDisplayed());
+
+    }
+
+    public void clickGetStartedBtn(){
+        if(getStartedBtn().isDisplayed()){
+            getStartedBtn().click();
+        }
+
+    }
+
+    private WebElement getStartedBtn(){
+        return button("Get Started!");
+    }
+
+
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");

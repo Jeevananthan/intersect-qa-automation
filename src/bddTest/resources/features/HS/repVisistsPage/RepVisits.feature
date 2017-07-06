@@ -101,6 +101,14 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I successfully sign out
 
+    @MATCH-1944
+   Scenario:As a new RepVisits user,I want a setup wizard with an introduction that describes what the system does
+   so that I can be encouraged to set up my RepVisits account.
+      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+      Then HS I am verifying the welcome milestone in setup wizard
+      And HS I click the Get Started button in the welcome milestone page
+      And I navigate to college fairs,visits through availability option
+      And HS I successfully sign out
 
   @MATCH-1945
    Scenario: As a new RepVisits user,I want the setup wizard to confirm my school's timezone
@@ -111,3 +119,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the time zone and verify the time zone is saved successfully
     And I navigate to college fairs,visits through availability option
     And HS I successfully sign out
+
+
+
