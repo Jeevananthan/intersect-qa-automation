@@ -324,7 +324,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         // getStartedBtn().click();
         waitUntilPageFinishLoading();
-        while (!driver.findElement(By.xpath("//div[@class='active step' and @name='High School Information']")).isDisplayed()) {
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='High School Information']")).size()==0) {
             button("Next").click();
             waitUntilPageFinishLoading();
         }
@@ -343,27 +343,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verifying the navigation of corresponding screen for 'Fairs' , 'Visits' and 'Visits and Fairs'
 
         driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
-
+        waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//input[@value='VISITS' and @type='radio']")).click();
-        while (!driver.findElement(By.xpath("//div[@class='active step' and @name='Availability']")).isDisplayed()) {
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
             button("Next").click();
             waitUntilPageFinishLoading();
         }
+
         Assert.assertTrue("'Availability' is not displayed", text("Regular Weekly Hours").isDisplayed());
 
         driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
-
+        waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
-        while (!driver.findElement(By.xpath("//div[@class='active step' and @name='Availability']")).isDisplayed()) {
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
             button("Next").click();
             waitUntilPageFinishLoading();
         }
         Assert.assertTrue("'Availability' is not displayed", text("Regular Weekly Hours").isDisplayed());
 
         driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
-
+        waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//input[@value='FAIRS' and @type='radio']")).click();
-        while (!driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='College Fairs']")).isDisplayed()) {
+        while (driver.findElements(By.xpath("//a[@class='menu-link active']/span[text()='College Fairs']")).size()==0) {
             button("Next").click();
             waitUntilPageFinishLoading();
         }
@@ -376,7 +377,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         String timeZoneToSet;
         driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
-
+        waitUntilPageFinishLoading();
         button("Next").click();
         //verify time zone saving properly
         String timeZoneBeforeChange = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
