@@ -129,7 +129,6 @@ public class    GlobalSearch extends SeleniumBase {
                 }
             }
         }
-
         Assert.assertTrue("No HE Institutions where returned on the search", institutionsReturned);
         Assert.assertTrue("Unable to click on " + optionToSelect, institutionClickedOn);
     }
