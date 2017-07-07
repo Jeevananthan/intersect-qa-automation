@@ -19,7 +19,7 @@ public class InstitutionPageImpl extends SeleniumBase {
         link("VIEW NAVIANCE COLLEGE PROFILE").click();
         waitUntilPageFinishLoading();
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
-        waitUntil(ExpectedConditions.elementToBeClickable(By.cssSelector("h1.masthead__name.ng-binding")));
+        waitUntil(ExpectedConditions.elementToBeClickable(collageNameLabel()));
         Assert.assertTrue("College Name is not displaying in Hubs View", collageNameLabel().getText().trim().equals(collegeName));
         getDriver().switchTo().defaultContent();
     }
