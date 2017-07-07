@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -40,5 +41,12 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesSchedulingNewVisits);
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
+
+        Then("^HS I create a Job Fair$", repVisits::createJobFair);
+
+        Then("^HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs \"([^\"]*)\"$", repVisits::confirmDeclineCollegeAttendanceRequest);
+
+        Then("^HS I cancel a job fair \"([^\"]*)\"$", repVisits::cancelCollegeFair);
+
     }
 }

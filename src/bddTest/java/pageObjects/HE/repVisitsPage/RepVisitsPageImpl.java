@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import cucumber.api.java.cs.A;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -24,6 +25,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue(repVisitsSubItem + " is not showing.",link(repVisitsSubItem).isDisplayed());
         }
     }
+    public void checkHighSchoolJobFairAvailability(String highSchool){
+        waitUntilPageFinishLoading();
+        globalSearch.searchForInstitutions(highSchool);
+        waitUntilPageFinishLoading();
+        globalSearch.selectResult(highSchool);
+        communityFrame();
+        link("Check Repvisits Availability").click();
+        getDriver().switchTo().defaultContent().findElement(By.xpath("//span[contains(text(), 'Fair')]")).click();
+        if(getDriver().findElements(By.xpath("//span[contains(text(), 'Daniel Fair')]/../following-sibling::div/button/span[contains(text(), 'Registered')]")).size()>=1) {
+
+        }
+        else{
+            button(By.xpath("//span[contains(text(), 'Daniel Fair')]/../following-sibling::div/button/span[contains(text(), 'Register')]")).click();
+            button(By.xpath("//button[contains(text(), 'Yes, Submit Request')]")).click();
+        }
+    }
+
     public void checkHighSchoolPopUp(DataTable dataTable){
         List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
         for (Map<String,String> school : entities){
@@ -100,9 +118,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button(schoolName).click();
         waitUntilPageFinishLoading();
     }
-
-
-
 
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
 

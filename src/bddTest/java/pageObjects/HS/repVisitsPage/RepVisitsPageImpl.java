@@ -29,6 +29,47 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void confirmDeclineCollegeAttendanceRequest(String requestOption){
+        System.out.println();
+        logger.info("Validating the functionality of the " + requestOption + " button for College Fair attendance request.");
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        button(By.xpath("//a[@aria-label='Daniel Fair']")).click();
+        boolean expectedResult = false;
+        switch(requestOption) {
+            case "Decline":
+                button("DECLINE").click();
+                if(button(By.xpath("//span[contains(text(), 'No, go back')]")).isDisplayed() && getDriver().findElement(By.xpath("//button[@class = 'ui red small disabled right floated button']")).isDisplayed()) {
+                    getDriver().findElement(By.xpath("//textarea[@id='attendee-decline-message']")).sendKeys("Attendance Denied.");
+                    if(button("No, go back").isDisplayed() && button("Yes, decline visit").isDisplayed()) {
+                        button(By.xpath("//span[contains(text(), 'No, go back')]")).click();
+                        button("DECLINE").click();
+                        button("Yes, decline visit").click();
+                        button("Close").click();
+                        expectedResult = true;
+                    }
+                }
+                break;
+            case "Confirm":
+                button(By.xpath("//span[contains(text(), 'CONFIRM')]")).click();
+                waitUntilPageFinishLoading();
+                if(getDriver().findElement(By.xpath("//tr/td[contains(text(), 'Attending')]")).isDisplayed() && button(By.xpath("//span[contains(text(), 'CANCEL')]")).isDisplayed()) {
+                    button("CANCEL").click();
+                    getDriver().findElement(By.xpath("//textarea[@id='attendee-cancellation-message']")).sendKeys("Attendance Cancelled.");
+                    button("Yes, cancel visit").click();
+                    button("Close").click();
+                    expectedResult = true;
+                }
+
+                break;
+            case "default":
+                expectedResult = false;
+                break;
+        }
+        Assert.assertTrue(requestOption + " button is not working properly, or you did not choose to decline or confirm request.", expectedResult);
+
+    }
+
     public void verifyAvailabilityAndSettingsPage(){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -317,6 +358,129 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
         repVisitsPageHEObj.verifyOverviewPage();
     }
+
+    public void cancelCollegeFair(String fairName) {
+        System.out.println();
+        logger.info("Cancelling Job Fair " + fairName + " under RepVisits.");
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        button(By.xpath("//a[@aria-label='Daniel Fair']")).click();
+        button("Edit").click();
+        button("Cancel This College Fair").click();
+        if (getDriver().findElements(By.xpath("//span[contains(text(), 'Yes, Cancel this fair')]")).size() >= 1) {
+            button("yes, cancel this fair").click();
+        }
+        else if (getDriver().findElements(By.xpath("//span[contains(text(), 'Cancel fair and notify colleges')]")).size() >= 1) {
+            textbox(By.name("cancellationMessage")).sendKeys("College fair has been cancelled.");
+            button("cancel fair and notify colleges").click();
+            button("Close").click();
+        }
+        else{
+            Assert.assertTrue("There were no job fairs registered for this high school.", false);
+        }
+        Assert.assertFalse("College fair was not canceled.", getDriver().findElements(By.xpath("//span[contains(text(), 'Upcoming Events')]/../../following-sibling::table/tbody/tr/td[contains(text(), 'Daniel Fair')]")).size() >= 1);
+    }
+
+    public void createJobFair(DataTable dataTable) {
+        System.out.println();
+        logger.info("Creating a Job Fair under RepVisits.");
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        button("ADD A COLLEGE FAIR").click();
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        for (String key : data.keySet()) {
+            fillAddCollegeFairFields(key, data.get(key));
+        }
+        button("Save").click();
+    }
+
+    public void fillAddCollegeFairFields(String field, String data) {
+        switch (field) {
+            case "Automatically Confirm Incoming Requestions From Colleges?":
+                if(data.equalsIgnoreCase("yes")) {
+                    radioButton(By.id("college-fair-automatic-request-confirmation-yes")).click();
+                }
+                else {
+                    radioButton(By.id("college-fair-automatic-request-confirmation-no")).click();
+                }
+                break;
+            case "College Fair Name":
+                textbox(By.id("college-fair-name")).sendKeys(data);
+                break;
+            case "Date":
+                getDriver().findElement(By.xpath("//div[@class='ui fluid input']/input[@id = 'college-fair-date']/../i")).click();
+                // Only goes out 12 months
+                for(int i = 0; i <= 12; i++) {
+                    List<WebElement> dayCalander = getDriver().findElements(By.xpath("//div[@class='DayPicker-Body']//div[@aria-label]"));
+                    for (WebElement day : dayCalander) {
+                        String dayResult = day.getAttribute("aria-label");
+                        String dayAvailable = day.getAttribute("aria-disabled");
+                        if (dayResult.equalsIgnoreCase(data) &&
+                                dayAvailable.equalsIgnoreCase("false")) {
+                            day.click();
+                            i = 13;
+                            break;
+                        }
+                    }
+                    if(i<12){
+                        getDriver().findElement(By.xpath("//span[@class = 'DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                    }
+                    else if(i==12) {
+                        System.out.println("The date entered is in the past, unavailable, or invalid. \nPlease enter date as \"January 1, 2017\". \nDates can only be chosen 12 months in advance");
+                    }
+                }
+                break;
+            case "Email Message to Colleges After Confirmation":
+                textbox(By.name("emailInstructions")).sendKeys(data);
+                break;
+            case "End Time":
+                WebElement endTime = getDriver().findElement(By.xpath("//input[@id='college-fair-end-time']"));
+                endTime.click();
+                endTime.sendKeys(data);
+                break;
+            case "Instructions for College Representatives":
+                textbox(By.name("webInstructions")).sendKeys(data);
+                break;
+            case "Max Number of Colleges":
+                textbox(By.name("maxColleges")).sendKeys(data);
+                break;
+            case "Number of Students Expected":
+                textbox(By.name("numberOfExpectedStudents")).sendKeys(data);
+                break;
+            case "RSVP Deadline":
+                getDriver().findElement(By.xpath("//div[@class='ui input']/input[@id = 'college-fair-rsvp-deadline']/../i")).click();
+                // Only goes out 12 months
+                for(int i = 0; i <= 12; i++) {
+                    List<WebElement> RSVPCalander = getDriver().findElements(By.xpath("//div[@class='DayPicker-Body']//div[@aria-label]"));
+                    for (WebElement day : RSVPCalander) {
+                        String dayResult = day.getAttribute("aria-label");
+                        String dayAvailable = day.getAttribute("aria-disabled");
+                        if (dayResult.equalsIgnoreCase(data) &&
+                                dayAvailable.equalsIgnoreCase("false")) {
+                            day.click();
+                            i = 13;
+                            break;
+                        }
+                    }
+                    if(i<12){
+                        getDriver().findElement(By.xpath("//span[@class = 'DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                    }
+                    else if(i==12) {
+                        System.out.println("The date entered is in the past, unavailable, or invalid. \nPlease enter date as \"January 1, 2017\". \nDates can only be chosen 12 months in advance");
+                    }
+                }
+                break;
+            case "Start Time":
+                WebElement startTime = getDriver().findElement(By.xpath("//input[@id='college-fair-start-time']"));
+                startTime.click();
+                startTime.sendKeys(data);
+                break;
+            default:
+                textbox(By.name(field.toLowerCase())).sendKeys(data);
+                break;
+        }
+    }
+
 
     //locators
     private boolean isLinkActive(WebElement link) {

@@ -100,3 +100,36 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I successfully sign out
+
+  @MATCH-1617 @MATCH-1997
+  Scenario: As a high school community user, I want to be able to accept or deny a college that requests to attend my fair.
+            So that I can ensure the colleges attending are a good match for my students. 
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I create a Job Fair
+      | College Fair Name                                         | Daniel Fair             |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0800AM                  |
+      | Date                                                      | June 10, 2018           |
+      | RSVP Deadline                                             | June 8, 2018            |
+      | End Time                                                  | 1800PM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 100                     |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I successfully sign out
+
+     #log into HE app to request attendance to job fair created in HS app above
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4"
+    And HE I successfully sign out
+    Given HE I want to login to the HE app using "daniel.kirtman@hobsons.com" as username and "internHOBS25%" as password
+    Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4"
+    And HE I successfully sign out
+
+    # log back into the HS app to accept and decline the attendance requests from above
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs "Confirm"
+    Then HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs "Decline"
+    Then HS I cancel a job fair "Daniel Fair"
+    And HS I successfully sign out

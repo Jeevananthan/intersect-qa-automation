@@ -38,6 +38,7 @@ public class    GlobalSearch extends SeleniumBase {
 
     public void searchForInstitutions(String searchTerm) {
         setSearchCategory("Institutions");
+        waitUntilPageFinishLoading();
         doSearch(searchTerm);
     }
 
@@ -53,6 +54,7 @@ public class    GlobalSearch extends SeleniumBase {
 
     private void setSearchCategory(String searchCategory) {
         getSearchSwitcher().click();
+        waitUntilPageFinishLoading();
         switch(searchCategory) {
             case "All":
                 getSearchSwitcher().findElement(By.className("search")).click();
@@ -64,7 +66,7 @@ public class    GlobalSearch extends SeleniumBase {
                 getSearchSwitcher().findElement(By.className("graduation")).click();
                 break;
             case "Institutions":
-                getSearchSwitcher().findElement(By.className("university")).findElement(By.xpath("./../../div/span[contains(text(), 'Institutions')]")).click();
+                getSearchSwitcher().findElement(By.className("university")).findElement(By.xpath("//div/span[contains(text(), 'Institutions')]")).click();
                 break;
             case "Users":
                 getSearchSwitcher().findElement(By.className("user")).findElement(By.xpath("./../../div/span[contains(text(), 'Users')]")).click();
@@ -153,6 +155,7 @@ public class    GlobalSearch extends SeleniumBase {
         return getDriver().findElement(By.id("global-search-box-input"));
     }
     private WebElement getSearchSwitcher(){
+        waitUntilPageFinishLoading();
         return getDriver().findElement(By.id("global-search-box-filter"));
     }
 }
