@@ -100,3 +100,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I successfully sign out
+
+
+  @MATCH-1948
+  Scenario: As a new RepVisits user,I want the setup wizard to help me configure my school's contacts.
+  so that I can be sure internal notifications will be routed to the people who need the information.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I verify notification and primary contact setup wizard is showing correctly in Repvisits
+    And HS I successfully sign out
