@@ -52,7 +52,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         openLoginPage();
         String username = GetProperties.get("he."+ usertype + ".username");
         String password = GetProperties.get("he."+ usertype + ".password");
-        logger.info("Logging into the HE app");
+        logger.info("Logging into the HE app - " + driver.getCurrentUrl());
         usernameTextbox().sendKeys(username);
         passwordTextbox().sendKeys(password);
         logger.info("Sending credentials - " + username + ":" + password);
@@ -81,6 +81,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         link("Forgot Password").click();
         textbox("E-Mail Address").sendKeys(userName);
         button("RESET PASSWORD").click();
+
+
     }
 
     public void processResetPassword(String userType, DataTable data) {
@@ -114,6 +116,44 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("\"Sign In\" button was found, but should not be there!", !button("sign in").isDisplayed());
         Assert.assertTrue("Intersect logo is not present!",driver.findElement(By.cssSelector("[src=\"https://static.intersect.hobsons.com/images/intersect-tm-by-hobsons-rgb-gray-teal.png\"]")).isDisplayed());
         Assert.assertTrue("\"New user?\" link was not present, but should be!",link("New User?").isDisplayed());
+    }
+
+    public void navigateToRegistrationPage(){
+        load(GetProperties.get("he.registration.url"));
+        Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
+    }
+
+    public void goToAppropriateRegistrationpage(String buttonName){
+
+        Assert.assertTrue(buttonName+" button is not displayed in the registration page",button(buttonName).isDisplayed());
+        button(buttonName).click();
+
+        //verifying the text 'Already have an account'
+        Assert.assertTrue("'Already have an account' text is not displayed in the registration page",text("Already have an account?").isDisplayed());
+        //verifying 'Sign in' button exists in registration page
+        Assert.assertTrue("'Sign in'  button is not displayed in the registration page",button("Sign In").isDisplayed());
+
+        if(buttonName.contains("Higher Education")){
+            String ActualText = driver.findElement(By.xpath("//div[@class='sixteen wide computer sixteen wide mobile sixteen wide tablet column']//p[3]")).getText();
+            String line1 = "Please note there can be multiple free accounts per higher education institution but only one of these";
+            String line2 = "accounts can be the primary user. The primary user account should be the main point of contact for";
+            String line3 = "your admissions office.";
+
+            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line1));
+            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line2));
+            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line3));
+        }
+        else{
+            String ActualText = driver.findElement(By.xpath("//div[@class='sixteen wide computer sixteen wide mobile sixteen wide tablet column']//p[3]")).getText();
+            String line1 = "Please note there can be multiple free accounts per high school but only one of these accounts can ";
+            String line2 = "be the primary user. The primary user account should be the main point of contact for your guidance";
+            String line3 = " office.";
+
+            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line1));
+            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line2));
+            Assert.assertTrue("Appropriate text is not displayed in the registration page",ActualText.contains(line3));
+
+        }
     }
 
     private void attemptLogin(String userType, String errorMessage) {

@@ -28,6 +28,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     public void inactivateUser(String accountName) {
         takeUserAction(accountName,"Inactivate");
         button("Yes").click();
+        waitUntilPageFinishLoading();
     }
 
     public void activateUser(String accountName) {
