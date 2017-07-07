@@ -4,6 +4,7 @@ Feature: As a HS user I need to login to Intersect
   @QASmokeTest
   Scenario: As an non Naviance HS user, I want to verify the content of the HS Login Page
     Given HS I verify the HS login screen
+
   @QASmokeTest
   Scenario: As an non Naviance HS user, I want to verify that the links in the HS Login page are working properly
     Given HS I verify that the following links are working as expected:

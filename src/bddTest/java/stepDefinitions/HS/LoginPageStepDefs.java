@@ -23,8 +23,6 @@ public class LoginPageStepDefs implements En {
 
         Given("^HS I verify the following types of error messages in the HS login page:$", loginPage::verifyErrorMessages);
 
-        When("^HS I want to login to the HS app using \"([^\"]*)\" as username and \"([^\"]*)\" as password$", loginPage::login);
-
         Then("^HS I am locked out from logging in as user type \"([^\"]*)\"$", loginPage::userLockedOut);
 
         Then("^HS I am logged in to Intersect HS as user type \"([^\"]*)\"$", loginPage::defaultLogin);
