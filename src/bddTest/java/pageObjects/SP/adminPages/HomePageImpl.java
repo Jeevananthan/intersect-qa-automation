@@ -3,11 +3,14 @@ package pageObjects.SP.adminPages;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import pageObjects.COMMON.GlobalSearch;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private GlobalSearch search = new GlobalSearch();
 
     public HomePageImpl() {
         logger = Logger.getLogger(HomePageImpl.class);
@@ -75,4 +78,16 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(textbox("Search...").isDisplayed());
     }
 
+    public void goToUsersListUsingSearch(String institutionName, String searchString) {
+        navBar.goToHome();
+        search.searchForAll(searchString);
+        search.selectResult(institutionName);
+        waitUntilPageFinishLoading();
+        link("See All Users").click();
+        waitUntilPageFinishLoading();
+    }
+
+    private WebElement userDropdown() {
+        return button(By.id("user-dropdown"));
+    }
 }
