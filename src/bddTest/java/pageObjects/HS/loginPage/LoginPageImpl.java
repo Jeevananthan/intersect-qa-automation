@@ -60,7 +60,21 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             button("More Institutions").click();
         }
 
-        link(institutionName).click();
+
+        if(!institutionName.equalsIgnoreCase("Request new institution")){
+            if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
+                logger.info("Results are displayed after the search");
+                link(institutionName).click();
+            }
+            else{
+                logger.info("Results are not displayed after the search");
+            }
+
+        }
+        else{
+            link(institutionName).click();
+        }
+
         Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
 
         link("Back to search").click();

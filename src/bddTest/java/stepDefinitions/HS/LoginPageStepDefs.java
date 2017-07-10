@@ -15,7 +15,7 @@ public class LoginPageStepDefs implements En {
         Given("^HS Iam navigating to Intersect HS through Non naviance Url$", loginPage::openNonNavianceLoginPage);
         Then("^HS I click the new user link in the login page$",loginPage::clickNewUserBtn);
 
-        And("^HS I search for \"([^\"]*)\" in \"([^\"]*)\"$",loginPage::searchForHSInstitution);
+        And("^HS I search for \"([^\"]*)\" in \"([^\"]*)\" and verify the results$",loginPage::searchForHSInstitution);
 
     }
 }

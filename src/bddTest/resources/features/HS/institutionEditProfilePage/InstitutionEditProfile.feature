@@ -265,7 +265,9 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
     Given HS Iam navigating to Intersect HS through Non naviance Url
     Then HS I click the new user link in the login page
-    And HS I search for "Int QA High School 4" in "High school"
+    And HS I search for "Int QA High School 4" in "High school" and verify the results
+
+
 
 
 
