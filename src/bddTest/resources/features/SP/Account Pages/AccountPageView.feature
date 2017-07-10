@@ -69,10 +69,10 @@ Feature: Hobsons Support - View HE Institution Accounts
             on the Institutional Account page to support SSO in the future.
       Given SP I am logged in to the Admin page as an Admin user
       Then SP I select "Adrian College" from the institution dashboard
-      And SP I update Institutional Details with Connect Id as "connec-idte" and Radius Id as "radiu-idgg"
+      And SP I update Institutional Details with Connect Id as "connect-" and Radius Id as "radiu-idgg"
       Then SP I verify the updated details are displaying in the account page
           |Connect Id |Radius Id |
-          |connec-idte |radiu-idgg |
+          |connect- |radiu-idgg |
       And SP I successfully sign out
 
 

@@ -10,6 +10,7 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class AccountPageImpl extends PageObjectFacadeImpl {
 
@@ -111,13 +112,22 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         EditBtn.click();
 
         Assert.assertTrue("Connect Id textbox is not displayed", driver.findElement(By.cssSelector("input[aria-label='connect Id']")).isDisplayed());
-        textbox(By.cssSelector("input[aria-label='connect Id']")).sendKeys(connectIdVal);
+        textbox(By.cssSelector("input[aria-label='connect Id']")).sendKeys(connectIdVal+getRandomNo());
 
         Assert.assertTrue("Radius Id textbox is not displayed", driver.findElement(By.cssSelector("input[aria-label='radius Id']")).isDisplayed());
         textbox(By.cssSelector("input[aria-label='radius Id']")).sendKeys(radiusIdVal);
 
         driver.findElement(By.cssSelector("button[class='ui mini primary right floated button']")).click();
     }
+
+    public String getRandomNo(){
+    //this function returns a random number within the bound 50
+        Random randomNumber = new Random();
+        int randomNo = randomNumber.nextInt(50);
+        return Integer.toString(randomNo);
+    }
+
+
 
 
     public void verifyInstitutionalDetails(DataTable dataTable) {
