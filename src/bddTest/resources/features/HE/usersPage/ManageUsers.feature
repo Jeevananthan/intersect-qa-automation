@@ -29,7 +29,6 @@ Feature: As an HE administrator I want to manage users at my institution
       |Role  |publishing |
     And HE I successfully sign out
 
-
   @MATCH-175 @MATCH-1845
   Scenario: As an HE administrator, I am able to verify the roles for users in my institution.
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -39,7 +38,6 @@ Feature: As an HE administrator I want to manage users at my institution
       | Publishing (Community access + RepVisits + College Profile Management) |
       | Community (Community + RepVisits access)                               |
     Then HE I successfully sign out
-
 
   @MATCH-1127
   Scenario: As an HE user, I want to be notified at my old email address when my account email is changed by my administrator.

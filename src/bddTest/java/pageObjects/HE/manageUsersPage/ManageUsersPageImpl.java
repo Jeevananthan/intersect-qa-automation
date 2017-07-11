@@ -53,6 +53,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         button("SAVE").click();
     }
 
+
     public void verifyUserRoles(DataTable table) {
         navBar.goToUsers();
         button("ADD NEW USER").click();
