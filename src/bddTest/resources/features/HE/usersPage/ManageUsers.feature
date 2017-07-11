@@ -34,6 +34,10 @@ Feature: As an HE administrator I want to manage users at my institution
   Scenario: As an HE administrator, I am able to verify the roles for users in my institution.
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I verify the user roles available in my institution
+      | Roles                                                                  |
+      | Administrator (All access)                                             |
+      | Publishing (Community access + RepVisits + College Profile Management) |
+      | Community (Community + RepVisits access)                               |
     Then HE I successfully sign out
 
 
