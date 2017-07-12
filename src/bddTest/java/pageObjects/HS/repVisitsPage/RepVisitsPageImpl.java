@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -309,7 +311,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCalendarSyncMilestoneInSetupWizard(){
 
-        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
+
+        load(GetProperties.get("he.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Calendar Sync']")).size()==0) {
             button("Next").click();
