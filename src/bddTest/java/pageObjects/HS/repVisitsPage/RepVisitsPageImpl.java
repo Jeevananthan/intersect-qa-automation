@@ -5,10 +5,13 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import static org.junit.Assert.fail;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
@@ -318,10 +321,76 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyOverviewPage();
     }
 
+    public void cancelFair(String fairName, String cancelationReason) {
+        navBar.goToRepVisits();
+        collegeFairsButton().click();
+        waitUntilPageFinishLoading();
+        while (getDriver().findElements(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td" +
+                "[text()='" + fairName + "']/following-sibling::td[4]/a/span")).size() < 1) {
+            viewMoreUpcomingEventsLink().click();
+        }
+        fairElementDetails(fairName).click();
+        editFairButton().click();
+        cancelThisCollegeFair().click();
+        cancelMessageTextBox().sendKeys(cancelationReason);
+        cancelFairButton().click();
+        waitUntil(ExpectedConditions.elementToBeClickable(closeButton()));
+    }
+
+    public void createFair(DataTable details) {
+        List<List<String>> fairDetails = details.asLists(String.class);
+        navBar.goToRepVisits();
+        collegeFairsButton().click();
+        addFairButton().click();
+        fairNameTextBox().sendKeys(fairDetails.get(0).get(1));
+        waitUntil(ExpectedConditions.elementToBeClickable(dateCalendarIcon()));
+        dateCalendarIcon().click();
+        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", fairDetails.get(1).get(1).split(" ")[0], 10);
+        repVisitsPageHEObj.miniCalendarDayCell(fairDetails.get(1).get(1).split(" ")[1]).click();
+        startTimeTextBox().sendKeys(fairDetails.get(2).get(1).replace(" ", ""));
+        endTimeTextBox().sendKeys(fairDetails.get(3).get(1).replace(" ", ""));
+        rsvpCalendarIcon().click();
+        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", fairDetails.get(4).get(1).split(" ")[0], 10);
+        repVisitsPageHEObj.miniCalendarDayCell(fairDetails.get(4).get(1).split(" ")[1]).click();
+        costTextBox().sendKeys(fairDetails.get(5).get(1));
+        maxNumOfColleges().sendKeys(fairDetails.get(6).get(1));
+        numOfStudents().sendKeys(fairDetails.get(7).get(1));
+        if (fairDetails.get(8).get(1).equals("Yes")) {
+            autoApprovalYesRadButton().click();
+        } else if (fairDetails.get(8).get(1).equals("No")){
+            autoApprovalNoRadButton().click();
+        }
+        saveButton().click();
+        waitUntil(ExpectedConditions.elementToBeClickable(closeButton()));
+        closeButton().click();
+        waitUntilPageFinishLoading();
+    }
+
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+    private WebElement collegeFairsButton() { return getDriver().findElement(By.xpath("//span[text()='College Fairs']")); }
+    private WebElement viewMoreUpcomingEventsLink() { return getDriver().findElement(By.xpath("//span[text()='View More Upcoming Events']/..")); }
+    private WebElement fairElementDetails(String fairName) { return getDriver().findElement(By.xpath
+            ("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td[text()='" + fairName + "']/following-sibling::td[4]/a/span")); }
+    private WebElement editFairButton() { return getDriver().findElement(By.cssSelector("#edit-college-fair")); }
+    private WebElement cancelThisCollegeFair() { return getDriver().findElement(By.cssSelector("button.ui.red.basic.button")); }
+    private WebElement cancelMessageTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-cancellation-message")); }
+    private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[type=\"submit\"]")); }
+    private WebElement closeButton() { return getDriver().findElement(By.xpath("//button[text()='Close']")); }
+    private WebElement addFairButton() { return getDriver().findElement(By.cssSelector("#add-college")); }
+    private WebElement fairNameTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-name")); }
+    private WebElement dateCalendarIcon() { return getDriver().findElement(By.cssSelector("div.ui.fluid.input i.calendar.large.link.icon")); }
+    private WebElement startTimeTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-start-time")); }
+    private WebElement endTimeTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-end-time")); }
+    private WebElement rsvpCalendarIcon() { return getDriver().findElement(By.cssSelector("#college-fair-rsvp-deadline + i")); }
+    private WebElement costTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-cost")); }
+    private WebElement maxNumOfColleges() { return getDriver().findElement(By.cssSelector("#college-fair-max-number-colleges")); }
+    private WebElement numOfStudents() { return getDriver().findElement(By.cssSelector("#college-fair-number-expected-students")); }
+    private WebElement autoApprovalYesRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-yes")); }
+    private WebElement autoApprovalNoRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-no")); }
+    private WebElement saveButton() { return getDriver().findElement(By.cssSelector("button[type=\"submit\"]")); }
 }
 
 

@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
@@ -44,6 +45,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + password + " as password");
         loginButton().click();
         logger.info("Clicked the login button");
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("di.ui.active.loader")));
         waitUntilPageFinishLoading();
     }
 

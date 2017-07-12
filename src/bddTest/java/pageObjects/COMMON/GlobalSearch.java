@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -52,6 +53,8 @@ public class    GlobalSearch extends SeleniumBase {
     }
 
     private void setSearchCategory(String searchCategory) {
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-filter")));
         getSearchSwitcher().click();
         switch(searchCategory) {
             case "All":
@@ -111,6 +114,7 @@ public class    GlobalSearch extends SeleniumBase {
 
     public void selectResult(String optionToSelect) {
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-results")));
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;

@@ -24,5 +24,7 @@ public class GlobalSearchStepDefs implements En {
         Then("^SP I go to the advanced search page for \"([^\"]*)\"$", globalSearch::goToAdvancedSearch);
 
         Then("^SP I verify there are no search results returned$", globalSearch::verifyNoSearchResults);
+
+        When("^SP I search for \"([^\"]*)\" as an Institution in the global search box$", globalSearch::searchForInstitutions);
     }
 }
