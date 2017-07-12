@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -320,7 +322,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public  void verifyRepvisitsSetupWizardTimeZoneMilestones() {
 
-        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
+        load(GetProperties.get("hs.WizardAppSelect.url"));
 
         // getStartedBtn().click();
         waitUntilPageFinishLoading();
@@ -342,7 +344,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         //verifying the navigation of corresponding screen for 'Fairs' , 'Visits' and 'Visits and Fairs'
 
-        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
+        load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//input[@value='VISITS' and @type='radio']")).click();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
@@ -352,7 +354,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         Assert.assertTrue("'Availability' is not displayed", text("Regular Weekly Hours").isDisplayed());
 
-        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
+        load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
@@ -361,7 +363,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         Assert.assertTrue("'Availability' is not displayed", text("Regular Weekly Hours").isDisplayed());
 
-        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
+        load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//input[@value='FAIRS' and @type='radio']")).click();
         while (driver.findElements(By.xpath("//a[@class='menu-link active']/span[text()='College Fairs']")).size()==0) {
@@ -373,19 +375,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void verifyTimeZoneInRepVisits(){
+    public void verifyTimeZoneInRepVisits(String alreadySelectedTimeZone,String newTimeZone){
 
         String timeZoneToSet;
-        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
+        load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         button("Next").click();
         //verify time zone saving properly
         String timeZoneBeforeChange = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
-        if(timeZoneBeforeChange.contains("America/New_York")) {
-             timeZoneToSet = "America/Mexico_City" ;
+        if(timeZoneBeforeChange.contains(alreadySelectedTimeZone)) {
+             timeZoneToSet = newTimeZone ;
         }
          else{
-            timeZoneToSet = "America/New_York" ;
+            timeZoneToSet = alreadySelectedTimeZone ;
         }
         setTimeZoneValue(timeZoneToSet);
 
@@ -410,7 +412,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyWelcomeWizard(){
 
-        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/");
+        load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Welcome to Repvisits' text is not displayed",text("Welcome to RepVisits").isDisplayed());
         Assert.assertTrue("'Get Started' button is not displayed",getStartedBtn().isDisplayed());

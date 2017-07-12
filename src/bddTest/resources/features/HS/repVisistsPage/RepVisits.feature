@@ -107,7 +107,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
       Then HS I am verifying the welcome milestone in setup wizard
       And HS I click the Get Started button in the welcome milestone page
-      And I navigate to college fairs,visits through availability option
+      And HS I navigate to college fairs,visits through availability option
       And HS I successfully sign out
 
   @MATCH-1945
@@ -116,8 +116,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I verify the repvisit setup wizard displayed for high school information
-    Then HS I set the time zone and verify the time zone is saved successfully
-    And I navigate to college fairs,visits through availability option
+    Then HS I check the time zone is selected as "America/Mexico_City" and change it to "America/New_York"
+    And HS I navigate to college fairs,visits through availability option
     And HS I successfully sign out
 
 

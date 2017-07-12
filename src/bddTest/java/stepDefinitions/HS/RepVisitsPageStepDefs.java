@@ -43,12 +43,12 @@ public class RepVisitsPageStepDefs implements En {
 
         And ("^HS I verify the repvisit setup wizard displayed for high school information$",repVisits::verifyRepvisitsSetupWizardTimeZoneMilestones);
 
-        Then ("^HS I set the time zone and verify the time zone is saved successfully$",repVisits::verifyTimeZoneInRepVisits);
+        Then ("^HS I check the time zone is selected as \"([^\"]*)\" and change it to \"([^\"]*)\"$",repVisits::verifyTimeZoneInRepVisits);
 
         Then ("^HS I am verifying the welcome milestone in setup wizard$",repVisits::verifyWelcomeWizard);
 
         And ("^HS I click the Get Started button in the welcome milestone page$",repVisits::clickGetStartedBtn);
 
-        And ("^I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
+        And ("^HS I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
     }
 }
