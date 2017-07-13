@@ -106,5 +106,5 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario: As a new RepVisits user,I want the setup wizard to help me configure my school's contacts.
   so that I can be sure internal notifications will be routed to the people who need the information.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    And HS I verify notification and primary contact setup wizard is showing correctly in Repvisits
+    And HS I change the primary contact of "IAM Purple" with using "Jennifer TestAdmin" and verify the save option is working sucessfully
     And HS I successfully sign out

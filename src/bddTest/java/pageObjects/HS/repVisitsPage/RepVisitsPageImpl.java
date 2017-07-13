@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -318,9 +320,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyOverviewPage();
     }
 
-    public void verifyNotificationAndPrimaryContactInSetupWizard(){
+    public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){
 
-        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
+
+        String userTochange;
+
+        load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Notifications & Primary Contact']")).size()==0) {
             button("Next").click();
@@ -336,12 +341,43 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         Assert.assertTrue("Primary Contact Number field is not displayed",driver.findElement(By.xpath("//div[@class='ui selection dropdown']/select/following::div[1]")).isDisplayed());
 
+        String primaryContactName = driver.findElement(By.xpath("//div[@class='ui selection dropdown']//div[@class='text']")).getText();
+
+        if(primaryContactName.contains(primaryUser)) {
+             userTochange = changeNewUser;
+            logger.info("Primary user is selected in primary contact name");
+
+        }
+        else{
+
+             userTochange = primaryUser;
+
+            }
+        driver.findElement(By.xpath("//div[@class='ui selection dropdown']/div[@class='text']")).click();
+        driver.findElement(By.xpath("//div[@class='menu transition visible']/div/span[text()='" + userTochange + "']")).click();
+
         button("Next").click();
         Assert.assertTrue("'Calendar Sync is Coming Soon!' page is not displayed", text("Calendar Sync is Coming Soon!").isDisplayed());
 
         button("Back").click();
+        primaryContactName = driver.findElement(By.xpath("//div[@class='ui selection dropdown']//div[@class='text']")).getText();
+        Assert.assertTrue("Primary contact name is not saved properly",primaryContactName.equalsIgnoreCase(userTochange));
+
+        if(primaryContactName.contains(primaryUser)) {
+            userTochange = changeNewUser;
+            logger.info("Primary user is selected in primary contact name");
+
+        }
+        else{
+            userTochange = primaryUser;
+
+        }
+
+
         button("Back").click();
         Assert.assertTrue("'Confirmation Message' page is not displayed", text("Confirmation Message").isDisplayed());
+        button("Next").click();
+        Assert.assertTrue("Primary contact name is not saved properly",!primaryContactName.contains(userTochange));
 
     }
 
