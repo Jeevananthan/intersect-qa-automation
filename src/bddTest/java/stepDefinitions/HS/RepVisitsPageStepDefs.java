@@ -40,5 +40,16 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesSchedulingNewVisits);
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
+
+        Then("^HS I select welcome section$", repVisits::selectWelcome);
+
+        Then("^HS I select allRepVistUsers in complete section$", repVisits::allRepVisitsUsers);
+
+        Then("^HS I select onlyMe in complete section$",repVisits::onlyMe);
+
+        Then("^HS I select Visits and Fairs in complete section$",repVisits::visitsAndFairs);
+
+
+
     }
 }

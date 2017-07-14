@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -250,6 +252,72 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+date+")]")).click();
     }
+
+    public void selectWelcome()
+    {
+        load(GetProperties.get("hs.welcome.url"));
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("Welcome wizard page is not displayed",text("Fairs").isDisplayed());
+        driver.findElement(By.xpath("//input[value='FAIRS']")).click();
+        button("Next");
+
+        Assert.assertTrue("Highschool info is not displayed",text("Please specify your high school's time zone.").isDisplayed());
+        button("Next");
+        Assert.assertTrue("College Fair at Int QA High School is not displayed",text("CollegeFairs at Int QA High School 4").isDisplayed());
+    }
+
+    public void allRepVisitsUsers()
+    {
+        load(GetProperties.get("hs.complete.url"));
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("Complete page is not displayed",text("Visit Availability").isDisplayed());
+        driver.findElement(By.xpath("//input[text()='All RepVisits Users']")).click();
+        button("Next").click();
+
+        Assert.assertTrue("All RepVisits Ack page is not displayed",text("https://CounselorCommunity.com").isDisplayed());
+        button("Take me to my visits").click();
+        Assert.assertTrue("Calendar is not displayed",text("Today").isDisplayed());
+
+        load(GetProperties.get("hs.visible.url"));
+        waitUntilPageFinishLoading();
+
+        button("Get started with college fairs").click();
+        Assert.assertTrue("College Fair at Int QA High School is not displayed",text("CollegeFairs at Int QA High School 4").isDisplayed());
+    }
+
+    public void onlyMe() {
+        load(GetProperties.get("hs.complete.url"));
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("Visit availability is not found", text("Visit Availability").isDisplayed());
+        driver.findElement(By.xpath("//input[text()='Only Me']")).click();
+        button("Next").click();
+
+        Assert.assertTrue("Only Me Ack is not displayed ", text("When you are ready for admission counselors to request visits, you can adjust your ").isDisplayed());
+        driver.findElement(By.xpath("//span[text()='Take me to my visits']")).click();
+        Assert.assertTrue("Calendar is not displayed", text("Today").isDisplayed());
+
+        load(GetProperties.get("hs.nonvisible.url"));
+        waitUntilPageFinishLoading();
+
+        button("Get started with college fairs").click();
+        Assert.assertTrue("College Fair at Int QA High School is not displayed", text("CollegeFairs at Int QA High School 4").isDisplayed());
+    }
+
+    public void visitsAndFairs()
+    {
+        load(GetProperties.get("hs.welcome.url"));
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("Welcome wizard page is not displayed",text("Visits and Fairs").isDisplayed());
+        driver.findElement(By.xpath("//input[value='VISITS_AND_FAIRS']")).click();
+        button("Next");
+
+        Assert.assertTrue("Highschool info is not displayed",text("Please specify your high school's time zone.").isDisplayed());
+    }
+
 
     public void verifyStartAndEndDates(String startDate, String endDate){
         String[] partsStartDate = startDate.split(" ");

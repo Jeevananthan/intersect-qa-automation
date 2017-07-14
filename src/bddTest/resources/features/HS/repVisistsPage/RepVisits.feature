@@ -100,3 +100,15 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I successfully sign out
+
+
+  @MATCH-1950
+  Scenario: As a new RepVisits user,
+  I want the setup wizard to guide me through final steps in the new user experience
+  so that I can decide on my appointments' visibility and then continue into the system.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I select welcome section
+    Then HS I select allRepVistUsers in complete section
+    Then HS I select onlyMe in complete section
+    Then HS I select Visits and Fairs in complete section
+    Then HS I successfully sign out
