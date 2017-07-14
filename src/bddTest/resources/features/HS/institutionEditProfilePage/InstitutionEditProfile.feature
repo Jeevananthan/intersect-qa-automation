@@ -257,12 +257,9 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Coed (school has male and female students) | All-male (school only has all-male students) | All-female (school only has all-female students) | Unknown |
     And HS I successfully sign out
 
-
   @MATCH-1781
   Scenario: As a HS user, I need to be able to search for high schools during the registration process.
   so I can associate myself with the high school I work at
-
-
     Given HS Iam navigating to Intersect HS through Non naviance Url
     Then HS I click the new user link in the login page
     And HS I search for "Int QA High School 4" in "High school" and verify the results

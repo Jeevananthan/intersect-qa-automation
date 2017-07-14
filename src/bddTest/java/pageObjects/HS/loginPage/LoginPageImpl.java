@@ -55,11 +55,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
         driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
         button("Search").click();
-
         while(button("More Institutions").isDisplayed()){
             button("More Institutions").click();
         }
-
 
         if(!institutionName.equalsIgnoreCase("Request new institution")){
             if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
@@ -69,20 +67,17 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             else{
                 logger.info("Results are not displayed after the search");
             }
-
         }
         else{
             link(institutionName).click();
         }
 
         Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
-
         link("Back to search").click();
 
     }
 
     public void clickNewUserBtn(){
-
         getNewUserBtn().click();
         waitUntilPageFinishLoading();
     }
