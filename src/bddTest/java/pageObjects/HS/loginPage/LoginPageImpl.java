@@ -41,6 +41,56 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
     }
 
+    public void openNonNavianceLoginPage(){
+
+        load(GetProperties.get("hs.app.url"));
+        waitUntilPageFinishLoading();
+
+    }
+
+    public void searchForHSInstitution(String institutionName,String institutionType){
+
+        if(institutionType.equalsIgnoreCase("high school")){
+            button("High School Staff Member").click();
+        }
+        else{
+            button("Higher Education Staff Member").click();
+        }
+
+        driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
+        button("Search").click();
+        while(button("More Institutions").isDisplayed()){
+            button("More Institutions").click();
+        }
+
+        if(!institutionName.equalsIgnoreCase("Request new institution")){
+            if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
+                logger.info("Results are displayed after the search");
+                link(institutionName).click();
+            }
+            else{
+                logger.info("Results are not displayed after the search");
+            }
+        }
+        else{
+            link(institutionName).click();
+        }
+
+        Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
+        link("Back to search").click();
+
+    }
+
+    public void clickNewUserBtn(){
+        getNewUserBtn().click();
+        waitUntilPageFinishLoading();
+    }
+
+    private WebElement getNewUserBtn(){
+
+        return link("New User?");
+    }
+
     private void openNavianceLoginPage() {
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
