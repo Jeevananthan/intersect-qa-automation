@@ -108,9 +108,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
     Then HS I go to the Counselor Community
     Then HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with "Only Me"
-    And HS I set the Visit Availability of RepVisits Availability Settings to "All Repvisits Users"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I go to the Counselor Community
-    Then HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with "All Repvisits Users"
+    Then HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with "All RepVisits Users"
     And HS I successfully sign out
 
    @MATCH-1944
