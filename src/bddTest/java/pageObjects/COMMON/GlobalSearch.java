@@ -350,9 +350,9 @@ public class    GlobalSearch extends SeleniumBase {
         }
 
         if(categorySearch.equalsIgnoreCase("People")){
-            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
+            while(getDriver().findElements(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).size()>=1) {
+                openSearchOptionsDropdowns().click();
+            }
         }
 
         for (String key : textBoxData.keySet()) {
@@ -374,7 +374,7 @@ public class    GlobalSearch extends SeleniumBase {
                     break;
                 case "College Going Rate":
                     WebElement slider = getDriver().findElement(By.xpath("//div[@class='input-range__track input-range__track--active']"));
-                    JavascriptExecutor js=(JavascriptExecutor) driver;
+                    JavascriptExecutor js=driver;
                     String scriptSetAttrValue = "arguments[0].setAttribute(arguments[1],arguments[2])";
                     js.executeScript(scriptSetAttrValue, slider, "style.left", 20);
                     js.executeScript(scriptSetAttrValue, slider, "style.width", 80);
@@ -438,7 +438,7 @@ public class    GlobalSearch extends SeleniumBase {
                     waitUntilPageFinishLoading();
                     break;
                 case "State":
-                    WebElement drpState=null;
+                    WebElement drpState;
                     if(categorySearch.equalsIgnoreCase("Higher Education")) {
                         drpState = driver.findElement(By.id("he-state"));
                     }
@@ -489,6 +489,9 @@ public class    GlobalSearch extends SeleniumBase {
     }
 
     //Getters
+    private WebElement openSearchOptionsDropdowns(){
+        return getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']"));
+    }
     private void jsClick(WebElement element) {
         driver.executeScript("arguments[0].click();",element);
     }
