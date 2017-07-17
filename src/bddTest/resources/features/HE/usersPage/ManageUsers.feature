@@ -81,8 +81,9 @@ Feature: As an HE administrator I want to manage users at my institution
     And HE I can create a user in HE app "<First Name>" and "<Last Name>" and "<Email>" and "<role>"
     Then HE I inactivate the user account for "<Email>"
     And HE I activate the user account for "<Email>"
-    Then HE I edit the user account for "kpmahi1234@gmail.com" with the following info
+    Then HE I edit the user account for "kpmahi13@gmail.com" with the following info
         |Email  |purpleheautomation+rdinator@gmail.com |
+      Then HE I successfully sign out
     Examples:
       |First Name |Last Name     |Email               | role      |
       |testing03  |automation02  |kpmahi13@gmail.com  |publishing |
