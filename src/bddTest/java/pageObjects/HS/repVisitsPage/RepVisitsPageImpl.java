@@ -435,6 +435,91 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+
+    public void navigateToFairs()
+    {
+
+        load(GetProperties.get("hs.welcome.url"));
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("welcome wizard is not displayed",text("Tell us about your High School").isDisplayed());
+
+        driver.findElement(By.xpath("//input[@value='FAIRS']")).click();
+        button("Next").click();
+
+        Assert.assertTrue("school's time zone is not displayed",text("Please specify your high school's time zone.").isDisplayed());
+        button("Next").click();
+
+        Assert.assertTrue("CollegeFairs Events is not displayed",text("CollegeFairs at Int QA High School 4").isDisplayed());
+        driver.findElement(By.xpath("//a[@href='/rep-visits/settings']")).click();
+
+        Assert.assertTrue("Notifications & Primary Contact is not displayed",text("Notifications & Primary Contact").isDisplayed());
+        driver.findElement(By.xpath("//a[@href='/rep-visits/settings/notifications']")).click();
+
+        Assert.assertTrue("Primary Contact detail is not displayed",text("Primary Contact for Visits").isDisplayed());
+
+    }
+
+    public void primaryContactDetails(String phoneNo)
+    {
+
+        String empty="";
+        driver.findElement(By.id("notification_contacts_primary_contact_phone")).clear();
+//        driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
+//        driver.findElement(By.xpath("//button[@class='ui primary button']")).click();
+
+        if(phoneNo.equals(""))
+        {
+            //driver.findElement(By.id("notification_contacts_primary_contact_phone")).clear();
+            driver.findElement(By.xpath("//button[@class='ui primary button']")).click();
+            Assert.assertTrue("Phone no is not entered ",text("Please enter a phone number. Ex: (555) 555-5555").isDisplayed());
+        }
+        else
+        {
+            driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
+            driver.findElement(By.xpath("//button[@class='ui primary button']")).click();
+            String valPhoneNo = driver.findElement(By.xpath("//input[@name='primaryContactPhone']")).getAttribute("value");
+            Assert.assertTrue("Changes has been saved",valPhoneNo.contains(phoneNo));
+
+        }
+
+        link("Time Zone").click();
+        driver.findElement(By.xpath("//a[@href='/rep-visits/settings']")).click();
+
+    }
+
+    public void navigateToVisitsAndFairs()
+    {
+
+        load(GetProperties.get("hs.welcome.url"));
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("welcome wizard is not displayed",text("Tell us about your High School").isDisplayed());
+
+        driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS']")).click();
+        button("Next").click();
+
+        Assert.assertTrue("school's time zone is not displayed",text("Please specify your high school's time zone.").isDisplayed());
+        button("Next").click();
+
+        Assert.assertTrue("Availability is not displayed",text("ADD TIME SLOT").isDisplayed());
+        button("Next").click();
+
+        Assert.assertTrue("BLOCKED DAYS is not displayed",text("Prevent visits on holidays and other days by adding them here.").isDisplayed());
+        button("Next").click();
+
+        Assert.assertTrue("EXCEPTIONS page is not displayed",text("Choose a Date").isDisplayed());
+        button("Next").click();
+
+        Assert.assertTrue("Availability Settings page is not displayed",text("Visits Confirmations").isDisplayed());
+        button("Next").click();
+
+        Assert.assertTrue("Confirmation Message is not displayed",text("Confirmation Message").isDisplayed());
+        button("Next").click();
+
+        Assert.assertTrue("Primary Contact detail is not displayed",text("Primary Contact for Visits").isDisplayed());
+
+    }
 }
 
 

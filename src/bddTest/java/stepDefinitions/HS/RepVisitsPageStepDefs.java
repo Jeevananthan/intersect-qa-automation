@@ -50,5 +50,11 @@ public class RepVisitsPageStepDefs implements En {
         And ("^HS I click the Get Started button in the welcome milestone page$",repVisits::clickGetStartedBtn);
 
         And ("^HS I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
+
+        And ("^HS I select Fairs in welcome$",repVisits::navigateToFairs);
+
+        And("^HS I verify the primary Contact Phone Number using \"([^\"]*)\"",repVisits::primaryContactDetails);
+
+        And("^HS I select Visits and Fairs in welcome",repVisits::navigateToVisitsAndFairs);
     }
 }

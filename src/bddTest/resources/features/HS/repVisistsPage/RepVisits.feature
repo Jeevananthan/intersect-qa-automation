@@ -119,5 +119,16 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I navigate to college fairs,visits through availability option
     And HS I successfully sign out
 
-
+   @MATCH-2111
+   Scenario: As a RepVisits High School user who works in multiple schools,
+   I want to be able to enter a primary contact number for my school,
+   So that Colleges trying to schedule visits have the correct contact number for me.
+     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+     And HS I select Fairs in welcome
+     Then HS I verify the primary Contact Phone Number using "5555555"
+     And HS I verify the primary Contact Phone Number using ""
+     And HS I select Visits and Fairs in welcome
+     Then HS I verify the primary Contact Phone Number using "5555555"
+     And HS I verify the primary Contact Phone Number using ""
+     And  HS I successfully sign out
 
