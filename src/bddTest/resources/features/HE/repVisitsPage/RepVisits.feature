@@ -47,3 +47,8 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     Then HE I verify the Check RepVisits Availability button
     And HE I successfully sign out
 
+@MATCH-2169
+Scenario: HE Users - RepVisits - Availability Pills Updates
+  Given HE I am logged in to Intersect HE as user type "administrator"
+  And HE I search for "Lebanon High School" in RepVisits
+  Then HE I select "Lebanon High School" in "Lebanon, Ohio" from the RepVisits intermediate search results

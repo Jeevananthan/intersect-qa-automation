@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import cucumber.api.java.cs.A;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -51,6 +52,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private void validateInfolink(){
         link("For more information:").click();
         Assert.assertTrue("Did not end up on Community URL!", driver.getCurrentUrl().contains("counselor-community/institution"));
+
     }
     public void verifySearchAndSchedulePage() {
         navBar.goToRepVisits();
