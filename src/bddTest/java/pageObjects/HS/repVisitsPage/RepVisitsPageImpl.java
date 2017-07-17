@@ -409,6 +409,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void clickUpdateButtonInRepVisits(){
+        if(updateBtn().isDisplayed()){
+            updateBtn().click();
+        }
+    }
+
+    public void verifyStartDateAndEndDateInAvailabilitySetting(String startDate,String endDate){
+
+       String valStartDate = driver.findElement(By.xpath("//div[@style='display: inline-block;']/button[1]/b/span")).getText();
+       String valEndDate = driver.findElement(By.xpath("//div[@style='display: inline-block;']/button[2]/b/span")).getText();
+
+       Assert.assertTrue("Start date is not as expected",startDate.contains(valStartDate));
+       Assert.assertTrue("End date is not as expected",endDate.contains(valEndDate));
+
+    }
+
 
     public void verifyWelcomeWizard(){
 
@@ -428,6 +444,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement getStartedBtn(){
         return button("Get Started!");
+    }
+
+    private WebElement updateBtn(){
+        return button("UPDATE DATE");
     }
 
 

@@ -50,5 +50,9 @@ public class RepVisitsPageStepDefs implements En {
         And ("^HS I click the Get Started button in the welcome milestone page$",repVisits::clickGetStartedBtn);
 
         And ("^HS I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
+
+        And ("^HS I verify the update button appears and I click update button$",repVisits::clickUpdateButtonInRepVisits);
+
+        And ("^HS I verify the StartDate is set to \"([^\"]*)\" and EndDate is set to \"([^\"]*)\"$",repVisits::verifyStartDateAndEndDateInAvailabilitySetting);
     }
 }

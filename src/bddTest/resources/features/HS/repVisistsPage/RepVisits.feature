@@ -119,5 +119,23 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I navigate to college fairs,visits through availability option
     And HS I successfully sign out
 
+     @MATCH-2171
+
+     Scenario Outline: when we initially created the first and last days for availability, they were not developed to persist.
+                        Instead they're changed / set each time that availability is set. This ticket is to persist the first and last dates
+       Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+       Then HS I set a date using "<StartDate>" and "<EndDate>"
+       And HS I verify the update button appears and I click update button
+       #below two steps are still in review in MATCH 1802
+       When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+       Then HS I verify the Time Slot time were added with "<HourStartTime>", "<MinuteStartTime>" and "<MeridianStartTime>"
+       And HS I verify the StartDate is set to "09/23/2017" and EndDate is set to "10/23/2017"
+       And HS I successfully sign out
+
+       Examples:
+         |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
+         |Monday           | 5             |06          | 11             | 7             | am                | pm              | 3          | September 23 2017         |October 23 2017      |
+
+
 
 
