@@ -439,7 +439,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void navigateToFairs()
     {
 
-        load(GetProperties.get("hs.welcome.url"));
+        load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
 
         Assert.assertTrue("welcome wizard is not displayed",text("Tell us about your High School").isDisplayed());
@@ -471,27 +471,29 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(phoneNo.equals(""))
         {
             //driver.findElement(By.id("notification_contacts_primary_contact_phone")).clear();
-            driver.findElement(By.xpath("//button[@class='ui primary button']")).click();
+            button("Save changes").click();
             Assert.assertTrue("Phone no is not entered ",text("Please enter a phone number. Ex: (555) 555-5555").isDisplayed());
         }
         else
         {
             driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
-            driver.findElement(By.xpath("//button[@class='ui primary button']")).click();
+            button("Save changes").click();
             String valPhoneNo = driver.findElement(By.xpath("//input[@name='primaryContactPhone']")).getAttribute("value");
             Assert.assertTrue("Changes has been saved",valPhoneNo.contains(phoneNo));
 
         }
 
         link("Time Zone").click();
-        driver.findElement(By.xpath("//a[@href='/rep-visits/settings']")).click();
+
+        driver.findElement(By.xpath("//a[@href='/rep-visits/settings/notifications']")).click();
+       // driver.findElement(By.xpath("//a[@href='/rep-visits/settings']")).click();
 
     }
 
     public void navigateToVisitsAndFairs()
     {
 
-        load(GetProperties.get("hs.welcome.url"));
+        load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
 
         Assert.assertTrue("welcome wizard is not displayed",text("Tell us about your High School").isDisplayed());
