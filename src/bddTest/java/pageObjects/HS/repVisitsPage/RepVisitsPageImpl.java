@@ -312,7 +312,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyCalendarSyncMilestoneInSetupWizard(){
 
 
-        load(GetProperties.get("he.WizardAppSelect.url"));
+        load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Calendar Sync']")).size()==0) {
             button("Next").click();
