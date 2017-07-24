@@ -30,3 +30,5 @@ Feature: As a HS user I need to login to Intersect
     Then SP I go to the users list for "THE FULTON SCHOOL" with NCES_ID "A0771765" from the institution dashboard using the search
     And SP I "unlock" the user account for "hobsonstest11@mailinator.com"
     And SP I successfully sign out
+    And HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "Control!23" as password
+    And HS I successfully sign out

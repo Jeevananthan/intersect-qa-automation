@@ -84,6 +84,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         search.selectResult(institutionName);
         waitUntilPageFinishLoading();
         link("See All Users").click();
+        try {
+            driver.wait(2000);
+        } catch (Exception e){}
         waitUntilPageFinishLoading();
     }
 
