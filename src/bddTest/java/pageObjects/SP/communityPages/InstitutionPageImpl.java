@@ -4,17 +4,19 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 import selenium.SeleniumBase;
 
 import org.apache.log4j.Logger;
 
-public class InstitutionPageImpl extends SeleniumBase {
+public class InstitutionPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
 
     public InstitutionPageImpl() { logger = Logger.getLogger(InstitutionPageImpl.class);    }
 
     public void goToHubsPage(String collegeName){
         waitUntilPageFinishLoading();
+        communityFrame();
         link("Additional info").click();
         link("VIEW NAVIANCE COLLEGE PROFILE").click();
         waitUntilPageFinishLoading();
@@ -27,6 +29,6 @@ public class InstitutionPageImpl extends SeleniumBase {
 
     //locator
     private WebElement collageNameLabel() {
-        return getDriver().findElement(By.cssSelector("h1.masthead__name.ng-binding"));
+        return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }
 }
