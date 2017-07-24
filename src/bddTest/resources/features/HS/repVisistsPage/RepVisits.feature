@@ -110,13 +110,13 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set the Blocked date as "<BlockedDate>" and select the reason as "<Reason>" in the Holiday tab
     Then HS I go to the Counselor Community
-    Then HS I verify the "<BlockedDate>" and "<BlockedDate>" date with "<Reason>" was present in the Holidays tab in the Availability & Settings page in RepVisits
-    Then HS I Click the Remove option for the date as "<BlockedDate>" in the Holiday tab
+    Then HS I verify the "<StartDate>" and "<EndDate>" date with "<Reason>" was present in the Holidays tab in the Availability & Settings page in RepVisits
+    Then HS I click the Remove option for the "<StartDate>" and "<EndDate>" in the Holiday tab
     Then HS I go to the Counselor Community
-    Then HS I verify the "<BlockedDate>" and "<BlockedDate>" date with "<Reason>" was not present in the Holidays tab in the Availability & Settings page in RepVisits
+    Then HS I verify the "<StartDate>" and "<EndDate>" date with "<Reason>" was not present in the Holidays tab in the Availability & Settings page in RepVisits
     And HS I successfully sign out
       Examples:
-      |BlockedDate          |Reason       |
-      |September 23 2017    |School Event |
-      |October 15 2017      |Holiday      |
+      |BlockedDate          |Reason       |StartDate  | EndDate   |
+      |September 23 2017    |School Event |2017-09-23 | 2017-09-23|
+
 

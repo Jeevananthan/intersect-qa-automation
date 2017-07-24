@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -230,6 +231,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
     }
+    public void setDateDoubleClick(String inputDate) {
+
+        String[] parts = inputDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+
+        findMonth(calendarHeading);
+        WebElement Date = driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+parts[1]+")]"));
+        doubleClick(Date);
+        waitUntilPageFinishLoading();
+    }
 
     public void findMonth(String month) {
 
@@ -324,38 +335,47 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Blocked Days").click();
         chooseDates().click();
         setDate(blockdate);
-        selectReason().click();
-        pickReason(reason).click();
+        setDateDoubleClick(blockdate);
+        WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
+        doubleClick(selectReason);
+        WebElement pickReason = driver.findElement(By.xpath("//span[text()='"+reason+"']"));
+        pickReason.click();
         addBlockedTime().click();
     }
 
-    public void RemoveBlockedDate(String removeBlockdate){
+    private void doubleClick(WebElement elementLocator) {
+        Actions actions = new Actions(driver);
+        actions.doubleClick(elementLocator).perform();
+    }
+
+    public void RemoveBlockedDate(String startDate, String endDate){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
-        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td[text()='"+removeBlockdate+"']/following-sibling::td/span[text()='Remove']"));
+        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td[text()='"+startDate+"']/following-sibling::td[text()='"+endDate+"']/following-sibling::td/span[text()='Remove']"));
         BlockedDate.click();
     }
 
-    public void verifyBlockedHolidaysAdded(String startDate, String endDate,String reason) {
+    public void verifyBlockedHolidaysAdded(String startDate,String endDate,String reason) {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
 
-        int columnID = getColumnIdByFieldName( "//table[@class='ui basic table']//thead/tr/th", "Start Date");
-        int rowID = getRowIdByColumnId("//table[@class='ui basic table']//tbody/tr", columnID, startDate);
-
+        int columnID = getColumnIdByFieldName( "//table[@class='ui basic table']//thead", "Start Date");
+        int rowID = getRowIdByColumnId("//table[@class='ui basic table']//tbody", columnID, startDate);
+        columnID = columnID+1;
+        rowID = rowID+1;
         //verify Start Date
-        String ActualStartDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + rowID + "]//td["+columnID+"]")).getText();
+        String ActualStartDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td["+columnID+"]")).getText();
         Assert.assertTrue("Start date " + startDate + "is not displayed", startDate.equals(ActualStartDate));
         //verify End date
-        String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + rowID + "]//td[2]")).getText();
+        String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td[2]")).getText();
         Assert.assertTrue("End date " + endDate + "is not displayed", endDate.equals(ActualEnddate));
         //verify Reason
-        String ActualReason = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + rowID + "]//td[0]")).getText();
+        String ActualReason = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td[1]")).getText();
         Assert.assertTrue("Reason " + reason + " is not displayed", reason.equals(ActualReason));
         //verify Remove link
-        Assert.assertTrue("Reason " + reason + " is not displayed",driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr[" + rowID + "]//td[3]")).isDisplayed());
+        Assert.assertTrue("Reason " + reason + " is not displayed",driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td[3]")).isDisplayed());
     }
 
 
@@ -363,11 +383,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
-        int columnID = getColumnIdByFieldName( "//table[@class='ui basic table']//thead/tr/th", "Start Date");
-        int rowID = getRowIdByColumnId("//table[@class='ui basic table']//tbody/tr", columnID, startDate);
+        int columnID = getColumnIdByFieldName( "//table[@class='ui basic table']//thead", "Start Date");
+        int rowID = getRowIdByColumnId("//table[@class='ui basic table']//tbody", columnID, startDate);
 
         if(rowID == -1){
-            logger.info("The Given row was not found on the table");
+            logger.info("The Given row with Start Date '"+startDate+"',End Date '"+endDate+"'with a '"+reason+"'was not found on the table");
         }else{
             fail("The Given row was found on the table");
         }
@@ -386,7 +406,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         if(colCount > 0)
         {
-            for(int colNum=0;colNum<colCount;colNum++)
+            for(int colNum=1;colNum<colCount;colNum++)
             {
                 presentField = webEleColumns.get(colNum).getText().trim().replace("\"", "");
 
@@ -431,12 +451,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement chooseDates(){
         return button(By.cssSelector("button[class='ui button _2TgAEzclbuAyQiI-jXUoxe']"));
-    }
-    private WebElement selectReason(){
-        return driver.findElement(By.cssSelector("div[class='ui button floating labeled icon _2r0LAIwbM94mTAqf-2YGUG dropdown']"));
-    }
-    private WebElement pickReason(String reason){
-        return getDriver().findElement(By.xpath("//span[text()='" + reason + "']"));
     }
     private WebElement addBlockedTime(){
         return button(By.cssSelector("button[class='ui primary button _2r0LAIwbM94mTAqf-2YGUG']"));
