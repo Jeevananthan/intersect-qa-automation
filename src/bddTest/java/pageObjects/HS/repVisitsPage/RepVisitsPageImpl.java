@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -88,19 +89,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(button("Update Messaging").isDisplayed());
     }
 
-    public void EnterSpecialInstructionsforHEUser() {
-        String WebInstructionsforHEUser = "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allowed are 250 . This text contains more than 250 characters";
+    public void SetSpecialInstructionsForHEUser( String Instructions) {
         getWebInstructions().clear();
-        getWebInstructions().sendKeys(WebInstructionsforHEUser);
+        getWebInstructions().sendKeys(Instructions);
         button("Update Messaging").click();
 
     }
 
-    public void VerifySpecialInstructionsTextCount(){
-        String instructionsText = getWebInstructions().getText();
-        Assert.assertTrue("Web Instructions are more than 250 characters",instructionsText.length() <= 250 );
+    public void VerifySpecialInstructionsForHE( String instructionsText){
+       Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
     }
-
 
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
