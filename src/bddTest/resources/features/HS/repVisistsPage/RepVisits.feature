@@ -49,7 +49,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1962
   Scenario: As a HIGH School User, I want to verify College Fair Blank DashBoard
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs2" and username "school-user" and password "password"
-    And HS I Naviagte to College Fairs tab of the Repvisits Page
+    And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I verify the College Fair Blank DashBoard Message
     And HS I successfully sign out
 

@@ -29,7 +29,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I set the RepVisits Availability & Settings time zone to \"([^\"]*)\"$", repVisits::setTimeZone);
 
         And("^HS I click on Availability on the Availability & Settings tab in RepVisits$",repVisits::clickLinkAvailability);
-        And("^HS I Naviagte to College Fairs tab of the Repvisits Page$",repVisits::clicklinkCollegeFair);
+        And("^HS I Navigate to College Fairs tab of the Repvisits Page$",repVisits::clicklinkCollegeFair);
         And("^HS I verify the College Fair Blank DashBoard Message$",repVisits::verifyCollgeFairBlankDashBoard);
     }
 }
