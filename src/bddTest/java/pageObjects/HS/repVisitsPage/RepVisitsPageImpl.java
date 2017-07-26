@@ -455,6 +455,209 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void accessCreateCollegeFair(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected,String buttonToClick){
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        button(By.id("add-college")).click();
+
+        if(!collegeFairName.equals("")) {
+            Assert.assertTrue("College Fair TextBox is not displayed",textbox(By.id("college-fair-name")).isDisplayed());
+            textbox(By.id("college-fair-name")).sendKeys(collegeFairName);
+        }
+        if(!date.equals("")) {
+            Assert.assertTrue("Date Textbox are not displayed",textbox(By.id("college-fair-date")).isDisplayed());
+            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            datepicker.click();
+            setDate(date);
+        }
+        if(!startTime.equals("")) {
+            Assert.assertTrue("Start Time TextBox is not displayed",textbox(By.id("college-fair-start-time")).isDisplayed());
+            textbox(By.id("college-fair-start-time")).sendKeys(startTime);
+        }
+        if(!endTime.equals("")) {
+            Assert.assertTrue("End Time TextBox is not displayed",textbox(By.id("college-fair-end-time")).isDisplayed());
+            textbox(By.id("college-fair-end-time")).sendKeys(endTime);
+        }
+        if(!RSVPDate.equals("")) {
+            Assert.assertTrue("RSVP Deadline TextBox is not displayed",textbox(By.id("college-fair-rsvp-deadline")).isDisplayed());
+            WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            RSVPdatepicker.click();
+            setDate(RSVPDate);
+        }
+        if(!cost.equals("")) {
+            Assert.assertTrue("Cost TextBox is not displayed",textbox(By.id("college-fair-cost")).isDisplayed());
+            textbox(By.id("college-fair-cost")).sendKeys(cost);
+        }
+        if(!maxNumberofColleges.equals("")) {
+            Assert.assertTrue("'Max Number of Colleges' TextBox is not displayed",textbox(By.id("college-fair-max-number-colleges")).isDisplayed());
+            textbox(By.id("college-fair-max-number-colleges")).sendKeys(maxNumberofColleges);
+        }
+        if(!numberofStudentsExpected.equals("")) {
+            Assert.assertTrue("'Number of Students Expected' TextBox is not displayed",textbox(By.id("college-fair-number-expected-students")).isDisplayed());
+            textbox(By.id("college-fair-number-expected-students")).sendKeys(numberofStudentsExpected);
+        }
+
+        if(!buttonToClick.equals("")) {
+            if(buttonToClick.equals("Cancel This College Fair")) {
+                Assert.assertTrue("'Cancel This College Fair' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).isDisplayed());
+                driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).click();
+            }else if(buttonToClick.equals("Save")){
+                Assert.assertTrue("'Save' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Save']")).isDisplayed());
+                driver.findElement(By.xpath("//button/span[text()='Save']")).click();
+            }else {
+                fail("The option for the button to click ="+buttonToClick+" is not a valid one");
+            }
+        }
+    }
+
+    public void verifySuccessMessageforCreateFair(String createFairName) {
+        Assert.assertTrue("Success Message for the fair " + createFairName + " is not displayed", driver.findElement(By.xpath("//p/span[text()='QA Fair New']/parent::p")).isDisplayed());
+        Assert.assertTrue("'Close' button is not displayed",driver.findElement(By.cssSelector("button[class='ui basic primary button']")).isDisplayed());
+    }
+
+    public void accessSuccessMessageforFair(String buttonName){
+        if(buttonName.equals("Close")){
+            driver.findElement(By.cssSelector("button[class='ui basic primary button']")).click();
+        }else if(buttonName.equals("Add Attendees")){
+            driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        }else{
+            fail("The given option is not a valid one");
+        }
+    }
+    public void accessCollegeFairDetailsPage(String buttonName){
+        if(buttonName.equals("Edit")){
+            driver.findElement(By.cssSelector("button[id='edit-college-fair']")).click();
+        }else{
+            fail("The given option '"+buttonName+"' is not a valid one");
+        }
+    }
+    public void verifyEditCollegeFair(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected){
+        Assert.assertTrue("Page Title is not displayed",driver.findElement(By.xpath("//h1/span[text()='Edit College Fair']")).isDisplayed());
+        Assert.assertTrue("'College Fair Details' Title is not displayed",driver.findElement(By.xpath("//h2/span[text()='College Fair Details']")).isDisplayed());
+        Assert.assertTrue("'College Fair Name' Label is not displayed",text("College Fair Name").isDisplayed());
+        Assert.assertTrue("'Date' Label is not displayed",driver.findElement(By.xpath("//label[text()='Date']")).isDisplayed());
+        Assert.assertTrue("'Start Time' Label is not displayed",driver.findElement(By.xpath("//label[text()='Start Time']")).isDisplayed());
+        Assert.assertTrue("'End Time' Label is not displayed",driver.findElement(By.xpath("//label[text()='End Time']")).isDisplayed());
+        Assert.assertTrue("'RSVP Deadline' Label is not displayed",driver.findElement(By.xpath("//label[text()='RSVP Deadline']")).isDisplayed());
+        Assert.assertTrue("'Cost' Label is not displayed",driver.findElement(By.xpath("//label[text()='Cost']")).isDisplayed());
+        Assert.assertTrue("'Max Number of Colleges' Label is not displayed",driver.findElement(By.xpath("//label[text()='RSVP Deadline']")).isDisplayed());
+        Assert.assertTrue("'Number of Students Expected' Label is not displayed",driver.findElement(By.xpath("//label[text()='Max Number of Colleges']")).isDisplayed());
+        Assert.assertTrue("'Instructions for College Representatives' Label is not displayed",driver.findElement(By.xpath("//label[text()='Number of Students Expected']")).isDisplayed());
+        Assert.assertTrue("'Automatically Confirm Incoming Requests From Colleges?' Label is not displayed",driver.findElement(By.xpath("//label[text()='Instructions for College Representatives']")).isDisplayed());
+        Assert.assertTrue("'Settings' Label is not displayed",driver.findElement(By.xpath("//h2/span[text()='Settings']")).isDisplayed());
+        Assert.assertTrue("'Email Message to Colleges After Confirmation' Label is not displayed",driver.findElement(By.xpath("//label[text()='Email Message to Colleges After Confirmation']")).isDisplayed());
+        Assert.assertTrue("'Cancel This College Fair' Button is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).isDisplayed());
+        Assert.assertTrue("'Publish/Unpublish' Button is not displayed",driver.findElement(By.cssSelector("button[class='ui basic primary button']")).isDisplayed());
+
+        if(!collegeFairName.equals("")) {
+            String currentFairName = textbox(By.id("college-fair-name")).getText();
+            Assert.assertTrue("'College Fair Name' value was not as expected.",currentFairName.equals(collegeFairName));
+        }
+        if(!date.equals("")) {
+            String currentDate = textbox(By.id("college-fair-date")).getText();
+            Assert.assertTrue("'Date' value was not as expected.",currentDate.equals(date));
+        }
+        if(!startTime.equals("")) {
+            String currentStartTime = textbox(By.id("college-fair-start-time")).getText();
+            Assert.assertTrue("'Start Time' value was not as expected.",currentStartTime.equals(startTime));
+        }
+        if(!endTime.equals("")) {
+            String currentEndTime = textbox(By.id("college-fair-end-time")).getText();
+            Assert.assertTrue("'End Time' value was not as expected.",currentEndTime.equals(endTime));
+        }
+        if(!RSVPDate.equals("")) {
+            String currentRSVPDeadline = textbox(By.id("college-fair-rsvp-deadline")).getText();
+            Assert.assertTrue("'RSVP Deadline' value was not as expected.",currentRSVPDeadline.equals(RSVPDate));
+        }
+        if(!cost.equals("")) {
+            String currentCost = textbox(By.id("college-fair-cost")).getText();
+            Assert.assertTrue("'Cost' value was not as expected.",currentCost.equals(cost));
+        }
+        if(!maxNumberofColleges.equals("")) {
+            String currentMaxNumberofColleges = textbox(By.id("college-fair-max-number-colleges")).getText();
+            Assert.assertTrue("'Max Number of Colleges' value was not as expected.",currentMaxNumberofColleges.equals(maxNumberofColleges));
+        }
+        if(!numberofStudentsExpected.equals("")) {
+            String currentNumberofStudentsExpected = textbox(By.id("college-fair-number-expected-students")).getText();
+            Assert.assertTrue("'Max Number of Colleges' value was not as expected.",currentNumberofStudentsExpected.equals(numberofStudentsExpected));
+        }
+
+    }
+
+    public void accessEditCollegeFair(String collegeFairName,String date,String cost,String maxNumberofColleges,String numberofStudentsExpected,String settings, String instructionsforCollegeRepresentatives,String emailMessagetoCollegesAfterConfirmation ,String buttonToClick){
+        if(!collegeFairName.equals("")) {
+            WebElement currentCollegeFairName = textbox(By.id("college-fair-name"));
+            currentCollegeFairName.clear();
+            currentCollegeFairName.sendKeys(collegeFairName);
+        }
+        if(!date.equals("")) {
+            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            datepicker.click();
+            setDate(date);
+        }
+
+        if(!cost.equals("")) {
+            WebElement currentCost = textbox(By.id("college-fair-cost"));
+            currentCost.clear();
+            currentCost.sendKeys(cost);
+        }
+        if(!maxNumberofColleges.equals("")) {
+            WebElement currentMaxNumberofColleges = textbox(By.id("college-fair-max-number-colleges"));
+            currentMaxNumberofColleges.clear();
+            currentMaxNumberofColleges.sendKeys(maxNumberofColleges);
+        }
+        if(!numberofStudentsExpected.equals("")) {
+            WebElement currentNumberofStudentsExpected = textbox(By.id("college-fair-number-expected-students"));
+            currentNumberofStudentsExpected.clear();
+            currentNumberofStudentsExpected.sendKeys(numberofStudentsExpected);
+        }
+        if(!instructionsforCollegeRepresentatives.equals("")) {
+            WebElement currentInstructionsforCollegeRepresentatives = driver.findElement(By.cssSelector("textarea[id='college-fair-instructions']"));
+            currentInstructionsforCollegeRepresentatives.clear();
+            currentInstructionsforCollegeRepresentatives.sendKeys(instructionsforCollegeRepresentatives);
+        }
+        if(!settings.equals("")) {
+            if(settings.equals("Yes")) {
+                WebElement yesRadioButton = driver.findElement(By.id("college-fair-automatic-request-confirmation-yes"));
+                yesRadioButton.click();
+            }else if(settings.equals("No")){
+                WebElement noRadioButton = driver.findElement(By.id("college-fair-automatic-request-confirmation-no"));
+                noRadioButton.click();
+            }else{
+                fail("The given option for the Settings="+settings+" is not a valid one");
+            }
+        }
+        if(!emailMessagetoCollegesAfterConfirmation.equals("")) {
+            WebElement currentEmailMessagetoCollegesAfterConfirmation = driver.findElement(By.cssSelector("textarea[id='college-fair-email-message-to-colleges']"));
+            currentEmailMessagetoCollegesAfterConfirmation.clear();
+            currentEmailMessagetoCollegesAfterConfirmation.sendKeys(emailMessagetoCollegesAfterConfirmation);
+        }
+        if(!buttonToClick.equals("")) {
+            if(buttonToClick.equals("Cancel This College Fair")) {
+                Assert.assertTrue("'Cancel This College Fair' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).isDisplayed());
+                driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).click();
+            }else if(buttonToClick.equals("Save")){
+                Assert.assertTrue("'Save' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Save']")).isDisplayed());
+                driver.findElement(By.xpath("//button/span[text()='Save']")).click();
+            }else {
+                fail("The option for the button to click ="+buttonToClick+" is not a valid one");
+            }
+        }
+    }
+
+    public void verifySuccessMessageforEditFair(String EditFairName){
+        Assert.assertTrue("Success Message for the fair " + EditFairName + " is not displayed", driver.findElement(By.xpath("//p/span[text()='"+EditFairName+"']/parent::p")).isDisplayed());
+    }
+
+    public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
+        }
+        driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='QA Fair New']/parent::tr/td/a[span='View Details']")).click();
+    }
+
     private WebElement getStartedBtn(){
         return button("Get Started!");
     }
