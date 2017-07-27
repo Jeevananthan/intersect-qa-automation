@@ -53,7 +53,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify the primary Contact Phone Number using \"([^\"]*)\" for Visits and Fairs$",repVisits::primaryContactDetailsforVisitsAndFairs);
 
-        And("^HS I select Visits and Fairs in welcome$",repVisits::navigateToVisitsAndFairs);
+        And("^HS I go to the Notifications & Primary Contact Tab in HS Setup Wizard page$",repVisits::navigateToVisitsAndFairs);
 
         And("^HS I go to the Availability & Settings$",repVisits::navigateToAvailabilityAndSettings);
 
