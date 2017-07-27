@@ -51,10 +51,16 @@ public class RepVisitsPageStepDefs implements En {
 
         And ("^HS I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
 
-        And ("^HS I select Fairs in welcome$",repVisits::navigateToFairs);
+        And("^HS I verify the primary Contact Phone Number using \"([^\"]*)\" for Visits and Fairs$",repVisits::primaryContactDetailsforVisitsAndFairs);
 
-        And("^HS I verify the primary Contact Phone Number using \"([^\"]*)\"",repVisits::primaryContactDetails);
+        And("^HS I select Visits and Fairs in welcome$",repVisits::navigateToVisitsAndFairs);
 
-        And("^HS I select Visits and Fairs in welcome",repVisits::navigateToVisitsAndFairs);
+        And("^HS I go to the Availability & Settings$",repVisits::navigateToAvailabilityAndSettings);
+
+        And("^HS I go to the College Fairs$",repVisits::navigateToCollegeFairs);
+
+        And("^HS I verify the primary Contact Phone Number using \"([^\"]*)\" for Fairs$",repVisits::primaryContactDetailsforFairs);
+
+        And("^HS I verify the primary Contact Phone Number using \"([^\"]*)\" in Availability & Settings$",repVisits::primaryContactDetailsinAvailabilityandSettings);
     }
 }
