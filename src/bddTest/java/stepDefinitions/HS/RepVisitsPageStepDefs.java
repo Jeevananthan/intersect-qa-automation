@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -54,5 +55,19 @@ public class RepVisitsPageStepDefs implements En {
         Then ("^HS I set the Visit Availability of RepVisits Availability Settings to \"([^\"]*)\"$",repVisits::accessVisitAvailability);
 
         Then ("^HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with \"([^\"]*)\"$",repVisits::verifyVisitAvailability);
+
+        When("^HS I open the Exceptions page$", repVisits::openExceptions);
+
+        And("^HS I select the date \"([^\"]*)\"$", repVisits::selectDateInExceptions);
+
+        And("^HS I add a new time slot with the following data:$", repVisits::addTimeSlot);
+
+        Then("^HS I verify that the time slot was added in date \"([^\"]*)\", with the start time \"([^\"]*)\"$", repVisits::verifyTimeSlot);
+
+        And("^HS I delete the time slot in date \"([^\"]*)\", with start time \"([^\"]*)\"$", repVisits::deleteTimeSlot);
+
+        And("^HS I verify that the time slot was removed from date \"([^\"]*)\", with the start time \"([^\"]*)\"$", repVisits::verifyAbsenceOfTimeSlot);
+
+        Then("^HS I clear the day$", repVisits::clearDay);
     }
 }

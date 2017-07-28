@@ -5,9 +5,11 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -459,11 +461,61 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button("Get Started!");
     }
 
+    public void openExceptions() {
+        navBar.goToRepVisits();
+        availabilityAndSettingsButton().click();
+        innerExceptionsButton().click();
+    }
+
+    public void selectDateInExceptions(String date) {
+        chooseADateButton().click();
+        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", date.split(",")[0], 10);
+        repVisitsPageHEObj.miniCalendarDayCell(date.split(",")[1].split(" ")[1]).click();
+    }
+
+    public void addTimeSlot(DataTable timeSlotData) {
+        List<List<String>> slotData = timeSlotData.asLists(String.class);
+        newTimeSlotStartTime().sendKeys(slotData.get(0).get(1));
+        newTimeSlotEndTime().sendKeys(slotData.get(1).get(1));
+        newTimeSlotVisits().sendKeys(slotData.get(2).get(1));
+        addTimeSlotButton().click();
+    }
+
+    public void verifyTimeSlot(String date, String startTime) {
+        Assert.assertTrue("The time slot was not added", timeSlot(date, startTime).isDisplayed());
+    }
+
+    public void deleteTimeSlot(String date, String startTime) {
+        timeSlotDeleteIcon(date, startTime).click();
+        removeSlotConfirmButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector("button.ui.loading.primary.button"), 1));
+    }
+
+    public void verifyAbsenceOfTimeSlot(String date, String startTime) {
+        Assert.assertTrue("The time slot was not removed", getDriver().findElements(By.xpath("//span[text()='" + date + "']/../../../../following-sibling::tbody/tr/td/div/button[text()='" + startTime + "']")).size() < 1);
+    }
+
+    public void clearDay() {
+        removeOpenings().click();
+        removeSlotConfirmButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector("button.ui.loading.primary.button"), 1));
+    }
 
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+    private WebElement availabilityAndSettingsButton() { return getDriver().findElement(By.xpath("//span[text()='Availability & Settings']")); }
+    private WebElement innerExceptionsButton() { return getDriver().findElement(By.cssSelector("ul.ui.pointing.secondary.fourth.menu li:nth-of-type(3) a")); }
+    private WebElement chooseADateButton() { return getDriver().findElement(By.cssSelector("button.ui.small.button i")); }
+    private WebElement newTimeSlotStartTime() { return getDriver().findElement(By.cssSelector("input[title=\"start time\"]")); }
+    private WebElement newTimeSlotEndTime() { return getDriver().findElement(By.cssSelector("input[title=\"end time\"]")); }
+    private WebElement newTimeSlotVisits() { return  getDriver().findElement(By.cssSelector("input[title=\"numVisits\"]")); }
+    private WebElement addTimeSlotButton() { return getDriver().findElement(By.xpath("//span[text()='ADD TIME SLOT']")); }
+    private WebElement timeSlot(String date, String startTime) { return getDriver().findElement(By.xpath("//span[text()='" + date + "']/../../../../following-sibling::tbody/tr/td/div/button[text()='" + startTime + "']")); }
+    private WebElement timeSlotDeleteIcon(String date, String startTime) { return getDriver().findElement(By.xpath("//span[text()='" + date + "']/../../../../following-sibling::tbody/tr/td/div/button[text()='" + startTime + "']/../span/i")); }
+    private WebElement removeSlotConfirmButton() { return getDriver().findElement(By.cssSelector("div.ui.modal.transition.visible.active button.ui.primary.button")); }
+    private WebElement removeOpenings() { return getDriver().findElement(By.cssSelector("i.teal.trash.outline.icon")); }
 }
 
 
