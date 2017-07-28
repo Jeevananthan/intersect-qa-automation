@@ -52,7 +52,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         openLoginPage();
         String username = GetProperties.get("he."+ usertype + ".username");
         String password = GetProperties.get("he."+ usertype + ".password");
-        logger.info("Logging into the HE app");
+        logger.info("Logging into the HE app - " + driver.getCurrentUrl());
         usernameTextbox().sendKeys(username);
         passwordTextbox().sendKeys(password);
         logger.info("Sending credentials - " + username + ":" + password);

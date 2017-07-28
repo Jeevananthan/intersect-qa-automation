@@ -85,7 +85,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
       And SP I Click the Save Changes button
       Then SP I successfully sign out
 
-      Given HE I want to login to the HE app using "kpmahibalan93+123@gmail.com" as username and "P@ssw0rd" as password
+      Given HE I want to login to the HE app using "purpleheautomation+123@gmail.com" as username and "Password!1" as password
       Then HE I verify the upgrade message on the Community widget
       And HE I verify the "Users" nav link is not displaying for this user
       Then HE I successfully sign out

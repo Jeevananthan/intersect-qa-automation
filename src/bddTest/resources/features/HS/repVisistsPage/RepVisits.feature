@@ -100,3 +100,37 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I successfully sign out
+
+  @MATCH-1585
+  Scenario: As a high school community member, I want to publish or hide my college visit availability,
+            so that I can control when colleges can only schedule college visits.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
+    Then HS I go to the Counselor Community
+    Then HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with "Only Me"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I go to the Counselor Community
+    Then HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with "All RepVisits Users"
+    And HS I successfully sign out
+
+   @MATCH-1944
+   Scenario: As a new RepVisits user,I want a setup wizard with an introduction that describes what the system does
+             so that I can be encouraged to set up my RepVisits account.
+      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+      Then HS I am verifying the welcome milestone in setup wizard
+      And HS I click the Get Started button in the welcome milestone page
+      And HS I navigate to college fairs,visits through availability option
+      And HS I successfully sign out
+
+   @MATCH-1945
+   Scenario: As a new RepVisits user,I want the setup wizard to confirm my school's timezone
+             So that I can be sure my appointments will be scheduled at the right time.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I verify the repvisit setup wizard displayed for high school information
+    Then HS I check the time zone is selected as "America/Mexico_City" and change it to "America/New_York"
+    And HS I navigate to college fairs,visits through availability option
+    And HS I successfully sign out
+
+
+
+
