@@ -4,14 +4,18 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import static org.junit.Assert.fail;
+import static org.openqa.selenium.Keys.*;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -452,7 +456,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(getStartedBtn().isDisplayed()){
             getStartedBtn().click();
         }
-
     }
 
     public void accessCreateCollegeFair(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected,String buttonToClick){
@@ -550,35 +553,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Publish/Unpublish' Button is not displayed",driver.findElement(By.cssSelector("button[class='ui basic primary button']")).isDisplayed());
 
         if(!collegeFairName.equals("")) {
-            String currentFairName = textbox(By.id("college-fair-name")).getText();
+            String currentFairName = textbox(By.id("college-fair-name")).getAttribute("value");
             Assert.assertTrue("'College Fair Name' value was not as expected.",currentFairName.equals(collegeFairName));
         }
         if(!date.equals("")) {
-            String currentDate = textbox(By.id("college-fair-date")).getText();
+            String currentDate = textbox(By.id("college-fair-date")).getAttribute("value");
             Assert.assertTrue("'Date' value was not as expected.",currentDate.equals(date));
         }
         if(!startTime.equals("")) {
-            String currentStartTime = textbox(By.id("college-fair-start-time")).getText();
+            String currentStartTime = textbox(By.id("college-fair-start-time")).getAttribute("value");
             Assert.assertTrue("'Start Time' value was not as expected.",currentStartTime.equals(startTime));
         }
         if(!endTime.equals("")) {
-            String currentEndTime = textbox(By.id("college-fair-end-time")).getText();
+            String currentEndTime = textbox(By.id("college-fair-end-time")).getAttribute("value");
             Assert.assertTrue("'End Time' value was not as expected.",currentEndTime.equals(endTime));
         }
         if(!RSVPDate.equals("")) {
-            String currentRSVPDeadline = textbox(By.id("college-fair-rsvp-deadline")).getText();
+            String currentRSVPDeadline = textbox(By.id("college-fair-rsvp-deadline")).getAttribute("value");
             Assert.assertTrue("'RSVP Deadline' value was not as expected.",currentRSVPDeadline.equals(RSVPDate));
         }
         if(!cost.equals("")) {
-            String currentCost = textbox(By.id("college-fair-cost")).getText();
+            String currentCost = textbox(By.id("college-fair-cost")).getAttribute("value");
             Assert.assertTrue("'Cost' value was not as expected.",currentCost.equals(cost));
         }
         if(!maxNumberofColleges.equals("")) {
-            String currentMaxNumberofColleges = textbox(By.id("college-fair-max-number-colleges")).getText();
+            String currentMaxNumberofColleges = textbox(By.id("college-fair-max-number-colleges")).getAttribute("value");
             Assert.assertTrue("'Max Number of Colleges' value was not as expected.",currentMaxNumberofColleges.equals(maxNumberofColleges));
         }
         if(!numberofStudentsExpected.equals("")) {
-            String currentNumberofStudentsExpected = textbox(By.id("college-fair-number-expected-students")).getText();
+            String currentNumberofStudentsExpected = textbox(By.id("college-fair-number-expected-students")).getAttribute("value");
             Assert.assertTrue("'Max Number of Colleges' value was not as expected.",currentNumberofStudentsExpected.equals(numberofStudentsExpected));
         }
 
