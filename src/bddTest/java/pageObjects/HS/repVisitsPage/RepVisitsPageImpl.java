@@ -504,7 +504,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(phoneNo.equals("")) {
             driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
             button("Save changes").click();
-            Assert.assertTrue("Phone no is not entered ", driver.findElement(By.xpath("//span[@text()='Please enter a phone number. Ex: (555) 555-5555']")).isDisplayed());
+            Assert.assertTrue("Phone no is not entered ",driver.findElement(By.xpath("//span[contains(text(),'Please enter a phone number. Ex: (555) 555-5555')]")).isDisplayed());
         }else{
             driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
             button("Save changes").click();
