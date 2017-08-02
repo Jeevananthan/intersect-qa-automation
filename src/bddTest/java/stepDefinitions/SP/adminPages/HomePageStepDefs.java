@@ -34,13 +34,15 @@ public class HomePageStepDefs implements En {
 
         Then("^SP I go to the Create user for \"([^\"]*)\" from the institution dashboard$", homePage::goToCreateUser);
 
-        And("^SP I fill the create user form and verify the message$",userList::fillFormInCreateUserAndVerifyMessaging);
-        And("^SP I fill the create user form and submit$",userList::createUserAndSubmit);
+        Then("^SP I fill the create user form \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",userList::fillFormInCreateUser);
 
         Then("^SP I go to the Log History for \"([^\"]*)\" from the institution dashboard$", homePage::goToLogHistory);
 
         Then("^SP I do not have access to \"([^\"]*)\" sub menu in left navigation$", navBar::verifySubMenuIsNotVisible);
 
         Then("^SP I do have access to \"([^\"]*)\" sub menu in left navigation$", navBar::verifySubMenuIsVisible);
+
+        Then("^SP verify the error message in create user page$",userList::verifyErrorMessageinCreateUser);
+
     }
 }

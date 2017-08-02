@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import static org.junit.Assert.fail;
 
 import java.util.Map;
 
@@ -35,34 +36,54 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void fillFormInCreateUserAndVerifyMessaging(DataTable dataTable){
-        Map<String,String> data = dataTable.asMap(String.class,String.class);
-        for (String field : data.keySet()){
-            if(field.equalsIgnoreCase("role")){
-                driver.findElement(By.xpath("//input[@name='role' and @value='"+data.get(field)+"']")).click();
-            }
-                else{
-                textbox(field).sendKeys(data.get(field));
+    public void fillFormInCreateUser(String firstName, String lastName, String email, String verifyEmail, String role, String buttonToClick) {
+        if (!firstName.equals("")) {
+            Assert.assertTrue("First Name TextBox is not displayed", textbox(By.id("create-primary-user-first-name")).isDisplayed());
+            textbox(By.id("create-primary-user-first-name")).sendKeys(firstName);
+        }
+        if (!lastName.equals("")) {
+            Assert.assertTrue("Last Name TextBox is not displayed", textbox(By.id("create-primary-user-last-name")).isDisplayed());
+            textbox(By.id("create-primary-user-last-name")).sendKeys(lastName);
+        }
+        if (!email.equals("")) {
+            Assert.assertTrue("Email TextBox is not displayed", textbox(By.id("create-primary-user-email")).isDisplayed());
+            textbox(By.id("create-primary-user-email")).sendKeys(email);
+        }
+        if (!verifyEmail.equals("")) {
+            Assert.assertTrue("Verify Email TextBox is not displayed", textbox(By.id("create-primary-user-verify-email")).isDisplayed());
+            textbox(By.id("create-primary-user-verify-email")).sendKeys(verifyEmail);
+        }
+        if (!role.equals("")) {
+            if(role.equalsIgnoreCase("Administrator")) {
+                if (driver.findElement(By.id("role_administrator")).isDisplayed()) {
+                    driver.findElement(By.id("role_administrator")).click();
+                } else if (driver.findElement(By.id("role_admin")).isDisplayed()) {
+                    driver.findElement(By.id("role_administrator")).click();
+                }
+            }else if(role.equalsIgnoreCase("Publishing")) {
+                driver.findElement(By.id("role_publishing")).click();
+            }else if(role.equalsIgnoreCase("Community")) {
+                driver.findElement(By.id("role_community")).click();
+            }else if(role.equalsIgnoreCase("Member")) {
+                driver.findElement(By.id("role_member")).click();
+            }else{
+                fail("The option for the Role is not a valid one");
             }
         }
-        button("Save").click();
+        if (!buttonToClick.equals("")) {
+            if (buttonToClick.equalsIgnoreCase("Save")) {
+                button("Save").click();
+            } else if (buttonToClick.equalsIgnoreCase("Cancel")) {
+                button("Cancel").click();
+            }else{
+              fail("The option for button to click is not a valid one");
+            }
+        }
+    }
+
+    public void verifyErrorMessageinCreateUser(){
         Assert.assertTrue("\"Please enter a value\" message is not displayed",text("Please enter a value").isDisplayed());
-
     }
-
-    public void createUserAndSubmit(DataTable dataTable){
-        Map<String,String> data = dataTable.asMap(String.class,String.class);
-        for (String field : data.keySet()){
-            if(field.equalsIgnoreCase("role")){
-                driver.findElement(By.xpath("//input[@name='role' and @value='"+data.get(field)+"']")).click();
-            }
-            else{
-                textbox(field).sendKeys(data.get(field));
-            }
-        }
-        button("Save").click();
-    }
-
 
     public void setPrimaryUser(String userName) {
         takeUserAction(userName,"Assign as Primary");
