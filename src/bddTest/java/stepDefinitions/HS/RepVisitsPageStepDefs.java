@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -41,8 +42,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
 
-        Then("^HS I verify the Messaging Options Page in the repvists setup wizard$",repVisits::verifyRepvisitsSetupWizardMessagingOptions);
+        Then("^HS I verify the Messaging Options Page in the repvists setup wizard \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyRepvisitsSetupWizardMessagingOptions);
 
-        Then("^HS I enter the following message in the Message Option page for Repvists Setup wizard$",repVisits::accessRepvisitsSetupWizardMessagingOptions);
+        Then("^HS I enter the messages in the Message Option page for Repvists Setup wizard \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::accessRepvisitsSetupWizardMessagingOptions);
+
+        Then("^HS I verify the Primary Contact for Visits page and then click the \"([^\"]*)\" button$",repVisits::verifyPrimaryContactVisitsPage);
+
+        Then("^HS I verify the Availability Settings page and then click the \"([^\"]*)\" button$",repVisits::verifyAvailabilitySettingsPage);
     }
 }

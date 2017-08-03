@@ -320,12 +320,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyOverviewPage();
     }
 
-    public void verifyRepvisitsSetupWizardMessagingOptions(DataTable dataTable) {
-        driver.get("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/select");
-        // getStartedBtn().click();
+    public void verifyRepvisitsSetupWizardMessagingOptions(String confirmationMessage, String specialInstructionforRepVisits) {
+        load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-        while (!driver.findElement(By.xpath("//div[@class='active step' and @name='Messaging Options']")).isDisplayed()) {
-            button("//button/span[text()='Next']").click();
+        if(getStartedBtn().isDisplayed()){
+            getStartedBtn().click();
+            waitUntilPageFinishLoading();
+        }
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Messaging Options']")).size()==0) {
+            button("Next").click();
             waitUntilPageFinishLoading();
         }
         //verify UI
@@ -338,50 +341,61 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(button("Back").isDisplayed());
         Assert.assertTrue(button("Next").isDisplayed());
 
-        List<Map<String,String>> entities = dataTable.asMaps(String.class,String.class);
-        for (Map<String,String> messageData : entities ) {
-            for (String key : messageData.keySet()) {
-                switch (key) {
-                    // This is where we verify the actual editable values on the screen.
-                    case "Confirmation Message":
-                        String actualConfirmationMessage = driver.findElement(By.xpath("//textarea[@id='emailInstructions']")).getText();
-                        Assert.assertTrue("'Confirmation Message' value was not as expected.", actualConfirmationMessage.contains(messageData.get(key)));
-                        break;
-                    case "Special Instruction for RepVisits":
-                        String actualSpecialInstructionforRepVisits = driver.findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']")).getText();
-                        Assert.assertTrue("'Special Instruction for RepVisits' were not set as expected.", actualSpecialInstructionforRepVisits.equals(messageData.get(key)));
-                        break;
-                }
+        if(!confirmationMessage.equals("")) {
+            String actualConfirmationMessage = driver.findElement(By.xpath("//textarea[@id='emailInstructions']")).getText();
+            Assert.assertTrue("'Confirmation Message' value was not as expected.", actualConfirmationMessage.contains(confirmationMessage));
+        }
+         if(!specialInstructionforRepVisits.equals("")) {
+            String actualSpecialInstructionforRepVisits = driver.findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']")).getText();
+            Assert.assertTrue("'Special Instruction for RepVisits' were not set as expected.", actualSpecialInstructionforRepVisits.equals(specialInstructionforRepVisits));
+         }
+    }
+
+
+
+    public void accessRepvisitsSetupWizardMessagingOptions(String confirmationMessage, String specialInstructionforRepVisits, String buttonToClick){
+
+        if(!confirmationMessage.equals("")) {
+            WebElement actualConfirmationMessage = driver.findElement(By.xpath("//textarea[@id='emailInstructions']"));
+            actualConfirmationMessage.sendKeys(confirmationMessage);
+        }
+        if(!specialInstructionforRepVisits.equals("")) {
+            WebElement actualSpecialInstructionforRepVisits = driver.findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']"));
+            actualSpecialInstructionforRepVisits.sendKeys(specialInstructionforRepVisits);
+        }
+        if(!buttonToClick.equals("")) {
+            if (buttonToClick.equals("Back")) {
+                driver.findElement(By.xpath("//button/span[text()='Back']")).click();
+            } else if (buttonToClick.equals("Next")) {
+                driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+            } else {
+                fail("The given option is not a valid one");
             }
         }
     }
 
-    public void accessRepvisitsSetupWizardMessagingOptions(DataTable dataTable){
-        List<Map<String,String>> entities = dataTable.asMaps(String.class,String.class);
-        for (Map<String,String> messageData : entities ) {
-            for (String key : messageData.keySet()) {
-                switch (key) {
-                    case "Confirmation Message":
-                        WebElement actualConfirmationMessage = driver.findElement(By.xpath("//textarea[@id='emailInstructions']"));
-                        actualConfirmationMessage.sendKeys(messageData.get(key));
-                        break;
-                    case "Special Instruction for RepVisits":
-                        WebElement actualSpecialInstructionforRepVisits = driver.findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']"));
-                        actualSpecialInstructionforRepVisits.sendKeys(messageData.get(key));
-                        break;
-                    case "Button to Click":
-                        if (messageData.get(key).equals("Back")) {
-                            driver.findElement(By.xpath("//button/span[text()='Back']")).click();
-                           } else if (messageData.get(key).equals("Next")) {
-                             driver.findElement(By.xpath("//button/span[text()='Next']")).click();
-                            } else {
-                             fail("The given option is not a valid one");
-                            }
-                        break;
-                }
-            }
+    public void verifyPrimaryContactVisitsPage(String buttonToClick){
+        Assert.assertTrue("'Primary Contact for Visits' page is not displayed", text("Primary Contact for Visits").isDisplayed());
+        if (buttonToClick.equals("Back")) {
+            driver.findElement(By.xpath("//button/span[text()='Back']")).click();
+        } else if (buttonToClick.equals("Next")) {
+            driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+        } else {
+            fail("The given option is not a valid one");
         }
     }
+
+    public void verifyAvailabilitySettingsPage(String buttonToClick){
+        Assert.assertTrue("'Availability Settings' page is not displayed", text("Availability Settings").isDisplayed());
+        if (buttonToClick.equals("Back")) {
+            driver.findElement(By.xpath("//button/span[text()='Back']")).click();
+        } else if (buttonToClick.equals("Next")) {
+            driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+        } else {
+            fail("The given option is not a valid one");
+        }
+    }
+
     //locators
     private WebElement getStartedBtn() {
         return button(By.xpath("//button/span[text()='Get Started!']"));

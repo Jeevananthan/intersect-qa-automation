@@ -102,23 +102,17 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
   @MATCH-1947
-  Scenario: As a HS RepVisits user I want to be able to use the rep-visits setup page to set the Messaging options
+  Scenario Outline: As a HS RepVisits user I want to be able to use the rep-visits setup page to set the Messaging options
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I verify the Messaging Options Page in the repvists setup wizard
-      ||
-      ||
-    Then HS I enter the following message in the Message Option page for Repvists Setup wizard
-      |Confirmation Message                     |Special Instruction for RepVisits          |Button to Click|
-      |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|Next           |
-    Then HS I verify the Messaging Options Page in the repvists setup wizard
-      |Confirmation Message                     |Special Instruction for RepVisits          |
-      |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|
-    Then HS I enter the following message in the Message Option page for Repvists Setup wizard
-      |Confirmation Message                          |Special Instruction for RepVisits               |Button to Click|
-      |Confirmation Message for visits and Fairs Back|Special Instructions for the repvisits User Back|Back           |
-    Then HS I verify the Messaging Options Page in the repvists setup wizard
-      |Confirmation Message                     |Special Instruction for RepVisits          |
-      |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|
+    Then HS I verify the Messaging Options Page in the repvists setup wizard "<verify Confirmation Message>","<verify Special Instruction for RepVisits>"
+    Then HS I enter the messages in the Message Option page for Repvists Setup wizard "<Confirmation Message_Next>","<Special Instruction for RepVisits_Next>","<Button to Click_Next>"
+    Then HS I verify the Primary Contact for Visits page and then click the "Back" button
+    Then HS I verify the Messaging Options Page in the repvists setup wizard "<verify Confirmation Message_Next>","<verify Special Instruction for RepVisits_Next>"
+    Then HS I enter the messages in the Message Option page for Repvists Setup wizard "<Confirmation Message_Back>","<Special Instruction for RepVisits_Back>","<Button to Click_Back>"
+    Then HS I verify the Availability Settings page and then click the "Next" button
+    Then HS I verify the Messaging Options Page in the repvists setup wizard "<verify Confirmation Message_Next>","<verify Special Instruction for RepVisits_Next>"
 
-
+  Examples:
+    |verify Confirmation Message|verify Special Instruction for RepVisits|Confirmation Message_Next                |Special Instruction for RepVisits_Next     |Button to Click_Next|verify Confirmation Message_Next         |verify Special Instruction for RepVisits_Next|Confirmation Message_Back                     |Special Instruction for RepVisits_Back          |Button to Click_Back|
+    |                           |                                        |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|Next                |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User  |Confirmation Message for visits and Fairs Back|Special Instructions for the repvisits User Back|Back                |
 
