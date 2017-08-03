@@ -68,3 +68,10 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     Then SP I go to the users list for "The University of Alabama" from the institution dashboard
     And SP I "re-invite" the user account for "hobsons.purple+amorrison.AT.ua.edu@gmail.com"
     Then SP I successfully sign out
+
+  @MATCH-2378
+  Scenario: As a Support user I want to be able to update the primary user info for a non-Naviance HS
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I go to "Alma College"
+    Then SP I verify that I can edit the Primary User Details
+    Then SP I successfully sign out

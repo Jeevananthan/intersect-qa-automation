@@ -20,6 +20,7 @@ public class UserListPageStepDefs implements En  {
 
         Then("^SP I verify that the user account for \"([^\"]*)\" is not the primary user$",userListPage::verifyUserIsNotPrimary);
 
+        Then("^SP I verify that I can edit the Primary User Details$", userListPage::verifyEditPrimaryUserDetails);
 
     }
 
