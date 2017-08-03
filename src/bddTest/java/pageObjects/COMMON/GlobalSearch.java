@@ -139,8 +139,7 @@ public class    GlobalSearch extends SeleniumBase {
     }
 
     public void verifyNoAdvancedSearchResultsReturned(String searchRequest, DataTable dataTable){
-        System.out.println();
-        logger.info("Verifying no advanced search results are return.");
+        logger.info("\nVerifying no advanced search results are return.");
         verifyAdvanceSearchByEnterKey(searchRequest);
         List<String> categoryOptions = dataTable.asList(String.class);
         for(String opt : categoryOptions) {
@@ -151,8 +150,7 @@ public class    GlobalSearch extends SeleniumBase {
     }
 
     public void verifyNoRealTimeSearchResultsReturned(String searchRequest){
-        System.out.println();
-        logger.info("Verifying no real-time search results are return.");
+        logger.info("\nVerifying no real-time search results are return.");
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
         Boolean resultsReturned = false;
@@ -175,16 +173,14 @@ public class    GlobalSearch extends SeleniumBase {
 
     public void verifyRealTimeSearchResultsReturned(String searchRequest) {
         waitUntilPageFinishLoading();
-        System.out.println();
-        logger.info("Verifying real-time search displays results in dropdown.");
+        logger.info("\nVerifying real-time search displays results in dropdown.");
         doSearch(searchRequest);
         Assert.assertTrue("No real-time results displaying in dropdown!", getDriver().findElement(By.id("global-search-box-results")).isDisplayed());
     }
 
     public void verifyRealTimeSearchMatch(String searchRequest, DataTable dataTable) {
         waitUntilPageFinishLoading();
-        System.out.println();
-        logger.info("Verifying real-time partial and full match results are returned.");
+        logger.info("\nVerifying real-time partial and full match results are returned.");
         List<String> categoryOptions = dataTable.asList(String.class);
         String[] partialSearchRequest = searchRequest.split(" ");
         for (String opt : categoryOptions) {
