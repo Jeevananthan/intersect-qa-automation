@@ -77,45 +77,42 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyFullContactPage(){
         navBar.goToRepVisits();
         getContactsBtn().click();
-        Assert.assertTrue("Contact Header is not displayed",text("").isDisplayed());
-        Assert.assertTrue("Instruction text is not displayed",text("").isDisplayed());
-        List<WebElement> searchedValueOfName = driver.findElements(By.xpath(""));
+        Assert.assertTrue("Contact Header is not displayed",driver.findElement(By.className("ui header _2GIsNevIB_s082IZwcYen3")).isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",driver.findElement(By.className("sub header _240ldPuujUDvP5vNIGw15H")).isDisplayed());
+        List<WebElement> searchedValueOfName = driver.findElements(By.className("_1ijSBYwG-OqiUP1_S7yMUN"));
         int size = searchedValueOfName.size();
         Assert.assertTrue("RepVisits contact are not displayed",size>0);
-
+        Assert.assertTrue("Show more button is not displayed",button("show more").isDisplayed());
     }
     public void verifyContactDetails(DataTable dataTable){
         navBar.goToRepVisits();
         getContactsBtn().click();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
-            Assert.assertTrue(repVisitsSubItem + " is not showing.",driver.findElement(By.xpath("")).isDisplayed());
+            Assert.assertTrue(repVisitsSubItem + " is not showing.",text(repVisitsSubItem).isDisplayed());
         }
     }
-    public void verifyinvalidcontact(String contactName){
+    public void verifyinvalidcontact(String invalidData){
         String value = null;
-        getSearchBoxforContact().sendKeys(contactName);
+        getSearchBoxforContact().sendKeys(invalidData);
         getSearchButton().click();
         Assert.assertTrue("the message of 'Your search did not return any contacts.' is not displayed",text("Your search did not return any contacts.").isDisplayed());
     }
 
-    public void searchforContact(String contactName){
+    public void searchforContact(String institutionName){
         navBar.goToRepVisits();
         getContactsBtn().click();
-        getSearchBoxforContact().sendKeys(contactName);
-        getSearchButtonforContact().click();
-        Assert.assertTrue("the specified schoolname is not displayed",text("").isDisplayed());
-        Assert.assertTrue("Show more button is not displayed",button("").isDisplayed());
+        getSearchBoxforContact().sendKeys(institutionName);
+        Assert.assertTrue("the specified schoolname is not displayed",text(institutionName).isDisplayed());
     }
-    public void partialsearchforContact(String contactName){
+    public void partialsearchforContact(String institutionName){
         navBar.goToRepVisits();
         getContactsBtn().click();
-        getSearchBoxforContact().sendKeys(contactName);
-        getSearchButtonforContact().click();
-        List<WebElement> searchedValueOfContactName = driver.findElements(By.xpath(""));
-        for(int i=0;i<searchedValueOfContactName.size();i++){
-            String value = searchedValueOfContactName.get(i).getText();
-            Assert.assertTrue("Partial matching on institution name is not available",value.contains(contactName));
+        getSearchBoxforContact().sendKeys(institutionName);
+        List<WebElement> searchedValueOfinstitutionName = driver.findElements(By.className("_2ZIfaO8qcJzzQzgSfH1Z8h"));
+        for(int i=0;i<searchedValueOfinstitutionName.size();i++){
+            String value = searchedValueOfinstitutionName.get(i).getText();
+            Assert.assertTrue("Partial matching on institution name is not available",value.contains(institutionName));
         }
     }
     public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
@@ -180,14 +177,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return link("Notifications");
     }
     private WebElement getSearchBox() { return textbox("Enter a school name or location");}
-    private WebElement getSearchBoxforContact() { return textbox("");}
+    private WebElement getSearchBoxforContact() { return driver.findElement(By.name("contacts-search"));}
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
-    private WebElement getSearchButtonforContact() { return driver.findElement(By.className(""));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.className("check-repvisits-link")); }
     private WebElement getRepVisitsAvailabilitySidebar(){ return driver.findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
-
 }
 
 

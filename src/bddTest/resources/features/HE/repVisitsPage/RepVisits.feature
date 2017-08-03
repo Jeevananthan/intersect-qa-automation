@@ -47,14 +47,14 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     Then HE I verify the Check RepVisits Availability button
     And HE I successfully sign out
 
-  @MATCH-1881 @MATCH-1872 @NotInQA
+  @MATCH-1881 @MATCH-1872
   Scenario: As an HE premium user or HS user I need be able to search through my RepVisits Contacts
   so I can quickly find the contact I am looking to view.
     Given HE I am logged in to Intersect HE as user type "administrator"
-    And HE I verify empty contacts page in Contacts
+    #And HE I verify empty contacts page in Contacts
     And HE I verify full contacts page in Contacts
     And HE I verify contacts details  in Contacts
-    And HE I search for "Tom" in Contacts
+    And HE I search for "HOMECONNECTION" in Contacts
     And HE I search for invalid data of "invalid data" in Contacts
     And HE I search for partial data of "invalid data" in Contacts
     And HE I successfully sign out
