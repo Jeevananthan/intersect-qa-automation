@@ -131,6 +131,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I navigate to college fairs,visits through availability option
     And HS I successfully sign out
 
-
-
+  @MATCH-2294
+  Scenario: As a Non-Naviance HS, I want the RepVisit setup wizard to not have Naviance Settings options.
+            So that I can update RepVisit college fairs and visits
+    Given HS I want to login to the HS app using "purplehsautomation+HSSolidRock@gmail.com" as username and "Password!1" as password
+    Then HS I verify I can make it through the RepVisits wizard as a non-Naviance HS
+    And HS I successfully sign out
 

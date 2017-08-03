@@ -4,14 +4,17 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HS.loginPage.LoginPageImpl;
 import utilities.GetProperties;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import static org.junit.Assert.fail;
+
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -446,6 +449,51 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Welcome to Repvisits' text is not displayed",text("Welcome to RepVisits").isDisplayed());
         Assert.assertTrue("'Get Started' button is not displayed",getStartedBtn().isDisplayed());
 
+    }
+
+    public void verifyRepvisitsSetupWizardNonNaviance(){
+        waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
+        driver.navigate().to("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/");
+        waitUntilPageFinishLoading();
+        button("GET STARTED").click();
+        waitUntilPageFinishLoading();
+        String url = getDriver().getCurrentUrl();
+        while (!url.equalsIgnoreCase("https://qa-hs.intersect.hobsons.com/rep-visits/setup/completed/visible")) {
+            if (!url.toLowerCase().contains("naviance")) {
+                waitUntilPageFinishLoading();
+                button("NEXT").click();
+                waitUntilPageFinishLoading();
+                waitUntilPageFinishLoading();
+                url = getDriver().getCurrentUrl();
+            } else
+                Assert.assertTrue("Naviance options are available in RepVisits setup wizard for a non-Naviance HS.", false);
+        }
+        button("TAKE ME TO MY VISITS").click();
+    }
+
+    public void setRepVisitWelcomeRadioOptions(String visitsAndOrFairs) {
+        String radioOption = "";
+        switch (visitsAndOrFairs) {
+            case "Visits":
+                radioOption = "VISITS";
+                break;
+            case "Fairs":
+                radioOption = "FAIRS";
+                break;
+            case "Visits and Fairs":
+                radioOption = "VISITS_AND_FAIRS";
+                break;
+            default:
+                Assert.assertTrue("Option entered is not available, the only options available are Visits, Fairs, or Visits and Fairs.", false);
+        }
+            getDriver().findElement(By.xpath("//input[@value='" + radioOption + "']")).click();
+
+    }
+
+    public void setRepVisitsHighSchoolInformationDropdown(String timezone){
+        getDriver().findElement(By.xpath("//div[@class='ui search selection dropdown']/i[@class='dropdown icon']")).click();
+        getDriver().findElement(By.xpath("//span[text()='" + timezone + "']")).click();
     }
 
     public void clickGetStartedBtn(){
