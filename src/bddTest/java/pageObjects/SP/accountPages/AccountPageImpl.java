@@ -118,6 +118,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         textbox(By.cssSelector("input[aria-label='radius Id']")).sendKeys(radiusIdVal);
 
         driver.findElement(By.cssSelector("button[class='ui mini primary right floated button']")).click();
+        waitUntilPageFinishLoading();
     }
 
     public String getRandomNo(){
@@ -139,12 +140,12 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
                 switch (key) {
                     case "Connect Id":
                         String actualConnectId = driver.findElement(By.cssSelector("div[class='connect-id']")).getText();
-                        Assert.assertTrue("Connect Id was not as expected.", actualConnectId.contains(IntitutionalDetails.get(key)));
+                        Assert.assertTrue("Connect Id was not as expected.  Expected: " + IntitutionalDetails.get(key) + " but got: " + actualConnectId, actualConnectId.contains(IntitutionalDetails.get(key)));
                         break;
 
                     case "Radius Id":
                         String actualRadiusId = driver.findElement(By.cssSelector("div[class='radius-id']")).getText();
-                        Assert.assertTrue("Radius Id was not as expected.", actualRadiusId.contains(IntitutionalDetails.get(key)));
+                        Assert.assertTrue("Radius Id was not as expected.  Expected: " + IntitutionalDetails.get(key) + " but got: " + actualRadiusId, actualRadiusId.contains(IntitutionalDetails.get(key)));
                         break;
 
 
