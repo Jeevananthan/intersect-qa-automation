@@ -210,11 +210,30 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyRequestInformation(){
         Assert.assertTrue("Thanks message",driver.findElement(By.xpath(".//*[@id='upgrade-form']//div/form/div//div/b/span[text()='Thanks!']")).isDisplayed());
         Assert.assertTrue("We will contact you soon message ", driver.findElement(By.xpath("//*[@id='upgrade-form']//div/form/div//div/p/span")).isDisplayed());
+
+
     }
+
+    public void verifyCommunityActivationForRepVisits(){
+        navBar.goToRepVisits();
+        Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
+    }
+
+    public void verifyWidgetIsVisible(String widgetName){
+
+        Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
+    }
+
+    public void verifyWidgetIsNotVisible(String widgetName){
+
+        Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
+    }
+
+
 
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
-
+    private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
 }
