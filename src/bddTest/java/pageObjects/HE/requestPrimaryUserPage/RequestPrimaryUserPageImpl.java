@@ -22,6 +22,7 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
     }
 
     public void updatePrimaryFreemiumUser(String institution) {
+        button("Higher Education Staff Member").click();
         searchForInstitution(institution);
     }
 
@@ -33,11 +34,11 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
     }
 
     private void searchForInstitution(String institution){
-
         textbox("Search Institutions...").sendKeys(institution);
         WebElement results = getDriver().findElement(By.id("global-search-box-results"));
         results.findElement(By.id("search-box-item-0")).click();
-        link("please contact Hobsons").click();
+        Assert.assertTrue("\"To request an account for your institution, please complete this form.\" Text is displaying.", text("To request an account for your institution").isDisplayed());
+        link("please complete this form.").click();
     }
 
     public void fillFormAndVerifyMessaging(DataTable dataTable){

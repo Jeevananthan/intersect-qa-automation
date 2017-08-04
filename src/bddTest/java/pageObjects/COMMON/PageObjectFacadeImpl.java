@@ -17,10 +17,6 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         globalSearch = new GlobalSearch();
     }
 
-    protected WebElement getParent(WebElement childElement) {
-        return childElement.findElement(By.xpath("./.."));
-    }
-
     protected void communityFrame() {
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
     }

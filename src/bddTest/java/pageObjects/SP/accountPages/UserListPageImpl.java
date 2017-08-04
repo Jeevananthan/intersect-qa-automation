@@ -15,13 +15,17 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(UserListPageImpl.class);
     }
 
-    public void setUserStatus(String activeOrInactive, String userName) {
-        if (activeOrInactive.equals("activate") || activeOrInactive.equals("inactivate")) {
-            takeUserAction(userName, WordUtils.capitalize(activeOrInactive));
+    public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
+        if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") ) {
+            takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
-            Assert.fail("Valid user actions are \"activate\" and \"inactivate\".");
+            Assert.fail("Valid user actions are \"activate\",\"inactivate\" and \"unlock\".");
         }
         button("YES").click();
+        try {
+            driver.wait(2000);
+        } catch (Exception e) {}
+        waitUntilPageFinishLoading();
     }
 
     public void verifyUserStatus(String userName, String activeOrInactive) {
@@ -31,6 +35,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
             Assert.fail("Valid user actions are \"active\" and \"inactive\".");
         }
     }
+
 
     public void setPrimaryUser(String userName) {
         takeUserAction(userName,"Assign as Primary");

@@ -25,4 +25,8 @@ public class SeleniumBase extends SeleniumLibrary {
         return new Table(visibleText);
     }
 
+    protected WebElement getParent(WebElement childElement) {
+        return childElement.findElement(By.xpath("./.."));
+    }
+
 }
