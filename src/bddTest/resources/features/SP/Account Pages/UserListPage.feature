@@ -61,3 +61,10 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     Then HE I am logged in to Intersect HE as user type "locked"
     And HE I am able to successfully login
     Then HE I successfully sign out
+
+  @MATCH-1553
+  Scenario: As a Support user I can able to re-invite an user from the support app.
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I go to the users list for "The University of Alabama" from the institution dashboard
+    And SP I "re-invite" the user account for "hobsons.purple+amorrison.AT.ua.edu@gmail.com"
+    Then SP I successfully sign out

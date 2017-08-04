@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
@@ -57,12 +56,14 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         button("SAVE").click();
     }
 
-    public void verifyUserRoles() {
+
+    public void verifyUserRoles(DataTable table) {
         navBar.goToUsers();
         button("ADD NEW USER").click();
-        String[] roles = {"administrator", "publishing", "community"};
-        for (String role : roles) {
-            Assert.assertTrue("Expected to find role " + role + ", but it was not found.", (driver.findElement(By.cssSelector("input[value='"+role.toLowerCase()+"']")).getLocation().getX()) > 0);
+        List<String> li = table.transpose().asList(String.class);
+        for (int i=1;i<li.size();i++){
+            String role = li.get(i);
+            Assert.assertTrue("Expected to find role " + role + ", but it was not found.", driver.findElement(By.xpath("//label[@class='lESlXEQvUQGVcUPjUzRud']/span[text()='"+role+"']")).isDisplayed());
         }
     }
 
