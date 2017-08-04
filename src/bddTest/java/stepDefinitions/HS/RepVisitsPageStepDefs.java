@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -41,14 +42,17 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
 
-        Then("^HS I select welcome section$", repVisits::selectWelcome);
+        Then("^HS I select option for welcome in setup wizard \"([^\"]*)\",\"([^\"]*)\"$", repVisits::accessWelcomeSetupWizard);
 
-        Then("^HS I select allRepVistUsers in complete section$", repVisits::allRepVisitsUsers);
+        Then("^HS I select option for High School Information in welcome setup wizard \"([^\"]*)\",\"([^\"]*)\"$",repVisits::accessHighschoolInformationSetupWizard);
 
-        Then("^HS I select onlyMe in complete section$",repVisits::onlyMe);
+        Then("^HS I verify the Fair overview page$",repVisits::verifyFairOverview);
 
-        Then("^HS I select Visits and Fairs in complete section$",repVisits::visitsAndFairs);
+        Then("^HS I select option for complete section in setup wizard \"([^\"]*)\",\"([^\"]*)\"$",repVisits::accessOneLastStepSetupWizard);
 
+        Then("^HS I verify the You Are All Set For All Only Me Rep Visits Users page$",repVisits::verifyYouAreAllSetForOnlyMe);
+
+        Then("^HS I verify the You Are All Set For All Rep Visits Users page$",repVisits::verifyYouAreAllSetForAllRepVisitsUsers);
 
 
     }

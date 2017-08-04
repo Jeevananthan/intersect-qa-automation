@@ -103,12 +103,28 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 
   @MATCH-1950
-  Scenario: As a new RepVisits user,
+  Scenario Outline: As a new RepVisits user,
   I want the setup wizard to guide me through final steps in the new user experience
   so that I can decide on my appointments' visibility and then continue into the system.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I select welcome section
-    Then HS I select allRepVistUsers in complete section
-    Then HS I select onlyMe in complete section
-    Then HS I select Visits and Fairs in complete section
+    #FAIRS
+    Then HS I select option for welcome in setup wizard "<optionToSelectFairs>","<buttonToClickFairs>"
+    Then HS I select option for High School Information in welcome setup wizard "<optionToSelectHighSchool>","<buttonToClickHighSchool>"
+    Then HS I verify the Fair overview page
+    #VISITS
+    Then HS I select option for welcome in setup wizard "<optionToSelectVists>","<buttonToClickVisits>"
+    Then HS I select option for complete section in setup wizard "<VisitAvailabilityOnlyMe>","<ButtonToClickOnlyMe>"
+    Then HS I verify the You Are All Set For All Only Me Rep Visits Users page
+    Then HS I select option for complete section in setup wizard "<VisitAvailabilityAllRepVistUsers>","<ButtonToClickAllRepVistUsers>"
+    Then HS I verify the You Are All Set For All Rep Visits Users page
+    #VISITS AND FAIRS
+    Then HS I select option for welcome in setup wizard "<optionToSelectVisits&Fairs>","<buttonToClickVisits&Fairs>"
+    Then HS I select option for complete section in setup wizard "<VisitAvailabilityOnlyMe>","<ButtonToClickOnlyMe>"
+    Then HS I verify the You Are All Set For All Only Me Rep Visits Users page
+    Then HS I select option for complete section in setup wizard "<VisitAvailabilityAllRepVistUsers>","<ButtonToClickAllRepVistUsers>"
+    Then HS I verify the You Are All Set For All Rep Visits Users page
     Then HS I successfully sign out
+
+  Examples:
+    |optionToSelectFairs|buttonToClickFairs|optionToSelectHighSchool|buttonToClickHighSchool|optionToSelectVists|buttonToClickVisits|optionToSelectVisits&Fairs|buttonToClickVisits&Fairs|VisitAvailabilityAllRepVistUsers|ButtonToClickAllRepVistUsers|VisitAvailabilityOnlyMe|ButtonToClickOnlyMe|
+    |Fairs              |Next              |                        |Next                   |Visits             |Next               |Visits and Fairs          |Next                     |All RepVisits Users             |Next                        |Only Me                 |Next               |
