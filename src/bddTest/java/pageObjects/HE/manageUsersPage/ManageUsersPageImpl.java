@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
@@ -28,16 +29,19 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     public void inactivateUser(String accountName) {
         takeUserAction(accountName,"Inactivate");
         button("Yes").click();
+        waitForStatusChangeModalToClear();
     }
 
     public void activateUser(String accountName) {
         takeUserAction(accountName,"Activate");
         button("Yes").click();
+        waitForStatusChangeModalToClear();
     }
 
     public void unlockUser(String accountName) {
         takeUserAction(accountName,"Unlock");
         button("Yes").click();
+        waitUntilPageFinishLoading();
     }
 
     public void editUser(String accountName,DataTable dataTable) {
@@ -134,6 +138,20 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     // so we interact with them directly through JS.
     private void jsClick(WebElement element) {
         driver.executeScript("arguments[0].click();",element);
+    }
+
+    // These actions can be very slow in the UI and eat further script clicks.  Wait up to 20 seconds for them to disappear.
+    private void waitForStatusChangeModalToClear() {
+        long now = System.currentTimeMillis();
+        long timeout = now + 20000;
+        try {
+            do {
+                driver.findElement(By.id("manage-user-status-change-modal")).isDisplayed();
+            } while (timeout > System.currentTimeMillis());
+            Assert.fail("Waited 20 seconds for Modal to clear and it did not.");
+        } catch (Exception e) {
+            System.out.println("\nWaited " + (System.currentTimeMillis() - now) + " ms for Modal.\n");
+        }
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }

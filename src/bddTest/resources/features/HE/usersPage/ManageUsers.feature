@@ -74,19 +74,21 @@ Feature: As an HE administrator I want to manage users at my institution
 
 
 
-    @MATCH-130
+  @MATCH-130
   Scenario Outline: As a HE user with administrator role,I can able to create, edit, active and inactive users in HE app.
-
     Given HE I am logged in to Intersect HE as user type "administrator"
-    And HE I can create a user in HE app "<First Name>" and "<Last Name>" and "<Email>" and "<role>"
+    # This is not repeatedly testable, as you cannot delete acocunts from the UI.
+    # And HE I can create a user in HE app "<First Name>" and "<Last Name>" and "<Email>" and "<role>"
     Then HE I inactivate the user account for "<Email>"
     And HE I activate the user account for "<Email>"
-    Then HE I edit the user account for "kpmahi13@gmail.com" with the following info
-        |Email  |purpleheautomation+rdinator@gmail.com |
-      Then HE I successfully sign out
+    Then HE I edit the user account for "purpleheautomation+match-130@gmail.com" with the following info
+      |Email  |purpleheautomation+match-130-updated@gmail.com |
+    Then HE I edit the user account for "purpleheautomation+match-130-updated@gmail.com" with the following info
+      |Email  |purpleheautomation+match-130@gmail.com |
+    Then HE I successfully sign out
     Examples:
-      |First Name |Last Name     |Email               | role      |
-      |testing03  |automation02  |kpmahi13@gmail.com  |publishing |
+      |First Name |Last Name     |Email                                   | role      |
+      |testing03  |automation02  |purpleheautomation+match-130@gmail.com  |publishing |
 
 
 
