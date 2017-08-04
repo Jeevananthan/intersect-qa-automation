@@ -12,12 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
 public class AccountPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -130,9 +124,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         return Integer.toString(randomNo);
     }
 
-
-
-
     public void verifyInstitutionalDetails(DataTable dataTable) {
 
         List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
@@ -151,17 +142,11 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
                         break;
 
 
-                    }
-                 }
-
+                }
             }
+
         }
-
     }
-
-
-
-
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status){
 
@@ -201,9 +186,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
         dateTemp.click();
-
-
     }
+
     public void setEndDateInModulePage(){
 
         String endDate = "June 13, 2018";
@@ -221,9 +205,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         dateTemp.click();
 
     }
-
-
-
 }
 
 
