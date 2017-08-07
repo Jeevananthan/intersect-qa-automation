@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
@@ -278,7 +279,50 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
     }
+    public void addNewTimeSlot(String day, String hourStartTime, String hourEndTime, String minuteStartTime, String minuteEndTime, String meridianStartTime, String meridianEndTime, String numVisits) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
 
+        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
+        selectDayForSlotTime("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']", day);
+        inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
+        inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
+        visitsNumber(numVisits);
+        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+    }
+
+    public void selectDayForSlotTime(String element, String day) {
+        WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
+        dayList.click();
+        driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
+    }
+    public void inputStartTime(String hour, String minute, String meridian) {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='startTime']"));
+        inputStartTime.sendKeys(hour);
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
+   }
+
+    public void inputEndTime(String hour, String minute, String meridian) {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='endTime']"));
+        inputStartTime.sendKeys(hour);
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
+        inputStartTime.sendKeys(Keys.TAB);
+     }
+
+    public void visitsNumber(String numVisits) {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='numVisits']"));
+        inputStartTime.sendKeys(numVisits);
+    }
+
+    public void verifyTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
+
+        Assert.assertTrue("The Time Slot was not added" , driver.findElement(By.cssSelector("table[class='ui unstackable basic table']")).findElement(By.xpath("//button[contains(text(), '"+hourStartTime+ ":"+ minuteStartTime + meridianStartTime +"')]")).isDisplayed());
+    }
     public void verifyTimeZonePage(String ValueTZ){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -416,23 +460,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyStartDateAndEndDateInAvailabilitySetting(String startDate,String endDate){
-
        String valStartDate = driver.findElement(By.xpath("//div[@style='display: inline-block;']/button[1]/b/span")).getText();
        String valEndDate = driver.findElement(By.xpath("//div[@style='display: inline-block;']/button[2]/b/span")).getText();
 
        Assert.assertTrue("Start date is not as expected",startDate.contains(valStartDate));
        Assert.assertTrue("End date is not as expected",endDate.contains(valEndDate));
-
     }
 
 
     public void verifyWelcomeWizard(){
-
         load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Welcome to Repvisits' text is not displayed",text("Welcome to RepVisits").isDisplayed());
         Assert.assertTrue("'Get Started' button is not displayed",getStartedBtn().isDisplayed());
-
     }
 
     public void clickGetStartedBtn(){
