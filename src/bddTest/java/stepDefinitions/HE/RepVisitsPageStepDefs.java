@@ -29,5 +29,11 @@ public class RepVisitsPageStepDefs implements En {
         Then ("^HE I verify the upsell messaging on the Travel Plan page in RepVisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
 
         Then("^HE I verify the Check RepVisits Availability button$", repVisits::verifyCheckRepVisitsAvailabilityButton);
+
+        Then("^HE I select Visits to schedule the appointment for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::visitsSchedule);
+
+        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
+
+        Then("HE verify the Pills got disappear for \"([^\"]*)\"$",repVisits::verifyPills);
     }
 }

@@ -103,9 +103,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void visitsSchedule(String school,String date,String time)
+    {
+        driver.findElement(By.xpath("//span[text()='Visits']")).click();
+        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
+        driver.findElement(By.xpath("//button[text()='Date']")).click();
+        driver.findElement(By.xpath("//div[text()='"+date+"']")).click();
+        driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).click();
+    }
 
-
-
+    public void verifySchedulePopup(String school,String startTime,String endTime)
+    {
+        Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
+        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
+        Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+" PDT')]")).isDisplayed());
+        driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]")).click();
+    }
+    public void  verifyPills(String time){
+        Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).isDisplayed());
+    }
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
 
         navBar.goToRepVisits();
