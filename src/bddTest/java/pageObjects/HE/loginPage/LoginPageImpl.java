@@ -11,6 +11,7 @@ import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.fail;
 
@@ -121,6 +122,39 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     public void navigateToRegistrationPage(){
         load(GetProperties.get("he.registration.url"));
         Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
+    }
+
+    public void searchForHEInstitution(String institutionName,String institutionType){
+        if(institutionType.contains("High School")){
+            button("High School Staff Member").click();
+        }else{
+            button("Higher Education Staff Member").click();
+        }
+        driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
+        button("Search").click();
+
+        while(button("More Institutions").isDisplayed()){
+            button("More Institutions").click();
+        }
+        link(institutionName).click();
+        Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
+    }
+
+    public void validateFieldsInRequestUserForm() {
+        //validating header of this page
+        Assert.assertTrue("Header of this page doesnot contains 'Request User Account' text", text("Request New Institution").isDisplayed());
+        Assert.assertTrue("Message 'Answer all fields below to complete your request. You can expect a response from Hobsons within 1 business day.' is not displayed",driver.findElement(By.xpath("//div/span[text()='Answer all fields below to complete your request. You can expect a response from Hobsons within 1 business day.']")).isDisplayed());
+        Assert.assertTrue("Back option is not displayed", link("Back").isDisplayed());
+        //Validating the Fields
+        Assert.assertTrue("First Name Textbox was not as displayed", driver.findElement(By.xpath("//input[@name='firstName' and @type='text']")).isDisplayed());
+        Assert.assertTrue("Last Name Textbox was not as displayed", driver.findElement(By.xpath("//input[@name='lastName' and @type='text']")).isDisplayed());
+        Assert.assertTrue("Email Textbox was not as displayed", driver.findElement(By.xpath("//input[@name='email' and @type='email']")).isDisplayed());
+        Assert.assertTrue("Verify Email Textbox was not as displayed", driver.findElement(By.xpath("//input[@name='verifyEmail' and @type='email']")).isDisplayed());
+        Assert.assertTrue("Institution Name Textbox was not as displayed", driver.findElement(By.xpath("//input[@name='institutionName' and @type='text']")).isDisplayed());
+        Assert.assertTrue("Institution Website Textbox was not as displayed", driver.findElement(By.xpath("//input[@name='institutionWebsite' and @type='text']")).isDisplayed());
+        Assert.assertTrue("jobTitle Textbox was not as displayed", driver.findElement(By.xpath("//input[@name='jobTitle' and @type='text']")).isDisplayed());
+        Assert.assertTrue("'Cancel' button is not displayed", button("Cancel").isDisplayed());
+        Assert.assertTrue("'Request User' button is not displayed", button("Request User").isDisplayed());
     }
 
     public void goToAppropriateRegistrationpage(String buttonName){
