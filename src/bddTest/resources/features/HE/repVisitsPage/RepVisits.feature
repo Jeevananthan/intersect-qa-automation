@@ -52,5 +52,5 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
             so that I can easily see what my day/week/month schedule looks like.
 
     Given HE I am logged in to Intersect HE as user type "community"
-    And HE I verify the calendar view and click the appointment at "George Mason University" on "4:07PM" in repvisits page
+    And HE I verify the calendar view in repvisits
     And HE I successfully sign out
