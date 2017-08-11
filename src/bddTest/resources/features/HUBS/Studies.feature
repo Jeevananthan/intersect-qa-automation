@@ -1,4 +1,4 @@
-@HUBS
+@HUBS @HUBS-918 @HUBSStudies
 Feature: As a community user viewing College Hubs, I want to be able to view Hubs Tab content so I can
   understand what Hubs offers students.
 
@@ -6,8 +6,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     Given HE I want to login to the HE app using "jorgetesthobsons@gmail.com" as username and "Hobsons2016!" as password
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "Studies" tab in the preview
-
-  @HUBSStudies
+    
   Scenario: All the elements of the page are displayed for HE users in Studies
     Then HUBS All the elements of the studies tab should be displayed
     And HE I successfully sign out
@@ -34,10 +33,11 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Top Areas of Study | 1                   |
       | Study Options      | Study Abroad Credit |
       | Publish Reason     | test                |
-    And HUBS I approve the changes in CMS with the following details:
-      | admin | hbcmsxx | Adelphi University | Published | Student Body;Undergraduate Admissions |
-    Then HUBS I should be able to verify the changes published in HUBS, with the following credentials:
-#  The fourth parameter is the Study Option that will be evaluated.
-    | benhubs | Hobsons!23 | Adelphi | Study Abroad Credit |
-    And HUBS I successfully sign out
+    And HE I successfully sign out
+    And HUBS I approve the changes in CMS with the user email "jorgetesthobsons@gmail.com" and the following details:
+      | admin | hbcmsxx | Adelphi University |
+#    Then HUBS I should be able to verify the changes published in HUBS, with the following credentials:
+#    #  The fourth parameter is the Study Option that will be evaluated.
+#    | benhubs | Hobsons!23 | Adelphi | Study Abroad Credit |
+#    And HUBS I successfully sign out
 

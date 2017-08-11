@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.HUBSEditMode.Navigation;
@@ -33,19 +34,28 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         dropdown.selectByVisibleText(option);
     }
 
-    public void approveChangesInCMS(DataTable CMSDetails) {
+    public void approveChangesInCMS(String userMail, DataTable CMSDetails) {
         List<String> details = CMSDetails.asList(String.class);
         cmsLogin.defaultLogIn(details);
-        chooseInstitution.searchInstitution(details.get(2));
-        String originalWindow = navigation.getWindowHandle();
-        if (details.get(4).contains(";")) {
-            String[] sectionsToApprove = details.get(4).split(";");
-            for (String section : sectionsToApprove) {
-                approveChangesInSection(section, details.get(3), originalWindow);
+        workflowOverviewButton().click();
+        userEmailTextBox().sendKeys(userMail);
+        waitUntilPageFinishLoading();
+        int numberOfRows = workflowRows().size();
+        waitUntilPageFinishLoading();
+        userEmailTextBox().clear();
+        for (int i = 0; i < numberOfRows; i++) {
+            userEmailTextBox().sendKeys(userMail);
+            waitUntilPageFinishLoading();
+            WebElement workFlowRow = getDriver().findElements(By.cssSelector("table.views-table.sticky-enabled tbody tr")).get(workflowRows().size() - 1);
+            WebElement institutionCell = workFlowRow.findElement(By.cssSelector("td.views-field.views-field-institution"));
+            if (institutionCell.getText().equals(details.get(2))) {
+                workFlowRow.findElement(By.cssSelector("td.views-field.views-field-approve-action a")).click();
+                approveButton().click();
+                waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
+                workflowOverviewButton().click();
             }
-        } else {
-            approveChangesInSection(details.get(4), details.get(3), originalWindow);
         }
+
         logger.info("Changes were approved in CMS");
     }
 
@@ -88,4 +98,9 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement nextPageButton() {
         return getDriver().findElement(By.cssSelector("a[title=\"Go to next page\"]"));
     }
+    private WebElement workflowOverviewButton() { return getDriver().findElement(By.xpath("//a[text()='Workflow Overview']")); }
+    private List<WebElement> workflowRows() { return getDriver().findElements(By.cssSelector("table.views-table.sticky-enabled tbody tr")); }
+    private WebElement approveButton() { return getDriver().findElement(By.cssSelector("input#edit-submit")); }
+    private WebElement confirmationMessage() { return getDriver().findElement(By.cssSelector("div.messages.status")); }
+    private WebElement userEmailTextBox() { return getDriver().findElement(By.cssSelector("input#edit-api-user-email")); }
 }
