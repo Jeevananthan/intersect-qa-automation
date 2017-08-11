@@ -105,7 +105,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     @MATCH-1756
     Scenario:As an HS Community member,I need to view a calendar of my appointments
              so that I can easily see what my day/week/month schedule looks like.
-
       Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-      And HS I verify the calendar view and click the appoinment at "George Mason University" on "4:07PM" in repvisits page
+      And HS I verify the calendar view in repvisits
       And HS I successfully sign out
