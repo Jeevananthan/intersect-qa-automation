@@ -116,23 +116,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 }
 
     public void verifyCalendarViewOnRepVisits(String universityName,String appointmentTime) {
-
         navBar.goToRepVisits();
         link("Calendar").click();
-       // Assert.assertTrue("add visit button is not displayed",button("add visit").isDisplayed());
-        Assert.assertTrue("small calendar next button is not displayed",driver.findElement(By.xpath("//button[@title='right']/i")).isDisplayed());
-        Assert.assertTrue("small calendar previous button is not displayed",driver.findElement(By.xpath("//button[@title='left']/i")).isDisplayed());
+
+        //verify appointment key with color
+         Assert.assertTrue("",Boolean.parseBoolean(driver.findElement(By.xpath("//input[@id='fair']")).getCssValue("color"));
+
+
+        //Verify Small Calendar
+        Assert.assertTrue("Small Calendar is not displayed",driver.findElement(By.cssSelector("div[role='application']")).isDisplayed());
+        Assert.assertTrue("small calendar next button is not displayed",driver.findElement(By.cssSelector("button[title='right']>i")).isDisplayed());
+        Assert.assertTrue("small calendar previous button is not displayed",driver.findElement(By.cssSelector("button[title='left']>i")).isDisplayed());
 
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement mainCalendarNextBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Forwards']/i")));
+        WebElement mainCalendarNextBtn = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[title='Forwards']>i")));
 
-        Assert.assertTrue("Main calendar next button is not displayed",mainCalendarNextBtn.isDisplayed());
-        Assert.assertTrue("Main calendar previous button is not displayed",driver.findElement(By.xpath("//button[@title='Backwards']/i")).isDisplayed());
+        //Verify Main Calendar
+        Assert.assertTrue("Main Calendar is not displayed",driver.findElement(By.cssSelector("div[class='rbc-calendar rep-visits-rbc-calendar']")).isDisplayed());
+        Assert.assertTrue("Main calendar next button is not displayed",driver.findElement(By.cssSelector("button[title='Forwards']>i")).isDisplayed());
+        Assert.assertTrue("Main calendar previous button is not displayed",driver.findElement(By.cssSelector("button[title='Backwards']>i")).isDisplayed());
 
-        //Assert.assertTrue("export button is not displayed",button("Export").isDisplayed());
-        //need to add assertion
-        //Assert.assertTrue("print button is not displayed",driver.findElement(By.xpath("//button[@title='print']/i")).isDisplayed());
-
+        //verify day, week and month view button
         Assert.assertTrue(" Day view button is not displayed",button("Day").isDisplayed());
         Assert.assertTrue(" Week view button is not displayed",button("Week").isDisplayed());
         Assert.assertTrue(" Month view button is not displayed",button("Month").isDisplayed());
@@ -148,6 +152,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//input[@id='visit']/following::label")).click();
         driver.findElement(By.xpath("//input[@id='fair']/following::label")).click();
         driver.findElement(By.xpath("//input[@id='pending']/following::label")).click();
+
+
 
     }
 
