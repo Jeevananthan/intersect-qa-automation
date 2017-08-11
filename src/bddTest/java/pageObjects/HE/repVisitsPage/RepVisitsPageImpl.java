@@ -146,6 +146,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.cssSelector("button[title='Month']")).click();
         Assert.assertTrue("Month view is not displayed",driver.findElement(By.cssSelector("div[class='rbc-month-view']")).isDisplayed());
 
+        // Appointments are clickable
+        driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
+        Assert.assertTrue("The Wizard contains the appointment details are not displayed",driver.findElement(By.cssSelector("div[class='ui overlay right very wide visible sidebar _1bTs4IjZQSsADQ671qHLL3']")).isDisplayed());
+        driver.findElement(By.xpath("//button[@aria-label='Close']")).click();
+
         //verify Appointment Keys
         //Visits
         Assert.assertTrue(" visit confirmed option is not displayed",text("Visits - Confirmed").isDisplayed());
@@ -154,7 +159,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String actualVisitColor = driver.findElement(By.xpath("//input[@id='visit']")).getCssValue("color");
         Assert.assertTrue("Background Color for the Visit checkbox are not displayed",actualVisitColor.equals(visitColor));
         driver.findElement(By.xpath("//input[@id='visit']/following::label")).click();
-        Assert.assertFalse("Appointments for the visit is displayed in the calendar",driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).isDisplayed());
 
         //Fairs
         Assert.assertTrue(" Fair confirmed option is not displayed",text("College Fair - Confirmed").isDisplayed());
@@ -163,7 +167,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String actualFairColor = driver.findElement(By.xpath("//input[@id='fair']")).getCssValue("color");
         Assert.assertTrue("Background Color for the fair checkbox are not displayed",actualFairColor.equals(fairColor));
         driver.findElement(By.xpath("//input[@id='fair']/following::label")).click();
-        Assert.assertFalse("Appointments for the fairs is displayed in the calendar",driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _2CrNWdVYs3sN4k1Rgr_RDv']")).isDisplayed());
 
         //Pending
         Assert.assertTrue("Pending option is not displayed",text("Pending").isDisplayed());
@@ -172,7 +175,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String actualPendingColor = driver.findElement(By.xpath("//input[@id='pending']")).getCssValue("color");
         driver.findElement(By.xpath("//input[@id='pending']/following::label")).click();
         Assert.assertTrue("Background Color for the Pending checkbox are not displayed",actualPendingColor.equals(pendingColor));
-        Assert.assertFalse("Appointments for the Pending Status is displayed in the calendar",driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")).isDisplayed());
+
     }
 
 
