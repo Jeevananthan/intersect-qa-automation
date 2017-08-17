@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
@@ -426,9 +427,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void primaryContactDetailsforVisitsAndFairs(String phoneNo) {
-        driver.findElement(By.id("notification_contacts_primary_contact_phone")).clear();
         if (phoneNo.equals("")) {
-            driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
+            for(int i=0;i<15;i++) {
+                WebElement primaryContact = driver.findElement(By.id("notification_contacts_primary_contact_phone"));
+                primaryContact.sendKeys(Keys.BACK_SPACE);
+            }
             button("Next").click();
             Assert.assertTrue("Phone no is not entered ", text("Please enter a phone number. Ex: (555) 555-5555").isDisplayed());
         } else {
@@ -438,37 +441,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToVisitsAndFairs() {
-
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
 
         Assert.assertTrue("welcome wizard is not displayed", text("Tell us about your High School").isDisplayed());
-
         driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS']")).click();
-        button("Next").click();
 
-        Assert.assertTrue("school's time zone is not displayed", text("Please specify your high school's time zone.").isDisplayed());
-        button("Next").click();
-
-        Assert.assertTrue("Availability is not displayed", text("ADD TIME SLOT").isDisplayed());
-        button("Next").click();
-
-        Assert.assertTrue("BLOCKED DAYS is not displayed", text("Prevent visits on holidays and other days by adding them here.").isDisplayed());
-        button("Next").click();
-
-        Assert.assertTrue("EXCEPTIONS page is not displayed", text("Choose a Date").isDisplayed());
-        button("Next").click();
-
-        Assert.assertTrue("Availability Settings page is not displayed", text("Visits Confirmations").isDisplayed());
-        button("Next").click();
-
-        Assert.assertTrue("Confirmation Message is not displayed", text("Confirmation Message").isDisplayed());
-        button("Next").click();
-
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Notifications & Primary Contact']")).size()==0) {
+            button("Next").click();
+            waitUntilPageFinishLoading();
+        }
         Assert.assertTrue("Primary Contact detail is not displayed", text("Primary Contact for Visits").isDisplayed());
         Assert.assertTrue("Primary Contact Phone Number is not displayed", text("Primary Contact Phone Number").isDisplayed());
-        Assert.assertTrue("", driver.findElement(By.xpath("//input[@id='notification_contacts_primary_contact_phone']")).isDisplayed());
-
+        Assert.assertTrue("Primary Contact Phone Number TextBox is not displayed", driver.findElement(By.cssSelector("input[id='notification_contacts_primary_contact_phone']")).isDisplayed());
     }
 
     public void navigateToAvailabilityAndSettings() {
@@ -482,27 +467,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void navigateToCollegeFairs() {
         navBar.goToRepVisits();
         driver.findElement(By.xpath("//span[text()='College Fairs']")).click();
-        Assert.assertTrue("Collge Fairs is not displayed", text("Add a College Fair").isDisplayed());
-        button("SETTINGS").click();
+        Assert.assertTrue("College Fairs is not displayed", text("Add a College Fair").isDisplayed());
+        driver.findElement(By.cssSelector("a[href='rep-visits/collegefairs/settings']>span")).click();
         waitUntilPageFinishLoading();
     }
 
     public void primaryContactDetailsforFairs(String phoneNo) {
-        driver.findElement(By.id("notification_contacts_primary_contact_phone")).clear();
         if(phoneNo.equals("")){
-            driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
+            for(int i=0;i<15;i++) {
+                WebElement primaryContact = driver.findElement(By.id("notification_fairs_phone_number"));
+                primaryContact.sendKeys(Keys.BACK_SPACE);
+            }
             button("SAVE SETTINGS").click();
             Assert.assertTrue("Phone no is not entered ", text("Please enter a phone number. Ex: (555) 555-5555").isDisplayed());
         }else{
-            driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
+            driver.findElement(By.id("notification_fairs_phone_number")).sendKeys(phoneNo);
             button("SAVE SETTINGS").click();
         }
     }
 
     public void primaryContactDetailsinAvailabilityandSettings(String phoneNo) {
-        driver.findElement(By.id("notification_contacts_primary_contact_phone")).clear();
         if(phoneNo.equals("")) {
-            driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
+            for(int i=0;i<15;i++) {
+                WebElement contact = driver.findElement(By.id("notification_contacts_primary_contact_phone"));
+                contact.sendKeys(Keys.BACK_SPACE);
+            }
             button("Save changes").click();
             Assert.assertTrue("Phone no is not entered ",driver.findElement(By.xpath("//span[contains(text(),'Please enter a phone number. Ex: (555) 555-5555')]")).isDisplayed());
         }else{
