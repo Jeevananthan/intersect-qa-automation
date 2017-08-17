@@ -127,16 +127,21 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     public void searchForHEInstitution(String institutionName,String institutionType){
         if(institutionType.contains("High School")){
             button("High School Staff Member").click();
+            WebElement search = driver.findElement(By.cssSelector("input[placeholder='Search Institutions...']"));
+            waitUntilElementExists(search);
         }else{
             button("Higher Education Staff Member").click();
         }
         driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
         button("Search").click();
-
+        WebElement searchResults = driver.findElement(By.xpath("//p/span[text()='No Institutions Found']"));
+        waitUntilElementExists(searchResults);
         while(button("More Institutions").isDisplayed()){
             button("More Institutions").click();
+            waitUntilPageFinishLoading();
         }
         link(institutionName).click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
     }
 
