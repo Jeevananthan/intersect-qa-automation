@@ -103,6 +103,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void searchSchoolinRepVisits(String schoolName)
+    {
+        navBar.goToRepVisits();
+        getSearchAndScheduleBtn().click();
+        driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(schoolName);
+        getSearchButton().click();
+        driver.findElement(By.xpath("//a[contains(text(),'"+schoolName+"')]")).click();
+    }
     public void visitsSchedule(String school,String date,String time)
     {
         driver.findElement(By.xpath("//span[text()='Visits']")).click();
@@ -116,12 +124,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
-        Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+" PDT')]")).isDisplayed());
+        Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+" EDT')]")).isDisplayed());
         driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]")).click();
     }
     public void  verifyPills(String time){
-        Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).isDisplayed());
-    }
+        Assert.assertFalse("TIME IS DISPLAYED",driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).isDisplayed());
+  }
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
 
         navBar.goToRepVisits();

@@ -50,13 +50,12 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
 @MATCH-2169
 Scenario Outline: HE Users - RepVisits - Availability Pills Updates
   Given HE I am logged in to Intersect HE as user type "administrator"
-  And HE I search for "Lebanon High School" in RepVisits
-  Then HE I select "Lebanon High School" in "Lebanon, Ohio" from the RepVisits intermediate search results
-  Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
-  And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-  And HE verify the Pills got disappear for "<heTime>"
+  And HE I search for school in RepVisits using "<SchoolName>"
+  Then HE I select Visits to schedule the appointment for "<SchoolName>" using "<Date>" and "<heStartTime>"
+  And HE I verify the schedule pop_up for "<SchoolName>" using "<heTime>" and "<hsEndTime>"
+  And HE verify the Pills got disappear for "<heStartTime>"
   And HE I successfully sign out
 
   Examples:
-    |StartDate      |EndDate            |hsStartTime     |hsEndTime    |numOfVists |Option                                               |School          |Date|Day            |heStartTime |heEndTime|heTime|heuser    |institution                |user     |activityDate |requestDate    |calendarST|
-    |August 22 2017 |September 23 2017  |09:38am         |09:55am      |   5       |No, I want to manually review all incoming requests. |HOMECONNECTION  |25  |Tuesday        |9:38 AM     |9:55 AM  |09:38 |PurpleHE  |The University of Alabama  |Jeeva C  |Aug 22, 2017 |August 22, 2017|9:38AM    |
+    |hsEndTime     |Date|heStartTime |heTime|SchoolName              |
+    |10:20pm       |25  |5:20pm      |5:20  |Int QA High School 4    |
