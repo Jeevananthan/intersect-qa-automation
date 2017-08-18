@@ -77,12 +77,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyFullContactPage(){
         navBar.goToRepVisits();
         getContactsBtn().click();
-        Assert.assertTrue("Contact Header is not displayed",driver.findElement(By.className("ui header _2GIsNevIB_s082IZwcYen3")).isDisplayed());
-        Assert.assertTrue("Instruction text is not displayed",driver.findElement(By.className("sub header _240ldPuujUDvP5vNIGw15H")).isDisplayed());
+        Assert.assertTrue("Contact Header is not displayed",driver.findElement(By.xpath("//h1[@class='ui header _2GIsNevIB_s082IZwcYen3']")).isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",driver.findElement(By.xpath("//div[@class='sub header _240ldPuujUDvP5vNIGw15H']")).isDisplayed());
         List<WebElement> searchedValueOfName = driver.findElements(By.className("_1ijSBYwG-OqiUP1_S7yMUN"));
         int size = searchedValueOfName.size();
         Assert.assertTrue("RepVisits contact are not displayed",size>0);
-        Assert.assertTrue("Show more button is not displayed",button("show more").isDisplayed());
+        if(text("Welcome to Contacts").isDisplayed())
+        {
+            logger.info("you have no Contacts");
+        }
+        else {
+            while (link("show more").isDisplayed()){
+                link("show more").click();
+            }}
     }
     public void verifyContactDetails(DataTable dataTable){
         navBar.goToRepVisits();
@@ -93,9 +100,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void verifyinvalidcontact(String invalidData){
-        String value = null;
+        getSearchBoxforContact().clear();
         getSearchBoxforContact().sendKeys(invalidData);
-        getSearchButton().click();
         Assert.assertTrue("the message of 'Your search did not return any contacts.' is not displayed",text("Your search did not return any contacts.").isDisplayed());
     }
 
@@ -103,7 +109,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         getContactsBtn().click();
         getSearchBoxforContact().sendKeys(institutionName);
-        Assert.assertTrue("the specified schoolname is not displayed",text(institutionName).isDisplayed());
+        Assert.assertTrue("the specified schoolname is not displayed",driver.findElement(By.xpath("//td/div[@class='_2ZIfaO8qcJzzQzgSfH1Z8h']/../div[text()='"+institutionName+"']")).isDisplayed());
     }
     public void partialsearchforContact(String institutionName){
         navBar.goToRepVisits();
