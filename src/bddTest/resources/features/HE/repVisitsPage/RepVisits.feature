@@ -64,7 +64,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     And HS I verify full contacts page in Contacts
     And HS I verify contacts details  in Contacts
       |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications & Tasks|
-    And HS I search for "The University of Alabama" in Contacts
+    And HS I search for "HOMECONNECTION" in Contacts
     And HS I search for invalid data of "invalid data" in Contacts
     And HS I search for partial data of "invalid data" in Contacts
     And HS I successfully sign out
