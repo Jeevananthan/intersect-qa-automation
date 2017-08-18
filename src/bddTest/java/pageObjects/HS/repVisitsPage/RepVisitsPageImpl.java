@@ -201,7 +201,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyManualBlockedHolidays(String holiday) {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
-        link("Holidays").click();
+        link("Blocked Days").click();
+        waitUntilPageFinishLoading();
 
         getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).click();
 
@@ -209,7 +210,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.cssSelector("button[class='ui primary button']")).click();
 
         link("Availability & Settings").click();
-        link("Holidays").click();
+        link("Blocked Days").click();
 
         Boolean checkBoxLaborHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
         Boolean checkBoxColumbusHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
