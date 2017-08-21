@@ -57,5 +57,5 @@ Scenario Outline: HE Users - RepVisits - Availability Pills Updates
   And HE I successfully sign out
 
   Examples:
-    |hsEndTime     |Date|heStartTime |heTime|SchoolName              |
-    |10:20pm       |25  |5:20pm      |5:20  |Int QA High School 4    |
+    |hsEndTime      |Date |heStartTime     |heTime   |SchoolName              |
+    |05:22am        |28   |4:52am          |04:52    |Int QA High School 4    |

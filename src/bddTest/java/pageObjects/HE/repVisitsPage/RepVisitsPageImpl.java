@@ -14,6 +14,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import static org.junit.Assert.fail;
+
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -124,12 +126,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
-        Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+" EDT')]")).isDisplayed());
+        Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+" PDT')]")).isDisplayed());
         driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]")).click();
     }
-    public void  verifyPills(String time){
-        Assert.assertFalse("TIME IS DISPLAYED",driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).isDisplayed());
-  }
+    public void  verifyPills(String time)
+    {
+        try {
+            driver.findElement(By.xpath("//div/div/button[text()='" + time + "']")).isDisplayed();
+            fail("Time slot is displayed");
+            } catch (Exception e)
+            {
+            }
+    }
+
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
 
         navBar.goToRepVisits();
