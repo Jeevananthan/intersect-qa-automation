@@ -10,18 +10,15 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
       |Overview |Search and Schedule |Calendar |Travel Plan |Contacts |Recommendations |Notifications|
     And HE I successfully sign out
 
-
   @MATCH-1602 @MATCH-1958 @MATCH-1729
   Scenario: As an HE user I want to be able to use the Search and Schedule tab of RepVisits to browse HS availability.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the Search and Schedule tab of the RepVisits page
+    Then HE I search for High Schools with the following location data in RepVisits
+      | City     | State    | State Abbreviation | County | Postal Code |
+      | new york | Kentucky | KY                 | Bronx  | 45044       |
     And HE I verify the Coming Soon message on the RepVisits Overview page
-    #   This step is @NotInQA -- @MATCH-1729
-    #Then HE I search for High Schools with the following location data in RepVisits
-    #  |City    |State        |State Abbreviation |County |Postal Code |
-    #  |Erlanger|Kentucky     |KY                 |Kenton |41018       |
     And HE I successfully sign out
-
 
   @MATCH-1476 @MATCH-1902 @MATCH-1903 @MATCH-1774
   Scenario: As an HE user of an HE account with the Intersect Presence Subscription active I want to see the

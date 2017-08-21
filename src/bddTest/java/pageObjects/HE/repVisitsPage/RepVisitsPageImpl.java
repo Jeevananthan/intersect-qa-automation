@@ -1,14 +1,18 @@
 package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
+import javafx.scene.input.DataFormat;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
+
 import org.apache.log4j.Logger;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
@@ -53,17 +57,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifySearchAndSchedulePage() {
         navBar.goToRepVisits();
         getSearchAndScheduleBtn().click();
-        WebElement dateBar = driver.findElement(By.className("_2Y4XoXCJpDOFoe0UYkEn-I"));
-        Assert.assertTrue("Previous Week button is not present!",dateBar.findElement(By.cssSelector("[aria-label='Previous week']")).isDisplayed());
-        Assert.assertTrue("Next Week button is not present!",dateBar.findElement(By.cssSelector("[aria-label='Next week']")).isDisplayed());
-        Assert.assertTrue("Calendar button is not present!",dateBar.findElement(By.className("calendar")).isDisplayed());
-        Assert.assertTrue("Placeholder text for search box was not present!", textbox("Enter a school name or location").isDisplayed());
+        Assert.assertTrue("Placeholder text for search box was not present!", textbox("Search by school name or location...").isDisplayed());
+        getSearchAndScheduleSearchBox().sendKeys("Int QA High School 4");
+        getSearchButton().click();
+        link("int QA High School 4").click();
+        waitUntilPageFinishLoading();
+        WebElement dataBar = driver.findElement(By.className("_135QG0V-mOkCAZD0s14PUf"));
+
+        Assert.assertTrue("Previous Week button is not present!",dataBar.findElement(By.xpath("//button[@aria-label='Previous week']")).isDisplayed());
+        Assert.assertTrue("Next Week button is not present!",dataBar.findElement(By.xpath("//button[@aria-label='Next week']")).isDisplayed());
+        Assert.assertTrue("Calendar button is not present!", dataBar.findElement(By.xpath("//button[@class='ui right labeled tiny icon button _1alys3gHE0t2ksYSNzWGgY right floated']")).isDisplayed());
+        Assert.assertTrue("Showing weeks is not present!", text("Showing Week:").isDisplayed());
+        Assert.assertTrue("Date week is not present!", dataBar.findElement(By.xpath("(//span[@class='_3_lM2Oa_HQNcvdEALKnQGW']/span/span)[2]")).isDisplayed());
+        Assert.assertTrue("LIST link is not present!", dataBar.findElement(By.xpath("//button[@aria-label='List']")).isDisplayed());
+        Assert.assertTrue("MAP link is not present!", text("MAP").isDisplayed());
     }
 
     public void searchforHighSchool(String schoolName) {
-        navBar.goToRepVisits();
-        getSearchAndScheduleBtn().click();
-        getSearchBox().sendKeys(schoolName);
+        getSearchAndScheduleSearchBox().clear();
+        getSearchAndScheduleSearchBox().sendKeys(schoolName);
         getSearchButton().click();
         waitUntilPageFinishLoading();
     }
@@ -101,7 +113,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 Assert.assertTrue("HS data is showing while searching through "+category+" in Search And Schedule page", driver.findElement(By.xpath("//table[@class='ui very basic table']")).isDisplayed());
             } catch (NoSuchElementException nsee){
                 Assert.assertTrue("HS data is not showing while searching through "+category+" in Search And Schedule page", driver.findElement(By.xpath("//span[contains(text(),'No results found')]")).isDisplayed());
-                Assert.assertTrue("HS data is not showing while searching through "+category+" in Search And Schedule page", false);
             }
         }
     }
@@ -127,10 +138,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
-    private WebElement getSearchBox() { return textbox("Enter a school name or location");}
+    private WebElement getSearchAndScheduleSearchBox(){ return textbox("Search by school name or location..."); }
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
 }
-
-
