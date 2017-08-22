@@ -151,7 +151,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getContactsBtn().click();
         getSearchBoxforContact().clear();
         getSearchBoxforContact().sendKeys(institutionName);
-        Assert.assertTrue("the specified schoolname is not displayed",driver.findElement(By.xpath("//td/div[@class='_2ZIfaO8qcJzzQzgSfH1Z8h']/../div[text()='"+institutionName+"']")).isDisplayed());
+        Assert.assertTrue("the specified schoolname is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[@class='five wide hidden-mobile']/div[contains(text(),'"+institutionName+"')]")).isDisplayed());
     }
     public void partialsearchforContact(String institutionName){
         navBar.goToRepVisits();

@@ -56,7 +56,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
       |Overview |Search and Schedule |Calendar |Travel Plan |Contacts |Recommendations|
     And HE I search for "HOMECONNECTION" in Contacts
     And HE I search for invalid data of "invalid data" in Contacts
-    And HE I search for partial data of "invalid data" in Contacts
+    And HE I search for partial data in Contacts using "HOMECONNECTION","HOMECON"
     And HE I successfully sign out
 
     Given HS I want to login to the HS app using "jeevanece90@gmail.com" as username and "Password#1" as password
@@ -64,7 +64,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     And HS I verify full contacts page in Contacts
     And HS I verify contacts details  in Contacts
       |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications & Tasks|
-    And HS I search for "HOMECONNECTION" in Contacts
+    And HS I search for "Alpena Community College" in Contacts
     And HS I search for invalid data of "invalid data" in Contacts
-    And HS I search for partial data of "invalid data" in Contacts
+    And HE I search for partial data in Contacts using "Alpena Community College","Alpena"
     And HS I successfully sign out

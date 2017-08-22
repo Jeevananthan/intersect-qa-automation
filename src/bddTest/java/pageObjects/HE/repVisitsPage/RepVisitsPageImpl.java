@@ -159,7 +159,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
         Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
-}
+      }
+
+    public void searchforPartialdata(String institutionName,String partial)
+    {
+    navBar.goToRepVisits();
+    getContactsBtn().click();
+    getSearchBoxforContact().clear();
+    getSearchBoxforContact().sendKeys(partial);
+    Assert.assertTrue("the specified schoolname is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[@class='five wide hidden-mobile']/div[contains(text(),'"+institutionName+"')]")).isDisplayed());
+    }
 
     private WebElement getOverviewBtn() {
         return link("Overview");

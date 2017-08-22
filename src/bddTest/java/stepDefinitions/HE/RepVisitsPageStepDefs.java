@@ -41,6 +41,8 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I search for partial data of \"([^\"]*)\" in Contacts$", repVisits::partialsearchforContact);
 
         And("^HE I search for invalid data of \"([^\"]*)\" in Contacts$", repVisits::verifyinvalidcontact);
+
+        And("^HE I search for partial data in Contacts using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::searchforPartialdata);
     }
 
 }
