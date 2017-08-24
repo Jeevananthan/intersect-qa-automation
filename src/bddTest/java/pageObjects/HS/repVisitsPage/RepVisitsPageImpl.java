@@ -352,6 +352,71 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void accessCreateCollegeFair(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected,String buttonToClick){
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        button(By.id("add-college")).click();
+
+        if(!collegeFairName.equals("")) {
+            Assert.assertTrue("College Fair TextBox is not displayed",textbox(By.id("college-fair-name")).isDisplayed());
+            textbox(By.id("college-fair-name")).sendKeys(collegeFairName);
+        }
+        if(!date.equals("")) {
+            Assert.assertTrue("Date Textbox are not displayed",textbox(By.id("college-fair-date")).isDisplayed());
+            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            datepicker.click();
+            setDate(date);
+        }
+        if(!startTime.equals("")) {
+            Assert.assertTrue("Start Time TextBox is not displayed",textbox(By.id("college-fair-start-time")).isDisplayed());
+            textbox(By.id("college-fair-start-time")).sendKeys(startTime);
+        }
+        if(!endTime.equals("")) {
+            Assert.assertTrue("End Time TextBox is not displayed",textbox(By.id("college-fair-end-time")).isDisplayed());
+            textbox(By.id("college-fair-end-time")).sendKeys(endTime);
+        }
+        if(!RSVPDate.equals("")) {
+            Assert.assertTrue("RSVP Deadline TextBox is not displayed",textbox(By.id("college-fair-rsvp-deadline")).isDisplayed());
+            WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            RSVPdatepicker.click();
+            setDate(RSVPDate);
+        }
+        if(!cost.equals("")) {
+            Assert.assertTrue("Cost TextBox is not displayed",textbox(By.id("college-fair-cost")).isDisplayed());
+            textbox(By.id("college-fair-cost")).sendKeys(cost);
+        }
+        if(!maxNumberofColleges.equals("")) {
+            Assert.assertTrue("'Max Number of Colleges' TextBox is not displayed",textbox(By.id("college-fair-max-number-colleges")).isDisplayed());
+            textbox(By.id("college-fair-max-number-colleges")).sendKeys(maxNumberofColleges);
+        }
+        if(!numberofStudentsExpected.equals("")) {
+            Assert.assertTrue("'Number of Students Expected' TextBox is not displayed",textbox(By.id("college-fair-number-expected-students")).isDisplayed());
+            textbox(By.id("college-fair-number-expected-students")).sendKeys(numberofStudentsExpected);
+        }
+
+        if(!buttonToClick.equals("")) {
+            if(buttonToClick.equals("Cancel This College Fair")) {
+                Assert.assertTrue("'Cancel This College Fair' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).isDisplayed());
+                driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).click();
+            }else if(buttonToClick.equals("Save")){
+                Assert.assertTrue("'Save' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Save']")).isDisplayed());
+                driver.findElement(By.xpath("//button/span[text()='Save']")).click();
+            }else {
+                fail("The option for the button to click ="+buttonToClick+" is not a valid one");
+            }
+        }
+    }
+
+    public void accessSuccessMessageforFair(String buttonName){
+        if(buttonName.equals("Close")){
+            driver.findElement(By.cssSelector("button[class='ui basic primary button']")).click();
+        }else if(buttonName.equals("Add Attendees")){
+            driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        }else{
+            fail("The given option is not a valid one");
+        }
+    }
+
     public void accessCollegeFairOverviewPage(String fairName) {
         while (link("View More Upcoming Events").isDisplayed()) {
             link("View More Upcoming Events").click();
@@ -360,7 +425,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         viewDetails.click();
     }
 
-    public void verifyCollegeFairDetailsPage(DataTable dataTable) {
+    public void verifyCollegeFairDetailsPage(String collegeFairName, String date, String instructionsforCollegeRepresentatives) {
         Assert.assertTrue("Edit Button is not Displayed", button(By.id("edit-college-fair")).isDisplayed());
         Assert.assertTrue("MESSAGE COLLEGES Button is not Displayed", button(By.id("message-colleges")).isDisplayed());
         Assert.assertTrue("ADD ATTENDEE Button is not Displayed", button(By.id("add-attendee")).isDisplayed());
@@ -378,65 +443,51 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("column Name " + column + " is not displaying as expected!", driver.findElement(By.xpath("//table[@id='he-account-dashboard']/thead/tr//th/span[text()='" + column + "']")).isDisplayed());
         }
 
-        List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
-        for (Map<String, String> collegeFairData : entities) {
-            for (String key : collegeFairData.keySet())
-                switch (key) {
-                    // This is where we verify the values on the screen.
-                    case "College Fair Name":
-                        String actualCollegeFairName = driver.findElement(By.xpath("//h1[text()='" + collegeFairData.get(key) + "']")).getText();
-                        Assert.assertTrue("College Fair Name is not Displayed", actualCollegeFairName.equals(collegeFairData.get(key)));
-                        break;
-                    case "Date":
-                        String actualDate = driver.findElement(By.xpath("//div[@class='thirteen wide column']//p/b")).getText();
-                        Assert.assertTrue("Date is not Displayed.", actualDate.equals(collegeFairData.get(key)));
-                        break;
-                    case "Instructions for College Representatives":
-                        String actualInstructionsforCollegeRepresentatives = driver.findElement(By.xpath("//div[@class='column']//p")).getText();
-                        Assert.assertTrue("Date is not Displayed.", actualInstructionsforCollegeRepresentatives.equals(collegeFairData.get(key)));
-                        break;
+        if(!collegeFairName.equals("")) {
+            String actualCollegeFairName = driver.findElement(By.xpath("//h1[text()='"+collegeFairName+"']")).getText();
+            Assert.assertTrue("College Fair Name is not Displayed", actualCollegeFairName.equals(collegeFairName));
+        }
 
-                }
+        if(!date.equals("")) {
+            String actualDate = driver.findElement(By.xpath("//div[@class='thirteen wide column']//p/b")).getText();
+            Assert.assertTrue("Date is not Displayed.", actualDate.equals(date));
+        }
+
+        if(!instructionsforCollegeRepresentatives.equals("")) {
+            String actualInstructionsforCollegeRepresentatives = driver.findElement(By.xpath("//div[@class='column']//p")).getText();
+            Assert.assertTrue("Date is not Displayed.", actualInstructionsforCollegeRepresentatives.equals(instructionsforCollegeRepresentatives));
         }
     }
 
-    public void verifyListofRegisteredAttendee(DataTable dataTable, String name) {
+    public void verifyListofRegisteredAttendee(String name, String contact, String notes, String status) {
         int nameID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead/tr/th","Name");
         int rowID = getRowIdByColumnId("//table[@id='he-account-dashboard']//tbody/tr/td", nameID,name);
 
-        List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
-        for (Map<String, String> collegeFairData : entities) {
-            for (String key : collegeFairData.keySet())
-                switch (key) {
-                    // This is where we verify the values on the screen.
-                    case "Name":
-                        String actualName = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+nameID+"]")).getText();
-                        Assert.assertTrue("College Attendee Name is not Displayed.", actualName.equals(collegeFairData.get(key)));
-                        break;
-                    case "Contact":
-                        int contactID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead/tr/th","Contact");
-                        String[] contact = collegeFairData.get(key).split(",");
-                        String contactName = contact[0] + contact[1] + contact[2];
-                        String actualContact = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+contactID+"]")).getText();
-                        Assert.assertTrue("College Contact Name is not Displayed", contact[0].contains(actualContact));
-                        Assert.assertTrue("College Email is not Displayed", contact[1].contains(actualContact));
-                        Assert.assertTrue("College Phone Number is not Displayed", contact[2].contains(actualContact));
-                        break;
-
-                    case "Notes":
-                        int notesID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead/tr/th","Notes");
-                        String actualNotes = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+notesID+"]")).getText();
-                        Assert.assertTrue("Notes is not Displayed.", actualNotes.equals(collegeFairData.get(key)));
-                        break;
-
-                    case "Status":
-                        int statusID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead/tr/th","Notes");
-                        String actualStatus = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+statusID+"]")).getText();
-                        Assert.assertTrue("Status is not Displayed.", actualStatus.equals(collegeFairData.get(key)));
-                        break;
-                   }
+        if(!name.equals("")) {
+            String actualName = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+nameID+"]")).getText();
+            Assert.assertTrue("College Attendee Name is not Displayed.", actualName.equals(name));
+        }
+        if(!contact.equals("")) {
+            int contactID = getColumnIdByFieldName("//table[@id='he-account-dashboard']//thead/tr/th","Contact");
+            String[] contacts = contact.split(",");
+            String contactName = contacts[0] + contacts[1] + contacts[2];
+            String actualContact = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+contactID+"]")).getText();
+            Assert.assertTrue("College Contact Name is not Displayed", contacts[0].contains(actualContact));
+            Assert.assertTrue("College Email is not Displayed", contacts[1].contains(actualContact));
+            Assert.assertTrue("College Phone Number is not Displayed", contacts[2].contains(actualContact));
+        }
+        if(!notes.equals("")) {
+            int notesID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead/tr/th","Notes");
+            String actualNotes = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+notesID+"]")).getText();
+            Assert.assertTrue("Notes is not Displayed.", actualNotes.equals(notes));
+        }
+        if(!status.equals("")) {
+            int statusID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead/tr/th","Notes");
+            String actualStatus = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+statusID+"]")).getText();
+            Assert.assertTrue("Status is not Displayed.", actualStatus.equals(status));
         }
     }
+
 
 
     //locators
@@ -445,6 +496,58 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
+    }
+    //Function Name  : getColumnIdByFieldName()
+    public int  getColumnIdByFieldName(String tableHeaderLocator, String fieldName)
+    {
+        int columnId=-1, colCount = 0;
+        String presentField=null;
+
+        WebElement webEleTableHeader=driver.findElement(By.xpath(tableHeaderLocator));
+        List<WebElement> webEleRows=webEleTableHeader.findElements(By.tagName("tr"));
+        List<WebElement> webEleColumns=webEleRows.get(0).findElements(By.tagName("th"));
+        colCount = webEleColumns.size();
+
+        if(colCount > 0)
+        {
+            for(int colNum=1;colNum<colCount;colNum++)
+            {
+                presentField = webEleColumns.get(colNum).getText().trim().replace("\"", "");
+
+                if(presentField.equals(fieldName))
+                {
+                    columnId = colNum;
+                    break;
+                }
+            }
+        }
+
+        return columnId;
+    }
+
+    //Function Name  : getRowIdByColumnId()
+    public int  getRowIdByColumnId(String tableBodyLocator, int columnId, String dataToFind)
+    {
+        int rowId=-1, rowCount = 0;
+
+        WebElement webEleTableBody=driver.findElement(By.xpath(tableBodyLocator));
+        List<WebElement> webEleRows=webEleTableBody.findElements(By.tagName("tr"));
+        rowCount = webEleRows.size();
+
+        if(rowCount > 0)
+        {
+            for(int rowNum=0;rowNum<rowCount;rowNum++)
+            {
+                List<WebElement> webEleColumns=webEleRows.get(rowNum).findElements(By.tagName("td"));
+                if(webEleColumns.get(columnId).getText().equals(dataToFind))
+                {
+                    rowId = rowNum;
+                    break;
+                }
+            }
+        }
+
+        return rowId;
     }
 }
 
