@@ -80,7 +80,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |StartDate            |EndDate           |
-      |January 23 2017      |June 23 2018      |
+      |August 29 2017     |August 30 2017     |
       |August 15 2017       |September 23 2017 |
       |January 15 2018      |September 23 2018 |
 
