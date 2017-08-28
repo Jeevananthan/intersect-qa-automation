@@ -134,8 +134,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1946
   Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
   so that I can be sure my RepVisits account is properly set up.
-    #Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    When HS I want to login to the HS app using "jeevanece90@gmail.com" as username and "Password#1" as password
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I go to welcome wizard of the repvisits
     And HS I navigate to "Availability" wizard in repvisits
     Then HS I add the time slot in "Monday" with start time as "05:00AM" and end time as "02:00PM" and "5" vistis
