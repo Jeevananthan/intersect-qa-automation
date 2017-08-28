@@ -54,5 +54,19 @@ public class RepVisitsPageStepDefs implements En {
         Then ("^HS I set the Visit Availability of RepVisits Availability Settings to \"([^\"]*)\"$",repVisits::accessVisitAvailability);
 
         Then ("^HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with \"([^\"]*)\"$",repVisits::verifyVisitAvailability);
+
+        Then("^HS I go to welcome wizard of the repvisits$",repVisits::goToWelcomeWizard);
+
+        And("^HS I navigate to \"([^\"]*)\" wizard in repvisits$",repVisits::navigateToRepvisitWizard);
+
+        Then("^HS I add the time slot in \"([^\"]*)\" with start time as \"([^\"]*)\" and end time as \"([^\"]*)\" and \"([^\"]*)\" vistis$",repVisits::addTimeSlotInRegularWeeklyHours);
+
+        And ("^HS I navigate to sub tab \"([^\"]*)\" in availability wizard$",repVisits::navigateToSubTabsInAvailabilityWizard);
+
+        Then ("^HS I select \"([^\"]*)\" in blocked days tab and verify saving option works successfully$",repVisits::selectBlockDaysAndSave);
+
+        Then ("^HS I change to \"([^\"]*)\" in exception and verify saving option works successfully$",repVisits::changeWeekAvailability);
+
+        Then("^HS I set the RepVisits Visits Confirmations option to \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::availabilityandSettingsPage);
     }
 }

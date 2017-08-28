@@ -131,6 +131,24 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I navigate to college fairs,visits through availability option
     And HS I successfully sign out
 
+  @MATCH-1946
+  Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
+  so that I can be sure my RepVisits account is properly set up.
+    #Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    When HS I want to login to the HS app using "jeevanece90@gmail.com" as username and "Password#1" as password
+    Then HS I go to welcome wizard of the repvisits
+    And HS I navigate to "Availability" wizard in repvisits
+    Then HS I add the time slot in "Monday" with start time as "05:00AM" and end time as "02:00PM" and "5" vistis
+    And HS I navigate to sub tab "Blocked Days" in availability wizard
+    Then HS I select "LABOR_DAY" in blocked days tab and verify saving option works successfully
+    And HS I navigate to sub tab "Exceptions" in availability wizard
+    Then HS I change to "next week" in exception and verify saving option works successfully
+    And HS I navigate to sub tab "Availability Settings" in availability wizard
+    Then HS I set the RepVisits Visits Confirmations option to "<Visits Confirmation>","<Prevent colleges scheduling new visits>","<Prevent colleges cancelling or rescheduling>"
+    And HS I successfully sign out
 
+    Examples:
+      |Visits Confirmation                                 |Prevent colleges scheduling new visits|Prevent colleges cancelling or rescheduling|
+      |No, I want to manually review all incoming requests.|5                                     |5                                          |
 
 

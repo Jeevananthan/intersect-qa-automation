@@ -4,7 +4,9 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -458,11 +460,90 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getStartedBtn(){
         return button("Get Started!");
     }
+    public void goToWelcomeWizard(){
+        load(GetProperties.get("hs.WizardAppWelcome.url"));
+        waitUntilPageFinishLoading();
+        button("Get Started!").click();
+    }
+    public void navigateToRepvisitWizard(String wizardName){
+        while(driver.findElements(By.xpath("//div[@class='active step' and @name ='"+wizardName+"']")).size()==0){
+            button("Next").click();
+        }
+    }
 
+    public void addTimeSlotInRegularWeeklyHours(String day,String startTime,String endTime,String noOfVisits){
+
+        Assert.assertTrue("Regular Weekly Hours is not displayed",text("Regular Weekly Hours").isDisplayed());
+
+        driver.findElement(By.xpath("//button/span[text()='ADD TIME SLOT']")).click();
+
+        WebElement dropdown = driver.findElement(By.cssSelector("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']"));
+        doubleClick(dropdown);
+        driver.findElement(By.xpath("//span[text()='"+day+"']")).click();
+
+        driver.findElement(By.xpath("//input[@name='startTime']")).sendKeys(startTime);
+        driver.findElement(By.xpath("//input[@name='endTime']")).sendKeys(endTime);
+
+        driver.findElement(By.xpath("//input[@title='numVisits']")).sendKeys(noOfVisits);
+
+        button("ADD TIME SLOT").click();
+
+        button("Back").click();
+        Assert.assertTrue("High school information is not displayed",text("Tell us about your high school.").isDisplayed());
+
+        button("Next").click();
+    }
+
+    public void navigateToSubTabsInAvailabilityWizard(String tabName){
+        while(driver.findElements(By.xpath("//li[@class='_1gXbsnbxcvr12eMqyC1xjb']/span[text()='"+tabName+"']")).size()==0){
+            button("Next").click();
+        }
+    }
+
+    public void selectBlockDaysAndSave(String dayName){
+        button("Back").click();
+        Assert.assertTrue("Regular Weekly Hours tab is not loaded",text("Regular Weekly Hours").isDisplayed());
+        button("Next").click();
+        driver.findElement(By.xpath("//div[@title='"+dayName+"']/input/following-sibling::label")).click();
+    }
+
+    public void changeWeekAvailability(String changeWeek){
+        button("Back").click();
+        Assert.assertTrue("Blocked Days tab is not loaded",text("Blocked Days").isDisplayed());
+        button("Next").click();
+        driver.findElement(By.xpath("//button[@title='"+changeWeek+"']")).click();
+    }
+
+    public void availabilityandSettingsPage(String visitsConfirmations ,String preventCollegesSchedulingNewVisits, String preventCollegesCancellingorRescheduling){
+        button("Back").click();
+        Assert.assertTrue("Exceptions tab is not loaded",text("Exceptions").isDisplayed());
+        button("Next").click();
+        Assert.assertTrue("Availability Settings tab is not loaded",text("Availability Settings").isDisplayed());
+        //Visit Confirmation
+        WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
+        options.findElement(By.xpath("div/label[text()[contains(., '"+ visitsConfirmations +"')]]")).click();
+        //Prevent Colleges Scheduling New Visits
+        WebElement visitBox = getDriver().findElement(By.cssSelector("input[title='Days in advance to prevent colleges from scheduling new visits.'][min='1'][max='99']"));
+        visitBox.clear();
+        visitBox.sendKeys(preventCollegesSchedulingNewVisits);
+        //Prevent Colleges Cancelling or Rescheduling
+        WebElement cancellingBox = getDriver().findElement(By.cssSelector("input[title='Days in advance to prevent colleges from cancelling or rescheduling visits.'][min='1'][max='99']"));
+        cancellingBox.clear();
+        cancellingBox.sendKeys(preventCollegesCancellingorRescheduling);
+        button("Next").click();
+        Assert.assertTrue("Availability Settings tab is not loaded",driver.findElement(By.xpath("//div[@class='active step' and @name ='Messaging Options']")).isDisplayed());
+        button("Back").click();
+        Assert.assertTrue("Availability Settings tab is not loaded",text("Availability Settings").isDisplayed());
+    }
 
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
+    }
+    private void doubleClick(WebElement elementLocator) {
+        Actions actions = new Actions(driver);
+        actions.doubleClick(elementLocator).perform();
+
     }
 }
 
