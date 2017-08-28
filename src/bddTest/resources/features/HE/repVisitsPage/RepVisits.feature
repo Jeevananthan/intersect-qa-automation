@@ -49,13 +49,20 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
 
 @MATCH-2169
 Scenario Outline: HE Users - RepVisits - Availability Pills Updates
+  Given HS I want to login to the HS app using "jeevanece90@gmail.com" as username and "Password#1" as password
+  Then HS I set a date using "<StartDate>" and "<EndDate>"
+  And HS I verify the update button appears and I click update button
+  When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+  Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+  And HS I successfully sign out
+
   Given HE I am logged in to Intersect HE as user type "administrator"
   And HE I search for school in RepVisits using "<SchoolName>"
   Then HE I select Visits to schedule the appointment for "<SchoolName>" using "<Date>" and "<heStartTime>"
   And HE I verify the schedule pop_up for "<SchoolName>" using "<heTime>" and "<hsEndTime>"
-  And HE verify the Pills got disappear for "<heStartTime>"
+  And HE verify the Pills got disappear for "<heStartTime>","<SchoolName>"
   And HE I successfully sign out
 
   Examples:
-    |hsEndTime      |Date |heStartTime     |heTime   |SchoolName              |
-    |05:22am        |28   |4:52am          |04:52    |Int QA High School 4    |
+    |hsEndTime        |heStartTime      |heTime       |SchoolName                    |Date               |Day              |HourStartTime |HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits  |StartDate         |EndDate                  |Option                                                    |
+    |6:07pm           |5:11am           |05:11am      |Int QA High School 4          |November 6 2017   |Monday           |04            |05         |52             |22           |am               |am             |3          |November 14 2017  |November 21 2017         |No, I want to manually review all incoming requests.      |

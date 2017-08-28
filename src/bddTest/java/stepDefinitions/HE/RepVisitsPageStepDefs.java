@@ -34,8 +34,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
 
-        Then("HE verify the Pills got disappear for \"([^\"]*)\"$",repVisits::verifyPills);
+        Then("HE verify the Pills got disappear for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPills);
 
         Then("^HE I search for school in RepVisits using \"([^\"]*)\"$",repVisits::searchSchoolinRepVisits);
+
+
     }
 }
