@@ -159,20 +159,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+" EST')]")).isDisplayed());
         driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]")).click();
     }
-//    public void  verifyPills(String time,String school)
-//    {
-//        try {
-//            if (driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]//ancestor::tr//following-sibling::td//button[contains(text(),'"+time+"')]")).isDisplayed()) {
-//                fail("Time slot is displayed");
-//            }
-//        }catch (Exception e)
-//            {
-//            }
-//    }
     public void  verifyPills(String time,String school)
     {
         try {
-            driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]//ancestor::tr//following-sibling::td//button[contains(text(),'22:23')]")).isDisplayed();
+            driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]//ancestor::tr//following-sibling::td//button[contains(text(),'"+time+"')]")).isDisplayed();
             fail("Time slot is displayed");
         } catch (Exception e)
         {

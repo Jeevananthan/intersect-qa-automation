@@ -49,7 +49,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
 
 @MATCH-2169
 Scenario Outline: HE Users - RepVisits - Availability Pills Updates
-  Given HS I want to login to the HS app using "jeevanece90@gmail.com" as username and "Password#1" as password
+  Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
   Then HS I set a date using "<StartDate>" and "<EndDate>"
   And HS I verify the update button appears and I click update button
   When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
@@ -65,4 +65,4 @@ Scenario Outline: HE Users - RepVisits - Availability Pills Updates
 
   Examples:
     |hsEndTime        |heStartTime      |heTime       |SchoolName                    |Date               |Day              |HourStartTime |HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits  |StartDate         |EndDate                  |Option                                                    |
-    |6:07pm           |5:11am           |05:11am      |Int QA High School 4          |November 6 2017   |Monday           |04            |05         |52             |22           |am               |am             |3          |November 14 2017  |November 21 2017         |No, I want to manually review all incoming requests.      |
+    |6:07pm           |5:11am           |05:11am      |Int QA High School 4          |November 6 2017    |Monday           |05            |06         |11             |07           |am               |pm             |3          |November 6 2017   |November 21 2017         |No, I want to manually review all incoming requests.      |
