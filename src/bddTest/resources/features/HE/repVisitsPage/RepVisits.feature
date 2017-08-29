@@ -51,17 +51,21 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
   Scenario: As an HE premium user or HS user I need be able to search through my RepVisits Contacts
   so I can quickly find the contact I am looking to view.
     Given HE I am logged in to Intersect HE as user type "administrator"
-    And HE I verify full contacts page in Contacts
+    And HE I verify the contacts list is sorted or not
+    And HE I verify the contacts page in Contacts
     And HE I verify contacts details  in Contacts
       |Overview |Search and Schedule |Calendar |Travel Plan |Contacts |Recommendations|
+    And HE I verify the contacts page is full or empty
     And HE I search for "HOMECONNECTION" in Contacts
     And HE I search for invalid data of "invalid data" in Contacts
     And HE I search for partial data in Contacts using "HOMECONNECTION","HOMECON"
     And HE I successfully sign out
 
-    Given HS I want to login to the HS app using "jeevanece90@gmail.com" as username and "Password#1" as password
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I verify the contacts list is sorted or not
     And HS I verify empty contacts page in Contacts
     And HS I verify full contacts page in Contacts
+    And HS I verify the contacts page is full or empty
     And HS I verify contacts details  in Contacts
       |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications & Tasks|
     And HS I search for "Alpena Community College" in Contacts

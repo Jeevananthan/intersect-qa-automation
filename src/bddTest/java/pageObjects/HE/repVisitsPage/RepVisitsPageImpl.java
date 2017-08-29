@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -82,14 +83,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         List<WebElement> searchedValueOfName = driver.findElements(By.className("_1ijSBYwG-OqiUP1_S7yMUN"));
         int size = searchedValueOfName.size();
         Assert.assertTrue("RepVisits contact are not displayed",size>0);
-        if(text("Welcome to Contacts").isDisplayed())
-        {
-            logger.info("you have no Contacts");
-        }
-        else {
-            while (link("show more").isDisplayed()){
-                link("show more").click();
-            }}
     }
     public void verifyContactDetails(DataTable dataTable){
         navBar.goToRepVisits();
@@ -99,12 +92,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue(repVisitsSubItem + " is not showing.",text(repVisitsSubItem).isDisplayed());
         }
     }
+    public void verifyFullorEmpty(){
+    try{ if(text("Welcome to Contacts").isDisplayed())
+    {
+        logger.info("you have no Contacts");
+    }
+        else if(link("show more").isDisplayed()) {
+        while (link("show more").isDisplayed()){
+            link("show more").click();
+        }}else{}}
+        catch(Exception e){}}
     public void verifyinvalidcontact(String invalidData){
         getSearchBoxforContact().clear();
         getSearchBoxforContact().sendKeys(invalidData);
         Assert.assertTrue("the message of 'Your search did not return any contacts.' is not displayed",text("Your search did not return any contacts.").isDisplayed());
     }
 
+    public void sortingContacts()
+    {
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        driver.findElement(By.xpath("//input[@name='contacts-search']")).clear();
+        ArrayList<String> original=new ArrayList<>();
+        List<WebElement> elements=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[2]/div[1]"));
+        for(WebElement we:elements)
+        {
+            original.add(we.getText());
+        }
+        ArrayList<String> sortedList=new ArrayList<>();
+        for(String s:original)
+        {
+            sortedList.add(s);
+        }
+        Collections.sort(sortedList);
+        Assert.assertTrue("Contact are not ABC order by Institution Name and then Contact Last Name",sortedList.equals(original));
+    }
     public void searchforContact(String institutionName){
         navBar.goToRepVisits();
         getContactsBtn().click();

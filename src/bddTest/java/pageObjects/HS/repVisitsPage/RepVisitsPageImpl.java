@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import static org.junit.Assert.fail;
@@ -64,15 +65,38 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         List<WebElement> searchedValueOfName = driver.findElements(By.className("_1ijSBYwG-OqiUP1_S7yMUN"));
         int size = searchedValueOfName.size();
         Assert.assertTrue("RepVisits contact are not displayed",size>0);
-        if(text("Welcome to Contacts").isDisplayed())
+    }
+    public void verifyFullorEmpty(){
+        try{ if(text("Welcome to Contacts").isDisplayed())
         {
             logger.info("you have no Contacts");
         }
-        else {
+        else if(link("show more").isDisplayed()) {
             while (link("show more").isDisplayed()){
                 link("show more").click();
-            }
-    }}
+            }}else{}}
+        catch(Exception e){}}
+
+    public void sortingContacts()
+    {
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        driver.findElement(By.xpath("//input[@name='contacts-search']")).clear();
+        ArrayList<String> original=new ArrayList<>();
+        List<WebElement> elements=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[2]/div[1]"));
+        for(WebElement we:elements)
+        {
+            original.add(we.getText());
+        }
+        ArrayList<String> sortedList=new ArrayList<>();
+        for(String s:original)
+        {
+            sortedList.add(s);
+        }
+        Collections.sort(sortedList);
+        Assert.assertTrue(sortedList.equals(original));
+    }
+
     public void verifyContactDetails(DataTable dataTable){
         navBar.goToRepVisits();
         getContactsBtn().click();

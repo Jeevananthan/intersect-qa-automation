@@ -52,5 +52,9 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify full contacts page in Contacts$", repVisits::verifyFullContactPage);
 
         And("^HS I verify contacts details  in Contacts$", repVisits::verifyContactDetails);
+
+        And("^HS I verify the contacts page is full or empty$",repVisits::verifyFullorEmpty);
+
+        And("^HS I verify the contacts list is sorted or not$",repVisits::sortingContacts);
     }
 }

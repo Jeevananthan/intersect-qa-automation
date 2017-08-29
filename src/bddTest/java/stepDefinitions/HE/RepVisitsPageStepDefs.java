@@ -32,7 +32,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify empty contacts page in Contacts$", repVisits::verifyEmptyContactPage);
 
-        And("^HE I verify full contacts page in Contacts$", repVisits::verifyFullContactPage);
+        And("^HE I verify the contacts page in Contacts$", repVisits::verifyFullContactPage);
 
         And("^HE I verify contacts details  in Contacts$", repVisits::verifyContactDetails);
 
@@ -43,6 +43,10 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I search for invalid data of \"([^\"]*)\" in Contacts$", repVisits::verifyinvalidcontact);
 
         And("^HE I search for partial data in Contacts using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::searchforPartialdata);
+
+        And("^HE I verify the contacts page is full or empty$",repVisits::verifyFullorEmpty);
+
+        And("^HE I verify the contacts list is sorted or not$",repVisits::sortingContacts);
     }
 
 }
