@@ -78,6 +78,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
       |Holiday           |
       |LABOR_DAY         |
+      |COLUMBUS_DAY      |
       |VETERANS_DAY      |
       |THANKSGIVING_DAY  |
       |DAY_AFTER_THANKSGIVING|
@@ -86,4 +87,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |NEW_YEAR_EVE      |
       |NEW_YEAR_DAY      |
       |MARTIN_LUTHER_DAY |
+      |PRESIDENTS_DAY    |
       |MEMORIAL_DAY      |
+      |INDEPENDENCE_DAY  |
