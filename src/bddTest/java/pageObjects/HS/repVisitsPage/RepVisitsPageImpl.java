@@ -132,10 +132,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
     }
 
-
-
-
-
     public void selectDayForSlotTime(String element, String day)
     {
         WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
