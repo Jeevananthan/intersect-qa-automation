@@ -97,9 +97,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         logger.info("you have no Contacts");
     }
-        else if(link("show more").isDisplayed()) {
-        while (link("show more").isDisplayed()){
-            link("show more").click();
+        else if(driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed()) {
+        while (driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed()){
+            driver.findElement(By.xpath("//span[text()='Show More']")).click();
         }}else{}}
         catch(Exception e){}}
     public void verifyinvalidcontact(String invalidData){

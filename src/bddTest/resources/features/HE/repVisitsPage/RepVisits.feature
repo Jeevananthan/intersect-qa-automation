@@ -68,7 +68,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     And HS I verify the contacts page is full or empty
     And HS I verify contacts details  in Contacts
       |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications & Tasks|
-    And HS I search for "Alpena Community College" in Contacts
+    And HS I search for "Alma College" in Contacts
     And HS I search for invalid data of "invalid data" in Contacts
-    And HE I search for partial data in Contacts using "Alpena Community College","Alpena"
+    And HE I search for partial data in Contacts using "Alma College","Alma"
     And HS I successfully sign out
