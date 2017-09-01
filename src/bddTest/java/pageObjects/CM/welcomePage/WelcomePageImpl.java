@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageObjects.CM.commonPages.PageObjectFacadeImpl;
 
@@ -27,12 +28,18 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
         driver.switchTo().defaultContent();
     }
 
-    public void destroyUser()  {
+    private void destroyHEUser()  {
         logger.info("Destroying user.");
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/cp-test/destroy-user");
     }
 
-    public void makeSureWelcomeScreenIsOpened() {
+    private void destroyHSUser()  {
+        logger.info("Destroying user.");
+        driver.navigate().to("https://qa-hs.intersect.hobsons.com/community/cp-test/destroy-user");
+    }
+
+
+    public void makeSureHEWelcomeScreenIsOpened() {
         logger.info("Making sure that Welcome screen will be opened when user logs in for the first time.");
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
         iframeEnter();
@@ -42,7 +49,23 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
             iframeExit();
         }
         else {
-            destroyUser();
+            destroyHEUser();
+            iframeExit();
+        }
+
+    }
+
+    public void makeSureHSWelcomeScreenIsOpened() {
+        logger.info("Making sure that Welcome screen will be opened when user logs in for the first time.");
+        link(By.id("js-main-nav-home-menu-link")).click();
+        iframeEnter();
+
+        if (driver.findElements(By.xpath("//*[contains(text(), 'Welcome to the Counselor Community!')]")).size() != 0) {
+
+            iframeExit();
+        }
+        else {
+            destroyHSUser();
             iframeExit();
         }
 
@@ -51,15 +74,14 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     public void profileAndBannerPicturesUpload() {
         iframeEnter();
         logger.info("Uploading profile picture.");
-        textbox("Profile picture").sendKeys("/Users/bojan/Documents/IntelliJ-Projects/Match-US-project-full/match-ui-he-master/src/bddTest/resources/HobsonsTestPictures/lion-cartoon-roaring.jpg");
+        textbox("Profile picture").sendKeys("/Users/bojan/Documents/IntelliJ-Projects/hcp_intersect_qa_automation/hcp_intersect_qa_automation/src/bddTest/resources/HobsonsTestPictures/lion-cartoon-roaring.jpg");
         driver.findElement(By.id("edit-field-profile-picture-und-0-upload-button")).click();
-
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.xpath("//img[contains(@src, 'lion-cartoon-roaring')]")));
 
         logger.info("Uploading profile banner.");
-        textbox("Profile Banner").sendKeys("/Users/bojan/Documents/IntelliJ-Projects/Match-US-project-full/match-ui-he-master/src/bddTest/resources/HobsonsTestPictures/seleniumbanner.jpg");
+        textbox("Profile Banner").sendKeys("/Users/bojan/Documents/IntelliJ-Projects/hcp_intersect_qa_automation/hcp_intersect_qa_automation/src/bddTest/resources/HobsonsTestPictures/seleniumbanner.jpg");
         driver.findElement(By.id("edit-field-profile-banner-und-0-upload-button")).click();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.xpath("//img[contains(@src, 'seleniumbanner')]")));
     }
 
     public void popupateWelcomeUserForm() {
@@ -75,7 +97,8 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
 
     public void saveChanges() {
         logger.info("Saving changes.");
-        driver.findElement(By.id("edit-submit")).click();
+        saveBtn().click();
+        waitUntilPageFinishLoading();
     }
 
     public void assertFieldsUneditable() {
@@ -110,24 +133,59 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
         return hiddenWebElement;
     }
 
+    public void checkFieldsPublic() {
+        logger.info("Checking if fields are public.");
+        iframeEnter();
+        Assert.assertEquals("Work Email is not public by default.", "true", privacyWorkEmail("public").getAttribute("selected"));
+        Assert.assertEquals("Personal Email is not public by default.", "true", privacyPersonalEmail("public").getAttribute("selected"));
+        Assert.assertEquals("Office Phone is not public by default.", "true", privacyOfficePhone("public").getAttribute("selected"));
+        Assert.assertEquals("Mobile Phone is not public by default.", "true", privacyMobilePhone("public").getAttribute("selected"));
+        Assert.assertEquals("Alma Meter is not public by default.", "true", privacyAlmaMeter("public").getAttribute("selected"));
+    }
+
+    public void setPrivacyToConnectionsOnly() {
+        logger.info("Setting privacy to connections only.");
+        privacyWorkEmail("connections").click();
+        privacyOfficePhone("connections").click();
+    }
+
+    public void setPrivacyToVisibleToOnlyMe() {
+        logger.info("Setting privacy to Visible to Only Me.");
+        privacyPersonalEmail("private").click();
+        privacyMobilePhone("private").click();
+    }
+
+    public void checkPrivacySettingsSaved() {
+        logger.info("Checking if privacy settings are saved properly.");
+        Assert.assertEquals("Work Email privacy is not set properly.", "true", privacyWorkEmail("connections").getAttribute("selected"));
+        Assert.assertEquals("Office Phone privacy is not set properly.", "true", privacyOfficePhone("connections").getAttribute("selected"));
+        Assert.assertEquals("Personal Email privacy is not set properly.", "true", privacyPersonalEmail("private").getAttribute("selected"));
+        Assert.assertEquals("Mobile Phone privacy is not set properly.", "true", privacyMobilePhone("private").getAttribute("selected"));
+        Assert.assertEquals("Alma Meter privacy is not set properly.", "true", privacyAlmaMeter("public").getAttribute("selected"));
+    }
+
+
     private WebElement emailTextbox() {
         return textbox("Personal Email");
     }
-
     private WebElement mobilePhoneTextbox() {
         return textbox("Mobile Phone");
     }
-
     private WebElement generalDesTextbox() {
         return textbox("General description");
     }
-
     private WebElement headlineTextbox() {
         return textbox("Headline");
     }
-
     private WebElement bioTextbox() {
         return textbox("Bio");
     }
+    private WebElement saveBtn() {return driver.findElement(By.id("edit-submit"));}
+    private WebElement privacyWorkEmail(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-contact-work-privacy']/option[@value='"+privacy+"']"));}
+    private WebElement privacyPersonalEmail(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-contact-personal-privacy']/option[@value='"+privacy+"']"));}
+    private WebElement privacyOfficePhone(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-office-phone-privacy']/option[@value='"+privacy+"']"));}
+    private WebElement privacyMobilePhone(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-mobile-phone-privacy']/option[@value='"+privacy+"']"));}
+    private WebElement privacyAlmaMeter(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-alma-mater-privacy']/option[@value='"+privacy+"']"));}
+
 
 }

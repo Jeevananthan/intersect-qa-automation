@@ -46,7 +46,5 @@ public class HomePageStepDefs implements En {
 
         And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
 
-
-
     }
 }

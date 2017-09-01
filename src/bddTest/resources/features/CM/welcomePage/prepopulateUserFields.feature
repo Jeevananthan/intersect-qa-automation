@@ -11,4 +11,4 @@ Feature: HE Community User - Prepopulate Community User Profile Fields Upon Acti
     And I populate all the fields on Welcome page
     And I accept Terms and conditions
     Then I Save changes
-    And I assert if changes are saved
+    And I check if changes are saved

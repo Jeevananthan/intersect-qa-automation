@@ -20,8 +20,10 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
 
-    LoginPageImpl lp;
-    HomePageImpl hp;
+//    private LoginPageImpl lp;
+//    private HomePageImpl hp;
+    HomePageImpl hp = new HomePageImpl();
+    LoginPageImpl lp = new LoginPageImpl();
 
     public userConnectionsPageImpl() {
 
@@ -39,7 +41,32 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void goToUserConnectionsPage() {
         logger.info("Going to user connections page.");
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+//        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        iframeExit();
+        link(By.partialLinkText("Counselor Community")).click();
+        iframeEnter();
+        link(By.cssSelector("a[href='/connections']")).click();
+    }
+
+    public void clickConnectionsTab() {
+        logger.info("Going to connections tab.");
+        link(By.cssSelector("a[href='/connections']")).click();
+    }
+
+    public void goToUserCOnenctionsList() {
+        logger.info("Going to user's connections list.");
+        iframeEnter();
+        link(By.xpath("//ul[@class='tabs primary']/li[2]/a[contains(text(), 'Connections')]")).click();
+    }
+
+    public void checkMutualConnectionsDisplayed() {
+        logger.info("Checking if there are mutual connection section displayed.");
+        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "mutual-wrapper"));
+    }
+
+    public void goToHSUserConnectionsPage() {
+        logger.info("Going to user connections page.");
+        link(By.id("js-main-nav-home-menu-link")).click();
         iframeEnter();
         link(By.cssSelector("a[href='/connections']")).click();
     }
@@ -49,12 +76,37 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         link(By.cssSelector("a[href='/connections/following']")).click();
     }
 
+    public void checkIfNotFollowingLebanonHighSchool() {
+        logger.info("Checking if I'm not following Lebanon High School.");
+        try {
+            driver.findElement(By.xpath("//*[contains(text(), 'LEBANON HIGH SCHOOL')]"));
+            driver.findElement(By.id("unfollow-10226")).click();
+            waitUntilPageFinishLoading();
+
+        } catch (NoSuchElementException ex) {
+            logger.info("Not following Lebanon High School.");
+        }
+//        Assert.assertFalse("The user is following HS user's institution.", checkItemVisible("LEBANON HIGH SCHOOL"));
+        iframeExit();
+    }
+
+    public void checkIfFollowingLebanonHighSchool() {
+        logger.info("Checking if I'm not following Lebanon High School.");
+        Assert.assertTrue("The user is following HS user's institution.", checkItemVisible("LEBANON HIGH SCHOOL"));
+    }
+
 
     public void searchForUser(String user){
+        iframeExit();
+        textbox(By.id("global-search-box-input")).clear();
         textbox(By.id("global-search-box-input")).sendKeys(user);
         logger.info("Searching for user.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
-        link(By.id("global-search-box-item-0")).click();
+//        link(By.id("global-search-box-item-0")).click();
+        waitUntilPageFinishLoading();
+//        link(By.cssSelector("img[src='https://qa.community.hobsons.com/sites/default/files/lion-cartoon-roaring.jpg']")).click();
+        link(By.xpath("//img[contains(@src, 'lion-cartoon-roaring')]")).click();
+//        link(By.xpath("//div[contains(text(), '"+user+"')]")).click();
         waitUntilPageFinishLoading();
     }
 
@@ -68,6 +120,118 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         logger.info("Clicking on connect to user button.");
         iframeEnter();
         connectToUserButton().click();
+    }
+
+    public void connectToHSUser() {
+        logger.info("Making sure that I am connected to PurpleHS user");
+        iframeExit();
+        searchForUser("PurpleHS User");
+        iframeEnter();
+        try {
+            connectToUserButton().click();
+            sendInvitationToUserButton().click();
+            waitUntilPageFinishLoading();
+            acceptConnectionRequestByHSUser();
+            waitUntilPageFinishLoading();
+        } catch (NoSuchElementException ex) {
+            logger.info("The PurpleHS user is already a connection.");
+        }
+    }
+
+    public void disconnectFromUser(String user) {
+        logger.info("Making sure that I am not connected to PurpleHS user");
+        iframeExit();
+        searchForUser(user);
+        iframeEnter();
+        try {
+            connectToUserButton().click();
+            waitUntilPageFinishLoading();
+            disconnectFromUserBtn().click();
+            waitUntilPageFinishLoading();
+        } catch (NoSuchElementException ex) {
+            logger.info("The user is not a connection.");
+            driver.findElement(By.className("close")).click();
+            waitUntilPageFinishLoading();
+        }
+    }
+
+
+    public void acceptConnectionRequestByHSUser() {
+        logger.info("Accepting user connection request by PurpleHS user.");
+        hp.logoutHEDefault();
+        waitUntilPageFinishLoading();
+        lp.defaultLoginHS();
+        //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
+        link(By.id("js-main-nav-home-menu-link")).click();
+        iframeEnter();
+        link(By.cssSelector("a[href='/profile']")).click();
+        iframeExit();
+        driver.navigate().refresh();
+        goToHSUserConnectionsPage();
+        pendingRequestsLink().click();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[2]/div/a[@title='Accept Connect Request']")).click();
+        waitUntilPageFinishLoading();
+        hp.logoutHSDefault();
+        lp.defaultLoginHE();
+    }
+
+    public void acceptConnectionRequestByHEUser() {
+        logger.info("Accepting user connection request by PurpleHS user.");
+        hp.logoutHSDefault();
+        waitUntilPageFinishLoading();
+        lp.defaultLoginHE();
+        //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
+        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        iframeEnter();
+        link(By.cssSelector("a[href='/profile']")).click();
+        iframeExit();
+        driver.navigate().refresh();
+        goToUserConnectionsPage();
+        pendingRequestsLink().click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHS User')]/../../../../../td[2]/div/a[@title='Accept Connect Request']")).click();
+        waitUntilPageFinishLoading();
+        hp.logoutHEDefault();
+        lp.defaultLoginHS();
+    }
+
+    public void ignoreConnectionRequestByHEUser() {
+        logger.info("Accepting user connection request by PurpleHS user.");
+        hp.logoutHSDefault();
+        waitUntilPageFinishLoading();
+        lp.defaultLoginHE();
+        //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
+        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        iframeEnter();
+        link(By.cssSelector("a[href='/profile']")).click();
+        iframeExit();
+        driver.navigate().refresh();
+        goToUserConnectionsPage();
+        pendingRequestsLink().click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHS User')]/../../../../../td[2]/div/a[@title='Ignore Connect Request']")).click();
+        waitUntilPageFinishLoading();
+        hp.logoutHEDefault();
+        lp.defaultLoginHS();
+    }
+
+    public void ignoreConnectionRequestByHSUser() {
+        logger.info("Accepting user connection request by PurpleHS user.");
+        hp.logoutHEDefault();
+        waitUntilPageFinishLoading();
+        lp.defaultLoginHS();
+        //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
+        link(By.id("js-main-nav-home-menu-link")).click();
+        iframeEnter();
+        link(By.cssSelector("a[href='/profile']")).click();
+        iframeExit();
+        driver.navigate().refresh();
+        goToHSUserConnectionsPage();
+        pendingRequestsLink().click();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[2]/div/a[@title='Ignore Connect Request']")).click();
+        waitUntilPageFinishLoading();
+        hp.logoutHSDefault();
+        lp.defaultLoginHE();
     }
 
     public void checkIfConfirmationMsgDisplayed() {
@@ -115,6 +279,121 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void addNewConnectionsCategory(String catName) {
+        logger.info("Adding new connections category.");
+        addCategoryBtn().click();
+        newCategoryNameField().sendKeys(catName);
+        createCategoryBtn().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void checkIfNewConnectionsCategoryIsAdded(String catName) {
+        logger.info("Asserting if new connections category is added.");
+        Assert.assertTrue("The category is not being added.", driver.findElement(By.xpath("//li/a[contains(text(), '" + catName + "')]")).isDisplayed());
+        deleteCreatedConenctionsCategory(catName);
+    }
+
+    private void deleteCreatedConenctionsCategory(String catToDelete) {
+        logger.info("Deleting created category.");
+        driver.findElement(By.xpath("//li/a[contains(text(), '" + catToDelete + "')]/../a[@title='Edit category']")).click();
+        deleteCategoryBtn().click();
+        logger.info("Checking if category is deleted.");
+        Assert.assertFalse("The category is still present.", checkIfConnectionsCategoryIsDeleted(catToDelete));
+    }
+
+    private boolean checkIfConnectionsCategoryIsDeleted(String category) {
+        try {
+            driver.findElement(By.xpath("//li/a[contains(text(), '" + category + "')]")).isDisplayed();
+            return true;
+
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
+
+    public void userHasAtLeastOneConnection() {
+        logger.info("Making sure user has at least one connection.");
+        try {
+            driver.findElement(By.xpath("//div[contains(text(), 'MatchSupportUIQA3')]"));
+
+
+        } catch (NoSuchElementException ex) {
+            driver.get("https://qa-he.intersect.hobsons.com/counselor-community/profile/5539");
+            iframeEnter();
+            connectToUserButton().click();
+            sendInvitationToUserButton().click();
+            waitUntilPageFinishLoading();
+            hp.logoutHEDefault();
+            waitUntilPageFinishLoading();
+            lp.loginAsMatchSupportUIQA3();
+            goToUserConnectionsPage();
+            pendingRequestsLink().click();
+            driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[2]/div/a[@title='Accept Connect Request']")).click();
+            waitUntilPageFinishLoading();
+            hp.logoutSupport();
+            lp.defaultLoginHE();
+            waitUntilPageFinishLoading();
+            goToUserConnectionsPage();
+        }
+    }
+
+    private boolean checkItemVisible(String item) {
+        try {
+            driver.findElement(By.xpath("//*[contains(text(), '" + item + "')]"));
+            return true;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
+    private boolean checkItemVisibleByCssSelector(String tag, String cssselector, String selectorvalue) {
+        try {
+            driver.findElement(By.cssSelector(""+tag+"["+cssselector+"='"+selectorvalue+"']"));
+            return true;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
+    public void checkIfMyConnectionsPageOpened() {
+        logger.info("Checking if My Connections page is opened");
+        Assert.assertTrue("My Connections page is not opened.", checkItemVisible("My Connections"));
+    }
+
+    public void navigateToIndividualUser() {
+        userHasAtLeastOneConnection();
+        logger.info("Navigating to MatchSupportUIQA3 user.");
+        driver.findElement(By.xpath("//div[contains(text(), 'MatchSupportUIQA3')]/../../../div[1]")).click();
+        Assert.assertTrue("User MatchSupportUIQA3 profile page not opened.", checkItemVisible("MatchSupportUIQA3"));
+    }
+
+    public void sendConnectionInvitation() {
+        logger.info("Sending invitation to connect with user.");
+        sendInvitationToUserButton().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void checkIfuserIsConencted(String user) {
+        logger.info("Checking if users are connected.");
+        goToUserConnectionsPage();
+        Assert.assertTrue("Cannot find the user in users connections list!!", checkItemVisible(user));
+    }
+    public void checkIfHeIsNotConnected(String user) {
+        logger.info("Checking if users are not connected.");
+        goToUserConnectionsPage();
+        Assert.assertFalse("HS user can be found in HE user's connections list!!", checkItemVisible(user));
+    }
+
+
+    public void statusInvitedVisible( String status) {
+        logger.info("Checking if correct button status is displayed.");
+        iframeExit();
+        iframeEnter();
+        Assert.assertTrue("The status is not displayed correctly!", checkItemVisibleByCssSelector("a", "title", status));
+    }
+
+
+
     public void enterConnectionRequestMsg(String msg) {
         confirmationMsgBox().sendKeys(msg);
     }
@@ -126,6 +405,8 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     private WebElement connectToUserButton() {
         return driver.findElement(By.id("block-cp-ur-tools-cp-ur-conn-link"));
     }
+
+    private WebElement disconnectFromUserBtn() {return driver.findElement(By.cssSelector("a[title='Remove Connection']"));}
 
     private WebElement sendInvitationToUserButton() {
         return driver.findElement(By.id("edit-send"));
@@ -140,4 +421,9 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     private WebElement pendingRequestsLink() {return driver.findElement(By.cssSelector("a[href='/connections/my-connections/pending-requests']"));}
 
     private WebElement approveNewConnection() {return driver.findElement(By.xpath("//*[@id='cp-ur-5457']/a[1]"));}
+
+    private WebElement addCategoryBtn() {return driver.findElement(By.cssSelector("a[title='Add New Connections Category']"));}
+    private WebElement newCategoryNameField() {return driver.findElement(By.id("edit-name"));}
+    private WebElement createCategoryBtn() {return driver.findElement(By.id("edit-submit"));}
+    private WebElement deleteCategoryBtn() {return driver.findElement(By.id("edit-del"));}
 }

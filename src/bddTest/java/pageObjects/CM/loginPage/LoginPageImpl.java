@@ -1,7 +1,9 @@
 package pageObjects.CM.loginPage;
 
+import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptExecutor;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import pageObjects.CM.commonPages.PageObjectFacadeImpl;
 import utilities.GetProperties;
@@ -16,6 +18,10 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private void openLoginPageHE() {
         load(GetProperties.get("he.app.url"));
+    }
+
+    private void openLoginPageHS() {
+        load(GetProperties.get("hs.url"));
     }
 
     private void openLoginPageSupport() {
@@ -39,6 +45,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         getDriver().switchTo().frame(driver.findElement(By.tagName("iframe")));
     }
 
+
+
     public void defaultLoginHE() {
         openLoginPageHE();
         String username = GetProperties.get("he.administrator.username");
@@ -57,6 +65,21 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 //        getDriver().switchTo().frame(driver.findElement(By.tagName("iframe")));
     }
 
+    public void defaultLoginHS() {
+        openLoginPageHS();
+        String username = GetProperties.get("hs.default.username");
+        String password = GetProperties.get("hs.default.password");
+        //link("Go To Authorized Page").click();
+        waitUntilPageFinishLoading();
+        logger.info("Logging into the HS app");
+        usernameTextbox().sendKeys(username);
+        passwordTextbox().sendKeys(password);
+        logger.info("Sending credentials - " + username + ":" + password);
+        loginButton().click();
+        waitUntilPageFinishLoading();
+        logger.info("Accessing Community from HS App");
+    }
+
     public void defaultLoginSupport() {
         openLoginPageSupport();
         String username = GetProperties.get("sp.admin.username");
@@ -72,6 +95,18 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 //        link(By.id("js-main-nav-community-menu-link")).click();
 //        waitUntilPageFinishLoading();
 //        getDriver().switchTo().frame(driver.findElement(By.tagName("iframe")));
+    }
+
+    public void loginAsMatchSupportUIQA3() {
+        openLoginPageSupport();
+        String username = "MatchSupportUIQA3@hobsons.com";
+        String password = GetProperties.get("sp.admin.password");
+        waitUntilPageFinishLoading();
+        logger.info("Logging into the Support app as MatchSupportUIQA3");
+        textbox("Email or phone").sendKeys(username);
+        passwordTextbox().click();
+        handleAccountTypeDialog();
+        logger.info("Sending credentials - " + username + ":" + password);
     }
 
     // Sometimes Azure accounts get confused about whether they are personal or

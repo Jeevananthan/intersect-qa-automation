@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -47,10 +48,28 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void logoutHEDefault() {
-        getDriver().switchTo().defaultContent();
+        iframeExit();
         userDropdown().click();
-        button(By.id("user-dropdown-signout")).click();
+        signOutBtn().click();
         waitUntilPageFinishLoading();
+//        driver.navigate().refresh();
+//        driver.manage().deleteAllCookies();
+//        JavascriptExecutor js = (JavascriptExecutor)driver;
+//        js.executeScript("localStorage.clear();sessionStorage.clear();");
+//        driver.navigate().refresh();
+    }
+
+    public void logoutHSDefault() {
+        iframeExit();
+        userDropdown().click();
+        signOutBtn().click();
+        waitUntilPageFinishLoading();
+//        driver.navigate().refresh();
+//        driver.manage().deleteAllCookies();
+//        JavascriptExecutor js = (JavascriptExecutor)driver;
+//        js.executeScript("localStorage.clear();sessionStorage.clear();");
+//        driver.navigate().refresh();
+
     }
 
     public void logoutSupport() {
@@ -85,15 +104,113 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
     }
 
+    public void accessHSCounselorCommunityPage() {
+        logger.info("Going to HS Counselor Community page.");
+        link(By.id("js-main-nav-home-menu-link")).click();
+    }
+
+    public void goToHomePage() {
+        logger.info("Going to home page.");
+        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        iframeEnter();
+//        link(By.cssSelector("a[href='/']")).click();
+    }
+
+
+    public void clickOnHomeTab() {
+        logger.info("Going to home tab.");
+        waitUntilPageFinishLoading();
+        link(By.xpath("//*[@id='main-menu']/li[1]/a")).click();
+    }
+
     public void checkIfHomePostsAreVisible(){
         iframeEnter();
         logger.info("Checking if there are posts on the Home page");
         Assert.assertTrue(profilePicOnPostsFeed().isDisplayed());
+        iframeExit();
+    }
+
+    public void checkIfHobsonsPostIsVisible() {
+        logger.info("Checking if there Hobsons post is visible.");
+        Assert.assertTrue(likeHobsonsPostBtn().isDisplayed());
+    }
+
+    public void makeSureHobsonsPostNotLiked() {
+        logger.info("Making sure that Hobsons post is not liked.");
+        try {
+            driver.findElement(By.xpath("//div[@id='like-node-841']/a[@title='like this']"));
+        } catch (NoSuchElementException ex)  {
+            likeOrDislikeHobsonsPost();
+            waitUntilPageFinishLoading();
+        }
+    }
+
+    public void makeSureHobsonsPostIsLiked() {
+        logger.info("Making sure that Hobsons post is liked.");
+        try {
+            driver.findElement(By.xpath("//div[@id='like-node-841']/a[@title='Unlike this']"));
+        } catch (NoSuchElementException ex)  {
+            likeOrDislikeHobsonsPost();
+            waitUntilPageFinishLoading();
+
+        }
+    }
+
+    public void likeOrDislikeHobsonsPost() {
+        likeHobsonsPostBtn().click();
+    }
+
+    public void assertHobsonsPostLiked() {
+        logger.info("Asserting that Hobsons post is liked.");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='like-node-841']/a[@title='Unlike this']")).isDisplayed());
+    }
+
+    public void assertHobsonsPostNotLiked() {
+        logger.info("Asserting that Hobsons post is not liked.");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='like-node-841']/a[@title='like this']")).isDisplayed());
+    }
+
+    public void writeCommentOnHobsonsPost(String commentText) {
+        logger.info("Writing comment to the post.");
+        driver.findElement(By.id("node-6976-comments-link")).click();
+        driver.findElement(By.id("edit-comment-body")).sendKeys(commentText);
+        driver.findElement(By.cssSelector("input[class='form-submit ajax-processed']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    private boolean checkItemVisible(String item) {
+        try {
+            driver.findElement(By.xpath("//*[contains(text(), '" + item + "')]"));
+            return true;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
+    public void checkIfHobsonsPostCommentIsPosted(String commentText) {
+        logger.info("Checking if comment is posted.");
+        Assert.assertTrue("The comment is not visible on the page!", checkItemVisible(commentText));
+        deleteCreatedComment(commentText);
+        waitUntilPageFinishLoading();
+    }
+
+    public void deleteCreatedComment(String commentText) {
+        logger.info("Deleting created user comment.");
+//        driver.findElement(By.linkText("edit")).click();
+        driver.findElement(By.xpath("//p[contains(text(), '"+commentText+"')]/../../../../../ul/li[@class='comment-edit last']")).click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.id("edit-delete")).click();
+        waitUntilPageFinishLoading();
+//        waitUntilElementExists(driver.findElement(By.id("edit-delete--3")));
+//        driver.findElement(By.id("edit-delete--3")).click();
     }
 
     private WebElement getLearnMoreLink(){ return link("Learn More"); }
     private WebElement getRequestInformationButton(){ return driver.findElement(By.cssSelector("[class='ui pink button']")); }
-    private WebElement userDropdown() {return button(By.id("user-dropdown"));}
+    private WebElement userDropdown() {return driver.findElement(By.id("user-dropdown"));}
+    private WebElement signOutBtn() {return driver.findElement(By.id("user-dropdown-signout"));}
     private WebElement profilePicOnPostsFeed() {return driver.findElement(By.xpath("//img[contains(@src, 'https://qa.community.hobsons.com/sites/default/files/styles/post_thumbnail/public/')]"));}
+    private WebElement likeHobsonsPostBtn() {return  driver.findElement(By.xpath("//*[@id='like-node-841']/a[1]"));}
+
 
 }

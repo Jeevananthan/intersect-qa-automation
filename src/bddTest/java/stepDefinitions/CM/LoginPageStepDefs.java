@@ -1,5 +1,6 @@
 package stepDefinitions.CM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.CM.loginPage.LoginPageImpl;
 
@@ -13,6 +14,7 @@ public class LoginPageStepDefs implements En {
         Given("^I am logged in to Purple Community through the HE App$",loginPage::defaultLoginHE);
 
         Given("^I am logged in to Purple Community through the Support App$",loginPage::defaultLoginSupport);
+        Given("^I am logged in to Purple Community through the HS App$", loginPage::defaultLoginHS);
 
     }
 }
