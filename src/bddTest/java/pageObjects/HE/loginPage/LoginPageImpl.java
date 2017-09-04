@@ -152,26 +152,30 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         while(button("More Institutions").isDisplayed()){
             button("More Institutions").click();
         }
+        try{
         if(link(institutionName).isEnabled()){
             link(institutionName).click();
             Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
+            link("please complete this form.").click();
         }
        else{
             Assert.assertTrue("Institution Page is not loaded",text("No Institutions Found").isDisplayed());
-            link("Request new institution").click();
-        }
 
+        }}
+        catch (Exception e){}
         //link("Back to search").click();
-
+        try{
+            if(driver.findElement(By.xpath("//div/a/span[text()='Request new institution']")).isDisplayed())
+            {
+                link("Request new institution").click();
+            }
+          }catch(Exception e){}
     }
 
     public void clickLinkInRegisterationPage(String linkToClick){
         link(linkToClick).click();
     }
     public void validateFieldsInRequestUserForm(DataTable dataTable){
-
-        //validating header of this page
-        Assert.assertTrue("Header of this page doesnot contains 'Request User Account' text",text("Request User Account").isDisplayed());
         //back - link validation
         Assert.assertTrue("Back option is not displayed",link("Back").isDisplayed());
         //Already have an account? -text validation

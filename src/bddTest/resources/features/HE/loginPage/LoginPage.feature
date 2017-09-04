@@ -25,8 +25,7 @@ Feature: As an HE user I want to login to Intersect
     Scenario: As a HE user, I need the requestinstitution form to include the three new fields that have been added to the requestuser form
     so Intersect is collecting consistent data on all HE users requesting an account and/or account + institution.
       Given HE I navigate to Registration Intersect url
-      And HE I search for "no data" in "Higher Education Staff Member" register page
-      And HE I click the link "please complete this form."
+      And HE I search for "invalid" in "Higher Education Staff Member" register page
       Then HE I verify all field type in request user page
         |firstName |lastName |email |verifyEmail |jobTitle |authorizedToPostPublicInformation |schedulesVisits |
         |text      |text     |email |email       |text     |checkbox                          |checkbox        |
