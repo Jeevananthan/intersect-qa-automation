@@ -429,13 +429,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void primaryContactDetailsforVisitsAndFairs(String phoneNo) {
         if (phoneNo.equals("")) {
             for(int i=0;i<15;i++) {
-                WebElement primaryContact = driver.findElement(By.id("notification_contacts_primary_contact_phone"));
-                primaryContact.sendKeys(Keys.BACK_SPACE);
+                primaryContactinSetupWizard().sendKeys(Keys.BACK_SPACE);
             }
             button("Next").click();
             Assert.assertTrue("Phone no is not entered ", text("Please enter a phone number. Ex: (555) 555-5555").isDisplayed());
         } else {
-            driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
+            primaryContactinSetupWizard().sendKeys(phoneNo);
             button("Next").click();
         }
     }
@@ -475,13 +474,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void primaryContactDetailsforFairs(String phoneNo) {
         if(phoneNo.equals("")){
             for(int i=0;i<15;i++) {
-                WebElement primaryContact = driver.findElement(By.id("notification_fairs_phone_number"));
-                primaryContact.sendKeys(Keys.BACK_SPACE);
+                primaryContactinFairsSettings().sendKeys(Keys.BACK_SPACE);
             }
             button("SAVE SETTINGS").click();
             Assert.assertTrue("Phone no is not entered ", text("Please enter a phone number. Ex: (555) 555-5555").isDisplayed());
         }else{
-            driver.findElement(By.id("notification_fairs_phone_number")).sendKeys(phoneNo);
+            primaryContactinFairsSettings().sendKeys(phoneNo);
             button("SAVE SETTINGS").click();
         }
     }
@@ -489,13 +487,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void primaryContactDetailsinAvailabilityandSettings(String phoneNo) {
         if(phoneNo.equals("")) {
             for(int i=0;i<15;i++) {
-                WebElement contact = driver.findElement(By.id("notification_contacts_primary_contact_phone"));
-                contact.sendKeys(Keys.BACK_SPACE);
+                primaryContactinAvailabilityandSettings().sendKeys(Keys.BACK_SPACE);
             }
             button("Save changes").click();
             Assert.assertTrue("Phone no is not entered ",driver.findElement(By.xpath("//span[contains(text(),'Please enter a phone number. Ex: (555) 555-5555')]")).isDisplayed());
         }else{
-            driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(phoneNo);
+            primaryContactinAvailabilityandSettings().sendKeys(phoneNo);
             button("Save changes").click();
         }
     }
@@ -504,8 +501,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getStartedBtn() {
         return button("Get Started!");
     }
-
-
+    private WebElement primaryContactinAvailabilityandSettings() {
+        return driver.findElement(By.id("notification_contacts_primary_contact_phone"));
+    }
+    private WebElement primaryContactinFairsSettings() {
+        return driver.findElement(By.id("notification_fairs_phone_number"));
+    }
+    private WebElement primaryContactinSetupWizard() {
+        return driver.findElement(By.id("notification_contacts_primary_contact_phone"));
+    }
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
