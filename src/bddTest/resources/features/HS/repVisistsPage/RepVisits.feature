@@ -75,18 +75,22 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   so that I do not have to manually block each holiday.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HE I verify the blocked "<Holiday>" page
+    And HS I successfully sign out
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I search for "Int QA High School 4" in RepVisits page using "Liberty Township, OH" with "<Date>"
     Examples:
-      |Holiday           |
-      |LABOR_DAY         |
-      |COLUMBUS_DAY      |
-      |VETERANS_DAY      |
-      |THANKSGIVING_DAY  |
-      |DAY_AFTER_THANKSGIVING|
-      |CHRISTMAS_EVE     |
-      |CHRISTMAS_DAY     |
-      |NEW_YEAR_EVE      |
-      |NEW_YEAR_DAY      |
-      |MARTIN_LUTHER_DAY |
-      |PRESIDENTS_DAY    |
-      |MEMORIAL_DAY      |
-      |INDEPENDENCE_DAY  |
+      |Holiday               | Date |
+      |LABOR_DAY             | September 04 2017   |
+      |COLUMBUS_DAY          | October 9 2017      |
+      |VETERANS_DAY          | November 10 2017    |
+      |THANKSGIVING_DAY      | November 23 2017    |
+      |DAY_AFTER_THANKSGIVING| November 24 2017    |
+      |CHRISTMAS_EVE         | December 24 2017    |
+      |CHRISTMAS_DAY         | December 25 2017    |
+      |NEW_YEAR_EVE          | December 31 2017    |
+      |NEW_YEAR_DAY          | January  01 2018    |
+      |MARTIN_LUTHER_DAY     | January 15 2018     |
+      |PRESIDENTS_DAY        | February 19 2018    |
+      |MEMORIAL_DAY          | May 28 2018         |
+      |INDEPENDENCE_DAY      | July 04 2018        |
+

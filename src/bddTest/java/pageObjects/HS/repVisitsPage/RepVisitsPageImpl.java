@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.TestCase.fail;
+
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -275,6 +277,52 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void searchforSchool(String school,String location, String Date)
+    {
+        navBar.goToRepVisits();
+        getSearchAndScheduleBtn().click();
+        driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
+        driver.findElement(By.xpath("//form[@class='ui form _2Z8eaWTc5nFILCDiDTD__z']//button[contains(@class,'ui button button')]")).click();
+        Assert.assertTrue("location is not displayed",driver.findElement(By.xpath("//td[text()='"+location+"']")).isDisplayed());
+        WebElement schoolLocation = text(location);
+        getParent(schoolLocation).findElement(By.tagName("a")).click();
+        driver.findElement(By.cssSelector("button[class='ui right labeled tiny icon button _1alys3gHE0t2ksYSNzWGgY right floated']")).click();
+        setDate(Date);
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Was not set Blocked!", getDriver().findElement(By.cssSelector("table[class='ui celled padded table']>tbody")).getText().contains("Blocked"));
+
+    }
+
+    public void setDate(String inputDate) {
+
+        String[] parts = inputDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void clickOnDay(String date) {
+
+        driver.findElement(By.xpath("//div[contains(text(), "+date+")]/ancestor::div[contains(@class, 'DayPicker-Week')]/div[contains(text(), "+date+")]")).click();
+
+    }
+
+    public void findMonth(String month) {
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try{
+            while (!DayPickerCaption.contains(month)) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+        }
+        catch (Exception e) {
+            fail("The Date selected it's out of RANGE.");
+        }
+    }
+
     public void setTimeZone(String timeZone){
         if (!isLinkActive(link("Time Zone"))) {
             navBar.goToRepVisits();
@@ -317,6 +365,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
+    }
+    private WebElement getSearchAndScheduleBtn() {
+        return link("Search and Schedule");
     }
 }
 

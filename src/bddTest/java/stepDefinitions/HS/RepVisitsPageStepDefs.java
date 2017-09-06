@@ -34,5 +34,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I set the RepVisits Visits Confirmations option to \"([^\"]*)\"$", repVisits::setVisitsConfirmations);
 
         Then("^HE I verify the blocked \"([^\"]*)\" page$", repVisits::verifyManualBlockedHolidays);
+
+        Then("HE I search for \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" with \"([^\"]*)\"$", repVisits::searchforSchool);
     }
 }
