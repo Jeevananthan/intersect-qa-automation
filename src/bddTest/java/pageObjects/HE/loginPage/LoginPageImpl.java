@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -43,7 +44,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + username + " as username");
         passwordTextbox().sendKeys(password);
         logger.info("Using " + password + " as password");
-        loginButton().click();
+        loginButton().sendKeys(Keys.RETURN);
         logger.info("Clicked the login button");
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("di.ui.active.loader")));
         waitUntilPageFinishLoading();
