@@ -104,19 +104,21 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1631
 
-  Scenario Outline: As a HS RepVisits user I want to be able to cancel the fair attendee for the registered fairs
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
-    Then HS I Click on the "Add Attendees" button in the success page of the college fair
-    Then HS I Add the following Attendee "<Attendees>" from the results in the Add Attendee pop-up page
-    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+  Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
+                    so I can keep track of who is attending.
+    #Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I want to login to the HS app using "jeevanece90@gmail.com" as username and "Password#1" as password
+    #Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
+    #Then HS I Click on the "Add Attendees" button in the success page of the college fair
+    #Then HS I Add the following Attendee "<Attendees>" from the results in the Add Attendee pop-up page
+    #Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I Click on the View Details button for the College Fair Event "<CollegeFairName>"
     Then HS I verify the Fair Details Page "<CollegeFairName>","<VerifyDate>","<instructionsforCollegeRepresentatives>"
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<Status>"
 
    Examples:
-     |CollegeFairName       |Date            |RSVPDate        |StartTime|EndTime|Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|Attendees                  |VerifyDate                     |instructionsforCollegeRepresentatives|Name                    |Contact                                                 |Notes|Status   |
-     |QA Fair New Overview  |December 23 2017|December 20 2017|0900AM   |1000AM |$25 |25                 |100                     |Save         |NidhuMontevallo ThomasAdmin|September 23, 2017 - 1 hr visit|                                     |University of Montevallo|NidhuMontevallo ThomasAdmin,nidhu.thomas@hobsons.com,513|     |Attending|
+     |CollegeFairName              |Date            |RSVPDate        |StartTime|EndTime|Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|Attendees                  |VerifyDate       |instructionsforCollegeRepresentatives|Name                    |Contact                                                 |Notes|Status   |
+     |QA Fair Cancel Fair Attendee2|December 23 2017|December 21 2017|         |       |$25 |25                 |100                     |Save         |NidhuMontevallo ThomasAdmin|December 23, 2017|                                     |University of Montevallo|NidhuMontevallo ThomasAdmin,nidhu.thomas@hobsons.com,513|     |Attending|
 
 
 

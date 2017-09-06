@@ -6,6 +6,7 @@ import org.eclipse.jetty.websocket.api.WebSocketListener;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -320,26 +321,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessAddAttendeePopUp(String attendeeName) {
-        getAddAttendeeSearchBox().clear();
-        getAddAttendeeSearchBox().sendKeys(attendeeName);
-        waitUntilPageFinishLoading();
-        List<WebElement> categories = getDriver().findElement(By.id("undefined-results")).findElements(By.className("category"));
-        boolean institutionsReturned = false;
-        boolean institutionClickedOn = false;
-        for (WebElement category : categories) {
-            String sectionName = category.findElement(By.cssSelector("div.name div.name")).getText();
-            if (sectionName.equalsIgnoreCase("Community")) {
-                institutionsReturned = true;
-                List<WebElement> options = category.findElements(By.className("result"));
-                for (WebElement option : options) {
-                    if (option.findElement(By.className("title")).getText().toLowerCase().equals(attendeeName.toLowerCase())) {
-                        option.click();
-                        institutionClickedOn = true;
-                        waitUntilPageFinishLoading();
-                    }
-                }
-            }
+        if (!attendeeName.equals("")) {
+            driver.findElement(By.xpath("//input[@placeholder='Start Typing ...']")).sendKeys(attendeeName);
+            WebElement element = driver.findElement(By.xpath("//div[contains(text(),'" + attendeeName + "')]"));
+            doubleClick(element);
         }
+        button("Add Attendees").click();
+        waitUntilPageFinishLoading();
     }
 
     public void accessSuccessMessageforAddAttendees(String buttonName) {
@@ -418,10 +406,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessCollegeFairOverviewPage(String fairName) {
+        navBar.goToRepVisits();
+        link("College Fairs").click();
         while (link("View More Upcoming Events").isDisplayed()) {
             link("View More Upcoming Events").click();
         }
-        WebElement viewDetails = driver.findElement(By.xpath("//table[@class='ui table']//tbody//tr/td[text()='" + fairName + "']/parent::tr/td/a[span='View Details']"));
+        WebElement viewDetails = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+fairName+"']/parent::tr/td/a[span='View Details']"));
         viewDetails.click();
     }
 
@@ -449,7 +439,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
         if(!date.equals("")) {
-            String actualDate = driver.findElement(By.xpath("//div[@class='thirteen wide column']//p/b")).getText();
+            String actualDate = driver.findElement(By.xpath("//div[@class='thirteen wide column']//b/span")).getText();
             Assert.assertTrue("Date is not Displayed.", actualDate.equals(date));
         }
 
@@ -460,30 +450,29 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyListofRegisteredAttendee(String name, String contact, String notes, String status) {
-        int nameID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead/tr/th","Name");
-        int rowID = getRowIdByColumnId("//table[@id='he-account-dashboard']//tbody/tr/td", nameID,name);
+        int nameID = getColumnIdByFieldName("//table[@id='he-account-dashboard']//thead","Name");
+        int rowID = getRowIdByColumnId("//table[@id='he-account-dashboard']//tbody",nameID,name);
+        nameID = nameID+1;
+        rowID = rowID+1;
 
         if(!name.equals("")) {
             String actualName = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+nameID+"]")).getText();
             Assert.assertTrue("College Attendee Name is not Displayed.", actualName.equals(name));
         }
         if(!contact.equals("")) {
-            int contactID = getColumnIdByFieldName("//table[@id='he-account-dashboard']//thead/tr/th","Contact");
             String[] contacts = contact.split(",");
             String contactName = contacts[0] + contacts[1] + contacts[2];
-            String actualContact = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+contactID+"]")).getText();
+            String actualContact = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[2]")).getText();
             Assert.assertTrue("College Contact Name is not Displayed", contacts[0].contains(actualContact));
             Assert.assertTrue("College Email is not Displayed", contacts[1].contains(actualContact));
             Assert.assertTrue("College Phone Number is not Displayed", contacts[2].contains(actualContact));
         }
         if(!notes.equals("")) {
-            int notesID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead/tr/th","Notes");
-            String actualNotes = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+notesID+"]")).getText();
+            String actualNotes = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[3]")).getText();
             Assert.assertTrue("Notes is not Displayed.", actualNotes.equals(notes));
         }
         if(!status.equals("")) {
-            int statusID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead/tr/th","Notes");
-            String actualStatus = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td["+statusID+"]")).getText();
+            String actualStatus = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[4]")).getText();
             Assert.assertTrue("Status is not Displayed.", actualStatus.equals(status));
         }
     }
@@ -491,17 +480,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     //locators
+    private void doubleClick(WebElement elementLocator) {
+        Actions actions = new Actions(driver);
+        actions.doubleClick(elementLocator).perform();
+    }
     private WebElement getAddAttendeeSearchBox() {
-        return getDriver().findElement(By.id("multiple-search"));
+        return driver.findElement(By.cssSelector("input[placeholder='Start Typing ...']"));
     }
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+
     //Function Name  : getColumnIdByFieldName()
     public int  getColumnIdByFieldName(String tableHeaderLocator, String fieldName)
     {
         int columnId=-1, colCount = 0;
-        String presentField=null;
+        String presentField = null;
 
         WebElement webEleTableHeader=driver.findElement(By.xpath(tableHeaderLocator));
         List<WebElement> webEleRows=webEleTableHeader.findElements(By.tagName("tr"));
@@ -510,12 +504,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         if(colCount > 0)
         {
-            for(int colNum=1;colNum<colCount;colNum++)
+            for(int colNum=0;colNum<colCount;colNum++)
             {
                 presentField = webEleColumns.get(colNum).getText().trim().replace("\"", "");
 
                 if(presentField.equals(fieldName))
-                {
+                   {
                     columnId = colNum;
                     break;
                 }
