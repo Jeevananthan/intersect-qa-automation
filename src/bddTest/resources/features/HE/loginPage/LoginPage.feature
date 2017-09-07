@@ -28,10 +28,10 @@ Feature: As an HE user I want to login to Intersect
     Given HE I navigate to Registration Intersect url
     And HE I search for "The University of Alabama" in "Higher Education Staff Member" registeration page
     And HE I click the link "please complete this form."
-    Then HE I verify all field type in request user page
-      |firstName |lastName |email |verifyEmail |jobTitle |authorizedToPostPublicInformation |schedulesVisits |
-      |text      |text     |email |email       |text     |checkbox                          |checkbox        |
-
+    Then HE I verify all field in request user page
+      |firstName |lastName |email |verifyEmail |institutionName |jobTitle |authorizedToPostPublicInformation |schedulesVisits |
+      |text      |text     |email |email       |text            |text     |checkbox                          |checkbox        |
+    Then HE I verify captcha in request user page
 
 
 

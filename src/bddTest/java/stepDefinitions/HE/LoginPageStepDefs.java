@@ -32,6 +32,10 @@ public class LoginPageStepDefs implements En {
 
         And("^HE I search for \"([^\"]*)\" in \"([^\"]*)\" registeration page$",loginPage::searchForHEInstitution);
 
+        Then("^HE I verify all field in request user page$",loginPage::verifyFields);
+
+        Then("^HE I verify captcha in request user page$",loginPage::verifyCaptcha);
+
 
     }
 }
