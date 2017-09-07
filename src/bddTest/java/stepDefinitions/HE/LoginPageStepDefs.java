@@ -29,6 +29,7 @@ public class LoginPageStepDefs implements En {
         Then ("^HE I verify all field type in request user page$",loginPage::validateFieldsInRequestUserForm);
 
         Given("^HE I navigate to Registration Intersect url$",loginPage::navigateToRegistrationPage);
+
         And("^HE I search for \"([^\"]*)\" in \"([^\"]*)\" registeration page$",loginPage::searchForHEInstitution);
 
 
