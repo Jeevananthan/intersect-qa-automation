@@ -51,6 +51,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
   Scenario: As an HE premium user or HS user I need be able to search through my RepVisits Contacts
   so I can quickly find the contact I am looking to view.
     Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I validating the pagination of 25 contacts in Contacts Page
     And HE I verify the contacts list is sorted or not
     And HE I verify the contacts page in Contacts
     And HE I verify contacts details  in Contacts
@@ -62,6 +63,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I validating the pagination of 25 contacts in Contacts Page
     And HS I verify the contacts list is sorted or not
     And HS I verify empty contacts page in Contacts
     And HS I verify full contacts page in Contacts

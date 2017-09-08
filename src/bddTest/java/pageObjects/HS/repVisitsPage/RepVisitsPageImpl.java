@@ -97,6 +97,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(sortedList.equals(original));
     }
 
+    public void validatingthePaginationof25Contacts()
+    {
+        int count;
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contacts is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).isDisplayed());
+        count=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).size();
+        try{ logger.info(count);}catch(Exception e){}
+        while(count>=25)
+        {
+            if(driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed())
+            {
+                driver.findElement(By.xpath("//span[text()='Show More']")).click();
+            }validatingthePaginationof25Contacts();
+        }
+    }
+
     public void verifyContactDetails(DataTable dataTable){
         navBar.goToRepVisits();
         getContactsBtn().click();
