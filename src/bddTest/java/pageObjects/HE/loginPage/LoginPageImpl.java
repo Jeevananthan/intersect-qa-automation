@@ -81,8 +81,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         link("Forgot Password").click();
         textbox("E-Mail Address").sendKeys(userName);
         button("RESET PASSWORD").click();
-
-
     }
 
     public void processResetPassword(String userType, DataTable data) {
@@ -105,18 +103,46 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String code = emailBody.substring(codeMessageIndex + 41,codeMessageIndex + 47);
         logger.info("Verification code is: " + code + "\n");
         textbox("Verification Code").sendKeys(code);
+    //verify the password policy of minimum of 8 characters
+        textbox("New Password").sendKeys("word!1");
+        textbox("Confirm Password").sendKeys("word!1");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+    //verify the password policy of maximum of 30 characters
+        textbox("New Password").sendKeys("PasswordPolicyMaximum30characters#1");
+        textbox("Confirm Password").sendKeys("PasswordPolicyMaximum30characters#1");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+    //verify the password policy of lowercase letter
+        textbox("New Password").sendKeys("password#1");
+        textbox("Confirm Password").sendKeys("password#1");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+    //verify the password policy of uppercase letter
+        textbox("New Password").sendKeys("PASSWORD#1");
+        textbox("Confirm Password").sendKeys("PASSWORD#1");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+    //verify the password policy of without the number
+        textbox("New Password").sendKeys("Password#");
+        textbox("Confirm Password").sendKeys("Password#");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+    //verify the password accepted with the password policy
         textbox("New Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         textbox("Confirm Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         button("CHANGE PASSWORD").click();
-        if (userType.equalsIgnoreCase("reset")) {
-            Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
-        }
-        else{
-            Assert.assertTrue("Password reset was not successful!", button("LOGIN").isDisplayed());
-        }
-
-
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Password reset was not successful!", button("LOGIN").isDisplayed());
     }
+
+
+  // }
 
     public void verifyLoginScreen() {
         openLoginPage();

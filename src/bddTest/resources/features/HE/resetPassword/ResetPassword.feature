@@ -25,5 +25,5 @@ tickets to Hobsons Support.
 
     When HE I begin the reset password process for user type "reset"
     Then HE I receive the below reset password email and reset the password for user type "reset"
-      |Subject                                      |To                                           |Messages |
-      |Intersect Forgot Password Verification Email |kpmahibalan93+testingresetpassword@gmail.com |1        |
+      |Subject                                     |To                                        |Messages |
+      |Intersect Forgot Password Verification Email|purpleheautomation+resetpassword@gmail.com|1        |
