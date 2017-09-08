@@ -22,7 +22,7 @@ Feature: As an HE user I want to login to Intersect
     Then HE I successfully sign out
 
   @MATCH-1857
-  Scenario: As a HE user, I need to be able to request a user account by providing the necessary information about myself.
+  Scenario Outline: As a HE user, I need to be able to request a user account by providing the necessary information about myself.
             So Support can provision my user account.
 
     Given HE I navigate to Registration Intersect url
@@ -32,7 +32,12 @@ Feature: As an HE user I want to login to Intersect
       |firstName |lastName |email |verifyEmail |institutionName |jobTitle |authorizedToPostPublicInformation |schedulesVisits |
       |text      |text     |email |email       |text            |text     |checkbox                          |checkbox        |
     Then HE I verify captcha in request user page
+    Then HE I validate all fields in request user page using "<firstName>","<lastName>","<email>","<verifyEmail>","<jobTitle>"
 
+
+    Examples:
+      |firstName |lastName |email                         |verifyEmail                         |jobTitle |
+      |purple    |HE       |purpleheautomationn@gmail.com |purpleheautomationn@gmail.com       |QA       |
 
 
 

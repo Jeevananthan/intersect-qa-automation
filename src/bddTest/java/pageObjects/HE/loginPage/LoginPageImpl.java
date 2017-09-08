@@ -237,6 +237,22 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().defaultContent();
     }
 
+    public void validateFields(String firstName,String lastName,String eMail,String verifyEmail,String title)
+    {
+        driver.findElement(By.xpath("//input[@id='request-he-user-first-name']")).sendKeys(firstName);
+        driver.findElement(By.xpath("//input[@id='request-he-user-last-name']")).sendKeys(lastName);
+        driver.findElement(By.xpath("//input[@id='request-he-user-email']")).sendKeys(eMail);
+        driver.findElement(By.xpath("//input[@id='request-he-user-verify-email']")).sendKeys(verifyEmail);
+        driver.findElement(By.xpath("//input[@id='request-he-user-job-title']")).sendKeys(title);
+        driver.findElement(By.xpath("//input[@name='authorizedToPostPublicInformation']")).click();
+        driver.findElement(By.xpath("//input[@name='schedulesVisits']")).click();
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='recaptcha widget']")));
+        driver.findElement(By.xpath("//label[@id='recaptcha-anchor-label']")).click();
+        driver.switchTo().defaultContent();
+        button("Request User").click();
+
+    }
+
     public void searchForHEInstitution(String institutionName,String institutionType){
 
         if(institutionType.contains("High School")){

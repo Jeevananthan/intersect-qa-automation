@@ -36,6 +36,8 @@ public class LoginPageStepDefs implements En {
 
         Then("^HE I verify captcha in request user page$",loginPage::verifyCaptcha);
 
+        Then("^HE I validate all fields in request user page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",loginPage::validateFields);
+
 
     }
 }
