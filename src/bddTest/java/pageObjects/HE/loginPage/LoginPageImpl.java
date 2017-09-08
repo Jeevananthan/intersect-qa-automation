@@ -128,21 +128,24 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
     //verify the password policy of without the number
-        textbox("New Password").sendKeys("Password#");
-        textbox("Confirm Password").sendKeys("Password#");
+        textbox("New Password").sendKeys("Password#*");
+        textbox("Confirm Password").sendKeys("Password#*");
         button("CHANGE PASSWORD").click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
-    //verify the password accepted with the password policy
+    //verify the password policy of without the Special Charecters
+        textbox("New Password").sendKeys("Password1");
+        textbox("Confirm Password").sendKeys("Password1");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+        //verify the password accepted with the password policy
         textbox("New Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         textbox("Confirm Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         button("CHANGE PASSWORD").click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Password reset was not successful!", button("LOGIN").isDisplayed());
     }
-
-
-  // }
 
     public void verifyLoginScreen() {
         openLoginPage();
