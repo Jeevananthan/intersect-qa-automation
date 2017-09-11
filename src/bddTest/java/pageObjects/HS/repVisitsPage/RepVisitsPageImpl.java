@@ -8,6 +8,10 @@ import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import javax.xml.soap.Text;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +48,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         tabs.add("Naviance Settings");
         //Top menu
         tabs.add("Regular Weekly Hours");
-        tabs.add("Holidays");
+        tabs.add("Blocked Days");
         tabs.add("Exceptions");
         tabs.add("Availability Settings");
         for (String tab : tabs) {
@@ -238,6 +242,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).isDisplayed());
         Assert.assertTrue("Button Add Time Slot is not showing.",
                 button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).isDisplayed());
+    }
+
+    public void VerifyMessagingOptionsUI() {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Messaging Options").click();
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("Confirmation Message header is not showing", text("Confirmation Message").isDisplayed());
+        Assert.assertTrue("Special Instruction for RepVisits header is not showing", text("Special Instruction for RepVisits").isDisplayed());
+        Assert.assertTrue("Confirmation message Information text is not showing", getDriver().findElement(By.cssSelector("[for=\"emailInstructions\"]")).getText().
+                contains("When appointments are confirmed, we will automatically email the higher education institution and include appointment details as well as your contact information. If you would like to add additional information, you can do so here."));
+        Assert.assertTrue("webInstructions Message text is not showing", getDriver().findElement(By.cssSelector("[for=\"webInstructions\"]")).getText().
+                contains("Is there anything you would like the representative to know before scheduling a visit? If so, include that information here. Please note we will display your contact information and the school's address."));
+        Assert.assertTrue("Email Instructions textbox is not showing", getDriver().findElement(By.cssSelector("[id=\"emailInstructions\"]")).isDisplayed());
+        Assert.assertTrue("Web Instructions textbox is not showing", getDriver().findElement(By.cssSelector("[id=\"webInstructions\"]")).isDisplayed());
+        Assert.assertTrue(button("Update Messaging").isDisplayed());
     }
 
     public void setStartAndEndDates(String startDate, String endDate) {
@@ -469,3 +490,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
 
+
+    public void SetSpecialInstructionsForHEUser( String Instructions) {
+        getWebInstructions().clear();
+        getWebInstructions().sendKeys(Instructions);
+        button("Update Messaging").click();
+
+    }
+
+    public void VerifySpecialInstructionsForHE( String instructionsText){
+       Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
+    }
+
+    /*locators for Messaging Options Page*/
+    private WebElement getWebInstructions() {
+        return getDriver().findElement(By.id("webInstructions"));
+    }
+}
