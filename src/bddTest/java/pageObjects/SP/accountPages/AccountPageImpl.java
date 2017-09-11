@@ -21,6 +21,28 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(text("Client:").isDisplayed());
     }
 
+    public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status){
+
+        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
+
+        WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
+        if(!ActualStatus.getText().equalsIgnoreCase(status)){
+            ActualStatus.click();
+            getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+
+            if(!status.equalsIgnoreCase("inactive")) {
+                WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
+                WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
+
+                StartDateButton.click();
+                setStartDateInModulePage();
+                StartDateButton.click();
+                EndDateButton.click();
+                setEndDateInModulePage();
+                EndDateButton.click();
+            }
+        }
+    }
 
     public void setStartDateInAccountPage(String dateToSet){
 
@@ -62,6 +84,11 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         getEndDateButton().click();
     }
 
+    public void clicksaveChangesButton(){
+        Assert.assertTrue("Save Changes button is not displayed",getSaveChangesButton().isDisplayed());
+        getSaveChangesButton().click();
+        waitUntilPageFinishLoading();
+    }
 
     public void verifyEndDateFeasibility(){
         String startDate = getHubModuleRow().findElement(By.className("_1dCEyx-42op_-Pf0-ie2T")).getText();

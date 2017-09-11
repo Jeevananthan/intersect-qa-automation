@@ -34,6 +34,11 @@ public class AccountPagesStepDefs implements En {
         And ("^SP I set the Start Date as \"([^\"]*)\"$",accountPage::setStartDateInAccountPage);
 
         And ("^SP I set the End Date as \"([^\"]*)\"$",accountPage::setEndDateInAccountPage);
+
+        And("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActiveWithDate);
+
+        And("^SP I Click the Save Changes button",accountPage::clicksaveChangesButton);
+
         Then ("^SP I verify the \"([^\"]*)\" should be \"([^\"]*)\" for \"([^\"]*)\"$",accountPage::verifyModuleDetails);
 
     }
