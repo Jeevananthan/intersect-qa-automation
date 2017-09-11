@@ -74,17 +74,16 @@ Feature: Hobsons Support - View HE Institution Accounts
     Scenario: As a Support user with admin privilege or support privilege or sales ops privilege is able to edit
               Activate/Inactivate modules/products within the institutional accounts
       Given SP I am logged in to the Admin page as an Admin user
-      Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
-      And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
-      And SP I set the Start Date as "June 13 2017"
-      And SP I set the End Date as "June 15 2017"
-      And SP I Click the Save Changes button
-      Then SP I verify the "status" should be "inactive" for "Legacy: Hub page management"
-      Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Legacy: Hub page management"
-      Then SP I verify the "End Date" should be "Jun 15, 2017" for "Legacy: Hub page management"
+      When SP I search for "2100209"
+      And SP I select the following institution "Bowling Green State University-Main Campus" from the results
       And SP I set the "Legacy: Hub page management" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017"
-      And SP I set the End Date as "June 13 2017"
+      And SP I set the Start Date as "June 13 2017" for "Legacy: Hub page management"
+      And SP I set the End Date as "June 15 2018" for "Legacy: Hub page management"
+      And SP I Click the Save Changes button
+      Then SP I verify the "status" should be "active" for "Legacy: Hub page management"
+      Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Legacy: Hub page management"
+      Then SP I verify the "End Date" should be "Jun 15, 2018" for "Legacy: Hub page management"
+      And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
       And SP I Click the Save Changes button
       Then SP I verify the "status" should be "inactive" for "Legacy: Hub page management"
       And SP I successfully sign out

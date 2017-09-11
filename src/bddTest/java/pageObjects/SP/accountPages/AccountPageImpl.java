@@ -29,58 +29,51 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         if(!ActualStatus.getText().equalsIgnoreCase(status)){
             ActualStatus.click();
             getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
-
-            if(!status.equalsIgnoreCase("inactive")) {
-                WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
-                WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
-
-                StartDateButton.click();
-                setStartDateInModulePage();
-                StartDateButton.click();
-                EndDateButton.click();
-                setEndDateInModulePage();
-                EndDateButton.click();
-            }
         }
     }
 
-    public void setStartDateInAccountPage(String dateToSet){
+    public void setStartDateInAccountPage(String dateToSet, String moduleName){
+        String[] parts = dateToSet.split(" ");
+        String month = parts[0];
+        String day = parts[1];
+        String year = parts[2];
 
-        String month = dateToSet.substring(0,3);
-        String day = dateToSet.substring(5,6);
-        String year = dateToSet.substring(8,11);
+        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
+        WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
+        StartDateButton.click();
 
-        getStartDateButton().click();
-
+        driver.findElement(By.id("year-select")).click();
         Select selectYear = new Select(driver.findElement(By.id("year-select")));
         selectYear.selectByVisibleText(year);
 
+        driver.findElement(By.id("month-select")).click();
         Select selectMonth = new Select(driver.findElement(By.id("month-select")));
         selectMonth.selectByVisibleText(month);
 
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+day+"']"));
         dateTemp.click();
-
         getStartDateButton().click();
-}
+    }
 
-    public void setEndDateInAccountPage(String dateToSet){
+    public void setEndDateInAccountPage(String dateToSet, String moduleName){
+        String[] parts = dateToSet.split(" ");
+        String month = parts[0];
+        String day = parts[1];
+        String year = parts[2];
 
-        String month = dateToSet.substring(0,3);
-        String day = dateToSet.substring(5,6);
-        String year = dateToSet.substring(8,11);
-
-        getEndDateButton().click();
-
+        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
+        WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
+        EndDateButton.click();
+        driver.findElement(By.id("year-select")).click();
         Select selectYear = new Select(driver.findElement(By.id("year-select")));
         selectYear.selectByVisibleText(year);
 
+        driver.findElement(By.id("month-select")).click();
         Select selectMonth = new Select(driver.findElement(By.id("month-select")));
         selectMonth.selectByVisibleText(month);
 
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+day+"']"));
         dateTemp.click();
-
         getEndDateButton().click();
     }
 
@@ -214,7 +207,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
 
     private WebElement getCalender(){ return driver.findElement(By.xpath("//div[@role='application']")); }
-
+    private WebElement getSaveChangesButton(){
+        return button("Save Changes");
+    }
 
     public void verifyCreatePrimaryUser() {
         Assert.assertTrue("\"Create\" button for new primary user was not found!", button("CREATE").isDisplayed());
