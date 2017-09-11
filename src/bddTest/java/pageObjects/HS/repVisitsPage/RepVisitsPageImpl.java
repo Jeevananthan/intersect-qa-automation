@@ -38,7 +38,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         tabs.add("Naviance Settings");
         //Top menu
         tabs.add("Regular Weekly Hours");
-        tabs.add("Holidays");
+        tabs.add("Blocked Days");
         tabs.add("Exceptions");
         tabs.add("Availability Settings");
         for (String tab : tabs) {

@@ -75,7 +75,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
-    private WebElement getSearchBox() { return textbox("Enter a school name or location");}
+    private WebElement getSearchBox() { return textbox("Search by school name or location...");}
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}
 
