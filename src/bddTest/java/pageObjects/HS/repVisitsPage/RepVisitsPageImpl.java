@@ -393,9 +393,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         inputStartTime.sendKeys(numVisits);
     }
 
-}
-
-    // ABOVE HERE IS FROM FRANKS BRANCH
     public void VerifyMessagingOptionsUI() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
