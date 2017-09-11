@@ -1,5 +1,6 @@
 package stepDefinitions.SP.adminPages;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.SP.adminPages.HomePageImpl;
@@ -32,5 +33,7 @@ public class HomePageStepDefs implements En {
         Then("^SP I do not have access to \"([^\"]*)\" sub menu in left navigation$", navBar::verifySubMenuIsNotVisible);
 
         Then("^SP I do have access to \"([^\"]*)\" sub menu in left navigation$", navBar::verifySubMenuIsVisible);
+
+        Then("^SP I go to the users list for \"([^\"]*)\" with NCES_ID \"([^\"]*)\" from the institution dashboard using the search$", homePage::goToUsersListUsingSearch);
     }
 }

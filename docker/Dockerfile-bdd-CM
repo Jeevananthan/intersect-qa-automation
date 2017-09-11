@@ -1,0 +1,15 @@
+FROM hobsonspipe/centos-java8:latest
+
+RUN yum -y install maven \
+    && yum clean all \
+    && mkdir /app
+
+WORKDIR /app
+COPY pom.xml /app
+COPY .m2/ /app/.m2
+
+RUN mvn clean dependency:resolve --settings /app/.m2/settings.xml
+
+COPY . /app
+
+CMD ["/bin/bash", "/app/docker/run-tests-CM.sh"]
