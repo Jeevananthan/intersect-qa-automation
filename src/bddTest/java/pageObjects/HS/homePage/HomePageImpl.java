@@ -26,7 +26,13 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("User did not sign out", button("Login").isDisplayed());
+        driver.manage().deleteAllCookies();
+        Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
+    }
+
+    public void goToCounselorCommunity(){
+        link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
+        //navBar.goToCommunity();
     }
 
     private WebElement userDropdown() {
