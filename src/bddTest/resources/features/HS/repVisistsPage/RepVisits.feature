@@ -107,17 +107,18 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
                     so I can keep track of who is attending.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     Then HS I Click on the "Add Attendees" button in the success page of the college fair
     Then HS I Add the following Attendee "<Attendees>" from the results in the Add Attendee pop-up page
     Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
-    Then HS I Click on the View Details button for the College Fair Event "<CollegeFairName>"
-    Then HS I verify the Fair Details Page "<CollegeFairName>","<VerifyDate>","<instructionsforCollegeRepresentatives>"
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    Then HS I verify the Fair Details Page "<College Fair Name>","<VerifyDate>","<instructionsforCollegeRepresentatives>"
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<Status>"
+    And HS I successfully sign out
 
    Examples:
-     |CollegeFairName              |Date            |RSVPDate        |StartTime|EndTime|Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|Attendees                  |VerifyDate       |instructionsforCollegeRepresentatives|Name                    |Contact                                                 |Notes|Status   |
-     |QA Fair Cancel Fair Attendee2|December 23 2017|December 21 2017|09:00AM      | 10:00AM       |$25 |25                 |100                     |Save         |NidhuMontevallo ThomasAdmin|December 23, 2017|                                     |University of Montevallo|NidhuMontevallo ThomasAdmin,nidhu.thomas@hobsons.com,513|     |Attending|
+     |College Fair Name              |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees                  |VerifyDate       |instructionsforCollegeRepresentatives|Name                    |Contact                                                 |Notes|Status   |
+     |QA Fair Cancel Fair Attendee2  |December 23 2017|December 21 2017|0900AM     |1000AM   |$25 |25                    |100                        |Save         |NidhuMontevallo ThomasAdmin|December 23, 2017|                                     |University of Montevallo|NidhuMontevallo ThomasAdmin,nidhu.thomas@hobsons.com,513|     |Attending|
 
 
 

@@ -357,11 +357,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!startTime.equals("")) {
             Assert.assertTrue("Start Time TextBox is not displayed",textbox(By.id("college-fair-start-time")).isDisplayed());
-            textbox(By.id("college-fair-start-time")).sendKeys(startTime);
+            driver.findElement(By.xpath("//form//input[@id='college-fair-start-time']")).sendKeys(startTime);
         }
         if(!endTime.equals("")) {
             Assert.assertTrue("End Time TextBox is not displayed",textbox(By.id("college-fair-end-time")).isDisplayed());
-            textbox(By.id("college-fair-end-time")).sendKeys(endTime);
+            driver.findElement(By.xpath("//form//input[@id='college-fair-end-time']")).sendKeys(endTime);
         }
         if(!RSVPDate.equals("")) {
             Assert.assertTrue("RSVP Deadline TextBox is not displayed",textbox(By.id("college-fair-rsvp-deadline")).isDisplayed());
@@ -394,6 +394,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             }
         }
     }
+
+
 
     public void accessSuccessMessageforFair(String buttonName){
         if(buttonName.equals("Close")){
@@ -463,9 +465,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             String[] contacts = contact.split(",");
             String contactName = contacts[0] + contacts[1] + contacts[2];
             String actualContact = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[2]")).getText();
-            Assert.assertTrue("College Contact Name is not Displayed", contacts[0].contains(actualContact));
-            Assert.assertTrue("College Email is not Displayed", contacts[1].contains(actualContact));
-            Assert.assertTrue("College Phone Number is not Displayed", contacts[2].contains(actualContact));
+            Assert.assertTrue("College Contact Name is not Displayed", actualContact.contains(contacts[0]));
+            Assert.assertTrue("College Email is not Displayed", actualContact.contains(contacts[1]));
+            Assert.assertTrue("College Phone Number is not Displayed", actualContact.contains(contacts[2]));
         }
         if(!notes.equals("")) {
             String actualNotes = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[3]")).getText();
