@@ -32,6 +32,11 @@ public class LoginPageStepDefs implements En {
 
         Then ("^HE I verify all field type in request user page$",loginPage::validateFieldsInRequestUserForm);
 
+        Then("^HE I verify captcha in request user page$",loginPage::verifyCaptcha);
+
+
+
+
 
     }
 }

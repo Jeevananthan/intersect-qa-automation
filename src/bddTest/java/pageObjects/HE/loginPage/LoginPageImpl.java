@@ -224,6 +224,17 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     }
 
+
+    public void verifyCaptcha()
+    {
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='recaptcha widget']")));
+        Assert.assertTrue("I'm not a robot text is not displayed",driver.findElement(By.xpath("//label[@id='recaptcha-anchor-label']")).isDisplayed());
+        Assert.assertTrue("inline block is not displayed",driver.findElement(By.xpath("//div[@class='rc-inline-block']")).isDisplayed());
+        Assert.assertTrue("reCAPTCHA text is not displayed",driver.findElement(By.xpath("//div[text()='reCAPTCHA']")).isDisplayed());
+        driver.switchTo().defaultContent();
+    }
+
+
     private WebElement usernameTextbox() {
         return textbox("E-mail Address");
     }

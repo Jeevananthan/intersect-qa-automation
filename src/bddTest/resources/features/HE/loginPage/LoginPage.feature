@@ -29,3 +29,4 @@ Feature: As an HE user I want to login to Intersect
       Then HE I verify all field type in request user page
         |firstName |lastName |email |verifyEmail |jobTitle |authorizedToPostPublicInformation |schedulesVisits |
         |text      |text     |email |email       |text     |checkbox                          |checkbox        |
+      Then HE I verify captcha in request user page
