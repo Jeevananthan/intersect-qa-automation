@@ -108,37 +108,37 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox("Confirm Password").sendKeys("word!1");
         button("CHANGE PASSWORD").click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
     //verify the password policy of maximum of 30 characters
         textbox("New Password").sendKeys("PasswordPolicyMaximum30characters#1");
         textbox("Confirm Password").sendKeys("PasswordPolicyMaximum30characters#1");
         button("CHANGE PASSWORD").click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
     //verify the password policy of lowercase letter
         textbox("New Password").sendKeys("password#1");
         textbox("Confirm Password").sendKeys("password#1");
         button("CHANGE PASSWORD").click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
     //verify the password policy of uppercase letter
         textbox("New Password").sendKeys("PASSWORD#1");
         textbox("Confirm Password").sendKeys("PASSWORD#1");
         button("CHANGE PASSWORD").click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
     //verify the password policy of without the number
         textbox("New Password").sendKeys("Password#*");
         textbox("Confirm Password").sendKeys("Password#*");
         button("CHANGE PASSWORD").click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
     //verify the password policy of without the Special Charecters
         textbox("New Password").sendKeys("Password1");
         textbox("Confirm Password").sendKeys("Password1");
         button("CHANGE PASSWORD").click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
         //verify the password accepted with the password policy
         textbox("New Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         textbox("Confirm Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
