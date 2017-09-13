@@ -27,11 +27,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button(By.id("user-dropdown-signout")).click();
         waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
-        Assert.assertTrue("User did not sign out", text("You have been logged out.").isDisplayed());
+        Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
     }
 
     public void goToCounselorCommunity(){
-        link(By.id("js-main-nav-home-menu-link")).click();
+        link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
         //navBar.goToCommunity();
     }
 

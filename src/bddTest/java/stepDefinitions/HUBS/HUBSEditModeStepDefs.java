@@ -1,9 +1,9 @@
-package stepDefinitions.HE;
+package stepDefinitions.HUBS;
 
 import cucumber.api.java8.En;
-import pageObjects.HE.HUBSEditMode.HEMPreviewPageImpl;
-import pageObjects.HE.HUBSEditMode.NavianceCollegeProfilePageImpl;
-import pageObjects.HE.HUBSEditMode.StudiesPageImpl;
+import pageObjects.HUBS.HEMPreviewPageImpl;
+import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
+import pageObjects.HUBS.StudiesPageImpl;
 
 public class HUBSEditModeStepDefs implements En{
 
