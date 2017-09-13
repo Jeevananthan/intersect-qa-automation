@@ -1,8 +1,7 @@
 package stepDefinitions.HS;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
-import pageObjects.HS.institutionProfilePage.InstitutionEditProfilePageImpl;
+import pageObjects.HS.institutionEditProfilePage.InstitutionEditProfilePageImpl;
 
 public class InstitutionEditProfilePageStepDefs implements En {
 

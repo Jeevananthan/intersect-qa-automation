@@ -1,4 +1,4 @@
-package pageObjects.HS.institutionProfilePage;
+package pageObjects.HS.institutionEditProfilePage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
