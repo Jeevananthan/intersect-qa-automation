@@ -171,6 +171,10 @@ public class    GlobalSearch extends SeleniumBase {
         System.out.println();
         logger.info("Verifying global search icon button returns advanced search results.");
         doSearch(searchRequest);
+        // These duplicate waits ensure that the search has finished realtime processing before we send the enter key.
+        // If you send the Enter key before the search has finished, you won't be taken to the adv. search and test will fail.
+        waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
         waitUntilPageFinishLoading();
         driver.findElement(By.id("global-search-box-input")).sendKeys(Keys.ENTER);
         waitUntilPageFinishLoading();
@@ -321,10 +325,6 @@ public class    GlobalSearch extends SeleniumBase {
     }
 
     public void verifyGlobalSearchNotDisplayed() {
-        Assert.assertFalse("Global search feature is available, but shouldn't be.", getDriver().findElements(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']")).size() >= 1);
-    }
-
-    public void verifyGlobalSearchNotDisplayed(){
         Assert.assertFalse("Global search feature is available, but shouldn't be.", getDriver().findElements(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']")).size() >= 1);
     }
 
