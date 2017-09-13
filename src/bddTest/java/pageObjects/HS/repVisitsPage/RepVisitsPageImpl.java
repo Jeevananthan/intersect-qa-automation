@@ -5,10 +5,25 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
+
+import javax.xml.soap.Text;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import static org.junit.Assert.fail;
+
 import static org.junit.Assert.fail;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
@@ -42,7 +57,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         tabs.add("Naviance Settings");
         //Top menu
         tabs.add("Regular Weekly Hours");
-        tabs.add("Holidays");
+        tabs.add("Blocked Days");
         tabs.add("Exceptions");
         tabs.add("Availability Settings");
         for (String tab : tabs) {
@@ -161,6 +176,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save Changes").click();
     }
 
+    public void accessVisitAvailability(String visitAvailability){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability Settings").click();
+        driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']/input[@type='radio']")).click();
+        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+    }
+
+    public void verifyVisitAvailability(String visitAvailabiltyOption) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability Settings").click();
+        //Verify the Title
+        Assert.assertTrue("'Visit Availability' header is not displayed as expected!", text("Visit Availability").isDisplayed());
+        //'Visit Availability' Content
+        Assert.assertTrue("contents 'Who can see your availability?'  is not displaying as expected!", text("Who can see your availability?").isDisplayed());
+        //verify the Radio button and Label
+        Assert.assertTrue("radiobutton 'All Repvisits Users' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='grouped fields']//label[text()='All RepVisits Users']/input[@type='radio']")).isDisplayed());
+        Assert.assertTrue("radiobutton 'Only Me' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='grouped fields']//label[text()='Only Me']/input[@type='radio']")).isDisplayed());
+        Assert.assertTrue("radiobutton Label 'All Repvisits Users' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='grouped fields']//label[text()='All RepVisits Users']")).isDisplayed());
+        Assert.assertTrue("radiobutton Label 'Only Me' is not displaying as expected!", driver.findElement(By.xpath("//div[@class='grouped fields']//label[text()='Only Me']")).isDisplayed());
+        if(!visitAvailabiltyOption.equals("")) {
+            Assert.assertTrue("The option " + visitAvailabiltyOption + " radio button is not checked", driver.findElement(By.xpath("//div[@class='grouped fields']//label[text()='"+visitAvailabiltyOption+"']/input[@type='radio']")).isSelected());
+        }
+        //'Save Changes' button
+        Assert.assertTrue("'Save Changes' button is not displayed", driver.findElement(By.cssSelector("button[class='ui primary button']")).isDisplayed());
+    }
+
+
     public void verifyContentsOfNavianceSettings() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -187,6 +231,110 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Button Save Changes is not showing.", button(By.cssSelector("button[class='ui primary button']")).isDisplayed());
     }
 
+    public void verifyTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
+
+        Assert.assertTrue("The Time Slot was not added" , driver.findElement(By.cssSelector("table[class='ui unstackable basic table']")).findElement(By.xpath("//button[contains(text(), '"+hourStartTime+ ":"+ minuteStartTime + meridianStartTime +"')]")).isDisplayed());
+
+    }
+
+
+    public void setDate(String inputDate, String startOrEndDate) {
+
+        String[] parts = inputDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+
+        if (startOrEndDate.contains("Start")) {
+            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        } else {
+            button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        }
+        findMonth(calendarHeading, startOrEndDate);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void findMonth(String month, String startOrEndDate) {
+        waitUntilPageFinishLoading();
+        boolean monthStatus = compareDate(month, startOrEndDate);
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try{
+            while (!DayPickerCaption.contains(month)) {
+
+                if (monthStatus){
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                }
+                else {
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                }
+            }
+
+        }
+        catch (Exception e) {
+            fail("The Date selected it's out of RANGE.");
+        }
+    }
+
+    public Boolean compareDate(String month, String startOrEndDate)  {
+
+        String dateCaption = null;
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
+        if (startOrEndDate.contains("Start")) {
+            dateCaption = driver.findElement(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).getText();
+        } else {
+            dateCaption = driver.findElement(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).getText();
+        }
+
+        //Logic to compare dates before? or not
+        Date first = null;
+        try {
+            first = format.parse(dateCaption);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date second = null;
+        try {
+            second = formatDate.parse(month);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        boolean before = (first.before(second));
+        return  before;
+
+    }
+
+    public void clickOnDay(String date) {
+
+        try {
+
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
+
+        } catch (Exception e) {
+            fail("The Date selected is out of RANGE.");
+        }
+
+    }
+
+    public void addNewTimeSlot(String day, String hourStartTime, String hourEndTime, String minuteStartTime, String minuteEndTime, String meridianStartTime, String meridianEndTime, String numVisits) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+
+        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
+        selectDayForSlotTime("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']", day);
+        inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
+        inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
+        visitsNumber(numVisits);
+        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+    }
+
     public void verifyContentsOfRegularWeeklyHours() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -195,6 +343,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
 
         String startEndDatesForVisitsText = getDriver().findElement(By.cssSelector("div[class='availability _17ehxT_27Cme444W6HfdTN']")).getText();
+        //String dayTableText = getDriver().findElement(By.cssSelector("table[class='ui basic table']")).getText();
         String dayTableText = getDriver().findElement(By.cssSelector("div[class='_10Tg7oamBO_AGbl5OgX9ba']")).getText();
         String displayStartEndForVisitsText = "2017-2018 Start and End Dates For Visits";
         Assert.assertTrue(dayTableText + " Text is not displayed",
@@ -204,9 +353,61 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Button Start Date is not showing.",
                 button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).isDisplayed());
         Assert.assertTrue("Button End Date is not showing.",
-                button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(4)")).isDisplayed());
+                button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).isDisplayed());
         Assert.assertTrue("Button Add Time Slot is not showing.",
                 button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).isDisplayed());
+        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
+    }
+
+    public void selectDayForSlotTime(String element, String day)
+    {
+        WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
+        dayList.click();
+        driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
+    }
+
+    public void inputStartTime(String hour, String minute, String meridian)
+    {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='startTime']"));
+        inputStartTime.click();
+        inputStartTime.sendKeys(hour);
+        inputStartTime.sendKeys(Keys.TAB);
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
+
+    }
+
+    public void inputEndTime(String hour, String minute, String meridian)
+    {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='endTime']"));
+        inputStartTime.click();
+        inputStartTime.sendKeys(hour);
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
+        inputStartTime.sendKeys(Keys.TAB);
+    }
+
+    public void visitsNumber(String numVisits)
+    {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='numVisits']"));
+        inputStartTime.sendKeys(numVisits);
+    }
+
+    public void VerifyMessagingOptionsUI() {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Messaging Options").click();
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("Confirmation Message header is not showing", text("Confirmation Message").isDisplayed());
+        Assert.assertTrue("Special Instruction for RepVisits header is not showing", text("Special Instruction for RepVisits").isDisplayed());
+        Assert.assertTrue("Confirmation message Information text is not showing", getDriver().findElement(By.cssSelector("[for=\"emailInstructions\"]")).getText().
+                contains("When appointments are confirmed, we will automatically email the higher education institution and include appointment details as well as your contact information. If you would like to add additional information, you can do so here."));
+        Assert.assertTrue("webInstructions Message text is not showing", getDriver().findElement(By.cssSelector("[for=\"webInstructions\"]")).getText().
+                contains("Is there anything you would like the representative to know before scheduling a visit? If so, include that information here. Please note we will display your contact information and the school's address."));
+        Assert.assertTrue("Email Instructions textbox is not showing", getDriver().findElement(By.cssSelector("[id=\"emailInstructions\"]")).isDisplayed());
+        Assert.assertTrue("Web Instructions textbox is not showing", getDriver().findElement(By.cssSelector("[id=\"webInstructions\"]")).isDisplayed());
+        Assert.assertTrue(button("Update Messaging").isDisplayed());
     }
 
     public void setStartAndEndDates(String startDate, String endDate) {
@@ -244,11 +445,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         catch (Exception e) {
             fail("The Date selected it's out of RANGE.");
         }
-    }
-
-    public void clickOnDay(String date) {
-
-        driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+date+")]")).click();
     }
 
     public void verifyStartAndEndDates(String startDate, String endDate){
@@ -318,12 +514,134 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyOverviewPage();
     }
 
+    public  void verifyRepvisitsSetupWizardTimeZoneMilestones() {
+
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+
+        // getStartedBtn().click();
+        waitUntilPageFinishLoading();
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='High School Information']")).size()==0) {
+            button("Next").click();
+            waitUntilPageFinishLoading();
+        }
+        //verify UI
+        Assert.assertTrue("'Tell us about your high school' is not displayed", text("Tell us about your high school.").isDisplayed());
+        Assert.assertTrue("'Please specify your high school's time zone.' is not showing", text("Please specify your high school's time zone.").isDisplayed());
+
+        Assert.assertTrue(button("Back").isDisplayed());
+        Assert.assertTrue(button("Next").isDisplayed());
+
+    }
+
+
+    public void navigateToFairsAndVisistsAndVerifyEachScreen(){
+
+        //verifying the navigation of corresponding screen for 'Fairs' , 'Visits' and 'Visits and Fairs'
+
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@value='VISITS' and @type='radio']")).click();
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
+            button("Next").click();
+            waitUntilPageFinishLoading();
+        }
+
+        Assert.assertTrue("'Availability' is not displayed", text("Regular Weekly Hours").isDisplayed());
+
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
+            button("Next").click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue("'Availability' is not displayed", text("Regular Weekly Hours").isDisplayed());
+
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@value='FAIRS' and @type='radio']")).click();
+        while (driver.findElements(By.xpath("//a[@class='menu-link active']/span[text()='College Fairs']")).size()==0) {
+            button("Next").click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue("'College Fairs' is not displayed", text("College Fairs").isDisplayed());
+
+    }
+
+
+    public void verifyTimeZoneInRepVisits(String alreadySelectedTimeZone,String newTimeZone){
+
+        String timeZoneToSet;
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        button("Next").click();
+        //verify time zone saving properly
+        String timeZoneBeforeChange = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
+        if(timeZoneBeforeChange.contains(alreadySelectedTimeZone)) {
+             timeZoneToSet = newTimeZone ;
+        }
+         else{
+            timeZoneToSet = alreadySelectedTimeZone ;
+        }
+        setTimeZoneValue(timeZoneToSet);
+
+        button("Back").click();
+        button("Next").click();
+
+        String actualTimeZoneWhenBackBtnClicked = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
+        Assert.assertTrue("'Timezone saved when click on back button'", !actualTimeZoneWhenBackBtnClicked.contains(timeZoneToSet));
+
+        setTimeZoneValue(timeZoneToSet);
+        button("Next").click();
+
+        button("Back").click();
+
+        String actualTimeZoneWhenNextButtonClicked = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
+        Assert.assertTrue("'Timezone is not saved when click on Next button'", actualTimeZoneWhenNextButtonClicked.contains(timeZoneToSet));
+
+        button("Back").click();
+
+    }
+
+
+    public void verifyWelcomeWizard(){
+
+        load(GetProperties.get("hs.WizardAppWelcome.url"));
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Welcome to Repvisits' text is not displayed",text("Welcome to RepVisits").isDisplayed());
+        Assert.assertTrue("'Get Started' button is not displayed",getStartedBtn().isDisplayed());
+
+    }
+
+    public void clickGetStartedBtn(){
+        if(getStartedBtn().isDisplayed()){
+            getStartedBtn().click();
+        }
+
+    }
+
+    private WebElement getStartedBtn(){
+        return button("Get Started!");
+    }
+
+
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+    public void SetSpecialInstructionsForHEUser( String Instructions) {
+        getWebInstructions().clear();
+        getWebInstructions().sendKeys(Instructions);
+        button("Update Messaging").click();
+
+    }
+
+    public void VerifySpecialInstructionsForHE( String instructionsText){
+       Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
+    }
+
+    /*locators for Messaging Options Page*/
+    private WebElement getWebInstructions() {
+        return getDriver().findElement(By.id("webInstructions"));
+    }
 }
-
-
-
-

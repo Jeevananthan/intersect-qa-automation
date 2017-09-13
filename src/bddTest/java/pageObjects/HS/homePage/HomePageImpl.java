@@ -31,7 +31,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void goToCounselorCommunity(){
-        link(By.id("js-main-nav-home-menu-link")).click();
+        link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
         //navBar.goToCommunity();
     }
 

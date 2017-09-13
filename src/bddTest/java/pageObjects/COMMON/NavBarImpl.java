@@ -110,6 +110,8 @@ public class NavBarImpl extends SeleniumBase {
                 //Check Breadcrumbs
                 Assert.assertTrue(heading+ " is not correct in Breadcrumbs", heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
                 Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs", subMenu.equals(getSubMeunBreadcrumbs().getText()));
+
+
             }
         }
     }
