@@ -218,6 +218,25 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         return allOptions;
     }
 
+
+    public void verifyPlaceholdersByID(String action, DataTable dataTable){
+        waitUntilPageFinishLoading();
+        logger.info("\nVerifying field placeholders.");
+        Map<String,String> data = dataTable.asMap(String.class,String.class);
+        for (String key : data.keySet()) {
+            Assert.assertEquals("Institution profile " + key + "field placeholder is incorrect or missing.", data.get(key), driver.findElement(By.id(key)).getAttribute("placeholder"));
+        }
+
+        switch (action) {
+            case "Cancel":
+                cancelButton().click();
+                break;
+            case "Save":
+                saveChanges().click();
+                break;
+        }
+        waitUntilPageFinishLoading();
+    }
     private void jsClick(WebElement element) {
         driver.executeScript("arguments[0].click();",element);
     }
