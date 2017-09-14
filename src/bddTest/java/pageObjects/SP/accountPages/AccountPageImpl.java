@@ -102,6 +102,13 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         getEndDateButton().click();
     }
 
+    public void quoteChargeId(String value,String option)
+    {
+        Assert.assertTrue("quoteChargeId textbox is not displayed",driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//span[contains(text(),'"+option+"')]/../following-sibling::td/div/input")).isDisplayed());
+        driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//span[contains(text(),'"+option+"')]/../following-sibling::td/div/input']")).sendKeys(value);
+
+    }
+
     public void verifyStartDateFeasibility(){
         String endDate = getHubModuleRow().findElement(By.xpath("(//td[@class='_1dCEyx-42op_-Pf0-ie2T'])[2]")).getText();
         String month = endDate.substring(0, 3);

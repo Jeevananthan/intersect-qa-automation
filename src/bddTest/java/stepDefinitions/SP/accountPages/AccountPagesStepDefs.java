@@ -41,5 +41,7 @@ public class AccountPagesStepDefs implements En {
 
         Then ("^SP I verify the \"([^\"]*)\" should be \"([^\"]*)\" for \"([^\"]*)\"$",accountPage::verifyModuleDetails);
 
+        And("^SP I enter the quote charge id to the module using \"([^\"]*)\",\"([^\"]*)\"$",accountPage::quoteChargeId);
+
     }
 }
