@@ -49,12 +49,12 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
 
 @MATCH-2169
 Scenario Outline: HE Users - RepVisits - Availability Pills Updates
-  Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-  Then HS I set a date using "<StartDate>" and "<EndDate>"
-  And HS I verify the update button appears and I click update button
-  When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
-  Then HS I set the RepVisits Visits Confirmations option to "<Option>"
-  And HS I successfully sign out
+#  Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#  Then HS I set a date using "<StartDate>" and "<EndDate>"
+#  And HS I verify the update button appears and I click update button
+#  When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+#  Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+#  And HS I successfully sign out
 
   Given HE I am logged in to Intersect HE as user type "administrator"
   And HE I search for school in RepVisits using "<SchoolName>"

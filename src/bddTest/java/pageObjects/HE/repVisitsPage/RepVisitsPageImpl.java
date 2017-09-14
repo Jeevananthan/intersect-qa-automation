@@ -118,7 +118,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         driver.findElement(By.xpath("//span[text()='Visits']")).click();
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
-        driver.findElement(By.xpath("//button[text()='Date']")).click();
+        driver.findElement(By.xpath("//button[text()='Go To Date']")).click();
         setDate(date);
         driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).click();
     }
@@ -130,7 +130,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         findMonth(calendarHeading);
         clickOnDay(parts[1]);
-        waitUntilPageFinishLoading();
+       waitUntilPageFinishLoading();
             }
 
     public void clickOnDay(String date) {
