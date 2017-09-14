@@ -463,7 +463,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!contact.equals("")) {
             String[] contacts = contact.split(",");
-            String contactName = contacts[0] + contacts[1] + contacts[2];
             String actualContact = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[2]")).getText();
             Assert.assertTrue("College Contact Name is not Displayed", actualContact.contains(contacts[0]));
             Assert.assertTrue("College Email is not Displayed", actualContact.contains(contacts[1]));
@@ -481,7 +480,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
 
-    //locators
+
     private void doubleClick(WebElement elementLocator) {
         Actions actions = new Actions(driver);
         actions.doubleClick(elementLocator).perform();
