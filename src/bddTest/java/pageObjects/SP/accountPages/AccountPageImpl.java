@@ -104,8 +104,10 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     public void quoteChargeId(String value,String option)
     {
-        Assert.assertTrue("quoteChargeId textbox is not displayed",driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//span[contains(text(),'"+option+"')]/../following-sibling::td/div/input")).isDisplayed());
-        driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//span[contains(text(),'"+option+"')]/../following-sibling::td/div/input']")).sendKeys(value);
+        Assert.assertTrue("quoteChargeId textbox is not displayed",driver.findElement(By.xpath("//table/tbody//tr/td/span[text()='"+option+"']/../following-sibling::td/div/input")).isDisplayed());
+        driver.findElement(By.xpath("//table/tbody//tr/td/span[text()='"+option+"']/../following-sibling::td/div/input")).click();
+        driver.findElement(By.xpath("//table/tbody//tr/td/span[text()='"+option+"']/../following-sibling::td/div/input")).clear();
+        driver.findElement(By.xpath("//table/tbody//tr/td/span[text()='"+option+"']/../following-sibling::td/div/input")).sendKeys(value);
 
     }
 
