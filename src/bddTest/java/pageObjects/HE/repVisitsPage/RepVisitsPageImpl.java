@@ -118,10 +118,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         driver.findElement(By.xpath("//span[text()='Visits']")).click();
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
-        driver.findElement(By.xpath("//button[text()='Go To Date']")).click();
-        setDate(date);
+        selectDate(date);
         driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).click();
     }
+
+    public void selectDate(String date)
+    {
+        String[] value=date.split(" ");
+        driver.findElement(By.xpath("//button[text()='Go To Date']")).click();
+        String yearandmonth=value[0]+" "+value[2];
+        String element=driver.findElement(By.xpath("//div[@class='DayPicker-Month']/div")).getText();
+        if(yearandmonth.equals(element))
+        {
+            driver.findElement(By.xpath("//div[text()='"+value[1]+"']")).click();
+        }else{
+            while(!yearandmonth.equals(element))
+            {
+                driver.findElement(By.xpath("//div[@class='DayPicker-NavBar']/span[2]")).click();
+                element=driver.findElement(By.xpath("//div[@class='DayPicker-Month']/div")).getText();
+            }
+            driver.findElement(By.xpath("//div[text()='"+value[1]+"']")).click();
+        }}
 
     public void setDate(String inputDate) {
 
@@ -156,13 +173,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
-        Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+" EST')]")).isDisplayed());
+        Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+" PDT')]")).isDisplayed());
         driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]")).click();
     }
     public void  verifyPills(String time,String school)
     {
         try {
-            driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]//ancestor::tr//following-sibling::td//button[contains(text(),'"+time+"')]")).isDisplayed();
+            if(driver.findElement(By.xpath("//div[text()='"+school+"']/../../../../following-sibling::td//div/button[text()='"+time+"']")).isDisplayed())
             fail("Time slot is displayed");
         } catch (Exception e)
         {

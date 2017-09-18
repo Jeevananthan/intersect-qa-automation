@@ -49,12 +49,12 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
 
 @MATCH-2169
 Scenario Outline: HE Users - RepVisits - Availability Pills Updates
-#  Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-#  Then HS I set a date using "<StartDate>" and "<EndDate>"
-#  And HS I verify the update button appears and I click update button
-#  When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
-#  Then HS I set the RepVisits Visits Confirmations option to "<Option>"
-#  And HS I successfully sign out
+  Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+  Then HS I set a date using "<StartDate>" and "<EndDate>"
+  And HS I verify the update button appears and I click update button
+  When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+  Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+  And HS I successfully sign out
 
   Given HE I am logged in to Intersect HE as user type "administrator"
   And HE I search for school in RepVisits using "<SchoolName>"
@@ -65,4 +65,4 @@ Scenario Outline: HE Users - RepVisits - Availability Pills Updates
 
   Examples:
     |hsEndTime        |heStartTime      |heTime       |SchoolName                    |Date               |Day              |HourStartTime |HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits  |StartDate         |EndDate                  |Option                                                    |
-    |6:07pm           |5:11am           |05:11am      |Int QA High School 4          |November 6 2017    |Monday           |05            |06         |11             |07           |am               |pm             |3          |November 6 2017   |November 21 2017         |No, I want to manually review all incoming requests.      |
+    |11:10pm          |11:09am          |11:09am      |Int QA High School 4          |September 26 2017  |Tuesday          |11            |11         |09             |10           |am               |pm             |3          |September 26 2017 |November 21 2017         |No, I want to manually review all incoming requests.      |
