@@ -449,18 +449,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         for (String column : columns) {
             Assert.assertTrue("column Name " + column + " is not displaying as expected!", driver.findElement(By.xpath("//table[@id='he-account-dashboard']/thead/tr//th/span[text()='" + column + "']")).isDisplayed());
         }
-
+        //verify the College Fairs Details
         if(!collegeFairName.equals("")) {
-            String actualCollegeFairName = driver.findElement(By.xpath("//h1[text()='"+collegeFairName+"']")).getText();
-            Assert.assertTrue("College Fair Name is not Displayed", actualCollegeFairName.equals(collegeFairName));
+            Assert.assertTrue("College Fair Name is not Displayed",driver.findElement(By.xpath("//h1[text()='"+collegeFairName+"']")).isDisplayed());;
         }
-
         if(!date.equals("")) {
             String actualDate = driver.findElement(By.xpath("//div[@class='thirteen wide column']//b/span")).getText();
             String fairDate = verifySpecificDate(15);
             Assert.assertTrue("Date is not Displayed.", actualDate.equals(fairDate));
         }
-
         if(!instructionsforCollegeRepresentatives.equals("")) {
             String actualInstructionsforCollegeRepresentatives = driver.findElement(By.xpath("//div[@class='column']//p")).getText();
             Assert.assertTrue("Date is not Displayed.", actualInstructionsforCollegeRepresentatives.equals(instructionsforCollegeRepresentatives));
