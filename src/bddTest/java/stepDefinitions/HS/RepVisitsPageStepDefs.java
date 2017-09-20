@@ -53,7 +53,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Fair Details Page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairDetailsPage);
 
-        Then("^HS I verify the list of registered college fair attendees for the \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyListofRegisteredAttendee);
+        Then("^HS I verify the list of registered college fair attendees for the \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyListofRegisteredAttendee);
 
         And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
 

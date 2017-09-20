@@ -8,7 +8,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import static org.junit.Assert.fail;
@@ -234,6 +237,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void setSpecificDate(int addDays) {
+
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
     public void findMonth(String month) {
 
         String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
@@ -353,7 +370,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Date Textbox are not displayed",textbox(By.id("college-fair-date")).isDisplayed());
             WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             datepicker.click();
-            setDate(date);
+            setSpecificDate(15);
         }
         if(!startTime.equals("")) {
             Assert.assertTrue("Start Time TextBox is not displayed",textbox(By.id("college-fair-start-time")).isDisplayed());
@@ -367,7 +384,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("RSVP Deadline TextBox is not displayed",textbox(By.id("college-fair-rsvp-deadline")).isDisplayed());
             WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             RSVPdatepicker.click();
-            setDate(RSVPDate);
+            setSpecificDate(9);
         }
         if(!cost.equals("")) {
             Assert.assertTrue("Cost TextBox is not displayed",textbox(By.id("college-fair-cost")).isDisplayed());
@@ -394,8 +411,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             }
         }
     }
-
-
 
     public void accessSuccessMessageforFair(String buttonName){
         if(buttonName.equals("Close")){
@@ -442,7 +457,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         if(!date.equals("")) {
             String actualDate = driver.findElement(By.xpath("//div[@class='thirteen wide column']//b/span")).getText();
-            Assert.assertTrue("Date is not Displayed.", actualDate.equals(date));
+            String fairDate = verifySpecificDate(15);
+            Assert.assertTrue("Date is not Displayed.", actualDate.equals(fairDate));
         }
 
         if(!instructionsforCollegeRepresentatives.equals("")) {
@@ -451,7 +467,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyListofRegisteredAttendee(String name, String contact, String notes, String status) {
+    public void verifyListofRegisteredAttendee(String name, String contact, String notes, String status, String action) {
         int nameID = getColumnIdByFieldName("//table[@id='he-account-dashboard']//thead","Name");
         int rowID = getRowIdByColumnId("//table[@id='he-account-dashboard']//tbody",nameID,name);
         nameID = nameID+1;
@@ -464,9 +480,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(!contact.equals("")) {
             String[] contacts = contact.split(",");
             String actualContact = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[2]")).getText();
-            Assert.assertTrue("College Contact Name is not Displayed", actualContact.contains(contacts[0]));
-            Assert.assertTrue("College Email is not Displayed", actualContact.contains(contacts[1]));
-            Assert.assertTrue("College Phone Number is not Displayed", actualContact.contains(contacts[2]));
+            int contactsCount = contacts.length;
+            for(int i=0;i<contactsCount;i++){
+                Assert.assertTrue("College Contacts "+contacts[i]+" is not Displayed", actualContact.contains(contacts[i]));
+            }
         }
         if(!notes.equals("")) {
             String actualNotes = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[3]")).getText();
@@ -475,6 +492,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(!status.equals("")) {
             String actualStatus = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[4]")).getText();
             Assert.assertTrue("Status is not Displayed.", actualStatus.equals(status));
+        }
+        if(!action.equals("")) {
+            Assert.assertTrue("Cancel Button is not Displayed.", driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[5]//button/span[text()='CANCEL']")).isDisplayed());
         }
     }
 
@@ -543,6 +563,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
         return rowId;
+    }
+    public String verifySpecificDate(int addDays) {
+        String DATE_FORMAT_NOW = "MMMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 }
 
