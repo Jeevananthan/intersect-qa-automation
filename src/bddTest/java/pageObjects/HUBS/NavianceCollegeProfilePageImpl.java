@@ -3,9 +3,14 @@ package pageObjects.HUBS;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+
+import java.util.concurrent.TimeUnit;
 
 public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
 
@@ -21,7 +26,6 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         getStartedButton().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
-        driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
         verifyInstitutionalProfilePage();
         waitUntilPageFinishLoading();
         logger.info("HUBS Editor Mode opened");
@@ -36,6 +40,13 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void verifyInstitutionalProfilePage(){
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        wait.pollingEvery(500, TimeUnit.MILLISECONDS);
+        wait.until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.findElement(By.xpath("//h3[text()='Edit your college profile']")).isDisplayed();
+            }
+        });
         Assert.assertTrue("'Edit your college profile' page title is not displayed",driver.findElement(By.xpath("//h3[text()='Edit your college profile']")).isDisplayed());
         Assert.assertTrue("Text 'To get started – choose a category.'",driver.findElement(By.xpath("//div[text()='To get started – choose a category.']")).isDisplayed());
         Assert.assertTrue("Text 'This College Profile Page is using mock student data to replicate a student experience.' is not displayed",driver.findElement(By.xpath("//div/span[text()='This College Profile Page is using mock student data to replicate a student experience.']")).isDisplayed());
