@@ -639,9 +639,46 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void VerifySpecialInstructionsForHE( String instructionsText){
        Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
     }
+     public void clicklinkCollegeFair(){
+        navBar.goToRepVisits();
+        link("College Fair").click();
+     }
+     public  void clickViewDetails(String FairDetails, String FairName )
+     {
+      String columnNumber="";
+      if(FairDetails.equals("View Details")){
+          columnNumber="6";
+      }
 
-    /*locators for Messaging Options Page*/
+         driver.findElement(By.xpath("//td[text()='" + FairName + "']/../td[" + columnNumber + "]")).click();
+     }
+     public  void clickMessageCollegesButton(){
+         button("MESSAGE COLLEGES").click();
+     }
+     public void massEmailMessageForAttendees( String emailMessage){
+         getcollegefairattendeemsg().clear();
+         getcollegefairattendeemsg().sendKeys(emailMessage);
+     }
+
+     public void sendMessage(){
+         button("SEND MESSAGE").click();
+     }
+     public void verifySentEmailConfirmationMessage(){
+
+         Assert.assertTrue("Email Message Sent Confirmation  Message displayed",getDriver().findElement(By.cssSelector("#success-message-grid>p")).isDisplayed());
+     }
+
+     public void closeSendEmailMessageBox(){
+         button("Close").click();
+     }
+    /*locators for Messaging Options P
+    age*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
+    }
+
+    private WebElement getcollegefairattendeemsg(){
+        return getDriver().findElement(By.id("college-fair-attendee-msg"));
+
     }
 }

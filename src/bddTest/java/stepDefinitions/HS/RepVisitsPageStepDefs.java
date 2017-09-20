@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -31,17 +32,17 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
 
-        Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
+//        /*Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
 
-        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
+//        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
 
         Then("^HS I verify the \"([^\"]*)\" and \"([^\"]*)\" date was set in the calendar$", repVisits::verifyStartAndEndDates);
 
-        Then("^HS I verify the time zone in Repvisits Availability & Settings is \"([^\"]*)\"$",repVisits::verifyTimeZonePage);
+        Then("^HS I verify the time zone in Repvisits Availability & Settings is \"([^\"]*)\"$", repVisits::verifyTimeZonePage);
 
         And("^HS I set the RepVisits Availability & Settings time zone to \"([^\"]*)\"$", repVisits::setTimeZone);
 
-        And("^HS I click on Availability on the Availability & Settings tab in RepVisits$",repVisits::clickLinkAvailability);
+        And("^HS I click on Availability on the Availability & Settings tab in RepVisits$", repVisits::clickLinkAvailability);
 
         And("^HS I verify the Coming Soon message on the RepVisits Overview page$", repVisits::verifyOverviewPage);
 
@@ -51,18 +52,26 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
 
-        And ("^HS I verify the repvisit setup wizard displayed for high school information$",repVisits::verifyRepvisitsSetupWizardTimeZoneMilestones);
+        And("^HS I verify the repvisit setup wizard displayed for high school information$", repVisits::verifyRepvisitsSetupWizardTimeZoneMilestones);
 
-        Then ("^HS I check the time zone is selected as \"([^\"]*)\" and change it to \"([^\"]*)\"$",repVisits::verifyTimeZoneInRepVisits);
+        Then("^HS I check the time zone is selected as \"([^\"]*)\" and change it to \"([^\"]*)\"$", repVisits::verifyTimeZoneInRepVisits);
 
-        Then ("^HS I am verifying the welcome milestone in setup wizard$",repVisits::verifyWelcomeWizard);
+        Then("^HS I am verifying the welcome milestone in setup wizard$", repVisits::verifyWelcomeWizard);
 
-        And ("^HS I click the Get Started button in the welcome milestone page$",repVisits::clickGetStartedBtn);
+        And("^HS I click the Get Started button in the welcome milestone page$", repVisits::clickGetStartedBtn);
 
-        And ("^HS I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
+        And("^HS I navigate to college fairs,visits through availability option$", repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
 
-        Then ("^HS I set the Visit Availability of RepVisits Availability Settings to \"([^\"]*)\"$",repVisits::accessVisitAvailability);
+        Then("^HS I set the Visit Availability of RepVisits Availability Settings to \"([^\"]*)\"$", repVisits::accessVisitAvailability);
 
-        Then ("^HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with \"([^\"]*)\"$",repVisits::verifyVisitAvailability);
+        Then("^HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with \"([^\"]*)\"$", repVisits::verifyVisitAvailability);
+        Then("^HS I Navigate to College Fairs tab of the Repvisits page$", repVisits::clicklinkCollegeFair);
+        Then("^HS I click the \"([^\"]*)\" link against Fair Name \"([^\"]*)\"$", repVisits::clickViewDetails);
+        Then("^HS I click the Message Colleges button$",repVisits::clickMessageCollegesButton);
+        Then("^HS I Enter Message as \"([^\"]*)\"$",repVisits::massEmailMessageForAttendees);
+        Then("^HS I click on Send Message$",repVisits::sendMessage);
+        Then("^HS I verify confirmation message$",repVisits::verifySentEmailConfirmationMessage);
+        Then("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
+
     }
 }
