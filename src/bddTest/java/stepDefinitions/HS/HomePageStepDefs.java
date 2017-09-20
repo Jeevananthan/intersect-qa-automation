@@ -20,6 +20,6 @@ public class HomePageStepDefs implements En {
 
         And ("^HS I go to the Rep Visits$",navBar::goToRepVisits);
 
-        Then("^HS I verify the left navigation bar and section breadcrumbs are as follows$",navigateBar::verifyLeftNavAndBreadcrumbs);
+        Then("^HS I verify the left navigation bar and section breadcrumbs are as follows$",navBar::verifyLeftNavAndBreadcrumbs);
     }
 }
