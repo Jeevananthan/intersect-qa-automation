@@ -61,6 +61,17 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     And HE I verify the "Users" nav link is not displaying for this user
     Then HE I successfully sign out
 
+
+  @MATCH-1496
+  Scenario: As an HE user I want the Intersect left navigation bar to be better organized and labeled.
+    Given  HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the left navigation bar and section breadcrumbs are as follows
+      | Awareness | Counselor Community |
+      | Awareness | Naviance College Profile |
+    And HE I verify the left navigation bar and section breadcrumbs are as follows
+      |Presence |RepVisits |
+    Then HE I successfully sign out
+
   @MATCH-1548
   Scenario: As an HE Freemium user, I want to be able to access Experience the full benefits of the Counselor Community page.
     Given HE I am logged in to Intersect HE as user type "limited"

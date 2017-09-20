@@ -36,7 +36,6 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-
     public void setPrimaryUser(String userName) {
         takeUserAction(userName,"Assign as Primary");
         button("YES").click();

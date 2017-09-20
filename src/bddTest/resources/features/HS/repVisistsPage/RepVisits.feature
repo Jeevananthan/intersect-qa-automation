@@ -184,3 +184,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I verify Repvisits Special Instructions for School are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
     And HE I successfully sign out
 
+  @MATCH-1496
+  Scenario: As an HS user I want the Intersect left navigation bar to be better organized and labeled.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the left navigation bar and section breadcrumbs are as follows
+      | Awareness | Counselor Community |
+    Then HS I verify the left navigation bar and section breadcrumbs are as follows
+      |Presence |RepVisits |
+    And HS I successfully sign out

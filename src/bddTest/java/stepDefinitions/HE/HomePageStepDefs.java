@@ -9,7 +9,7 @@ public class HomePageStepDefs implements En {
     public HomePageStepDefs() {
 
         HomePageImpl homePage = new HomePageImpl();
-        NavBarImpl navBar = new NavBarImpl();
+         NavBarImpl navBar = new NavBarImpl();
 
         Then("^HE I am able to successfully login$", homePage::verifyUserIsLoggedIn);
 
@@ -45,8 +45,5 @@ public class HomePageStepDefs implements En {
         And("^HE I verify the \"([^\"]*)\" nav link is displaying for this user$",navBar::verifySubMenuIsVisible);
 
         And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
-
-
-
     }
 }
