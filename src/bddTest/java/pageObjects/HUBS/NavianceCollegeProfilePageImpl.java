@@ -1,9 +1,10 @@
-package pageObjects.HE.HUBSEditMode;
+package pageObjects.HUBS;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
@@ -19,9 +20,11 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         verifyVieworEditYourCollegeProfileinNaviance();
         getStartedButton().click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
         driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
         verifyInstitutionalProfilePage();
         waitUntilPageFinishLoading();
+        logger.info("HUBS Editor Mode opened");
     }
 
     public void verifyVieworEditYourCollegeProfileinNaviance(){

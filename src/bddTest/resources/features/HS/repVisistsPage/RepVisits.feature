@@ -45,6 +45,45 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the Coming Soon message on the RepVisits Overview page
     And HS I successfully sign out
 
+  @MATCH-1574 @MATCH-1802
+  Scenario Outline: As a high school staff member,
+  I want to be able to view the weekly recurring time slots that my school is available for visits
+  so that colleges can manage those availabilities.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+    Then HS I verify the Time Slot time were added with "<HourStartTime>", "<MinuteStartTime>" and "<MeridianStartTime>"
+    And HS I successfully sign out
+
+    Examples:
+      |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
+      |Monday           | 1             |02          | 11             | 7             | am                | am              | 3          | August 29 2017         |August 30 2017      |
+#      |Monday           | 2             |03          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 3             |04          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 4             |05          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 5             |06          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 6             |07          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 7             |08          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 8             |09          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 9             |10          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 10             |11          | 11             | 7             | am                |am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 11             |12          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 12             |06          | 11             | 7             | am                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 1             |02          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 2             |03          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 3             |04          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 4             |05          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 5             |06          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 6             |07          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 7             |08          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 8             |09          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 9             |10          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 10             |11          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 11             |12          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Monday           | 12             |06          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
+#      |Tuesday          | 5             |07          | 12             | 8             | pm                | pm              | 99         | August 15 2017       |September 23 2017 |
+
+
   @MATCH-1574
   Scenario: As a high school staff member,
             I want to be able to view the weekly recurring time slots that my school is available for visits
@@ -99,4 +138,57 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |45|
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I successfully sign out
+
+  @MATCH-1585
+  Scenario: As a high school community member, I want to publish or hide my college visit availability,
+            so that I can control when colleges can only schedule college visits.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
+    Then HS I go to the Counselor Community
+    Then HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with "Only Me"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I go to the Counselor Community
+    Then HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with "All RepVisits Users"
+    And HS I successfully sign out
+
+   @MATCH-1944
+   Scenario: As a new RepVisits user,I want a setup wizard with an introduction that describes what the system does
+             so that I can be encouraged to set up my RepVisits account.
+      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+      Then HS I am verifying the welcome milestone in setup wizard
+      And HS I click the Get Started button in the welcome milestone page
+      And HS I navigate to college fairs,visits through availability option
+      And HS I successfully sign out
+
+   @MATCH-1945
+   Scenario: As a new RepVisits user,I want the setup wizard to confirm my school's timezone
+             So that I can be sure my appointments will be scheduled at the right time.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I verify the repvisit setup wizard displayed for high school information
+    Then HS I check the time zone is selected as "America/Mexico_City" and change it to "America/New_York"
+    And HS I navigate to college fairs,visits through availability option
+    And HS I successfully sign out
+
+  @MATCH-1580
+  Scenario: As a HS Repvisit user Set Repvist availability Messages Instructions for HE on scheduling page
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then  HS I verify the Availability & Settings tab of the RepVisits page
+    And HS I verify the UI of the Messaging Options Page
+    And HS I set the Special Instructions Text as "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allowed are 250 . This text contains more than 250 characters";
+    And HS I verify the Special Instructions are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
+    And HS I successfully sign out
+    And HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "Int QA High School 4" in RepVisits
+    And HE I select "Int QA High School 4" in "Arlington, VA" from the RepVisits intermediate search results
+    And HE I verify Repvisits Special Instructions for School are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
+    And HE I successfully sign out
+
+  @MATCH-1496
+  Scenario: As an HS user I want the Intersect left navigation bar to be better organized and labeled.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the left navigation bar and section breadcrumbs are as follows
+      | Awareness | Counselor Community |
+    Then HS I verify the left navigation bar and section breadcrumbs are as follows
+      |Presence |RepVisits |
     And HS I successfully sign out
