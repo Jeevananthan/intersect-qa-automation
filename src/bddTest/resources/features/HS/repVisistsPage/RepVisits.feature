@@ -184,7 +184,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I verify Repvisits Special Instructions for School are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
     And HE I successfully sign out
 
-@MATCH-1464 #CHanged file name to MATCH-1464-Mandeep
+@MATCH-1464
   Scenario: As a HS Repvisit user send Mass email to college fair attendees
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs1" and username "school-user" and password "password"
     Then  HS I Navigate to College Fairs tab of the Repvisits page
