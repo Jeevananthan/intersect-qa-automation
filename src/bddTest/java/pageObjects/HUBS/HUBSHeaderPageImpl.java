@@ -16,7 +16,7 @@ public class HUBSHeaderPageImpl extends PageObjectFacadeImpl {
 
     public void clickLogOut() {
         waitUntil(ExpectedConditions.elementToBeClickable(logOutButton()));
-        logOutButton().click();
+        logOutButton().sendKeys();
         waitUntilPageFinishLoading();
         logger.info("User signed out HUBS");
     }

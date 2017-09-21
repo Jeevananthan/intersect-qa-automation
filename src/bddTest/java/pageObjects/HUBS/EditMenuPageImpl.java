@@ -17,8 +17,15 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
 
     public void clickEditMenuButton(String label) {
         waitUntilPageFinishLoading();
-        new WebDriverWait(getDriver(), 60).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='editor-status ng-scope']")));
-        studiesButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='editor-status ng-scope']"), 1));
+        switch (label) {
+            case "Studies" : studiesButton().click();
+                break;
+            case "Student Life" : studentLifeButton().click();
+                break;
+            case "Overview" : overviewButton().click();
+                break;
+        }
         logger.info(label + " button was clicked");
     }
 
@@ -26,4 +33,6 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement studiesButton() {
         return getDriver().findElement(By.xpath("//li[text()='Studies']"));
     }
+    private WebElement studentLifeButton() { return getDriver().findElement(By.xpath("//li[text()='Student Life']")); }
+    private WebElement overviewButton() { return getDriver().findElement(By.xpath("//li[text()='Overview']")); }
 }

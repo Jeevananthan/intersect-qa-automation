@@ -19,8 +19,13 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
         WebElement button = null;
         switch (buttonLabel) {
             case "Studies" : button = studiesButton();
-                break;
+            break;
+            case "Student Life" : button = studentLifeButton();
+            break;
+            case "Overview" : button = overviewButton();
+            break;
         }
+        waitUntil(ExpectedConditions.elementToBeClickable(button));
         button.click();
         waitUntilPageFinishLoading();
         logger.info(buttonLabel + " button clicked");
@@ -29,5 +34,11 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     //Locators
     private WebElement studiesButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Studies\")]"));
+    }
+    private WebElement studentLifeButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), \"Student Life\")]"));
+    }
+    private WebElement overviewButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), \"Overview\")]"));
     }
 }

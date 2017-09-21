@@ -4,11 +4,15 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.HUBSEditMode.Navigation;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
 
@@ -32,25 +36,33 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         dropdown.selectByVisibleText(option);
     }
 
-    public void approveChangesInCMS(DataTable CMSDetails) {
-        List<String> creds = CMSDetails.asList(String.class);
-        cmsLogin.defaultLogIn(creds);
-        chooseInstitution.searchInstitution(creds.get(2));
-        String originalWindow = navigation.getWindowHandle();
-        chooseInstitution.clickSingleResult();
-        institutionPage.openUndergradAdmissionsNode();
-        clickModerateButton();
-        selectOptionPublishDropdown(creds.get(3));
-        applyButton().click();
+    public void approveChangesInCMS(String userMail, DataTable CMSDetails) {
+        List<String> details = CMSDetails.asList(String.class);
+        cmsLogin.defaultLogIn(details);
+        workflowOverviewButton().click();
+        userEmailTextBox().sendKeys(userMail);
         waitUntilPageFinishLoading();
-        navigation.closeNewTabAndSwitchToOriginal(originalWindow);
-        chooseInstitution.clickSingleResult();
-        institutionPage.openStudentBodyNode();
-        clickModerateButton();
-        selectOptionPublishDropdown(creds.get(3));
-        applyButton().click();
+        List<String> rowsTitles = new ArrayList<>();
+        for (WebElement rowTitle : workflowRowsTitles()) {
+            rowsTitles.add(rowTitle.getText());
+        }
+        Set<String> uniqueRowTitles = new HashSet<>(rowsTitles);
+        int numberOfRows = uniqueRowTitles.size();
         waitUntilPageFinishLoading();
-        navigation.closeNewTabAndSwitchToOriginal(originalWindow);
+        userEmailTextBox().clear();
+        for (int i = 0; i < numberOfRows; i++) {
+            userEmailTextBox().sendKeys(userMail);
+            waitUntilPageFinishLoading();
+            WebElement workFlowRow = getDriver().findElements(By.cssSelector("table.views-table.sticky-enabled tbody tr")).get(workflowRowsTitles().size() - 1);
+            WebElement institutionCell = workFlowRow.findElement(By.cssSelector("td.views-field.views-field-institution"));
+            if (institutionCell.getText().equals(details.get(2))) {
+                workFlowRow.findElement(By.cssSelector("td.views-field.views-field-approve-action a")).click();
+                approveButton().click();
+                waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
+                workflowOverviewButton().click();
+            }
+        }
+
         logger.info("Changes were approved in CMS");
     }
 
@@ -65,4 +77,9 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement applyButton() {
         return getDriver().findElement(By.id("edit-submit"));
     }
+    private WebElement workflowOverviewButton() { return getDriver().findElement(By.xpath("//div[@id='admin-menu-wrapper']/ul[2]/li[1]")); }
+    private List<WebElement> workflowRowsTitles() { return getDriver().findElements(By.cssSelector("table.views-table.sticky-enabled tbody tr td.views-field-title a")); }
+    private WebElement approveButton() { return getDriver().findElement(By.cssSelector("input#edit-submit")); }
+    private WebElement confirmationMessage() { return getDriver().findElement(By.cssSelector("div.messages.status")); }
+    private WebElement userEmailTextBox() { return getDriver().findElement(By.cssSelector("input#edit-api-user-email")); }
 }
