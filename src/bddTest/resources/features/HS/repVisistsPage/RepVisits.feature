@@ -124,7 +124,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1578
   Scenario: As a HS RepVisits user I want to be able to use the Availability and Settings tab of RepVisits to Set Visit Scheduling
-  I want to able to set the scheduling new visits in advance and set the cancelling or rescheduling visits in advance
+    I want to able to set the scheduling new visits in advance and set the cancelling or rescheduling visits in advance
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "56"
     Then HS I go to the Counselor Community
@@ -192,3 +192,20 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I verify the left navigation bar and section breadcrumbs are as follows
       |Presence |RepVisits |
     And HS I successfully sign out
+
+
+  @MATCH-1576
+  Scenario Outline: As a HS RepVisits user, I want to be able to Block specific days and date ranges in the Holidays tab of the Availability and Settings page
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the Blocked date as "<BlockedDate>" and select the reason as "<Reason>" in the Holiday tab
+    Then HS I go to the Counselor Community
+    Then HS I verify the "<StartDate>" and "<EndDate>" date with "<Reason>" was present in the Holidays tab in the Availability & Settings page in RepVisits
+    Then HS I click the Remove option for the "<StartDate>" and "<EndDate>" in the Holiday tab
+    Then HS I go to the Counselor Community
+    Then HS I verify the "<StartDate>" and "<EndDate>" date with "<Reason>" was not present in the Holidays tab in the Availability & Settings page in RepVisits
+    And HS I successfully sign out
+      Examples:
+      |BlockedDate          |Reason       |StartDate  | EndDate   |
+      |September 23 2017    |School Event |2017-09-23 | 2017-09-23|
+
+
