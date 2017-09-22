@@ -89,12 +89,12 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void loginAsACommunityUser() {
-        login(GetProperties.get("adminPage.communityUser.username"), GetProperties.get("adminPage.communityUser.password"));
+        login(GetProperties.get("sp.communityUser.username"), GetProperties.get("sp.communityUser.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 
     public void loginAsACommunityManagerUser() {
-        login(GetProperties.get("adminPage.communityManager.username"), GetProperties.get("adminPage.communityManager.password"));
+        login(GetProperties.get("sp.communityManager.username"), GetProperties.get("sp.communityManager.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 
