@@ -117,6 +117,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
 }
 
+
+    public void verifyUpgradeMessageInContactsInRepVisits(){
+
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
+    }
+
+    public void verifyUpgradeMessageInRecommendationsInRepVisits(){
+
+        navBar.goToRepVisits();
+        getRecommendationsBtn().click();
+        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
+    }
+
     private WebElement getOverviewBtn() {
         return link("Overview");
     }
@@ -132,9 +151,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getContactsBtn() {
         return link("Contacts");
     }
-    private WebElement getRecommendationsBtn() {
-        return link("Recommendations");
-    }
+    private WebElement getRecommendationsBtn() {return link("Recommendations");}
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
