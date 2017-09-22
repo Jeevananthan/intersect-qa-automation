@@ -96,6 +96,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     //locators
+    public void verifyHSSpecialInstructions(String instructions)
+    {
+        Assert.assertTrue("High School specila instructions are not matching/available",getParent(driver.findElement(By.className("kuh1rp3g-UeGhggKqCdPA"))).findElement(By.cssSelector("div:nth-child(4)")).getText().contains(instructions));
+    }
     public void selectSchoolFromMap(String schoolName) {
         button(schoolName).click();
         waitUntilPageFinishLoading();
