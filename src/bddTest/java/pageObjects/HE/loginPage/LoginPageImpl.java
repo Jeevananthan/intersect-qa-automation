@@ -150,12 +150,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
                 }
             }
         }
-
-        Actions ob = new Actions(driver);
-        ob.click(iamNotRobotChk());
-
-        //driver.executeScript("arguments[0].click();",iamNotRobotChk());
-
+        iamNotRobotChk();
         button("Request User").click();
         if(text("Your request has been submitted.").isDisplayed()){
                 button("OK").click();
@@ -376,8 +371,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
 
     }
-    private WebElement iamNotRobotChk() {
-        return driver.findElement(By.xpath("//span[@id='recaptcha-anchor']"));
+    private void iamNotRobotChk() {
+        driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+        driver.findElement(By.xpath("//span[@id='recaptcha-anchor']")).click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
     }
 
     private WebElement usernameTextbox() {

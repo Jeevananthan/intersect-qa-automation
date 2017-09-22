@@ -271,7 +271,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       |text      |text     |email |email       |text     |
     And HS I enter the following data in request user page
       |firstName |lastName |email                 |verifyEmail           |jobTitle |
-      |mahi      |qateam   |kpmahi93+12@gmail.com |kpmahi93+12@gmail.com |test role     |
+      |mahi      |qateam   |kpmahi93+12@gmail.com |kpmahi93+12@gmail.com |test role|
 
   @MATCH-1781
   Scenario: As a HS user, I need to be able to search for high schools during the registration process.
