@@ -641,7 +641,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(blockdate);
         setDateDoubleClick(blockdate);
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
-        doubleClick(selectReason);
+        selectReason.click();
+        try {wait(2000);} catch (Exception e) {}
+        selectReason.click();
         WebElement pickReason = driver.findElement(By.xpath("//span[text()='"+reason+"']"));
         pickReason.click();
         addBlockedTime().click();
@@ -765,8 +767,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement addBlockedTime(){
         return button(By.cssSelector("button[class='ui primary button _2r0LAIwbM94mTAqf-2YGUG']"));
     }
-
-}
 
     public void VerifySpecialInstructionsForHE( String instructionsText){
        Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
