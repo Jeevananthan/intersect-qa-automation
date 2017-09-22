@@ -229,6 +229,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
+
+
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));

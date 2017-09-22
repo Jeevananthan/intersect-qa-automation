@@ -38,6 +38,10 @@ public class LoginPageStepDefs implements En {
 
         Then("^HE I validate all fields in request user page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",loginPage::validateFields);
 
+        Given("^HE I navigate to the Intersect Registration app$",loginPage::navigateToRegistrationPage);
+
+        Then ("^HE I select \"([^\"]*)\" and verify that the appropriate text is displayed$",loginPage::goToAppropriateRegistrationpage);
+
 
     }
 }
