@@ -26,7 +26,20 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("User did not sign out", text("You have been logged out.").isDisplayed());
+        driver.manage().deleteAllCookies();
+        Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
+    }
+
+    public void goToCounselorCommunity(){
+        link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
+        //navBar.goToCommunity();
+    }
+
+    public void verifyTitleHS(String generalCategoryName,String pageName){
+
+        //this function is used to verify the page title in HS app
+        Assert.assertTrue("General Category Name is not displayed in the title name ",driver.findElement(By.xpath("//div[text()='"+generalCategoryName+"']")).isDisplayed());
+        Assert.assertTrue("Page Name is not displayed in the title name ",driver.findElement(By.xpath("//div[text()='"+pageName+"']")).isDisplayed());
     }
 
     private WebElement userDropdown() {

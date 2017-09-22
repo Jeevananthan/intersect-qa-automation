@@ -1,10 +1,14 @@
 package pageObjects.COMMON;
 
+import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import selenium.SeleniumBase;
+
+import java.util.List;
+import java.util.Map;
 
 public class NavBarImpl extends SeleniumBase {
 
@@ -89,6 +93,30 @@ public class NavBarImpl extends SeleniumBase {
         }
     }
 
+    //The below method is to verify the Breadcrumbs along with corresponding heading.
+    public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
+        Map<String, String> map = dataTable.asMap(String.class, String.class);
+        for (Map.Entry pair : map.entrySet()){
+            String heading = pair.getKey().toString();
+            String[] content = pair.getValue().toString().split(",");
+            for (String subMenu : content) {
+                WebElement itemLink = driver.findElement(By.xpath("(//span[contains(text(),'"+subMenu+"')])[2]"));
+                // Check Heading
+                WebElement section = getParent(getParent(getParent(itemLink)));
+                WebElement container = section.findElement(By.className("_3zoxpD-z3dk4-NIOb73TRl"));
+                WebElement headerSpan = container.findElement(By.tagName("span"));
+                Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect, expected \"" + heading + "\"",headerSpan.getText().toLowerCase().contains(heading.toLowerCase()));
+                itemLink.click();
+                waitUntilPageFinishLoading();
+                //Check Breadcrumbs
+                Assert.assertTrue(heading+ " is not correct in Breadcrumbs, actual value is: " + getHeadingBreadcrumbs().getText(), heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
+                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs, actual value is: " + getSubMeunBreadcrumbs().getText(), subMenu.equals(getSubMeunBreadcrumbs().getText()));
+
+
+            }
+        }
+    }
+
     private boolean isLinkActive(WebElement link) {
         //_28hxQ33nAx_7ae3SZ4XGnj is the class that is added to indicate css active
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
@@ -109,5 +137,21 @@ public class NavBarImpl extends SeleniumBase {
     }
     private WebElement getUsersBtn() {
         return link(By.id("js-main-nav-manage-users-menu-link"));
+    }
+    private WebElement getHeadingBreadcrumbs(){
+        List<WebElement> items = driver.findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
+        for (WebElement item : items) {
+            if (item.getText().length() > 0)
+                return item;
+        }
+        return null;
+    }
+    private WebElement getSubMeunBreadcrumbs() {
+        List<WebElement> items = driver.findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
+        for (WebElement item : items) {
+            if (item.getText().length() > 0)
+                return item;
+        }
+        return null;
     }
 }
