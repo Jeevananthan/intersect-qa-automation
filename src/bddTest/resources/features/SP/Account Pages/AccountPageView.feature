@@ -77,12 +77,24 @@ Feature: Hobsons Support - View HE Institution Accounts
       Given SP I am logged in to the Admin page as an Admin user
       When SP I search for "2100209"
       And SP I select the following institution "Bowling Green State University-Main Campus" from the results
+
       And SP I set the "Legacy: Hub page management" module to "active" in the institution page
       And SP I set the Start Date as "June 13 2017" for "Legacy: Hub page management"
       And SP I set the End Date as "June 15 2018" for "Legacy: Hub page management"
-      And SP I enter the quote charge id to the module using "5","Legacy: Hub page management"
+
+      And SP I set the "Legacy: Community" module to "active" in the institution page
+      And SP I set the Start Date as "June 13 2017" for "Legacy: Community"
+      And SP I set the End Date as "June 15 2018" for "Legacy: Community"
+
+      And SP I set the "Intersect Awareness Subscription" module to "active" in the institution page
+      And SP I set the Start Date as "June 13 2017" for "Intersect Awareness Subscription"
+      And SP I set the End Date as "June 15 2018" for "Intersect Awareness Subscription"
+
+      And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+      And SP I set the Start Date as "June 13 2017" for "Intersect Presence Subscription"
+      And SP I set the End Date as "June 15 2018" for "Intersect Presence Subscription"
+
       And SP I Click the Save Changes button
-      And SP I successfully sign out
 
       Then SP I verify the "status" should be "active" for "Legacy: Hub page management"
       Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Legacy: Hub page management"
@@ -91,106 +103,34 @@ Feature: Hobsons Support - View HE Institution Accounts
       And SP I Click the Save Changes button
       Then SP I verify the "status" should be "inactive" for "Legacy: Hub page management"
 
-      And SP I set the "Legacy: Hub page management" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Legacy: Hub page management"
-      And SP I set the End Date as "June 15 2018" for "Legacy: Hub page management"
-      And SP I Click the Save Changes button
-      #verify the status that automatically changed after date has passed
-      Given SP I am logged in to the Admin page as an Admin user
-      When SP I search for "2100209"
-      And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-      And SP I set the Start Date as "June 13 2017" for "Legacy: Hub page management"
-      And SP I set the End Date as "June 15 2017" for "Legacy: Hub page management"
-      And SP I Click the Save Changes button
-      Then SP I verify the "status" should be "inactive" for "Legacy: Hub page management"
-
-
-      When SP I search for "2100209"
-      And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-      And SP I set the "Legacy: Community" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Legacy: Community"
-      And SP I set the End Date as "June 15 2018" for "Legacy: Community"
-      And SP I enter the quote charge id to the module using "15","Legacy: Community"
-      And SP I Click the Save Changes button
-      #set inactive before date has ended
       Then SP I verify the "status" should be "active" for "Legacy: Community"
       Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Legacy: Community"
       Then SP I verify the "End Date" should be "Jun 15, 2018" for "Legacy: Community"
       And SP I set the "Legacy: Community" module to "inactive" in the institution page
       And SP I Click the Save Changes button
       Then SP I verify the "status" should be "inactive" for "Legacy: Community"
-      #set active
-      And SP I set the "Legacy: Community" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Legacy: Community"
-      And SP I set the End Date as "June 15 2018" for "Legacy: Community"
-      And SP I Click the Save Changes button
-      #verify the status that automatically changed after date has passed
-      Given SP I am logged in to the Admin page as an Admin user
-      When SP I search for "2100209"
-      And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-      And SP I set the Start Date as "June 13 2017" for "Legacy: Community"
-      And SP I set the End Date as "June 15 2017" for "Legacy: Community"
-      And SP I Click the Save Changes button
-      Then SP I verify the "status" should be "inactive" for "Legacy: Community"
 
-
-      When SP I search for "2100209"
-      And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-      And SP I set the "Intersect Awareness Subscription" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Intersect Awareness Subscription"
-      And SP I set the End Date as "June 15 2018" for "Intersect Awareness Subscription"
-      And SP I enter the quote charge id to the module using "35","Intersect Awareness Subscription"
-      And SP I Click the Save Changes button
-    #set inactive before date has passed
       Then SP I verify the "status" should be "active" for "Intersect Awareness Subscription"
       Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Intersect Awareness Subscription"
       Then SP I verify the "End Date" should be "Jun 15, 2018" for "Intersect Awareness Subscription"
       And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
       And SP I Click the Save Changes button
       Then SP I verify the "status" should be "inactive" for "Intersect Awareness Subscription"
-      #set active
-      And SP I set the "Intersect Awareness Subscription" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Intersect Awareness Subscription"
-      And SP I set the End Date as "June 15 2018" for "Intersect Awareness Subscription"
-      And SP I Click the Save Changes button
-      #verify the status that automatically changed after date has passed
-      Given SP I am logged in to the Admin page as an Admin user
-      When SP I search for "2100209"
-      And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-      And SP I set the Start Date as "June 13 2017" for "Intersect Awareness Subscription"
-      And SP I set the End Date as "June 15 2017" for "Intersect Awareness Subscription"
-      And SP I Click the Save Changes button
-      Then SP I verify the "status" should be "inactive" for "Intersect Awareness Subscription"
 
-
-      When SP I search for "2100209"
-      And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-      And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Intersect Presence Subscription"
-      And SP I set the End Date as "June 15 2018" for "Intersect Presence Subscription"
-      And SP I enter the quote charge id to the module using "45","Intersect Presence Subscription"
-      And SP I Click the Save Changes button
-      #set inactive before date has passed
       Then SP I verify the "status" should be "active" for "Intersect Presence Subscription"
       Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Intersect Presence Subscription"
       Then SP I verify the "End Date" should be "Jun 15, 2018" for "Intersect Presence Subscription"
       And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
       And SP I Click the Save Changes button
       Then SP I verify the "status" should be "inactive" for "Intersect Presence Subscription"
-      #set active
-      And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Intersect Presence Subscription"
-      And SP I set the End Date as "June 15 2018" for "Intersect Presence Subscription"
-      And SP I Click the Save Changes button
-      #verify the status that automatically changed after date has passed
-      Given SP I am logged in to the Admin page as an Admin user
-      When SP I search for "2100209"
-      And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-      And SP I set the Start Date as "June 13 2017" for "Intersect Presence Subscription"
-      And SP I set the End Date as "June 15 2017" for "Intersect Presence Subscription"
-      And SP I Click the Save Changes button
-      Then SP I verify the "status" should be "inactive" for "Intersect Presence Subscription"
+
+
       And SP I successfully sign out
+
+
+
+
+
 
 
 
