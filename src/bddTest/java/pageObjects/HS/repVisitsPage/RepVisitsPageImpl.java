@@ -767,7 +767,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Add a College Fair Button is not present",getDriver().findElement(By.cssSelector(".ui.small.button.ui.primary.button")).isDisplayed());
 
     }
-}
+
     public void SetSpecialInstructionsForHEUser( String Instructions) {
         getWebInstructions().clear();
         getWebInstructions().sendKeys(Instructions);

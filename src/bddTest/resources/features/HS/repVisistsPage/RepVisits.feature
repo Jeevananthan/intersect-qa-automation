@@ -99,9 +99,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the College Fair Blank DashBoard Message
     And HS I successfully sign out
 
-
-
-
   @MATCH-1595
   Scenario: As a HS RepVisits user I can able to access the Visit Confirmation in the Availability Settings page
             So that i can able to fix the appointment for the High school
@@ -202,7 +199,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I verify the left navigation bar and section breadcrumbs are as follows
       |Presence |RepVisits |
     And HS I successfully sign out
-
 
   @MATCH-1576
   Scenario Outline: As a HS RepVisits user, I want to be able to Block specific days and date ranges in the Holidays tab of the Availability and Settings page
