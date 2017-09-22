@@ -4,7 +4,9 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -385,7 +387,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         System.out.println();
         logger.info("Creating a Job Fair under RepVisits.");
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         link("College Fairs").click();
+        waitUntilPageFinishLoading();
         button("ADD A COLLEGE FAIR").click();
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String key : data.keySet()) {
@@ -397,6 +401,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void fillAddCollegeFairFields(String field, String data) {
         switch (field) {
             case "Automatically Confirm Incoming Requestions From Colleges?":
+                // Scroll to the end of the form
+                /*Actions actions = new Actions(driver);
+                actions.moveToElement(button("Save")).perform();*/
+                JavascriptExecutor jse = (JavascriptExecutor)driver;
+                jse.executeScript("window.scrollBy(0,250)", "");
+                Actions actions = new Actions(driver);
+                actions.moveToElement(driver.findElement(By.id("college-fair-automatic-request-confirmation-yes"))).perform();
                 if(data.equalsIgnoreCase("yes")) {
                     radioButton(By.id("college-fair-automatic-request-confirmation-yes")).click();
                 }
@@ -475,6 +486,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 startTime.click();
                 startTime.sendKeys(data);
                 break;
+            case "Cost":
+                fairCost().sendKeys(data);
+                break;
             default:
                 textbox(By.name(field.toLowerCase())).sendKeys(data);
                 break;
@@ -486,6 +500,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+    private WebElement fairCost() { return getDriver().findElement(By.id("college-fair-cost")); }
 }
 
 

@@ -107,6 +107,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I create a Job Fair
       | College Fair Name                                         | Daniel Fair             |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
       | Cost                                                      | 10                      |
       | Start Time                                                | 0800AM                  |
       | Date                                                      | June 10, 2018           |
@@ -115,7 +116,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       | Max Number of Colleges                                    | 10                      |
       | Number of Students Expected                               | 100                     |
       | Instructions for College Representatives                  | Submit request by Email |
-      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
       | Email Message to Colleges After Confirmation              | why not                 |
     And HS I successfully sign out
 
