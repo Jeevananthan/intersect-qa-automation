@@ -26,7 +26,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |visits until I am fully booked.  |
     And HS I successfully sign out
 
-  @MATCH-1586
+  @MATCH-1586 @MATCH-1945
   Scenario: As an HS User I want to be able to use the Availability and Settings tab of RepVisits to Set Time Zone
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I verify the Availability & Settings tab of the RepVisits page
@@ -90,6 +90,13 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
             so that colleges can manage those availabilities.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits
+    And HS I successfully sign out
+
+  @MATCH-1962
+  Scenario: As a HIGH School User, I want to verify College Fair Blank DashBoard
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs2" and username "school-user" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I verify the College Fair Blank DashBoard Message
     And HS I successfully sign out
 
   @MATCH-1595
@@ -192,7 +199,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I verify the left navigation bar and section breadcrumbs are as follows
       |Presence |RepVisits |
     And HS I successfully sign out
-
 
   @MATCH-1576
   Scenario Outline: As a HS RepVisits user, I want to be able to Block specific days and date ranges in the Holidays tab of the Availability and Settings page

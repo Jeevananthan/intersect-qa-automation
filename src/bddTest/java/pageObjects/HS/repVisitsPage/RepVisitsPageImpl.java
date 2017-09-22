@@ -755,6 +755,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+
+    public void clicklinkCollegeFair() {
+            navBar.goToRepVisits();
+            link("College Fairs").click();
+    }
+    public void verifyCollgeFairBlankDashBoard(){
+        Assert.assertTrue("College Fairs Header is not present",getDriver().findElement(By.cssSelector("h1")).isDisplayed());
+        Assert.assertTrue("Welcome to College Fairs Message is not present",text("Welcome to College Fairs").isDisplayed());
+        Assert.assertTrue("College Fair Default Message is not present",text("Details about past and upcoming College Fairs you have created will appear here").isDisplayed());
+        Assert.assertTrue("Add a College Fair Button is not present",getDriver().findElement(By.cssSelector(".ui.small.button.ui.primary.button")).isDisplayed());
+
+    }
+
     public void SetSpecialInstructionsForHEUser( String Instructions) {
         getWebInstructions().clear();
         getWebInstructions().sendKeys(Instructions);
