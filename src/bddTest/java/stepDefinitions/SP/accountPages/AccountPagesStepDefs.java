@@ -41,7 +41,8 @@ public class AccountPagesStepDefs implements En {
 
         Then ("^SP I verify the \"([^\"]*)\" should be \"([^\"]*)\" for \"([^\"]*)\"$",accountPage::verifyModuleDetails);
 
-        And("^SP I enter the quote charge id to the module using \"([^\"]*)\",\"([^\"]*)\"$",accountPage::quoteChargeId);
+        Then("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" with the start date \"([^\"]*)\" and end date \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActiveWithDate);
 
+        Then("^SP I verify the status \"([^\"]*)\" with the start date \"([^\"]*)\" and end date \"([^\"]*)\" for the module \"([^\"]*)\"$",accountPage::verifyModuleDetails);
     }
 }

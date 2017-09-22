@@ -21,14 +21,26 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(text("Client:").isDisplayed());
     }
 
-    public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status){
-
+    public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status ,String startDate, String endDate){
         WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
+        WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector']>div"));
 
-        WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
         if(!ActualStatus.getText().equalsIgnoreCase(status)){
             ActualStatus.click();
-            getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+            getDriver().findElement(By.xpath("//span[text()='"+status+"']")).click();
+
+          if(!startDate.equals("")) {
+              WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
+              StartDateButton.click();
+              setStartDateInAccountPage(startDate, moduleName);
+              StartDateButton.click();
+          }
+          if(!endDate.equals("")) {
+              WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
+              EndDateButton.click();
+              setEndDateInAccountPage(endDate, moduleName);
+              EndDateButton.click();
+          }
         }
     }
 
@@ -38,10 +50,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         String day = parts[1];
         String year = parts[2];
 
-        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
-        WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
-        StartDateButton.click();
-
         driver.findElement(By.id("year-select")).click();
         Select selectYear = new Select(driver.findElement(By.id("year-select")));
         selectYear.selectByVisibleText(year);
@@ -52,7 +60,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+day+"']"));
         dateTemp.click();
-        getStartDateButton().click();
+
     }
 
     public void setEndDateInAccountPage(String dateToSet, String moduleName){
@@ -61,9 +69,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         String day = parts[1];
         String year = parts[2];
 
-        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
-        WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
-        EndDateButton.click();
         driver.findElement(By.id("year-select")).click();
         Select selectYear = new Select(driver.findElement(By.id("year-select")));
         selectYear.selectByVisibleText(year);
@@ -74,7 +79,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+day+"']"));
         dateTemp.click();
-        getEndDateButton().click();
     }
 
     public void clicksaveChangesButton(){
@@ -100,15 +104,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
         Assert.assertTrue("End date which is earlier then start date is enabled",Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
         getEndDateButton().click();
-    }
-
-    public void quoteChargeId(String value,String option)
-    {
-        Assert.assertTrue("quoteChargeId textbox is not displayed",driver.findElement(By.xpath("//table/tbody//tr/td/span[text()='"+option+"']/../following-sibling::td/div/input")).isDisplayed());
-        driver.findElement(By.xpath("//table/tbody//tr/td/span[text()='"+option+"']/../following-sibling::td/div/input")).click();
-        driver.findElement(By.xpath("//table/tbody//tr/td/span[text()='"+option+"']/../following-sibling::td/div/input")).clear();
-        driver.findElement(By.xpath("//table/tbody//tr/td/span[text()='"+option+"']/../following-sibling::td/div/input")).sendKeys(value);
-
     }
 
     public void verifyStartDateFeasibility(){
@@ -139,80 +134,78 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     private WebElement getIntersectPresenceModuleRow(){return driver.findElement(By.xpath("//table[@class='ui celled striped table']/tbody/tr[4]")); }
 
 
-    public void verifyModuleDetails(String Column,String Status,String Module){
-
+    public void verifyModuleDetails(String status,String startDate,String endDate,String module){
         String ActualStatus;
-           switch (Module){
+           switch (module){
 
                case "Legacy: Hub page management":
-
-                   if(Column.equalsIgnoreCase("Status")) {
+                   if(!status.equals("")) {
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[2]/div[@role='listbox']/div")).getText();
-                       Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(status));
                    }
-                   else if(Column.equalsIgnoreCase("Start Date")){
-                       ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[4]")).getText();
-                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                   if(!startDate.equals("")){
+                       String ActualStartDate = driver.findElement(By.xpath("//tbody/tr[1]/td[4]")).getText();
+                       Assert.assertTrue("Expected Start date is not displayed",ActualStartDate.equalsIgnoreCase(startDate));
                    }
-                   else if(Column.equalsIgnoreCase("End Date")){
-                       ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[5]")).getText();
-                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                   if(!endDate.equals("")){
+                       String ActualEndDate = driver.findElement(By.xpath("//tbody/tr[1]/td[5]")).getText();
+                       Assert.assertTrue("Expected End date is not displayed",ActualEndDate.equalsIgnoreCase(endDate));
 
                    }
                    break;
 
 
                case "Legacy: Community":
-                   if(Column.equalsIgnoreCase("Status")) {
+                   if(!status.equals("")) {
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[2]/td[2]/div[@role='listbox']/div")).getText();
-                       Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(status));
                    }
-                   else if(Column.equalsIgnoreCase("Start Date")){
+                   if(!startDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[2]/td[4]")).getText();
-                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(startDate));
                    }
-                   else if(Column.equalsIgnoreCase("End Date")){
+                   if(!endDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[2]/td[5]")).getText();
-                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(endDate));
 
                    }
                    break;
 
                case "Intersect Awareness Subscription":
-                   if(Column.equalsIgnoreCase("Status")) {
+                   if(!status.equals("")) {
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[3]/td[2]/div[@role='listbox']/div")).getText();
-                       Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(status));
                    }
-                   else if(Column.equalsIgnoreCase("Start Date")){
+                   if(!startDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[3]/td[4]")).getText();
-                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(startDate));
                    }
-                   else if(Column.equalsIgnoreCase("End Date")){
+                   if(!endDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[3]/td[5]")).getText();
-                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(endDate));
 
                    }
                    break;
 
                case "Intersect Presence Subscription":
-                   if(Column.equalsIgnoreCase("Status")) {
+                   if(!status.equals("")) {
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[2]/div[@role='listbox']/div")).getText();
-                       Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(status));
                    }
-                   else if(Column.equalsIgnoreCase("Start Date")){
+                   if(!startDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[4]")).getText();
-                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(startDate));
                    }
-                   else if(Column.equalsIgnoreCase("End Date")){
+                   if(!endDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[5]")).getText();
-                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(Status));
+                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(endDate));
 
                    }
                    break;
 
-                    }
+           }
 
-            }
+    }
 
 
     private WebElement getCalender(){ return driver.findElement(By.xpath("//div[@role='application']")); }

@@ -73,59 +73,34 @@ Feature: Hobsons Support - View HE Institution Accounts
     @MATCH-128
     Scenario: As a Support user with admin privilege or support privilege or sales ops privilege is able to edit
               Activate/Inactivate modules/products within the institutional accounts
-      #set active before date has ended
+
       Given SP I am logged in to the Admin page as an Admin user
       When SP I search for "2100209"
       And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-
-      And SP I set the "Legacy: Hub page management" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Legacy: Hub page management"
-      And SP I set the End Date as "June 15 2018" for "Legacy: Hub page management"
-
-      And SP I set the "Legacy: Community" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Legacy: Community"
-      And SP I set the End Date as "June 15 2018" for "Legacy: Community"
-
-      And SP I set the "Intersect Awareness Subscription" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Intersect Awareness Subscription"
-      And SP I set the End Date as "June 15 2018" for "Intersect Awareness Subscription"
-
-      And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
-      And SP I set the Start Date as "June 13 2017" for "Intersect Presence Subscription"
-      And SP I set the End Date as "June 15 2018" for "Intersect Presence Subscription"
-
+      Then SP I set the "Legacy: Hub page management" module to "active" with the start date "June 13 2017" and end date "June 15 2018" in the institution page
+      Then SP I set the "Legacy: Community" module to "active" with the start date "June 13 2017" and end date "June 15 2018" in the institution page
+      Then SP I set the "Intersect Awareness Subscription" module to "active" with the start date "June 13 2017" and end date "June 15 2018" in the institution page
+      Then SP I set the "Intersect Presence Subscription" module to "active" with the start date "June 13 2017" and end date "June 15 2018" in the institution page
       And SP I Click the Save Changes button
-
-      Then SP I verify the "status" should be "active" for "Legacy: Hub page management"
-      Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Legacy: Hub page management"
-      Then SP I verify the "End Date" should be "Jun 15, 2018" for "Legacy: Hub page management"
-      And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
-      And SP I Click the Save Changes button
-      Then SP I verify the "status" should be "inactive" for "Legacy: Hub page management"
-
-      Then SP I verify the "status" should be "active" for "Legacy: Community"
-      Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Legacy: Community"
-      Then SP I verify the "End Date" should be "Jun 15, 2018" for "Legacy: Community"
-      And SP I set the "Legacy: Community" module to "inactive" in the institution page
-      And SP I Click the Save Changes button
-      Then SP I verify the "status" should be "inactive" for "Legacy: Community"
-
-      Then SP I verify the "status" should be "active" for "Intersect Awareness Subscription"
-      Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Intersect Awareness Subscription"
-      Then SP I verify the "End Date" should be "Jun 15, 2018" for "Intersect Awareness Subscription"
-      And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
-      And SP I Click the Save Changes button
-      Then SP I verify the "status" should be "inactive" for "Intersect Awareness Subscription"
-
-      Then SP I verify the "status" should be "active" for "Intersect Presence Subscription"
-      Then SP I verify the "Start Date" should be "Jun 13, 2017" for "Intersect Presence Subscription"
-      Then SP I verify the "End Date" should be "Jun 15, 2018" for "Intersect Presence Subscription"
-      And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
-      And SP I Click the Save Changes button
-      Then SP I verify the "status" should be "inactive" for "Intersect Presence Subscription"
-
-
+      Then SP I verify the status "active" with the start date "Jun 13, 2017" and end date "Jun 15, 2018" for the module "Legacy: Hub page management"
+      Then SP I verify the status "active" with the start date "Jun 13, 2017" and end date "Jun 15, 2018" for the module "Legacy: Community"
+      Then SP I verify the status "active" with the start date "Jun 13, 2017" and end date "Jun 15, 2018" for the module "Intersect Awareness Subscription"
+      Then SP I verify the status "active" with the start date "Jun 13, 2017" and end date "Jun 15, 2018" for the module "Intersect Presence Subscription"
+      Then SP I set the "Legacy: Hub page management" module to "inactive" with the start date "" and end date "" in the institution page
+      Then SP I set the "Legacy: Community" module to "inactive" with the start date "" and end date "" in the institution page
+      Then SP I set the "Intersect Awareness Subscription" module to "inactive" with the start date "" and end date "" in the institution page
+      Then SP I set the "Intersect Presence Subscription" module to "inactive" with the start date "" and end date "" in the institution page
+      Then SP I verify the status "inactive" with the start date "" and end date "" for the module "Legacy: Hub page management"
+      Then SP I verify the status "inactive" with the start date "" and end date "" for the module "Legacy: Community"
+      Then SP I verify the status "inactive" with the start date "" and end date "" for the module "Intersect Awareness Subscription"
+      Then SP I verify the status "inactive" with the start date "" and end date "" for the module "Intersect Presence Subscription"
       And SP I successfully sign out
+
+
+
+
+
+
 
 
 
