@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -73,6 +75,45 @@ public class NavBarImpl extends SeleniumBase {
         }
     }
 
+    public void addPost(String msg)
+    {
+        Assert.assertTrue("Counselor Community is not displayed",getCommunityBtn().isDisplayed());
+        getCommunityBtn().click();
+        WebElement element=driver.findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
+        driver.switchTo().frame(element);
+        driver.findElement(By.xpath("//textarea[@class='form-textarea']")).sendKeys(msg);
+        driver.findElement(By.xpath("//input[@id='edit-save']")).click();
+        driver.switchTo().defaultContent();
+    }
+
+    public void verifyNotificationIconInHomePage(){
+        String notificationCount;
+        Assert.assertTrue("Notification Icon is not visible",notificationIcon().isDisplayed());
+        try{if(driver.findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).isDisplayed())
+        {
+            notificationCount=driver.findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).getText();
+            if(notificationCount.equals(""))
+            {
+                logger.info("There is no notification");
+            }else
+            {
+                logger.info(notificationCount+"noticications are displayed");
+            }
+        }else
+        {
+            logger.info("There is no notification");
+        }}catch(Exception e){}
+    }
+
+
+    public void clickNavigationGlobeIcon(){
+        notificationIcon().click();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='notifications']//div[@class='menu transition visible']")));
+
+    }
+
+
     public void verifySubMenuIsNotVisible(String tabName) {
         switch (tabName) {
             case "Home":
@@ -123,6 +164,9 @@ public class NavBarImpl extends SeleniumBase {
     }
 
     //Getters
+    private WebElement notificationIcon()
+    {WebElement element=driver.findElement(By.xpath("//div[@id='notifications']"));
+    return  element;}
     private WebElement getHomeBtn() {
         return link(By.id("js-main-nav-home-menu-link"));
     }

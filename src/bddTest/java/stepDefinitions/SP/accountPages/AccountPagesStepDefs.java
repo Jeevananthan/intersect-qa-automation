@@ -39,5 +39,7 @@ public class AccountPagesStepDefs implements En {
         And("^SP I update Institutional Details with Connect Id as \"([^\"]*)\" and Radius Id as \"([^\"]*)\"$",accountPage::updateInstitutionalDetailsWithConnectAndRadiusId);
 
         Then("^SP I verify the updated details are displaying in the account page$",accountPage::verifyInstitutionalDetails);
+
+
     }
 }

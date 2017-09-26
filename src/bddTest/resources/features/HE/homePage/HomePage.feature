@@ -111,3 +111,19 @@ Feature: As an HE user, I want to be able to access the features of the main Int
       Then SP I successfully sign out
 
 
+  @MATCH-1365
+  Scenario: As an HE, HS, or Hobsons user,I need to be presented with the notifications globe from Community in the Intersect banner
+  so I can still see when I have notifications from Community.
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I add post in the Homepage "test100"
+    And SP I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the navigation globe is displayed for this user
+    And HE I click the naviagtion globe for viewing the recent notifications
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the navigation globe is displayed for this user
+    And HS I click the naviagtion globe for viewing the recent notifications
+    Then HS I successfully sign out
