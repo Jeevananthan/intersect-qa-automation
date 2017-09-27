@@ -41,6 +41,6 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
         return button("Go");
     }
     private WebElement singleResult() {
-        return getDriver().findElement(By.xpath("//a[contains(text(), 'Adelphi')]"));
+        return getDriver().findElement(By.cssSelector("table.standard.striped a"));
     }
 }

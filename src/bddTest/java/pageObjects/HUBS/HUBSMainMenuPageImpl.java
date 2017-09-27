@@ -19,9 +19,30 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
         studiesTab().click();
     }
 
+    public void clickStudentLifeTab() {
+        waitUntil(ExpectedConditions.elementToBeClickable(studentLifeTab()));
+        studentLifeTab().click();
+    }
+
+    public void clickOverviewTab() {
+        waitUntil(ExpectedConditions.elementToBeClickable(studentLifeTab()));
+        overviewTab().click();
+    }
+
+    public void clickInternationalTab() {
+        waitUntil(ExpectedConditions.elementToBeClickable(internationalTab()));
+        internationalTab().click();
+    }
+
     //Locators
 
     private WebElement studiesTab() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'Studies')]"));
     }
+
+    private WebElement studentLifeTab() { return getDriver().findElement(By.xpath("//span[contains(text(), 'Student Life')]")); }
+
+    private WebElement overviewTab() { return getDriver().findElement(By.xpath("//span[contains(text(), 'Overview')]")); }
+
+    private WebElement internationalTab() { return getDriver().findElement(By.xpath("//span[contains(text(), 'International')]")); }
 }
