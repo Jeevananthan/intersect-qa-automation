@@ -153,6 +153,8 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void searchForGroup(String groupname){
         waitUntilPageFinishLoading();
+        iframeExit();
+        textbox(By.id("global-search-box-input")).clear();
         textbox(By.id("global-search-box-input")).sendKeys(groupname);
         logger.info("Searching for the group.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
@@ -160,6 +162,14 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         iframeEnter();
         waitUntilPageFinishLoading();
 
+    }
+
+    public void enterTextInSearchBox(String text) {
+        logger.info("Entering search criteria in search box.");
+        waitUntilPageFinishLoading();
+        iframeExit();
+        textbox(By.id("global-search-box-input")).clear();
+        textbox(By.id("global-search-box-input")).sendKeys(text);
     }
 
     public void makeSureUserIsMemberOfTheGroup() {
@@ -196,10 +206,19 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void goToManageGroupMembersPage() {
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        logger.info("Going to the Manage Group Members Page.");
+//        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+//        iframeEnter();
+//        //Next one line we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
+//        link(By.cssSelector("a[href='/profile']")).click();
+//        iframeExit();
+//        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        driver.navigate().to("https://qa-support.intersect.hobsons.com/counselor-community/groups");
+
         iframeEnter();
-        link(By.cssSelector("a[href='/groups']")).click();
-        link(By.linkText("**Test Automation** HE Community PUBLIC Group")).click();
+        waitUntilPageFinishLoading();
+//        link(By.cssSelector("a[href='/groups']")).click();
+        link(By.linkText("**Test Automation** HE Community PRIVATE Group")).click();
         driver.findElement(By.className("manage-group-members-link")).click();
     }
 
@@ -219,8 +238,6 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         goToManageGroupMembersPage();
         driver.findElement(By.className("decline-link")).click();
         homePage.logoutSupport();
-        loginPage.defaultLoginHE();
-        searchForGroup("**Test Automation** HE Community PRIVATE Group");
     }
 
     public void makeSureUserIsNotMemberOfTheGroup() {
@@ -277,6 +294,15 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private boolean checkItemVisible(String item) {
         try {
             driver.findElement(By.xpath("//*[contains(text(), '" + item + "')]"));
+            return true;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
+    private boolean checkItemVisibleByCssSelector(String tag, String cssselector, String selectorvalue) {
+        try {
+            driver.findElement(By.cssSelector(""+tag+"["+cssselector+"='"+selectorvalue+"']"));
             return true;
         } catch (NoSuchElementException ex)  {
             return false;
@@ -376,6 +402,53 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         clickGroupsTab();
     }
 
+    public void checkIfBtnIsDisplayedByCssSelector(String button) {
+        logger.info("Checking if "+button+" button is displayed.");
+        Assert.assertTrue(""+button+" button not visible!", checkItemVisibleByCssSelector("a", "title", ""+button+""));
+    }
+
+    public void checkMessageDisplayed(String message) {
+        logger.info("Checking if message is displayed.");
+        Assert.assertTrue("The message is not displayed!", checkItemVisible(message));
+    }
+
+    public void checkPostNotDisplayedWithText(String posttext) {
+        logger.info("Checking if the post is not displayed.");
+        Assert.assertFalse("The post is displayed!", checkItemVisible(posttext));
+    }
+
+    public void checkPostDisplayedWithText(String posttext) {
+        logger.info("Checking if the post is displayed.");
+        Assert.assertTrue("The post is not displayed!", checkItemVisible(posttext));
+    }
+
+    public void clickJoinGroupButton() {
+        logger.info("Joining group.");
+        joinGroupButton().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void checkIfTextIsVisible(String item) {
+        logger.info("Searching for "+item+".");
+        Assert.assertTrue("The "+item+" cannot be found on the page!", checkItemVisible(item));
+    }
+
+    public void clickSearchIcon(){
+        logger.info("Clicking on search icon.");
+        searchIcon().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void goToGroupsTabUnderSearch() {
+        logger.info("Clicking on groups tab under search.");
+        groupsTabUnderSearch().click();
+    }
+
+    public void checkPresentedJoinButtonNextToPublicGroup() {
+        logger.info("Check if I am presented with a 'Join' action next to any Public group that returns in my search results");
+        Assert.assertTrue("'Join' button cannot be found on the page!", checkItemVisibleByCssSelector("i", "class", "user plus icon"));
+    }
+
     public void disableCommentsOnGroupPosts() {
         disableCommentsCheckbox().click();
     }
@@ -416,4 +489,6 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private WebElement visibilityPrivateRadio() {return driver.findElement(By.cssSelector("label[for='edit-group-og-access-1']"));}
     private WebElement editGroupBtn() {return driver.findElement(By.cssSelector("div[class='edit-group-link']"));}
     private WebElement updateBtn() {return driver.findElement(By.id("edit-update"));}
+    private WebElement searchIcon() {return driver.findElement(By.cssSelector("i[class='search link icon']"));}
+    private WebElement groupsTabUnderSearch() {return driver.findElement(By.id("searchResultsTabgroups"));}
 }

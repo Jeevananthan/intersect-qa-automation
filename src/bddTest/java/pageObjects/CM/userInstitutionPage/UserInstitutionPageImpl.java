@@ -172,6 +172,21 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void followingInstitution(String institutionid) {
+        logger.info("Making sure I am following the institution.");
+        driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/"+institutionid+"");
+        waitUntilPageFinishLoading();
+        iframeEnter();
+        try {
+            followBtn();
+            followBtn().click();
+            waitUntilPageFinishLoading();
+
+        } catch (NoSuchElementException ex)  {
+            logger.info("User already following the institution.");
+        }
+    }
+
     public void checkFollowInstitutionBtnVisible() {
         logger.info("Checking if Follow institution button is visible.");
         Assert.assertTrue("Follow institution button not visible!", checkItemVisibleByCssSelector("a", "title", "Follow Institution"));
@@ -184,10 +199,30 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void clickUnfollowInstitution() {
+        logger.info("Clicking on Unfollow institution button.");
+        unfollowBtn().click();
+        waitUntilPageFinishLoading();
+    }
+
+
+
     public void checkInstitutionListed(String instId) {
         logger.info("Checking if institution with id "+instId+" is in the list");
         Assert.assertTrue("The institution is not visible in the list!", checkItemVisibleByCssSelector("a", "href", "/institution/"+instId+""));
     }
+
+    public void unfollowInstitutionById(String institutionId) {
+        logger.info("Unfollowing institution by id: "+institutionId+".");
+        unfollowBtnById(institutionId).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void checkInstitutionsListDisplayed() {
+        logger.info("Checking if institutions that I'm following list is displayed.");
+        Assert.assertTrue("The institutions list table is not visible!", checkItemVisibleByCssSelector("table", "class", "members-list-table institutions-list-table"));
+    }
+
 
 
     private WebElement newPostTextbox() {
@@ -203,6 +238,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     private WebElement connectToUserBtn() {return driver.findElement(By.cssSelector("a[title='Send Connect Request']"));}
     private WebElement hobsonsInstitution() {return driver.findElement(By.cssSelector("a[href='/institution/1']"));}
     private WebElement unfollowBtn() {return driver.findElement(By.cssSelector("a[title='Unfollow Institution']"));}
+    private WebElement unfollowBtnById(String id) {return driver.findElement(By.id("unfollow-"+id+""));}
     private WebElement followBtn() {return driver.findElement(By.cssSelector("a[title='Follow Institution']"));}
     private WebElement editInstitutionBtn() {return driver.findElement(By.cssSelector("a[class='edit-institution-link']"));}
 

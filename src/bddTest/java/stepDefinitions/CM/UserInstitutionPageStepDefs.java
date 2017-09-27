@@ -29,9 +29,13 @@ public class UserInstitutionPageStepDefs implements En {
         And("^I check if correct error message is displayed$", institutionPage::checkIfCorrectErrorMessageDisplayed);
         Then("^I open institution tab$", institutionPage::clickInstitutionTab);
         And("^I am not following institution with id \"([^\"]*)\"$", institutionPage::notFollowingInstitution);
+        And("^I am following institution with id \"([^\"]*)\"$", institutionPage::followingInstitution);
         And("^I check if follow institution button is visible$", institutionPage::checkFollowInstitutionBtnVisible);
         And("^I click on Follow institution button$", institutionPage::clickFollowInstitution);
+        And("^I click on Unfollow institution button$", institutionPage::clickUnfollowInstitution);
         Then("^I check if institution with id \"([^\"]*)\" is in the list$", institutionPage::checkInstitutionListed);
+        Then("^I unfollow institution with id \"([^\"]*)\"$", institutionPage::unfollowInstitutionById);
+        And("^I check if institutions list is displayed$", institutionPage::checkInstitutionsListDisplayed);
 
 
     }

@@ -52,5 +52,15 @@ public class GroupsPageStepDefs implements En {
         And("^I delete group \"([^\"]*)\"$", groupsPage::deleteCreatedGroup);
         Then("^I change name of the group with name \"([^\"]*)\"$", groupsPage::editGroupName);
         Then("^I check if the group name is changed to \"([^\"]*)\"$", groupsPage::checkGroupName);
+        Then("^I check if I see \"([^\"]*)\" button$", groupsPage::checkIfBtnIsDisplayedByCssSelector);
+        Then("^I check if the massage is displayed \"([^\"]*)\"$", groupsPage::checkMessageDisplayed);
+        Then("^I check if I cannot see post with text \"([^\"]*)\"$", groupsPage::checkPostNotDisplayedWithText);
+        Then("^I check if I can see post with text \"([^\"]*)\"$", groupsPage::checkPostDisplayedWithText);
+        And("^I click on 'Join Group' button$", groupsPage::clickJoinGroupButton);
+        And("^I check if I can see \"([^\"]*)\" on the page$", groupsPage::checkIfTextIsVisible);
+        Then("^I enter \"([^\"]*)\" in search box$", groupsPage::enterTextInSearchBox);
+        And("^I click on Search icon$", groupsPage::clickSearchIcon);
+        Then("^I click on Groups tab under search$", groupsPage::goToGroupsTabUnderSearch);
+        And("^I check if I am presented with a 'Join' action next to any Public group that returns in my search results$",groupsPage::checkPresentedJoinButtonNextToPublicGroup);
     }
 }

@@ -79,9 +79,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         Assert.assertTrue("User did not sign out",driver.findElement(By.id("login_panel")).isDisplayed());
 
-//        driver.manage().deleteAllCookies();
-//        JavascriptExecutor js = (JavascriptExecutor)driver;
-//        js.executeScript("localStorage.clear();sessionStorage.clear();");
+        driver.manage().deleteAllCookies();
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript("localStorage.clear();sessionStorage.clear();");
     }
 
     public void verifyUserIsLoggedIn() {

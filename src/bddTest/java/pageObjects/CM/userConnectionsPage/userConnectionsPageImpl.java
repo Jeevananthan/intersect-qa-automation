@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import pageObjects.CM.commonPages.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
+import sun.rmi.runtime.Log;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -144,10 +145,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         searchForUser(user);
         iframeEnter();
         try {
-            connectToUserButton().click();
-            waitUntilPageFinishLoading();
-            disconnectFromUserBtn().click();
-            waitUntilPageFinishLoading();
+            clickDisconnectBtn();
         } catch (NoSuchElementException ex) {
             logger.info("The user is not a connection.");
             driver.findElement(By.className("close")).click();
@@ -155,6 +153,23 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clickDisconnectBtn() {
+        iframeExit();
+        iframeEnter();
+        connectToUserButton().click();
+        waitUntilPageFinishLoading();
+        disconnectFromUserBtn().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void disconnectFromUserFromManageConnectionsPage(String user) {
+        logger.info("Clicking on Disconnect button.");
+        driver.findElement(By.xpath("//div[contains(text(), '"+user+"')]/../../../../../td[2]/div[1]/div[@class='ctools-dropdown ctools-dropdown-processed']")).click();
+        waitUntilPageFinishLoading();
+//        disconnectFromUserBtn().click();
+        driver.findElement(By.xpath("//div[@style='display: block;']/ul[1]/li[2]/a[@title='Remove Connection']")).click();
+        waitUntilPageFinishLoading();
+    }
 
     public void acceptConnectionRequestByHSUser() {
         logger.info("Accepting user connection request by PurpleHS user.");
@@ -355,6 +370,15 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    private boolean checkItemVisibleById(String id) {
+        try {
+            driver.findElement(By.id(id));
+            return true;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
     public void checkIfMyConnectionsPageOpened() {
         logger.info("Checking if My Connections page is opened");
         Assert.assertTrue("My Connections page is not opened.", checkItemVisible("My Connections"));
@@ -392,6 +416,32 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The status is not displayed correctly!", checkItemVisibleByCssSelector("a", "title", status));
     }
 
+    public void clickMessageLink() {
+        logger.info("Clicking on Message link.");
+//        iframeEnter();
+        waitUntilPageFinishLoading();
+        messageLink().click();
+    }
+
+
+    public void checkNewMsgForm() {
+        logger.info("Checking if new message form elements are displayed.");
+        Assert.assertTrue("Element for message subject not visible!", checkItemVisibleById("edit-subject"));
+        Assert.assertTrue("Element for message body not visible!", checkItemVisibleById("edit-message"));
+    }
+
+    public void fillNewMessageForm(String subject, String msgbody) {
+        logger.info("Populating new message form.");
+        msgSubject().sendKeys(subject);
+        msgBody().sendKeys(msgbody);
+    }
+
+    public void sendMessageToUser() {
+        logger.info("Sending the message to user.");
+        sendInvitationToUserButton().click();
+        waitUntilPageFinishLoading();
+    }
+
 
 
     public void enterConnectionRequestMsg(String msg) {
@@ -426,4 +476,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     private WebElement newCategoryNameField() {return driver.findElement(By.id("edit-name"));}
     private WebElement createCategoryBtn() {return driver.findElement(By.id("edit-submit"));}
     private WebElement deleteCategoryBtn() {return driver.findElement(By.id("edit-del"));}
+    private WebElement messageLink() {return driver.findElement(By.cssSelector("a[title='Send Message']"));}
+    private WebElement msgSubject() {return driver.findElement(By.id("edit-subject"));}
+    private WebElement msgBody() {return driver.findElement(By.id("edit-message"));}
 }

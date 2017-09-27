@@ -15,7 +15,7 @@ Feature: Community User - Approve/Reject Request to Join Private Group
     And I check if user is a member of the group
     And I sign out from the HE app
 
-
+  #This scenario could fail on ste when denying join group request due to session issue (not possible to go to /groups page)
   @MATCH-697
   Scenario: As a Community user and Private group owner/manager I can deny another Community member's request to join my private group.
     Given I am logged in to Purple Community through the HE App
@@ -24,6 +24,8 @@ Feature: Community User - Approve/Reject Request to Join Private Group
     Then I request to join the group
     And I sign out from the HE app
     And I deny request to join the group
+    Then I am logged in to Purple Community through the HE App
+    And I search for "**Test Automation** HE Community PRIVATE Group" group
     Then I check if user is not a member of the group
     And I sign out from the HE app
 

@@ -44,6 +44,13 @@ public class userConnectionsStepDefs implements En {
         And("^I see \"([^\"]*)\" status button$", userConnections::statusInvitedVisible);
         Then("^As a HE user I accept the invitation$", userConnections::acceptConnectionRequestByHEUser);
         Then("^As a HE user I ignore the invitation$", userConnections::ignoreConnectionRequestByHEUser);
+        And("^I click on Message link$", userConnections::clickMessageLink);
+        Then("^I check if new message form elements are present$", userConnections::checkNewMsgForm);
+        And("^I click disconnect button$", userConnections::clickDisconnectBtn);
+        And("^I disconnect from the \"([^\"]*)\" user$", userConnections::disconnectFromUserFromManageConnectionsPage);
+        Then("^I fill in Subject \"([^\"]*)\" and message body \"([^\"]*)\"$", userConnections::fillNewMessageForm);
+        And("^I click on Send button$", userConnections::sendMessageToUser);
+
 
 
     }
