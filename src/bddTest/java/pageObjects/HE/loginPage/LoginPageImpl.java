@@ -144,6 +144,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox("Confirm Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         button("CHANGE PASSWORD").click();
         waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.xpath("//button/span[text()='Login']")));
         Assert.assertTrue("Password was not Reset successful!", driver.findElement(By.xpath("//button/span[text()='Login']")).isDisplayed());
     }
 
