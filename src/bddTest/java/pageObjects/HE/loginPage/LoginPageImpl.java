@@ -85,7 +85,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void processResetPassword(String userType, DataTable data) {
         String emailBody = "";
-        GetProperties.setGmailAPIWait(90);     //Time unit is in seconds
+        GetProperties.setGmailAPIWait(120);     //Time unit is in seconds
         try {
             List<Email> emails = getGmailApi().getMessages(data);
 
