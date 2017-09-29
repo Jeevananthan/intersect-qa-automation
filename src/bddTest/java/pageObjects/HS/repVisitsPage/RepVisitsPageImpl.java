@@ -5,11 +5,16 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import utilities.GetProperties;
 import javax.xml.soap.Text;
 import java.awt.*;
@@ -23,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import static org.junit.Assert.fail;
+import static junit.framework.TestCase.fail;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -236,21 +242,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void setDate(String inputDate, String startOrEndDate) {
-
-        String[] parts = inputDate.split(" ");
-        String calendarHeading = parts[0] + " " + parts[2];
-
-        if (startOrEndDate.contains("Start")) {
-            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-        } else {
-            button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        }
-        findMonth(calendarHeading, startOrEndDate);
-        clickOnDay(parts[1]);
-        waitUntilPageFinishLoading();
-    }
-
     public void findMonth(String month, String startOrEndDate) {
         waitUntilPageFinishLoading();
         boolean monthStatus = compareDate(month, startOrEndDate);
@@ -272,7 +263,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         }
         catch (Exception e) {
-            fail("The Date selected it's out of RANGE.");
+            Assert.fail("The Date selected it's out of RANGE.");
         }
     }
 
@@ -313,7 +304,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
 
         } catch (Exception e) {
-            fail("The Date selected is out of RANGE.");
+            Assert.fail("The Date selected is out of RANGE.");
         }
 
     }
@@ -451,7 +442,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             }
         }
         catch (Exception e) {
-            fail("The Date selected it's out of RANGE.");
+            Assert.fail("The Date selected is out of RANGE.");
         }
     }
 
@@ -476,7 +467,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                             findElement(By.xpath("//span[contains(text(), '" + endMonth + " " + endDay + ", " + endYear + "')]")).isDisplayed());
 
         } catch (Exception e) {
-            fail("The Date selected it's out of RANGE.");
+            Assert.fail("The Date selected is out of RANGE.");
         }
 
     }
@@ -493,6 +484,145 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Update Time Zone button is not displayed",getDriver().findElement(By.cssSelector(".button[class='ui primary button']")).isDisplayed());
     }
 
+    public void verifyManualBlockedHolidays(String holiday) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Blocked Days").click();
+        waitUntilPageFinishLoading();
+
+        Boolean checkBoxLaborHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxColumbusHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxVeteransHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxTanksGivenHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxDayAfterThanksGivenHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxChristmasEveHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxChristmasDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxNewYearEveHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxNewYearDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxMartinLutherDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxPresidentDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxMemorialDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+        Boolean checkBoxIndependenceDayHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement element = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[title='"+holiday+"']")));
+        if (!getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked")) {
+            getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")).click();
+            //Click on SAVE BLOCKED HOLIDAYS button
+            getDriver().findElement(By.cssSelector("button[class='ui primary button']")).click();
+        }
+
+        link("Availability & Settings").click();
+        link("Blocked Days").click();
+
+        switch (holiday){
+            case "LABOR_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxLaborHolidayStatus, holiday, 1);
+                break;
+            case "COLUMBUS_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxColumbusHolidayStatus, holiday, 2);
+                break;
+            case "VETERANS_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxVeteransHolidayStatus, holiday, 3);
+                break;
+            case "THANKSGIVING_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxTanksGivenHolidayStatus, holiday, 4);
+                break;
+            case "DAY_AFTER_THANKSGIVING":
+                verifyHolidayCheckBoxStatus(checkBoxDayAfterThanksGivenHolidayStatus, holiday, 5);
+                break;
+            case "CHRISTMAS_EVE":
+                verifyHolidayCheckBoxStatus(checkBoxChristmasEveHolidayStatus, holiday, 6);
+                break;
+            case "CHRISTMAS_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxChristmasDayHolidayStatus, holiday, 7);
+                break;
+            case "NEW_YEAR_EVE":
+                verifyHolidayCheckBoxStatus(checkBoxNewYearEveHolidayStatus, holiday, 8);
+                break;
+            case "NEW_YEAR_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxNewYearDayHolidayStatus, holiday, 9);
+                break;
+            case "MARTIN_LUTHER_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxMartinLutherDayHolidayStatus, holiday, 10);
+                break;
+            case "PRESIDENTS_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxPresidentDayHolidayStatus, holiday, 11);
+                break;
+            case "MEMORIAL_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxMemorialDayHolidayStatus, holiday, 12);
+                break;
+            case "INDEPENDENCE_DAY":
+                verifyHolidayCheckBoxStatus(checkBoxIndependenceDayHolidayStatus, holiday, 13);
+                break;
+            default:
+                logger.info("Wrong Holiday!.");
+        }
+    }
+
+    public void searchforSchool(String school,String location, String Date)
+    {
+        navBar.goToRepVisits();
+        getSearchAndScheduleBtn().click();
+        driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
+        driver.findElement(By.xpath("//form[@class='ui form _2Z8eaWTc5nFILCDiDTD__z']//button[contains(@class,'ui button')]")).click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("location is not displayed",driver.findElement(By.xpath("//td[text()='"+location+"']")).isDisplayed());
+        WebElement schoolLocation = text(location);
+        getParent(schoolLocation).findElement(By.tagName("a")).click();
+        //driver.findElement(By.cssSelector("button[class='ui right labeled tiny icon button _1alys3gHE0t2ksYSNzWGgY right floated']")).click();
+        driver.findElement(By.className("_135QG0V-mOkCAZD0s14PUf")).findElement(By.xpath("button")).click();
+        setDate(Date, "Start");
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Was not set Blocked!", getParent(getDriver().findElement(By.className("JIilVAK-W5DJoBrTmFeUG"))).findElement(By.tagName("p")).getText().toLowerCase().contains("holiday"));
+
+    }
+
+    public void setDate(String inputDate, String startOrEndDate) {
+
+        String[] parts = inputDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+
+        if (startOrEndDate.contains("Start")) {
+            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        } else {
+            button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        }
+        findMonth(calendarHeading, startOrEndDate);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public Boolean compareHEDate(String month, String startOrEndDate)  {
+
+        String dateCaption = null;
+        DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
+        if (startOrEndDate.contains("Start")) {
+              dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+        } else {
+            dateCaption = driver.findElement(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).getText();
+        }
+
+        //Logic to compare dates before? or not
+        Date first = null;
+        try {
+            first = formatDate.parse(dateCaption);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date second = null;
+        try {
+            second = formatDate.parse(month);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        boolean before = (first.before(second));
+        return  before;
+
+    }
+
     public void setTimeZone(String timeZone){
         if (!isLinkActive(link("Time Zone"))) {
             navBar.goToRepVisits();
@@ -501,6 +631,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         setTimeZoneValue(timeZone);
         button("Update time zone").click();
+    }
+
+    public void verifyHolidayCheckBoxStatus(Boolean holidayStatus, String holiday, int index){
+        if (holidayStatus) {
+            Assert.assertTrue("Was not set Holiday!", getDriver().findElement(By.cssSelector("div[title='"+ holiday +"']")).isDisplayed() && getDriver().findElement(By.xpath("(//div[starts-with(@class, 'ui checked checkbox _1mJoFw7NZ4cPX_1EWFCyjY')])['"+ index +"']")).isDisplayed());
+        }
+        else{
+            getDriver().findElement(By.cssSelector("div[title='"+ holiday +"']")).click();
+            Assert.assertTrue("Was not set Holiday!", getDriver().findElement(By.cssSelector("div[title='"+ holiday +"']")).isDisplayed() && getDriver().findElement(By.xpath("(//div[starts-with(@class, 'ui checked checkbox _1mJoFw7NZ4cPX_1EWFCyjY')])['"+ index +"']")).isDisplayed());
+        }
     }
 
     public void clickLinkAvailability() {
@@ -695,7 +835,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(rowID == -1){
             logger.info("The Given row with Start Date '"+startDate+"',End Date '"+endDate+"'with a '"+reason+"'was not found on the table");
         }else{
-            fail("The Given row was found on the table");
+            Assert.fail("The Given row was found on the table");
         }
       }
 
@@ -754,6 +894,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
+    }
+    private WebElement getSearchAndScheduleBtn() {
+        return link("Search and Schedule");
     }
 
     public void clicklinkCollegeFair() {
