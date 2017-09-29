@@ -87,10 +87,53 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 getComingSoonMessageInOverviewPage().getText().equals("The Overview Dashboard is coming soon. It will provide a quick view of your upcoming appointments and most recent notifications."));
     }
 
+    public void verifyCheckRepVisitsAvailabilityButton(){
+        driver.switchTo().frame(0);
+        Assert.assertTrue("Check RepVisits Availability Button is not present", getCheckRepVisitsAvailabilityButton().isDisplayed());
+        getCheckRepVisitsAvailabilityButton().click();
+        driver.switchTo().defaultContent();
+        Assert.assertTrue("RepVisits Availability Sidebar is not displaying.", getRepVisitsAvailabilitySidebar().isDisplayed());
+    }
+
     //locators
+    public void verifyHSSpecialInstructions(String instructions)
+    {
+        Assert.assertTrue("High School specila instructions are not matching/available",getParent(driver.findElement(By.className("kuh1rp3g-UeGhggKqCdPA"))).findElement(By.cssSelector("div:nth-child(4)")).getText().contains(instructions));
+    }
     public void selectSchoolFromMap(String schoolName) {
         button(schoolName).click();
         waitUntilPageFinishLoading();
+    }
+
+
+
+
+    public void verifyUpgradeMessageInTravelPlanInRepVisits(){
+
+        navBar.goToRepVisits();
+        getTravelPlanBtn().click();
+        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
+}
+
+
+    public void verifyUpgradeMessageInContactsInRepVisits(){
+
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
+    }
+
+    public void verifyUpgradeMessageInRecommendationsInRepVisits(){
+
+        navBar.goToRepVisits();
+        getRecommendationsBtn().click();
+        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
     }
 
     private WebElement getOverviewBtn() {
@@ -108,9 +151,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getContactsBtn() {
         return link("Contacts");
     }
-    private WebElement getRecommendationsBtn() {
-        return link("Recommendations");
-    }
+    private WebElement getRecommendationsBtn() {return link("Recommendations");}
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
@@ -118,6 +159,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
+    private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.className("check-repvisits-link")); }
+    private WebElement getRepVisitsAvailabilitySidebar(){ return driver.findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
 
 }
 
