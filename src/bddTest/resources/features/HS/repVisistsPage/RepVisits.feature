@@ -123,7 +123,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I search for "Int QA High School 4" in RepVisits page using "Arlington, VA" with "<Date>"
+    Then HE I search for "Int QA High School 4" in RepVisits page using "Arlington, VA" and verify that "<Date>" is blocked
     Examples:
       |Holiday               | Date |
       |LABOR_DAY             | September 04 2017   |
