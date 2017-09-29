@@ -74,7 +74,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   I want to be able to automatically block off U.S. Holidays
   so that I do not have to manually block each holiday.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HE I verify the blocked "<Holiday>" page
+    Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I search for "Int QA High School 4" in RepVisits page using "Arlington, VA" with "<Date>"
