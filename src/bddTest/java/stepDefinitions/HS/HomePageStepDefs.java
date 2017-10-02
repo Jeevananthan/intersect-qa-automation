@@ -17,10 +17,10 @@ public class HomePageStepDefs implements En {
 
         And("^HS I go to the Counselor Community$", homePage::goToCounselorCommunity);
 
-        Given("^HS I navigate to Registration Intersect url$",loginPage::navigateToRegistrationPage);
-        And("^HS I search for \"([^\"]*)\" in \"([^\"]*)\" registeration page$",loginPage::searchForHEInstitution);
+        Given("^HS I navigate to Registration Intersect url$",loginPage::navigateToHSRegistrationPage);
+        And("^HS I search for \"([^\"]*)\" in the registration page$",loginPage::searchForHEInstitution);
         And ("^HS I click the link \"([^\"]*)\"$",loginPage::clickLinkInRegisterationPage);
-        Then ("^HS I verify all field type in request user page$",loginPage::validateFieldsInRequestUserForm);
+        Then ("^HS I verify all field type in request user page$",loginPage::validateRequestUserForm);
         And("^HS I enter the following data in request user page$",loginPage::enterDataInRequestUserForm);
 
         And ("^HS I verify the page Title is showing as \"([^\"]*)\" and \"([^\"]*)\"$",homePage::verifyTitleHS);
@@ -28,9 +28,7 @@ public class HomePageStepDefs implements En {
         And ("^HS I go to the Rep Visits$",navBar::goToRepVisits);
 
         Then("^HS I verify the left navigation bar and section breadcrumbs are as follows$",navBar::verifyLeftNavAndBreadcrumbs);
-        Given("^HS I navigate to Registration Intersect url$",loginPage::navigateToRegistrationPage);
 
-        And("^HS I search for \"([^\"]*)\" in \"([^\"]*)\" registeration page$",loginPage::searchForHEInstitution);
-
+        Then ("^HS I verify the Request New User page$",loginPage::validateFieldsInRequestUserForm);
     }
 }

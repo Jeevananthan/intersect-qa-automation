@@ -264,7 +264,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
   So Support can provision my user account.
 
     Given HS I navigate to Registration Intersect url
-    And HS I search for "INFINITY INSTITUTE" in "High School Staff Member" registeration page
+    And HS I search for "INFINITY INSTITUTE" in the registration page
     And HE I click the link "please complete this form."
     Then HS I verify all field type in request user page
       |firstName |lastName |email |verifyEmail |jobTitle |
@@ -294,12 +294,10 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | ratio       | Ex: 12 (for 12:1)      |
     And HS I successfully sign out
 
-
-
   @MATCH-2052
   Scenario: As a HS user, I need to be able to request a new user account AND a new high school institution during the registration process.
             So I can still complete the registration workflow process when I am unable to successfully search and locate my high school.
     Given HS I navigate to Registration Intersect url
-    And HS I search for "Request new institution" in "High School Staff Member" registeration page
-    Then HS I verify Request for New User page
+    And HS I search for "Request new institution" in the registration page
+    Then HS I verify the Request New User page
 
