@@ -61,6 +61,17 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     And HE I verify the "Users" nav link is not displaying for this user
     Then HE I successfully sign out
 
+
+  @MATCH-1496
+  Scenario: As an HE user I want the Intersect left navigation bar to be better organized and labeled.
+    Given  HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the left navigation bar and section breadcrumbs are as follows
+      | Awareness | Counselor Community |
+      | Awareness | Naviance College Profile |
+    And HE I verify the left navigation bar and section breadcrumbs are as follows
+      |Presence |RepVisits |
+    Then HE I successfully sign out
+
   @MATCH-1548
   Scenario: As an HE Freemium user, I want to be able to access Experience the full benefits of the Counselor Community page.
     Given HE I am logged in to Intersect HE as user type "limited"
@@ -85,7 +96,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
       And SP I Click the Save Changes button
       Then SP I successfully sign out
 
-      Given HE I want to login to the HE app using "kpmahibalan93+123@gmail.com" as username and "P@ssw0rd" as password
+      Given HE I want to login to the HE app using "purpleheautomation+123@gmail.com" as username and "Password!1" as password
       Then HE I verify the upgrade message on the Community widget
       And HE I verify the "Users" nav link is not displaying for this user
       Then HE I successfully sign out
@@ -98,4 +109,5 @@ Feature: As an HE user, I want to be able to access the features of the main Int
       And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
       And SP I Click the Save Changes button
       Then SP I successfully sign out
+
 

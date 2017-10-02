@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import selenium.SeleniumBase;
 
+import java.util.List;
 import java.util.Map;
 
 public class NavBarImpl extends SeleniumBase {
@@ -108,8 +109,8 @@ public class NavBarImpl extends SeleniumBase {
                 itemLink.click();
                 waitUntilPageFinishLoading();
                 //Check Breadcrumbs
-                Assert.assertTrue(heading+ " is not correct in Breadcrumbs", heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
-                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs", subMenu.equals(getSubMeunBreadcrumbs().getText()));
+                Assert.assertTrue(heading+ " is not correct in Breadcrumbs, actual value is: " + getHeadingBreadcrumbs().getText(), heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
+                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs, actual value is: " + getSubMeunBreadcrumbs().getText(), subMenu.equals(getSubMeunBreadcrumbs().getText()));
 
 
             }
@@ -137,6 +138,20 @@ public class NavBarImpl extends SeleniumBase {
     private WebElement getUsersBtn() {
         return link(By.id("js-main-nav-manage-users-menu-link"));
     }
-    private WebElement getHeadingBreadcrumbs(){ return driver.findElement(By.className("_2QGqPPgUAifsnRhFCwxMD7")); }
-    private WebElement getSubMeunBreadcrumbs(){ return driver.findElement(By.className("UDWEBAWmyRe5Hb8kD2Yoc")); }
+    private WebElement getHeadingBreadcrumbs(){
+        List<WebElement> items = driver.findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
+        for (WebElement item : items) {
+            if (item.getText().length() > 0)
+                return item;
+        }
+        return null;
+    }
+    private WebElement getSubMeunBreadcrumbs() {
+        List<WebElement> items = driver.findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
+        for (WebElement item : items) {
+            if (item.getText().length() > 0)
+                return item;
+        }
+        return null;
+    }
 }
