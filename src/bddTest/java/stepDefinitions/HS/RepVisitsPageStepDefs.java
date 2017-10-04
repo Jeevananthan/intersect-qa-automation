@@ -47,6 +47,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the \"([^\"]*)\" button in the success page of the college fair$",repVisits::accessSuccessMessageforFair);
 
+        Then("^^HS I Click on the \"([^\"]*)\" button in the College Fair Details Page$",repVisits::accessCollegeFairDetailsPage);
+
         Then("^HS I Click on the \"([^\"]*)\" button in the success page of the Add Attendees page$",repVisits::accessSuccessMessageforAddAttendees);
 
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessCollegeFairOverviewPage);

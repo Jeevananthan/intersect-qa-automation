@@ -107,11 +107,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
                     so I can keep track of who is attending.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
-    Then HS I Click on the "Add Attendees" button in the success page of the college fair
-    Then HS I Add the following Attendee "<Attendees>" from the results in the Add Attendee pop-up page
-    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I verify the Fair Details Page "<College Fair Name>","<VerifyDate>","<instructionsforCollegeRepresentatives>"
+    Then HS I Click on the "Add Attendee" button in the College Fair Details Page
+    Then HS I Add the following Attendee "<Attendees>" from the results in the Add Attendee pop-up page
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<Status>","<Action>"
     And HS I successfully sign out
 

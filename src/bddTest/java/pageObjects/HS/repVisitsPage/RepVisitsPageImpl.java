@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -400,6 +401,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
         if(!buttonToClick.equals("")) {
+            textbox(By.id("college-fair-number-expected-students")).sendKeys(Keys.PAGE_DOWN);
             if(buttonToClick.equals("Cancel This College Fair")) {
                 Assert.assertTrue("'Cancel This College Fair' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).isDisplayed());
                 driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).click();
@@ -430,6 +432,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         WebElement viewDetails = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+fairName+"']/parent::tr/td/a[span='View Details']"));
         viewDetails.click();
+    }
+
+    public void accessCollegeFairDetailsPage(String buttonToClick) {
+        if(buttonToClick.equals("Edit")){
+            driver.findElement(By.cssSelector("button[id='edit-college-fair']")).click();
+        }else if(buttonToClick.equals("Add Attendee")){
+            driver.findElement(By.cssSelector("button[id='add-attendee']")).click();
+        }else if(buttonToClick.equals("")){
+            driver.findElement(By.cssSelector("button[id='message-colleges']")).click();
+        }else{
+            fail("The given option is not a valid one");
+        }
     }
 
     public void verifyCollegeFairDetailsPage(String collegeFairName, String date, String instructionsforCollegeRepresentatives) {
@@ -569,6 +583,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
+
 }
 
 
