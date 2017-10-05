@@ -42,6 +42,8 @@ public class HomePageStepDefs implements En {
 
         Then("^SP I do have access to \"([^\"]*)\" sub menu in left navigation$", navBar::verifySubMenuIsVisible);
 
+        Then("^SP I go to the users list for \"([^\"]*)\" with NCES_ID \"([^\"]*)\" from the institution dashboard using the search$", homePage::goToUsersListUsingSearch);
+
         Then("^SP verify the error message in create user page$",userList::verifyErrorMessageinCreateUser);
 
     }

@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import static org.junit.Assert.fail;
-
 import java.util.Map;
 
 public class UserListPageImpl extends PageObjectFacadeImpl {
@@ -20,12 +19,16 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
-        if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock")) {
+        if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") ) {
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
             Assert.fail("Valid user actions are \"activate\",\"inactivate\" and \"unlock\".");
         }
         button("YES").click();
+        try {
+            driver.wait(2000);
+        } catch (Exception e) {}
+        waitUntilPageFinishLoading();
     }
 
     public void verifyUserStatus(String userName, String activeOrInactive) {
