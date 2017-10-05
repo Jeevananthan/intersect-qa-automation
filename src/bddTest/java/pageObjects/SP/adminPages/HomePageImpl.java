@@ -74,6 +74,18 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link("See All Users").click();
     }
 
+    public void goToCreateUser(String institutionName) {
+        goToInstitution(institutionName);
+        link("Create User").click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void navigateToCreateUser(){
+        link("Create User").click();
+        waitUntilPageFinishLoading();
+
+    }
+
     public void goToLogHistory(String institutionName) {
         goToInstitution(institutionName);
         link("View Log History").click();
