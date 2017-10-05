@@ -65,4 +65,4 @@ Scenario Outline: HE Users - RepVisits - Availability Pills Updates
 
   Examples:
     |hsEndTime        |heStartTime      |heTime       |SchoolName                    |Date               |Day              |HourStartTime |HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits  |StartDate         |EndDate                  |Option                                                    |
-    |6:07pm           |5:11am           |05:11am      |Int Qa High School 4          |November 13 2017   |Tuesday          |11            |11         |09             |10           |am               |pm             |3          |November 13 2017  |November 21 2017         |No, I want to manually review all incoming requests.      |
+    |6:07pm           |5:11am           |05:11am      |Int Qa High School 4          |October 13 2017    |Tuesday          |11            |11         |09             |10           |am               |pm             |3          |October 13 2017   |March 21 2018            |No, I want to manually review all incoming requests.      |
