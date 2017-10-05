@@ -88,6 +88,10 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("\"Please enter a value\" message is not displayed",text("Please enter a value").isDisplayed());
     }
 
+    public void verifyNoErrorMessageinCreateUser(){
+        Assert.assertFalse("\"Please enter a value\" message is not displayed",text("Please enter a value").isDisplayed());
+    }
+
     public void setPrimaryUser(String userName) {
         takeUserAction(userName,"Assign as Primary");
         button("YES").click();

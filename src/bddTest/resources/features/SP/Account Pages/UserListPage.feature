@@ -43,12 +43,15 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
       Then SP I fill the create user form "<heFirstNameVerify>","<heLastNameVerify>","<heEmailVerify>","<heVerifyEmailVerify>","<heRoleVerify>","<heButtontoClickVerify>"
       Then SP verify the error message in create user page
       Then SP I fill the create user form "<heFirstNameSubmit>","<heLastNameSubmit>","<heEmailSubmit>","<heVerifyEmailSubmit>","<heRoleSubmit>","<heButtontoClickSubmit>"
+      Then SP verify there is no empty field error message in the create user page
       #HS create user
       When SP I search for "390495603634"
       Then SP I select "LAKOTA HIGH SCHOOL" from the global search results
       And SP I navigate to create user page
       Then SP I fill the create user form "<hsFirstNameVerify>","<hsLastNameVerify>","<hsEmailVerify>","<hsVerifyEmailVerify>","<hsRoleVerify>","<hsButtontoClickVerify>"
+      Then SP verify the error message in create user page
       Then SP I fill the create user form "<hsFirstNameSubmit>","<hsLastNameSubmit>","<hsEmailSubmit>","<hsVerifyEmailSubmit>","<hsRoleSubmit>","<hsButtontoClickSubmit>"
+      Then SP verify there is no empty field error message in the create user page
 
   Examples:
     |heFirstNameVerify |heLastNameVerify|heEmailVerify         |heVerifyEmailVerify|heRoleVerify |heButtontoClickVerify|heFirstNameSubmit|heLastNameSubmit|heEmailSubmit            |heVerifyEmailSubmit       |heRoleSubmit |heButtontoClickSubmit|hsFirstNameVerify|hsLastNameVerify|hsEmailVerify         |hsVerifyEmailVerify      |hsRoleVerify|hsButtontoClickVerify|hsFirstNameSubmit|hsLastNameSubmit|hsEmailSubmit            |hsVerifyEmailSubmit       |hsRoleSubmit|hsButtontoClickSubmit|

@@ -46,5 +46,7 @@ public class HomePageStepDefs implements En {
 
         Then("^SP verify the error message in create user page$",userList::verifyErrorMessageinCreateUser);
 
+        Then("^SP verify there is no empty field error message in the create user page$",userList::verifyNoErrorMessageinCreateUser);
+
     }
 }
