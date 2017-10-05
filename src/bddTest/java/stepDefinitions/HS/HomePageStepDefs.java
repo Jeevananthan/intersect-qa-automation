@@ -32,7 +32,7 @@ public class HomePageStepDefs implements En {
 
         Then("^HS I verify the navigation globe is displayed for this user$",navBar::verifyNotificationIconInHomePage);
 
-        And("^HS I click the naviagtion globe for viewing the recent notifications$",navBar::clickNavigationGlobeIcon);
+        And("^HS I click the navigation globe for viewing the recent notifications$",navBar::clickNavigationGlobeIcon);
 
     }
 }
