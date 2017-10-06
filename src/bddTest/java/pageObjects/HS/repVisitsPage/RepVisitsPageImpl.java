@@ -123,8 +123,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
-
+        driver.findElement(By.xpath("//button[@class='ui button _1RspRuP-VqMAKdEts1TBAC\']")).sendKeys(Keys.PAGE_DOWN);
         button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//button[@class='ui small button IHDZQsICrqtWmvEpqi7Nd']")).sendKeys(Keys.PAGE_DOWN);
         selectDayForSlotTime("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']", day);
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
@@ -136,8 +138,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectDayForSlotTime(String element, String day)
     {
+        waitUntilPageFinishLoading();
         WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
         dayList.click();
+        waitUntilPageFinishLoading();
         WebElement element1=driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]"));
         waitUntilElementExists(element1);
         driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
