@@ -693,7 +693,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         // Appointments are clickable
         driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
-        Assert.assertTrue("The Wizard contains the appointment details are not displayed",driver.findElement(By.cssSelector("div[class='ui overlay right very wide visible sidebar _1bTs4IjZQSsADQ671qHLL3']")).isDisplayed());
+        waitForUITransition();
+        Assert.assertTrue("Appointment details drawer is not displayed",driver.findElement(By.cssSelector("div[class='ui overlay right very wide visible sidebar _1bTs4IjZQSsADQ671qHLL3']")).isDisplayed());
         driver.findElement(By.xpath("//button[@aria-label='Close']")).click();
 
         //verify Appointment Keys
