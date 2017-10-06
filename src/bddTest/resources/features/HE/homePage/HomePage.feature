@@ -115,7 +115,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
   Scenario: As an HE, HS, or Hobsons user,I need to be presented with the notifications globe from Community in the Intersect banner
   so I can still see when I have notifications from Community.
     Given SP I am logged in to the Admin page as an Admin user
-    Then SP I add post in the Homepage "test111"
+    Then SP I add post in the Homepage "test1921"
     And SP I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "administrator"

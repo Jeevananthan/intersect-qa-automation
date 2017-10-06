@@ -108,8 +108,9 @@ public class NavBarImpl extends SeleniumBase {
 
     public void clickNavigationGlobeIcon(){
         notificationIcon().click();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='notifications']//div[@class='menu transition visible']")));
+        waitUntilPageFinishLoading();
+        WebElement element=driver.findElement(By.xpath("//div[@id='notifications']//div[@class='menu transition visible']"));
+        waitUntilElementExists(element);
 
     }
 
