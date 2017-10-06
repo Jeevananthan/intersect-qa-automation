@@ -76,7 +76,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HE I search for \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked$", repVisits::searchforSchool);
 
-        And("^HS I verify the calendar view in repvisits$",repVisits::verifyCalendarViewOnRepVisits);
+        And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
 
     }
 }
