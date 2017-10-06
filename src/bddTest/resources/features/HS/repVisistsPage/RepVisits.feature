@@ -241,4 +241,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |BlockedDate          |Reason       |StartDate  | EndDate   |
       |September 23 2017    |School Event |2017-09-23 | 2017-09-23|
 
-
+  @MATCH-1756
+  Scenario:As an HS Community member,I need to view a calendar of my appointments
+           so that I can easily see what my day/week/month schedule looks like.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I verify the calendar view in RepVisits
+    And HS I successfully sign out

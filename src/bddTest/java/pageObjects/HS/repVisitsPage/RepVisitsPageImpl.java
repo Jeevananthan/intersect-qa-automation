@@ -657,6 +657,73 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//span[text()='"+ timeZone +"']")).click();
     }
 
+    public void verifyCalendarViewOnRepVisits() {
+        navBar.goToRepVisits();
+        link("Calendar").click();
+
+        //Verify Small Calendar
+        Assert.assertTrue("add visit button is not displayed",button("add visit").isDisplayed());
+        Assert.assertTrue("Small Calendar is not displayed",driver.findElement(By.cssSelector("div[role='application']")).isDisplayed());
+        Assert.assertTrue("small calendar next button is not displayed",driver.findElement(By.cssSelector("button[title='right']>i")).isDisplayed());
+        Assert.assertTrue("small calendar previous button is not displayed",driver.findElement(By.cssSelector("button[title='left']>i")).isDisplayed());
+
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement mainCalendarNextBtn = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[title='Forwards']>i")));
+
+        //Verify Main Calendar
+        Assert.assertTrue("Main Calendar is not displayed",driver.findElement(By.cssSelector("div[class='rbc-calendar rep-visits-rbc-calendar']")).isDisplayed());
+        Assert.assertTrue("Main calendar next button is not displayed",driver.findElement(By.cssSelector("button[title='Forwards']>i")).isDisplayed());
+        Assert.assertTrue("Main calendar previous button is not displayed",driver.findElement(By.cssSelector("button[title='Backwards']>i")).isDisplayed());
+
+        //verify day view
+        Assert.assertTrue(" Day view button is not displayed",button("Day").isDisplayed());
+        driver.findElement(By.cssSelector("button[title='Day']")).click();
+        Assert.assertTrue("Day view is not displayed",driver.findElement(By.cssSelector("div[class='rbc-time-view']")).isDisplayed());
+
+        //verify week view
+        Assert.assertTrue(" Week view button is not displayed",button("Week").isDisplayed());
+        driver.findElement(By.cssSelector("button[title='Week']")).click();
+        Assert.assertTrue("Week view is not displayed",driver.findElement(By.cssSelector("div[class='rbc-time-view']")).isDisplayed());
+
+        //verify month view
+        Assert.assertTrue(" Month view button is not displayed",button("Month").isDisplayed());
+        driver.findElement(By.cssSelector("button[title='Month']")).click();
+        Assert.assertTrue("Month view is not displayed",driver.findElement(By.cssSelector("div[class='rbc-month-view']")).isDisplayed());
+
+        // Appointments are clickable
+        driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
+        waitForUITransition();
+        Assert.assertTrue("Appointment details drawer is not displayed",driver.findElement(By.cssSelector("div[class='ui overlay right very wide visible sidebar _1bTs4IjZQSsADQ671qHLL3']")).isDisplayed());
+        driver.findElement(By.xpath("//button[@aria-label='Close']")).click();
+
+        //verify Appointment Keys
+        //Visits
+        Assert.assertTrue(" visit confirmed option is not displayed",text("Visits - Confirmed").isDisplayed());
+        Assert.assertTrue("Visit confirmed Checkbox is not displayed",driver.findElement(By.xpath("//input[@id='visit' and @type='checkbox']/following::label")).isDisplayed());
+        String visitColor = "rgba(0, 0, 0, 0.87)";
+        String actualVisitColor = driver.findElement(By.xpath("//input[@id='visit']")).getCssValue("color");
+        Assert.assertTrue("Background Color for the Visit checkbox are not displayed",actualVisitColor.equals(visitColor));
+        driver.findElement(By.xpath("//input[@id='visit']/following::label")).click();
+
+        //Fairs
+        Assert.assertTrue(" Fair confirmed option is not displayed",text("College Fair - Confirmed").isDisplayed());
+        Assert.assertTrue("Fair confirmed Checkbox is not displayed",driver.findElement(By.xpath("//input[@id='fair'and @type='checkbox']/following::label")).isDisplayed());
+        String fairColor = "rgba(0, 0, 0, 0.87)";
+        String actualFairColor = driver.findElement(By.xpath("//input[@id='fair']")).getCssValue("color");
+        Assert.assertTrue("Background Color for the fair checkbox are not displayed",actualFairColor.equals(fairColor));
+        driver.findElement(By.xpath("//input[@id='fair']/following::label")).click();
+
+         //Pending
+        Assert.assertTrue("Pending option is not displayed",text("Pending").isDisplayed());
+        Assert.assertTrue("Pending Checkbox is not displayed",driver.findElement(By.xpath("//input[@id='pending'and @type='checkbox']/following::label")).isDisplayed());
+        String pendingColor = "rgba(0, 0, 0, 0.87)";
+        String actualPendingColor = driver.findElement(By.xpath("//input[@id='pending']")).getCssValue("color");
+        Assert.assertTrue("Background Color for the Pending checkbox are not displayed",actualPendingColor.equals(pendingColor));
+        driver.findElement(By.xpath("//input[@id='pending']/following::label")).click();
+
+    }
+
     public void verifyOverviewPage(){
         //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
         repVisitsPageHEObj.verifyOverviewPage();
