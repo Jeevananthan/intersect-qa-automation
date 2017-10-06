@@ -171,9 +171,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifySchedulePopup(String school,String startTime,String endTime)
     {
+        WebElement element=driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]"));
+        waitUntilElementExists(element);
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
         Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+" EST')]")).isDisplayed());
+        WebElement element1=driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]"));
+        waitUntilElementExists(element1);
         driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]")).click();
     }
     public void  verifyPills(String time,String school)

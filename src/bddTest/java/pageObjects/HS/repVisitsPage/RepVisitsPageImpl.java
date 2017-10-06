@@ -129,6 +129,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
+        WebElement element= driver.findElement(By.cssSelector("button[class='ui primary button']"));
+        waitUntilElementExists(element);
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
     }
 
@@ -136,6 +138,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
         dayList.click();
+        WebElement element1=driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]"));
+        waitUntilElementExists(element1);
         driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
     }
 
