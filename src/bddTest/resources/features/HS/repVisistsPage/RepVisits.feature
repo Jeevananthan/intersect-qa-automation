@@ -116,8 +116,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
    Examples:
-     |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees                  |VerifyDate       |instructionsforCollegeRepresentatives|Name                    |Contact                                                                  |Notes|Status   |Action|
-     |QA Fair Cancel Fair Attendee|December 23 2017|December 21 2017|0500AM     |0600AM   |$25 |25                    |100                        |Save         |NidhuMontevallo ThomasAdmin|December 23, 2017|                                     |University of Montevallo|NidhuMontevallo ThomasAdmin,Montevallo Admin,nidhu.thomas@hobsons.com,513|     |Attending|yes   |
+     |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                    |Contact                                                    |Notes|Status   |Action|
+     |QA Fair Cancel Fair Attendee|December 23 2017|December 21 2017|0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|December 23, 2017|                                     |The University of Alabama|PurpleHE Automation,QAManager,purpleheautomation@gmail.com|     |Attending|yes   |
 
 
 
