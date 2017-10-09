@@ -23,6 +23,7 @@ import java.awt.datatransfer.StringSelection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import utilities.GetProperties;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -649,6 +650,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             link("Availability & Settings").click();
             link("Availability").click();
         }
+    }
+
+    public void verifyCalendarSyncMilestoneInSetupWizard(){
+        waitForUITransition();
+        waitForUITransition();
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Calendar Sync']")).size()==0) {
+            button("Next").click();
+            waitUntilPageFinishLoading();
+        }
+
+        //verify 'Back' button and 'Next' button is displayed
+        Assert.assertTrue(button("Back").isDisplayed());
+        Assert.assertTrue(button("Next").isDisplayed());
+
+        //verify UI text
+        Assert.assertTrue("'Calendar Sync' page is not displayed", text("iCal/Outlook Subscription").isDisplayed());
+
+        button("Next").click();
+        Assert.assertTrue("'Naviance setting page' page is not displayed", text("Connecting Naviance and RepVisits").isDisplayed());
+
+        button("Back").click();
+        waitUntilPageFinishLoading();
+        button("Back").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Notification and Primary contact' page is not displayed", text("Primary Contact for Visits").isDisplayed());
+
+
     }
 
     private void setTimeZoneValue(String timeZone) {
