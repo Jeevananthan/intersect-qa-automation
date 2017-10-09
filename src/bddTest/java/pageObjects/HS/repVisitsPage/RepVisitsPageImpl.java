@@ -653,8 +653,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCalendarSyncMilestoneInSetupWizard(){
-
-
+        waitForUITransition();
+        waitForUITransition();
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Calendar Sync']")).size()==0) {
@@ -667,13 +667,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(button("Next").isDisplayed());
 
         //verify UI text
-        Assert.assertTrue("'Calendar Sync' page is not displayed", text("Calendar Sync is Coming Soon!").isDisplayed());
+        Assert.assertTrue("'Calendar Sync' page is not displayed", text("iCal/Outlook Subscription").isDisplayed());
 
         button("Next").click();
         Assert.assertTrue("'Naviance setting page' page is not displayed", text("Connecting Naviance and RepVisits").isDisplayed());
 
         button("Back").click();
+        waitUntilPageFinishLoading();
         button("Back").click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("'Notification and Primary contact' page is not displayed", text("Primary Contact for Visits").isDisplayed());
 
 

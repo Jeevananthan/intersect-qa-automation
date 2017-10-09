@@ -249,11 +249,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
 
-    @MATCH-1949
-      Scenario: As a new RepVisits user,I want the setup wizard to help me configure my calendars
-       so that I can see all my calendar information in one place.
-      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-      And HS I verify the Calendar Sync Milestone in the setup wizard of repvisits
-      And HS I successfully sign out
+  @MATCH-1949
+  Scenario: As a new RepVisits user,I want the setup wizard to help me configure my calendars
+            so that I can see all my calendar information in one place.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I verify the Calendar Sync Milestone in the setup wizard of repvisits
+    And HS I successfully sign out
 
 
