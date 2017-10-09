@@ -31,10 +31,10 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     And HE I successfully sign out
 
   @MATCH-1799
-  Scenario: Force new user to Activate Community Profile first before accessing RepVisits
+  Scenario: Ensure that new users are forced to Activate Community Profile before accessing RepVisits
     Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
-    When HE I verify that I am redirecting to the Community activate profile page when accessing RepVisits
-    And HE I activated my community profile by providing OfficePhone as "1234567892" and JobTitle as "Counselor"
+    When HE I verify that I am redirected to the Community activate profile page when accessing RepVisits
+    And HE I activate my community profile by providing OfficePhone as "1234567892" and JobTitle as "Counselor"
     And HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits
     And HE I clear the account to get the community welcome page again
     Then HE I successfully sign out
