@@ -21,3 +21,25 @@ Feature: Hobsons Support - View Institution Log History
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the Log History for "The University of Alabama" from the institution dashboard
     And SP I successfully sign out
+
+  @MATCH-191
+  Scenario: As a Support user - I need to be able to view and filter by date an audit log
+    Given SP I am logged in to the Admin page as a Support user
+    When SP I click on an institution name
+    And SP I go to the Log History for "Gwynedd Mercy University" from the institution dashboard
+    Then SP I select "Today" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Today"
+    Then SP I select "Yesterday" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Yesterday"
+    Then SP I select "Last 7 days" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Last 7 days"
+    Then SP I select "Last 30 days" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Last 30 days"
+    Then SP I select "Custom" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Custom"
+    And SP I verify that Start and End Date are displayed in the Log History filter after choosing 'Custom'
+    Then SP I select "Last Week" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Last Week"
+    Then SP I select "Last Month" from the Log History filter
+    And SP I verify the Log History correctly shows records from "Last Month"
+    And SP I successfully sign out
