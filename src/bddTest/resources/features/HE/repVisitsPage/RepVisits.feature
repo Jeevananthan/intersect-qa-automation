@@ -47,3 +47,38 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     Then HE I verify the Check RepVisits Availability button
     And HE I successfully sign out
 
+  @MATCH-1610
+  Scenario: As an HE Community member,I need to view a calendar of my appointments
+            so that I can easily see what my day/week/month schedule looks like.
+    Given HE I am logged in to Intersect HE as user type "community"
+    And HE I verify the calendar view in repvisits
+    And HE I successfully sign out
+
+  @MATCH-1935 @MATCH-1934
+  Scenario: As an HE user tied to an HE account that DOES NOT have the Intersect Presence Subscription activated.
+  I need to see an upgrade message on the Contacts tab and Recommendations tab.
+  #logging to support app to do pre-requisites that is inactive the ''Intersect Presence Subscription'' module
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "Alma College" from the institution dashboard
+    And SP I set the "Legacy: Hub page management" module to "active" in the institution page
+    And SP I set the "Legacy: Community" module to "active" in the institution page
+    And SP I set the "Intersect Awareness Subscription" module to "active" in the institution page
+    And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+  #logging to HE app to verify the upgrade message for contacts and recommendations tabs
+    Given HE I want to login to the HE app using "kpmahibalan93+123@gmail.com" as username and "P@ssw0rd" as password
+    Then HE I verify the upgrade messaging on the Contacts page in RepVisits
+    Then HE I verify the upgrade messaging on the Recommendations page in RepVisits
+    Then HE I successfully sign out
+  #logging to support app to active the ''Intersect Presence Subscription'' module
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "Alma College" from the institution dashboard
+    And SP I set the "Legacy: Hub page management" module to "active" in the institution page
+    And SP I set the "Legacy: Community" module to "active" in the institution page
+    And SP I set the "Intersect Awareness Subscription" module to "active" in the institution page
+    And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+
+

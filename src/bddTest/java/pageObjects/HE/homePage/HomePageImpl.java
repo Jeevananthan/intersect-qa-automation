@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 import java.util.List;
 import java.util.Map;
@@ -215,8 +216,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityActivationForRepVisits(){
-        navBar.goToRepVisits();
+        getRepVisitsBtn().click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().frame(0);
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
+        driver.switchTo().defaultContent();
     }
 
     public void verifyWidgetIsVisible(String widgetName){
@@ -229,6 +233,30 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
+    public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle){
+        driver.switchTo().frame(0);
+        getofficePhone().sendKeys(OfficePhone);
+        getJobTitle().sendKeys(JobTitle);
+        getTermsAndConditionCheckBox().click();
+        button("Save").click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+    }
+
+    public void clickRepVisits(){
+        int count = 1;
+        while (!getSearchAndScheduleHeading().isDisplayed() && count<4){
+            getRepVisitsBtn().click();
+            count++;
+        }
+        Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
+    }
+
+    //Below method is for clearing the community account to get the Community Welcome Paga.
+    public void clearCommunityProfile(){
+        load(GetProperties.get("he.community.clear"));
+        waitUntilPageFinishLoading();
+    }
 
 
     //locators
@@ -236,4 +264,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return button(By.id("user-dropdown"));
     }
     private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
+    private WebElement getRepVisitsBtn() { return link(By.id("js-main-nav-rep-visits-menu-link")); }
+    private WebElement getofficePhone() { return driver.findElement(By.id("edit-field-office-phone-und-0-value"));}
+    private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
+    private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
+    private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
 }
