@@ -47,6 +47,12 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     Then HE I verify the Check RepVisits Availability button
     And HE I successfully sign out
 
+  @MATCH-1610
+  Scenario: As an HE Community member,I need to view a calendar of my appointments
+            so that I can easily see what my day/week/month schedule looks like.
+    Given HE I am logged in to Intersect HE as user type "community"
+    And HE I verify the calendar view in repvisits
+    And HE I successfully sign out
 
   @MATCH-1935 @MATCH-1934
   Scenario: As an HE user tied to an HE account that DOES NOT have the Intersect Presence Subscription activated.

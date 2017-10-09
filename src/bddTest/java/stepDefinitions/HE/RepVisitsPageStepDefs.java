@@ -1,6 +1,5 @@
 package stepDefinitions.HE;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
 
@@ -35,5 +34,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the Check RepVisits Availability button$", repVisits::verifyCheckRepVisitsAvailabilityButton);
 
         And("^HE I verify Repvisits Special Instructions for School are \"([^\"]*)\"$", repVisits::verifyHSSpecialInstructions);
+
+        And("^HE I verify the calendar view in repvisits$",repVisits::verifyCalendarViewOnRepVisits);
+
     }
 }
