@@ -34,5 +34,10 @@ public class AccountPagesStepDefs implements En {
         And("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActiveWithDate);
 
         And("^SP I Click the Save Changes button",accountPage::clicksaveChangesButton);
+
+
+        And("^SP I update Institutional Details with Connect Id as \"([^\"]*)\" and Radius Id as \"([^\"]*)\"$",accountPage::updateInstitutionalDetailsWithConnectAndRadiusId);
+
+        Then("^SP I verify the updated details are displaying in the account page$",accountPage::verifyInstitutionalDetails);
     }
 }
