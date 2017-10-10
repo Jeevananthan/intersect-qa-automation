@@ -109,9 +109,7 @@ public class NavBarImpl extends SeleniumBase {
     public void clickNavigationGlobeIcon(){
         notificationIcon().click();
         waitUntilPageFinishLoading();
-        WebElement element=driver.findElement(By.xpath("//div[@id='notifications']//div[@class='menu transition visible']"));
-        waitUntilElementExists(element);
-
+        Assert.assertTrue("GlobeIcon is not displayed",verifyGlobeIcon().isDisplayed());
     }
 
 
@@ -159,6 +157,7 @@ public class NavBarImpl extends SeleniumBase {
         }
     }
 
+
     private boolean isLinkActive(WebElement link) {
         //_28hxQ33nAx_7ae3SZ4XGnj is the class that is added to indicate css active
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
@@ -168,6 +167,11 @@ public class NavBarImpl extends SeleniumBase {
     private WebElement notificationIcon()
     {WebElement element=driver.findElement(By.xpath("//div[@id='notifications']"));
     return  element;}
+    private WebElement verifyGlobeIcon(){
+        WebElement element=driver.findElement(By.xpath("//div[@id='notifications']//div[@class='menu transition visible']"));
+        waitUntilElementExists(element);
+        return  element;
+    }
     private WebElement getHomeBtn() {
         return link(By.id("js-main-nav-home-menu-link"));
     }
