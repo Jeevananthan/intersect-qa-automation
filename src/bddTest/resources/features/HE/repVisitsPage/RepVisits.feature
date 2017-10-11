@@ -49,7 +49,7 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
 
 @MATCH-2169
 Scenario Outline: HE Users - RepVisits - Availability Pills Updates
-  Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
+  Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
   Then HS I set a date using "<StartDate>" and "<EndDate>"
   And HS I verify the update button appears and I click update button
   When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
@@ -64,5 +64,5 @@ Scenario Outline: HE Users - RepVisits - Availability Pills Updates
   And HE I successfully sign out
 
   Examples:
-    |hsEndTime        |heStartTime      |heTime       |SchoolName                    |Date                |Day              |HourStartTime  |HourEndTime |MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits  |StartDate          |EndDate                  |Option                                                    |
-    |11:10pm          |11:09am          |11:09am      |Standalone High School 7      |December 20 2017    |Thursday         |11:            |11:         |09             |10           |am               |pm             |3          |December 20 2017   |March 21 2018            |No, I want to manually review all incoming requests.      |
+    |hsEndTime|heStartTime|heTime  |SchoolName          |Date            |Day   |HourStartTime|HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|StartDate       |EndDate      |Option                                              |
+    |12:10pm  |12:09am    |12:09am |Int Qa High School 4|December 20 2017|Friday|12:          |12:        |09             |10           |am               |pm             |3        |December 20 2017|March 21 2018|No, I want to manually review all incoming requests.|
