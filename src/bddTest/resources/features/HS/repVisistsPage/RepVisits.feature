@@ -248,7 +248,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the calendar view in RepVisits
     And HS I successfully sign out
 
-
   @MATCH-1949
   Scenario: As a new RepVisits user,I want the setup wizard to help me configure my calendars
             so that I can see all my calendar information in one place.
@@ -256,14 +255,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the Calendar Sync Milestone in the setup wizard of repvisits
     And HS I successfully sign out
 
-
-
-
-
   @MATCH-1948
   Scenario: As a new RepVisits user,I want the setup wizard to help me configure my school's contacts.
             so that I can be sure internal notifications will be routed to the people who need the information.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
-    Then HS I change the primary contact from "Jennifer TestAdmin" to "IAM Purple" and verify that the save option is working
     And HS I successfully sign out

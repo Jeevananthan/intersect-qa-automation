@@ -998,9 +998,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Notifications & Primary Contact']")).size()==0) {
             button("Next").click();
+            waitUntilElementExists(button("Next"));
             waitUntilPageFinishLoading();
         }
 
+        waitForUITransition();
         //verify 'Back' button and 'Next' button is displayed
         Assert.assertTrue(button("Back").isDisplayed());
         Assert.assertTrue(button("Next").isDisplayed());
@@ -1008,9 +1010,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify UI text
         Assert.assertTrue("'Primary Contact for Visits' page is not displayed", text("Primary Contact for Visits").isDisplayed());
 
-        Assert.assertTrue("Primary Contact Number field is not displayed",driver.findElement(By.xpath("//div[@class='ui selection dropdown']/select/following::div[1]")).isDisplayed());
+        Assert.assertTrue("Primary Contact Number field is not displayed",driver.findElement(By.id("notification_contacts_primary_contact_phone")).isDisplayed());
 
-        String primaryContactName = driver.findElement(By.xpath("//div[@class='ui selection dropdown']//div[@class='text']")).getText();
+        String primaryContactName = driver.findElement(By.xpath("//div[@name='primaryContact']//div[@class='text']")).getText();
 
         if(primaryContactName.contains(primaryUser)) {
              userTochange = changeNewUser;
@@ -1018,15 +1020,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         }
         else{
-
              userTochange = primaryUser;
-
-            }
-        driver.findElement(By.xpath("//div[@class='ui selection dropdown']/div[@class='text']")).click();
+        }
+        driver.findElement(By.xpath("//div[@name='primaryContact']/div[@class='text']")).click();
         driver.findElement(By.xpath("//div[@class='menu transition visible']/div/span[text()='" + userTochange + "']")).click();
 
         button("Next").click();
-        Assert.assertTrue("'Calendar Sync is Coming Soon!' page is not displayed", text("Calendar Sync is Coming Soon!").isDisplayed());
+        Assert.assertTrue("Calendar Sync page is not displayed", text("iCal/Outlook Subscription").isDisplayed());
 
         button("Back").click();
         primaryContactName = driver.findElement(By.xpath("//div[@class='ui selection dropdown']//div[@class='text']")).getText();
