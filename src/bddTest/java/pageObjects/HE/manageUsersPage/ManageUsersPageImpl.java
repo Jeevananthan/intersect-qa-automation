@@ -28,16 +28,19 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     public void inactivateUser(String accountName) {
         takeUserAction(accountName,"Inactivate");
         button("Yes").click();
+        waitForStatusChangeModalToClear();
     }
 
     public void activateUser(String accountName) {
         takeUserAction(accountName,"Activate");
         button("Yes").click();
+        waitForStatusChangeModalToClear();
     }
 
     public void unlockUser(String accountName) {
         takeUserAction(accountName,"Unlock");
         button("Yes").click();
+        waitUntilPageFinishLoading();
     }
 
     public void editUser(String accountName,DataTable dataTable) {
@@ -53,12 +56,14 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         button("SAVE").click();
     }
 
-    public void verifyUserRoles() {
+
+    public void verifyUserRoles(DataTable table) {
         navBar.goToUsers();
         button("ADD NEW USER").click();
-        String[] roles = {"administrator", "publishing", "community"};
-        for (String role : roles) {
-            Assert.assertTrue("Expected to find role " + role + ", but it was not found.", (driver.findElement(By.cssSelector("input[value='"+role.toLowerCase()+"']")).getLocation().getX()) > 0);
+        List<String> li = table.transpose().asList(String.class);
+        for (int i=1;i<li.size();i++){
+            String role = li.get(i);
+            Assert.assertTrue("Expected to find role " + role + ", but it was not found.", driver.findElement(By.xpath("//label[@class='lESlXEQvUQGVcUPjUzRud']/span[text()='"+role+"']")).isDisplayed());
         }
     }
 
@@ -113,10 +118,41 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Last login date is not correct for "+username, getDriver().findElement(By.xpath("//td[contains(text(),'"+username+"')]/following::span[contains(text(),'"+currentDate+"')]")).isDisplayed());
     }
 
+
+    public void createHigherEducationUser(String firstName, String lastName,String Email,String role){
+
+        navBar.goToUsers();
+        button("Add New User").click();
+
+        textbox("First Name").sendKeys(firstName);
+        textbox("Last Name").sendKeys(lastName);
+        textbox("Email").sendKeys(Email);
+        driver.findElement(By.xpath("//input[@aria-label='"+role+"']")).click();
+
+
+//
+
+        button("SAVE").click();
+    }
+
     // This is necessary because Selenium doesn't think that the action options are visible (even though they are),
     // so we interact with them directly through JS.
     private void jsClick(WebElement element) {
         driver.executeScript("arguments[0].click();",element);
+    }
+
+    // These actions can be very slow in the UI and eat further script clicks.  Wait up to 20 seconds for them to disappear.
+    private void waitForStatusChangeModalToClear() {
+        long now = System.currentTimeMillis();
+        long timeout = now + 20000;
+        try {
+            do {
+                driver.findElement(By.id("manage-user-status-change-modal")).isDisplayed();
+            } while (timeout > System.currentTimeMillis());
+            Assert.fail("Waited 20 seconds for Modal to clear and it did not.");
+        } catch (Exception e) {
+            System.out.println("\nWaited " + (System.currentTimeMillis() - now) + " ms for Modal.\n");
+        }
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }

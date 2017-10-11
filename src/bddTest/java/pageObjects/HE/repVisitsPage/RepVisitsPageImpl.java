@@ -6,13 +6,16 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
-
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
@@ -98,6 +101,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 getComingSoonMessageInOverviewPage().getText().equals("The Overview Dashboard is coming soon. It will provide a quick view of your upcoming appointments and most recent notifications."));
     }
 
+    public void verifyCheckRepVisitsAvailabilityButton(){
+        driver.switchTo().frame(0);
+        Assert.assertTrue("Check RepVisits Availability Button is not present", getCheckRepVisitsAvailabilityButton().isDisplayed());
+        getCheckRepVisitsAvailabilityButton().click();
+        driver.switchTo().defaultContent();
+        Assert.assertTrue("RepVisits Availability Sidebar is not displaying.", getRepVisitsAvailabilitySidebar().isDisplayed());
+    }
+
+    //locators
+    public void verifyHSSpecialInstructions(String instructions)
+    {
+        Assert.assertTrue("High School specila instructions are not matching/available",getParent(driver.findElement(By.className("kuh1rp3g-UeGhggKqCdPA"))).findElement(By.cssSelector("div:nth-child(4)")).getText().contains(instructions));
+    }
+
     public void selectSchoolFromMap(String schoolName) {
         button(schoolName).click();
         waitUntilPageFinishLoading();
@@ -117,6 +134,97 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyUpgradeMessageInTravelPlanInRepVisits(){
+        navBar.goToRepVisits();
+        getTravelPlanBtn().click();
+        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
+}
+  
+    public void verifyUpgradeMessageInContactsInRepVisits(){
+
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
+    }
+
+    public void verifyUpgradeMessageInRecommendationsInRepVisits(){
+
+        navBar.goToRepVisits();
+        getRecommendationsBtn().click();
+        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
+    }
+
+    public void verifyCalendarViewOnRepVisits() {
+        navBar.goToRepVisits();
+        link("Calendar").click();
+
+        //Verify Small Calendar
+        Assert.assertTrue("Small Calendar is not displayed",driver.findElement(By.cssSelector("div[role='application']")).isDisplayed());
+        Assert.assertTrue("small calendar next button is not displayed",driver.findElement(By.cssSelector("button[title='right']>i")).isDisplayed());
+        Assert.assertTrue("small calendar previous button is not displayed",driver.findElement(By.cssSelector("button[title='left']>i")).isDisplayed());
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement mainCalendarNextBtn = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[title='Forwards']>i")));
+
+        //Verify Main Calendar
+        Assert.assertTrue("Main Calendar is not displayed",driver.findElement(By.cssSelector("div[class='rbc-calendar rep-visits-rbc-calendar ']")).isDisplayed());
+        Assert.assertTrue("Main calendar next button is not displayed",driver.findElement(By.cssSelector("button[title='Forwards']>i")).isDisplayed());
+        Assert.assertTrue("Main calendar previous button is not displayed",driver.findElement(By.cssSelector("button[title='Backwards']>i")).isDisplayed());
+
+        //verify day view
+        Assert.assertTrue(" Day view button is not displayed",button("Day").isDisplayed());
+        driver.findElement(By.cssSelector("button[title='Day']")).click();
+        Assert.assertTrue("Day view is not displayed",driver.findElement(By.cssSelector("div[class='rbc-time-view']")).isDisplayed());
+
+        //verify week view
+        Assert.assertTrue(" Week view button is not displayed",button("Week").isDisplayed());
+        driver.findElement(By.cssSelector("button[title='Week']")).click();
+        Assert.assertTrue("Week view is not displayed",driver.findElement(By.cssSelector("div[class='rbc-time-view']")).isDisplayed());
+
+        //verify month view
+        Assert.assertTrue(" Month view button is not displayed",button("Month").isDisplayed());
+        driver.findElement(By.cssSelector("button[title='Month']")).click();
+        Assert.assertTrue("Month view is not displayed",driver.findElement(By.cssSelector("div[class='rbc-month-view']")).isDisplayed());
+
+        // Appointments are clickable
+        driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
+        waitForUITransition();
+        Assert.assertTrue("The Wizard contains the appointment details are not displayed",driver.findElement(By.cssSelector("div[class='ui overlay right very wide visible sidebar _1bTs4IjZQSsADQ671qHLL3']")).isDisplayed());
+        driver.findElement(By.xpath("//button[@aria-label='Close']")).click();
+
+        //verify Appointment Keys
+        //Visits
+        Assert.assertTrue(" visit confirmed option is not displayed",text("Visits - Confirmed").isDisplayed());
+        Assert.assertTrue("Visit confirmed Checkbox is not displayed",driver.findElement(By.xpath("//input[@id='visit' and @type='checkbox']/following::label")).isDisplayed());
+        String visitColor = "rgba(0, 0, 0, 0.87)";
+        String actualVisitColor = driver.findElement(By.xpath("//input[@id='visit']")).getCssValue("color");
+        Assert.assertTrue("Background Color for the Visit checkbox are not displayed",actualVisitColor.equals(visitColor));
+        driver.findElement(By.xpath("//input[@id='visit']/following::label")).click();
+
+        //Fairs
+        Assert.assertTrue(" Fair confirmed option is not displayed",text("College Fair - Confirmed").isDisplayed());
+        Assert.assertTrue("Fair confirmed Checkbox is not displayed",driver.findElement(By.xpath("//input[@id='fair'and @type='checkbox']/following::label")).isDisplayed());
+        String fairColor = "rgba(0, 0, 0, 0.87)";
+        String actualFairColor = driver.findElement(By.xpath("//input[@id='fair']")).getCssValue("color");
+        Assert.assertTrue("Background Color for the fair checkbox are not displayed",actualFairColor.equals(fairColor));
+        driver.findElement(By.xpath("//input[@id='fair']/following::label")).click();
+
+        //Pending
+        Assert.assertTrue("Pending option is not displayed",text("Pending").isDisplayed());
+        Assert.assertTrue("Pending Checkbox is not displayed",driver.findElement(By.xpath("//input[@id='pending'and @type='checkbox']/following::label")).isDisplayed());
+        String pendingColor = "rgba(0, 0, 0, 0.87)";
+        String actualPendingColor = driver.findElement(By.xpath("//input[@id='pending']")).getCssValue("color");
+        driver.findElement(By.xpath("//input[@id='pending']/following::label")).click();
+        Assert.assertTrue("Background Color for the Pending checkbox are not displayed",actualPendingColor.equals(pendingColor));
+
+    }
+
     private WebElement getOverviewBtn() {
         return link("Overview");
     }
@@ -132,9 +240,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getContactsBtn() {
         return link("Contacts");
     }
-    private WebElement getRecommendationsBtn() {
-        return link("Recommendations");
-    }
+    private WebElement getRecommendationsBtn() {return link("Recommendations");}
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
@@ -142,4 +248,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
+    private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.className("check-repvisits-link")); }
+    private WebElement getRepVisitsAvailabilitySidebar(){ return driver.findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
+
 }
