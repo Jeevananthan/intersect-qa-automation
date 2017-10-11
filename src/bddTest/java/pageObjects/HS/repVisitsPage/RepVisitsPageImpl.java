@@ -129,10 +129,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//button[@class='ui button _1RspRuP-VqMAKdEts1TBAC']")).sendKeys(Keys.PAGE_DOWN);
         button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
         driver.findElement(By.xpath("//button[@class='ui small button IHDZQsICrqtWmvEpqi7Nd']")).sendKeys(Keys.PAGE_DOWN);
-        WebElement element=driver.findElement(By.cssSelector("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
-        waitUntilElementExists(element);
-        WebElement element2=driver.findElement(By.xpath("//div[@class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
-        waitUntilElementExists(element2);
+        waitUntilElementExists(addTimeslot());
+        waitUntilElementExists(selectDay());
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
@@ -142,14 +140,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectDayForSlotTime(String element, String day)
     {
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(selectDay());
         WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
+        waitUntilElementExists(dayList);
         dayList.click();
-        waitUntilPageFinishLoading();
-        WebElement element1=driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]"));
-        waitUntilElementExists(element1);
+        WebElement selectDay=driver.findElement(By.xpath("//div/span[contains(text(), '"+day+"')]"));
+        waitUntilElementExists(selectDay);
         driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
     }
+
 
     public void inputStartTime(String hour, String minute, String meridian)
     {
@@ -222,12 +221,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Availability").click();
         link("Availability Settings").click();
-        WebElement element=button("Save Changes");
-        waitUntilElementExists(element);
+        waitUntilElementExists(saveChanges());
         WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
         options.findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
         button("Save Changes").click();
     }
+
 
     public void verifyContentsOfNavianceSettings() {
         navBar.goToRepVisits();
@@ -408,6 +407,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateBtn(){
         return button("UPDATE DATE");
     }
+
+    private WebElement addTimeslot()
+    {
+        WebElement element=driver.findElement(By.cssSelector("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
+        waitUntilElementExists(element);
+        return  element;
+    }
+
+    private WebElement saveChanges()
+    {
+        WebElement element=button("Save Changes");
+        waitUntilElementExists(element);
+        return  element;
+    }
+
+    private WebElement selectDay()
+    {
+        WebElement element=driver.findElement(By.xpath("//div[@class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
+        waitUntilElementExists(element);
+        return element;
+    }
+
 
 }
 
