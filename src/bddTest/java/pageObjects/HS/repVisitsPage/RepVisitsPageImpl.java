@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import utilities.GetProperties;
+import utilities.GetProperties;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -988,6 +989,68 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         return rowId;
     }
+    public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){
+
+
+        String userTochange;
+
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Notifications & Primary Contact']")).size()==0) {
+            button("Next").click();
+            waitUntilElementExists(button("Next"));
+            waitUntilPageFinishLoading();
+        }
+
+        waitForUITransition();
+        //verify 'Back' button and 'Next' button is displayed
+        Assert.assertTrue(button("Back").isDisplayed());
+        Assert.assertTrue(button("Next").isDisplayed());
+
+        //verify UI text
+        Assert.assertTrue("'Primary Contact for Visits' page is not displayed", text("Primary Contact for Visits").isDisplayed());
+
+        Assert.assertTrue("Primary Contact Number field is not displayed",driver.findElement(By.id("notification_contacts_primary_contact_phone")).isDisplayed());
+
+        String primaryContactName = driver.findElement(By.xpath("//div[@name='primaryContact']//div[@class='text']")).getText();
+
+        if(primaryContactName.contains(primaryUser)) {
+             userTochange = changeNewUser;
+            logger.info("Primary user is selected in primary contact name");
+
+        }
+        else{
+             userTochange = primaryUser;
+        }
+        driver.findElement(By.xpath("//div[@name='primaryContact']/div[@class='text']")).click();
+        driver.findElement(By.xpath("//div[@class='menu transition visible']/div/span[text()='" + userTochange + "']")).click();
+
+        button("Next").click();
+        Assert.assertTrue("Calendar Sync page is not displayed", text("iCal/Outlook Subscription").isDisplayed());
+
+        button("Back").click();
+        primaryContactName = driver.findElement(By.xpath("//div[@class='ui selection dropdown']//div[@class='text']")).getText();
+        Assert.assertTrue("Primary contact name is not saved properly",primaryContactName.equalsIgnoreCase(userTochange));
+
+        if(primaryContactName.contains(primaryUser)) {
+            userTochange = changeNewUser;
+            logger.info("Primary user is selected in primary contact name");
+
+        }
+        else{
+            userTochange = primaryUser;
+
+        }
+
+
+        button("Back").click();
+        Assert.assertTrue("'Confirmation Message' page is not displayed", text("Confirmation Message").isDisplayed());
+        button("Next").click();
+        Assert.assertTrue("Primary contact name is not saved properly",!primaryContactName.contains(userTochange));
+
+    }
+
+
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
