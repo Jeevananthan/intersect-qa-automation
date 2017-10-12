@@ -411,16 +411,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement saveChanges()
     {
-        WebElement element=button("Save Changes");
-        waitUntilElementExists(element);
-        return  element;
+        WebElement saveChanges=button("Save Changes");
+        waitUntilElementExists(saveChanges);
+        return  saveChanges;
     }
 
     private WebElement selectDay()
     {
-        WebElement element=driver.findElement(By.xpath("//div[@class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
-        waitUntilElementExists(element);
-        return element;
+        WebElement selectDay=driver.findElement(By.xpath("//div[@class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
+        waitUntilElementExists(selectDay);
+        return selectDay;
     }
 
     private  WebElement submit()

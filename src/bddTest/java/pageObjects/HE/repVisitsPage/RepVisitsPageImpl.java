@@ -114,8 +114,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
         waitUntilElementExists(search());
         driver.findElement(By.xpath("//button[@class='ui button']")).click();
-        WebElement element=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
-        waitUntilElementExists(element);
+        WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]")).isDisplayed());
         driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]")).click();
     }
@@ -123,8 +123,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void visitsSchedule(String school,String date,String time)
     {
         driver.findElement(By.xpath("//span[text()='Visits']")).click();
-        WebElement element=driver.findElement(By.xpath("//a[text()='"+school+"']"));
-        waitUntilElementExists(element);
+        WebElement schoolName=driver.findElement(By.xpath("//a[text()='"+school+"']"));
+        waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div/a[text()='"+school+"']")).isDisplayed());
         waitUntilElementExists(goToDate());
         driver.findElement(By.xpath("//button[text()='Go To Date']")).click();
@@ -219,15 +219,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 }
 
     private WebElement search(){
-        WebElement element=driver.findElement(By.xpath("//button[@class='ui button']"));
-        waitUntilElementExists(element);
-        return  element;
+        WebElement search=driver.findElement(By.xpath("//button[@class='ui button']"));
+        waitUntilElementExists(search);
+        return  search;
     }
     private WebElement goToDate()
     {
-        WebElement element=driver.findElement(By.xpath("//button[text()='Go To Date']"));
-        waitUntilElementExists(element);
-        return  element;
+        WebElement goToDate=driver.findElement(By.xpath("//button[text()='Go To Date']"));
+        waitUntilElementExists(goToDate);
+        return  goToDate;
     }
     private WebElement getOverviewBtn() {
         return link("Overview");
