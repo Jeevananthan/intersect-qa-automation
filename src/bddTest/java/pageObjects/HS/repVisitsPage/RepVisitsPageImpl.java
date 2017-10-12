@@ -129,12 +129,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//button[@class='ui button _1RspRuP-VqMAKdEts1TBAC']")).sendKeys(Keys.PAGE_DOWN);
         button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
         driver.findElement(By.xpath("//button[@class='ui small button IHDZQsICrqtWmvEpqi7Nd']")).sendKeys(Keys.PAGE_DOWN);
-        waitUntilElementExists(addTimeslot());
+        driver.findElement(By.xpath("//input[@id='availability-end-time']")).sendKeys(Keys.PAGE_DOWN);
         waitUntilElementExists(selectDay());
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
+        waitUntilElementExists(submit());
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
     }
 
@@ -408,13 +409,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button("UPDATE DATE");
     }
 
-    private WebElement addTimeslot()
-    {
-        WebElement element=driver.findElement(By.cssSelector("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
-        waitUntilElementExists(element);
-        return  element;
-    }
-
     private WebElement saveChanges()
     {
         WebElement element=button("Save Changes");
@@ -427,6 +421,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement element=driver.findElement(By.xpath("//div[@class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
         waitUntilElementExists(element);
         return element;
+    }
+
+    private  WebElement submit()
+    {
+        WebElement submit=driver.findElement(By.cssSelector("button[class='ui primary button']"));
+        waitUntilElementExists(submit);
+        return  submit;
     }
 
 
