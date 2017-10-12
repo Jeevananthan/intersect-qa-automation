@@ -72,6 +72,16 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I click on Send Message$",repVisits::sendMessage);
         Then("^HS I verify confirmation message$",repVisits::verifySentEmailConfirmationMessage);
         Then("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
+        Then("^HS I Click button Add a College Fair to Add a fair$",repVisits:: clickAddCollegeFairButton);
+        Then("^HS I click on Save button to save fair$",repVisits::clickSaveButtonToSaveFairDetails);
+        Then("^HS I click close button  to return to Upcoming Events screen$",repVisits::clickFairClose);
+        Then("^HS I enter the following data to create fair$", repVisits:: addCollegeFairdetails);
+        Then("^HS I click on Add Attendees button$",repVisits:: clickAddAttendees);
+        Then("^HS I Add an Attendee from list \"([^\"]*)\"$", repVisits:: addAttendeeFromList);
+        Then("^HS I click View Details  againts fair \"([^\"]*)\"$",repVisits:: viewFairDetails);
+        Then("^HS I click on button Add attendees$", repVisits:: clickAddAttendeetovisit);
+        Then("^HS I click on button Add Attendee to add schools to fair$",repVisits:: addSchoolsToFair);
+        Then("^HS I click button NO, I'M DONE to return to Fair Colleges Attening screen$",repVisits::noIamDoneclick);
 
     }
 }
