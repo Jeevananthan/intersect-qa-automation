@@ -220,6 +220,22 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I click on button Add attendees
     Then HS I click button NO, I'M DONE to return to Fair Colleges Attening screen
 
+   @MATCH-1462
+   Scenario: As a HS Repvisit user manually add college fair attendees and save it
+     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs3" and username "school-user" and password "password"
+     Then  HS I Navigate to College Fairs tab of the Repvisits page
+     Then HS I click View Details  againts fair "eee"
+     Then HS I click on button Add Attendee to add schools to fair
+     Then HS I click on link Add School User Manually
+     Then HS I Enter Folliwng Data to Add a School User Manually
+     |First Name| AlmauserFirstName|
+     |Last Name |AlmaUserLastName  |
+     |E-mail    |almauser@E-mail.com|
+     |Phone     |12345              |
+     |Position  |Alma Tester        |
+     |Institution|Alma College    |
+     Then HS I click on button Add attendees
+     Then HS I click button NO, I'M DONE to return to Fair Colleges Attening screen
 
 
 

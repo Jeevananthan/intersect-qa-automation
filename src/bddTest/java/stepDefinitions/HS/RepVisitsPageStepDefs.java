@@ -82,6 +82,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I click on button Add attendees$", repVisits:: clickAddAttendeetovisit);
         Then("^HS I click on button Add Attendee to add schools to fair$",repVisits:: addSchoolsToFair);
         Then("^HS I click button NO, I'M DONE to return to Fair Colleges Attening screen$",repVisits::noIamDoneclick);
+        Then("^HS I click on link Add School User Manually$", repVisits::addSchoolUserManually);
+        Then("^HS I Enter Folliwng Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
 
     }
 }

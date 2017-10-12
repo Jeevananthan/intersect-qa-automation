@@ -695,11 +695,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     collegeFairStartTime("College Fair Start Time").sendKeys(fieldrow.get(1));
                     break;
                 case "End Time":
-                   collegeFairEndTime("college Fair End Time").sendKeys(fieldrow.get(1));
+                    collegeFairEndTime("college Fair End Time").sendKeys(fieldrow.get(1));
                     break;
                 case "RSVP Deadline":
                     collegeFairRSVPDeadlineDate().click();
-                    while(!collegeFairCurrentMonth().getText().contains(fieldrow.get(1).split(" ")[0])){
+                    while (!collegeFairCurrentMonth().getText().contains(fieldrow.get(1).split(" ")[0])) {
                         collegeFairMonthToSelect().click();
                     }
                     collegeFairDayofMonth(fieldrow.get(1).split(" ")[1]).sendKeys(fieldrow.get(1));
@@ -721,36 +721,76 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     collegeFairInstructions().sendKeys(fieldrow.get(1));
                     break;
                 case "Email Message to colleges after confirmation":
-                   collegeFairEmailMessageToColleges().sendKeys(fieldrow.get(1));
+                    collegeFairEmailMessageToColleges().sendKeys(fieldrow.get(1));
                     break;
-                }
+            }
         }
     }
-    public void viewFairDetails( String fairName){
+
+    public void viewFairDetails(String fairName) {
         getDriver().findElement(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr[1]/td[text()='eee']/following-sibling::td[4]/a/span")).click();
 
     }
-    public void clickAddAttendeetovisit(){
+
+    public void clickAddAttendeetovisit() {
         addSchoolAttendees().click();
     }
-    public void clickAddAttendees(){
-        button ("Add Attendees").click();
+
+    public void clickAddAttendees() {
+        button("Add Attendees").click();
 
     }
-    public void addAttendeeFromList( String attendeename) {
+
+    public void addAttendeeFromList(String attendeename) {
         addchooluserfromlist().clear();
         addchooluserfromlist().sendKeys(attendeename);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='results transition visible']/div/div[2]"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='results transition visible']/div/div[2]"), 1));
         attendeeUser().click();
     }
 
-    public void addSchoolsToFair(){
+    public void addSchoolsToFair() {
         waitUntilPageFinishLoading();
         getDriver().findElement(By.cssSelector("button#add-attendee")).click();
     }
 
-    public void  noIamDoneclick(){
-        noIamDone().click();
+    public void noIamDoneclick() {
+                noIamDone().sendKeys(Keys.RETURN);
+    }
+
+    public void addSchoolUserManually() {
+        linkToAddSchoolUser().click();
+
+    }
+
+
+    public void addDataToAddAttendeeManually(DataTable AttendeeDetails){
+        List<List<String>> AttendeeInformation = AttendeeDetails.asLists(String.class);
+        for (List<String> fieldrow : AttendeeInformation) {
+            switch (fieldrow.get(0)) {
+                case "First Name":
+                    attendeeFirstNameTextBox().clear();
+                    attendeeFirstNameTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Last Name":
+                    attendeeLastNameTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Email ":
+                    attendeeEmailTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Phone":
+                    attendeePhoneTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Position":
+                    attendeePositionTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Institution":
+                    attendeeInstitutionTextBox().sendKeys(fieldrow.get(1));
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"), 1));
+                    attendeeCollege().click();
+                    break;
+
+            }
+        }
     }
 
 
@@ -832,5 +872,33 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement addSchoolAttendees(){
         return getDriver().findElement(By.cssSelector("button.ui.primary.right.floated.button:not(.small):not(.basic)"));
     }
+    private WebElement linkToAddSchoolUser(){
+        return getDriver().findElement(By.cssSelector("a.KKyfdym6DkswwZqeWN7Ck"));
+
+    }
+    private WebElement attendeeFirstNameTextBox() {
+        return getDriver().findElement(By.cssSelector("input#add-rep-first-name"));
+    }
+    private WebElement attendeeLastNameTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-last-name"));
+    }
+    private WebElement attendeeEmailTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-email"));
+    }
+    private WebElement attendeePhoneTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-phone"));
+    }
+    private WebElement attendeePositionTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-position"));
+    }
+    private WebElement attendeeInstitutionTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-institution"));
+
+
+    }
+    private WebElement attendeeCollege(){
+        return  getDriver().findElement(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"));
+    }
+
 
 }
