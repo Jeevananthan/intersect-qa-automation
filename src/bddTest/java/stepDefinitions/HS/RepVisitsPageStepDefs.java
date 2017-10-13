@@ -44,9 +44,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a Job Fair$", repVisits::createJobFair);
 
-        Then("^HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs \"([^\"]*)\"$", repVisits::confirmDeclineCollegeAttendanceRequest);
-
         Then("^HS I cancel a job fair \"([^\"]*)\"$", repVisits::cancelCollegeFair);
+
+        Then("^HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs \"([^\"]*)\" for \"([^\"]*)\"$", repVisits::confirmDeclineCollegeAttendanceRequest);
 
     }
 }

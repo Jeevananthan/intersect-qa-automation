@@ -25,20 +25,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue(repVisitsSubItem + " is not showing.",link(repVisitsSubItem).isDisplayed());
         }
     }
-    public void checkHighSchoolJobFairAvailability(String highSchool){
+    public void checkHighSchoolJobFairAvailability(String highSchool, String fairName){
         waitUntilPageFinishLoading();
-        globalSearch.searchForInstitutions(highSchool);
-        waitUntilPageFinishLoading();
-        globalSearch.selectResult(highSchool);
-        communityFrame();
-        link("Check Repvisits Availability").click();
+        do{
+            globalSearch.searchForInstitutions(highSchool);
+            waitUntilPageFinishLoading();
+            globalSearch.selectResult(highSchool);
+            communityFrame();
+            waitUntilPageFinishLoading();
+            link("Check Repvisits Availability").click();
+            waitUntilPageFinishLoading();
+        }while (!link("Check Repvisits Availability").isDisplayed());
+
         getDriver().switchTo().defaultContent().findElement(By.xpath("//span[contains(text(), 'Fair')]")).click();
-        if(getDriver().findElements(By.xpath("//span[contains(text(), 'Daniel Fair')]/../following-sibling::div/button/span[contains(text(), 'Registered')]")).size()>=1) {
+        if(getDriver().findElements(By.xpath("//span[contains(text(), '"+fairName+"')]/../following-sibling::div/button/span[contains(text(), 'Registered')]")).size()>=1) {
 
         }
         else{
-            button(By.xpath("//span[contains(text(), 'Daniel Fair')]/../following-sibling::div/button/span[contains(text(), 'Register')]")).click();
+            button(By.xpath("//span[contains(text(), '"+fairName+"')]/../following-sibling::div/button/span[contains(text(), 'Register')]")).click();
             button(By.xpath("//button[contains(text(), 'Yes, Submit Request')]")).click();
+            waitUntilPageFinishLoading();
         }
     }
 

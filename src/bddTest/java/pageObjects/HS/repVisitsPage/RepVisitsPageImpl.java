@@ -31,12 +31,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void confirmDeclineCollegeAttendanceRequest(String requestOption){
-        System.out.println();
+    public void confirmDeclineCollegeAttendanceRequest(String requestOption, String fairName){
         logger.info("Validating the functionality of the " + requestOption + " button for College Fair attendance request.");
         navBar.goToRepVisits();
         link("College Fairs").click();
-        button(By.xpath("//a[@aria-label='Daniel Fair']")).click();
+        button(By.xpath("//a[@aria-label='"+fairName+"']")).click();
         boolean expectedResult = false;
         switch(requestOption) {
             case "Decline":
@@ -58,7 +57,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 if(getDriver().findElement(By.xpath("//tr/td[contains(text(), 'Attending')]")).isDisplayed() && button(By.xpath("//span[contains(text(), 'CANCEL')]")).isDisplayed()) {
                     button("CANCEL").click();
                     getDriver().findElement(By.xpath("//textarea[@id='attendee-cancellation-message']")).sendKeys("Attendance Cancelled.");
-                    button("Yes, cancel visit").click();
+                    button("Yes, cancel attendee").click();//-------------need to update this script here--------------
                     button("Close").click();
                     expectedResult = true;
                 }
@@ -362,11 +361,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void cancelCollegeFair(String fairName) {
-        System.out.println();
         logger.info("Cancelling Job Fair " + fairName + " under RepVisits.");
         navBar.goToRepVisits();
         link("College Fairs").click();
-        button(By.xpath("//a[@aria-label='Daniel Fair']")).click();
+        button(By.xpath("//a[@aria-label='"+fairName+"']")).click();
         button("Edit").click();
         button("Cancel This College Fair").click();
         if (getDriver().findElements(By.xpath("//span[contains(text(), 'Yes, Cancel this fair')]")).size() >= 1) {
@@ -380,11 +378,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         else{
             Assert.assertTrue("There were no job fairs registered for this high school.", false);
         }
-        Assert.assertFalse("College fair was not canceled.", getDriver().findElements(By.xpath("//span[contains(text(), 'Upcoming Events')]/../../following-sibling::table/tbody/tr/td[contains(text(), 'Daniel Fair')]")).size() >= 1);
+        Assert.assertFalse("College fair was not canceled.", getDriver().findElements(By.xpath("//span[contains(text(), 'Upcoming Events')]/../../following-sibling::table/tbody/tr/td[contains(text(), '"+fairName+"')]")).size() >= 1);
     }
 
     public void createJobFair(DataTable dataTable) {
-        System.out.println();
         logger.info("Creating a Job Fair under RepVisits.");
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
