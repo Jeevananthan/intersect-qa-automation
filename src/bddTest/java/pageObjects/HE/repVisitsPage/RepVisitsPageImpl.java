@@ -204,7 +204,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void navigateToRepVisitsSection(String pageName) {
         navBar.goToRepVisits();
-        if (pageName.equalsIgnoreCase("visxcxfcit feedback")) {
+        if (pageName.equalsIgnoreCase("visit feedback")) {
             getVisitsFeedbackBtn().click();
         } else {
             link(pageName).click();
