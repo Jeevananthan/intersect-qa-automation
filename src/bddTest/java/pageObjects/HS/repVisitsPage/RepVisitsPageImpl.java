@@ -25,10 +25,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import utilities.GetProperties;
 import utilities.GetProperties;
-import java.util.ArrayList;
-import java.util.Date;
+
+import java.util.*;
 import java.util.List;
-import java.util.Map;
+
 import static org.junit.Assert.fail;
 import static junit.framework.TestCase.fail;
 
@@ -1050,6 +1050,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyPillsNotAvailableinNewScheduleVisitPage(){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        waitUntilElementExists(driver.findElement(By.cssSelector("button[title='Today']")));
+        driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
+        waitUntilElementExists(driver.findElement(By.cssSelector("form[id='add-calendar-appointment']")));
+        driver.findElement(By.cssSelector("button[aria-label='Previous week']")).click();
+        Assert.assertTrue("'No availability this week' message is not displayed",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//td/span[text()='No availability this week']")).isDisplayed());
+    }
+    public void verifyPastDatesDisabledInNewScheduleVisitPage(){
+        driver.findElement(By.xpath("//div/span[text()='Want a custom time? Add it manually']")).click();
+        driver.findElement(By.cssSelector("button[class='ui small fluid button _3VnqII6ynYglzDU1flY9rw']")).click();
+        String date = getSpecificDate(-1);
+        String disabled =driver.findElement(By.xpath("//div[@class='ui left center popup transition visible']//div[@aria-label='"+date+"']")).getAttribute("aria-disabled");
+        Assert.assertTrue("Past dates are not disabled",disabled.equalsIgnoreCase("true"));
+    }
+    public void verifyPillsNotAvailableinReScheduleVisitPage(){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        waitUntilElementExists(driver.findElement(By.cssSelector("button[title='Today']")));
+        driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
+    }
 
     //locators
     private boolean isLinkActive(WebElement link) {
@@ -1086,6 +1108,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void VerifySpecialInstructionsForHE( String instructionsText){
        Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
+    }
+
+    public String getSpecificDate(int addDays) {
+        String DATE_FORMAT_NOW = "MMMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     /*locators for Messaging Options Page*/

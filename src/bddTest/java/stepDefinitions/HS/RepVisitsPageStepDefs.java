@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -86,5 +87,12 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
+
+        Then("^HS verify pills are not available for the past dates in schedule new visit page$",repVisits::verifyPillsNotAvailableinNewScheduleVisitPage);
+
+        Then("^HS verify the past dates are disabled in the select custom date section$",repVisits::verifyPastDatesDisabledInNewScheduleVisitPage);
+
+        Then("^HS verify pills are not available for the past dates in Re-schedule visit page$",repVisits::verifyPillsNotAvailableinReScheduleVisitPage);
+
     }
 }
