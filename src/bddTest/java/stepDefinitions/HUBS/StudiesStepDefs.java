@@ -18,9 +18,9 @@ public class StudiesStepDefs implements En{
         StudiesEditPageImpl studiesEditPage = new StudiesEditPageImpl();
 
 
-        And("^HUBS I open the \"([^\"]*)\" tab in the preview$", hemPreviewPage::clickMenuButton);
+//        And("^HUBS I open the \"([^\"]*)\" tab in the preview$", hemPreviewPage::clickMenuButton);
 
-        Then("^HUBS All the elements of the studies tab should be displayed$", studiesPage::verifyAllElementsDisplayed);
+//        Then("^HUBS All the elements of the studies tab should be displayed$", studiesPage::verifyAllElementsDisplayed);
 
         And("^HUBS I take note of the values from the following fields:$", (DataTable stringsDataTable) -> {
             originalValues = studiesPage.getValuesFromFields(stringsDataTable.asList(String.class));
