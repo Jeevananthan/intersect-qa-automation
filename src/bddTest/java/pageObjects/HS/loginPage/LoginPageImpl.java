@@ -88,6 +88,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyInstitutionPage()
     {
+        waitUntilElementExists(highSchoolButton());
         Assert.assertTrue("High School Staff Member is not displayed",button("High School Staff Member").isDisplayed());
         Assert.assertTrue("Higher Education Staff Member is not displayed",button("Higher Education Staff Member").isDisplayed());
         Assert.assertTrue("Sign In button is not displayed",button("Sign In").isDisplayed());
