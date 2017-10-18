@@ -1,7 +1,9 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
+import pageObjects.HE.eventsPage.EventsPageImpl;
 import pageObjects.HE.homePage.HomePageImpl;
 
 public class HomePageStepDefs implements En {
@@ -10,6 +12,7 @@ public class HomePageStepDefs implements En {
 
         HomePageImpl homePage = new HomePageImpl();
         NavBarImpl navBar = new NavBarImpl();
+        EventsPageImpl eventsPage = new EventsPageImpl();
 
         Then("^HE I am able to successfully login$", homePage::verifyUserIsLoggedIn);
 
@@ -53,6 +56,10 @@ public class HomePageStepDefs implements En {
                 homePage::clickRepVisits);
 
         And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
+
+        And("^HE I open the Events section$", homePage::clickEvents);
+
+        Then("^HE Events section is not displayed for Community users$", eventsPage::verifyEventsNotPresent);
 
     }
 }
