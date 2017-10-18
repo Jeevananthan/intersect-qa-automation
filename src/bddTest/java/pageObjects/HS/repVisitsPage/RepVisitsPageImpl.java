@@ -1092,4 +1092,68 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
     }
+
+    public void savePrimaryContactForVisit(){
+        button("Save changes").click();
+    }
+
+    public void primaryContactForVisit(String phone, String email) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Notifications & Primary Contact").click();
+        primaryContactPhone().clear();
+        primaryContactPhone().sendKeys(phone);
+        primaryContactOutsideCommunity().clear();
+        primaryContactOutsideCommunity().sendKeys(email);
+    }
+    /* Locator for Primary Contact*/
+    private WebElement primaryContactPhone(){
+        return  getDriver().findElement(By.cssSelector("input#notification_contacts_primary_contact_phone"));
+    }
+    private WebElement primaryContactOutsideCommunity(){
+        return  getDriver().findElement(By.cssSelector("textarea#notification_contacts_additional_emails"));
+    }
+
+    public void viewFairDetails(String fairName) {
+        getDriver().findElement(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr[1]/td[text()= '"+fairName+"' ]/following-sibling::td[4]/a/span")).click();
+         }
+
+    public void editCollegeFair(){
+        waitUntilPageFinishLoading();
+        editFairButton().click();
+    }
+    public void cancelCollegeFair()
+    {
+        cancelThisCollegeFair().click();
+
+    }
+    public  void cancelMessageForColleges(String cancelFairMessage){
+        cancelFairMessage().sendKeys(cancelFairMessage);
+
+    }
+    public void cancelFairAndNotifyColleges(){
+        cancelFairAndNotify().click();
+
+    }
+    public void closeSendEmailMessageBox(){
+        button("Close").click();
+
+    }
+
+
+    //*locators for Edit/Cancel Fair
+    private WebElement editFairButton(){
+        return getDriver().findElement(By.cssSelector("button#edit-college-fair.ui.basic.primary.right.floated.button._2WIBPMrHDvfagooC6zkFpq"));
+    }
+    private WebElement cancelThisCollegeFair(){
+        return getDriver().findElement(By.cssSelector("button.ui.red.basic.button._1cCLCZWTdTFaaExQxVjUzr._2Mxz8MGcxLQjyp9ht7UTNz"));
+    }
+    private WebElement cancelFairMessage(){
+        return getDriver().findElement(By.cssSelector("textarea#college-fair-cancellation-message"));
+
+    }
+    private WebElement cancelFairAndNotify(){
+        return getDriver().findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ"));
+
+    }
 }

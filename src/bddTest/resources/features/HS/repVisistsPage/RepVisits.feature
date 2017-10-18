@@ -261,3 +261,22 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
     And HS I successfully sign out
+
+  @MATCH-1583
+  Scenario: As an HS User I want to be able to use the Notifications and Primary Contact tab of RepVisits to Set Primay Contact
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Set the Primary Contact for Visits for my  school with phone"444-444-4444" and Email "mbhangu@hobsons.com"
+    And HS I Save the Primary Contacts for visits for my school
+    And HS I successfully sign out
+    
+  @MATCH-1775 
+  Scenario: As a High School Community user, I wan tto be able to cancel my college fair and notify attendees
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs3" and username "school-user" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I click View Details against fair "eee"
+    And HS I click on Edit button to navigate to Edit College Fair
+    And HS I Click on button Cancel This College Fair
+    And HS I Enter Fair Cancellation Message for colleges"Canceled Fair For Automation Testing"
+    And HS I click on button Cancel Fair and Notify Colleges
+    And HS I Click on close button
+
