@@ -4,6 +4,8 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -42,6 +44,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-home-menu-link")).click();
         userDropdown().click();
         button(By.id("user-dropdown-change-profile")).click();
+        waitUntilPageFinishLoading();
+        textbox(By.id("confirm-password-input")).sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("User was not taken to Account Settings screen",button("SAVE").isDisplayed());
     }
 
