@@ -19,7 +19,7 @@ public class LoginPageStepDefs implements En {
 
         When("^HS I want to login to the HS app using \"([^\"]*)\" as username and \"([^\"]*)\" as password$", loginPage::login);
 
-        Then("^HS I verify that the HS login page is displayed$", loginPage::verifyHSPage);
+        Then("^HS I verify that the HS login page is displayed$", loginPage::verifyHSLoginPage);
 
         Given("^HS I verify the HS login screen$", loginPage::verifyLoginScreen);
 
