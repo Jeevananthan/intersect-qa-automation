@@ -16,7 +16,7 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void goToHubsPage(String collegeName){
         waitUntilPageFinishLoading();
-        communityFrame();
+//        communityFrame();
         link("Additional info").click();
         link("VIEW NAVIANCE COLLEGE PROFILE").click();
         waitUntilPageFinishLoading();

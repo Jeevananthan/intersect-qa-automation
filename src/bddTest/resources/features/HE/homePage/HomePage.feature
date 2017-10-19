@@ -17,7 +17,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then I verify that the "The Hobsons Counselor Community" widget is displayed
     Then I verify that the "Manage and update your institution's profile" widget is displayed
-    Then I verify that the "Configure your Account" widget is displayed
+#    Then I verify that the "Configure your Account" widget is displayed
     And HE I successfully sign out
     When HE I am logged in to Intersect HE as user type "publishing"
     Then I verify that the "The Hobsons Counselor Community" widget is displayed

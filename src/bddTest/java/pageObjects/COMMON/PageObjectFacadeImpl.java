@@ -27,6 +27,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     }
 
     protected void communityFrame() {
+        link(By.id("js-main-nav-counselor-community-menu-link")).click();
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
     }
 }
