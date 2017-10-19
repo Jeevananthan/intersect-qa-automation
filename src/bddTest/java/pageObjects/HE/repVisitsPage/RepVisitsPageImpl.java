@@ -106,7 +106,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void clickUpgradeButton(){
         driver.findElement(By.xpath("//div[@class='seven wide column _2I5Wf1vjM_1kmY7BHT_G9k']//div/button/span[text()='UPGRADE']")).click();
-
+        waitUntilPageFinishLoading();
     }
 
     public void verifyUpgradePopupAndInformations(DataTable dataTable){
@@ -141,28 +141,51 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         break;
                 }
             }
-
-
             button("Request Information").click();
-            WebElement signOutBtn = driver.findElement(By.id("user-dropdown"));
-            waitUntilElementExists(signOutBtn);
+            Assert.assertTrue("success message is not displayed",driver.findElement(By.xpath("//span[text()='Thanks!']")).isDisplayed());
+            driver.findElement(By.xpath("//div[@id='upgrade-form']/i[@class='close icon']")).click();
         }
 
     }
 
+    public void verifyUpgradeMessageInRecommendationspage()
+      {
+          navBar.goToRepVisits();
+          waitUntilElementExists(getRecommendationsBtn());
+          getRecommendationsBtn().click();
+          waitUntilPageFinishLoading();
+          Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+          Assert.assertTrue("'UPGRADE' button is not displayed",button("UPGRADE").isDisplayed());
+          Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
+      }
 
 
-
-
+   public void verifyUpgradeMessageInContactspage()
+   {
+       navBar.goToRepVisits();
+       waitUntilElementExists(getContactsBtn());
+       getContactsBtn().click();
+       waitUntilPageFinishLoading();
+       Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
+       Assert.assertTrue("'UPGRADE' button is not displayed",button("UPGRADE").isDisplayed());
+       Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
+   }
 
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
 
         navBar.goToRepVisits();
+        waitUntilElementExists(getTravelPlanBtn());
         getTravelPlanBtn().click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
-        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'UPGRADE' button is not displayed",button("UPGRADE").isDisplayed());
         Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
 }
+
+   private WebElement upgradeButton(){
+        WebElement button=button("UPGRADE");
+        return button;
+   }
 
     private WebElement getOverviewBtn() {
         return link("Overview");
