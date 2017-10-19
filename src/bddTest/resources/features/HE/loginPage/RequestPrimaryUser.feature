@@ -29,13 +29,13 @@ Feature: As a potential freemium HE admissions user I need to be able to request
       |Last Name    |LNameTest                |
       |Email        |n.l@notarealdomain.com   |
       |Verify Email |                         |
-      |Reason       |I am the new head honcho |
+#      |Reason       |I am the new head honcho |
     Then HE I submit the Request Primary User form using the following info
       |First Name   |NewUserTest                     |
       |Last Name    |LNameTest                       |
       |Email        |Success@simulator.amazonses.com |
       |Verify Email |Success@simulator.amazonses.com |
-      |Reason       |I am the new head honcho        |
+#      |Reason       |I am the new head honcho        |
 
 
   @MATCH-204
