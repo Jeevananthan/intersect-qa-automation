@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -106,6 +108,7 @@ public class NavBarImpl extends SeleniumBase {
                 WebElement container = section.findElement(By.className("_3zoxpD-z3dk4-NIOb73TRl"));
                 WebElement headerSpan = container.findElement(By.tagName("span"));
                 Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect, expected \"" + heading + "\"",headerSpan.getText().toLowerCase().contains(heading.toLowerCase()));
+                waitUntilPageFinishLoading();
                 itemLink.click();
                 waitUntilPageFinishLoading();
                 //Check Breadcrumbs
