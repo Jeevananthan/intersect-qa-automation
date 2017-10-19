@@ -33,7 +33,7 @@ Scenario: As a potential Intersect user, I need to go down the appropriate HE or
   Scenario Outline: As a HE user, I need to be able to request a user account by providing the necessary information about myself.
             So Support can provision my user account.
     Given HE I navigate to Registration Intersect url
-    And HE I search for "The University of Alabama" in "Higher Education Staff Member" registeration page
+    And HE I search for "The University of Alabama" in "Higher Education Staff Member" registration page
     And HE I click the link "please complete this form."
     Then HE I verify all field in request user page
       |firstName |lastName |email |verifyEmail |institutionName |jobTitle |authorizedToPostPublicInformation |schedulesVisits |

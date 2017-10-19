@@ -30,7 +30,7 @@ public class LoginPageStepDefs implements En {
 
         Given("^HE I navigate to Registration Intersect url$",loginPage::navigateToRegistrationPage);
 
-        And("^HE I search for \"([^\"]*)\" in \"([^\"]*)\" registeration page$",loginPage::searchForHEInstitution);
+        And("^HE I search for \"([^\"]*)\" in \"([^\"]*)\" registration page$",loginPage::searchForHEInstitution);
 
         Then("^HE I verify all field in request user page$",loginPage::verifyFields);
 

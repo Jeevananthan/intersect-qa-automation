@@ -252,7 +252,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
     }
 
-    public void searchForHEInstitution(String institutionName){ //,String institutionType){
+    public void searchForHEInstitution(String institutionName, String institutionType){ //,String institutionType){
         // This is no longer needed, as the app automatically sends you to the right URL.
         /*if(institutionType.contains("High School")){
             //button("High School Staff Member").click();
@@ -263,8 +263,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }*/
         driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
         button("Search").click();
-        WebElement searchResults = driver.findElement(By.xpath("//p/span[text()='No Institutions Found']"));
-        waitUntilElementExists(searchResults);
+        //Not sure What it's doing thoses steps here?
+//        WebElement searchResults = driver.findElement(By.xpath("//p/span[text()='No Institutions Found']"));
+//        waitUntilElementExists(searchResults);
         while(button("More Institutions").isDisplayed()){
             button("More Institutions").click();
             waitUntilPageFinishLoading();
