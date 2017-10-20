@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -201,6 +202,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void navigateToRepVisitsSection(String pageName) {
+        navBar.goToRepVisits();
+        if (pageName.equalsIgnoreCase("visit feedback")) {
+            getVisitsFeedbackBtn().click();
+        } else {
+            link(pageName).click();
+        }
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyVisitsFeedbackNonAdminMessaging() {
+        Assert.assertTrue("Non-administrator message was not displayed",text("Visit Feedback is only available to users with the Administrator role.").isDisplayed());
+        Assert.assertTrue("Locked banner was not displayed",driver.findElement(By.xpath("//div[@class='centered one column row']")).findElement(By.cssSelector("[alt=locked]")).isDisplayed());
+    }
+
+    public void verifyVisitsFeedbackFreemiumMessaging() {
+        Assert.assertTrue("Feature description was not displayed",text(" you get access to information on the effectiveness of your college visits. See what's working and what could be improved.").isDisplayed());
+        Assert.assertTrue("Upgrade button was not displayed",driver.findElement(By.xpath("//button/span")).getText().equalsIgnoreCase("upgrade"));
+        Assert.assertTrue("Locked banner was not displayed",driver.findElement(By.xpath("//div[@class='centered one column row']")).findElement(By.cssSelector("[alt=locked]")).isDisplayed());
+    }
+
 
     private WebElement getOverviewBtn() {
         return link("Overview");
@@ -221,6 +243,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
+    private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
     private WebElement getSearchBox() { return textbox("Enter a school name or location");}
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}

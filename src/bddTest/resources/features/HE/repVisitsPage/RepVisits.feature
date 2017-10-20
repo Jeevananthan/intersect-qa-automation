@@ -81,4 +81,17 @@ Feature: As an HE user, I want to be able to access the features of RepVisits.
     And SP I Click the Save Changes button
     Then SP I successfully sign out
 
+  @MATCH-2274
+  Scenario: As a freemium or non-Administrator user, I want to ensure the upgrade/no access messaging
+            on the Visit Feedback section of the RepVisits page.
+    Given HE I am logged in to Intersect HE as user type "community"
+    Then HE I navigate to the "Visit Feedback" page in RepVisits
+    And HE I verify the non-administrator messaging on the Visits Feedback page
+    And HE I successfully sign out
+    Then HE I am logged in to Intersect HE as user type "limited"
+    And HE I navigate to the "Visit Feedback" page in RepVisits
+    Then HE I verify the freemium messaging on the Visits Feedback page
+    And HE I successfully sign out
+
+
 
