@@ -21,10 +21,6 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
     }
 
     public void requestNewFreemiumUser(String institution) {
-        searchForInstitution(institution);
-    }
-
-    public void updatePrimaryFreemiumUser(String institution) {
         button("Higher Education Staff Member").click();
         searchForInstitution(institution);
     }
@@ -63,21 +59,29 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("\"Please verify that you are not a robot\" message is not displayed",text("Please verify that you are not a robot").isDisplayed());
     }
 
-    public void fillFormAndSubmit(DataTable dataTable){
-        Map<String,String> data = dataTable.asMap(String.class,String.class);
-        for (String field : data.keySet()){
-            if(field.equals("Reason")){
-                String actPlaceHolderText = getDriver().findElement(By.id("change-primary-user-reason")).getAttribute("placeholder");
-                String expPlaceHolderText = "Provide a brief explanation why your institution's primary user needs updated.";
-                Assert.assertTrue("Reason field Place Holder Text is not proper", expPlaceHolderText.equals(actPlaceHolderText));
+    public void fillFormAndSubmit(DataTable dataTable) {
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        for (String field : data.keySet()) {
+            switch (field) {
+                case "Are you authorized to post public information about your institution?":
+                    if (data.get(field).equalsIgnoreCase("Yes")) {
+                        checkbox(By.cssSelector("[name='authorizedToPostPublicInformation']")).select();
+                    }
+                    break;
+                case "Do you schedule visits to high schools?":
+                    if (data.get(field).equalsIgnoreCase("Yes")) {
+                        checkbox(By.cssSelector("[name='schedulesVisits']")).select();
+                    }
+                    break;
+                default:
+                    textbox(field).sendKeys(data.get(field));
             }
-            textbox(field).sendKeys(data.get(field));
         }
-        clickReCaptcha();
-        button("REQUEST USER").click();
-        Assert.assertTrue("Confirmation message was not displayed!",text("Your request has been successfully submitted. You can expect a response from Hobsons within 1 business day.").isDisplayed());
-        button("OK").click();
-        loginPage.verifyLoginPage();
+            clickReCaptcha();
+            button("REQUEST USER").click();
+            Assert.assertTrue("Confirmation message was not displayed!", text("Your request has been successfully submitted. You can expect a response from Hobsons within 1 business day.").isDisplayed());
+            button("OK").click();
+            loginPage.verifyLoginPage();
     }
 
     private void clickReCaptcha(){
