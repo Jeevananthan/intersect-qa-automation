@@ -47,6 +47,18 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
     }
 
     public void fillFormAndVerifyMessaging(DataTable dataTable){
+        //validating header of this page
+        Assert.assertTrue("Header of this page doesnot contains 'Request User Account' text",text("Request User Account").isDisplayed());
+        //back - link validation
+        Assert.assertTrue("Back option is not displayed",link("Back").isDisplayed());
+        //Already have an account? -text validation
+        Assert.assertTrue("'Already have an account?' text is not displayed",text("Already have an account?").isDisplayed());
+        //Sign In - button validation
+        Assert.assertTrue("Sign In is not displayed",button("Sign In").isDisplayed());
+        //Cancel -button validation
+        Assert.assertTrue("'Cancel' button is not displayed",button("Cancel").isDisplayed());
+        //Request User -button validation
+        Assert.assertTrue("'Request User' button is not displayed",button("Request User").isDisplayed());
         Map<String,String> data = dataTable.asMap(String.class,String.class);
         for (String field : data.keySet()){
             textbox(field).sendKeys(data.get(field));

@@ -19,7 +19,7 @@ Feature: As a potential HE User, I want to be able to request a new user account
       |Job Title    |The boss                        |
 
 
-  @MATCH-203 @MATCH-1514 @MATCH-1856
+  @MATCH-203 @MATCH-1514 @MATCH-1856 @MATCH-1857
   Scenario: As a new freemium user, I want to utilize the Request User page to request a new user account when a Primary User does not exist for my institution
             As a tester, I want to verify the fields and messaging on the Request User Page
     Given HE I want to request for a New User account via the Request User Account page
