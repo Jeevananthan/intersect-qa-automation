@@ -22,7 +22,7 @@ public class LoginPageStepDefs implements En {
 
         Given("^HE I receive the below reset password email and reset the password for user type \"([^\"]*)\"$",loginPage::processResetPassword);
 
-        Given("^HE I verify the HE login screen$",loginPage::verifyLoginScreen);
+        Given("^HE I verify the HE login screen$",loginPage::navigateToLoginScreenAndVerify);
 
         And ("^HE I click the link \"([^\"]*)\"$",loginPage::clickLinkInRegisterationPage);
 

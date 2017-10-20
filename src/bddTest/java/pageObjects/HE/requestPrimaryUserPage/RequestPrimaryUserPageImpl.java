@@ -6,12 +6,15 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.loginPage.LoginPageImpl;
 
 import java.util.Map;
 
 public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+
+    private LoginPageImpl loginPage = new LoginPageImpl();
 
     public RequestPrimaryUserPageImpl() {
         logger = Logger.getLogger(RequestPrimaryUserPageImpl.class);
@@ -39,7 +42,11 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
         WebElement results = getDriver().findElement(By.id("global-search-box-results"));
         results.findElement(By.id("search-box-item-0")).click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("\"Review the details above to confirm this is your institution. To become the primary user for your institution, please complete this form..\" Text is displaying.", text("Review the details above to confirm this is your institution").isDisplayed());
+        if (driver.findElements(By.className("primary-user")).size() > 0) {
+            Assert.assertTrue("\"To request an account for your institution\" Text is displaying.", text("To request an account for your institution").isDisplayed());
+        } else {
+            Assert.assertTrue("\"Review the details above to confirm this is your institution. To become the primary user for your institution, please complete this form..\" Text is displaying.", text("Review the details above to confirm this is your institution").isDisplayed());
+        }
         link("please complete this form.").click();
     }
 
@@ -68,11 +75,9 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
         }
         clickReCaptcha();
         button("REQUEST USER").click();
-        // Actual Message.  Tracked by https://jira.hobsons.com/browse/MATCH-1414
-        //Assert.assertTrue("Confirmation message was not displayed!",text("Your request has been submitted to Hobsons. It typically takes 2-3 business days and you will be notified by email.").isDisplayed());
-        //Assert.assertTrue("Confirmation message was not displayed!",text("Your request has been submitted.").isDisplayed());
-        button("Request User").click();
-        //getDriver().findElement(By.className("ui right labeled icon positive button")).click();
+        Assert.assertTrue("Confirmation message was not displayed!",text("Your request has been successfully submitted. You can expect a response from Hobsons within 1 business day.").isDisplayed());
+        button("OK").click();
+        loginPage.verifyLoginPage();
     }
 
     private void clickReCaptcha(){

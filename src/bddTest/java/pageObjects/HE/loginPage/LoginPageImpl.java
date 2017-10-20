@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
@@ -113,13 +112,16 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Password reset was not successful!", button("LOGIN").isDisplayed());
     }
 
-    public void verifyLoginScreen() {
+    public void navigateToLoginScreenAndVerify() {
         openLoginPage();
+        verifyLoginPage();
+    }
+
+    public void verifyLoginPage() {
         Assert.assertTrue("\"Sign In\" button was found, but should not be there!", !button("sign in").isDisplayed());
         Assert.assertTrue("Intersect logo is not present!",driver.findElement(By.cssSelector("[src=\"https://static.intersect.hobsons.com/images/intersect-tm-by-hobsons-rgb-gray-teal.png\"]")).isDisplayed());
         Assert.assertTrue("\"New user?\" link was not present, but should be!",link("New User?").isDisplayed());
     }
-
     public void enterDataInRequestUserForm(DataTable dataTable){
 
         List<Map<String,String>> fieldCollections = dataTable.asMaps(String.class,String.class);
