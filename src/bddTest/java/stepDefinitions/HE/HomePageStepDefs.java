@@ -49,10 +49,13 @@ public class HomePageStepDefs implements En {
         And("^HE I activate my community profile by providing OfficePhone as \"([^\"]*)\" and JobTitle as \"([^\"]*)\"$",
             homePage::fillCommunityWelcomeMandatoryFields);
 
+        And("^HE I go to the Counselor Community$", homePage::goToCounselorCommunity);
+
         And("^HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits$",
                 homePage::clickRepVisits);
 
         And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
+
 
     }
 }

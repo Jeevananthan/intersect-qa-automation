@@ -51,7 +51,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void updateProfile() {
         // This line should not be needed.  Current flow is broken.
         navBar.goToCommunity();
-
         userDropdown().click();
         button(By.id("user-dropdown-update-profile")).click();
         ensureWeAreOnUpdateProfilePage();
@@ -107,6 +106,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(textbox("Alma Mater").isDisplayed());
         // Drop back to parent Frame
         getDriver().switchTo().defaultContent();
+    }
+
+    public void goToCounselorCommunity(){
+        //link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
+        navBar.goToCommunity();
     }
 
     public void verifyCommunityUpgradeMessage() {

@@ -17,7 +17,7 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then I verify that the "The Hobsons Counselor Community" widget is displayed
     Then I verify that the "Manage and update your institution's profile" widget is displayed
-#    Then I verify that the "Configure your Account" widget is displayed
+    Then I verify that the "Configure your Account" widget is displayed
     And HE I successfully sign out
     When HE I am logged in to Intersect HE as user type "publishing"
     Then I verify that the "The Hobsons Counselor Community" widget is displayed
@@ -32,6 +32,12 @@ Feature: As an HE user, I want to be able to access the features of the main Int
 
   @MATCH-1799
   Scenario: Ensure that new users are forced to Activate Community Profile before accessing RepVisits
+    #Cleanup steps
+    Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
+    And HE I go to the Counselor Community
+    And HE I clear the account to get the community welcome page again
+    Then HE I successfully sign out
+    # Testcase
     Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
     When HE I verify that I am redirected to the Community activate profile page when accessing RepVisits
     And HE I activate my community profile by providing OfficePhone as "1234567892" and JobTitle as "Counselor"
@@ -39,17 +45,18 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     And HE I clear the account to get the community welcome page again
     Then HE I successfully sign out
 
-  @MATCH-1732
-  Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
+  @MATCH-1732 @MATCH-1496
+  Scenario: As an HE user I want the Intersect left navigation bar to be better organized and labeled.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the left navigation bar and section breadcrumbs are as follows
-      | Awareness | Counselor Community,Naviance College Profile |
-      | Presence  | RepVisits                                    |
-      | Settings  | Users                                        |
+      | Awareness | Counselor Community       |
+      | Awareness | Naviance College Profile  |
+      | Presence  | RepVisits                 |
+      | Settings  | Users                     |
     And HE I successfully sign out
 
   @MATCH-1344
-  Scenario: As a HE Users, I want to make sure that appropriate menu's are displaying for HE premium user and HE community user
+  Scenario: As a HE User, I want to make sure that appropriate menu's are displaying for HE premium user and HE community user
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I verify the "Home" nav link is displaying for this user
     And HE I verify the "Counselor Community" nav link is displaying for this user
@@ -63,17 +70,6 @@ Feature: As an HE user, I want to be able to access the features of the main Int
     And HE I verify the "RepVisits" nav link is displaying for this user
     And HE I verify the "Naviance college profile" nav link is not displaying for this user
     And HE I verify the "Users" nav link is not displaying for this user
-    Then HE I successfully sign out
-
-
-  @MATCH-1496
-  Scenario: As an HE user I want the Intersect left navigation bar to be better organized and labeled.
-    Given  HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the left navigation bar and section breadcrumbs are as follows
-      | Awareness | Counselor Community |
-      | Awareness | Naviance College Profile |
-    And HE I verify the left navigation bar and section breadcrumbs are as follows
-      |Presence |RepVisits |
     Then HE I successfully sign out
 
   @MATCH-1548

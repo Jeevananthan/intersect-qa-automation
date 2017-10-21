@@ -45,6 +45,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + password + " as password");
         loginButton().click();
         logger.info("Clicked the login button");
+        waitUntilElementExists(link(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
     }
 
@@ -58,6 +59,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         passwordTextbox().sendKeys(password);
         logger.info("Sending credentials - " + username + ":" + password);
         loginButton().click();
+        logger.info("Clicked the login button");
         waitUntilElementExists(link(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
     }

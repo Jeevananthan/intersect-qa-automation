@@ -5,8 +5,6 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -115,8 +113,6 @@ public class NavBarImpl extends SeleniumBase {
                 //Check Breadcrumbs
                 Assert.assertTrue(heading+ " is not correct in Breadcrumbs, actual value is: " + getHeadingBreadcrumbs().getText(), heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
                 Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs, actual value is: " + getSubMeunBreadcrumbs().getText(), subMenu.equals(getSubMeunBreadcrumbs().getText()));
-
-
             }
         }
     }
