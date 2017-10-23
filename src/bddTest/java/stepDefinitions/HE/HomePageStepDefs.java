@@ -2,6 +2,7 @@ package stepDefinitions.HE;
 
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
+import pageObjects.HE.eventsPage.EventsPageImpl;
 import pageObjects.HE.homePage.HomePageImpl;
 
 public class HomePageStepDefs implements En {
@@ -10,6 +11,7 @@ public class HomePageStepDefs implements En {
 
         HomePageImpl homePage = new HomePageImpl();
         NavBarImpl navBar = new NavBarImpl();
+        EventsPageImpl eventsPage = new EventsPageImpl();
 
         Then("^HE I am able to successfully login$", homePage::verifyUserIsLoggedIn);
 
@@ -52,9 +54,11 @@ public class HomePageStepDefs implements En {
         And("^HE I go to the Counselor Community$", navBar::goToCommunity);
 
         And("^HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits$",
-                homePage::clickRepVisits);
+                homePage::verifyRepVisitsLandingPage);
 
         And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
+
+        And("^HE I open the Events section$", navBar::goToEvents);
 
     }
 }

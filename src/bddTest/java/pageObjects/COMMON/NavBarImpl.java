@@ -46,6 +46,13 @@ public class NavBarImpl extends SeleniumBase {
         Assert.assertTrue("Unable to navigate to RepVisits", isLinkActive(getRepVisitsBtn()));
     }
 
+    public void goToEvents() {
+        if (!isLinkActive(getEventsBtn()))
+            getEventsBtn().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Unable to navigate to Events", isLinkActive(getEventsBtn()));
+    }
+
     public void goToUsers() {
         if(!isLinkActive(getUsersBtn()))
             getUsersBtn().click();
@@ -138,6 +145,7 @@ public class NavBarImpl extends SeleniumBase {
     private WebElement getRepVisitsBtn() {
         return link(By.id("js-main-nav-rep-visits-menu-link"));
     }
+    private WebElement getEventsBtn() { return link(By.id("js-main-nav-am-events-menu-link")); }
     private WebElement getUsersBtn() {
         return link(By.id("js-main-nav-manage-users-menu-link"));
     }

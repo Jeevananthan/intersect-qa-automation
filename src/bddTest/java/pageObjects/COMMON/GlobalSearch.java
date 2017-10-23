@@ -26,6 +26,7 @@ public class GlobalSearch extends SeleniumBase {
 
     public void searchForHEInstitutions(String searchTerm) {
         setSearchCategory("HE Accounts");
+        searchTerm = "\""+searchTerm+"\"";
         doSearch(searchTerm);
     }
 
