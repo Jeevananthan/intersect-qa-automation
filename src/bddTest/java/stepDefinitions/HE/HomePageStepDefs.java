@@ -52,11 +52,11 @@ public class HomePageStepDefs implements En {
             homePage::fillCommunityWelcomeMandatoryFields);
 
         And("^HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits$",
-                homePage::clickRepVisits);
+                homePage::verifyRepVisitsLandingPage);
 
         And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
 
-        And("^HE I open the Events section$", homePage::clickEvents);
+        And("^HE I open the Events section$", navBar::goToEvents);
 
     }
 }

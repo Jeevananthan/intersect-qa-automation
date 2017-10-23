@@ -244,12 +244,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         driver.switchTo().defaultContent();
     }
 
-    public void clickRepVisits(){
-        int count = 1;
-        while (!getSearchAndScheduleHeading().isDisplayed() && count<4){
-            getRepVisitsBtn().click();
-            count++;
-        }
+    public void verifyRepVisitsLandingPage(){
+        navBar.goToRepVisits();
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
 
@@ -257,11 +253,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void clearCommunityProfile(){
         load(GetProperties.get("he.community.clear"));
         waitUntilPageFinishLoading();
-    }
-
-    public void clickEvents() {
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-events-menu-link span"), 1));
-        eventsButton().click();
     }
 
 
