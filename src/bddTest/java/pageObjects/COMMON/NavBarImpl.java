@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -122,6 +123,11 @@ public class NavBarImpl extends SeleniumBase {
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
     }
 
+    public void clickActiveMatch() {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-plus-menu-link span"), 1));
+        activeMatchButton().click();
+    }
+
     //Getters
     private WebElement getHomeBtn() {
         return link(By.id("js-main-nav-home-menu-link"));
@@ -154,4 +160,5 @@ public class NavBarImpl extends SeleniumBase {
         }
         return null;
     }
+    private WebElement activeMatchButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-plus-menu-link span")); }
 }

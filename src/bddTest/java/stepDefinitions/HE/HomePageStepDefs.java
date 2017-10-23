@@ -55,9 +55,7 @@ public class HomePageStepDefs implements En {
 
         And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
 
-        And("^HE I open the Active Match section$", homePage::clickActiveMatch);
-
-        Then("^HE The Active Match page is not displayed$", homePage::verifyActiveMatchNotPresent);
+        And("^HE I open the Active Match section$", navBar::clickActiveMatch);
 
     }
 }

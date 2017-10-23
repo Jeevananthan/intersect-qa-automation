@@ -259,17 +259,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void clickActiveMatch() {
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-plus-menu-link span"), 1));
-        activeMatchButton().click();
-    }
-
-    public void verifyActiveMatchNotPresent() {
-        waitUntilPageFinishLoading();
-        List<WebElement> eventsElements = driver.findElements(By.cssSelector("a#js-main-nav-am-plus-menu-link span"));
-        Assert.assertTrue("Active Match section is present, when it shouldn't", eventsElements.size() == 0);
-    }
-
 
     //locators
     private WebElement userDropdown() {
@@ -281,5 +270,4 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
     private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
-    private WebElement activeMatchButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-plus-menu-link span")); }
 }
