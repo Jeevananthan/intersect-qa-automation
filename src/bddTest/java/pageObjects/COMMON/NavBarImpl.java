@@ -68,7 +68,7 @@ public class NavBarImpl extends SeleniumBase {
                 Assert.assertTrue("RepVisits link is not visible",getRepVisitsBtn().isDisplayed());
                 break;
             case "Users":
-                Assert.assertTrue("Users link is not visible",getUsersBtn().isSelected());
+                Assert.assertTrue("Users link is not visible",getUsersBtn().isDisplayed());
                 break;
         }
     }
@@ -88,8 +88,7 @@ public class NavBarImpl extends SeleniumBase {
                 Assert.assertFalse("RepVisits link is not visible",getRepVisitsBtn().isDisplayed());
                 break;
             case "Users":
-                getUsersBtn().click();
-                Assert.assertFalse("Users link is not visible",getUsersBtn().isSelected());
+                Assert.assertFalse("Users link is not visible",getUsersBtn().isDisplayed());
                 break;
         }
     }

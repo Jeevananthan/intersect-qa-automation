@@ -1,5 +1,5 @@
 @HE
-Feature: As an HE user, I want to be able to access the features of RepVisits.
+Feature: HE- RepVisits - As an HE user, I want to be able to access the features of RepVisits.
 
   @MATCH-1697
   Scenario: As an HE user I want to be able to access RepVisit functionality within Intersect so I can find value from this new module and its features
