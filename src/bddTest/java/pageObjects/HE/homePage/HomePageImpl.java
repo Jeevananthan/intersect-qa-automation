@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -49,7 +50,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void updateProfile() {
         // This line should not be needed.  Current flow is broken.
         navBar.goToCommunity();
-
         userDropdown().click();
         button(By.id("user-dropdown-update-profile")).click();
         ensureWeAreOnUpdateProfilePage();
@@ -89,8 +89,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("Last Name") + "\"]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("Your institution") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Personal Email").isDisplayed());
-        Assert.assertTrue(textbox("Office Phone").isDisplayed());
-        Assert.assertTrue(textbox("Mobile Phone").isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("Last Name") + "\"]")).isDisplayed());
+        textbox(By.id("edit-field-office-phone-und-0-value")).sendKeys(Keys.TAB);
+        Assert.assertTrue(driver.findElement(By.id("field-office-phone-add-more-wrapper")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.id("field-mobile-phone-add-more-wrapper")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.id("edit-cp-states-field-general-description-und-0-value")).isDisplayed());
 
         // Scroll to the end of the form
@@ -225,6 +227,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyWidgetIsVisible(String widgetName){
 
+        waitUntilPageFinishLoading();
         Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 

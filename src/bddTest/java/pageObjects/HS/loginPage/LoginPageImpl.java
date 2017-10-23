@@ -20,6 +20,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void loginThroughNaviance(String account, String username, String password) {
+        driver.manage().deleteAllCookies();
         String navianceWindow = driver.getWindowHandle();
         String intersectWindow = null;
         openNavianceLoginPage();
@@ -42,7 +43,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openNonNavianceLoginPage(){
-
+        driver.manage().deleteAllCookies();
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
 
