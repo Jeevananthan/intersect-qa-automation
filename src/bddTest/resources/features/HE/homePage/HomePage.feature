@@ -49,10 +49,9 @@ Feature: HE - Home page - As an HE user, I want to be able to access the feature
   Scenario: As an HE user I want the Intersect left navigation bar to be better organized and labeled.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the left navigation bar and section breadcrumbs are as follows
-      | Awareness | Counselor Community       |
-      | Awareness | Naviance College Profile  |
-      | Presence  | RepVisits                 |
-      | Settings  | Users                     |
+      | Awareness | Counselor Community, Naviance College Profile |
+      | Presence  | RepVisits                                     |
+      | Settings  | Users                                         |
     And HE I successfully sign out
 
   @MATCH-1344
@@ -80,7 +79,8 @@ Feature: HE - Home page - As an HE user, I want to be able to access the feature
     Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I click on Learn More button on Upgrade message on the Community Widget
     Then HE I verify the benefits of the Counselor Community popup and the details of the following freemium user
-    |PurpleHE|Limited        |purpleheautomation+limited@gmail.com|Bowling Green State University-Main Campus|
+    |First Name |Last Name      |Work Email Address                  |School / Institution Name|
+    |PurpleHE   |Limited        |purpleheautomation+limited@gmail.com|Bowling Green State University-Main Campus|
     And HE I click on Request Information button Counselor Community popup
     Then HE I verify the Confirmation message for Request Information
 

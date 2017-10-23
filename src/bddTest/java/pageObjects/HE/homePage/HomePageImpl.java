@@ -44,7 +44,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-home-menu-link")).click();
         userDropdown().click();
         button(By.id("user-dropdown-change-profile")).click();
-        textbox(By.id("confirm-password-input")).sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("User was not taken to Account Settings screen",button("SAVE").isDisplayed());
     }
 
@@ -106,11 +105,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(textbox("Alma Mater").isDisplayed());
         // Drop back to parent Frame
         getDriver().switchTo().defaultContent();
-    }
-
-    public void goToCounselorCommunity(){
-        //link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
-        navBar.goToCommunity();
     }
 
     public void verifyCommunityUpgradeMessage() {

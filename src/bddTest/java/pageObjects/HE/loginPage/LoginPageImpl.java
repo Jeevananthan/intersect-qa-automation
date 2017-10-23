@@ -24,6 +24,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openLoginPage() {
+        driver.manage().deleteAllCookies();
         load(GetProperties.get("he.app.url"));
         // If a previous test fails, we'll still have an open session.  Log out first.
         if (button(By.id("user-dropdown")).isDisplayed()) {
