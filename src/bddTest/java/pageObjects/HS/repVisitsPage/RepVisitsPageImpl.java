@@ -1054,30 +1054,43 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Calendar").click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
         waitUntilElementExists(driver.findElement(By.xpath("//button[@title='Today']")));
         driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
+        waitForUITransition();
         waitUntilElementExists(driver.findElement(By.cssSelector("form[id='add-calendar-appointment']")));
         driver.findElement(By.cssSelector("button[aria-label='Previous week']")).click();
+        waitForUITransition();
         Assert.assertTrue("'No availability this week' message is not displayed",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//td/span[text()='No availability this week']")).isDisplayed());
     }
     public void verifyPastDatesDisabledInNewScheduleVisitPage(){
         driver.findElement(By.xpath("//div/span[text()='Want a custom time? Add it manually']")).click();
+        waitForUITransition();
         driver.findElement(By.cssSelector("button[class='ui small fluid button _3VnqII6ynYglzDU1flY9rw']")).click();
+        waitForUITransition();
         String date = getSpecificDate(-1);
         String disabled = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--disabled' and @aria-label='"+date+"']")).getAttribute("aria-disabled");
         Assert.assertTrue("Past dates are not disabled",disabled.equalsIgnoreCase("true"));
     }
     public void verifyPillsNotAvailableinReScheduleVisitPage(){
+        navBar.goToCommunity();
         navBar.goToRepVisits();
         link("Calendar").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         waitUntilElementExists(driver.findElement(By.cssSelector("button[title='Today']")));
         driver.findElement(By.xpath("//button[@title='Month']")).sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
         driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
         waitForUITransition();
         driver.findElement(By.xpath("//input[@name='hsNotes']")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.xpath("//input[@name='hsNotes']")).sendKeys(Keys.PAGE_DOWN);
         driver.findElement(By.xpath("//button/span[text()='Reschedule']")).click();
+        waitForUITransition();
         driver.findElement(By.xpath("//textarea[@id='rescheduleMessage']")).sendKeys(Keys.PAGE_UP);
+        waitForUITransition();
         driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
+        waitForUITransition();
         setDate(getCurrentDate());
         driver.findElement(By.cssSelector("button[aria-label='Previous week']")).click();
         Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
