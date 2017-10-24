@@ -1053,7 +1053,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyPillsNotAvailableinNewScheduleVisitPage(){
         navBar.goToRepVisits();
         link("Calendar").click();
-        waitUntilElementExists(driver.findElement(By.cssSelector("button[title='Today']")));
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.xpath("//button[@title='Today']")));
         driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
         waitUntilElementExists(driver.findElement(By.cssSelector("form[id='add-calendar-appointment']")));
         driver.findElement(By.cssSelector("button[aria-label='Previous week']")).click();
@@ -1063,14 +1064,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//div/span[text()='Want a custom time? Add it manually']")).click();
         driver.findElement(By.cssSelector("button[class='ui small fluid button _3VnqII6ynYglzDU1flY9rw']")).click();
         String date = getSpecificDate(-1);
-        String disabled =driver.findElement(By.xpath("//div[@class='ui left center popup transition visible']//div[@aria-label='"+date+"']")).getAttribute("aria-disabled");
+        String disabled = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--disabled' and @aria-label='"+date+"']")).getAttribute("aria-disabled");
         Assert.assertTrue("Past dates are not disabled",disabled.equalsIgnoreCase("true"));
     }
     public void verifyPillsNotAvailableinReScheduleVisitPage(){
         navBar.goToRepVisits();
         link("Calendar").click();
         waitUntilElementExists(driver.findElement(By.cssSelector("button[title='Today']")));
-        driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
+        driver.findElement(By.xpath("//button[@title='Month']")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
+        waitForUITransition();
+        driver.findElement(By.xpath("//input[@name='hsNotes']")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.xpath("//button/span[text()='Reschedule']")).click();
+        driver.findElement(By.xpath("//textarea[@id='rescheduleMessage']")).sendKeys(Keys.PAGE_UP);
+        driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
+        setDate(getCurrentDate());
+        driver.findElement(By.cssSelector("button[aria-label='Previous week']")).click();
+        Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
     }
 
     //locators
@@ -1118,7 +1128,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
-
+    public String getCurrentDate() {
+        String DATE_FORMAT_NOW = "MMMM d yyyy";
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
