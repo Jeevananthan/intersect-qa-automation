@@ -1,9 +1,9 @@
 @HE @HUBS
-Feature: HE- HUBS View Mode - As a HE user, I want to be able to view HE Institution Data
+Feature: HE- Community - HUBSViewMode - As a HE user, I want to be able to view HE Institution Data
   @MATCH-1815
-  Scenario: HE user cannot access Hubs View mode
-    Given HE I want to login to the HE app using "jorgetesthobsons@gmail.com" as username and "Hobsons2016!" as password
-    When HS I go to the Counselor Community
+  Scenario: As a HE user, I should be able to view my HUBS Institution data
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I go to the Counselor Community
     And HS I access the INSTITUTION page
-    Then SP I verify Hubs view mode for "Adelphi University"
+    Then SP I verify Hubs view mode for "The University of Alabama"
     And HE I successfully sign out

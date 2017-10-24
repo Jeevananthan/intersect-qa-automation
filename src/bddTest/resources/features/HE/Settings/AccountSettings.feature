@@ -1,5 +1,5 @@
 @HE
-Feature:  HE - Account Settings - As an HE user, I want to be able to manage my user profile details.
+Feature:  HE - Settings - AccountSettings - As an HE user, I want to be able to manage my user profile details.
 
   @MATCH-1172 @MATCH-1155
   Scenario: As an HE user, I can enter the Account Settings screen and then cancel my
