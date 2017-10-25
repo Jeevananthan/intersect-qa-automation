@@ -48,7 +48,12 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
 
     public void fillFormAndVerifyMessaging(DataTable dataTable){
         //validating header of this page
-        Assert.assertTrue("Header of this page doesnot contains 'Request User Account' text",text("Request User Account").isDisplayed());
+        if (text("Institution Name").isEnabled()) {
+            Assert.assertTrue("Header of this page does not contain 'Request New Institution' text",text("Request New Institution").isDisplayed());
+        }
+        if (!text("Institution Name").isEnabled()) {
+            Assert.assertTrue("Header of this page does not contain 'Request User Account' text", text("Request User Account").isDisplayed());
+        }
         //back - link validation
         Assert.assertTrue("Back option is not displayed",link("Back").isDisplayed());
         //Already have an account? -text validation

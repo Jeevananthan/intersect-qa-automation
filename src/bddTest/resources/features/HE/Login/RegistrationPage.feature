@@ -1,5 +1,5 @@
 @HE
-Feature: HE - Registration page - As a potential HE User, I want to be able to request a new user account for a new/existing institution
+Feature: HE - Login - RegistrationPage - As a potential HE User, I want to be able to request a new user account for a new/existing institution
 
   @MATCH-202
   Scenario: As a new freemium user, I want to utilize the Request User page to request a new user account when a Primary User already exists for my institution
