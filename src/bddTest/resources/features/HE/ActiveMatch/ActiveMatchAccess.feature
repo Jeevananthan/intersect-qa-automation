@@ -21,4 +21,24 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user wit
     Then HE I verify the "ActiveMatch" nav link is not displaying for this user
     And HE I successfully sign out
 
+  @MATCH-3010
+  Scenario: As a HE User with Administrator role with no Legacy: ActiveMatch Events subscription, I can not access Active Match module
+    Given SP I am logged in to the Admin page as a Support user
+    When SP I search for "2100209" in "HE Accounts"
+    And SP I select "Bowling Green State University-Main Campus" from the global search results
+    And SP I set the "Legacy: ActiveMatch Events" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+    Given HE I am logged in to Intersect HE as user type "limited"
+    Then HE I verify the "ActiveMatch" nav link is not displaying for this user
+    And HE I successfully sign out
+    #cleanup
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "2100209" in "HE Accounts"
+    And SP I select "Bowling Green State University-Main Campus" from the global search results
+    And SP I set the "Legacy: ActiveMatch Events" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+    And SP I successfully sign out
+
+
 
