@@ -1,6 +1,5 @@
 package stepDefinitions.HE;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.HE.homePage.HomePageImpl;
@@ -55,7 +54,7 @@ public class HomePageStepDefs implements En {
 
         And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
 
-        And("^HE I open the Active Match section$", navBar::clickActiveMatch);
+        And("^HE I open the Active Match section$", navBar::goToActiveMatch);
 
     }
 }
