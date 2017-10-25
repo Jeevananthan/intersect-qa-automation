@@ -37,5 +37,11 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the calendar view in repvisits$",repVisits::verifyCalendarViewOnRepVisits);
 
+        Then("^HE I navigate to the \"([^\"]*)\" page in RepVisits$", repVisits::navigateToRepVisitsSection);
+
+        And("^HE I verify the non-administrator messaging on the Visits Feedback page$", repVisits::verifyVisitsFeedbackNonAdminMessaging);
+
+        And("^HE I verify the freemium messaging on the Visits Feedback page$", repVisits::verifyVisitsFeedbackFreemiumMessaging);
+
     }
 }
