@@ -1,5 +1,5 @@
 @HE
-Feature: HE - Login page -As an HE user I should be able to login to Intersect
+Feature: HE - Login - LoginPage - As an HE user I should be able to login to Intersect
 
   @MATCH-1428 @QASmokeTest
   Scenario: As an HE user, I want to verify the content of the HE Login Page

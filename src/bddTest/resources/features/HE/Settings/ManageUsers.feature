@@ -1,5 +1,5 @@
 @HE
-Feature: HE - Settings - ManageUsers -As an HE administrator I want to manage users at my institution
+Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage users at my institution
 
   @MATCH-1100 @MATCH-1258
   Scenario: As an HE administrator, I am able to deactivate and reactivate other users' accounts in my institution.

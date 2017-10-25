@@ -1,5 +1,5 @@
 @HE
-Feature: HE - Home page - As an HE user, I want to be able to access the features of the Home page
+Feature: HE - Home - HomePage - As an HE user, I want to be able to access the features of the Home page
 
   @MATCH-1350
   Scenario: As an HE user, I want to access the Intersect Help page
