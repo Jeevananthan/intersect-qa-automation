@@ -58,6 +58,8 @@ public class HomePageStepDefs implements En {
 
         And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
 
+        And("^HE I open the Active Match section$", navBar::goToActiveMatch);
+
         And("^HE I open the Events section$", navBar::goToEvents);
 
     }

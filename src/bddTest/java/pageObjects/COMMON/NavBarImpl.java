@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -60,6 +61,13 @@ public class NavBarImpl extends SeleniumBase {
         Assert.assertTrue("Unable to navigate to User List", isLinkActive(getUsersBtn()));
     }
 
+    public void goToActiveMatch() {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-plus-menu-link span"), 1));
+        getActiveMatchButton().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Unable to navigate to ActiveMatch page", isLinkActive(getActiveMatchButton()));
+    }
+
     public void verifySubMenuIsVisible(String tabName) {
         switch (tabName) {
             case "Home":
@@ -76,6 +84,9 @@ public class NavBarImpl extends SeleniumBase {
                 break;
             case "Users":
                 Assert.assertTrue("Users link is not visible",getUsersBtn().isDisplayed());
+                break;
+            case "ActiveMatch":
+                Assert.assertTrue("ActiveMatch link is not visible",getActiveMatchButton().isDisplayed());
                 break;
         }
     }
@@ -96,6 +107,9 @@ public class NavBarImpl extends SeleniumBase {
                 break;
             case "Users":
                 Assert.assertFalse("Users link is not visible",getUsersBtn().isDisplayed());
+                break;
+            case "ActiveMatch":
+                Assert.assertFalse("ActiveMatch link is not visible",getActiveMatchButton().isDisplayed());
                 break;
         }
     }
@@ -132,6 +146,8 @@ public class NavBarImpl extends SeleniumBase {
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
     }
 
+
+
     //Getters
     private WebElement getHomeBtn() {
         return link(By.id("js-main-nav-home-menu-link"));
@@ -149,6 +165,8 @@ public class NavBarImpl extends SeleniumBase {
     private WebElement getUsersBtn() {
         return link(By.id("js-main-nav-manage-users-menu-link"));
     }
+    private WebElement getActiveMatchButton() { return link(By.id("js-main-nav-am-plus-menu-link")); }
+
     private WebElement getHeadingBreadcrumbs(){
         List<WebElement> items = driver.findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
         for (WebElement item : items) {
