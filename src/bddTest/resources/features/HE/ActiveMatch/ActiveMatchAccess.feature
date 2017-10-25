@@ -22,7 +22,7 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user wit
     And HE I successfully sign out
 
   @MATCH-3010
-  Scenario: As a HE User with Administrator role with no Legacy: ActiveMatch Events subscription, I can not access Active Match module
+  Scenario: As a HE User with Administrator role with no ActiveMatch Plus subscription, I can not access Active Match module
     Given SP I am logged in to the Admin page as a Support user
     When SP I search for "2100209" in "HE Accounts"
     And SP I select "Bowling Green State University-Main Campus" from the global search results
