@@ -261,3 +261,19 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
     And HS I successfully sign out
+
+    @MATCH-2061
+    Scenario: As a HS user add a Visit from Calendar and add Internal Notes for Colleges
+      Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs3" and username "school-user" and password "password"
+      And HS I am Navigating to Calendar Home Screen
+      And HS I click on button Add Visit
+      And Hs I open the date picker
+      And HS I select Month and Date of Visit "November 2017" and day "Nov 21"
+      And HS I select representative from drop down "AlmaUser AlmaMandeep"
+      And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
+      And HS I click on Add Visit button
+      And HS I click on Calendar Dashboard Arrow  to navigate to "November 2017"
+      And HS I Verify "9AM,Alma College" on "21" is present on Calendar
+      And HS I successfully sign out
+
+

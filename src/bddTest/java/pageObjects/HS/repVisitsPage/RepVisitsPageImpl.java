@@ -9,32 +9,21 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import utilities.GetProperties;
-import javax.xml.soap.Text;
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import utilities.GetProperties;
-import utilities.GetProperties;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import static org.junit.Assert.fail;
-import static junit.framework.TestCase.fail;
+
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+
     //Creating RepVisitsPageImpl class object of for HE.
     pageObjects.HE.repVisitsPage.RepVisitsPageImpl repVisitsPageHEObj = new pageObjects.HE.repVisitsPage.RepVisitsPageImpl();
 
@@ -1092,4 +1081,163 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
     }
+
+    public void navigateToRVCalendar(){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+    }
+    public void buttonAddVisit(){
+        button("add visit").click();
+
+    }
+   /* public void selectVisitDate(String dayOfMonth){
+
+        monthday(dayOfMonth).click();
+
+
+        for(int i=0;i<48;i++)
+        {
+            List<WebElement> slots = getDriver().findElements(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(4) button"));
+            if (slots.size()==0) {
+                rightArrowNextWeek().click();
+            }
+
+        }
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(4) button"),1));
+        selectFridayVisit().click();
+
+    }*/
+    public void selectRepresentative(String representative){
+        addrepresentativefromlist().clear();
+        addrepresentativefromlist().sendKeys(representative);
+        representativeuser().click();
+    }
+    public void addVisitInternalNotes(String internalNotes){
+        internalNotes().sendKeys(internalNotes);
+
+    }
+    public void addVisitHSUser(){
+        addVisitHS().click();
+    }
+    public void datepicker(){
+        datepickerbuton().click();
+    }
+    public void pickMonthDateforVisit( String monthAndYear, String visitDate){
+        int control=0;
+
+        while(!monthselector().getText().equals(monthAndYear))
+        {
+            monthRightArrow().click();
+        }
+          monthday(visitDate.split(" ")[1]).click();
+
+        List<WebElement>  dayslist=getDriver().findElements(By.xpath("//th[@class='center aligned middle aligned _39IsE6GwUYRagGhvLF1PMz']/div/span"));
+        for(int i=0;i<5;i++){
+           //String
+            String controle=dayslist.get(i).getText();
+
+            if(dayslist.get(i).getText().equals(visitDate)){
+                control=i+1;
+                break;
+            }
+
+        }
+         getDriver().findElement(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(" + control + ") button")).click();
+
+
+    }
+
+
+
+    //locator for Add Visit
+    private  WebElement rightArrowNextWeek(){
+        return getDriver().findElement(By.xpath("//button[@aria-label='Next week']"));
+    }
+    private WebElement selectFridayVisit(){
+        return getDriver().findElement(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(4) button"));
+    }
+    private WebElement addrepresentativefromlist(){
+        return getDriver().findElement(By.cssSelector("input#calendar-search-reps"));
+            }
+
+    private WebElement representativeuser(){
+        return getDriver().findElement(By.xpath("//div[@class='results transition visible']/div/div[2]"));
+    }
+    private WebElement internalNotes(){
+        return getDriver().findElement(By.cssSelector("textarea#internalNotes"));
+    }
+    private  WebElement addVisitHS() {
+        return  getDriver().findElement(By.cssSelector("button.ui.teal.right.floated.button"));
+
+    }
+        private WebElement datepickerbuton(){
+        return getDriver().findElement(By.cssSelector("button.ui.tiny.button._3GJIUrSQadO6hk9FZvH28D"));
+    }
+    private WebElement monthselector(){
+            return getDriver().findElement(By.cssSelector("div.DayPicker-Caption"));
+    }
+    private WebElement monthRightArrow(){
+        return getDriver().findElement(By.cssSelector("span[aria-label='Next Month']"));
+
+    }
+    private WebElement monthday( String day){
+        return getDriver().findElement(By.xpath("//div[@class='DayPicker-Day' and text()='" + day + "']"));
+    }
+
+    //Calendar verification for created Visit
+
+    public void goToMonthOnCalendar( String visitMonth) {
+            navBar.goToRepVisits();
+            link("Calendar").click();
+
+        while (!monthHeader().getText().equals(visitMonth)) {
+            //rightArrowMonth().sendKeys(Keys.RETURN);
+            rightArrowMonth().click();
+        }
+    }
+    public void visitGetsAdded(String visitpresent , String dateOfVisit){
+        int position=0;
+        List<WebElement>  visitDaysList=getDriver().findElements(By.xpath("//div[@class='rbc-date-cell']/a[text()='"+dateOfVisit+"']/../../div[@class='rbc-date-cell']"));
+        for(int i=0;i<7;i++){
+            if(visitDaysList.get(i).getText().equals(dateOfVisit)){
+
+                position=i+1;
+                break;
+            }
+        }
+        Assert.assertTrue("Time of the Visit is not displayed on Calendar", addedVisitTime(dateOfVisit,Integer.toString(position)).getText().equals(visitpresent.split(",")[0]));
+
+        Assert.assertTrue("Name of the school is not displayed on Calendar",addedVisitSchoolName(dateOfVisit,Integer.toString(position)).getText().equals(visitpresent.split(",")[1]));
+        try{
+        Thread.sleep(10000);
+        } catch (Exception e ){}
+
+
+
+    }
+
+
+    //Locator for calendar screen
+        private WebElement rightArrowMonth(){
+            return getDriver().findElement(By.cssSelector("div._HSuPqZbac8aQcV7GQOr i.caret.right.icon"));
+
+        }
+        private WebElement monthHeader(){
+            return getDriver().findElement(By.cssSelector("div[role='heading']"));
+        }
+        private List<WebElement> addedVisitweekday(String visitDate){
+            return getDriver().findElements(By.xpath("//div[@class='rbc-date-cell']/a[text()='"+visitDate+"']/../../div[@class='rbc-date-cell']"));
+        }
+        private WebElement addedVisitTime(String dayNumber, String position){
+            return getDriver().findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='"+ dayNumber +"']/../../following-sibling::*/div["+ position +"]/div/div/div/span[@class='rbc-event-time']"));
+        }
+        private WebElement addedVisitSchoolName(String dayNumber, String position){
+            return getDriver().findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='"+ dayNumber +"']/../../following-sibling::*/div["+ position + "]/div/div/div/span[not(@class='rbc-event-time')]"));
+        }
 }
+
+
+
+
+
+

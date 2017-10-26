@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -86,5 +87,17 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
+        And("^HS I am Navigating to Calendar Home Screen$",repVisits::navigateToRVCalendar);
+        And("^HS I click on button Add Visit$",repVisits:: buttonAddVisit);
+        //And("^HS I click to select date of visit \"([^\"]*)\"$",repVisits:: selectVisitDate);
+        And("^HS I select representative from drop down \"([^\"]*)\"$",repVisits:: selectRepresentative);
+        And("^HS I Enter Internal Notes \"([^\"]*)\"$",repVisits::addVisitInternalNotes);
+        And("^HS I click on Add Visit button$",repVisits::addVisitHSUser);
+        And("^HS I select Month and Date of Visit \"([^\"]*)\" and day \"([^\"]*)\"$",repVisits:: pickMonthDateforVisit);
+        And("^Hs I open the date picker$",repVisits::datepicker);
+        And("^HS I click on Calendar Dashboard Arrow  to navigate to \"([^\"]*)\"$",repVisits::goToMonthOnCalendar);
+        And("^^HS I Verify \"([^\"]*)\" on \"([^\"]*)\" is present on Calendar$",repVisits::visitGetsAdded);
+
+
     }
 }
