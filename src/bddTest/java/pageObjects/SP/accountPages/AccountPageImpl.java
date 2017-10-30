@@ -1,16 +1,11 @@
 package pageObjects.SP.accountPages;
 
-import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class AccountPageImpl extends PageObjectFacadeImpl {
 
@@ -39,8 +34,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         int dateNumber = Integer.parseInt(dateNo);
         --dateNumber;
         dateNo = String.valueOf(dateNumber);
-        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='" + dateNo + "']"));
-        Assert.assertTrue("End date which is earlier then start date is enabled", Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        Assert.assertTrue("End date which is earlier then start date is enabled",Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
         getEndDateButton().click();
     }
 
@@ -58,8 +53,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         int dateNumber = Integer.parseInt(dateNo);
         ++dateNumber;
         dateNo = String.valueOf(dateNumber);
-        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='" + dateNo + "']"));
-        Assert.assertTrue("Start date which is past then end date is enabled", Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        Assert.assertTrue("Start date which is past then end date is enabled",Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
         getStartDateButton().click();
     }
 
@@ -78,39 +73,25 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     //Verifying Institutional information for "Docufide Institute of Technology (not a real school)"
     public void verifyInstitutuionalInformation() {
-        Assert.assertTrue("Institutional Account Address1 is wrong.", text("1800 Rodeo Drive").isDisplayed());
-        Assert.assertTrue("Institutional Account Address2 is wrong.", text("Suite 100").isDisplayed());
-        Assert.assertTrue("Institutional Account City is wrong.", text("Beverly Hills").isDisplayed());
-        Assert.assertTrue("Institutional Account postal code is wrong.", text("90210").isDisplayed());
-        Assert.assertTrue("Institutional Account SCID is wrong.", text("SCID:").isDisplayed());
+        Assert.assertTrue("Institutional Account Address1 is wrong.",text("1800 Rodeo Drive").isDisplayed());
+        Assert.assertTrue("Institutional Account Address2 is wrong.",text("Suite 100").isDisplayed());
+        Assert.assertTrue("Institutional Account City is wrong.",text("Beverly Hills").isDisplayed());
+        Assert.assertTrue("Institutional Account postal code is wrong.",text("90210").isDisplayed());
+        Assert.assertTrue("Institutional Account SCID is wrong.",text("SCID:").isDisplayed());
     }
 
-    public void verifyAccessToLogHistory(String visible) {
-        if (visible == "Yes") {
+    public void verifyAccessToLogHistory(String visible){
+        if(visible == "Yes"){
             Assert.assertTrue("View Log History is not accessible", link("View Log History").isDisplayed());
-        } else if (visible == "No") {
+        }
+        else if (visible == "No"){
             Assert.assertFalse("View Log History should not be accessible", link("View Log History").isDisplayed());
-        } else {
+        }
+        else {
             logger.error("Invalid parameter passed");
         }
     }
 
-
-    public void updateInstitutionalDetailsWithConnectAndRadiusId(String connectIdVal, String radiusIdVal) {
-
-        WebElement EditBtn = driver.findElement(By.xpath("//div[@class='ui stackable equal width grid']/div/section[1]/h2/button/span[text()='Edit']"));
-        Assert.assertTrue("Edit Button is not displayed for the update", EditBtn.isDisplayed());
-        EditBtn.click();
-
-        Assert.assertTrue("Connect Id textbox is not displayed", driver.findElement(By.cssSelector("input[aria-label='connect Id']")).isDisplayed());
-        textbox(By.cssSelector("input[aria-label='connect Id']")).sendKeys(connectIdVal+getRandomNo());
-
-        Assert.assertTrue("Radius Id textbox is not displayed", driver.findElement(By.cssSelector("input[aria-label='radius Id']")).isDisplayed());
-        textbox(By.cssSelector("input[aria-label='radius Id']")).sendKeys(radiusIdVal);
-
-        driver.findElement(By.cssSelector("button[class='ui mini primary right floated button']")).click();
-        waitUntilPageFinishLoading();
-    }
     public void clicksaveChangesButton(){
         if(getSaveChangesButton().isDisplayed()) {
             getSaveChangesButton().click();
@@ -118,36 +99,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public String getRandomNo(){
-    //this function returns a random number within the bound 50
-        Random randomNumber = new Random();
-        int randomNo = randomNumber.nextInt(50);
-        return Integer.toString(randomNo);
-    }
 
-    public void verifyInstitutionalDetails(DataTable dataTable) {
-
-        List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
-        for (Map<String, String> IntitutionalDetails : entities) {
-            for (String key : IntitutionalDetails.keySet()) {
-
-                switch (key) {
-                    case "Connect Id":
-                        String actualConnectId = driver.findElement(By.cssSelector("div[class='connect-id']")).getText();
-                        Assert.assertTrue("Connect Id was not as expected.  Expected: " + IntitutionalDetails.get(key) + " but got: " + actualConnectId, actualConnectId.contains(IntitutionalDetails.get(key)));
-                        break;
-
-                    case "Radius Id":
-                        String actualRadiusId = driver.findElement(By.cssSelector("div[class='radius-id']")).getText();
-                        Assert.assertTrue("Radius Id was not as expected.  Expected: " + IntitutionalDetails.get(key) + " but got: " + actualRadiusId, actualRadiusId.contains(IntitutionalDetails.get(key)));
-                        break;
-
-
-                }
-            }
-
-        }
-    }
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status){
 
@@ -188,8 +140,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
         dateTemp.click();
-    }
 
+
+    }
     public void setEndDateInModulePage(){
 
         String endDate = "June 13, 2018";
@@ -207,6 +160,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         dateTemp.click();
 
     }
+
+
+
 }
 
 
