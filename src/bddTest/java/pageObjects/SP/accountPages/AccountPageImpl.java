@@ -155,7 +155,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
        WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
        if(!ActualStatus.getText().equalsIgnoreCase(status)){
            ActualStatus.click();
-           getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+//           getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
 
            if(!status.equalsIgnoreCase("inactive")) {
                WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
