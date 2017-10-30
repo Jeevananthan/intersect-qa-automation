@@ -24,6 +24,20 @@ public class LoginPageStepDefs implements En {
 
         Given("^HE I verify the HE login screen$",loginPage::verifyLoginScreen);
 
+        And ("^HE I click the link \"([^\"]*)\"$",loginPage::clickLinkInRegisterationPage);
+
+        Then ("^HE I verify all field type in request user page$",loginPage::validateFieldsInRequestUserForm);
+
+        Given("^HE I navigate to Registration Intersect url$",loginPage::navigateToRegistrationPage);
+
+        And("^HE I search for \"([^\"]*)\" in \"([^\"]*)\" registeration page$",loginPage::searchForHEInstitution);
+
+        Then("^HE I verify all field in request user page$",loginPage::verifyFields);
+
+        Then("^HE I verify captcha in request user page$",loginPage::verifyCaptcha);
+
+        Then("^HE I validate all fields in request user page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",loginPage::validateFields);
+
         Given("^HE I navigate to the Intersect Registration app$",loginPage::navigateToRegistrationPage);
 
         Then ("^HE I select \"([^\"]*)\" and verify that the appropriate text is displayed$",loginPage::goToAppropriateRegistrationpage);

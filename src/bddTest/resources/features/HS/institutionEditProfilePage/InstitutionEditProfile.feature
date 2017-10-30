@@ -257,6 +257,22 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Coed (school has male and female students) | All-male (school only has all-male students) | All-female (school only has all-female students) | Unknown |
     And HS I successfully sign out
 
+
+
+  @MATCH-1849
+  Scenario: As a HS user, I need to be able to request a user account by providing the necessary information about myself.
+  So Support can provision my user account.
+
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "INFINITY INSTITUTE" in the registration page
+    And HE I click the link "please complete this form."
+    Then HS I verify all field type in request user page
+      |firstName |lastName |email |verifyEmail |jobTitle |
+      |text      |text     |email |email       |text     |
+    And HS I enter the following data in request user page
+      |firstName |lastName |email                 |verifyEmail           |jobTitle |
+      |mahi      |qateam   |kpmahi93+12@gmail.com |kpmahi93+12@gmail.com |test role|
+
   @MATCH-1781
   Scenario: As a HS user, I need to be able to search for high schools during the registration process.
             so I can associate myself with the high school I work at
@@ -264,7 +280,24 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     Then HS I click the new user link in the login page
     And HS I search for "Int QA High School 4" in "High school" and verify the results
 
+  @MATCH-1565
+  Scenario: As a HS Intersect User on the HS Institution edit page I want to see placeholder text when fields are blank
+            So there is less confusion on what to put in the field.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I access the INSTITUTION page
+    And HS I access the EDIT PROFILE page by clicking edit button
+    And HS I want to ensure placeholders exist for the appropriate fields click "Cancel"
+      | phone       | Ex: (555) 555-5555     |
+      | fax         | Ex: (555) 555-5555     |
+      | websiteUrl  | Ex: www.yourschool.edu |
+      | collegeRate | Ex: 78%                |
+      | ratio       | Ex: 12 (for 12:1)      |
+    And HS I successfully sign out
 
-
-
+  @MATCH-2052
+  Scenario: As a HS user, I need to be able to request a new user account AND a new high school institution during the registration process.
+            So I can still complete the registration workflow process when I am unable to successfully search and locate my high school.
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Request new institution" in the registration page
+    Then HS I verify the Request New User page
 
