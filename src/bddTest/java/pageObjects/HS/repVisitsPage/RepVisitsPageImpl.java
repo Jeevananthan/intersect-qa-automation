@@ -1055,16 +1055,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Calendar").click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        waitUntilElementExists(date());
+        waitUntilElementExists(currentDateInCalendar());
         driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
         waitForUITransition();
-        waitUntilElementExists(calendar());
-        driver.findElement(By.cssSelector("button[aria-label='Previous week']")).click();
+        waitUntilElementExists(calendarappointmentsInNewScheduleVisitPage());
+        previousWeekInNewScheduleVisitPage().click();
         waitForUITransition();
-        Assert.assertTrue("'No availability this week' message is not displayed",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//td/span[text()='No availability this week']")).isDisplayed());
+        Assert.assertTrue("'No availability this week' message is not displayed",noAvailabilityInNewScheduleVisitPage().isDisplayed());
     }
     public void verifyPastDatesDisabledInNewScheduleVisitPage(){
-        driver.findElement(By.xpath("//div/span[text()='Want a custom time? Add it manually']")).click();
+        addvVisitManuallyInNewScheduleVisitPage().click();
         waitForUITransition();
         driver.findElement(By.cssSelector("button[class='ui small fluid button _3VnqII6ynYglzDU1flY9rw']")).click();
         waitForUITransition();
@@ -1078,21 +1078,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Calendar").click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        waitUntilElementExists(date());
-        driver.findElement(By.xpath("//button[@title='Month']")).sendKeys(Keys.PAGE_DOWN);
+        waitUntilElementExists(currentDateInCalendar());
+        monthInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
         driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
         waitForUITransition();
-        driver.findElement(By.xpath("//input[@name='hsNotes']")).sendKeys(Keys.PAGE_DOWN);
-        driver.findElement(By.xpath("//input[@name='hsNotes']")).sendKeys(Keys.PAGE_DOWN);
-        driver.findElement(By.xpath("//button/span[text()='Reschedule']")).click();
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        rescheduleButtonInReScheduleVisitPage().click();
         waitForUITransition();
-        driver.findElement(By.xpath("//textarea[@id='rescheduleMessage']")).sendKeys(Keys.PAGE_UP);
+        reScheduleTextboxInReScheduleVisitPage().sendKeys(Keys.PAGE_UP);
         waitForUITransition();
         driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
         waitForUITransition();
         setDate(getCurrentDate());
-        driver.findElement(By.cssSelector("button[aria-label='Previous week']")).click();
+        previousWeekInNewScheduleVisitPage().click();
         Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
     }
 
@@ -1153,17 +1153,60 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.id("webInstructions"));
     }
 
-    private WebElement date()
+    private WebElement currentDateInCalendar()
     {
         WebElement day=driver.findElement(By.xpath("//button[@title='Today']"));
         waitUntilElementExists(day);
         return  day;
     }
 
-    private WebElement calendar()
+    private WebElement calendarappointmentsInNewScheduleVisitPage()
     {
         WebElement calendar=driver.findElement(By.cssSelector("form[id='add-calendar-appointment']"));
         waitUntilElementExists(calendar);
         return  calendar;
+    }
+
+    private WebElement previousWeekInNewScheduleVisitPage()
+    {
+        WebElement button=driver.findElement(By.cssSelector("button[aria-label='Previous week']"));
+        return  button;
+    }
+
+    private WebElement monthInReScheduleVisitPage()
+    {
+
+        WebElement month=driver.findElement(By.xpath("//button[@title='Month']"));
+        return  month;
+    }
+
+    private WebElement rescheduleButtonInReScheduleVisitPage()
+    {
+        WebElement reschedule=driver.findElement(By.xpath("//button/span[text()='Reschedule']"));
+        return  reschedule;
+    }
+
+    private WebElement hsNotesInReScheduleVisitPage()
+    {
+        WebElement notes=driver.findElement(By.xpath("//input[@name='hsNotes']"));
+        return  notes;
+    }
+
+    private WebElement reScheduleTextboxInReScheduleVisitPage()
+    {
+        WebElement textBox= driver.findElement(By.xpath("//textarea[@id='rescheduleMessage']"));
+        return textBox;
+    }
+
+    private WebElement noAvailabilityInNewScheduleVisitPage()
+    {
+        WebElement avialability=driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//td/span[text()='No availability this week']"));
+        return  avialability;
+    }
+
+    private WebElement addvVisitManuallyInNewScheduleVisitPage()
+    {
+        WebElement addVisit=driver.findElement(By.xpath("//div/span[text()='Want a custom time? Add it manually']"));
+        return  addVisit;
     }
 }
