@@ -1055,10 +1055,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Calendar").click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        waitUntilElementExists(driver.findElement(By.xpath("//button[@title='Today']")));
+        waitUntilElementExists(date());
         driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
         waitForUITransition();
-        waitUntilElementExists(driver.findElement(By.cssSelector("form[id='add-calendar-appointment']")));
+        waitUntilElementExists(calendar());
         driver.findElement(By.cssSelector("button[aria-label='Previous week']")).click();
         waitForUITransition();
         Assert.assertTrue("'No availability this week' message is not displayed",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//td/span[text()='No availability this week']")).isDisplayed());
@@ -1078,7 +1078,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Calendar").click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        waitUntilElementExists(driver.findElement(By.cssSelector("button[title='Today']")));
+        waitUntilElementExists(date());
         driver.findElement(By.xpath("//button[@title='Month']")).sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
         driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
@@ -1151,5 +1151,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
+    }
+
+    private WebElement date()
+    {
+        WebElement day=driver.findElement(By.xpath("//button[@title='Today']"));
+        waitUntilElementExists(day);
+        return  day;
+    }
+
+    private WebElement calendar()
+    {
+        WebElement calendar=driver.findElement(By.cssSelector("form[id='add-calendar-appointment']"));
+        waitUntilElementExists(calendar);
+        return  calendar;
     }
 }

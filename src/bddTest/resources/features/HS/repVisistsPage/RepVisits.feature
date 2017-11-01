@@ -269,3 +269,4 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS verify the past dates are disabled in the select custom date section
     Then HS verify pills are not available for the past dates in Re-schedule visit page
     Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
+    And HS I successfully sign out
