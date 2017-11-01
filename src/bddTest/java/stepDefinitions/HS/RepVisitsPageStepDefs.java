@@ -1,6 +1,7 @@
 package stepDefinitions.HS;
 
 import cucumber.api.java8.En;
+import cucumber.api.java8.Th;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
 public class RepVisitsPageStepDefs implements En {
@@ -28,6 +29,8 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the Special Instructions are \"([^\"]*)\"$", repVisits::VerifySpecialInstructionsForHE);
 
         Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
+
+        And ("^HS I verify the update button appears and I click update button$",repVisits::clickUpdateButtonInRepVisits);
 
         Then("^HS I verify the Time Slot time were added with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyTimeSlotAdded);
 
@@ -86,5 +89,11 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
+
+        Then("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
+
+        Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted$",repVisits::verifyTimeslot);
+
+        Then("^HS I edit the slots in Regular Weekly Hours using \"([^\"]*)\"$",repVisits::editSlot);
     }
 }

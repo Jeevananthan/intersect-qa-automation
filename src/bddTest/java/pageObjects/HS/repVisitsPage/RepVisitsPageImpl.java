@@ -25,10 +25,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import utilities.GetProperties;
 import utilities.GetProperties;
-import java.util.ArrayList;
-import java.util.Date;
+
+import java.util.*;
 import java.util.List;
-import java.util.Map;
+
 import static org.junit.Assert.fail;
 import static junit.framework.TestCase.fail;
 
@@ -174,9 +174,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void setVisitsConfirmations(String option){
         navBar.goToRepVisits();
+        WebElement element=link("Availability & Settings");
+        waitUntilElementExists(element);
         link("Availability & Settings").click();
         link("Availability").click();
         link("Availability Settings").click();
+        waitUntilElementExists(saveChanges());
         WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
         options.findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
         button("Save Changes").click();
@@ -313,17 +316,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void addNewTimeSlot(String day, String hourStartTime, String hourEndTime, String minuteStartTime, String minuteEndTime, String meridianStartTime, String meridianEndTime, String numVisits) {
         navBar.goToRepVisits();
+        WebElement element=link("Availability & Settings");
+        waitUntilElementExists(element);
         link("Availability & Settings").click();
         link("Availability").click();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
-
+        driver.findElement(By.xpath("//button[@class='ui button _1RspRuP-VqMAKdEts1TBAC']")).sendKeys(Keys.PAGE_DOWN);
         button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
-        selectDayForSlotTime("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']", day);
+        driver.findElement(By.xpath("//button[@class='ui small button IHDZQsICrqtWmvEpqi7Nd']")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.xpath("//input[@id='availability-end-time']")).sendKeys(Keys.PAGE_DOWN);
+        waitUntilElementExists(selectDay());
+        day=day();
+        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
+        waitUntilElementExists(submit());
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+    }
+
+
+    public String selectdate(int addDays)
+    {
+        String DATE_FORMAT_NOW = "EEEE, MMMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     public void verifyContentsOfRegularWeeklyHours() {
@@ -352,8 +373,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectDayForSlotTime(String element, String day)
     {
+        WebElement element1=driver.findElement(By.cssSelector("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
+        waitUntilElementExists(element1);
         WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
+        waitUntilElementExists(dayList);
         dayList.click();
+        WebElement element12=driver.findElement(By.xpath("//div/span[contains(text(), '"+day+"')]"));
+        waitUntilElementExists(element12);
         driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
     }
 
@@ -399,18 +425,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Email Instructions textbox is not showing", getDriver().findElement(By.cssSelector("[id=\"emailInstructions\"]")).isDisplayed());
         Assert.assertTrue("Web Instructions textbox is not showing", getDriver().findElement(By.cssSelector("[id=\"webInstructions\"]")).isDisplayed());
         Assert.assertTrue(button("Update Messaging").isDisplayed());
-    }
-
-    public void setStartAndEndDates(String startDate, String endDate) {
-        navBar.goToRepVisits();
-        link("Availability & Settings").click();
-        link("Availability").click();
-        link("Regular Weekly Hours").click();
-        waitUntilPageFinishLoading();
-        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-        setDate(startDate);
-        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        setDate(endDate);
     }
 
     public void setDate(String inputDate) {
@@ -581,6 +595,36 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void setStartAndEndDates(String startDate,String endDate) {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+        endDate=getSpecificDate(42);
+        setDate(endDate, "End");
+        startDate = getSpecificDate(35);
+        setDate(startDate, "Start");
+    }
+
+
+    public void clickUpdateButtonInRepVisits(){
+        if(updateBtn().isDisplayed()){
+            updateBtn().click();
+        }
+    }
+
+    public String getSpecificDate(int addDays) {
+        String DATE_FORMAT_NOW = "MMMM d yyyy";
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
     public void setDate(String inputDate, String startOrEndDate) {
 
         String[] parts = inputDate.split(" ");
@@ -686,6 +730,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement EntertimeZone = getDriver().findElement(By.cssSelector(".search[name=\"-search\"] + div"));
         EntertimeZone.click();
         getDriver().findElement(By.xpath("//span[text()='"+ timeZone +"']")).click();
+    }
+
+    public void verifyVisitsinException(String option,String time)
+    {
+      navBar.goToRepVisits();
+      waitUntilPageFinishLoading();
+      link("Availability & Settings").click();
+      link("Exceptions").click();
+      waitForUITransition();
+      waitUntilElementExists(dateButton());
+      String Currentdate = getSpecificDate(35);
+      setDateDoubleClick(Currentdate);
+      String date=selectCurrentDate(35);
+      Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']")).isDisplayed());
+      Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']/preceding-sibling::span/span[text()='"+option+"']")).isDisplayed());
+    }
+
+    public String selectCurrentDate(int addDays)
+    {
+        String DATE_FORMAT_NOW = "MM/dd/yy";
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public void verifyTimeslot()
+    {
+
+    }
+
+    public  void editSlot()
+    {
+
     }
 
     public void verifyCalendarViewOnRepVisits() {
@@ -887,10 +966,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addBlockedTime().click();
     }
 
-    private void doubleClick(WebElement elementLocator) {
-        Actions actions = new Actions(driver);
-        actions.doubleClick(elementLocator).perform();
-    }
+
 
     public void RemoveBlockedDate(String startDate, String endDate){
         navBar.goToRepVisits();
@@ -1091,5 +1167,50 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
+    }
+
+    private WebElement updateBtn(){
+        return button("UPDATE DATE");
+    }
+
+    private WebElement selectDay()
+    {
+        WebElement selectDay=driver.findElement(By.xpath("//div[@class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
+        waitUntilElementExists(selectDay);
+        return selectDay;
+    }
+
+    private String day()
+    {
+        String date=selectdate(35);
+        String selectDay[]=date.split(",");
+        String currentDay=selectDay[0];
+        return  currentDay;
+    }
+
+    private  WebElement submit()
+    {
+        WebElement submit=driver.findElement(By.cssSelector("button[class='ui primary button']"));
+        waitUntilElementExists(submit);
+        return  submit;
+    }
+
+    private WebElement dateButton()
+    {
+        WebElement date=button("Choose a Date");
+        waitUntilElementExists(date);
+        return date;
+    }
+
+    private void doubleClick(WebElement elementLocator) {
+        Actions actions = new Actions(driver);
+        actions.doubleClick(elementLocator).perform();
+    }
+
+    private WebElement saveChanges()
+    {
+        WebElement saveChanges=button("Save Changes");
+        waitUntilElementExists(saveChanges);
+        return  saveChanges;
     }
 }

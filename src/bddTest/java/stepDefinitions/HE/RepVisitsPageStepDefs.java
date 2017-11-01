@@ -43,5 +43,13 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the freemium messaging on the Visits Feedback page$", repVisits::verifyVisitsFeedbackFreemiumMessaging);
 
+        Then("^HE I search for \"([^\"]*)\" in RepVisits page",repVisits::searchSchool);
+
+        Then("^HE I select Visits to schedule the appointment for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::visitsSchedule);
+
+        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
+
+        Then("^HE I verify the pills is present or not in the he side using \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyPills);
+
     }
 }
