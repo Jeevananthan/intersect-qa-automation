@@ -230,7 +230,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(element);
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div/a[text()='"+school+"']")).isDisplayed());
         waitUntilElementExists(goToDate());
-        startDate = getSpecificDate(35);
+        startDate = getSpecificDate(42);
         setDate(startDate, "Go To Date");
         driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).click();
     }

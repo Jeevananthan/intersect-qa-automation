@@ -442,7 +442,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String calendarHeading = parts[0] + " " + parts[2];
 
         findMonth(calendarHeading);
-        WebElement Date = driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+parts[1]+")]"));
+        WebElement Date = driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+parts[1]+"]"));
         doubleClick(Date);
         waitUntilPageFinishLoading();
     }
@@ -603,9 +603,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
-        endDate=getSpecificDate(42);
+        endDate=getSpecificDate(49);
         setDate(endDate, "End");
-        startDate = getSpecificDate(35);
+        startDate = getSpecificDate(42);
         setDate(startDate, "Start");
     }
 
@@ -632,10 +632,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         if (startOrEndDate.contains("Start")) {
             button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-        } else {
+            findMonth(calendarHeading, startOrEndDate);
+        } else if(startOrEndDate.contains("End")) {
             button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        }
-        findMonth(calendarHeading, startOrEndDate);
+            findMonth(calendarHeading, startOrEndDate);
+        }else{button(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
+            findMonth(calendarHeading);}
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
     }
@@ -740,9 +742,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       link("Exceptions").click();
       waitForUITransition();
       waitUntilElementExists(dateButton());
-      String Currentdate = getSpecificDate(35);
-      setDateDoubleClick(Currentdate);
-      String date=selectCurrentDate(35);
+      waitForUITransition();
+      String Currentdate=getSpecificDate(42);
+      setDate(Currentdate,"Choose a Date");
+      String date = selectCurrentDate(42);
       Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']")).isDisplayed());
       Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']/preceding-sibling::span/span[text()='"+option+"']")).isDisplayed());
     }
@@ -757,14 +760,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
-    public void verifyTimeslot()
-    {
 
+
+    public void verifyTimeslot(String startDate,String endDate,String time)
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+        endDate=getSpecificDate(49);
+        setDate(endDate, "End");
+        startDate = getSpecificDate(42);
+        setDate(startDate, "Start");
+        Assert.assertTrue("time is not displayed",button(time).isDisplayed());
+        button(time).click();
     }
 
-    public  void editSlot()
+    public  void editSlot(String noOfVisits)
     {
 
+        driver.findElement(By.xpath("//input[@type='number']")).sendKeys(noOfVisits);
+        button("Save").click();
+        Assert.assertTrue("confirmation message is not displayed",driver.findElement(By.cssSelector("div>span[class='LkKQEXqh0w8bxd1kyg0Mq']")).isDisplayed());
     }
 
     public void verifyCalendarViewOnRepVisits() {

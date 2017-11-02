@@ -92,7 +92,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
 
-        Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted$",repVisits::verifyTimeslot);
+        Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using \"([^\"]*)\" and \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTimeslot);
 
         Then("^HS I edit the slots in Regular Weekly Hours using \"([^\"]*)\"$",repVisits::editSlot);
     }
