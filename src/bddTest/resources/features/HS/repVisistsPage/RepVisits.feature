@@ -269,39 +269,38 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I verify the details are present in the header "Account Settings","Your Profile","Institution Profile"
     Then HS I navigate to the all pages for the following details "Account Settings","Your Profile","Institution Profile","IAM Purple","Int Qa High School 4"
-    Then HS I verify the user is "ADMIN" or not
+    Then HS I verify the user "IAM Purple" is "ADMIN" or not
     And HS I successfully sign out
     #HS non-admin(Naviance)
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "nat.geo.dup" and password "password"
     Then HS I verify the detail is present in the header "Update Profile","Nat Geo"
-    Then HS I verify the user is "NON-ADMIN" or not
     And HS I successfully sign out
     #HS admin(Non-Naviance)
     Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
     And HS I verify the details are present in the header "Account Settings","Your Profile","Institution Profile"
     Then HS I navigate to the all pages for the following details "Account Settings","Your Profile","Institution Profile","Test qa","Mays High School"
-    Then HS I verify the user is "ADMIN" or not
+    Then HS I verify the user "Test qa" is "ADMIN" or not
     And HS I verify the following details are present in the header "Help Center","Contact Support"
     And HS I successfully sign out
     #HS Non-admin(Non-Naviance)
     Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password!1" as password
     And HS I verify the details are present in the header "Account Settings","Your Profile","Institution Profile"
     Then HS I navigate to the all pages for the following details "Account Settings","Your Profile","Institution Profile","QA Test","Mays High School"
-    Then HS I verify the user is "NON-ADMIN" or not
+    Then HS I verify the user "QA Test" is "NON-ADMIN" or not
     And HS I verify the following details are present in the header "Help Center","Contact Support"
     And HS I successfully sign out
     #HE admin
     Given HE I am logged in to Intersect HE as user type "limited"
     And HE I verify the details are present in the header "Account Settings","Your Profile","Institution Profile"
     Then HE I navigate to the all pages for the following details "Account Settings","Your Profile","Institution Profile","PurpleHE","Bowling Green State University-Main Campus"
-    Then HE I verify the user is "ADMIN" or not
+    Then HE I verify the user "PurpleHE" is "ADMIN" or not
     And HE I verify the following details are present in the header "Help Center","Contact Support"
     And HE I successfully sign out
     #HE Non-admin
     Given HE I am logged in to Intersect HE as user type "publishing"
     And HE I verify the details are present in the header "Account Settings","Your Profile","Institution Profile"
     Then HE I navigate to the all pages for the following details "Account Settings","Your Profile","Institution Profile","PurpleHE","The University of Alabama"
-    Then HE I verify the user is "NON-ADMIN" or not
+    Then HE I verify the user "PurpleHE" is "NON-ADMIN" or not
     And HE I verify the following details are present in the header "Help Center","Contact Support"
     And HE I successfully sign out
 

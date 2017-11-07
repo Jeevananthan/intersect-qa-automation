@@ -1075,13 +1075,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 //        Assert.assertTrue("institution is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+institution+"']")).isDisplayed());
      }
 
-    public  void verifyUser(String option)
+    public void verifyUser(String user,String option)
     {
         driver.findElement(By.id("user-dropdown")).click();
         if(option.equals("ADMIN"))
         {
-            Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span/span[text()='"+option+"']")).isDisplayed());
-        }else{logger.info("user is non-admin");}
+            Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//span[text()='Logged in as "+user+"']/span[text()='"+option+"']")).isDisplayed());
+        }else if(!option.equals("ADMIN"))
+        {
+            try{logger.info("user is non-admin");}catch (Exception e){}}
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
     }

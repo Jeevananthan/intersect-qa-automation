@@ -92,7 +92,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::navigateToAllpages);
 
-        And("^HS I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUser);
+        And("^HS I verify the user \"([^\"]*)\" is \"([^\"]*)\" or not$",repVisits::verifyUser);
 
         And("^HS I verify the following details are present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetails);
 
