@@ -11,6 +11,7 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -214,6 +215,73 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyDetailsInHeader(String settings,String yourProfile,String institutionProfile)
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.id("user-dropdown")).click();
+        Assert.assertTrue("settings is not displayed",driver.findElement(By.xpath("//span[text()='"+settings+"']")).isDisplayed());
+        Assert.assertTrue("your profile is not displayed",driver.findElement(By.xpath("//span[text()='"+yourProfile+"']")).isDisplayed());
+        Assert.assertTrue("institution profile is not displayed",driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']")).isDisplayed());
+    }
+
+    public void navigateToAllpages(String settings,String yourProfile,String institutionProfile,String user,String institution)
+    {
+        driver.findElement(By.xpath("//span[text()='"+settings+"']")).click();
+        waitUntilPageFinishLoading();
+//        Assert.assertTrue("settings is not displayed",driver.findElement(By.xpath("//div[text()='Intersect']/following-sibling::div[text()='Settings']")).isDisplayed());
+        driver.findElement(By.id("user-dropdown")).click();
+        driver.findElement(By.xpath("//span[text()='"+yourProfile+"']")).click();
+        waitUntilPageFinishLoading();
+//        Assert.assertTrue("user is not displayed",driver.findElement(By.xpath("//div[@class='field-items']/div[text()='"+user+"']")).isDisplayed());
+        driver.findElement(By.id("user-dropdown")).click();
+        driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']")).click();
+        waitUntilPageFinishLoading();
+//        Assert.assertTrue("institution is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+institution+"']")).isDisplayed());
+    }
+
+    public void verifyUser(String option)
+    {
+        driver.findElement(By.id("user-dropdown")).click();
+        if(option.equals("ADMIN"))
+        {
+            Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span/span[text()='"+option+"']")).isDisplayed());
+        }else if(!option.equals("ADMIN"))
+        {
+            try{logger.info("user is non-admin");}catch (Exception e){}}
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyDetails(String helpcenter,String contactsupport)
+    {
+        driver.findElement(By.id("user-dropdown")).click();
+        Assert.assertTrue("notifications icon is not displayed",driver.findElement(By.id("notifications")).isDisplayed());
+        Assert.assertTrue("helpNav-dropdown icon is not displayed",driver.findElement(By.id("helpNav-dropdown")).isDisplayed());
+        driver.findElement(By.id("helpNav-dropdown")).click();
+        Assert.assertTrue("Help Center is not displayed",driver.findElement(By.xpath("//span[text()='"+helpcenter+"']")).isDisplayed());
+        Assert.assertTrue("Contact Support is not displayed",text(contactsupport).isDisplayed());
+        driver.findElement(By.xpath("//span[text()='"+helpcenter+"']")).click();
+        waitUntilPageFinishLoading();
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.switchTo().window(intersectWindow);
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("hobsons logo is not displayed",driver.findElement(By.xpath("//div/a[@class='logo']")).isDisplayed());
+        driver.close();
+        driver.switchTo().window(navianceWindow);
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(getRepVisitsBtn());
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+    }
+
     public void verifyVisitsFeedbackNonAdminMessaging() {
         Assert.assertTrue("Non-administrator message was not displayed",text("Visit Feedback is only available to users with the Administrator role.").isDisplayed());
         Assert.assertTrue("Locked banner was not displayed",driver.findElement(By.xpath("//div[@class='centered one column row']")).findElement(By.cssSelector("[alt=locked]")).isDisplayed());
@@ -225,7 +293,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Locked banner was not displayed",driver.findElement(By.xpath("//div[@class='centered one column row']")).findElement(By.cssSelector("[alt=locked]")).isDisplayed());
     }
 
-
+    private WebElement getRepVisitsBtn() {
+        return link(By.id("js-main-nav-rep-visits-menu-link"));
+    }
     private WebElement getOverviewBtn() {
         return link("Overview");
     }

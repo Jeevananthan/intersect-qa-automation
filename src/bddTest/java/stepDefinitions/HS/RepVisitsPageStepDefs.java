@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -86,5 +87,15 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
+
+        And("^HS I verify the details are present in the header \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetailsInHeader);
+
+        And("^HS I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::navigateToAllpages);
+
+        And("^HS I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUser);
+
+        And("^HS I verify the following details are present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetails);
+
+        And("^HS I verify the detail is present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyProfile);
     }
 }
