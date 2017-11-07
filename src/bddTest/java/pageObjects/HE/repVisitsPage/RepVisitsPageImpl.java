@@ -229,15 +229,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         driver.findElement(By.xpath("//span[text()='"+settings+"']")).click();
         waitUntilPageFinishLoading();
-//        Assert.assertTrue("settings is not displayed",driver.findElement(By.xpath("//div[text()='Intersect']/following-sibling::div[text()='Settings']")).isDisplayed());
         driver.findElement(By.id("user-dropdown")).click();
         driver.findElement(By.xpath("//span[text()='"+yourProfile+"']")).click();
         waitUntilPageFinishLoading();
-//        Assert.assertTrue("user is not displayed",driver.findElement(By.xpath("//div[@class='field-items']/div[text()='"+user+"']")).isDisplayed());
         driver.findElement(By.id("user-dropdown")).click();
         driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']")).click();
         waitUntilPageFinishLoading();
-//        Assert.assertTrue("institution is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+institution+"']")).isDisplayed());
     }
 
     public void verifyUser(String user,String option)

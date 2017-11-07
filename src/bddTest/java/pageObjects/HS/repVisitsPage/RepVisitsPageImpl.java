@@ -1068,11 +1068,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.id("user-dropdown")).click();
         driver.findElement(By.xpath("//span[text()='"+yourProfile+"']")).click();
         waitUntilPageFinishLoading();
-//        Assert.assertTrue("user is not displayed",driver.findElement(By.xpath("//div[@class='field-items']/div[text()='"+user+"']")).isDisplayed());
         driver.findElement(By.id("user-dropdown")).click();
         driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']")).click();
         waitUntilPageFinishLoading();
-//        Assert.assertTrue("institution is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+institution+"']")).isDisplayed());
      }
 
     public void verifyUser(String user,String option)
@@ -1122,7 +1120,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.id("user-dropdown")).click();
         Assert.assertTrue(profile+" is not displayed",driver.findElement(By.xpath("//span[text()='"+profile+"']")).isDisplayed());
         driver.findElement(By.xpath("//span[text()='"+profile+"']")).click();
-       // Assert.assertTrue(school+" is not displayed",driver.findElement(By.xpath("//div/a[text()='"+school+"']")).isDisplayed());
     }
     //locators
     private boolean isLinkActive(WebElement link) {
