@@ -261,3 +261,15 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
     And HS I successfully sign out
+
+  @MATCH-2691
+  Scenario Outline:As a High School RepVisits User who is viewing my exceptions (/rep-visits/settings/availability/exceptions)
+                   I want to see availability pills during times when appointments are scheduled
+                   So that I can edit remaining availabilities.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify in exceptions the appointments color and status for "<AppointmentStatus>" with color "<Color>"
+    Examples:
+      |AppointmentStatus       |Color                   |
+      |Max visits met          | rgba(233, 233, 245, 1) |
+      |Fully booked            | rgba(233, 238, 245, 1) |
+      |Appointment scheduled   | rgba(233, 238, 245, 1) |
