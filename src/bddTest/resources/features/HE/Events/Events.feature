@@ -76,7 +76,7 @@ Feature: HE - Active Match Events - As a HE Intersect Administrator/Publishing u
     | EVENT LOCATION | Columbus Hall Library   |
     | EVENT PRIMARY CONTACT | Frank Turner     |
     | EVENT AUDIENCE        | Filter 1         |
-    Then HE I should see the event of name "TestEvent" present in the events list as an unpublished event
+    Then HE I should see the event of name "TestEvent" present in the events list as Draft event
     When HE I edit the event of name "TestEvent" with the following details:
     | Event Name | TestEventEdited |
     | Event Start | Dec 23;10:00 AM |
@@ -88,6 +88,7 @@ Feature: HE - Active Match Events - As a HE Intersect Administrator/Publishing u
     | EVENT LOCATION | Columbus Hall LibraryAnother   |
     | EVENT PRIMARY CONTACT | Frank TurnerAnother     |
     | EVENT AUDIENCE        | Filter 1Another         |
+    And HE I click on Save button
     Then HE The event of name "TestEventEdited" should have the following data:
     | Event Name | TestEventEdited |
     | Event Start | Dec 23;10:00 AM |
@@ -103,6 +104,35 @@ Feature: HE - Active Match Events - As a HE Intersect Administrator/Publishing u
     Then HE I should see the event of name "TestEventEdited" present in the events list as a published event
     When HE I delete the event of name "TestEventEdited"
     Then HE The deleted event should not be displayed in the events list
+
+  @MATCH-2913
+  Scenario: As a HE User, verify Create Event Page Validations
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events section
+    And HE I click Publish Now button  on events page leaving blank all the fields
+    And HE I Verify  required fields error message
+    And HE I verify Save and Publish buttons are disabled by default
+    And HE I successfully sign out
+
+  @MATCH-2913
+  Scenario: As a HE User, Verify Create Event Page Validation for Field
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events section
+    And HE I click on Create Event button
+    And HE I enter event name as "Event name test maximum two hundred and fifty characters and hit button Publish Now
+        This should give an error message if characters are more than 120. Life is beautiful full of surprises.
+        Enjoy every moment and give your best and then forgot about it. I am looking forward to seeing a valid error
+        message added by Rob Kalmar"
+    And HE I verify Event Name error message
+    And HE I Enter Event Location as "aaa"
+    And HE I verify message "No results found"
+    And HE I Enter Event Audience field as "8787"
+    And HE I verify message "No results found"
+
+
+
+
+
     
 
 
