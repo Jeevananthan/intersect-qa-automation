@@ -215,42 +215,52 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyDetailsInHeader(String settings,String yourProfile,String institutionProfile)
-    {
+    public void verifyDetailsInHeader(String settings,String yourProfile,String institutionProfile){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         driver.findElement(By.id("user-dropdown")).click();
-        Assert.assertTrue("settings is not displayed",driver.findElement(By.xpath("//span[text()='"+settings+"']")).isDisplayed());
-        Assert.assertTrue("your profile is not displayed",driver.findElement(By.xpath("//span[text()='"+yourProfile+"']")).isDisplayed());
-        Assert.assertTrue("institution profile is not displayed",driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']")).isDisplayed());
+        Assert.assertTrue("'Account settings' option is not displayed",driver.findElement(By.xpath("//span[text()='"+settings+"']")).isDisplayed());
+        Assert.assertTrue("'Your Profile' option is not displayed",driver.findElement(By.xpath("//span[text()='"+yourProfile+"']")).isDisplayed());
+        Assert.assertTrue("'Institution Profile' option is not displayed",driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']")).isDisplayed());
+        Assert.assertTrue("'Logged In As' Text is not displayed",driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]")).isDisplayed());
+        Assert.assertTrue("'Sign Out' option is not displayed",driver.findElement(By.xpath("//span[text()='Sign Out']")).isDisplayed());
     }
 
-    public void navigateToAllpages(String settings,String yourProfile,String institutionProfile,String user,String institution)
-    {
+    public void verifyNavigation(String settings,String yourProfile,String institutionProfile)  {
         driver.findElement(By.xpath("//span[text()='"+settings+"']")).click();
         waitUntilPageFinishLoading();
+        Assert.assertTrue("settings is not displayed",driver.findElement(By.xpath("//div[text()='Intersect']/following-sibling::div[text()='Settings']/parent::div/parent::div[@class='five wide computer seven wide mobile eight wide tablet column']")).isDisplayed());
         driver.findElement(By.id("user-dropdown")).click();
         driver.findElement(By.xpath("//span[text()='"+yourProfile+"']")).click();
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='Community']")));
+        Assert.assertTrue("'Profile' is not displayed",driver.findElement(By.xpath("//a[@class='active' and text()='Profile']")).isDisplayed());
+        driver.switchTo().defaultContent();
         waitUntilPageFinishLoading();
         driver.findElement(By.id("user-dropdown")).click();
         driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']")).click();
         waitUntilPageFinishLoading();
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='Community']")));
+        Assert.assertTrue("'Profile' is not displayed",driver.findElement(By.xpath("//a[@class='active' and text()='Institution']")).isDisplayed());
+        driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
     }
 
-    public void verifyUser(String user,String option)
-    {
+    public void verifyUserAdminorNot(String option){
         driver.findElement(By.id("user-dropdown")).click();
-        if(option.equals("ADMIN"))
-        {
-            Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//span[contains(text(),'Logged in as "+user+"')]/span[contains(text(),'"+option+"')]")).isDisplayed());
-        }else if(!option.equals("ADMIN"))
-        {
-            try{logger.info("user is non-admin");}catch (Exception e){}}
+        if (!option.equals("")) {
+            if (option.equalsIgnoreCase("ADMIN")) {
+                Assert.assertTrue(option + "is not displayed", driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]/span[text()='ADMIN']")).isDisplayed());
+            } else if (option.equalsIgnoreCase("NON-ADMIN")) {
+                Assert.assertTrue("'Logged In As' Text is not displayed",driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]")).isDisplayed());
+            } else {
+                Assert.fail("The given option" + option + " is a invalid one");
+            }
+        }
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
     }
 
-    public void verifyDetails(String helpcenter,String contactsupport)
+    public void verifyHelpCentre(String helpcenter,String contactsupport)
     {
         driver.findElement(By.id("user-dropdown")).click();
         Assert.assertTrue("notifications icon is not displayed",driver.findElement(By.id("notifications")).isDisplayed());

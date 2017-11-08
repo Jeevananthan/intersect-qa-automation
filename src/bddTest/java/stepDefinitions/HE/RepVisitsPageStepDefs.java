@@ -45,11 +45,11 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the details are present in the header \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetailsInHeader);
 
-        And("^HE I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::navigateToAllpages);
+        And("^HE I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNavigation);
 
-        And("^HE I verify the user \"([^\"]*)\" is \"([^\"]*)\" or not$",repVisits::verifyUser);
+        And("^HE I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUserAdminorNot);
 
-        And("^HE I verify the following details are present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetails);
+        And("^HE I verify the following details are present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHelpCentre);
 
     }
 }

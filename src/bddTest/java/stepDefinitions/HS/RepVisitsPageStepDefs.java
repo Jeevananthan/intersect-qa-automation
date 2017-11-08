@@ -88,14 +88,13 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
 
-        And("^HS I verify the details are present in the header \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetailsInHeader);
+        And("^HS I verify the details are present in the header \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHeadersinDropdown);
 
-        And("^HS I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::navigateToAllpages);
+        And("^HS I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNavigationinDropdown);
 
-        And("^HS I verify the user \"([^\"]*)\" is \"([^\"]*)\" or not$",repVisits::verifyUser);
+        And("^HS I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUserAdminorNot);
 
-        And("^HS I verify the following details are present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetails);
+        And("^HS I verify the following details are present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHelpCentre);
 
-        And("^HS I verify the detail is present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyProfile);
     }
 }

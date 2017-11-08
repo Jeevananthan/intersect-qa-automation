@@ -1050,78 +1050,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyDetailsInHeader(String settings,String yourProfile,String institutionProfile)
-    {
-        navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        driver.findElement(By.id("user-dropdown")).click();
-        Assert.assertTrue("settings is not displayed",driver.findElement(By.xpath("//span[text()='"+settings+"']")).isDisplayed());
-        Assert.assertTrue("your profile is not displayed",driver.findElement(By.xpath("//span[text()='"+yourProfile+"']")).isDisplayed());
-        Assert.assertTrue("institution profile is not displayed",driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']")).isDisplayed());
+    public void verifyHeadersinDropdown(String settings,String yourProfile,String institutionProfile){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyDetailsInHeader(settings,yourProfile,institutionProfile);
     }
 
-    public void navigateToAllpages(String settings,String yourProfile,String institutionProfile,String user,String institution)
-    {
-        driver.findElement(By.xpath("//span[text()='"+settings+"']")).click();
-        waitUntilPageFinishLoading();
-        Assert.assertTrue("settings is not displayed",driver.findElement(By.xpath("//div[text()='Intersect']/following-sibling::div[text()='Settings']")).isDisplayed());
-        driver.findElement(By.id("user-dropdown")).click();
-        driver.findElement(By.xpath("//span[text()='"+yourProfile+"']")).click();
-        waitUntilPageFinishLoading();
-        driver.findElement(By.id("user-dropdown")).click();
-        driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']")).click();
-        waitUntilPageFinishLoading();
+    public void verifyNavigationinDropdown(String settings,String yourProfile,String institutionProfile){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyNavigation(settings,yourProfile,institutionProfile);
      }
 
-    public void verifyUser(String user,String option)
-    {
-        driver.findElement(By.id("user-dropdown")).click();
-        if(option.equals("ADMIN"))
-        {
-            Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//span[text()='Logged in as "+user+"']/span[text()='"+option+"']")).isDisplayed());
-        }else if(!option.equals("ADMIN"))
-        {
-            try{logger.info("user is non-admin");}catch (Exception e){}}
-        navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
+    public void verifyUserAdminorNot(String option){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyUserAdminorNot(option);
     }
 
-    public void verifyDetails(String helpcenter,String contactsupport)
-    {
-        driver.findElement(By.id("user-dropdown")).click();
-        Assert.assertTrue("notifications icon is not displayed",driver.findElement(By.id("notifications")).isDisplayed());
-        Assert.assertTrue("helpNav-dropdown icon is not displayed",driver.findElement(By.id("helpNav-dropdown")).isDisplayed());
-        driver.findElement(By.id("helpNav-dropdown")).click();
-        Assert.assertTrue("Help Center is not displayed",driver.findElement(By.xpath("//span[text()='"+helpcenter+"']")).isDisplayed());
-        Assert.assertTrue("Contact Support is not displayed",driver.findElement(By.xpath("//a[text()='"+contactsupport+"']")).isDisplayed());
-        driver.findElement(By.xpath("//span[text()='"+helpcenter+"']")).click();
-        waitUntilPageFinishLoading();
-        String navianceWindow = driver.getWindowHandle();
-        String intersectWindow = null;
-        Set<String> windows = driver.getWindowHandles();
-        for (String thisWindow : windows) {
-            if (!thisWindow.equals(navianceWindow)){
-                intersectWindow = thisWindow;
-            }
-        }
-        driver.switchTo().window(intersectWindow);
-        waitUntilPageFinishLoading();
-        Assert.assertTrue("hobsons logo is not displayed",driver.findElement(By.xpath("//div/a[@class='logo']")).isDisplayed());
-        driver.close();
-        driver.switchTo().window(navianceWindow);
-        waitUntilPageFinishLoading();
-        waitUntilElementExists(getRepVisitsBtn());
-        navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
+    public void verifyHelpCentre(String helpcenter,String contactsupport){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyHelpCentre(helpcenter,contactsupport);
     }
-
-    public void verifyProfile(String profile,String school)
-    {
-        driver.findElement(By.id("user-dropdown")).click();
-        Assert.assertTrue(profile+" is not displayed",driver.findElement(By.xpath("//span[text()='"+profile+"']")).isDisplayed());
-        driver.findElement(By.xpath("//span[text()='"+profile+"']")).click();
-    }
-    //locators
+      //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
