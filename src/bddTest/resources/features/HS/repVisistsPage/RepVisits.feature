@@ -287,14 +287,14 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 #verify the Exception tab(before changing the NumofVists : NumVisits-3)
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I go to the Exception tab to verify the visits using "3 Colleges Max","<heStartTime>"
+    Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>"
 
 #verify&edit regular weekly hours(changing NumofVisits from 3 to 2)
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>" and "<EndDate>","<heTime>"
     Then HS I edit the slots in Regular Weekly Hours using "2"
 
 #verify the Exception tab(after changing the NumofVists : NumVisits-2)
-    Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>"
+    Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>"
     And HS I successfully sign out
 
 #verify the pills is not present in the he side
@@ -309,15 +309,17 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I edit the slots in Regular Weekly Hours using "3"
 
 #verify the Exception tab(after changing the NumofVists : NumVisits-3)
-    Then HS I go to the Exception tab to verify the visits using "3 Colleges Max","<heStartTime>"
+    Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>"
     And HS I successfully sign out
 
-#verify the pills is not present in the he side
+#verify the pills is present in the he side
     Given HE I want to login to the HE app using "purpleheautomation+marketing@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
-    Then HE I verify the pills is present or not in the he side using "<School>" using "<Date>" and "<heStartTime>"
+    Then HE I verify the pills is present in the he side using "<School>" using "<Date>" and "<heStartTime>"
     Then HE I successfully sign out
     Examples:
       | Day     |Date            |HourStartTime|HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|StartDate         |EndDate      |hsEndTime |Option                                              |School                  |heStartTime|heTime |
-      |Friday   |November 21 2017|11:          |12:        |21             |11           |am               |pm             |3        |November 21 2017  |April 11 2018|12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4    |11:21am    |11:21am|
+      |Friday   |November 21 2017|11:          |12:        |36             |11           |am               |pm             |3        |November 21 2017  |April 11 2018|12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4    |11:36am    |11:36am|
 #      |Friday   |November 21 2017|08:          |12:        |23             |11           |am               |pm             |3        |November 21 2017  |April 11 2018|12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4    |8:23am     |08:23am|
+#      |Friday   |November 21 2017|11:          |12:        |29             |11           |am               |pm             |3        |November 21 2017  |April 11 2018|12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4    |11:29am    |11:29am|
+#      |Friday   |November 21 2017|08:          |12:        |30             |11           |am               |pm             |3        |November 21 2017  |April 11 2018|12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4    |8:30am     |08:30am|

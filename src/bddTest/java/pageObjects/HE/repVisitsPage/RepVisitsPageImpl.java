@@ -214,25 +214,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void searchSchool(String school)
     {
         navBar.goToRepVisits();
-        driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
+        searchTextBox().sendKeys(school);
         waitUntilElementExists(search());
-        driver.findElement(By.xpath("//button[@class='ui button']")).click();
-        WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
-        waitUntilElementExists(schoolName);
-        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]")).isDisplayed());
-        driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]")).click(); }
-
+        searchButton().click();
+        waitUntilElementExists(schoolInSearchAndSchedule(school));
+        Assert.assertTrue("school is not displayed",schoolInSearchAndSchedule(school).isDisplayed());
+        schoolInSearchAndSchedule(school).click(); }
 
     public void visitsSchedule(String school,String startDate,String time)
     {
-        driver.findElement(By.xpath("//span[text()='Visits']")).click();
-        WebElement element=driver.findElement(By.xpath("//a[text()='"+school+"']"));
-        waitUntilElementExists(element);
-        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div/a[text()='"+school+"']")).isDisplayed());
+        visit().click();
+        waitUntilElementExists(schoolInVisits(school));
+        Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
         startDate = getSpecificDate(42);
         setDate(startDate, "Go To Date");
-        driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).click();
+        availabilityButton(time).click();
     }
 
     public void verifySchedulePopup(String school,String startTime,String endTime)
@@ -240,7 +237,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
         Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
-        driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]")).click();
+        visitRequestButton().click();
         waitUntilElementExists(goToDate());
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
@@ -248,19 +245,32 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyPills(String school,String startDate,String time)
     {
-        driver.findElement(By.xpath("//span[text()='Visits']")).click();
-        WebElement element=driver.findElement(By.xpath("//a[text()='"+school+"']"));
-        waitUntilElementExists(element);
-        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div/a[text()='"+school+"']")).isDisplayed());
+        visit().click();
+        waitUntilElementExists(schoolInVisits(school));
+        Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
-        startDate = getSpecificDate(35);
+        startDate = getSpecificDate(42);
         setDate(startDate, "Go To Date");
         try{
-            if(!driver.findElement(By.xpath("//div/div/button[text()='"+time+"']")).isDisplayed())
+            if(! availabilityButton(time).isDisplayed())
             {
                 logger.info("appointment is not displayed");
             }else{logger.info("appointment is displayed");}
         }catch (Exception e){}
+    }
+
+    public  void verifyPillsIsPresent(String school,String startDate,String time)
+    {
+        visit().click();
+        waitUntilElementExists(schoolInVisits(school));
+        Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
+        waitUntilElementExists(goToDate());
+        startDate = getSpecificDate(42);
+        setDate(startDate, "Go To Date");
+        if( availabilityButton(time).isDisplayed())
+        {
+            logger.info("appointment is displayed");
+        }else{logger.info("appointment is not displayed");}
     }
 
     public void setDate(String inputDate, String startOrEndDate){
@@ -427,6 +437,48 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement goToDate=driver.findElement(By.xpath("//button[text()='Go To Date']"));
         waitUntilElementExists(goToDate);
         return  goToDate;
+    }
+
+    private WebElement searchTextBox()
+    {
+        WebElement textBox= driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']"));
+        return textBox;
+    }
+
+    private WebElement searchButton()
+    {
+        WebElement button=driver.findElement(By.xpath("//button[@class='ui button']"));
+        return  button;
+    }
+
+    private WebElement visit()
+    {
+        WebElement visit=driver.findElement(By.xpath("//span[text()='Visits']"));
+        return  visit;
+    }
+
+    private WebElement visitRequestButton()
+    {
+        WebElement button=driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]"));
+        return button;
+    }
+
+    private WebElement schoolInSearchAndSchedule(String school)
+    {
+        WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        return schoolName;
+    }
+
+    private WebElement schoolInVisits(String school)
+    {
+        WebElement schoolName=driver.findElement(By.xpath("//a[text()='"+school+"']"));
+        return  schoolName;
+    }
+
+    private WebElement availabilityButton(String time)
+    {
+        WebElement button=driver.findElement(By.xpath("//div/div/button[text()='"+time+"']"));
+        return button;
     }
 }
 

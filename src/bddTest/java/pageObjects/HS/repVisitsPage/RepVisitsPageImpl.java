@@ -1,5 +1,6 @@
 package pageObjects.HS.repVisitsPage;
 
+import com.gargoylesoftware.htmlunit.WebWindow;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -322,10 +323,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
-        driver.findElement(By.xpath("//button[@class='ui button _1RspRuP-VqMAKdEts1TBAC']")).sendKeys(Keys.PAGE_DOWN);
-        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
-        driver.findElement(By.xpath("//button[@class='ui small button IHDZQsICrqtWmvEpqi7Nd']")).sendKeys(Keys.PAGE_DOWN);
-        driver.findElement(By.xpath("//input[@id='availability-end-time']")).sendKeys(Keys.PAGE_DOWN);
+        startOrEndDate().sendKeys(Keys.PAGE_DOWN);
+        addTimeSlot().click();
+        availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
         waitUntilElementExists(selectDay());
         day=day();
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
@@ -333,7 +334,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
-        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        addTimeSlotSubmit().click();
     }
 
 
@@ -599,9 +600,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        link("Availability & Settings").click();
-        link("Availability").click();
-        link("Regular Weekly Hours").click();
+        availabilityAndSettings().click();
+        availability().click();
+        regularWeeklyHours().click();
         waitUntilPageFinishLoading();
         endDate=getSpecificDate(49);
         setDate(endDate, "End");
@@ -617,7 +618,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public String getSpecificDate(int addDays) {
-        String DATE_FORMAT_NOW = "MMMM d yyyy";
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, addDays);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
@@ -738,16 +739,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
       navBar.goToRepVisits();
       waitUntilPageFinishLoading();
-      link("Availability & Settings").click();
-      link("Exceptions").click();
-      waitForUITransition();
+      availabilityAndSettings().click();
+      exception().click();
+      waitUntilPageFinishLoading();
       waitUntilElementExists(dateButton());
-      waitForUITransition();
       String Currentdate=getSpecificDate(42);
       setDate(Currentdate,"Choose a Date");
       String date = selectCurrentDate(42);
       Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']")).isDisplayed());
-      Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']/preceding-sibling::span/span[text()='"+option+"']")).isDisplayed());
+      Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']/preceding-sibling::span[text()='"+option+"']")).isDisplayed());
     }
 
     public String selectCurrentDate(int addDays)
@@ -767,9 +767,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        link("Availability & Settings").click();
-        link("Availability").click();
-        link("Regular Weekly Hours").click();
+        availabilityAndSettings().click();
+        availability().click();
+        regularWeeklyHours().click();
         waitUntilPageFinishLoading();
         endDate=getSpecificDate(49);
         setDate(endDate, "End");
@@ -781,7 +781,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public  void editSlot(String noOfVisits)
     {
-
+        driver.findElement(By.xpath("//input[@type='number']")).clear();
         driver.findElement(By.xpath("//input[@type='number']")).sendKeys(noOfVisits);
         button("Save").click();
         Assert.assertTrue("confirmation message is not displayed",driver.findElement(By.cssSelector("div>span[class='LkKQEXqh0w8bxd1kyg0Mq']")).isDisplayed());
@@ -1232,5 +1232,56 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement saveChanges=button("Save Changes");
         waitUntilElementExists(saveChanges);
         return  saveChanges;
+    }
+
+    private WebElement startOrEndDate()
+    {
+        WebElement date=driver.findElement(By.xpath("//button[@class='ui button _1RspRuP-VqMAKdEts1TBAC']"));
+        return  date;
+    }
+
+    private WebElement addTimeSlot()
+    {
+        WebElement add= button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']"));
+        return  add;
+    }
+
+    private WebElement availabilityButton()
+    {
+        WebElement pills= driver.findElement(By.xpath("//button[@class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
+        return pills;
+    }
+
+    private WebElement availabilityEndtimeTextbox()
+    {
+        WebElement textbox=driver.findElement(By.xpath("//input[@id='availability-end-time']"));
+        return textbox;
+    }
+
+    private WebElement addTimeSlotSubmit()
+    {
+        WebElement submit=driver.findElement(By.cssSelector("button[class='ui primary button']"));
+        return  submit;
+    }
+
+    private WebElement availabilityAndSettings()
+    {
+        WebElement availabilityAndSettings= link("Availability & Settings");
+        return  availabilityAndSettings;
+    }
+    private WebElement availability()
+    {
+        WebElement availability=  link("Availability");
+        return  availability;
+    }
+    private WebElement regularWeeklyHours()
+    {
+        WebElement regularWeeklyHours= link("Regular Weekly Hours");
+        return  regularWeeklyHours;
+    }
+    private WebElement exception()
+    {
+        WebElement link=link("Exceptions");
+        return  link;
     }
 }
