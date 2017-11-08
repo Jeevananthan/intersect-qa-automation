@@ -261,3 +261,55 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
     And HS I successfully sign out
+
+  @MATCH-3062
+  Scenario: As a RepVisits User,I need to be able to update my contact information and reset my password
+            So I can effectively manage my RepVisits Account.
+    #ADMIN
+    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
+    Then HS I navigate to the "Account Settings" Page
+    Then HS I reset the password for "Password!1","Password#1"
+    And HS I successfully sign out
+
+    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "Password#1" as password
+    Then HS I navigate to the "Account Settings" Page
+    And HS I verify the following details are present in the Account Settings page "Account Information","Your Notifications","Institution Notifications","Users"
+    And HS I verify the non-password fields are pre-populated with current data "Test","qa","purpleheautomation+administrator@gmail.com"
+    And  HS I validate the password field "administrator","Password#1"
+    And HS I successfully sign out
+    #NON-ADMIN
+    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password!1" as password
+    Then HS I navigate to the "Account Settings" Page
+    Then HS I reset the password for "Password!1","Password#1"
+    And HS I successfully sign out
+
+    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password#1" as password
+    Then HS I navigate to the "Account Settings" Page
+    And HS I verify the details are present in the Account Settings page "Account Information","Your Notifications"
+    And HS I verify the non-password fields are pre-populated with current data "QA","Test","purpleheautomation+member@gmail.com"
+    And  HS I validate the password field "member","Password#1"
+    And HS I successfully sign out
+    #ADMIN
+    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
+    Then HE I navigate to the "Account Settings" Page
+    Then HE I reset the password for "Password!1","Password#1"
+    And HE I successfully sign out
+
+    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password#1" as password
+    Then HE I navigate to the "Account Settings" Page
+    And HE I verify the following details are present in the Account Settings page "Account Information","Your Notifications","Institution Notifications","Users"
+    And HE I verify the non-password fields are pre-populated with current data "PurpleHE","Limited","purpleheautomation+limited@gmail.com"
+    And HE I validate the password field "limited","Password#1"
+    And HE I successfully sign out
+    #NON-ADMIN
+    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
+    Then HE I navigate to the "Account Settings" Page
+    Then HE I reset the password for "Password!1","Password#1"
+    And HE I successfully sign out
+
+    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password#1" as password
+    Then HE I navigate to the "Account Settings" Page
+    And HE I verify the details are present in the Account Settings page "Account Information","Your Notifications"
+    And HE I verify the non-password fields are pre-populated with current data "PurpleHE","Publishing","purpleheautomation+publishing@gmail.com"
+    And HE I validate the password field "publishing","Password#1"
+    And HE I successfully sign out

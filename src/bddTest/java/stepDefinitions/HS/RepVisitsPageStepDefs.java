@@ -1,5 +1,7 @@
 package stepDefinitions.HS;
 
+import cucumber.api.java.cs.A;
+import cucumber.api.java.en_scouse.An;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -86,5 +88,17 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
+
+        And("^HS I navigate to the \"([^\"]*)\" Page$",repVisits::navaigateToAccountSettings);
+
+        And("^HS I verify the following details are present in the Account Settings page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAccountsettings);
+
+        And("^HS I verify the non-password fields are pre-populated with current data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPasswordFields);
+
+        And("^HS I validate the password field \"([^\"]*)\",\"([^\"]*)\"$",repVisits::validatePassword);
+
+        And("^HS I verify the details are present in the Account Settings page \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetailsInaccountSettings);
+
+        And("^HS I reset the password for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::resetPassword);
     }
 }
