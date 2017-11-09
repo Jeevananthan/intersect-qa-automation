@@ -632,7 +632,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(!date.equals("")) {
             WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             datepicker.click();
-            setDate(date);
+            setSpecificDate(30);
         }
 
         if(!cost.equals("")) {
