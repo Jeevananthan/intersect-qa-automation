@@ -63,6 +63,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the \"([^\"]*)\" button in the College Fair Details Page$",repVisits::accessCollegeFairDetailsPage);
 
+        And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
+
         Then("^HS I verify the data are present on the Edit College Fair page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyEditCollegeFair);
 
         Then("^HS I set the data to the Edit a college Fair \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::accessEditCollegeFair);
@@ -70,5 +72,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the Success Message for the Edit College Fair \"([^\"]*)\"$",repVisits::verifySuccessMessageforEditFair);
 
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        Then("^HS I Click the View Details button for the College Fair Event for \"([^\"]*)\"$",repVisits::accessCollegeFairOverviewPage);
     }
 }
+
+

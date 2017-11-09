@@ -134,18 +134,16 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1776
   Scenario Outline: As a HS RepVisits user I want to able to create a new fair in the college fair
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
-    Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I verify the Success Message for the College Fair "<College Fair Name>"
     Then HS I Click on the "Close" button in the success page of the college fair
-    Then HS I Click on the View Details button for the College Fair Event "<CollegeFairName>"
+    Then HS I Click the View Details button for the College Fair Event for "<College Fair Name>"
     Then HS I Click on the "Edit" button in the College Fair Details Page
-    Then HS I verify the data are present on the Edit College Fair page "<CollegeFairName>","<VerifyDateEdit>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>"
-    Then HS I set the data to the Edit a college Fair "<CollegeFairNameEdit>","<DateEdit>","<CostEdit>","<MaxNumberofCollegesEdit>","<NumberofStudentsExpectedEdit>","<SettingsEdit>","<InstructionsforCollegeRepresentativesEdit>","<EmailMessagetoCollegesAfterConfirmationEdit>","<ButtonToClick>"
-    Then HS I verify the Success Message for the Edit College Fair "<CollegeFairNameEdit>"
-    Then HS I Click on the "Close" button in the success page of the college fair
+    Then HS I HS I set the data to the Edit a college Fair "<College Fair Name>","<VerifyDateEdit>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>"
     And HS I successfully sign out
 
     Examples:
-      |CollegeFairName |Date            |RSVPDate         |StartTime |EndTime  |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit        |VerifyRSVPDateEdit  |verifyStartTime|verifyEndTime|CollegeFairNameEdit|DateEdit         |CostEdit|MaxNumberofCollegesEdit|NumberofStudentsExpectedEdit|InstructionsforCollegeRepresentativesEdit|SettingsEdit|EmailMessagetoCollegesAfterConfirmationEdit|
-      |QA Fair New     |August 24 2017  |August 21 2017   |09:00 AM  |10:00 AM |$25 |25                 |100                     |Save         |Thursday, Aug 24, 2017|Monday, Aug 21, 2017|09:00          |10:00        |QA Fair Edit       |September 28 2017|$5      |5                      |10                          |Should be here before 30 minutes         |No          |Your College fair event is conformed       |
-
+      |College Fair Name    |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
+      |QA Test Fair publish |December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
+#        |QA Tests for Fair |December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
+#        |QA Tests for Fairs|December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
