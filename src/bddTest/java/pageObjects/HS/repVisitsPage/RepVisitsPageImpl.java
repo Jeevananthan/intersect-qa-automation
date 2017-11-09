@@ -216,7 +216,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Naviance Settings").click();
         waitUntilPageFinishLoading();
-
+        waitUntilElementExists(getDriver().findElement(By.id("form-naviance-settings")));
         String publishVisitsToNavianceText = getDriver().findElement(By.id("form-naviance-settings")).getText();
         String likeToPublishAutomaticallyOptionsText = "Automatically publish confirmed visits.";
         String likeToPublishManuallyOptionsText = "Manually choose which visits to publish. (If any)";
@@ -989,6 +989,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         return rowId;
     }
+
+    public void naviagateToAvailbilityandSettings()
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettings().click();
+        navianceSettings().click();
+    }
+
+    public void verifySuccessMessage()
+    {
+      saveSettings().click();
+      waitUntilPageFinishLoading();
+      String successMessage="You've updated Naviance settings.";
+      String msg=driver.findElement(By.xpath("//span[text()='Great!']/following-sibling::span")).getText();
+      Assert.assertTrue("SuccessMessage is not displayed",successMessage.equals(msg));
+    }
+
     public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){
 
 
@@ -1092,4 +1110,38 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
     }
+
+    private WebElement availabilityAndSettings()
+    {
+        WebElement availabilityAndSettings= link("Availability & Settings");
+        return  availabilityAndSettings;
+    }
+
+    private WebElement navianceSettings()
+    {
+        WebElement navianceSettings= link("Naviance Settings");
+        return  navianceSettings;
+    }
+
+    private WebElement autopublishInNavianceSettings(String option)
+    {
+        WebElement publish=driver.findElement(By.xpath("//input[@name='autoPublish']/parent::label[text()='"+option+"']"));
+        return publish;
+    }
+    private WebElement notifyStudents(String option)
+    {
+        WebElement notifyStudents=driver.findElement(By.xpath("//input[@name='notifyStudents']/parent::label[text()='"+option+"']"));
+        return notifyStudents;
+    }
+    private WebElement displayDeadlines(String option)
+    {
+        WebElement displayDeadlines=driver.findElement(By.xpath("//input[@name='displayDeadline']/parent::label[text()='"+option+"']"));
+        return displayDeadlines;
+    }
+    private WebElement saveSettings()
+    {
+        WebElement button=button("Save changes");
+        return button;
+    }
+
 }

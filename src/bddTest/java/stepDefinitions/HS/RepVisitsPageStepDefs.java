@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -86,5 +87,9 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
+
+        And("^HS I go to the Naviance settings$",repVisits::naviagateToAvailbilityandSettings);
+
+        And("^HS I verify the success message after save the changes$",repVisits::verifySuccessMessage);
     }
 }
