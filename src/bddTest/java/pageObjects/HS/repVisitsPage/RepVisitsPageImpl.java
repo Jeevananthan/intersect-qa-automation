@@ -998,13 +998,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navianceSettings().click();
     }
 
-    public void verifySuccessMessage()
-    {
+    public void verifySuccessMessage(){
       saveSettings().click();
       waitUntilPageFinishLoading();
       String successMessage="You've updated Naviance settings.";
-      String msg=driver.findElement(By.xpath("//span[text()='Great!']/following-sibling::span")).getText();
-      Assert.assertTrue("SuccessMessage is not displayed",successMessage.equals(msg));
+      String actualSuccessMessage=driver.findElement(By.xpath("//span[text()='Great!']/following-sibling::span")).getText();
+      Assert.assertTrue("Success Message is not displayed",successMessage.equals(actualSuccessMessage));
     }
 
     public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){
