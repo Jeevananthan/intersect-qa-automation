@@ -21,7 +21,7 @@ Feature: As an HE user I want to login to Intersect
     And HE I am able to successfully login
     Then HE I successfully sign out
 
-    @MATCH-2053
+    @MATCH-2053 @MATCH-2092
     Scenario: As a HE user, I need the requestinstitution form to include the three new fields that have been added to the requestuser form
     so Intersect is collecting consistent data on all HE users requesting an account and/or account + institution.
       Given HE I navigate to Registration Intersect url
