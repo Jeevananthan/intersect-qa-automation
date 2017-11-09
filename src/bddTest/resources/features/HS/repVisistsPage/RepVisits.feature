@@ -294,7 +294,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I edit the slots in Regular Weekly Hours using "2"
 
 #verify the Exception tab(after changing the NumofVists : NumVisits-2)
-    Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>"
+    Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>"
     And HS I successfully sign out
 
 #verify the pills is not present in the he side

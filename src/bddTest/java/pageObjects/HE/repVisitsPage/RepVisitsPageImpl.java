@@ -211,18 +211,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void searchSchool(String school)
-    {
+    public void searchSchool(String school){
         navBar.goToRepVisits();
         searchTextBox().sendKeys(school);
         waitUntilElementExists(search());
         searchButton().click();
         waitUntilElementExists(schoolInSearchAndSchedule(school));
         Assert.assertTrue("school is not displayed",schoolInSearchAndSchedule(school).isDisplayed());
-        schoolInSearchAndSchedule(school).click(); }
+        schoolInSearchAndSchedule(school).click();
+    }
 
-    public void visitsSchedule(String school,String startDate,String time)
-    {
+    public void visitsSchedule(String school,String startDate,String time){
         visit().click();
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
@@ -232,8 +231,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilityButton(time).click();
     }
 
-    public void verifySchedulePopup(String school,String startTime,String endTime)
-    {
+    public void verifySchedulePopup(String school,String startTime,String endTime){
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
         Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
@@ -243,8 +241,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyPills(String school,String startDate,String time)
-    {
+    public void verifyPills(String school,String startDate,String time){
         visit().click();
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
@@ -259,22 +256,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }catch (Exception e){}
     }
 
-    public  void verifyPillsIsPresent(String school,String startDate,String time)
-    {
+    public  void verifyPillsIsPresent(String school,String startDate,String time){
         visit().click();
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
         startDate = getSpecificDate(42);
         setDate(startDate, "Go To Date");
-        if( availabilityButton(time).isDisplayed())
-        {
+        if( availabilityButton(time).isDisplayed()){
             logger.info("appointment is displayed");
-        }else{logger.info("appointment is not displayed");}
+        }else{
+            logger.info("appointment is not displayed");
+        }
     }
 
     public void setDate(String inputDate, String startOrEndDate){
-
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
 
@@ -314,7 +310,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public Boolean compareDate(String month, String startOrEndDate)  {
+    public Boolean compareDate(String month, String startOrEndDate){
 
         String dateCaption = null;
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
@@ -323,7 +319,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             dateCaption = driver.findElement(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).getText();
         } else if(startOrEndDate.contains("end")){
             button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        }else{button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();}
+        }else{
+            button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
+        }
 
 
         //Logic to compare dates before? or not
@@ -369,7 +367,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public String getSpecificDate(int addDays) {
-        String DATE_FORMAT_NOW = "MMMM d yyyy";
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, addDays);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
