@@ -86,5 +86,11 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
+
+        And("^HS I Navigate to Notifications & Tasks tab of the Repvisits Page$",repVisits::clickLinkNotificationsAndTasks );
+
+        And("^HS I click the Visit Feedback sub tab$", repVisits::clickLinkVisitFeedback);
+
+        And("^I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab$", repVisits::verifyTextInformingThatHEUserHasAskedFeedbackAboutTheirVisitIsPresentInEachEntryInVisitFeedbackPendingTab);
     }
 }

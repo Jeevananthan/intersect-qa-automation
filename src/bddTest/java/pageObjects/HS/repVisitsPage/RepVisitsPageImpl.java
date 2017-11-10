@@ -1088,6 +1088,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
        Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
     }
 
+    public void clickLinkNotificationsAndTasks() {
+        navBar.goToRepVisits();
+        link("Notifications & Tasks").click();
+    }
+
+    public void verifyTextInformingThatHEUserHasAskedFeedbackAboutTheirVisitIsPresentInEachEntryInVisitFeedbackPendingTab() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+
+        List<WebElement> listOfEntriesInPendingTab = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='_3eL2jveDiva_TtJk49-Jdt']")));
+        List<WebElement> listOfEntriesContainingText = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='_3eL2jveDiva_TtJk49-Jdt']//*[contains(text(), 'has asked for feedback on their recent visit.')]")));
+
+
+        Assert.assertEquals("'Asked for feedback' message is not displayed in all entries in pending tab", listOfEntriesInPendingTab.size(), listOfEntriesContainingText.size());
+    }
+
+    public void clickLinkVisitFeedback() {
+        link("Visit Feedback").click();
+    }
+
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
