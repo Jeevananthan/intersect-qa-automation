@@ -284,8 +284,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickOnDay(String date) {
-
-        driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+date+")]")).click();
+        if (!date.contains("17")) {
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), " + date + ")]")).click();
+        }
+        else
+        {
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("(//div[contains(text(), " + date + ")])[2]")).click();
+        }
     }
 
     public void verifyStartAndEndDates(String startDate, String endDate){
@@ -537,7 +542,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifySuccessMessageforCreateFair(String createFairName) {
-        Assert.assertTrue("Success Message for the fair " + createFairName + " is not displayed", driver.findElement(By.xpath("//p/span[text()='QA Fair New']/parent::p")).isDisplayed());
+        Assert.assertTrue("Success Message for the fair " + createFairName + " is not displayed", driver.findElement(By.xpath("//p/span[text()='"+ createFairName +"']/parent::p")).isDisplayed());
         Assert.assertTrue("'Close' button is not displayed",driver.findElement(By.cssSelector("button[class='ui basic primary button']")).isDisplayed());
     }
 
@@ -623,7 +628,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
-    public void accessEditCollegeFair(String collegeFairName,String date,String cost,String maxNumberofColleges,String numberofStudentsExpected,String settings, String instructionsforCollegeRepresentatives,String emailMessagetoCollegesAfterConfirmation ,String buttonToClick){
+
+    public void accessEditCollegeFair(String collegeFairName,String date,String cost,String maxNumberofColleges,String numberofStudentsExpected, String instructionsforCollegeRepresentatives,String emailMessagetoCollegesAfterConfirmation , String RSVPDate, String buttonToClick){
         if(!collegeFairName.equals("")) {
             WebElement currentCollegeFairName = textbox(By.id("college-fair-name"));
             currentCollegeFairName.clear();
@@ -655,17 +661,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             currentInstructionsforCollegeRepresentatives.clear();
             currentInstructionsforCollegeRepresentatives.sendKeys(instructionsforCollegeRepresentatives);
         }
-        if(!settings.equals("")) {
-            if(settings.equals("Yes")) {
-                WebElement yesRadioButton = driver.findElement(By.id("college-fair-automatic-request-confirmation-yes"));
-                yesRadioButton.click();
-            }else if(settings.equals("No")){
-                WebElement noRadioButton = driver.findElement(By.id("college-fair-automatic-request-confirmation-no"));
-                noRadioButton.click();
-            }else{
-                fail("The given option for the Settings="+settings+" is not a valid one");
-            }
-        }
+
         if(!emailMessagetoCollegesAfterConfirmation.equals("")) {
             WebElement currentEmailMessagetoCollegesAfterConfirmation = driver.findElement(By.cssSelector("textarea[id='college-fair-email-message-to-colleges']"));
             currentEmailMessagetoCollegesAfterConfirmation.clear();
@@ -703,7 +699,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         while (link("View More Upcoming Events").isDisplayed()) {
             link("View More Upcoming Events").click();
             WebElement element=link("View More Upcoming Events");
-            waitUntilElementExists(element);
+//            waitUntilElementExists(element);
         }
         WebElement viewDetails = driver.findElement(By.xpath("//td[text()='"+fairName+"']/../td/following-sibling::td/a/span[text()='View Details']"));
         waitUntilElementExists(viewDetails);

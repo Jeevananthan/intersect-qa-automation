@@ -139,7 +139,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I Click the View Details button for the College Fair Event for "<College Fair Name>"
     Then HS I Click on the "Edit" button in the College Fair Details Page
-    Then HS I set the data to the Edit a college Fair "<College Fair Name>","<VerifyDateEdit>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
+    Then HS I set the data to the Edit a college Fair "<College Fair Name>","<VerifyDateEdit>","<Cost>","<NumberofStudentsExpected>","<MaxNumberofColleges>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<ButtonToClick>"
     And HS I successfully sign out
 
     Examples:
