@@ -24,7 +24,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void logout() {
         driver.switchTo().defaultContent();
         userDropdown().click();
-        button(By.id("user-dropdown-signout")).click();
+        signOut().click();
         waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
         Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
@@ -37,5 +37,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
+    }
+    private WebElement signOut() {
+        return driver.findElement(By.xpath("//div/span[text()='Sign Out']"));
     }
 }
