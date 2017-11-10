@@ -269,3 +269,4 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I Navigate to Notifications & Tasks tab of the Repvisits Page
     Then HS I click the Visit Feedback sub tab
     Then I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab
+    And HS I successfully sign out
