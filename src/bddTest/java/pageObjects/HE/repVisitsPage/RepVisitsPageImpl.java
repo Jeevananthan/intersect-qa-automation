@@ -263,11 +263,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(goToDate());
         startDate = getSpecificDate(35);
         setDate(startDate, "Go To Date");
-        if( availabilityButton(time).isDisplayed()){
-            logger.info("appointment is displayed");
-        }else{
-            logger.info("appointment is not displayed");
-        }
+        Assert.assertTrue("Availability button is not displayed",availabilityButton(time).isDisplayed());
     }
 
     public void setDate(String inputDate, String startOrEndDate){

@@ -749,7 +749,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']")).isDisplayed());
       WebElement slot=driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']"));
       doubleClick(slot);
-     // Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']/preceding-sibling::span[text()='"+option+"']")).isDisplayed());
+      Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']/preceding-sibling::span[text()='"+option+"']")).isDisplayed());
     }
 
     public String selectCurrentDate(int addDays)
@@ -773,15 +773,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availability().click();
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
-//        endDate=getSpecificDate(49);
-//        setDate(endDate, "End");
-//        startDate = getSpecificDate(35);
-//        setDate(startDate, "Start");
-//        updateBtn().click();
-//        waitUntilPageFinishLoading();
+        endDate=getSpecificDate(49);
+        setDate(endDate, "End");
+        startDate = getSpecificDate(35);
+        setDate(startDate, "Start");
+        updateBtn().click();
+        waitUntilPageFinishLoading();
         availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        WebElement slot= driver.findElement(By.xpath("//div/button[text()='"+time+"']"));
+        waitUntilElementExists(slot);
         Assert.assertTrue("time is not displayed",  driver.findElement(By.xpath("//td[@class='three wide _2Bvad4lXuWWJM64BNVsAQ2']/div/button[text()='"+time+"']")).isDisplayed());
         driver.findElement(By.xpath("//div/button[text()='"+time+"']")).click();
+        WebElement text=driver.findElement(By.xpath("//input[@type='number']"));
+        waitUntilElementExists(text);
     }
 
     public  void editSlot(String noOfVisits)
