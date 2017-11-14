@@ -1000,13 +1000,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyAccountsettings(String accountInformation,String yourNotification,String institutionNotification)
+    public void verifyAccountsettings()
     {
         List<String> tabs = new ArrayList<>();
         //Left Menu
-        tabs.add(accountInformation);
-        tabs.add(yourNotification);
-        tabs.add(institutionNotification);
+        tabs.add("Account Information");
+        tabs.add("Your Notifications");
+        tabs.add("Institution Notifications");
         for (String tab : tabs) {
             Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+tab+"']")).isDisplayed());
         }
@@ -1027,95 +1027,95 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         details.add("Confirm New Password");
         for(String verifyDetails:details) {
             Assert.assertTrue(verifyDetails + " is not showing.", text(verifyDetails).isDisplayed());}
-        driver.findElement(By.id("current-password-input")).sendKeys(Keys.PAGE_DOWN);
+        currentPasswordInput().sendKeys(Keys.PAGE_DOWN);
         List<String> list = dataTable.asList(String.class);
         for (String passwordCriteria : list) {
             Assert.assertTrue(passwordCriteria + " is not showing.",text(passwordCriteria).isDisplayed());
         }
-        String firstname=driver.findElement(By.id("user-form-first-name")).getAttribute("value");
+        String firstname=firstNameTextbox().getAttribute("value");
         Assert.assertTrue("FirstName is not displayed",firstname.equals(firstName));
-        String lastname=driver.findElement(By.id("user-form-last-name")).getAttribute("value");
+        String lastname=lastNameTextbox().getAttribute("value");
         Assert.assertTrue("LastName is not displayed",lastname.equals(lastName));
-        String email=driver.findElement(By.id("user-form-email")).getAttribute("value");
+        String email=eMailTextbox().getAttribute("value");
         Assert.assertTrue("Email is not displayed",email.equals(eMail));
     }
 
     public void validatePassword(String userType,String oldPassword)
     {
 
-        driver.findElement(By.id("current-password-input")).clear();
-        driver.findElement(By.id("current-password-input")).sendKeys(oldPassword);
+        currentPasswordInput().clear();
+        currentPasswordInput().sendKeys(oldPassword);
         //verify the password policy of minimum of 8 characters
-        driver.findElement(By.id("new-password-input")).clear();
-        driver.findElement(By.id("confirm-password-input")).clear();
-        driver.findElement(By.id("new-password-input")).sendKeys("word!1");
-        driver.findElement(By.id("confirm-password-input")).sendKeys("word!1");
-        button("SAVE").click();
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys("word!1");
+        confirmPasswordInput().sendKeys("word!1");
+        saveButton().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
 
         //verify the password policy of lowercase letter
-        driver.findElement(By.id("new-password-input")).clear();
-        driver.findElement(By.id("confirm-password-input")).clear();
-        driver.findElement(By.id("new-password-input")).sendKeys("password#1");
-        driver.findElement(By.id("confirm-password-input")).sendKeys("password#1");
-        button("SAVE").click();
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys("password#1");
+        confirmPasswordInput().sendKeys("password#1");
+        saveButton().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
 
         //verify the password policy of uppercase letter
-        driver.findElement(By.id("new-password-input")).clear();
-        driver.findElement(By.id("confirm-password-input")).clear();
-        driver.findElement(By.id("new-password-input")).sendKeys("PASSWORD#1");
-        driver.findElement(By.id("confirm-password-input")).sendKeys("PASSWORD#1");
-        button("SAVE").click();
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys("PASSWORD#1");
+        confirmPasswordInput().sendKeys("PASSWORD#1");
+        saveButton().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
 
         //verify the password policy of without the number
-        driver.findElement(By.id("new-password-input")).clear();
-        driver.findElement(By.id("confirm-password-input")).clear();
-        driver.findElement(By.id("new-password-input")).sendKeys("Password#*");
-        driver.findElement(By.id("confirm-password-input")).sendKeys("Password#*");
-        button("SAVE").click();
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys("Password#*");
+        confirmPasswordInput().sendKeys("Password#*");
+        saveButton().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
 
         //verify the password policy of without the Special Characters
-        driver.findElement(By.id("new-password-input")).clear();
-        driver.findElement(By.id("confirm-password-input")).clear();
-        driver.findElement(By.id("new-password-input")).sendKeys("Password1");
-        driver.findElement(By.id("confirm-password-input")).sendKeys("Password1");
-        button("SAVE").click();
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys("Password1");
+        confirmPasswordInput().sendKeys("Password1");
+        saveButton().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
 
         //verify the password accepted with the password policy
-        driver.findElement(By.id("new-password-input")).clear();
-        driver.findElement(By.id("confirm-password-input")).clear();
-        driver.findElement(By.id("new-password-input")).sendKeys(GetProperties.get("hs."+ userType + ".password"));
-        driver.findElement(By.id("confirm-password-input")).sendKeys(GetProperties.get("hs."+ userType + ".password"));
-        button("SAVE").click();
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
+        confirmPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
+        saveButton().click();
         waitUntilPageFinishLoading();
     }
 
-    public void verifyDetailsInaccountSettings(String accountInformation,String yourNotification)
+    public void verifyDetailsInaccountSettings()
     {
         List<String> tabs = new ArrayList<>();
         //Left Menu
-        tabs.add(accountInformation);
-        tabs.add(yourNotification);
+        tabs.add("Account Information");
+        tabs.add("Your Notifications");
         for (String tab : tabs) {
             Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+tab+"']")).isDisplayed());
         } }
 
         public void resetPassword(String oldPassword,String newPassword)
         {
-            driver.findElement(By.id("current-password-input")).clear();
-            driver.findElement(By.id("current-password-input")).sendKeys(oldPassword);
-            driver.findElement(By.id("new-password-input")).sendKeys(newPassword);
-            driver.findElement(By.id("confirm-password-input")).sendKeys(newPassword);
-            button("SAVE").click();
+            currentPasswordInput().clear();
+            currentPasswordInput().sendKeys(oldPassword);
+            newPasswordInput().sendKeys(newPassword);
+            confirmPasswordInput().sendKeys(newPassword);
+            saveButton().click();
             waitUntilPageFinishLoading();
             navBar.goToRepVisits();
             waitUntilPageFinishLoading();
@@ -1232,4 +1232,36 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
         return  label;
     }
+    private WebElement currentPasswordInput() {
+        WebElement currentPassword=driver.findElement(By.id("current-password-input"));
+    return  currentPassword;
+    }
+    private WebElement newPasswordInput() {
+        WebElement newPassword=driver.findElement(By.id("new-password-input"));
+        return  newPassword;
+    }
+    private WebElement confirmPasswordInput() {
+        WebElement confirmPassword=driver.findElement(By.id("confirm-password-input"));
+        return  confirmPassword;}
+    private WebElement passwordErrorMessage() {
+     WebElement msg=driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]"));
+     return  msg;
+     }
+     private WebElement firstNameTextbox() {
+         WebElement text=driver.findElement(By.id("user-form-first-name"));
+         return  text;
+     }
+    private WebElement lastNameTextbox() {
+        WebElement text=driver.findElement(By.id("user-form-last-name"));
+        return  text;
+    }
+    private WebElement eMailTextbox() {
+        WebElement text=driver.findElement(By.id("user-form-email"));
+        return  text;
+    }
+    private WebElement saveButton() {
+        WebElement button=button("SAVE");
+        return  button;
+    }
+
 }

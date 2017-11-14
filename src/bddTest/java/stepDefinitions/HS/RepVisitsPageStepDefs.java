@@ -91,13 +91,13 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I navigate to the \"([^\"]*)\" Page$",repVisits::navaigateToAccountSettings);
 
-        And("^HS I verify the following details are present in the Account Settings page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAccountsettings);
+        And("^HS I verify the left-sub menu are present in the Account Settings page$",repVisits::verifyAccountsettings);
 
         And("^HS I verify the non-password fields are pre-populated with current data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPasswordFields);
 
         And("^HS I validate the password field \"([^\"]*)\",\"([^\"]*)\"$",repVisits::validatePassword);
 
-        And("^HS I verify the details are present in the Account Settings page \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetailsInaccountSettings);
+        And("^HS I verify the left sub menu are present in the Account Settings page$",repVisits::verifyDetailsInaccountSettings);
 
         And("^HS I reset the password for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::resetPassword);
     }

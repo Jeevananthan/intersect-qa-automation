@@ -263,57 +263,61 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
   @MATCH-3062
-  Scenario: As a RepVisits User,I need to be able to update my contact information and reset my password
+  Scenario Outline: As a RepVisits User,I need to be able to update my contact information and reset my password
             So I can effectively manage my RepVisits Account.
     #ADMIN
     Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
     Then HS I navigate to the "Account Settings" Page
-    Then HS I reset the password for "Password!1","Password#1"
+    Then HS I reset the password for "<oldPassword>","<newPassword>"
     And HS I successfully sign out
 
     Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "Password#1" as password
     Then HS I navigate to the "Account Settings" Page
-    And HS I verify the following details are present in the Account Settings page "Account Information","Your Notifications","Institution Notifications"
-    And HS I verify the non-password fields are pre-populated with current data "Test","qa","purpleheautomation+administrator@gmail.com"
+    And HS I verify the left-sub menu are present in the Account Settings page
+    And HS I verify the non-password fields are pre-populated with current data "<HSadminFirstName>","<HSadminLastName>","<HSadminEmail>"
     |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And  HS I validate the password field "administrator","Password#1"
+    And  HS I validate the password field "<adminUserForHS>","<newPassword>"
     And HS I successfully sign out
-#    NON-ADMIN
+    #NON-ADMIN
     Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password!1" as password
     Then HS I navigate to the "Account Settings" Page
-    Then HS I reset the password for "Password!1","Password#1"
+    Then HS I reset the password for "<oldPassword>","<newPassword>"
     And HS I successfully sign out
 
     Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password#1" as password
     Then HS I navigate to the "Account Settings" Page
-    And HS I verify the details are present in the Account Settings page "Account Information","Your Notifications"
-    And HS I verify the non-password fields are pre-populated with current data "QA","Test","purpleheautomation+member@gmail.com"
+    And HS I verify the left sub menu are present in the Account Settings page
+    And HS I verify the non-password fields are pre-populated with current data "<HSmemberFirstName>","<HSmemberLastName>","<HSmemberEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And  HS I validate the password field "member","Password#1"
+    And  HS I validate the password field "<memberUserForHS>","<newPassword>"
     And HS I successfully sign out
     #ADMIN
     When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
     Then HE I navigate to the "Account Settings" Page
-    Then HE I reset the password for "Password!1","Password#1"
+    Then HE I reset the password for "<oldPassword>","<newPassword>"
     And HE I successfully sign out
 
     When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password#1" as password
     Then HE I navigate to the "Account Settings" Page
-    And HE I verify the following details are present in the Account Settings page "Account Information","Your Notifications","Institution Notifications","Users"
-    And HE I verify the non-password fields are pre-populated with current data "PurpleHE","Limited","purpleheautomation+limited@gmail.com"
+    And HE I verify the left-sub menu are present in the Account Settings page
+    And HE I verify the non-password fields are pre-populated with current data "<HEadminFirstName>","<HEadminLastName>","<HEadminEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And HE I validate the password field "limited","Password#1"
+    And HE I validate the password field "<adminUserForHE>","<newPassword>"
     And HE I successfully sign out
     #NON-ADMIN
     When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
     Then HE I navigate to the "Account Settings" Page
-    Then HE I reset the password for "Password!1","Password#1"
+    Then HE I reset the password for "<oldPassword>","<newPassword>"
     And HE I successfully sign out
 
     When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password#1" as password
     Then HE I navigate to the "Account Settings" Page
-    And HE I verify the details are present in the Account Settings page "Account Information","Your Notifications"
-    And HE I verify the non-password fields are pre-populated with current data "PurpleHE","Publishing","purpleheautomation+publishing@gmail.com"
+    And HE I verify the left sub menu are present in the Account Settings page
+    And HE I verify the non-password fields are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And HE I validate the password field "publishing","Password#1"
+    And HE I validate the password field "<memberUserForHE>","<newPassword>"
     And HE I successfully sign out
+
+    Examples:
+    |oldPassword|newPassword|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
+    |Password!1 |Password#1 |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|
