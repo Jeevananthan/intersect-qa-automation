@@ -43,5 +43,12 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the freemium messaging on the Visits Feedback page$", repVisits::verifyVisitsFeedbackFreemiumMessaging);
 
+        And("^HE I verify the Visit Feedback heading$", repVisits::verifyVisitFeedbackHeading);
+
+        And("^HE I verify staff are listed down the left hand side of the page in ABC order by last name$", repVisits::verifyStaffMembersAreDisplayedInAscendingOrderByLastName);
+
+        And("^HE I verify that staff listed down on the left hand side of the page display a Community avatar to the left of their name$", repVisits::verifyCommunityAvatarIsDisplayedToTheLeftOfStaffMemberName);
+
+        And("^HE I verify that a message informing me that no feedback has been submitted by any high schools yet is displayed$", repVisits::verifyNoFeedbackSubmittedYetMessageIsDisplayed);
     }
 }
