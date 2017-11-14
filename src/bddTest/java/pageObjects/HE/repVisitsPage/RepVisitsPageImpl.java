@@ -226,7 +226,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
-        startDate = getSpecificDate(42);
+        startDate = getSpecificDate(35);
         setDate(startDate, "Go To Date");
         availabilityButton(time).click();
     }
@@ -246,7 +246,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
-        startDate = getSpecificDate(42);
+        startDate = getSpecificDate(35);
         setDate(startDate, "Go To Date");
         try{
             if(! availabilityButton(time).isDisplayed())
@@ -261,7 +261,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
-        startDate = getSpecificDate(42);
+        startDate = getSpecificDate(35);
         setDate(startDate, "Go To Date");
         if( availabilityButton(time).isDisplayed()){
             logger.info("appointment is displayed");
@@ -469,7 +469,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement schoolInVisits(String school)
     {
-        WebElement schoolName=driver.findElement(By.xpath("//a[text()='"+school+"']"));
+        WebElement schoolName=driver.findElement(By.xpath("//div[text()='"+school+"']"));
         return  schoolName;
     }
 

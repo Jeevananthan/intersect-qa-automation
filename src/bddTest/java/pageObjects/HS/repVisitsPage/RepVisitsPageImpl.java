@@ -606,7 +606,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         endDate=getSpecificDate(49);
         setDate(endDate, "End");
-        startDate = getSpecificDate(42);
+        startDate = getSpecificDate(35);
         setDate(startDate, "Start");
     }
 
@@ -743,11 +743,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       exception().click();
       waitUntilPageFinishLoading();
       waitUntilElementExists(dateButton());
-      String Currentdate=getSpecificDate(42);
+      String Currentdate=getSpecificDate(35);
       setDate(Currentdate,"Choose a Date");
-      String date = selectCurrentDate(42);
+      String date = selectCurrentDate(35);
       Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']")).isDisplayed());
-      Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']/preceding-sibling::span[text()='"+option+"']")).isDisplayed());
+      WebElement slot=driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']"));
+      doubleClick(slot);
+     // Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']/preceding-sibling::span[text()='"+option+"']")).isDisplayed());
     }
 
     public String selectCurrentDate(int addDays)
@@ -771,12 +773,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availability().click();
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
-        endDate=getSpecificDate(49);
-        setDate(endDate, "End");
-        startDate = getSpecificDate(42);
-        setDate(startDate, "Start");
-        Assert.assertTrue("time is not displayed",button(time).isDisplayed());
-        button(time).click();
+//        endDate=getSpecificDate(49);
+//        setDate(endDate, "End");
+//        startDate = getSpecificDate(35);
+//        setDate(startDate, "Start");
+//        updateBtn().click();
+//        waitUntilPageFinishLoading();
+        availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("time is not displayed",  driver.findElement(By.xpath("//td[@class='three wide _2Bvad4lXuWWJM64BNVsAQ2']/div/button[text()='"+time+"']")).isDisplayed());
+        driver.findElement(By.xpath("//div/button[text()='"+time+"']")).click();
     }
 
     public  void editSlot(String noOfVisits)
@@ -1284,4 +1289,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement link=link("Exceptions");
         return  link;
     }
+
+
 }
