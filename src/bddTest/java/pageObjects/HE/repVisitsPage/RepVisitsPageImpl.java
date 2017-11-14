@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -232,6 +233,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropdown().click();
+        waitUntilElementExists(accountSettings(accountSettings));
         Assert.assertTrue("AccountSettings is not displayed",accountSettings(accountSettings).isDisplayed());
         accountSettings(accountSettings).click();
         waitUntilPageFinishLoading();
@@ -249,8 +251,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+tab+"']")).isDisplayed());
         } }
 
-    public void verifyPasswordFields(String firstName,String lastName,String eMail)
+    public void verifyPasswordFields(String firstName,String lastName,String eMail,DataTable dataTable)
     {
+        List<String> details=new ArrayList<>();
+        details.add("Account Information");
+        details.add("Your Name");
+        details.add("First Name");
+        details.add("Last Name");
+        details.add("Contact Information");
+        details.add("Email");
+        details.add("Change Password");
+        details.add("Current Password");
+        details.add("New Password");
+        details.add("Confirm New Password");
+        for(String verifyDetails:details) {
+            Assert.assertTrue(verifyDetails + " is not showing.", text(verifyDetails).isDisplayed());}
+        driver.findElement(By.id("current-password-input")).sendKeys(Keys.PAGE_DOWN);
+        List<String> list = dataTable.asList(String.class);
+        for (String passwordCriteria : list) {
+            Assert.assertTrue(passwordCriteria + " is not showing.",text(passwordCriteria).isDisplayed());
+        }
         String firstname=driver.findElement(By.id("user-form-first-name")).getAttribute("value");
         Assert.assertTrue("FirstName is not displayed",firstname.equals(firstName));
         String lastname=driver.findElement(By.id("user-form-last-name")).getAttribute("value");
@@ -271,6 +291,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
 
         //verify the password policy of lowercase letter
+        driver.findElement(By.id("new-password-input")).clear();
+        driver.findElement(By.id("confirm-password-input")).clear();
         driver.findElement(By.id("new-password-input")).sendKeys("password#1");
         driver.findElement(By.id("confirm-password-input")).sendKeys("password#1");
         button("SAVE").click();
@@ -278,6 +300,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
 
         //verify the password policy of uppercase letter
+        driver.findElement(By.id("new-password-input")).clear();
+        driver.findElement(By.id("confirm-password-input")).clear();
         driver.findElement(By.id("new-password-input")).sendKeys("PASSWORD#1");
         driver.findElement(By.id("confirm-password-input")).sendKeys("PASSWORD#1");
         button("SAVE").click();
@@ -285,6 +309,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
 
         //verify the password policy of without the number
+        driver.findElement(By.id("new-password-input")).clear();
+        driver.findElement(By.id("confirm-password-input")).clear();
         driver.findElement(By.id("new-password-input")).sendKeys("Password#*");
         driver.findElement(By.id("confirm-password-input")).sendKeys("Password#*");
         button("SAVE").click();
@@ -292,6 +318,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
 
         //verify the password policy of without the Special Characters
+        driver.findElement(By.id("new-password-input")).clear();
+        driver.findElement(By.id("confirm-password-input")).clear();
         driver.findElement(By.id("new-password-input")).sendKeys("Password1");
         driver.findElement(By.id("confirm-password-input")).sendKeys("Password1");
         button("SAVE").click();
@@ -299,6 +327,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]")).isDisplayed());
 
         //verify the password accepted with the password policy
+        driver.findElement(By.id("new-password-input")).clear();
+        driver.findElement(By.id("confirm-password-input")).clear();
         driver.findElement(By.id("new-password-input")).sendKeys(GetProperties.get("he."+ userType + ".password"));
         driver.findElement(By.id("confirm-password-input")).sendKeys(GetProperties.get("he."+ userType + ".password"));
         button("SAVE").click();
@@ -333,7 +363,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement accountSettings(String accountSettings)
     {
-        WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"]'"));
+        WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
         return  label;
     }
     private WebElement getOverviewBtn() {
