@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -477,7 +479,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         driver.findElement(By.xpath("//button/span[text()='ADD TIME SLOT']")).click();
 
-        WebElement dropdown = driver.findElement(By.cssSelector("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']"));
+        WebElement dropdown = getParent(text("Monday - Friday"));
         doubleClick(dropdown);
         driver.findElement(By.xpath("//span[text()='"+day+"']")).click();
 
@@ -531,9 +533,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         cancellingBox.clear();
         cancellingBox.sendKeys(preventCollegesCancellingorRescheduling);
         button("Next").click();
-        Assert.assertTrue("Availability Settings tab is not loaded",driver.findElement(By.xpath("//div[@class='active step' and @name ='Messaging Options']")).isDisplayed());
-        button("Back").click();
-        Assert.assertTrue("Availability Settings tab is not loaded",text("Availability Settings").isDisplayed());
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='active step' and @name ='Messaging Options']")));
+        Assert.assertTrue("Messaging Options tab is not loaded",driver.findElement(By.xpath("//div[@class='active step' and @name ='Messaging Options']")).isDisplayed());
     }
 
     //locators
