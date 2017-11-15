@@ -1,4 +1,4 @@
-@MATCH-685
+@CM @MATCH-685
 Feature: Community User - Joining Private Groups
   As a Community user I am unable to join Private groups without an invitation from the group owner/manager so the
   group can remain accessible to only the appropriate users.

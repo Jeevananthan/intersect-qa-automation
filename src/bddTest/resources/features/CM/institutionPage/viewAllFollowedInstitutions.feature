@@ -1,4 +1,4 @@
-@MATCH-460
+@CM @MATCH-460
 Feature: Community User - View All Followed Institutions
   As a Community user I need to be able to view all my followed institutions so I can manage my network within the
   Community.

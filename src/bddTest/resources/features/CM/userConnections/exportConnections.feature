@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Automate Bulk Export of Connections
   As a Community user I want to automate the exporting of my Community connections en masse so I can take this
   information and add it to my CRM for more advanced communication capabilities.

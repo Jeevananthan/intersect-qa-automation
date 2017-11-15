@@ -1,4 +1,4 @@
-@MATCH-627
+@CM @MATCH-627
 Feature: Community Admin - Manage Groups
   As a Community Administrator I want to manage already created groups so I can continue to control what Community
   users can join them.

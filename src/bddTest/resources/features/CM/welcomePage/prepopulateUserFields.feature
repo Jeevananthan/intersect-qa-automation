@@ -1,3 +1,4 @@
+@CM
 Feature: HE Community User - Prepopulate Community User Profile Fields Upon Activation
   As an HE Community user I want my Purple user account data to prepopulate my Community user profile upon initial
   activation so I don't have to re-enter information Purple already knows about me.

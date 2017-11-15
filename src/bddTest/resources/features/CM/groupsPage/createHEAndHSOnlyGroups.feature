@@ -1,3 +1,4 @@
+@CM
 Feature: Community Admin - Create Public HS/HE Only Groups
   As a Community Administrator I want to create Public groups for HS or HE only Community users to join so they
   can have more targeted interactions and discuss topics in a more private manner.
