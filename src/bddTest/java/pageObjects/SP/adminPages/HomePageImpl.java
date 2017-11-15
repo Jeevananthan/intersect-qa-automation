@@ -60,16 +60,30 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToInstitution(String institutionName) {
         navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
+        globalSearch.searchForHEInstitutions(institutionName);
+        globalSearch.selectResult(institutionName);
+        /*while (button("More Higher Ed Accounts").isDisplayed()) {
             button("More Higher Ed Accounts").click();
             waitUntilPageFinishLoading();
         }
-        table(By.id("he-account-dashboard")).findElement(By.cssSelector("[aria-label=\"" + institutionName + "\"]")).click();
+        table(By.id("he-account-dashboard")).findElement(By.cssSelector("[aria-label=\"" + institutionName + "\"]")).click();*/
     }
 
     public void goToUsersList(String institutionName) {
         goToInstitution(institutionName);
         link("See All Users").click();
+    }
+
+    public void goToCreateUser(String institutionName) {
+        goToInstitution(institutionName);
+        link("Create User").click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void navigateToCreateUser(){
+        link("Create User").click();
+        waitUntilPageFinishLoading();
+
     }
 
     public void goToLogHistory(String institutionName) {

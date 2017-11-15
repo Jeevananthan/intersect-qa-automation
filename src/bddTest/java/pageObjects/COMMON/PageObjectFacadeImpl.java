@@ -17,7 +17,18 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         globalSearch = new GlobalSearch();
     }
 
+    public void waitForUITransition() {
+        try {
+            System.out.println("\nWaiting 3 seconds for UI Transition.\n");
+            Thread.sleep(3000);
+        } catch (Exception e) {
+            System.out.println("\nError waiting 3 seconds: " + e.getMessage() + e.getStackTrace() + "\n");
+        }
+    }
+
     protected void communityFrame() {
+        // This shouldn't navigate, it should only jump into the iFrame.  Use navBar.goToCommunity() instead for that.
+        driver.switchTo().defaultContent();
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
     }
 }
