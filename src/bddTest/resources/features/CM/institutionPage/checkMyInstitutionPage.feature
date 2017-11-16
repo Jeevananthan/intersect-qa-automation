@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Institution Tab for User to View Their Institution's Profile
   As a Community user I want an Institution tab that shows me my Institution's profile page so I can quickly view
   and read recent activity from my institution as well as edit my institution's profile if I have the appropriate

@@ -1,4 +1,4 @@
-@MATCH-1406
+@CM @MATCH-1406
 Feature: Community - Display Error Page When Institution ID is Not Recognized
 
   Scenario: Display Error Page When Institution ID is Not Recognized

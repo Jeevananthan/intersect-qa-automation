@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Joining Public Groups
   As a Community user or institution I want to join Public groups that exist in the Community to further collaborate
   and network with other Community users regarding certain topics of interest.

@@ -1,4 +1,4 @@
-@MATCH-408
+@CM @MATCH-408
 Feature: Community User - New Connection Request Notification
   As a Community user I need to receive a notification when another Community user makes a connection request
   with me so I can quickly manage these requests to build my Community network.

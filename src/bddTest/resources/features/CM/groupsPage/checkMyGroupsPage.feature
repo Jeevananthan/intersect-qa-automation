@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Groups Tab to Show Community User Their Joined Groups
   As a Community user I want a groups tab/page that allows me to quickly view all my current groups I've joined
   so I can view all the groups I've joined and navigate to an individual group when needed.

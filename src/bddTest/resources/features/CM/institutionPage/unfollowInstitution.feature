@@ -1,4 +1,4 @@
-@MATCH-462
+@CM @MATCH-462
 Feature: Community User - Unfollow Institution
   As a Community user I need to be able to unfollow previously followed institutions so my network is always up
   to date.

@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Create Custom Connection Categories
   As a Community user I need to create custom connection categories so I can more quickly filter and find
   particular connections on the Manage Connections page.

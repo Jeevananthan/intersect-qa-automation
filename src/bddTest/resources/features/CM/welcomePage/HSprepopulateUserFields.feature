@@ -1,3 +1,4 @@
+@CM
 Feature: HS Community User - Prepopulate Community User Profile Fields Upon Activation
 
   As an HS Community user I want my Naviance Succeed user account data to prepopulate my Community user profile upon

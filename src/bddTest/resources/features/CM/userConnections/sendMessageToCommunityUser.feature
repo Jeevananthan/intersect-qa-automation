@@ -1,4 +1,4 @@
-@MATCH-532
+@CM @MATCH-532
 Feature: Community User - Send Message to Community User
   As a Community User I want to send a private message to another Community user or institution so I can have a
   private conversation with them that isn't visible to other Community users.

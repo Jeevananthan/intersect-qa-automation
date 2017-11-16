@@ -1,4 +1,4 @@
-@MATCH-404
+@CM @MATCH-404
 Feature: Community User - Approve/Ignore Request to Connect
   As a Community user I need to be able to approve/ignore a connection request from another Community user so I
   can control who I network with in the Community.
