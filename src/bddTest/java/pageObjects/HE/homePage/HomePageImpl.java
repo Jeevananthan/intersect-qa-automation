@@ -45,7 +45,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-home-menu-link")).click();
         userDropdown().click();
         button(By.id("user-dropdown-change-profile")).click();
-        Assert.assertTrue("User was not taken to Account Settings screen",button("SAVE").isDisplayed());
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@id='current-password-input']")).sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("User was not taken to Account Settings screen",driver.findElement(By.xpath("//button/span[text()='SAVE']")).isDisplayed());
     }
 
     public void updateProfile() {
@@ -63,7 +65,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("E-mail Address") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Current Password").isDisplayed());
         Assert.assertTrue(textbox("New Password").isDisplayed());
-        Assert.assertTrue(textbox("Confirm Password").isDisplayed());
+        Assert.assertTrue(textbox("Confirm New Password").isDisplayed());
 
         // Verify that Update your profile? link works as expected
         link("update your profile?").click();
