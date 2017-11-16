@@ -239,7 +239,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
       Examples:
       |BlockedDate          |Reason       |StartDate  | EndDate   |
-      |September 23 2017    |School Event |2017-09-23 | 2017-09-23|
+      |July 14 2018         |School Event |2018-07-14 | 2018-07-14|
 
   @MATCH-1756
   Scenario:As an HS Community member,I need to view a calendar of my appointments
