@@ -318,11 +318,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
 
         text("ADD TIME SLOT").click();
-        //button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
         WebElement daySelector = getParent(text("MONDAY - FRIDAY"));
         daySelector.click();
         daySelector.findElement(By.xpath("//div/span[contains(text(),'" + day + "')]")).click();
-        //selectDayForSlotTime("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']", day);
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
@@ -502,40 +500,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
     }
-/*    public void addNewTimeSlot(String day, String hourStartTime, String hourEndTime, String minuteStartTime, String minuteEndTime, String meridianStartTime, String meridianEndTime, String numVisits) {
-        navBar.goToRepVisits();
-        link("Availability & Settings").click();
-        link("Availability").click();
-        link("Regular Weekly Hours").click();
-        waitUntilPageFinishLoading();
-
-        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
-        selectDayForSlotTime("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']", day);
-        inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
-        inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
-        visitsNumber(numVisits);
-        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
-    }*/
-
-/*    public void inputStartTime(String hour, String minute, String meridian) {
-        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='startTime']"));
-        inputStartTime.sendKeys(hour);
-        inputStartTime.sendKeys(minute);
-        inputStartTime.sendKeys(meridian);
-   }*/
-
-/*    public void inputEndTime(String hour, String minute, String meridian) {
-        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='endTime']"));
-        inputStartTime.sendKeys(hour);
-        inputStartTime.sendKeys(minute);
-        inputStartTime.sendKeys(meridian);
-        inputStartTime.sendKeys(Keys.TAB);
-     }*/
-
-/*    public void visitsNumber(String numVisits) {
-        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='numVisits']"));
-        inputStartTime.sendKeys(numVisits);
-    }*/
 
     public void verifyTimeZonePage(String ValueTZ){
         navBar.goToRepVisits();
