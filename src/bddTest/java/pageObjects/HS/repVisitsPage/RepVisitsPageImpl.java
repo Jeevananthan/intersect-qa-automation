@@ -749,7 +749,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']")).isDisplayed());
       WebElement slot=driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']"));
       doubleClick(slot);
-      Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']/preceding-sibling::span[text()='"+option+"']")).isDisplayed());
+        if (option.equals("Max visits met") || option.equals("Fully booked")) {
+            Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//table//th//div/span[text()='" + date + "']/ancestor::th/div/span[text()='" + option + "']")).isDisplayed());
+        }else
+        {
+            Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//span[text()='"+date+"']/ancestor::th/ancestor::thead/following-sibling::tbody//tr//td//div//span[text()='"+option+"']")).isDisplayed());
+        }
     }
 
     public String selectCurrentDate(int addDays)
