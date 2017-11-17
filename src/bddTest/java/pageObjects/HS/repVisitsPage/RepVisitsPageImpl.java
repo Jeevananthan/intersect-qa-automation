@@ -328,7 +328,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilityButton().sendKeys(Keys.PAGE_DOWN);
         availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
         waitUntilElementExists(selectDay());
-        day=day();
+        day=day(day);
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
@@ -338,11 +338,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public String selectdate(int addDays)
+    public String selectdate(String addDays)
     {
         String DATE_FORMAT_NOW = "EEEE, MMMM d, yyyy";
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, addDays);
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
@@ -604,9 +605,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availability().click();
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
-        endDate=getSpecificDate(49);
+        endDate=getSpecificDate(endDate);
         setDate(endDate, "End");
-        startDate = getSpecificDate(35);
+        startDate = getSpecificDate(startDate);
         setDate(startDate, "Start");
     }
 
@@ -617,14 +618,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public String getSpecificDate(int addDays) {
+    public String getSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, addDays);
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
+
 
     public void setDate(String inputDate, String startOrEndDate) {
 
@@ -735,7 +738,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//span[text()='"+ timeZone +"']")).click();
     }
 
-    public void verifyVisitsinException(String option,String time)
+    public void verifyVisitsinException(String option,String time,String Date)
     {
       navBar.goToRepVisits();
       waitUntilPageFinishLoading();
@@ -743,9 +746,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       exception().click();
       waitUntilPageFinishLoading();
       waitUntilElementExists(dateButton());
-      String Currentdate=getSpecificDate(35);
+      String Currentdate=getSpecificDate(Date);
       setDate(Currentdate,"Choose a Date");
-      String date = selectCurrentDate(35);
+      String date = selectCurrentDate(Date);
       Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']")).isDisplayed());
       WebElement slot=driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']"));
       doubleClick(slot);
@@ -757,11 +760,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public String selectCurrentDate(int addDays)
+    public String selectCurrentDate(String addDays)
     {
         String DATE_FORMAT_NOW = "MM/dd/yy";
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, addDays);
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
@@ -778,9 +782,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availability().click();
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
-        endDate=getSpecificDate(49);
+        endDate=getSpecificDate(endDate);
         setDate(endDate, "End");
-        startDate = getSpecificDate(35);
+        startDate = getSpecificDate(startDate);
         setDate(startDate, "Start");
         updateBtn().click();
         waitUntilPageFinishLoading();
@@ -788,7 +792,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement slot= driver.findElement(By.xpath("//div/button[text()='"+time+"']"));
         waitUntilElementExists(slot);
         Assert.assertTrue("time is not displayed",  driver.findElement(By.xpath("//td[@class='three wide _2Bvad4lXuWWJM64BNVsAQ2']/div/button[text()='"+time+"']")).isDisplayed());
-        driver.findElement(By.xpath("//div/button[text()='"+time+"']")).click();
+        driver.findElement(By.xpath("//button[text()='"+time+"']")).click();
         WebElement text=driver.findElement(By.xpath("//input[@type='number']"));
         waitUntilElementExists(text);
     }
@@ -1214,9 +1218,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return selectDay;
     }
 
-    private String day()
+    private String day(String day)
     {
-        String date=selectdate(35);
+        String date=selectdate(day);
         String selectDay[]=date.split(",");
         String currentDay=selectDay[0];
         return  currentDay;

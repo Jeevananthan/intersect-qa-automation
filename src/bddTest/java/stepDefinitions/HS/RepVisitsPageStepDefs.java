@@ -90,7 +90,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
 
-        Then("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
+        Then("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
 
         Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using \"([^\"]*)\" and \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTimeslot);
 

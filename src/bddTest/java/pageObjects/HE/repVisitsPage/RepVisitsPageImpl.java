@@ -213,6 +213,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void searchSchool(String school){
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         searchTextBox().sendKeys(school);
         waitUntilElementExists(search());
         searchButton().click();
@@ -226,11 +227,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
-        startDate = getSpecificDate(35);
-        setDate(startDate, "Go To Date");
-        availabilityButton(time).click();
+        String gotoDate = getSpecificDate(startDate);
+        setDate(gotoDate, "Go To Date");
+        String date=getMonthandDate(startDate);
+        Assert.assertTrue("Availability is not displayed",availabilityButton(date,time).isDisplayed());
+        availabilityButton(date,time).click();
     }
-
     public void verifySchedulePopup(String school,String startTime,String endTime){
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
@@ -246,10 +248,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
-        startDate = getSpecificDate(35);
+        startDate = getSpecificDate(startDate);
         setDate(startDate, "Go To Date");
         try{
-            if(! availabilityButton(time).isDisplayed())
+            if(! availabilityButton(startDate,time).isDisplayed())
             {
                 logger.info("appointment is not displayed");
             }else{logger.info("appointment is displayed");}
@@ -261,9 +263,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
-        startDate = getSpecificDate(35);
+        startDate = getSpecificDate(startDate);
         setDate(startDate, "Go To Date");
-        Assert.assertTrue("Availability button is not displayed",availabilityButton(time).isDisplayed());
+        Assert.assertTrue("Availability button is not displayed",availabilityButton(startDate,time).isDisplayed());
     }
 
     public void setDate(String inputDate, String startOrEndDate){
@@ -362,10 +364,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public String getSpecificDate(int addDays) {
+    public String getSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, addDays);
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
@@ -465,14 +468,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement schoolInVisits(String school)
     {
-        WebElement schoolName=driver.findElement(By.xpath("//div[text()='"+school+"']"));
+        WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
         return  schoolName;
     }
 
-    private WebElement availabilityButton(String time)
+    private WebElement availabilityButton(String date,String time)
     {
-        WebElement button=driver.findElement(By.xpath("//div/div/button[text()='"+time+"']"));
+        WebElement button= driver.findElement(By.xpath("//span[text()='"+date+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
         return button;
+    }
+    public String getMonthandDate(String addDays)
+    {
+        String DATE_FORMAT_NOW = "MMM d";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 }
 
