@@ -317,8 +317,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
 
-        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
-        selectDayForSlotTime("div[class='ui button labeled icon QhYtAi_-mVgTlz73ieZ5W dropdown']", day);
+        text("ADD TIME SLOT").click();
+        WebElement daySelector = getParent(text("MONDAY - FRIDAY"));
+        daySelector.click();
+        daySelector.findElement(By.xpath("//div/span[contains(text(),'" + day + "')]")).click();
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
@@ -406,10 +408,29 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
+
+        // Set End Date to 07/15/2018 and Start Date to 07/15/2017 so that we can set our real dates
+        // without the UI stopping us from choosing dates that would be invalid.
+        setAvailabilityToWholeSchoolYear();
+
+        // Set the dates we actually want.
         button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
         setDate(startDate);
         button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
         setDate(endDate);
+    }
+
+    private void setAvailabilityToWholeSchoolYear() {
+        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        setDate("July 15 2018");
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        String startDate = "July 15 2017";
+        String[] parts = startDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+        text("UPDATE DATE").click();
     }
 
     public void setDate(String inputDate) {
@@ -437,13 +458,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
 
         try{
-            while (!DayPickerCaption.contains(month)) {
+            int i = 0;
+            while (!DayPickerCaption.contains(month) && i < 12) {
                 driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                i++;
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+            while (!DayPickerCaption.contains(month) && i > -12) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                i--;
                 DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
             }
         }
         catch (Exception e) {
-            Assert.fail("The Date selected is out of RANGE.");
+            Assert.fail("The Date selected is out of RANGE.\n" + e.getMessage());
         }
     }
 
@@ -848,14 +876,32 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void clickUpdateButtonInRepVisits(){
+        if(updateBtn().isDisplayed()){
+            updateBtn().click();
+        }
+    }
+
+    public void verifyStartDateAndEndDateInAvailabilitySetting(String startDate,String endDate){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+
+        String valStartDate = driver.findElement(By.xpath("//div[@style='display: inline-block;']/button[1]/b/span")).getText();
+        String valEndDate = driver.findElement(By.xpath("//div[@style='display: inline-block;']/button[2]/b/span")).getText();
+
+        Assert.assertTrue("Start date is not as expected",startDate.contains(valStartDate));
+        Assert.assertTrue("End date is not as expected",endDate.contains(valEndDate));
+    }
+
 
     public void verifyWelcomeWizard(){
-
         load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Welcome to Repvisits' text is not displayed",text("Welcome to RepVisits").isDisplayed());
         Assert.assertTrue("'Get Started' button is not displayed",getStartedBtn().isDisplayed());
-
     }
 
     public void clickGetStartedBtn(){
@@ -1118,6 +1164,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    private WebElement updateBtn(){
+        return text("UPDATE DATE");
+    }
 
     //locators
     private boolean isLinkActive(WebElement link) {

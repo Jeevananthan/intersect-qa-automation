@@ -50,7 +50,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   I want to be able to view the weekly recurring time slots that my school is available for visits
   so that colleges can manage those availabilities.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
     Then HS I verify the Time Slot time were added with "<HourStartTime>", "<MinuteStartTime>" and "<MeridianStartTime>"
     And HS I successfully sign out
@@ -279,5 +279,21 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
       |Visits Confirmation                                 |Prevent colleges scheduling new visits|Prevent colleges cancelling or rescheduling|
       |No, I want to manually review all incoming requests.|5                                     |5                                          |
+
+  @MATCH-2171
+  Scenario Outline: when we initially created the first and last days for availability, they were not developed to persist.
+                    Instead they're changed / set each time that availability is set. This ticket is to persist the first and last dates
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I go to the Counselor Community
+    Then HS I verify the StartDate is set to "<verifyStartDate>" and EndDate is set to "<verifyEndDate>"
+    And HS I successfully sign out
+
+   Examples:
+     |StartDate     |EndDate        |verifyStartDate  |verifyEndDate   |
+     |June 14 2018  |July 14 2018   |06/14/2018       |07/14/2018      |
+
+
 
 
