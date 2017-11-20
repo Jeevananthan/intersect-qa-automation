@@ -1,6 +1,5 @@
 package stepDefinitions.SP.accountPages;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SP.accountPages.UserListPageImpl;
 
