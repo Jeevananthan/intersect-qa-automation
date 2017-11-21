@@ -15,6 +15,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
 
+    public RepVisitsPageImpl() {
+        logger = Logger.getLogger(RepVisitsPageImpl.class);
+    }
+
     public void checkRepVisitsSubTabs(DataTable dataTable){
         navBar.goToRepVisits();
         List<String> list = dataTable.asList(String.class);
@@ -267,7 +271,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyNoFeedbackSubmittedYetMessageIsDisplayed() {
-        Assert.assertTrue("'No Feedback submitted yet' message is not displayed", driver.findElement(By.xpath("//span[text()=\"Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.\"]")).isDisplayed());
+        if(text("Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.").isDisplayed()) {
+            Assert.assertTrue(true);
+            logger.info("'Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.' message is displayed");
+        }
+        else
+        {
+            logger.warn("'Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.' message is not displayed because one or more feedback(s) have been submitted by HS");
+        }
     }
 
     private ArrayList sortByLastName(ArrayList<String> al) {
