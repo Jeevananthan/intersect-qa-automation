@@ -1094,6 +1094,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyTextInformingThatHEUserHasAskedFeedbackAboutTheirVisitIsPresentInEachEntryInVisitFeedbackPendingTab() {
+
+        if(text("No visits to submit feedback, yet").isDisplayed()) {
+            logger.warn("'No visits to submit feedback, yet' message is displayed");
+            return;
+        }
+
         WebDriverWait wait = new WebDriverWait(driver, 10);
 
         List<WebElement> listOfEntriesInPendingTab = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='_3eL2jveDiva_TtJk49-Jdt']")));
