@@ -261,6 +261,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
     And HS I successfully sign out
+
   @MATCH-1946
   Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
   so that I can be sure my RepVisits account is properly set up.
@@ -295,28 +296,26 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
      |June 14 2018  |July 14 2018   |06/14/2018       |07/14/2018      |
 
   @MATCH-1950
-  Scenario Outline: As a new RepVisits user,
-  I want the setup wizard to guide me through final steps in the new user experience
-  so that I can decide on my appointments' visibility and then continue into the system.
+  Scenario: As a new RepVisits user,
+            I want the setup wizard to guide me through final steps in the new user experience
+            so that I can decide on my appointments' visibility and then continue into the system.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     #FAIRS
-    Then HS I select option for welcome in setup wizard "<optionToSelectFairs>","<buttonToClickFairs>"
-    Then HS I select option for High School Information in welcome setup wizard "<optionToSelectHighSchool>","<buttonToClickHighSchool>"
-    Then HS I verify the Fair overview page
+    Then HS I select the "Fairs" option on the welcome page in the RepVisits setup wizard
+    Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
+    Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
     #VISITS
-    Then HS I select option for welcome in setup wizard "<optionToSelectVists>","<buttonToClickVisits>"
-    Then HS I select option for complete section in setup wizard "<VisitAvailabilityOnlyMe>","<ButtonToClickOnlyMe>"
-    Then HS I verify the You Are All Set For All Only Me Rep Visits Users page
-    Then HS I select option for complete section in setup wizard "<VisitAvailabilityAllRepVistUsers>","<ButtonToClickAllRepVistUsers>"
-    Then HS I verify the You Are All Set For All Rep Visits Users page
+    Then HS I select the "Visits" option on the welcome page in the RepVisits setup wizard
+    Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
+    Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
     #VISITS AND FAIRS
-    Then HS I select option for welcome in setup wizard "<optionToSelectVisits&Fairs>","<buttonToClickVisits&Fairs>"
-    Then HS I select option for complete section in setup wizard "<VisitAvailabilityOnlyMe>","<ButtonToClickOnlyMe>"
-    Then HS I verify the You Are All Set For All Only Me Rep Visits Users page
-    Then HS I select option for complete section in setup wizard "<VisitAvailabilityAllRepVistUsers>","<ButtonToClickAllRepVistUsers>"
-    Then HS I verify the You Are All Set For All Rep Visits Users page
+    Then HS I select the "Visits and Fairs" option on the welcome page in the RepVisits setup wizard
+    Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
+    Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
     Then HS I successfully sign out
-
-  Examples:
-    |optionToSelectFairs|buttonToClickFairs|optionToSelectHighSchool|buttonToClickHighSchool|optionToSelectVists|buttonToClickVisits|optionToSelectVisits&Fairs|buttonToClickVisits&Fairs|VisitAvailabilityAllRepVistUsers|ButtonToClickAllRepVistUsers|VisitAvailabilityOnlyMe|ButtonToClickOnlyMe|
-    |Fairs              |Next              |                        |Next                   |Visits             |Next               |Visits and Fairs          |Next                     |All RepVisits Users             |Next                        |Only Me                 |Next               |

@@ -107,15 +107,15 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I select option for welcome in setup wizard \"([^\"]*)\",\"([^\"]*)\"$", repVisits::accessWelcomeSetupWizard);
 
+        Then("^HS I select the \"([^\"]*)\" option on the welcome page in the RepVisits setup wizard$", repVisits::accessWelcomeSetupWizard);
+
         Then("^HS I select option for High School Information in welcome setup wizard \"([^\"]*)\",\"([^\"]*)\"$",repVisits::accessHighschoolInformationSetupWizard);
 
         Then("^HS I verify the Fair overview page$",repVisits::verifyFairOverview);
 
-        Then("^HS I select option for complete section in setup wizard \"([^\"]*)\",\"([^\"]*)\"$",repVisits::accessOneLastStepSetupWizard);
+        Then("^HS I select the \"([^\"]*)\" option for Visit Availability on the 'One Last Step' page$",repVisits::accessOneLastStepSetupWizard);
 
-        Then("^HS I verify the You Are All Set For All Only Me Rep Visits Users page$",repVisits::verifyYouAreAllSetForOnlyMe);
-
-        Then("^HS I verify the You Are All Set For All Rep Visits Users page$",repVisits::verifyYouAreAllSetForAllRepVisitsUsers);
+        Then("^HS I verify the 'You're All Set' page is correct when Visit Availability is set to \"([^\"]*)\"$",repVisits::verifyYouAreAllSetPage);
 
     }
 }

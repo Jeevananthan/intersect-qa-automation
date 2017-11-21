@@ -476,57 +476,44 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void accessWelcomeSetupWizard(String optionToSelect, String buttonToClick) {
+    public void accessWelcomeSetupWizard(String optionToSelect) {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         if (!optionToSelect.equals("")) {
             if (optionToSelect.equalsIgnoreCase("VISITS")) {
                 driver.findElement(By.xpath("//input[@value='VISITS']")).click();
+                waitUntilPageFinishLoading();
             } else if (optionToSelect.equalsIgnoreCase("FAIRS")) {
                 driver.findElement(By.xpath("//input[@value='FAIRS']")).click();
+                waitUntilPageFinishLoading();
             } else if (optionToSelect.equalsIgnoreCase("VISITS AND FAIRS")) {
                 driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS']")).click();
+                waitUntilPageFinishLoading();
             } else {
-                fail("The given option to select is not a valid one");
+                Assert.fail("The given option to select is not a valid one");
             }
         }
-
-        if (!buttonToClick.equals("")) {
-            if (buttonToClick.equalsIgnoreCase("Back")) {
-                driver.findElement(By.xpath("//button/span[text()='Back']")).click();
-            } else if (buttonToClick.equalsIgnoreCase("Next")) {
-                driver.findElement(By.xpath("//button/span[text()='Next']")).click();
-            } else {
-                fail("The given option for button to click is not a valid one");
-            }
-        }
+        driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+        waitUntilPageFinishLoading();
     }
-     public void accessHighschoolInformationSetupWizard(String timeZone,String buttonToClick) {
+     public void accessHighschoolInformationSetupWizard(String timeZone) {
          if (!timeZone.equals("")) {
              WebElement EntertimeZone = getDriver().findElement(By.cssSelector(".search[name=\"-search\"] + div"));
              EntertimeZone.click();
              getDriver().findElement(By.xpath("//span[text()='"+timeZone+"']")).click();
          }
-         if (!buttonToClick.equals("")) {
-             if (buttonToClick.equalsIgnoreCase("Back")) {
-                 driver.findElement(By.xpath("//button/span[text()='Back']")).click();
-             } else if (buttonToClick.equalsIgnoreCase("Next")) {
-                 driver.findElement(By.xpath("//button/span[text()='Next']")).click();
-             } else {
-                 fail("The given option for button to click is not a valid one");
-             }
-         }
+         driver.findElement(By.xpath("//button/span[text()='Next']")).click();
      }
      public void verifyFairOverview() {
 //        Assert.assertTrue("College Fair at Int QA High School is not displayed",text("CollegeFairs at Int QA High School 4").isDisplayed());
      }
 
 
-    public void accessOneLastStepSetupWizard(String visitAvailability, String buttonToClick) {
+    public void accessOneLastStepSetupWizard(String visitAvailability) {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size() == 0) {
+            (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(button("NEXT")));
             button("Next").click();
             waitUntilPageFinishLoading();
         }
@@ -537,32 +524,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             } else if (visitAvailability.equalsIgnoreCase("Only Me")) {
                 driver.findElement(By.xpath("//label[text()='Only Me']/input[@type='radio']")).click();
             } else {
-                fail("The given option for the visitAvailability is not a valid one");
+                Assert.fail("The given option for the visitAvailability is not a valid one");
             }
         }
-        if (!buttonToClick.equals("")) {
-            if (buttonToClick.equalsIgnoreCase("Next")) {
-                driver.findElement(By.xpath("//button/span[text()='Next']")).click();
-            } else {
-                fail("The given option for the button To Click is not a valid one");
-            }
+        driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+    }
+
+    public void verifyYouAreAllSetPage(String visibilitySetting) {
+        if (visibilitySetting.equalsIgnoreCase("Only Me")) {
+            Assert.assertTrue("Only Me Ack is not displayed ", text("Your visit availability has been successfully set up!").isDisplayed());
+        } else if (visibilitySetting.equalsIgnoreCase("All RepVisits Users")) {
+            Assert.assertTrue("All RepVisits Ack page is not displayed", text("https://CounselorCommunity.com").isDisplayed());
+        } else {
+            Assert.fail("Error: " + visibilitySetting + " is not a valid option for Visit Availability");
         }
-    }
-
-    public void verifyYouAreAllSetForAllRepVisitsUsers() {
-        Assert.assertTrue("All RepVisits Ack page is not displayed", text("https://CounselorCommunity.com").isDisplayed());
-        button("Take me to my visits").click();
-        Assert.assertTrue("Calendar is not displayed", text("Today").isDisplayed());
-
-        driver.navigate().back();
-        waitUntilPageFinishLoading();
-
-        button("Get started with college fairs").click();
-//        Assert.assertTrue("College Fair at Int QA High School is not displayed", text("CollegeFairs at Int QA High School 4").isDisplayed());
-    }
-
-    public void verifyYouAreAllSetForOnlyMe() {
-        Assert.assertTrue("Only Me Ack is not displayed ", text("Your visit availability has been successfully set up!").isDisplayed());
         driver.findElement(By.xpath("//span[text()='Take me to my visits']")).click();
         Assert.assertTrue("Calendar is not displayed", text("Today").isDisplayed());
 
@@ -570,7 +545,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
 
         button("Get started with college fairs").click();
-        //Assert.assertTrue("College Fair at Int QA High School is not displayed", text("CollegeFairs at Int QA High School 4").isDisplayed());
+        Assert.assertTrue("College Fair at Int QA High School is not displayed", text("CollegeFairs at Int Qa High School 4").isDisplayed());
+
     }
 
     public void verifyStartAndEndDates(String startDate, String endDate){
