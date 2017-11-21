@@ -261,6 +261,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
     And HS I successfully sign out
+
   @MATCH-1946
   Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
   so that I can be sure my RepVisits account is properly set up.
@@ -294,6 +295,27 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
      |StartDate     |EndDate        |verifyStartDate  |verifyEndDate   |
      |June 14 2018  |July 14 2018   |06/14/2018       |07/14/2018      |
 
-
-
-
+  @MATCH-1950
+  Scenario: As a new RepVisits user,
+            I want the setup wizard to guide me through final steps in the new user experience
+            so that I can decide on my appointments' visibility and then continue into the system.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    #FAIRS
+    Then HS I select the "Fairs" option on the welcome page in the RepVisits setup wizard
+    Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
+    Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
+    #VISITS
+    Then HS I select the "Visits" option on the welcome page in the RepVisits setup wizard
+    Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
+    Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
+    #VISITS AND FAIRS
+    Then HS I select the "Visits and Fairs" option on the welcome page in the RepVisits setup wizard
+    Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
+    Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
+    Then HS I successfully sign out

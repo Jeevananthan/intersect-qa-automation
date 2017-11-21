@@ -105,5 +105,17 @@ public class RepVisitsPageStepDefs implements En {
 
         And ("^HS I verify the StartDate is set to \"([^\"]*)\" and EndDate is set to \"([^\"]*)\"$",repVisits::verifyStartDateAndEndDateInAvailabilitySetting);
 
+        Then("^HS I select option for welcome in setup wizard \"([^\"]*)\",\"([^\"]*)\"$", repVisits::accessWelcomeSetupWizard);
+
+        Then("^HS I select the \"([^\"]*)\" option on the welcome page in the RepVisits setup wizard$", repVisits::accessWelcomeSetupWizard);
+
+        Then("^HS I select option for High School Information in welcome setup wizard \"([^\"]*)\",\"([^\"]*)\"$",repVisits::accessHighschoolInformationSetupWizard);
+
+        Then("^HS I verify the Fair overview page$",repVisits::verifyFairOverview);
+
+        Then("^HS I select the \"([^\"]*)\" option for Visit Availability on the 'One Last Step' page$",repVisits::accessOneLastStepSetupWizard);
+
+        Then("^HS I verify the 'You're All Set' page is correct when Visit Availability is set to \"([^\"]*)\"$",repVisits::verifyYouAreAllSetPage);
+
     }
 }
