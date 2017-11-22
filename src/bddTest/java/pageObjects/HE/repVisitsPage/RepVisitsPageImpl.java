@@ -9,12 +9,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+
+    public RepVisitsPageImpl() {
+        logger = Logger.getLogger(RepVisitsPageImpl.class);
+    }
 
     public void checkRepVisitsSubTabs(DataTable dataTable){
         navBar.goToRepVisits();
@@ -225,6 +228,85 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Locked banner was not displayed",driver.findElement(By.xpath("//div[@class='centered one column row']")).findElement(By.cssSelector("[alt=locked]")).isDisplayed());
     }
 
+    public void verifyVisitFeedbackPage(){
+        verifyVisitFeedbackHeading();
+        verifyStaffMembersAreDisplayedInAscendingOrderByLastName();
+        verifyCommunityAvatarIsDisplayedToTheLeftOfStaffMemberName();
+        verifyNoFeedbackSubmittedYetMessageIsDisplayed();
+    }
+
+    private void verifyVisitFeedbackHeading() {
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Visit Feedback heading not displayed", driver.findElement(By.xpath("//h1[contains(@class, 'ui header _26ekcAlhCmjadW7ShhS7aj')]")).getText().equals("Visit Feedback"));
+    }
+
+    private void verifyStaffMembersAreDisplayedInAscendingOrderByLastName() {
+        waitUntilPageFinishLoading();
+
+        List<WebElement> itemsInStaffMemberMenu = getVerticalStaffMembersMenu().findElements(By.xpath(".//li[contains(@class,'item')]"));
+
+        ArrayList<String> listContainingFullNamesOfStaffMembers = new ArrayList<String>();
+
+        for(int i=0; i < itemsInStaffMemberMenu.size(); i++)
+        {
+            String fullNameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]")).getText();
+            listContainingFullNamesOfStaffMembers.add(fullNameOfStaffMember);
+        }
+
+        List<String> listContainingStaffMembersSortedByLastName = sortByLastName(listContainingFullNamesOfStaffMembers);
+        Assert.assertTrue("Staff members are NOT displayed in ascending order by last name", listContainingFullNamesOfStaffMembers.equals(listContainingStaffMembersSortedByLastName));
+    }
+
+    private void verifyCommunityAvatarIsDisplayedToTheLeftOfStaffMemberName() {
+        waitUntilPageFinishLoading();
+        boolean isCommunityAvatarDisplayed = false;
+
+        List<WebElement> itemsInStaffMemberMenu = getVerticalStaffMembersMenu().findElements(By.xpath(".//li[contains(@class,'item')]"));
+
+        for( int i=0; i<itemsInStaffMemberMenu.size(); i++)
+        {
+            try {
+                isCommunityAvatarDisplayed = itemsInStaffMemberMenu.get(i).
+                        findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]/img | .//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]/i")).isDisplayed();
+            } catch(Exception ex) {
+                isCommunityAvatarDisplayed = false;
+            }
+
+            String nameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]")).getText();
+            Assert.assertTrue("Community avatar for staff member - " + nameOfStaffMember + " - is not displayed", isCommunityAvatarDisplayed);
+        }
+    }
+
+    private void verifyNoFeedbackSubmittedYetMessageIsDisplayed() {
+        if(text("Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.").isDisplayed()) {
+            logger.info("'Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.' message is displayed");
+        }
+        else {
+            Assert.fail("'Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.' message is not displayed!");
+        }
+    }
+
+    private ArrayList sortByLastName(ArrayList<String> al) {
+        Collections.sort(al, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String[] split1 = o1.split(" ");
+                String[] split2 = o2.split(" ");
+                String lastName1 = split1[1];
+                String lastName2 = split2[1];
+                if (lastName1.compareTo(lastName2) > 0) {
+                    return 1;
+                } else {
+
+                    return -1;
+                }
+            }
+        });
+
+        return al;
+    }
+
+
 
     private WebElement getOverviewBtn() {
         return link("Overview");
@@ -252,6 +334,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.className("check-repvisits-link")); }
     private WebElement getRepVisitsAvailabilitySidebar(){ return driver.findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
+    private WebElement getVerticalStaffMembersMenu() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));
+    }
 
 }
 
