@@ -1,4 +1,4 @@
-@MATCH-454
+@CM @MATCH-454
 Feature: Community User - Follow Institution
   As a Purple Community user I can follow an institution so I can receive content from them as it is created.
 

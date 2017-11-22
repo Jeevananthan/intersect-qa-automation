@@ -1,4 +1,4 @@
-@MATCH-529
+@CM @MATCH-529
 Feature: Community User - View Mutual Connections When Viewing a User Profile
   As a Community user I need to view 'mutual' connections I have with another, unconnected Community user when
   viewing their profile so I can more easily determine if I want to connect with the Community user.

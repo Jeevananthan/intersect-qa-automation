@@ -1,4 +1,4 @@
-@MATCH-750
+@CM @MATCH-750
 Feature: Community User - Manage Created Posts
   As a Community user I want to manage my already created posts so I can correct any typos or delete posts I no
   longer want to show in the Community.

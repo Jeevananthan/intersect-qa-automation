@@ -1,4 +1,4 @@
-@MATCH-420
+@CM @MATCH-420
 Feature: Community User - Disconnect from Community User
   As a Community user I need to be able to disconnect ('unfriend') from previously connected Community users so
   my network is always up to date.

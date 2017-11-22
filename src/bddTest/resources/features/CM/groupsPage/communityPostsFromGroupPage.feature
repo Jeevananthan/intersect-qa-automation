@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Create Community Post from Group Page
   As a Community user or institution I want to create posts from a Group page so other group members can read
   about the content I felt was relevant for the group.

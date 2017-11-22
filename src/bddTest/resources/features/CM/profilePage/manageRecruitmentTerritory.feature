@@ -1,3 +1,4 @@
+@CM
 Feature: HE Community User - Manage Recruitment Territory within User Profile
   As an HE Community user I need to manage my specific recruitment territory so the correct HS Community users can
   find, connect with me, and see an accurate territory for me at all times.

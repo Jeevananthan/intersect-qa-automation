@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Core User Profile Fields Uneditable
   As an HE Community user I need my Community user profile fields of name and email to be read only so I do not have
   mismatched information between my Community user profile and my Purple user account.

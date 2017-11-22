@@ -1,4 +1,4 @@
-@MATCH-738
+@CM @MATCH-738
 Feature: Community User - Post Can Contain Rich Media Content
   As a Community user I can create posts within the community that contain text, hyperlinks, images, videos, and/or documents so my posts are interactable with other Community users.
 

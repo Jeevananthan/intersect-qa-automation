@@ -1,3 +1,4 @@
+@CM
 Feature: Community Admin - No Commenting Setting for Groups
   As a Community Administrator I want to prevent comments to posts within certain groups in the Community so I can
   use a group as a push only communication tool for certain announcements.

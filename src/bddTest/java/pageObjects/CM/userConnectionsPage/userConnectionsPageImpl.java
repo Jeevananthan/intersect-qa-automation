@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import pageObjects.CM.commonPages.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
-import sun.rmi.runtime.Log;
+//import sun.rmi.runtime.Log;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
