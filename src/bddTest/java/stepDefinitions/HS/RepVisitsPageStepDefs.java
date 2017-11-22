@@ -117,5 +117,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the 'You're All Set' page is correct when Visit Availability is set to \"([^\"]*)\"$",repVisits::verifyYouAreAllSetPage);
 
+        Then("^HS verify pills are not available for the past dates in schedule new visit page$",repVisits::verifyPillsNotAvailableinNewScheduleVisitPage);
+
+        Then("^HS verify the past dates are disabled in the select custom date section$",repVisits::verifyPastDatesDisabledInNewScheduleVisitPage);
+
+        Then("^HS verify pills are not available for the past dates in Re-schedule visit page$",repVisits::verifyPillsNotAvailableinReScheduleVisitPage);
+
+        Then("^HS verify the past dates are disabled in the select custom date section for Re-schedule visit page$",repVisits::verifyPastDatesDisabledInNewScheduleVisitPage);
     }
 }

@@ -25,10 +25,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import utilities.GetProperties;
 import utilities.GetProperties;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import static org.junit.Assert.fail;
 import static junit.framework.TestCase.fail;
 
@@ -1241,6 +1239,51 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateBtn(){
         return text("UPDATE DATE");
     }
+    public void verifyPillsNotAvailableinNewScheduleVisitPage(){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilElementExists(currentDateInCalendar());
+        driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
+        waitForUITransition();
+        waitUntilElementExists(calendarappointmentsInNewScheduleVisitPage());
+        previousWeekInNewScheduleVisitPage().click();
+        waitForUITransition();
+        Assert.assertTrue("'No availability this week' message is not displayed",noAvailabilityInNewScheduleVisitPage().isDisplayed());
+    }
+    public void verifyPastDatesDisabledInNewScheduleVisitPage(){
+        addvVisitManuallyInNewScheduleVisitPage().click();
+        waitForUITransition();
+        driver.findElement(By.cssSelector("button[class='ui small fluid button _3VnqII6ynYglzDU1flY9rw']")).click();
+        waitForUITransition();
+        String date = getSpecificDate(-1);
+        String disabled = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--disabled' and @aria-label='"+date+"']")).getAttribute("aria-disabled");
+        Assert.assertTrue("Past dates are not disabled",disabled.equalsIgnoreCase("true"));
+    }
+    public void verifyPillsNotAvailableinReScheduleVisitPage(){
+        navBar.goToCommunity();
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilElementExists(currentDateInCalendar());
+        monthInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
+        waitForUITransition();
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        rescheduleButtonInReScheduleVisitPage().click();
+        waitForUITransition();
+        reScheduleTextboxInReScheduleVisitPage().sendKeys(Keys.PAGE_UP);
+        waitForUITransition();
+        driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
+        waitForUITransition();
+        setDate(getCurrentDate());
+        previousWeekInNewScheduleVisitPage().click();
+        Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
+    }
 
     //locators
     private boolean isLinkActive(WebElement link) {
@@ -1284,8 +1327,80 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
        Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
     }
 
+    public String getSpecificDate(int addDays) {
+        String DATE_FORMAT_NOW = "MMMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+    public String getCurrentDate() {
+        String DATE_FORMAT_NOW = "MMMM d yyyy";
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
+    }
+
+    private WebElement currentDateInCalendar()
+    {
+        WebElement day=driver.findElement(By.xpath("//button[@title='Today']"));
+        waitUntilElementExists(day);
+        return  day;
+    }
+
+    private WebElement calendarappointmentsInNewScheduleVisitPage()
+    {
+        WebElement calendar=driver.findElement(By.cssSelector("form[id='add-calendar-appointment']"));
+        waitUntilElementExists(calendar);
+        return  calendar;
+    }
+
+    private WebElement previousWeekInNewScheduleVisitPage()
+    {
+        WebElement button=driver.findElement(By.cssSelector("button[aria-label='Previous week']"));
+        return  button;
+    }
+
+    private WebElement monthInReScheduleVisitPage()
+    {
+
+        WebElement month=driver.findElement(By.xpath("//button[@title='Month']"));
+        return  month;
+    }
+
+    private WebElement rescheduleButtonInReScheduleVisitPage()
+    {
+        WebElement reschedule=driver.findElement(By.xpath("//button/span[text()='Reschedule']"));
+        return  reschedule;
+    }
+
+    private WebElement hsNotesInReScheduleVisitPage()
+    {
+        WebElement notes=driver.findElement(By.xpath("//input[@name='hsNotes']"));
+        return  notes;
+    }
+
+    private WebElement reScheduleTextboxInReScheduleVisitPage()
+    {
+        WebElement textBox= driver.findElement(By.xpath("//textarea[@id='rescheduleMessage']"));
+        return textBox;
+    }
+
+    private WebElement noAvailabilityInNewScheduleVisitPage()
+    {
+        WebElement avialability=driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//td/span[text()='No availability this week']"));
+        return  avialability;
+    }
+
+    private WebElement addvVisitManuallyInNewScheduleVisitPage()
+    {
+        WebElement addVisit=driver.findElement(By.xpath("//div/span[text()='Want a custom time? Add it manually']"));
+        return  addVisit;
     }
 }

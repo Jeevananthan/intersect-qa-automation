@@ -146,8 +146,6 @@ public class NavBarImpl extends SeleniumBase {
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
     }
 
-
-
     //Getters
     private WebElement getHomeBtn() {
         return link(By.id("js-main-nav-home-menu-link"));
