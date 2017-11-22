@@ -38,26 +38,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return table("Higher Ed Account Dashboard").clickOnTheFirstElementOfAColumn("Name");
     }
 
-    public void verifyInstitutionExist(String institutionName) {
-        navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
-            button("More Higher Ed Accounts").click();
-            waitUntilPageFinishLoading();
-        }
-
-        table(By.id("he-account-dashboard")).verifyValueIsOnTheTable(institutionName);
-    }
-
-    public void verifyInstitutionDoesNotExist(String institutionName) {
-        navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
-            button("More Higher Ed Accounts").click();
-            waitUntilPageFinishLoading();
-        }
-
-        table(By.id("he-account-dashboard")).verifyValueIsNotOnTheTable(institutionName);
-    }
-
     public void goToInstitution(String institutionName) {
         navBar.goToHome();
         globalSearch.searchForHEInstitutions(institutionName);
