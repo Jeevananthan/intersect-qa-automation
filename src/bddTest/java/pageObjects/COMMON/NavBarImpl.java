@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -46,11 +47,25 @@ public class NavBarImpl extends SeleniumBase {
         Assert.assertTrue("Unable to navigate to RepVisits", isLinkActive(getRepVisitsBtn()));
     }
 
+    public void goToEvents() {
+        if (!isLinkActive(getEventsBtn()))
+            getEventsBtn().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Unable to navigate to Events", isLinkActive(getEventsBtn()));
+    }
+
     public void goToUsers() {
         if(!isLinkActive(getUsersBtn()))
             getUsersBtn().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Unable to navigate to User List", isLinkActive(getUsersBtn()));
+    }
+
+    public void goToActiveMatch() {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-plus-menu-link span"), 1));
+        getActiveMatchButton().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Unable to navigate to ActiveMatch page", isLinkActive(getActiveMatchButton()));
     }
 
     public void verifySubMenuIsVisible(String tabName) {
@@ -69,6 +84,9 @@ public class NavBarImpl extends SeleniumBase {
                 break;
             case "Users":
                 Assert.assertTrue("Users link is not visible",getUsersBtn().isDisplayed());
+                break;
+            case "ActiveMatch":
+                Assert.assertTrue("ActiveMatch link is not visible",getActiveMatchButton().isDisplayed());
                 break;
         }
     }
@@ -90,6 +108,9 @@ public class NavBarImpl extends SeleniumBase {
             case "Users":
                 Assert.assertFalse("Users link is not visible",getUsersBtn().isDisplayed());
                 break;
+            case "ActiveMatch":
+                Assert.assertFalse("ActiveMatch link is not visible",getActiveMatchButton().isDisplayed());
+                break;
         }
     }
 
@@ -100,19 +121,22 @@ public class NavBarImpl extends SeleniumBase {
             String heading = pair.getKey().toString();
             String[] content = pair.getValue().toString().split(",");
             for (String subMenu : content) {
+                subMenu = subMenu.trim();
                 WebElement itemLink = driver.findElement(By.xpath("(//span[contains(text(),'"+subMenu+"')])[2]"));
                 // Check Heading
                 WebElement section = getParent(getParent(getParent(itemLink)));
                 WebElement container = section.findElement(By.className("_3zoxpD-z3dk4-NIOb73TRl"));
                 WebElement headerSpan = container.findElement(By.tagName("span"));
                 Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect, expected \"" + heading + "\"",headerSpan.getText().toLowerCase().contains(heading.toLowerCase()));
+                waitUntilPageFinishLoading();
                 itemLink.click();
                 waitUntilPageFinishLoading();
+                // This doesn't work for some reason, but the following steps will sometimes fail due to timing issues with User List page loading.
+                //waitUntilElementExists(driver.findElement(By.className("_2QGqPPgUAifsnRhFCwxMD7")));
                 //Check Breadcrumbs
                 Assert.assertTrue(heading+ " is not correct in Breadcrumbs, actual value is: " + getHeadingBreadcrumbs().getText(), heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
                 Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs, actual value is: " + getSubMeunBreadcrumbs().getText(), subMenu.equals(getSubMeunBreadcrumbs().getText()));
-
-
+                logger.info("Verified " + subMenu + " is under " + heading + " as expected.");
             }
         }
     }
@@ -127,7 +151,15 @@ public class NavBarImpl extends SeleniumBase {
         return link(By.id("js-main-nav-home-menu-link"));
     }
     private WebElement getCommunityBtn() {
-        return link(By.id("js-main-nav-home-menu-link"));
+        try {
+            if (link(By.id("js-main-nav-counselor-community-menu-link")).isDisplayed()) {
+                return link(By.id("js-main-nav-counselor-community-menu-link"));
+            }
+            else
+                return link(By.id("js-main-nav-home-menu-link"));
+        } catch (Exception e) {
+            return link(By.id("js-main-nav-home-menu-link"));
+        }
     }
     private WebElement getCollegeProfileBtn() {
         return link(By.id("js-main-nav-naviance-college-profile-menu-link"));
@@ -135,9 +167,12 @@ public class NavBarImpl extends SeleniumBase {
     private WebElement getRepVisitsBtn() {
         return link(By.id("js-main-nav-rep-visits-menu-link"));
     }
+    private WebElement getEventsBtn() { return link(By.id("js-main-nav-am-events-menu-link")); }
     private WebElement getUsersBtn() {
         return link(By.id("js-main-nav-manage-users-menu-link"));
     }
+    private WebElement getActiveMatchButton() { return link(By.id("js-main-nav-am-plus-menu-link")); }
+
     private WebElement getHeadingBreadcrumbs(){
         List<WebElement> items = driver.findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
         for (WebElement item : items) {

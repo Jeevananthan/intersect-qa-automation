@@ -37,7 +37,9 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         for (String key : data.keySet()) {
             switch (key) {
                 case "Country":
-                    driver.findElement(By.name("country-search")).sendKeys(data.get(key));
+                    driver.findElement(By.name("country")).click();
+                    driver.findElement(By.cssSelector("input[class='search']")).click();
+                    driver.findElement(By.cssSelector("input[class='search']")).sendKeys(data.get(key));
                     break;
                 case "Charter School":
                     WebElement drpCharterSchool = driver.findElement(By.id("charterSchool"));

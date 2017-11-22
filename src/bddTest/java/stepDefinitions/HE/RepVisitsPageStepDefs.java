@@ -25,7 +25,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HE I verify the high school information popup contains the following data", repVisits::checkHighSchoolPopUp);
 
-        Then ("^HE I verify the upsell messaging on the Travel Plan page in RepVisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
+        Then ("^HE I verify the upgrade messaging on the Travel Plan page in RepVisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
 
         Then ("^HE I verify the upgrade messaging on the Contacts page in RepVisits$",repVisits::verifyUpgradeMessageInContactsInRepVisits);
 
@@ -37,5 +37,12 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the calendar view in repvisits$",repVisits::verifyCalendarViewOnRepVisits);
 
+        Then("^HE I navigate to the \"([^\"]*)\" page in RepVisits$", repVisits::navigateToRepVisitsSection);
+
+        And("^HE I verify the non-administrator messaging on the Visits Feedback page$", repVisits::verifyVisitsFeedbackNonAdminMessaging);
+
+        And("^HE I verify the freemium messaging on the Visits Feedback page$", repVisits::verifyVisitsFeedbackFreemiumMessaging);
+
+        Then("^HE I verify the formatting of the Visit Feedback page$", repVisits::verifyVisitFeedbackPage);
     }
 }
