@@ -15,13 +15,13 @@ public class LoginPageStepDefs implements En {
 
         Then("^HS I verify that the HS login page is displayed$", loginPage::verifyHSPage);
 
-        Then ("^HS I verify the address page of the \"([^\"]*)\" which is \"([^\"]*)\" school using \"([^\"]*)\"$",loginPage::verifyHSAddressPage);
+        Then ("^HS I verify the address page of \"([^\"]*)\" which is a \"([^\"]*)\" school in \"([^\"]*)\"$",loginPage::verifyHSAddressPage);
 
         Given("^HS I navigate to Registration Intersect url$",loginPage::navaigateToRegistration);
 
         Then("^HS I verify the Institution page$",loginPage::verifyInstitutionPage);
 
-        Then("^HS I search for \"([^\"]*)\" in High School Staff Member registeration page$",loginPage::searchInstitution);
+        Then("^HS I search for \"([^\"]*)\" in High School Staff Member registration page$",loginPage::searchInstitution);
 
         Then("^HS I verify the link \"([^\"]*)\"$",loginPage::verifyLink);
 

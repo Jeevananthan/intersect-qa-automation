@@ -112,6 +112,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
        Assert.assertTrue("Link is not displayed",link(navianceORnonNavianceLink).isDisplayed());
         link(navianceORnonNavianceLink).click();
         waitUntilPageFinishLoading();
+        if (navianceORnonNavianceLink.equalsIgnoreCase("please complete this form.")) {
+            Assert.assertTrue("New user request form was not displayed!", text("Request User Account").isDisplayed());
+        } else if (navianceORnonNavianceLink.equalsIgnoreCase("Naviance")) {
+            Assert.assertTrue("Error:  Naviance login page was not displayed!", textbox(By.name("hsid")).isDisplayed());
+        }
     }
 
     private void openHSLoginPage() {
