@@ -179,7 +179,7 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         driver.findElement(By.id("global-search-box-input")).sendKeys(Keys.ENTER);
         waitUntilPageFinishLoading();
-        Assert.assertEquals("Did not end on Advanced Search page utilizing the enter/return key!  Original search data not entered in Keyword textBox!", searchRequest, textbox("keyword").getAttribute("value"));
+        Assert.assertEquals("Did not end on Advanced Search page utilizing the enter/return key!  Original search data not entered in Keyword textBox!", searchRequest, driver.findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
     }
 
     public void verifyAdvanceSearchByIcon(String searchRequest) {
@@ -190,7 +190,7 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         clickSearchIcon().click();
         waitUntilPageFinishLoading();
-        Assert.assertEquals("Did not end on Advanced Search page utilizing the search icon button!  Original search data not entered in Keyword textBox!", searchRequest, textbox("keyword").getAttribute("value"));
+        Assert.assertEquals("Did not end on Advanced Search page utilizing the search icon button!  Original search data not entered in Keyword textBox!", searchRequest, driver.findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
     }
 
     public void verifyRealTimeSearchCategorized(DataTable dataTable) {

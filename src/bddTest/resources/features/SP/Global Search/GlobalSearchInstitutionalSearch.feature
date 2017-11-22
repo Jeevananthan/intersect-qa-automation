@@ -1,5 +1,5 @@
 @SP
-Feature: Hobsons Staff User - Search for Institutional Accounts
+Feature:  SP - Global Search - GlobalSearchInstitutionalSearch - Hobsons Staff User - Search for Institutional Accounts
   As a Hobsons staff user I want to be able to search for institutional accounts in the global search bar
   so I can quickly find and take action on a particular account such as viewing or updating product
   subscription information.
