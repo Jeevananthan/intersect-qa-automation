@@ -35,7 +35,7 @@ public class LoginPageStepDefs implements En {
 
         Then ("^HS I verify the address page of \"([^\"]*)\" which is a \"([^\"]*)\" school in \"([^\"]*)\"$",loginPage::verifyHSAddressPage);
 
-        Given("^HS I navigate to Registration Intersect url$",loginPage::navaigateToRegistration);
+        Given("^HS I navigate to Registration Intersect url$",loginPage::navigateToHSRegistrationPage);
 
         Then("^HS I verify the Institution page$",loginPage::verifyInstitutionPage);
 

@@ -98,6 +98,10 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void navigateToHSRegistrationPage(){
+        load(GetProperties.get("hs.registration.url"));
+        Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
+    }
 
     public void verifyHSAddressPage(String schoolName,String navianceOrNonnaviance,String address){
 
