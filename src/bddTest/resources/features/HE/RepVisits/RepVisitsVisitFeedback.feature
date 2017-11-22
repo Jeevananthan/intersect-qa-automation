@@ -4,9 +4,17 @@ Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to
 
   @MATCH-2403
   Scenario: As a HE Administrator, I should see a message informing me that no feedback has been submitted by any high schools yet.
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+    Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I navigate to the "Visit Feedback" page in RepVisits
-    Then HE I verify the Visit Feedback heading
-    Then HE I verify staff are listed down the left hand side of the page in ABC order by last name
-    Then HE I verify that staff listed down on the left hand side of the page display a Community avatar to the left of their name
-    Then HE I verify that a message informing me that no feedback has been submitted by any high schools yet is displayed
+    Then HE I verify the formatting of the Visit Feedback page
+    Then HE I successfully sign out
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out

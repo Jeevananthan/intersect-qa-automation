@@ -228,12 +228,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Locked banner was not displayed",driver.findElement(By.xpath("//div[@class='centered one column row']")).findElement(By.cssSelector("[alt=locked]")).isDisplayed());
     }
 
-    public void verifyVisitFeedbackHeading() {
+    public void verifyVisitFeedbackPage(){
+        verifyVisitFeedbackHeading();
+        verifyStaffMembersAreDisplayedInAscendingOrderByLastName();
+        verifyCommunityAvatarIsDisplayedToTheLeftOfStaffMemberName();
+        verifyNoFeedbackSubmittedYetMessageIsDisplayed();
+    }
+
+    private void verifyVisitFeedbackHeading() {
         waitUntilPageFinishLoading();
         Assert.assertTrue("Visit Feedback heading not displayed", driver.findElement(By.xpath("//h1[contains(@class, 'ui header _26ekcAlhCmjadW7ShhS7aj')]")).getText().equals("Visit Feedback"));
     }
 
-    public void verifyStaffMembersAreDisplayedInAscendingOrderByLastName() {
+    private void verifyStaffMembersAreDisplayedInAscendingOrderByLastName() {
         waitUntilPageFinishLoading();
 
         List<WebElement> itemsInStaffMemberMenu = getVerticalStaffMembersMenu().findElements(By.xpath(".//li[contains(@class,'item')]"));
@@ -250,7 +257,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Staff members are NOT displayed in ascending order by last name", listContainingFullNamesOfStaffMembers.equals(listContainingStaffMembersSortedByLastName));
     }
 
-    public void verifyCommunityAvatarIsDisplayedToTheLeftOfStaffMemberName() {
+    private void verifyCommunityAvatarIsDisplayedToTheLeftOfStaffMemberName() {
         waitUntilPageFinishLoading();
         boolean isCommunityAvatarDisplayed = false;
 
@@ -270,14 +277,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyNoFeedbackSubmittedYetMessageIsDisplayed() {
+    private void verifyNoFeedbackSubmittedYetMessageIsDisplayed() {
         if(text("Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.").isDisplayed()) {
-            Assert.assertTrue(true);
             logger.info("'Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.' message is displayed");
         }
-        else
-        {
-            logger.warn("'Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.' message is not displayed because one or more feedback(s) have been submitted by HS");
+        else {
+            Assert.fail("'Insights into your team's reputation will appear here as staff members get feedback from high schools they visit.' message is not displayed!");
         }
     }
 
