@@ -37,6 +37,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
         button("Next").click();
+        waitUntilPageFinishLoading();
         passwordTextbox().click();
         logger.info("Using " + password + " as password");
         handleAccountTypeDialog(password);
@@ -58,9 +59,11 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
             passwordTextbox().sendKeys(password);
         }
         button("Sign in").click();
+        waitUntilPageFinishLoading();
         if (button(By.id("idBtn_Back")).isDisplayed())
         {
             button("No").click();
+            waitUntilPageFinishLoading();
         }
     }
 
