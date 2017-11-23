@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import java.util.List;
+
 public class AdminLoginPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -60,15 +62,17 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         }
         button("Sign in").click();
         waitUntilPageFinishLoading();
-        if (button(By.id("idBtn_Back")).isDisplayed())
-        {
+        List<WebElement> resetLink = driver.findElements(By.xpath("//a[@id='idA_IL_ForgotPassword0']"));
+        if (resetLink.size()==1){
+            logger.info("The given username or password is wrong");
+        }else if(button(By.id("idBtn_Back")).isDisplayed()){
             button("No").click();
             waitUntilPageFinishLoading();
         }
     }
 
     public void verifyExpectedErrorMessage(String expectedErrorMsg) {
-        String actualErrorMsg = getDriver().findElement(By.id("recover_container")).getText().replace("\n", " ");
+        String actualErrorMsg = getDriver().findElement(By.id("passwordError")).getText();
         Assert.assertEquals("Error message did not match", expectedErrorMsg, actualErrorMsg);
     }
 
