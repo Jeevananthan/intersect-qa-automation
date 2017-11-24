@@ -55,7 +55,7 @@ public class GlobalSearch extends SeleniumBase {
         doSearch(searchTerm);
     }
 
-    private void setSearchCategory(String searchCategory) {
+    public void setSearchCategory(String searchCategory) {
         getSearchSwitcher().click();
         waitUntilPageFinishLoading();
         switch(searchCategory) {

@@ -40,6 +40,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToInstitution(String institutionName) {
         navBar.goToHome();
+        globalSearch.setSearchCategory("All");
         globalSearch.searchForHEInstitutions(institutionName);
         globalSearch.selectResult(institutionName);
         /*while (button("More Higher Ed Accounts").isDisplayed()) {
