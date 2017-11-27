@@ -4,6 +4,9 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -122,6 +125,8 @@ public class    GlobalSearch extends SeleniumBase {
                 List<WebElement> options = category.findElements(By.className("result"));
                 for (WebElement option : options) {
                     if (option.findElement(By.className("title")).getText().toLowerCase().equals(optionToSelect.toLowerCase())) {
+                        //WebDriverWait wait = new WebDriverWait(driver, 10);
+                        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='result']/div[@class='content']/div[@class='title' and text()='"+ optionToSelect +"']"))).click();
                         option.click();
                         institutionClickedOn = true;
                         waitUntilPageFinishLoading();

@@ -1,6 +1,7 @@
 package pageObjects.HS.repVisitsPage;
 
 import cucumber.api.DataTable;
+import javafx.scene.input.DataFormat;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -8,10 +9,13 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
 import static org.junit.Assert.fail;
+import java.text.DateFormat;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -390,17 +394,133 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("ADD A COLLEGE FAIR").click();
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String key : data.keySet()) {
-            fillAddCollegeFairFields(key, data.get(key));
+            if(key.equals("Date")){
+                String fairDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
+                createCollegeFair(key, fairDateToFill);
+            }
+            else if (key.equals("RSVP Deadline")){
+                String fairRSVPDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
+                createCollegeFair(key, fairRSVPDateToFill);
+            }else
+                createCollegeFair(key, data.get(key));
+
         }
+        scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
         button("Save").click();
     }
 
-    public void fillAddCollegeFairFields(String field, String data) {
+    public String createFutureDateForFair(int days) {
+        DateFormat dateFormat_3 = DateFormat.getDateInstance(DateFormat.LONG);
+        Calendar cal_1 = Calendar.getInstance();
+        cal_1.setTime(new Date());
+        cal_1.add(Calendar.DATE, days);
+        String fixDate = dateFormat_3.format(cal_1.getTime());
+        return fixDate;
+    }
+
+    public void scrollDown(WebElement element){
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,250)", "");
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).perform();
+    }
+
+    public void createCollegeFair(String field, String data){
+        switch (field) {
+            case "College Fair Name":
+                textbox(By.id("college-fair-name")).sendKeys(data);
+                break;
+            case "Date":
+                getDriver().findElement(By.xpath("//div[@class='ui fluid input']/input[@id = 'college-fair-date']/../i")).click();
+                // Only goes out 12 months
+                for(int i = 0; i <= 12; i++) {
+                    List<WebElement> dayCalander = getDriver().findElements(By.xpath("//div[@class='DayPicker-Body']//div[@aria-label]"));
+                    for (WebElement day : dayCalander) {
+                        String dayResult = day.getAttribute("aria-label");
+                        String dayAvailable = day.getAttribute("aria-disabled");
+                        if (dayResult.equalsIgnoreCase(data) &&
+                                dayAvailable.equalsIgnoreCase("false")) {
+                            day.click();
+                            i = 13;
+                            break;
+                        }
+                    }
+                    if(i<12){
+                        getDriver().findElement(By.xpath("//span[@class = 'DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                    }
+                    else if(i==12) {
+                        logger.info("The date entered is in the past, unavailable, or invalid. \nPlease enter date as \"January 1, 2017\". \nDates can only be chosen 12 months in advance");
+                    }
+                }
+                break;
+            case "Start Time":
+                WebElement startTime = getDriver().findElement(By.xpath("//input[@id='college-fair-start-time']"));
+                startTime.click();
+                startTime.sendKeys(data);
+                break;
+            case "End Time":
+                WebElement endTime = getDriver().findElement(By.xpath("//input[@id='college-fair-end-time']"));
+                endTime.click();
+                endTime.sendKeys(data);
+                break;
+            case "RSVP Deadline":
+                getDriver().findElement(By.xpath("//div[@class='ui input']/input[@id = 'college-fair-rsvp-deadline']/../i")).click();
+                // Only goes out 12 months
+                for(int i = 0; i <= 12; i++) {
+                    List<WebElement> RSVPCalander = getDriver().findElements(By.xpath("//div[@class='DayPicker-Body']//div[@aria-label]"));
+                    for (WebElement day : RSVPCalander) {
+                        String dayResult = day.getAttribute("aria-label");
+                        String dayAvailable = day.getAttribute("aria-disabled");
+                        if (dayResult.equalsIgnoreCase(data) &&
+                                dayAvailable.equalsIgnoreCase("false")) {
+                            day.click();
+                            i = 13;
+                            break;
+                        }
+                    }
+                    if(i<12){
+                        getDriver().findElement(By.xpath("//span[@class = 'DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                    }
+                    else if(i==12) {
+                        logger.info("The date entered is in the past, unavailable, or invalid. \nPlease enter date as \"January 1, 2017\". \nDates can only be chosen 12 months in advance");
+                    }
+                }
+                break;
+            case "Cost":
+                fairCost().sendKeys(data);
+                break;
+            case "Max Number of Colleges":
+                textbox(By.id("college-fair-max-number-colleges")).sendKeys(data);
+                break;
+            case "Number of Students Expected":
+                textbox(By.id("college-fair-number-expected-students")).sendKeys(data);
+                break;
+            case "Instructions for College Representatives":
+                textbox(By.id("college-fair-instructions")).sendKeys(data);
+                break;
+            case "Automatically Confirm Incoming Requestions From Colleges?":
+                scrollDown(driver.findElement(By.id("college-fair-automatic-request-confirmation-yes")));
+                if(data.equalsIgnoreCase("yes")) {
+                    radioButton(By.id("college-fair-automatic-request-confirmation-yes")).click();
+                }
+                else {
+                    radioButton(By.id("college-fair-automatic-request-confirmation-no")).click();
+                }
+                break;
+            case "Email Message to Colleges After Confirmation":
+                scrollDown(driver.findElement(By.id("college-fair-email-message-to-colleges")));
+                textbox(By.id("college-fair-email-message-to-colleges")).sendKeys(data);
+                break;
+            default:
+                logger.info("Something went wrong during filling data for creatinf Fair.....");
+        }
+    }
+
+
+    /*public void fillAddCollegeFairFields(String field, String data) {
         switch (field) {
             case "Automatically Confirm Incoming Requestions From Colleges?":
                 // Scroll to the end of the form
-                /*Actions actions = new Actions(driver);
-                actions.moveToElement(button("Save")).perform();*/
                 JavascriptExecutor jse = (JavascriptExecutor)driver;
                 jse.executeScript("window.scrollBy(0,250)", "");
                 Actions actions = new Actions(driver);
@@ -434,7 +554,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         getDriver().findElement(By.xpath("//span[@class = 'DayPicker-NavButton DayPicker-NavButton--next']")).click();
                     }
                     else if(i==12) {
-                        System.out.println("The date entered is in the past, unavailable, or invalid. \nPlease enter date as \"January 1, 2017\". \nDates can only be chosen 12 months in advance");
+                        logger.info("The date entered is in the past, unavailable, or invalid. \nPlease enter date as \"January 1, 2017\". \nDates can only be chosen 12 months in advance");
                     }
                 }
                 break;
@@ -474,7 +594,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         getDriver().findElement(By.xpath("//span[@class = 'DayPicker-NavButton DayPicker-NavButton--next']")).click();
                     }
                     else if(i==12) {
-                        System.out.println("The date entered is in the past, unavailable, or invalid. \nPlease enter date as \"January 1, 2017\". \nDates can only be chosen 12 months in advance");
+                        logger.info("The date entered is in the past, unavailable, or invalid. \nPlease enter date as \"January 1, 2017\". \nDates can only be chosen 12 months in advance");
                     }
                 }
                 break;
@@ -490,7 +610,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 textbox(By.name(field.toLowerCase())).sendKeys(data);
                 break;
         }
-    }
+    }*/
 
 
     //locators
