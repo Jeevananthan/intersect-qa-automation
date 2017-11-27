@@ -6,7 +6,6 @@ Feature: Hobsons Support - View HE Institution Accounts
   Scenario: As a Hobsons Sales Ops user I can view an institutional account
     Given SP I am logged in to the Admin page as a Sales Ops user
     When SP I select "The University of Alabama" from the institution dashboard
-    #When SP I click on an institution name
     Then SP I am able to view the individual account page
     Then SP I do not have access to "Community" sub menu in left navigation
     And SP I successfully sign out
@@ -23,7 +22,6 @@ Feature: Hobsons Support - View HE Institution Accounts
   Scenario: As a Hobsons Support user I can view an institutional account
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "The University of Alabama" from the institution dashboard
-    #When SP I click on an institution name
     Then SP I am able to view the individual account page
     And SP I successfully sign out
 
@@ -31,7 +29,6 @@ Feature: Hobsons Support - View HE Institution Accounts
   Scenario: As a Hobsons Support user I should not activate any module where the end date is earlier than the start date and vice-versa.
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
-    #When SP I click on an institution name
     Then SP I am able to view the individual account page
     Then SP I verify subscription end date restrictions
     Then SP I verify subscription start date restrictions
@@ -73,16 +70,6 @@ Feature: Hobsons Support - View HE Institution Accounts
       | Awareness | Counselor Community |
     And SP I successfully sign out
 
-  @MATCH-584
-    Scenario:As a support user or admin user or sales ops in support app .I could able to store an Institutional Account's Radius subdomain ID or Connect ID
-            on the Institutional Account page to support SSO in the future.
-      Given SP I am logged in to the Admin page as an Admin user
-      Then SP I select "Adrian College" from the institution dashboard
-      And SP I update Institutional Details with Connect Id as "connect-" and Radius Id as "radiu-idgg"
-      Then SP I verify the updated details are displaying in the account page
-          |Connect Id |Radius Id |
-          |connect- |radiu-idgg |
-      And SP I successfully sign out
 
 
 
