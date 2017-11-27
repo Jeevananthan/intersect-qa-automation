@@ -157,7 +157,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       Given HE I am logged in to Intersect HE as user type "publishing"
       Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test002"
       And HE I successfully sign out
-  Scenario: chechingfasfasf
+  Scenario: chechingfasfasfasda
       # log back into the HS app to accept and decline the attendance requests from above
       Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
       Then HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs "Confirm" for "Fair QA Test002"
