@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import selenium.SeleniumBase;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 
 public class PageObjectFacadeImpl extends SeleniumBase {
@@ -100,7 +99,6 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      */
     protected void pickDateInDatePicker(Calendar date) {
         Calendar todaysDate = Calendar.getInstance();
-        Calendar dateControl = date;
         if (date.before(todaysDate)) {
             while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
                 datePickerPrevMonthButton().click();

@@ -32,5 +32,9 @@ public class EventsPageStepDefs implements En {
         And("^HE I save the draft$", eventsPage::clickSaveDraft);
 
         Then("^HE The event of name \"([^\"]*)\" should be updated$", eventsPage::verifyEditedData);
+
+        When("^HE I delete the event of name \"([^\"]*)\"$", eventsPage::deleteEvent);
+
+        And("^HE I verify required fields error messages$", eventsPage::verifyAllErrorMessages);
     }
 }

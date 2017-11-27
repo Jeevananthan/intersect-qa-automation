@@ -6,11 +6,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -62,41 +59,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         fillCreateEventForm(eventData);
     }
 
-//    public void verifyEventData(List<List<String>> eventData) {
-//        for (List<String> row : eventData) {
-//            switch (row.get(0)) {
-//                case "Event Name":
-//                    Assert.assertTrue(row.get(0) + " was not updated successfully", eventNameField().getText().equals(row.get(1)));
-//                    break;
-//                case "Event Start":
-//                    Assert.assertTrue(row.get(0) + " was not updated successfully", eventStartTimeField().getText().equals(row.get(1).split(";")[1]));
-//                    break;
-//                case "Timezone":
-//                    Select timeZoneDropdown = new Select(timeZoneDropdown());
-//                    Assert.assertTrue(row.get(0) + "was not updated successfully", timeZoneDropdown.getFirstSelectedOption().getText().equals(row.get(1)));
-//                    break;
-//                case "Description":
-//                    Assert.assertTrue(row.get(0) + "was not updated successfully", descriptionField().getText().equals(row.get(1)));
-//                    break;
-//                case "Max Atendees":
-//                    Assert.assertTrue(row.get(0) + "was not updated successfully", maxAttendeesField().getText().equals(row.get(1)));
-//                    break;
-//                case "RSVP Deadline":
-//                    Assert.assertTrue(row.get(0) + "was not updated successfully", rsvpTimeField().getText().equals(row.get(1)));
-//                    break;
-//                case "EVENT LOCATION":
-//                    Assert.assertTrue(row.get(0) + "was not updated successfully", locationField().getAttribute("value").equals(row.get(1)));
-//                    break;
-//                case "EVENT PRIMARY CONTACT":
-//                    Assert.assertTrue(row.get(0) + "was not updated successfully", primaryContactField().getAttribute("value").equals(row.get(1)));
-//                    break;
-//                case "EVENT AUDIENCE":
-//                    Assert.assertTrue(row.get(0) + "was not updated successfully", audienceField().getAttribute("value").equals(row.get(1)));
-//                    break;
-//            }
-//        }
-//    }
-
     public void publishEvent() {
         publishNowButton().sendKeys(Keys.RETURN);
     }
@@ -106,7 +68,10 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteEvent(String eventName) {
+        getEventsTab("CANCELED").click();
+        menuButtonForEvent(eventName).click();
         getOptionFromMenuButtonForEvents("Delete");
+        deleteYesButton().click();
     }
 
     public void verifyEventIsInCancelledList(String eventName) {
@@ -136,7 +101,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Timezone":
                     timeZoneDropdown().clear();
-//                    getTimeZoneOption(row.get(1)).click();
                     timeZoneDropdown().sendKeys(row.get(1));
                     break;
                 case "Description":
@@ -187,8 +151,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectContactByPosition(int position) {
-//        primaryContactField().clear();
-//        primaryContactField().sendKeys("a");
         if (primaryContactField().getText().length() > 0) {
             for (int i = 0; i <= primaryContactField().getText().length(); i++) {
                 primaryContactField().sendKeys(Keys.BACK_SPACE);
@@ -285,6 +247,16 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         saveDraftButton().click();
     }
 
+    public void verifyAllErrorMessages() {
+        Assert.assertTrue("The error message for Event Name is not displayed", eventNameError().isDisplayed());
+        /*This is disabled because of an issue noted in MATCH-2913*/
+        //Assert.assertTrue("The error message for Event Start is not displayed", eventStartError().isDisplayed());
+        Assert.assertTrue("The error message for Event Name is not displayed", eventNameError().isDisplayed());
+        Assert.assertTrue("The error message for Max Attendees is not displayed", maxAttendeesError().isDisplayed());
+        Assert.assertTrue("The error message for Event Location is not displayed", eventLocationError().isDisplayed());
+        Assert.assertTrue("The error message for Primary Contact is not displayed", primaryContactError().isDisplayed());
+    }
+
     //locators
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
@@ -317,5 +289,19 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement getTimeZoneOption(String optionName) {
         return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']"));
+    }
+    private WebElement deleteYesButton() {
+        return  driver.findElement(By.cssSelector("button[data-status='DELETED']"));
+    }
+    private WebElement eventNameError() { return driver.findElement(By.cssSelector("div.field._1yIY4zDrmhXWZye_U-WaJP + div span")); }
+    private WebElement eventStartError() { return driver.findElement(By.cssSelector("div.field._2nQ3XyXmKsCNicAyziEoh0 + div span")); }
+    private WebElement maxAttendeesError() {
+        return driver.findElement(By.xpath("//input[@id='availableSeats']/../../../../div[@class='four wide column']/div/span"));
+    }
+    private WebElement eventLocationError() {
+        return driver.findElement(By.cssSelector("div.ui.icon.input._2PODx9czzn4W7nb0z2u3aA + div span"));
+    }
+    private WebElement primaryContactError() {
+        return driver.findElement(By.cssSelector("div.ui.icon.input._3KUN7Tb1NlCv2_RQqzKQCj + div span"));
     }
 }
