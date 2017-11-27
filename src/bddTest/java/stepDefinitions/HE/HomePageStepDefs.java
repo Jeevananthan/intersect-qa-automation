@@ -57,7 +57,7 @@ public class HomePageStepDefs implements En {
 
         And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
 
-        And("^HE I open the Events section$", homePage::clickEvents);
+        And("^HE I open the Events list$", homePage::openEventList);
 
         Then("^HE Events section is not displayed for Community users$", eventsPage::verifyEventsNotPresent);
 
