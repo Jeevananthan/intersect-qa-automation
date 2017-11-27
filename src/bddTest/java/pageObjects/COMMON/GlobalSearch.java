@@ -120,13 +120,13 @@ public class    GlobalSearch extends SeleniumBase {
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
         for (WebElement category : categories) {
-            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HE Accounts") || category.findElement(By.className("name")).getText().equalsIgnoreCase("College Core") || category.findElement(By.className("name")).getText().equalsIgnoreCase("People")||category.findElement(By.className("name")).getText().contains("Institutions")) {
+            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HE Accounts") || category.findElement(By.className("name")).getText().equalsIgnoreCase("College Core") || category.findElement(By.className("name")).getText().equalsIgnoreCase("People")||category.findElement(By.xpath("//div[@class='name']")).getText().contains("Institutions")) {
                 institutionsReturned = true;
-                List<WebElement> options = category.findElements(By.className("result"));
+                WebDriverWait wait = new WebDriverWait(driver, 10);
+                List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='result']")));
+                //List<WebElement> options = category.findElements(By.className("result"));
                 for (WebElement option : options) {
                     if (option.findElement(By.className("title")).getText().toLowerCase().equals(optionToSelect.toLowerCase())) {
-                        //WebDriverWait wait = new WebDriverWait(driver, 10);
-                        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='result']/div[@class='content']/div[@class='title' and text()='"+ optionToSelect +"']"))).click();
                         option.click();
                         institutionClickedOn = true;
                         waitUntilPageFinishLoading();

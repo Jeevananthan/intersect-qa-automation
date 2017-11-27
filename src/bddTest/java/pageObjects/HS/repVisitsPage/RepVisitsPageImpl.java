@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.time.LocalDate;
@@ -391,6 +393,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         link("College Fairs").click();
         waitUntilPageFinishLoading();
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(text(By.id("add-college"))));
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(text(By.id("add-college"))));
         button("ADD A COLLEGE FAIR").click();
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String key : data.keySet()) {
