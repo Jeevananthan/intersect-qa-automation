@@ -8,7 +8,7 @@ import java.util.Properties;
 public class GetProperties {
 
     private static String fs = File.separator;
-    private static String propFile = String.format(".%ssrc%sbddTest%sresources%senvironments%slocalEnv.properties",fs ,fs ,fs ,fs ,fs);
+    private static String propFile = String.format(".%ssrc%sbddTest%sresources%senvironments%sqaEnv.properties",fs ,fs ,fs ,fs ,fs);
 
     private static Properties properties = setProperties();
 
