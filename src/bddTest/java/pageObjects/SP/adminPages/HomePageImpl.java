@@ -30,6 +30,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void logout() {
         link(By.id("user-dropdown")).click();
         driver.findElement(By.cssSelector("div[id='user-dropdown-signout']")).click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue(getDriver().getCurrentUrl().contains("login"));
         driver.manage().deleteAllCookies();
     }

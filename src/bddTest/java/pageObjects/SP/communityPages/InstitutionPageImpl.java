@@ -19,6 +19,7 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         communityFrame();
         link("Additional info").click();
+        waitUntilPageFinishLoading();
         link("VIEW NAVIANCE COLLEGE PROFILE").click();
         waitUntilPageFinishLoading();
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
