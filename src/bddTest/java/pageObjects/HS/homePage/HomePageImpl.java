@@ -23,10 +23,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void logout() {
         driver.switchTo().defaultContent();
-        userDropdown().click();
-        button(By.id("user-dropdown-signout")).click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("User did not sign out", text("You have been logged out.").isDisplayed());
+        userDropdown().click();
+        driver.findElement(By.xpath("//span[text()='Sign Out']")).click();
+        waitUntilPageFinishLoading();
+        driver.manage().deleteAllCookies();
+        Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
     }
 
     public void goToCounselorCommunity(){

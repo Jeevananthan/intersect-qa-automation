@@ -82,5 +82,5 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
-      |Monday           | 5             |06          | 11             | 7             | am                | pm              | 3          | July 23 2017         |June 23 2018      |
-      |Tuesday          | 5             |07          | 12             | 8             | am                | pm              | 99         | August 15 2017       |September 23 2017 |
+      |Monday           | 5             |06          | 11             | 07             | am                | pm              | 3          | August 29 2017         |August 30 2017      |
+      |Tuesday          | 5             |07          | 12             | 08             | am                | pm              | 99         | August 15 2017       |September 23 2017 |
