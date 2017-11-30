@@ -14,7 +14,6 @@ Feature: Hobsons Support - View HE Institution Accounts
   Scenario: As a Hobsons Admin user I can view an institutional account
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
-    #When SP I click on an institution name
     Then SP I am able to view the individual account page
     And SP I successfully sign out
 
