@@ -76,7 +76,7 @@ public class GlobalSearch extends SeleniumBase {
                 break;
             case "People":
                 //getDriver().findElement(By.xpath("//*[@id=\"global-search-box-filter\"]/div/div[contains(text(), 'People')]")).click();
-                getSearchSwitcher().findElement(By.id("global-search-box-filter")).findElement(By.xpath("./div/div/span[contains(text(), 'People')]")).click();
+                getSearchSwitcher().findElement(By.id("global-search-box-filter")).findElement(By.xpath("//div/div/span[contains(text(), 'People')]")).click();
                 break;
             case "Groups":
                 getSearchSwitcher().findElement(By.className("comments")).click();
@@ -243,7 +243,7 @@ public class GlobalSearch extends SeleniumBase {
         logger.info("Verifying search dropdown results are clickable/actionable.");
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
-        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-0"));
+        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-2"));
         String url = driver.getCurrentUrl();
         searchOption.click();
         waitUntilPageFinishLoading();
@@ -329,6 +329,16 @@ public class GlobalSearch extends SeleniumBase {
         Assert.assertFalse("Global search feature is available, but shouldn't be.", getDriver().findElements(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']")).size() >= 1);
     }
 
+    public void verifyAdvancedSearchUserResults(String searchRequest){
+        System.out.println();
+        logger.info("Verifying advanced search results displays the general description field below the user's title and institution.");
+        searchForPeople(searchRequest);
+        waitUntilPageFinishLoading();
+        clickSearchIcon().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Advanced search does not return the general information field for People/User.", getDriver().findElement(By.xpath("//div/div/div[@class='ui items']//div[@class='description _3FZFtAql1zqRcNrPTqtzKh']")).isDisplayed());
+    }
+
     //Getters
     private WebElement getSearchBox() {
         waitUntilPageFinishLoading();
@@ -339,6 +349,6 @@ public class GlobalSearch extends SeleniumBase {
         return getDriver().findElement(By.id("global-search-box-filter"));
     }
     private WebElement clickSearchIcon(){
-        return driver.findElement(By.xpath("//i[contains(@class, \"search link icon\")]"));
+        return driver.findElement(By.xpath("//div[@class='ui icon input']/i"));
     }
 }

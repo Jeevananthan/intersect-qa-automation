@@ -25,7 +25,7 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
     And HE I successfully sign out
 
 
-  @MATCH-1394
+  #@MATCH-1394
     #not sure how to set up a freemium account
   #Scenario: As an HE freemium user or a Premium Legacy Hubs only user I should NOT be able to see the global search box in Intersect
             #so I cannot find too much value in my limited access to Community.
@@ -58,6 +58,13 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
   @MATCH-1394
   Scenario: As an HE freemium user or a Premium Legacy Hubs only user I should NOT be able to see the global search box in Intersect
             so I cannot find too much value in my limited access to Community.
-    Given HE I am logged in to Intersect HE as user type "publishing"
+    Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I verify there is no global search options available
+    And HE I successfully sign out
+
+  @MATCH-1545
+  Scenario: As a HE user I want to see general recruitment territory details on all users returned to me when during advanced searches for people.
+            So I can find the other community user I want to network with more efficiently.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify advanced search returns the HS user's general description field below the title and institution fields "MatchSupportUIQA4"
     And HE I successfully sign out
