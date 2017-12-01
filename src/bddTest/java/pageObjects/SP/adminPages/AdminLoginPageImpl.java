@@ -36,6 +36,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Login in to the admin page");
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
+        button("Next").click();
         passwordTextbox().click();
         logger.info("Using " + password + " as password");
         handleAccountTypeDialog(password);
@@ -54,9 +55,13 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
             link(By.id("aad_account_tile_link")).click();
             textbox(By.id("cred_password_inputtext")).sendKeys(password);
         } else {
-            textbox(By.id("cred_password_inputtext")).sendKeys(password);
+            passwordTextbox().sendKeys(password);
         }
-        button(By.id("cred_sign_in_button")).click();
+        button("Sign in").click();
+        if (button(By.id("idBtn_Back")).isDisplayed())
+        {
+            button("No").click();
+        }
     }
 
     public void verifyExpectedErrorMessage(String expectedErrorMsg) {
@@ -89,22 +94,27 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void loginAsACommunityUser() {
-        login(GetProperties.get("adminPage.communityUser.username"), GetProperties.get("adminPage.communityUser.password"));
+        login(GetProperties.get("sp.communityUser.username"), GetProperties.get("sp.communityUser.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 
     public void loginAsACommunityManagerUser() {
-        login(GetProperties.get("adminPage.communityManager.username"), GetProperties.get("adminPage.communityManager.password"));
+        login(GetProperties.get("sp.communityManager.username"), GetProperties.get("sp.communityManager.password"));
+        adminPage.verifyUserIsLoggedIn();
+    }
+
+    public void loginAsNoAccessUser() {
+        login(GetProperties.get("sp.norole.username"), GetProperties.get("sp.norole.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 
     //Page Web Elements
     private TextboxImpl usernameTextbox() {
-        return textbox(By.id("cred_userid_inputtext"));
+        return textbox(By.id("i0116"));
     }
 
     private TextboxImpl passwordTextbox() {
-        return textbox(By.id("cred_password_inputtext"));
+        return textbox(By.id("i0118"));
     }
 
     private ButtonImpl loginButton() {

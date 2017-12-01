@@ -37,7 +37,9 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         for (String key : data.keySet()) {
             switch (key) {
                 case "Country":
-                    driver.findElement(By.name("country-search")).sendKeys(data.get(key));
+                    driver.findElement(By.name("country")).click();
+                    driver.findElement(By.cssSelector("input[class='search']")).click();
+                    driver.findElement(By.cssSelector("input[class='search']")).sendKeys(data.get(key));
                     break;
                 case "Charter School":
                     WebElement drpCharterSchool = driver.findElement(By.id("charterSchool"));
@@ -216,8 +218,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
 
     public void verifyPlaceholdersByID(String action, DataTable dataTable){
         waitUntilPageFinishLoading();
-        logger.info("Verifying field placeholders.");
-        System.out.println();
+        logger.info("\nVerifying field placeholders.");
         Map<String,String> data = dataTable.asMap(String.class,String.class);
         for (String key : data.keySet()) {
             Assert.assertEquals("Institution profile " + key + "field placeholder is incorrect or missing.", data.get(key), driver.findElement(By.id(key)).getAttribute("placeholder"));
