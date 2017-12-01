@@ -1093,7 +1093,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Notifications & Tasks").click();
     }
 
-    public void verifyTextInformingThatHEUserHasAskedFeedbackAboutTheirVisitIsPresentInEachEntryInVisitFeedbackPendingTab() {
+    public void verifyTextAskingHSUserForFeedbackOnHEVisit() {
 
         if(text("No visits to submit feedback, yet").isDisplayed()) {
             logger.warn("'No visits to submit feedback, yet' message is displayed");
