@@ -4,9 +4,12 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 import java.util.List;
 import java.util.Map;
@@ -48,7 +51,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void updateProfile() {
         // This line should not be needed.  Current flow is broken.
         navBar.goToCommunity();
-
         userDropdown().click();
         button(By.id("user-dropdown-update-profile")).click();
         ensureWeAreOnUpdateProfilePage();
@@ -88,8 +90,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("Last Name") + "\"]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("Your institution") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Personal Email").isDisplayed());
-        Assert.assertTrue(textbox("Office Phone").isDisplayed());
-        Assert.assertTrue(textbox("Mobile Phone").isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("Last Name") + "\"]")).isDisplayed());
+        textbox(By.id("edit-field-office-phone-und-0-value")).sendKeys(Keys.TAB);
+        Assert.assertTrue(driver.findElement(By.id("field-office-phone-add-more-wrapper")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.id("field-mobile-phone-add-more-wrapper")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.id("edit-cp-states-field-general-description-und-0-value")).isDisplayed());
 
         // Scroll to the end of the form
@@ -215,12 +219,16 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityActivationForRepVisits(){
-        navBar.goToRepVisits();
+        getRepVisitsBtn().click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().frame(0);
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
+        driver.switchTo().defaultContent();
     }
 
     public void verifyWidgetIsVisible(String widgetName){
 
+        waitUntilPageFinishLoading();
         Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
@@ -229,9 +237,37 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
+    public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle){
+        driver.switchTo().frame(0);
+        getofficePhone().sendKeys(OfficePhone);
+        getJobTitle().sendKeys(JobTitle);
+        getTermsAndConditionCheckBox().click();
+        button("Save").click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+    }
+
+    public void verifyRepVisitsLandingPage(){
+        navBar.goToRepVisits();
+        Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
+    }
+
+    //Below method is for clearing the community account to get the Community Welcome Paga.
+    public void clearCommunityProfile(){
+        load(GetProperties.get("he.community.clear"));
+        waitUntilPageFinishLoading();
+    }
+
+
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
     private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
+    private WebElement getRepVisitsBtn() { return link(By.id("js-main-nav-rep-visits-menu-link")); }
+    private WebElement getofficePhone() { return driver.findElement(By.id("edit-field-office-phone-und-0-value"));}
+    private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
+    private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
+    private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
+    private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
 }

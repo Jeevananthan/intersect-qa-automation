@@ -94,36 +94,36 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clicksaveChangesButton(){
-       if(getSaveChangesButton().isDisplayed()){
-           getSaveChangesButton().click();
-           waitUntilPageFinishLoading();
-       }
-
+        if(getSaveChangesButton().isDisplayed()) {
+            getSaveChangesButton().click();
+        }
+        waitUntilPageFinishLoading();
     }
 
 
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status){
-        driver.findElement(By.xpath("//input[@aria-label='quote charge id']")).sendKeys(Keys.PAGE_DOWN);
-        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
-        WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
-        String status1=driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td//div/div")).getText();
-        try{
-            if(!status.equals(status1))
-            { ActualStatus.click();
-                driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td//div/span[text()='"+status+"']")).click();
-            }}catch(Exception e){}
-        if(!status.equalsIgnoreCase("inactive")) {
-            WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
-            WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
 
-            StartDateButton.click();
-            setStartDateInModulePage();
-            StartDateButton.click();
-            EndDateButton.click();
-            setEndDateInModulePage();
-            EndDateButton.click();
-        }
+        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
+
+       WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
+       if(!ActualStatus.getText().equalsIgnoreCase(status)){
+           ActualStatus.click();
+           WebElement selectstatusDrp = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
+           driver.executeScript("arguments[0].click();",selectstatusDrp);
+
+           if(!status.equalsIgnoreCase("inactive")) {
+               WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
+               WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
+
+               StartDateButton.click();
+               setStartDateInModulePage();
+               StartDateButton.click();
+               EndDateButton.click();
+               setEndDateInModulePage();
+               EndDateButton.click();
+           }
+       }
     }
 
     public void setStartDateInModulePage(){
