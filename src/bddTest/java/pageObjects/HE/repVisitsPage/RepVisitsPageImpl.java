@@ -306,6 +306,36 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return al;
     }
 
+    public void verifyRateOrRatingTextIsNotPresentInVisitFeedbackOverviewPage() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        List<WebElement> overviewPageElements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='rep-visits-ratings']//*")));
+        for(WebElement overviewPageElement : overviewPageElements)
+        {
+            Assert.assertTrue("Rate or Rating text is present in Visit Feedback Overview page", !overviewPageElement.getText().toLowerCase().contains("rate") && !overviewPageElement.getText().toLowerCase().contains("rating"));
+        }
+    }
+
+    public void verifyTextDisplayedWhileViewingIndividualStaffMemberFeedback() {
+
+        List<WebElement> itemsInStaffMemberMenuHavingOneOrMoreFeedbacks = getVerticalStaffMembersMenu().findElements(By.xpath(".//li[@class='item']"));
+        itemsInStaffMemberMenuHavingOneOrMoreFeedbacks.get(0).click();
+
+        Assert.assertTrue(itemsInStaffMemberMenuHavingOneOrMoreFeedbacks.get(0).findElement(By.xpath("./div")).getAttribute("class").contains("active"));
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        List<WebElement> elementsInRepVisitDetails = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='rating-details']//*")));
+
+        for(WebElement elementInRepVisitDetails: elementsInRepVisitDetails) {
+            if(elementInRepVisitDetails.getText().equals("Go Back to Visit Feedback"))
+            {
+                Assert.assertTrue(elementInRepVisitDetails.isDisplayed());
+                elementInRepVisitDetails.click();
+                Assert.assertTrue(!itemsInStaffMemberMenuHavingOneOrMoreFeedbacks.get(0).findElement(By.xpath("./div")).getAttribute("class").contains("active"));
+                break;
+            }
+        }
+    }
+
 
 
     private WebElement getOverviewBtn() {

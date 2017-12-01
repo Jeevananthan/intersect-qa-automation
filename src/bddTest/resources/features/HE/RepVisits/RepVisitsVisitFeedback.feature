@@ -18,3 +18,11 @@ Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to
     And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button
     Then SP I successfully sign out
+
+  @MATCH-3076
+  Scenario: As a HE user I do not want to see the word 'rating' or 'rate' when interacting with the RV Feedback functionality so I dont feel depressed if feedback isn't always positive from HSs.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the "Visit Feedback" page in RepVisits
+    Then HE I verify that rate or rating text is not present on Visit Feedback Overview page
+    Then HE I verify the text displaying while viewing individual staff member feedback
+    Then HE I successfully sign out

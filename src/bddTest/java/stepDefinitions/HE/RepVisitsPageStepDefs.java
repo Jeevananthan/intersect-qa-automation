@@ -44,5 +44,9 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify the freemium messaging on the Visits Feedback page$", repVisits::verifyVisitsFeedbackFreemiumMessaging);
 
         Then("^HE I verify the formatting of the Visit Feedback page$", repVisits::verifyVisitFeedbackPage);
+
+        And("^HE I verify that rate or rating text is not present on Visit Feedback Overview page$", repVisits::verifyRateOrRatingTextIsNotPresentInVisitFeedbackOverviewPage);
+
+        And("^HE I verify the text displaying while viewing individual staff member feedback$", repVisits::verifyTextDisplayedWhileViewingIndividualStaffMemberFeedback);
     }
 }
