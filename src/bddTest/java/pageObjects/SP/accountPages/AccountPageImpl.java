@@ -3,6 +3,7 @@ package pageObjects.SP.accountPages;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -93,8 +94,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clicksaveChangesButton(){
-        Assert.assertTrue("Save Changes button is not displayed",getSaveChangesButton().isDisplayed());
-        getSaveChangesButton().click();
+        if(getSaveChangesButton().isDisplayed()) {
+            getSaveChangesButton().click();
+        }
         waitUntilPageFinishLoading();
     }
 
@@ -107,7 +109,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
        WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
        if(!ActualStatus.getText().equalsIgnoreCase(status)){
            ActualStatus.click();
-           getDriver().findElement(By.xpath("//span[text()='" + status + "']")).click();
+           WebElement selectstatusDrp = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
+           driver.executeScript("arguments[0].click();",selectstatusDrp);
 
            if(!status.equalsIgnoreCase("inactive")) {
                WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
