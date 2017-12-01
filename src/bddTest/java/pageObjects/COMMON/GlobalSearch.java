@@ -484,8 +484,25 @@ public class GlobalSearch extends SeleniumBase {
                     }
                     break;
 
+                case "Institution":
+                    driver.findElement(By.id("institutionTitle")).sendKeys(textBoxData.get(key));
+                    break;
+
+                case "Degree":
+                    driver.findElement(By.id("he-degree")).sendKeys(textBoxData.get(key));
+                    break;
+
+                case "Postal Code":
+                    if (driver.findElements(By.id("he-postalCode")).size() > 0) {
+                        driver.findElement(By.id("he-postalCode")).sendKeys(textBoxData.get(key));
+                    } else {
+                        driver.findElement(By.id("hs-postalCode")).sendKeys(textBoxData.get(key));
+                    }
+                    break;
+
                 default:
-                    textbox(key).sendKeys(textBoxData.get(key));
+                    logger.info("\nLooking for field: " + key + "\n");
+                    getParent(getParent(text(key))).findElement(By.tagName("input")).sendKeys(textBoxData.get(key));
                     break;
             }
             getDriver().findElement(By.xpath("//span[contains(text(),'Update Search')]")).click();
