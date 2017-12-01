@@ -1,5 +1,5 @@
 @HS
-Feature:  Users should be able to modify their enrollment data using the HS Community in Edit Mode.
+Feature:  As an HS user, I should be able to modify my enrollment data via the Community.
 
   @MATCH-811 @MATCH-814 @MATCH-815 @MATCH-1561
   Scenario: As an authorized HS User, I need to be able to update my contact information in the purple community.
@@ -222,7 +222,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     And HS I successfully sign out
 
 
-
   @MATCH-1563
   Scenario: As a HS User on my HS Institution Edit page I would like to see a header above the Title I data entry boxes
             To reduce the risk of confusion.
@@ -231,8 +230,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I verify the header exist above Title I data entry boxes "Title I Information"
     And HS I successfully sign out
-
-
 
   @MATCH-1562
   Scenario: As an authenticated HS user on the HS Institution Edit Page I don't want to have a "total" box in demographic data
@@ -243,8 +240,6 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     Then HS I make sure that no total fields exist
       | Total |
     And HS I successfully sign out
-
-
 
   @MATCH-1564
   Scenario: As an HS Intersect user viewing my HS Institution Edit page I want dropdowns that don't have too many options
@@ -264,6 +259,27 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
 
 
+  @MATCH-1849
+  Scenario: As a HS user, I need to be able to request a user account by providing the necessary information about myself.
+  So Support can provision my user account.
+
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "INFINITY INSTITUTE" in the registration page
+    And HE I click the link "please complete this form."
+    Then HS I verify all field type in request user page
+      |firstName |lastName |email |verifyEmail |jobTitle |
+      |text      |text     |email |email       |text     |
+    And HS I enter the following data in request user page
+      |firstName |lastName |email                 |verifyEmail           |jobTitle |
+      |mahi      |qateam   |kpmahi93+12@gmail.com |kpmahi93+12@gmail.com |test role|
+
+  @MATCH-1781
+  Scenario: As a HS user, I need to be able to search for high schools during the registration process.
+            so I can associate myself with the high school I work at
+    Given HS Iam navigating to Intersect HS through Non naviance Url
+    Then HS I click the new user link in the login page
+    And HS I search for "Int QA High School 4" in "High school" and verify the results
+
   @MATCH-1565
   Scenario: As a HS Intersect User on the HS Institution edit page I want to see placeholder text when fields are blank
             So there is less confusion on what to put in the field.
@@ -277,3 +293,23 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | collegeRate | Ex: 78%                |
       | ratio       | Ex: 12 (for 12:1)      |
     And HS I successfully sign out
+
+  @MATCH-2052
+  Scenario: As a HS user, I need to be able to request a new user account AND a new high school institution during the registration process.
+            So I can still complete the registration workflow process when I am unable to successfully search and locate my high school.
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Request new institution" in the registration page
+    Then HS I verify the Request New User page
+
+  @MATCH-1848
+  Scenario: As a HS user, I need to see particular information and instructions on a HS Reg Institution Page.
+            So I can verify the institution is my high school and request a user account.
+    Given HS I navigate to Registration Intersect url
+    Then HS I verify the Institution page
+    And HS I search for "Homeconnection" in High School Staff Member registration page
+    Then HS I verify the address page of "Homeconnection" which is a "non-naviance" school in "Washington"
+    And HS I verify the link "please complete this form."
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Int Qa High School 4" in High School Staff Member registration page
+    Then HS I verify the address page of "Int Qa High School 4" which is a "naviance" school in "LIBERTY TOWNSHIP"
+    And HS I verify the link "Naviance"
