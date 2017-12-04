@@ -40,6 +40,7 @@ public class HomePageStepDefs implements En {
         Then("^I open home tab$", homePage::clickOnHomeTab);
         Then("^I write a comment with text \"([^\"]*)\" on the Hobsons post$", homePage::writeCommentOnHobsonsPost);
         And("^I check if comment \"([^\"]*)\" is posted on the Hobsons post$", homePage::checkIfHobsonsPostCommentIsPosted);
+        And("^I go to the HS home page$", homePage::goToHSHomePage);
 
     }
 }
