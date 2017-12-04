@@ -1,6 +1,7 @@
 package pageObjects.COMMON;
 
 import cucumber.api.DataTable;
+import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -130,13 +131,17 @@ public class NavBarImpl extends SeleniumBase {
                 Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect, expected \"" + heading + "\"",headerSpan.getText().toLowerCase().contains(heading.toLowerCase()));
                 waitUntilPageFinishLoading();
                 itemLink.click();
-                waitUntilPageFinishLoading();
-                // This doesn't work for some reason, but the following steps will sometimes fail due to timing issues with User List page loading.
-                //waitUntilElementExists(driver.findElement(By.className("_2QGqPPgUAifsnRhFCwxMD7")));
-                //Check Breadcrumbs
-                Assert.assertTrue(heading+ " is not correct in Breadcrumbs, actual value is: " + getHeadingBreadcrumbs().getText(), heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
-                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs, actual value is: " + getSubMeunBreadcrumbs().getText(), subMenu.equals(getSubMeunBreadcrumbs().getText()));
-                logger.info("Verified " + subMenu + " is under " + heading + " as expected.");
+                try{
+                    driver.findElement(By.xpath(String.format(".//div[text()='%s']",heading)));
+                } catch(Exception e){
+                    throw  new AssertionFailedError(String.format("The header with text could not be found %s",heading));
+                }
+                try{
+                    driver.findElement(By.xpath(String.format(".//div[text()='%s']",subMenu)));
+                } catch(Exception e){
+                    throw  new AssertionFailedError(String.format("The header with text could not be found %s",subMenu));
+
+                }
             }
         }
     }
