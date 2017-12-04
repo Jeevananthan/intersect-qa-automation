@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,6 +144,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Messaging Options").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.cssSelector("textarea[name='emailInstructions']")));
+        writeInConfirmationMessage().clear();
         writeInConfirmationMessage().sendKeys(message);
         waitUntilPageFinishLoading();
         writeInSpecialInstructionForRepViists(message);
@@ -151,16 +154,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyMessageUpdated(String message){
         navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Messaging Options").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.cssSelector("textarea[name='emailInstructions']")));
         String confirmationMessageText = writeInConfirmationMessage().getText();
         Assert.assertTrue(confirmationMessageText + " Text is not displayed",
                 confirmationMessageText.contains(message));
     }
 
     public void verifyMessageConfirmation(String message){
-        navBar.goToRepVisits();
-        String confirmationMessageText = getDriver().findElement(By.cssSelector("div[class='content']")).getText();
-        Assert.assertTrue(confirmationMessageText + " Text is not displayed",
-                confirmationMessageText.contains("Great! You've updated your messaging."));
+        Assert.assertTrue("The update message was not displayed",text("You've updated your messaging.")
+                .isDisplayed());
     }
 
     public void verifyContentsOfNavianceSettings() {
@@ -257,7 +262,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return link.getAttribute("class").contains("active");
     }
     private WebElement writeInConfirmationMessage() { return getDriver().findElement(By.cssSelector("textarea[name='emailInstructions']"));}
-    private void writeInSpecialInstructionForRepViists(String message) {getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).sendKeys(message);}
+    private void writeInSpecialInstructionForRepViists(String message) {
+        getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).clear();
+        getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).sendKeys(message);
+    }
 
 }
 
