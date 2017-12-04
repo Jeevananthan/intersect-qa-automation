@@ -1334,7 +1334,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             } else if (buttonToClick.equals("Next")) {
                 driver.findElement(By.xpath("//button/span[text()='Next']")).click();
             } else {
-                fail("The given option is not a valid one");
+                Assert.fail("The given option is not a valid one");
             }
         }
     }
@@ -1346,7 +1346,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } else if (buttonToClick.equals("Next")) {
             driver.findElement(By.xpath("//button/span[text()='Next']")).click();
         } else {
-            fail("The given option is not a valid one");
+            Assert.fail("The given option is not a valid one");
         }
     }
 
@@ -1357,7 +1357,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } else if (buttonToClick.equals("Next")) {
             driver.findElement(By.xpath("//button/span[text()='Next']")).click();
         } else {
-            fail("The given option is not a valid one");
+            Assert.fail("The given option is not a valid one");
         }
     }
 
