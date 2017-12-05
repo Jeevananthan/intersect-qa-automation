@@ -693,7 +693,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")));
+        driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")).click();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Calendar Sync']")).size()==0) {
+            waitUntilPageFinishLoading();
+            waitForUITransition();
             button("Next").click();
             waitUntilPageFinishLoading();
         }
