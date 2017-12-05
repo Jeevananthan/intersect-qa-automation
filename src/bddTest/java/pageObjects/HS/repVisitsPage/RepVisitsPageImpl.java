@@ -187,6 +187,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Availability").click();
         link("Availability Settings").click();
+        waitUntilElementExists(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")));
         WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
         options.findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
         button("Save Changes").click();
