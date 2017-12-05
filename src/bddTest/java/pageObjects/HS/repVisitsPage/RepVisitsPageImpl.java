@@ -895,13 +895,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String timeZoneToSet;
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")).click();
         button("Next").click();
+        waitUntilPageFinishLoading();
         //verify time zone saving properly
         String timeZoneBeforeChange = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
         if(timeZoneBeforeChange.contains(alreadySelectedTimeZone)) {
-             timeZoneToSet = newTimeZone ;
+            timeZoneToSet = newTimeZone ;
         }
-         else{
+        else{
             timeZoneToSet = alreadySelectedTimeZone ;
         }
         setTimeZoneValue(timeZoneToSet);
@@ -914,8 +917,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         setTimeZoneValue(timeZoneToSet);
         button("Next").click();
-
+        waitUntilPageFinishLoading();
         button("Back").click();
+        //driver.navigate().back();
 
         String actualTimeZoneWhenNextButtonClicked = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
         Assert.assertTrue("'Timezone is not saved when click on Next button'", actualTimeZoneWhenNextButtonClicked.contains(timeZoneToSet));
