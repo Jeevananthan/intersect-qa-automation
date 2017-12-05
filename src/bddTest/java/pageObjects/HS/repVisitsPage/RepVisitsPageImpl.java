@@ -1103,10 +1103,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDateDoubleClick(blockdate);
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
         selectReason.click();
-        try {wait(2000);} catch (Exception e) {}
         selectReason.click();
-        WebElement pickReason = driver.findElement(By.xpath("//span[text()='"+reason+"']"));
-        pickReason.click();
+        waitUntilPageFinishLoading();
+        Actions action = new Actions(getDriver());
+        WebElement element = driver.findElement(By.xpath("//span[text()='"+reason+"']"));
+        action.click(element).build().perform();
         addBlockedTime().click();
     }
 
@@ -1114,7 +1115,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
-        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td[text()='"+startDate+"']/following-sibling::td[text()='"+endDate+"']/following-sibling::td/span[text()='Remove']"));
+        WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
+        selectReason.click();
+        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
         BlockedDate.click();
     }
 
@@ -1128,7 +1131,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         columnID = columnID+1;
         rowID = rowID+1;
         //verify Start Date
-        String ActualStartDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td["+columnID+"]")).getText();
+        String ActualStartDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr//td["+columnID+"]")).getText();
         Assert.assertTrue("Start date " + startDate + "is not displayed", startDate.equals(ActualStartDate));
         //verify End date
         String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td[2]")).getText();
