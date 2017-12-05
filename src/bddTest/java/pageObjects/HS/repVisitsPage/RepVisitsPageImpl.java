@@ -448,8 +448,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessOneLastStepSetupWizard(String visitAvailability) {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size() == 0) {
-            (new WebDriverWait(driver, 10)).until(ExpectedConditions.elementToBeClickable(button("NEXT")));
+            waitUntilElementExists( button("Next"));
+            waitUntilElementExists( button("Next"));
             button("Next").click();
             waitUntilPageFinishLoading();
         }
@@ -475,6 +477,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.fail("Error: " + visibilitySetting + " is not a valid option for Visit Availability");
         }
         driver.findElement(By.xpath("//span[text()='Take me to my visits']")).click();
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(text("Today"));
         Assert.assertTrue("Calendar is not displayed", text("Today").isDisplayed());
 
         driver.navigate().back();
