@@ -255,7 +255,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I go to the Counselor Community
     Then HS I verify the "<StartDate>" and "<EndDate>" date with "<Reason>" was not present in the Holidays tab in the Availability & Settings page in RepVisits
     And HS I successfully sign out
-    Examples:
+      Examples:
       |BlockedDate          |Reason       |StartDate  | EndDate   |
       |September 23 2017    |School Event |Sep 23, 2017 | Sep 23, 2017|
 
