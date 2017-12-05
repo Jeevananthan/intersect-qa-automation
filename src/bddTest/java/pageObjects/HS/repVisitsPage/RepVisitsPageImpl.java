@@ -1073,6 +1073,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Back").click();
         Assert.assertTrue("Blocked Days tab is not loaded",text("Blocked Days").isDisplayed());
         button("Next").click();
+        waitUntilElementExists(driver.findElement(By.xpath("//button[@title='"+changeWeek+"']")));
         driver.findElement(By.xpath("//button[@title='"+changeWeek+"']")).click();
     }
 
