@@ -71,32 +71,33 @@ Feature: Hobsons Support - View HE Institution Accounts
 
 
     @MATCH-128
-    Scenario: As a Support user with admin privilege or support privilege or sales ops privilege is able to edit
+    Scenario Outline: As a Support user with admin privilege or support privilege or sales ops privilege is able to edit
               Activate/Inactivate modules/products within the institutional accounts
 
       Given SP I am logged in to the Admin page as an Admin user
-      When SP I search for "2100209"
-      And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-      Then SP I set the "Legacy: Hub page management" module to "active" with the start date "June 13 2017" and end date "June 15 2018" in the institution page
-      Then SP I set the "Legacy: Community" module to "active" with the start date "June 13 2017" and end date "June 15 2018" in the institution page
-      Then SP I set the "Intersect Awareness Subscription" module to "active" with the start date "June 13 2017" and end date "June 15 2018" in the institution page
-      Then SP I set the "Intersect Presence Subscription" module to "active" with the start date "June 13 2017" and end date "June 15 2018" in the institution page
+      When SP I select "<University>" from the institution dashboard
+      Then SP I set the "<HubsModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+      Then SP I set the "<CommunityModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+      Then SP I set the "<IntersectAwarenessModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+      Then SP I set the "<IntersectPresenceModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
       And SP I Click the Save Changes button
-      Then SP I verify the status "active" with the start date "Jun 13, 2017" and end date "Jun 15, 2018" for the module "Legacy: Hub page management"
-      Then SP I verify the status "active" with the start date "Jun 13, 2017" and end date "Jun 15, 2018" for the module "Legacy: Community"
-      Then SP I verify the status "active" with the start date "Jun 13, 2017" and end date "Jun 15, 2018" for the module "Intersect Awareness Subscription"
-      Then SP I verify the status "active" with the start date "Jun 13, 2017" and end date "Jun 15, 2018" for the module "Intersect Presence Subscription"
-      Then SP I set the "Legacy: Hub page management" module to "inactive" with the start date "" and end date "" in the institution page
-      Then SP I set the "Legacy: Community" module to "inactive" with the start date "" and end date "" in the institution page
-      Then SP I set the "Intersect Awareness Subscription" module to "inactive" with the start date "" and end date "" in the institution page
-      Then SP I set the "Intersect Presence Subscription" module to "inactive" with the start date "" and end date "" in the institution page
-      Then SP I verify the status "inactive" with the start date "" and end date "" for the module "Legacy: Hub page management"
-      Then SP I verify the status "inactive" with the start date "" and end date "" for the module "Legacy: Community"
-      Then SP I verify the status "inactive" with the start date "" and end date "" for the module "Intersect Awareness Subscription"
-      Then SP I verify the status "inactive" with the start date "" and end date "" for the module "Intersect Presence Subscription"
+      Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<HubsModule>"
+      Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<CommunityModule>"
+      Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<IntersectAwarenessModule>"
+      Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<IntersectPresenceModule>"
+      Then SP I set the "<HubsModule>" module to "<Inactive>" with the start date "" and end date "" in the institution page
+      Then SP I set the "<CommunityModule>" module to "<Inactive>" with the start date "" and end date "" in the institution page
+      Then SP I set the "<IntersectAwarenessModule>" module to "<Inactive>" with the start date "" and end date "" in the institution page
+      Then SP I set the "<IntersectPresenceModule>" module to "<Inactive>" with the start date "" and end date "" in the institution page
+      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<HubsModule>"
+      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<CommunityModule>"
+      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<IntersectAwarenessModule>"
+      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<IntersectPresenceModule>"
       And SP I successfully sign out
 
-
+      Examples:
+      |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |StartDate|EndDate|Inactive|Active|
+      |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|14       |35     |inactive|active|
 
 
 

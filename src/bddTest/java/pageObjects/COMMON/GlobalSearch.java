@@ -23,6 +23,7 @@ public class    GlobalSearch extends SeleniumBase {
 
     public void searchForHEInstitutions(String searchTerm) {
         setSearchCategory("HE Accounts");
+        searchTerm = "\""+searchTerm+"\"";
         doSearch(searchTerm);
     }
 
@@ -51,8 +52,9 @@ public class    GlobalSearch extends SeleniumBase {
         doSearch(searchTerm);
     }
 
-    private void setSearchCategory(String searchCategory) {
+    public void setSearchCategory(String searchCategory) {
         getSearchSwitcher().click();
+        waitUntilPageFinishLoading();
         switch(searchCategory) {
             case "All":
                 getSearchSwitcher().findElement(By.className("search")).click();
@@ -81,11 +83,12 @@ public class    GlobalSearch extends SeleniumBase {
         }
         waitUntilPageFinishLoading();
     }
-
     private void doSearch(String searchTerm) {
-        getSearchBox().clear();
-        getSearchBox().sendKeys(searchTerm);
         waitUntilPageFinishLoading();
+        getSearchBox().click();
+        getSearchBox().clear();
+        waitUntilPageFinishLoading();
+        getSearchBox().sendKeys(searchTerm);
     }
 
     //Makes sure all the results contain the search term

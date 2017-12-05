@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import java.util.List;
+
 public class AdminLoginPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -36,6 +38,8 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Login in to the admin page");
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
+        button("Next").click();
+        waitUntilPageFinishLoading();
         passwordTextbox().click();
         logger.info("Using " + password + " as password");
         handleAccountTypeDialog(password);
@@ -54,9 +58,17 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
             link(By.id("aad_account_tile_link")).click();
             textbox(By.id("cred_password_inputtext")).sendKeys(password);
         } else {
-            textbox(By.id("cred_password_inputtext")).sendKeys(password);
+            passwordTextbox().sendKeys(password);
         }
-        button(By.id("cred_sign_in_button")).click();
+        button("Sign in").click();
+        waitUntilPageFinishLoading();
+        List<WebElement> resetLink = driver.findElements(By.xpath("//a[@id='idA_IL_ForgotPassword0']"));
+        if (resetLink.size()==1){
+            logger.info("The given username or password is wrong");
+        }else if(button(By.id("idBtn_Back")).isDisplayed()){
+            button("No").click();
+            waitUntilPageFinishLoading();
+        }
     }
 
     public void verifyExpectedErrorMessage(String expectedErrorMsg) {
@@ -100,11 +112,11 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
 
     //Page Web Elements
     private TextboxImpl usernameTextbox() {
-        return textbox(By.id("cred_userid_inputtext"));
+        return textbox(By.id("i0116"));
     }
 
     private TextboxImpl passwordTextbox() {
-        return textbox(By.id("cred_password_inputtext"));
+        return textbox(By.id("i0118"));
     }
 
     private ButtonImpl loginButton() {

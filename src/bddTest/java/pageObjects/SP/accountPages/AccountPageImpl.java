@@ -4,8 +4,12 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class AccountPageImpl extends PageObjectFacadeImpl {
@@ -32,16 +36,33 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
           if(!startDate.equals("")) {
               WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
               StartDateButton.click();
-              setStartDateInAccountPage(startDate, moduleName);
+              String StartDate=getSpecificDate(startDate);
+              setStartDateInAccountPage(StartDate, moduleName);
               StartDateButton.click();
           }
           if(!endDate.equals("")) {
               WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
               EndDateButton.click();
-              setEndDateInAccountPage(endDate, moduleName);
+              String EndDate=getSpecificDate(endDate);
+              setEndDateInAccountPage(EndDate, moduleName);
               EndDateButton.click();
           }
         }
+    }
+
+    public String getSpecificDate(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    private void doubleClick(WebElement elementLocator) {
+        Actions actions = new Actions(driver);
+        actions.doubleClick(elementLocator).perform();
     }
 
     public void setStartDateInAccountPage(String dateToSet, String moduleName){
@@ -50,11 +71,13 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         String day = parts[1];
         String year = parts[2];
 
-        driver.findElement(By.id("year-select")).click();
+        WebElement selectyear=driver.findElement(By.id("year-select"));
+        doubleClick(selectyear);
         Select selectYear = new Select(driver.findElement(By.id("year-select")));
         selectYear.selectByVisibleText(year);
 
-        driver.findElement(By.id("month-select")).click();
+        WebElement selectmonth=driver.findElement(By.id("month-select"));
+        doubleClick(selectmonth);
         Select selectMonth = new Select(driver.findElement(By.id("month-select")));
         selectMonth.selectByVisibleText(month);
 
