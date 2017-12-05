@@ -231,8 +231,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the Special Instructions are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
     And HS I successfully sign out
     And HE I am logged in to Intersect HE as user type "administrator"
-    And HE I search for "Int QA High School 4" in RepVisits
-    And HE I select "Int QA High School 4" in "Arlington, VA" from the RepVisits intermediate search results
+    And HE I search for "Int Qa High School 4" in RepVisits
+    And HE I select "Int Qa High School 4" in "Liberty Township, OH" from the RepVisits intermediate search results
     And HE I verify Repvisits Special Instructions for School are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
     And HE I successfully sign out
 
