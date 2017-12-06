@@ -72,6 +72,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void profileAndBannerPicturesUpload() {
+        iframeExit();
         iframeEnter();
         logger.info("Uploading profile picture.");
         textbox("Profile picture").sendKeys("/Users/bojan/Documents/IntelliJ-Projects/hcp_intersect_qa_automation/hcp_intersect_qa_automation/src/bddTest/resources/HobsonsTestPictures/lion-cartoon-roaring.jpg");

@@ -39,5 +39,5 @@ Feature: Community User - Approve/Reject Request to Join Private Group
     And I sign out from the HE app
     And I approve request to join the group
     And I open Notifications list
-    And I check if user have new notification that my request to join private group is approved
+    And I check if user has new notification that my request to join private group is approved
     Then I sign out from the HE app
