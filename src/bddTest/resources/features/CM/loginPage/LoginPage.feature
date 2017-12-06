@@ -1,3 +1,4 @@
+@CM
 Feature: As an HE or Support user I want to login to the Community
 
   Scenario: As an HE user I'm able to log in to the Community

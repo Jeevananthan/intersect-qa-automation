@@ -1,4 +1,4 @@
-@MATCH-873
+@CM @MATCH-873
 Feature: HE Community User - Profile Fields Available
   As a HE Community user I want to build out my profile with additional information so other Community users
   can learn more about me and network with me.

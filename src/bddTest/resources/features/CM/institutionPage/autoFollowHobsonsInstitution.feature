@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Auto Follow the Hobsons Institution
   As a Purple Community user I need to automatically follow the Hobsons institutional profile when I join the
   Community so I can receive important information from Hobsons when posts are made.

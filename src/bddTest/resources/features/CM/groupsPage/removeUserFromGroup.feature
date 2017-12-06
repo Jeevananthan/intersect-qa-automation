@@ -1,4 +1,4 @@
-@MATCH-654
+@CM @MATCH-654
 Feature: Community Admin - Manually Remove User from Group
   As a Community Administrator I need to be able to manually remove a Community user from a group so I can
   moderate and protect group members.

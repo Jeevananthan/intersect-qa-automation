@@ -1,4 +1,4 @@
-@MATCH-695
+@CM @MATCH-695
 Feature: Community User - Approve/Reject Request to Join Private Group
   As a Community user and owner/manager of a Private group I am able to approve or deny another Community member's
   request to join my Private group so I can control my group members.

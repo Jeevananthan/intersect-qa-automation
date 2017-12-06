@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Profile Tab to Show User Profile
   As a Community user I want a Profile tab that allows me to view my own Community user profile so I can preview
   what other Community users see when viewing my profile.

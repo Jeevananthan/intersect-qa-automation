@@ -1,4 +1,4 @@
-@MATCH-493
+@CM @MATCH-493
 Feature: Community User - Profile Fields Permission Settings
   As a Community user I want each user profile field to have 'public', 'hidden', and 'connection only' permission
   levels available so I can control what information displays about me within the Community.

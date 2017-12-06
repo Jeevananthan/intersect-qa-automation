@@ -50,7 +50,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   I want to be able to view the weekly recurring time slots that my school is available for visits
   so that colleges can manage those availabilities.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
     Then HS I verify the Time Slot time were added with "<HourStartTime>", "<MinuteStartTime>" and "<MeridianStartTime>"
     And HS I successfully sign out
@@ -239,7 +239,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
       Examples:
       |BlockedDate          |Reason       |StartDate  | EndDate   |
-      |September 23 2017    |School Event |2017-09-23 | 2017-09-23|
+      |July 14 2018         |School Event |2018-07-14 | 2018-07-14|
 
   @MATCH-1756
   Scenario:As an HS Community member,I need to view a calendar of my appointments
@@ -260,4 +260,71 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
             so that I can be sure internal notifications will be routed to the people who need the information.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
+    And HS I successfully sign out
+
+  @MATCH-1946
+  Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
+  so that I can be sure my RepVisits account is properly set up.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I go to welcome wizard of the repvisits
+    And HS I navigate to "Availability" wizard in repvisits
+    Then HS I add the time slot in "Monday" with start time as "05:00AM" and end time as "02:00PM" and "5" vistis
+    And HS I navigate to sub tab "Blocked Days" in availability wizard
+    Then HS I select "LABOR_DAY" in blocked days tab and verify saving option works successfully
+    And HS I navigate to sub tab "Exceptions" in availability wizard
+    Then HS I change to "next week" in exception and verify saving option works successfully
+    And HS I navigate to sub tab "Availability Settings" in availability wizard
+    Then HS I set the RepVisits Visits Confirmations option to "<Visits Confirmation>","<Prevent colleges scheduling new visits>","<Prevent colleges cancelling or rescheduling>"
+    And HS I successfully sign out
+
+    Examples:
+      |Visits Confirmation                                 |Prevent colleges scheduling new visits|Prevent colleges cancelling or rescheduling|
+      |No, I want to manually review all incoming requests.|5                                     |5                                          |
+
+  @MATCH-2171
+  Scenario Outline: when we initially created the first and last days for availability, they were not developed to persist.
+                    Instead they're changed / set each time that availability is set. This ticket is to persist the first and last dates
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I go to the Counselor Community
+    Then HS I verify the StartDate is set to "<verifyStartDate>" and EndDate is set to "<verifyEndDate>"
+    And HS I successfully sign out
+
+   Examples:
+     |StartDate     |EndDate        |verifyStartDate  |verifyEndDate   |
+     |June 14 2018  |July 14 2018   |06/14/2018       |07/14/2018      |
+
+  @MATCH-1950
+  Scenario: As a new RepVisits user,
+            I want the setup wizard to guide me through final steps in the new user experience
+            so that I can decide on my appointments' visibility and then continue into the system.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    #FAIRS
+    Then HS I select the "Fairs" option on the welcome page in the RepVisits setup wizard
+    Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
+    Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
+    #VISITS
+    Then HS I select the "Visits" option on the welcome page in the RepVisits setup wizard
+    Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
+    Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
+    #VISITS AND FAIRS
+    Then HS I select the "Visits and Fairs" option on the welcome page in the RepVisits setup wizard
+    Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
+    Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
+    Then HS I successfully sign out
+
+  @MATCH-2391
+  Scenario: As a RepVisits user,I cannot able to add the visits for the past days
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS verify pills are not available for the past dates in schedule new visit page
+    Then HS verify the past dates are disabled in the select custom date section
+    Then HS verify pills are not available for the past dates in Re-schedule visit page
+    Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
     And HS I successfully sign out

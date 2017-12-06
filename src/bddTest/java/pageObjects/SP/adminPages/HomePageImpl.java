@@ -29,33 +29,13 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void logout() {
         link(By.id("user-dropdown")).click();
-        button(By.id("user-dropdown-signout")).click();
+        driver.findElement(By.cssSelector("div[id='user-dropdown-signout']")).click();
         Assert.assertTrue(getDriver().getCurrentUrl().contains("login"));
         driver.manage().deleteAllCookies();
     }
 
     public String selectTheFistInstitutionOnTheList() {
         return table("Higher Ed Account Dashboard").clickOnTheFirstElementOfAColumn("Name");
-    }
-
-    public void verifyInstitutionExist(String institutionName) {
-        navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
-            button("More Higher Ed Accounts").click();
-            waitUntilPageFinishLoading();
-        }
-
-        table(By.id("he-account-dashboard")).verifyValueIsOnTheTable(institutionName);
-    }
-
-    public void verifyInstitutionDoesNotExist(String institutionName) {
-        navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
-            button("More Higher Ed Accounts").click();
-            waitUntilPageFinishLoading();
-        }
-
-        table(By.id("he-account-dashboard")).verifyValueIsNotOnTheTable(institutionName);
     }
 
     public void goToInstitution(String institutionName) {

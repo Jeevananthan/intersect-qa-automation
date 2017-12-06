@@ -1,4 +1,4 @@
-@MATCH-1805
+@CM @MATCH-1805
 Feature: Community User - Like Community Posts
   As a Community user I want to be able to 'like' posts I find within the Community so other Community users know when I value their post and its content.
 

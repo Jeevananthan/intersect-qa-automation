@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Create Community Post for my Institution
   As a Community user with the appropriate permissions I want to create posts for my Institution so other
   Community users can read about updates I share about my institution within the Community.

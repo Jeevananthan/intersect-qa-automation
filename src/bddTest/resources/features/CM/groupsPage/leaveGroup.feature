@@ -1,4 +1,4 @@
-@MATCH-670
+@CM @MATCH-670
 Feature: Community User - Leave Group
   As a Community user I want to leave Public groups that I've already joined in the Community so I
   no longer see them in my activity feed when I am no longer have interest in the group.

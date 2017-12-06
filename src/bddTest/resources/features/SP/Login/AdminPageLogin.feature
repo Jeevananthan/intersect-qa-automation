@@ -4,32 +4,32 @@ Feature: Hobsons Staff - Access Admin page via Network Credentials
          already exist so I don't have to create a new set of login credentials.
 
   Scenario: As a Hobsons Sales Ops user I am able to login to the admin page with my Hobsons network username and password.
-    Given SP I want to login to the admin page using "MatchSupportUIQA2@hobsons.com" as username and "Password!1" as password
+    Given SP I am logged in to the Admin page as a Sales Ops user
     Then SP I am able to successfully login
     And SP I successfully sign out
 
   Scenario: As a Hobsons Support user I am able to login to the admin page with my Hobsons network username and password.
-    Given SP I want to login to the admin page using "MatchSupportUIQA3@hobsons.com" as username and "Password!1" as password
+    Given SP I am logged in to the Admin page as a Support user
     Then SP I am able to successfully login
     And SP I successfully sign out
 
   Scenario: As a Hobsons Support Admin user I am able to login to the admin page with my Hobsons network username and password.
-    Given SP I want to login to the admin page using "MatchSupportUIQA4@hobsons.com" as username and "Password!1" as password
+    Given SP I am logged in to the Admin page as an Admin user
     Then SP I am able to successfully login
     And SP I successfully sign out
 
   Scenario: As a Hobsons Community user I am able to login to the admin page with my Hobsons network username and password.
-    Given SP I want to login to the admin page using "MatchSupportsUIQA5@hobsons.com" as username and "Password!1" as password
+    Given SP I am logged in to the Admin page as a Community user
     Then SP I am able to successfully login
     And SP I successfully sign out
 
   Scenario: As a Hobsons Community Manager user I am able to login to the admin page with my Hobsons network username and password.
-    Given SP I want to login to the admin page using "MatchSupportsUIQA6@hobsons.com" as username and "Password!1" as password
+    Given SP I am logged in to the Admin page as a Community Manager user
     Then SP I am able to successfully login
     And SP I successfully sign out
 
   Scenario: As a Hobsons staff user I don't have access to the admin page with my Hobsons network credentials if I am not assigned to a Matching Active Directory group
-    Given SP I want to login to the admin page using "NoMatchSupportUIQA5@hobsons.com" as username and "Password!1" as password
+    Given SP I am logged in to the Admin page as a user with no Intersect access
     And SP I am able to successfully login
     Then SP I see the following security message "You are not authorized to view the content on this page"
     And SP I successfully sign out

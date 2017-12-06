@@ -37,7 +37,9 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         for (String key : data.keySet()) {
             switch (key) {
                 case "Country":
-                    driver.findElement(By.name("country-search")).sendKeys(data.get(key));
+                    driver.findElement(By.name("country")).click();
+                    driver.findElement(By.cssSelector("input[class='search']")).click();
+                    driver.findElement(By.cssSelector("input[class='search']")).sendKeys(data.get(key));
                     break;
                 case "Charter School":
                     WebElement drpCharterSchool = driver.findElement(By.id("charterSchool"));
@@ -206,15 +208,10 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
     private List<String> getAllDropdownOptions(By by){
         List<String> allOptions = new ArrayList<>();
         WebElement drop_down = driver.findElement(by);
-        Select select = new Select(drop_down);
-        List<WebElement> options = select.getOptions();
-
-        for(WebElement opt : options) {
-            String value = getLabelText(opt);
-            if(!value.isEmpty())
-                allOptions.add(value);
+        List<WebElement> options = drop_down.findElements(By.xpath(".//div[@role='option']/span"));
+        for (WebElement option:options) {
+            allOptions.add(option.getAttribute("innerText"));
         }
-
         return allOptions;
     }
 

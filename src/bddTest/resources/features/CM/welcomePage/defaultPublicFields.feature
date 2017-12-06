@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Default Profile Contact Field Settings to Public Upon Profile Activation
   As a Community user I want my Community user profile fields privacy settings to be defaulted to 'public' when
   my Community user profile is first activated so other Community users can see as much about me as possible.
