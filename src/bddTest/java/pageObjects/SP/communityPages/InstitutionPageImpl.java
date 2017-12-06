@@ -24,12 +24,13 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(collageNameLabel()));
+        waitForUITransition();
         Assert.assertTrue("College Name is not displaying in Hubs View", collageNameLabel().getText().trim().equals(collegeName));
         getDriver().switchTo().defaultContent();
     }
 
-    //locator
-    private WebElement collageNameLabel() {
-        return getDriver().findElement(By.cssSelector("h1.masthead__name"));
-    }
+        //locator
+        private WebElement collageNameLabel() {
+            return getDriver().findElement(By.cssSelector("h1.masthead__name"));
+        }
 }
