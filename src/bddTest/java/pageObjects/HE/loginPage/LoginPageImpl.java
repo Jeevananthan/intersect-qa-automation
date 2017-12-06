@@ -170,7 +170,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
     }
 
-    public void searchForHEInstitution(String institutionName, String institutionType){ //,String institutionType){
+    public void searchForHEInstitution(String institutionName){ //,String institutionType){
         // This is no longer needed, as the app automatically sends you to the right URL.
         /*if(institutionType.contains("High School")){
             //button("High School Staff Member").click();
