@@ -3,7 +3,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-811 @MATCH-814 @MATCH-815 @MATCH-1561
   Scenario: As an authorized HS User, I need to be able to update my contact information in the purple community.
-            So I should be able to change my address, phone, fax, and website URL.
+  So I should be able to change my address, phone, fax, and website URL.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -12,7 +12,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
     And HS I enter the following CONTACT data on the Institution Profile page and click "Save"
       | Address     | 3480 DIXIE HWY    |
       | City        | ERLANGER          |
-      | State       | KENTUCKY          |
+      | State       | Kentucky        |
       | Zip         | 41018             |
       | County      | KENTON COUNTY     |
       | Country     | United States     |
@@ -24,7 +24,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
     And HS I verify updated data entered has successfully been saved
       | Address     | 3480 DIXIE HWY    |
       | City        | ERLANGER          |
-      | State       | KENTUCKY          |
+      | State       | Kentucky          |
       | Zip         | 41018             |
       | County      | KENTON COUNTY     |
       | Country     | United States     |
