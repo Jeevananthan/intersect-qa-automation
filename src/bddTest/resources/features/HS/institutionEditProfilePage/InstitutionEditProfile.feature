@@ -275,10 +275,10 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-1781
   Scenario: As a HS user, I need to be able to search for high schools during the registration process.
-            so I can associate myself with the high school I work at
+  so I can associate myself with the high school I work at
     Given HS Iam navigating to Intersect HS through Non naviance Url
     Then HS I click the new user link in the login page
-    And HS I search for "Int QA High School 4" in "High school" and verify the results
+    And HS I search for "Int Qa High School 4" in "High school" and verify the results
 
   @MATCH-1565
   Scenario: As a HS Intersect User on the HS Institution edit page I want to see placeholder text when fields are blank
