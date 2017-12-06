@@ -1289,6 +1289,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         previousWeekInNewScheduleVisitPage().click();
         waitForUITransition();
         Assert.assertTrue("'No availability this week' message is not displayed",noAvailabilityInNewScheduleVisitPage().isDisplayed());
+        link("Availability & Settings").click();
+        link("Calendar").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilElementExists(currentDateInCalendar());
+        driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
+        waitForUITransition();
     }
     public void verifyPastDatesDisabledInNewScheduleVisitPage(){
         addvVisitManuallyInNewScheduleVisitPage().click();
@@ -1312,6 +1319,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
         hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
         rescheduleButtonInReScheduleVisitPage().click();
         waitForUITransition();
         reScheduleTextboxInReScheduleVisitPage().sendKeys(Keys.PAGE_UP);
@@ -1319,7 +1328,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
         waitForUITransition();
         setDate(getCurrentDate(), getCurrentDate());
-        previousWeekInNewScheduleVisitPage().click();
+//        previousWeekInNewScheduleVisitPage().click();
         Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
     }
 
