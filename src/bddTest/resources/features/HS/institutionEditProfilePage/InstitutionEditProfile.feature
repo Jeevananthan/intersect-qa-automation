@@ -142,14 +142,14 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-811 @MATCH-814 @MATCH-815
   Scenario: As an authorized HS User, I need to be able to update my academic data fields in the purple community.
-            So I should be able to change any academic data attributes.
+  So I should be able to change any academic data attributes.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the ACADEMIC DATA FIELDS exist
       |Charter School |Coeducational |College-Going Rate |Student/Teacher ratio |Full Time Teachers |Highest Grade |Lowest Grade |School Level |School Type Options |School Year of Last Reported Data|
     And HS I enter the following ACADEMIC data on the Institution Profile page and click "Save"
-      | Charter School                     | Yes                                          |
+      | Charter School                     | No                                          |
       | Coeducational                      | All-male (school only has all-male students) |
       # The College-Going Rate field will not save, manually or by test
       #| College-Going Rate                 | 80                                           |
@@ -163,7 +163,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
-      | Charter School                     | Yes                                          |
+      | Charter School                     | No                                          |
       | Coeducational                      | All-male (school only has all-male students) |
       #| College-Going Rate                 | 80                                           |
       | Student/Teacher ratio              | 20                                           |

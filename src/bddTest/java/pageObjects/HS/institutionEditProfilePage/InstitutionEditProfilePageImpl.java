@@ -136,6 +136,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
                     Assert.assertEquals("Country data did not save on update", data.get(key), verifyCountry.findElement(By.className("text")).getText());
                     break;
                 case "Charter School":
+                    waitUntilPageFinishLoading();
                     WebElement verifyCharterSchool = driver.findElement(By.id("charterSchool"));
                     Assert.assertEquals("Charter School data did not save on update", data.get(key), verifyCharterSchool.findElement(By.className("text")).getText());
                     break;
