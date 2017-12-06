@@ -190,7 +190,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-1245
   Scenario: As a HS user with the appropriate permissions enabled in Naviance I need to be able to edit my HS institution's profile data that displays in Community
-            So that data is always fresh and current.
+  So that data is always fresh and current.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button

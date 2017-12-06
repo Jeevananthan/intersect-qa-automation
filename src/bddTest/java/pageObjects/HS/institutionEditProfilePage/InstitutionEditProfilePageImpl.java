@@ -121,7 +121,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void noInstitutionProfileEditButton(){
-        Assert.assertTrue("Institution profile has and edit button option.", link("edit").isDisplayed());
+        Assert.assertFalse("Institution profile has and edit button option.", link("edit").isDisplayed());
     }
 
     public void verifyDataSaved(DataTable dataTable) {
