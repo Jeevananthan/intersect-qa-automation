@@ -3,9 +3,8 @@ package pageObjects.HS.repVisitsPage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
@@ -16,6 +15,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import utilities.GetProperties;
+
+import javax.annotation.Nullable;
 import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -27,6 +28,8 @@ import utilities.GetProperties;
 import utilities.GetProperties;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.Assert.fail;
 import static junit.framework.TestCase.fail;
 
@@ -1257,7 +1260,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         driver.findElement(By.cssSelector("button[class='ui small fluid button _3VnqII6ynYglzDU1flY9rw']")).click();
         waitForUITransition();
-        String date = getSpecificDate(-1);
+        String date = getSpecificDate(-1, null);
         String disabled = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--disabled' and @aria-label='"+date+"']")).getAttribute("aria-disabled");
         Assert.assertTrue("Past dates are not disabled",disabled.equalsIgnoreCase("true"));
     }
@@ -1327,8 +1330,161 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
        Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
     }
 
-    public String getSpecificDate(int addDays) {
+    public void navigateToRepVisitsSection(String pageName) {
+        navBar.goToRepVisits();
+        if (pageName.equalsIgnoreCase("visit feedback")) {
+            getVisitsFeedbackBtn().click();
+        } else {
+            link(pageName).click();
+        }
+        waitUntilPageFinishLoading();
+    }
+
+    public void  verifyRepVisitsPageWhenNoVisitsScheduledForNext7Days() {
+
+        Assert.assertTrue("'You don't have any visits or fairs for the next week' text is not displayed",
+                driver.findElement(By.xpath("//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y _2yDDA7hJhhRjDz5LtnmL-e']")).getText().equals("You don't have any visits or fairs for the next week."));
+        Assert.assertTrue("Calendar icon is not displayed", driver.findElement(By.xpath("(//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y'])[1]")).isDisplayed());
+        Assert.assertTrue("'It looks like you don't have any upcoming visits or fairs in the next 7 days.' text is not displayed",
+                driver.findElement(By.xpath("(//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y'])[2]")).getText().equals("It looks like you don't have any upcoming visits or fairs in the next 7 days.\n" +
+                "You can always check your calendar for more upcoming appointments."));
+        link("calendar").click();
+
+    }
+
+    public void cancelAllEventsForNext7Days() {
+
+        String eventType = null;
+
+        for(int day = 0; day < 7; day++)
+        {
+                String date = getSpecificDate(day, "MMMMM dd yyyy");
+                List<WebElement> events = getEventsScheduledForDate(date.split(" ")[1], date.split(" ")[0], date.split(" ")[2]).get("EVENTS");
+
+                while(events.size() != 0)
+                {
+                    WebElement event = events.get(0);
+
+                    String cssClass = event.findElement(By.xpath("./div[@class='rbc-event-content']/div")).getAttribute("class");
+
+                    if(cssClass.equals("_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa"))
+                        eventType = "VISIT";
+
+                    if(cssClass.equals("_2_SLvlPA02MerU8g5DX1vz _2CrNWdVYs3sN4k1Rgr_RDv"))
+                        eventType = "COLLEGE_FAIR";
+
+                    if(eventType.equals("VISIT"))
+                    {
+                        WebDriverWait wait = new WebDriverWait(driver, 10);
+                        event.click();
+
+                        WebElement cancelThisVisitLink = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='Cancel This Visit']")));
+                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cancelThisVisitLink);
+                        wait.until(ExpectedConditions.visibilityOf(cancelThisVisitLink)).click();
+
+                        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("repVisit-cancelation-message"))).sendKeys("comment for cancellation");
+                        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Yes, cancel visit']"))).click();
+
+                    }
+                    else if(eventType.equals("COLLEGE_FAIR"))
+                    {
+                        WebDriverWait wait = new WebDriverWait(driver, 10);
+                        event.click();
+
+                        WebElement cancelThisCollegeFairButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='Cancel This College Fair']")));
+                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cancelThisCollegeFairButton);
+                        cancelThisCollegeFairButton.click();
+
+                        button("Yes, Cancel this fair").click();
+                        button("Close").click();
+                    }
+
+                    events = getEventsScheduledForDate(date.split(" ")[1], date.split(" ")[0], date.split(" ")[2]).get("EVENTS");
+                }
+        }
+    }
+
+    public HashMap<String, List<WebElement>> getEventsScheduledForDate(String day, String month, String year)
+    {
+        ArrayList<WebElement> eventsScheduledForDateElements = new ArrayList<WebElement>();
+        ArrayList<WebElement> showMoreLinkElement = new ArrayList<WebElement>();
+        HashMap<String, List<WebElement>> allElementsInDayCell = new HashMap<String, List<WebElement>>();
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[contains(@class, 'rbc-calendar')]//*")));
+
+        String currentMonthAndYear =  driver.findElement(By.xpath("//div[@class='ui medium header _1ucD2vjQuS9iWHF9uzN__M']")).getText();
+
+        String currentMonth = currentMonthAndYear.split(" ")[0];
+        String currentYear = currentMonthAndYear.split(" ")[1];
+
+        if(month.equals(currentMonth)  && year.equals(currentYear))
+        {
+            WebElement dateCell = driver.findElement(By.xpath("//div[@class='rbc-month-view']//div[contains(@class, 'rbc-date-cell') and not(contains(@class, 'rbc-off-range'))]/a[text()='"+ day +"']"));
+
+            HashMap<String, Integer> dateCellIndices = getDateCellIndicesInGrid(dateCell);
+
+            int rowIndex = dateCellIndices.get("ROW_INDEX");
+            int columnIndex = dateCellIndices.get("COLUMN_INDEX");
+
+            WebElement dayCell = driver.findElement(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[contains(@class, 'rbc-day-bg')][" + columnIndex + "]"));
+            int dayCellStartXCoordinate = dayCell.getLocation().getX();
+            int dayCellEndXCoordinate = dayCellStartXCoordinate + dayCell.getSize().getWidth();
+
+            //List<WebElement> rbcEventElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[@class='rbc-event']")));
+            List<WebElement> rbcEventElements = driver.findElements(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[@class='rbc-event']"));
+
+            for(WebElement rbcEventElement : rbcEventElements)
+            {
+                if(rbcEventElement.getLocation().getX() > dayCellStartXCoordinate && rbcEventElement.getLocation().getX() < dayCellEndXCoordinate)
+                {
+                    eventsScheduledForDateElements.add(rbcEventElement);
+                }
+            }
+
+            WebElement showMoreLink = null;
+
+            try {
+                driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+                showMoreLink = driver.findElement(By.xpath("//div[@class='rbc-show-more']"));
+            } catch(Exception ex) {}
+
+            showMoreLinkElement.add(showMoreLink);
+
+             allElementsInDayCell.put("EVENTS", new ArrayList(eventsScheduledForDateElements));
+             allElementsInDayCell.put("SHOW_MORE", new ArrayList(showMoreLinkElement));
+        }
+
+        return allElementsInDayCell;
+    }
+
+    public HashMap<String, Integer> getDateCellIndicesInGrid(WebElement dateCell)
+    {
+        HashMap<String, Integer> dateCellIndices = new HashMap<String, Integer>();
+
+        WebElement weekRow = dateCell.findElement(By.xpath(".//ancestor::div[@class='rbc-month-row']"));
+        List<WebElement> weekRows = driver.findElements(By.xpath("//div[@class='rbc-month-row']"));
+
+        int rowIndex = weekRows.indexOf(weekRow);
+
+        WebElement dayColumn = dateCell.findElement(By.xpath(".//ancestor::div[contains(@class, 'rbc-date-cell') and not(contains(@class, 'rbc-off-range'))]"));
+        List<WebElement> dayColumns = dateCell.findElements(By.xpath("./ancestor::div[@class='rbc-row']//div[contains(@class, 'rbc-date-cell')]"));
+
+        int columnIndex = dayColumns.indexOf(dayColumn);
+
+        dateCellIndices.put("ROW_INDEX", new Integer(rowIndex + 1));
+        dateCellIndices.put("COLUMN_INDEX", new Integer(columnIndex + 1));
+
+        return dateCellIndices;
+    }
+
+
+    public String getSpecificDate(int addDays, String format) {
         String DATE_FORMAT_NOW = "MMMM d, yyyy";
+
+        if(format != null)
+          DATE_FORMAT_NOW = format;
+
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, addDays);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
@@ -1403,4 +1559,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement addVisit=driver.findElement(By.xpath("//div/span[text()='Want a custom time? Add it manually']"));
         return  addVisit;
     }
+
+    private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
 }
