@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -131,17 +132,24 @@ public class NavBarImpl extends SeleniumBase {
                 Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect, expected \"" + heading + "\"",headerSpan.getText().toLowerCase().contains(heading.toLowerCase()));
                 waitUntilPageFinishLoading();
                 itemLink.click();
+                waitUntilPageFinishLoading();
                 try{
-                    driver.findElement(By.xpath(String.format(".//div[text()='%s']",heading)));
+                    new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class, '_2XXQfVOMnbUWAImETf3shY')]/div/div/div[@class='_2QGqPPgUAifsnRhFCwxMD7']")));
                 } catch(Exception e){
-                    throw  new AssertionFailedError(String.format("The header with text could not be found %s",heading));
+                    Assert.fail("Breadcrumbs never appeared on the page after waiting 10 seconds.");
                 }
-                try{
-                    driver.findElement(By.xpath(String.format(".//div[text()='%s']",subMenu)));
-                } catch(Exception e){
-                    throw  new AssertionFailedError(String.format("The header with text could not be found %s",subMenu));
-
+                //The breadcrumb containers sometimes load before the actual text appears, so we need to see if they're ready yet and wait if not.
+                try {
+                    getHeadingBreadcrumbs().getText();
+                    getSubMeunBreadcrumbs().getText();
+                } catch (Exception e) {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (Exception ex) {}
                 }
+                Assert.assertTrue(heading+ " is not correct in Breadcrumbs, actual value is: " + getHeadingBreadcrumbs().getText(), heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
+                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs, actual value is: " + getSubMeunBreadcrumbs().getText(), subMenu.equals(getSubMeunBreadcrumbs().getText()));
+                logger.info("Verified " + subMenu + " is under " + heading + " as expected.");
             }
         }
     }
