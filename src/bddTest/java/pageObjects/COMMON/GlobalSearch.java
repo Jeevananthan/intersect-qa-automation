@@ -59,7 +59,7 @@ public class GlobalSearch extends SeleniumBase {
         doSearch(searchTerm);
     }
 
-    private void setSearchCategory(String searchCategory) {
+    public void setSearchCategory(String searchCategory) {
         getSearchSwitcher().click();
         waitUntilPageFinishLoading();
         switch(searchCategory) {
@@ -93,6 +93,7 @@ public class GlobalSearch extends SeleniumBase {
 
     private void doSearch(String searchTerm) {
         waitUntilPageFinishLoading();
+        getSearchBox().click();
         getSearchBox().clear();
         waitUntilPageFinishLoading();
         getSearchBox().sendKeys(searchTerm);

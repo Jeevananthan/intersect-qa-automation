@@ -36,4 +36,4 @@ Feature: Hobsons Staff - Access Admin page via Network Credentials
 
   Scenario: As a Hobsons staff user I am unable to login to the admin page with credentials that do not exist in Active Directory
     Given SP I want to login to the admin page using "nonexistinguser@hobsons.com" as username and "password" as password
-    Then SP I am unable to login and I see the following error message "We don't recognize this user ID or password Be sure to type the password for your work or school account. Forgot your password?"
+    Then SP I am unable to login and I see the following error message "Your account or password is incorrect. If you don't remember your password, reset it now."
