@@ -1,12 +1,15 @@
 package pageObjects.COMMON;
 
 import cucumber.api.DataTable;
+import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -141,12 +144,12 @@ public class GlobalSearch extends SeleniumBase {
     }
 
     public void verifyNoSearchResults(){
-        waitUntilPageFinishLoading();
-        List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
-        if (categories.size()==0){
-            logger.info("No search results found.  This is the expected result.");
-        }else
-            Assert.assertTrue("Search results were found, but should not have been!", false);
+        try{
+            (new WebDriverWait(getDriver(),10)).
+                    until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[text()='No results found.']")));
+        }catch(Exception e){
+            throw new AssertionFailedError("There were search results.");
+        }
     }
 
     public void goToAdvancedSearch(String category) {

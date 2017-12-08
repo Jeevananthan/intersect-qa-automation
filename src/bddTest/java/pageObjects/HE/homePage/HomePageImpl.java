@@ -45,6 +45,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-home-menu-link")).click();
         userDropdown().click();
         button(By.id("user-dropdown-change-profile")).click();
+        waitUntilElementExists(changeProfileLabel());
         Assert.assertTrue("User was not taken to Account Settings screen",button("SAVE").isDisplayed());
     }
 
@@ -63,7 +64,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("E-mail Address") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Current Password").isDisplayed());
         Assert.assertTrue(textbox("New Password").isDisplayed());
-        Assert.assertTrue(textbox("Confirm Password").isDisplayed());
+        Assert.assertTrue(textbox("Confirm New Password").isDisplayed());
 
         // Verify that Update your profile? link works as expected
         link("update your profile?").click();
@@ -227,8 +228,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyWidgetIsVisible(String widgetName){
-
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
@@ -249,6 +249,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyRepVisitsLandingPage(){
         navBar.goToRepVisits();
+        waitForUITransition();
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
 
@@ -270,4 +271,5 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
     private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
+    private WebElement changeProfileLabel(){return text("Change Profile");}
 }

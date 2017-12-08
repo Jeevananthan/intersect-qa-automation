@@ -1,5 +1,6 @@
 package pageObjects.SP.communityPages;
 
+import junit.framework.AssertionFailedError;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -23,8 +24,11 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(collageNameLabel()));
-        Assert.assertTrue("College Name is not displaying in Hubs View", collageNameLabel().getText().trim().equals(collegeName));
+        try{
+            waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
+        }catch(Exception e){
+            throw new AssertionFailedError("College Name is not displaying in Hubs View");
+        }
         getDriver().switchTo().defaultContent();
     }
 

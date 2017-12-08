@@ -51,7 +51,7 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     Then HE I verify the left navigation bar and section breadcrumbs are as follows
       | Awareness | Counselor Community, Naviance College Profile |
       | Presence  | RepVisits                                     |
-      | Settings  | Users                                         |
+      | Settings  | User                                          |
     And HE I successfully sign out
 
   @MATCH-1344
