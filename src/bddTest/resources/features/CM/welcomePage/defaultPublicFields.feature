@@ -1,6 +1,8 @@
+@CM
 Feature: Community User - Default Profile Contact Field Settings to Public Upon Profile Activation
   As a Community user I want my Community user profile fields privacy settings to be defaulted to 'public' when
   my Community user profile is first activated so other Community users can see as much about me as possible.
+
 
   @MATCH-512
   Scenario: As a Community user I need my profile fields privacy settings to be defaulted to 'public' when my Community user profile is first activated.
@@ -9,6 +11,7 @@ Feature: Community User - Default Profile Contact Field Settings to Public Upon 
     And I go to Counselor Community page
     Then I check if my profile fields are set to 'public' by default
     And I sign out from the HE app
+
 
   @MATCH-513
   Scenario: As a Community user I need the ability to change my profile fields privacy settings if I don't want them all to be public.

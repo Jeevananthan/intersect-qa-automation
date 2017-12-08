@@ -1,3 +1,4 @@
+@CM
 Feature: HE Community User - Document Recruitment Territory within User Profile
   As an HE Community user I need to enter in specific combinations states and counties that represent my
   recruitment territory so the correct HS Community users can find and connect with me.

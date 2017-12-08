@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - View HE/HS Institutional Banner
   As a Community user or institution while viewing an HE/HS institution within the Community I want to see a banner
   that contains high level information on that institution so I can quickly learn about that insitution before

@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Create Community Post from My Profile Page
   As a Community user or institution I want to create posts from my Profile page so other Community users can
   read about the content I shared within the Community.

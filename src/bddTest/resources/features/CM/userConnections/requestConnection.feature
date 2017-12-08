@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - Request to Connect to Another User
   As a Community user I need to be able to request to 'connect' (friend) to another community user so I can build
   out my personal network within the Community.

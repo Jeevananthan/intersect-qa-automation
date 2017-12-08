@@ -1,3 +1,4 @@
+@CM
 Feature: Community User - View Aggregate Feed on HE/HS Institutions
   As a Community user or institution while viewing an HE/HS institution within the Community I want to see an
   aggregate feed of that institution's recent activity so I can learn more about that insitution and catch

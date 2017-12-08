@@ -146,14 +146,20 @@ public class NavBarImpl extends SeleniumBase {
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
     }
 
-
-
     //Getters
     private WebElement getHomeBtn() {
         return link(By.id("js-main-nav-home-menu-link"));
     }
     private WebElement getCommunityBtn() {
-        return link(By.id("js-main-nav-counselor-community-menu-link"));
+        try {
+            if (link(By.id("js-main-nav-counselor-community-menu-link")).isDisplayed()) {
+                return link(By.id("js-main-nav-counselor-community-menu-link"));
+            }
+            else
+                return link(By.id("js-main-nav-home-menu-link"));
+        } catch (Exception e) {
+            return link(By.id("js-main-nav-home-menu-link"));
+        }
     }
     private WebElement getCollegeProfileBtn() {
         return link(By.id("js-main-nav-naviance-college-profile-menu-link"));

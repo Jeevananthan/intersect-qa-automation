@@ -1,4 +1,4 @@
-@MATCH-906
+@CM @MATCH-906
 Feature: Community User - Send Message Form
   As a Community User after I take the 'Message' action on another Community user I want to be presented with
   a form that allows me to compose my message so the other Community user can receive it.

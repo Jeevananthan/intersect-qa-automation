@@ -1,4 +1,4 @@
-@MATCH-695
+@CM @MATCH-695
 Feature: Community User - Approve/Reject Request to Join Private Group
   As a Community user and owner/manager of a Private group I am able to approve or deny another Community member's
   request to join my Private group so I can control my group members.
@@ -39,5 +39,5 @@ Feature: Community User - Approve/Reject Request to Join Private Group
     And I sign out from the HE app
     And I approve request to join the group
     And I open Notifications list
-    And I check if user have new notification that my request to join private group is approved
+    And I check if user has new notification that my request to join private group is approved
     Then I sign out from the HE app

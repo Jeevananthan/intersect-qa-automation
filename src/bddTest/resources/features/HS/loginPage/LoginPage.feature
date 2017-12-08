@@ -9,7 +9,7 @@ Feature: As a HS user I need to login to Intersect
   Scenario: As an non Naviance HS user, I want to verify that the links in the HS Login page are working properly
     Given HS I verify that the following links are working as expected:
     | New User? | https://qa-reg.intersect.hobsons.com/hs |
-    | Naviance User? | https://succeed-int.dev.naviance.com/auth/signin |
+    | Naviance User? | https://tf-succeed-56-qa.mango.naviance.com/auth/signin |
     | Forgot Password | https://qa-hs.intersect.hobsons.com/forgot-password |
 
   Scenario: As an non Naviance HS user, I want to verify the error messages in the HS login page

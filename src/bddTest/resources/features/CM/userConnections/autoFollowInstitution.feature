@@ -1,4 +1,4 @@
-@MATCH-416
+@CM @MATCH-416
 Feature: Community User - Automatically Follow Institution of Community User Connection
   As a Community user I need to automatically begin following the institution associated with any Community user
   I connect with so I can receive and view any content created by the institution as well.

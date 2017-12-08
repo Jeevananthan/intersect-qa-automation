@@ -62,7 +62,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void logoutHSDefault() {
         iframeExit();
         userDropdown().click();
-        signOutBtn().click();
+        signOutBtnHS().click();
         waitUntilPageFinishLoading();
 //        driver.navigate().refresh();
 //        driver.manage().deleteAllCookies();
@@ -107,11 +107,21 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void accessHSCounselorCommunityPage() {
         logger.info("Going to HS Counselor Community page.");
         link(By.id("js-main-nav-home-menu-link")).click();
+        iframeEnter();
     }
 
     public void goToHomePage() {
         logger.info("Going to home page.");
+        iframeExit();
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        iframeEnter();
+//        link(By.cssSelector("a[href='/']")).click();
+    }
+
+    public void goToHSHomePage() {
+        logger.info("Going to HS home page.");
+        iframeExit();
+        link(By.id("js-main-nav-home-menu-link")).click();
         iframeEnter();
 //        link(By.cssSelector("a[href='/']")).click();
     }
@@ -209,6 +219,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getRequestInformationButton(){ return driver.findElement(By.cssSelector("[class='ui pink button']")); }
     private WebElement userDropdown() {return driver.findElement(By.id("user-dropdown"));}
     private WebElement signOutBtn() {return driver.findElement(By.id("user-dropdown-signout"));}
+    private WebElement signOutBtnHS() {return driver.findElement(By.cssSelector("i[class='sign out icon']"));}
     private WebElement profilePicOnPostsFeed() {return driver.findElement(By.xpath("//img[contains(@src, 'https://qa.community.hobsons.com/sites/default/files/styles/post_thumbnail/public/')]"));}
     private WebElement likeHobsonsPostBtn() {return  driver.findElement(By.xpath("//*[@id='like-node-841']/a[1]"));}
 
