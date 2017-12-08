@@ -710,7 +710,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void setStartAndEndDates(String startDate,String endDate) {
+    public void setSpecificStartAndEndDatesinRegularWeeklyHoursTab(String startDate,String endDate) {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -1084,12 +1084,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void clickUpdateButtonInRepVisits(){
-        if(updateBtn().isDisplayed()){
-            updateBtn().click();
-        }
-    }
-
     public void verifyStartDateAndEndDateInAvailabilitySetting(String startDate,String endDate){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -1372,9 +1366,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    private WebElement updateBtn(){
-        return text("UPDATE DATE");
-    }
     public void verifyPillsNotAvailableinNewScheduleVisitPage(){
         navBar.goToRepVisits();
         link("Calendar").click();
@@ -1425,11 +1416,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
-    private void doubleClick(WebElement elementLocator) {
-        Actions actions = new Actions(driver);
-        actions.doubleClick(elementLocator).perform();
 
-    }
     private WebElement getSearchAndScheduleBtn() {
         return link("Search and Schedule");
     }

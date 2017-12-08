@@ -356,7 +356,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
     Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>","<StartDate>","2"
 
-#verify&edit regular weekly hours(changing NumofVisits from 3 to 2)
+#verify & edit regular weekly hours(changing NumofVisits from 3 to 2)
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>" and "<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours using "2"
 
