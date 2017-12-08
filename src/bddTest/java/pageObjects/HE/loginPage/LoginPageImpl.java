@@ -46,9 +46,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + password + " as password");
         loginButton().click();
         logger.info("Clicked the login button");
-      //  waitUntilElementExists(link(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
-        waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
     //Log in as an HE administrator

@@ -11,7 +11,7 @@ Feature: Community User - New Connection Request Notification
     And I clear all the notifications
     And I am connected to HS user
     Then I open Notifications list
-    And I check if user have new notification
+    And I check if user has new notification
     And I sign out from the HE app
 
 

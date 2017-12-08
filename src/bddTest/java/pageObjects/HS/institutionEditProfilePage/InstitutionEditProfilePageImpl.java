@@ -208,15 +208,10 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
     private List<String> getAllDropdownOptions(By by){
         List<String> allOptions = new ArrayList<>();
         WebElement drop_down = driver.findElement(by);
-        Select select = new Select(drop_down);
-        List<WebElement> options = select.getOptions();
-
-        for(WebElement opt : options) {
-            String value = getLabelText(opt);
-            if(!value.isEmpty())
-                allOptions.add(value);
+        List<WebElement> options = drop_down.findElements(By.xpath(".//div[@role='option']/span"));
+        for (WebElement option:options) {
+            allOptions.add(option.getAttribute("innerText"));
         }
-
         return allOptions;
     }
 
