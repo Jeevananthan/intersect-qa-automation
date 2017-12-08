@@ -263,9 +263,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
-        startDate = getSpecificDate(startDate);
-        setDate(startDate, "Go To Date");
-        Assert.assertTrue("Availability button is not displayed",availabilityButton(startDate,time).isDisplayed());
+        String gotoDate = getSpecificDate(startDate);
+        setDate(gotoDate, "Go To Date");
+        String date=getMonthandDate(startDate);
+        Assert.assertTrue("Availability button is not displayed",availabilityButton(date,time).isDisplayed());
     }
 
     public void setDate(String inputDate, String startOrEndDate){
