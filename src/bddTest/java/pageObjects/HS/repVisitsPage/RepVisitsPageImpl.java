@@ -398,6 +398,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(startDate, "Start");
         button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
         setDate(endDate, "End");
+        text("UPDATE DATE").click();
     }
 
 
