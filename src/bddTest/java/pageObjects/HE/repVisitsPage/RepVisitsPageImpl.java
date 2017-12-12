@@ -90,6 +90,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyOverviewPage(){
         navBar.goToRepVisits();
         getOverviewBtn().click();
+        waitUntilElementExists(getComingSoonMessageInOverviewPage());
         Assert.assertTrue("Coming Soon message is not displaying",
                 getComingSoonMessageInOverviewPage().getText().equals("The Overview Dashboard is coming soon. It will provide a quick view of your upcoming appointments and most recent notifications."));
     }

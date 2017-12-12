@@ -33,8 +33,8 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         getDriver().switchTo().defaultContent();
     }
 
-    //locator
-    private WebElement collageNameLabel() {
-        return getDriver().findElement(By.cssSelector("h1.masthead__name"));
-    }
+        //locator
+        private WebElement collageNameLabel() {
+            return getDriver().findElement(By.cssSelector("h1.masthead__name"));
+        }
 }

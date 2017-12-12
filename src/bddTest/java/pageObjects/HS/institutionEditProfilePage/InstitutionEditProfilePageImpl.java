@@ -121,7 +121,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void noInstitutionProfileEditButton(){
-        Assert.assertTrue("Institution profile has and edit button option.", link("edit").isDisplayed());
+        Assert.assertFalse("Institution profile has and edit button option.", link("edit").isDisplayed());
     }
 
     public void verifyDataSaved(DataTable dataTable) {
@@ -136,6 +136,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
                     Assert.assertEquals("Country data did not save on update", data.get(key), verifyCountry.findElement(By.className("text")).getText());
                     break;
                 case "Charter School":
+                    waitUntilPageFinishLoading();
                     WebElement verifyCharterSchool = driver.findElement(By.id("charterSchool"));
                     Assert.assertEquals("Charter School data did not save on update", data.get(key), verifyCharterSchool.findElement(By.className("text")).getText());
                     break;
@@ -178,7 +179,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         logger.info("Verifying that the " + dropDownField + " dropdown list is a complete list and sorted.");
         List<String> list = dataTable.asList(String.class);
-        List<String> dropdownList = getAllDropdownOptions(By.name(dropDownField));
+        List<String> dropdownList = getAllDropdownDivOptions(dropDownField);
         Assert.assertEquals("Dropdown options did not match the expected list.",list, dropdownList);
     }
 
@@ -212,6 +213,18 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         for (WebElement option:options) {
             allOptions.add(option.getAttribute("innerText"));
         }
+        return allOptions;
+    }
+
+    private List<String> getAllDropdownDivOptions(String grade){
+        List<String> allOptions = new ArrayList<>();
+        List<WebElement> lowestGrades = driver.findElements(By.cssSelector("div[name='" + grade + "']>div[class='menu transition']>div"));
+        for(WebElement opt : lowestGrades) {
+            String value = getLabelText(opt);
+            if(!value.isEmpty())
+                allOptions.add(value);
+        }
+
         return allOptions;
     }
 
