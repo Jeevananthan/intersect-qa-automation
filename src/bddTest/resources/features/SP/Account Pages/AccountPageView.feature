@@ -91,6 +91,7 @@ Feature: Hobsons Support - View HE Institution Accounts
       Then SP I set the "<CommunityModule>" module to "<Inactive>" with the start date "" and end date "" in the institution page
       Then SP I set the "<IntersectAwarenessModule>" module to "<Inactive>" with the start date "" and end date "" in the institution page
       Then SP I set the "<IntersectPresenceModule>" module to "<Inactive>" with the start date "" and end date "" in the institution page
+      And SP I Click the Save Changes button
       When SP I select "<University>" from the institution dashboard
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<HubsModule>"
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<CommunityModule>"
@@ -100,7 +101,7 @@ Feature: Hobsons Support - View HE Institution Accounts
 
       Examples:
       |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |StartDate|EndDate|Inactive|Active|
-      |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|14       |35     |inactive|active|
+      |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|0        |35     |inactive|active|
 
 
 

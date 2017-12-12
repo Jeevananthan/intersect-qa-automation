@@ -3,6 +3,7 @@ package pageObjects.SP.accountPages;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
@@ -26,29 +27,31 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status ,String startDate, String endDate){
-        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
-        WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector']>div"));
-
-       try{ if(!ActualStatus.getText().equalsIgnoreCase(status)){
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@aria-label='quote charge id']")).sendKeys(Keys.PAGE_DOWN);
+        WebElement ActualStatus=driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td//div/div"));
+        waitUntilElementExists(ActualStatus);
+        WebElement SelectStatus=driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td//div/div/div/span[text()='"+status+"']"));
+         if(!status.equals(ActualStatus.getText())){
+            waitUntilElementExists(ActualStatus);
             ActualStatus.click();
-            getDriver().findElement(By.xpath("//span[text()='"+status+"']")).click();
+            SelectStatus.click();}
 
           if(!startDate.equals("")) {
-              WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
+              WebElement StartDateButton = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td[3]/button/i"));
               StartDateButton.click();
               String StartDate=getSpecificDate(startDate);
               setStartDateInAccountPage(StartDate, moduleName);
               StartDateButton.click();
           }
           if(!endDate.equals("")) {
-              WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
+              WebElement EndDateButton = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td[4]/button/i"));
               EndDateButton.click();
               String EndDate=getSpecificDate(endDate);
               setEndDateInAccountPage(EndDate, moduleName);
               EndDateButton.click();
-          }}
-        }catch (Exception e){}
-    }
+          }
+        }
 
     public String getSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
@@ -105,9 +108,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clicksaveChangesButton(){
-        Assert.assertTrue("Save Changes button is not displayed",getSaveChangesButton().isDisplayed());
+        try{
         getSaveChangesButton().click();
-        waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();}catch (Exception e){}
     }
 
     public void verifyEndDateFeasibility(){
