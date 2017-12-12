@@ -24,6 +24,7 @@ public class GlobalSearchStepDefs implements En {
         Then("^HE I verify advanced search results were categorized by entity$", globalSearch::verifyAdvancedSearchResultsCategorized);
         Then("^HE I verify that only five or less results are listed for advanced search results displayed by category$", globalSearch::verifyAdvancedSearchCategoryTabsDisplayFiveOrLessResults);
         Then("^HE I verify advanced search tab layouts are displayed correctly \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchResultsLayout);
-
+        Then("^HE I verify advanced search returns the HS user's general description field below the title and institution fields \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchUserResults);
+        Then("^HE I verify I can perform an advanced search utilizing any combination of fields for \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchFieldsReturnResults);
     }
 }

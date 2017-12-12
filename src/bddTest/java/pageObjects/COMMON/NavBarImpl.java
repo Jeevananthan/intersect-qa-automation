@@ -1,11 +1,13 @@
 package pageObjects.COMMON;
 
 import cucumber.api.DataTable;
+import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 
 import java.util.List;
@@ -116,7 +118,6 @@ public class NavBarImpl extends SeleniumBase {
 
     //The below method is to verify the Breadcrumbs along with corresponding heading.
     public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
-        WebElement container;
         Map<String, String> map = dataTable.asMap(String.class, String.class);
         for (Map.Entry pair : map.entrySet()){
             String heading = pair.getKey().toString();
@@ -125,27 +126,29 @@ public class NavBarImpl extends SeleniumBase {
                 subMenu = subMenu.trim();
                 WebElement itemLink = driver.findElement(By.xpath("(//span[contains(text(),'"+subMenu+"')])[2]"));
                 // Check Heading
-                WebElement section = getParent(getParent(getParent(getParent(itemLink))));
-                String text = section.getText();
-                if (heading.equalsIgnoreCase("Presence")) {
-                    container = section.findElement(By.xpath("(//dt[@class='header _3zoxpD-z3dk4-NIOb73TRl'])[4]"));
-                    //container = section.findElement(By.className("_3zoxpD-z3dk4-NIOb73TRl"));
-                }else {
-
-                    container = section.findElement(By.className("_3zoxpD-z3dk4-NIOb73TRl"));
-                }
+                WebElement section = getParent(getParent(getParent(itemLink)));
+                WebElement container = section.findElement(By.className("_3zoxpD-z3dk4-NIOb73TRl"));
                 WebElement headerSpan = container.findElement(By.tagName("span"));
-                String containerText =  headerSpan.getText();
                 Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect, expected \"" + heading + "\"",headerSpan.getText().toLowerCase().contains(heading.toLowerCase()));
                 waitUntilPageFinishLoading();
                 itemLink.click();
                 waitUntilPageFinishLoading();
-                // This doesn't work for some reason, but the following steps will sometimes fail due to timing issues with User List page loading.
-                //waitUntilElementExists(driver.findElement(By.className("_2QGqPPgUAifsnRhFCwxMD7")));
-                //Check Breadcrumbs
-                // Now the UI it's displaying AWARENESS Community
-                Assert.assertTrue(heading+ " is not correct in Breadcrumbs, actual value is: " + getHeadingBreadcrumbs(heading).getText(), heading.equalsIgnoreCase(getHeadingBreadcrumbs(heading).getText()));
-                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs, actual value is: " + getSubMeunBreadcrumbs(heading).getText(), subMenu.equals(getSubMeunBreadcrumbs(heading).getText()));
+                try{
+                    new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class, '_2XXQfVOMnbUWAImETf3shY')]/div/div/div[@class='_2QGqPPgUAifsnRhFCwxMD7']")));
+                } catch(Exception e){
+                    Assert.fail("Breadcrumbs never appeared on the page after waiting 10 seconds.");
+                }
+                //The breadcrumb containers sometimes load before the actual text appears, so we need to see if they're ready yet and wait if not.
+                try {
+                    getHeadingBreadcrumbs().getText();
+                    getSubMeunBreadcrumbs().getText();
+                } catch (Exception e) {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (Exception ex) {}
+                }
+                Assert.assertTrue(heading+ " is not correct in Breadcrumbs, actual value is: " + getHeadingBreadcrumbs().getText(), heading.equalsIgnoreCase(getHeadingBreadcrumbs().getText()));
+                Assert.assertTrue(subMenu+ " is not correct in Breadcrumbs, actual value is: " + getSubMeunBreadcrumbs().getText(), subMenu.equals(getSubMeunBreadcrumbs().getText()));
                 logger.info("Verified " + subMenu + " is under " + heading + " as expected.");
             }
         }
@@ -183,39 +186,19 @@ public class NavBarImpl extends SeleniumBase {
     }
     private WebElement getActiveMatchButton() { return link(By.id("js-main-nav-am-plus-menu-link")); }
 
-    private WebElement getHeadingBreadcrumbs(String heading){
-        if (heading.equalsIgnoreCase("Presence")) {
-            List<WebElement> items = driver.findElements(By.xpath("(//dt[@class='header _3zoxpD-z3dk4-NIOb73TRl'])[4]"));
-            for (WebElement item : items) {
-                if (item.getText().length() > 0)
-                    return item;
-            }
-        }else {
-
-            List<WebElement> items = driver.findElements(By.cssSelector("dt[class='header _3zoxpD-z3dk4-NIOb73TRl']"));
-            for (WebElement item : items) {
-                if (item.getText().length() > 0)
-                    return item;
-            }
+    private WebElement getHeadingBreadcrumbs(){
+        List<WebElement> items = driver.findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
+        for (WebElement item : items) {
+            if (item.getText().length() > 0)
+                return item;
         }
-
         return null;
     }
-    private WebElement getSubMeunBreadcrumbs(String heading) {
-
-        if (heading.equalsIgnoreCase("Presence")) {
-            List<WebElement> items = driver.findElements(By.xpath("(//a[@class='_2PQVKVsDhRwSQYR3V28Dnw _28hxQ33nAx_7ae3SZ4XGnj'])[2]"));
-            for (WebElement item : items) {
-                if (item.getText().length() > 0)
-                    return item;
-            }
-        }else {
-
-            List<WebElement> items = driver.findElements(By.className("_2PQVKVsDhRwSQYR3V28Dnw"));
-            for (WebElement item : items) {
-                if (item.getText().length() > 0)
-                    return item;
-            }
+    private WebElement getSubMeunBreadcrumbs() {
+        List<WebElement> items = driver.findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
+        for (WebElement item : items) {
+            if (item.getText().length() > 0)
+                return item;
         }
         return null;
     }

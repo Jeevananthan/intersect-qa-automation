@@ -8,9 +8,9 @@ Feature:  HE - Settings - AccountSettings - As an HE user, I want to be able to 
     Then HE I access the Account Settings page
     And HE I verify the Password Requirements are displayed
     And HE I enter the following data on the Account Settings page and click "Cancel"
-      |Current Password |O7#c9CWJAkXY |
-      |New Password     |BadPassword1!|
-      |Confirm Password |BadPassword1!|
+      |Current Password     |O7#c9CWJAkXY |
+      |New Password         |BadPassword1!|
+      |Confirm New Password |BadPassword1!|
     Then HE I successfully sign out
     # This step will fail if the password was changed when clicking "Cancel"
     And HE I am logged in to Intersect HE as user type "administrator"
@@ -36,11 +36,11 @@ Feature:  HE - Settings - AccountSettings - As an HE user, I want to be able to 
     Given HE I am logged in to Intersect HE as user type "updates"
     Then HE I access the Account Settings page
     And HE I enter the following data on the Account Settings page and click "Save"
-      |First Name       |PurpleHE_Updated |
-      |Last Name        |Updates_Updated  |
-      |Current Password |8fDxP@AZT485     |
-      |New Password     |8fDxP@AZT485     |
-      |Confirm Password |8fDxP@AZT485     |
+      |First Name           |PurpleHE_Updated |
+      |Last Name            |Updates_Updated  |
+      |Current Password     |Password!1       |
+      |New Password         |Password!1       |
+      |Confirm New Password |Password!1       |
   #  And I receive the "Matching Account has been Updated" email below
   #    |Subject                             |From                                 |Messages |Body                                                                                                                               |
   #    |Intersect Account has been Updated  |no-reply@purpledev.hobsonspobox.net  |1        |THIS TEXT IS UNKNOWN AS THE EMAIL WAS NOT WORKING |

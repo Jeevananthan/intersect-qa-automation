@@ -37,7 +37,7 @@ Feature: Community User - Like Community Posts
     Then I am logged in to Purple Community through the HE App
     Then I go to Counselor Community page
     And I open Notifications list
-    And I check if user have new notification for post like
+    And I check if user has new notification for post like
     And I sign out from the HE app
 
 

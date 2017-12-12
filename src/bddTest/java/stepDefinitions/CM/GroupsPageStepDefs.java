@@ -62,5 +62,7 @@ public class GroupsPageStepDefs implements En {
         And("^I click on Search icon$", groupsPage::clickSearchIcon);
         Then("^I click on Groups tab under search$", groupsPage::goToGroupsTabUnderSearch);
         And("^I check if I am presented with a 'Join' action next to any Public group that returns in my search results$",groupsPage::checkPresentedJoinButtonNextToPublicGroup);
+        And("^I am sure that user is a member of the public group$", groupsPage::makeSureUserIsMemberOfThePublicGroup);
+        Then("^I check if I can see aggregate feed on group page$", groupsPage::checkAggregateFeedOnGroupPage);
     }
 }

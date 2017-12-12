@@ -50,3 +50,38 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     And HE I verify the non-administrator messaging on the Visits Feedback page
     And HE I successfully sign out
 
+
+  @MATCH-1989
+  Scenario: As an HE user tied to an HE account that has not paid for the Intersect Presence Subscription.
+  I want to be presented with a popup/form that allows me to inquire about upgrading my HE account
+
+    #logging to support app to do pre-requisites that is inactive the ''Intersect Presence Subscription'' module
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "2100209"
+    And SP I select the following institution "Bowling Green State University-Main Campus" from the results
+    And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
+    And SP I set the "Legacy: Community" module to "inactive" in the institution page
+    And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
+    And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+
+    #logging to HE app to verify the upgrade message for contacts and recommendations tabs
+    Given HE I am logged in to Intersect HE as user type "limited"
+    Then HE I verify the upgrade messaging on the Contacts page in RepVisits
+    And HE I click the upgrade button
+    Then HE I verify the Upgrade popup and the details displayed in the popup
+      |First Name |Last Name  |Work Email Address                       |
+      |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com     |
+    Then HE I verify the upgrade messaging on the Recommendations page in RepVisits
+    And HE I click the upgrade button
+    Then HE I verify the Upgrade popup and the details displayed in the popup
+      |First Name |Last Name  |Work Email Address                   |
+      |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com |
+    Then HE I verify the upgrade messaging on the Travel Plan page in RepVisits
+    And HE I click the upgrade button
+    Then HE I verify the Upgrade popup and the details displayed in the popup
+      |First Name |Last Name  |Work Email Address                   |
+      |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com |
+    Then HE I successfully sign out
+
