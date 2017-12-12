@@ -339,6 +339,29 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addTimeSlotSubmit().click();
     }
 
+    public void addnewTimeSlot(String day,String startTime,String endTime,String numVisits)
+    {
+        navBar.goToRepVisits();
+        WebElement element=link("Availability & Settings");
+        waitUntilElementExists(element);
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+        startOrEndDate().sendKeys(Keys.PAGE_DOWN);
+        addTimeSlot().click();
+        availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
+        waitUntilElementExists(selectDay());
+        day=day(day);
+        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
+        addStartTime().sendKeys(startTime);
+        addEndTime().sendKeys(endTime);
+        visitsNumber(numVisits);
+        waitUntilElementExists(submit());
+        addTimeSlotSubmit().click();
+    }
+
 
     public String selectdate(String addDays)
     {
@@ -711,6 +734,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setSpecificStartAndEndDatesinRegularWeeklyHoursTab(String startDate,String endDate) {
+        waitUntilPageFinishLoading();
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -1621,5 +1645,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement addVisit=driver.findElement(By.xpath("//div/span[text()='Want a custom time? Add it manually']"));
         return  addVisit;
+    }
+    private WebElement addStartTime()
+    {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='startTime']"));
+        return  inputStartTime;
+    }
+    private WebElement addEndTime()
+    {
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='endTime']"));
+        return  inputStartTime;
     }
 }

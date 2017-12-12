@@ -629,11 +629,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  visit;
     }
 
-    private WebElement visitRequestButton()
-    {
-        WebElement button=driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]"));
+    private WebElement visitRequestButton() {
+        WebElement button = driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]"));
         return button;
-
+    }
     private WebElement getVerticalStaffMembersMenu() {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));

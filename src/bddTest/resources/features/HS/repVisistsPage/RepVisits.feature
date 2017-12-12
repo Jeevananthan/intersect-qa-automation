@@ -336,7 +336,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
     Then HS I set a date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     And HS I successfully sign out
 
@@ -385,9 +385,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I verify the pills is present in the he side using "<School>" using "<Date>" and "<heStartTime>"
     Then HE I successfully sign out
     Examples:
-      | Day |Date|HourStartTime|HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School                  |heStartTime|heTime |
-      |28   |28  |11:          |12:        |44             |11           |am               |pm             |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:44am    |11:44am|
-#      |7    |35  |08:         |12:        |23             |11           |am               |pm             |3        |35        |49     |12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4    |8:23am     |08:23am|
-#      |7    |35  |11:         |12:        |29             |11           |am               |pm             |3        |35        |49     |12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4    |11:29am    |11:29am|
-#      |7    |35  |08:         |12:        |35             |11           |am               |pm             |3        |35        |49     |12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4    |8:35am     |08:35am|
+      |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School                  |heStartTime|heTime |
+      |28   |28  |11:46am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:46am    |11:46am|
+#      |28   |28  |11:49 am |12:11 pm|3        |28        |49     |12:15am   |No, I want to manually review all incoming requests.|Standalone High School 7|11:49am    |11:49am|
+#      |28   |28  |11:50 am |12:11 pm|3        |28        |49     |12:15am   |No, I want to manually review all incoming requests.|Standalone High School 7|11:50am    |11:50am|
+#      |28   |28  |11:51 am |12:11 pm|3        |28        |49     |12:15am   |No, I want to manually review all incoming requests.|Standalone High School 7|11:51am    |11:51am|
 
