@@ -29,7 +29,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
         WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector']>div"));
 
-        if(!ActualStatus.getText().equalsIgnoreCase(status)){
+       try{ if(!ActualStatus.getText().equalsIgnoreCase(status)){
             ActualStatus.click();
             getDriver().findElement(By.xpath("//span[text()='"+status+"']")).click();
 
@@ -46,8 +46,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
               String EndDate=getSpecificDate(endDate);
               setEndDateInAccountPage(EndDate, moduleName);
               EndDateButton.click();
-          }
-        }
+          }}
+        }catch (Exception e){}
     }
 
     public String getSpecificDate(String addDays) {
@@ -168,11 +168,13 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
                    }
                    if(!startDate.equals("")){
                        String ActualStartDate = driver.findElement(By.xpath("//tbody/tr[1]/td[4]")).getText();
-                       Assert.assertTrue("Expected Start date is not displayed",ActualStartDate.equalsIgnoreCase(startDate));
+                       String StartDate=specificDate(startDate);
+                       Assert.assertTrue("Expected Start date is not displayed",ActualStartDate.equalsIgnoreCase(StartDate));
                    }
                    if(!endDate.equals("")){
                        String ActualEndDate = driver.findElement(By.xpath("//tbody/tr[1]/td[5]")).getText();
-                       Assert.assertTrue("Expected End date is not displayed",ActualEndDate.equalsIgnoreCase(endDate));
+                       String EndDate=specificDate(endDate);
+                       Assert.assertTrue("Expected End date is not displayed",ActualEndDate.equalsIgnoreCase(EndDate));
 
                    }
                    break;
@@ -185,11 +187,13 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
                    }
                    if(!startDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[2]/td[4]")).getText();
-                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(startDate));
+                       String StartDate=specificDate(startDate);
+                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(StartDate));
                    }
                    if(!endDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[2]/td[5]")).getText();
-                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(endDate));
+                       String EndDate=specificDate(endDate);
+                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(EndDate));
 
                    }
                    break;
@@ -201,11 +205,13 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
                    }
                    if(!startDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[3]/td[4]")).getText();
-                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(startDate));
+                       String StartDate=specificDate(startDate);
+                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(StartDate));
                    }
                    if(!endDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[3]/td[5]")).getText();
-                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(endDate));
+                       String EndDate=specificDate(endDate);
+                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(EndDate));
 
                    }
                    break;
@@ -217,17 +223,29 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
                    }
                    if(!startDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[4]")).getText();
-                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(startDate));
+                       String StartDate=specificDate(startDate);
+                       Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(StartDate));
                    }
                    if(!endDate.equals("")){
                        ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[5]")).getText();
-                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(endDate));
+                       String EndDate=specificDate(endDate);
+                       Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(EndDate));
 
                    }
                    break;
 
            }
 
+    }
+
+    public String specificDate(String addDays) {
+        String DATE_FORMAT_NOW = "MMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
 
