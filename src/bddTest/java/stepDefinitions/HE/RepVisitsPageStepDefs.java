@@ -48,5 +48,8 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify the freemium messaging on the Visits Feedback page$", repVisits::verifyVisitsFeedbackFreemiumMessaging);
 
         Then("^HE I verify the formatting of the Visit Feedback page$", repVisits::verifyVisitFeedbackPage);
+
+        And("^HE I verify the Repvisits Overview Upgrade Subscription page$", repVisits::verifyRepvisitsOverviewUpgradeSubscriptionPage);
+
     }
 }

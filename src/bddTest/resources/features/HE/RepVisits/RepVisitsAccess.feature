@@ -85,3 +85,19 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com |
     Then HE I successfully sign out
 
+  @MATCH-2238
+  Scenario: Verify Overview page when HE user DOES NOT have Intersect subscription activated
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the "Overview" page in RepVisits
+    Then HE I verify the Repvisits Overview Upgrade Subscription page
+    Then HE I successfully sign out
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out

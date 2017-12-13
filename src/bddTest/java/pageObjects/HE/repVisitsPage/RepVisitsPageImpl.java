@@ -304,6 +304,34 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         verifyNoFeedbackSubmittedYetMessageIsDisplayed();
     }
 
+    public void verifyRepvisitsOverviewUpgradeSubscriptionPage() {
+
+        if(text("Welcome to Overview").isDisplayed()) {
+            logger.error("RepVisits Overview Upgrade Subscription page is not displayed");
+            return;
+        }
+
+        if(text("Your Upcoming Visits & Fairs").isDisplayed()) {
+            logger.error("RepVisits Overview Upgrade Subscription page is not displayed");
+            return;
+        }
+
+        Assert.assertTrue("'Overview' header is not displayed", text("Overview").isDisplayed());
+        Assert.assertTrue("'Premium Feature' subtext is not displayed", text("Premium Feature").isDisplayed());
+        Assert.assertTrue("'Locked' icon is not displayed", driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
+        Assert.assertTrue("'Unlock Overview' text is not displayed", text("Unlock Overview").isDisplayed());
+        Assert.assertTrue("'You'll get right to work faster' text is not displayed", text("You'll get right to work faster").isDisplayed());
+        Assert.assertTrue("'The Overview provides a summary of your scheduled visits and fairs for the week with easy access to appointment details—all in one quick view.' text is not displayed",
+                driver.findElement(By.className("yA0LbT1wFzAHyLC-oUZgc")).getText().equals("The Overview provides a summary of your scheduled visits and fairs for the week with easy access to appointment details—all in one quick view."));
+        Assert.assertTrue("'UPGRADE' button is not displayed", button("UPGRADE").isDisplayed());
+
+        button("UPGRADE").click();
+        Assert.assertTrue("'Eloqua sales lead form' is not displayed", driver.findElement(By.xpath("//*[@class='ui header yPrXuXWe8f9WYWmKjbRiU _2_NgiA2zhtvtK1J2NNgPGn']")).getText().equals("Upgrade to Intersect Presence and get the most out of RepVisits"));
+
+        driver.findElement(By.xpath("//i[@class='close icon']")).click();
+
+    }
+
     private void verifyVisitFeedbackHeading() {
         waitUntilPageFinishLoading();
         Assert.assertTrue("Visit Feedback heading not displayed", driver.findElement(By.xpath("//h1[contains(@class, 'ui header _26ekcAlhCmjadW7ShhS7aj')]")).getText().equals("Visit Feedback"));
