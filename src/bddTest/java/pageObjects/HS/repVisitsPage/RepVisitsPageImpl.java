@@ -916,8 +916,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyTimeslot(String startDate,String endDate,String time)
-    {
-        navBar.goToRepVisits();
+    { navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
         availabilityAndSettings().click();

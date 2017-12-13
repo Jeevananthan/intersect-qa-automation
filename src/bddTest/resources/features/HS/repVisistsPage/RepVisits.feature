@@ -384,9 +384,14 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the pills is present in the he side using "<School>" using "<Date>" and "<heStartTime>"
     Then HE I successfully sign out
+#Remove the time slot in Regular Weekly Hours Tab
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
+    Then HS I remove the Time Slot created with "<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
     Examples:
       |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School                  |heStartTime|heTime |
-      |28   |28  |11:49am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:49am    |11:49am|
+      |28   |28  |11:50am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:50am    |11:50am|
 #      |28   |28  |11:51am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:51am    |11:51am|
 #      |28   |28  |11:10am |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:10am    |11:10am|
 #      |28   |28  |11:21am |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:21am    |11:21am|

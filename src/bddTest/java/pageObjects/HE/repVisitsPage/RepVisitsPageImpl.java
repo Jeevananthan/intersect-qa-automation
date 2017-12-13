@@ -342,6 +342,30 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Availability button is not displayed",availabilityButton(date,time).isDisplayed());
     }
 
+    public void removeTimeSlotAddedInRegularWeeklyHoursTab(String Time)
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        availabilityAndSettings().click();
+        WebElement tableBody = driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody"));
+        List<WebElement> tableRows = tableBody.findElements(By.cssSelector("i[class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+        for (WebElement deleteTimeSlot : tableRows) {
+            //Click on REMOVE button
+            waitUntilPageFinishLoading();
+            waitUntilElementExists(driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")));
+            if (driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")).findElement(By.xpath("//button[contains(text(), '"+Time+"')]")).isDisplayed()) {
+                waitUntilPageFinishLoading();
+                deleteTimeSlot.click();
+                waitUntilPageFinishLoading();
+                driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+                waitUntilPageFinishLoading();
+                break;
+            }
+        }
+    }
+
+
     public void setDate(String inputDate, String startOrEndDate){
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
@@ -647,6 +671,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
+    private WebElement availabilityAndSettings()
+    {
+        WebElement availabilityAndSettings= link("Availability & Settings");
+        return  availabilityAndSettings;
+    }
+
 }
 
 
