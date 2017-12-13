@@ -386,8 +386,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I successfully sign out
     Examples:
       |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School                  |heStartTime|heTime |
-      |28   |28  |11:46am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:46am    |11:46am|
-#      |28   |28  |11:49 am |12:11 pm|3        |28        |49     |12:15am   |No, I want to manually review all incoming requests.|Standalone High School 7|11:49am    |11:49am|
-#      |28   |28  |11:50 am |12:11 pm|3        |28        |49     |12:15am   |No, I want to manually review all incoming requests.|Standalone High School 7|11:50am    |11:50am|
-#      |28   |28  |11:51 am |12:11 pm|3        |28        |49     |12:15am   |No, I want to manually review all incoming requests.|Standalone High School 7|11:51am    |11:51am|
+      |28   |28  |11:48am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:48am    |11:48am|
+#      |28   |28  |11:51am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:51am    |11:51am|
+#      |28   |28  |11:10am |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:10am    |11:10am|
+#      |28   |28  |11:21am |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:21am    |11:21am|
 
