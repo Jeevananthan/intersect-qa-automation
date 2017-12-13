@@ -11,8 +11,8 @@ Feature: As a Freemium or Legacy Hubs HE user I want to see an additional Commun
     Then CM I verify that the upgrade widget is "<Visibility>" for "<UserType>" users
     And HE I successfully sign out
     Examples:
-      |UserType            |Username                    |Password   |Visibility  |
-      |Freemium            |brian.bartizek@hobsons.com  |Password!1 |visible     |
-      |Legacy Hub          |yadav.arun24+qa01@gmail.com |Arun@1990  |visible     |
-      |Legacy Community    |qa1.offshore+qa01@gmail.com |Arun@1990  |not visible |
-      |Intersect Awareness |yadav.arun24+qa11@gmail.com |Arun@1990  |not visible |
+      |UserType            |Username                              |Password   |Visibility  |
+      |Freemium            |purpleheautomation+limited@gmail.com  |Password!1 |visible     |
+      |Legacy Hub          |yadav.arun24+qa01@gmail.com           |Arun@1990  |visible     |
+      |Legacy Community    |qa1.offshore+qa01@gmail.com           |Arun@1990  |not visible |
+      |Intersect Awareness |yadav.arun24+qa11@gmail.com           |Arun@1990  |not visible |
