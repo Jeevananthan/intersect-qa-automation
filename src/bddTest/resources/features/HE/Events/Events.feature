@@ -68,12 +68,3 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And HE I publish the current event
     Then HE I verify required fields error messages
     And HE I successfully sign out
-
-
-
-
-
-    
-
-
-
