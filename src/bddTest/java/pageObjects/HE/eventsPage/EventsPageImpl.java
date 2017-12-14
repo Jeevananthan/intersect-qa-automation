@@ -213,10 +213,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                 case "Event Start" :
                     Assert.assertTrue(key + " was not successfully updated", eventStartTimeField().getText().equals(editedData.get(key)));
                     break;
-                //There is an issue that prevents Timezone from being updated. A comment about this was added to MATCH-2913
-//                case "Timezone" :
-//                    Assert.assertTrue(key + "was not successfully updated", timeZoneDropdown().getText().equals(editedData.get(key)));
-//                    break;
+                case "Timezone" :
+                    Assert.assertTrue(key + "was not successfully updated", timeZoneDropdown().getText().equals(editedData.get(key)));
+                    break;
                 case "Description" :
                     //it is necessary to reload the page to see the change in Description (MATCH-3460)
                     driver.get(driver.getCurrentUrl());
