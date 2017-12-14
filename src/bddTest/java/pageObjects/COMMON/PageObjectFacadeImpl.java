@@ -91,4 +91,29 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return sdf.format(cal.getTime());
     }
 
+    /**
+     * Picks a date in the calendars of 'DatePicker' type. You can find one of these calendars
+     * in the Create Event page, in Event Start
+     *
+     * @param date - Calendar object with the desired date
+     */
+    protected void pickDateInDatePicker(Calendar date) {
+        Calendar todaysDate = Calendar.getInstance();
+        if (date.before(todaysDate)) {
+            while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                datePickerPrevMonthButton().click();
+            }
+        } else if (date.after(todaysDate)) {
+            while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                datePickerNextMonthButton().click();
+            }
+        }
+        driver.findElement(By.xpath("//div[@class='DayPicker-Day'][text()='" + getDay(date) + "']")).click();
+    }
+
+    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
+
+
 }
