@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
     public static HashMap<String, String> editedData = new HashMap<>();
+    public static String eventName = "";
 
     public EventsPageImpl() {
         logger = Logger.getLogger(EventsPageImpl.class);
@@ -61,6 +63,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void publishEvent() {
         publishNowButton().sendKeys(Keys.RETURN);
+        waitUntilPageFinishLoading();
     }
 
     public void verifyPublishedEventPresent(String eventName) {
@@ -68,14 +71,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteEvent(String eventName) {
-        getEventsTab("CANCELED").click();
+        getEventsTab("UNPUBLISHED").click();
         menuButtonForEvent(eventName).click();
-        getOptionFromMenuButtonForEvents("Delete");
+        getOptionFromMenuButtonForEvents("Delete").click();
         deleteYesButton().click();
     }
 
     public void verifyEventIsInCancelledList(String eventName) {
-        getEventsTab("CANCELED").click();
+        getEventsTab("CANCELLED").click();
         verifyEventIsPresent(eventName);
     }
 
@@ -100,8 +103,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     eventStartTimeField().sendKeys(row.get(1).split(";")[1]);
                     break;
                 case "Timezone":
-                    timeZoneDropdown().clear();
-                    timeZoneDropdown().sendKeys(row.get(1));
+                    timeZoneDropdown().click();
+                    getTimeZoneOption(row.get(1)).click();
                     break;
                 case "Description":
                     descriptionField().clear();
@@ -180,7 +183,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void openEditScreen(String eventName) {
         menuButtonForEvent(eventName).click();
-        getOptionFromMenuButtonForEvents("Edit").click();
+        menuButtonForEventsEdit().click();
     }
 
     public void takeNoteOfData() {
@@ -215,6 +218,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 //                    Assert.assertTrue(key + "was not successfully updated", timeZoneDropdown().getText().equals(editedData.get(key)));
 //                    break;
                 case "Description" :
+                    //it is necessary to reload the page to see the change in Description (MATCH-3460)
+                    driver.get(driver.getCurrentUrl());
                     Assert.assertTrue(key + " was not successfully updated", descriptionField().getText().equals(editedData.get(key)));
                     break;
                 case "Max Attendees" :
@@ -239,7 +244,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void cancelEvent(String eventName) {
         menuButtonForEvent(eventName).click();
-        getOptionFromMenuButtonForEvents("Cancel").click();
+        menuButtonForEventsCancel().click();
         cancelYesButton().click();
     }
 
@@ -257,12 +262,56 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The error message for Primary Contact is not displayed", primaryContactError().isDisplayed());
     }
 
+    public void verifyEventNotPresentInList(String eventName) {
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("The deleted event is still present in the list",
+                driver.findElements(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']" +
+                        "/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']")).size() == 0);
+    }
+
+    public void unpublishEvent(String eventName) {
+        if (driver.findElements(By.cssSelector("input#name")).size() == 1) {
+            eventsTabFromEditEventScreen().click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
+        }
+        getEventsTab("PUBLISHED").click();
+        menuButtonForEvent(eventName).click();
+        menuButtonForEventsUnpublish().click();
+        unpublishYesButton().click();
+    }
+
+    public void createAndSaveEventWithUniqueName(DataTable eventData) {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss");
+        List<List<String>> eventDetails = eventData.asLists(String.class);
+        waitUntilPageFinishLoading();
+        createEventButton().click();
+        fillCreateEventForm(eventDetails);
+        eventNameField().sendKeys(dateFormat.format(date));
+        eventName = eventNameField().getAttribute("value");
+        publishNowButton().sendKeys(Keys.RETURN);
+    }
+
+    public void cancelCreatedEvent() {
+        menuButtonForEvent(eventName).click();
+        menuButtonForEventsCancel().click();
+        cancelYesButton().click();
+    }
+
+    public void clickCreateEvent() {
+        createEventButton().click();
+    }
+
+    public void verifyCreatedEventIsInCancelledList() {
+        verifyEventIsInCancelledList(eventName);
+    }
+
     //locators
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
     private WebElement eventStartCalendarButton() { return driver.findElement(By.cssSelector("div.seven.wide.column button[title='Event Date']")); }
     private WebElement eventStartTimeField() { return driver.findElement(By.cssSelector("input#startTime")); }
-    private WebElement timeZoneDropdown() { return driver.findElement(By.cssSelector("input.search")); }
+    private WebElement timeZoneDropdown() { return driver.findElement(By.cssSelector("div[aria-live='polite']")); }
     private WebElement timeZoneText() { return driver.findElement(By.cssSelector("input.search + div")); }
     private WebElement descriptionField() { return driver.findElement(By.cssSelector("textarea#eventDescription")); }
     private WebElement maxAttendeesField() { return driver.findElement(By.cssSelector("input#availableSeats")); }
@@ -275,12 +324,30 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button.ui.button.bI0v4ge6zgbar6xs9MqwX")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
     private WebElement menuButtonForEvent(String eventName) {
-        return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']" +
-                "/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/div[text()='" + eventName + "']/../../../div/div/div/i"));
+        return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div" +
+                "[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']/../../../div[@class='three wide column _9SozV5IWiYp704W5xAqOC']" +
+                "/div/div/div/i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
         return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));
     }
+    private WebElement menuButtonForEventsEdit() {
+        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(1) span"));
+    }
+    private WebElement menuButtonForEventsUnpublish() {
+        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(2) span"));
+    }
+    private WebElement menuButtonForEventsCancel() {
+        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(3) span"));
+    }
+    private WebElement menuButtonForEventsDuplicate() {
+        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(4) span"));
+    }
+    private WebElement menuButtonForEventsAttendees() {
+        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(5) span"));
+    }
+
+
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
     private WebElement getEventsTab(String tabName) {
@@ -288,7 +355,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                 "/li/a/span[text()='" + tabName + "']"));
     }
     private WebElement getTimeZoneOption(String optionName) {
-        return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']"));
+        return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _22IjfAfN4Zs4CnM4Q_AlWZ']" +
+                "/div/div/div/div/div/span[text()='" + optionName + "']"));
     }
     private WebElement deleteYesButton() {
         return  driver.findElement(By.cssSelector("button[data-status='DELETED']"));
@@ -304,4 +372,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement primaryContactError() {
         return driver.findElement(By.cssSelector("div.ui.icon.input._3KUN7Tb1NlCv2_RQqzKQCj + div span"));
     }
+    private WebElement unpublishYesButton() {
+        return driver.findElement(By.cssSelector("button[data-status='UNPUBLISHED']"));
+    }
+    private WebElement eventsTabFromEditEventScreen() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL']/span[text()='Events']")); }
 }

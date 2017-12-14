@@ -36,5 +36,17 @@ public class EventsPageStepDefs implements En {
         When("^HE I delete the event of name \"([^\"]*)\"$", eventsPage::deleteEvent);
 
         And("^HE I verify required fields error messages$", eventsPage::verifyAllErrorMessages);
+
+        Then("^HE The deleted event of name \"([^\"]*)\" should not be displayed in the unpublished events list$", eventsPage::verifyEventNotPresentInList);
+
+        When("^HE I unpublish the event of name \"([^\"]*)\"$", eventsPage::unpublishEvent);
+
+        And("^HE I create and save a new event with a unique name and the following details:$", eventsPage::createAndSaveEventWithUniqueName);
+
+        When("^HE I cancel the created event$", eventsPage::cancelCreatedEvent);
+
+        Then("^HE The cancelled event should be displayed in the canceled events list$", eventsPage::verifyCreatedEventIsInCancelledList);
+
+        And("^HE I open the Create Event screen$", eventsPage::clickCreateEvent);
     }
 }
