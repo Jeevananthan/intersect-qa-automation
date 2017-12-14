@@ -1350,6 +1350,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 "You can always check your calendar for more upcoming appointments."));
         link("calendar").click();
 
+        ExpectedCondition<Boolean> condition = new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                return driver.getCurrentUrl().contains("/calendar");
+            }
+        };
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(condition);
+
     }
 
     public void cancelAllEventsForNext7Days() {
