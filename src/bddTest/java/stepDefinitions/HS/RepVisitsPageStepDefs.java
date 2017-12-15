@@ -135,5 +135,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using \"([^\"]*)\" and \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTimeslot);
 
         Then("^HS I edit the slots in Regular Weekly Hours using \"([^\"]*)\"$",repVisits::editSlot);
+
+        Then("^HS I remove the Time Slot created with \"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotAddedInRegularWeeklyHoursTab);
     }
 }
