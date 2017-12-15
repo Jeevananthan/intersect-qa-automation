@@ -8,6 +8,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AccountPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -31,7 +34,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         selectYear.selectByVisibleText(year);
 
         Select selectMonth = new Select(driver.findElement(By.id("month-select")));
-        selectMonth.selectByVisibleText(month);
+        selectMonth.selectByVisibleText(selectMonth(month));
         int dateNumber = Integer.parseInt(dateNo);
         --dateNumber;
         dateNo = String.valueOf(dateNumber);
@@ -50,7 +53,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         selectYear.selectByVisibleText(year);
 
         Select selectMonth = new Select(driver.findElement(By.id("month-select")));
-        selectMonth.selectByVisibleText(month);
+        selectMonth.selectByVisibleText(selectMonth(month));
         int dateNumber = Integer.parseInt(dateNo);
         ++dateNumber;
         dateNo = String.valueOf(dateNumber);
@@ -59,14 +62,41 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         getStartDateButton().click();
     }
 
+
     //Getters
-    private WebElement getEndDateButton(){ return driver.findElement(By.xpath("(//button[@role='tooltip'])[2]")); }
-    private WebElement getStartDateButton(){ return driver.findElement(By.xpath("(//button[@role='tooltip'])[1]")); }
+    private WebElement getEndDateButton(){ return driver.findElement(By.xpath("//button[@aria-label='End Date Calendar']")); }
+    private WebElement getStartDateButton(){ return driver.findElement(By.xpath("//button[@aria-label='Start Date Calendar']")); }
     private WebElement getHubModuleRow(){ return driver.findElement(By.xpath("//table[@class='ui celled striped table']/tbody/tr[1]")); }
     private WebElement getCalender(){ return driver.findElement(By.xpath("//div[@role='application']")); }
     private WebElement getSaveChangesButton(){ return button("Save Changes"); }
 
-
+    public String selectMonth(String month)
+    {
+        String selectedMonth="";
+        List<String> monthValue=new ArrayList<>();
+        monthValue.add("January");
+        monthValue.add("February");
+        monthValue.add("March");
+        monthValue.add("April");
+        monthValue.add("May");
+        monthValue.add("June");
+        monthValue.add("July");
+        monthValue.add("August");
+        monthValue.add("September");
+        monthValue.add("October");
+        monthValue.add("November");
+        monthValue.add("December");
+        for(String Month:monthValue)
+        {
+           String actualMonth=Month.substring(0,3);
+            if(month.contains(actualMonth))
+            {
+                selectedMonth=Month;
+                break;
+            }
+        }
+        return selectedMonth;
+    }
 
     public void verifyCreatePrimaryUser() {
         Assert.assertTrue("\"Create\" button for new primary user was not found!", button("CREATE").isDisplayed());

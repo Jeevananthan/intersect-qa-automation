@@ -42,7 +42,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
             So that I do not have to manually enter appointments.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page
-    And HS I verify the Coming Soon message on the RepVisits Overview page
+    #Changed now because exists Upcoming Visits & Fairs
+    #And HS I verify the Coming Soon message on the RepVisits Overview page
     And HS I successfully sign out
 
   @MATCH-1574 @MATCH-1802
@@ -57,7 +58,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
-      |Monday           | 1             |02          | 11             | 7             | am                | am              | 3          | August 29 2017         |August 30 2017      |
+      |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2017         |August 30 2017      |
 #      |Monday           | 2             |03          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
 #      |Monday           | 3             |04          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
 #      |Monday           | 4             |05          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
@@ -115,30 +116,47 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |No, I want to manually review all incoming requests. |
     Then HS I successfully sign out
 
+  @MATCH-1803
+  Scenario Outline: As a high school staff member ,
+            I want to be able to define the weekly recurring appointment times that my school is available
+            so that colleges can schedule appointments to visit during those times.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+    Then HS I remove the Time Slot created with "<HourStartTime>", "<MinuteStartTime>" and "<MeridianStartTime>"
+    Then HS I verify the Time Slot time were removed with "<HourStartTime>", "<MinuteStartTime>" and "<MeridianStartTime>"
+    And HS I successfully sign out
+
+    Examples:
+      |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
+      |Monday           | 5             |06          | 11             | 07             | am                | pm              | 3          | August 29 2017         |August 30 2017      |
+      |Tuesday          | 5             |07          | 12             | 08             | am                | pm              | 99         | August 15 2017       |September 23 2017 |
+
   @MATCH-1575
   Scenario Outline: As a high school community member,
   I want to be able to automatically block off U.S. Holidays
   so that I do not have to manually block each holiday.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I search for "Int QA High School 4" in RepVisits page using "Arlington, VA" and verify that "<Date>" is blocked
+    Then HE I search for "Int QA High School 4" in RepVisits page using "Liberty Township, OH" and verify that "<Date>" is blocked
     Examples:
-      |Holiday               | Date |
-      |LABOR_DAY             | September 04 2017   |
-      |COLUMBUS_DAY          | October 9 2017      |
-      |VETERANS_DAY          | November 10 2017    |
-      |THANKSGIVING_DAY      | November 23 2017    |
-      |DAY_AFTER_THANKSGIVING| November 24 2017    |
-      |CHRISTMAS_EVE         | December 24 2017    |
-      |CHRISTMAS_DAY         | December 25 2017    |
-      |NEW_YEAR_EVE          | December 31 2017    |
-      |NEW_YEAR_DAY          | January  01 2018    |
-      |MARTIN_LUTHER_DAY     | January 15 2018     |
-      |PRESIDENTS_DAY        | February 19 2018    |
-      |MEMORIAL_DAY          | May 28 2018         |
-      |INDEPENDENCE_DAY      | July 04 2018        |
+      |Holiday               | Date                | StartDate  | EndDate     |
+      |LABOR_DAY             | September 04 2017   |July 23 2017|July 15 2018 |
+      |COLUMBUS_DAY          | October 9 2017      |July 23 2017|July 15 2018 |
+      |VETERANS_DAY          | November 10 2017    |July 23 2017|July 15 2018 |
+      |THANKSGIVING_DAY      | November 23 2017    |July 23 2017|July 15 2018 |
+      |DAY_AFTER_THANKSGIVING| November 24 2017    |July 23 2017|July 15 2018 |
+      |CHRISTMAS_EVE         | December 24 2017    |July 23 2017|July 15 2018 |
+      |CHRISTMAS_DAY         | December 25 2017    |July 23 2017|July 15 2018 |
+      |NEW_YEAR_EVE          | December 31 2017    |July 23 2017|July 15 2018 |
+      |NEW_YEAR_DAY          | January 01 2018     |July 23 2017|July 15 2018 |
+      |MARTIN_LUTHER_DAY     | January 15 2018     |July 23 2017|July 15 2018 |
+      |PRESIDENTS_DAY        | February 19 2018    |July 23 2017|July 15 2018 |
+      |MEMORIAL_DAY          | May 28 2018         |July 23 2017|July 15 2018 |
+      |INDEPENDENCE_DAY      | July 04 2018        |July 23 2017|July 15 2018 |
 
 
 
@@ -213,8 +231,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the Special Instructions are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
     And HS I successfully sign out
     And HE I am logged in to Intersect HE as user type "administrator"
-    And HE I search for "Int QA High School 4" in RepVisits
-    And HE I select "Int QA High School 4" in "Arlington, VA" from the RepVisits intermediate search results
+    And HE I search for "Int Qa High School 4" in RepVisits
+    And HE I select "Int Qa High School 4" in "Liberty Township, OH" from the RepVisits intermediate search results
     And HE I verify Repvisits Special Instructions for School are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
     And HE I successfully sign out
 
@@ -239,7 +257,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
       Examples:
       |BlockedDate          |Reason       |StartDate  | EndDate   |
-      |July 14 2018         |School Event |2018-07-14 | 2018-07-14|
+      |September 23 2017    |School Event |Sep 23, 2017 | Sep 23, 2017|
 
   @MATCH-1756
   Scenario:As an HS Community member,I need to view a calendar of my appointments
@@ -395,4 +413,3 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #      |28   |28  |11:51am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:51am    |11:51am|
 #      |28   |28  |11:10am |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:10am    |11:10am|
 #      |28   |28  |11:21am |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:21am    |11:21am|
-
