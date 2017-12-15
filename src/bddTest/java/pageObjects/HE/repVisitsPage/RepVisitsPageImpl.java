@@ -351,11 +351,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (startOrEndDate.contains("Start")) {
             button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
             findMonth(calendarHeading, startOrEndDate);
-        } else if(startOrEndDate.contains("end")){
+        } else if(startOrEndDate.contains("End")){
             button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
             findMonth(calendarHeading, startOrEndDate);
-        }else{button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
-            findMonth(calendarHeading);}
+        }else if(startOrEndDate.contains("Go To Date")){
+            button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
+            findMonth(calendarHeading, startOrEndDate);
+        }
 
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
@@ -363,7 +365,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void findMonth(String month, String startOrEndDate) {
         waitUntilPageFinishLoading();
-        boolean monthStatus = compareDate(month, startOrEndDate);
+        boolean monthStatus=false;
+        if(startOrEndDate.equals("Start")||startOrEndDate.equals("End")) {
+            monthStatus = compareDate(month, startOrEndDate);
+        }
 
         String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
 
