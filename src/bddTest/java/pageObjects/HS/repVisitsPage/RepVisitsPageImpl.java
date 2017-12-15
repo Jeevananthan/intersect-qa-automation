@@ -1168,31 +1168,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void findMonth(String month, String startOrEndDate) {
-        waitUntilPageFinishLoading();
-        boolean monthStatus = compareDate(month, startOrEndDate);
-
-        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-
-        try{
-            while (!DayPickerCaption.contains(month)) {
-
-                if (monthStatus){
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-                }
-                else {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
-                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-                }
-            }
-
-        }
-        catch (Exception e) {
-            Assert.fail("The Date selected it's out of RANGE.");
-        }
-    }
-
     private WebElement getStartedBtn(){
         return button("Get Started!");
     }
