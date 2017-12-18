@@ -15,11 +15,11 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
   Scenario: As a Hobsons admin user, I can change the primary user of a premium institution.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "The University of Alabama" from the institution dashboard
-    And SP I set the user "purpleheautomation+coordinator@gmail.com" to be the new primary user
-    Then SP I verify that the user account for "purpleheautomation+coordinator@gmail.com" is the primary user
+    And SP I set the user "purpleheautomation+AssignasPrimary@gmail.com" to be the new primary user
+    Then SP I verify that the user account for "purpleheautomation+AssignasPrimary@gmail.com" is the primary user
     And SP I set the user "purpleheautomation@gmail.com" to be the new primary user
     Then SP I verify that the user account for "purpleheautomation@gmail.com" is the primary user
-    Then SP I verify that the user account for "purpleheautomation+coordinator@gmail.com" is not the primary user
+    Then SP I verify that the user account for "purpleheautomation+AssignasPrimary@gmail.com" is not the primary user
     Then SP I successfully sign out
 
   @MATCH-1126

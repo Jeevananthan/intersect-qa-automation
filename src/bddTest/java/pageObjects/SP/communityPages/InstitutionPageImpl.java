@@ -24,8 +24,9 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         link("VIEW NAVIANCE COLLEGE PROFILE").click();
         waitUntilPageFinishLoading();
-        getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
         waitUntilPageFinishLoading();
+        waitForUITransition();
+        getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
         waitForUITransition();
         try{
             waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
