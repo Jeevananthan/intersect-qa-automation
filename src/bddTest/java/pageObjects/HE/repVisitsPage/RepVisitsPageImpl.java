@@ -232,6 +232,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("settings is not displayed",settingsPage().isDisplayed());
         userDropdown().click();
         yourProfileInHeader(yourProfile).click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         driver.switchTo().frame(frameInCommunity());
         Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
         driver.switchTo().defaultContent();
@@ -239,6 +241,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         userDropdown().click();
         institutionProfileInHeader(institutionProfile).click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
         driver.switchTo().frame(frameInCommunity());
         Assert.assertTrue("'Institution Profile' is not displayed",institutionProfilePage().isDisplayed());
         driver.switchTo().defaultContent();
