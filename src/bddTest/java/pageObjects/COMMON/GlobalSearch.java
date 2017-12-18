@@ -389,7 +389,7 @@ public class GlobalSearch extends SeleniumBase {
         Boolean resultsReturned=false;
         // check to make sure a result is found
         if (getDriver().findElements(By.id("global-search-box-item-0")).size() > 0) {
-            getDriver().findElement(By.xpath("global-search-box-item-0")).click();
+            getDriver().findElement(By.id("global-search-box-item-0")).click();
             resultsReturned = true;
         }
         Assert.assertTrue("No search results found for "+ searchRequest + ".", resultsReturned);
