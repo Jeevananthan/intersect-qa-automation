@@ -216,6 +216,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Naviance Settings").click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
         waitUntilElementExists(getDriver().findElement(By.id("form-naviance-settings")));
         String publishVisitsToNavianceText = getDriver().findElement(By.id("form-naviance-settings")).getText();
         String likeToPublishAutomaticallyOptionsText = "Automatically publish confirmed visits.";
@@ -1003,6 +1004,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       waitUntilPageFinishLoading();
       String successMessage="You've updated Naviance settings.";
       String actualSuccessMessage=driver.findElement(By.xpath("//span[text()='Great!']/following-sibling::span")).getText();
+      waitUntilPageFinishLoading();
       Assert.assertTrue("Success Message is not displayed",successMessage.equals(actualSuccessMessage));
     }
 

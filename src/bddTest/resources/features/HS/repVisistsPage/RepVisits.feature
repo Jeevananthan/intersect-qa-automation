@@ -43,7 +43,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page
     Then HS I verify the success message after save the changes
-    And HS I verify the Coming Soon message on the RepVisits Overview page
+#OverView page is updated
+#   And HS I verify the Coming Soon message on the RepVisits Overview page
     And HS I successfully sign out
 
   @MATCH-1574 @MATCH-1802
