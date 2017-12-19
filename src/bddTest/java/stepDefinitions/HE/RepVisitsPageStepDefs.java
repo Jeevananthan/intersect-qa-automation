@@ -55,5 +55,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I reset the password for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::resetPassword);
 
+        And("^HE I verify the left sub menu are present in the Account Settings page for Non-Admin$",repVisits::verifyDetailsInaccountSettingsforNonAdmin);
+
     }
 }

@@ -244,8 +244,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         List<String> tabs = new ArrayList<>();
         //Left Menu
         tabs.add("Account Information");
-        tabs.add("Your Notifications");
-        tabs.add("Institution Notifications");
         tabs.add("Users");
         for (String tab : tabs) {
             Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+tab+"']")).isDisplayed());
@@ -342,6 +340,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Left Menu
         tabs.add("Account Information");
         tabs.add("Your Notifications");
+        for (String tab : tabs) {
+            Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+tab+"']")).isDisplayed());
+        } }
+
+    public void verifyDetailsInaccountSettingsforNonAdmin()
+    {
+        List<String> tabs = new ArrayList<>();
+        //Left Menu
+        tabs.add("Account Information");
         for (String tab : tabs) {
             Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+tab+"']")).isDisplayed());
         } }

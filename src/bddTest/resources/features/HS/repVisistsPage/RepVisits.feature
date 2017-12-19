@@ -312,7 +312,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password#1" as password
     Then HE I navigate to the "Account Settings" Page
-    And HE I verify the left sub menu are present in the Account Settings page
+    And HE I verify the left sub menu are present in the Account Settings page for Non-Admin
     And HE I verify the non-password fields are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
     And HE I validate the password field "<memberUserForHE>","<newPassword>"
