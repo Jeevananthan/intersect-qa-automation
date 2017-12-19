@@ -24,5 +24,5 @@ Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to the "Visit Feedback" page in RepVisits
     Then HE I verify that rate or rating text is not present on Visit Feedback Overview page
-    Then HE I verify the text displaying while viewing individual staff member feedback
+    Then HE I verify text displayed while viewing individual staff member feedback
     Then HE I successfully sign out

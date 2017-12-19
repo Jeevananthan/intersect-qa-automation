@@ -306,7 +306,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return al;
     }
 
-    public void verifyRateOrRatingTextIsNotPresentInVisitFeedbackOverviewPage() {
+    public void verifyRateTextIsPresentInVFOverviewPage() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         List<WebElement> overviewPageElements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='rep-visits-ratings']//*")));
         for(WebElement overviewPageElement : overviewPageElements)
@@ -315,22 +315,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyTextDisplayedWhileViewingIndividualStaffMemberFeedback() {
+    public void verifyTextDisplayedOnViewingStaffFeedback() {
 
         List<WebElement> itemsInStaffMemberMenuHavingOneOrMoreFeedbacks = getVerticalStaffMembersMenu().findElements(By.xpath(".//li[@class='item']"));
         itemsInStaffMemberMenuHavingOneOrMoreFeedbacks.get(0).click();
 
-        Assert.assertTrue(itemsInStaffMemberMenuHavingOneOrMoreFeedbacks.get(0).findElement(By.xpath("./div")).getAttribute("class").contains("active"));
+        Assert.assertTrue(itemsInStaffMemberMenuHavingOneOrMoreFeedbacks.get(0).findElement(By.xpath("./div")).getCssValue("background-color").equals("rgba(245, 234, 239, 1)"));
 
         WebDriverWait wait = new WebDriverWait(driver, 10);
         List<WebElement> elementsInRepVisitDetails = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='rating-details']//*")));
+        Assert.assertTrue(driver.findElement(By.xpath("//span[text()='submitted visit feedback of']")).isDisplayed() || driver.findElement(By.xpath("//span[text()='Anonymous']")).isDisplayed());
 
         for(WebElement elementInRepVisitDetails: elementsInRepVisitDetails) {
             if(elementInRepVisitDetails.getText().equals("Go Back to Visit Feedback"))
             {
                 Assert.assertTrue(elementInRepVisitDetails.isDisplayed());
                 elementInRepVisitDetails.click();
-                Assert.assertTrue(!itemsInStaffMemberMenuHavingOneOrMoreFeedbacks.get(0).findElement(By.xpath("./div")).getAttribute("class").contains("active"));
+                Assert.assertTrue(itemsInStaffMemberMenuHavingOneOrMoreFeedbacks.get(0).findElement(By.xpath("./div")).getCssValue("background-color").equals("rgba(0, 0, 0, 0)"));
                 break;
             }
         }
