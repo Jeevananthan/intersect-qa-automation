@@ -30,7 +30,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the visit availability dates to \"([^\"]*)\" through \"([^\"]*)\"$", repVisits::setStartAndEndDates);
 
-        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::setSpecificStartAndEndDatesinRegularWeeklyHoursTab);
+        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::setSpecificStartAndEndDatesinRegularWeeklyHoursTab);
 
         And ("^HS I verify the update button appears and I click update button$",repVisits::clickUpdateButtonInRepVisits);
 

@@ -352,7 +352,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
            so that I can easily change the number of colleges I will allow during a certain time slot.
 #create a visit
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I set a date using "<StartDate>" and "<EndDate>" in Regular Weekly Hours Tab
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
@@ -409,7 +409,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School                  |heStartTime|heTime |
-      |28   |28  |11:50am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:50am    |11:50am|
-#      |28   |28  |11:51am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:51am    |11:51am|
-#      |28   |28  |11:10am |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:10am    |11:10am|
-#      |28   |28  |11:21am |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:21am    |11:21am|
+      |28   |28  |10:50am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:50am    |10:50am|
+#      |28   |28  |10:52am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:52am    |10:52am|
+#      |28   |28  |10:10am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:10am    |10:10am|
+#      |28   |28  |10:21am  |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:21am    |10:21am|

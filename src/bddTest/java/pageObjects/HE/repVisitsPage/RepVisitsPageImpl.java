@@ -351,15 +351,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         if (startOrEndDate.contains("Start")) {
             button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-            findMonth(calendarHeading, startOrEndDate);
         } else if(startOrEndDate.contains("End")){
             button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-            findMonth(calendarHeading, startOrEndDate);
         }else if(startOrEndDate.contains("Go To Date")){
             button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
-            findMonth(calendarHeading, startOrEndDate);
         }
-
+        findMonth(calendarHeading, startOrEndDate);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
     }
@@ -367,9 +364,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void findMonth(String month, String startOrEndDate) {
         waitUntilPageFinishLoading();
         boolean monthStatus=false;
-        if(startOrEndDate.equals("Start")||startOrEndDate.equals("End")) {
             monthStatus = compareDate(month, startOrEndDate);
-        }
 
         String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
 
@@ -396,12 +391,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
         if (startOrEndDate.contains("Start")) {
-            dateCaption = driver.findElement(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).getText();
-        } else if(startOrEndDate.contains("end")){
-            button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        }else{
-            button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
-        }
+            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+        }else if(startOrEndDate.contains("End")){
+            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
+        else {
+            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
 
 
         //Logic to compare dates before? or not
@@ -426,9 +420,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void clickOnDay(String date) {
 
-        driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
-    }
+        try {
 
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
+
+        } catch (Exception e) {
+            Assert.fail("The Date selected is out of RANGE.");
+        }
+
+    }
 
     public void findMonth(String month) {
 

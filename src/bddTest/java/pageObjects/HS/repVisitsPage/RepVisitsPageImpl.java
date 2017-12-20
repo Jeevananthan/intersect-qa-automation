@@ -263,11 +263,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void findMonth(String month, String startOrEndDate) {
         waitUntilPageFinishLoading();
         boolean monthStatus=false;
-        if(startOrEndDate.equals("Start")||startOrEndDate.equals("End")) {
              monthStatus = compareDate(month, startOrEndDate);
-        }
         String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-
         try{
             while (!DayPickerCaption.contains(month)) {
 
@@ -294,9 +291,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
         if (startOrEndDate.contains("Start")) {
             dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-        } else {
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-        }
+        }else if(startOrEndDate.contains("End")){
+            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
+        else {
+            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
 
         //Logic to compare dates before? or not
         Date first = null;
@@ -321,7 +319,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         try {
 
-            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
 
         } catch (Exception e) {
             Assert.fail("The Date selected is out of RANGE.");
@@ -735,13 +733,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
       if (startOrEndDate.contains("Start")) {
             button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-            findMonth(calendarHeading, startOrEndDate);
         } else if(startOrEndDate.contains("End")) {
             button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-            findMonth(calendarHeading, startOrEndDate);
-        }else if(startOrEndDate.contains("Go To Date")) {
-            button(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
-            findMonth(calendarHeading, startOrEndDate);}
+        }else if(startOrEndDate.contains("other")) {
+            button(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();}
+        findMonth(calendarHeading, startOrEndDate);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
     }
@@ -853,7 +849,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       waitUntilPageFinishLoading();
       waitUntilElementExists(dateButton());
       String Currentdate=getSpecificDate(Date);
-      setDate(Currentdate,"Choose a Date");
+      setDate(Currentdate,"other");
       String date = selectCurrentDate(Date);
       Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']")).isDisplayed());
       WebElement slot=driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']"));
@@ -899,6 +895,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         updateBtn().click();
         waitUntilPageFinishLoading();
         availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
         WebElement slot= driver.findElement(By.xpath("//div/button[text()='"+time+"']"));
         waitUntilElementExists(slot);
         Assert.assertTrue("time is not displayed",  driver.findElement(By.xpath("//td[@class='three wide _2Bvad4lXuWWJM64BNVsAQ2']/div/button[text()='"+time+"']")).isDisplayed());
