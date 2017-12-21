@@ -33,11 +33,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             globalSearch.searchForInstitutions(highSchool);
             waitUntilPageFinishLoading();
             globalSearch.selectResult(highSchool);
-            communityFrame();
-            waitUntilPageFinishLoading();
-            WebDriverWait wait = new WebDriverWait(driver, 10);
+            //communityFrame();
+        /*try {
+            Thread.sleep(4000);
+        }catch (Exception ex){
 
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("check-repvisits-link"))).click();
+        }*/
+        driver.switchTo().defaultContent();
+            driver.switchTo().frame(0);
+
+        communityFrame();
+        /*    WebDriverWait wait = new WebDriverWait(driver, 40);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(), 'Check RepVisits Availability')]"))).click();
+        *///wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Check RepVisits Availability')]"))).click();
+        driver.findElement(By.xpath("//a[contains(text(), 'Check RepVisits Availability')]")).click();
 
             //link("Check Repvisits Availability").click();
             waitUntilPageFinishLoading();
@@ -52,6 +61,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             button(By.xpath("//button[contains(text(), 'Yes, Submit Request')]")).click();
             waitUntilPageFinishLoading();
         }
+    }
+
+    public void selectFairForHE(String highSchool, String fairTitle){
+        navBar.goToRepVisits();
+        link("Search and Schedule").click();
+        //text("Search by school name or location...").sendKeys(highSchool);
+        driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(highSchool);
+        driver.findElement(By.xpath("//i[@class='teal search large link icon _3pWea2IV4hoAzTQ12mEux-']")).click();
+        text(highSchool).click();
+        text("Fairs").click();
+        if (text(fairTitle).isDisplayed()){
+            driver.findElement(By.xpath("//span[contains(text(), '"+fairTitle+"')]/../following-sibling::div/button/span[contains(text(),'Register')]")).click();
+        }else
+            Assert.assertFalse("Fair = "+fairTitle+" is not exist.", text(fairTitle).isDisplayed());
+
+        button(By.xpath("//button[contains(text(), 'Yes, Submit Request')]")).click();
+        waitUntilPageFinishLoading();
     }
 
     public void checkHighSchoolPopUp(DataTable dataTable){

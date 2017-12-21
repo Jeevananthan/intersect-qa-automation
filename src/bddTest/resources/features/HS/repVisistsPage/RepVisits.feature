@@ -151,9 +151,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       And HS I successfully sign out
   Scenario: cheching
       #log into HE app to request attendance to job fair created in HS app above
-      Given HE I am logged in to Intersect HE as user type "administrator"
-      Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test#02"
-      And HE I successfully sign out
+      #Given HE I am logged in to Intersect HE as user type "administrator"
+      #Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test#02"
+      #And HE I successfully sign out
       Given HE I am logged in to Intersect HE as user type "publishing"
       Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test#02"
       And HE I successfully sign out
