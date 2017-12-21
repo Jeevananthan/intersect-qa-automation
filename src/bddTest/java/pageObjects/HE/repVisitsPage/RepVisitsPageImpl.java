@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
@@ -27,15 +29,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void checkHighSchoolJobFairAvailability(String highSchool, String fairName){
         waitUntilPageFinishLoading();
-        do{
+        //do{
             globalSearch.searchForInstitutions(highSchool);
             waitUntilPageFinishLoading();
             globalSearch.selectResult(highSchool);
             communityFrame();
             waitUntilPageFinishLoading();
-            link("Check Repvisits Availability").click();
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("check-repvisits-link"))).click();
+
+            //link("Check Repvisits Availability").click();
             waitUntilPageFinishLoading();
-        }while (!link("Check Repvisits Availability").isDisplayed());
+        //}while (!link("Check Repvisits Availability").isDisplayed());
 
         getDriver().switchTo().defaultContent().findElement(By.xpath("//span[contains(text(), 'Fair')]")).click();
         if(getDriver().findElements(By.xpath("//span[contains(text(), '"+fairName+"')]/../following-sibling::div/button/span[contains(text(), 'Registered')]")).size()>=1) {

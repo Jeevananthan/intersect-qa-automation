@@ -137,7 +137,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Scenario: date
       Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
       Then HS I create a Job Fair with new method
-        | College Fair Name                                         | Fair QA Test002         |
+        | College Fair Name                                         | Fair QA Test#02         |
         | Automatically Confirm Incoming Requestions From Colleges? | no                      |
         | Cost                                                      | 10                      |
         | Start Time                                                | 0800AM                  |
@@ -152,15 +152,15 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario: cheching
       #log into HE app to request attendance to job fair created in HS app above
       Given HE I am logged in to Intersect HE as user type "administrator"
-      Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test002"
+      Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test#02"
       And HE I successfully sign out
       Given HE I am logged in to Intersect HE as user type "publishing"
-      Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test002"
+      Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test#02"
       And HE I successfully sign out
   Scenario: chechingfasfasfasda
       # log back into the HS app to accept and decline the attendance requests from above
       Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-      Then HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs "Confirm" for "Fair QA Test002"
-      Then HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs "Decline" for "Fair QA Test002"
-      Then HS I cancel a job fair "Fair QA Test002"
+      Then HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs "Confirm" for "Fair QA Test#02"
+      Then HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs "Decline" for "Fair QA Test#02"
+      Then HS I cancel a job fair "Fair QA Test#02"
       And HS I successfully sign out
