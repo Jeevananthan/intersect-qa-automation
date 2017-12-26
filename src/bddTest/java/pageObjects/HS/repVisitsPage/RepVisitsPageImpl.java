@@ -1097,6 +1097,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         confirmPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
         saveButton().click();
         waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
     }
 
     public void verifyDetailsInaccountSettings()
