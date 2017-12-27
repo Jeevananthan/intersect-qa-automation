@@ -302,7 +302,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(startDate);
-        setDate(gotoDate, "Go To Date");
+        setDate(gotoDate, "other");
         String date=getMonthandDate(startDate);
         Assert.assertTrue("Availability is not displayed",availabilityButton(date,time).isDisplayed());
         availabilityButton(date,time).click();
@@ -364,6 +364,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void findMonth(String month, String startOrEndDate) {
         waitUntilPageFinishLoading();
         boolean monthStatus=false;
+        if(!startOrEndDate.contains("other"))
             monthStatus = compareDate(month, startOrEndDate);
 
         String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
@@ -393,8 +394,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (startOrEndDate.contains("Start")) {
             dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
         }else if(startOrEndDate.contains("End")){
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
-        else {
             dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
 
 
