@@ -58,6 +58,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 }
                 break;
             case "Confirm":
+                WebDriverWait wait = new WebDriverWait(driver, 10);
+                wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), 'CONFIRM')]")));
                 button(By.xpath("//span[contains(text(), 'CONFIRM')]")).click();
                 waitUntilPageFinishLoading();
                 if(getDriver().findElement(By.xpath("//tr/td[contains(text(), 'Attending')]")).isDisplayed() && button(By.xpath("//span[contains(text(), 'CANCEL')]")).isDisplayed()) {
