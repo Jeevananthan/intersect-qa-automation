@@ -1427,42 +1427,42 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentMonth = currentMonthAndYear.split(" ")[0];
         String currentYear = currentMonthAndYear.split(" ")[1];
 
-        if(month.equals(currentMonth)  && year.equals(currentYear))
-        {
-            WebElement dateCell = driver.findElement(By.xpath("//div[@class='rbc-month-view']//div[contains(@class, 'rbc-date-cell') and not(contains(@class, 'rbc-off-range'))]/a[text()='"+ day +"']"));
+        if(month.equals(currentMonth) == false  || year.equals(currentYear) == false) {
+            driver.findElement(By.xpath("//button[@title='Forwards']")).click();
+        }
 
-            HashMap<String, Integer> dateCellIndices = getDateCellIndicesInGrid(dateCell);
+        WebElement dateCell = driver.findElement(By.xpath("//div[@class='rbc-month-view']//div[contains(@class, 'rbc-date-cell') and not(contains(@class, 'rbc-off-range'))]/a[text()='" + day + "']"));
 
-            int rowIndex = dateCellIndices.get("ROW_INDEX");
-            int columnIndex = dateCellIndices.get("COLUMN_INDEX");
+        HashMap<String, Integer> dateCellIndices = getDateCellIndicesInGrid(dateCell);
 
-            WebElement dayCell = driver.findElement(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[contains(@class, 'rbc-day-bg')][" + columnIndex + "]"));
-            int dayCellStartXCoordinate = dayCell.getLocation().getX();
-            int dayCellEndXCoordinate = dayCellStartXCoordinate + dayCell.getSize().getWidth();
+        int rowIndex = dateCellIndices.get("ROW_INDEX");
+        int columnIndex = dateCellIndices.get("COLUMN_INDEX");
+
+        WebElement dayCell = driver.findElement(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[contains(@class, 'rbc-day-bg')][" + columnIndex + "]"));
+        int dayCellStartXCoordinate = dayCell.getLocation().getX();
+        int dayCellEndXCoordinate = dayCellStartXCoordinate + dayCell.getSize().getWidth();
 
             //List<WebElement> rbcEventElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[@class='rbc-event']")));
-            List<WebElement> rbcEventElements = driver.findElements(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[@class='rbc-event']"));
+        List<WebElement> rbcEventElements = driver.findElements(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[@class='rbc-event']"));
 
-            for(WebElement rbcEventElement : rbcEventElements)
-            {
-                if(rbcEventElement.getLocation().getX() > dayCellStartXCoordinate && rbcEventElement.getLocation().getX() < dayCellEndXCoordinate)
-                {
-                    eventsScheduledForDateElements.add(rbcEventElement);
-                }
+        for (WebElement rbcEventElement : rbcEventElements) {
+            if (rbcEventElement.getLocation().getX() > dayCellStartXCoordinate && rbcEventElement.getLocation().getX() < dayCellEndXCoordinate) {
+                eventsScheduledForDateElements.add(rbcEventElement);
             }
-
-            WebElement showMoreLink = null;
-
-            try {
-                driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-                showMoreLink = driver.findElement(By.xpath("//div[@class='rbc-show-more']"));
-            } catch(Exception ex) {}
-
-            showMoreLinkElement.add(showMoreLink);
-
-             allElementsInDayCell.put("EVENTS", new ArrayList(eventsScheduledForDateElements));
-             allElementsInDayCell.put("SHOW_MORE", new ArrayList(showMoreLinkElement));
         }
+
+        WebElement showMoreLink = null;
+
+        try {
+            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            showMoreLink = driver.findElement(By.xpath("//div[@class='rbc-show-more']"));
+        } catch (Exception ex) { }
+
+        showMoreLinkElement.add(showMoreLink);
+
+        allElementsInDayCell.put("EVENTS", new ArrayList(eventsScheduledForDateElements));
+        allElementsInDayCell.put("SHOW_MORE", new ArrayList(showMoreLinkElement));
+
 
         return allElementsInDayCell;
     }
