@@ -266,12 +266,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario Outline: As a RepVisits User,I need to be able to update my contact information and reset my password
             So I can effectively manage my RepVisits Account.
     #ADMIN
-    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<oldPassword>" as password
     Then HS I navigate to the "Account Settings" Page
     Then HS I reset the password for "<oldPassword>","<newPassword>"
     And HS I successfully sign out
 
-    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "Password#1" as password
+    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<newPassword>" as password
     Then HS I navigate to the "Account Settings" Page
     And HS I verify the left-sub menu are present in the Account Settings page
     And HS I verify the non-password fields are pre-populated with current data "<HSadminFirstName>","<HSadminLastName>","<HSadminEmail>"
@@ -279,12 +279,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And  HS I validate the password field "<adminUserForHS>","<newPassword>"
     And HS I successfully sign out
     #NON-ADMIN
-    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<oldPassword>" as password
     Then HS I navigate to the "Account Settings" Page
     Then HS I reset the password for "<oldPassword>","<newPassword>"
     And HS I successfully sign out
 
-    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password#1" as password
+    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<newPassword>" as password
     Then HS I navigate to the "Account Settings" Page
     And HS I verify the left sub menu are present in the Account Settings page
     And HS I verify the non-password fields are pre-populated with current data "<HSmemberFirstName>","<HSmemberLastName>","<HSmemberEmail>"
@@ -292,12 +292,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And  HS I validate the password field "<memberUserForHS>","<newPassword>"
     And HS I successfully sign out
     #ADMIN
-    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
+    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<oldPassword>" as password
     Then HE I navigate to the "Account Settings" Page
     Then HE I reset the password for "<oldPassword>","<newPassword>"
     And HE I successfully sign out
 
-    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password#1" as password
+    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<newPassword>" as password
     Then HE I navigate to the "Account Settings" Page
     And HE I verify the left-sub menu are present in the Account Settings page
     And HE I verify the non-password fields are pre-populated with current data "<HEadminFirstName>","<HEadminLastName>","<HEadminEmail>"
@@ -305,12 +305,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I validate the password field "<adminUserForHE>","<newPassword>"
     And HE I successfully sign out
     #NON-ADMIN
-    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
+    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<oldPassword>" as password
     Then HE I navigate to the "Account Settings" Page
     Then HE I reset the password for "<oldPassword>","<newPassword>"
     And HE I successfully sign out
 
-    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password#1" as password
+    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<newPassword>" as password
     Then HE I navigate to the "Account Settings" Page
     And HE I verify the left sub menu are present in the Account Settings page for Non-Admin
     And HE I verify the non-password fields are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
