@@ -213,7 +213,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
 
 
-    public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status){
+    public void setModuleStatusAsActiveOrInActive(String moduleName, String status){
 
         WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
 
@@ -237,9 +237,74 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
        }
     }
 
-    public void setStartDateInModulePage(){
+    public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status, String startDateDelta, String endDateDelta){
 
-        String startDate = "June 13, 2017";
+        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
+
+        WebElement actualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
+        if(!actualStatus.getText().equalsIgnoreCase(status)){
+            actualStatus.click();
+            WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
+            driver.executeScript("arguments[0].click();",dropDownItem);
+
+            if(!status.equalsIgnoreCase("inactive")) {
+                WebElement StartDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(0);
+                WebElement EndDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(1);
+
+                StartDateButton.click();
+                setStartDate(startDateDelta);
+                StartDateButton.click();
+                EndDateButton.click();
+                setEndDate(endDateDelta);
+                EndDateButton.click();
+            }
+        }
+    }
+
+    public void setStartDate(String delta){
+        Calendar cal = getDeltaDate(Integer.parseInt(delta));
+
+        String month = getMonth(cal);
+        String dateNo = getDay(cal);
+        if (dateNo.startsWith("0"))
+            dateNo = dateNo.substring(1);
+        String year = getYear(cal);
+        Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        selectYear.selectByVisibleText(year);
+
+        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        dateTemp.click();
+    }
+
+    public void setEndDate(String delta){
+        Calendar cal = getDeltaDate(Integer.parseInt(delta));
+
+        String month = getMonth(cal);
+        String dateNo = getDay(cal);
+        if (dateNo.startsWith("0"))
+            dateNo = dateNo.substring(1);
+        String year = getYear(cal);
+
+        Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        selectYear.selectByVisibleText(year);
+
+        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        dateTemp.click();
+    }
+
+    public void setStartDateInModulePage(String... startDateArray){
+        String startDate;
+        if (startDateArray == null) {
+            startDate = "June 13, 2017";
+        } else {
+            startDate = startDateArray[0];
+        }
         String month = startDate.substring(0, 4);
         String dateNo = startDate.substring(5, 7);
         String year = startDate.substring(9, 13);
@@ -252,12 +317,15 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
         dateTemp.click();
-
-
     }
-    public void setEndDateInModulePage(){
 
-        String endDate = "June 13, 2018";
+    public void setEndDateInModulePage(String... endDateArray){
+        String endDate;
+        if (endDateArray == null) {
+            endDate = "June 13, 2018";
+        } else {
+            endDate = endDateArray[0];
+        }
         String month = endDate.substring(0, 4);
         String dateNo = endDate.substring(5, 7);
         String year = endDate.substring(9, 13);
@@ -270,7 +338,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
         dateTemp.click();
-
     }
 
 
