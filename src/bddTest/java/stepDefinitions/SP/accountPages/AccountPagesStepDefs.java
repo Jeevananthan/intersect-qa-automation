@@ -31,12 +31,6 @@ public class AccountPagesStepDefs implements En {
 
         Then("^SP I verify the left navigation bar and section breadcrumbs are as follows$",navBar::verifyLeftNavAndBreadcrumbs);
 
-        And ("^SP I set the Start Date as \"([^\"]*)\" for \"([^\"]*)\"$",accountPage::setStartDateInAccountPage);
-
-        And ("^SP I set the End Date as \"([^\"]*)\" for \"([^\"]*)\"$",accountPage::setEndDateInAccountPage);
-
-        And("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActiveWithDate);
-
         And("^SP I Click the Save Changes button",accountPage::clicksaveChangesButton);
 
         Then ("^SP I verify the \"([^\"]*)\" should be \"([^\"]*)\" for \"([^\"]*)\"$",accountPage::verifyModuleDetails);
@@ -44,5 +38,9 @@ public class AccountPagesStepDefs implements En {
         Then("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" with the start date \"([^\"]*)\" and end date \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActiveWithDate);
 
         Then("^SP I verify the status \"([^\"]*)\" with the start date \"([^\"]*)\" and end date \"([^\"]*)\" for the module \"([^\"]*)\"$",accountPage::verifyModuleDetails);
+
+        And("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActiveWithDate);
+
+        And("^SP I Click the Save Changes button",accountPage::clicksaveChangesButton);
     }
 }

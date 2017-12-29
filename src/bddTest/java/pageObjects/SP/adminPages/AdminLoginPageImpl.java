@@ -39,7 +39,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
         button("Next").click();
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         passwordTextbox().click();
         logger.info("Using " + password + " as password");
         handleAccountTypeDialog(password);
@@ -72,7 +72,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyExpectedErrorMessage(String expectedErrorMsg) {
-        String actualErrorMsg = getDriver().findElement(By.id("recover_container")).getText().replace("\n", " ");
+        String actualErrorMsg = getDriver().findElement(By.id("passwordError")).getText();
         Assert.assertEquals("Error message did not match", expectedErrorMsg, actualErrorMsg);
     }
 
@@ -101,12 +101,17 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void loginAsACommunityUser() {
-        login(GetProperties.get("adminPage.communityUser.username"), GetProperties.get("adminPage.communityUser.password"));
+        login(GetProperties.get("sp.communityUser.username"), GetProperties.get("sp.communityUser.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 
     public void loginAsACommunityManagerUser() {
-        login(GetProperties.get("adminPage.communityManager.username"), GetProperties.get("adminPage.communityManager.password"));
+        login(GetProperties.get("sp.communityManager.username"), GetProperties.get("sp.communityManager.password"));
+        adminPage.verifyUserIsLoggedIn();
+    }
+
+    public void loginAsNoAccessUser() {
+        login(GetProperties.get("sp.norole.username"), GetProperties.get("sp.norole.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 
