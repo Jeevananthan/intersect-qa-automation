@@ -90,7 +90,6 @@ public class GlobalSearch extends SeleniumBase {
         }
         waitUntilPageFinishLoading();
     }
-
     private void doSearch(String searchTerm) {
         waitUntilPageFinishLoading();
         getSearchBox().click();
