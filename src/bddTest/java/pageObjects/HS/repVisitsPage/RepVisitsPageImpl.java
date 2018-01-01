@@ -250,7 +250,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 confirmationMessageText.contains(message));
     }
 
-    public void verifyMessageConfirmation(String message){
+    public void verifyMessageConfirmation(){
         Assert.assertTrue("The update message was not displayed",text("You've updated your messaging.")
                 .isDisplayed());
     }
@@ -1373,7 +1373,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).sendKeys(message);
     }
 
-}
     private void doubleClick(WebElement elementLocator) {
         Actions actions = new Actions(driver);
         actions.doubleClick(elementLocator).perform();

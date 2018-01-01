@@ -349,13 +349,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 
   @MATCH-1584
-  Scenario Outline: As a high school user,
-  when I confirm an appointment I need to email colleges with specific details about visiting my high school,
-  so that they are prepared to visit my high school.
+  Scenario Outline: As a high school user, when I confirm an appointment I need to email colleges with specific details
+                    about visiting my high school  so that they are prepared to visit my high school.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I add default message that contains "<Message>"
-    And HS I verify the "<Message>" confirmation
-    And HS I verify the "<Message>" was updated
+    Then HS I set the RepVisits Confirmation message to "<Message>"
+    And HS I verify the messaging updated confirmation toast message
+    And HS I verify the RepVisits Confirmation message is set to "<Message>"
 
     Examples:
       |Message                 |
