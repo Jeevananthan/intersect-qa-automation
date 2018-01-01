@@ -20,7 +20,6 @@ Feature: HE - Login - ResetPassword - As an HE Admissions User I need the abilit
   @MATCH-167
   Scenario: As a System I need a platform-level password policy for all institutional accounts and their users in order
             to secure the data within the Purple platform.
-
     When HE I begin the reset password process for user type "reset"
     Then HE I receive the below reset password email and reset the password for user type "reset"
       |Subject                                     |To                                         |Messages |
