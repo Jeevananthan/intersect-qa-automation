@@ -4,8 +4,10 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -43,13 +45,13 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-home-menu-link")).click();
         userDropdown().click();
         button(By.id("user-dropdown-change-profile")).click();
+        waitUntilElementExists(changeProfileLabel());
         Assert.assertTrue("User was not taken to Account Settings screen",button("SAVE").isDisplayed());
     }
 
     public void updateProfile() {
         // This line should not be needed.  Current flow is broken.
         navBar.goToCommunity();
-
         userDropdown().click();
         button(By.id("user-dropdown-update-profile")).click();
         ensureWeAreOnUpdateProfilePage();
@@ -62,7 +64,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("E-mail Address") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Current Password").isDisplayed());
         Assert.assertTrue(textbox("New Password").isDisplayed());
-        Assert.assertTrue(textbox("Confirm Password").isDisplayed());
+        Assert.assertTrue(textbox("Confirm New Password").isDisplayed());
 
         // Verify that Update your profile? link works as expected
         link("update your profile?").click();
@@ -89,8 +91,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("Last Name") + "\"]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("Your institution") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Personal Email").isDisplayed());
-        Assert.assertTrue(textbox("Office Phone").isDisplayed());
-        Assert.assertTrue(textbox("Mobile Phone").isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("Last Name") + "\"]")).isDisplayed());
+        textbox(By.id("edit-field-office-phone-und-0-value")).sendKeys(Keys.TAB);
+        Assert.assertTrue(driver.findElement(By.id("field-office-phone-add-more-wrapper")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.id("field-mobile-phone-add-more-wrapper")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.id("edit-cp-states-field-general-description-und-0-value")).isDisplayed());
 
         // Scroll to the end of the form
@@ -224,7 +228,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyWidgetIsVisible(String widgetName){
-
+        waitForUITransition();
         Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
@@ -243,12 +247,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         driver.switchTo().defaultContent();
     }
 
-    public void clickRepVisits(){
-        int count = 1;
-        while (!getSearchAndScheduleHeading().isDisplayed() && count<4){
-            getRepVisitsBtn().click();
-            count++;
-        }
+    public void verifyRepVisitsLandingPage(){
+        navBar.goToRepVisits();
+        waitForUITransition();
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
 
@@ -269,4 +270,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
     private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
+    private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
+    private WebElement changeProfileLabel(){return text("Change Profile");}
 }

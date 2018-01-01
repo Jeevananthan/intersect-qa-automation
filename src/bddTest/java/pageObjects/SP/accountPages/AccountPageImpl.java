@@ -1,16 +1,20 @@
 package pageObjects.SP.accountPages;
 
-import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public class AccountPageImpl extends PageObjectFacadeImpl {
 
@@ -35,12 +39,12 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         selectYear.selectByVisibleText(year);
 
         Select selectMonth = new Select(driver.findElement(By.id("month-select")));
-        selectMonth.selectByVisibleText(month);
+        selectMonth.selectByVisibleText(selectMonth(month));
         int dateNumber = Integer.parseInt(dateNo);
         --dateNumber;
         dateNo = String.valueOf(dateNumber);
-        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='" + dateNo + "']"));
-        Assert.assertTrue("End date which is earlier then start date is enabled", Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        Assert.assertTrue("End date which is earlier then start date is enabled",Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
         getEndDateButton().click();
     }
 
@@ -54,23 +58,126 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         selectYear.selectByVisibleText(year);
 
         Select selectMonth = new Select(driver.findElement(By.id("month-select")));
-        selectMonth.selectByVisibleText(month);
+        selectMonth.selectByVisibleText(selectMonth(month));
         int dateNumber = Integer.parseInt(dateNo);
         ++dateNumber;
         dateNo = String.valueOf(dateNumber);
-        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='" + dateNo + "']"));
-        Assert.assertTrue("Start date which is past then end date is enabled", Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        Assert.assertTrue("Start date which is past then end date is enabled",Boolean.parseBoolean(dateTemp.getAttribute("aria-disabled")));
         getStartDateButton().click();
     }
 
+    public void verifyModuleDetails(String status,String startDate,String endDate,String module){
+        String ActualStatus;
+        switch (module){
+
+            case "Legacy: Hub page management":
+                if(!status.equals("")) {
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[2]/div[@role='listbox']/div")).getText();
+                    Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(status));
+                }
+                if(!startDate.equals("")){
+                    String ActualStartDate = driver.findElement(By.xpath("//tbody/tr[1]/td[4]")).getText();
+                    Assert.assertTrue("Expected Start date is not displayed",ActualStartDate.equalsIgnoreCase(dateCompareFormatter(getDeltaDate(Integer.parseInt(startDate)))));
+                }
+                if(!endDate.equals("")){
+                    String ActualEndDate = driver.findElement(By.xpath("//tbody/tr[1]/td[5]")).getText();
+                    Assert.assertTrue("Expected End date is not displayed",ActualEndDate.equalsIgnoreCase(dateCompareFormatter(getDeltaDate(Integer.parseInt(endDate)))));
+
+                }
+                break;
+
+
+            case "Legacy: Community":
+                if(!status.equals("")) {
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[2]/td[2]/div[@role='listbox']/div")).getText();
+                    Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(status));
+                }
+                if(!startDate.equals("")){
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[2]/td[4]")).getText();
+                    Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(dateCompareFormatter(getDeltaDate(Integer.parseInt(startDate)))));
+                }
+                if(!endDate.equals("")){
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[2]/td[5]")).getText();
+                    Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(dateCompareFormatter(getDeltaDate(Integer.parseInt(endDate)))));
+
+                }
+                break;
+
+            case "Intersect Awareness Subscription":
+                if(!status.equals("")) {
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[3]/td[2]/div[@role='listbox']/div")).getText();
+                    Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(status));
+                }
+                if(!startDate.equals("")){
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[3]/td[4]")).getText();
+                    Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(dateCompareFormatter(getDeltaDate(Integer.parseInt(startDate)))));
+                }
+                if(!endDate.equals("")){
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[3]/td[5]")).getText();
+                    Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(dateCompareFormatter(getDeltaDate(Integer.parseInt(endDate)))));
+
+                }
+                break;
+
+            case "Intersect Presence Subscription":
+                if(!status.equals("")) {
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[2]/div[@role='listbox']/div")).getText();
+                    Assert.assertTrue("Expected status is not displayed",ActualStatus.equalsIgnoreCase(status));
+                }
+                if(!startDate.equals("")){
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[4]")).getText();
+                    Assert.assertTrue("Expected Start date is not displayed",ActualStatus.equalsIgnoreCase(dateCompareFormatter(getDeltaDate(Integer.parseInt(startDate)))));
+                }
+                if(!endDate.equals("")){
+                    ActualStatus = driver.findElement(By.xpath("//tbody/tr[1]/td[5]")).getText();
+                    Assert.assertTrue("Expected End date is not displayed",ActualStatus.equalsIgnoreCase(dateCompareFormatter(getDeltaDate(Integer.parseInt(endDate)))));
+
+                }
+                break;
+        }
+    }
+
+    private String dateCompareFormatter(Calendar cal){
+        String moduleSubscriptionDateFormat = "MMM d, yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(moduleSubscriptionDateFormat);
+        return sdf.format(cal.getTime());
+    }
+
     //Getters
-    private WebElement getEndDateButton(){ return driver.findElement(By.xpath("(//button[@role='tooltip'])[2]")); }
-    private WebElement getStartDateButton(){ return driver.findElement(By.xpath("(//button[@role='tooltip'])[1]")); }
+    private WebElement getEndDateButton(){ return driver.findElement(By.xpath("//button[@aria-label='End Date Calendar']")); }
+    private WebElement getStartDateButton(){ return driver.findElement(By.xpath("//button[@aria-label='Start Date Calendar']")); }
     private WebElement getHubModuleRow(){ return driver.findElement(By.xpath("//table[@class='ui celled striped table']/tbody/tr[1]")); }
     private WebElement getCalender(){ return driver.findElement(By.xpath("//div[@role='application']")); }
     private WebElement getSaveChangesButton(){ return button("Save Changes"); }
 
-
+    public String selectMonth(String month)
+    {
+        String selectedMonth="";
+        List<String> monthValue=new ArrayList<>();
+        monthValue.add("January");
+        monthValue.add("February");
+        monthValue.add("March");
+        monthValue.add("April");
+        monthValue.add("May");
+        monthValue.add("June");
+        monthValue.add("July");
+        monthValue.add("August");
+        monthValue.add("September");
+        monthValue.add("October");
+        monthValue.add("November");
+        monthValue.add("December");
+        for(String Month:monthValue)
+        {
+           String actualMonth=Month.substring(0,3);
+            if(month.contains(actualMonth))
+            {
+                selectedMonth=Month;
+                break;
+            }
+        }
+        return selectedMonth;
+    }
 
     public void verifyCreatePrimaryUser() {
         Assert.assertTrue("\"Create\" button for new primary user was not found!", button("CREATE").isDisplayed());
@@ -78,39 +185,25 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     //Verifying Institutional information for "Docufide Institute of Technology (not a real school)"
     public void verifyInstitutuionalInformation() {
-        Assert.assertTrue("Institutional Account Address1 is wrong.", text("1800 Rodeo Drive").isDisplayed());
-        Assert.assertTrue("Institutional Account Address2 is wrong.", text("Suite 100").isDisplayed());
-        Assert.assertTrue("Institutional Account City is wrong.", text("Beverly Hills").isDisplayed());
-        Assert.assertTrue("Institutional Account postal code is wrong.", text("90210").isDisplayed());
-        Assert.assertTrue("Institutional Account SCID is wrong.", text("SCID:").isDisplayed());
+        Assert.assertTrue("Institutional Account Address1 is wrong.",text("1800 Rodeo Drive").isDisplayed());
+        Assert.assertTrue("Institutional Account Address2 is wrong.",text("Suite 100").isDisplayed());
+        Assert.assertTrue("Institutional Account City is wrong.",text("Beverly Hills").isDisplayed());
+        Assert.assertTrue("Institutional Account postal code is wrong.",text("90210").isDisplayed());
+        Assert.assertTrue("Institutional Account SCID is wrong.",text("SCID:").isDisplayed());
     }
 
-    public void verifyAccessToLogHistory(String visible) {
-        if (visible == "Yes") {
+    public void verifyAccessToLogHistory(String visible){
+        if(visible == "Yes"){
             Assert.assertTrue("View Log History is not accessible", link("View Log History").isDisplayed());
-        } else if (visible == "No") {
+        }
+        else if (visible == "No"){
             Assert.assertFalse("View Log History should not be accessible", link("View Log History").isDisplayed());
-        } else {
+        }
+        else {
             logger.error("Invalid parameter passed");
         }
     }
 
-
-    public void updateInstitutionalDetailsWithConnectAndRadiusId(String connectIdVal, String radiusIdVal) {
-
-        WebElement EditBtn = driver.findElement(By.xpath("//div[@class='ui stackable equal width grid']/div/section[1]/h2/button/span[text()='Edit']"));
-        Assert.assertTrue("Edit Button is not displayed for the update", EditBtn.isDisplayed());
-        EditBtn.click();
-
-        Assert.assertTrue("Connect Id textbox is not displayed", driver.findElement(By.cssSelector("input[aria-label='connect Id']")).isDisplayed());
-        textbox(By.cssSelector("input[aria-label='connect Id']")).sendKeys(connectIdVal+getRandomNo());
-
-        Assert.assertTrue("Radius Id textbox is not displayed", driver.findElement(By.cssSelector("input[aria-label='radius Id']")).isDisplayed());
-        textbox(By.cssSelector("input[aria-label='radius Id']")).sendKeys(radiusIdVal);
-
-        driver.findElement(By.cssSelector("button[class='ui mini primary right floated button']")).click();
-        waitUntilPageFinishLoading();
-    }
     public void clicksaveChangesButton(){
         if(getSaveChangesButton().isDisplayed()) {
             getSaveChangesButton().click();
@@ -118,38 +211,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public String getRandomNo(){
-    //this function returns a random number within the bound 50
-        Random randomNumber = new Random();
-        int randomNo = randomNumber.nextInt(50);
-        return Integer.toString(randomNo);
-    }
-
-    public void verifyInstitutionalDetails(DataTable dataTable) {
-
-        List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
-        for (Map<String, String> IntitutionalDetails : entities) {
-            for (String key : IntitutionalDetails.keySet()) {
-
-                switch (key) {
-                    case "Connect Id":
-                        String actualConnectId = driver.findElement(By.cssSelector("div[class='connect-id']")).getText();
-                        Assert.assertTrue("Connect Id was not as expected.  Expected: " + IntitutionalDetails.get(key) + " but got: " + actualConnectId, actualConnectId.contains(IntitutionalDetails.get(key)));
-                        break;
-
-                    case "Radius Id":
-                        String actualRadiusId = driver.findElement(By.cssSelector("div[class='radius-id']")).getText();
-                        Assert.assertTrue("Radius Id was not as expected.  Expected: " + IntitutionalDetails.get(key) + " but got: " + actualRadiusId, actualRadiusId.contains(IntitutionalDetails.get(key)));
-                        break;
 
 
-                }
-            }
-
-        }
-    }
-
-    public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status){
+    public void setModuleStatusAsActiveOrInActive(String moduleName, String status){
 
         WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
 
@@ -173,9 +237,74 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
        }
     }
 
-    public void setStartDateInModulePage(){
+    public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status, String startDateDelta, String endDateDelta){
 
-        String startDate = "June 13, 2017";
+        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
+
+        WebElement actualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
+        if(!actualStatus.getText().equalsIgnoreCase(status)){
+            actualStatus.click();
+            WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
+            driver.executeScript("arguments[0].click();",dropDownItem);
+
+            if(!status.equalsIgnoreCase("inactive")) {
+                WebElement StartDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(0);
+                WebElement EndDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(1);
+
+                StartDateButton.click();
+                setStartDate(startDateDelta);
+                StartDateButton.click();
+                EndDateButton.click();
+                setEndDate(endDateDelta);
+                EndDateButton.click();
+            }
+        }
+    }
+
+    public void setStartDate(String delta){
+        Calendar cal = getDeltaDate(Integer.parseInt(delta));
+
+        String month = getMonth(cal);
+        String dateNo = getDay(cal);
+        if (dateNo.startsWith("0"))
+            dateNo = dateNo.substring(1);
+        String year = getYear(cal);
+        Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        selectYear.selectByVisibleText(year);
+
+        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        dateTemp.click();
+    }
+
+    public void setEndDate(String delta){
+        Calendar cal = getDeltaDate(Integer.parseInt(delta));
+
+        String month = getMonth(cal);
+        String dateNo = getDay(cal);
+        if (dateNo.startsWith("0"))
+            dateNo = dateNo.substring(1);
+        String year = getYear(cal);
+
+        Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        selectYear.selectByVisibleText(year);
+
+        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        dateTemp.click();
+    }
+
+    public void setStartDateInModulePage(String... startDateArray){
+        String startDate;
+        if (startDateArray == null) {
+            startDate = "June 13, 2017";
+        } else {
+            startDate = startDateArray[0];
+        }
         String month = startDate.substring(0, 4);
         String dateNo = startDate.substring(5, 7);
         String year = startDate.substring(9, 13);
@@ -190,9 +319,13 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         dateTemp.click();
     }
 
-    public void setEndDateInModulePage(){
-
-        String endDate = "June 13, 2018";
+    public void setEndDateInModulePage(String... endDateArray){
+        String endDate;
+        if (endDateArray == null) {
+            endDate = "June 13, 2018";
+        } else {
+            endDate = endDateArray[0];
+        }
         String month = endDate.substring(0, 4);
         String dateNo = endDate.substring(5, 7);
         String year = endDate.substring(9, 13);
@@ -205,8 +338,10 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
         WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
         dateTemp.click();
-
     }
+
+
+
 }
 
 
