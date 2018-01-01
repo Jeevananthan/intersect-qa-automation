@@ -142,7 +142,7 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
   Scenario: As a HE user I want to preform a global and advanced search for groups that do not return HS results.
   So I can ensure only HS groups are returned.
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify real-time search results do not return any results for HS groups "New Wrong Test HE Group"
-    Then HE I verify advanced search results do not return any results for HS groups "New Wrong Test HE Group"
+    Then HE I verify real-time search results do not return any results for HS groups "New Test HS Group"
+    Then HE I verify advanced search results do not return any results for HS groups "New Test HS Group"
       | Groups |
     And HE I successfully sign out
