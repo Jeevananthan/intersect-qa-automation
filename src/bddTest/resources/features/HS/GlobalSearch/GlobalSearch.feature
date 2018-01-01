@@ -108,3 +108,12 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
       | Title I Eligible              | No                         |
       | College Going Rate            | 59-100                     |
     And HS I successfully sign out
+
+  @MATCH-1400
+  Scenario: As a HS user I want to preform a global and advanced search for groups that do not return HE results.
+            So I can ensure only HS groups are returned.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify real-time search results do not return any results for HE groups "New Test HE Group"
+    Then HS I verify advanced search results do not return any results for HE groups "New Test HE Group"
+      | Groups |
+    And HS I successfully sign out
