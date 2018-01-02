@@ -54,6 +54,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void goToUsersList(String institutionName) {
         goToInstitution(institutionName);
         link("See All Users").click();
+        waitUntilPageFinishLoading();
     }
 
     public void goToCreateUser(String institutionName) {

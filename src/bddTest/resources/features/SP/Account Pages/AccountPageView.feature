@@ -66,7 +66,7 @@ Feature: Hobsons Support - View HE Institution Accounts
   Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I verify the left navigation bar and section breadcrumbs are as follows
-      | Awareness | Counselor Community |
+      |Awareness|Counselor Community|
     And SP I successfully sign out
 
 

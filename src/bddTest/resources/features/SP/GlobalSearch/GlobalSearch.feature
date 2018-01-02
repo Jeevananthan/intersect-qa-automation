@@ -13,13 +13,13 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
   Scenario: As a SP user I want real-time results displayed to me while performing a global search.
             So I can quickly find the person/institution/group/content/filter/event I want to view.
     Given SP I am logged in to the Admin page as a Support user
-    Then SP I type into the global search box and hit return/enter key to display advanced search results "admin"
+    Then SP I type into the global search box and hit return/enter key to display advanced search results "Match"
     Then SP I verify real-time search results were categorized by entity
       | People | Institutions | Groups |
     Then SP I verify that only five or less results are listed in real-time results displayed
       | User | Institutions | Groups |
-    Then SP I verify real-time search results are clickable and actionable "admin"
-    Then SP I verify real-time search layouts are displayed correctly "admin"
+    Then SP I verify real-time search results are clickable and actionable "Match"
+    Then SP I verify real-time search layouts are displayed correctly "Match"
       | People | Institutions | Groups |
     And SP I successfully sign out
 
