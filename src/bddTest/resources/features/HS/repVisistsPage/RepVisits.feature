@@ -409,7 +409,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School                  |heStartTime|heTime |
-      |28   |28  |10:52am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:52am    |10:52am|
+      |28   |28  |10:54am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:54am    |10:54am|
 #      |28   |28  |10:52am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:52am    |10:52am|
 #      |28   |28  |10:10am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:10am    |10:10am|
 #      |28   |28  |10:21am  |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:21am    |10:21am|

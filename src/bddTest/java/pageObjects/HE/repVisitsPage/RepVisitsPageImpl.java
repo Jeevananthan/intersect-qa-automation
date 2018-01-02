@@ -323,7 +323,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
         startDate = getSpecificDate(startDate);
-        setDate(startDate, "Go To Date");
+        setDate(startDate, "other");
         try{
             if(! availabilityButton(startDate,time).isDisplayed())
             {
@@ -338,7 +338,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(startDate);
-        setDate(gotoDate, "Go To Date");
+        setDate(gotoDate, "other");
         String date=getMonthandDate(startDate);
         Assert.assertTrue("Availability button is not displayed",availabilityButton(date,time).isDisplayed());
     }
@@ -353,7 +353,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
         } else if(startOrEndDate.contains("End")){
             button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        }else if(startOrEndDate.contains("Go To Date")){
+        }else if(startOrEndDate.contains("other")){
             button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
         }
         findMonth(calendarHeading, startOrEndDate);
@@ -429,20 +429,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void findMonth(String month) {
-
-        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-
-        try{
-            while (!DayPickerCaption.contains(month)) {
-                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-            }
-        }
-        catch (Exception e) {
-            fail("The Date selected it's out of RANGE.");
-        }
-    }
+//    public void findMonth(String month) {
+//
+//        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+//
+//        try{
+//            while (!DayPickerCaption.contains(month)) {
+//                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+//                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+//            }
+//        }
+//        catch (Exception e) {
+//            fail("The Date selected it's out of RANGE.");
+//        }
+//    }
 
 
     public String getSpecificDate(String addDays) {
