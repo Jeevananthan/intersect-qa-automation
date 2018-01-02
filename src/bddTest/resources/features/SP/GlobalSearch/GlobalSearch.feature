@@ -13,7 +13,7 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
   Scenario: As a SP user I want real-time results displayed to me while performing a global search.
             So I can quickly find the person/institution/group/content/filter/event I want to view.
     Given SP I am logged in to the Admin page as a Support user
-    Then SP I type into the global search box to show results are returned below the search box in real-time "Match"
+    Then SP I type into the global search box and hit return/enter key to display advanced search results "Match"
     Then SP I verify real-time search results were categorized by entity
       | People | Institutions | Groups |
     Then SP I verify that only five or less results are listed in real-time results displayed
@@ -74,7 +74,7 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
 
   @MATCH-934 @MATCH-1104 @MATCH-1106 @MATCH-1108
   Scenario: As a Community user I want to perform an advanced search for institutions using any combination of the fields below.
-  So I can more accurately find the institutions I want to follow with in the Community.
+            So I can more accurately find the institutions I want to follow with in the Community.
     Given SP I am logged in to the Admin page as a Support user
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "Higher Education"
       | Keyword                       | Arkansas                   |

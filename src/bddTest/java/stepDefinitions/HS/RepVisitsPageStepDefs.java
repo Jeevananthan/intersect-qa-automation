@@ -131,5 +131,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS verify the past dates are disabled in the select custom date section for Re-schedule visit page$",repVisits::verifyPastDatesDisabledInNewScheduleVisitPage);
 
+        Then("^HS I set the RepVisits Confirmation message to \"([^\"]*)\"$", repVisits::addDefaultMessage);
+
+        Then("^HS I verify the RepVisits Confirmation message is set to \"([^\"]*)\"$", repVisits::verifyMessageUpdated);
+
+        And("^HS I verify the messaging updated confirmation toast message$", repVisits::verifyMessageConfirmation);
+
+
     }
 }

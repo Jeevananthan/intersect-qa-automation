@@ -383,13 +383,14 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                        <!--    <forkCount>1</forkCount>
+                            <forkCount>2.0C</forkCount>
                             <parallel>all</parallel>
-                            <reuseForks>true</reuseForks>-->
-                            <useUnlimitedThreads>false</useUnlimitedThreads>
+                            <useUnlimitedThreads>true</useUnlimitedThreads>
                             <useSystemClassLoader>false</useSystemClassLoader>
                             <perCoreThreadCount>false</perCoreThreadCount>
                             <threadCount>20</threadCount>
+                            <reuseForks>true</reuseForks>
+                            <useUnlimitedThreads>true</useUnlimitedThreads>
                             <includes>
                                 <include>**/*IT.class</include>
                             </includes>
