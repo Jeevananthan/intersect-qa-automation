@@ -136,6 +136,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS verify the past dates are disabled in the select custom date section for Re-schedule visit page$",repVisits::verifyPastDatesDisabledInNewScheduleVisitPage);
 
+        Then("^HS I set the RepVisits Confirmation message to \"([^\"]*)\"$", repVisits::addDefaultMessage);
+
+        Then("^HS I verify the RepVisits Confirmation message is set to \"([^\"]*)\"$", repVisits::verifyMessageUpdated);
+
+        And("^HS I verify the messaging updated confirmation toast message$", repVisits::verifyMessageConfirmation);
+
         Then("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
 
         Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using \"([^\"]*)\" and \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTimeslot);
@@ -143,6 +149,5 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I edit the slots in Regular Weekly Hours using \"([^\"]*)\"$",repVisits::editSlot);
 
         Then("^HS I remove the Time Slot created with \"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotAddedInRegularWeeklyHoursTab);
-
     }
 }

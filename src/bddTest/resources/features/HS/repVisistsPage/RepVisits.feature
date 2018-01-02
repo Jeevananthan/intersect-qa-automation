@@ -346,6 +346,18 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS verify pills are not available for the past dates in Re-schedule visit page
     Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
     And HS I successfully sign out
+ 
+ @MATCH-1584
+ Scenario Outline: As a high school user, when I confirm an appointment I need to email colleges with specific details
+                    about visiting my high school  so that they are prepared to visit my high school.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the RepVisits Confirmation message to "<Message>"
+    And HS I verify the messaging updated confirmation toast message
+    And HS I verify the RepVisits Confirmation message is set to "<Message>"
+
+    Examples:
+      |Message                 |
+      |Test update New Message |
 
   @MATCH-2682
   Scenario Outline:As a high school staff member, I want to be able to edit my regular hours in RepVisits,
@@ -413,3 +425,4 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #      |28   |28  |10:52am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:52am    |10:52am|
 #      |28   |28  |10:10am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:10am    |10:10am|
 #      |28   |28  |10:21am  |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:21am    |10:21am|
+

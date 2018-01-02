@@ -131,10 +131,11 @@ public class NavBarImpl extends SeleniumBase {
                 WebElement headerSpan = container.findElement(By.tagName("span"));
                 Assert.assertTrue("Nav Bar header for "+subMenu+" is incorrect, expected \"" + heading + "\"",headerSpan.getText().toLowerCase().contains(heading.toLowerCase()));
                 waitUntilPageFinishLoading();
+                waitUntilElementExists(itemLink);
                 itemLink.click();
                 waitUntilPageFinishLoading();
                 try{
-                    new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class, '_2XXQfVOMnbUWAImETf3shY')]/div/div/div[@class='_2QGqPPgUAifsnRhFCwxMD7']")));
+                    new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(By.xpath("//div[text()='"+heading+"']/following-sibling::div[text()='"+subMenu+"']")));
                 } catch(Exception e){
                     Assert.fail("Breadcrumbs never appeared on the page after waiting 10 seconds.");
                 }

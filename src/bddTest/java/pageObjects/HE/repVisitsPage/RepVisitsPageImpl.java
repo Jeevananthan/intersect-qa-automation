@@ -2,8 +2,10 @@ package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
+import javafx.scene.input.DataFormat;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,6 +18,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.apache.log4j.Logger;
 
 
 import static org.junit.Assert.fail;
@@ -188,6 +198,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
        Assert.assertTrue("'UPGRADE' button is not displayed",button("UPGRADE").isDisplayed());
        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
    }
+    public void verifySearchResultOfSearchAndSchedule(DataTable dataTable){
+        DataTable transposedTable = dataTable.transpose();
+        Map<String,String> searchMap = transposedTable.asMap(String.class, String.class);
+        Set<String> searchCategory = searchMap.keySet();
+        for (String category : searchCategory ) {
+            searchforHighSchool(searchMap.get(category));
+            try {
+                Assert.assertTrue("HS data is showing while searching through "+category+" in Search And Schedule page", driver.findElement(By.xpath("//table[@class='ui very basic table']")).isDisplayed());
+            } catch (NoSuchElementException nsee){
+                Assert.assertTrue("HS data is not showing while searching through "+category+" in Search And Schedule page", driver.findElement(By.xpath("//span[contains(text(),'No results found')]")).isDisplayed());
+            }
+        }
+    }
 
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
         navBar.goToRepVisits();
@@ -583,6 +606,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
     private WebElement getSearchBox() { return textbox("Search by school name or location...");}
+    private WebElement getSearchAndScheduleSearchBox(){ return textbox("Search by school name or location..."); }
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
