@@ -70,18 +70,18 @@ Feature:  HE - Settings - AccountSettings - As an HE user, I want to be able to 
     And HE I enter the following data on the Account Settings page and click "Save"
       |First Name       |PurpleHE                                     |
       |Last Name        |Updates                                      |
-      |Email            |purpleheautomation+sample@gmail.com          |
+      |Email            |purpleheautomation+Updates@gmail.com          |
     And HE I receive the "Matching Account has been Updated" email below
       |Subject                             |To                                    |Messages |Body                                                                                                                                                          |
       |Intersect Account has been Updated  |purpleheautomation@gmail.com          |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact|
     Then HE I navigate to the Users page
-    Then HE I select the "Edit" options from the actions dropdown for the HE primary account "purpleheautomation+sample@gmail.com"
+    Then HE I select the "Edit" options from the actions dropdown for the HE primary account "purpleheautomation+Updates@gmail.com"
     And HE I enter the following data on the Account Settings page and click "Save"
       |First Name       |PurpleHE                       |
       |Last Name        |Automation                     |
       |Email            |purpleheautomation@gmail.com   |
     And HE I receive the "Matching Account has been Updated" email below
       |Subject                             |To                                            |Messages |Body                                                                                                                                                          |
-      |Intersect Account has been Updated  |purpleheautomation+sample@gmail.com           |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact|
+      |Intersect Account has been Updated  |purpleheautomation+Updates@gmail.com           |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact|
     Then HE I successfully sign out
 
