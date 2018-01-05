@@ -15,11 +15,11 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
   Scenario: As a Hobsons admin user, I can change the primary user of a premium institution.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "The University of Alabama" from the institution dashboard
-    And SP I set the user "purpleheautomation+coordinator@gmail.com" to be the new primary user
-    Then SP I verify that the user account for "purpleheautomation+coordinator@gmail.com" is the primary user
+    And SP I set the user "purpleheautomation+AssignasPrimary@gmail.com" to be the new primary user
+    Then SP I verify that the user account for "purpleheautomation+AssignasPrimary@gmail.com" is the primary user
     And SP I set the user "purpleheautomation@gmail.com" to be the new primary user
     Then SP I verify that the user account for "purpleheautomation@gmail.com" is the primary user
-    Then SP I verify that the user account for "purpleheautomation+coordinator@gmail.com" is not the primary user
+    Then SP I verify that the user account for "purpleheautomation+AssignasPrimary@gmail.com" is not the primary user
     Then SP I successfully sign out
 
   @MATCH-1126
@@ -27,11 +27,13 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
   I can create a new primary user
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
-    And SP I "inactivate" the user account for "brian.bartizek@hobsons.com"
+    And SP I "inactivate" the user account for "purpleheautomation+12103@gmail.com"
+    Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I verify that I can create a new primary user
+
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
-    And SP I "activate" the user account for "brian.bartizek@hobsons.com"
+    And SP I "activate" the user account for "purpleheautomation+12103@gmail.com"
     Then SP I successfully sign out
 
     @MATCH-1783

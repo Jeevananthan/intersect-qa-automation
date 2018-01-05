@@ -23,6 +23,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void logout() {
         driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
         userDropdown().click();
         driver.findElement(By.xpath("//span[text()='Sign Out']")).click();
         waitUntilPageFinishLoading();

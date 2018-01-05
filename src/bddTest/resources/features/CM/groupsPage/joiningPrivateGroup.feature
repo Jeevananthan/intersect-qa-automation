@@ -14,7 +14,7 @@ Feature: Community User - Joining Private Groups
     Then I check if I see "Request to join" button
     And I sign out from the HE app
 
-  #This scenario may fail on ste when denying join group request due to session issue (not possible to go to /groups page)
+  #This scenario may fail on step when denying join group request due to session issue (not possible to go to /groups page)
   @MATCH-690
   Scenario: As a Community user when I take the 'Request to Join' action on a Private group the group owner/manager is presented with a notification in the Community of my request.
     Given I am logged in to Purple Community through the Support App
@@ -27,7 +27,7 @@ Feature: Community User - Joining Private Groups
     And I sign out from the HE app
     And I am logged in to Purple Community through the Support App
     Then I open Notifications list
-    And I check if user have new notification
+    And I check if user has new notification
     And I sign out from the Support app
     Then I deny request to join the group
 

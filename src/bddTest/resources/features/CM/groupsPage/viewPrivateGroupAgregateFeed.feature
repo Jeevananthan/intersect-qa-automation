@@ -1,4 +1,4 @@
-@CM
+@CM @MATCH-712
 Feature: Community User - View Private Group Aggregate Feed Content
   As a Community user I want to view an aggregate feed of recent content and activity within a
   Private group so I can quickly determine what has happened since the last time I viewed the group.

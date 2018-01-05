@@ -1,5 +1,6 @@
 package pageObjects.SP.communityPages;
 
+import junit.framework.AssertionFailedError;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -18,18 +19,25 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToHubsPage(String collegeName){
         waitUntilPageFinishLoading();
         communityFrame();
+        waitForUITransition();
         link("Additional info").click();
+        waitUntilPageFinishLoading();
         link("VIEW NAVIANCE COLLEGE PROFILE").click();
         waitUntilPageFinishLoading();
-        getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(collageNameLabel()));
-        Assert.assertTrue("College Name is not displaying in Hubs View", collageNameLabel().getText().trim().equals(collegeName));
+        waitForUITransition();
+        getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
+        waitForUITransition();
+        try{
+            waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
+        }catch(Exception e){
+            throw new AssertionFailedError("College Name is not displaying in Hubs View");
+        }
         getDriver().switchTo().defaultContent();
     }
 
-    //locator
-    private WebElement collageNameLabel() {
-        return getDriver().findElement(By.cssSelector("h1.masthead__name"));
-    }
+        //locator
+        private WebElement collageNameLabel() {
+            return getDriver().findElement(By.cssSelector("h1.masthead__name"));
+        }
 }

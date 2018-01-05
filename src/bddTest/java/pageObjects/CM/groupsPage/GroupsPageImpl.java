@@ -199,6 +199,17 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void makeSureUserIsMemberOfThePublicGroup() {
+        try {
+            joinGroupButton();
+            logger.info("User is going to join the group.");
+            joinGroupButton().click();
+
+        } catch (NoSuchElementException e) {
+            logger.info("User already joined the group.");
+        }
+    }
+
     public void sendRequestToJoinTheGroup() {
         logger.info("Clicking on button to join the group.");
         requestToJoinGroupButton().click();
@@ -447,6 +458,11 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void checkPresentedJoinButtonNextToPublicGroup() {
         logger.info("Check if I am presented with a 'Join' action next to any Public group that returns in my search results");
         Assert.assertTrue("'Join' button cannot be found on the page!", checkItemVisibleByCssSelector("i", "class", "user plus icon"));
+    }
+
+    public void checkAggregateFeedOnGroupPage() {
+        logger.info("Checking if aggregate feed is visible on group page.");
+        Assert.assertTrue("", checkItemVisibleByCssSelector("div","class","post-submitted"));
     }
 
     public void disableCommentsOnGroupPosts() {
