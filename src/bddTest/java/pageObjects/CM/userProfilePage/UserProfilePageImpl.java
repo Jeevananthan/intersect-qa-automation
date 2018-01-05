@@ -3,7 +3,9 @@ package pageObjects.CM.userProfilePage;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.CM.commonPages.PageObjectFacadeImpl;
 
 /**
@@ -30,6 +32,8 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         iframeExit();
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
         iframeEnter();
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/profile']")));
         link(By.cssSelector("a[href='/profile']")).click();
         waitUntilPageFinishLoading();
         link(By.cssSelector("a[href='/profile']")).click();
