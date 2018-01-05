@@ -386,9 +386,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void findMonth(String month, String startOrEndDate) {
         waitUntilPageFinishLoading();
-        boolean monthStatus=false;
-        if(!startOrEndDate.contains("other"))
-            monthStatus = compareDate(month, startOrEndDate);
+        boolean monthStatus;
+        if(!startOrEndDate.contains("other")){
+            monthStatus=false;
+            monthStatus = compareDate(month, startOrEndDate);}else
+        {monthStatus=true;}
 
         String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
 

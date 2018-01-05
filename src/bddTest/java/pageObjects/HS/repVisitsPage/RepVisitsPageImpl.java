@@ -1014,24 +1014,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyOverviewPage();
     }
 
-//    public void setStartAndEndDates(String startDate, String endDate) {
-//        navBar.goToRepVisits();
-//        link("Availability & Settings").click();
-//        link("Availability").click();
-//        link("Regular Weekly Hours").click();
-//        waitUntilPageFinishLoading();
-//        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-//        setDate(startDate, "Start");
-//        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-//        setDate(endDate, "End");
-//    }
-
-//    public void verifyTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
-//
-//        Assert.assertTrue("The Time Slot was not added" , driver.findElement(By.cssSelector("table[class='ui unstackable basic table']")).findElement(By.xpath("//button[contains(text(), '"+hourStartTime+ ":"+ minuteStartTime + meridianStartTime +"')]")).isDisplayed());
-//
-//    }
-
     public void removeTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
 
         WebElement tableBody = driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody"));
@@ -1630,11 +1612,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement date=button("Choose a Date");
         waitUntilElementExists(date);
         return date;
-    }
-
-    private void doubleClick(WebElement elementLocator) {
-        Actions actions = new Actions(driver);
-        actions.doubleClick(elementLocator).perform();
     }
 
     private WebElement saveChanges()
