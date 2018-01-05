@@ -137,6 +137,10 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify the messaging updated confirmation toast message$", repVisits::verifyMessageConfirmation);
 
+        Then("^HS I navigate to the \"([^\"]*)\" page in RepVisits$", repVisits::navigateToRepVisitsSection);
 
+        Then("^HS I cancel all events for the next 7 days$", repVisits::cancelAllEventsForNext7Days);
+
+        Then("^HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days$", repVisits::verifyRepVisitsPageWhenNoVisitsScheduledForNext7Days);
     }
 }
