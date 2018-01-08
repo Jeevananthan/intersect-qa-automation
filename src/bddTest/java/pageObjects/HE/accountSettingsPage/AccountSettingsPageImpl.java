@@ -46,15 +46,21 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Password requirements are not correctly displayed on Change Password screen", messagingDisplayed);
     }
 
-    public void accessUsersPage()
+    public void accessUsersPage(String option,String value)
     {
-        Assert.assertTrue("Users is not displayed",driver.findElement(By.id("js-main-nav-manage-users-menu-link")).isDisplayed());
-        driver.findElement(By.id("js-main-nav-manage-users-menu-link")).click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+        userDropdown().click();
+        Assert.assertTrue("Account Settings option is not displyed",selectOptionfromDropdownList(option).isDisplayed());
+        selectOptionfromDropdownList(option).click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Users is not displayed",selectOptionInAccountSettings(value).isDisplayed());
+        selectOptionInAccountSettings(value).click();
+        waitUntilPageFinishLoading();
     }
 
     public  void selectOption(String option,String eMail)
     {
-        Assert.assertTrue("Actions dropdown is displayed",driver.findElement(By.xpath("//div[text()='"+eMail+"']/parent::td/following-sibling::td/div/div[text()='Actions']")).isDisplayed());
         driver.findElement(By.xpath("//div[text()='"+eMail+"']/parent::td/following-sibling::td/div/div[text()='Actions']")).click();
         driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
     }
@@ -75,5 +81,18 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement cancelButton() { return button("CANCEL"); }
 
+    private WebElement userDropdown() {
+        return button(By.id("user-dropdown"));
+    }
+    private WebElement selectOptionfromDropdownList(String Option)
+    {
+        WebElement option=driver.findElement(By.xpath("//span[text()='"+Option+"']"));
+        return option;
+    }
+    private WebElement selectOptionInAccountSettings(String value)
+    {
+    WebElement option=driver.findElement(By.xpath("//span[text()='"+value+"']"));
+    return option;
+    }
 
 }

@@ -13,7 +13,7 @@ public class AccountSettingsPageStepDefs implements En {
 
         And("^HE I verify the Password Requirements are displayed$",accountSettingsPage::verifyPasswordRequirementsMessage);
 
-        Then("^HE I navigate to the Users page$",accountSettingsPage::accessUsersPage);
+        Then("^HE I navigate to the \"([^\"]*)\" page to access the \"([^\"]*)\" page$",accountSettingsPage::accessUsersPage);
 
         Then("^HE I select the \"([^\"]*)\" options from the actions dropdown for the HE primary account \"([^\"]*)\"$",accountSettingsPage::selectOption);
     }
