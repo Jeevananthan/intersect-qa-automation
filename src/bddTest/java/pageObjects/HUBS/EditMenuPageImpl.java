@@ -17,7 +17,7 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
 
     public void clickEditMenuButton(String label) {
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='editor-status ng-scope']"), 1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='editor ng-scope']"), 1));
         switch (label) {
             case "Studies" : studiesButton().click();
                 break;

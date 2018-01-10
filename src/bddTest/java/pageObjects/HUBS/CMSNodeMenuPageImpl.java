@@ -98,7 +98,7 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement nextPageButton() {
         return getDriver().findElement(By.cssSelector("a[title=\"Go to next page\"]"));
     }
-    private WebElement workflowOverviewButton() { return getDriver().findElement(By.xpath("//a[text()='Workflow Overview']")); }
+    private WebElement workflowOverviewButton() { return getDriver().findElement(By.xpath("//a[text()='Workflow']")); }
     private List<WebElement> workflowRows() { return getDriver().findElements(By.cssSelector("table.views-table.sticky-enabled tbody tr")); }
     private WebElement approveButton() { return getDriver().findElement(By.cssSelector("input#edit-submit")); }
     private WebElement confirmationMessage() { return getDriver().findElement(By.cssSelector("div.messages.status")); }
