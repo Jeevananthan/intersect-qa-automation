@@ -52,8 +52,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the formatting of the Visit Feedback page$", repVisits::verifyVisitFeedbackPage);
 
-        Then("^HE I cancel all events for the next 7 days$", repVisits::cancelAllEventsForNext7Days);
-
         Then("^HE I verify the RepVisits Overview page and Search and Schedule hyperlink when no events are scheduled for the next 7 days", repVisits::verifyDefaultMessageOverviewPage);
     }
 }
