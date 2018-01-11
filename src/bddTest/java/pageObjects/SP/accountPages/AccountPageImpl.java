@@ -1,5 +1,6 @@
 package pageObjects.SP.accountPages;
 
+import cucumber.api.java.gl.E;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -14,11 +15,14 @@ import java.util.List;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Random;
 
 
 public class AccountPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+
+    UserListPageImpl Implobj=new UserListPageImpl();
 
     public AccountPageImpl() {
         logger = Logger.getLogger(AccountPageImpl.class);
@@ -180,7 +184,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCreatePrimaryUser() {
-        Assert.assertTrue("\"Create\" button for new primary user was not found!", button("CREATE").isDisplayed());
+        Assert.assertTrue("Create User is not displayed",driver.findElement(By.xpath("//span[text()='Create User']")).isDisplayed());
+        driver.findElement(By.xpath("//span[text()='Create User']")).click();
     }
 
     //Verifying Institutional information for "Docufide Institute of Technology (not a real school)"
@@ -340,6 +345,49 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         dateTemp.click();
     }
 
+    public void addUserAccount(String firstName,String lastName,String email,String verifyEmail,String userName) {
+        String value[] = email.split("@");
+        String RandomValue = generateRandomNumber();
+        String EMail = value[0]+"+"+RandomValue+"@"+value[1];
+        if (!firstName.equals("")) {
+            Assert.assertTrue("firstName textbox is not displayed", driver.findElement(By.xpath("//input[@id='create-primary-user-first-name']")).isDisplayed());
+            driver.findElement(By.xpath("//input[@id='create-primary-user-first-name']")).sendKeys(firstName);
+        }
+        if (!lastName.equals("")) {
+            Assert.assertTrue("lastName textbox is not displayed", driver.findElement(By.xpath("//input[@id='create-primary-user-last-name']")).isDisplayed());
+            driver.findElement(By.xpath("//input[@id='create-primary-user-last-name']")).sendKeys(lastName);
+        }
+        if (!email.equals("")) {
+            Assert.assertTrue("email textbox is not displayed", driver.findElement(By.xpath("//input[@id='create-primary-user-email']")).isDisplayed());
+            driver.findElement(By.xpath("//input[@id='create-primary-user-email']")).sendKeys(EMail);
+        }
+        if (!verifyEmail.equals("")) {
+            Assert.assertTrue("verify email textbox is not displayed", driver.findElement(By.xpath("//input[@id='create-primary-user-verify-email']")).isDisplayed());
+            driver.findElement(By.xpath("//input[@id='create-primary-user-verify-email']")).sendKeys(EMail);
+        }
+        Assert.assertTrue("Administrator option is not displayed",driver.findElement(By.xpath("//span[text()='Administrator (All access)']")).isDisplayed());
+        driver.findElement(By.xpath("//span[text()='Administrator (All access)']")).click();
+        Assert.assertTrue("Save is not displayed",button("Save").isDisplayed());
+        button("Save").click();
+        waitUntilPageFinishLoading();
+        WebElement seeAllUser =driver.findElement(By.xpath("//span[text()='See All Users']"));
+        waitUntilElementExists(seeAllUser);
+        Assert.assertTrue("See All Users is not displayed",seeAllUser.isDisplayed());
+        seeAllUser.click();
+
+        if (!userName.equals("")) {
+        Implobj.verifyUserIsNotPrimary(EMail);
+        Implobj.setPrimaryUser(EMail);
+        Implobj.verifyUserIsPrimary(EMail);
+        }
+
+    }
+    public String generateRandomNumber() {
+        Random random = new Random();
+        int value = random.nextInt(1000) + 100;
+        String Randomvalue=Integer.toString(value);
+        return Randomvalue;
+    }
 
 
 }

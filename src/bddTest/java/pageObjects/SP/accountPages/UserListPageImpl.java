@@ -145,6 +145,13 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Expected user status icon was not found.  Expected " + status, driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/parent::tr/td/i[@class='"+className+"']")).isDisplayed());
     }
 
+    public void verifyCreateUserButton() {
+        Assert.assertTrue("See All Users is not displayed",driver.findElement(By.xpath("//span[text()='See All Users']")).isDisplayed());
+        driver.findElement(By.xpath("//span[text()='See All Users']")).click();
+        Assert.assertTrue("Create New User button is not displayed",driver.findElement(By.xpath("//span[text()='Create New User']")).isDisplayed());
+        driver.findElement(By.xpath("//span[text()='Create New User']")).click();
+    }
+
     // This is necessary because Selenium doesn't think that the action options are visible (even though they are),
     // so we interact with them directly through JS.
     private void jsClick(WebElement element) {

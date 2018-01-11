@@ -94,3 +94,21 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     Then SP I go to the users list for "The University of Alabama" from the institution dashboard
     And SP I "re-invite" the user account for "hobsons.purple+amorrison.AT.ua.edu@gmail.com"
     Then SP I successfully sign out
+
+  @MATCH-1793
+  Scenario Outline: As a Support user with the Administrator or Support role I need to be able to create a non primary HE or HS user
+  that does not yet have a primary user established so the primary user slot can remain available for a more appropriate staff member at that institution.
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    And SP I verify that I can create a new primary user
+    Then SP I add the user account "<First Name>","<Last Name>","<Email>","<Verify Email>" and set the user to be a new primary user "<Email>"
+    Then SP I successfully sign out
+    Given SP I am logged in to the Admin page as a Support user
+    When SP I select "Alpena Community College" from the institution dashboard
+    And SP I verify that I can create a new primary user using create new user button
+    Then SP I add the user account "<First Name>","<Last Name>","<Email>","<Verify Email>" and set the user to be a new primary user "<Email>"
+    Then SP I successfully sign out
+
+    Examples:
+      |First Name|Last Name  |Email                         |Verify Email                       |
+      |PurpleHE  |Automation |purpleheautomation@gmail.com  |purpleheautomation@gmail.com       |
