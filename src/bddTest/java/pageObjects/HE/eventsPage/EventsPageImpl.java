@@ -72,7 +72,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void deleteEvent(String eventName) {
         getEventsTab("Unpublished").click();
+        waitUntilPageFinishLoading();
         menuButtonForEvent(eventName).click();
+        waitUntilPageFinishLoading();
         getOptionFromMenuButtonForEvents("Delete").click();
         deleteYesButton().click();
     }
