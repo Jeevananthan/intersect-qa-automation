@@ -2,17 +2,17 @@
 Feature: HE - Active Match Events - As an HE Intersect User, I need the ability to create/edit/save/publish/delete events in AM Events so that I
   can attract Naviance students to attend my events.
 
-  @MATCH-2913
+  @MATCH-2913 @MATCH-3219
   Scenario: An Event can be created/edited/saved/published/deleted
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and save a new event with the following details:
     | Event Name | TestEvent7777 |
-    | Event Start | 12-21-2017;10:00AM |
+    | Event Start | 12-21-2018;10:00AM |
     | Timezone    | Eastern Time (i.e. America/New_York) |
     | Description | Test              |
     | Max Attendees | 30 |
-    | RSVP Deadline | 12-15-2017 |
+    | RSVP Deadline | 12-15-2018;10:00AM |
 #    Select Location, Contact and Filter (audience) by position (starting in 1).
 #    This is because currently we can create locations, contacts and filters with
 #    the same name.
@@ -23,11 +23,11 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
 
     When HE I edit the event of name "TestEvent7777" with the following details:
     | Event Name | TestEvent7777Edited |
-    | Event Start | 12-23-2017;11:00AM |
+    | Event Start | 12-23-2018;11:00AM |
     | Timezone    | Atlantic Time (i.e. America/Puerto_Rico) |
     | Description | TestEdited         |
     | Max Attendees | 40               |
-    | RSVP Deadline | 12-22-2017 |
+    | RSVP Deadline | 12-22-2018;11:00AM |
     | EVENT LOCATION | 2 |
     | EVENT PRIMARY CONTACT | 2 |
     | EVENT AUDIENCE        | 2 |
@@ -49,9 +49,9 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     When HE I open the Events list
     And HE I create and save a new event with a unique name and the following details:
       | Event Name | TestEvent |
-      | Event Start | 12-31-2017;10:00AM |
+      | Event Start | 12-31-2018;10:00AM |
       | Max Attendees | 30 |
-      | RSVP Deadline | 12-30-2017 |
+      | RSVP Deadline | 12-30-2018;10:00AM |
   #    Select Location, Contact and Filter (audience) by position (starting in 1).
   #    This is because currently we can create locations, contacts and filters with
   #    the same name.

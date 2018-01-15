@@ -71,14 +71,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteEvent(String eventName) {
-        getEventsTab("UNPUBLISHED").click();
+        getEventsTab("Unpublished").click();
         menuButtonForEvent(eventName).click();
         getOptionFromMenuButtonForEvents("Delete").click();
         deleteYesButton().click();
     }
 
     public void verifyEventIsInCancelledList(String eventName) {
-        getEventsTab("CANCELLED").click();
+        getEventsTab("Cancelled").click();
         verifyEventIsPresent(eventName);
     }
 
@@ -192,7 +192,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         editedData.put("Timezone", timeZoneText().getText());
         editedData.put("Description", descriptionField().getText());
         editedData.put("Max Attendees", maxAttendeesField().getText());
-        editedData.put("RSVP Deadline", rsvpTimeField().getText());
+        editedData.put("RSVP Deadline", rsvpCalendarButton().getText());
         editedData.put("EVENT LOCATION", locationField().getAttribute("value"));
         editedData.put("EVENT PRIMARY CONTACT", primaryContactField().getAttribute("value"));
         editedData.put("EVENT AUDIENCE", audienceField().getAttribute("value"));
@@ -213,10 +213,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                 case "Event Start" :
                     Assert.assertTrue(key + " was not successfully updated", eventStartTimeField().getText().equals(editedData.get(key)));
                     break;
-                //There is an issue that prevents Timezone from being updated. A comment about this was added to MATCH-2913
-//                case "Timezone" :
-//                    Assert.assertTrue(key + "was not successfully updated", timeZoneDropdown().getText().equals(editedData.get(key)));
-//                    break;
+                case "Timezone" :
+                    Assert.assertTrue(key + "was not successfully updated", timeZoneDropdown().getText().equals(editedData.get(key)));
+                    break;
                 case "Description" :
                     //it is necessary to reload the page to see the change in Description (MATCH-3460)
                     driver.get(driver.getCurrentUrl());
@@ -226,7 +225,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     Assert.assertTrue(key + " was not successfully updated", maxAttendeesField().getText().equals(editedData.get(key)));
                     break;
                 case "RSVP Deadline" :
-                    Assert.assertTrue(key + " was not successfully updated", rsvpTimeField().getText().equals(editedData.get(key)));
+                    Assert.assertTrue(key + " was not successfully updated", rsvpCalendarButton().getText().equals(editedData.get(key)));
                     break;
                 case "EVENT LOCATION" :
                     Assert.assertTrue(key + " was not successfully updated. UI: " + locationField().getText()
@@ -274,7 +273,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             eventsTabFromEditEventScreen().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
         }
-        getEventsTab("PUBLISHED").click();
+        getEventsTab("Published").click();
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
         unpublishYesButton().click();
@@ -315,8 +314,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement timeZoneText() { return driver.findElement(By.cssSelector("input.search + div")); }
     private WebElement descriptionField() { return driver.findElement(By.cssSelector("textarea#eventDescription")); }
     private WebElement maxAttendeesField() { return driver.findElement(By.cssSelector("input#availableSeats")); }
-    private WebElement rsvpCalendarButton() { return driver.findElement(By.cssSelector("div.three.wide.column button[title='Event Date']")); }
-    private WebElement rsvpTimeField() { return driver.findElement(By.cssSelector("div.three.wide.column button[title='Event Date']")); }
+    private WebElement rsvpCalendarButton() { return driver.findElement(By.cssSelector("div.ui.stackable.middle.aligned." +
+            "grid._22IjfAfN4Zs4CnM4Q_AlWZ div.row:nth-of-type(7) button[title='Event Date'] span")); }
     private WebElement locationField() { return driver.findElement(By.cssSelector("input[name='locations-dropdown']")); }
     private WebElement primaryContactField() { return driver.findElement(By.cssSelector("input[name='contacts-search']")); }
     private WebElement audienceField() { return driver.findElement(By.cssSelector("input[name='filters-dropdown']")); }
@@ -324,9 +323,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button.ui.button.bI0v4ge6zgbar6xs9MqwX")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
     private WebElement menuButtonForEvent(String eventName) {
-        return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div" +
-                "[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']/../../../div[@class='three wide column _9SozV5IWiYp704W5xAqOC']" +
-                "/div/div/div/i"));
+        return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']" +
+                "/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']/../../../div[@class=" +
+                "'three wide column _9SozV5IWiYp704W5xAqOC']/div/div/i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
         return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));
