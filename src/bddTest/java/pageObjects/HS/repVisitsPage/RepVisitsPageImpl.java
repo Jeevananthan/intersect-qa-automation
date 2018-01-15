@@ -248,20 +248,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
-        setDate(startDate, "Start");
+        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
         setDate(endDate, "End");
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        setDate(startDate, "Start");
+        text("UPDATE DATE").click();
     }
 
     public void setDate(String inputDate, String startOrEndDate) {
 
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
-
-        if (startOrEndDate.contains("Start")) {
-            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-        } else {
-            button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        }
         findMonth(calendarHeading, startOrEndDate);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();

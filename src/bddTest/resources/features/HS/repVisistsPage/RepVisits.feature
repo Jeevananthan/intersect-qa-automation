@@ -80,9 +80,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |StartDate            |EndDate           |
-      |August 29 2017     |August 30 2017     |
+      |August 29 2017       |August 30 2017     |
       |August 15 2017       |September 23 2017 |
-      |January 15 2018      |September 23 2018 |
+      |January 15 2018      |July 15 2018 |
 
   @MATCH-1578
   Scenario: As a HS RepVisits user I want to be able to use the Availability and Settings tab of RepVisits to Set Visit Scheduling
