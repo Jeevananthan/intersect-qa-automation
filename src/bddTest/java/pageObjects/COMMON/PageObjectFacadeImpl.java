@@ -90,7 +90,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         return sdf.format(cal.getTime());
     }
-
+  
     /**
      * Picks a date in the calendars of 'DatePicker' type. You can find one of these calendars
      * in the Create Event page, in Event Start

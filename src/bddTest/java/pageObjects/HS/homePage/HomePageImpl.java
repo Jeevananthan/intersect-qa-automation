@@ -23,16 +23,17 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void logout() {
         driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
         userDropdown().click();
-        button(By.id("user-dropdown-signout")).click();
+        driver.findElement(By.xpath("//span[text()='Sign Out']")).click();
         waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
         Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
     }
 
     public void goToCounselorCommunity(){
-        link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
-        //navBar.goToCommunity();
+        //link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
+        navBar.goToCommunity();
     }
 
     public void verifyTitleHS(String generalCategoryName,String pageName){

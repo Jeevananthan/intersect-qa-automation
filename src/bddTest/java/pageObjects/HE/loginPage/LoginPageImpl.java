@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
@@ -25,6 +24,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openLoginPage() {
+        driver.manage().deleteAllCookies();
         load(GetProperties.get("he.app.url"));
         // If a previous test fails, we'll still have an open session.  Log out first.
         if (button(By.id("user-dropdown")).isDisplayed()) {
@@ -47,6 +47,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         loginButton().click();
         logger.info("Clicked the login button");
         waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
     //Log in as an HE administrator
@@ -59,6 +60,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         passwordTextbox().sendKeys(password);
         logger.info("Sending credentials - " + username + ":" + password);
         loginButton().click();
+        logger.info("Clicked the login button");
         waitUntilElementExists(link(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
     }
@@ -113,13 +115,16 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Password reset was not successful!", button("LOGIN").isDisplayed());
     }
 
-    public void verifyLoginScreen() {
+    public void navigateToLoginScreenAndVerify() {
         openLoginPage();
+        verifyLoginPage();
+    }
+
+    public void verifyLoginPage() {
         Assert.assertTrue("\"Sign In\" button was found, but should not be there!", !button("sign in").isDisplayed());
         Assert.assertTrue("Intersect logo is not present!",driver.findElement(By.cssSelector("[src=\"https://static.intersect.hobsons.com/images/intersect-tm-by-hobsons-rgb-gray-teal.png\"]")).isDisplayed());
         Assert.assertTrue("\"New user?\" link was not present, but should be!",link("New User?").isDisplayed());
     }
-
     public void enterDataInRequestUserForm(DataTable dataTable){
 
         List<Map<String,String>> fieldCollections = dataTable.asMaps(String.class,String.class);
@@ -159,96 +164,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyFields(DataTable dataTable)
-    {
-        //validating header of this page
-        Assert.assertTrue("Header of this page doesnot contains 'Request User Account' text",text("Request User Account").isDisplayed());
-        //back - link validation
-        Assert.assertTrue("Back option is not displayed",link("Back").isDisplayed());
-        //Already have an account? -text validation
-        Assert.assertTrue("'Already have an account?' text is not displayed",text("Already have an account?").isDisplayed());
-        //Sign In - button validation
-        Assert.assertTrue("Sign In is not displayed",button("Sign In").isDisplayed());
-        //Cancel -button validation
-        Assert.assertTrue("'Cancel' button is not displayed",button("Cancel").isDisplayed());
-        //Request User -button validation
-        Assert.assertTrue("'Request User' button is not displayed",button("Request User").isDisplayed());
-
-        List<Map<String,String>> fieldCollections = dataTable.asMaps(String.class,String.class);
-        for (Map<String,String> individualField : fieldCollections ) {
-            for (String key : individualField.keySet()) {
-                switch (key) {
-                    case "firstName":
-                        String actualFirstName = driver.findElement(By.name(key)).getAttribute("type");
-                        Assert.assertTrue("First Name was not as expected.", actualFirstName.contains(individualField.get(key)));
-                        break;
-                    case "lastName":
-                        String actualLastName = driver.findElement(By.name(key)).getAttribute("type");
-                        Assert.assertTrue("Last Name was not as expected.", actualLastName.equals(individualField.get(key)));
-                        break;
-                    case "email":
-                        String actualEmailAddress = driver.findElement(By.name(key)).getAttribute("type");
-                        Assert.assertTrue("Work Email Address was not as expected.", actualEmailAddress.equals(individualField.get(key)));
-                        break;
-                    case "verifyEmail":
-                        String actualPhone = driver.findElement(By.name(key)).getAttribute("type");
-                        Assert.assertTrue("Phone was not as expected.", actualPhone.equals(individualField.get(key)));
-                        break;
-                    case "institutionName":
-                        String actualInstitutionName = driver.findElement(By.name(key)).getAttribute("type");
-                        Assert.assertTrue("InstitutionName was not as expected",actualInstitutionName.equals(individualField.get(key)));
-                        break;
-                    case "jobTitle":
-                        String actualJobTitle = driver.findElement(By.name(key)).getAttribute("type");
-                        Assert.assertTrue("JobTitle was not as expected.", actualJobTitle.equals(individualField.get(key)));
-                        break;
-                    case "authorizedToPostPublicInformation":
-                        String actualMessage = driver.findElement(By.name(key)).getAttribute("type");
-                        Assert.assertTrue("Messages was not as expected.", actualMessage.equals(individualField.get(key)));
-                        break;
-                    case "schedulesVisits":
-                        String actualSchedule = driver.findElement(By.name(key)).getAttribute("type");
-                        Assert.assertTrue("ActualSchedule was not as expected.", actualSchedule.contains(individualField.get(key)));
-                        break;
-
-                }
-            }
-        }
-
-    }
-
-    public void verifyCaptcha()
-    {
-        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='recaptcha widget']")));
-        Assert.assertTrue("I'm not a robot text is not displayed",driver.findElement(By.xpath("//label[@id='recaptcha-anchor-label']")).isDisplayed());
-        Assert.assertTrue("inline block is not displayed",driver.findElement(By.xpath("//div[@class='rc-inline-block']")).isDisplayed());
-        Assert.assertTrue("reCAPTCHA text is not displayed",driver.findElement(By.xpath("//div[text()='reCAPTCHA']")).isDisplayed());
-        driver.switchTo().defaultContent();
-    }
-
-    public void validateFields(String firstName,String lastName,String eMail,String verifyEmail,String title)
-    {
-        driver.findElement(By.xpath("//input[@id='request-he-user-first-name']")).sendKeys(firstName);
-        driver.findElement(By.xpath("//input[@id='request-he-user-last-name']")).sendKeys(lastName);
-        driver.findElement(By.xpath("//input[@id='request-he-user-email']")).sendKeys(eMail);
-        driver.findElement(By.xpath("//input[@id='request-he-user-verify-email']")).sendKeys(verifyEmail);
-        driver.findElement(By.xpath("//input[@id='request-he-user-job-title']")).sendKeys(title);
-        driver.findElement(By.xpath("//input[@name='authorizedToPostPublicInformation']")).click();
-        driver.findElement(By.xpath("//input[@name='schedulesVisits']")).click();
-        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='recaptcha widget']")));
-        driver.findElement(By.xpath("//label[@id='recaptcha-anchor-label']")).click();
-        driver.switchTo().defaultContent();
-        button("Request User").click();
-
-    }
 
     public void navigateToRegistrationPage(){
         load(GetProperties.get("he.registration.url"));
-        Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
-    }
-
-    public void navigateToHSRegistrationPage(){
-        load(GetProperties.get("hs.registration.url"));
         Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
     }
 
@@ -263,8 +181,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }*/
         driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
         button("Search").click();
-        WebElement searchResults = driver.findElement(By.xpath("//p/span[text()='No Institutions Found']"));
-        waitUntilElementExists(searchResults);
+        //Not sure What it's doing thoses steps here?
+//        WebElement searchResults = driver.findElement(By.xpath("//p/span[text()='No Institutions Found']"));
+//        waitUntilElementExists(searchResults);
         while(button("More Institutions").isDisplayed()){
             button("More Institutions").click();
             waitUntilPageFinishLoading();
