@@ -6,38 +6,38 @@ Feature: Community User - Approve/Reject Request to Join Private Group
 
   @MATCH-696
   Scenario: As a Community user and Private group owner/manager I can approve another Community member's request to join my private group.
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     And I am sure that user is not a member of the group
     Then I request to join the group
-    And I sign out from the HE app
+    And HE I successfully sign out
     And I approve request to join the group
     And I check if user is a member of the group
-    And I sign out from the HE app
+    And HE I successfully sign out
 
   #This scenario could fail on ste when denying join group request due to session issue (not possible to go to /groups page)
   @MATCH-697
   Scenario: As a Community user and Private group owner/manager I can deny another Community member's request to join my private group.
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     And I am sure that user is not a member of the group
     Then I request to join the group
-    And I sign out from the HE app
+    And HE I successfully sign out
     And I deny request to join the group
-    Then I am logged in to Purple Community through the HE App
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     Then I check if user is not a member of the group
-    And I sign out from the HE app
+    And HE I successfully sign out
 
 
   @MATCH-698
   Scenario: As a Community user that has had their request to join a Private group approved, I receive an approval notification within the Community.
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     And I am sure that user is not a member of the group
     Then I request to join the group
-    And I sign out from the HE app
+    And HE I successfully sign out
     And I approve request to join the group
     And I open Notifications list
     And I check if user has new notification that my request to join private group is approved
-    Then I sign out from the HE app
+    Then HE I successfully sign out
