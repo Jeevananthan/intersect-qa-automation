@@ -367,7 +367,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set a date using "<StartDate>" and "<EndDate>" in Regular Weekly Hours Tab
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
-    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the "a maximum of..." visits using "10","<Option>"
     And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
@@ -421,7 +421,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School                  |heStartTime|heTime |
-      |28   |28  |11:51am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:51am    |11:51am|
+      |28   |28  |11:54am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:54am    |11:54am|
 #      |28   |28  |10:52am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:52am    |10:52am|
 #      |28   |28  |10:10am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:10am    |10:10am|
 #      |28   |28  |10:21am  |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:21am    |10:21am|

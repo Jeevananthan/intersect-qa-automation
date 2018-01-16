@@ -149,5 +149,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I edit the slots in Regular Weekly Hours using \"([^\"]*)\"$",repVisits::editSlot);
 
         Then("^HS I remove the Time Slot created with \"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotAddedInRegularWeeklyHoursTab);
+
+        Then("^HS I set the \"([^\"]*)\" visits using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::setVisitsStatus);
     }
 }

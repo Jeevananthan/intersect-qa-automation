@@ -1576,6 +1576,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void setVisitsStatus(String option,String value,String visitConfirmation)
+    {
+        navBar.goToRepVisits();
+        WebElement element=link("Availability & Settings");
+        waitUntilElementExists(element);
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Availability Settings").click();
+        waitUntilElementExists(saveChanges());
+        WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
+        options.findElement(By.xpath("div/label[text()[contains(., '"+ visitConfirmation +"')]]")).click();
+        options.findElement(By.xpath("div/label[text()[contains(., '"+ visitConfirmation +"')]]")).sendKeys(Keys.PAGE_DOWN);
+        selectDropdownInAvailabiltySettings().click();
+        selectOptionInAvailabilitySettings(option).click();
+        noOfVisitsPerDayInAvailabilitySettings(option).clear();
+        noOfVisitsPerDayInAvailabilitySettings(option).sendKeys(value);
+        saveChanges().click();
+        waitUntilPageFinishLoading();
+    }
+
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
@@ -1737,5 +1757,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='endTime']"));
         return  inputStartTime;
+    }
+    private WebElement selectOptionInAvailabilitySettings(String Option)
+    {
+        WebElement option=driver.findElement(By.xpath("//div/span[text()='"+Option+"']"));
+        return option;
+    }
+    private WebElement noOfVisitsPerDayInAvailabilitySettings(String Option)
+    {
+        WebElement value=driver.findElement(By.xpath("//div[text()='"+Option+"']/ancestor::div/following-sibling::div/div/input[@title='Maximum visits per day to accept.']"));
+        return value;
+    }
+    private WebElement selectDropdownInAvailabiltySettings()
+    {
+        WebElement select=driver.findElement(By.xpath("//div[@name='acceptVisitsUntilFullyBooked']"));
+        return select;
     }
 }
