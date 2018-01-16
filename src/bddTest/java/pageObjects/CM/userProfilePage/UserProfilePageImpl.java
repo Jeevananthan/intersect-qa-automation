@@ -6,7 +6,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageObjects.CM.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 /**
  * Created by bojan on 6/1/17.
@@ -31,7 +31,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         logger.info("Going to user profile page.");
         iframeExit();
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/profile']")));
         link(By.cssSelector("a[href='/profile']")).click();
@@ -42,7 +42,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     public void goToHSUserProfilePage() {
         logger.info("Going to user profile page.");
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
         waitUntilPageFinishLoading();
         link(By.cssSelector("a[href='/profile']")).click();
@@ -314,8 +314,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkOfficePhoneRequiredField() {
-        iframeExit();
-        iframeEnter();
+        communityFrame();
         officePhoneField().clear();
         saveBtn().click();
 
@@ -390,14 +389,14 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
 
     public void likePost(String posttext) {
         logger.info("Liking post: " + posttext);
-        iframeEnter();
+        communityFrame();
         driver.findElement(By.xpath("//p[contains(text(), '" + posttext + "')]/../../../../div[@class='like-wrapper like-node']/a[@title='like this']")).click();
         waitUntilPageFinishLoading();
     }
 
     public void unlikePost(String posttext) {
         logger.info("Unliking post: " + posttext);
-        iframeEnter();
+        communityFrame();
         driver.findElement(By.xpath("//p[contains(text(), '" + posttext + "')]/../../../../div[@class='like-wrapper like-node']/a[@title='Unlike this']")).click();
         waitUntilPageFinishLoading();
     }
@@ -451,7 +450,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
 
     public void checkNewNotificationNotRaised() {
         Assert.assertFalse("The new notification is raised!", checkNewNotification());
-        iframeEnter();
+        communityFrame();
         deleteCreatedPost();
     }
 
@@ -468,7 +467,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkPublicFieldsVisibility() {
-        iframeEnter();
+        communityFrame();
         logger.info("Checking if only public fields are visible.");
         Assert.assertTrue("Public field work email is not visible.", checkItemVisible("purpleheautomation@gmail.com"));
         Assert.assertFalse("Connections Only privacy field office phone is visible.", checkItemVisible("+12161234567"));
@@ -476,7 +475,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkConnectionsOnlyFieldsVisibility() {
-        iframeEnter();
+        communityFrame();
         logger.info("Checking if fields with connection only privacy are visible.");
         Assert.assertTrue("Public field work email is not visible.", checkItemVisible("purpleheautomation@gmail.com"));
         Assert.assertTrue("Connections Only privacy field office phone is not visible.", checkItemVisible("+12161234567"));
@@ -484,7 +483,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkVisibleToOnlyMeFieldsVisibility() {
-        iframeEnter();
+        communityFrame();
         logger.info("Checking if fields with visible to only me privacy are visible.");
         Assert.assertFalse("Private privacy field personal email is visible.", checkItemVisible("testemail@personal.com"));
     }

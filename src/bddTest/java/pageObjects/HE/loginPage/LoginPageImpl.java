@@ -47,6 +47,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         loginButton().click();
         logger.info("Clicked the login button");
         waitUntilPageFinishLoading();
+        waitUntilElementExists(link(By.id("user-dropdown")));
         waitForUITransition();
     }
 

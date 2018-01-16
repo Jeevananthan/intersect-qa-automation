@@ -107,14 +107,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void accessHSCounselorCommunityPage() {
         logger.info("Going to HS Counselor Community page.");
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
     }
 
     public void goToHomePage() {
         logger.info("Going to home page.");
         iframeExit();
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
 //        link(By.cssSelector("a[href='/']")).click();
     }
 
@@ -122,7 +122,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         logger.info("Going to HS home page.");
         iframeExit();
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
 //        link(By.cssSelector("a[href='/']")).click();
     }
 
@@ -134,7 +134,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkIfHomePostsAreVisible(){
-        iframeEnter();
+        communityFrame();
         logger.info("Checking if there are posts on the Home page");
         Assert.assertTrue(profilePicOnPostsFeed().isDisplayed());
         iframeExit();
