@@ -30,7 +30,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | % Receiving Aid       | Pell Grant        |
       | Average Amount of Aid | Grant             |
       | Publish Reason        | test              |
-    And HUBS I approve the changes in CMS with the following details:
+    And HUBS I approve the changes in CMS with the user email "jorgetesthobsons@gmail.com" and the following details:
       | admin | hbcmsxx | Adelphi University | Published | Undergraduate Financial Aid |
     Then HUBS I should be able to verify the changes for costs published in HUBS, with username "benhubs", password "Hobsons!23" and college "Adelphi", in the following sections
       | Average Net Prices    | $48,001 - $75,000 |

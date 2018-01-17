@@ -42,6 +42,8 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         int numberOfRows = workflowRows().size();
         waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         userEmailTextBox().clear();
         for (int i = 0; i < numberOfRows; i++) {
             userEmailTextBox().sendKeys(userMail);
@@ -102,5 +104,11 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> workflowRows() { return getDriver().findElements(By.cssSelector("table.views-table.sticky-enabled tbody tr")); }
     private WebElement approveButton() { return getDriver().findElement(By.cssSelector("input#edit-submit")); }
     private WebElement confirmationMessage() { return getDriver().findElement(By.cssSelector("div.messages.status")); }
-    private WebElement userEmailTextBox() { return getDriver().findElement(By.cssSelector("input#edit-api-user-email")); }
+    private WebElement userEmailTextBox() {
+        try{
+            return getDriver().findElement(By.cssSelector("input#edit-apiuseremail"));
+        } catch (NoSuchElementException e) {
+            return getDriver().findElement(By.cssSelector("input#edit-api-user-email"));
+        }
+    }
 }
