@@ -16,7 +16,7 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
 
     public void clickMenuButton(String buttonLabel) {
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), \"" + buttonLabel + "\")]")));
+        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), '" + buttonLabel + "')]")));
         WebElement button = null;
         switch (buttonLabel) {
             case "Studies" : button = studiesButton();

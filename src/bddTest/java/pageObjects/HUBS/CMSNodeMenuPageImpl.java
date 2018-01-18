@@ -39,6 +39,7 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         cmsLogin.defaultLogIn(details);
         workflowOverviewButton().click();
         userEmailTextBox().sendKeys(userMail);
+        submitButton().click();
         waitUntilPageFinishLoading();
         int numberOfRows = workflowRows().size();
         waitUntilPageFinishLoading();
@@ -46,12 +47,17 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         for (int i = 0; i < numberOfRows; i++) {
             userEmailTextBox().sendKeys(userMail);
             waitUntilPageFinishLoading();
-            WebElement workFlowRow = getDriver().findElements(By.cssSelector("table.views-table.sticky-enabled tbody tr")).get(workflowRows().size() - 1);
-            WebElement institutionCell = workFlowRow.findElement(By.cssSelector("td.views-field.views-field-institution"));
+            WebElement workFlowRow = getDriver().findElements(By.cssSelector("table.sticky-enabled.tableheader-processed.sticky-table tbody tr")).get(workflowRows().size() - 1);
+            WebElement institutionCell = workFlowRow.findElement(By.cssSelector("tr td:nth-of-type(2) a"));
             if (institutionCell.getText().equals(details.get(2))) {
-                workFlowRow.findElement(By.cssSelector("td.views-field.views-field-approve-action a")).click();
+                String originalHandle = driver.getWindowHandle();
+                workFlowRow.findElement(By.cssSelector("tr td:nth-of-type(9) a:nth-of-type(2)")).click();
+                for (String handle : driver.getWindowHandles()) {
+                    driver.switchTo().window(handle);
+                }
                 approveButton().click();
                 waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
+                navigation.closeNewTabAndSwitchToOriginal(originalHandle);
                 workflowOverviewButton().click();
             }
         }
@@ -98,9 +104,10 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement nextPageButton() {
         return getDriver().findElement(By.cssSelector("a[title=\"Go to next page\"]"));
     }
-    private WebElement workflowOverviewButton() { return getDriver().findElement(By.xpath("//a[text()='Workflow Overview']")); }
-    private List<WebElement> workflowRows() { return getDriver().findElements(By.cssSelector("table.views-table.sticky-enabled tbody tr")); }
+    private WebElement workflowOverviewButton() { return getDriver().findElement(By.xpath("//li[@class = 'admin-menu-toolbar-category']/a[text()='Workflow']")); }
+    private List<WebElement> workflowRows() { return getDriver().findElements(By.cssSelector("table.sticky-enabled.tableheader-processed.sticky-table tbody tr")); }
     private WebElement approveButton() { return getDriver().findElement(By.cssSelector("input#edit-submit")); }
     private WebElement confirmationMessage() { return getDriver().findElement(By.cssSelector("div.messages.status")); }
-    private WebElement userEmailTextBox() { return getDriver().findElement(By.cssSelector("input#edit-api-user-email")); }
+    private WebElement userEmailTextBox() { return getDriver().findElement(By.cssSelector("input#edit-apiuseremail")); }
+    private WebElement submitButton() { return driver.findElement(By.cssSelector("input#edit-submit")); }
 }
