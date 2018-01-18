@@ -104,11 +104,14 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
         List<String> creds = new ArrayList<String>() {{
             add(username);
             add(password);
+            add(college);
         }};
         hubsLogin.defaultLogIn(creds);
         fcMain.clickCollegesTab();
         collegesPage.searchAndOpenCollege(college);
+        waitUntilPageFinishLoading();
         hubsMainMenu.clickCostsTab();
+        waitUntilPageFinishLoading();
         for (int i = 0; i < 10; i++) {
             Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
             avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));

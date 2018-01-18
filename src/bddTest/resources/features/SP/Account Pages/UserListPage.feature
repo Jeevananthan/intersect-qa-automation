@@ -15,11 +15,11 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
   Scenario: As a Hobsons admin user, I can change the primary user of a premium institution.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "The University of Alabama" from the institution dashboard
-    And SP I set the user "purpleheautomation+coordinator@gmail.com" to be the new primary user
-    Then SP I verify that the user account for "purpleheautomation+coordinator@gmail.com" is the primary user
+    And SP I set the user "purpleheautomation+AssignasPrimary@gmail.com" to be the new primary user
+    Then SP I verify that the user account for "purpleheautomation+AssignasPrimary@gmail.com" is the primary user
     And SP I set the user "purpleheautomation@gmail.com" to be the new primary user
     Then SP I verify that the user account for "purpleheautomation@gmail.com" is the primary user
-    Then SP I verify that the user account for "purpleheautomation+coordinator@gmail.com" is not the primary user
+    Then SP I verify that the user account for "purpleheautomation+AssignasPrimary@gmail.com" is not the primary user
     Then SP I successfully sign out
 
   @MATCH-1126
@@ -27,12 +27,38 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
   I can create a new primary user
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
-    And SP I "inactivate" the user account for "brian.bartizek@hobsons.com"
+    And SP I "inactivate" the user account for "purpleheautomation+12103@gmail.com"
+    Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I verify that I can create a new primary user
+
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
-    And SP I "activate" the user account for "brian.bartizek@hobsons.com"
+    And SP I "activate" the user account for "purpleheautomation+12103@gmail.com"
     Then SP I successfully sign out
+
+    @MATCH-1783
+    Scenario Outline: As a Support user with the Administrator or Support role I need to be able to create additional users
+                      for HE and Non Naviance HS accounts beyond just the primary user so non premium accounts can now have more than one user tied to them.
+      #HE create user
+      Given SP I am logged in to the Admin page as an Admin user
+      Then SP I go to the Create user for "Alma College" from the institution dashboard
+      Then SP I fill the create user form "<heFirstNameVerify>","<heLastNameVerify>","<heEmailVerify>","<heVerifyEmailVerify>","<heRoleVerify>","<heButtontoClickVerify>"
+      Then SP verify the error message in create user page
+      Then SP I fill the create user form "<heFirstNameSubmit>","<heLastNameSubmit>","<heEmailSubmit>","<heVerifyEmailSubmit>","<heRoleSubmit>","<heButtontoClickSubmit>"
+      Then SP verify there is no empty field error message in the create user page
+      #HS create user
+      When SP I search for "390495603634"
+      Then SP I select "LAKOTA HIGH SCHOOL" from the global search results
+      And SP I navigate to create user page
+      Then SP I fill the create user form "<hsFirstNameVerify>","<hsLastNameVerify>","<hsEmailVerify>","<hsVerifyEmailVerify>","<hsRoleVerify>","<hsButtontoClickVerify>"
+      Then SP verify the error message in create user page
+      Then SP I fill the create user form "<hsFirstNameSubmit>","<hsLastNameSubmit>","<hsEmailSubmit>","<hsVerifyEmailSubmit>","<hsRoleSubmit>","<hsButtontoClickSubmit>"
+      Then SP verify there is no empty field error message in the create user page
+
+  Examples:
+    |heFirstNameVerify |heLastNameVerify|heEmailVerify         |heVerifyEmailVerify|heRoleVerify |heButtontoClickVerify|heFirstNameSubmit|heLastNameSubmit|heEmailSubmit            |heVerifyEmailSubmit       |heRoleSubmit |heButtontoClickSubmit|hsFirstNameVerify|hsLastNameVerify|hsEmailVerify         |hsVerifyEmailVerify      |hsRoleVerify|hsButtontoClickVerify|hsFirstNameSubmit|hsLastNameSubmit|hsEmailSubmit            |hsVerifyEmailSubmit       |hsRoleSubmit|hsButtontoClickSubmit|
+    |NewUserTest       |LNameTest       |n.l@notarealdomain.com|                   |publishing   |Save                 |NewUserTest01    |LNameTest01     |n.l+01@notarealdomain.com|n.l+01@notarealdomain.com |publishing   |Save                 |NewUserTest      |LNameTest       |n.l@notarealdomain.com|                         |member      |Save                 |NewUserTest01    |LNameTest01     |n.l+01@notarealdomain.com|n.l+01@notarealdomain.com |member      |Save                 |
+
 
 
   @MATCH-1416 @NotInQA
@@ -61,3 +87,10 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     Then HE I am logged in to Intersect HE as user type "locked"
     And HE I am able to successfully login
     Then HE I successfully sign out
+
+  @MATCH-1553
+  Scenario: As a Support user I can able to re-invite an user from the support app.
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I go to the users list for "The University of Alabama" from the institution dashboard
+    And SP I "re-invite" the user account for "hobsons.purple+amorrison.AT.ua.edu@gmail.com"
+    Then SP I successfully sign out

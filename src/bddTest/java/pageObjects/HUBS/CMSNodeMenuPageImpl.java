@@ -43,6 +43,8 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         int numberOfRows = workflowRows().size();
         waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         userEmailTextBox().clear();
         for (int i = 0; i < numberOfRows; i++) {
             userEmailTextBox().sendKeys(userMail);
