@@ -1,4 +1,4 @@
-@HUBS
+@HUBS @HUBS-918 @HUBSCosts
 Feature: As a community user viewing College Hubs, I want to be able to view Hubs Cost Tab content so I can understand
   what Hubs offers students.
 
@@ -19,7 +19,6 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Average Amount of Aid | Grant          | 1111  |
     And HE I successfully sign out
 
-  @test
   Scenario: Changes done in HEM are successfully published to HUBS
     When HUBS I open "Costs" in the edit menu
     And HUBS I take note of the values from the following fields in Costs:
