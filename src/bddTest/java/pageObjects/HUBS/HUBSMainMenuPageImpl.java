@@ -18,10 +18,17 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.elementToBeClickable(studiesTab()));
         studiesTab().click();
     }
+    public void clickCostsTab() {
+        waitUntil(ExpectedConditions.elementToBeClickable(costsTab()));
+        costsTab().click();
+    }
 
     //Locators
 
     private WebElement studiesTab() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'Studies')]"));
+    }
+    private WebElement costsTab() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Costs')]"));
     }
 }

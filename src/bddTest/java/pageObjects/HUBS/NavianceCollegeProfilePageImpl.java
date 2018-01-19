@@ -40,7 +40,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void verifyInstitutionalProfilePage(){
-        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebDriverWait wait = new WebDriverWait(driver, 40);
         wait.pollingEvery(500, TimeUnit.MILLISECONDS);
         wait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
