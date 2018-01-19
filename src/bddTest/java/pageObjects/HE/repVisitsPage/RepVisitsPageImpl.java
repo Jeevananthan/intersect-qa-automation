@@ -398,9 +398,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return al;
     }
 
+    //The below method will verify the message which will display when there is no visit/fair for the next week.
+    public void verifyDefaultMessageOverviewPage(){
+        if(text("You don't have any visits or fairs for the next week.").isDisplayed()){
+            Assert.assertTrue("You don't have any visits or fairs for the next week. text message is not displaying.", text("You don't have any visits or fairs for the next week.").isDisplayed());
+            Assert.assertTrue("You can always make appointments by using the text is not displaying.", text("You can always make appointments by using the").isDisplayed());
+            Assert.assertTrue("Search and Schedule link is not displaying.", link("Search and Schedule").isDisplayed());
+            link("Search and Schedule").click();
+            waitUntilPageFinishLoading();
+            String actURL = driver.getCurrentUrl();
+            Assert.assertTrue("Search and Schedule page is not displaying.", actURL.contains("/search"));
+        }else if (text("Your Upcoming Visits & Fairs").isDisplayed())
+            logger.info("The HE User has upcoming visits/fair for the coming 7 days, so can't show the default text in Overview page...");
+    }
 
-
-   private WebElement upgradeButton(){
+    private WebElement upgradeButton(){
         WebElement button=button("UPGRADE");
         return button;
    }
