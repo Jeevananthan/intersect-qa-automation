@@ -431,6 +431,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(startDate, "Start");
         button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
         setDate(endDate, "End");
+        waitUntilElementExists(text("UPDATE DATE"));
         text("UPDATE DATE").click();
     }
 
@@ -1255,6 +1256,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Notifications & Primary Contact']")).size()==0) {
+            waitUntilElementExists(button("Next"));
             button("Next").click();
             waitUntilElementExists(button("Next"));
             waitUntilPageFinishLoading();

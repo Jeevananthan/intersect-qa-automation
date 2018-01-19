@@ -105,7 +105,7 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
     Then HE I verify I can perform an advanced search utilizing any combination of fields for "Groups"
       | Keyword     | Hobsons                                    |
       | Name        | Hobsons                                    |
-      | Description | Stay up to date on what's new with Hobsons |
+      | Description |  |
       | Type        | Public                                     |
     And HE I successfully sign out
 

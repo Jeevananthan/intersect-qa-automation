@@ -17,7 +17,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
     Then HS I verify real-time search results were categorized by entity
       | People | Institutions | Groups |
     Then HS I verify that only five or less results are listed in real-time results displayed
-      | User | Institutions | Groups |
+      | People | Institutions | Groups |
     Then HS I verify real-time search results are clickable and actionable "admin"
     Then HS I verify real-time search layouts are displayed correctly "admin"
       | People | Institutions | Groups |
@@ -75,7 +75,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
     Then HS I verify I can perform an advanced search utilizing any combination of fields for "Groups"
       | Keyword     | Hobsons                                    |
       | Name        | Hobsons                                    |
-      | Description | Stay up to date on what's new with Hobsons |
+      | Description | Hobsons                                    |
       | Type        | Public                                     |
     And HS I successfully sign out
 
@@ -112,7 +112,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
   @MATCH-1400
   Scenario: As a HS user I want to preform a global and advanced search for groups that do not return HE results.
             So I can ensure only HS groups are returned.
-    Given HS I am logged in to Intersect HS as user type "lebanon"
+    Given HS I am logged in to Intersect HS as user type "default"
     Then HS I verify real-time search results do not return any results for HE groups "New Test HE Group"
     Then HS I verify advanced search results do not return any results for HE groups "New Test HE Group"
       | Groups |
