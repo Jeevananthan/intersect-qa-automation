@@ -223,6 +223,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         getRepVisitsBtn().click();
         waitUntilPageFinishLoading();
         driver.switchTo().frame(0);
+        waitForUITransition();
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();
     }
@@ -245,6 +246,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
+        getRepVisitsBtn().click();
     }
 
     public void verifyRepVisitsLandingPage(){

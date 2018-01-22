@@ -246,17 +246,17 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
             actualStatus.click();
             WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
             driver.executeScript("arguments[0].click();",dropDownItem);
-
+            Actions actions = new Actions(getDriver());
             if(!status.equalsIgnoreCase("inactive")) {
                 WebElement StartDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(0);
                 WebElement EndDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(1);
 
                 StartDateButton.click();
                 setStartDate(startDateDelta);
-                StartDateButton.click();
+                actions.sendKeys(Keys.ESCAPE).build().perform();
                 EndDateButton.click();
                 setEndDate(endDateDelta);
-                EndDateButton.click();
+                actions.sendKeys(Keys.ESCAPE).build().perform();
             }
         }
     }
@@ -300,7 +300,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     public void setStartDateInModulePage(String... startDateArray){
         String startDate;
-        if (startDateArray == null) {
+        if (startDateArray == null || startDateArray.length==0) {
             startDate = "June 13, 2017";
         } else {
             startDate = startDateArray[0];
@@ -321,7 +321,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     public void setEndDateInModulePage(String... endDateArray){
         String endDate;
-        if (endDateArray == null) {
+        if (endDateArray == null || endDateArray.length==0) {
             endDate = "June 13, 2018";
         } else {
             endDate = endDateArray[0];
