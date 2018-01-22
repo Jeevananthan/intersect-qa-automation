@@ -267,14 +267,14 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
               To simplify my RepVisits configuration experience.
     #HS admin(Naviance)
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    And HS I verify the details are present in the header "Account Settings","Your Profile","Institution Profile"
-    Then HS I navigate to the all pages for the following details "Account Settings","Your Profile","Institution Profile"
+    And HS I verify the details are present in the header "Your Profile","Institution Profile" In Naviance
+    Then HS I navigate to the all pages for the following details "Your Profile","Institution Profile" In Naviance
     Then HS I verify the user is "ADMIN" or not
     And HS I successfully sign out
     #HS non-admin(Naviance)
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "molly.purple" and password "password"
-    And HS I verify the details are present in the header "Account Settings","Your Profile","Institution Profile"
-    Then HS I navigate to the all pages for the following details "Account Settings","Your Profile","Institution Profile"
+    And HS I verify the details are present in the header "Your Profile","Institution Profile" In Naviance
+    Then HS I navigate to the all pages for the following details "Your Profile","Institution Profile" In Naviance
     Then HS I verify the user is "NON-ADMIN" or not
     And HS I successfully sign out
     #HS admin(Non-Naviance)

@@ -1069,6 +1069,36 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
         repVisitsPageHEObj.verifyHelpCentre(helpcenter,contactsupport);
     }
+
+
+    public void verifyHeadersinDropdownInNaviance(String yourProfile,String institutionProfile) {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropdown().click();
+        Assert.assertTrue("'Your Profile' option is not displayed",userProfile(yourProfile).isDisplayed());
+        Assert.assertTrue("'Institution Profile' option is not displayed",institutionsProfile(institutionProfile).isDisplayed());
+        Assert.assertTrue("'Logged In As' Text is not displayed",loggedInText().isDisplayed());
+        Assert.assertTrue("'Sign Out' option is not displayed",signOut().isDisplayed());
+    }
+
+    public void verifyNavigationinDropdownforNaviance(String yourProfile,String institutionProfile) {
+        yourProfileInHeader(yourProfile).click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.switchTo().frame(frameInCommunity());
+        Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
+        driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+        userDropdown().click();
+        institutionProfileInHeader(institutionProfile).click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.switchTo().frame(frameInCommunity());
+        Assert.assertTrue("'Institution Profile' is not displayed",institutionProfilePage().isDisplayed());
+        driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+    }
+
       //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
@@ -1112,5 +1142,45 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement getRepVisitsBtn() {
         return link(By.id("js-main-nav-rep-visits-menu-link"));
+    }
+    private WebElement userDropdown() {
+        WebElement dropdown=driver.findElement(By.id("user-dropdown"));
+        return  dropdown;
+    }
+    private WebElement userProfile( String yourProfile) {
+        WebElement userProfile=driver.findElement(By.xpath("//span[text()='"+yourProfile+"']"));
+        return  userProfile;
+    }
+    private WebElement institutionsProfile( String institutionProfile) {
+        WebElement institutionsProfile=driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']"));
+        return  institutionsProfile;
+    }
+    private WebElement signOut() {
+        WebElement signOut=driver.findElement(By.xpath("//span[text()='Sign Out']"));
+        return  signOut;
+    }
+    private WebElement loggedInText() {
+        WebElement text=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
+        return  text;
+    }
+    private WebElement yourProfileInHeader(String yourProfile) {
+        WebElement profile=driver.findElement(By.xpath("//span[text()='"+yourProfile+"']"));
+        return  profile;
+    }
+    private WebElement institutionProfileInHeader(String institutionProfile) {
+        WebElement institution=driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']"));
+        return  institution;
+    }
+    private WebElement frameInCommunity() {
+        WebElement frame=driver.findElement(By.xpath("//iframe[@title='Community']"));
+        return frame;
+    }
+    private WebElement userProfilePage() {
+        WebElement profile=driver.findElement(By.xpath("//a[@class='active' and text()='Profile']"));
+        return  profile;
+    }
+    private WebElement institutionProfilePage() {
+        WebElement institution=driver.findElement(By.xpath("//a[@class='active' and text()='Institution']"));
+        return  institution;
     }
 }

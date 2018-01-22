@@ -96,5 +96,11 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify the following details are present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHelpCentre);
 
+        And("^HS I verify the details are present in the header \"([^\"]*)\",\"([^\"]*)\" In Naviance$",repVisits::verifyHeadersinDropdownInNaviance);
+
+        And("^HS I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\" In Naviance$",repVisits::verifyNavigationinDropdownforNaviance);
+
+
+
     }
 }
