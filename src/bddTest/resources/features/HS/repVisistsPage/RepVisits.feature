@@ -146,9 +146,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Holiday               | Date                | StartDate  | EndDate     |
       |LABOR_DAY             | September 04 2017   |July 23 2017|July 15 2018 |
       |COLUMBUS_DAY          | October 9 2017      |July 23 2017|July 15 2018 |
-      |VETERANS_DAY          | November 10 2017    |July 23 2017|July 15 2018 |
-      |THANKSGIVING_DAY      | November 23 2017    |July 23 2017|July 15 2018 |
-      |DAY_AFTER_THANKSGIVING| November 24 2017    |July 23 2017|July 15 2018 |
+      #Ommited by old dates cannot be setup blocked days calrified by Gayathri
+      #|VETERANS_DAY          | November 10 2017    |July 23 2017|July 15 2018 |
+      #|THANKSGIVING_DAY      | November 23 2017    |July 23 2017|July 15 2018 |
+      #|DAY_AFTER_THANKSGIVING| November 24 2017    |July 23 2017|July 15 2018 |
       |CHRISTMAS_EVE         | December 24 2017    |July 23 2017|July 15 2018 |
       |CHRISTMAS_DAY         | December 25 2017    |July 23 2017|July 15 2018 |
       |NEW_YEAR_EVE          | December 31 2017    |July 23 2017|July 15 2018 |

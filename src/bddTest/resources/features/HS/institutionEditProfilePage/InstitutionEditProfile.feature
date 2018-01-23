@@ -310,6 +310,6 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
     Then HS I verify the address page of "Homeconnection" which is a "non-naviance" school in "Washington"
     And HS I verify the link "please complete this form."
     Given HS I navigate to Registration Intersect url
-    And HS I search for "Int Qa High School 4" in High School Staff Member registration page
-    Then HS I verify the address page of "Int Qa High School 4" which is a "naviance" school in "LIBERTY TOWNSHIP"
+    And HS I search for "Int QA High School 3" in High School Staff Member registration page
+    Then HS I verify the address page of "Int QA High School 3" which is a "naviance" school in "Arlington"
     And HS I verify the link "Naviance"

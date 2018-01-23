@@ -153,6 +153,7 @@ public class NavBarImpl extends SeleniumBase {
         }
     }
 
+
     private boolean isLinkActive(WebElement link) {
         //_28hxQ33nAx_7ae3SZ4XGnj is the class that is added to indicate css active
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
