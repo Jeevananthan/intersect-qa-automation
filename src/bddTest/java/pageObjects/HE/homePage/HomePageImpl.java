@@ -222,7 +222,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyCommunityActivationForRepVisits(){
         getRepVisitsBtn().click();
         waitUntilPageFinishLoading();
-        driver.switchTo().frame(0);
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
         waitForUITransition();
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();
