@@ -384,7 +384,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
     public String generateRandomNumber() {
         Random random = new Random();
-        int value = random.nextInt(1000) + 100;
+        int value = random.nextInt(100000) + 100;
         String Randomvalue=Integer.toString(value);
         return Randomvalue;
     }
