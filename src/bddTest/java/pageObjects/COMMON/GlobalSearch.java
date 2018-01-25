@@ -60,7 +60,7 @@ public class GlobalSearch extends SeleniumBase {
     }
 
 
-    private void setSearchCategory(String searchCategory) {
+    public void setSearchCategory(String searchCategory) {
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-filter")));
         getSearchSwitcher().click();
