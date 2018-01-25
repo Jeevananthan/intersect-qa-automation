@@ -3,6 +3,8 @@ package pageObjects.HE.repVisitsPage;
 import cucumber.api.DataTable;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.GlobalSearch;
@@ -78,7 +80,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectHighSchoolFromResults(String schoolName) {
         waitUntilPageFinishLoading();
-        getDriver().findElement(By.xpath("//a[text()='" + schoolName + "']")).click();
+        getDriver().findElement(By.xpath("//td[@class='D8iaokkmOTXAhIkOIzngL']/a[text()='" + schoolName + "']")).click();
         waitUntilPageFinishLoading();
     }
 
@@ -133,8 +135,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openFairsInChckRepVisitsAv() {
+        waitUntil(ExpectedConditions.urlContains("/counselor-community/institution/"));
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
-        waitUntil(ExpectedConditions.elementToBeClickable(getCheckRepVisitsAvailabilityButton()));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[text() = 'Check RepVisits Availability']"), 1));
         getCheckRepVisitsAvailabilityButton().click();
         getDriver().switchTo().defaultContent();
         fairsTab().click();
@@ -148,8 +151,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySuccessMessageWithoutAutoApprovals() {
-        Assert.assertTrue("", upperMessage().getText().trim().equals("Fair registration requested! You will " +
-                "receive an email notification when your request has been confirmed."));
+        Assert.assertTrue("", (upperMessage().getText().trim().equals("Fair registration requested! You will " +
+                "receive an email notification when your request has been confirmed.")) || (upperMessage().getText().
+                trim().equals("Fair registration confirmed! Your request has been automatically confirmed by the high school.")));
     }
 
     public void verifyFairInCalendar(String date) {
@@ -161,18 +165,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (!rightCalendarHeaderDate().getText().equals(date.split(" ")[0])) {
             pressCalendarArrowUntil("right", date.split(" ")[0], 10);
         }
-        if (showMoreLink().isDisplayed()) {
-            showMoreLink().click();
-            for (WebElement overlayEvent : overlayEventsList()) {
-                if (overlayEvent.findElement(By.cssSelector("span.rbc-event-time")).getText().equals(date.split(" ")[2])) {
-                    result = true;
-                    break;
+        try {
+            if (showMoreLink().isDisplayed()) {
+                showMoreLink().click();
+                for (WebElement overlayEvent : overlayEventsList()) {
+                    if (overlayEvent.findElement(By.cssSelector("span.rbc-event-time")).getText().equals(date.split(" ")[2])) {
+                        result = true;
+                        break;
+                    }
                 }
             }
-        } else {
+        } catch (NoSuchElementException e) {
             for (int i = 1; i < 3; i++) {
                 if (getDateCell(date.split(" ")[1], date.split(" ")[2], i).isDisplayed()) {
                     result = true;
+                    break;
                 }
             }
         }
@@ -196,6 +203,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyFairInQuickView(String schoolName, String date) {
         boolean result = false;
         getSearchAndScheduleBtn().click();
+        getSearchBox().sendKeys(schoolName);
+        getSearchButton().click();
+        selectHighSchoolFromResults(schoolName);
+        waitUntilPageFinishLoading();
         calendarIcon().click();
         pressMiniCalendarArrowUntil("right", date.split(" ")[0], 10);
         miniCalendarDayCell(date.split(" ")[1]).click();
@@ -223,7 +234,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void openInstitutionByURLPartID(String URLPartID) {
         waitUntilPageFinishLoading();
         navBar.goToCommunity();
-        getDriver().get(GetProperties.get("he.app.url") + "counselor-community/institution/" + URLPartID);
+        getDriver().get(GetProperties.get("he.app.url") + "counselor-community/institution-hs-id/" + URLPartID);
         waitUntilPageFinishLoading();
     }
 
@@ -271,7 +282,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline big icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
-    private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.cssSelector("a.check-repvisits-link")); }
+    private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
     private WebElement getRepVisitsAvailabilitySidebar(){ return driver.findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
     private WebElement getRegistrationButton(String fairName) { return getDriver().findElement(By.xpath("//span[text()='" + fairName + "']/../../div/button/span")); }
     private WebElement getFairDate() { return getDriver().findElement(By.cssSelector("div.content span")); }
@@ -288,7 +299,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> quickViewCalendarHeaderDates() { return getDriver().findElements(By.cssSelector("h1.ui.header + div span span span")); }
     private WebElement quickViewRightButton() { return getDriver().findElement(By.cssSelector("button[aria-label=\"Next week\"]")); }
     private List<WebElement> quickViewFairsList() { return getDriver().findElements(By.cssSelector("ul.ui.huge.pointing.secondary + div div._2qvF1GJtxr-YZYY8wYagxl + div div.ui.stackable.grid")); }
-    private WebElement calendarIcon() { return getDriver().findElement(By.cssSelector("i.teal.calendar.large.link.icon")); }
+    private WebElement calendarIcon() { return getDriver().findElement(By.cssSelector("button.ui.tiny.icon.right.floated.right.labeled.button._1alys3gHE0t2ksYSNzWGgY")); }
     private WebElement miniCalendarHeader() { return getDriver().findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement miniCalendarRightButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Next Month\"]")); }
     private WebElement miniCalendarLeftButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Previous Month\"]")); }

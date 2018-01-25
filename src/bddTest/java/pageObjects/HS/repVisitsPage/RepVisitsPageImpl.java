@@ -4,6 +4,8 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -332,8 +334,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         fairElementDetails(fairName).click();
         editFairButton().click();
         cancelThisCollegeFair().click();
-        cancelMessageTextBox().sendKeys(cancelationReason);
-        cancelFairButton().click();
+        if (driver.findElements(By.cssSelector(cancelMessageTextBoxLocator())).size() > 0) {
+            driver.findElement(By.cssSelector(cancelMessageTextBoxLocator())).sendKeys(cancelationReason);
+            cancelFairButton().click();
+        } else {
+            cancelFairNoAutoApprovals().click();
+        }
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(closeButton()));
     }
 
@@ -343,6 +350,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         collegeFairsButton().click();
         addFairButton().click();
         fairNameTextBox().sendKeys(fairDetails.get(0).get(1));
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(dateCalendarIcon()));
         dateCalendarIcon().click();
         repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", fairDetails.get(1).get(1).split(" ")[0], 10);
@@ -355,12 +363,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         costTextBox().sendKeys(fairDetails.get(5).get(1));
         maxNumOfColleges().sendKeys(fairDetails.get(6).get(1));
         numOfStudents().sendKeys(fairDetails.get(7).get(1));
+        driver.findElement(By.cssSelector("a.menu-link.active")).sendKeys(Keys.PAGE_DOWN);
         if (fairDetails.get(8).get(1).equals("Yes")) {
-            autoApprovalYesRadButton().click();
+            autoApprovalYesRadButton().sendKeys(Keys.RETURN);
         } else if (fairDetails.get(8).get(1).equals("No")){
-            autoApprovalNoRadButton().click();
+            autoApprovalNoRadButton().sendKeys(Keys.RETURN);
         }
-        saveButton().click();
+        driver.findElement(By.cssSelector("a.menu-link.active")).sendKeys(Keys.PAGE_DOWN);
         waitUntil(ExpectedConditions.elementToBeClickable(closeButton()));
         closeButton().click();
         waitUntilPageFinishLoading();
@@ -376,8 +385,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             ("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td[text()='" + fairName + "']/following-sibling::td[4]/a/span")); }
     private WebElement editFairButton() { return getDriver().findElement(By.cssSelector("#edit-college-fair")); }
     private WebElement cancelThisCollegeFair() { return getDriver().findElement(By.cssSelector("button.ui.red.basic.button")); }
-    private WebElement cancelMessageTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-cancellation-message")); }
-    private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[type=\"submit\"]")); }
+    private String cancelMessageTextBoxLocator() { return "#college-fair-cancellation-message"; }
+    private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[type='submit']")); }
     private WebElement closeButton() { return getDriver().findElement(By.xpath("//button[text()='Close']")); }
     private WebElement addFairButton() { return getDriver().findElement(By.cssSelector("#add-college")); }
     private WebElement fairNameTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-name")); }
@@ -391,6 +400,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement autoApprovalYesRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-yes")); }
     private WebElement autoApprovalNoRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-no")); }
     private WebElement saveButton() { return getDriver().findElement(By.cssSelector("button[type=\"submit\"]")); }
+    private WebElement cancelFairNoAutoApprovals() { return driver.findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ span")); }
 }
 
 
