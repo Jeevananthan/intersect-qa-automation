@@ -341,6 +341,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyPills(String school,String startDate,String time){
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         visit().click();
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
@@ -348,7 +349,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         startDate = getSpecificDate(startDate);
         setDate(startDate, "other");
         try{
-            if(! availabilityButton(startDate,time).isDisplayed())
+            if(! availabilityButton(startDate,visitTime).isDisplayed())
             {
                 logger.info("appointment is not displayed");
             }else{logger.info("appointment is displayed");}
@@ -356,6 +357,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public  void verifyPillsIsPresent(String school,String startDate,String time){
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         visit().click();
         waitUntilElementExists(schoolInVisits(school));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
@@ -363,7 +365,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String gotoDate = getSpecificDate(startDate);
         setDate(gotoDate, "other");
         String date=getMonthandDate(startDate);
-        Assert.assertTrue("Availability button is not displayed",availabilityButton(date,time).isDisplayed());
+        Assert.assertTrue("Availability button is not displayed",availabilityButton(date,visitTime).isDisplayed());
     }
 
 

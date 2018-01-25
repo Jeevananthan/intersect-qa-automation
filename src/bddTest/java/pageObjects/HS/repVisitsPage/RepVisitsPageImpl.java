@@ -44,11 +44,20 @@ import static org.junit.Assert.fail;
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    public static String StartTime;
     //Creating RepVisitsPageImpl class object of for HE.
     pageObjects.HE.repVisitsPage.RepVisitsPageImpl repVisitsPageHEObj = new pageObjects.HE.repVisitsPage.RepVisitsPageImpl();
 
     public RepVisitsPageImpl() {
         logger = Logger.getLogger(RepVisitsPageImpl.class);
+    }
+
+    public String randomNumberGenerator() {
+        Random random = new Random();
+        int n = random.nextInt(49) + 10;
+        String time = Integer.toString(n);
+        logger.info("random = "+time );
+        return time;
     }
 
     public void checkRepVisitsSubTabs(DataTable dataTable){
@@ -388,8 +397,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(selectDay());
         day=day(day);
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
-        addStartTime().sendKeys(startTime);
+        StartTime = startTime(startTime);
+        logger.info("Start Time = "+StartTime);
+        addStartTime().sendKeys(StartTime);
         addEndTime().sendKeys(endTime);
+        logger.info("End Time = "+endTime);
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
         addTimeSlotSubmit().click();
@@ -881,11 +893,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       String Currentdate=getSpecificDate(Date);
       setDate(Currentdate,"other");
       String date = selectCurrentDate(Date);
-      Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']")).isDisplayed());
-      WebElement slot=driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+time+"']"));
+      Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+StartTime+"']")).isDisplayed());
+      WebElement slot=driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+StartTime+"']"));
       doubleClick(slot);
         if (option.equals("Max visits met") || option.equals("Fully booked")) {
-            if(!driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/div/span[text()='"+visits+" Appointments scheduled']/following-sibling::button[text()='"+time+"']/parent::div[contains(text(),'("+visits+")')]")).isDisplayed())
+            if(!driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/div/span[text()='"+visits+" Appointments scheduled']/following-sibling::button[text()='"+StartTime+"']/parent::div[contains(text(),'("+visits+")')]")).isDisplayed())
             {
                 Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//table//th//div/span[text()='" + date + "']/ancestor::th/div/span[text()='" + option + "']")).isDisplayed());
             }
@@ -926,10 +938,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         availabilityButton().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
-        WebElement slot= driver.findElement(By.xpath("//div/button[text()='"+time+"']"));
+        WebElement slot= driver.findElement(By.xpath("//div/button[text()='"+StartTime+"']"));
         waitUntilElementExists(slot);
-        Assert.assertTrue("time is not displayed",  driver.findElement(By.xpath("//td[@class='three wide _2Bvad4lXuWWJM64BNVsAQ2']/div/button[text()='"+time+"']")).isDisplayed());
-        driver.findElement(By.xpath("//button[text()='"+time+"']")).click();
+        Assert.assertTrue("time is not displayed",  driver.findElement(By.xpath("//td[@class='three wide _2Bvad4lXuWWJM64BNVsAQ2']/div/button[text()='"+StartTime+"']")).isDisplayed());
+        driver.findElement(By.xpath("//button[text()='"+StartTime+"']")).click();
         WebElement text=driver.findElement(By.xpath("//input[@type='number']"));
         waitUntilElementExists(text);
     }
@@ -1565,7 +1577,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             //Click on REMOVE button
             waitUntilPageFinishLoading();
             waitUntilElementExists(driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")));
-            if (driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")).findElement(By.xpath("//button[contains(text(), '"+Time+"')]")).isDisplayed()) {
+            if (driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")).findElement(By.xpath("//button[contains(text(), '"+StartTime+"')]")).isDisplayed()) {
                 waitUntilPageFinishLoading();
                 deleteTimeSlot.click();
                 waitUntilPageFinishLoading();
@@ -1772,5 +1784,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement select=driver.findElement(By.xpath("//div[@name='acceptVisitsUntilFullyBooked']"));
         return select;
+    }
+    public String startTime(String Time) {
+        String startTime[] = Time.split(":");
+        String randomNo = randomNumberGenerator();
+        logger.info("randomNo = "+randomNo);
+        String time=startTime[0]+":"+randomNo+"am";
+        logger.info("Time = "+time);
+        return time;
     }
 }

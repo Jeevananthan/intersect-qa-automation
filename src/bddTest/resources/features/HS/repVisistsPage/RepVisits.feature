@@ -397,7 +397,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #verify the pills is not present in the he side
     Given HE I want to login to the HE app using "purpleheautomation+marketing@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
-    Then HE I verify the pills is present or not in the he side using "<School>" using "<Date>" and "<heStartTime>"
+    Then HE I verify the pills is present or not in the he using "<School>" using "<Date>" and "<heStartTime>"
     Then HE I successfully sign out
 
 #edit regular weekly hours(changing NumofVisits from 2 to 3)
@@ -412,7 +412,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #verify the pills is present in the he side
     Given HE I want to login to the HE app using "purpleheautomation+marketing@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
-    Then HE I verify the pills is present in the he side using "<School>" using "<Date>" and "<heStartTime>"
+    Then HE I verify the pills is present in the he using "<School>" using "<Date>" and "<heStartTime>"
     Then HE I successfully sign out
 #Remove the time slot in Regular Weekly Hours Tab
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
@@ -422,7 +422,4 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
       |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School                  |heStartTime|heTime |
       |28   |28  |11:55am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:55am    |11:55am|
-#      |28   |28  |10:52am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:52am    |10:52am|
-#      |28   |28  |10:10am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:10am    |10:10am|
-#      |28   |28  |10:21am  |12:11pm|3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:21am    |10:21am|
 

@@ -57,9 +57,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
 
-        Then("^HE I verify the pills is present or not in the he side using \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyPills);
+        Then("^HE I verify the pills is present or not in the he using \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyPills);
 
-        Then("^HE I verify the pills is present in the he side using \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyPillsIsPresent);
+        Then("^HE I verify the pills is present in the he using \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyPillsIsPresent);
 
     }
 }
