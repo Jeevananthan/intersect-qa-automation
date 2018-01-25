@@ -61,14 +61,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyAccountSettings(DataTable data) {
         accountSettings();
         Map<String,String> entity = data.asMap(String.class,String.class);
-        Assert.assertTrue(link("update your profile?").isDisplayed());
+        Assert.assertTrue(link("Account Information").isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("E-mail Address") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Current Password").isDisplayed());
         Assert.assertTrue(textbox("New Password").isDisplayed());
         Assert.assertTrue(textbox("Confirm New Password").isDisplayed());
 
         // Verify that Update your profile? link works as expected
-        link("update your profile?").click();
+        link("Your Profile").click();
         waitUntilPageFinishLoading();
         ensureWeAreOnUpdateProfilePage();
         driver.switchTo().defaultContent();
@@ -77,9 +77,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private void ensureWeAreOnUpdateProfilePage() {
         // Go into Community Frame
         communityFrame();
-
+        waitForUITransition();
         // This line should not be needed.  Current flow is broken.
-        link("EDIT PROFILE").click();
+        waitUntil(ExpectedConditions.visibilityOf( link("Edit Profile")));
+        link("Edit Profile").click();
 
         Assert.assertTrue("User was not taken to Update Profile screen",link("Back to Profile").isDisplayed());
     }
