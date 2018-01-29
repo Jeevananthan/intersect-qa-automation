@@ -8,6 +8,6 @@ Feature: As a HS user, I want to be able to access secure help link
     Then HS I verify that the help content is not available for "Naviance HS Users"
     And HS I successfully sign out
 
-    Given HS I want to login to the HS app using "purpleheautomation+HSSolidRock@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "Control!23" as password
     Then HS I verify that the help content is secure and matches the correct URL for "Non-Naviance HS Users"
     And HS I successfully sign out
