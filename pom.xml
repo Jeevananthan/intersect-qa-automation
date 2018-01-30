@@ -383,9 +383,9 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                            <forkCount>2.0C</forkCount>
+                           <!-- <forkCount>2.0C</forkCount>
                             <parallel>all</parallel>
-                            <useUnlimitedThreads>true</useUnlimitedThreads>
+                            <useUnlimitedThreads>true</useUnlimitedThreads>-->
                             <useSystemClassLoader>false</useSystemClassLoader>
                             <perCoreThreadCount>false</perCoreThreadCount>
                             <threadCount>20</threadCount>
