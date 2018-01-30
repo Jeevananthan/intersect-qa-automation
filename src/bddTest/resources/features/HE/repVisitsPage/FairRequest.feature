@@ -1,6 +1,6 @@
 @HE @MATCH-1771
 Feature: As an HE user I want to submit a fair request to a high school for approval so I can build out my travel plan.
-  
+
   Scenario: Create test fairs
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I create a new college fair with the following details:
@@ -73,6 +73,22 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     When HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I cancel the fair of name "NoAutoApprovals" with the reason "test"
     And HS I successfully sign out
+
+  @manual
+  Scenario: As a HE user, I need to verify that the error message when the fair is not available anymore
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I search for "Int Qa High School 4" in RepVisits
+    And HE I select "Int Qa High School 4" from the RepVisits search result
+    And HE I open the fairs tab
+    And HE I register to the "TestFair" fair from Search and Schedule screen
+    And HE I open another browser
+    Given HE I am logged in to Intersect HE as another user of type "administrator"
+    When HE I search for "Int Qa High School 4" in RepVisits
+    And HE I select "Int Qa High School 4" from the RepVisits search result
+    And HE I open the fairs tab
+    And HE I register to the "TestFair" fair from Search and Schedule screen
+    Then HE I should see a red upper bar with the text: "Sorry, this fair is no longer available. Please select another fair:"
+
 
 
 
