@@ -29,7 +29,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void logout() {
         link(By.id("user-dropdown")).click();
-        button(By.id("user-dropdown-signout")).click();
+        driver.findElement(By.cssSelector("div[id='user-dropdown-signout']")).click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue(getDriver().getCurrentUrl().contains("login"));
         driver.manage().deleteAllCookies();
     }
@@ -38,38 +39,34 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return table("Higher Ed Account Dashboard").clickOnTheFirstElementOfAColumn("Name");
     }
 
-    public void verifyInstitutionExist(String institutionName) {
-        navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
-            button("More Higher Ed Accounts").click();
-            waitUntilPageFinishLoading();
-        }
-
-        table(By.id("he-account-dashboard")).verifyValueIsOnTheTable(institutionName);
-    }
-
-    public void verifyInstitutionDoesNotExist(String institutionName) {
-        navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
-            button("More Higher Ed Accounts").click();
-            waitUntilPageFinishLoading();
-        }
-
-        table(By.id("he-account-dashboard")).verifyValueIsNotOnTheTable(institutionName);
-    }
-
     public void goToInstitution(String institutionName) {
         navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
+        globalSearch.setSearchCategory("All");
+        globalSearch.searchForHEInstitutions(institutionName);
+        globalSearch.selectResult(institutionName);
+        /*while (button("More Higher Ed Accounts").isDisplayed()) {
             button("More Higher Ed Accounts").click();
             waitUntilPageFinishLoading();
         }
-        table(By.id("he-account-dashboard")).findElement(By.cssSelector("[aria-label=\"" + institutionName + "\"]")).click();
+        table(By.id("he-account-dashboard")).findElement(By.cssSelector("[aria-label=\"" + institutionName + "\"]")).click();*/
     }
 
     public void goToUsersList(String institutionName) {
         goToInstitution(institutionName);
         link("See All Users").click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void goToCreateUser(String institutionName) {
+        goToInstitution(institutionName);
+        link("Create User").click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void navigateToCreateUser(){
+        link("Create User").click();
+        waitUntilPageFinishLoading();
+
     }
 
     public void goToLogHistory(String institutionName) {
