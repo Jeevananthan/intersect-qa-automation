@@ -80,12 +80,13 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     When HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" from the RepVisits search result
     And HE I open the fairs tab
-    And HE I register to the "TestFair" fair from Search and Schedule screen
     And HE I open another browser
     Given HE I am logged in to Intersect HE as another user of type "administrator"
     When HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" from the RepVisits search result
     And HE I open the fairs tab
+    And HE I register to the "TestFair" fair from Search and Schedule screen
+    And HE I navigate back to first browser
     And HE I register to the "TestFair" fair from Search and Schedule screen
     Then HE I should see a red upper bar with the text: "Sorry, this fair is no longer available. Please select another fair:"
 
