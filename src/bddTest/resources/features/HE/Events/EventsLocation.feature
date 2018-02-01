@@ -1,8 +1,8 @@
-@HE @EventsLocation
+@HE @EventsLocation @MATCH-2914
 Feature: HE - Active Match Events - As a HE Intersect user with AM Events, I need the ability to create, edit, and
   delete a location so that I can associate it to an Event.
 
-  @MATCH-2913
+  @MATCH-2914
   Scenario: A location can be created/edited/saved/deleted
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
@@ -29,7 +29,7 @@ Feature: HE - Active Match Events - As a HE Intersect user with AM Events, I nee
     Then HE The deleted location of name "TestLocation111" should not be present in the locations list
     And HE I successfully sign out
 
-  @MATCH-2913
+  @MATCH-2914
   Scenario: As a HE User, verify Create Location Validations
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
@@ -42,6 +42,56 @@ Feature: HE - Active Match Events - As a HE Intersect user with AM Events, I nee
     And HE I verify required fields error messages
     And HE I successfully sign out
 
+  @MATCH-2914
+  Scenario: As a HE user, verify the message when deleting a location associated with a unpublished event
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I open the Create Event screen
+    And HE I create and save a new location with the following details:
+      | Location Name | LocationToDelete |
+    When HE I open the Events list
+    And HE I create and save a new event "3" minutes ahead from now with the following details:
+      | Event Name     | TestEventUnpublished |
+      | Max Attendees  | 30        |
+      | EVENT LOCATION | LocationToDelete |
+      | EVENT PRIMARY CONTACT | 1 |
+    And HE I open the Create Event screen
+    Then HE I verify the error message when deleting the location of name "LocationToDelete" associated to a "unpublished" event
+    And HE I open the Events list
+    And HE I delete the event of name "TestEventUnpublished"
+    And HE I successfully sign out
+
+  @MATCH-2914
+  Scenario: As a HE user, verify the message when deleting a location associated with a published event
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I open the Create Event screen
+    And HE I create and save a new location with the following details:
+      | Location Name | LocationToDelete2 |
+    When HE I open the Events list
+    And HE I create and publish a new event "3" minutes ahead from now with the following details:
+      | Event Name     | TestEventPublished |
+      | Max Attendees  | 30        |
+      | EVENT LOCATION | LocationToDelete2 |
+      | EVENT PRIMARY CONTACT | 1 |
+    And HE I open the Create Event screen
+    Then HE I verify the error message when deleting the location of name "LocationToDelete2" associated to a "published" event
+    And HE I open the Events list
+    And HE I unpublish the event of name "TestEventPublished"
+    And HE I delete the event of name "TestEventPublished"
+    And HE I open the Create Event screen
+    And HE I delete the location of name "LocationToDelete2"
+    And HE I open the Events list
+    And HE I successfully sign out
+
+  @MATCH-2914
+  Scenario: As a HE user, verify the message when deleting a location associated with an expired event
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    When HE I open the Create Event screen
+    Then HE I verify the error message when deleting the location of name "ExpiredLocationForAutomation" associated to a "expired" event
+    When HE I open the Events list
+    And HE I successfully sign out
 
 
 

@@ -17,6 +17,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
     public static HashMap<String, String> editedData = new HashMap<>();
     public static String eventName = "";
+    public static Calendar generatedTime;
 
     public EventsPageImpl() {
         logger = Logger.getLogger(EventsPageImpl.class);
@@ -71,7 +72,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteEvent(String eventName) {
-        getEventsTab("UNPUBLISHED").click();
+        getEventsTab("Unpublished").click();
         menuButtonForEvent(eventName).click();
         getOptionFromMenuButtonForEvents("Delete").click();
         deleteYesButton().click();
@@ -127,7 +128,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "EVENT LOCATION":
-                    selectLocationByPosition(Integer.parseInt(row.get(1)));
+                    if (isStringNumber(row.get(1))) {
+                        selectLocationByPosition(Integer.parseInt(row.get(1)));
+                    } else {
+                        selectLocationByName(row.get(1));
+                    }
                     break;
                 case "EVENT PRIMARY CONTACT":
                     selectContactByPosition(Integer.parseInt(row.get(1)));
@@ -140,45 +145,47 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectLocationByPosition(int position) {
-        if (locationField().getText().length() > 0) {
-            for (int i = 0; i <= locationField().getText().length(); i++) {
-                locationField().sendKeys(Keys.BACK_SPACE);
-            }
-        } else {
-            locationField().clear();
-        }
-        locationField().sendKeys("a");
-        locationField().sendKeys(Keys.BACK_SPACE);
+        clearSelectionField(locationField());
+        openSelectionFieldMenu(locationField());
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table AUCnq8YpQQX6dyWSXlgRo']" +
                 "/tbody/tr[@class='_1hExGvG5jluro4Q-IOyjd7'][" + position + "]")).click();
     }
 
+    public void selectLocationByName(String name) {
+        clearSelectionField(locationField());
+        openSelectionFieldMenu(locationField());
+        driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table AUCnq8YpQQX6dyWSXlgRo']" +
+                "/tbody/tr[@class='_1hExGvG5jluro4Q-IOyjd7']/td/div[@class = '_1mf5Fc8-Wa2hXhNfBdgxce']" +
+                "[text() = '" + name + "']")).click();
+    }
+
     public void selectContactByPosition(int position) {
-        if (primaryContactField().getText().length() > 0) {
-            for (int i = 0; i <= primaryContactField().getText().length(); i++) {
-                primaryContactField().sendKeys(Keys.BACK_SPACE);
-            }
-        } else {
-            primaryContactField().clear();
-        }
-        primaryContactField().sendKeys("a");
-        primaryContactField().sendKeys(Keys.BACK_SPACE);
+        clearSelectionField(primaryContactField());
+        openSelectionFieldMenu(primaryContactField());
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _1CESARq218cDE7u8vMyW3O']" +
                 "/tbody/tr[" + position + "]/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']")).click();
     }
 
     public void selectFilterByPosition(int position) {
-        if (audienceField().getText().length() > 0) {
-            for (int i = 0; i <= audienceField().getText().length(); i++) {
-                audienceField().sendKeys(Keys.BACK_SPACE);
-            }
-        } else {
-            audienceField().clear();
-        }
-        audienceField().sendKeys("a");
-        audienceField().sendKeys(Keys.BACK_SPACE);
+        clearSelectionField(audienceField());
+        openSelectionFieldMenu(audienceField());
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _2NlS0bmSsF9TMGlRj-exrG']" +
                 "/tbody/tr[" + position + "]/td/div[@class='_3BUJ-YOdd0uTHeZhux4Duw']")).click();
+    }
+
+    private void clearSelectionField(WebElement selectionField) {
+        if (selectionField.getText().length() > 0) {
+            for (int i = 0; i <= selectionField.getText().length(); i++) {
+                selectionField.sendKeys(Keys.BACK_SPACE);
+            }
+        } else {
+            selectionField.clear();
+        }
+    }
+
+    private void openSelectionFieldMenu(WebElement selectionField) {
+        selectionField.sendKeys("a");
+        selectionField.sendKeys(Keys.BACK_SPACE);
     }
 
     public void openEditScreen(String eventName) {
@@ -270,7 +277,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             eventsTabFromEditEventScreen().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
         }
-        getEventsTab("PUBLISHED").click();
+        getEventsTab("Published").click();
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
         unpublishYesButton().click();
@@ -302,6 +309,37 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         verifyEventIsInCancelledList(eventName);
     }
 
+    public void createAndSaveEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
+        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
+        fillEventStartDateTimeFields(minutesFromNow);
+        fillCreateEventForm(eventDetails);
+        saveDraftButton().sendKeys(Keys.RETURN);
+    }
+
+    public void createAndPublishEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
+        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
+        fillEventStartDateTimeFields(minutesFromNow);
+        fillCreateEventForm(eventDetails);
+        publishNowButton().sendKeys(Keys.RETURN);
+    }
+
+    public void fillEventStartDateTimeFields(String minutesFromNow) {
+        waitUntilPageFinishLoading();
+        generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
+        Calendar date = Calendar.getInstance();
+        createEventButton().click();
+        waitForUITransition();
+        eventStartCalendarButton().click();
+        waitForUITransition();
+        pickDateInDatePicker(date);
+        eventStartTimeField().sendKeys(getTime(generatedTime).replace(" ", ""));
+    }
+
+    public void verifyEventInExpiredList() {
+        getEventsTab("Expired").click();
+
+    }
+
     //locators
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
@@ -321,8 +359,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
     private WebElement menuButtonForEvent(String eventName) {
         return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div" +
-                "[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']/../../../div[@class='three wide column _9SozV5IWiYp704W5xAqOC']" +
-                "/div/div/div/i"));
+                "[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']/../../../div[4]" +
+                "/div/div/i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
         return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));

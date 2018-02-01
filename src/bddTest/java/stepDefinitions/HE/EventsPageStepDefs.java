@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.eventsPage.EventsPageImpl;
 
@@ -48,5 +49,11 @@ public class EventsPageStepDefs implements En {
         Then("^HE The cancelled event should be displayed in the canceled events list$", eventsPage::verifyCreatedEventIsInCancelledList);
 
         And("^HE I open the Create Event screen$", eventsPage::clickCreateEvent);
+
+        And("^HE I create and save a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::createAndSaveEventWithGenDate);
+
+        And("^HE I create and publish a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::createAndPublishEventWithGenDate);
+
+        And("^HE I verify that the event of name \"([^\"]*)\" is in the expired list$", eventsPage::verifyEventInExpiredList);
     }
 }

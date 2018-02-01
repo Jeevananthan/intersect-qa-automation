@@ -31,5 +31,9 @@ public class LocationsPageStepDefs implements En {
         And("^HE I save the current location$", locationsPage::clickDone);
 
         And("^HE I edit the new location with the following details:$", locationsPage::editOpenLocation);
+
+        And("^HE I verify the error message when deleting the location of name \"([^\"]*)\" associated to a \"([^\"]*)\" event$", locationsPage::verifyErrorMsgWhenDeletingAssociatedLocation);
+
+        And("^HE I delete the location of name \"([^\"]*)\"$", locationsPage::deleteLocation);
     }
 }

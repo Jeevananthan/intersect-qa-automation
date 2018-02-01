@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -84,7 +85,7 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    private void openEditFormForSelectedLocation() {
+    public void openEditFormForSelectedLocation() {
         waitUntilPageFinishLoading();
         eventsPage.locationField().click();
         singleResultInLocationListEditLink().click();
@@ -141,6 +142,40 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyErrorMsgWhenDeletingAssociatedLocation(String locationName, String eventStatus) {
+        waitUntilPageFinishLoading();
+        driver.get(driver.getCurrentUrl());
+        waitForUITransition();
+        eventsPage.locationField().sendKeys(locationName);
+        openEditFormForSelectedLocation();
+        deleteLocationLink().click();
+        if(eventStatus.equals("unpublished")) {
+            Assert.assertTrue("The message when deleting a location associated to an unpublished event is not correct: "
+                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithUnpublishedEvent));
+            deleteLocationYesButton().click();
+        } else if(eventStatus.equals("published")) {
+            Assert.assertTrue("The message when deleting a location associated to a published event is not correct: "
+                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithPublishedEvent));
+            locationAssociatedToPublishedEventOkButton().click();
+        } else if(eventStatus.equals("expired")) {
+            Assert.assertTrue("The message when deleting a location associated to a expired event is not correct: "
+                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithExpiredEvent));
+        }
+    }
+
+    public void deleteLocation(String locationName) {
+        waitUntilPageFinishLoading();
+        driver.get(driver.getCurrentUrl());
+        waitForUITransition();
+        eventsPage.locationField().sendKeys(locationName);
+        openEditFormForSelectedLocation();
+        deleteLocationLink().click();
+        deleteLocationYesButton().click();
+    }
+
     //locators
     private WebElement newLocationLink() {
         return driver.findElement(By.xpath("//span[text() = '+ New Location']"));
@@ -160,4 +195,12 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> locationList() {
         return driver.findElements(By.cssSelector("div._1mf5Fc8-Wa2hXhNfBdgxce"));
     }
+    public WebElement locationDeleteMessage() { return driver.findElement(By.cssSelector("div.ui.warning.message")); }
+    private static final String deleteLocationMessageWhenAssociatedWithUnpublishedEvent =
+            "This location is associated with an existing unpublished event.Are you sure you want to delete?";
+    private static final String deleteLocationMessageWhenAssociatedWithPublishedEvent =
+            "This location can not be deleted since it is associated with a published event";
+    private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent =
+            "This location is associated with a past published event.Are you sure you want to delete?";
+    public WebElement locationAssociatedToPublishedEventOkButton() { return driver.findElement(By.xpath("//button[@class = 'ui primary button']")); }
 }
