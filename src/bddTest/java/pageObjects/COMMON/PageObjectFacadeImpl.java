@@ -2,10 +2,10 @@ package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class PageObjectFacadeImpl extends SeleniumBase {
 
@@ -32,5 +32,63 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         // This shouldn't navigate, it should only jump into the iFrame.  Use navBar.goToCommunity() instead for that.
         driver.switchTo().defaultContent();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe[title=Community]")));
+        waitForUITransition();
     }
+
+    /**
+     * Generates a Calendar object with a day in the future (or past for negative numbers) from the current date.
+     *
+     * @param delta - Integer for the number of days from now.  Negative numbers = days in the past.
+     * @return Calendar object with the date set to delta days from current date.
+     */
+    protected Calendar getDeltaDate(int delta) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, delta);
+        return cal;
+    }
+
+    /**
+     * Returns a String representing the day from a Calendar object
+     *
+     * @param cal - Calendar object
+     * @return String containing the day in dd (e.g.: 08) format
+     */
+    protected String getDay(Calendar cal) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd");
+        return sdf.format(cal.getTime());
+    }
+
+    /**
+     * Returns a String representing the month from a Calendar object
+     *
+     * @param cal - Calendar object
+     * @return String containing the month in MMMM (e.g.: August) format
+     */
+    protected String getMonth(Calendar cal) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        return sdf.format(cal.getTime());
+    }
+
+    /**
+     * Returns a String representing the numeric month from a Calendar object
+     *
+     * @param cal - Calendar object
+     * @return String containing the month in MM (e.g.: 08) format
+     */
+    protected String getMonthNumber(Calendar cal) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM");
+        return sdf.format(cal.getTime());
+    }
+
+    /**
+     * Returns a String representing the year from a Calendar object
+     *
+     * @param cal - Calendar object
+     * @return String containing the year in yyyy (e.g.: 2014) format
+     */
+    protected String getYear(Calendar cal) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        return sdf.format(cal.getTime());
+    }
+
 }

@@ -6,12 +6,12 @@ Feature: Community User - Disconnect from Community User
 
   @MATCH-421
   Scenario: As a Community User I can disconnect from another Community user when viewing that user's profile.
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And I am connected to HS user
     Then I search for "PurpleHS User" and open profile page of this user
     And I click disconnect button
     And I check if user is not connected to "PurpleHSUser" user
-    And I sign out from the HE app
+    And HE I successfully sign out
 
 
   #There is no option to disconnect from another Community user in search results
@@ -22,12 +22,12 @@ Feature: Community User - Disconnect from Community User
 
   @MATCH-423
   Scenario: As a Community user I can disconnect from another Community user when on the Manage Connections screen.
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And I am connected to HS user
     Then I go to connections page
     And I disconnect from the "PurpleHS User" user
     And I check if user is not connected to "PurpleHSUser" user
-    And I sign out from the HE app
+    And HE I successfully sign out
 
 
   #Message to confirm disconnect action feature is not implemented

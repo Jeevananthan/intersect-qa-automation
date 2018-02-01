@@ -6,7 +6,8 @@ Feature: Community User - View Aggregate Feed on HE/HS Institutions
 
   @MATCH-915 @MATCH-916
   Scenario: As a Community user or institution i can see Aggregate Feed on HE/HS Institutions.
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And I go to institution page
     And I go to Hobsons institution page
     Then I check if Institution posts are visible
+    And HE I successfully sign out

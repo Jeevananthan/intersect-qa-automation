@@ -224,14 +224,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyCommunityActivationForRepVisits(){
         getRepVisitsBtn().click();
         waitUntilPageFinishLoading();
-        driver.switchTo().frame(0);
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
+        waitForUITransition();
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();
     }
 
     public void verifyWidgetIsVisible(String widgetName){
-
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
@@ -248,10 +248,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
+        getRepVisitsBtn().click();
     }
 
     public void verifyRepVisitsLandingPage(){
         navBar.goToRepVisits();
+        waitForUITransition();
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
 
@@ -273,4 +275,5 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
     private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
+    private WebElement changeProfileLabel(){return text("Change Profile");}
 }

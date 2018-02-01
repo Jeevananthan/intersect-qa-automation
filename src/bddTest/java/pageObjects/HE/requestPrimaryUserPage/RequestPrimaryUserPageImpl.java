@@ -48,11 +48,17 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
 
     public void fillFormAndVerifyMessaging(DataTable dataTable){
         //validating header of this page
-        if (text("Institution Name").isEnabled()) {
-            Assert.assertTrue("Header of this page does not contain 'Request New Institution' text",text("Request New Institution").isDisplayed());
+        String test = text("Institution Name").findElement(By.xpath(".//parent::label/following-sibling::*"))
+                .getAttribute("class");
+        if (!text("Institution Name").findElement(By.xpath(".//parent::label/following-sibling::*"))
+                .getAttribute("class").contains("disabled")) {
+            Assert.assertTrue("Header of this page does not contain 'Request New Institution' text",
+                    text("Request New Institution").isDisplayed());
         }
-        if (!text("Institution Name").isEnabled()) {
-            Assert.assertTrue("Header of this page does not contain 'Request User Account' text", text("Request User Account").isDisplayed());
+        if (text("Institution Name").findElement(By.xpath(".//parent::label/following-sibling::*"))
+                .getAttribute("class").contains("disabled")) {
+            Assert.assertTrue("Header of this page does not contain 'Request User Account' text",
+                    text("Request User Account").isDisplayed());
         }
         //back - link validation
         Assert.assertTrue("Back option is not displayed",link("Back").isDisplayed());
@@ -94,11 +100,13 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
                     textbox(field).sendKeys(data.get(field));
             }
         }
-            clickReCaptcha();
-            button("REQUEST USER").click();
-            Assert.assertTrue("Confirmation message was not displayed!", text("Your request has been successfully submitted. You can expect a response from Hobsons within 1 business day.").isDisplayed());
-            button("OK").click();
-            loginPage.verifyLoginPage();
+        clickReCaptcha();
+        waitForUITransition();
+        button("REQUEST USER").click();
+        waitForUITransition();
+        Assert.assertTrue("Confirmation message was not displayed!", text("Your request has been successfully submitted. You can expect a response from Hobsons within 1 business day.").isDisplayed());
+        button("OK").click();
+        loginPage.verifyLoginPage();
     }
 
     private void clickReCaptcha(){

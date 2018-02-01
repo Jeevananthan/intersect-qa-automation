@@ -6,8 +6,8 @@ Feature: Community User - Institution Tab for User to View Their Institution's P
 
   @MATCH-606
   Scenario: As a Community user I want an Institution tab that shows me my Institution's profile page
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     Then I go to institution page
     And I check if my institution info is displayed
     And I check if I am able to edit my institution info
-    Then I sign out from the HE app
+    Then HE I successfully sign out
