@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import static org.junit.Assert.fail;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
             Assert.fail("Valid user actions are \"activate\",\"inactivate\" and \"unlock\".");
         }
         button("YES").click();
+        waitForUITransition();
         try {
             driver.wait(2000);
         } catch (Exception e) {}
@@ -94,7 +96,10 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
 
     public void setPrimaryUser(String userName) {
         takeUserAction(userName,"Assign as Primary");
+        waitUntilPageFinishLoading();
         button("YES").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
     public void verifyUserIsPrimary(String userName) {
@@ -106,8 +111,12 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     private void takeUserAction(String userName, String action) {
-        WebElement actionsButton = getParent(getParent(link(userName))).findElement(By.cssSelector("[aria-label=Actions]"));
-        WebElement button = actionsButton.findElement(By.xpath("./div/div/span[contains(text(),'"+action+"')]"));
+        WebElement element = driver.findElement(By.xpath("//a[text()='"+userName+"']"));
+        moveToElement(element);
+        WebElement actionsButton = driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/following-sibling::td/div[@aria-label='Actions']"));
+        //WebElement actionsButton = getParent(getParent(link(userName))).findElement(By.cssSelector("[aria-label=Actions]"));
+        waitUntilElementExists(actionsButton);
+        WebElement button = driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/following-sibling::td/div[@aria-label='Actions']/div/div/span[contains(text(),'"+action+"')]"));
         actionsButton.click();
         jsClick(button);
         waitUntilPageFinishLoading();
@@ -117,23 +126,34 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         String className = "";
         switch (status) {
             case "primary":
-                //yellow star icon
-                className = "yellow";
+                //yellow
+                className = "yellow star icon";
                 break;
             case "nonprimary":
-                //empty star icon
-                className = "empty";
+                //empty
+                className = "empty star icon";
                 break;
             case "active":
-                //empty star icon
-                className = "empty";
+                //empty
+                className = "empty star icon";
                 break;
             case "inactive":
-                //ban icon
-                className = "ban";
+                //ban
+                className = "ban icon";
                 break;
         }
-        Assert.assertTrue("Expected user status icon was not found.  Expected " + status, getParent(getParent(link(userName))).findElement(By.className(className)).isDisplayed());
+        Assert.assertTrue("Expected user status icon was not found.  Expected " + status, driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/parent::tr/td/i[@class='"+className+"']")).isDisplayed());
     }
 
+    public void verifyCreateUserButton() {
+        Assert.assertTrue("See All Users is not displayed",driver.findElement(By.xpath("//span[text()='See All Users']")).isDisplayed());
+        driver.findElement(By.xpath("//span[text()='See All Users']")).click();
+        Assert.assertTrue("Create New User button is not displayed",driver.findElement(By.xpath("//span[text()='Create New User']")).isDisplayed());
+        driver.findElement(By.xpath("//span[text()='Create New User']")).click();
+    }
+
+    public void moveToElement(WebElement element) {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
+    }
 }

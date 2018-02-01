@@ -27,8 +27,8 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
             textbox(key).sendKeys(data.get(key));
         }
         switch (action) {
-            case "Cancel":
-                cancelButton().click();
+            case "Home":
+                navBar.goToHome();
                 waitUntilPageFinishLoading();
                 break;
             case "Save":

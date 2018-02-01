@@ -6,7 +6,8 @@ Feature: Community User - View HE/HS Institutional Banner
 
   @MATCH-921
   Scenario: Check if institution banner exists on the institution page
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And I go to institution page
     And I go to Hobsons institution page
     Then I check if institution banner exists
+    And HE I successfully sign out

@@ -6,15 +6,27 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.COMMON.PageObjectFacadeImpl;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import utilities.GetProperties;
+import javax.annotation.Nullable;
 import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -24,12 +36,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import utilities.GetProperties;
 import utilities.GetProperties;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.fail;
 import static junit.framework.TestCase.fail;
+import static org.junit.Assert.fail;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -157,10 +169,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void setAcceptinAvailabilitySettings(String accept, String visitsPerDay){
         navBar.goToRepVisits();
+        waitUntilElementExists(link("Availability & Settings"));
         link("Availability & Settings").click();
         link("Availability").click();
         link("Availability Settings").click();
+        waitUntilPageFinishLoading();
         WebElement selectAccept = getDriver().findElement(By.cssSelector("div[class='ui selection dropdown']>div"));
+        waitUntilPageFinishLoading();
         selectAccept.click();
         getDriver().findElement(By.xpath("//span[text()='" + accept + "']")).click();
         if(accept.equals("a maximum of...")) {
@@ -176,6 +191,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Availability").click();
         link("Availability Settings").click();
+        waitUntilElementExists(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")));
         WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
         options.findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
         button("Save Changes").click();
@@ -185,6 +201,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Availability Settings").click();
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.cssSelector("button[class='ui primary button']")));
+        waitUntilElementExists(driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']/input[@type='radio']")));
         driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']/input[@type='radio']")).click();
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
     }
@@ -210,12 +229,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 
+    public void addDefaultMessage(String message){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Messaging Options").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.cssSelector("textarea[name='emailInstructions']")));
+        writeInConfirmationMessage().clear();
+        writeInConfirmationMessage().sendKeys(message);
+        waitUntilPageFinishLoading();
+        writeInSpecialInstructionForRepViists(message);
+        button("Update Messaging").click();
+    }
+
+    public void verifyMessageUpdated(String message){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Messaging Options").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.cssSelector("textarea[name='emailInstructions']")));
+        String confirmationMessageText = writeInConfirmationMessage().getText();
+        Assert.assertTrue(confirmationMessageText + " Text is not displayed",
+                confirmationMessageText.contains(message));
+    }
+
+    public void verifyMessageConfirmation(){
+        Assert.assertTrue("The update message was not displayed",text("You've updated your messaging.")
+                .isDisplayed());
+    }
+
     public void verifyContentsOfNavianceSettings() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Naviance Settings").click();
         waitUntilPageFinishLoading();
-
+        waitUntilElementExists(getDriver().findElement(By.id("form-naviance-settings")));
         String publishVisitsToNavianceText = getDriver().findElement(By.id("form-naviance-settings")).getText();
         String likeToPublishAutomaticallyOptionsText = "Automatically publish confirmed visits.";
         String likeToPublishManuallyOptionsText = "Manually choose which visits to publish. (If any)";
@@ -238,45 +286,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
 
-        Assert.assertTrue("The Time Slot was not added" , driver.findElement(By.cssSelector("table[class='ui unstackable basic table']")).findElement(By.xpath("//button[contains(text(), '"+hourStartTime+ ":"+ minuteStartTime + meridianStartTime +"')]")).isDisplayed());
+        Assert.assertTrue("The Time Slot was not added" , driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']")).findElement(By.xpath("//button[contains(text(), '"+hourStartTime+ ":"+ minuteStartTime + meridianStartTime +"')]")).isDisplayed());
 
-    }
-
-
-    public void findMonth(String month, String startOrEndDate) {
-        waitUntilPageFinishLoading();
-        boolean monthStatus = compareDate(month, startOrEndDate);
-
-        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-
-        try{
-            while (!DayPickerCaption.contains(month)) {
-
-                if (monthStatus){
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-                }
-                else {
-                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
-                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-                }
-            }
-
-        }
-        catch (Exception e) {
-            Assert.fail("The Date selected it's out of RANGE.");
-        }
     }
 
     public Boolean compareDate(String month, String startOrEndDate)  {
 
         String dateCaption = null;
-        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat format = new SimpleDateFormat("MMM yyyy");
         DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
         if (startOrEndDate.contains("Start")) {
-            dateCaption = driver.findElement(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).getText();
+            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
         } else {
-            dateCaption = driver.findElement(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).getText();
+            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
         }
 
         //Logic to compare dates before? or not
@@ -317,10 +339,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
 
-        text("ADD TIME SLOT").click();
-        WebElement daySelector = getParent(text("MONDAY - FRIDAY"));
-        daySelector.click();
-        daySelector.findElement(By.xpath("//div/span[contains(text(),'" + day + "')]")).click();
+        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
+        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
@@ -334,7 +354,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
 
-        String startEndDatesForVisitsText = getDriver().findElement(By.cssSelector("div[class='availability _17ehxT_27Cme444W6HfdTN']")).getText();
+        String startEndDatesForVisitsText = getDriver().findElement(By.cssSelector("div[class='availability']")).getText();
         //String dayTableText = getDriver().findElement(By.cssSelector("table[class='ui basic table']")).getText();
         String dayTableText = getDriver().findElement(By.cssSelector("div[class='_10Tg7oamBO_AGbl5OgX9ba']")).getText();
         String displayStartEndForVisitsText = "2017-2018 Start and End Dates For Visits";
@@ -362,8 +382,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='startTime']"));
         inputStartTime.click();
-        inputStartTime.sendKeys(hour);
-        inputStartTime.sendKeys(Keys.TAB);
+        inputStartTime.sendKeys(hour + ":");
         inputStartTime.sendKeys(minute);
         inputStartTime.sendKeys(meridian);
 
@@ -373,7 +392,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='endTime']"));
         inputStartTime.click();
-        inputStartTime.sendKeys(hour);
+        inputStartTime.sendKeys(hour + ":");
         inputStartTime.sendKeys(minute);
         inputStartTime.sendKeys(meridian);
         inputStartTime.sendKeys(Keys.TAB);
@@ -408,71 +427,101 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
-
-        // Set End Date to 07/15/2018 and Start Date to 07/15/2017 so that we can set our real dates
-        // without the UI stopping us from choosing dates that would be invalid.
-        setAvailabilityToWholeSchoolYear();
-
-        // Set the dates we actually want.
         button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-        setDate(startDate);
+        setDate(startDate, "Start");
         button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        setDate(endDate);
-    }
-
-    private void setAvailabilityToWholeSchoolYear() {
-        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        setDate("July 15 2018");
-        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-        String startDate = "July 15 2017";
-        String[] parts = startDate.split(" ");
-        String calendarHeading = parts[0] + " " + parts[2];
-        findMonth(calendarHeading);
-        clickOnDay(parts[1]);
-        waitUntilPageFinishLoading();
+        setDate(endDate, "End");
+        waitUntilElementExists(text("UPDATE DATE"));
         text("UPDATE DATE").click();
     }
 
-    public void setDate(String inputDate) {
 
-        String[] parts = inputDate.split(" ");
-        String calendarHeading = parts[0] + " " + parts[2];
-
-        findMonth(calendarHeading);
-        clickOnDay(parts[1]);
-        waitUntilPageFinishLoading();
-    }
     public void setDateDoubleClick(String inputDate) {
 
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
 
-        findMonth(calendarHeading);
+        findMonth(calendarHeading, inputDate);
         WebElement Date = driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+parts[1]+")]"));
         doubleClick(Date);
         waitUntilPageFinishLoading();
     }
 
-    public void findMonth(String month) {
-
-        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-
-        try{
-            int i = 0;
-            while (!DayPickerCaption.contains(month) && i < 12) {
-                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                i++;
-                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-            }
-            while (!DayPickerCaption.contains(month) && i > -12) {
-                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
-                i--;
-                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+    public void accessWelcomeSetupWizard(String optionToSelect) {
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        if (!optionToSelect.equals("")) {
+            if (optionToSelect.equalsIgnoreCase("VISITS")) {
+                driver.findElement(By.xpath("//input[@value='VISITS']")).click();
+                waitUntilPageFinishLoading();
+            } else if (optionToSelect.equalsIgnoreCase("FAIRS")) {
+                driver.findElement(By.xpath("//input[@value='FAIRS']")).click();
+                waitUntilPageFinishLoading();
+            } else if (optionToSelect.equalsIgnoreCase("VISITS AND FAIRS")) {
+                driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS']")).click();
+                waitUntilPageFinishLoading();
+            } else {
+                Assert.fail("The given option to select is not a valid one");
             }
         }
-        catch (Exception e) {
-            Assert.fail("The Date selected is out of RANGE.\n" + e.getMessage());
+        driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+        waitUntilPageFinishLoading();
+    }
+     public void accessHighschoolInformationSetupWizard(String timeZone) {
+         if (!timeZone.equals("")) {
+             WebElement EntertimeZone = getDriver().findElement(By.cssSelector(".search[name=\"-search\"] + div"));
+             EntertimeZone.click();
+             getDriver().findElement(By.xpath("//span[text()='"+timeZone+"']")).click();
+         }
+         driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+     }
+     public void verifyFairOverview() {
+//        Assert.assertTrue("College Fair at Int QA High School is not displayed",text("CollegeFairs at Int QA High School 4").isDisplayed());
+     }
+
+
+    public void accessOneLastStepSetupWizard(String visitAvailability) {
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size() == 0) {
+            waitUntilElementExists( button("Next"));
+            waitUntilElementExists( button("Next"));
+            button("Next").click();
+            waitUntilPageFinishLoading();
         }
+        Assert.assertTrue("Complete page is not displayed", text("Visit Availability").isDisplayed());
+        if (!visitAvailability.equals("")) {
+            if (visitAvailability.equalsIgnoreCase("All RepVisits Users")) {
+                driver.findElement(By.xpath("//label[text()='All RepVisits Users']/input[@type='radio']")).click();
+            } else if (visitAvailability.equalsIgnoreCase("Only Me")) {
+                driver.findElement(By.xpath("//label[text()='Only Me']/input[@type='radio']")).click();
+            } else {
+                Assert.fail("The given option for the visitAvailability is not a valid one");
+            }
+        }
+        driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+    }
+
+    public void verifyYouAreAllSetPage(String visibilitySetting) {
+        if (visibilitySetting.equalsIgnoreCase("Only Me")) {
+            Assert.assertTrue("Only Me Ack is not displayed ", text("Your visit availability has been successfully set up!").isDisplayed());
+        } else if (visibilitySetting.equalsIgnoreCase("All RepVisits Users")) {
+            Assert.assertTrue("All RepVisits Ack page is not displayed", text("https://CounselorCommunity.com").isDisplayed());
+        } else {
+            Assert.fail("Error: " + visibilitySetting + " is not a valid option for Visit Availability");
+        }
+        driver.findElement(By.xpath("//span[text()='Take me to my visits']")).click();
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(text("Today"));
+        Assert.assertTrue("Calendar is not displayed", text("Today").isDisplayed());
+
+        driver.navigate().back();
+        waitUntilPageFinishLoading();
+
+        button("Get started with college fairs").click();
+        Assert.assertTrue("College Fair at Int QA High School is not displayed", text("CollegeFairs at Int Qa High School 4").isDisplayed());
+
     }
 
     public void verifyStartAndEndDates(String startDate, String endDate){
@@ -489,11 +538,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
             Assert.assertTrue("Button Start Date is not showing.",
                     driver.findElement(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).
-                            findElement(By.xpath("//span[contains(text(), '" + startMonth + " " + startDay + ", " + startYear + "')]")).isDisplayed());
+                            findElement(By.xpath("//span[contains(text(), '" + startDay + "/" + startYear + "')]")).isDisplayed());
 
             Assert.assertTrue("Button End Date is not showing.",
                     driver.findElement(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).
-                            findElement(By.xpath("//span[contains(text(), '" + endMonth + " " + endDay + ", " + endYear + "')]")).isDisplayed());
+                            findElement(By.xpath("//span[contains(text(), '" + endDay + "/" + endYear + "')]")).isDisplayed());
 
         } catch (Exception e) {
             Assert.fail("The Date selected is out of RANGE.");
@@ -502,23 +551,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyTimeZonePage(String ValueTZ){
-        navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Time Zone").click();
         Assert.assertTrue("Tell us about your high school text is not present",getDriver().findElement(By.cssSelector(".ui.header")).isDisplayed());
         Assert.assertTrue("Please specify your high school's time zone text is not present",getDriver().findElement(By.cssSelector(".field label")).isDisplayed());
         WebElement TZDropDown = getDriver().findElement(By.cssSelector("[class='ui search selection dropdown']"));
         Assert.assertTrue("Timezone was not set as expected.",TZDropDown.findElement(By.className("text")).getText().contains(ValueTZ));
-        Assert.assertTrue("TZ selected does not match",getDriver().findElement(By.cssSelector(".search[name=\"-search\"] + div")).isDisplayed());
+        Assert.assertTrue("TZ selected does not match",getDriver().findElement(By.cssSelector(".search[class=\"search\"] + div")).isDisplayed());
         Assert.assertTrue("Update Time Zone button is not displayed",getDriver().findElement(By.cssSelector(".button[class='ui primary button']")).isDisplayed());
     }
 
     public void verifyManualBlockedHolidays(String holiday) {
+        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
         waitUntilPageFinishLoading();
-
+        waitForUITransition();
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")));
         Boolean checkBoxLaborHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
         Boolean checkBoxColumbusHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
         Boolean checkBoxVeteransHolidayStatus = getDriver().findElement(By.cssSelector("div[title='"+holiday+"']")).getAttribute("class").contains("checked");
@@ -601,9 +651,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement schoolLocation = text(location);
         getParent(schoolLocation).findElement(By.tagName("a")).click();
         //driver.findElement(By.cssSelector("button[class='ui right labeled tiny icon button _1alys3gHE0t2ksYSNzWGgY right floated']")).click();
+        waitForUITransition();
         driver.findElement(By.className("_135QG0V-mOkCAZD0s14PUf")).findElement(By.xpath("button")).click();
         setDate(Date, "Start");
         waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilElementExists(getDriver().findElement(By.className("JIilVAK-W5DJoBrTmFeUG")));
         Assert.assertTrue("Was not set Blocked!", getParent(getDriver().findElement(By.className("JIilVAK-W5DJoBrTmFeUG"))).findElement(By.tagName("p")).getText().toLowerCase().contains("holiday"));
 
     }
@@ -612,12 +665,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
-
-        if (startOrEndDate.contains("Start")) {
-            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-        } else {
-            button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        }
         findMonth(calendarHeading, startOrEndDate);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
@@ -685,7 +732,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")));
+        driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")).click();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Calendar Sync']")).size()==0) {
+            waitUntilPageFinishLoading();
+            waitForUITransition();
             button("Next").click();
             waitUntilPageFinishLoading();
         }
@@ -710,7 +761,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private void setTimeZoneValue(String timeZone) {
-        WebElement EntertimeZone = getDriver().findElement(By.cssSelector(".search[name=\"-search\"] + div"));
+        waitForUITransition();
+        waitUntilPageFinishLoading();
+        WebElement EntertimeZone = getDriver().findElement(By.cssSelector(".search[class=\"search\"] + div"));
         EntertimeZone.click();
         getDriver().findElement(By.xpath("//span[text()='"+ timeZone +"']")).click();
     }
@@ -787,6 +840,43 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyOverviewPage();
     }
 
+//    public void setStartAndEndDates(String startDate, String endDate) {
+//        navBar.goToRepVisits();
+//        link("Availability & Settings").click();
+//        link("Availability").click();
+//        link("Regular Weekly Hours").click();
+//        waitUntilPageFinishLoading();
+//        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+//        setDate(startDate, "Start");
+//        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+//        setDate(endDate, "End");
+//    }
+
+//    public void verifyTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
+//
+//        Assert.assertTrue("The Time Slot was not added" , driver.findElement(By.cssSelector("table[class='ui unstackable basic table']")).findElement(By.xpath("//button[contains(text(), '"+hourStartTime+ ":"+ minuteStartTime + meridianStartTime +"')]")).isDisplayed());
+//
+//    }
+
+    public void removeTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
+
+        WebElement tableBody = driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody"));
+        List<WebElement> tableRows = tableBody.findElements(By.cssSelector("i[class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+        for (WebElement deleteTimeSlot : tableRows) {
+            //Click on REMOVE button
+                waitUntilPageFinishLoading();
+                waitUntilElementExists(driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")));
+                if (driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")).findElement(By.xpath("//button[contains(text(), '" + hourStartTime + ":" + minuteStartTime + meridianStartTime + "')]")).isDisplayed()) {
+                    waitUntilPageFinishLoading();
+                    deleteTimeSlot.click();
+                    waitUntilPageFinishLoading();
+                    driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+                    waitUntilPageFinishLoading();
+                    break;
+                }
+        }
+    }
+
     public  void verifyRepvisitsSetupWizardTimeZoneMilestones() {
 
         load(GetProperties.get("hs.WizardAppSelect.url"));
@@ -813,6 +903,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
+        waitForUITransition();
         driver.findElement(By.xpath("//input[@value='VISITS' and @type='radio']")).click();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
             button("Next").click();
@@ -847,13 +938,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String timeZoneToSet;
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")).click();
         button("Next").click();
+        waitUntilPageFinishLoading();
         //verify time zone saving properly
         String timeZoneBeforeChange = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
         if(timeZoneBeforeChange.contains(alreadySelectedTimeZone)) {
-             timeZoneToSet = newTimeZone ;
+            timeZoneToSet = newTimeZone ;
         }
-         else{
+        else{
             timeZoneToSet = alreadySelectedTimeZone ;
         }
         setTimeZoneValue(timeZoneToSet);
@@ -866,8 +960,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         setTimeZoneValue(timeZoneToSet);
         button("Next").click();
-
+        waitUntilPageFinishLoading();
         button("Back").click();
+        //driver.navigate().back();
 
         String actualTimeZoneWhenNextButtonClicked = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
         Assert.assertTrue("'Timezone is not saved when click on Next button'", actualTimeZoneWhenNextButtonClicked.contains(timeZoneToSet));
@@ -896,6 +991,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("End date is not as expected",endDate.contains(valEndDate));
     }
 
+    public void verifyTimeSlotRemoved(String hourStartTime, String minuteStartTime, String meridianStartTime) {
+
+        try {
+            WebElement tableBody = driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody"));
+            List<WebElement> tableRows = tableBody.findElements(By.cssSelector("i[class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+            for (WebElement deleteTimeSlot : tableRows) {
+                waitUntilPageFinishLoading();
+                waitUntilElementExists(driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")));
+                if (deleteTimeSlot.getText().toLowerCase().contains(hourStartTime + ":" + minuteStartTime + meridianStartTime)) {
+                    Assert.fail("The time slot was not removed");
+                    break;
+            }else{
+                    Assert.assertTrue("The Time Slot was removed", true );
+                }
+            }
+
+        } catch (Exception e) {
+            Assert.fail("Time Slot was not removed.");
+        }
+    }
+
 
     public void verifyWelcomeWizard(){
         load(GetProperties.get("hs.WizardAppWelcome.url"));
@@ -909,6 +1025,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             getStartedBtn().click();
         }
 
+    }
+
+    public void findMonth(String month, String startOrEndDate) {
+        waitUntilPageFinishLoading();
+        boolean monthStatus = compareDate(month, startOrEndDate);
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try{
+            while (!DayPickerCaption.contains(month)) {
+
+                if (monthStatus){
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                }
+                else {
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                }
+            }
+
+        }
+        catch (Exception e) {
+            Assert.fail("The Date selected it's out of RANGE.");
+        }
     }
 
     private WebElement getStartedBtn(){
@@ -965,6 +1106,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Back").click();
         Assert.assertTrue("Blocked Days tab is not loaded",text("Blocked Days").isDisplayed());
         button("Next").click();
+        waitUntilElementExists(driver.findElement(By.xpath("//button[@title='"+changeWeek+"']")));
         driver.findElement(By.xpath("//button[@title='"+changeWeek+"']")).click();
     }
 
@@ -995,14 +1137,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Blocked Days").click();
         chooseDates().click();
-        setDate(blockdate);
+        setDate(blockdate, "End");
         setDateDoubleClick(blockdate);
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
         selectReason.click();
-        try {wait(2000);} catch (Exception e) {}
         selectReason.click();
-        WebElement pickReason = driver.findElement(By.xpath("//span[text()='"+reason+"']"));
-        pickReason.click();
+        waitUntilPageFinishLoading();
+        Actions action = new Actions(getDriver());
+        WebElement element = driver.findElement(By.xpath("//span[text()='"+reason+"']"));
+        action.click(element).build().perform();
         addBlockedTime().click();
     }
 
@@ -1010,7 +1153,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
-        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td[text()='"+startDate+"']/following-sibling::td[text()='"+endDate+"']/following-sibling::td/span[text()='Remove']"));
+        WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
+        selectReason.click();
+        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
         BlockedDate.click();
     }
 
@@ -1024,7 +1169,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         columnID = columnID+1;
         rowID = rowID+1;
         //verify Start Date
-        String ActualStartDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td["+columnID+"]")).getText();
+        String ActualStartDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr//td["+columnID+"]")).getText();
         Assert.assertTrue("Start date " + startDate + "is not displayed", startDate.equals(ActualStartDate));
         //verify End date
         String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td[2]")).getText();
@@ -1111,6 +1256,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Notifications & Primary Contact']")).size()==0) {
+            waitUntilElementExists(button("Next"));
             button("Next").click();
             waitUntilElementExists(button("Next"));
             waitUntilPageFinishLoading();
@@ -1167,11 +1313,71 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateBtn(){
         return text("UPDATE DATE");
     }
+    public void verifyPillsNotAvailableinNewScheduleVisitPage(){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilElementExists(currentDateInCalendar());
+        driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
+        waitForUITransition();
+        waitUntilElementExists(calendarappointmentsInNewScheduleVisitPage());
+        previousWeekInNewScheduleVisitPage().click();
+        waitForUITransition();
+        Assert.assertTrue("'No availability this week' message is not displayed",noAvailabilityInNewScheduleVisitPage().isDisplayed());
+        link("Availability & Settings").click();
+        link("Calendar").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilElementExists(currentDateInCalendar());
+        driver.findElement(By.cssSelector("button[class='ui teal button _2vMIFbyypA0b_pLiQmz0hV']")).click();
+        waitForUITransition();
+    }
+    public void verifyPastDatesDisabledInNewScheduleVisitPage(){
+        addvVisitManuallyInNewScheduleVisitPage().click();
+        waitForUITransition();
+        driver.findElement(By.cssSelector("button[class='ui small fluid button _3VnqII6ynYglzDU1flY9rw']")).click();
+        waitForUITransition();
+        String date = getSpecificDate(-1, null);
+        String disabled = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--disabled' and @aria-label='"+date+"']")).getAttribute("aria-disabled");
+        Assert.assertTrue("Past dates are not disabled",disabled.equalsIgnoreCase("true"));
+    }
+    public void verifyPillsNotAvailableinReScheduleVisitPage(){
+        navBar.goToCommunity();
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilElementExists(currentDateInCalendar());
+        monthInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
+        waitForUITransition();
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        rescheduleButtonInReScheduleVisitPage().click();
+        waitForUITransition();
+        reScheduleTextboxInReScheduleVisitPage().sendKeys(Keys.PAGE_UP);
+        waitForUITransition();
+        driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
+        waitForUITransition();
+        setDate(getCurrentDate(), getCurrentDate());
+//        previousWeekInNewScheduleVisitPage().click();
+        Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
+    }
 
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+    private WebElement writeInConfirmationMessage() { return getDriver().findElement(By.cssSelector("textarea[name='emailInstructions']"));}
+    private void writeInSpecialInstructionForRepViists(String message) {
+        getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).clear();
+        getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).sendKeys(message);
+    }
+
     private void doubleClick(WebElement elementLocator) {
         Actions actions = new Actions(driver);
         actions.doubleClick(elementLocator).perform();
@@ -1210,8 +1416,244 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
        Assert.assertTrue("Special Instructions for RepVisits Text is not similar",getDriver().findElement(By.id("webInstructions")).getText().contains(instructionsText));
     }
 
+    public void navigateToRepVisitsSection(String pageName) {
+        navBar.goToRepVisits();
+        if (pageName.equalsIgnoreCase("visit feedback")) {
+            getVisitsFeedbackBtn().click();
+        } else {
+            link(pageName).click();
+        }
+        waitUntilPageFinishLoading();
+    }
+
+    public void  verifyRepVisitsPageWhenNoVisitsScheduledForNext7Days() {
+
+        Assert.assertTrue("'You don't have any visits or fairs for the next week' text is not displayed",
+                driver.findElement(By.xpath("//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y _2yDDA7hJhhRjDz5LtnmL-e']")).getText().equals("You don't have any visits or fairs for the next week."));
+        Assert.assertTrue("Calendar icon is not displayed", driver.findElement(By.xpath("(//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y'])[1]")).isDisplayed());
+        Assert.assertTrue("'It looks like you don't have any upcoming visits or fairs in the next 7 days.' text is not displayed",
+                driver.findElement(By.xpath("(//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y'])[2]")).getText().equals("It looks like you don't have any upcoming visits or fairs in the next 7 days.\n" +
+                "You can always check your calendar for more upcoming appointments."));
+        link("calendar").click();
+
+        ExpectedCondition<Boolean> condition = new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                return driver.getCurrentUrl().contains("/calendar");
+            }
+        };
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(condition);
+
+    }
+
+    public void cancelAllEventsForNext7Days() {
+
+        String eventType = null;
+
+        for(int day = 0; day < 7; day++)
+        {
+                String date = getSpecificDate(day, "MMMMM dd yyyy");
+                List<WebElement> events = getEventsScheduledForDate(date.split(" ")[1], date.split(" ")[0], date.split(" ")[2]).get("EVENTS");
+
+                while(events.size() != 0)
+                {
+                    WebElement event = events.get(0);
+
+                    String cssClass = event.findElement(By.xpath("./div[@class='rbc-event-content']/div")).getAttribute("class");
+
+                    if(cssClass.equals("_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa"))
+                        eventType = "VISIT";
+
+                    if(cssClass.equals("_2_SLvlPA02MerU8g5DX1vz _2CrNWdVYs3sN4k1Rgr_RDv"))
+                        eventType = "COLLEGE_FAIR";
+
+                    if(eventType.equals("VISIT"))
+                    {
+                        WebDriverWait wait = new WebDriverWait(driver, 10);
+                        event.click();
+
+                        WebElement cancelThisVisitLink = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='Cancel This Visit']")));
+                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cancelThisVisitLink);
+                        wait.until(ExpectedConditions.visibilityOf(cancelThisVisitLink)).click();
+
+                        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("repVisit-cancelation-message"))).sendKeys("comment for cancellation");
+                        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Yes, cancel visit']"))).click();
+
+                    }
+                    else if(eventType.equals("COLLEGE_FAIR"))
+                    {
+                        WebDriverWait wait = new WebDriverWait(driver, 10);
+                        event.click();
+
+                        WebElement cancelThisCollegeFairButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[text()='Cancel This College Fair']")));
+                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", cancelThisCollegeFairButton);
+                        cancelThisCollegeFairButton.click();
+
+                        button("Yes, Cancel this fair").click();
+                        button("Close").click();
+                    }
+
+                    events = getEventsScheduledForDate(date.split(" ")[1], date.split(" ")[0], date.split(" ")[2]).get("EVENTS");
+                }
+        }
+    }
+
+    public HashMap<String, List<WebElement>> getEventsScheduledForDate(String day, String month, String year)
+    {
+        ArrayList<WebElement> eventsScheduledForDateElements = new ArrayList<WebElement>();
+        ArrayList<WebElement> showMoreLinkElement = new ArrayList<WebElement>();
+        HashMap<String, List<WebElement>> allElementsInDayCell = new HashMap<String, List<WebElement>>();
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[contains(@class, 'rbc-calendar')]//*")));
+
+        String currentMonthAndYear =  driver.findElement(By.xpath("//div[@class='ui medium header _1ucD2vjQuS9iWHF9uzN__M']")).getText();
+
+        String currentMonth = currentMonthAndYear.split(" ")[0];
+        String currentYear = currentMonthAndYear.split(" ")[1];
+
+        if(month.equals(currentMonth) == false  || year.equals(currentYear) == false) {
+            driver.findElement(By.xpath("//button[@title='Forwards']")).click();
+        }
+
+        WebElement dateCell = driver.findElement(By.xpath("//div[@class='rbc-month-view']//div[contains(@class, 'rbc-date-cell') and not(contains(@class, 'rbc-off-range'))]/a[text()='" + day + "']"));
+
+        HashMap<String, Integer> dateCellIndices = getDateCellIndicesInGrid(dateCell);
+
+        int rowIndex = dateCellIndices.get("ROW_INDEX");
+        int columnIndex = dateCellIndices.get("COLUMN_INDEX");
+
+        WebElement dayCell = driver.findElement(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[contains(@class, 'rbc-day-bg')][" + columnIndex + "]"));
+        int dayCellStartXCoordinate = dayCell.getLocation().getX();
+        int dayCellEndXCoordinate = dayCellStartXCoordinate + dayCell.getSize().getWidth();
+
+            //List<WebElement> rbcEventElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[@class='rbc-event']")));
+        List<WebElement> rbcEventElements = driver.findElements(By.xpath("//div[@class='rbc-month-row'][" + rowIndex + "]//div[@class='rbc-event']"));
+
+        for (WebElement rbcEventElement : rbcEventElements) {
+            if (rbcEventElement.getLocation().getX() > dayCellStartXCoordinate && rbcEventElement.getLocation().getX() < dayCellEndXCoordinate) {
+                eventsScheduledForDateElements.add(rbcEventElement);
+            }
+        }
+
+        WebElement showMoreLink = null;
+
+        try {
+            driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+            showMoreLink = driver.findElement(By.xpath("//div[@class='rbc-show-more']"));
+        } catch (Exception ex) { }
+
+        showMoreLinkElement.add(showMoreLink);
+
+        allElementsInDayCell.put("EVENTS", new ArrayList(eventsScheduledForDateElements));
+        allElementsInDayCell.put("SHOW_MORE", new ArrayList(showMoreLinkElement));
+
+
+        return allElementsInDayCell;
+    }
+
+    public HashMap<String, Integer> getDateCellIndicesInGrid(WebElement dateCell)
+    {
+        HashMap<String, Integer> dateCellIndices = new HashMap<String, Integer>();
+
+        WebElement weekRow = dateCell.findElement(By.xpath(".//ancestor::div[@class='rbc-month-row']"));
+        List<WebElement> weekRows = driver.findElements(By.xpath("//div[@class='rbc-month-row']"));
+
+        int rowIndex = weekRows.indexOf(weekRow);
+
+        WebElement dayColumn = dateCell.findElement(By.xpath(".//ancestor::div[contains(@class, 'rbc-date-cell') and not(contains(@class, 'rbc-off-range'))]"));
+        List<WebElement> dayColumns = dateCell.findElements(By.xpath("./ancestor::div[@class='rbc-row']//div[contains(@class, 'rbc-date-cell')]"));
+
+        int columnIndex = dayColumns.indexOf(dayColumn);
+
+        dateCellIndices.put("ROW_INDEX", new Integer(rowIndex + 1));
+        dateCellIndices.put("COLUMN_INDEX", new Integer(columnIndex + 1));
+
+        return dateCellIndices;
+    }
+
+
+    public String getSpecificDate(int addDays, String format) {
+        String DATE_FORMAT_NOW = "MMMM d, yyyy";
+
+        if(format != null)
+          DATE_FORMAT_NOW = format;
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+    public String getCurrentDate() {
+        String DATE_FORMAT_NOW = "MMMM d yyyy";
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
     }
+
+    private WebElement currentDateInCalendar()
+    {
+        WebElement day=driver.findElement(By.xpath("//button[@title='Today']"));
+        waitUntilElementExists(day);
+        return  day;
+    }
+
+    private WebElement calendarappointmentsInNewScheduleVisitPage()
+    {
+        WebElement calendar=driver.findElement(By.cssSelector("form[id='add-calendar-appointment']"));
+        waitUntilElementExists(calendar);
+        return  calendar;
+    }
+
+    private WebElement previousWeekInNewScheduleVisitPage()
+    {
+        WebElement button=driver.findElement(By.cssSelector("button[aria-label='Previous week']"));
+        return  button;
+    }
+
+    private WebElement monthInReScheduleVisitPage()
+    {
+
+        WebElement month=driver.findElement(By.xpath("//button[@title='Month']"));
+        return  month;
+    }
+
+    private WebElement rescheduleButtonInReScheduleVisitPage()
+    {
+        WebElement reschedule=driver.findElement(By.xpath("//button/span[text()='Reschedule']"));
+        return  reschedule;
+    }
+
+    private WebElement hsNotesInReScheduleVisitPage()
+    {
+        WebElement notes=driver.findElement(By.xpath("//input[@name='hsNotes']"));
+        return  notes;
+    }
+
+    private WebElement reScheduleTextboxInReScheduleVisitPage()
+    {
+        WebElement textBox= driver.findElement(By.xpath("//textarea[@id='rescheduleMessage']"));
+        return textBox;
+    }
+
+    private WebElement noAvailabilityInNewScheduleVisitPage()
+    {
+        WebElement avialability=driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//td/span[text()='No availability this week']"));
+        return  avialability;
+    }
+
+    private WebElement addvVisitManuallyInNewScheduleVisitPage()
+    {
+        WebElement addVisit=driver.findElement(By.xpath("//div/span[text()='Want a custom time? Add it manually']"));
+        return  addVisit;
+    }
+
+    private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
 }

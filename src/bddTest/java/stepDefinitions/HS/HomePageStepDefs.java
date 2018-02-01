@@ -17,7 +17,6 @@ public class HomePageStepDefs implements En {
 
         And("^HS I go to the Counselor Community$", homePage::goToCounselorCommunity);
 
-        Given("^HS I navigate to Registration Intersect url$",loginPage::navigateToHSRegistrationPage);
         And("^HS I search for \"([^\"]*)\" in the registration page$",loginPage::searchForHEInstitution);
         And ("^HS I click the link \"([^\"]*)\"$",loginPage::clickLinkInRegisterationPage);
         Then ("^HS I verify all field type in request user page$",loginPage::validateRequestUserForm);

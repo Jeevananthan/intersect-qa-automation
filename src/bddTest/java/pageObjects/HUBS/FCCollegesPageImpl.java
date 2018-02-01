@@ -27,7 +27,8 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
     }
 
     public void searchAndOpenCollege(String searchString) {
-        enterSearchString(searchString);
+        waitUntilPageFinishLoading();
+        enterSearchString(searchString.toLowerCase());
         clickGoButton();
         clickSingleResult();
     }
