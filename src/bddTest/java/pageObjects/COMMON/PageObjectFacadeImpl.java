@@ -2,6 +2,7 @@ package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
 import java.text.SimpleDateFormat;
@@ -17,6 +18,16 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         logger = Logger.getLogger(PageObjectFacadeImpl.class);
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
+    }
+
+    /**
+     * Uses JavaScript to click on an element.  This is occasionally necessary because Selenium thinks that something
+     * isn't visible to the user, even when it really is.  JS gets around this by sending the click directly.
+     *
+     * @param element - WebElement to send the click action to
+     */
+    protected void jsClick(WebElement element) {
+        driver.executeScript("arguments[0].click();",element);
     }
 
     public void waitForUITransition() {
