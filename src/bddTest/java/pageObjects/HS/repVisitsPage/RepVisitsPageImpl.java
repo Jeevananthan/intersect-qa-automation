@@ -6,6 +6,12 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
+
+import javax.xml.crypto.Data;
+
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -46,6 +52,8 @@ import static org.junit.Assert.fail;
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    public static String generatedDateForExceptions;
+
     //Creating RepVisitsPageImpl class object of for HE.
     pageObjects.HE.repVisitsPage.RepVisitsPageImpl repVisitsPageHEObj = new pageObjects.HE.repVisitsPage.RepVisitsPageImpl();
 
@@ -1066,15 +1074,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void addTimeSlotInRegularWeeklyHours(String day,String startTime,String endTime,String noOfVisits){
+    public void addTimeSlotInRegularWeeklyHours(String day,String startTime,String endTime,String noOfVisits) {
 
-        Assert.assertTrue("Regular Weekly Hours is not displayed",text("Regular Weekly Hours").isDisplayed());
+        Assert.assertTrue("Regular Weekly Hours is not displayed", text("Regular Weekly Hours").isDisplayed());
 
         driver.findElement(By.xpath("//button/span[text()='ADD TIME SLOT']")).click();
 
         WebElement dropdown = getParent(text("Monday - Friday"));
         doubleClick(dropdown);
-        driver.findElement(By.xpath("//span[text()='"+day+"']")).click();
+        driver.findElement(By.xpath("//span[text()='" + day + "']")).click();
 
         driver.findElement(By.xpath("//input[@name='startTime']")).sendKeys(startTime);
         driver.findElement(By.xpath("//input[@name='endTime']")).sendKeys(endTime);
@@ -1084,9 +1092,47 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("ADD TIME SLOT").click();
 
         button("Back").click();
-        Assert.assertTrue("High school information is not displayed",text("Tell us about your high school.").isDisplayed());
+        Assert.assertTrue("High school information is not displayed", text("Tell us about your high school.").isDisplayed());
+    }
 
-        button("Next").click();
+    public void openExceptions() {
+        navBar.goToRepVisits();
+        availabilityAndSettingsButton().click();
+        innerExceptionsButton().click();
+    }
+
+    public void selectDateInExceptions(String date) {
+        chooseADateButton().click();
+        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", date.split(",")[0], 10);
+        repVisitsPageHEObj.miniCalendarDayCell(date.split(",")[1].split(" ")[1]).click();
+    }
+
+    public void addTimeSlot(DataTable timeSlotData) {
+        List<List<String>> slotData = timeSlotData.asLists(String.class);
+        newTimeSlotStartTime().sendKeys(slotData.get(0).get(1));
+        newTimeSlotEndTime().sendKeys(slotData.get(1).get(1));
+        newTimeSlotVisits().sendKeys(slotData.get(2).get(1));
+        addTimeSlotButton().click();
+    }
+
+    public void verifyTimeSlot(String date, String startTime) {
+        Assert.assertTrue("The time slot was not added", timeSlot(date, startTime).isDisplayed());
+    }
+
+    public void deleteTimeSlot(String date, String startTime) {
+        timeSlotDeleteIcon(date, startTime).click();
+        removeSlotConfirmButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector("button.ui.loading.primary.button"), 1));
+    }
+
+    public void verifyAbsenceOfTimeSlot(String date, String startTime) {
+        Assert.assertTrue("The time slot was not removed", getDriver().findElements(By.xpath("//span[text()='" + date + "']/../../../../following-sibling::tbody/tr/td/div/button[text()='" + startTime + "']")).size() < 1);
+    }
+
+    public void clearDay() {
+        removeOpenings().click();
+        removeSlotConfirmButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector("button.ui.loading.primary.button"), 1));
     }
 
     public void navigateToSubTabsInAvailabilityWizard(String tabName){
@@ -1368,10 +1414,52 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
     }
 
+    public void selectGeneratedDateInExceptions(String daysFromNow) {
+        Calendar calendarStartDate = getDeltaDate(Integer.parseInt(daysFromNow));
+        if(getDayOfWeek(calendarStartDate).equals("Saturday")) {
+            calendarStartDate = getDeltaDate(Integer.parseInt(daysFromNow) - 1);
+        } else if(getDayOfWeek(calendarStartDate).equals("Sunday")) {
+            calendarStartDate = getDeltaDate(Integer.parseInt(daysFromNow) + 1);
+        }
+
+        generatedDateForExceptions = getMonthNumber(calendarStartDate) + "/" + getDay(calendarStartDate) + "/"
+                + getYear(calendarStartDate).substring(2);
+
+        chooseADateButton().click();
+        pickDateInDatePicker(calendarStartDate);
+    }
+
+    public void verifyTimeSlotWithGeneratedDate(String time) {
+        Assert.assertTrue("The time slot was not added", timeSlot(generatedDateForExceptions, time).isDisplayed());
+    }
+
+    public void deleteTimeSlotWithGeneratedDate(String time) {
+        timeSlotDeleteIcon(generatedDateForExceptions, time).click();
+        removeSlotConfirmButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector("button.ui.loading.primary.button"), 1));
+    }
+
+    public void verifyAbsenceOfTimeSlotWithGeneratedDate(String time) {
+        Assert.assertTrue("The time slot was not removed", getDriver().findElements(By.xpath
+                ("//span[text()='" + generatedDateForExceptions + "']/../../../../following-sibling::tbody/tr/td/div/" +
+                        "button[text()='" + time + "']")).size() < 1);
+    }
+
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+    private WebElement availabilityAndSettingsButton() { return getDriver().findElement(By.xpath("//span[text()='Availability & Settings']")); }
+    private WebElement innerExceptionsButton() { return getDriver().findElement(By.cssSelector("ul.ui.pointing.secondary.fourth.menu li:nth-of-type(3) a")); }
+    private WebElement chooseADateButton() { return getDriver().findElement(By.cssSelector("button.ui.small.button i")); }
+    private WebElement newTimeSlotStartTime() { return getDriver().findElement(By.cssSelector("input[title=\"start time\"]")); }
+    private WebElement newTimeSlotEndTime() { return getDriver().findElement(By.cssSelector("input[title=\"end time\"]")); }
+    private WebElement newTimeSlotVisits() { return  getDriver().findElement(By.cssSelector("input[title=\"numVisits\"]")); }
+    private WebElement addTimeSlotButton() { return getDriver().findElement(By.xpath("//span[text()='ADD TIME SLOT']")); }
+    private WebElement timeSlot(String date, String startTime) { return getDriver().findElement(By.xpath("//span[text()='" + date + "']/../../../../following-sibling::tbody/tr/td/div/button[text()='" + startTime + "']")); }
+    private WebElement timeSlotDeleteIcon(String date, String startTime) { return getDriver().findElement(By.xpath("//span[text()='" + date + "']/../../../../following-sibling::tbody/tr/td/div/button[text()='" + startTime + "']/../span/i")); }
+    private WebElement removeSlotConfirmButton() { return getDriver().findElement(By.cssSelector("div.ui.modal.transition.visible.active button.ui.primary.button")); }
+    private WebElement removeOpenings() { return getDriver().findElement(By.cssSelector("i.teal.trash.outline.icon")); }
     private WebElement writeInConfirmationMessage() { return getDriver().findElement(By.cssSelector("textarea[name='emailInstructions']"));}
     private void writeInSpecialInstructionForRepViists(String message) {
         getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).clear();
