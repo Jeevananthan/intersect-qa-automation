@@ -7,9 +7,9 @@ Feature: Community User - View Mutual Connections When Viewing a User Profile
 
   @MATCH-530
   Scenario: As a Community user when viewing another user's profile I am not connect with I am able to see mutual connections.
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And I am connected to HS user
     Then I search for "PurpleHS User" and open profile page of this user
     And I open a list of user's connections
     And I check if Mutual connections are displayed
-    And I sign out from the HE app
+    And HE I successfully sign out

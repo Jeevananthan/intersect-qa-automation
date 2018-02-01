@@ -146,9 +146,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Holiday               | Date                | StartDate  | EndDate     |
       |LABOR_DAY             | September 04 2017   |July 23 2017|July 15 2018 |
       |COLUMBUS_DAY          | October 9 2017      |July 23 2017|July 15 2018 |
-      |VETERANS_DAY          | November 10 2017    |July 23 2017|July 15 2018 |
-      |THANKSGIVING_DAY      | November 23 2017    |July 23 2017|July 15 2018 |
-      |DAY_AFTER_THANKSGIVING| November 24 2017    |July 23 2017|July 15 2018 |
+      #Ommited by old dates cannot be setup blocked days calrified by Gayathri
+      #|VETERANS_DAY          | November 10 2017    |July 23 2017|July 15 2018 |
+      #|THANKSGIVING_DAY      | November 23 2017    |July 23 2017|July 15 2018 |
+      #|DAY_AFTER_THANKSGIVING| November 24 2017    |July 23 2017|July 15 2018 |
       |CHRISTMAS_EVE         | December 24 2017    |July 23 2017|July 15 2018 |
       |CHRISTMAS_DAY         | December 25 2017    |July 23 2017|July 15 2018 |
       |NEW_YEAR_EVE          | December 31 2017    |July 23 2017|July 15 2018 |
@@ -346,3 +347,26 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS verify pills are not available for the past dates in Re-schedule visit page
     Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
     And HS I successfully sign out
+
+
+  @MATCH-1584
+  Scenario Outline: As a high school user, when I confirm an appointment I need to email colleges with specific details
+                    about visiting my high school  so that they are prepared to visit my high school.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the RepVisits Confirmation message to "<Message>"
+    And HS I verify the messaging updated confirmation toast message
+    And HS I verify the RepVisits Confirmation message is set to "<Message>"
+
+    Examples:
+      |Message                 |
+      |Test update New Message |
+
+  @MATCH-2833
+  Scenario: As an HS RepVisits user I want to see a message on the RepVisits Overview page that informs me I have no
+            upcoming appointments (visits OR fairs) for the next week so I can quickly know I don't have any colleges
+            visiting my high school over the next 7 days.
+    Given HS I want to login to the HS app using "purpleheautomation+hstest@gmail.com" as username and "Password!1" as password
+    Then HS I navigate to the "Calendar" page in RepVisits
+    Then HS I cancel all events for the next 7 days
+    Then HS I navigate to the "Overview" page in RepVisits
+    Then HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days

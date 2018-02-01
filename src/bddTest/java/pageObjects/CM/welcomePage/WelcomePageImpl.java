@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.CM.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 /**
  * Created by bojan on 5/30/17.
@@ -42,7 +42,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     public void makeSureHEWelcomeScreenIsOpened() {
         logger.info("Making sure that Welcome screen will be opened when user logs in for the first time.");
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
 
         if (driver.findElements(By.xpath("//*[contains(text(), 'Welcome to the Counselor Community!')]")).size() != 0) {
 
@@ -58,7 +58,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     public void makeSureHSWelcomeScreenIsOpened() {
         logger.info("Making sure that Welcome screen will be opened when user logs in for the first time.");
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
 
         if (driver.findElements(By.xpath("//*[contains(text(), 'Welcome to the Counselor Community!')]")).size() != 0) {
 
@@ -72,8 +72,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void profileAndBannerPicturesUpload() {
-        iframeExit();
-        iframeEnter();
+        communityFrame();
         logger.info("Uploading profile picture.");
         textbox("Profile picture").sendKeys("/Users/bojan/Documents/IntelliJ-Projects/hcp_intersect_qa_automation/hcp_intersect_qa_automation/src/bddTest/resources/HobsonsTestPictures/lion-cartoon-roaring.jpg");
         driver.findElement(By.id("edit-field-profile-picture-und-0-upload-button")).click();
@@ -103,7 +102,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void assertFieldsUneditable() {
-        iframeEnter();
+        communityFrame();
         logger.info("Checking if fields are uneditable (firstname, lastname, institution and work email).");
         Assert.assertEquals(driver.findElement(By.id("edit-field-first-name-und-0-value")).getAttribute("disabled"), "true");
         Assert.assertEquals(driver.findElement(By.id("edit-field-last-name-und-0-value")).getAttribute("disabled"), "true");
@@ -136,7 +135,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
 
     public void checkFieldsPublic() {
         logger.info("Checking if fields are public.");
-        iframeEnter();
+        communityFrame();
         Assert.assertEquals("Work Email is not public by default.", "true", privacyWorkEmail("public").getAttribute("selected"));
         Assert.assertEquals("Personal Email is not public by default.", "true", privacyPersonalEmail("public").getAttribute("selected"));
         Assert.assertEquals("Office Phone is not public by default.", "true", privacyOfficePhone("public").getAttribute("selected"));

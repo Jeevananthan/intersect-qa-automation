@@ -3,6 +3,7 @@ package pageObjects.COMMON;
 import cucumber.api.DataTable;
 import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
+import org.apache.tools.ant.taskdefs.Exit;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -90,13 +91,29 @@ public class GlobalSearch extends SeleniumBase {
         }
         waitUntilPageFinishLoading();
     }
-
     private void doSearch(String searchTerm) {
         waitUntilPageFinishLoading();
         getSearchBox().click();
         getSearchBox().clear();
         waitUntilPageFinishLoading();
         getSearchBox().sendKeys(searchTerm);
+    }
+
+    public void clickAdvancedSearchTabCategory(String tab){
+        switch(tab){
+            case "People":
+                getDriver().findElement(By.id("searchResultsTabpeople")).click();
+                break;
+            case "Institutions":
+                getDriver().findElement(By.id("searchResultsTabinstitutions")).click();
+                break;
+            case "Groups":
+                getDriver().findElement(By.id("searchResultsTabgroups")).click();
+                break;
+            default:
+                Assert.fail(tab + " is not a valid search tab.  Valid categories: People, Institutions, or Groups");
+                break;
+        }
     }
 
     //Makes sure all the results contain the search term
@@ -144,7 +161,22 @@ public class GlobalSearch extends SeleniumBase {
         Assert.assertTrue("Unable to click on " + optionToSelect, institutionClickedOn);
     }
 
-    public void verifyNoSearchResults(){
+    public void verifyNoAdvancedSearchResultsReturned(String searchRequest, DataTable dataTable){
+        System.out.println();
+        logger.info("Verifying no advanced search results are return.");
+        verifyAdvanceSearchByEnterKey(searchRequest);
+        List<String> categoryOptions = dataTable.asList(String.class);
+        for(String opt : categoryOptions) {
+            clickAdvancedSearchTabCategory(opt);
+            Assert.assertTrue("Search results were returned and should not have been.", getDriver().findElements(By.xpath("//span[contains(text(), 'No results found')]")).size() >=1 );
+        }
+
+    }
+
+    public void verifyNoRealTimeSearchResultsReturned(String searchRequest){
+        System.out.println();
+        logger.info("Verifying no real-time search results are return.");
+        doSearch(searchRequest);
         try{
             (new WebDriverWait(getDriver(),10)).
                     until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[text()='No results found.']")));
@@ -164,7 +196,7 @@ public class GlobalSearch extends SeleniumBase {
         Assert.assertTrue("Did not end on Advanced Search page!  No Update Search buttons is present!", button("UPDATE SEARCH").isDisplayed());
     }
 
-    public void verifyRealTimeSearchResults(String searchRequest) {
+    public void verifyRealTimeSearchResultsReturned(String searchRequest) {
         waitUntilPageFinishLoading();
         System.out.println();
         logger.info("Verifying real-time search displays results in dropdown.");
@@ -175,7 +207,7 @@ public class GlobalSearch extends SeleniumBase {
     public void verifyAdvanceSearchByEnterKey(String searchRequest) {
         waitUntilPageFinishLoading();
         System.out.println();
-        logger.info("Verifying global search icon button returns advanced search results.");
+        logger.info("Verifying global search returns advanced search results when enter key is used.");
         doSearch(searchRequest);
         // These duplicate waits ensure that the search has finished realtime processing before we send the enter key.
         // If you send the Enter key before the search has finished, you won't be taken to the adv. search and test will fail.
@@ -333,10 +365,12 @@ public class GlobalSearch extends SeleniumBase {
     }
 
     public void verifyGlobalSearchNotDisplayed() {
+        System.out.println();
+        logger.info("Verifying that there is no global search option available.");
         Assert.assertFalse("Global search feature is available, but shouldn't be.", getDriver().findElements(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']")).size() >= 1);
     }
 
-    public void verifyAdvancedSearchUserResults(String searchRequest){
+    public void verifyAdvancedSearchUserResultsDisplaysGeneralDescription(String searchRequest){
         System.out.println();
         logger.info("Verifying advanced search results displays the general description field below the user's title and institution.");
         searchForPeople(searchRequest);
@@ -344,6 +378,56 @@ public class GlobalSearch extends SeleniumBase {
         clickSearchIcon();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Advanced search does not return the general information field for People/User.", getDriver().findElement(By.xpath("//div/div/div[@class='ui items']//div[@class='description _3FZFtAql1zqRcNrPTqtzKh']")).isDisplayed());
+    }
+
+    public void verifyHEAccountSearchResults(String searchRequest) {
+        System.out.println();
+        logger.info("Verifying real-time search results are returned for HE Account search.");
+        searchForHEInstitutions(searchRequest);
+        waitUntilPageFinishLoading();
+        Boolean resultsReturned=false;
+        // check to make sure a result is found
+        if (getDriver().findElements(By.id("global-search-box-item-0")).size() > 0) {
+            getDriver().findElement(By.id("global-search-box-item-0")).click();
+            resultsReturned = true;
+        }
+        Assert.assertTrue("No search results found for "+ searchRequest + ".", resultsReturned);
+    }
+
+    public void setHEAccountSubscriptions(String searchRequest, DataTable dataTable) {
+        System.out.println();
+        logger.info("Updating HE Account " + searchRequest + "'s subscription.");
+        // Verify account exist
+        verifyHEAccountSearchResults(searchRequest);
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        for (String subscriptionType : data.keySet()) {
+            switch (subscriptionType) {
+                case("Legacy: Hub page management"):
+                    WebElement hub = getDriver().findElement(By.xpath("//span[contains(text(), 'Hub')]/../following-sibling::td/div/i"));
+                    hub.click();
+                    jsClick(hub.findElement((By.xpath("//span[contains(text(), 'Hub')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    break;
+                case("Legacy: Community"):
+                    WebElement community = getDriver().findElement(By.xpath("//span[contains(text(), 'Community')]/../following-sibling::td/div/i"));
+                    community.click();
+                    jsClick(community.findElement((By.xpath("//span[contains(text(), 'Community')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    break;
+                case("Intersect Awareness Subscription"):
+                    WebElement awareness = getDriver().findElement(By.xpath("//span[contains(text(), 'Awareness')]/../following-sibling::td/div/i"));
+                    awareness.click();
+                    jsClick(awareness.findElement((By.xpath("//span[contains(text(), 'Awareness')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    break;
+                case("Intersect Presence Subscription"):
+                    WebElement presence = getDriver().findElement(By.xpath("//span[contains(text(), 'Presence')]/../following-sibling::td/div/i"));
+                    presence.click();
+                    jsClick(presence.findElement((By.xpath("//span[contains(text(), 'Presence')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    break;
+            }
+        }
+        if(button(By.xpath("//span[contains(text(), 'Save Changes')]")).isDisplayed())
+        {
+            button(By.xpath("//span[contains(text(), 'Save Changes')]")).click();
+        }
     }
 
     public void verifyAdvancedSearchFieldsReturnResults(String categorySearch, DataTable dataTable){
@@ -537,21 +621,6 @@ public class GlobalSearch extends SeleniumBase {
     private void clickAdvancedSearchLink(){
         driver.findElement(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']/a")).click();
     }
-    private void clickAdvancedSearchTabCategory(String tab){
-        switch(tab){
-            case "People":
-                getDriver().findElement(By.id("searchResultsTabpeople")).click();
-                break;
-            case "Institutions":
-                getDriver().findElement(By.id("searchResultsTabinstitutions")).click();
-                break;
-            case "Groups":
-                getDriver().findElement(By.id("searchResultsTabgroups")).click();
-                break;
-            default:
-                Assert.fail(tab + " is not a valid search tab.  Valid categories: People, Institutions, or Groups");
-                break;
-        }
-    }
+
 }
 

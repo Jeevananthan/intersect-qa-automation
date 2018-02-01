@@ -3,8 +3,8 @@ package pageObjects.COMMON;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -20,6 +20,16 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         globalSearch = new GlobalSearch();
     }
 
+    /**
+     * Uses JavaScript to click on an element.  This is occasionally necessary because Selenium thinks that something
+     * isn't visible to the user, even when it really is.  JS gets around this by sending the click directly.
+     *
+     * @param element - WebElement to send the click action to
+     */
+    protected void jsClick(WebElement element) {
+        driver.executeScript("arguments[0].click();",element);
+    }
+
     public void waitForUITransition() {
         try {
             System.out.println("\nWaiting 3 seconds for UI Transition.\n");
@@ -32,7 +42,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     protected void communityFrame() {
         // This shouldn't navigate, it should only jump into the iFrame.  Use navBar.goToCommunity() instead for that.
         driver.switchTo().defaultContent();
-        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe[title=Community]")));
         waitForUITransition();
     }
 
@@ -179,7 +189,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
         return sdf.format(cal.getTime());
     }
-
+  
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }

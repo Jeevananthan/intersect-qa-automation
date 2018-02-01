@@ -3,7 +3,7 @@ Feature: As an HE or HS user I want my office phone number to be required so tha
 
 
 Scenario: The HS user profile activation page requires Office Phone
-  Given I am logged in to Purple Community through the HS App
+  Given HS I am logged in to Intersect HS as user type "default"
   When I am sure that HS user will be logged in for the first time and HS Welcome page will be opened
   And I go to HS Counselor Community page
   Then I check if office phone is required field
@@ -11,12 +11,12 @@ Scenario: The HS user profile activation page requires Office Phone
   And I populate all the fields on Welcome page
   And I accept Terms and conditions
   Then I Save changes
-  And I sign out from the HS app
+  And HS I successfully sign out
 
 
 
 Scenario: The HE user profile activation page requires Office Phone
-  Given I am logged in to Purple Community through the HE App
+  Given HE I am logged in to Intersect HE as user type "administrator"
   When I am sure that HE user will be logged in for the first time and Welcome page will be opened
   And I go to Counselor Community page
   Then I check if office phone is required field
@@ -24,16 +24,16 @@ Scenario: The HE user profile activation page requires Office Phone
   And I populate all the fields on Welcome page
   And I accept Terms and conditions
   Then I Save changes
-  And I sign out from the HE app
+  And HE I successfully sign out
 
 
 
 Scenario: The HS update user profile page requires Office Phone
-  Given I am logged in to Purple Community through the HS App
+  Given HS I am logged in to Intersect HS as user type "default"
   When I go to HS user profile page
   And I click on Edit profile button
   Then I check if office phone is required field
-  And I sign out from the HS app
+  And HS I successfully sign out
 
 
 
