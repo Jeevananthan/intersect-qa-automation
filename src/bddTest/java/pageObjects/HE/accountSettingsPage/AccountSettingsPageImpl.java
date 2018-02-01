@@ -76,7 +76,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     public  void selectOption(String option,String eMail)
     {
         driver.findElement(By.xpath("//div[text()='"+eMail+"']/parent::td/following-sibling::td/div/div[text()='Actions']")).click();
-        driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
+        jsClick(driver.findElement(By.xpath("//div/span[text()='"+option+"']")));
     }
 
     private WebElement currentPasswordBox() {

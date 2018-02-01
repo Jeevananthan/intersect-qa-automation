@@ -239,9 +239,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         }
         waitUntilPageFinishLoading();
     }
-    private void jsClick(WebElement element) {
-        driver.executeScript("arguments[0].click();",element);
-    }
+
     private String getLabelText(WebElement opt) {
         return opt.getAttribute("innerText");
     }

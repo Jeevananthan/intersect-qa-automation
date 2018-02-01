@@ -136,9 +136,4 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Expected user status icon was not found.  Expected " + status, getParent(getParent(link(userName))).findElement(By.className(className)).isDisplayed());
     }
 
-    // This is necessary because Selenium doesn't think that the action options are visible (even though they are),
-    // so we interact with them directly through JS.
-    private void jsClick(WebElement element) {
-        driver.executeScript("arguments[0].click();",element);
-    }
 }

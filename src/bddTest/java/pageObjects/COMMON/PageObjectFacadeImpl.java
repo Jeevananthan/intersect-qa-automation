@@ -20,6 +20,16 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         globalSearch = new GlobalSearch();
     }
 
+    /**
+     * Uses JavaScript to click on an element.  This is occasionally necessary because Selenium thinks that something
+     * isn't visible to the user, even when it really is.  JS gets around this by sending the click directly.
+     *
+     * @param element - WebElement to send the click action to
+     */
+    protected void jsClick(WebElement element) {
+        driver.executeScript("arguments[0].click();",element);
+    }
+
     public void waitForUITransition() {
         try {
             System.out.println("\nWaiting 3 seconds for UI Transition.\n");
