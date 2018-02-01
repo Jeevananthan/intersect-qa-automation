@@ -2,9 +2,8 @@ package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -32,7 +31,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     protected void communityFrame() {
         // This shouldn't navigate, it should only jump into the iFrame.  Use navBar.goToCommunity() instead for that.
         driver.switchTo().defaultContent();
-        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe[title=Community]")));
         waitForUITransition();
     }
 

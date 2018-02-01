@@ -7,8 +7,8 @@ Feature:  HE - Settings - AccountSettings - As an HE user, I want to be able to 
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I access the Account Settings page
     And HE I verify the Password Requirements are displayed
-    And HE I enter the following data on the Account Settings page and click "Cancel"
-      |Current Password     |O7#c9CWJAkXY |
+    And HE I enter the following data on the Account Settings page and click "Home"
+      |Current Password     |Password!1   |
       |New Password         |BadPassword1!|
       |Confirm New Password |BadPassword1!|
     Then HE I successfully sign out

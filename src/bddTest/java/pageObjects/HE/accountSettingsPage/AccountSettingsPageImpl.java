@@ -26,8 +26,8 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
       //  newPasswordBox().sendKeys((String)data.get("New Password"));
       //  confirmPasswordBox().sendKeys((String)data.get("Confirm Password"));
         switch (action) {
-            case "Cancel":
-                cancelButton().click();
+            case "Home":
+                navBar.goToHome();
                 waitUntilPageFinishLoading();
                 break;
             case "Save":
