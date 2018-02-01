@@ -102,4 +102,56 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return sdf.format(cal.getTime());
     }
 
+    /**
+     * Picks a date in the calendars of 'DatePicker' type. You can find one of these calendars
+     * in the Create Event page, in Event Start
+     *
+     * @param date - Calendar object with the desired date
+     */
+    protected void pickDateInDatePicker(Calendar date) {
+        Calendar todaysDate = Calendar.getInstance();
+        if (date.before(todaysDate)) {
+            while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                datePickerPrevMonthButton().click();
+            }
+        } else if (date.after(todaysDate)) {
+            while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                datePickerNextMonthButton().click();
+            }
+        }
+        waitForUITransition();
+        driver.findElement(By.xpath("//div[@class='DayPicker-Day'][text()='" + getDay(date).replaceFirst("0", "") + "']")).click();
+    }
+
+    /**
+     * Returns a String representing the day of the week from a Calendar object
+     *
+     * @param cal - Calendar object
+     * @return String containing the week day (e.g.: Monday)
+     */
+    protected String getDayOfWeek(Calendar cal) {
+        String result = "";
+        switch (cal.get(cal.DAY_OF_WEEK)) {
+            case 1 : result = "Sunday";
+                break;
+            case 2 : result = "Monday";
+                break;
+            case 3 : result = "Tuesday";
+                break;
+            case 4 : result = "Wednesday";
+                break;
+            case 5 : result = "Thursday";
+                break;
+            case 6 : result = "Friday";
+                break;
+            case 7 : result = "Saturday";
+                break;
+        }
+        return result;
+    }
+
+    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
+
 }
