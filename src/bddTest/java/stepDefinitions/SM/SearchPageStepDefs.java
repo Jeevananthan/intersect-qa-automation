@@ -12,5 +12,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^I select the following data from the Location Fit Criteria$",searchPage::setLocationCriteria);
 
+        And("^SM I verify the Student Body UI in Resources Dropdown$", searchPage::verifyStudentBodyUI);
+
     }
 }

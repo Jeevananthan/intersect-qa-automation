@@ -2,6 +2,7 @@ package pageObjects.SM.searchPage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -14,6 +15,44 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public SearchPageImpl() {
         logger = Logger.getLogger(SearchPageImpl.class);
+    }
+
+    public void verifyStudentBodyUI() {
+        driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Institution Characteristics')]")).click();
+        Assert.assertTrue("'All students' radio button is not selected by default", driver.findElement(By.xpath("//label[contains(text(), 'All students')]//preceding-sibling::input")).isSelected());
+        driver.findElement(By.xpath("//label[contains(text(), 'Undergraduate students only')]")).click();
+        Assert.assertTrue("'Undergraduate students only' radio button is not selected", driver.findElement(By.xpath("//label[contains(text(), 'Undergraduate students only')]//preceding-sibling::input")).isSelected());
+
+        driver.findElement(By.xpath("//label[contains(text(), 'Very large (Over 20,000 students)')]")).click();
+        Assert.assertTrue("'Very large (Over 20,000 students)' checkbox is not selected", driver.findElement(By.xpath("//label[contains(text(), 'Very large (Over 20,000 students)')]//preceding-sibling::input")).isSelected());
+        driver.findElement(By.xpath("//label[contains(text(), 'Very large (Over 20,000 students)')]")).click();
+        Assert.assertFalse("'Very large (Over 20,000 students)' checkbox is selected", driver.findElement(By.xpath("//label[contains(text(), 'Very large (Over 20,000 students)')]//preceding-sibling::input")).isSelected());
+
+        driver.findElement(By.xpath("//label[contains(text(), 'Large (13,001 to 20,000 students)')]")).click();
+        Assert.assertTrue("'Large (13,001 to 20,000 students)' checkbox is not selected", driver.findElement(By.xpath("//label[contains(text(), 'Large (13,001 to 20,000 students)')]//preceding-sibling::input")).isSelected());
+        driver.findElement(By.xpath("//label[contains(text(), 'Large (13,001 to 20,000 students)')]")).click();
+        Assert.assertFalse("'Large (13,001 to 20,000 students)' checkbox is selected", driver.findElement(By.xpath("//label[contains(text(), 'Large (13,001 to 20,000 students)')]//preceding-sibling::input")).isSelected());
+
+        driver.findElement(By.xpath("//label[contains(text(), 'Mid-Size (7,001 to 13,000 students)')]")).click();
+        Assert.assertTrue("'Mid-Size (7,001 to 13,000 students)' checkbox is not selected", driver.findElement(By.xpath("//label[contains(text(), 'Mid-Size (7,001 to 13,000 students)')]//preceding-sibling::input")).isSelected());
+        driver.findElement(By.xpath("//label[contains(text(), 'Mid-Size (7,001 to 13,000 students)')]")).click();
+        Assert.assertFalse("'Mid-Size (7,001 to 13,000 students)' checkbox is selected", driver.findElement(By.xpath("//label[contains(text(), 'Mid-Size (7,001 to 13,000 students)')]//preceding-sibling::input")).isSelected());
+
+        driver.findElement(By.xpath("//label[contains(text(), 'Medium (4,001 to 7,000 students)')]")).click();
+        Assert.assertTrue("'Medium (4,001 to 7,000 students)' checkbox is not selected", driver.findElement(By.xpath("//label[contains(text(), 'Medium (4,001 to 7,000 students)')]//preceding-sibling::input")).isSelected());
+        driver.findElement(By.xpath("//label[contains(text(), 'Medium (4,001 to 7,000 students)')]")).click();
+        Assert.assertFalse("'Medium (4,001 to 7,000 students)' checkbox is selected", driver.findElement(By.xpath("//label[contains(text(), 'Medium (4,001 to 7,000 students)')]//preceding-sibling::input")).isSelected());
+
+        driver.findElement(By.xpath("//label[contains(text(), 'Small (2,001 to 4,000 students)')]")).click();
+        Assert.assertTrue("'Small (2,001 to 4,000 students)' checkbox is not selected", driver.findElement(By.xpath("//label[contains(text(), 'Small (2,001 to 4,000 students)')]//preceding-sibling::input")).isSelected());
+        driver.findElement(By.xpath("//label[contains(text(), 'Small (2,001 to 4,000 students)')]")).click();
+        Assert.assertFalse("'Small (2,001 to 4,000 students)' checkbox is selected", driver.findElement(By.xpath("//label[contains(text(), 'Small (2,001 to 4,000 students)')]//preceding-sibling::input")).isSelected());
+
+        driver.findElement(By.xpath("//label[contains(text(), 'Very Small (2,000 or fewer students)')]")).click();
+        Assert.assertTrue("'Very Small (2,000 or fewer students)' checkbox is not selected", driver.findElement(By.xpath("//label[contains(text(), 'Very Small (2,000 or fewer students)')]//preceding-sibling::input")).isSelected());
+        driver.findElement(By.xpath("//label[contains(text(), 'Very Small (2,000 or fewer students)')]")).click();
+        Assert.assertFalse("'Very Small (2,000 or fewer students)' checkbox is selected", driver.findElement(By.xpath("//label[contains(text(), 'Very Small (2,000 or fewer students)')]//preceding-sibling::input")).isSelected());
+
     }
 
     /**
