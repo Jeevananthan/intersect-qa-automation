@@ -421,5 +421,5 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School                  |heStartTime|heTime |
-      |28   |28  |11:55am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|11:55am    |11:55am|
+      |28   |28  |10:55am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Standalone High School 7|10:55am    |10:55am|
 
