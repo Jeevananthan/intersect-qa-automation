@@ -1451,8 +1451,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
         }
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Messaging Options']")).size()==0) {
-            button("Next").click();
-            waitUntilPageFinishLoading();
+            if (driver.findElements(By.xpath("//span[contains(text(),'Availability Settings')]")).size() == 1) {
+                if (getParent(driver.findElement(By.xpath("//span[contains(text(),'Availability Settings')]"))).getAttribute("class").equalsIgnoreCase("_1gXbsnbxcvr12eMqyC1xjb")) {
+                    button("Next").click();
+                    // The Messaging Options page takes a really long time to load, for some reason, so we need to wait.
+                    waitForUITransition();
+                    waitForUITransition();
+                } else {
+                    button("Next").click();
+                    waitUntilPageFinishLoading();
+                }
+            } else {
+                button("Next").click();
+                waitUntilPageFinishLoading();
+            }
         }
         //verify UI
         Assert.assertTrue("Confirmation Message header is not showing", text("Confirmation Message").isDisplayed());
@@ -1480,10 +1492,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         if(!confirmationMessage.equals("")) {
             WebElement actualConfirmationMessage = driver.findElement(By.xpath("//textarea[@id='emailInstructions']"));
+            actualConfirmationMessage.clear();
             actualConfirmationMessage.sendKeys(confirmationMessage);
         }
         if(!specialInstructionforRepVisits.equals("")) {
             WebElement actualSpecialInstructionforRepVisits = driver.findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']"));
+            actualSpecialInstructionforRepVisits.clear();
             actualSpecialInstructionforRepVisits.sendKeys(specialInstructionforRepVisits);
         }
         if(!buttonToClick.equals("")) {
