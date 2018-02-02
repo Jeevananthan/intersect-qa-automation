@@ -17,3 +17,10 @@ Feature: HE - Login - ResetPassword - As an HE Admissions User I need the abilit
   @ignore
   Scenario: As an HE Admissions user, if I provide an invalid username or password, I am presented with an error message that informs me the information I provided does not match an existing user account
 
+  @MATCH-167
+  Scenario: As a System I need a platform-level password policy for all institutional accounts and their users in order
+            to secure the data within the Purple platform.
+    When HE I begin the reset password process for user type "reset"
+    Then HE I receive the below reset password email and reset the password for user type "reset"
+      |Subject                                     |To                                         |Messages |
+      |Intersect Forgot Password Verification Email|purpleheautomation+resetpassword@gmail.com |1        |

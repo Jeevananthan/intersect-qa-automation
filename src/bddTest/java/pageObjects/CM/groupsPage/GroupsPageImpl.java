@@ -7,7 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import pageObjects.CM.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
 import pageObjects.CM.userProfilePage.UserProfilePageImpl;
@@ -31,9 +31,11 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     UserProfilePageImpl userProfilePage = new UserProfilePageImpl();
 
 
-
+    // Deprecated - use communityFrame from PageObjectFacadeImpl instead.
     public void iframeEnter()  {
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
+        waitForUITransition();
+        logger.info("Entered Community iFrame.");
     }
 
     public void iframeExit() {
@@ -45,8 +47,8 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         logger.info("Going to groups page.");
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
         waitUntilPageFinishLoading();
-        iframeEnter();
-        link(By.cssSelector("a[href='/groups']")).click();
+        communityFrame();
+        link("Groups").click();
     }
 
     public void clickGroupsTab() {
@@ -159,7 +161,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         logger.info("Searching for the group.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
         link(By.id("global-search-box-item-0")).click();
-        iframeEnter();
+        communityFrame();
         waitUntilPageFinishLoading();
 
     }
@@ -199,6 +201,17 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void makeSureUserIsMemberOfThePublicGroup() {
+        try {
+            joinGroupButton();
+            logger.info("User is going to join the group.");
+            joinGroupButton().click();
+
+        } catch (NoSuchElementException e) {
+            logger.info("User already joined the group.");
+        }
+    }
+
     public void sendRequestToJoinTheGroup() {
         logger.info("Clicking on button to join the group.");
         requestToJoinGroupButton().click();
@@ -215,7 +228,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 //        link(By.id("js-main-nav-counselor-community-menu-link")).click();
         driver.navigate().to("https://qa-support.intersect.hobsons.com/counselor-community/groups");
 
-        iframeEnter();
+        communityFrame();
         waitUntilPageFinishLoading();
 //        link(By.cssSelector("a[href='/groups']")).click();
         link(By.linkText("**Test Automation** HE Community PRIVATE Group")).click();
@@ -447,6 +460,11 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void checkPresentedJoinButtonNextToPublicGroup() {
         logger.info("Check if I am presented with a 'Join' action next to any Public group that returns in my search results");
         Assert.assertTrue("'Join' button cannot be found on the page!", checkItemVisibleByCssSelector("i", "class", "user plus icon"));
+    }
+
+    public void checkAggregateFeedOnGroupPage() {
+        logger.info("Checking if aggregate feed is visible on group page.");
+        Assert.assertTrue("", checkItemVisibleByCssSelector("div","class","post-submitted"));
     }
 
     public void disableCommentsOnGroupPosts() {

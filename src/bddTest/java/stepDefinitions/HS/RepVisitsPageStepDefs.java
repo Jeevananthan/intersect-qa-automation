@@ -51,6 +51,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the RepVisits Visits Confirmations option to \"([^\"]*)\"$", repVisits::setVisitsConfirmations);
 
+        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
+
+        Then("HS I remove the Time Slot created with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::removeTimeSlotAdded);
+
+        Then("^HS I verify the Time Slot time were removed with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyTimeSlotRemoved);
+
         Then("^HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesSchedulingNewVisits);
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
@@ -78,6 +84,20 @@ public class RepVisitsPageStepDefs implements En {
         Then ("^HS I set the Visit Availability of RepVisits Availability Settings to \"([^\"]*)\"$",repVisits::accessVisitAvailability);
 
         Then ("^HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with \"([^\"]*)\"$",repVisits::verifyVisitAvailability);
+
+        When("^HS I open the Exceptions page$", repVisits::openExceptions);
+
+        And("^HS I select the date \"([^\"]*)\"$", repVisits::selectDateInExceptions);
+
+        And("^HS I add a new time slot with the following data:$", repVisits::addTimeSlot);
+
+        Then("^HS I verify that the time slot was added in date \"([^\"]*)\", with the start time \"([^\"]*)\"$", repVisits::verifyTimeSlot);
+
+        And("^HS I delete the time slot in date \"([^\"]*)\", with start time \"([^\"]*)\"$", repVisits::deleteTimeSlot);
+
+        And("^HS I verify that the time slot was removed from date \"([^\"]*)\", with the start time \"([^\"]*)\"$", repVisits::verifyAbsenceOfTimeSlot);
+
+        Then("^HS I clear the day$", repVisits::clearDay);
 
         Then("^HE I set and verify that \"([^\"]*)\" is blocked on the Blocked Days page$", repVisits::verifyManualBlockedHolidays);
 
@@ -124,6 +144,26 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS verify pills are not available for the past dates in Re-schedule visit page$",repVisits::verifyPillsNotAvailableinReScheduleVisitPage);
 
         Then("^HS verify the past dates are disabled in the select custom date section for Re-schedule visit page$",repVisits::verifyPastDatesDisabledInNewScheduleVisitPage);
+
+        Then("^HS I set the RepVisits Confirmation message to \"([^\"]*)\"$", repVisits::addDefaultMessage);
+
+        Then("^HS I verify the RepVisits Confirmation message is set to \"([^\"]*)\"$", repVisits::verifyMessageUpdated);
+
+        And("^HS I verify the messaging updated confirmation toast message$", repVisits::verifyMessageConfirmation);
+
+        Then("^HS I navigate to the \"([^\"]*)\" page in RepVisits$", repVisits::navigateToRepVisitsSection);
+
+        Then("^HS I cancel all events for the next 7 days$", repVisits::cancelAllEventsForNext7Days);
+
+        Then("^HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days$", repVisits::verifyRepVisitsPageWhenNoVisitsScheduledForNext7Days);
+
+        And("^HS I select a date \"([^\"]*)\" days ahead from now$", repVisits::selectGeneratedDateInExceptions);
+
+        Then("^HS I verify that the time slot was added in a generated date, with the start time \"([^\"]*)\"$", repVisits::verifyTimeSlotWithGeneratedDate);
+
+        And("^HS I delete the time slot in a generated date, with start time \"([^\"]*)\"$", repVisits::deleteTimeSlotWithGeneratedDate);
+
+        And("^HS I verify that the time slot was removed from the generated date, with the start time \"([^\"]*)\"$", repVisits::verifyAbsenceOfTimeSlotWithGeneratedDate);
 
         Then("^HS I verify the Messaging Options Page in the repvists setup wizard \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyRepvisitsSetupWizardMessagingOptions);
 
