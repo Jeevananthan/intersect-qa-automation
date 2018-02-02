@@ -16,6 +16,8 @@ public class HUBSEditModeStepDefs implements En{
 
         And("^HUBS I open the \"([^\"]*)\" tab in the preview$", hemPreviewPage::clickMenuButton);
 
+        Then("^HUBS All the elements of the studies tab should be displayed$", studiesPage::verifyAllElementsDisplayed);
+
     }
 
 }

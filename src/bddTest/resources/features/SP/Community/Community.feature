@@ -1,4 +1,4 @@
-@HS
+@SP
 Feature: As a Support User, I want to be able to access HUBS Edit Mode
 
   @MATCH-1907

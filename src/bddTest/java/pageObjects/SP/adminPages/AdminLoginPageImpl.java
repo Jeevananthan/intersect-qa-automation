@@ -72,7 +72,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyExpectedErrorMessage(String expectedErrorMsg) {
-        String actualErrorMsg = getDriver().findElement(By.id("recover_container")).getText().replace("\n", " ");
+        String actualErrorMsg = getDriver().findElement(By.id("passwordError")).getText();
         Assert.assertEquals("Error message did not match", expectedErrorMsg, actualErrorMsg);
     }
 
@@ -107,6 +107,11 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
 
     public void loginAsACommunityManagerUser() {
         login(GetProperties.get("sp.communityManager.username"), GetProperties.get("sp.communityManager.password"));
+        adminPage.verifyUserIsLoggedIn();
+    }
+
+    public void loginAsNoAccessUser() {
+        login(GetProperties.get("sp.norole.username"), GetProperties.get("sp.norole.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 

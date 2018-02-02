@@ -1,5 +1,6 @@
 package stepDefinitions.SP.communityPages;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SP.communityPages.InstitutionPageImpl;
 
