@@ -17,13 +17,21 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
 
     public void clickEditMenuButton(String label) {
         waitUntilPageFinishLoading();
-        new WebDriverWait(getDriver(), 60).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='editor-status ng-scope']")));
-        studiesButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='editor ng-scope']"), 1));
+        switch (label) {
+            case "Studies" : studiesButton().click();
+                break;
+            case "Costs" : costsButton().click();
+                break;
+        }
         logger.info(label + " button was clicked");
     }
 
     //Locators
     private WebElement studiesButton() {
         return getDriver().findElement(By.xpath("//li[text()='Studies']"));
+    }
+    private WebElement costsButton() {
+        return getDriver().findElement(By.xpath("//li[text()='Costs']"));
     }
 }
