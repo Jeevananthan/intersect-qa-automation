@@ -1094,7 +1094,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 Assert.assertTrue("'Save' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Save']")).isDisplayed());
                 driver.findElement(By.xpath("//button/span[text()='Save']")).click();
             }else {
-                fail("The option for the button to click ="+buttonToClick+" is not a valid one");
+                Assert.fail("The option for the button to click ="+buttonToClick+" is not a valid one");
             }
         }
     }
@@ -1107,6 +1107,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         String[] parts = currentDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
+        // TODO - Fix this to use the proper signature
         findMonth(calendarHeading);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
@@ -1124,14 +1125,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }else if(buttonName.equals("Add Attendees")){
             driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
         }else{
-            fail("The given option is not a valid one");
+            Assert.fail("The given option is not a valid one");
         }
     }
     public void accessCollegeFairDetailsPage(String buttonName){
         if(buttonName.equals("Edit")){
             driver.findElement(By.cssSelector("button[id='edit-college-fair']")).click();
         }else{
-            fail("The given option '"+buttonName+"' is not a valid one");
+            Assert.fail("The given option '"+buttonName+"' is not a valid one");
         }
     }
     public void verifyEditCollegeFair(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected){
@@ -1247,7 +1248,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 Assert.assertTrue("'Save' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Save']")).isDisplayed());
                 driver.findElement(By.xpath("//button/span[text()='Save']")).click();
             }else {
-                fail("The option for the button to click ="+buttonToClick+" is not a valid one");
+                Assert.fail("The option for the button to click ="+buttonToClick+" is not a valid one");
             }
         }
     }
