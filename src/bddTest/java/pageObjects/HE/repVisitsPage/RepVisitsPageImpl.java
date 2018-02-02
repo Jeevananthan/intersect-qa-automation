@@ -471,21 +471,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
     }
 
-    public void verifyNotification(String school,String date,String time)
-    {
-        navBar.goToRepVisits();
-        link("Notifications").click();
-        waitUntilElementExists(requestsubtab());
+    public void verifyNotification(String school,String date,String time) {
         Assert.assertTrue("Requests is not displayed",requestsubtab().isDisplayed());
         requestsubtab().click();
         Assert.assertTrue("school is not displayed",schoolInRequest(school).isDisplayed());
         String Date = selectdate(date);
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        Assert.assertTrue("date and time is not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+visitTime+"']")).isDisplayed());
+        Assert.assertTrue("date and time are not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+visitTime+"']")).isDisplayed());
     }
 
-    public void verifyNotificationforFairs(String school,String date,String time)
-    {
+    public void verifyNotificationforFairs(String school,String date,String time) {
         navBar.goToRepVisits();
         link("Notifications").click();
         waitUntilElementExists(requestsubtab());
@@ -496,43 +491,48 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("date and time is not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+time+"']")).isDisplayed());
     }
 
-    public  void verify25Entries(String option)
-    {
+    public  void verify25Entries(String option) {
         int count=driver.findElements(By.xpath("//div[@class='_12QfCShNjFFA8a-x4K3-yn']/div/div")).size();
-        try{   if(count>25)
-        {
-            logger.info("ShowMore option is displayed");
-        }else
-        {
-            logger.info("Less than 25 notifictions are displayed");
-        }}catch (Exception e){}
+        try{
+             if (count>25) {
+                 while(showMoreButton(option).isDisplayed()){
+                   logger.info("Show More option is displayed");
+                     showMoreButton(option).click();
+                 }
+             }else {
+                 logger.info("Show More option is not diplayed");
+             }
+        } catch (Exception e){}
     }
 
-    public void selectViewDetails(String school,String date,String time)
-    {
-        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+    public void selectViewDetails(String school,String date,String visitTime) {
+        visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         String Date = selectdate(date);
         Assert.assertTrue("View full details option is not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+visitTime+"']/following-sibling::div/a/span[text()='View full details']")).isDisplayed());
         driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+visitTime+"']/following-sibling::div/a/span[text()='View full details']")).click();
+        waitForUITransition();
         waitUntilElementExists(textBoxInViewDetails());
         textBoxInViewDetails().sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("save button is not displayed",saveButton().isDisplayed());
         saveButton().click();
     }
 
-    public void selectViewDetailsforFairs(String school,String date,String time)
-    {
+    public void selectViewDetailsforFairs(String school,String date,String time) {
         String Date = selectdate(date);
         Assert.assertTrue("View full details option is not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+time+"']/following-sibling::div/a/span[text()='View full details']")).isDisplayed());
         driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+time+"']/following-sibling::div/a/span[text()='View full details']")).click();
+        waitForUITransition();
         waitUntilElementExists(textBoxInViewDetails());
         textBoxInViewDetails().sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("save button is not displayed",saveButton().isDisplayed());
         saveButton().click();
     }
 
-    public void verifynoNotificationMessage(String message)
-    {try{
+    public void verifynoNotificationMessage(String message) {
+        navBar.goToRepVisits();
+        link("Notifications").click();
+        waitUntilElementExists(requestsubtab());
+        try{
         if(text(message).isDisplayed())
         {logger.info("Notification is not displayed");}
         else{logger.info("Notification is displayed");}}
@@ -695,54 +695,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));
     }
-    private WebElement searchTextBox()
-    {
+    private WebElement searchTextBox() {
         WebElement textBox= driver.findElement(By.cssSelector("input[placeholder='Search by school name or location...']"));
         return textBox;
     }
-
-    private WebElement searchButton()
-    {
+    private WebElement searchButton() {
         WebElement button=driver.findElement(By.cssSelector("button[class='ui button']"));
         return  button;
     }
-
-    private WebElement visit()
-    {
+    private WebElement visit() {
         WebElement visit=driver.findElement(By.xpath("//span[text()='Visits']"));
         return  visit;
     }
-
-    private WebElement visitRequestButton()
-    {
+    private WebElement visitRequestButton() {
         WebElement button=driver.findElement(By.xpath("//button[contains(text(),'Yes, Request this time')]"));
         return button;
     }
-
     private WebElement schoolInSearchAndSchedule(String school)
     {
         WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
         return schoolName;
     }
-
-    private WebElement schoolInVisits(String school)
-    {
+    private WebElement schoolInVisits(String school) {
         WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
         return  schoolName;
     }
 
-    private WebElement availabilityButton(String date,String time)
-    {
+    private WebElement availabilityButton(String date,String time) {
         WebElement button= driver.findElement(By.xpath("//span[text()='"+date+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
         return button;
     }
-    private WebElement fairs()
-    {
+    private WebElement fairs() {
         WebElement fair=button("Fairs");
         return  fair;
     }
-    private WebElement fairName(String  school,String fairName)
-    {
+    private WebElement fairName(String  school,String fairName) {
         WebElement fairname=driver.findElement(By.xpath("//a/h3[text()='"+school+"']/parent::a/following-sibling::span[text()='"+fairName+"']"));
         return  fairname;
     }
@@ -751,53 +738,47 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement schoolDetails = driver.findElement(By.xpath("//a/h3[text()='"+schoolName+"']"));
         return  schoolDetails;
     }
-    private WebElement registerButton(String fair)
-    {
+    private WebElement registerButton(String fair) {
         WebElement button=  driver.findElement(By.xpath("//span[text()='"+fair+"']/parent::div/following-sibling::div/button/span[text()='Register']"));
         return  button;
     }
-    private WebElement submitButton()
-    {
+    private WebElement submitButton() {
         WebElement button=button("Yes, Submit Request");
         return  button;
     }
-
-    private WebElement register()
-    {
+    private WebElement register() {
         WebElement registerButton=button("Register");
         waitUntilElementExists(registerButton);
         return  registerButton;
     }
-
     private WebElement search(){
         WebElement search=driver.findElement(By.xpath("//button[@class='ui button']"));
         waitUntilElementExists(search);
         return  search;
     }
-    private WebElement goToDate()
-    {
+    private WebElement goToDate() {
         WebElement goToDate=driver.findElement(By.xpath("//button[text()='Go To Date']"));
         waitUntilElementExists(goToDate);
         return  goToDate;
     }
-    private WebElement requestsubtab()
-    {
+    private WebElement requestsubtab() {
         WebElement request=link("Requests");
         return  request;
     }
-    private WebElement schoolInRequest(String schoolName)
-    {
+    private WebElement schoolInRequest(String schoolName) {
         WebElement school=driver.findElement(By.xpath("//b[text()='"+schoolName+"']"));
         return school;
     }
-    private WebElement saveButton()
-    {
+    private WebElement saveButton() {
         WebElement button=button("Save");
         return button;
     }
-    private WebElement textBoxInViewDetails()
-    {
+    private WebElement textBoxInViewDetails() {
         WebElement text= driver.findElement(By.xpath("//input[@aria-label='Internal Notes']"));
+        return text;
+    }
+    private WebElement showMoreButton(String option){
+        WebElement text=driver.findElement(By.xpath("//span[text()='"+option+"']"));
         return text;
     }
 

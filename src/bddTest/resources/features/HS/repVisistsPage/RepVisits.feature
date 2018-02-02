@@ -387,9 +387,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
-    And HE I verify the Notifications & Tasks using "<School>","<StartDate>","<heStartTime>"
     Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
     Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
+    And HE I verify the Notifications & Tasks using "<School>","<StartDate>","<heStartTime>"
     Then HE I click the View full details option in the Request subTab using "<School>","<StartDate>","<heStartTime>"
     Then HE I successfully sign out
 
@@ -402,9 +402,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I search for "<School>" in RepVisits page
     Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
 
-    And HE I verify the Notifications & Tasks using "<School>","<Date>","<fairTime>" for fairs
     Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
     Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
+    And HE I verify the Notifications & Tasks using "<School>","<Date>","<fairTime>" for fairs
     Then HE I click the View full details option in the Request subTab using "<School>","<Date>","<fairTime>" for fairs
     Then HE I successfully sign out
 
