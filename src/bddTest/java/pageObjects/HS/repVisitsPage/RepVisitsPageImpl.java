@@ -9,9 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
-
 import javax.xml.crypto.Data;
-
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -1443,6 +1441,96 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The time slot was not removed", getDriver().findElements(By.xpath
                 ("//span[text()='" + generatedDateForExceptions + "']/../../../../following-sibling::tbody/tr/td/div/" +
                         "button[text()='" + time + "']")).size() < 1);
+    }
+
+    public void verifyRepvisitsSetupWizardMessagingOptions(String confirmationMessage, String specialInstructionforRepVisits) {
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        if(getStartedBtn().isDisplayed()){
+            getStartedBtn().click();
+            waitUntilPageFinishLoading();
+        }
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Messaging Options']")).size()==0) {
+            if (driver.findElements(By.xpath("//span[contains(text(),'Availability Settings')]")).size() == 1) {
+                if (getParent(driver.findElement(By.xpath("//span[contains(text(),'Availability Settings')]"))).getAttribute("class").equalsIgnoreCase("_1gXbsnbxcvr12eMqyC1xjb")) {
+                    button("Next").click();
+                    // The Messaging Options page takes a really long time to load, for some reason, so we need to wait.
+                    waitForUITransition();
+                    waitForUITransition();
+                } else {
+                    button("Next").click();
+                    waitUntilPageFinishLoading();
+                }
+            } else {
+                button("Next").click();
+                waitUntilPageFinishLoading();
+            }
+        }
+        //verify UI
+        Assert.assertTrue("Confirmation Message header is not showing", text("Confirmation Message").isDisplayed());
+        Assert.assertTrue("Special Instruction for RepVisits header is not showing", text("Special Instruction for RepVisits").isDisplayed());
+        Assert.assertTrue("Confirmation message Information Label text is not showing", getDriver().findElement(By.cssSelector("label[for='emailInstructions']")).getText().contains("When appointments are confirmed, we will automatically email the higher education institution and include appointment details as well as your contact information. If you would like to add additional information, you can do so here."));
+        Assert.assertTrue("webInstructions Message text is not showing", getDriver().findElement(By.cssSelector("label[for='webInstructions']")).getText().contains("Is there anything you would like the representative to know before scheduling a visit? If so, include that information here. Please note we will display your contact information and the school's address."));
+        Assert.assertTrue("Email Instructions textbox is not showing", getDriver().findElement(By.xpath("//textarea[@id='emailInstructions']")).isDisplayed());
+        Assert.assertTrue("Web Instructions textbox is not showing", getDriver().findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']")).isDisplayed());
+        Assert.assertTrue(button("Back").isDisplayed());
+        Assert.assertTrue(button("Next").isDisplayed());
+
+        if(!confirmationMessage.equals("")) {
+            String actualConfirmationMessage = driver.findElement(By.xpath("//textarea[@id='emailInstructions']")).getText();
+            Assert.assertTrue("'Confirmation Message' value was not as expected.", actualConfirmationMessage.contains(confirmationMessage));
+        }
+         if(!specialInstructionforRepVisits.equals("")) {
+            String actualSpecialInstructionforRepVisits = driver.findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']")).getText();
+            Assert.assertTrue("'Special Instruction for RepVisits' were not set as expected.", actualSpecialInstructionforRepVisits.equals(specialInstructionforRepVisits));
+         }
+    }
+
+
+
+    public void accessRepvisitsSetupWizardMessagingOptions(String confirmationMessage, String specialInstructionforRepVisits, String buttonToClick){
+
+        if(!confirmationMessage.equals("")) {
+            WebElement actualConfirmationMessage = driver.findElement(By.xpath("//textarea[@id='emailInstructions']"));
+            actualConfirmationMessage.clear();
+            actualConfirmationMessage.sendKeys(confirmationMessage);
+        }
+        if(!specialInstructionforRepVisits.equals("")) {
+            WebElement actualSpecialInstructionforRepVisits = driver.findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']"));
+            actualSpecialInstructionforRepVisits.clear();
+            actualSpecialInstructionforRepVisits.sendKeys(specialInstructionforRepVisits);
+        }
+        if(!buttonToClick.equals("")) {
+            if (buttonToClick.equals("Back")) {
+                driver.findElement(By.xpath("//button/span[text()='Back']")).click();
+            } else if (buttonToClick.equals("Next")) {
+                driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+            } else {
+                Assert.fail("The given option is not a valid one");
+            }
+        }
+    }
+
+    public void verifyPrimaryContactVisitsPage(String buttonToClick){
+        Assert.assertTrue("'Primary Contact for Visits' page is not displayed", text("Primary Contact for Visits").isDisplayed());
+        if (buttonToClick.equals("Back")) {
+            driver.findElement(By.xpath("//button/span[text()='Back']")).click();
+        } else if (buttonToClick.equals("Next")) {
+            driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+        } else {
+            Assert.fail("The given option is not a valid one");
+        }
+    }
+
+    public void verifyAvailabilitySettingsPage(String buttonToClick){
+        Assert.assertTrue("'Availability Settings' page is not displayed", text("Availability Settings").isDisplayed());
+        if (buttonToClick.equals("Back")) {
+            driver.findElement(By.xpath("//button/span[text()='Back']")).click();
+        } else if (buttonToClick.equals("Next")) {
+            driver.findElement(By.xpath("//button/span[text()='Next']")).click();
+        } else {
+            Assert.fail("The given option is not a valid one");
+        }
     }
 
     //locators

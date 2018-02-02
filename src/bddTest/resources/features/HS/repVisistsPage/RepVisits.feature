@@ -166,7 +166,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
             I want to be able to indicate the date ranges for which I am available for college visits,
             so that colleges know when to visit my high school.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     Then HS I verify the "<StartDate>" and "<EndDate>" date was set in the calendar
     And HS I successfully sign out
 
@@ -370,3 +370,19 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I cancel all events for the next 7 days
     Then HS I navigate to the "Overview" page in RepVisits
     Then HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days
+
+  @MATCH-1947
+  Scenario Outline: As a HS RepVisits user I want to be able to use the rep-visits setup page to set the Messaging options
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the Messaging Options Page in the repvists setup wizard "<verify Confirmation Message>","<verify Special Instruction for RepVisits>"
+    Then HS I enter the messages in the Message Option page for Repvists Setup wizard "<Confirmation Message_Next>","<Special Instruction for RepVisits_Next>","<Button to Click_Next>"
+    Then HS I verify the Primary Contact for Visits page and then click the "Back" button
+    Then HS I verify the Messaging Options Page in the repvists setup wizard "<verify Confirmation Message_Next>","<verify Special Instruction for RepVisits_Next>"
+    Then HS I enter the messages in the Message Option page for Repvists Setup wizard "<Confirmation Message_Back>","<Special Instruction for RepVisits_Back>","<Button to Click_Back>"
+    Then HS I verify the Availability Settings page and then click the "Next" button
+    Then HS I verify the Messaging Options Page in the repvists setup wizard "<verify Confirmation Message_Next>","<verify Special Instruction for RepVisits_Next>"
+
+  Examples:
+    |verify Confirmation Message|verify Special Instruction for RepVisits|Confirmation Message_Next                |Special Instruction for RepVisits_Next     |Button to Click_Next|verify Confirmation Message_Next         |verify Special Instruction for RepVisits_Next|Confirmation Message_Back                     |Special Instruction for RepVisits_Back          |Button to Click_Back|
+    |                           |                                        |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|Next                |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User  |Confirmation Message for visits and Fairs Back|Special Instructions for the repvisits User Back|Back                |
+
