@@ -1,6 +1,7 @@
 package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -249,6 +250,129 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void openVisitsInChckRepVisitsAv() {
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
+        waitUntil(ExpectedConditions.elementToBeClickable(getCheckRepVisitsAvailabilityButton()));
+        getCheckRepVisitsAvailabilityButton().click();
+        getDriver().switchTo().defaultContent();
+        visitsTab().click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ui.medium.inverted.loader")));
+        waitUntilPageFinishLoading();
+    }
+
+    public void clickVisitsTab() {
+        visitsTab().click();
+    }
+
+    public void clickVisitPill(String date) {
+        int visitPosition = 0;
+        goToDateButton().click();
+        pressMiniCalendarArrowUntil("right", date.split(" ")[0], 10);
+        miniCalendarDayCell(date.split(" ")[1]).click();
+        for (int i = 0; i < 7; i++) {
+            if (headerWeekDays().get(i).getText().contains(date.split(" ")[1])) {
+                visitPosition = i + 1;
+                break;
+            }
+        }
+        for (WebElement visitRow : visitsRows()) {
+            if (visitRow.findElement(By.cssSelector("td:nth-of-type(" + visitPosition + ") button")).getText().equals(date.split(" ")[2].toLowerCase())) {
+                visitRow.findElement(By.cssSelector("td:nth-of-type(" + visitPosition + ") button")).click();
+                break;
+            }
+        }
+    }
+
+    public void clickVisitPillInSearchAndSchedule(String date) {
+        int visitPosition = 0;
+        searchAndScheduleCalendarIcon().click();
+        pressMiniCalendarArrowUntil("right", date.split(" ")[0].split(",")[0], 10);
+        miniCalendarDayCell(date.split(",")[1].split(" ")[1]).click();
+        String month = date.split(",")[1].split(" ")[0];
+        switch (month) {
+            case "Monday" : visitPosition = 2;
+                break;
+            case "Tuesday" : visitPosition = 3;
+                break;
+            case "Wednesday" : visitPosition = 4;
+                break;
+            case "Thursday" : visitPosition = 5;
+                break;
+            case "Friday" : visitPosition = 6;
+                break;
+        }
+        WebElement dayColumn = getDriver().findElement(By.cssSelector("table.ui.celled.padded.table tbody td.center:nth-of-type(" + visitPosition + ")"));
+        List<WebElement> dayElements = dayColumn.findElements(By.cssSelector("div.item button"));
+        for (WebElement visitItem : dayElements) {
+            if (visitItem.getText().equals(date.split(",")[2])) {
+                visitItem.click();
+            }
+        }
+    }
+
+    public void registerVisit(String date) {
+        clickVisitPillInSearchAndSchedule(date);
+        submitRequestButton().click();
+    }
+
+    public void verifyVisitSuccessMessageWithAutoApprovals() {
+        Assert.assertTrue("The success message for visits with auto approvals is not displayed", upperMessage().getText().equals("Visit confirmed! Your request has been automatically confirmed by the high school."));
+    }
+
+    public void verifyVisitInCalendar(String date) {
+        boolean result = false;
+        waitUntil(ExpectedConditions.elementToBeClickable(getCalendarBtn()));
+        getCalendarBtn().click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ui.medium.inverted.loader")));
+        waitUntil(ExpectedConditions.elementToBeClickable(rightCalendarHeaderDate()));
+        if (!rightCalendarHeaderDate().getText().equals(date.split(" ")[0])) {
+            pressCalendarArrowUntil("right", date.split(" ")[0], 10);
+        }
+
+        for (WebElement eventRow : eventsRows(date.split(" ")[1])) {
+            if (eventRow.findElements(By.xpath("/div/a")).size() > 0) {
+                eventRow.findElements(By.xpath("/div/a")).get(0).click();
+                for (WebElement overlayEvent : overlayEventsList()) {
+                    if (overlayEvent.findElement(By.cssSelector("span.rbc-event-time")).getText().equals(date.split(" ")[2])) {
+                        result = true;
+                        break;
+                    }
+                }
+            } else {
+                for (int i = 1; i < 3; i++) {
+                    if (getDateCell(date.split(" ")[1], date.split(" ")[2], i).isDisplayed()) {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+//        if (showMoreLink().isDisplayed()) {
+//            showMoreLink().click();
+//
+//        }
+        Assert.assertTrue("The visit is not displayed in the calendar", result);
+    }
+
+    public void verifyVisitInQuickView(String schoolName, String date) {
+        boolean result = false;
+        searchforHighSchool(schoolName);
+        selectHighSchoolFromResults(schoolName);
+        getSearchAndScheduleBtn().click();
+        waitUntil(ExpectedConditions.elementToBeClickable(searchAndScheduleCalendarIcon()));
+        searchAndScheduleCalendarIcon().click();
+        pressMiniCalendarArrowUntil("right", date.split(" ")[0].split(",")[0], 10);
+        miniCalendarDayCell(date.split(" ")[1]).click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ui.medium.inverted.loader")));
+        for (WebElement visitElement : quickViewEventsList()) {
+            if (visitElement.getText().contains(schoolName) && visitElement.getText().contains(date.split(" ")[2].toLowerCase())) {
+                result = true;
+            }
+        }
+        Assert.assertTrue("The visit is not displayed in the Quick View", result);
+    }
+
     //locators
     public void verifyHSSpecialInstructions(String instructions)
     {
@@ -346,10 +470,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
-        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
-        Assert.assertTrue("'UPGRADE' button is not displayed",button("UPGRADE").isDisplayed());
-        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
-}
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
+    }
 
     public void verifyUpgradeMessageInContactsInRepVisits(){
 
@@ -571,6 +693,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
+
     private WebElement getSearchBox() { return textbox("Search by school name or location...");}
     private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
     private WebElement getSearchAndScheduleSearchBox(){ return textbox("Search by school name or location..."); }
@@ -593,6 +716,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getDateCell(String day, String time, int row) { return getDriver().findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='" + day + "']/../../following-sibling::div[" + row + "]/div/div[@class='rbc-event']/div/div/span[text()='" + time + "']")); }
     private List<WebElement> quickViewCalendarHeaderDates() { return getDriver().findElements(By.cssSelector("h1.ui.header + div span span span")); }
     private WebElement quickViewRightButton() { return getDriver().findElement(By.cssSelector("button[aria-label=\"Next week\"]")); }
+    private List<WebElement> quickViewEventsList() { return getDriver().findElements(By.cssSelector("ul.ui.huge.pointing.secondary + div div._2qvF1GJtxr-YZYY8wYagxl + div div.ui.stackable.grid")); }
     private List<WebElement> quickViewFairsList() { return getDriver().findElements(By.cssSelector("ul.ui.huge.pointing.secondary + div div._2qvF1GJtxr-YZYY8wYagxl + div div.ui.stackable.grid")); }
     private WebElement calendarIcon() { return getDriver().findElement(By.cssSelector("button.ui.tiny.icon.right.floated.right.labeled.button._1alys3gHE0t2ksYSNzWGgY")); }
     private WebElement miniCalendarHeader() { return getDriver().findElement(By.cssSelector("div.DayPicker-Caption")); }
@@ -601,6 +725,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public WebElement miniCalendarDayCell(String day) { return getDriver().findElement(By.xpath("//div[@class='DayPicker-Week']/div[text()='" + day + "']")); }
     public WebElement showMoreLink() { return getDriver().findElement(By.cssSelector("a.rbc-show-more")); }
     private List<WebElement> overlayEventsList() { return getDriver().findElements(By.cssSelector("div.rbc-overlay div.rbc-event")); }
+    private WebElement visitsTab() { return getDriver().findElement(By.cssSelector("div.ui.left.attached.button")); }
+    private WebElement goToDateButton() { return getDriver().findElement(By.cssSelector("button.ui.right.labeled.small.basic i")); }
+    private WebElement searchAndScheduleCalendarIcon() { return getDriver().findElement(By.cssSelector("button.ui.right.labeled.tiny.icon.button i")); }
+    private List<WebElement> headerWeekDays() { return getDriver().findElements(By.cssSelector("table.ui.fixed.unstackable.basic.center thead th div span")); }
+    private List<WebElement> visitsRows() { return getDriver().findElements(By.cssSelector("table.ui.fixed.unstackable.basic.center tbody tr")); }
+    private List<WebElement> eventsRows(String day) { return getDriver().findElements(By.xpath("//div[not(contains(@class, 'rbc-off-range'))][contains(@class,'rbc-date-cell')]/a[text()='" + day + "']/../../following-sibling::div")); }
     private WebElement getVerticalStaffMembersMenu() {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));

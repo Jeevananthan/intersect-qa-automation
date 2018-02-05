@@ -90,6 +90,20 @@ public class RepVisitsPageStepDefs implements En {
 
         Then ("^HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with \"([^\"]*)\"$",repVisits::verifyVisitAvailability);
 
+        When("^HS I open the Exceptions page$", repVisits::openExceptions);
+
+        And("^HS I select the date \"([^\"]*)\"$", repVisits::selectDateInExceptions);
+
+        And("^HS I add a new time slot with the following data:$", repVisits::addTimeSlot);
+
+        Then("^HS I verify that the time slot was added in date \"([^\"]*)\", with the start time \"([^\"]*)\"$", repVisits::verifyTimeSlot);
+
+        And("^HS I delete the time slot in date \"([^\"]*)\", with start time \"([^\"]*)\"$", repVisits::deleteTimeSlot);
+
+        And("^HS I verify that the time slot was removed from date \"([^\"]*)\", with the start time \"([^\"]*)\"$", repVisits::verifyAbsenceOfTimeSlot);
+
+        Then("^HS I clear the day$", repVisits::clearDay);
+
         Then("^HE I set and verify that \"([^\"]*)\" is blocked on the Blocked Days page$", repVisits::verifyManualBlockedHolidays);
 
         Then("HE I search for \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked$", repVisits::searchforSchool);
@@ -147,5 +161,13 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I cancel all events for the next 7 days$", repVisits::cancelAllEventsForNext7Days);
 
         Then("^HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days$", repVisits::verifyRepVisitsPageWhenNoVisitsScheduledForNext7Days);
+
+        And("^HS I select a date \"([^\"]*)\" days ahead from now$", repVisits::selectGeneratedDateInExceptions);
+
+        Then("^HS I verify that the time slot was added in a generated date, with the start time \"([^\"]*)\"$", repVisits::verifyTimeSlotWithGeneratedDate);
+
+        And("^HS I delete the time slot in a generated date, with start time \"([^\"]*)\"$", repVisits::deleteTimeSlotWithGeneratedDate);
+
+        And("^HS I verify that the time slot was removed from the generated date, with the start time \"([^\"]*)\"$", repVisits::verifyAbsenceOfTimeSlotWithGeneratedDate);
     }
 }
