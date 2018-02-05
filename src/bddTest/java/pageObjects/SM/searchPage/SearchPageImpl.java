@@ -20,20 +20,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(SearchPageImpl.class);
     }
 
-    public void openCollegeSearchPage() {
-        driver.get("https://qa-supermatch.intersect.hobsons.com/");
-    }
 
     public void verifyDarkBlueHeaderIsPresent() {
         Assert.assertTrue("The dark blue header is not displayed correctly",
-                driver.findElement(By.xpath("//div[contains(@class, 'supermatch-custom-header')]"))
+                superMatchCustomHeader()
                         .getCssValue("background-color").equals("rgba(28, 29, 57, 1)")
-                        && driver.findElement((By.xpath("//div[contains(@class, 'supermatch-custom-header')]/h1")))
+                        && superMatchCustomHeader().findElement(By.xpath("./h1"))
                         .getText().equals("SuperMatch College Search"));
     }
 
     public void verifyChooseFitCriteriaBar() {
-        List<WebElement> liElements = driver.findElements(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li"));
+        List<WebElement> liElements = chooseFitCriteriaBar().findElements(By.xpath(".//li"));
 
         Assert.assertTrue("'Choose Fit Criteria' text is not present", liElements.get(0).getText().contains("Choose Fit Criteria"));
         Assert.assertTrue("'Location' menu item is not present", liElements.get(1).getText().contains("Location"));
@@ -49,28 +46,28 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySelectCriteriaButtonAndInstructionalText() {
 
-        Assert.assertTrue("'Select Criteria to Start' button is not displayed", driver.findElement(By.xpath("(//button[text()='Select Criteria To Start'])[2]")).isDisplayed());
-        Assert.assertTrue("Instructional text is not displayed", driver.findElement(By.xpath("//div[@class='computer only four wide column']//p"))
-                .getText().equals("To refine your results, use the arrows to move your criteria into the \"Must Have\" and \"Nice to Have\" boxes."));
+        Assert.assertTrue("'Select Criteria to Start' button is not displayed", selectCriteriaButton1().isDisplayed());
+        Assert.assertTrue("Instructional text is not displayed", selectCriteriaInstructionalText().getText()
+                .equals("To refine your results, use the arrows to move your criteria into the \"Must Have\" and \"Nice to Have\" boxes."));
 
     }
 
     public void verifyMustHaveAndNiceToHaveBoxes() {
 
         Assert.assertTrue("Title for Must Have box is not displayed",
-                driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]/p[@class='title']"))
+                mustHaveBox().findElement(By.xpath("./p[@class='title']"))
                         .getText().equals("Must Have"));
 
         Assert.assertTrue("Helper Text for Must Have box is not displayed",
-                driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]/p[@class='helper-text']"))
+                mustHaveBox().findElement(By.xpath("./p[@class='helper-text']"))
                         .getText().equals("A Must Have is anything you absolutely need to be happy and successful."));
 
         Assert.assertTrue("Title for Nice to Have box is not displayed",
-                driver.findElement(By.xpath("(//div[@class='box box-selection'])[2]/p[@class='title']"))
+                niceToHaveBox().findElement(By.xpath("./p[@class='title']"))
                         .getText().equals("Nice to Have"));
 
         Assert.assertTrue("Helper Text for Nice to Have box is not displayed",
-                driver.findElement(By.xpath("(//div[@class='box box-selection'])[2]/p[@class='helper-text']"))
+                niceToHaveBox().findElement(By.xpath("./p[@class='helper-text']"))
                         .getText().equals("A Nice to Have is anything that's important to you, but isn't an absolute must have."));
 
     }
@@ -82,53 +79,89 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 .getText().equals("No Results Yet"));
 
         //Verify the table headers
-        Assert.assertTrue(driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table/thead/tr/th[2]")).getText()
+        Assert.assertTrue(superMatchEmptyTable().findElement(By.xpath("./thead/tr/th[2]")).getText()
                 .equals("Fit Score"));
 
-        Assert.assertTrue(driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table/thead/tr/th[3]")).getText()
+        Assert.assertTrue(superMatchEmptyTable().findElement(By.xpath("./thead/tr/th[3]")).getText()
                 .equals("Academic Match"));
 
-        Assert.assertTrue(driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table/thead/tr/th[4]")).getText()
+        Assert.assertTrue(superMatchEmptyTable().findElement(By.xpath("./thead/tr/th[4]")).getText()
                 .equals("Pick what to show"));
 
-        Assert.assertTrue(driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table/thead/tr/th[5]")).getText()
+        Assert.assertTrue(superMatchEmptyTable().findElement(By.xpath("./thead/tr/th[5]")).getText()
                 .equals("Pick what to show"));
 
-        Assert.assertTrue(driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table/thead/tr/th[6]")).getText()
+        Assert.assertTrue(superMatchEmptyTable().findElement(By.xpath("./thead/tr/th[6]")).getText()
                 .equals("Pick what to show"));
 
         //Verify if the empty rows are present
-        Assert.assertTrue(driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table/tbody/tr[1]")).isDisplayed());
+        Assert.assertTrue(superMatchEmptyTable().findElement(By.xpath("./tbody/tr[1]")).isDisplayed());
 
-        Assert.assertTrue(driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table/tbody/tr[2]")).isDisplayed());
+        Assert.assertTrue(superMatchEmptyTable().findElement(By.xpath("./tbody/tr[2]")).isDisplayed());
 
         //Verify if 'Select Criteria to Start' button is displayed in table
-        Assert.assertTrue(driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//button[text()='Select Criteria To Start']")).isDisplayed());
+        Assert.assertTrue(selectCriteriaToStart2().isDisplayed());
 
     }
 
 
     public void verifyDarkBlueFooter()
     {
-        Assert.assertTrue("College Search footer is not displayed", driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]")).isDisplayed());
+        Assert.assertTrue("College Search footer is not displayed", superMatchFooter().isDisplayed());
 
-        Assert.assertTrue("College Search footer is not dark blue", driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"))
+        Assert.assertTrue("College Search footer is not dark blue", superMatchFooter()
                 .getCssValue("background-color").equals("rgba(28, 29, 57, 1)"));
 
-        Assert.assertTrue("Search box in College Search footer is not displayed", driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]//input[@placeholder='Search...']"))
+        Assert.assertTrue("Search box in College Search footer is not displayed", superMatchFooter().findElement(By.xpath(".//input[@placeholder='Search...']"))
                 .isDisplayed());
 
-        Assert.assertTrue("'PINNED' menu is not displayed", driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]//span[text()='Pinned']"))
+        Assert.assertTrue("'PINNED' menu is not displayed", superMatchFooter().findElement(By.xpath("//span[text()='Pinned']"))
                 .isDisplayed());
 
-        Assert.assertTrue("'THINKING ABOUT' menu is not displayed", driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]//span[text()='Thinking About']"))
+        Assert.assertTrue("'THINKING ABOUT' menu is not displayed", superMatchFooter().findElement(By.xpath("//span[text()='Thinking About']"))
                 .isDisplayed());
 
-        Assert.assertTrue("'APPLYING TO' menu is not displayed", driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]//span[text()='Applying To']"))
+        Assert.assertTrue("'APPLYING TO' menu is not displayed", superMatchFooter().findElement(By.xpath("//span[text()='Applying To']"))
                 .isDisplayed());
 
-        Assert.assertTrue("'MORE' menu is not displayed", driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]//span[text()='More']"))
+        Assert.assertTrue("'MORE' menu is not displayed", superMatchFooter().findElement(By.xpath("//span[text()='More']"))
                 .isDisplayed());
+    }
+
+    private WebElement superMatchCustomHeader() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-custom-header')]"));
+    }
+
+    private WebElement chooseFitCriteriaBar() {
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
+    }
+
+    private WebElement selectCriteriaButton1() {
+        return driver.findElement(By.xpath("(//button[text()='Select Criteria To Start'])[2]"));
+    }
+
+    private WebElement selectCriteriaInstructionalText() {
+        return driver.findElement(By.xpath("//div[@class='computer only four wide column']//p"));
+    }
+
+    private WebElement mustHaveBox() {
+        return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]"));
+    }
+
+    private WebElement niceToHaveBox() {
+        return driver.findElement(By.xpath("(//div[@class='box box-selection'])[2]"));
+    }
+
+    private WebElement superMatchEmptyTable() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table"));
+    }
+
+    private WebElement selectCriteriaToStart2() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//button[text()='Select Criteria To Start']"));
+    }
+
+    private WebElement superMatchFooter() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"));
     }
 
     /**
