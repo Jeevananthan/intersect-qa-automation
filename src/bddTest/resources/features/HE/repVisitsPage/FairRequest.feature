@@ -24,8 +24,8 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
       | Max students  | 5          |
       | Auto Approvals | No        |
 
-  Scenario: As a HE user, on the "Community availability sidebar", each college fair has a Register button that presents the HE user with
-  a fair request confirmation popup
+  Scenario: As a HE user, on the "Community availability sidebar", each college fair has a Register button that presents
+            the HE user with a fair request confirmation popup
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the institution of ID "04d3b77e-18f5-43cd-a585-101268b1178b"
     And HE I open the Fairs tab in Check RepVisits Availability sidebar
@@ -34,8 +34,8 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     And HE I close the fair request popup
     And HE I successfully sign out
 
-  Scenario: As a HE user, on the scheduling results page, each college fair listed has a "register" button that presents the user with
-  a fair request confirmation popup when clicked
+  Scenario: As a HE user, on the scheduling results page, each college fair listed has a "register" button that presents
+            the user with a fair request confirmation popup when clicked
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" from the RepVisits search result
@@ -74,7 +74,7 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     And HS I cancel the fair of name "NoAutoApprovals" with the reason "test"
     And HS I successfully sign out
 
-  @manual
+  @manual @NotInQA
   Scenario: As a HE user, I need to verify that the error message when the fair is not available anymore
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I search for "Int Qa High School 4" in RepVisits
@@ -89,7 +89,6 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     And HE I navigate back to first browser
     And HE I register to the "TestFair" fair from Search and Schedule screen
     Then HE I should see a red upper bar with the text: "Sorry, this fair is no longer available. Please select another fair:"
-
 
 
 

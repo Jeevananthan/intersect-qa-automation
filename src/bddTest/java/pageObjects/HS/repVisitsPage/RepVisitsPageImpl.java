@@ -826,8 +826,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         fairElementDetails(fairName).click();
         editFairButton().click();
         cancelThisCollegeFair().click();
-        if (driver.findElements(By.cssSelector(cancelMessageTextBoxLocator())).size() > 0) {
-            driver.findElement(By.cssSelector(cancelMessageTextBoxLocator())).sendKeys(cancelationReason);
+        if (driver.findElements(By.id(cancelMessageTextBoxLocator())).size() > 0) {
+            driver.findElement(By.id(cancelMessageTextBoxLocator())).sendKeys(cancelationReason);
             cancelFairButton().click();
         } else {
             cancelFairNoAutoApprovals().click();
@@ -1387,7 +1387,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             ("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td[text()='" + fairName + "']/following-sibling::td[4]/a/span")); }
     private WebElement editFairButton() { return getDriver().findElement(By.cssSelector("#edit-college-fair")); }
     private WebElement cancelThisCollegeFair() { return getDriver().findElement(By.cssSelector("button.ui.red.basic.button")); }
-    private String cancelMessageTextBoxLocator() { return "#college-fair-cancellation-message"; }
+    private String cancelMessageTextBoxLocator() { return "college-fair-cancellation-message"; }
     private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[type='submit']")); }
     private WebElement closeButton() { return getDriver().findElement(By.xpath("//button[text()='Close']")); }
     private WebElement addFairButton() { return getDriver().findElement(By.cssSelector("#add-college")); }
