@@ -3,7 +3,6 @@ package pageObjects.COMMON;
 import cucumber.api.DataTable;
 import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
-import org.apache.tools.ant.taskdefs.Exit;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -60,7 +59,10 @@ public class GlobalSearch extends SeleniumBase {
         doSearch(searchTerm);
     }
 
+
     public void setSearchCategory(String searchCategory) {
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-filter")));
         getSearchSwitcher().click();
         waitUntilPageFinishLoading();
         switch(searchCategory) {
@@ -139,6 +141,7 @@ public class GlobalSearch extends SeleniumBase {
 
     public void selectResult(String optionToSelect) {
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-results")));
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
@@ -159,6 +162,15 @@ public class GlobalSearch extends SeleniumBase {
         }
         Assert.assertTrue("No HE Institutions where returned on the search", institutionsReturned);
         Assert.assertTrue("Unable to click on " + optionToSelect, institutionClickedOn);
+    }
+
+    public void verifyNoSearchResults(){
+        waitUntilPageFinishLoading();
+        List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
+        if (categories.size()==0){
+            logger.info("No search results found.  This is the expected result.");
+        }else
+            Assert.assertTrue("Search results were found, but should not have been!", false);
     }
 
     public void verifyNoAdvancedSearchResultsReturned(String searchRequest, DataTable dataTable){

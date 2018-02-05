@@ -21,31 +21,16 @@ import java.util.Date;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-import utilities.GetProperties;
+import org.openqa.selenium.interactions.Actions;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import utilities.GetProperties;
-import javax.annotation.Nullable;
-import javax.xml.soap.Text;
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import utilities.GetProperties;
-import utilities.GetProperties;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import static org.junit.Assert.fail;
-import static junit.framework.TestCase.fail;
-import static org.junit.Assert.fail;
+
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utilities.GetProperties;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -846,23 +831,58 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyOverviewPage();
     }
 
-//    public void setStartAndEndDates(String startDate, String endDate) {
-//        navBar.goToRepVisits();
-//        link("Availability & Settings").click();
-//        link("Availability").click();
-//        link("Regular Weekly Hours").click();
-//        waitUntilPageFinishLoading();
-//        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-//        setDate(startDate, "Start");
-//        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-//        setDate(endDate, "End");
-//    }
+    public void cancelFair(String fairName, String cancelationReason) {
+        navBar.goToRepVisits();
+        collegeFairsButton().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        while (getDriver().findElements(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td" +
+                "[text()='" + fairName + "']/following-sibling::td[4]/a/span")).size() < 1) {
+            viewMoreUpcomingEventsLink().click();
+        }
+        fairElementDetails(fairName).click();
+        editFairButton().click();
+        cancelThisCollegeFair().click();
+        if (driver.findElements(By.id(cancelMessageTextBoxLocator())).size() > 0) {
+            driver.findElement(By.id(cancelMessageTextBoxLocator())).sendKeys(cancelationReason);
+            cancelFairButton().click();
+        } else {
+            cancelFairNoAutoApprovals().click();
+        }
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(closeButton()));
+    }
 
-//    public void verifyTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
-//
-//        Assert.assertTrue("The Time Slot was not added" , driver.findElement(By.cssSelector("table[class='ui unstackable basic table']")).findElement(By.xpath("//button[contains(text(), '"+hourStartTime+ ":"+ minuteStartTime + meridianStartTime +"')]")).isDisplayed());
-//
-//    }
+    public void createFair(DataTable details) {
+        List<List<String>> fairDetails = details.asLists(String.class);
+        navBar.goToRepVisits();
+        collegeFairsButton().click();
+        addFairButton().click();
+        fairNameTextBox().sendKeys(fairDetails.get(0).get(1));
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(dateCalendarIcon()));
+        dateCalendarIcon().click();
+        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", fairDetails.get(1).get(1).split(" ")[0], 10);
+        repVisitsPageHEObj.miniCalendarDayCell(fairDetails.get(1).get(1).split(" ")[1]).click();
+        startTimeTextBox().sendKeys(fairDetails.get(2).get(1).replace(" ", ""));
+        endTimeTextBox().sendKeys(fairDetails.get(3).get(1).replace(" ", ""));
+        rsvpCalendarIcon().click();
+        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", fairDetails.get(4).get(1).split(" ")[0], 10);
+        repVisitsPageHEObj.miniCalendarDayCell(fairDetails.get(4).get(1).split(" ")[1]).click();
+        costTextBox().sendKeys(fairDetails.get(5).get(1));
+        maxNumOfColleges().sendKeys(fairDetails.get(6).get(1));
+        numOfStudents().sendKeys(fairDetails.get(7).get(1));
+        driver.findElement(By.cssSelector("a.menu-link.active")).sendKeys(Keys.PAGE_DOWN);
+        if (fairDetails.get(8).get(1).equals("Yes")) {
+            autoApprovalYesRadButton().sendKeys(Keys.RETURN);
+        } else if (fairDetails.get(8).get(1).equals("No")) {
+            autoApprovalNoRadButton().sendKeys(Keys.RETURN);
+        }
+        driver.findElement(By.cssSelector("a.menu-link.active")).sendKeys(Keys.PAGE_DOWN);
+        waitUntil(ExpectedConditions.elementToBeClickable(closeButton()));
+        closeButton().click();
+        waitUntilPageFinishLoading();
+    }
 
     public void removeTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {
 
@@ -1537,6 +1557,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
+    private WebElement collegeFairsButton() { return getDriver().findElement(By.xpath("//span[text()='College Fairs']")); }
+    private WebElement viewMoreUpcomingEventsLink() { return getDriver().findElement(By.xpath("//span[text()='View More Upcoming Events']/..")); }
+    private WebElement fairElementDetails(String fairName) { return getDriver().findElement(By.xpath
+            ("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td[text()='" + fairName + "']/following-sibling::td[4]/a/span")); }
+    private WebElement editFairButton() { return getDriver().findElement(By.cssSelector("#edit-college-fair")); }
+    private WebElement cancelThisCollegeFair() { return getDriver().findElement(By.cssSelector("button.ui.red.basic.button")); }
+    private String cancelMessageTextBoxLocator() { return "college-fair-cancellation-message"; }
+    private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[type='submit']")); }
+    private WebElement closeButton() { return getDriver().findElement(By.xpath("//button[text()='Close']")); }
+    private WebElement addFairButton() { return getDriver().findElement(By.cssSelector("#add-college")); }
+    private WebElement fairNameTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-name")); }
+    private WebElement dateCalendarIcon() { return getDriver().findElement(By.cssSelector("div.ui.fluid.input i.calendar.large.link.icon")); }
+    private WebElement startTimeTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-start-time")); }
+    private WebElement endTimeTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-end-time")); }
+    private WebElement rsvpCalendarIcon() { return getDriver().findElement(By.cssSelector("#college-fair-rsvp-deadline + i")); }
+    private WebElement costTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-cost")); }
+    private WebElement maxNumOfColleges() { return getDriver().findElement(By.cssSelector("#college-fair-max-number-colleges")); }
+    private WebElement numOfStudents() { return getDriver().findElement(By.cssSelector("#college-fair-number-expected-students")); }
+    private WebElement autoApprovalYesRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-yes")); }
+    private WebElement autoApprovalNoRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-no")); }
+    private WebElement saveButton() { return getDriver().findElement(By.cssSelector("button[type=\"submit\"]")); }
+    private WebElement cancelFairNoAutoApprovals() { return driver.findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ span")); }
     private WebElement availabilityAndSettingsButton() { return getDriver().findElement(By.xpath("//span[text()='Availability & Settings']")); }
     private WebElement innerExceptionsButton() { return getDriver().findElement(By.cssSelector("ul.ui.pointing.secondary.fourth.menu li:nth-of-type(3) a")); }
     private WebElement chooseADateButton() { return getDriver().findElement(By.cssSelector("button.ui.small.button i")); }
