@@ -437,7 +437,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>Match HE UI Automation</projectName>
+                            <projectName>Intersect Automation</projectName>
                             <outputDirectory>${project.build.directory}/reports/build-${build.number}-${project.activeProfiles[0].id}/</outputDirectory>
                             <cucumberOutput>${project.build.directory}/cucumber-json</cucumberOutput>
                             <parallelTesting>true</parallelTesting>

@@ -15,7 +15,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.log4j.Logger;
 import utilities.GetProperties;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
@@ -91,7 +95,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectHighSchoolFromResults(String schoolName) {
         waitUntilPageFinishLoading();
-        getDriver().findElement(By.xpath("//a[text()='" + schoolName + "']")).click();
+        getDriver().findElement(By.xpath("//td[@class='D8iaokkmOTXAhIkOIzngL']/a[text()='" + schoolName + "']")).click();
         waitUntilPageFinishLoading();
     }
 
@@ -130,15 +134,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String startDate = getStartEndTimeAndTimeZone().getText().split("-")[0];
         String endDate = getStartEndTimeAndTimeZone().getText().split("-")[1].split(" ")[0];
         String timeZone = getStartEndTimeAndTimeZone().getText().split("-")[1].split(" ")[1];
-        if (startDate.contains("am") || startDate.contains("pm")) {
-            Assert.assertTrue("The Start time does not have a correct format: " + startDate, startDate.matches("([0-9])?([0-9]):([0-9])?([0-9])([ap])([m])"));
-        } else {
-            Assert.assertTrue("The Start time does not have a correct format: " + startDate, startDate.matches("([0-9])?([0-9]):([0-9])?([0-9])"));
-        }
+        Assert.assertTrue("The Start time does not have a correct format: " + startDate, startDate.matches("([0-9])?([0-9]):([0-9])?([0-9])"));
         Assert.assertTrue("The End time does not have a correct format: " + endDate, endDate.matches("([0-9])?([0-9]):([0-9])?([0-9])([ap])([m])"));
         Assert.assertTrue("The time zone does not have a correct format: " + timeZone, timeZone.matches("([ABCDEFGHIJKLMNOPQRSTUVWXYZ])([ABCDEFGHIJKLMNOPQRSTUVWXYZ])([ABCDEFGHIJKLMNOPQRSTUVWXYZ])"));
         Assert.assertTrue("The High School name is not displayed", requestText().getText().contains(highSchoolName));
-        Assert.assertTrue("The confirmation button's text is not correct: " + submitRequestButton().getText(), submitRequestButton().getText().equals("YES, REQUEST THIS TIME"));
+        Assert.assertTrue("The confirmation button's text is not correct: " + submitRequestButton().getText(), submitRequestButton().getText().equals("YES, SUBMIT REQUEST"));
         Assert.assertTrue("The cancel button's text is not correct", cancelButton().getText().equals("CANCEL"));
     }
 
@@ -151,8 +151,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openFairsInChckRepVisitsAv() {
+        waitUntil(ExpectedConditions.urlContains("/counselor-community/institution/"));
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
-        waitUntil(ExpectedConditions.elementToBeClickable(getCheckRepVisitsAvailabilityButton()));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[text() = 'Check RepVisits Availability']"), 1));
         getCheckRepVisitsAvailabilityButton().click();
         getDriver().switchTo().defaultContent();
         fairsTab().click();
@@ -166,8 +167,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySuccessMessageWithoutAutoApprovals() {
-        Assert.assertTrue("", upperMessage().getText().trim().equals("Fair registration requested! You will " +
-                "receive an email notification when your request has been confirmed."));
+        Assert.assertTrue("", (upperMessage().getText().trim().equals("Fair registration requested! You will " +
+                "receive an email notification when your request has been confirmed.")) || (upperMessage().getText().
+                trim().equals("Fair registration confirmed! Your request has been automatically confirmed by the high school.")));
     }
 
     public void verifyFairInCalendar(String date) {
@@ -179,18 +181,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (!rightCalendarHeaderDate().getText().equals(date.split(" ")[0])) {
             pressCalendarArrowUntil("right", date.split(" ")[0], 10);
         }
-        if (showMoreLink().isDisplayed()) {
-            showMoreLink().click();
-            for (WebElement overlayEvent : overlayEventsList()) {
-                if (overlayEvent.findElement(By.cssSelector("span.rbc-event-time")).getText().equals(date.split(" ")[2])) {
-                    result = true;
-                    break;
+        try {
+            if (showMoreLink().isDisplayed()) {
+                showMoreLink().click();
+                for (WebElement overlayEvent : overlayEventsList()) {
+                    if (overlayEvent.findElement(By.cssSelector("span.rbc-event-time")).getText().equals(date.split(" ")[2])) {
+                        result = true;
+                        break;
+                    }
                 }
             }
-        } else {
+        } catch (NoSuchElementException e) {
             for (int i = 1; i < 3; i++) {
                 if (getDateCell(date.split(" ")[1], date.split(" ")[2], i).isDisplayed()) {
                     result = true;
+                    break;
                 }
             }
         }
@@ -214,11 +219,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyFairInQuickView(String schoolName, String date) {
         boolean result = false;
         getSearchAndScheduleBtn().click();
+        getSearchBox().sendKeys(schoolName);
+        getSearchButton().click();
+        selectHighSchoolFromResults(schoolName);
+        waitUntilPageFinishLoading();
         calendarIcon().click();
-        pressMiniCalendarArrowUntil("right", date.split(",")[0], 10);
+        pressMiniCalendarArrowUntil("right", date.split(" ")[0], 10);
         miniCalendarDayCell(date.split(" ")[1]).click();
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ui.medium.inverted.loader")));
-        for (WebElement fairElement : quickViewEventsList()) {
+        for (WebElement fairElement : quickViewFairsList()) {
             if (fairElement.getText().contains(schoolName) && fairElement.getText().contains(date.split(" ")[2].toLowerCase())) {
                 result = true;
             }
@@ -228,7 +237,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void pressMiniCalendarArrowUntil(String direction, String month, int tries) {
         for (int i = 0; i < tries; i++) {
-            if (!miniCalendarHeader().getText().split(" ")[0].contains(month)) {
+            if (!miniCalendarHeader().getText().split(" ")[0].equals(month)) {
                 if (direction.equals("right")) {
                     getDriver().findElement(By.cssSelector("span[aria-label=\"Next Month\"]")).click();
                 } else if (direction.equals("left")) {
@@ -241,7 +250,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void openInstitutionByURLPartID(String URLPartID) {
         waitUntilPageFinishLoading();
         navBar.goToCommunity();
-        getDriver().get(GetProperties.get("he.app.url") + "counselor-community/institution/" + URLPartID);
+        getDriver().get(GetProperties.get("he.app.url") + "counselor-community/institution-hs-id/" + URLPartID);
         waitUntilPageFinishLoading();
     }
 
@@ -467,7 +476,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
         Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
     }
-
 
     public void verifyUpgradeMessageInContactsInRepVisits(){
 
@@ -941,7 +949,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
-    private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.cssSelector("a.check-repvisits-link")); }
+    private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
     private WebElement getRepVisitsAvailabilitySidebar(){ return driver.findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
     private WebElement getRegistrationButton(String fairName) { return getDriver().findElement(By.xpath("//span[text()='" + fairName + "']/../../div/button/span")); }
     private WebElement getFairDate() { return getDriver().findElement(By.cssSelector("div.content span")); }
@@ -958,11 +966,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> quickViewCalendarHeaderDates() { return getDriver().findElements(By.cssSelector("h1.ui.header + div span span span")); }
     private WebElement quickViewRightButton() { return getDriver().findElement(By.cssSelector("button[aria-label=\"Next week\"]")); }
     private List<WebElement> quickViewEventsList() { return getDriver().findElements(By.cssSelector("ul.ui.huge.pointing.secondary + div div._2qvF1GJtxr-YZYY8wYagxl + div div.ui.stackable.grid")); }
-    private WebElement calendarIcon() { return getDriver().findElement(By.cssSelector("i.teal.calendar.large.link.icon")); }
+    private List<WebElement> quickViewFairsList() { return getDriver().findElements(By.cssSelector("ul.ui.huge.pointing.secondary + div div._2qvF1GJtxr-YZYY8wYagxl + div div.ui.stackable.grid")); }
+    private WebElement calendarIcon() { return getDriver().findElement(By.cssSelector("button.ui.tiny.icon.right.floated.right.labeled.button._1alys3gHE0t2ksYSNzWGgY")); }
     private WebElement miniCalendarHeader() { return getDriver().findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement miniCalendarRightButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Next Month\"]")); }
     private WebElement miniCalendarLeftButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Previous Month\"]")); }
-    public WebElement miniCalendarDayCell(String day) { return getDriver().findElement(By.xpath("//div[@class='DayPicker-Body']/div/div[not(@class='DayPicker-Day DayPicker-Day--outside')][text()='" + day + "']")); }
+    public WebElement miniCalendarDayCell(String day) { return getDriver().findElement(By.xpath("//div[@class='DayPicker-Week']/div[text()='" + day + "']")); }
     public WebElement showMoreLink() { return getDriver().findElement(By.cssSelector("a.rbc-show-more")); }
     private List<WebElement> overlayEventsList() { return getDriver().findElements(By.cssSelector("div.rbc-overlay div.rbc-event")); }
     private WebElement visitsTab() { return getDriver().findElement(By.cssSelector("div.ui.left.attached.button")); }
