@@ -388,7 +388,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 
 
-  @MATCH-2381  @test
+  @MATCH-2381
   Scenario: As a HS RepVisits user verify note to let users know their contact info will be visible
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I Navigate to College Fairs tab of the Repvisits Page
@@ -400,7 +400,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
     And HS I successfully sign out
 
-  @MATCH-2381  @test
+  @MATCH-2381
   Scenario: As a HS RepVisits user verify note to let users know their contact info will be visible
     Given HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "Control!23" as password
     And HS I Navigate to College Fairs tab of the Repvisits Page
