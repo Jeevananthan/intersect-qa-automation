@@ -1106,10 +1106,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void closeAddEditFairScreen(){
         closeFairScreen().click();
-        try{
-            Thread.sleep(10000);
-        } catch (Exception e ){}
-
+        waitForUITransition();
     }
     public void viewFairDetails(String fairName) {
         waitUntilPageFinishLoading();

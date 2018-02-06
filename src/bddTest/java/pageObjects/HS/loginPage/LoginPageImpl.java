@@ -103,13 +103,16 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void login(String username, String password) {
+    public void login(String EMailAddress, String Password) {
         openHSLoginPage();
         logger.info("Login into the HS app");
-        textbox(By.name("username")).sendKeys(username);
-        logger.info("Using " + username + " as username");
-        textbox(By.name("password")).sendKeys(password);
-        logger.info("Using " + password + " as password");
+        //textbox(By.name("E-Mail Address")).sendKeys(EMailAddress);
+        //logger.info("Using" + EMailAddress + " as E-Mail Address");
+
+        textbox(By.name("username")).sendKeys(EMailAddress);
+        logger.info("Using " + EMailAddress + " as username");
+        textbox(By.name("password")).sendKeys(Password);
+        logger.info("Using " + Password + " as password");
         button("Login").click();
         logger.info("Clicked the login button");
         waitUntilPageFinishLoading();
