@@ -45,7 +45,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-home-menu-link")).click();
         userDropdown().click();
         button(By.id("user-dropdown-change-profile")).click();
-        Assert.assertTrue("User was not taken to Account Settings screen",button("SAVE").isDisplayed());
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@id='current-password-input']")).sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("User was not taken to Account Settings screen",driver.findElement(By.xpath("//button/span[text()='SAVE']")).isDisplayed());
     }
 
     public void updateProfile() {
@@ -59,14 +61,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyAccountSettings(DataTable data) {
         accountSettings();
         Map<String,String> entity = data.asMap(String.class,String.class);
-        Assert.assertTrue(link("update your profile?").isDisplayed());
+        Assert.assertTrue(link("Account Information").isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("E-mail Address") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Current Password").isDisplayed());
         Assert.assertTrue(textbox("New Password").isDisplayed());
-        Assert.assertTrue(textbox("Confirm Password").isDisplayed());
+        Assert.assertTrue(textbox("Confirm New Password").isDisplayed());
 
         // Verify that Update your profile? link works as expected
-        link("update your profile?").click();
+        link("Your Profile").click();
         waitUntilPageFinishLoading();
         ensureWeAreOnUpdateProfilePage();
         driver.switchTo().defaultContent();
@@ -75,9 +77,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private void ensureWeAreOnUpdateProfilePage() {
         // Go into Community Frame
         communityFrame();
-
+        waitForUITransition();
         // This line should not be needed.  Current flow is broken.
-        link("EDIT PROFILE").click();
+        waitUntil(ExpectedConditions.visibilityOf( link("Edit Profile")));
+        link("Edit Profile").click();
 
         Assert.assertTrue("User was not taken to Update Profile screen",link("Back to Profile").isDisplayed());
     }
@@ -221,14 +224,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyCommunityActivationForRepVisits(){
         getRepVisitsBtn().click();
         waitUntilPageFinishLoading();
-        driver.switchTo().frame(0);
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
+        waitForUITransition();
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();
     }
 
     public void verifyWidgetIsVisible(String widgetName){
-
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
@@ -245,10 +248,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
+        getRepVisitsBtn().click();
     }
 
     public void verifyRepVisitsLandingPage(){
         navBar.goToRepVisits();
+        waitForUITransition();
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
 
@@ -270,4 +275,5 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
     private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
+    private WebElement changeProfileLabel(){return text("Change Profile");}
 }

@@ -50,7 +50,25 @@ public class userConnectionsStepDefs implements En {
         And("^I disconnect from the \"([^\"]*)\" user$", userConnections::disconnectFromUserFromManageConnectionsPage);
         Then("^I fill in Subject \"([^\"]*)\" and message body \"([^\"]*)\"$", userConnections::fillNewMessageForm);
         And("^I click on Send button$", userConnections::sendMessageToUser);
-
+        And("^I am connected to MatchSupportQA3 user$", userConnections::userHasAtLeastOneConnection);
+        And("^I click on Message button$", userConnections::clickOnMessageButton);
+        Then("^I add \"([^\"]*)\" user as selected connection$", userConnections::addUserToSandMessageTo);
+        And("^I check if there is a notification about message action$", userConnections::checkMessageActionNotification);
+        And("^I check if user's connections are displayed$", userConnections::checkConnectionsDisplayed);
+        And("^I check when viewing a connection's connections if I am able to request to connect with them$", userConnections::checkIfICanConnectToUsersConnections);
+        And("^I add \"([^\"]*)\" to the \"([^\"]*)\" category$", userConnections::addUserToCustomCategory);
+        Then("^I go to the \"([^\"]*)\" category$", userConnections::goToCategory);
+        And("^I check if \"([^\"]*)\" can be found in the category$", userConnections::checkIfUserIsInCategory);
+        Then("^I remove all connections from \"([^\"]*)\" category$", userConnections::removeAllConnectionsFromCategory);
+        Then("^I delete \"([^\"]*)\" category$", userConnections::deleteCreatedConenctionsCategory);
+        And("^And I remove \"([^\"]*)\" from the \"([^\"]*)\" category$", userConnections::removeUserFromCustomCategory);
+        And("^I check if \"([^\"]*)\" cannot be found in the category$", userConnections::checkIfUserIsNotInCategory);
+        Then("^I edit category name from \"([^\"]*)\" to \"([^\"]*)\"$", userConnections::changeConenctionCategoryName);
+        And("^I check if subtabs/categories called \"([^\"]*)\" and \"([^\"]*)\" are displayed$", userConnections::checkIfCategoriesAreDisplayed);
+        Then("^I check if I see a red indicator which indicates pending connections$", userConnections::checkRedIndicatorVisible);
+        And("^I click on Pending requests link$", userConnections::clickOnPendingRequestsLink);
+        And("^I click Approve button for \"([^\"]*)\" user$", userConnections::clickApproveBtn);
+        And("^I go to HS connections page$", userConnections::goToHSUserConnectionsPage);
 
 
     }

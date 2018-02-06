@@ -68,8 +68,8 @@ Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage u
   Scenario: As an Intersect system I want HE user accounts that have been inactivated to also have their
             corresponding Community user accounts inactivated.
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I inactivate the user account for "yadav.arun24+qa1416@gmail.com"
-    And HE I search for "Arun Match1416" in "People"
+    Then HE I inactivate the user account for "purpleheautomation+recruiter@gmail.com"
+    And HE I search for "PurpleHE Recruiter" in "People"
     Then HE I verify there are no search results returned
-    And HE I activate the user account for "yadav.arun24+qa1416@gmail.com"
+    And HE I activate the user account for "purpleheautomation+recruiter@gmail.com"
     Then HE I successfully sign out
