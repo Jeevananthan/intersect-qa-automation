@@ -304,7 +304,7 @@
         <dependency>
             <groupId>com.hobsons.automation.library</groupId>
             <artifactId>AutomationLibrary</artifactId>
-            <version>0.0.4</version>
+            <version>0.0.5-SNAPSHOT</version>
             <classifier>jar-with-dependencies</classifier>
         </dependency>
 
@@ -437,7 +437,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>Intersect Automation</projectName>
+                            <projectName>Intersect QA Automation</projectName>
                             <outputDirectory>${project.build.directory}/reports/build-${build.number}-${project.activeProfiles[0].id}/</outputDirectory>
                             <cucumberOutput>${project.build.directory}/cucumber-json</cucumberOutput>
                             <parallelTesting>true</parallelTesting>
