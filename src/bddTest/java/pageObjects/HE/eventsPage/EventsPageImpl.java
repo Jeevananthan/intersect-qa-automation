@@ -74,7 +74,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void deleteEvent(String eventName) {
         getEventsTab("Unpublished").click();
+        waitUntilPageFinishLoading();
         menuButtonForEvent(eventName).click();
+        waitUntilPageFinishLoading();
         getOptionFromMenuButtonForEvents("Delete").click();
         deleteYesButton().click();
     }
@@ -194,7 +196,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         editedData.put("Timezone", timeZoneText().getText());
         editedData.put("Description", descriptionField().getText());
         editedData.put("Max Attendees", maxAttendeesField().getText());
-        editedData.put("RSVP Deadline", rsvpTimeField().getText());
+        editedData.put("RSVP Deadline", rsvpCalendarButton().getText());
         editedData.put("EVENT LOCATION", locationField().getAttribute("value"));
         editedData.put("EVENT PRIMARY CONTACT", primaryContactField().getAttribute("value"));
         editedData.put("EVENT AUDIENCE", audienceField().getAttribute("value"));
@@ -227,7 +229,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     Assert.assertTrue(key + " was not successfully updated", maxAttendeesField().getText().equals(editedData.get(key)));
                     break;
                 case "RSVP Deadline" :
-                    Assert.assertTrue(key + " was not successfully updated", rsvpTimeField().getText().equals(editedData.get(key)));
+                    Assert.assertTrue(key + " was not successfully updated", rsvpCalendarButton().getText().equals(editedData.get(key)));
                     break;
                 case "EVENT LOCATION" :
                     Assert.assertTrue(key + " was not successfully updated. UI: " + locationField().getText()
