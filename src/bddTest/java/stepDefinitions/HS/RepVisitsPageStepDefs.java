@@ -176,5 +176,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the Primary Contact for Visits page and then click the \"([^\"]*)\" button$",repVisits::verifyPrimaryContactVisitsPage);
 
         Then("^HS I verify the Availability Settings page and then click the \"([^\"]*)\" button$",repVisits::verifyAvailabilitySettingsPage);
+
+        Then("^HS I navigate to the Naviance Settings page through the setup Wizard$",repVisits::navigateToNavianceSettingsPage);
+
+        Then("^HS I verify the Naviance Settings Page$",repVisits::verifyNavianceSettingsPage);
     }
 }

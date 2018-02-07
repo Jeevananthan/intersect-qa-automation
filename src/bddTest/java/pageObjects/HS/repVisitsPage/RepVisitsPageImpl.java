@@ -1553,6 +1553,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void navigateToNavianceSettingsPage(){
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+            while(driver.findElements(By.xpath("//div[@class='active step' and @name='Naviance Settings']")).size()==0){
+               button("Next").click();
+               waitForUITransition();
+        }
+    }
+
+    public void verifyNavianceSettingsPage(){
+        verifyTextInNavianceSettins();
+    }
+
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
@@ -1811,6 +1824,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
+
+    public void verifyTextInNavianceSettins()
+    {
+       Assert.assertTrue("Connecting Naviance and RepVisits text is not displayed",driver.findElement(By.xpath("//span[text()='Connecting Naviance and RepVisits']")).isDisplayed());
+       Assert.assertTrue("Naviance Hints are not displayed",driver.findElement(By.xpath("//span[text()='By Connecting RepVisits and Naviance, all of your Naviance College Visits will be managed within RepVisits unless you choose to opt-out of the integration in the future.']")).isDisplayed());
+       Assert.assertTrue("How It Works text is not displayed",driver.findElement(By.xpath("//span[text()='How It Works']")).isDisplayed());
+       Assert.assertTrue("Text under How its work is not displayed",driver.findElement(By.xpath("//span[text()='Appointments scheduled via RepVisits can be published to Naviance College Visits (so students can see them and sign up).']")).isDisplayed());
+       Assert.assertTrue("Text under How its work is not displayed",driver.findElement(By.xpath("//span[text()='If a visit is rescheduled or cancelled in RepVisits, it will automatically update in Naviance College Visits and Family Connection.']")).isDisplayed());
+       Assert.assertTrue("Text under How its work is not displayed",driver.findElement(By.xpath("//span[text()='You will be able to view your visits and student registrations directly in Naviance (staff view). However, you will need to use RepVisits to create, edit, or cancel visits.']")).isDisplayed());
+       Assert.assertTrue("Set Up text is not displayed",driver.findElement(By.xpath("//span[text()='Set Up']")).isDisplayed());
+       Assert.assertTrue("Text under Set Up is not displayed",driver.findElement(By.xpath("//span[text()='Publishing Options: You will be able to specify whether RepVisits should be published to Naviance College Visits automatically or manually on a visit-by-visit basis.']")).isDisplayed());
+       Assert.assertTrue("Text under Set Up is not displayed",driver.findElement(By.xpath("//span[text()='Visit Settings: You will be able to create default settings for Naviance College Visits (location, notes, registration deadline, maximum number of students) within RepVisits. You will also be able to adjust these settings on a visit-by-visit basis.']")).isDisplayed());
+       Assert.assertTrue("Text under Set Up is not displayed",driver.findElement(By.xpath("//span[contains(text(),'Importing from Naviance: Your current College Visits in Naviance will be imported into RepVisits.  We will automatically match these to any existing visits in RepVisits for the same colleges on the same day.  You will have a chance to review and validate these matches before the Naviance and RepVisits entries are linked.')]")).isDisplayed());
+       Assert.assertTrue("Text under Set Up is not displayed",driver.findElement(By.xpath("//span[text()='Opt-In/Opt-Out: Once you choose to connect RepVisits and Naviance, you will have the option to disconnect the sync by returning to Naviance Settings.']")).isDisplayed());
+       Assert.assertTrue("Would you like to connect RepVisits with Naviance? text is not displayed",driver.findElement(By.xpath("//span[text()='Would you like to connect RepVisits with Naviance?']")).isDisplayed());
+       Assert.assertTrue("Radio button selection is not displayed",driver.findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']")).isDisplayed());
+       Assert.assertTrue("Radio button selection is not displayed",driver.findElement(By.xpath("//label[text()='No, I would like to use RepVisits without the Naviance integration']")).isDisplayed());
+
+    }
+
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
@@ -1874,4 +1907,5 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
+
 }
