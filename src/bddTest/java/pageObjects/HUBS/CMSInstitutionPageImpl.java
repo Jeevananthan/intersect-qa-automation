@@ -36,6 +36,18 @@ public class CMSInstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void clickUndergradFinancialAidButton() {
+        waitUntil(ExpectedConditions.elementToBeClickable(undergradFinancialAidButton()));
+        undergradFinancialAidButton().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void clickUndergradFinancialAidNode() {
+        waitUntil(ExpectedConditions.elementToBeClickable(undergradFinancialAidNodeLink()));
+        undergradFinancialAidNodeLink().click();
+        waitUntilPageFinishLoading();
+    }
+
     public void openStudentBodyNode() {
         clickStudentbodyButton();
         clickStudentbodyNode();
@@ -44,6 +56,11 @@ public class CMSInstitutionPageImpl extends PageObjectFacadeImpl {
     public void openUndergradAdmissionsNode() {
         clickUndergradAdmissionsButton();
         clickUndergradNode();
+    }
+
+    public void openUndergradFinancialAidNode() {
+        clickUndergradFinancialAidButton();
+        clickUndergradFinancialAidNode();
     }
 
     //Locators
@@ -63,5 +80,12 @@ public class CMSInstitutionPageImpl extends PageObjectFacadeImpl {
     private WebElement studentBodyNodeLink() {
         return getDriver().findElement(By.cssSelector("fieldset.group-studentbody-id-ref.field-group-htab.form-" +
                 "wrapper.horizontal-tabs-pane div.field-item h2 a"));
+    }
+    private WebElement undergradFinancialAidButton() {
+        return getDriver().findElement(By.xpath("//div[@class='field-group-htabs-wrapper']/div[@class='horizontal-tabs " +
+                "clearfix']/ul[@class='horizontal-tabs-list']/li/a/strong[text()='Undergraduate financial aid']/.."));
+    }
+    private WebElement undergradFinancialAidNodeLink() {
+        return getDriver().findElement(By.xpath("//div[@id='node-655101']/h2/a"));
     }
 }

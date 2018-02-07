@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.GlobalSearch;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -54,6 +55,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void goToUsersList(String institutionName) {
         goToInstitution(institutionName);
         link("See All Users").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(userListTable()));
     }
 
     public void goToCreateUser(String institutionName) {
@@ -88,5 +91,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
+    }
+    private WebElement userListTable() {
+        return button(By.cssSelector("[class='ui table']"));
     }
 }

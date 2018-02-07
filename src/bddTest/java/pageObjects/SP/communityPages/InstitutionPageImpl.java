@@ -18,12 +18,18 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToHubsPage(String collegeName){
         waitUntilPageFinishLoading();
         communityFrame();
-        link("Additional info").click();
+        WebElement additionalLink = link("Additional info");
+        waitUntil(ExpectedConditions.visibilityOf(additionalLink));
+        additionalLink.click();
         waitUntilPageFinishLoading();
-        link("VIEW NAVIANCE COLLEGE PROFILE").click();
+        WebElement viewNavianceCollegeProfile = link("VIEW NAVIANCE COLLEGE PROFILE");
+        waitUntil(ExpectedConditions.visibilityOf(viewNavianceCollegeProfile));
+        viewNavianceCollegeProfile.click();
         waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         try{
             waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
         }catch(Exception e){

@@ -260,8 +260,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     //Log in as an HS user
     public void defaultLogin(String usertype) {
         openHSLoginPage();
-        String username = GetProperties.get("he."+ usertype + ".username");
-        String password = GetProperties.get("he."+ usertype + ".password");
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        String password = GetProperties.get("hs."+ usertype + ".password");
         logger.info("Logging into the HS app");
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);

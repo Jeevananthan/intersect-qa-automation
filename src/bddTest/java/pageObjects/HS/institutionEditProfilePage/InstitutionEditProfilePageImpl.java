@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -117,6 +118,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
     public void navigateToInstitutionProfile() {
         waitUntilPageFinishLoading();
         communityFrame();
+        waitForUITransition();
         link("institution").click();
     }
 
@@ -247,9 +249,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         }
         waitUntilPageFinishLoading();
     }
-    private void jsClick(WebElement element) {
-        driver.executeScript("arguments[0].click();",element);
-    }
+
     private String getLabelText(WebElement opt) {
         return opt.getAttribute("innerText");
     }

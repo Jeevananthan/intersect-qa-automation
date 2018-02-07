@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.CM.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 
 /**
@@ -33,14 +33,14 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToUserInstitutionPage() {
         logger.info("Going to user profile page.");
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/institution']")).click();
     }
 
     public void goToHSUserInstitutionPage() {
         logger.info("Going to user profile page.");
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/institution']")).click();
     }
 
@@ -73,7 +73,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToHobsonsInstitutionPage() {
         waitUntilPageFinishLoading();
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/1");
-        iframeEnter();
+        communityFrame();
     }
 
     public void goToInstitutionPageById(String instiId) {
@@ -82,7 +82,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
         waitUntilPageFinishLoading();
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/"+instiId+"");
-        iframeEnter();
+        communityFrame();
     }
 
     public void checkIfInstituionBannerExists() {
@@ -168,7 +168,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         logger.info("Making sure I am not following the institution.");
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/"+institutionid+"");
         waitUntilPageFinishLoading();
-        iframeEnter();
+        communityFrame();
         try {
             unfollowBtn();
             unfollowBtn().click();
@@ -183,7 +183,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         logger.info("Making sure I am following the institution.");
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/"+institutionid+"");
         waitUntilPageFinishLoading();
-        iframeEnter();
+        communityFrame();
         try {
             followBtn();
             followBtn().click();
@@ -233,7 +233,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToAlabamaInstitution(){
         logger.info("Going to Alabama institution page.");
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/636");
-        iframeEnter();
+        communityFrame();
         waitUntilPageFinishLoading();
     }
 

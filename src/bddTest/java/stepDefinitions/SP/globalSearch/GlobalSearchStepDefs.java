@@ -18,7 +18,6 @@ public class GlobalSearchStepDefs implements En {
         Then("^SP I go to the advanced search page for \"([^\"]*)\"$", globalSearch::goToAdvancedSearch);
         Then("^SP I verify there are no search results returned$", globalSearch::verifyNoSearchResults);
         When("^SP I search for \"([^\"]*)\" as an Institution in the global search box$", globalSearch::searchForInstitutions);
-        Then("^SP I type into the global search box to show results are returned below the search box in real-time \"([^\"]*)\"$", globalSearch::verifyRealTimeSearchResults);
         Then("^SP I verify real-time search results were categorized by entity$", globalSearch::verifyRealTimeSearchCategorized);
         Then("^SP I verify that only five or less results are listed in real-time results displayed$", globalSearch::verifyRealTimeSearchCategoriesDisplayFiveOrLessResults);
         Then("^SP I verify real-time search results are clickable and actionable \"([^\"]*)\"$", globalSearch::verifySearchDropBoxResultsActionable);
@@ -30,5 +29,7 @@ public class GlobalSearchStepDefs implements En {
         Then("^SP I verify that only five or less results are listed for advanced search results displayed by category$", globalSearch::verifyAdvancedSearchCategoryTabsDisplayFiveOrLessResults);
         Then("^SP I verify advanced search tab layouts are displayed correctly \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchResultsLayout);
         Then("^SP I verify I can perform an advanced search utilizing any combination of fields for \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchFieldsReturnResults);
+        Then("^SP Global real-time search returns search results for HE Accounts \"([^\"]*)\"$", globalSearch::verifyHEAccountSearchResults);
+        And("^SP I set HE Account Subscriptions \"([^\"]*)\"$", globalSearch::setHEAccountSubscriptions);
     }
 }
