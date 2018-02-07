@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.homePage.HomePageImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -17,6 +18,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
     public static HashMap<String, String> editedData = new HashMap<>();
     public static String eventName = "";
+    private HomePageImpl homePage = new HomePageImpl();
 
     public EventsPageImpl() {
         logger = Logger.getLogger(EventsPageImpl.class);
@@ -71,14 +73,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteEvent(String eventName) {
-        getEventsTab("UNPUBLISHED").click();
+        getEventsTab("Unpublished").click();
         menuButtonForEvent(eventName).click();
         getOptionFromMenuButtonForEvents("Delete").click();
         deleteYesButton().click();
     }
 
     public void verifyEventIsInCancelledList(String eventName) {
-        getEventsTab("CANCELLED").click();
+        getEventsTab("Cancelled").click();
         verifyEventIsPresent(eventName);
     }
 
@@ -263,6 +265,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyEventNotPresentInList(String eventName) {
         waitUntilPageFinishLoading();
+        driver.get(driver.getCurrentUrl());
+        waitUntilPageFinishLoading();
         Assert.assertTrue("The deleted event is still present in the list",
                 driver.findElements(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']" +
                         "/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']")).size() == 0);
@@ -273,7 +277,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             eventsTabFromEditEventScreen().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
         }
-        getEventsTab("PUBLISHED").click();
+        homePage.openEventList();
+        getEventsTab("Published").click();
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
         unpublishYesButton().click();
@@ -314,18 +319,16 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement timeZoneText() { return driver.findElement(By.cssSelector("input.search + div")); }
     private WebElement descriptionField() { return driver.findElement(By.cssSelector("textarea#eventDescription")); }
     private WebElement maxAttendeesField() { return driver.findElement(By.cssSelector("input#availableSeats")); }
-    private WebElement rsvpCalendarButton() { return driver.findElement(By.cssSelector("div.three.wide.column button[title='Event Date']")); }
-    private WebElement rsvpTimeField() { return driver.findElement(By.cssSelector("div.three.wide.column button[title='Event Date']")); }
-    private WebElement locationField() { return driver.findElement(By.cssSelector("input[name='locations-dropdown']")); }
+    private WebElement rsvpCalendarButton() { return driver.findElement(By.cssSelector("div.ui.stackable.middle.aligned.grid div.row:nth-of-type(7) button")); }
+    private WebElement rsvpTimeField() { return driver.findElement(By.cssSelector("input#registrationDeadlineTime")); }
+    public WebElement locationField() { return driver.findElement(By.cssSelector("input[name='locations-dropdown']")); }
     private WebElement primaryContactField() { return driver.findElement(By.cssSelector("input[name='contacts-search']")); }
     private WebElement audienceField() { return driver.findElement(By.cssSelector("input[name='filters-dropdown']")); }
-    private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button.ui.button.zPxT0vhJlMhEbCWzz52_S")); }
-    private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button.ui.button.bI0v4ge6zgbar6xs9MqwX")); }
+    private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button[title='Save Draft']")); }
+    private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
     private WebElement menuButtonForEvent(String eventName) {
-        return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div" +
-                "[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']/../../../div[@class='three wide column _9SozV5IWiYp704W5xAqOC']" +
-                "/div/div/div/i"));
+        return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'three wide column')]/div/div/i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
         return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));
