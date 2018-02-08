@@ -79,5 +79,15 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the formatting of the Visit Feedback page$", repVisits::verifyVisitFeedbackPage);
 
         Then("^HE I verify the RepVisits Overview page and Search and Schedule hyperlink when no events are scheduled for the next 7 days", repVisits::verifyDefaultMessageOverviewPage);
+
+        And("HE I add \"([^\"]*)\" high school with location \"([^\"]*)\" to the Travel Plan",repVisits::addHighSchoolToRepVisitsTravelPlan);
+
+        Then("HE I verify the \"([^\"]*)\" label is displayed for \"([^\"]*)\" high school", repVisits::verifyLabelForTravelPlanHighSchool);
+
+        Then("HE I verify the trash icon for \"([^\"]*)\" high school", repVisits::verifyTrashIconForTravelPlanHighSchool);
+
+        And("I remove \"([^\"]*)\" high school from the travel plan", repVisits::removeHighSchoolFromTravelPlan);
+
+        Then("I verify \"([^\"]*)\" is not displayed in the Travel Plan list",repVisits::verifyHighSchoolWasRemovedFromTravelPlan);
     }
 }
