@@ -33,5 +33,6 @@ public class LoginPageStepDefs implements En {
         Then ("^HE I select \"([^\"]*)\" and verify that the appropriate text is displayed$",loginPage::goToAppropriateRegistrationpage);
 
 
+
     }
 }
