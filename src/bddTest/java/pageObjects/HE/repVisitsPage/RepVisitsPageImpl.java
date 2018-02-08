@@ -1,6 +1,8 @@
 package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.cs.A;
+import cucumber.api.java.gl.E;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -669,6 +671,72 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             logger.info("The HE User has upcoming visits/fair for the coming 7 days, so can't show the default text in Overview page...");
     }
 
+    public void navigateToInstitutionNotificationPage(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        institutionNotification().click();
+    }
+
+    public void verifyInstitutionNotificationPage(){
+        String ErrorText=driver.findElement(By.xpath("//div[@class='FJZ9in3xfkk0AtAyp0lWj']/div/h1")).getText();
+        String ErrorMessage="Something unexpected happened. Please, try again.";
+        while(ErrorText.equals(ErrorMessage)){
+            driver.navigate().refresh();
+            waitUntilPageFinishLoading();
+            waitForUITransition();
+            waitForUITransition();
+            if(!ErrorText.equals(ErrorMessage)){
+                break;
+            }
+        }
+        Assert.assertTrue("Institution Notifications is not displayed",institutionNotificationText().isDisplayed());
+        Assert.assertTrue("Naviance ActiveMatch is not displayed",navianceActiveMatchText().isDisplayed());
+        Assert.assertTrue("Email Textbox is not displayed",emailTextBox().isDisplayed());
+        Assert.assertTrue("Save button is not displayed",saveButton().isDisplayed());
+    }
+
+    public void validateEmailInInstitutionNotificationPage(String Email,String InvalidEmail,String ValidEmail){
+        emailTextBox().clear();
+        emailTextBox().sendKeys(Email);
+        emailTextBox().sendKeys(InvalidEmail);
+        saveButton().click();
+        Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//span[text()='Emails must be valid and separated by comma.']")).isDisplayed());
+        emailTextBox().clear();
+        emailTextBox().sendKeys(Email);
+        emailTextBox().sendKeys(ValidEmail);
+        saveButton().click();
+        waitForUITransition();
+        String ExactMessage=driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
+        String SuccessMessage="Success! You've updated your notifications settings.";
+        Assert.assertTrue("Success Message is not displayed", ExactMessage.equals(SuccessMessage));
+    }
+
+    public void validateCheckboxInInstitutionNotificationPage(){
+        checkBoxInAccountSettingsNotification("purple HEadmin").click();
+        Assert.assertTrue("",checkBoxInAccountSettingsNotification("purple HEadmin").isSelected());
+        checkBoxInAccountSettingsNotification("purple HEadmin").click();
+        Assert.assertTrue("",!checkBoxInAccountSettingsNotification("purple HEadmin").isSelected());
+    }
+
+    public void verifyNotificationTabinNonAdmin(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        try{
+        Assert.assertFalse("Institution Notifications is displayed",!institutionNotification().isDisplayed());}
+        catch (Exception e){}
+   }
+
+    public void verifyNavigationInNonAdminByURl(){
+        load("https://qa-he.intersect.hobsons.com/settings/institution-notifications");
+        Assert.assertTrue("Authorization message is not displayed",driver.findElement(By.xpath("//div/h1[text()='You are not authorized to view the content on this page']")).isDisplayed());
+    }
+
     private WebElement upgradeButton(){
         WebElement button=button("UPGRADE");
         return button;
@@ -735,6 +803,39 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));
     }
+    private WebElement userDropDown(){
+        WebElement button=driver.findElement(By.id("user-dropdown"));
+        return button;
+    }
+    private WebElement accountSettings(){
+        WebElement link=driver.findElement(By.xpath("//span[text()='Account Settings']"));
+        return link;
+    }
+    private WebElement institutionNotification(){
+        WebElement link=driver.findElement(By.xpath("//span[text()='Institution Notifications']"));
+        return link;
+    }
+    private WebElement institutionNotificationText(){
+        WebElement text=driver.findElement(By.xpath("//span[text()='Institution Notifications']"));
+        return text;
+    }
+    private WebElement navianceActiveMatchText(){
+        WebElement text=driver.findElement(By.xpath("//span[text()='Naviance ActiveMatch']"));
+        return text;
+    }
+    private WebElement emailTextBox(){
+        WebElement text=driver.findElement(By.id("am_notification_contacts_additional_emails"));
+        return text;
+    }
+    private WebElement saveButton(){
+        WebElement button=button("Save");
+        return button;
+    }
+    private WebElement checkBoxInAccountSettingsNotification(String value){
+        WebElement checkbox=driver.findElement(By.xpath("//label[text()='"+value+"']"));
+        return checkbox;
+    }
+
 }
 
 

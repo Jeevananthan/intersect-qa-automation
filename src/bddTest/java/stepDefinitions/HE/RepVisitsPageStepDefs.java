@@ -79,5 +79,17 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the formatting of the Visit Feedback page$", repVisits::verifyVisitFeedbackPage);
 
         Then("^HE I verify the RepVisits Overview page and Search and Schedule hyperlink when no events are scheduled for the next 7 days", repVisits::verifyDefaultMessageOverviewPage);
+
+        Then("^HE I navigate to the Institution Notification page$",repVisits::navigateToInstitutionNotificationPage);
+
+        Then("^HE I verify the Institution Notification page$",repVisits::verifyInstitutionNotificationPage);
+
+        Then("^HE I validate the Email in the Institution Notification page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::validateEmailInInstitutionNotificationPage);
+
+        Then("^HE I validate the Checkbox in the Institution Notification page$",repVisits::validateCheckboxInInstitutionNotificationPage);
+
+        Then("^HE I verify the Non-admins do not have the tab in navigation$",repVisits::verifyNotificationTabinNonAdmin);
+
+        Then("^HE I verify the Non-admins cannot reach the page directly by URL$",repVisits::verifyNavigationInNonAdminByURl);
     }
 }

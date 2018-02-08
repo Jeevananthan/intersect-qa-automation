@@ -85,3 +85,22 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com |
     Then HE I successfully sign out
 
+  @MATCH-3065
+  Scenario: As a RepVisits Admin User
+  I want to be able to configure email forwarding of my ActiveMatch and ActiveMatch Events Reports
+  So that I can keep non RV Using members of my school staff informed
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the Institution Notification page
+    Then HE I verify the Institution Notification page
+    Then HE I validate the Checkbox in the Institution Notification page
+    Then HE I validate the Email in the Institution Notification page using "purpleheautomation@gmail.com","purpleheautomation+admin@gmail.com",",purpleheautomation+admin@gmail.com"
+    Then HE I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "community"
+    Then HE I verify the Non-admins do not have the tab in navigation
+    Then HE I verify the Non-admins cannot reach the page directly by URL
+    Then HE I successfully sign out
+
+
+
+
