@@ -14,6 +14,7 @@ import utilities.Gmail.GmailAPI;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
 
@@ -46,9 +47,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + username + " as username");
         passwordTextbox().sendKeys(password);
         logger.info("Using " + password + " as password");
-        loginButton().sendKeys(Keys.RETURN);
+        loginButton().click();
         logger.info("Clicked the login button");
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("di.ui.active.loader")));
         waitUntilPageFinishLoading();
         waitUntilElementExists(link(By.id("user-dropdown")));
         waitForUITransition();
