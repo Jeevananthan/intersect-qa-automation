@@ -686,7 +686,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         try{
                                 waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
                                                 xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
-                                driver.navigate().refresh();
+                                navigateToInstitutionNotificationPage();
                                 waitUntilPageFinishLoading();
                             } catch (Exception e){
                                 break;
