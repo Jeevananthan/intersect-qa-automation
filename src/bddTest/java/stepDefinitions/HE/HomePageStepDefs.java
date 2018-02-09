@@ -1,6 +1,5 @@
 package stepDefinitions.HE;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.HE.eventsPage.EventsPageImpl;
