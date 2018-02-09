@@ -12,5 +12,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^I select the following data from the Location Fit Criteria$",searchPage::setLocationCriteria);
 
+        Then("^SM I verify the widths of the three boxes$", searchPage::verifyWidthsOfThreeBoxes);
+
     }
 }
