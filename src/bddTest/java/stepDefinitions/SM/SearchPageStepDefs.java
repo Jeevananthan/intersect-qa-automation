@@ -14,5 +14,9 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the Student Body UI in Resources Dropdown$", searchPage::verifyStudentBodyUI);
 
+        And("^SM I verify the system response when the GPA entered by the user is valid$", searchPage::verifySystemResponseWhenGPAInputIsValid);
+
+        And("^SM I verify the system response when the GPA entered by the user is invalid$", searchPage::verifySystemResponseWhenGPAInputIsInvalid);
+
     }
 }

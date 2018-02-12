@@ -86,8 +86,67 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifySystemResponseWhenGPAInputIsValid() {
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("0.1");
+        waitForUITransition();
+        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("2");
+        waitForUITransition();
+        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("4");
+        waitForUITransition();
+        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+    }
+
+    public void verifySystemResponseWhenGPAInputIsInvalid() {
+
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("0");
+        waitForUITransition();
+        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("4.1");
+        waitForUITransition();
+        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("5");
+        waitForUITransition();
+        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+    }
+
+    private WebElement admissionMenuItem() {
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Admission')]"));
+    }
+
     private WebElement institutionCharacteristicsMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Institution Characteristics')]"));
+    }
+
+    private WebElement gpaTextBox() {
+        return driver.findElement(By.xpath("//input[@name='gpa']"));
     }
 
     private WebElement allStudentsRadioButton() {
