@@ -36,6 +36,15 @@ public class UserInstitutionPageStepDefs implements En {
         Then("^I check if institution with id \"([^\"]*)\" is in the list$", institutionPage::checkInstitutionListed);
         Then("^I unfollow institution with id \"([^\"]*)\"$", institutionPage::unfollowInstitutionById);
         And("^I check if institutions list is displayed$", institutionPage::checkInstitutionsListDisplayed);
+        Then("^I go to Alabama institution page$", institutionPage::goToAlabamaInstitution);
+        And("^I click on Additional Info$", institutionPage::goToInstitutionAdditionalInfo);
+        Then("^I check items on the Alabama's institution additional info$", institutionPage::checkHEInstitutionAdditionalInfoPageItems);
+        Then("^I check items on the Lebanon High School institution additional info$",institutionPage::checkHSInstitutionAdditionalInfoPageItems);
+        And("^I go to HS institution page$", institutionPage::goToHSUserInstitutionPage);
+        And("^I click on Followers tab$", institutionPage::goToInstitutionFollowersList);
+        Then("^I check if I see followers of my institution$", institutionPage::checkIfStaffMembersExistsAndCanConenct);
+        And("^I click on Staff members tab$", institutionPage::goToInstitutionStaffMembersList);
+        Then("^I see pagination on that page$", institutionPage::checkIfISeePagination);
 
 
     }
