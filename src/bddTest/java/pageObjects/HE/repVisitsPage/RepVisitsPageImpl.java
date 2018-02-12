@@ -786,6 +786,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement dropdown=driver.findElement(By.id("user-dropdown"));
         return  dropdown;
     }
+
+    private WebElement getAccoutSettingsBtn() { return driver.findElement(By.xpath("//span[text()='Account Settings']")); }
+
     private WebElement accountSettings( String settings)
     {
         WebElement accountSettings=driver.findElement(By.xpath("//span[text()='"+settings+"']"));
