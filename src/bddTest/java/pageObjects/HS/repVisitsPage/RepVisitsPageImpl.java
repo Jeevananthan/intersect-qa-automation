@@ -1556,14 +1556,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.fail("The given option is not a valid one");
         }
     }
-    public void verifyHeadersinDropdown(String settings,String yourProfile,String institutionProfile){
+    public void verifyUserDropdownforNonNaviance(){
         //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
-        repVisitsPageHEObj.verifyDetailsInHeader(settings,yourProfile,institutionProfile);
+        repVisitsPageHEObj.verifyUserDropdownforHE();
     }
 
-    public void verifyNavigationinDropdown(String settings,String yourProfile,String institutionProfile){
+    public void verifyNavigationUserDropdownforNonNaviance(){
         //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
-        repVisitsPageHEObj.verifyNavigation(settings,yourProfile,institutionProfile);
+        repVisitsPageHEObj.verifyNavigationUserDropdownforHE();
      }
 
     public void verifyUserAdminorNot(String option){
@@ -1571,24 +1571,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         repVisitsPageHEObj.verifyUserAdminorNot(option);
     }
 
-    public void verifyHelpCentre(String helpcenter,String contactsupport){
+    public void verifyHelpCentreforNonNaviance(){
         //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
-        repVisitsPageHEObj.verifyHelpCentre(helpcenter,contactsupport);
+        repVisitsPageHEObj.verifyHelpCentreforHE();
     }
 
 
-    public void verifyHeadersinDropdownInNaviance(String yourProfile,String institutionProfile) {
+    public void verifyUserDropdownforNaviance() {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropdown().click();
-        Assert.assertTrue("'Your Profile' option is not displayed",userProfile(yourProfile).isDisplayed());
-        Assert.assertTrue("'Institution Profile' option is not displayed",institutionsProfile(institutionProfile).isDisplayed());
+        Assert.assertTrue("'Your Profile' option is not displayed",getYourProfileBtn().isDisplayed());
+        Assert.assertTrue("'Institution Profile' option is not displayed",getInstitutionProfileBtn().isDisplayed());
         Assert.assertTrue("'Logged In As' Text is not displayed",loggedInText().isDisplayed());
         Assert.assertTrue("'Sign Out' option is not displayed",signOut().isDisplayed());
     }
 
-    public void verifyNavigationinDropdownforNaviance(String yourProfile,String institutionProfile) {
-        yourProfileInHeader(yourProfile).click();
+    public void verifyNavigationinUserDropdownforNaviance() {
+        getYourProfileBtn().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
         driver.switchTo().frame(frameInCommunity());
@@ -1596,7 +1596,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().defaultContent();
         waitUntilPageFinishLoading();
         userDropdown().click();
-        institutionProfileInHeader(institutionProfile).click();
+        getInstitutionProfileBtn().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
         driver.switchTo().frame(frameInCommunity());
@@ -1933,14 +1933,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement dropdown=driver.findElement(By.id("user-dropdown"));
         return  dropdown;
     }
-    private WebElement userProfile( String yourProfile) {
-        WebElement userProfile=driver.findElement(By.xpath("//span[text()='"+yourProfile+"']"));
-        return  userProfile;
-    }
-    private WebElement institutionsProfile( String institutionProfile) {
-        WebElement institutionsProfile=driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']"));
-        return  institutionsProfile;
-    }
+    private WebElement getInstitutionProfileBtn() { return driver.findElement(By.xpath("//span[text()='Institution Profile']")); }
+    private WebElement getYourProfileBtn() { return driver.findElement(By.xpath("//span[text()='Your Profile']")); }
     private WebElement signOut() {
         WebElement signOut=driver.findElement(By.xpath("//span[text()='Sign Out']"));
         return  signOut;

@@ -177,17 +177,17 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Availability Settings page and then click the \"([^\"]*)\" button$",repVisits::verifyAvailabilitySettingsPage);
 
-        And("^HS I verify the details are present in the header \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHeadersinDropdown);
+        And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
 
-        And("^HS I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNavigationinDropdown);
+        And("^HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user$",repVisits::verifyNavigationUserDropdownforNonNaviance);
 
         And("^HS I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUserAdminorNot);
 
-        And("^HS I verify the following details are present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHelpCentre);
+        And("^HS I verify the items are present in the help center dropdown for a Non-Naviance user$",repVisits::verifyHelpCentreforNonNaviance);
 
-        And("^HS I verify the details are present in the header \"([^\"]*)\",\"([^\"]*)\" In Naviance$",repVisits::verifyHeadersinDropdownInNaviance);
+        And("^HS I verify the items in the user dropdown for a Naviance user$",repVisits::verifyUserDropdownforNaviance);
 
-        And("^HS I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\" In Naviance$",repVisits::verifyNavigationinDropdownforNaviance);
+        And("^HS I verify the items are navigate to the respective page in the user dropdown for a Naviance user$",repVisits::verifyNavigationinUserDropdownforNaviance);
 
 
 

@@ -79,13 +79,13 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the RepVisits Overview page and Search and Schedule hyperlink when no events are scheduled for the next 7 days", repVisits::verifyDefaultMessageOverviewPage);
 
-        And("^HE I verify the details are present in the header \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDetailsInHeader);
+        And("^HE I verify the items in the user dropdown for a HE user$",repVisits::verifyUserDropdownforHE);
 
-        And("^HE I navigate to the all pages for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNavigation);
+        And("^HE I verify the items are navigate to the respective page in the user dropdown for a HE user$",repVisits::verifyNavigationUserDropdownforHE);
 
         And("^HE I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUserAdminorNot);
 
-        And("^HE I verify the following details are present in the header \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHelpCentre);
+        And("^HE I verify the items are present in the help center dropdown for a HE user$",repVisits::verifyHelpCentreforHE);
 
     }
 }

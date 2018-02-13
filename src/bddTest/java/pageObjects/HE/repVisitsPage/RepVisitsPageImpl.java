@@ -565,23 +565,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyDetailsInHeader(String settings,String yourProfile,String institutionProfile){
+    public void verifyUserDropdownforHE(){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropdown().click();
-        Assert.assertTrue("'Account settings' option is not displayed",accountSettings(settings).isDisplayed());
-        Assert.assertTrue("'Your Profile' option is not displayed",userProfile(yourProfile).isDisplayed());
-        Assert.assertTrue("'Institution Profile' option is not displayed",institutionsProfile(institutionProfile).isDisplayed());
+        Assert.assertTrue("'Account settings' option is not displayed",getAccoutSettingsBtn().isDisplayed());
+        Assert.assertTrue("'Your Profile' option is not displayed",getYourProfileBtn().isDisplayed());
+        Assert.assertTrue("'Institution Profile' option is not displayed",getInstitutionProfileBtn().isDisplayed());
         Assert.assertTrue("'Logged In As' Text is not displayed",loggedInText().isDisplayed());
         Assert.assertTrue("'Sign Out' option is not displayed",signOut().isDisplayed());
     }
 
-    public void verifyNavigation(String settings,String yourProfile,String institutionProfile)  {
-        settingsInHeader(settings).click();
+    public void verifyNavigationUserDropdownforHE()  {
+        getAccoutSettingsBtn().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("settings is not displayed",settingsPage().isDisplayed());
         userDropdown().click();
-        yourProfileInHeader(yourProfile).click();
+        getYourProfileBtn().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
         driver.switchTo().frame(frameInCommunity());
@@ -589,7 +589,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().defaultContent();
         waitUntilPageFinishLoading();
         userDropdown().click();
-        institutionProfileInHeader(institutionProfile).click();
+        getInstitutionProfileBtn().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
         driver.switchTo().frame(frameInCommunity());
@@ -613,15 +613,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyHelpCentre(String helpcentre,String contactsupport)
-    {
+    public void verifyHelpCentreforHE() {
         userDropdown().click();
         Assert.assertTrue("notifications icon is not displayed",notificationIconInHelpCentre().isDisplayed());
         Assert.assertTrue("helpNav-dropdown icon is not displayed",helpNavDropdown().isDisplayed());
         helpNavDropdown().click();
-        Assert.assertTrue("Help Center is not displayed",helpCentre(helpcentre).isDisplayed());
-        Assert.assertTrue("Contact Support is not displayed",text(contactsupport).isDisplayed());
-        helpCenter(helpcentre).click();
+        Assert.assertTrue("Help Center is not displayed",helpCentre().isDisplayed());
+        Assert.assertTrue("Contact Support is not displayed",contactSupport().isDisplayed());
+        helpCentre().click();
         waitUntilPageFinishLoading();
         String navianceWindow = driver.getWindowHandle();
         String intersectWindow = null;
@@ -781,110 +780,73 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
     private WebElement getRepVisitsAvailabilitySidebar(){ return driver.findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
-    private WebElement userDropdown()
-    {
+    private WebElement userDropdown() {
         WebElement dropdown=driver.findElement(By.id("user-dropdown"));
         return  dropdown;
     }
-
     private WebElement getAccoutSettingsBtn() { return driver.findElement(By.xpath("//span[text()='Account Settings']")); }
-
-    private WebElement accountSettings( String settings)
-    {
-        WebElement accountSettings=driver.findElement(By.xpath("//span[text()='"+settings+"']"));
-        return  accountSettings;
-    }
-    private WebElement userProfile( String yourProfile)
-    {
-        WebElement userProfile=driver.findElement(By.xpath("//span[text()='"+yourProfile+"']"));
-        return  userProfile;
-    }
-    private WebElement institutionsProfile( String institutionProfile)
-    {
-        WebElement institutionsProfile=driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']"));
-        return  institutionsProfile;
-    }
-    private WebElement signOut()
-    {
+    private WebElement getInstitutionProfileBtn() { return driver.findElement(By.xpath("//span[text()='Institution Profile']")); }
+    private WebElement getYourProfileBtn() { return driver.findElement(By.xpath("//span[text()='Your Profile']")); }
+    private WebElement signOut() {
         WebElement signOut=driver.findElement(By.xpath("//span[text()='Sign Out']"));
         return  signOut;
     }
-    private WebElement loggedInText()
-    {
+    private WebElement loggedInText() {
         WebElement text=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
         return  text;
     }
-    private WebElement settingsInHeader(String settings)
-    {
+    private WebElement settingsInHeader(String settings) {
         WebElement settingsInHeader=driver.findElement(By.xpath("//span[text()='"+settings+"']"));
         return settingsInHeader;
     }
-    private WebElement yourProfileInHeader(String yourProfile)
-    {
-        WebElement profile=driver.findElement(By.xpath("//span[text()='"+yourProfile+"']"));
-        return  profile;
-    }
-    private WebElement institutionProfileInHeader(String institutionProfile)
-    {
-        WebElement institution=driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']"));
-        return  institution;
-    }
-    private WebElement frameInCommunity()
-    {
+    private WebElement frameInCommunity() {
         WebElement frame=driver.findElement(By.xpath("//iframe[@title='Community']"));
         return frame;
     }
-    private WebElement settingsPage()
-    {
+    private WebElement settingsPage() {
         WebElement settings=driver.findElement(By.xpath("//div[text()='Intersect']/following-sibling::div[text()='Settings']/parent::div/parent::div[@class='five wide computer seven wide mobile eight wide tablet column']"));
         return  settings;
     }
-    private WebElement userProfilePage()
-    {
+    private WebElement userProfilePage() {
         WebElement profile=driver.findElement(By.xpath("//a[@class='active' and text()='Profile']"));
         return  profile;
     }
-    private WebElement institutionProfilePage()
-    {
+    private WebElement institutionProfilePage() {
         WebElement institution=driver.findElement(By.xpath("//a[@class='active' and text()='Institution']"));
         return  institution;
     }
-    private WebElement adminLogin()
-    {
+    private WebElement adminLogin() {
         WebElement admin=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]/span[text()='ADMIN']"));
         return admin;
     }
-    private WebElement nonAdminLogin()
-    {
+    private WebElement nonAdminLogin() {
         WebElement nonAdmin=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
         return nonAdmin;
     }
-    private WebElement helpNavDropdown()
-    {
+    private WebElement helpNavDropdown() {
         WebElement help=driver.findElement(By.id("helpNav-dropdown"));
         return  help;
     }
-    private WebElement helpCenter(String helpcenter)
-    {
+    private WebElement helpCenter(String helpcenter) {
       WebElement helpCenter= driver.findElement(By.xpath("//span[text()='"+helpcenter+"']"));
       return helpCenter;
     }
-    private  WebElement logo()
-    {
+    private  WebElement logo() {
         WebElement Logo=driver.findElement(By.xpath("//div/a[@class='logo']"));
         return Logo;
     }
-    private WebElement notificationIconInHelpCentre()
-    {
+    private WebElement notificationIconInHelpCentre() {
         WebElement notificationIcon=driver.findElement(By.id("notifications"));
         return notificationIcon;
     }
-    private WebElement helpCentre(String helpcentre)
-    {
-        WebElement helpCentre=driver.findElement(By.xpath("//span[text()='"+helpcentre+"']"));
+    private WebElement helpCentre()  {
+        WebElement helpCentre=driver.findElement(By.xpath("//span[text()='Help Center']"));
         return  helpCentre;
     }
-
+    private WebElement contactSupport()  {
+        WebElement contactSupport= text("Contact Support");
+        return  contactSupport;
+    }
     private WebElement getRegistrationButton(String fairName) { return getDriver().findElement(By.xpath("//span[text()='" + fairName + "']/../../div/button/span")); }
     private WebElement getFairDate() { return getDriver().findElement(By.cssSelector("div.content span")); }
     private WebElement getStartEndTimeAndTimeZone() { return getDriver().findElement(By.cssSelector("div.content b:nth-of-type(1)")); }
