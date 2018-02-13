@@ -189,7 +189,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
         return sdf.format(cal.getTime());
     }
-  
+
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }

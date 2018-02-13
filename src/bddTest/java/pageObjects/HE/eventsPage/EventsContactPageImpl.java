@@ -18,6 +18,7 @@ public class EventsContactPageImpl extends PageObjectFacadeImpl {
     public EventsContactPageImpl() {
         logger = Logger.getLogger(EventsContactPageImpl.class);
     }
+    private EventsPageImpl eventsPage = new EventsPageImpl();
 
     public void verifyEventTitleIsPresent() {
         waitUntilPageFinishLoading();
@@ -71,7 +72,6 @@ public class EventsContactPageImpl extends PageObjectFacadeImpl {
     public void verifyContact(String contact){
         waitUntilPageFinishLoading();
        String results = driver.findElement(By.cssSelector("input[name='contacts-search']")).getAttribute("value");
-
     //Assert.assertTrue("Newly created contact is not present. UI: "+ results + "data: "+ contact ,results.equals(contact));
      Assert.assertTrue("Newly created contact is not present", results.equals(contact));
 
@@ -98,8 +98,48 @@ public class EventsContactPageImpl extends PageObjectFacadeImpl {
         eventsTitle().click();
 
     }
+    public void warningMessages(){
+        pastEventContactMessage().click();
 
+    }
+    public void deleteEventContactNo(){
 
+    }
+    /*public void verifyErrorMessageAssociatedContact(String locationName, String eventStatus){
+        waitUntilPageFinishLoading();
+        driver.get(driver.getCurrentUrl());
+        waitForUITransition();
+        eventsPage.locationField().sendKeys(locationName);
+        openEditFormForSelectedLocation();
+        deleteLocationLink().click();
+        if(eventStatus.equals("unpublished")) {
+            Assert.assertTrue("The message when deleting a location associated to an unpublished event is not correct: "
+                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithUnpublishedEvent));
+            deleteLocationYesButton().click();
+        } else if(eventStatus.equals("published")) {
+            Assert.assertTrue("The message when deleting a location associated to a published event is not correct: "
+                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithPublishedEvent));
+            locationAssociatedToPublishedEventOkButton().click();
+        } else if(eventStatus.equals("expired")) {
+            Assert.assertTrue("The message when deleting a location associated to a expired event is not correct: "
+                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithExpiredEvent));
+        }
+
+    }
+    public void openEditFormForSelectedLocation() {
+        waitUntilPageFinishLoading();
+        eventsPage.locationField().click();
+        singleResultInLocationListEditLink().click();
+    }*/
+    public void unpublishedEventContactMessage()    {
+        String unpublishEventMessage = driver.findElement(By.cssSelector("div.ui.warning.message")).getText();
+
+     Assert.assertTrue("This contact is associated with an existing unpublished event message is not matching with actual message",unpublishedEContactwarningmessage().getText().equals(unpublishEventMessage));
+
+    }
     //locators
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
@@ -117,8 +157,14 @@ public class EventsContactPageImpl extends PageObjectFacadeImpl {
     private WebElement editContact(){return driver.findElement(By.cssSelector("table.ui.unstackable.very.basic.left.aligned.table._1CESARq218cDE7u8vMyW3O tr._27yC02oMUpFoQeumGwitvn span"));}
     private WebElement deleteContact(){return driver.findElement(By.cssSelector("a._3_90ONUp_vTq-ixilU4zN7"));}
     private WebElement confirmDeleteContact(){return driver.findElement(By.cssSelector(".ui.active.transition.visible.inverted.dimmer .ui.primary.button"));}
+    private WebElement pastEventContactMessage(){ return driver.findElement(By.cssSelector("div.ui.warning.message"));}
+    private WebElement deleteContactNo(){return  driver.findElement(By.cssSelector("\n" + "button.ui.black.basic.button"));}
+    private WebElement deleteLocationLink() { return driver.findElement(By.cssSelector("a._2m8lgYbkXvYZuzvkh1m_Q1 span")); }
+    public WebElement locationDeleteMessage() { return driver.findElement(By.cssSelector("div.ui.warning.message")); }
+    private WebElement unpublishedEContactwarningmessage(){return driver.findElement(By.cssSelector("div.ui.warning.message"));}
 
     }
+
 
 
 

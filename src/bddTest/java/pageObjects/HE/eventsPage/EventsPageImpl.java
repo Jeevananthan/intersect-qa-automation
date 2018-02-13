@@ -1,5 +1,6 @@
 package pageObjects.HE.eventsPage;
 
+import com.thoughtworks.selenium.webdriven.commands.WaitForPageToLoad;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -11,6 +12,14 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import pageObjects.COMMON.PageObjectFacadeImpl;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class EventsPageImpl extends PageObjectFacadeImpl {
 
@@ -80,10 +89,34 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyEventIsInCancelledList(String eventName) {
         getEventsTab("CANCELLED").click();
-        verifyEventIsPresent(eventName);
+        verifyEventIsPresent(eventName);}
+    public void createAndSaveEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
+        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
+        fillEventStartDateTimeFields(minutesFromNow);
+        fillCreateEventForm(eventDetails);
+        saveDraftButton().sendKeys(Keys.RETURN);
+    }
+   /* public void createAndPublishEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
+        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
+        fillEventStartDateTimeFields(minutesFromNow);
+        fillCreateEventForm(eventDetails);
+        publishNowButton().sendKeys(Keys.RETURN);
+    }*/
+
+    public void fillEventStartDateTimeFields(String minutesFromNow) {
+        waitUntilPageFinishLoading();
+        generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
+        Calendar date = Calendar.getInstance();
+        createEventButton().click();
+        waitForUITransition();
+        eventStartCalendarButton().click();
+        waitForUITransition();
+        pickDateInDatePicker(date);
+        eventStartTimeField().sendKeys(getTime(generatedTime).replace(" ", ""));
     }
 
     public void fillCreateEventForm(List<List<String>> data) {
+        driver.navigate().refresh();
         for (List<String> row : data) {
             switch (row.get(0)) {
                 case "Event Name":
@@ -135,7 +168,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "EVENT PRIMARY CONTACT":
-                    selectContactByPosition(Integer.parseInt(row.get(1)));
+                    if (isStringNumber(row.get(1))) {
+                        selectContactByPosition(Integer.parseInt(row.get(1)));
+                    } else{
+                       selectPrimaryContactByName(row.get(1));
+                    }
                     break;
                 case "EVENT AUDIENCE":
                     selectFilterByPosition(Integer.parseInt(row.get(1)));
@@ -164,6 +201,20 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         openSelectionFieldMenu(primaryContactField());
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _1CESARq218cDE7u8vMyW3O']" +
                 "/tbody/tr[" + position + "]/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']")).click();
+    }
+    public void selectPrimaryContactByName(String contactName){
+        //clearSelectionField(primaryContactField());
+        openSelectionFieldMenu(primaryContactField());
+        //primaryContactField().click();
+
+        //driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _1CESARq218cDE7u8vMyW3O']" +
+                //"/tbody/tr[@class='_27yC02oMUpFoQeumGwitvn']/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']" +
+                //"[text()=' "+ contactName + "']")).click();
+       // waitUntilPageFinishLoading();
+      // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.switchTo().defaultContent();
+        driver.findElement(By.xpath("//div[text()=' "+contactName+" ']")).click();
+
     }
 
     public void selectFilterByPosition(int position) {
@@ -309,12 +360,12 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         verifyEventIsInCancelledList(eventName);
     }
 
-    public void createAndSaveEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
+    /*public void createAndSaveEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
         List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
         fillEventStartDateTimeFields(minutesFromNow);
         fillCreateEventForm(eventDetails);
         saveDraftButton().sendKeys(Keys.RETURN);
-    }
+    }*/
 
     public void createAndPublishEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
         List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
@@ -323,7 +374,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         publishNowButton().sendKeys(Keys.RETURN);
     }
 
-    public void fillEventStartDateTimeFields(String minutesFromNow) {
+   /* public void fillEventStartDateTimeFields(String minutesFromNow) {
         waitUntilPageFinishLoading();
         generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
         Calendar date = Calendar.getInstance();
@@ -333,7 +384,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         pickDateInDatePicker(date);
         eventStartTimeField().sendKeys(getTime(generatedTime).replace(" ", ""));
-    }
+    }*/
 
     public void verifyEventInExpiredList() {
         getEventsTab("Expired").click();
@@ -420,3 +471,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("div.dimmable div._2gPcidNhI4UgSMMTgArhV8:nth-of-type(2) span"));
     }
 }
+
+
+
+

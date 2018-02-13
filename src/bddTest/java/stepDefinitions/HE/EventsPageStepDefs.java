@@ -55,5 +55,7 @@ public class EventsPageStepDefs implements En {
         And("^HE I create and publish a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::createAndPublishEventWithGenDate);
 
         And("^HE I verify that the event of name \"([^\"]*)\" is in the expired list$", eventsPage::verifyEventInExpiredList);
+
+
     }
 }
