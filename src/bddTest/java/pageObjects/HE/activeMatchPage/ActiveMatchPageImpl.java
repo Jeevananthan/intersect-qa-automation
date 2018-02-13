@@ -67,6 +67,20 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Last exported connection details are not displayed",driver.findElement(By.xpath("//div/span[contains(text(),'connections since last export on')]")).isDisplayed());
     }
 
+    public void verifyDefaultdropdownMenuSelection(String defaultMenuSelection,DataTable dataTable){
+        navBar.goToRepVisits();
+        navBar.goToActiveMatch();
+        waitUntilPageFinishLoading();
+        List<String> value=dataTable.asList(String.class);
+        for (String option : value) {
+            dropDownMenu().click();
+            selectOption(option).click();
+            navBar.goToRepVisits();
+            navBar.goToActiveMatch();
+            waitUntilPageFinishLoading();
+        Assert.assertTrue("Since Last Export is not present as a default dropdown menu selection",driver.findElement(By.xpath("//div[@class='ui button dropdown gyhR4eL0bZuX-AtA9-Cgy']/div[text()='"+defaultMenuSelection+"']")).isDisplayed());
+    }}
+
     //locators
     private WebElement activeMatchTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement activeMatchConntectionText(){

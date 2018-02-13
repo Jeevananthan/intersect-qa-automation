@@ -22,5 +22,7 @@ public class ActiveMatchPageStepDefs implements En {
         Then("^HE I verify the Header after selecting \"([^\"]*)\" for the following selection$",activeMatchPage::verifySelectedHeader);
 
         Then("^HE I verify the Header \"([^\"]*)\"$",activeMatchPage::verifyHeader);
+
+        Then("^HE I verify the Default drop-down Menu selection to remain \"([^\"]*)\" after all connections are modified$",activeMatchPage::verifyDefaultdropdownMenuSelection);
     }
 }

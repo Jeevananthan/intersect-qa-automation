@@ -47,6 +47,8 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user wit
     And HE I verify the Header after selecting "Historical" for the following selection
     |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
     And HE I verify the Header "Since Last Export"
+    And HE I verify the Default drop-down Menu selection to remain "Since Last Export" after all connections are modified
+      |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
     And HE I successfully sign out
 
 
