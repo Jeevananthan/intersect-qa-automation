@@ -5,6 +5,7 @@ import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.HE.eventsPage.EventsContactPageImpl;
 
+import pageObjects.HE.eventsPage.EventsPageImpl;
 import pageObjects.HE.homePage.HomePageImpl;
 
 public class HomePageStepDefs implements En {
@@ -13,7 +14,8 @@ public class HomePageStepDefs implements En {
 
         HomePageImpl homePage = new HomePageImpl();
         NavBarImpl navBar = new NavBarImpl();
-        EventsContactPageImpl eventsPage = new EventsContactPageImpl();
+        //EventsContactPageImpl eventsPage = new EventsContactPageImpl();
+        EventsPageImpl eventsPage = new EventsPageImpl();
 
         Then("^HE I am able to successfully login$", homePage::verifyUserIsLoggedIn);
 
