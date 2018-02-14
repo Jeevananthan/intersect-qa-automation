@@ -56,6 +56,5 @@ public class EventsPageStepDefs implements En {
 
         And("^HE I verify that the event of name \"([^\"]*)\" is in the expired list$", eventsPage::verifyEventInExpiredList);
 
-
     }
 }

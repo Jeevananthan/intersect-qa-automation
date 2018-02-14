@@ -81,6 +81,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteEvent(String eventName) {
+        waitUntilPageFinishLoading();
         getEventsTab("Unpublished").click();
         menuButtonForEvent(eventName).click();
         getOptionFromMenuButtonForEvents("Delete").click();
@@ -96,12 +97,12 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         fillCreateEventForm(eventDetails);
         saveDraftButton().sendKeys(Keys.RETURN);
     }
-   /* public void createAndPublishEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
+    public void createAndPublishEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
         List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
         fillEventStartDateTimeFields(minutesFromNow);
         fillCreateEventForm(eventDetails);
         publishNowButton().sendKeys(Keys.RETURN);
-    }*/
+    }
 
     public void fillEventStartDateTimeFields(String minutesFromNow) {
         waitUntilPageFinishLoading();
@@ -116,7 +117,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void fillCreateEventForm(List<List<String>> data) {
-        driver.navigate().refresh();
+
         for (List<String> row : data) {
             switch (row.get(0)) {
                 case "Event Name":
@@ -203,17 +204,10 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                 "/tbody/tr[" + position + "]/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']")).click();
     }
     public void selectPrimaryContactByName(String contactName){
-        //clearSelectionField(primaryContactField());
-        openSelectionFieldMenu(primaryContactField());
-        //primaryContactField().click();
 
-        //driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _1CESARq218cDE7u8vMyW3O']" +
-                //"/tbody/tr[@class='_27yC02oMUpFoQeumGwitvn']/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']" +
-                //"[text()=' "+ contactName + "']")).click();
-       // waitUntilPageFinishLoading();
-      // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        openSelectionFieldMenu(primaryContactField());
         driver.switchTo().defaultContent();
-        driver.findElement(By.xpath("//div[text()=' "+contactName+" ']")).click();
+        driver.findElement(By.xpath("//div[text()='"+contactName+"']")).click();
 
     }
 
@@ -359,32 +353,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public void verifyCreatedEventIsInCancelledList() {
         verifyEventIsInCancelledList(eventName);
     }
-
-    /*public void createAndSaveEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
-        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
-        fillEventStartDateTimeFields(minutesFromNow);
-        fillCreateEventForm(eventDetails);
-        saveDraftButton().sendKeys(Keys.RETURN);
-    }*/
-
-    public void createAndPublishEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
-        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
-        fillEventStartDateTimeFields(minutesFromNow);
-        fillCreateEventForm(eventDetails);
-        publishNowButton().sendKeys(Keys.RETURN);
-    }
-
-   /* public void fillEventStartDateTimeFields(String minutesFromNow) {
-        waitUntilPageFinishLoading();
-        generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
-        Calendar date = Calendar.getInstance();
-        createEventButton().click();
-        waitForUITransition();
-        eventStartCalendarButton().click();
-        waitForUITransition();
-        pickDateInDatePicker(date);
-        eventStartTimeField().sendKeys(getTime(generatedTime).replace(" ", ""));
-    }*/
 
     public void verifyEventInExpiredList() {
         getEventsTab("Expired").click();

@@ -11,7 +11,6 @@ public class EventsContactPageStepDefs implements En {
 
         EventsContactPageImpl eventsContactPage = new EventsContactPageImpl();
 
-       // Then("^HE The Events page is displayed$", eventsContactPage::verifyEventTitleIsPresent);
         And("^HE I click on Create Event button$",eventsContactPage:: clickCreateEvent);
         And("^HE I click on box Enter Primary Contact and enter text \"([^\"]*)\"$",eventsContactPage ::newContact);
         And("^HE I click on New Contact link$",eventsContactPage :: clickNewContact);
@@ -24,10 +23,10 @@ public class EventsContactPageStepDefs implements En {
         And("^HE I click on Delete button$", eventsContactPage:: deleteEventContact);
         And("^HE I click on YES on Confirmation message$", eventsContactPage:: confirmDeleteForEventContact);
         And("^HE I verify warning messages$",eventsContactPage:: warningMessages);
-        And("^HE I click on NO on Confirmation message$",eventsContactPage ::deleteEventContactNo);
-        //Then("^HE I verify the error message when deleting the Contact of name \"([^\"]*)\" associated to a \"([^\"]*)\" event$", eventsContactPage::verifyErrorMessageAssociatedContact);
-       // Then("^HE I verify the error message when deleting a contact name \"([^\"]*)\" associated to a unpublished event$", eventsContactPage:: unpublishedEventContactWarningMessage);
         Then("^HE I verify the error message when deleting the Contact associated to a unpublished event$",eventsContactPage :: unpublishedEventContactMessage);
+        And("^HE I select No for delete Confirmation$", eventsContactPage :: deleteNo);
+        Then("^HE I verify the error message when deleting the Contact associated to a published event$",eventsContactPage :: publishedEventContactMessage);
+
 
     }
 }
