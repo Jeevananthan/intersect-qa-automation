@@ -1,6 +1,7 @@
 package pageObjects.HS.repVisitsPage;
 
 import cucumber.api.DataTable;
+import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -1096,6 +1097,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         newPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
         confirmPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
         saveButton().click();
+        waitForUITransition();
+        List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+        if(list.size()==1) {
+            logger.info("Error Message is displayed");
+            TestCase.fail();
+        }
         waitUntilPageFinishLoading();
         waitForUITransition();
     }
@@ -1117,9 +1124,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             newPasswordInput().sendKeys(newPassword);
             confirmPasswordInput().sendKeys(newPassword);
             saveButton().click();
+            waitForUITransition();
+            List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+            if(list.size()==1) {
+                logger.info("Error Message is displayed");
+                TestCase.fail();
+            }
             waitUntilPageFinishLoading();
             navBar.goToRepVisits();
             waitUntilPageFinishLoading();
+
         }
 
     public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){

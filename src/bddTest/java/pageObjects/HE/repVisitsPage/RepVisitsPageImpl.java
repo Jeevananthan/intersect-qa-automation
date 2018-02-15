@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.TestCase.fail;
+
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -330,6 +332,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         newPasswordInput().sendKeys(GetProperties.get("he."+ userType + ".password"));
         confirmPasswordInput().sendKeys(GetProperties.get("he."+ userType + ".password"));
         saveButton().click();
+        waitForUITransition();
+        List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+        if(list.size()==1) {
+            fail("Error Message is displayed");
+        }
         waitUntilPageFinishLoading();
         navBar.goToRepVisits();
     }
@@ -360,6 +367,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         newPasswordInput().sendKeys(newPassword);
         confirmPasswordInput().sendKeys(newPassword);
         saveButton().click();
+        waitForUITransition();
+        List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+        if(list.size()==1) {
+            logger.info("Error Message is displayed");
+            fail();
+        }
         waitUntilPageFinishLoading();
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
