@@ -1082,68 +1082,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void accessCreateCollegeFair(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected,String buttonToClick){
-        navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        WebElement fairs=link("College Fairs");
-        waitUntilElementExists(fairs);
-        link("College Fairs").click();
-        button(By.id("add-college")).click();
-
-        if(!collegeFairName.equals("")) {
-            Assert.assertTrue("College Fair TextBox is not displayed",textbox(By.id("college-fair-name")).isDisplayed());
-            textbox(By.id("college-fair-name")).sendKeys(collegeFairName);
-        }
-        if(!date.equals("")) {
-            Assert.assertTrue("Date Textbox are not displayed",textbox(By.id("college-fair-date")).isDisplayed());
-            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
-            datepicker.click();
-            setRelativeDate(35);
-        }
-        if(!startTime.equals("")) {
-            Assert.assertTrue("Start Time TextBox is not displayed",textbox(By.id("college-fair-start-time")).isDisplayed());
-            driver.findElement(By.xpath("//form//input[@id='college-fair-start-time']")).sendKeys(startTime);
-        }
-        if(!endTime.equals("")) {
-            Assert.assertTrue("End Time TextBox is not displayed",textbox(By.id("college-fair-end-time")).isDisplayed());
-            driver.findElement(By.xpath("//form//input[@id='college-fair-end-time']")).sendKeys(endTime);
-        }
-        if(!RSVPDate.equals("")) {
-            Assert.assertTrue("RSVP Deadline TextBox is not displayed",textbox(By.id("college-fair-rsvp-deadline")).isDisplayed());
-            WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
-            RSVPdatepicker.click();
-            setRelativeDate(7);
-        }
-        if(!cost.equals("")) {
-            Assert.assertTrue("Cost TextBox is not displayed",textbox(By.id("college-fair-cost")).isDisplayed());
-            textbox(By.id("college-fair-cost")).sendKeys(cost);
-        }
-        if(!maxNumberofColleges.equals("")) {
-            Assert.assertTrue("'Max Number of Colleges' TextBox is not displayed",textbox(By.id("college-fair-max-number-colleges")).isDisplayed());
-            textbox(By.id("college-fair-max-number-colleges")).sendKeys(maxNumberofColleges);
-        }
-        if(!numberofStudentsExpected.equals("")) {
-            Assert.assertTrue("'Number of Students Expected' TextBox is not displayed",textbox(By.id("college-fair-number-expected-students")).isDisplayed());
-            textbox(By.id("college-fair-number-expected-students")).sendKeys(numberofStudentsExpected);
-        }
-        // Send a JavaScript click to this control because it will be off-screen.
-        jsClick(driver.findElement(By.id("college-fair-automatic-request-confirmation-no")));
-        driver.findElement(By.id("college-fair-number-expected-students")).sendKeys(Keys.PAGE_DOWN);
-
-        if(!buttonToClick.equals("")) {
-            if(buttonToClick.equals("Cancel This College Fair")) {
-                Assert.assertTrue("'Cancel This College Fair' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).isDisplayed());
-                driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).click();
-            }else if(buttonToClick.equals("Save")){
-                waitUntilElementExists(save());
-                Assert.assertTrue("'Save' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Save']")).isDisplayed());
-                driver.findElement(By.xpath("//button/span[text()='Save']")).click();
-            }else {
-                Assert.fail("The option for the button to click ="+buttonToClick+" is not a valid one");
-            }
-        }
-    }
-
     /**
      * Sets the date in a RepVisits date picker to the date 'addDays' from the date of execution.
      * @param addDays integer representing the number of days from now (positive or negative) to select.
@@ -1159,7 +1097,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifySuccessMessageforCreateFair(String createFairName) {
-        Assert.assertTrue("Success Message for the fair " + createFairName + " is not displayed", driver.findElement(By.xpath("//p/span[text()='"+ createFairName +"']/parent::p")).isDisplayed());
+        Assert.assertTrue("Success Message for the fair " + createFairName + " is not displayed", driver.findElement(By.xpath("//p/span[text()='"+ FairName +"']/parent::p")).isDisplayed());
         Assert.assertTrue("'Close' button is not displayed",driver.findElement(By.cssSelector("button[class='ui basic primary button']")).isDisplayed());
     }
 
@@ -1318,6 +1256,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             WebElement element=link("View More Upcoming Events");
 //            waitUntilElementExists(element);
         }
+        // If we're using a previously set Dynamic fair name, look for that instead.
+        if (fairName.equalsIgnoreCase("PreviouslySetFair"))
+            fairName = FairName;
         WebElement viewDetails = driver.findElement(By.xpath("//td[text()='"+fairName+"']/../td/following-sibling::td/a/span[text()='View Details']"));
         waitUntilElementExists(viewDetails);
         viewDetails.click();
@@ -1351,12 +1292,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getStartedBtn(){
         return button("Get Started!");
     }
-    private WebElement saveChanges()
-    {
-        WebElement saveChanges=button("Save Changes");
-        waitUntilElementExists(saveChanges);
-        return  saveChanges;
-    }
+
     private WebElement save()
     {
         WebElement button=button("Save");
@@ -2125,8 +2061,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("'Number of Students Expected' TextBox is not displayed",textbox(By.id("college-fair-number-expected-students")).isDisplayed());
             textbox(By.id("college-fair-number-expected-students")).sendKeys(numberofStudentsExpected);
         }
-        Assert.assertTrue("",driver.findElement(By.xpath("//input[@id='college-fair-automatic-request-confirmation-no']")).isDisplayed());
-        driver.findElement(By.xpath("//input[@id='college-fair-automatic-request-confirmation-no']")).click();
+        // Send a JavaScript click to this control because it will be off-screen.
+        jsClick(driver.findElement(By.id("college-fair-automatic-request-confirmation-no")));
         driver.findElement(By.id("college-fair-number-expected-students")).sendKeys(Keys.PAGE_DOWN);
         driver.findElement(By.id("college-fair-email-message-to-colleges")).sendKeys(Keys.PAGE_DOWN);
 
@@ -2143,22 +2079,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             }
         }
     }
-
-    public void findMonth(String month) {
-
-        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-
-        try{
-            while (!DayPickerCaption.contains(month)) {
-                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-            }
-        }
-        catch (Exception e) {
-            Assert.fail("The Date selected it's out of RANGE.");
-        }
-    }
-
 
     public void setSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
@@ -2327,13 +2247,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement goBack()
     {
         WebElement button=button("No, go back");
-        waitUntilElementExists(button);
-        return button;
-    }
-
-    private WebElement save()
-    {
-        WebElement button=button("Save");
         waitUntilElementExists(button);
         return button;
     }

@@ -243,13 +243,13 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     Then HS I verify the Success Message for the College Fair "<College Fair Name>"
     Then HS I Click on the "Close" button in the success page of the college fair
-    Then HS I Click the View Details button for the College Fair Event for "<College Fair Name>"
+    Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
     Then HS I Click on the "Edit" button in the College Fair Details Page
     Then HS I set the data to the Edit a college Fair "<College Fair Name>","<VerifyDateEdit>","<Cost>","<NumberofStudentsExpected>","<MaxNumberofColleges>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<ButtonToClick>"
     And HS I successfully sign out
       Examples:
         |College Fair Name    |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
-        |QA Test Fair New/Edit|December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
+        |QA Test Fair New/Edit|35              |0900AM    |1000AM  |7                |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
     #    |QA Tests for Fair |December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
     #    |QA Tests for Fairs|December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
 
