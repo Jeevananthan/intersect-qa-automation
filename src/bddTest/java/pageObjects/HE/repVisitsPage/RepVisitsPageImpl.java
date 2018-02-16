@@ -774,6 +774,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         textBoxInViewDetails().sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("save button is not displayed",saveButton().isDisplayed());
         saveButton().click();
+        // The temporary notification that appears on save hides the user dropdown which can break subsequent steps.
+        waitForUITransition();
+        waitForUITransition();
     }
 
     public void selectViewDetailsforFairs(String school,String date,String time) {

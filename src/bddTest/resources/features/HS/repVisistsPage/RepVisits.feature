@@ -356,6 +356,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the RepVisits Confirmation message to "<Message>"
     And HS I verify the messaging updated confirmation toast message
     And HS I verify the RepVisits Confirmation message is set to "<Message>"
+    Then HS I successfully sign out
 
     Examples:
       |Message                 |
@@ -370,11 +371,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I cancel all events for the next 7 days
     Then HS I navigate to the "Overview" page in RepVisits
     Then HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days
+    Then HS I successfully sign out
 
-     @MATCH-2094
-   Scenario Outline: As an HE user I want to see RepVisit notifications organized intuitively within my Notifications page REQUESTS subtab
-             so I can efficiently find the updates I am looking for within RepVisits.
-# FOR VISITS
+  @MATCH-2094
+  Scenario Outline: As an HE user I want to see RepVisit notifications organized intuitively within my Notifications
+                    page REQUESTS subtab so I can efficiently find the updates I am looking for within RepVisits.
+    # FOR VISITS
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
@@ -386,31 +388,30 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-
     Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
     Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
     And HE I verify the Notifications & Tasks using "<School>","<StartDate>","<heStartTime>"
     Then HE I click the View full details option in the Request subTab using "<School>","<StartDate>","<heStartTime>"
     Then HE I successfully sign out
 
-#FOR FAIRS
+    #FOR FAIRS
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
+    #TC may fail on the next step due to MATCH-3877
     Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
-
     Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
     Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
     And HE I verify the Notifications & Tasks using "<School>","<Date>","<fairTime>" for fairs
     Then HE I click the View full details option in the Request subTab using "<School>","<Date>","<fairTime>" for fairs
     Then HE I successfully sign out
 
-     Examples:
-   |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School              |heStartTime |heTime  |College Fair Name         |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |fairTime|
-   |35  |10:59am  |11:25pm |3        |35       |49      |11:25pm      |No, I want to manually review all incoming requests. |Int Qa High School 4|10:59am     |10:59am |QA4 Fairs for testing     |35  |0900AM    |1000AM  |28           |$25 |25                    |100                        | Save          |9:00am  |
+    Examples:
+      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School              |heStartTime |heTime  |College Fair Name         |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |fairTime|
+      |35  |10:59am  |11:25pm |3        |35       |49      |11:25pm      |No, I want to manually review all incoming requests. |Int Qa High School 4|10:59am     |10:59am |QA4 Fairs for testing     |35  |0900AM    |1000AM  |28           |$25 |25                    |100                        | Save          |9:00am  |
 
   @MATCH-1947
   Scenario Outline: As a HS RepVisits user I want to be able to use the rep-visits setup page to set the Messaging options
