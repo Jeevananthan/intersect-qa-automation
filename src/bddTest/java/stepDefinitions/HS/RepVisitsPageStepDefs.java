@@ -202,5 +202,17 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
         Then("^HS I Click the View Details button for the College Fair Event for \"([^\"]*)\"$",repVisits::accessCollegeFairOverviewPage);
+
+        And("^HS I verify the Primary Contact Phone Number is required in the Visits and Fairs setup wizard$",repVisits::primaryContactDetailsforVisitsAndFairs);
+
+        And("^HS I go to the Notifications & Primary Contact Tab in HS Setup Wizard page$",repVisits::navigateToVisitsAndFairsWizard);
+
+        And("^HS I go to the Availability & Settings$",repVisits::navigateToAvailabilityAndSettings);
+
+        And("^HS I go to the College Fair Settings page$",repVisits::navigateToCollegeFairSettings);
+
+        And("^HS I verify the Primary Contact Phone Number is required in College Fair Settings$",repVisits::primaryContactDetailsforFairs);
+
+        And("^HS I verify the Primary Contact Phone Number is required in Availability & Settings$",repVisits::primaryContactDetailsinAvailabilityandSettings);
     }
 }

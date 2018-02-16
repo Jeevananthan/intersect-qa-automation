@@ -44,15 +44,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(RepVisitsPageImpl.class);
     }
 
-    public void checkRepVisitsSubTabs(DataTable dataTable){
+    public void checkRepVisitsSubTabs(DataTable dataTable) {
         navBar.goToRepVisits();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
-            Assert.assertTrue(repVisitsSubItem + " is not showing.",link(repVisitsSubItem).isDisplayed());
+            Assert.assertTrue(repVisitsSubItem + " is not showing.", link(repVisitsSubItem).isDisplayed());
         }
     }
 
-    public void verifyAvailabilityAndSettingsPage(){
+    public void verifyAvailabilityAndSettingsPage() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         List<String> tabs = new ArrayList<>();
@@ -158,7 +158,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void setAcceptInVisitSchedulingToFullyBooked(String accept){
         setAcceptinAvailabilitySettings(accept, "1");
     }
-    public void setAcceptinAvailabilitySettings(String accept, String visitsPerDay){
+
+    public void setAcceptinAvailabilitySettings(String accept, String visitsPerDay) {
         navBar.goToRepVisits();
         waitUntilElementExists(link("Availability & Settings"));
         link("Availability & Settings").click();
@@ -169,7 +170,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         selectAccept.click();
         getDriver().findElement(By.xpath("//span[text()='" + accept + "']")).click();
-        if(accept.equals("a maximum of...")) {
+        if (accept.equals("a maximum of...")) {
             WebElement visitsBox = getDriver().findElement(By.cssSelector("input[name='maxDailyColleges'][min='1'][max='99']"));
             visitsBox.clear();
             visitsBox.sendKeys(visitsPerDay);
@@ -1289,7 +1290,67 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    private WebElement getStartedBtn(){
+    public void primaryContactDetailsforVisitsAndFairs() {
+        while (getRepVisitsPrimaryContactPhoneNumerField().getAttribute("value").length() > 0)
+            getRepVisitsPrimaryContactPhoneNumerField().sendKeys(Keys.BACK_SPACE);
+        button("Save changes").click();
+        Assert.assertTrue("Phone number is a required field, but the error message was not displayed.",driver.findElement(By.xpath("//span[contains(text(),'Please enter a phone number. Ex: (555) 555-5555')]")).isDisplayed());
+        getRepVisitsPrimaryContactPhoneNumerField().sendKeys("1234567890");
+        button("Save changes").click();
+    }
+
+    public void navigateToVisitsAndFairsWizard() {
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("welcome wizard is not displayed", text("Tell us about your High School").isDisplayed());
+        driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS']")).click();
+
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Notifications & Primary Contact']")).size()==0) {
+            button("Next").click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue("Primary Contact detail is not displayed", text("Primary Contact for Visits").isDisplayed());
+        Assert.assertTrue("Primary Contact Phone Number is not displayed", text("Primary Contact Phone Number").isDisplayed());
+        Assert.assertTrue("Primary Contact Phone Number TextBox is not displayed", driver.findElement(By.cssSelector("input[id='notification_contacts_primary_contact_phone']")).isDisplayed());
+    }
+
+    public void navigateToAvailabilityAndSettings() {
+        navBar.goToRepVisits();
+        driver.findElement(By.xpath("//span[text()='Availability & Settings']")).click();
+        Assert.assertTrue("Availability is not displayed", text("Availability").isDisplayed());
+        driver.findElement(By.xpath("//span[text()='Notifications & Primary Contact']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void navigateToCollegeFairSettings() {
+        navBar.goToRepVisits();
+        driver.findElement(By.xpath("//span[text()='College Fairs']")).click();
+        Assert.assertTrue("College Fairs is not displayed", text("Add a College Fair").isDisplayed());
+        driver.findElement(By.cssSelector("a[href='rep-visits/collegefairs/settings']>span")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void primaryContactDetailsforFairs() {
+        while (getCollegeFairsPrimaryContactPhoneNumberField().getAttribute("value").length() > 0)
+            getCollegeFairsPrimaryContactPhoneNumberField().sendKeys(Keys.BACK_SPACE);
+        button("Save Settings").click();
+        Assert.assertTrue("Phone number is a required field, but the error message was not displayed.",driver.findElement(By.xpath("//span[contains(text(),'Please enter a phone number. Ex: (555) 555-5555')]")).isDisplayed());
+        getCollegeFairsPrimaryContactPhoneNumberField().sendKeys("1234567890");
+        button("Save Settings").click();
+    }
+
+    public void primaryContactDetailsinAvailabilityandSettings() {
+        while (getRepVisitsPrimaryContactPhoneNumerField().getAttribute("value").length() > 0)
+            getRepVisitsPrimaryContactPhoneNumerField().sendKeys(Keys.BACK_SPACE);
+        button("Save changes").click();
+        Assert.assertTrue("Phone number is a required field, but the error message was not displayed.",driver.findElement(By.xpath("//span[text()='Please enter a phone number. Ex: (555) 555-5555']")).isDisplayed());
+        getRepVisitsPrimaryContactPhoneNumerField().sendKeys("1234567890");
+        button("Save changes").click();
+    }
+
+
+    private WebElement getStartedBtn() {
         return button("Get Started!");
     }
 
@@ -1771,6 +1832,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    private WebElement getCollegeFairsPrimaryContactPhoneNumberField() {
+        return driver.findElement(By.id("notification_fairs_phone_number"));
+    }
+    private WebElement getRepVisitsPrimaryContactPhoneNumerField() {
+        return driver.findElement(By.id("notification_contacts_primary_contact_phone"));
+    }
     //locators
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");

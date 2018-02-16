@@ -444,5 +444,18 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Examples:
     |verify Confirmation Message|verify Special Instruction for RepVisits|Confirmation Message_Next                |Special Instruction for RepVisits_Next     |Button to Click_Next|verify Confirmation Message_Next         |verify Special Instruction for RepVisits_Next|Confirmation Message_Back                     |Special Instruction for RepVisits_Back          |Button to Click_Back|
     |                           |                                        |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|Next                |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User  |Confirmation Message for visits and Fairs Back|Special Instructions for the repvisits User Back|Back                |
+   @MATCH-2111
+   Scenario: As a RepVisits High School user who works in multiple schools,
+             I want to be able to enter a primary contact number for my school,
+             So that Colleges trying to schedule visits have the correct contact number for me.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I go to the Availability & Settings
+    Then HS I verify the Primary Contact Phone Number is required in Availability & Settings
+    And HS I go to the College Fair Settings page
+    Then HS I verify the Primary Contact Phone Number is required in College Fair Settings
+    And HS I go to the Notifications & Primary Contact Tab in HS Setup Wizard page
+    Then HS I verify the Primary Contact Phone Number is required in the Visits and Fairs setup wizard
+    And HS I successfully sign out
+
 
 
