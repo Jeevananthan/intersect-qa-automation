@@ -277,16 +277,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public Boolean compareDate(String month, String startOrEndDate)  {
+    public Boolean compareDate(String month)  {
 
         String dateCaption = null;
         DateFormat format = new SimpleDateFormat("MMM yyyy");
         DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
-        if (startOrEndDate.contains("Start")) {
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-        } else {
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-        }
+        dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
 
         //Logic to compare dates before? or not
         Date first = null;
@@ -428,7 +424,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
 
-        findMonth(calendarHeading, inputDate);
+        findMonth(calendarHeading);
         WebElement Date = driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+parts[1]+")]"));
         doubleClick(Date);
         waitUntilPageFinishLoading();
@@ -652,7 +648,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
-        findMonth(calendarHeading, startOrEndDate);
+        findMonth(calendarHeading);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
     }
@@ -1083,7 +1079,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void setRelativeDate(int addDays) {
         Calendar relativeDate = getDeltaDate(addDays);
         String calendarHeading = getMonth(relativeDate) + " " + getYear(relativeDate);
-        findMonth(calendarHeading,"Start");
+        findMonth(calendarHeading);
         clickOnDay(getDay(relativeDate));
         waitUntilPageFinishLoading();
     }
@@ -1254,9 +1250,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         viewDetails.click();
     }
 
-    public void findMonth(String month, String startOrEndDate) {
+    public void findMonth(String month) {
         waitUntilPageFinishLoading();
-        boolean monthStatus = compareDate(month, startOrEndDate);
+        boolean monthStatus = compareDate(month);
 
         String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
 
