@@ -86,8 +86,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HE I verify the trash icon for \"([^\"]*)\" high school", repVisits::verifyTrashIconForTravelPlanHighSchool);
 
-        And("I remove \"([^\"]*)\" high school from the travel plan", repVisits::removeHighSchoolFromTravelPlan);
+        And("HE I remove \"([^\"]*)\" high school from the travel plan", repVisits::removeHighSchoolFromTravelPlan);
 
-        Then("I verify \"([^\"]*)\" is not displayed in the Travel Plan list",repVisits::verifyHighSchoolWasRemovedFromTravelPlan);
+        Then("HE I verify \"([^\"]*)\" is not displayed in the Travel Plan list",repVisits::verifyHighSchoolWasRemovedFromTravelPlan);
     }
 }

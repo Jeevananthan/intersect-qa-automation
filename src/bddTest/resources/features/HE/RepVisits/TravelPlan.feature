@@ -8,5 +8,6 @@ Scenario: As a HE premium user, I want the ability to remove any institution I a
   When HE I add "Westlake H S" high school with location "Austin" to the Travel Plan
   Then HE I verify the "To do" label is displayed for "Westlake H S" high school
   And HE I verify the trash icon for "Westlake H S" high school
-  When I remove "Westlake H S" high school from the travel plan
-  Then I verify "Westlake H S" is not displayed in the Travel Plan list
+  When HE I remove "Westlake H S" high school from the travel plan
+  Then HE I verify "Westlake H S" is not displayed in the Travel Plan list
+  And HE I successfully sign out
