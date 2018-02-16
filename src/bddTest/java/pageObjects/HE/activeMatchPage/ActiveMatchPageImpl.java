@@ -31,7 +31,6 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Connection link is not displayed",connectionTab().isDisplayed());
         Assert.assertTrue("Dropdown button is not displayed",dropDownMenu().isDisplayed());
         Assert.assertTrue("Download button is not displayed",downloadButton().isDisplayed());
-
     }
 
     public void verifyActiveMatchDropdownMenu(String Option,DataTable dataTable){
@@ -39,6 +38,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         List<String> value=dataTable.asList(String.class);
         for(String option:value){
             Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span[text()='"+Option+"']/parent::div/following-sibling::div/span[text()='"+option+"']")).isDisplayed());
+            waitUntilPageFinishLoading();
         }
     }
 
@@ -56,6 +56,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
             for (String option : value) {
                 dropDownMenu().click();
                 driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
+                waitUntilPageFinishLoading();
                 String displayingValue = Option+": "+option;
                 Assert.assertTrue(option + "is not displayed", driver.findElement(By.xpath("//div[text()='"+displayingValue+"']")).isDisplayed());
             }
@@ -69,13 +70,16 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyDefaultdropdownMenuSelection(String defaultMenuSelection,DataTable dataTable){
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         navBar.goToActiveMatch();
         waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
         for (String option : value) {
             dropDownMenu().click();
             driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
+            waitUntilPageFinishLoading();
             navBar.goToRepVisits();
+            waitUntilPageFinishLoading();
             navBar.goToActiveMatch();
             waitUntilPageFinishLoading();
         Assert.assertTrue("Since Last Export is not present as a default dropdown menu selection",driver.findElement(By.xpath("//div[@class='ui button dropdown gyhR4eL0bZuX-AtA9-Cgy']/div[text()='"+defaultMenuSelection+"']")).isDisplayed());
