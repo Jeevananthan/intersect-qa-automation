@@ -45,7 +45,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     public void verifyDropdownMenuHeader(DataTable dataTable){
         List<String> value=dataTable.asList(String.class);
         for(String option:value){
-            Assert.assertTrue(option+"is not displayed",selectOption(option).isDisplayed());
+            Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']")).isDisplayed());
         }
     }
 
@@ -55,15 +55,15 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         List<String> value=dataTable.asList(String.class);
             for (String option : value) {
                 dropDownMenu().click();
-                selectOption(option).click();
+                driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
                 String displayingValue = Option+": "+option;
-                Assert.assertTrue(option + "is not displayed", verifyDropdownHeader(displayingValue).isDisplayed());
+                Assert.assertTrue(option + "is not displayed", driver.findElement(By.xpath("//div[text()='"+option+"']")).isDisplayed());
             }
     }
 
     public void verifyHeader(String option){
         dropDownMenu().click();
-        Assert.assertTrue("Since Last Export option is not displayed",selectOption(option).isDisplayed());
+        Assert.assertTrue("Since Last Export option is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']")).isDisplayed());
         Assert.assertTrue("Last exported connection details are not displayed",driver.findElement(By.xpath("//div/span[contains(text(),'connections since last export on')]")).isDisplayed());
     }
 
@@ -74,7 +74,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         List<String> value=dataTable.asList(String.class);
         for (String option : value) {
             dropDownMenu().click();
-            selectOption(option).click();
+            driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
             navBar.goToRepVisits();
             navBar.goToActiveMatch();
             waitUntilPageFinishLoading();
@@ -99,12 +99,5 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         WebElement button=driver.findElement(By.xpath("//span[text()='Download']"));
         return button;
     }
-    private WebElement selectOption(String option){
-        WebElement value=driver.findElement(By.xpath("//div/span[text()='"+option+"']"));
-        return value;
-    }
-    private WebElement verifyDropdownHeader(String option){
-        WebElement value=driver.findElement(By.xpath("//div[text()='"+option+"']"));
-        return value;
-    }
+
 }
