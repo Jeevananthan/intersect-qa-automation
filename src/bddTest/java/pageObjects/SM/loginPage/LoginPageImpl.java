@@ -1,7 +1,9 @@
 package pageObjects.SM.loginPage;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -78,5 +80,34 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     private void enterSuperMatchiFrame() {
         // TODO - Don't know what it's called yet.
     }
+//-------------
+    public void clickResourcesLink(){
+        logger.info("Clicking on Resources fit criteria...");
+        getResourcesLink().click();
+        waitUntilPageFinishLoading();
+        String value = getResourcesLink().getAttribute("class");
+        Assert.assertTrue("Resources fit criteria link is not clicked...",value.contains("active"));
+    }
+    //-------------
+
+    public void clickDesiredFitCriteria(String fitCriteria){
+        logger.info("Clicking on "+fitCriteria+" fit criteria...");
+        WebElement requireFC = getMenuBar().findElement(By.xpath(".//li[text()='"+fitCriteria+"']"));
+        requireFC.click();
+        waitForUITransition();
+        String value = requireFC.getAttribute("class");
+        Assert.assertTrue(fitCriteria+" fit criteria link is not clicked...",value.contains("active"));
+    }
+
+    //Locators
+    private WebElement getMenuBar(){
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
+    }
+
+    //-------------
+    private WebElement getResourcesLink(){
+        return getMenuBar().findElement(By.xpath(".//li[text()='Resources']"));
+    }
+//-------------
 
 }
