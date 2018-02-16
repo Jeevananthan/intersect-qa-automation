@@ -20,7 +20,8 @@ public class ResourcesImpl extends PageObjectFacadeImpl {
 
     //The below method is common to verify the below AC
     //When a filter is selected, moved to Nice To Have, unselected, and then selected again it should be defaulted back to the Must Have box.
-    public void verifyMAndNBoxSync(String checkBoxName, String elementPath){
+    public void verifyMAndNBoxSync(String checkBoxName){
+        String elementPath = "//label[contains(text(), '"+checkBoxName+"')]";
         driver.findElement(By.xpath(elementPath)).click();
         Assert.assertTrue(checkBoxName+" is not selected", driver.findElement(By.xpath(elementPath+"/..//input")).isSelected());
         waitForUITransition();
@@ -40,25 +41,21 @@ public class ResourcesImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(checkBoxName+" is not added to Must Have box.", getMustHaveBox().getText().contains(checkBoxName.toUpperCase()));
     }
 
-    public void verifyDeafAndHardHearingCheckbox() {
-        String path = "//label[contains(text(), 'Services for the Deaf and Hard of Hearing')]";
+    //The below method is for checking the selection and deselection and Must Have box functionality for Resources fit criteria checkboxes
+    public void verifyResourcesCheckbox(String checkboxName) {
+        String path = "//label[contains(text(), '"+checkboxName+"')]";
         driver.findElement(By.xpath(path)).click();
-        Assert.assertTrue("Services for the Deaf and Hard of Hearing checkbox is not selected.", driver.findElement(By.xpath(path+"/..//input")).isSelected());
+        Assert.assertTrue(checkboxName+" checkbox is not selected.", driver.findElement(By.xpath(path+"/..//input")).isSelected());
         waitForUITransition();
-        Assert.assertTrue("Services for the Deaf and Hard of Hearing is not added to Must Have box.", getMustHaveBox().getText().contains("SERVICES FOR THE DEAF AND HARD OF HEARING"));
+        Assert.assertTrue(checkboxName+" checkbox is not added to Must Have box.", getMustHaveBox().getText().contains(checkboxName.toUpperCase()));
 
         driver.findElement(By.xpath(path)).click();
-        Assert.assertTrue("Un-selecting, the Services for the Deaf and Hard of Hearing checkbox is not working.", !driver.findElement(By.xpath(path+"/..//input")).isSelected());
+        Assert.assertTrue("Un-selecting, the "+checkboxName+" checkbox is not working.", !driver.findElement(By.xpath(path+"/..//input")).isSelected());
         waitForUITransition();
-        Assert.assertTrue("After un-selection, Must Have box is still showing Services for the Deaf and Hard of Hearing button", !getMustHaveBox().getText().contains("SERVICES FOR THE DEAF AND HARD OF HEARING"));
+        Assert.assertTrue("After un-selection, Must Have box is still showing "+checkboxName, !getMustHaveBox().getText().contains(checkboxName.toUpperCase()));
     }
 
-    public void verifyMHAndNHSyncWithServiceforDeafandHardofHearingFilter() {
-
-        verifyMAndNBoxSync("Services for the Deaf and Hard of Hearing", "//label[contains(text(), 'Services for the Deaf and Hard of Hearing')]");
-    }
-
-        //Locators
+    //Locators
 
     private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]")); }
 
