@@ -10,39 +10,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
-import javax.xml.crypto.Data;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import pageObjects.COMMON.PageObjectFacadeImpl;
+
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
-import pageObjects.COMMON.PageObjectFacadeImpl;
-import utilities.GetProperties;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import utilities.GetProperties;
-import javax.annotation.Nullable;
-import javax.xml.soap.Text;
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import utilities.GetProperties;
-import utilities.GetProperties;
+
 import java.util.*;
 import java.util.Calendar;
 import java.util.List;
@@ -50,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.fail;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.fail;
-import static org.openqa.selenium.Keys.*;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -1053,7 +1029,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Date Textbox are not displayed",textbox(By.id("college-fair-date")).isDisplayed());
             WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             datepicker.click();
-            setSpecificDate(35);
+            setRelativeDate(35);
         }
         if(!startTime.equals("")) {
             Assert.assertTrue("Start Time TextBox is not displayed",textbox(By.id("college-fair-start-time")).isDisplayed());
@@ -1067,7 +1043,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("RSVP Deadline TextBox is not displayed",textbox(By.id("college-fair-rsvp-deadline")).isDisplayed());
             WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             RSVPdatepicker.click();
-            setSpecificDate(7);
+            setRelativeDate(7);
         }
         if(!cost.equals("")) {
             Assert.assertTrue("Cost TextBox is not displayed",textbox(By.id("college-fair-cost")).isDisplayed());
@@ -1081,8 +1057,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("'Number of Students Expected' TextBox is not displayed",textbox(By.id("college-fair-number-expected-students")).isDisplayed());
             textbox(By.id("college-fair-number-expected-students")).sendKeys(numberofStudentsExpected);
         }
-        Assert.assertTrue("",driver.findElement(By.xpath("//input[@id='college-fair-automatic-request-confirmation-no']")).isDisplayed());
-        driver.findElement(By.xpath("//input[@id='college-fair-automatic-request-confirmation-no']")).click();
+        // Send a JavaScript click to this control because it will be off-screen.
+        jsClick(driver.findElement(By.id("college-fair-automatic-request-confirmation-no")));
         driver.findElement(By.id("college-fair-number-expected-students")).sendKeys(Keys.PAGE_DOWN);
 
         if(!buttonToClick.equals("")) {
@@ -1099,17 +1075,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void setSpecificDate(int addDays) {
-        String DATE_FORMAT_NOW = "MMMM dd yyyy";
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, addDays);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String currentDate = sdf.format(cal.getTime());
-        String[] parts = currentDate.split(" ");
-        String calendarHeading = parts[0] + " " + parts[2];
-        // TODO - Fix this to use the proper signature
-        findMonth(calendarHeading);
-        clickOnDay(parts[1]);
+    /**
+     * Sets the date in a RepVisits date picker to the date 'addDays' from the date of execution.
+     * @param addDays integer representing the number of days from now (positive or negative) to select.
+     *                i.e.:  This runs on Jan 1st and you pass 4, the date selected will be Jan 5th
+     */
+    public void setRelativeDate(int addDays) {
+        Calendar relativeDate = getDeltaDate(addDays);
+        String calendarHeading = getMonth(relativeDate) + " " + getYear(relativeDate);
+        findMonth(calendarHeading,"Start");
+        clickOnDay(getDay(relativeDate));
         waitUntilPageFinishLoading();
     }
 
@@ -1211,7 +1186,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(!date.equals("")) {
             WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             datepicker.click();
-            setSpecificDate(30);
+            setRelativeDate(30);
         }
 
         if(!cost.equals("")) {
