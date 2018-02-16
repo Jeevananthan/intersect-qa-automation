@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
     private FCMainPageImpl fcMain = new FCMainPageImpl();
     private FCCollegesPageImpl collegesPage = new FCCollegesPageImpl();
     private HUBSMainMenuPageImpl hubsMainMenu = new HUBSMainMenuPageImpl();
+    private HUBSHeaderPageImpl header = new HUBSHeaderPageImpl();
 
     public StudiesPageImpl() {
         logger = Logger.getLogger(StudiesPageImpl.class);
@@ -60,17 +62,14 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
-        logger.info("Generated values: \n");
+        logger.info("\nValues in page: \n");
         for (String key : fieldValues.keySet()) {
-            logger.info(key + " : " + fieldValues.get(key));
+            logger.info(key + " : " + fieldValues.get(key) + "\n");
         }
         return fieldValues;
     }
 
     private void verifyGeneratedValues(String studentOptionLabel, HashMap<String, String> generatedValues) {
-        while (!generatedValues.get("Student/Faculty Ratio").equals(studentFacultyRatioText().getText())) {
-            getDriver().get(getDriver().getCurrentUrl());
-        }
 
         for (String key : generatedValues.keySet()) {
             switch (key) {
@@ -108,6 +107,15 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
         fcMain.clickCollegesTab();
         collegesPage.searchAndOpenCollege(creds.get(2));
         hubsMainMenu.clickStudiesTab();
+        for (int i = 0; i < 10; i++) {
+            if (!generatedValues.get("Student/Faculty Ratio").equals(studentFacultyRatioText().getText().replace(",", ""))) {
+                header.clickLogOut();
+                hubsLogin.defaultLogIn(creds);
+                fcMain.clickCollegesTab();
+                collegesPage.searchAndOpenCollege(creds.get(2));
+                hubsMainMenu.clickStudiesTab();
+            }
+        }
         verifyGeneratedValues(creds.get(3), generatedValues);
     }
 
