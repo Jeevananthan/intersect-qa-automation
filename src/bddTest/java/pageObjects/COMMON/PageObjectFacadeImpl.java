@@ -59,6 +59,18 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     }
 
     /**
+     * Generates a Calendar object with a time in the future (or past for negative numbers) from the current date.
+     *
+     * @param delta - Integer for the number of minutes from now.  Negative numbers = minutes in the past.
+     * @return Calendar object with the date set to delta minutes from current time.
+     */
+    protected Calendar getDeltaTime(int delta) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, delta);
+        return cal;
+    }
+
+    /**
      * Returns a String representing the day from a Calendar object
      *
      * @param cal - Calendar object
@@ -120,7 +132,9 @@ public class PageObjectFacadeImpl extends SeleniumBase {
             }
         }
         waitForUITransition();
-        driver.findElement(By.xpath("//div[@class='DayPicker-Day'][text()='" + getDay(date).replaceFirst("0", "") + "']")).click();
+        driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
+                "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
+                "DayPicker-Day--today'][text()='" + getDay(date).replaceFirst("0", "") + "']")).click();
     }
 
     /**
@@ -150,6 +164,32 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return result;
     }
 
+    /**
+     * Returns a boolean indicating if the passed string is a number or not
+     *
+     * @param num - String object
+     * @return boolean indicating if the passed string is a number or not
+     */
+    protected boolean isStringNumber(String num) {
+        try {
+            double number = Double.parseDouble(num);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns a String representing the time from a Calendar object
+     *
+     * @param cal - Calendar object
+     * @return String containing the time in hh:mm a (e.g.: 10:30 AM) format
+     */
+    protected String getTime(Calendar cal) {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        return sdf.format(cal.getTime());
+    }
+  
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }

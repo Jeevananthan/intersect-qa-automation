@@ -32,6 +32,32 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the Check RepVisits Availability button$", repVisits::verifyCheckRepVisitsAvailabilityButton);
 
+        And("^HE I select \"([^\"]*)\" from the RepVisits search result$", repVisits::selectHighSchoolFromResults);
+
+        Then("^HE I should be able to open the registration popup for the fair \"([^\"]*)\" in Search and Schedule$", repVisits::clickRegistrationButton);
+
+        Then("^HE I verify that the fair request confirmation popup contains all the required fields, including high school name \"([^\"]*)\"$", repVisits::verifyConfirmationPopup);
+
+        And("^HE I close the fair request popup$", repVisits::closeFairRequestPopup);
+
+        And("^HE I open the fairs tab$", repVisits::clickFairsTab);
+
+        And("^HE I open the Fairs tab in Check RepVisits Availability sidebar$", repVisits::openFairsInChckRepVisitsAv);
+
+        Then("^HE I should be able to open the registration popup for the fair \"([^\"]*)\" in Check RepVisits Availability sidebar$", repVisits::clickRegistrationButton);
+
+        Then("^HE I register to the \"([^\"]*)\" fair from Search and Schedule screen$", repVisits::registerFair);
+
+        Then("^HE I verify that the message for registered fairs with auto approval is displayed$", repVisits::verifySuccessMessageWithAutoApprovals);
+
+        Then("^HE I verify that the registered fair is displayed in the calendar for the date \"([^\"]*)\"$", repVisits::verifyFairInCalendar);
+
+        Then("^HE I verify that the registered fair is displayed for \"([^\"]*)\" in the Search and Schedule quickview in the date \"([^\"]*)\"$", repVisits::verifyFairInQuickView);
+
+        Then("^HE I verify that the message for registered fairs without auto approval is displayed$", repVisits::verifySuccessMessageWithoutAutoApprovals);
+
+        When("^HE I open the institution of ID \"([^\"]*)\"$", repVisits::openInstitutionByURLPartID);
+
         And("^HE I click the upgrade button$",repVisits::clickUpgradeButton);
 
         Then("^HE I verify the Upgrade popup and the details displayed in the popup$",repVisits::verifyUpgradePopupAndInformations);
@@ -53,5 +79,25 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the formatting of the Visit Feedback page$", repVisits::verifyVisitFeedbackPage);
 
         Then("^HE I verify the RepVisits Overview page and Search and Schedule hyperlink when no events are scheduled for the next 7 days", repVisits::verifyDefaultMessageOverviewPage);
+
+        Then("^HE I search for \"([^\"]*)\" in RepVisits page",repVisits::searchSchool);
+
+        Then("^HE I select Visits to schedule the appointment for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::visitsSchedule);
+
+        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
+
+        Then("^HE I select Fairs for \"([^\"]*)\" and schoolName \"([^\"]*)\"$",repVisits::visitFairsToRegister);
+
+        Then("^HE I verify the Notifications & Tasks using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotification);
+
+        Then("^HE I verify the Notifications & Tasks using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for fairs$",repVisits::verifyNotificationforFairs);
+
+        Then("^HE I verify the Paginate the REQUESTS subtab via 25 entries with a \"([^\"]*)\" action to display the next 25 entries$",repVisits::verify25Entries);
+
+        Then("^HE I click the View full details option in the Request subTab using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectViewDetails);
+
+        Then("^HE I click the View full details option in the Request subTab using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for fairs$",repVisits::selectViewDetailsforFairs);
+
+        Then("^HE I verify the message \"([^\"]*)\" is displayed in the Request subTab$",repVisits::verifynoNotificationMessage);
     }
 }

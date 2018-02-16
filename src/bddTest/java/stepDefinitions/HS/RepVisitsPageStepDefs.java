@@ -53,6 +53,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
 
+        Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
+
         Then("HS I remove the Time Slot created with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::removeTimeSlotAdded);
 
         Then("^HS I verify the Time Slot time were removed with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyTimeSlotRemoved);
@@ -60,6 +62,10 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesSchedulingNewVisits);
 
         Then("^HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to \"([^\"]*)\"$", repVisits::setPreventCollegesCancellingorRescheduling);
+
+        And("^HS I cancel the fair of name \"([^\"]*)\" with the reason \"([^\"]*)\"$", repVisits::cancelFair);
+
+        Then("^HS I create a new college fair with the following details:$", repVisits::createFair);
 
         And ("^HS I verify the Calendar Sync Milestone in the setup wizard of repvisits$",repVisits::verifyCalendarSyncMilestoneInSetupWizard);
 
@@ -156,6 +162,10 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I cancel all events for the next 7 days$", repVisits::cancelAllEventsForNext7Days);
 
         Then("^HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days$", repVisits::verifyRepVisitsPageWhenNoVisitsScheduledForNext7Days);
+
+        Then("^HS I add the new time slot with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::addnewTimeSlot);
+
+        And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
 
         And("^HS I select a date \"([^\"]*)\" days ahead from now$", repVisits::selectGeneratedDateInExceptions);
 

@@ -4,7 +4,9 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
@@ -12,6 +14,7 @@ import utilities.Gmail.GmailAPI;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
 
@@ -47,8 +50,14 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         loginButton().click();
         logger.info("Clicked the login button");
         waitUntilPageFinishLoading();
-        waitUntilElementExists(link(By.id("user-dropdown")));
         waitForUITransition();
+        List<WebElement> errorMessage = driver.findElements(By.cssSelector("div[class='ui negative message']"));
+        if (errorMessage.size()==1){
+            logger.info("Login failed. Invalid user or password.");
+        }else {
+            waitUntilElementExists(link(By.id("user-dropdown")));
+            waitForUITransition();
+        }
     }
 
     //Log in as an HE administrator
@@ -62,8 +71,13 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Sending credentials - " + username + ":" + password);
         loginButton().click();
         logger.info("Clicked the login button");
-        waitUntilElementExists(link(By.id("user-dropdown")));
-        waitUntilPageFinishLoading();
+        List<WebElement> errorMessage = driver.findElements(By.cssSelector("div[class='ui negative message']"));
+        if (errorMessage.size()==1){
+            logger.info("Login failed. Invalid user or password.");
+        }else {
+            waitUntilElementExists(link(By.id("user-dropdown")));
+            waitForUITransition();
+        }
     }
 
     public void createNewUser() {
