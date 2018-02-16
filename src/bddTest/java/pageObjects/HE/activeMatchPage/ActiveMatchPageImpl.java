@@ -57,7 +57,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
                 dropDownMenu().click();
                 driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
                 String displayingValue = Option+": "+option;
-                Assert.assertTrue(option + "is not displayed", driver.findElement(By.xpath("//div[text()='"+option+"']")).isDisplayed());
+                Assert.assertTrue(option + "is not displayed", driver.findElement(By.xpath("//div[text()='"+displayingValue+"']")).isDisplayed());
             }
     }
 
