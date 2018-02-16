@@ -125,14 +125,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
              So that Colleges trying to schedule visits have the correct contact number for me.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I go to the Availability & Settings
-    Then HS I verify the primary Contact Phone Number using "" in Availability & Settings
-    Then HS I verify the primary Contact Phone Number using "5555555" in Availability & Settings
-    And HS I go to the College Fairs
-    Then HS I verify the primary Contact Phone Number using "" for Fairs
-    Then HS I verify the primary Contact Phone Number using "5555555" for Fairs
+    Then HS I verify the Primary Contact Phone Number is required in Availability & Settings
+    And HS I go to the College Fair Settings page
+    Then HS I verify the Primary Contact Phone Number is required in College Fair Settings
     And HS I go to the Notifications & Primary Contact Tab in HS Setup Wizard page
-    Then HS I verify the primary Contact Phone Number using "" for Visits and Fairs
-    Then HS I verify the primary Contact Phone Number using "5555555" for Visits and Fairs
+    Then HS I verify the Primary Contact Phone Number is required in the Visits and Fairs setup wizard
     And HS I successfully sign out
 
 

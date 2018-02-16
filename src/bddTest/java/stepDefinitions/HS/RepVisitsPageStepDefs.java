@@ -51,16 +51,16 @@ public class RepVisitsPageStepDefs implements En {
 
         And ("^HS I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
 
-        And("^HS I verify the primary Contact Phone Number using \"([^\"]*)\" for Visits and Fairs$",repVisits::primaryContactDetailsforVisitsAndFairs);
+        And("^HS I verify the Primary Contact Phone Number is required in the Visits and Fairs setup wizard$",repVisits::primaryContactDetailsforVisitsAndFairs);
 
-        And("^HS I go to the Notifications & Primary Contact Tab in HS Setup Wizard page$",repVisits::navigateToVisitsAndFairs);
+        And("^HS I go to the Notifications & Primary Contact Tab in HS Setup Wizard page$",repVisits::navigateToVisitsAndFairsWizard);
 
         And("^HS I go to the Availability & Settings$",repVisits::navigateToAvailabilityAndSettings);
 
-        And("^HS I go to the College Fairs$",repVisits::navigateToCollegeFairs);
+        And("^HS I go to the College Fair Settings page$",repVisits::navigateToCollegeFairSettings);
 
-        And("^HS I verify the primary Contact Phone Number using \"([^\"]*)\" for Fairs$",repVisits::primaryContactDetailsforFairs);
+        And("^HS I verify the Primary Contact Phone Number is required in College Fair Settings$",repVisits::primaryContactDetailsforFairs);
 
-        And("^HS I verify the primary Contact Phone Number using \"([^\"]*)\" in Availability & Settings$",repVisits::primaryContactDetailsinAvailabilityandSettings);
+        And("^HS I verify the Primary Contact Phone Number is required in Availability & Settings$",repVisits::primaryContactDetailsinAvailabilityandSettings);
     }
 }

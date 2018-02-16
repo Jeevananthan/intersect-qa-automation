@@ -426,20 +426,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void primaryContactDetailsforVisitsAndFairs(String phoneNo) {
-        if (phoneNo.equals("")) {
-            for(int i=0;i<15;i++) {
-                primaryContactinSetupWizard().sendKeys(Keys.BACK_SPACE);
-            }
-            button("Next").click();
-            Assert.assertTrue("Phone no is not entered ", text("Please enter a phone number. Ex: (555) 555-5555").isDisplayed());
-        } else {
-            primaryContactinSetupWizard().sendKeys(phoneNo);
-            button("Next").click();
-        }
+    public void primaryContactDetailsforVisitsAndFairs() {
+        while (getRepVisitsPrimaryContactPhoneNumerField().getAttribute("value").length() > 0)
+            getRepVisitsPrimaryContactPhoneNumerField().sendKeys(Keys.BACK_SPACE);
+        button("Save changes").click();
+        Assert.assertTrue("Phone number is a required field, but the error message was not displayed.",driver.findElement(By.xpath("//span[contains(text(),'Please enter a phone number. Ex: (555) 555-5555')]")).isDisplayed());
+        getRepVisitsPrimaryContactPhoneNumerField().sendKeys("1234567890");
+        button("Save changes").click();
     }
 
-    public void navigateToVisitsAndFairs() {
+    public void navigateToVisitsAndFairsWizard() {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
 
@@ -463,7 +459,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void navigateToCollegeFairs() {
+    public void navigateToCollegeFairSettings() {
         navBar.goToRepVisits();
         driver.findElement(By.xpath("//span[text()='College Fairs']")).click();
         Assert.assertTrue("College Fairs is not displayed", text("Add a College Fair").isDisplayed());
@@ -471,43 +467,33 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void primaryContactDetailsforFairs(String phoneNo) {
-        if(phoneNo.equals("")){
-            for(int i=0;i<15;i++) {
-                primaryContactinFairsSettings().sendKeys(Keys.BACK_SPACE);
-            }
-            button("SAVE SETTINGS").click();
-            Assert.assertTrue("Phone no is not entered ", text("Please enter a phone number. Ex: (555) 555-5555").isDisplayed());
-        }else{
-            primaryContactinFairsSettings().sendKeys(phoneNo);
-            button("SAVE SETTINGS").click();
-        }
+    public void primaryContactDetailsforFairs() {
+        while (getCollegeFairsPrimaryContactPhoneNumberField().getAttribute("value").length() > 0)
+            getCollegeFairsPrimaryContactPhoneNumberField().sendKeys(Keys.BACK_SPACE);
+        button("Save Settings").click();
+        Assert.assertTrue("Phone number is a required field, but the error message was not displayed.",driver.findElement(By.xpath("//span[contains(text(),'Please enter a phone number. Ex: (555) 555-5555')]")).isDisplayed());
+        getCollegeFairsPrimaryContactPhoneNumberField().sendKeys("1234567890");
+        button("Save Settings").click();
     }
 
-    public void primaryContactDetailsinAvailabilityandSettings(String phoneNo) {
-        if(phoneNo.equals("")) {
-            for(int i=0;i<15;i++) {
-                primaryContactinAvailabilityandSettings().sendKeys(Keys.BACK_SPACE);
-            }
-            button("Save changes").click();
-            Assert.assertTrue("Phone no is not entered ",driver.findElement(By.xpath("//span[contains(text(),'Please enter a phone number. Ex: (555) 555-5555')]")).isDisplayed());
-        }else{
-            primaryContactinAvailabilityandSettings().sendKeys(phoneNo);
-            button("Save changes").click();
-        }
+    public void primaryContactDetailsinAvailabilityandSettings() {
+        while (getRepVisitsPrimaryContactPhoneNumerField().getAttribute("value").length() > 0)
+            getRepVisitsPrimaryContactPhoneNumerField().sendKeys(Keys.BACK_SPACE);
+        button("Save changes").click();
+        Assert.assertTrue("Phone number is a required field, but the error message was not displayed.",driver.findElement(By.xpath("//span[text()='Please enter a phone number. Ex: (555) 555-5555']")).isDisplayed());
+        getRepVisitsPrimaryContactPhoneNumerField().sendKeys("1234567890");
+        button("Save changes").click();
     }
 
 
     private WebElement getStartedBtn() {
         return button("Get Started!");
     }
-    private WebElement primaryContactinAvailabilityandSettings() {
-        return driver.findElement(By.id("notification_contacts_primary_contact_phone"));
-    }
-    private WebElement primaryContactinFairsSettings() {
+
+    private WebElement getCollegeFairsPrimaryContactPhoneNumberField() {
         return driver.findElement(By.id("notification_fairs_phone_number"));
     }
-    private WebElement primaryContactinSetupWizard() {
+    private WebElement getRepVisitsPrimaryContactPhoneNumerField() {
         return driver.findElement(By.id("notification_contacts_primary_contact_phone"));
     }
     //locators
