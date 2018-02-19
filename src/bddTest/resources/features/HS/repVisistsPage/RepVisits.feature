@@ -401,7 +401,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
   @MATCH-2381
-  Scenario: As a HS RepVisits user verify note to let users know their contact info will be visible
+  Scenario: As a Non Naviance HS RepVisits user verify note to let users know their contact info will be visible
     Given HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "Control!23" as password
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I Click button Add a College Fair to Add a fair
