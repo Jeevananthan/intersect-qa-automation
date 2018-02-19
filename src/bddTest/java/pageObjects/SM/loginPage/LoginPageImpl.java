@@ -1,7 +1,9 @@
 package pageObjects.SM.loginPage;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -77,6 +79,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      */
     private void enterSuperMatchiFrame() {
         // TODO - Don't know what it's called yet.
+    }
+
+    //Locators
+    private WebElement getMenuBar(){
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
     }
 
 }
