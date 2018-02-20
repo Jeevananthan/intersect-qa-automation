@@ -144,12 +144,14 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
 
-        Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using \"([^\"]*)\" and \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTimeslot);
+        Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTimeslot);
 
         Then("^HS I edit the slots in Regular Weekly Hours using \"([^\"]*)\"$",repVisits::editSlot);
 
         Then("^HS I remove the Time Slot created with \"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotAddedInRegularWeeklyHoursTab);
 
         Then("^HS I set the \"([^\"]*)\" visits using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::setVisitsStatus);
+
+        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is displayed in the schedule new visit popup$",repVisits::verifyPillsInManuallyAddedAppointmentsPage);
     }
 }

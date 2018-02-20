@@ -181,6 +181,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Availability Settings").click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
         WebElement selectAccept = getDriver().findElement(By.cssSelector("div[class='ui selection dropdown']>div"));
         waitUntilPageFinishLoading();
         selectAccept.click();
@@ -1569,8 +1570,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        waitForUITransition();
         availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
         WebElement tableBody = driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody"));
         List<WebElement> tableRows = tableBody.findElements(By.cssSelector("i[class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
         for (WebElement deleteTimeSlot : tableRows) {
@@ -1606,6 +1607,58 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         noOfVisitsPerDayInAvailabilitySettings(option).sendKeys(value);
         saveChanges().click();
         waitUntilPageFinishLoading();
+    }
+
+    public void verifyPillsInManuallyAddedAppointmentsPage(String date,String time){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        button("add visit").click();
+        waitForUITransition();
+        dateButtonInAddvisitButtonPopup().click();
+        setSpecificDate(date);
+        waitForUITransition();
+        try{
+        Assert.assertTrue("Appointments are not diplayed",driver.findElement(By.xpath("//td/button[text()='"+StartTime+"']")).isDisplayed());
+        driver.findElement(By.xpath("//td/button[text()='"+StartTime+"']")).click();}
+        catch (Exception e){}
+    }
+
+    public void setSpecificDate(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+    public void findMonth(String month) {
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try{
+            int i = 0;
+            while (!DayPickerCaption.contains(month) && i < 12) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                i++;
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+            while (!DayPickerCaption.contains(month) && i > -12) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                i--;
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+        }
+        catch (Exception e) {
+            Assert.fail("The Date selected is out of RANGE.\n" + e.getMessage());
+        }
     }
 
     /*locators for Messaging Options Page*/
@@ -1792,5 +1845,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String time=startTime[0]+":"+randomNo+"am";
         logger.info("Time = "+time);
         return time;
+    }
+    private WebElement calendar()
+    {
+        WebElement navbar=link("Calendar");
+        return navbar;
+    }
+    private WebElement dateButtonInAddvisitButtonPopup() {
+        WebElement button=driver.findElement(By.xpath("//button/span/span[text()='Go to date']"));
+        return button;
     }
 }
