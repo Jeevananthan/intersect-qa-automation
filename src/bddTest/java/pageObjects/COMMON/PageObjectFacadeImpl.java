@@ -122,6 +122,12 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      */
     protected void pickDateInDatePicker(Calendar date) {
         Calendar todaysDate = Calendar.getInstance();
+
+        String dateString = getDay(date);
+        if (Character.valueOf(dateString.charAt(0)).equals('0')) {
+            dateString = dateString.substring(1);
+        }
+
         if (date.before(todaysDate)) {
             while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
                 datePickerPrevMonthButton().click();
@@ -134,7 +140,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         waitForUITransition();
         driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
                 "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
-                "DayPicker-Day--today'][text()='" + getDay(date).replaceFirst("0", "") + "']")).click();
+                "DayPicker-Day--today'][text()='" + dateString + "']")).click();
     }
 
     /**
