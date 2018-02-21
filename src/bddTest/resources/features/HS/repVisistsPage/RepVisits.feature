@@ -364,13 +364,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
            so that I can easily change the number of colleges I will allow during a certain time slot.
 #create a visit
     #precondition
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
     Then HS I set a date using "<StartDate>" and "<EndDate>" in Regular Weekly Hours Tab
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
@@ -390,7 +389,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I successfully sign out
 
 #verify the Exception tab(before changing the NumofVists : NumVisits-3)
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>","<StartDate>","2"
 
 #verify & edit regular weekly hours(changing NumofVisits from 3 to 2)
@@ -399,7 +398,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 #verify the Exception tab(after changing the NumofVists : NumVisits-2)
     Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>","<StartDate>","2"
-    Then HS I verify the pills "<StartDate>","<StartTime>" is displayed in the schedule new visit popup
+    Then HS I verify the pills "<StartDate>","<StartTime>" is not displayed in the schedule new visit popup
     And HS I successfully sign out
 
 #verify the pills is not present in the search and schedule page
@@ -409,7 +408,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I successfully sign out
 
 #edit regular weekly hours(changing NumofVisits from 2 to 3)
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours using "3"
 
@@ -425,7 +424,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I successfully sign out
 
 #Remove the time slot in Regular Weekly Hours Tab
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I remove the Time Slot created with "<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 

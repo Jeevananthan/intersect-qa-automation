@@ -1,6 +1,7 @@
 package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
+import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import javafx.scene.input.DataFormat;
 import org.junit.Assert;
@@ -347,22 +348,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyPills(String school,String startDate,String time){
+        waitUntilPageFinishLoading();
         visit().click();
-        WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName = driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(startDate);
         setDate(gotoDate, "other");
+        WebElement appointmentSlot = getDriver().findElement(By.cssSelector("table[class='ui celled padded table _2eF3VXyCbtuvPYc_1_GyO_']"));
+        waitUntil(ExpectedConditions.visibilityOf(appointmentSlot));
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        String visitDate=getMonthandDate(startDate);
-        WebElement button= driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        String visitDate = getMonthandDate(startDate);
         try{
-            if(! button.isDisplayed())
-            {
-                logger.info("appointment is not displayed");
-            }else{logger.info("appointment is displayed");}
-        }catch (Exception e){}
+            getDriver().findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+            throw new AssertionFailedError("The Time slot "+time+" is displayed in the Search and Schedule page for the school "+school+".");
+        } catch(Exception e){}
     }
 
     public  void verifyPillsIsPresent(String school,String startDate,String time){

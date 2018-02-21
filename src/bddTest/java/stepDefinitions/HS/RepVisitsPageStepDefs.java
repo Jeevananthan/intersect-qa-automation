@@ -152,6 +152,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the \"([^\"]*)\" visits using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::setVisitsStatus);
 
-        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is displayed in the schedule new visit popup$",repVisits::verifyPillsInManuallyAddedAppointmentsPage);
+        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is displayed in the schedule new visit popup$",repVisits::verifyPillsdisplayedScheduleNewVisit);
+
+        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is not displayed in the schedule new visit popup$",repVisits::verifyPillsNotdisplayedScheduleNewVisit);
     }
 }

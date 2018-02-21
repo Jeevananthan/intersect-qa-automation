@@ -2,6 +2,7 @@ package pageObjects.HS.repVisitsPage;
 
 import com.gargoylesoftware.htmlunit.WebWindow;
 import cucumber.api.DataTable;
+import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -1609,7 +1610,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyPillsInManuallyAddedAppointmentsPage(String date,String time){
+    public void verifyPillsdisplayedScheduleNewVisit(String date,String time){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        button("add visit").click();
+        waitForUITransition();
+        dateButtonInAddvisitButtonPopup().click();
+        setSpecificDate(date);
+        waitForUITransition();
+        Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//td/button[text()='"+StartTime+"']")).isDisplayed());
+        driver.findElement(By.xpath("//td/button[text()='"+StartTime+"']")).click();
+    }
+
+    public void verifyPillsNotdisplayedScheduleNewVisit(String date,String time){
+        time = StartTime ;
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
@@ -1621,9 +1638,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setSpecificDate(date);
         waitForUITransition();
         try{
-        Assert.assertTrue("Appointments are not diplayed",driver.findElement(By.xpath("//td/button[text()='"+StartTime+"']")).isDisplayed());
-        driver.findElement(By.xpath("//td/button[text()='"+StartTime+"']")).click();}
-        catch (Exception e){}
+            getDriver().findElement(By.xpath("//td/button[text()='"+time+"']"));
+            throw new AssertionFailedError("The Time slot "+time+" is displayed in the Schedule New Visit page");
+        } catch(Exception e){}
     }
 
     public void setSpecificDate(String addDays) {
