@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -683,10 +684,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      * @param school
      */
     private void addHighSchoolToTravelPlan(String school){
-        button(By.xpath(String.format(".//td/a[text()='%s']/ancestor::tr/td/div/button/span[text()='Add To Travel Plan']"
-                ,school))).click();
-        Assert.assertTrue(String.format("The school: %s was not added to the travel plan",school),
-                text(By.xpath("//span[text()='School added to Travel Plan']")).isDisplayed());
+        try{
+            driver.findElement(By.xpath(String.format(".//td/a[text()='%s']/ancestor::tr/td/div[@class='_1az38UH6Zn-lk--8jTDv2w']/span[text()='Added To Travel Plan']"
+                    ,school)));
+        } catch (Exception e){
+            button(By.xpath(String.format(".//td/a[text()='%s']/ancestor::tr/td/div/button/span[text()='Add To Travel Plan']"
+                    ,school))).click();
+            Assert.assertTrue(String.format("The school: %s was not added to the travel plan",school),
+                    text(By.xpath("//span[text()='School added to Travel Plan']")).isDisplayed());
+        }
     }
 
     /**
@@ -706,6 +712,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyTrashIconForTravelPlanHighSchool(String school){
         navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         try{
             getDriver().findElement(By.xpath(String.format(
                     ".//div/div/div[text()='%s']/ancestor::div[@class='item']/div/div/button/i[@class='trash icon _22IhW8lEh2abuRIROnZXJx']"
@@ -723,6 +730,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyLabelForTravelPlanHighSchool(String school, String labelText){
         navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         try{
             getDriver().findElements(By.xpath(String.format(
                     ".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='%s']",school,labelText
@@ -739,6 +747,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void removeHighSchoolFromTravelPlan(String school){
         navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
                 ,school))).click();
         Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?")
@@ -751,15 +760,44 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Cancels removing a given high school from the travel plan page
+     * @param school to be removed and canceled
+     */
+    public void cancelRemoveHighSchoolFromTravelPlan(String school){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
+                ,school))).click();
+        Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?")
+                .isDisplayed());
+        Assert.assertTrue("The remove from travel plan confirmation message is not displayed",
+                text(String.format("Are you sure you want to remove %s from your travel plan?", school)).isDisplayed());
+        button("CANCEL").click();
+    }
+
+    /**
      * Verifies if a given high school was removed from the travel plan list
      * @param school to verify if was removed
      */
-    public void verifyHighSchoolWasRemovedFromTravelPlan(String school){
+    public void verifyHighSchoolIsNotInTravelPlan(String school){
         try{
             getDriver().findElement(By.xpath(String.format(".//div[@class='content']/div/div/div[text()='%s']", school)));
-            throw new AssertionFailedError(String.format("The high school: %s was not deleted, it is displayed in the travel plan page",
+            throw new AssertionFailedError(String.format("The high school: %s  is displayed in the travel plan page",
                     school));
         } catch(Exception e){}
+    }
+
+    /**
+     * Verifies if a given high school was removed from the travel plan list
+     * @param school to verify if was removed
+     */
+    public void verifyHighSchoolInTravelPlan(String school){
+        try{
+            getDriver().findElement(By.xpath(String.format(".//div[@class='content']/div/div/div[text()='%s']", school)));
+        } catch(Exception e){
+            throw new AssertionFailedError(String.format("The high school: %s is not displayed in the travel plan page",
+                    school));
+        }
     }
 
     private WebElement upgradeButton(){

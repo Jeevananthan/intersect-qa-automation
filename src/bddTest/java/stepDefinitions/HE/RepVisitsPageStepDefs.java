@@ -88,6 +88,10 @@ public class RepVisitsPageStepDefs implements En {
 
         And("HE I remove \"([^\"]*)\" high school from the travel plan", repVisits::removeHighSchoolFromTravelPlan);
 
-        Then("HE I verify \"([^\"]*)\" is not displayed in the Travel Plan list",repVisits::verifyHighSchoolWasRemovedFromTravelPlan);
+        And("HE I cancel removing \"([^\"]*)\" high school from the travel plan", repVisits::cancelRemoveHighSchoolFromTravelPlan);
+
+        Then("HE I verify \"([^\"]*)\" is not displayed in the Travel Plan list",repVisits::verifyHighSchoolIsNotInTravelPlan);
+
+        Then("HE I verify \"([^\"]*)\" is displayed in the Travel Plan list",repVisits::verifyHighSchoolInTravelPlan);
     }
 }
