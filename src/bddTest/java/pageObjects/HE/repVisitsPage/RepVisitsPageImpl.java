@@ -372,10 +372,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             logger.info("Error Message is displayed");
             fail();
         }
-        waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
     }
+
+    public void verifySuccessMessageinAccountSettingsPage(String message){
+        String SuccessMessage = driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
+        Assert.assertTrue("Success message is not displayed",message.equals(SuccessMessage));
+    }
+
 
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));

@@ -100,5 +100,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the left sub menu are present in the Account Settings page$",repVisits::verifyDetailsInaccountSettings);
 
         And("^HS I reset the password for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::resetPassword);
+
+        And("^HS I verify the success message \"([^\"]*)\" in Account settings page$",repVisits::verifySuccessMessageinAccountSettingsPage);
     }
 }

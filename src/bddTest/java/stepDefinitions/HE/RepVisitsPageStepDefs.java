@@ -57,5 +57,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the left sub menu are present in the Account Settings page for Non-Admin$",repVisits::verifyDetailsInaccountSettingsforNonAdmin);
 
+        And("^HE I verify the success message \"([^\"]*)\" in Account settings page$",repVisits::verifySuccessMessageinAccountSettingsPage);
+
     }
 }

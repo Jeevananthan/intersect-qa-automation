@@ -1129,10 +1129,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 logger.info("Error Message is displayed");
                 TestCase.fail();
             }
-            waitUntilPageFinishLoading();
-            navBar.goToRepVisits();
-            waitUntilPageFinishLoading();
+        }
 
+        public void verifySuccessMessageinAccountSettingsPage(String message){
+        String SuccessMessage = driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
+        Assert.assertTrue("Success message is not displayed",message.equals(SuccessMessage));
         }
 
     public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){
