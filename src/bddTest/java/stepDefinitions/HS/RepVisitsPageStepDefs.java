@@ -95,7 +95,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify the non-password fields are pre-populated with current data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPasswordFields);
 
-        And("^HS I validate the password field \"([^\"]*)\",\"([^\"]*)\"$",repVisits::validatePassword);
+        And("^HS I validate the password field \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::validatePassword);
 
         And("^HS I verify the left sub menu are present in the Account Settings page$",repVisits::verifyDetailsInaccountSettings);
 

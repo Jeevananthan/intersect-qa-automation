@@ -276,7 +276,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the left-sub menu are present in the Account Settings page
     And HS I verify the non-password fields are pre-populated with current data "<HSadminFirstName>","<HSadminLastName>","<HSadminEmail>"
     |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And  HS I validate the password field "<adminUserForHS>","<newPassword>"
+    And  HS I validate the password field "<adminUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HS I successfully sign out
     #NON-ADMIN
     Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<oldPassword>" as password
@@ -289,7 +289,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the left sub menu are present in the Account Settings page
     And HS I verify the non-password fields are pre-populated with current data "<HSmemberFirstName>","<HSmemberLastName>","<HSmemberEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And  HS I validate the password field "<memberUserForHS>","<newPassword>"
+    And  HS I validate the password field "<memberUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HS I successfully sign out
     #ADMIN
     When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<oldPassword>" as password
@@ -302,7 +302,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I verify the left-sub menu are present in the Account Settings page
     And HE I verify the non-password fields are pre-populated with current data "<HEadminFirstName>","<HEadminLastName>","<HEadminEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And HE I validate the password field "<adminUserForHE>","<newPassword>"
+    And HE I validate the password field "<adminUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HE I successfully sign out
     #NON-ADMIN
     When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<oldPassword>" as password
@@ -315,9 +315,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I verify the left sub menu are present in the Account Settings page for Non-Admin
     And HE I verify the non-password fields are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And HE I validate the password field "<memberUserForHE>","<newPassword>"
+    And HE I validate the password field "<memberUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HE I successfully sign out
 
     Examples:
-    |oldPassword|newPassword|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
-    |Password!1 |Password#1 |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|
+    |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
+    |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|

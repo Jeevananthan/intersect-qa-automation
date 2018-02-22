@@ -1041,16 +1041,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Email is not displayed",email.equals(eMail));
     }
 
-    public void validatePassword(String userType,String oldPassword)
-    {
-
+    public void validatePassword(String userType,String oldPassword,String minimum8character,String lowercaseletter,String uppercaseletter,String withoutNumber,String withoutspecialcharacter) {
         currentPasswordInput().clear();
         currentPasswordInput().sendKeys(oldPassword);
         //verify the password policy of minimum of 8 characters
         newPasswordInput().clear();
         confirmPasswordInput().clear();
-        newPasswordInput().sendKeys("word!1");
-        confirmPasswordInput().sendKeys("word!1");
+        //verify the password policy of minimum of 8 characters
+        newPasswordInput().sendKeys(minimum8character);
+        confirmPasswordInput().sendKeys(minimum8character);
         saveButton().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
@@ -1058,8 +1057,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify the password policy of lowercase letter
         newPasswordInput().clear();
         confirmPasswordInput().clear();
-        newPasswordInput().sendKeys("password#1");
-        confirmPasswordInput().sendKeys("password#1");
+        newPasswordInput().sendKeys(lowercaseletter);
+        confirmPasswordInput().sendKeys(lowercaseletter);
         saveButton().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
@@ -1067,8 +1066,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify the password policy of uppercase letter
         newPasswordInput().clear();
         confirmPasswordInput().clear();
-        newPasswordInput().sendKeys("PASSWORD#1");
-        confirmPasswordInput().sendKeys("PASSWORD#1");
+        newPasswordInput().sendKeys(uppercaseletter);
+        confirmPasswordInput().sendKeys(uppercaseletter);
         saveButton().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
@@ -1076,8 +1075,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify the password policy of without the number
         newPasswordInput().clear();
         confirmPasswordInput().clear();
-        newPasswordInput().sendKeys("Password#*");
-        confirmPasswordInput().sendKeys("Password#*");
+        newPasswordInput().sendKeys(withoutNumber);
+        confirmPasswordInput().sendKeys(withoutNumber);
         saveButton().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
@@ -1085,8 +1084,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify the password policy of without the Special Characters
         newPasswordInput().clear();
         confirmPasswordInput().clear();
-        newPasswordInput().sendKeys("Password1");
-        confirmPasswordInput().sendKeys("Password1");
+        newPasswordInput().sendKeys(withoutspecialcharacter);
+        confirmPasswordInput().sendKeys(withoutspecialcharacter);
         saveButton().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
