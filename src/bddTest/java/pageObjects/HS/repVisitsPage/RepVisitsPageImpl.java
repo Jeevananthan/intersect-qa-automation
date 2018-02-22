@@ -179,6 +179,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         waitUntilElementExists(link("Availability & Settings"));
         link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
         link("Availability").click();
         link("Availability Settings").click();
         waitUntilPageFinishLoading();
@@ -1567,13 +1568,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
-    public void removeTimeSlotAddedInRegularWeeklyHoursTab(String Time)
-    {
+    public void removeTimeSlotAddedInRegularWeeklyHoursTab(String Time) {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
+        regularWeeklyHours().click();
+        waitUntilPageFinishLoading();
         WebElement tableBody = driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody"));
+        waitUntil(ExpectedConditions.visibilityOf(tableBody));
         List<WebElement> tableRows = tableBody.findElements(By.cssSelector("i[class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
         for (WebElement deleteTimeSlot : tableRows) {
             //Click on REMOVE button

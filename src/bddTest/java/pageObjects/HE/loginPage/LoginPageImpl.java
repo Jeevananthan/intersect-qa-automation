@@ -48,6 +48,13 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Clicked the login button");
         waitUntilPageFinishLoading();
         waitForUITransition();
+        List<WebElement> errorMessage = driver.findElements(By.cssSelector("div[class='ui negative message']"));
+        if (errorMessage.size()==1){
+            logger.info("Login failed. Invalid user or password.");
+        }else {
+            waitUntilElementExists(link(By.id("user-dropdown")));
+            waitForUITransition();
+        }
     }
 
     //Log in as an HE administrator
@@ -61,8 +68,13 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Sending credentials - " + username + ":" + password);
         loginButton().click();
         logger.info("Clicked the login button");
-        waitUntilElementExists(link(By.id("user-dropdown")));
-        waitUntilPageFinishLoading();
+        List<WebElement> errorMessage = driver.findElements(By.cssSelector("div[class='ui negative message']"));
+        if (errorMessage.size()==1){
+            logger.info("Login failed. Invalid user or password.");
+        }else {
+            waitUntilElementExists(link(By.id("user-dropdown")));
+            waitForUITransition();
+        }
     }
 
     public void createNewUser() {
