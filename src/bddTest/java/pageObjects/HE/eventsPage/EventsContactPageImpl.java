@@ -31,6 +31,7 @@ public class EventsContactPageImpl extends PageObjectFacadeImpl {
 
     public void newContact(String Contact) {
         driver.get(driver.getCurrentUrl());
+        waitForUITransition();
         searchNewContactField().clear();
         searchNewContactField().sendKeys(Contact);
 
