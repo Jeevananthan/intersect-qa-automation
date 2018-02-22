@@ -13,4 +13,9 @@ Scenario: As a HE premium user, I want the ability to remove any institution I a
   Then HE I verify "Westlake H S" is displayed in the Travel Plan list
   When HE I remove "Westlake H S" high school from the travel plan
   Then HE I verify "Westlake H S" is not displayed in the Travel Plan list
+  Then HE I verify the "Scheduled" label is displayed for "Standalone High School 3" high school
   And HE I successfully sign out
+  Given HE I am logged in to Intersect HE as user type "limited"
+  Then HE I verify travel plan is locked for non premium users
+  And HE I successfully sign out
+

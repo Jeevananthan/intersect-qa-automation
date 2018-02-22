@@ -800,6 +800,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Verifies that travel plan is locked
+     */
+    public void verifyTravelPlanIsLocked(){
+        navigateToRepVisitsSection("Travel Plan");
+        Assert.assertTrue("Travel Plan is not locked",text("Unlock Travel Plan").isDisplayed());
+    }
+
     private WebElement upgradeButton(){
         WebElement button=button("UPGRADE");
         return button;

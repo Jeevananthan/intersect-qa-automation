@@ -93,5 +93,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("HE I verify \"([^\"]*)\" is not displayed in the Travel Plan list",repVisits::verifyHighSchoolIsNotInTravelPlan);
 
         Then("HE I verify \"([^\"]*)\" is displayed in the Travel Plan list",repVisits::verifyHighSchoolInTravelPlan);
+
+        Then("HE I verify travel plan is locked for non premium users",repVisits::verifyTravelPlanIsLocked);
     }
 }
