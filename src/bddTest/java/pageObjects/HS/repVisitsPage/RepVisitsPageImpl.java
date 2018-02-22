@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.loginPage.LoginPageImpl;
 import utilities.GetProperties;
@@ -452,19 +454,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRepvisitsSetupWizardNonNaviance(){
-        waitUntilPageFinishLoading();
-        waitUntilPageFinishLoading();
         driver.navigate().to("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/");
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf( button("GET STARTED")),30);
         button("GET STARTED").click();
         waitUntilPageFinishLoading();
         String url = getDriver().getCurrentUrl();
         while (!url.equalsIgnoreCase("https://qa-hs.intersect.hobsons.com/rep-visits/setup/completed/visible")) {
             if (!url.toLowerCase().contains("naviance")) {
-                waitUntilPageFinishLoading();
-                button("NEXT").click();
-                waitUntilPageFinishLoading();
-                waitUntilPageFinishLoading();
+                new WebDriverWait(getDriver(),60).until(ExpectedConditions.visibilityOf(
+                        button("NEXT"))).click();
                 url = getDriver().getCurrentUrl();
             } else
                 Assert.assertTrue("Naviance options are available in RepVisits setup wizard for a non-Naviance HS.", false);

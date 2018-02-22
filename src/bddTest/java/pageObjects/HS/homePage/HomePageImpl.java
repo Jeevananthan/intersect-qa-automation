@@ -23,8 +23,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void logout() {
         driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
         userDropdown().click();
-        button(By.id("user-dropdown-signout")).click();
+        button(By.cssSelector("i.sign.out.icon + span.text")).click();
         waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
         Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
