@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -23,5 +24,6 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the Student Body UI in Resources Dropdown$", searchPage::verifyStudentBodyUI);
 
+        Then("^SM I click on Institution Characteristics fit criteria$", searchPage::getInstitutionCharacteristicsFC);
     }
 }
