@@ -2,6 +2,7 @@ package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
+import cucumber.api.java.gl.E;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -15,9 +16,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import utilities.GetProperties;
@@ -87,6 +89,103 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchButton().click();
     }
 
+    public void verifyEmptyContactPage(){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contact Header is not displayed",text("").isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",text("").isDisplayed());
+
+    }
+    public void verifyFullContactPage(){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contact Header is not displayed",driver.findElement(By.xpath("//h1[@class='ui header _2GIsNevIB_s082IZwcYen3']")).isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",driver.findElement(By.xpath("//div[@class='sub header _240ldPuujUDvP5vNIGw15H']")).isDisplayed());
+        List<WebElement> searchedValueOfName = driver.findElements(By.className("_1ijSBYwG-OqiUP1_S7yMUN"));
+        int size = searchedValueOfName.size();
+        Assert.assertTrue("RepVisits contact are not displayed",size>0);
+    }
+    public void verifyContactDetails(DataTable dataTable){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        List<String> list = dataTable.asList(String.class);
+        for (String repVisitsSubItem : list) {
+            Assert.assertTrue(repVisitsSubItem + " is not showing.",text(repVisitsSubItem).isDisplayed());
+        }
+    }
+    public void verifyFullorEmpty(){
+    try{ if(text("Welcome to Contacts").isDisplayed())
+    {
+        logger.info("you have no Contacts");
+    }
+        else if(driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed()) {
+        while (driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed()){
+            driver.findElement(By.xpath("//span[text()='Show More']")).click();
+        }}else{}}
+        catch(Exception e){}}
+    public void verifyinvalidcontact(String invalidData){
+        getSearchBoxforContact().clear();
+        getSearchBoxforContact().sendKeys(invalidData);
+        Assert.assertTrue("the message of 'Your search did not return any contacts.' is not displayed",text("Your search did not return any contacts.").isDisplayed());
+    }
+
+    public void sortingContacts()
+    {
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        driver.findElement(By.xpath("//input[@name='contacts-search']")).clear();
+        ArrayList<String> original=new ArrayList<>();
+        List<WebElement> elements=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[2]/div[1]"));
+        for(WebElement we:elements)
+        {
+            original.add(we.getText());
+        }
+        ArrayList<String> sortedList=new ArrayList<>();
+        for(String s:original)
+        {
+            sortedList.add(s);
+        }
+        Collections.sort(sortedList);
+        Assert.assertTrue("Contact are not ABC order by Institution Name and then Contact Last Name",sortedList.equals(original));
+    }
+
+    public void validatingthePaginationof25Contacts()
+    {
+        int count;
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contacts is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).isDisplayed());
+         count=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).size();
+       try{ logger.info(count);}catch(Exception e){}
+      while(count>=25)
+       {
+           if(driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed())
+           {
+               driver.findElement(By.xpath("//span[text()='Show More']")).click();
+           }validatingthePaginationof25Contacts();
+       }
+    }
+
+    public void searchforContact(String institutionName){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        getSearchBoxforContact().sendKeys(institutionName);
+        waitForUITransition();
+        //_1ijSBYwG-OqiUP1_S7yMUN is the class for the rows or the results table.
+        String schoolName = driver.findElement(By.className("_1ijSBYwG-OqiUP1_S7yMUN")).findElement(By.xpath(".//div[@class='_2ZIfaO8qcJzzQzgSfH1Z8h']")).getText();
+        Assert.assertTrue("The specified school name is not displayed.  Expected: " + institutionName + ", Actual: " + schoolName,schoolName.equalsIgnoreCase(institutionName));
+    }
+
+    public void partialsearchforContact(String institutionName){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        getSearchBoxforContact().sendKeys(institutionName);
+        List<WebElement> searchedValueOfinstitutionName = driver.findElements(By.className("_2ZIfaO8qcJzzQzgSfH1Z8h"));
+        for(int i=0;i<searchedValueOfinstitutionName.size();i++){
+            String value = searchedValueOfinstitutionName.get(i).getText();
+            Assert.assertTrue("Partial matching on institution name is not available",value.toLowerCase().contains(institutionName.toLowerCase()));
+        }
+    }
     public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
         WebElement schoolLocation = text(location);
         getParent(schoolLocation).findElement(By.tagName("a")).click();
@@ -475,6 +574,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
         Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
+    }
+
+
+    public void searchforPartialdata(String institutionName,String partial)
+    {
+    navBar.goToRepVisits();
+    getContactsBtn().click();
+    getSearchBoxforContact().clear();
+    getSearchBoxforContact().sendKeys(partial);
+    Assert.assertTrue("the specified schoolname is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[@class='five wide hidden-mobile']/div[contains(text(),'"+institutionName+"')]")).isDisplayed());
     }
 
     public void verifyUpgradeMessageInContactsInRepVisits(){
@@ -949,6 +1058,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchBox() { return textbox("Search by school name or location...");}
     private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
     private WebElement getSearchAndScheduleSearchBox(){ return textbox("Search by school name or location..."); }
+    //private WebElement getSearchBox() { return textbox("Enter a school name or location");}
+    private WebElement getSearchBoxforContact() { return driver.findElement(By.name("contacts-search"));}
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }

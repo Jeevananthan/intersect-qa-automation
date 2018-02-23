@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -73,6 +74,78 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyEmptyContactPage(){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contact Header is not displayed",driver.findElement(By.xpath("//h1[@class='ui header _2GIsNevIB_s082IZwcYen3']")).isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",driver.findElement(By.xpath("//div[@class='sub header _240ldPuujUDvP5vNIGw15H']")).isDisplayed());
+    }
+    public void verifyFullContactPage(){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contact Header is not displayed",driver.findElement(By.xpath("//h1[@class='ui header _2GIsNevIB_s082IZwcYen3']")).isDisplayed());
+        Assert.assertTrue("Instruction text is not displayed",driver.findElement(By.xpath("//div[@class='sub header _240ldPuujUDvP5vNIGw15H']")).isDisplayed());
+        List<WebElement> searchedValueOfName = driver.findElements(By.className("_1ijSBYwG-OqiUP1_S7yMUN"));
+        int size = searchedValueOfName.size();
+        Assert.assertTrue("RepVisits contact are not displayed",size>0);
+    }
+    public void verifyFullorEmpty(){
+        try{ if(text("Welcome to Contacts").isDisplayed())
+        {
+            logger.info("you have no Contacts");
+        }
+        else if(driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed()) {
+            while (driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed()){
+                driver.findElement(By.xpath("//span[text()='Show More']")).click();
+            }}else{}}
+        catch(Exception e){}}
+
+    public void sortingContacts()
+    {
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        driver.findElement(By.xpath("//input[@name='contacts-search']")).clear();
+        ArrayList<String> original=new ArrayList<>();
+        List<WebElement> elements=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[2]/div[1]"));
+        for(WebElement we:elements)
+        {
+            original.add(we.getText());
+        }
+        ArrayList<String> sortedList=new ArrayList<>();
+        for(String s:original)
+        {
+            sortedList.add(s);
+        }
+        Collections.sort(sortedList);
+        int i = 0;
+        for (String entry : sortedList) {
+            Assert.assertTrue("Entry in sorted list doesn't match an entry in the original list. Sorted: " + entry + ", Original: " + original.get(i),entry.equalsIgnoreCase(original.get(i)));
+            i++;
+        }
+        //Assert.assertTrue(sortedList.equals(original));
+    }
+
+    public void validatingthePaginationof25Contacts()
+    {
+        int count;
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        Assert.assertTrue("Contacts is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).isDisplayed());
+        count=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).size();
+        try{ logger.info(count);}catch(Exception e){}
+        if (count>=25) {
+            Assert.assertTrue("There are 25 contacts, but no 'Show More' button is present!",driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed());
+        }
+    }
+
+    public void verifyContactDetails(DataTable dataTable){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        List<String> list = dataTable.asList(String.class);
+        for (String repVisitsSubItem : list) {
+            Assert.assertTrue(repVisitsSubItem + " is not showing.",text(repVisitsSubItem).isDisplayed());
+        }
+    }
     public void verifyAvailabilitySettings(DataTable dataTable){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -132,7 +205,30 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
     }
+    public void verifyinvalidcontact(String invalidData){
+        getSearchBoxforContact().clear();
+        getSearchBoxforContact().sendKeys(invalidData);
+        Assert.assertTrue("the message of 'Your search did not return any contacts.' is not displayed",text("Your search did not return any contacts.").isDisplayed());
+    }
 
+    public void searchforContact(String institutionName){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        getSearchBoxforContact().clear();
+        getSearchBoxforContact().sendKeys(institutionName);
+        Assert.assertTrue("the specified schoolname is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[@class='five wide hidden-mobile']/div[contains(text(),'"+institutionName+"')]")).isDisplayed());
+    }
+    public void partialsearchforContact(String institutionName){
+        navBar.goToRepVisits();
+        getContactsBtn().click();
+        getSearchBoxforContact().clear();
+        getSearchBoxforContact().sendKeys(institutionName);
+        List<WebElement> searchedValueOfinstitutionName = driver.findElements(By.xpath("//td/div[contains(text(),'"+institutionName+"')]"));
+        for(int i=0;i<searchedValueOfinstitutionName.size();i++){
+            String value = searchedValueOfinstitutionName.get(i).getText();
+            Assert.assertTrue("Partial matching on institution name is not available",value.contains(institutionName));
+        }
+    }
     public void setPreventCollegesSchedulingNewVisits(String Numberofdays){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -1880,6 +1976,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).clear();
         getDriver().findElement(By.cssSelector("textarea[name='webInstructions']")).sendKeys(message);
     }
+    private WebElement getContactsBtn() {
+        return link("Contacts");
+    }
+    private WebElement getSearchBoxforContact() { return driver.findElement(By.name("contacts-search"));}
+    private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
+
 
     private void doubleClick(WebElement elementLocator) {
         Actions actions = new Actions(driver);
