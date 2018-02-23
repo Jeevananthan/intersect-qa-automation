@@ -117,7 +117,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             sortedList.add(s);
         }
         Collections.sort(sortedList);
-        Assert.assertTrue(sortedList.equals(original));
+        int i = 0;
+        for (String entry : sortedList) {
+            Assert.assertTrue("Entry in sorted list doesn't match an entry in the original list. Sorted: " + entry + ", Original: " + original.get(i),entry.equalsIgnoreCase(original.get(i)));
+            i++;
+        }
+        //Assert.assertTrue(sortedList.equals(original));
     }
 
     public void validatingthePaginationof25Contacts()
@@ -128,12 +133,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Contacts is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).isDisplayed());
         count=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).size();
         try{ logger.info(count);}catch(Exception e){}
-        while(count>=25)
-        {
-            if(driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed())
-            {
-                driver.findElement(By.xpath("//span[text()='Show More']")).click();
-            }validatingthePaginationof25Contacts();
+        if (count>=25) {
+            Assert.assertTrue("There are 25 contacts, but no 'Show More' button is present!",driver.findElement(By.xpath("//span[text()='Show More']")).isDisplayed());
         }
     }
 
@@ -1980,7 +1981,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement getSearchBoxforContact() { return driver.findElement(By.name("contacts-search"));}
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
-}
+
 
     private void doubleClick(WebElement elementLocator) {
         Actions actions = new Actions(driver);

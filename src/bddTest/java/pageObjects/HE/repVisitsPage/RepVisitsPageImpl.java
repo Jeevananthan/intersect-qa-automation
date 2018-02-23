@@ -170,8 +170,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         getContactsBtn().click();
         getSearchBoxforContact().sendKeys(institutionName);
-        Assert.assertTrue("the specified schoolname is not displayed",driver.findElement(By.xpath("//td/div[@class='_2ZIfaO8qcJzzQzgSfH1Z8h']/../div[text()='"+institutionName+"']")).isDisplayed());
+        waitForUITransition();
+        //_1ijSBYwG-OqiUP1_S7yMUN is the class for the rows or the results table.
+        String schoolName = driver.findElement(By.className("_1ijSBYwG-OqiUP1_S7yMUN")).findElement(By.xpath(".//div[@class='_2ZIfaO8qcJzzQzgSfH1Z8h']")).getText();
+        Assert.assertTrue("The specified school name is not displayed.  Expected: " + institutionName + ", Actual: " + schoolName,schoolName.equalsIgnoreCase(institutionName));
     }
+
     public void partialsearchforContact(String institutionName){
         navBar.goToRepVisits();
         getContactsBtn().click();
@@ -179,7 +183,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         List<WebElement> searchedValueOfinstitutionName = driver.findElements(By.className("_2ZIfaO8qcJzzQzgSfH1Z8h"));
         for(int i=0;i<searchedValueOfinstitutionName.size();i++){
             String value = searchedValueOfinstitutionName.get(i).getText();
-            Assert.assertTrue("Partial matching on institution name is not available",value.contains(institutionName));
+            Assert.assertTrue("Partial matching on institution name is not available",value.toLowerCase().contains(institutionName.toLowerCase()));
         }
     }
     public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
