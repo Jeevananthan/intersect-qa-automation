@@ -20,4 +20,13 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     protected void communityFrame() {
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
     }
+
+    public void waitForUITransition() {
+        try {
+            System.out.println("\nWaiting 3 seconds for UI Transition.\n");
+            Thread.sleep(3000);
+        } catch (Exception e) {
+            System.out.println("\nError waiting 3 seconds: " + e.getMessage() + e.getStackTrace() + "\n");
+        }
+    }
 }

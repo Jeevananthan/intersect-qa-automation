@@ -60,11 +60,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToInstitution(String institutionName) {
         navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
-            button("More Higher Ed Accounts").click();
-            waitUntilPageFinishLoading();
-        }
-        table(By.id("he-account-dashboard")).findElement(By.cssSelector("[aria-label=\"" + institutionName + "\"]")).click();
+        globalSearch.setSearchCategory("All");
+        globalSearch.searchForHEInstitutions(institutionName);
+        globalSearch.selectResult(institutionName);
     }
 
     public void goToUsersList(String institutionName) {

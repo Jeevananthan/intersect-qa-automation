@@ -49,10 +49,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     public void verifyEditPrimaryUserDetails(){
         Boolean canEdit = false;
         button(By.xpath("//span[text()='Primary User Details']/../button")).click();
-        String url = getDriver().getCurrentUrl();
-        if(url.toLowerCase().contains("update-primary-user"))
-            canEdit = true;
-        Assert.assertTrue("Cannot edit primary user info using the edu button.", canEdit);
+        Assert.assertTrue("The edit primary user page was not displayed", text("Update Primary User for").isDisplayed());
     }
 
     public void verifyUserIsNotPrimary(String userName) {

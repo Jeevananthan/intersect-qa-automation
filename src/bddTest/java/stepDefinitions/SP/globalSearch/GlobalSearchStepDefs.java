@@ -15,6 +15,8 @@ public class GlobalSearchStepDefs implements En {
 
         When("^SP I search for \"([^\"]*)\"$", globalSearch::searchForAll);
 
+        And("^SP I select the following institution \"([^\"]*)\" from the results$", globalSearch::selectResult);
+
         Then("^SP I am able to see \"([^\"]*)\" institution in the results$", globalSearch::verifyInstitutionalResults);
 
         Then("^SP I select \"([^\"]*)\" from the global search results$", globalSearch::selectResult);
