@@ -14,3 +14,5 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the system response when the GPA entered by the user is valid
     Then SM I verify the system response when the GPA entered by the user is invalid
+    Then SM I verify that GPA data is stored on our side
+    Then SM I verify that GPA doesn't become fit criteria in Must Have box

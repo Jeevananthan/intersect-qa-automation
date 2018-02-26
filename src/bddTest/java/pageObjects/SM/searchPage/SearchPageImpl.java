@@ -137,6 +137,43 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyIfGPADataIsStoredOnOurSide() {
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("3");
+
+        resourcesMenuItem().click();
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        Assert.assertTrue("GPA data is not stored on our side", gpaTextBox().getAttribute("value").equals("3"));
+
+    }
+
+    public void verifyGPACriteriaNotInMustHaveBox() {
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("3");
+
+        Assert.assertTrue("Must have box contains fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed());
+    }
+
     private WebElement admissionMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Admission')]"));
     }
@@ -207,6 +244,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement verySmallStudentBodyCheckbox() {
         return driver.findElement(By.xpath("//label[contains(text(), 'Very Small (2,000 or fewer students)')]//preceding-sibling::input"));
+    }
+
+    private WebElement resourcesMenuItem() {
+        return driver.findElement(By.xpath("//li[contains(text(), 'Resources')]"));
     }
 
     private WebElement mustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]"));

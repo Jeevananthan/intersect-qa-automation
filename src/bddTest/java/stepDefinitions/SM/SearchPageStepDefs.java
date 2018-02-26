@@ -18,5 +18,9 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the system response when the GPA entered by the user is invalid$", searchPage::verifySystemResponseWhenGPAInputIsInvalid);
 
+        And("^SM I verify that GPA data is stored on our side$", searchPage::verifyIfGPADataIsStoredOnOurSide);
+
+        And("^SM I verify that GPA doesn't become fit criteria in Must Have box$", searchPage::verifyGPACriteriaNotInMustHaveBox);
+
     }
 }
