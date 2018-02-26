@@ -171,7 +171,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         gpaTextBox().clear();
         gpaTextBox().sendKeys("3");
 
-        Assert.assertTrue("Must have box contains fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed());
+        Assert.assertTrue("Must have box doesn't contain GPA score fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
+                && !mustHaveBox().getText().contains("3") && !mustHaveBox().getText().toLowerCase().contains("gpa"));
     }
 
     private WebElement admissionMenuItem() {
