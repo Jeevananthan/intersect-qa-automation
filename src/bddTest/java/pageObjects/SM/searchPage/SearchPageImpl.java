@@ -137,8 +137,51 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyIfSATScoreDataIsStoredOnOurSide() {
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("800");
+
+        resourcesMenuItem().click();
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        Assert.assertTrue("SAT score data is not stored on our side", satScoreTextBox().getAttribute("value").equals("800"));
+
+    }
+
+    public void verifySATScoreCriteriaNotInMustHaveBox() {
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("500");
+
+        Assert.assertTrue("Must have box doesn't contain SAT score fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
+        && !mustHaveBox().getText().contains("500") && !mustHaveBox().getText().toLowerCase().contains("sat"));
+    }
+
+
     private WebElement admissionMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Admission')]"));
+    }
+
+    private WebElement resourcesMenuItem() {
+        return driver.findElement(By.xpath("//li[contains(text(), 'Resources')]"));
     }
 
     private WebElement institutionCharacteristicsMenuItem() {
