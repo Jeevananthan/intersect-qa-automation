@@ -274,8 +274,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<newPassword>" as password
     Then HS I navigate to the "Account Settings" Page
-    And HS I verify the left-sub menu are present in the Account Settings page
-    And HS I verify the non-password fields are pre-populated with current data "<HSadminFirstName>","<HSadminLastName>","<HSadminEmail>"
+    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
+    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSadminFirstName>","<HSadminLastName>","<HSadminEmail>"
     |contain a lowercase letter|contain an uppercase letter|contain a number|
     And HS I validate the password field "<adminUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HS I verify the success message "Success! You've updated your account information." in Account settings page
@@ -289,8 +289,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<newPassword>" as password
     Then HS I navigate to the "Account Settings" Page
-    And HS I verify the left sub menu are present in the Account Settings page
-    And HS I verify the non-password fields are pre-populated with current data "<HSmemberFirstName>","<HSmemberLastName>","<HSmemberEmail>"
+    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
+    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSmemberFirstName>","<HSmemberLastName>","<HSmemberEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
     And  HS I validate the password field "<memberUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HS I verify the success message "Success! You've updated your account information." in Account settings page
@@ -304,8 +304,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<newPassword>" as password
     Then HE I navigate to the "Account Settings" Page
-    And HE I verify the left-sub menu are present in the Account Settings page
-    And HE I verify the non-password fields are pre-populated with current data "<HEadminFirstName>","<HEadminLastName>","<HEadminEmail>"
+    And HE I verify the left-sub menu "Account Information,Users" are present in the Account Settings page
+    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEadminFirstName>","<HEadminLastName>","<HEadminEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
     And HE I validate the password field "<adminUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HE I verify the success message "Success! You've updated your account information." in Account settings page
@@ -319,8 +319,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<newPassword>" as password
     Then HE I navigate to the "Account Settings" Page
-    And HE I verify the left sub menu are present in the Account Settings page for Non-Admin
-    And HE I verify the non-password fields are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
+    And HE I verify the left sub menu "Account Information" is present in the Account Settings page for Non-Admin
+    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
     And HE I validate the password field "<memberUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HE I verify the success message "Success! You've updated your account information." in Account settings page

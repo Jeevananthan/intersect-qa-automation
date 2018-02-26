@@ -241,31 +241,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyAccountsettings()
-    {
-        List<String> tabs = new ArrayList<>();
-        //Left Menu
-        tabs.add("Account Information");
-        tabs.add("Users");
-        for (String tab : tabs) {
-            Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+tab+"']")).isDisplayed());
+    public void verifyAccountsettings(String leftSubMenuInaccountSettings) {
+        String subMenu[] = leftSubMenuInaccountSettings.split(",");
+        for (int i=0;i<subMenu.length-1;i++) {
+            Assert.assertTrue("Tab " + subMenu[i] + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+subMenu[i]+"']")).isDisplayed());
         } }
 
-    public void verifyPasswordFields(String firstName,String lastName,String eMail,DataTable dataTable)
-    {
-        List<String> details=new ArrayList<>();
-        details.add("Account Information");
-        details.add("Your Name");
-        details.add("First Name");
-        details.add("Last Name");
-        details.add("Contact Information");
-        details.add("Email");
-        details.add("Change Password");
-        details.add("Current Password");
-        details.add("New Password");
-        details.add("Confirm New Password");
-        for(String verifyDetails:details) {
-            Assert.assertTrue(verifyDetails + " is not showing.", text(verifyDetails).isDisplayed());}
+    public void verifyPasswordFields(String AccountInformationPage,String firstName,String lastName,String eMail,DataTable dataTable) {
+        String details[] = AccountInformationPage.split(",");
+        for(int i=0;i<details.length-1;i++) {
+            Assert.assertTrue(details[i] + " is not showing.", text(details[i]).isDisplayed());}
         currentPasswordInput().sendKeys(Keys.PAGE_DOWN);
         List<String> list = dataTable.asList(String.class);
         for (String passwordCriteria : list) {
@@ -337,7 +322,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             fail("Error Message is displayed");
         }
         waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
     }
 
     public void verifyDetailsInaccountSettings()
@@ -350,14 +334,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+tab+"']")).isDisplayed());
         } }
 
-    public void verifyDetailsInaccountSettingsforNonAdmin()
-    {
-        List<String> tabs = new ArrayList<>();
-        //Left Menu
-        tabs.add("Account Information");
-        for (String tab : tabs) {
-            Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+tab+"']")).isDisplayed());
-        } }
+    public void verifyDetailsInaccountSettingsforNonAdmin(String leftSubMenuInaccountSettings) {
+        Assert.assertTrue("Tab " + leftSubMenuInaccountSettings + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+leftSubMenuInaccountSettings+"']")).isDisplayed());
+    }
+
 
     public void resetPassword(String oldPassword,String newPassword)
     {
