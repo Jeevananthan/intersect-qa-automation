@@ -15,7 +15,8 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickMenuButton(String buttonLabel) {
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), \"Studies\")]")));
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), '" + buttonLabel + "')]")));
         WebElement button = null;
         switch (buttonLabel) {
             case "Studies" : button = studiesButton();
@@ -24,10 +25,15 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
             break;
             case "Overview" : button = overviewButton();
             break;
+            case "Costs" : button = costsButton();
+                break;
         }
         waitUntil(ExpectedConditions.elementToBeClickable(button));
         button.click();
         waitUntilPageFinishLoading();
+        if (!button.getText().equals(buttonLabel)) {
+            button.click();
+        }
         logger.info(buttonLabel + " button clicked");
     }
 
@@ -40,5 +46,8 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement overviewButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Overview\")]"));
+    }
+    private WebElement costsButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), \"Costs\")]"));
     }
 }

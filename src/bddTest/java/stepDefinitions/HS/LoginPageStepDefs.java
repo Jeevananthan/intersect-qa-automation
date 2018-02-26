@@ -19,7 +19,7 @@ public class LoginPageStepDefs implements En {
 
         When("^HS I want to login to the HS app using \"([^\"]*)\" as username and \"([^\"]*)\" as password$", loginPage::login);
 
-        Then("^HS I verify that the HS login page is displayed$", loginPage::verifyHSPage);
+        Then("^HS I verify that the HS login page is displayed$", loginPage::verifyHSLoginPage);
 
         Given("^HS I verify the HS login screen$", loginPage::verifyLoginScreen);
 
@@ -32,6 +32,16 @@ public class LoginPageStepDefs implements En {
         Then("^HS I am logged in to Intersect HS as user type \"([^\"]*)\"$", loginPage::defaultLogin);
 
         And("^HS I am able to successfully login$", homePage::verifyUserIsLoggedIn);
+
+        Then ("^HS I verify the address page of \"([^\"]*)\" which is a \"([^\"]*)\" school in \"([^\"]*)\"$",loginPage::verifyHSAddressPage);
+
+        Given("^HS I navigate to Registration Intersect url$",loginPage::navigateToHSRegistrationPage);
+
+        Then("^HS I verify the Institution page$",loginPage::verifyInstitutionPage);
+
+        Then("^HS I search for \"([^\"]*)\" in High School Staff Member registration page$",loginPage::searchInstitution);
+
+        Then("^HS I verify the link \"([^\"]*)\"$",loginPage::verifyLink);
 
     }
 }

@@ -20,8 +20,8 @@ public class OverviewStepDefs implements En{
             originalValues = overviewPage.getValuesFromFields(stringsDataTable.asLists(String.class));
         });
 
-        And("^HUBS I edit all the fields in Overview based on the gathered values, with the following details:$", (DataTable stringsDataTable) -> {
-            overviewEditPage.editAllFieldsBasedOnGatheredValues(stringsDataTable, originalValues);
+        And("^HUBS I edit all the fields in Overview based on the gathered values, with the publish reason \"([^\"]*)\"$", (String publishReason) -> {
+            overviewEditPage.editAllFieldsBasedOnGatheredValues(publishReason, originalValues);
         });
     }
 

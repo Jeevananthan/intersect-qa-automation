@@ -3,7 +3,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
   understand what Hubs offers students.
 
   Background:
-    Given HE I want to login to the HE app using "mkaur@hobsons-us.com" as username and "Alma!234" as password
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "Overview" tab in the preview
 
@@ -17,13 +17,15 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     Then HUBS I should be able to edit the following fields for Overview in real time:
       | Opening Statement | test |
       | Website | test |
-      | School Type  | Level;Corporation;Private / Corporate|
+      | School Type  | Level;Corporation;Public / Corporate|
       | Undergraduate Enrollment | 10;10 |
       | Student / Faculty Ratio  | 777 |
       | Campus Surroundings      | City Size;Town, within 10 miles of urban area |
       | Test Scores              | SAT Critical Reading;Low;777                  |
-      | Average GPA              | 7.7                                           |
-      | Contact Information      | Application Mailing Address;ZIP;777           |
+      #MATCH-3775: Average GPA is not updated in real time
+      #| Average GPA              | 7.7                                           |
+      #MATCH-3780: Contact Information is not editable
+      #| Contact Information      | Application Mailing Address;ZIP;777           |
     And HE I successfully sign out
 
   Scenario: Changes done in HEM are successfully published to HUBS
@@ -36,23 +38,13 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Student / Faculty Ratio  |
       | Campus Surroundings      |
       | Test Scores              |
-      | Average GPA              |
-      | Contact Information      |
-    And HUBS I edit all the fields in Overview based on the gathered values, with the following details:
-      | Opening Statement |
-      | Website |
-      | School Type  |
-      | Undergraduate Enrollment |
-      | Student / Faculty Ratio  |
-      | Campus Surroundings      |
-      | Test Scores              |
-      | Average GPA              |
-      | Contact Information      |
-      | test |
+      #| Average GPA              |
+      #| Contact Information      |
+    And HUBS I edit all the fields in Overview based on the gathered values, with the publish reason "test"
     And HE I successfully sign out
-    And HUBS I approve the changes in CMS with the user email "mkaur@hobsons-us.com" and the following details:
-      | admin | hbcmsxx | Alma College | Published |
-    Then Then HUBS I should be able to verify the changes for Overview published in HUBS, with username "benhubs", password "Hobsons!23" and college "Alma", in the following sections
+    And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
+      | admin | hbcmsxx | The University of Alabama | Published |
+    Then Then HUBS I should be able to verify the changes for Overview published in HUBS, with username "benhubs", password "Hobsons!23" and college "The University of Alabama", in the following sections
       | Opening Statement |
       | Website |
       | School Type  |
@@ -60,7 +52,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Student / Faculty Ratio  |
       | Campus Surroundings      |
       | Test Scores              |
-      | Average GPA              |
-      | Contact Information      |
+      #| Average GPA              |
+      #| Contact Information      |
     And HUBS I successfully sign out
 

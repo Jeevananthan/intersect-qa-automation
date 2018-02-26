@@ -2,6 +2,7 @@ package stepDefinitions.HE;
 
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
+import pageObjects.HE.eventsPage.EventsPageImpl;
 import pageObjects.HE.homePage.HomePageImpl;
 
 public class HomePageStepDefs implements En {
@@ -10,6 +11,7 @@ public class HomePageStepDefs implements En {
 
         HomePageImpl homePage = new HomePageImpl();
         NavBarImpl navBar = new NavBarImpl();
+        EventsPageImpl eventsPage = new EventsPageImpl();
 
         Then("^HE I am able to successfully login$", homePage::verifyUserIsLoggedIn);
 
@@ -29,7 +31,7 @@ public class HomePageStepDefs implements En {
 
         Then("^I verify that the \"([^\"]*)\" widget is not displayed$",homePage::verifyWidgetIsNotVisible);
 
-        When("^HE I verify that I am sent to the Community activate profile page when accessing RepVisits$",
+        When("^HE I verify that I am redirected to the Community activate profile page when accessing RepVisits$",
                 homePage::verifyCommunityActivationForRepVisits);
 
         Then("^HE I verify the left navigation bar and section breadcrumbs are as follows$", navBar::verifyLeftNavAndBreadcrumbs);
@@ -46,7 +48,19 @@ public class HomePageStepDefs implements En {
 
         And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
 
+        And("^HE I activate my community profile by providing OfficePhone as \"([^\"]*)\" and JobTitle as \"([^\"]*)\"$",
+            homePage::fillCommunityWelcomeMandatoryFields);
 
+        And("^HE I go to the Counselor Community$", navBar::goToCommunity);
+
+        And("^HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits$",
+                homePage::verifyRepVisitsLandingPage);
+
+        And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
+
+        And("^HE I open the Active Match section$", navBar::goToActiveMatch);
+
+        And("^HE I open the Events section$", navBar::goToEvents);
 
     }
 }

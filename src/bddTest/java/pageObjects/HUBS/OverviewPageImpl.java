@@ -59,7 +59,7 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
                     fieldValues.put(field.get(0), getSchoolTypeForEdit(getQuickFact(field.get(0)).getText()));
                     break;
                 case "Undergraduate Enrollment" :
-                    fieldValues.put(field.get(0), getQuickFact(field.get(0)).getText());
+                    fieldValues.put(field.get(0), getQuickFact(field.get(0)).getText().replace(",", ""));
                     break;
                 case "Student / Faculty Ratio" :
                     fieldValues.put(field.get(0), getQuickFact(field.get(0)).getText());
@@ -127,7 +127,7 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
                             getDriver().findElement(By.cssSelector("div.hub-links-bar__links a:nth-of-type(1)")).sendKeys(Keys.ARROW_DOWN);
                         }
                     }
-                    assertTrue("The value for " + key + " was not successfully generated",
+                    assertTrue("The value for " + key + " was not successfully generated. UI value: " + getTestScoresTableValue("SAT 2400 Reading", "Low").getText(),
                             generatedValues.get(key).equals(getTestScoresTableValue("SAT 2400 Reading", "Low").getText()));
                     break;
                 case "Average GPA" :
@@ -240,7 +240,8 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
             break;
             case "Private / <2 Year" : result = "Less than 2 Year School";
             break;
-            case "Private / Corporate" : result = "Corporation";
+            case "Public / Corporate" : result = "Corporation";
+            break;
         }
         return result;
     }

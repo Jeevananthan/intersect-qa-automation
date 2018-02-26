@@ -27,9 +27,10 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
     }
 
     public void searchAndOpenCollege(String searchString) {
-        enterSearchString(searchString);
+        waitUntilPageFinishLoading();
+        enterSearchString(searchString.toLowerCase());
         clickGoButton();
-        clickSingleResult();
+        collegeInList(searchString).click();
     }
 
     //Locators
@@ -43,4 +44,5 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
     private WebElement singleResult() {
         return getDriver().findElement(By.cssSelector("table.standard.striped a"));
     }
+    private WebElement collegeInList(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']")); }
 }

@@ -16,14 +16,16 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickEditMenuButton(String label) {
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='editor-status ng-scope']"), 1));
+        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='editor ng-scope']"), 1));
         switch (label) {
             case "Studies" : studiesButton().click();
                 break;
             case "Student Life" : studentLifeButton().click();
                 break;
             case "Overview" : overviewButton().click();
+                break;
+            case "Costs" : costsButton().click();
                 break;
         }
         logger.info(label + " button was clicked");
@@ -35,4 +37,7 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement studentLifeButton() { return getDriver().findElement(By.xpath("//li[text()='Student Life']")); }
     private WebElement overviewButton() { return getDriver().findElement(By.xpath("//li[text()='Overview']")); }
+    private WebElement costsButton() {
+        return getDriver().findElement(By.xpath("//li[text()='Costs']"));
+    }
 }
