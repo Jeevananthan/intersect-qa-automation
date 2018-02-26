@@ -233,10 +233,52 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyIfACTScoreDataIsStoredOnOurSide() {
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("6");
+
+        resourcesMenuItem().click();
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals("6"));
+
+    }
+
+    public void verifyACTScoreCriteriaNotInMustHaveBox() {
+
+        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("8");
+
+        Assert.assertTrue("Must have box doesn't contain ACT score fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
+                && !mustHaveBox().getText().contains("8") && !mustHaveBox().getText().toLowerCase().contains("act"));
+    }
+
+
+    private WebElement resourcesMenuItem() {
+        return driver.findElement(By.xpath("//li[contains(text(), 'Resources')]"));
+    }
+
     private WebElement admissionMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Admission')]"));
     }
-
 
     // Locators Below
 

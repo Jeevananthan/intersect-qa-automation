@@ -27,5 +27,9 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the system response when the ACT score entered by the user is invalid$", searchPage::verifySystemResponseWhenACTScoreIsInvalid);
 
+        And("^SM I verify that ACT score data is stored on our side$", searchPage::verifyIfACTScoreDataIsStoredOnOurSide);
+
+        And("^SM I verify that ACT score doesn't become fit criteria in Must Have box$", searchPage::verifyACTScoreCriteriaNotInMustHaveBox);
+
     }
 }
