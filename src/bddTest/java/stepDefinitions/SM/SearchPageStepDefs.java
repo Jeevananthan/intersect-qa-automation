@@ -14,6 +14,8 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify if dark blue header is present$", searchPage::verifyDarkBlueHeaderIsPresent);
 
+        And("^SM I verify if Your Fit Criteria text is present$", searchPage::verifyYourFitCriteriaTextIsPresent);
+
         And("^SM I verify the Choose Fit Criteria bar$", searchPage::verifyChooseFitCriteriaBar);
 
         And("^SM I verify Select Criteria to Start button and instructional text$", searchPage::verifySelectCriteriaButtonAndInstructionalText);

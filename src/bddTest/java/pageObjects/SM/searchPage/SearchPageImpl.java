@@ -29,6 +29,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         .getText().equals("SuperMatch College Search"));
     }
 
+    public void verifyYourFitCriteriaTextIsPresent() {
+        Assert.assertTrue("'Your Fit Criteria' text is not present", driver.findElement(By.xpath("//h2[@class='heading']")).getText().equals("Your Fit Criteria"));
+    }
+
     public void verifyChooseFitCriteriaBar() {
         List<WebElement> liElements = chooseFitCriteriaBar().findElements(By.xpath(".//li"));
 
@@ -78,9 +82,28 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'supermatch-results')]//h3")))
                 .getText().equals("No Results Yet"));
 
+        Assert.assertTrue("The 1st header column is not gray", superMatchEmptyTable().
+                findElement(By.xpath("./thead/tr/th[1]")).getCssValue("background-color").equals("rgba(230, 230, 241, 1)"));
+
+        Assert.assertTrue("The 2nd header column is not gray", superMatchEmptyTable().
+                findElement(By.xpath("./thead/tr/th[2]")).getCssValue("background-color").equals("rgba(230, 230, 241, 1)"));
+
+        Assert.assertTrue("The 3rd header column is not gray", superMatchEmptyTable().
+                findElement(By.xpath("./thead/tr/th[3]")).getCssValue("background-color").equals("rgba(230, 230, 241, 1)"));
+
+        Assert.assertTrue("The 4th header column is not gray", superMatchEmptyTable().
+                findElement(By.xpath("./thead/tr/th[4]")).getCssValue("background-color").equals("rgba(230, 230, 241, 1)"));
+
+        Assert.assertTrue("The 5th header column is not gray", superMatchEmptyTable().
+                findElement(By.xpath("./thead/tr/th[5]")).getCssValue("background-color").equals("rgba(230, 230, 241, 1)"));
+
+        Assert.assertTrue("The 6th header column is not gray", superMatchEmptyTable().
+                findElement(By.xpath("./thead/tr/th[6]")).getCssValue("background-color").equals("rgba(230, 230, 241, 1)"));
+
         //Verify the table headers
         Assert.assertTrue(superMatchEmptyTable().findElement(By.xpath("./thead/tr/th[2]")).getText()
                 .equals("Fit Score"));
+
 
         Assert.assertTrue(superMatchEmptyTable().findElement(By.xpath("./thead/tr/th[3]")).getText()
                 .equals("Academic Match"));

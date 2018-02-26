@@ -6,6 +6,7 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
   'empty state' page (no filters selected yet) so I can perform a search when ready.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify if dark blue header is present
+    Then SM I verify if Your Fit Criteria text is present
     Then SM I verify the Choose Fit Criteria bar
     Then SM I verify Select Criteria to Start button and instructional text
     Then SM I verify Must Have and Nice to Have boxes
