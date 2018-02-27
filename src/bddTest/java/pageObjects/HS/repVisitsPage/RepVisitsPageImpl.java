@@ -1895,9 +1895,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         closeFairScreen().click();
         waitForUITransition();
     }
-    public void viewFairDetails(String fairName) {
+    public void viewFairDetails() {
         waitUntilPageFinishLoading();
-        getDriver().findElement(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr[1]/td[text()='"+ fairName +"']/following-sibling::td[4]/a/span")).click();
+        getDriver().findElement(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr[1]/td/following-sibling::td[4]/a/span")).click();
     }
 
     public void editFair(){
