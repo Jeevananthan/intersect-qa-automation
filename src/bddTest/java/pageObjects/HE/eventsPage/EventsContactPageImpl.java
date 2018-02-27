@@ -33,6 +33,7 @@ public class EventsContactPageImpl extends PageObjectFacadeImpl {
         driver.get(driver.getCurrentUrl());
         waitForUITransition();
         searchNewContactField().clear();
+        waitForUITransition();
         searchNewContactField().sendKeys(Contact);
 
     }
