@@ -66,5 +66,5 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     When HE I open the Events list
     And HE I open the Create Event screen
     And HE I publish the current event
-    Then HE I verify required fields error messages
+    Then HE I verify required fields error messages for events
     And HE I successfully sign out

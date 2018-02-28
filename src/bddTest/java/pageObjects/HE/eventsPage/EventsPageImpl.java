@@ -13,12 +13,16 @@ import pageObjects.HE.homePage.HomePageImpl;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 public class EventsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
     public static HashMap<String, String> editedData = new HashMap<>();
     public static String eventName = "";
     private HomePageImpl homePage = new HomePageImpl();
+    public static Calendar generatedTime;
 
     public EventsPageImpl() {
         logger = Logger.getLogger(EventsPageImpl.class);
@@ -171,6 +175,15 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                 "/tbody/tr[" + position + "]/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']")).click();
     }
 
+    public void selectLocationByName(String name) {
+        clearSelectionField(locationField());
+        openSelectionFieldMenu(locationField());
+        driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table AUCnq8YpQQX6dyWSXlgRo']" +
+                "/tbody/tr[@class='_1hExGvG5jluro4Q-IOyjd7']/td/div[@class = '_1mf5Fc8-Wa2hXhNfBdgxce']" +
+                "[text() = '" + name + "']")).click();
+    }
+
+
     public void selectFilterByPosition(int position) {
         if (audienceField().getText().length() > 0) {
             for (int i = 0; i <= audienceField().getText().length(); i++) {
@@ -183,6 +196,21 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         audienceField().sendKeys(Keys.BACK_SPACE);
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _2NlS0bmSsF9TMGlRj-exrG']" +
                 "/tbody/tr[" + position + "]/td/div[@class='_3BUJ-YOdd0uTHeZhux4Duw']")).click();
+    }
+
+    private void clearSelectionField(WebElement selectionField) {
+        if (selectionField.getText().length() > 0) {
+            for (int i = 0; i <= selectionField.getText().length(); i++) {
+                selectionField.sendKeys(Keys.BACK_SPACE);
+            }
+        } else {
+            selectionField.clear();
+        }
+    }
+
+    private void openSelectionFieldMenu(WebElement selectionField) {
+        selectionField.sendKeys("a");
+        selectionField.sendKeys(Keys.BACK_SPACE);
     }
 
     public void openEditScreen(String eventName) {
@@ -256,6 +284,13 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyAllErrorMessages() {
+        Assert.assertTrue("The error message for Location Name is not displayed", locationNameError().isDisplayed());
+        Assert.assertTrue("The error message for Location State is not displayed", locationStateError().isDisplayed());
+        Assert.assertTrue("The error message for Location Zip number is not displayed", locationZipError().isDisplayed());
+        eventNameField().click();
+    }
+
+    public void verifyAllErrorMessagesForEvents() {
         Assert.assertTrue("The error message for Event Name is not displayed", eventNameError().isDisplayed());
         /*This is disabled because of an issue noted in MATCH-2913*/
         //Assert.assertTrue("The error message for Event Start is not displayed", eventStartError().isDisplayed());
@@ -264,6 +299,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The error message for Event Location is not displayed", eventLocationError().isDisplayed());
         Assert.assertTrue("The error message for Primary Contact is not displayed", primaryContactError().isDisplayed());
     }
+
 
     public void verifyEventNotPresentInList(String eventName) {
         waitUntilPageFinishLoading();
@@ -310,6 +346,37 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCreatedEventIsInCancelledList() {
         verifyEventIsInCancelledList(eventName);
+    }
+
+    public void createAndSaveEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
+        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
+        fillEventStartDateTimeFields(minutesFromNow);
+        fillCreateEventForm(eventDetails);
+        saveDraftButton().sendKeys(Keys.RETURN);
+    }
+
+    public void createAndPublishEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
+        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
+        fillEventStartDateTimeFields(minutesFromNow);
+        fillCreateEventForm(eventDetails);
+        publishNowButton().sendKeys(Keys.RETURN);
+    }
+
+    public void fillEventStartDateTimeFields(String minutesFromNow) {
+        waitUntilPageFinishLoading();
+        generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
+        Calendar date = Calendar.getInstance();
+        createEventButton().click();
+        waitForUITransition();
+        eventStartCalendarButton().click();
+        waitForUITransition();
+        pickDateInDatePicker(date);
+        eventStartTimeField().sendKeys(getTime(generatedTime).replace(" ", ""));
+    }
+
+    public void verifyEventInExpiredList() {
+        getEventsTab("Expired").click();
+
     }
 
     //locators
@@ -380,4 +447,13 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("button[data-status='UNPUBLISHED']"));
     }
     private WebElement eventsTabFromEditEventScreen() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL']/span[text()='Events']")); }
+    private WebElement locationNameError() {
+        return driver.findElement(By.cssSelector("div.dimmable div._1TudguVf2jObtmqUQKvIAk div[role='tooltip'] span"));
+    }
+    private WebElement locationStateError() {
+        return driver.findElement(By.cssSelector("div.dimmable div._2gPcidNhI4UgSMMTgArhV8:nth-of-type(1) span"));
+    }
+    private WebElement locationZipError() {
+        return driver.findElement(By.cssSelector("div.dimmable div._2gPcidNhI4UgSMMTgArhV8:nth-of-type(2) span"));
+    }
 }

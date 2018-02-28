@@ -36,6 +36,7 @@ public class EventsPageStepDefs implements En {
         When("^HE I delete the event of name \"([^\"]*)\"$", eventsPage::deleteEvent);
 
         And("^HE I verify required fields error messages$", eventsPage::verifyAllErrorMessages);
+        And("^HE I verify required fields error messages for events$", eventsPage::verifyAllErrorMessagesForEvents);
 
         Then("^HE The deleted event of name \"([^\"]*)\" should not be displayed in the unpublished events list$", eventsPage::verifyEventNotPresentInList);
 
@@ -48,5 +49,11 @@ public class EventsPageStepDefs implements En {
         Then("^HE The cancelled event should be displayed in the canceled events list$", eventsPage::verifyCreatedEventIsInCancelledList);
 
         And("^HE I open the Create Event screen$", eventsPage::clickCreateEvent);
+
+        And("^HE I create and save a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::createAndSaveEventWithGenDate);
+
+        And("^HE I create and publish a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::createAndPublishEventWithGenDate);
+
+        And("^HE I verify that the event of name \"([^\"]*)\" is in the expired list$", eventsPage::verifyEventInExpiredList);
     }
 }
