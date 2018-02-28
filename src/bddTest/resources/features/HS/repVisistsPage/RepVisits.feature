@@ -103,7 +103,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1617 @MATCH-1997
   Scenario: As a high school community user, I want to be able to accept or deny a college that requests to attend my fair.
-  So that I can ensure the colleges attending are a good match for my students. 
+            So that I can ensure the colleges attending are a good match for my students. 
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I create a Job Fair with new method
       | College Fair Name                                         | Fair QA Test#03         |
@@ -119,7 +119,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       | Email Message to Colleges After Confirmation              | why not                 |
     And HS I successfully sign out
 
-    #log into HE app to request attendance to job fair created in HS app above
+    # Log into HE app to request attendance to job fair created in HS app above
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test#03"
     And HE I successfully sign out
@@ -127,7 +127,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I request HS jobfair appointment to be scheduled "Int QA High School 4" for "Fair QA Test#03"
     And HE I successfully sign out
 
-    # log back into the HS app to accept and decline the attendance requests from above
+    # Log back into the HS app to accept and decline the attendance requests from above
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs "Confirm" for "Fair QA Test#03"
     Then HS I make sure the decline/confirm buttons works properly for colleges attending requests for job fairs "Decline" for "Fair QA Test#03"
