@@ -1563,7 +1563,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyNavianceSettingsPage(){
-        verifyTextInNavianceSettins();
+        verifyTextInNavianceSettings();
     }
 
     //locators
@@ -1825,7 +1825,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
-    public void verifyTextInNavianceSettins()
+    public void verifyTextInNavianceSettings()
     {
        Assert.assertTrue("Connecting Naviance and RepVisits text is not displayed",driver.findElement(By.xpath("//span[text()='Connecting Naviance and RepVisits']")).isDisplayed());
        Assert.assertTrue("Naviance Hints are not displayed",driver.findElement(By.xpath("//span[text()='By Connecting RepVisits and Naviance, all of your Naviance College Visits will be managed within RepVisits unless you choose to opt-out of the integration in the future.']")).isDisplayed());
