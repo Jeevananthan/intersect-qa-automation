@@ -8,7 +8,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     Then HUBS I open the "Overview" tab in the preview
 
   @HUBSStudies @HUBS-923 @HUBS-1005 @HUBS-992
-  Scenario: All the elements of the page are displayed for HE users in Overview
+  Scenario: All the elements of the page are displayed for HE users in Overview (MATCH-3930)
     Then HUBS All the elements of the overview tab should be displayed
     And HE I successfully sign out
 
@@ -28,7 +28,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       #| Contact Information      | Application Mailing Address;ZIP;777           |
     And HE I successfully sign out
 
-  Scenario: Changes done in HEM are successfully published to HUBS
+  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-3957)
     When HUBS I open "Overview" in the edit menu
     And HUBS I take note of the values from the following fields in Overview:
       | Opening Statement |

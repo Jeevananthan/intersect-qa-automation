@@ -49,9 +49,10 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         HashMap<String, String> fieldValues = new HashMap<String, String>();
         for (List<String> field : fieldList) {
             switch (field.get(0)) {
-                case "Opening Statement" :
+                //not working because of MATCH-3930
+                /*case "Opening Statement" :
                     fieldValues.put(field.get(0), openingStatement().getText());
-                    break;
+                    break;*/
                 case "Website" :
                     fieldValues.put(field.get(0), websiteText().getText());
                     break;
@@ -69,6 +70,7 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Test Scores" :
                     getTestScoresTableButton("SAT").click();
+                    waitForUITransition();
                     fieldValues.put(field.get(0), getTestScoresTableValue("SAT 2400 Reading", "Low").getText());
                     break;
                 case "Average GPA" :
