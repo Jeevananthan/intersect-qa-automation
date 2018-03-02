@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.HE.eventsPage.EventsPageImpl;
@@ -65,6 +66,10 @@ public class HomePageStepDefs implements En {
         And("^HE I open the Active Match section$", navBar::goToActiveMatch);
 
         And("^HE I open the Events section$", navBar::goToEvents);
+
+        And("^HE I verify \"([^\"]*)\",\"([^\"]*)\" are present in the footer$",homePage::verifyLinksInFoooter);
+
+        And("^HE I navigate to each page and verify the unique URL's are present in the \"([^\"]*)\",\"([^\"]*)\" pages$",homePage::navigateAndVerifyURL);
 
     }
 }

@@ -42,5 +42,9 @@ public class AccountPagesStepDefs implements En {
         And("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActive);
 
         Then("^SP I add the user account \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and set the user to be a new primary user \"([^\"]*)\"$", accountPage::addUserAccount);
+
+        And("^SP I verify \"([^\"]*)\",\"([^\"]*)\" are present in the footer$",accountPage::verifyLinksInFoooter);
+
+        And("^SP I navigate to each page and verify the unique URL's are present in the \"([^\"]*)\",\"([^\"]*)\" pages$",accountPage::navigateAndVerifyURL);
     }
 }

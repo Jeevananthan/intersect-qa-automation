@@ -272,6 +272,56 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         clickEvents();
     }
 
+    public void verifyLinksInFoooter(String TermsofService,String privacyPolicy){
+     waitUntilPageFinishLoading();
+     Assert.assertTrue("Terms of Service link is not displayed",link(TermsofService).isDisplayed());
+     Assert.assertTrue("privacy Policy link is not displayed",link(privacyPolicy).isDisplayed());
+    }
+
+    public void navigateAndVerifyURL(String TermsofService,String privacyPolicy){
+     String currentWindow = driver.getWindowHandle();
+     String TermsofServiceUrl = link(TermsofService).getUrl();
+     String PrivacyPolicyURL = link(privacyPolicy).getUrl();
+     System.out.print(TermsofServiceUrl);
+     String TermsofServiceWindow = null;
+     String privacyPolicyWindow = null;
+     if(TermsofService.equals("Terms of Service")) {
+         link(TermsofService).click();
+         waitUntilPageFinishLoading();
+         Set<String> windows = driver.getWindowHandles();
+         for(String thiswindow:windows){
+             if(!thiswindow.equals(currentWindow)){
+                 TermsofServiceWindow = thiswindow;
+             }
+         }
+         driver.switchTo().window(TermsofServiceWindow);
+         Assert.assertTrue("Terms of Service page is not displayed",driver.findElement(By.xpath("//span[text()='Intersect Terms of Use ']")).isDisplayed());
+         String TermsofServiceCurrentURL = driver.getCurrentUrl();
+         Assert.assertTrue("Given URL is not present in the page", TermsofServiceUrl.equals(TermsofServiceCurrentURL));
+         driver.close();
+         driver.switchTo().window(currentWindow);
+         waitUntilElementExists(link(TermsofService));
+         waitUntilPageFinishLoading();
+     }
+     if(privacyPolicy.equals("Privacy Policy")){
+         link(privacyPolicy).click();
+         waitUntilPageFinishLoading();
+         Set<String> windows = driver.getWindowHandles();
+         for(String thiswindow:windows){
+             if(!thiswindow.equals(currentWindow)){
+                 privacyPolicyWindow = thiswindow;
+             }
+         }
+         driver.switchTo().window(privacyPolicyWindow);
+         waitUntilPageFinishLoading();
+         Assert.assertTrue("Privacy Policy page is not displayed",driver.findElement(By.xpath("//span[text()='User Provided Information: ']")).isDisplayed());
+         String privacyPolicyCurrentURL = driver.getCurrentUrl();
+         Assert.assertTrue("Given URL is not present in the page",PrivacyPolicyURL.equals(privacyPolicyCurrentURL));
+         driver.close();
+         driver.switchTo().window(currentWindow);
+         waitUntilPageFinishLoading();}
+    }
+
     public void clickEventsTab() {
         eventsTab().click();
     }

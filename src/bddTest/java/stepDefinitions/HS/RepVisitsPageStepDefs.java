@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -232,5 +233,9 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the contacts list is sorted or not$",repVisits::sortingContacts);
 
         And("^HS I validating the pagination of 25 contacts in Contacts Page",repVisits::validatingthePaginationof25Contacts);
+
+        And("^HS I verify \"([^\"]*)\",\"([^\"]*)\" are present in the footer$",repVisits::verifyLinksInFoooter);
+
+        And("^HS I navigate to each page and verify the unique URL's are present in the \"([^\"]*)\",\"([^\"]*)\" pages$",repVisits::navigateAndVerifyURL);
     }
 }

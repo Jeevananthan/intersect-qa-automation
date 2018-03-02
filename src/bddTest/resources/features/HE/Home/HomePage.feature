@@ -112,3 +112,22 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
       And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
       And SP I Click the Save Changes button
       Then SP I successfully sign out
+
+  @MATCH-1430
+  Scenario: As an Intersect system, I need to have a Privacy Policy page, a Terms of Use page,
+            and a Community Guidelines page available for users to read and understand how they are supposed to used the system and how the system uses their information.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify "Terms of Service","Privacy Policy" are present in the footer
+#    Then HE I verify "Counselor Community Guidelines" is present in the Help Center
+    Then HE I navigate to each page and verify the unique URL's are present in the "Terms of Service","Privacy Policy" pages
+    Then HE I successfully sign out
+
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I verify "Terms of Service","Privacy Policy" are present in the footer
+    Then SP I navigate to each page and verify the unique URL's are present in the "Terms of Service","Privacy Policy" pages
+    Then SP I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify "Terms of Service","Privacy Policy" are present in the footer
+    Then HS I navigate to each page and verify the unique URL's are present in the "Terms of Service","Privacy Policy" pages
+    And HS I successfully sign out
