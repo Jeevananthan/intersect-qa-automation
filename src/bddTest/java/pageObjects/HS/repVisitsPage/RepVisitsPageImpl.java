@@ -1,7 +1,6 @@
 package pageObjects.HS.repVisitsPage;
 
 import cucumber.api.DataTable;
-import javafx.scene.input.DataFormat;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -11,16 +10,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.util.*;
 import static org.junit.Assert.fail;
 import java.text.DateFormat;
 import utilities.GetProperties;
-import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,18 +24,10 @@ import java.util.Collections;
 import java.util.Date;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.interactions.Actions;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.*;
+
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import utilities.GetProperties;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -2007,7 +1995,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertFalse("College fair was not canceled.", getDriver().findElements(By.xpath("//span[contains(text(), 'Upcoming Events')]/../../following-sibling::table/tbody/tr/td[contains(text(), '"+fairName+"')]")).size() >= 1);
     }
 
-    public void createJobFair(DataTable dataTable) {
+    public void createCollegeFair(DataTable dataTable) {
         logger.info("Creating a Job Fair under RepVisits.");
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
@@ -2022,13 +2010,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         for (String key : data.keySet()) {
             if(key.equals("Date")){
                 String fairDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
-                createCollegeFair(key, fairDateToFill);
+                enterCollegeFairData(key, fairDateToFill);
             }
             else if (key.equals("RSVP Deadline")){
                 String fairRSVPDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
-                createCollegeFair(key, fairRSVPDateToFill);
+                enterCollegeFairData(key, fairRSVPDateToFill);
             }else
-                createCollegeFair(key, data.get(key));
+                enterCollegeFairData(key, data.get(key));
 
         }
         scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
@@ -2051,7 +2039,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         actions.moveToElement(element).perform();
     }
 
-    public void createCollegeFair(String field, String data){
+    public void enterCollegeFairData(String field, String data){
         switch (field) {
             case "College Fair Name":
                 textbox(By.id("college-fair-name")).sendKeys(data);

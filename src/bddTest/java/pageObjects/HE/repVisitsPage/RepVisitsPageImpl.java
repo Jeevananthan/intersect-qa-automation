@@ -90,6 +90,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         button(By.xpath("//button[contains(text(), 'Yes, Submit Request')]")).click();
         waitUntilPageFinishLoading();
+        // The confirmation toast blocks some upper screen controls, so we wait for it to clear.
+        waitForUITransition();
+        waitForUITransition();
     }
 
     public void checkHighSchoolPopUp(DataTable dataTable){
