@@ -1825,8 +1825,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
-    public void verifyTextInNavianceSettings()
-    {
+    public void verifyTextInNavianceSettings() {
        Assert.assertTrue("Connecting Naviance and RepVisits text is not displayed",driver.findElement(By.xpath("//span[text()='Connecting Naviance and RepVisits']")).isDisplayed());
        Assert.assertTrue("Naviance Hints are not displayed",driver.findElement(By.xpath("//span[text()='By connecting RepVisits and Naviance, all of your Naviance College Visits will be managed within RepVisits for the 2017-2018 school year.']")).isDisplayed());
        Assert.assertTrue("How It Works text is not displayed",driver.findElement(By.xpath("//span[text()='How the RepVisits-Naviance Connection Works:']")).isDisplayed());
@@ -1836,12 +1835,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
        Assert.assertTrue("Set Up text is not displayed",driver.findElement(By.xpath("//span[text()='How the RepVisits-Naviance Connection is Set Up:']")).isDisplayed());
        Assert.assertTrue("Text under Set Up is not displayed",driver.findElement(By.xpath("//span[text()='Publishing Options: You will be able to specify whether RepVisits should be published to Naviance College Visits automatically or manually on a visit-by-visit basis.']")).isDisplayed());
        Assert.assertTrue("Text under Set Up is not displayed",driver.findElement(By.xpath("//span[text()='Visit Settings: You will be able to create default settings for Naviance College Visits (location, notes, registration deadline, maximum number of students) within RepVisits. You will also be able to adjust these settings on a visit-by-visit basis.']")).isDisplayed());
-//       Assert.assertTrue("Text under Set Up is not displayed",driver.findElement(By.xpath("//span[contains(text(),'Importing from Naviance: Your current College Visits in Naviance will be imported into RepVisits.  We will automatically match these to any existing visits in RepVisits for the same colleges on the same day.  You will have a chance to review and validate these matches before the Naviance and RepVisits entries are linked.')]")).isDisplayed());
+       Assert.assertTrue("Text under Set Up is not displayed",driver.findElement(By.xpath("//span[normalize-space(text())='Importing from Naviance: Your current College Visits in Naviance will be imported into Naviance. We will automatically match these to any existing visits in RepVisits for the same colleges on the same day. You will have a chance to review and validate these matches before the Naviance and RepVisits entries are linked.']")).isDisplayed());
        Assert.assertTrue("Text under Set Up is not displayed",driver.findElement(By.xpath("//span[text()='Opt-In: Once you choose to connect RepVisits and Naviance, you cannot disconnect them for the remainder of the school year.']")).isDisplayed());
-     //  Assert.assertTrue("Would you like to connect RepVisits with Naviance? text is not displayed",driver.findElement(By.xpath("//span[text()='Would you like to connect RepVisits with Naviance?']")).isDisplayed());
        Assert.assertTrue("Radio button selection is not displayed",driver.findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']")).isDisplayed());
        Assert.assertTrue("Radio button selection is not displayed",driver.findElement(By.xpath("//label[text()='No, I would like to use RepVisits without the Naviance integration']")).isDisplayed());
-
     }
 
     /*locators for Messaging Options Page*/
