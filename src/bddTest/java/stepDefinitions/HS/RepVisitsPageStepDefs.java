@@ -231,6 +231,17 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify the contacts list is sorted or not$",repVisits::sortingContacts);
 
-        And("^HS I validating the pagination of 25 contacts in Contacts Page",repVisits::validatingthePaginationof25Contacts);
+        And("^HS I validating the pagination of 25 contacts in Contacts Page$",repVisits::validatingthePaginationof25Contacts);
+
+        Then("^HS I create a Job Fair$", repVisits::createCollegeFair);
+
+        Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
+
+        Then("^HS I make sure the \"([^\"]*)\" button works properly for college fair attendee requests for \"([^\"]*)\"$", repVisits::confirmDeclineCollegeAttendanceRequest);
+
+        Then("^HS date$", repVisits::enterCollegeFairData);
+
+        Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
+
     }
 }

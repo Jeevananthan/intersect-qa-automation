@@ -7,11 +7,11 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,6 +39,62 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue(repVisitsSubItem + " is not showing.",link(repVisitsSubItem).isDisplayed());
         }
     }
+    public void checkHighSchoolJobFairAvailability(String highSchool, String fairName){
+        waitUntilPageFinishLoading();
+        //do{
+            globalSearch.searchForInstitutions(highSchool);
+            waitUntilPageFinishLoading();
+            globalSearch.selectResult(highSchool);
+            //communityFrame();
+        /*try {
+            Thread.sleep(4000);
+        }catch (Exception ex){
+
+        }*/
+        driver.switchTo().defaultContent();
+            driver.switchTo().frame(0);
+
+        communityFrame();
+        /*    WebDriverWait wait = new WebDriverWait(driver, 40);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(), 'Check RepVisits Availability')]"))).click();
+        *///wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(), 'Check RepVisits Availability')]"))).click();
+        driver.findElement(By.xpath("//a[contains(text(), 'Check RepVisits Availability')]")).click();
+
+            //link("Check Repvisits Availability").click();
+            waitUntilPageFinishLoading();
+        //}while (!link("Check Repvisits Availability").isDisplayed());
+
+        getDriver().switchTo().defaultContent().findElement(By.xpath("//span[contains(text(), 'Fair')]")).click();
+        if(getDriver().findElements(By.xpath("//span[contains(text(), '"+fairName+"')]/../following-sibling::div/button/span[contains(text(), 'Registered')]")).size()>=1) {
+
+        }
+        else{
+            button(By.xpath("//span[contains(text(), '"+fairName+"')]/../following-sibling::div/button/span[contains(text(), 'Register')]")).click();
+            button(By.xpath("//button[contains(text(), 'Yes, Submit Request')]")).click();
+            waitUntilPageFinishLoading();
+        }
+    }
+
+    public void selectFairForHE(String highSchool, String fairTitle){
+        navBar.goToRepVisits();
+        link("Search and Schedule").click();
+        //text("Search by school name or location...").sendKeys(highSchool);
+        driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(highSchool);
+        driver.findElement(By.xpath("//i[@class='teal search large link icon _3pWea2IV4hoAzTQ12mEux-']")).click();
+        text(highSchool).click();
+        text("Fairs").click();
+        if (text(fairTitle).isDisplayed()){
+            driver.findElement(By.xpath("//span[contains(text(), '"+fairTitle+"')]/../following-sibling::div/button/span[contains(text(),'Register')]")).click();
+        }else
+            Assert.assertFalse("Fair = "+fairTitle+" is not exist.", text(fairTitle).isDisplayed());
+
+        button(By.xpath("//button[contains(text(), 'Yes, Submit Request')]")).click();
+        waitUntilPageFinishLoading();
+        // The confirmation toast blocks some upper screen controls, so we wait for it to clear.
+        waitForUITransition();
+        waitForUITransition();
+    }
+
     public void checkHighSchoolPopUp(DataTable dataTable){
         List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
         for (Map<String,String> school : entities){
