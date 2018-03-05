@@ -25,5 +25,11 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify the Student Body UI in Resources Dropdown$", searchPage::verifyStudentBodyUI);
 
         Then("^SM I click on Institution Characteristics fit criteria$", searchPage::getInstitutionCharacteristicsFC);
+
+        Then("^SM I check the selection and deselection and Must Have box functionality for Average Class Size drop down list$",
+                searchPage::verifyAverageClassSizeList);
+        Then("^SM I check when Average Class Size filter is selected, moved to Nice To Have, unselected, and then selected again it should be defaulted back to the Must Have box$",
+                searchPage::verifyMAndNSyncWithAverageClassSizeFilter);
+
     }
 }

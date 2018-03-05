@@ -183,7 +183,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void getInstitutionCharacteristicsFC(){
         institutionCharacteristicsMenuItem().click();
-
+        Assert.assertTrue("Institution Characteristics fit criteria is not clicked.", getDriver().findElement(By.xpath("//h1[text()='Institution Characteristics']")).isDisplayed());
     }
 
     public void verifyAverageClassSizeList(){
@@ -195,7 +195,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         String expectedOptions[] =  {"Select","10", "20", "30", "40"};
         ArrayList<WebElement> actualOptions = new ArrayList<>();
-        for (int i=0;i<5;i++){
+        actualOptions.add(driver.findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")));
+        for (int i=1;i<5;i++){
             actualOptions.add(driver.findElement(By.xpath(path+expectedOptions[i]+"']/span")));
         }
         Iterator<WebElement> ite = actualOptions.iterator();
@@ -208,6 +209,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             switch (tempString){
                 case "Select":
                     logger.info("For Select option don't do anything...");
+                    Assert.assertTrue("AVERAGE CLASS SIZE option Select is not selected.", getSelectedAverageClassSizeOption().getText().equals("Select"));
                     getAverageClassSizeListIcon().click();
                     break;
                 case "10":
@@ -241,6 +243,24 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             }
             j++;
         }
+    }
+
+    public void verifyMAndNSyncWithAverageClassSizeFilter(){
+        text("Institution Characteristics").click();
+        getMustHaveBox().findElement(By.xpath(".//div/button[3]")).click();
+        waitForUITransition();
+        getNiceToHaveBox().findElement(By.xpath(".//div/button[2]")).click();
+        getAverageClassSizeListIcon().click();
+        waitForUITransition();
+        getDriver().findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")).click();
+        waitForUITransition();
+        Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("CLASS SIZE < 40"));
+        Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Must Have box.", !getMustHaveBox().getText().contains("CLASS SIZE < 40"));
+        getAverageClassSizeListIcon().click();
+        getDriver().findElement(By.xpath("//div[@id='class-size-selection-option-10']/span")).click();
+        waitForUITransition();
+        Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("CLASS SIZE < 10"));
+        Assert.assertTrue("AVERAGE CLASS SIZE option 10 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("CLASS SIZE < 10"));
     }
 
     // Locators Below
@@ -297,9 +317,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement mustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]"));
     }
-    private WebElement getAverageClassSizeText(){ return driver.findElement(By.xpath("//div[text()='AVERAGE CLASS SIZE']")); }
+    private WebElement getAverageClassSizeText(){ return driver.findElement(By.xpath("//span[text()='AVERAGE CLASS SIZE']")); }
     private WebElement getAverageClassSizeListIcon(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/i[@class='teal chevron down icon']")); }
-    private WebElement getSelectedAverageClassSizeOption(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/span")); }
+    private WebElement getSelectedAverageClassSizeOption(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/div[1]")); }
 
 
 }
