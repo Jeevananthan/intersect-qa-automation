@@ -34,6 +34,7 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         try{
             waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
         }catch(Exception e){
+            logger.info("Caught Exception: " + e.getMessage());
             getDriver().switchTo().defaultContent();
             throw new AssertionFailedError("College Name is not displaying in Hubs View");
         }
