@@ -2320,7 +2320,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("privacy Policy link is not displayed",link(privacyPolicy).isDisplayed());
     }
 
-    public void navigateAndVerifyURL(DataTable dataTable,String TermsofService,String privacyPolicy){
+    public void navigateAndVerifyURL(String TermsofService,String privacyPolicy){
         String currentWindow = driver.getWindowHandle();
         String TermsofServiceUrl = link(TermsofService).getUrl();
         String PrivacyPolicyURL = link(privacyPolicy).getUrl();
