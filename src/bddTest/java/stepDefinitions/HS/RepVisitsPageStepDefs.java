@@ -243,5 +243,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
 
+        Then("^HS I add the email \"maheshnj007@gmail.com\" in the primary contact in Notifications & Primary Contact page$",repVisits::addEmailInNotificationandPrimaryContactPage);
+
     }
 }

@@ -12,6 +12,8 @@ import utilities.GetProperties;
 import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -387,6 +389,42 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("jobTitle Textbox was not as displayed", driver.findElement(By.xpath("//input[@name='jobTitle' and @type='text']")).isDisplayed());
         Assert.assertTrue("'Cancel' button is not displayed", button("Cancel").isDisplayed());
         Assert.assertTrue("'Request User' button is not displayed", button("Request User").isDisplayed());
+    }
+
+    public void verifyEmailNotification(String School,String Date,String Time,DataTable data){
+        String emailBody = "";
+        GetProperties.setGmailAPIWait(120);     //Time unit is in seconds
+        try {
+            List<Email> emails = getGmailApi().getMessages(data);
+            boolean verified = false;
+            for (Email email : emails) {
+                System.out.print(email.toString());
+                emailBody = email.getBody();
+            }
+        } catch (Exception e) {
+            logger.info("Exception while retrieving Gmail messages: " + e.getMessage());
+            e.printStackTrace();
+            Assert.fail("There was an error retrieving the email from Gmail.");
+        }
+        int SchoolLength = 54+School.length();
+        Integer codeMessageIndex = emailBody.indexOf("We have cancelled your college fair registration with ");
+        String SchoolName = emailBody.substring(codeMessageIndex + 54,codeMessageIndex + SchoolLength);
+        String CurrentDate = getSpecificDate(Date);
+        Integer DateIndex = emailBody.indexOf("2018");
+        String date = emailBody.substring(DateIndex+0,DateIndex+21);
+        Assert.assertTrue("School is not equal",SchoolName.equals(School));
+        Assert.assertTrue("Date is not equal",date.equals(Date));
+
+    }
+
+    public String getSpecificDate(String addDays) {
+        String DATE_FORMAT_NOW = "yyyy-MM-dd";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     private void iamNotRobotChk() {

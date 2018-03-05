@@ -123,5 +123,10 @@ public class RepVisitsPageStepDefs implements En {
         //Then("^HE I request HS jobfair appointment to be scheduled \"([^\"]*)\" for \"([^\"]*)\"$", repVisits::checkHighSchoolJobFairAvailability);
         Then("^HE I request an appointment with \"([^\"]*)\" for College Fair \"([^\"]*)\"$", repVisits::selectFairForHE);
         //selectFairForHE
+
+        Then("^HE I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::verifyCalendarPageforFairs);
+
+        Then("^HE I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
+
     }
 }

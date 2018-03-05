@@ -508,3 +508,29 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
     Then HS I cancel the "Fair QA Test#03" College Fair
     And HS I successfully sign out
+
+  @MATCH-2444
+  Scenario Outline: No mail is sent to the HS users after cancelling a fair as an HE user
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I add the email "maheshnj007@gmail.com" in the primary contact in Notifications & Primary Contact page
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
+
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>" for Fairs
+    Then HE I remove the appointment from the calendar
+    And HE I successfully sign out
+
+    Then HE I verify the Email Notification Message for "<School>" using "<Date>","<EmailTimeForFair>"
+      |Subject                  |To      				|Messages |
+      |Your Intersect Invitation|maheshnj007@gmail.com  |1        |
+
+
+    Examples:
+      |School                  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
+      |Standalone High School 7|QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |9AM    |09:00am         |
+
+

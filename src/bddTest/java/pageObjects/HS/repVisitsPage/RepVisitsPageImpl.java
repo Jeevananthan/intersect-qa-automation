@@ -2023,6 +2023,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save").click();
     }
 
+    public void addEmailInNotificationandPrimaryContactPage(String Email){
+
+    }
+
     public String createFutureDateForFair(int days) {
         DateFormat dateFormat_3 = DateFormat.getDateInstance(DateFormat.LONG);
         Calendar cal_1 = Calendar.getInstance();

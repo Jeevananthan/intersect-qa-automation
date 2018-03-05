@@ -119,6 +119,47 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         validateInfolink();
     }
 
+    public void verifyCalendarPageforFairs(String school,String time,String date) {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        collegeFairTextBoxInCalendarPage().click();
+        waitUntilPageFinishLoading();
+        visitCheckBoxInCalendarPage().click();
+        waitUntilPageFinishLoading();
+        String month = month(date);
+        String currentMonth = currentMonthInCalendarPage().getText();
+        String selectMonth[] = currentMonth.split(" ");
+        String Month = selectMonth[0];
+        while (!month.equals(Month)) {
+            nextMonthButton().click();
+            waitForUITransition();
+            currentMonth = currentMonthInCalendarPage().getText();
+            selectMonth = currentMonth.split(" ");
+            Month = selectMonth[0];
+        }
+        WebElement appointmentSlot = getDriver().findElement(By.xpath("//span[text()='"+time+"']/following-sibling::span[text()='"+school+"']"));
+        Assert.assertTrue("Appointment Slot time and university is not displayed",appointmentSlot.isDisplayed());
+        jsClick(appointmentSlot);
+        waitUntilPageFinishLoading();
+    }
+
+    public void removeAppointmentfromCalendar(){
+        waitForUITransition();
+        Assert.assertTrue("Cancel This Visit is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).isDisplayed());
+        driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).click();
+        waitForUITransition();
+        driver.findElement(By.id("cancel-message")).click();
+        driver.findElement(By.id("cancel-message")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.id("cancel-message")).sendKeys("by QA");
+        button("Yes, Cancel Visit").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+    }
+
+
     private void validateInfolink(){
         Assert.assertTrue("Text 'For more information' is not displayed", text("For more information:").isDisplayed());
         WebElement item = getParent(text("For more information:"));
@@ -827,12 +868,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void searchSchool(String school){
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         searchTextBox().sendKeys(school);
         waitUntilElementExists(search());
         searchButton().click();
         waitUntilElementExists(schoolInSearchAndSchedule(school));
         Assert.assertTrue("school is not displayed",schoolInSearchAndSchedule(school).isDisplayed());
         schoolInSearchAndSchedule(school).click();
+        waitUntilPageFinishLoading();
     }
 
     public void visitsSchedule(String school,String startDate,String time){
@@ -892,6 +935,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         registerButton(Fair) .click();
         Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
         submitButton().click();
+        waitForUITransition();
         navBar.goToRepVisits();
     }
 
@@ -1239,6 +1283,38 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement showMoreButton(String option){
         WebElement text=driver.findElement(By.xpath("//span[text()='"+option+"']"));
         return text;
+    }
+    private WebElement calendar()
+    {
+        WebElement navbar=link("Calendar");
+        return navbar;
+    }
+    private WebElement collegeFairTextBoxInCalendarPage()
+    {
+        WebElement check= driver.findElement(By.xpath("//div/label[text()='College Fair - Confirmed']"));
+        return check;
+    }
+    private WebElement visitCheckBoxInCalendarPage()
+    {
+        WebElement check=driver.findElement(By.xpath("//div/label[text()='Visits - Confirmed']"));
+        return check;
+    }
+    private WebElement currentMonthInCalendarPage()
+    {
+        WebElement month=driver.findElement(By.xpath("//div[@class='three wide column ZfUaDp3-V60qJ8_BTeIi']/div[@class='ui medium header _1ucD2vjQuS9iWHF9uzN__M']"));
+        return month;
+    }
+    private WebElement nextMonthButton()
+    {
+        WebElement button=driver.findElement(By.xpath("//button[@class='ui teal basic icon button _38R7SJgG4fJ86m-eLYYZJw']"));
+        return button;
+    }
+    private String month(String date)
+    {
+        String month=getSpecificDate(date);
+        String selectMonth[]=month.split(" ");
+        String currentMonth=selectMonth[0];
+        return  currentMonth;
     }
 }
 
