@@ -65,6 +65,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void setResourcesCriteria(String option) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        if (option.equals("Asperger's/Autism Support"))
+            option="Autism Support";
         WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
         WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
         if (!checkbox.isSelected()) {
@@ -80,6 +82,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void unsetResourcesCriteria(String option) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        if (option.equals("Asperger's/Autism Support"))
+            option="Autism Support";
         WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
         WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
         if (checkbox.isSelected()) {
