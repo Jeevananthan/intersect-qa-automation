@@ -27,9 +27,3 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
       | Services for the Deaf and Hard of Hearing   |
       | Asperger's/Autism Support                   |
       | Day Care Services                           |
-
-
-
-
-
-
