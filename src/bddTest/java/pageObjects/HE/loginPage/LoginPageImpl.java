@@ -401,7 +401,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
                 System.out.print(email.toString());
                 emailBody = email.getBody();
             }
-        } catch (Exception e) {
+            } catch (Exception e) {
             logger.info("Exception while retrieving Gmail messages: " + e.getMessage());
             e.printStackTrace();
             Assert.fail("There was an error retrieving the email from Gmail.");
@@ -411,10 +411,13 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String SchoolName = emailBody.substring(codeMessageIndex + 54,codeMessageIndex + SchoolLength);
         String CurrentDate = getSpecificDate(Date);
         Integer DateIndex = emailBody.indexOf("2018");
-        String date = emailBody.substring(DateIndex+0,DateIndex+21);
+        String dateandTime = emailBody.substring(DateIndex+0,DateIndex+21);
+        String getTimeValue[] = dateandTime.split(" ");
+        String DateValue = getTimeValue[0];
+        String TimeValue = getTimeValue[2];
         Assert.assertTrue("School is not equal",SchoolName.equals(School));
-        Assert.assertTrue("Date is not equal",date.equals(Date));
-
+        Assert.assertTrue("Date is not equal",CurrentDate.equals(DateValue));
+        Assert.assertTrue("Time is not equal",Time.equals(TimeValue));
     }
 
     public String getSpecificDate(String addDays) {

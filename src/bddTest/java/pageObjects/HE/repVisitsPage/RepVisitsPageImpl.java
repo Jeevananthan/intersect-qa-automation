@@ -9,6 +9,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -146,15 +147,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void removeAppointmentfromCalendar(){
+    public void removeFairAppointmentfromCalendar(){
         waitForUITransition();
-        Assert.assertTrue("Cancel This Visit is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).isDisplayed());
-        driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).click();
+        jsClick(driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")));
+        driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("Cancel This Visit is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This Fair']")).isDisplayed());
+        driver.findElement(By.xpath("//button/span[text()='Cancel This Fair']")).click();
         waitForUITransition();
         driver.findElement(By.id("cancel-message")).click();
         driver.findElement(By.id("cancel-message")).sendKeys(Keys.PAGE_DOWN);
         driver.findElement(By.id("cancel-message")).sendKeys("by QA");
-        button("Yes, Cancel Visit").click();
+        button("Yes, Cancel Fair").click();
         waitUntilPageFinishLoading();
         waitForUITransition();
     }

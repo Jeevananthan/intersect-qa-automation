@@ -126,7 +126,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::verifyCalendarPageforFairs);
 
-        Then("^HE I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
+        Then("^HE I remove the Fair appointment from the calendar$",repVisits::removeFairAppointmentfromCalendar);
 
     }
 }

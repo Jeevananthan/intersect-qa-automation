@@ -512,7 +512,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-2444
   Scenario Outline: No mail is sent to the HS users after cancelling a fair as an HE user
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I add the email "maheshnj007@gmail.com" in the primary contact in Notifications & Primary Contact page
+    Then HS I add the email "<EMail>" in the primary contact in Notifications & Primary Contact page
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 
@@ -521,16 +521,16 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
 
     Then HE I verify the calendar page using "<School>","<heCT>","<Date>" for Fairs
-    Then HE I remove the appointment from the calendar
+    Then HE I remove the Fair appointment from the calendar
     And HE I successfully sign out
 
     Then HE I verify the Email Notification Message for "<School>" using "<Date>","<EmailTimeForFair>"
-      |Subject                  |To      				|Messages |
-      |Your Intersect Invitation|maheshnj007@gmail.com  |1        |
+      |Subject                                                     |To       |Messages |
+      |College fair registration cancelled for "<School>"          |<EMail>  |1        |
 
 
     Examples:
-      |School                  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
-      |Standalone High School 7|QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |9AM    |09:00am         |
+      |School                  |EMail                            |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
+      |Int Qa High School 4    |purpleheautomation@gmail.com     |QAs Fairs tests       |14  |1000AM    |1100AM  |12           |$25 |25                    |100                        | Save          |10AM   |10:00am         |
 
 
