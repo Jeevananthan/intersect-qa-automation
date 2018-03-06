@@ -508,3 +508,17 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
     Then HS I cancel the "Fair QA Test#03" College Fair
     And HS I successfully sign out
+
+  @MATCH-2436
+  Scenario: As a HS user, I want to be taken to the Calendar page (month view) after my school's RepVisits' wizard has been completed
+            so I don't see the Overview page as my first experience with RepVisits.
+    #Naviance
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I navigate to college visits through availability option
+    Then HS I verify the default calendar page present after the Wizard completion
+    And HS I successfully sign out
+    #Non-Naviance
+    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    And HS I navigate to college visits through availability option
+    Then HS I verify the default calendar page present after the Wizard completion
+    And HS I successfully sign out

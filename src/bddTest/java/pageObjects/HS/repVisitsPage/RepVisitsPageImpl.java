@@ -13,6 +13,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.*;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 import java.text.DateFormat;
 import utilities.GetProperties;
@@ -2128,6 +2130,30 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             default:
                 logger.info("Something went wrong during filling data for creatinf Fair.....");
         }
+    }
+
+    public void navigateToVisitPage(){
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size()==0) {
+            button("Next").click();
+            waitUntilPageFinishLoading();
+        }
+        driver.findElement(By.xpath("//label[text()='All RepVisits Users']")).click();
+        button("Next").click();
+        Assert.assertTrue("Take me to my visits button is not displayed",button("Take me to my visits").isDisplayed());
+        button("Take me to my visits").click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifydefaultRepVisitPage(){
+        Assert.assertTrue("Calendar page is not active",driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='Calendar']")).isDisplayed());
+        Assert.assertTrue("Add visit button is not displayed",button("add visit").isDisplayed());
+        Assert.assertTrue("Calendar is not displayed in Month view",driver.findElement(By.xpath("//button[normalize-space(@class)='ui pink button GFr3D5C_jMOwFFfwEoOXq _2I9ZFEPwCCOsGFn0AAk1Gl' and @title='Month']")).isDisplayed());
     }
 
 
