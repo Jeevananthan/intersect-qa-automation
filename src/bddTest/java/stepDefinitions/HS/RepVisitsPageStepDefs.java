@@ -243,7 +243,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
 
-        And ("^HS I navigate to college visits through availability option$",repVisits::navigateToVisitPage);
+        And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
 
         Then("^HS I verify the default calendar page present after the Wizard completion$",repVisits::verifydefaultRepVisitPage);
 

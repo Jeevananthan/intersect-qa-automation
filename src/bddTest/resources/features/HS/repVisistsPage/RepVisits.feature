@@ -514,11 +514,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
             so I don't see the Overview page as my first experience with RepVisits.
     #Naviance
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    And HS I navigate to college visits through availability option
+    And HS I navigate to the college visits page
     Then HS I verify the default calendar page present after the Wizard completion
     And HS I successfully sign out
     #Non-Naviance
     Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
-    And HS I navigate to college visits through availability option
+    And HS I navigate to the college visits page
     Then HS I verify the default calendar page present after the Wizard completion
     And HS I successfully sign out
