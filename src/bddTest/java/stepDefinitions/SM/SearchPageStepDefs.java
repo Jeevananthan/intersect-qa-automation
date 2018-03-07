@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -18,9 +17,9 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the system response when the GPA entered by the user is invalid$", searchPage::verifySystemResponseWhenGPAInputIsInvalid);
 
-        And("^SM I verify that GPA data is stored on our side$", searchPage::verifyIfGPADataIsStoredOnOurSide);
+        And("^SM I verify that entered GPA data persists$", searchPage::verifyGPADataPersists);
 
-        And("^SM I verify that GPA doesn't become fit criteria in Must Have box$", searchPage::verifyGPACriteriaNotInMustHaveBox);
+        And("^SM I verify that GPA doesn't become a fit criteria in the Must Have box$", searchPage::verifyGPACriteriaNotInMustHaveBox);
 
     }
 }

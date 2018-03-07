@@ -88,7 +88,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenGPAInputIsValid() {
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -114,7 +114,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void verifySystemResponseWhenGPAInputIsInvalid() {
 
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -137,9 +137,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyIfGPADataIsStoredOnOurSide() {
+    public void verifyGPADataPersists() {
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -150,7 +150,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         resourcesMenuItem().click();
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -162,7 +162,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyGPACriteriaNotInMustHaveBox() {
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
