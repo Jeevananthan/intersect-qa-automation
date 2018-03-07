@@ -241,7 +241,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         gpaTextBox().clear();
         gpaTextBox().sendKeys("3");
 
-        resourcesMenuItem().click();
+        getFitCriteriaCloseButton().click();
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
@@ -270,7 +270,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenACTScoreIsValid() {
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -299,7 +299,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void verifySystemResponseWhenACTScoreIsInvalid() {
 
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -322,9 +322,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyIfACTScoreDataIsStoredOnOurSide() {
+    public void verifyACTScoreDataPersists() {
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -333,9 +333,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         actScoreTextBox().clear();
         actScoreTextBox().sendKeys("6");
 
-        resourcesMenuItem().click();
+        getFitCriteriaCloseButton().click();
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -347,7 +347,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyACTScoreCriteriaNotInMustHaveBox() {
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -362,6 +362,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     // Locators Below
 
+    private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
     private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]")); }
     private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[2]")); }
     private WebElement admissionMenuItem() {
