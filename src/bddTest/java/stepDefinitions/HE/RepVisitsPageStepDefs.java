@@ -99,5 +99,29 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I click the View full details option in the Request subTab using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for fairs$",repVisits::selectViewDetailsforFairs);
 
         Then("^HE I verify the message \"([^\"]*)\" is displayed in the Request subTab$",repVisits::verifynoNotificationMessage);
+
+        And("^HE I verify empty contacts page in Contacts$", repVisits::verifyEmptyContactPage);
+
+        And("^HE I verify the contacts page in Contacts$", repVisits::verifyFullContactPage);
+
+        And("^HE I verify contacts details  in Contacts$", repVisits::verifyContactDetails);
+
+        And("^HE I search for \"([^\"]*)\" in Contacts$", repVisits::searchforContact);
+
+        And("^HE I search for partial data of \"([^\"]*)\" in Contacts$", repVisits::partialsearchforContact);
+
+        And("^HE I search for invalid data of \"([^\"]*)\" in Contacts$", repVisits::verifyinvalidcontact);
+
+        And("^HE I search for partial data in Contacts using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::searchforPartialdata);
+
+        And("^HE I verify the contacts page is full or empty$",repVisits::verifyFullorEmpty);
+
+        And("^HE I verify the contacts list is sorted or not$",repVisits::sortingContacts);
+
+        And("^HE I validating the pagination of 25 contacts in Contacts Page$",repVisits::validatingthePaginationof25Contacts);
+
+        //Then("^HE I request HS jobfair appointment to be scheduled \"([^\"]*)\" for \"([^\"]*)\"$", repVisits::checkHighSchoolJobFairAvailability);
+        Then("^HE I request an appointment with \"([^\"]*)\" for College Fair \"([^\"]*)\"$", repVisits::selectFairForHE);
+        //selectFairForHE
     }
 }

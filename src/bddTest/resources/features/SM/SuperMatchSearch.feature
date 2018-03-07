@@ -1,3 +1,4 @@
+@SM
 Feature: As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
   certain fit criteria
 
@@ -6,6 +7,8 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
             Size fit criteria
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the Student Body UI in Resources Dropdown
+
+
 
   @MATCH-3382
   Scenario: As a HS student, I want to filter colleges I am searching for by my specific ACT Scores within the Admission

@@ -10,8 +10,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import selenium.SeleniumBase;
-
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +46,7 @@ public class GlobalSearch extends SeleniumBase {
 
     public void searchForInstitutions(String searchTerm) {
         setSearchCategory("Institutions");
+        waitUntilPageFinishLoading();
         doSearch(searchTerm);
     }
 
@@ -633,6 +634,4 @@ public class GlobalSearch extends SeleniumBase {
     private void clickAdvancedSearchLink(){
         driver.findElement(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']/a")).click();
     }
-
 }
-
