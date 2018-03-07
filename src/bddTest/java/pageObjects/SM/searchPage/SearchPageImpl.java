@@ -179,12 +179,107 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertFalse("'Very Small (2,000 or fewer students)' fit criteria is displayed in 'Must Have' box", mustHaveBox().getText().contains("VERY SMALL (2,000 OR FEWER STUDENTS)"));
     }
 
+    public void verifySystemResponseWhenGPAInputIsValid() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("0.1");
+        waitForUITransition();
+        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("2");
+        waitForUITransition();
+        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("4");
+        waitForUITransition();
+        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+    }
+
+    public void verifySystemResponseWhenGPAInputIsInvalid() {
+
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("0");
+        waitForUITransition();
+        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("4.1");
+        waitForUITransition();
+        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("5");
+        waitForUITransition();
+        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+    }
+
+    public void verifyGPADataPersists() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("3");
+
+        resourcesMenuItem().click();
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        Assert.assertTrue("GPA data is not stored on our side", gpaTextBox().getAttribute("value").equals("3"));
+
+    }
+
+    public void verifyGPACriteriaNotInMustHaveBox() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        gpaTextBox().clear();
+        gpaTextBox().sendKeys("3");
+
+        Assert.assertTrue("Must have box doesn't contain GPA score fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
+                && !mustHaveBox().getText().contains("3") && !mustHaveBox().getText().toLowerCase().contains("gpa"));
+    }
+
     // Locators Below
 
     private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]")); }
     private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[2]")); }
+    private WebElement admissionMenuItem() {
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Admission')]"));
+    }
     private WebElement institutionCharacteristicsMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Institution Characteristics')]"));
+    }
+    private WebElement gpaTextBox() {
+        return driver.findElement(By.xpath("//input[@name='gpa']"));
     }
     private WebElement allStudentsRadioButton() {
         return driver.findElement(By.xpath("//label[contains(text(), 'All students')]//preceding-sibling::input"));
@@ -230,6 +325,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement verySmallStudentBodyCheckbox() {
         return driver.findElement(By.xpath("//label[contains(text(), 'Very Small (2,000 or fewer students)')]//preceding-sibling::input"));
+    }
+    private WebElement resourcesMenuItem() {
+        return driver.findElement(By.xpath("//li[contains(text(), 'Resources')]"));
     }
     private WebElement mustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]"));
     }

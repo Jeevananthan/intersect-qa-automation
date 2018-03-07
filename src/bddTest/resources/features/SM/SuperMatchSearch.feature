@@ -7,3 +7,4 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
             Size fit criteria
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the Student Body UI in Resources Dropdown
+
