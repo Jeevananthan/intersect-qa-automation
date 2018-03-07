@@ -241,7 +241,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         gpaTextBox().clear();
         gpaTextBox().sendKeys("3");
 
-        resourcesMenuItem().click();
+        getFitCriteriaCloseButton().click();
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
@@ -268,8 +268,101 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 && !mustHaveBox().getText().contains("3") && !mustHaveBox().getText().toLowerCase().contains("gpa"));
     }
 
+    public void verifySystemResponseWhenACTScoreIsValid() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("1");
+        waitForUITransition();
+        Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"))
+                .getText().contains("ACT value must be a number between 1 and 36"));
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("18");
+        waitForUITransition();
+        Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText()
+                .contains("ACT value must be a number between 1 and 36"));
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("36");
+        waitForUITransition();
+        Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText()
+                .contains("ACT value must be a number between 1 and 36"));
+
+    }
+
+    public void verifySystemResponseWhenACTScoreIsInvalid() {
+
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("0");
+        waitForUITransition();
+        Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("18.1");
+        waitForUITransition();
+        Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("37");
+        waitForUITransition();
+        Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
+
+    }
+
+    public void verifyACTScoreDataPersists() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("6");
+
+        getFitCriteriaCloseButton().click();
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals("6"));
+
+    }
+
+    public void verifyACTScoreCriteriaNotInMustHaveBox() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        actScoreTextBox().clear();
+        actScoreTextBox().sendKeys("8");
+
+        Assert.assertTrue("Must have box doesn't contain ACT score fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
+                && !mustHaveBox().getText().contains("8") && !mustHaveBox().getText().toLowerCase().contains("act"));
+    }
+
     // Locators Below
 
+    private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
     private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]")); }
     private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[2]")); }
     private WebElement admissionMenuItem() {
@@ -280,6 +373,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement gpaTextBox() {
         return driver.findElement(By.xpath("//input[@name='gpa']"));
+    }
+    private WebElement actScoreTextBox() {
+        return driver.findElement(By.xpath("//input[@name='actScore']"));
     }
     private WebElement allStudentsRadioButton() {
         return driver.findElement(By.xpath("//label[contains(text(), 'All students')]//preceding-sibling::input"));
