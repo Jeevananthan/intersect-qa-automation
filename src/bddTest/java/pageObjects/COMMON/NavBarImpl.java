@@ -43,8 +43,10 @@ public class NavBarImpl extends SeleniumBase {
     }
 
     public void goToRepVisits() {
-        if (!isLinkActive(getRepVisitsBtn()))
+        if (!isLinkActive(getRepVisitsBtn())) {
             getRepVisitsBtn().click();
+            getRepVisitsBtn().click();
+        }
         waitUntilPageFinishLoading();
         Assert.assertTrue("Unable to navigate to RepVisits", isLinkActive(getRepVisitsBtn()));
     }
