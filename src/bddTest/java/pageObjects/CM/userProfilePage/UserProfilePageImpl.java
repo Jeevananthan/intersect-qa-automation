@@ -3,8 +3,10 @@ package pageObjects.CM.userProfilePage;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import pageObjects.CM.commonPages.PageObjectFacadeImpl;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 /**
  * Created by bojan on 6/1/17.
@@ -27,12 +29,25 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
 
     public void goToUserProfilePage() {
         logger.info("Going to user profile page.");
+        iframeExit();
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/profile']")));
         link(By.cssSelector("a[href='/profile']")).click();
         waitUntilPageFinishLoading();
         link(By.cssSelector("a[href='/profile']")).click();
     }
+
+    public void goToHSUserProfilePage() {
+        logger.info("Going to user profile page.");
+        link(By.id("js-main-nav-home-menu-link")).click();
+        communityFrame();
+        link(By.cssSelector("a[href='/profile']")).click();
+        waitUntilPageFinishLoading();
+        link(By.cssSelector("a[href='/profile']")).click();
+    }
+
 
     public void clickProfileTab() {
         logger.info("Going to profile tab.");
@@ -120,6 +135,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.id("edit-delete")).click();
         waitUntilElementExists(driver.findElement(By.id("edit-delete--3")));
         driver.findElement(By.id("edit-delete--3")).click();
+        waitUntilPageFinishLoading();
     }
 
     public void checkIfProfilePostsAreVisible(){
@@ -260,12 +276,48 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    private boolean checkItemVisibleByXpath(String item) {
+        try {
+            driver.findElement(By.xpath(item));
+            return true;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
+    private boolean checkItemVisibleById(String id) {
+        try {
+            driver.findElement(By.id(id));
+            return true;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
+    private boolean checkItemVisibleByCssSelector(String tag, String cssselector, String selectorvalue) {
+        try {
+            driver.findElement(By.cssSelector(""+tag+"["+cssselector+"*='"+selectorvalue+"']"));
+            return true;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
     public void checkRequiredFields() {
         officePhoneField().clear();
         titleField().clear();
         saveBtn().click();
 
         Assert.assertTrue("The message is not displayed that Job Title is required", checkItemVisible("Job Title field is required."));
+        Assert.assertTrue("The message is not displayed that Office Phone is required", checkItemVisible("Office Phone field is required."));
+
+    }
+
+    public void checkOfficePhoneRequiredField() {
+        communityFrame();
+        officePhoneField().clear();
+        saveBtn().click();
+
         Assert.assertTrue("The message is not displayed that Office Phone is required", checkItemVisible("Office Phone field is required."));
 
     }
@@ -337,14 +389,14 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
 
     public void likePost(String posttext) {
         logger.info("Liking post: " + posttext);
-        iframeEnter();
+        communityFrame();
         driver.findElement(By.xpath("//p[contains(text(), '" + posttext + "')]/../../../../div[@class='like-wrapper like-node']/a[@title='like this']")).click();
         waitUntilPageFinishLoading();
     }
 
     public void unlikePost(String posttext) {
         logger.info("Unliking post: " + posttext);
-        iframeEnter();
+        communityFrame();
         driver.findElement(By.xpath("//p[contains(text(), '" + posttext + "')]/../../../../div[@class='like-wrapper like-node']/a[@title='Unlike this']")).click();
         waitUntilPageFinishLoading();
     }
@@ -398,7 +450,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
 
     public void checkNewNotificationNotRaised() {
         Assert.assertFalse("The new notification is raised!", checkNewNotification());
-        iframeEnter();
+        communityFrame();
         deleteCreatedPost();
     }
 
@@ -415,7 +467,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkPublicFieldsVisibility() {
-        iframeEnter();
+        communityFrame();
         logger.info("Checking if only public fields are visible.");
         Assert.assertTrue("Public field work email is not visible.", checkItemVisible("purpleheautomation@gmail.com"));
         Assert.assertFalse("Connections Only privacy field office phone is visible.", checkItemVisible("+12161234567"));
@@ -423,7 +475,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkConnectionsOnlyFieldsVisibility() {
-        iframeEnter();
+        communityFrame();
         logger.info("Checking if fields with connection only privacy are visible.");
         Assert.assertTrue("Public field work email is not visible.", checkItemVisible("purpleheautomation@gmail.com"));
         Assert.assertTrue("Connections Only privacy field office phone is not visible.", checkItemVisible("+12161234567"));
@@ -431,7 +483,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkVisibleToOnlyMeFieldsVisibility() {
-        iframeEnter();
+        communityFrame();
         logger.info("Checking if fields with visible to only me privacy are visible.");
         Assert.assertFalse("Private privacy field personal email is visible.", checkItemVisible("testemail@personal.com"));
     }
@@ -442,6 +494,12 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.id("edit-comment-body")).sendKeys(commentText);
         driver.findElement(By.cssSelector("input[class='form-submit ajax-processed']")).click();
         waitUntilPageFinishLoading();
+    }
+
+    public void clickCommentIcon() {
+        logger.info("Clicking on comment icon.");
+        driver.findElement(By.className("post-comments-link")).click();
+
     }
 
     public void checkIfCommentIsPosted(String commentText) {
@@ -457,6 +515,99 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         editPostTextbox().clear();
         editPostTextbox().sendKeys(editPostText);
         updateBtn().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void setPermissionsToAllFields(String permission) {
+        logger.info("Setting all fields permission: " + permission);
+        privacyWorkEmail(permission).click();
+        privacyPersonalEmail(permission).click();
+        privacyOfficePhone(permission).click();
+        privacyMobilePhone(permission).click();
+        privacyAlmaMeter(permission).click();
+    }
+
+    public void checkPermissionsSettingsSavedForAllFields(String permission) {
+        logger.info("Checking if privacy settings are saved properly.");
+        Assert.assertEquals("Work Email privacy is not set properly.", "true", privacyWorkEmail(permission).getAttribute("selected"));
+        Assert.assertEquals("Personal Email privacy is not set properly.", "true", privacyPersonalEmail(permission).getAttribute("selected"));
+        Assert.assertEquals("Office Phone privacy is not set properly.", "true", privacyOfficePhone(permission).getAttribute("selected"));
+        Assert.assertEquals("Mobile Phone privacy is not set properly.", "true", privacyMobilePhone(permission).getAttribute("selected"));
+        Assert.assertEquals("Alma Meter privacy is not set properly.", "true", privacyAlmaMeter(permission).getAttribute("selected"));
+    }
+
+    public void checkNoPrivacySettingsForFields() {
+        Assert.assertFalse("There is privacy field on the page for First Name!", checkItemVisibleById("edit-privacy-options-field-first-name-privacy"));
+        Assert.assertFalse("There is privacy field on the page for Last Name!", checkItemVisibleById("edit-privacy-options-field-last-name-privacy"));
+        Assert.assertFalse("There is privacy field on the page for Institution!", checkItemVisibleById("edit-privacy-options-field-user-institution-privacy"));
+        Assert.assertFalse("There is privacy field on the page for bio!", checkItemVisibleById("edit-privacy-options-field-bio-privacy"));
+        Assert.assertFalse("There is privacy field on the page for Headline!", checkItemVisibleById("edit-privacy-options-field-tagline-privacy"));
+        Assert.assertFalse("There is privacy field on the page for Territory Served!", checkItemVisibleById("edit-privacy-options-field-cp-states-privacy"));
+        Assert.assertFalse("There is privacy field on the page for JobTitle!", checkItemVisibleById("edit-privacy-options-field-job-position-privacy"));
+    }
+
+    public void checkIfHyperlinkAndImageIconsVisibleForPostReply(){
+        logger.info("Checking if hyperlink and image icons are visible for the post reply.");
+        Assert.assertTrue("Share URL icon not visible!", checkItemVisibleByXpath("//div[@class='post-comments-form']//a[contains(@class, 'share-url')]"));
+        Assert.assertTrue("Upload file icon not visible!", checkItemVisibleByXpath("//div[@class='post-comments-form']//a[contains(@class, 'upload-files')]"));
+    }
+
+    public void checkIfHyperlinkAndImageIconsVisibleForNewUserPost(){
+        logger.info("Checking if hyperlink and image icons are visible for the new user post.");
+        Assert.assertTrue("Share URL icon not visible!", checkItemVisibleByXpath("//a[contains(@class, 'first-button')]"));
+        Assert.assertTrue("Upload file icon not visible!", checkItemVisibleByXpath("//a[contains(@class, 'second-button')]"));
+    }
+
+
+    public void checkIfSeeCommentIconBelowAnyReply(String reply){
+        logger.info("Checking if I see Comment icon below the reply.");
+        Assert.assertTrue("Comment icon below the reply is not visible!", checkItemVisibleByXpath("//p[contains(text(), '"+reply+"')]/../../../../..//li[@class='comment-reply first']"));
+    }
+
+    public void addCommentToThePostReply(String post, String reply, String comment) {
+        logger.info("Adding a comment to the post reply.");
+        driver.findElement(By.xpath("//p[contains(text(), '"+post+"')]/../../../../div[@class='post-comments-link']")).click();
+        driver.findElement(By.xpath("//p[contains(text(), '"+reply+"')]/../../../../..//li[@class='comment-reply first last']")).click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div[contains(@id, 'comment-reply-form-wrapper')]//textarea")).sendKeys(comment);
+        waitUntilPageFinishLoading();
+        driver.findElement(By.cssSelector("input[class='form-submit ajax-processed']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void clickOnCommentIconToTheReply(String post, String reply) {
+        logger.info("Clicking on new comment icon to the post reply.");
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//p[contains(text(), '"+post+"')]/../../../../div[@class='post-comments-link']")).click();
+        driver.findElement(By.xpath("//p[contains(text(), '"+reply+"')]/../../../../..//li[@class='comment-reply first']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void clickOnThePostBtn() {
+        logger.info("Clicking on the Post button.");
+        driver.findElement(By.xpath("//div[contains(@id, 'comment-reply-form-wrapper')]//input[@class='form-submit ajax-processed no-input']")).click();
+//        driver.findElement(By.cssSelector("input[class='form-submit ajax-processed']")).click();
+    }
+
+    public void checkPlaceholderVisible(String placeholder) {
+        logger.info("Checking if placeholder is visible.");
+        Assert.assertTrue("", checkItemVisibleByCssSelector("*", "placeholder", placeholder));
+    }
+
+    public void clickOnDeleteButton() {
+        logger.info("Clicking on delete button.");
+        editCreatedPostBtn().click();
+        driver.findElement(By.id("edit-delete")).click();
+//        waitUntilElementExists(driver.findElement(By.id("edit-delete--3")));
+//        driver.findElement(By.id("edit-delete--3")).click();
+    }
+
+    public void clickCancelButton() {
+        logger.info("Clicking on cancel button.");
+        waitUntilPageFinishLoading();
+        cancelDeleteBtn().click();
+        waitUntilPageFinishLoading();
+        cancelBtn().click();
         waitUntilPageFinishLoading();
     }
 
@@ -490,8 +641,13 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     private WebElement privacyWorkEmail(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-contact-work-privacy']/option[@value='"+privacy+"']"));}
     private WebElement privacyPersonalEmail(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-contact-personal-privacy']/option[@value='"+privacy+"']"));}
     private WebElement privacyOfficePhone(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-office-phone-privacy']/option[@value='"+privacy+"']"));}
+    private WebElement privacyMobilePhone(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-mobile-phone-privacy']/option[@value='"+privacy+"']"));}
+    private WebElement privacyAlmaMeter(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-alma-mater-privacy']/option[@value='"+privacy+"']"));}
+
     private WebElement addHhyperlinkBtn() {return driver.findElement(By.cssSelector("a[class='fieldset-button first-button']"));}
     private WebElement addHyperlinkTextBox() {return driver.findElement(By.id("edit-url"));}
     private WebElement editCreatedPostBtn() {return driver.findElement(By.linkText("edit"));}
+    private WebElement cancelBtn() {return driver.findElement(By.id("edit-cancel"));}
+    private WebElement cancelDeleteBtn() {return driver.findElement(By.id("edit-cancel-delete"));}
 
 }

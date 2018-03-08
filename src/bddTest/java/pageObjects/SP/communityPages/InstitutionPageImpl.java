@@ -1,5 +1,6 @@
 package pageObjects.SP.communityPages;
 
+import junit.framework.AssertionFailedError;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -18,18 +19,30 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToHubsPage(String collegeName){
         waitUntilPageFinishLoading();
         communityFrame();
-        link("Additional info").click();
-        link("VIEW NAVIANCE COLLEGE PROFILE").click();
+        WebElement additionalLink = link("Additional info");
+        waitUntil(ExpectedConditions.visibilityOf(additionalLink));
+        additionalLink.click();
         waitUntilPageFinishLoading();
+        WebElement viewNavianceCollegeProfile = link("VIEW NAVIANCE COLLEGE PROFILE");
+        waitUntil(ExpectedConditions.visibilityOf(viewNavianceCollegeProfile));
+        viewNavianceCollegeProfile.click();
+        waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(collageNameLabel()));
-        Assert.assertTrue("College Name is not displaying in Hubs View", collageNameLabel().getText().trim().equals(collegeName));
+        waitForUITransition();
+        try{
+            waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
+        }catch(Exception e){
+            logger.info("Caught Exception: " + e.getMessage());
+            getDriver().switchTo().defaultContent();
+            throw new AssertionFailedError("College Name is not displaying in Hubs View");
+        }
         getDriver().switchTo().defaultContent();
     }
 
-    //locator
-    private WebElement collageNameLabel() {
-        return getDriver().findElement(By.cssSelector("h1.masthead__name"));
-    }
+        //locator
+        private WebElement collageNameLabel() {
+            return getDriver().findElement(By.cssSelector("h1.masthead__name"));
+        }
 }
