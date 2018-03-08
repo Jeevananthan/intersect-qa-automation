@@ -85,3 +85,17 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com |
     Then HE I successfully sign out
 
+  MATCH-1604
+    Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
+              so that I can easily view all the high school I may want to visit on one screen.
+
+      Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+      Then HE I verify the instructional text and verify the link to navigate to the Recommendations page
+      When HE I add "Lakota West High School" high school with location "West" to the Travel Plan
+      Then HE I verify the states of the school are present in the ABC order
+      Then HE I verify the School details in Travel plan "<school>","<address>","<college going rate>","<senior class size>","<primary POC>","<size of State>"
+      Then HE I verify the Visit and Fair details are diplayed in the Travel plan
+Examples:
+      |school                  |address                                                          |college going rate|senior class size|primary POC         |size of State|
+      |Lakota West High School |8940 Union Centre Blvd West chester, Ohio, Butler county, 45069  |0                 |524              |PurpleHS LakotaWest |4            |
+

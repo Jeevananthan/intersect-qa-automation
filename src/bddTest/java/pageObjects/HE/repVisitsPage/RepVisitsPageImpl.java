@@ -1070,7 +1070,45 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         catch (Exception e){logger.info("Invalid date");}
     }
 
+    public void addHighSchoolToRepVisitsTravelPlan(String school, String location){
+        navigateToRepVisitsSection("Recommendations");
+        searchHighSchoolByLocationInRecommendationsPage(location);
+        addHighSchoolToTravelPlan(school);
+    }
+    private void searchHighSchoolByLocationInRecommendationsPage(String location){
+        getSearchByLocationTextBox().sendKeys(location);
+    }
 
+    public void verifySchoolDetailsInTravelPlan(String school,String address,String collegeGoingRate,String seniorclassSize,String primaryPoc,String sizeofstate){
+        String addressdetails[] = address.split(",");
+        String city = addressdetails[0];
+        String state = addressdetails[1];
+        String county = addressdetails[2];
+        String zip = addressdetails[3];
+        Assert.assertTrue("",driver.findElement(By.xpath("//span[text()='"+state+"']/parent::div/span[text()='"+sizeofstate+"']")).isDisplayed());
+        Assert.assertTrue("HighSchool avatar image is not displayed",driver.findElement(By.xpath("//div/img[@class='ui centered image yUiNH8XB_uHGXhISF0aaL']")).isDisplayed());
+        Assert.assertTrue("School is not displayed",driver.findElement(By.xpath("//div[text()='"+school+"']")).isDisplayed());
+        Assert.assertTrue("Address is not displayed",driver.findElement(By.xpath("//div[normalize-space(text())='"+city+", "+state+", "+county+", "+zip+"']")).isDisplayed());
+        Assert.assertTrue("CollegeGoingRate is not displayed",driver.findElement(By.xpath("//div[text()='"+collegeGoingRate+"']")).isDisplayed());
+        Assert.assertTrue("Senior class size is not displayed",driver.findElement(By.xpath("//div[text()='"+seniorclassSize+"']")).isDisplayed());
+        Assert.assertTrue("primary Poc is not diplayed",driver.findElement(By.xpath("//div[text()='"+primaryPoc+"']")).isDisplayed());
+    }
+
+    public void verifyLinkInTravelPlanPage(){
+       Assert.assertTrue("",driver.findElement(By.xpath("//span[text()='The Travel Plan lists high schools you plan to visit or will be visiting. You can add additional schools by selecting \"Add to my travel plan\" from the ']")).isDisplayed());
+       Assert.assertTrue("",link("Recommendations").isDisplayed());
+       link("Recommendations").click();
+       waitUntilPageFinishLoading();
+       Assert.assertTrue("Navigated to Recommendations Page",driver.findElement(By.xpath("//div/h1/span[text()='Recommendations']")).isDisplayed());
+    }
+
+    public void verifysortingStatesInTravelPlan(){
+
+    }
+
+    public void verifyVisitandFairDetailsInTravelPlan(){
+
+    }
 
     //The below method will verify the message which will display when there is no visit/fair for the next week.
     public void verifyDefaultMessageOverviewPage(){
@@ -1239,6 +1277,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement showMoreButton(String option){
         WebElement text=driver.findElement(By.xpath("//span[text()='"+option+"']"));
         return text;
+    }
+    private void addHighSchoolToTravelPlan(String school){
+        try{
+            driver.findElement(By.xpath(String.format(".//td/a[text()='%s']/ancestor::tr/td/div[@class='_1az38UH6Zn-lk--8jTDv2w']/span[text()='Added To Travel Plan']"
+                    ,school)));
+        } catch (Exception e){
+            button(By.xpath(String.format(".//td/a[text()='%s']/ancestor::tr/td/div/button/span[text()='Add To Travel Plan']"
+                    ,school))).click();
+            Assert.assertTrue(String.format("The school: %s was not added to the travel plan",school),
+                    text(By.xpath("//span[text()='School added to Travel Plan']")).isDisplayed());
+        }
+    }
+    private WebElement getSearchByLocationTextBox(){
+        return textbox("Search by location...");
     }
 }
 

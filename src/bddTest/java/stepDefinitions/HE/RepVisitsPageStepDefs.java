@@ -123,5 +123,15 @@ public class RepVisitsPageStepDefs implements En {
         //Then("^HE I request HS jobfair appointment to be scheduled \"([^\"]*)\" for \"([^\"]*)\"$", repVisits::checkHighSchoolJobFairAvailability);
         Then("^HE I request an appointment with \"([^\"]*)\" for College Fair \"([^\"]*)\"$", repVisits::selectFairForHE);
         //selectFairForHE
+
+        And("HE I add \"([^\"]*)\" high school with location \"([^\"]*)\" to the Travel Plan",repVisits::addHighSchoolToRepVisitsTravelPlan);
+
+        Then("^HE I verify the School details in Travel plan \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifySchoolDetailsInTravelPlan);
+
+        Then("^HE I verify the instructional text and verify the link to navigate to the Recommendations page$",repVisits::verifyLinkInTravelPlanPage);
+
+        Then("^HE I verify the states of the school are present in the ABC order$",repVisits::verifysortingStatesInTravelPlan);
+
+        Then("^HE I verify the Visit and Fair details are diplayed in the Travel plan$",repVisits::verifyVisitandFairDetailsInTravelPlan);
     }
 }
