@@ -3031,9 +3031,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement institution=driver.findElement(By.xpath("//a[@class='active' and text()='Institution']"));
         return  institution;
     }
-    private WebElement userDropdown() {
-        return button(By.id("user-dropdown"));
-    }
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
@@ -3066,9 +3063,4 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.id("user-form-email"));
         return  text;
     }
-    private WebElement saveButton() {
-        WebElement button=button("SAVE");
-        return  button;
-    }
-
 }
