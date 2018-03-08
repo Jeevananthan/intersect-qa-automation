@@ -1943,14 +1943,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
         return  text;
     }
-    private WebElement yourProfileInHeader(String yourProfile) {
-        WebElement profile=driver.findElement(By.xpath("//span[text()='"+yourProfile+"']"));
-        return  profile;
-    }
-    private WebElement institutionProfileInHeader(String institutionProfile) {
-        WebElement institution=driver.findElement(By.xpath("//span[text()='"+institutionProfile+"']"));
-        return  institution;
-    }
     private WebElement frameInCommunity() {
         WebElement frame=driver.findElement(By.xpath("//iframe[@title='Community']"));
         return frame;

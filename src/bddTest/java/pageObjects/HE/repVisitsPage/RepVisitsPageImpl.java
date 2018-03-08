@@ -14,15 +14,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import pageObjects.HE.homePage.HomePageImpl;
 import utilities.GetProperties;
 
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private HomePageImpl homePage;
 
     public RepVisitsPageImpl() {
         logger = Logger.getLogger(RepVisitsPageImpl.class);
+        homePage = new HomePageImpl();
     }
 
     public void checkRepVisitsSubTabs(DataTable dataTable){
@@ -579,7 +582,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyNavigationUserDropdownforHE()  {
         getAccoutSettingsBtn().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("settings is not displayed",settingsPage().isDisplayed());
+        Assert.assertTrue("Settings is not displayed", navBar.getSubMeunBreadcrumbs().getText().contains("Settings"));
         userDropdown().click();
         getYourProfileBtn().click();
         waitUntilPageFinishLoading();
@@ -795,17 +798,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
         return  text;
     }
-    private WebElement settingsInHeader(String settings) {
-        WebElement settingsInHeader=driver.findElement(By.xpath("//span[text()='"+settings+"']"));
-        return settingsInHeader;
-    }
     private WebElement frameInCommunity() {
         WebElement frame=driver.findElement(By.xpath("//iframe[@title='Community']"));
         return frame;
-    }
-    private WebElement settingsPage() {
-        WebElement settings=driver.findElement(By.xpath("//div[text()='Intersect']/following-sibling::div[text()='Settings']/parent::div/parent::div[@class='five wide computer seven wide mobile eight wide tablet column']"));
-        return  settings;
     }
     private WebElement userProfilePage() {
         WebElement profile=driver.findElement(By.xpath("//a[@class='active' and text()='Profile']"));
@@ -826,10 +821,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement helpNavDropdown() {
         WebElement help=driver.findElement(By.id("helpNav-dropdown"));
         return  help;
-    }
-    private WebElement helpCenter(String helpcenter) {
-      WebElement helpCenter= driver.findElement(By.xpath("//span[text()='"+helpcenter+"']"));
-      return helpCenter;
     }
     private  WebElement logo() {
         WebElement Logo=driver.findElement(By.xpath("//div/a[@class='logo']"));
