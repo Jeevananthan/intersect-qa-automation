@@ -11,12 +11,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-
 import java.util.*;
 import static org.junit.Assert.fail;
 import java.text.DateFormat;
 import utilities.GetProperties;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,10 +22,16 @@ import java.util.Collections;
 import java.util.Date;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utilities.GetProperties;
+import utilities.GetProperties;
+import java.util.*;
+import java.util.List;
+import static org.junit.Assert.fail;
+import static junit.framework.TestCase.fail;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -1967,6 +1971,54 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.fail("The given option is not a valid one");
         }
     }
+    public void verifyUserDropdownforNonNaviance(){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyUserDropdownforHE();
+    }
+
+    public void verifyNavigationUserDropdownforNonNaviance(){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyNavigationUserDropdownforHE();
+     }
+
+    public void verifyUserAdminorNot(String option){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyUserAdminorNot(option);
+    }
+
+    public void verifyHelpCentreforNonNaviance(){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyHelpCentreforHE();
+    }
+
+
+    public void verifyUserDropdownforNaviance() {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropdown().click();
+        Assert.assertTrue("'Your Profile' option is not displayed",getYourProfileBtn().isDisplayed());
+        Assert.assertTrue("'Institution Profile' option is not displayed",getInstitutionProfileBtn().isDisplayed());
+        Assert.assertTrue("'Logged In As' Text is not displayed",loggedInText().isDisplayed());
+        Assert.assertTrue("'Sign Out' option is not displayed",signOut().isDisplayed());
+    }
+
+    public void verifyNavigationinUserDropdownforNaviance() {
+        getYourProfileBtn().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.switchTo().frame(frameInCommunity());
+        Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
+        driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+        userDropdown().click();
+        getInstitutionProfileBtn().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.switchTo().frame(frameInCommunity());
+        Assert.assertTrue("'Institution Profile' is not displayed",institutionProfilePage().isDisplayed());
+        driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+    }
 
     private WebElement getCollegeFairsPrimaryContactPhoneNumberField() {
         return driver.findElement(By.id("notification_fairs_phone_number"));
@@ -2832,5 +2884,34 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String time = Integer.toString(n);
         logger.info("random = "+time );
         return time;
+    }
+    private WebElement getRepVisitsBtn() {
+        return link(By.id("js-main-nav-rep-visits-menu-link"));
+    }
+    private WebElement userDropdown() {
+        WebElement dropdown=driver.findElement(By.id("user-dropdown"));
+        return  dropdown;
+    }
+    private WebElement getInstitutionProfileBtn() { return driver.findElement(By.xpath("//span[text()='Institution Profile']")); }
+    private WebElement getYourProfileBtn() { return driver.findElement(By.xpath("//span[text()='Your Profile']")); }
+    private WebElement signOut() {
+        WebElement signOut=driver.findElement(By.xpath("//span[text()='Sign Out']"));
+        return  signOut;
+    }
+    private WebElement loggedInText() {
+        WebElement text=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
+        return  text;
+    }
+    private WebElement frameInCommunity() {
+        WebElement frame=driver.findElement(By.xpath("//iframe[@title='Community']"));
+        return frame;
+    }
+    private WebElement userProfilePage() {
+        WebElement profile=driver.findElement(By.xpath("//a[@class='active' and text()='Profile']"));
+        return  profile;
+    }
+    private WebElement institutionProfilePage() {
+        WebElement institution=driver.findElement(By.xpath("//a[@class='active' and text()='Institution']"));
+        return  institution;
     }
 }

@@ -1,6 +1,5 @@
 package stepDefinitions.HE;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
 
@@ -123,5 +122,14 @@ public class RepVisitsPageStepDefs implements En {
         //Then("^HE I request HS jobfair appointment to be scheduled \"([^\"]*)\" for \"([^\"]*)\"$", repVisits::checkHighSchoolJobFairAvailability);
         Then("^HE I request an appointment with \"([^\"]*)\" for College Fair \"([^\"]*)\"$", repVisits::selectFairForHE);
         //selectFairForHE
+
+        And("^HE I verify the items in the user dropdown for a HE user$",repVisits::verifyUserDropdownforHE);
+
+        And("^HE I verify the items are navigate to the respective page in the user dropdown for a HE user$",repVisits::verifyNavigationUserDropdownforHE);
+
+        And("^HE I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUserAdminorNot);
+
+        And("^HE I verify the items are present in the help center dropdown for a HE user$",repVisits::verifyHelpCentreforHE);
+
     }
 }

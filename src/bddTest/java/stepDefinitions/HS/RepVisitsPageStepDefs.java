@@ -243,5 +243,20 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
 
+
+        And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
+
+        And("^HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user$",repVisits::verifyNavigationUserDropdownforNonNaviance);
+
+        And("^HS I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUserAdminorNot);
+
+        And("^HS I verify the items are present in the help center dropdown for a Non-Naviance user$",repVisits::verifyHelpCentreforNonNaviance);
+
+        And("^HS I verify the items in the user dropdown for a Naviance user$",repVisits::verifyUserDropdownforNaviance);
+
+        And("^HS I verify the items are navigate to the respective page in the user dropdown for a Naviance user$",repVisits::verifyNavigationinUserDropdownforNaviance);
+
+
+
     }
 }

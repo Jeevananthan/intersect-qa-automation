@@ -188,7 +188,7 @@ public class NavBarImpl extends SeleniumBase {
     }
     private WebElement getActiveMatchButton() { return link(By.id("js-main-nav-am-plus-menu-link")); }
 
-    private WebElement getHeadingBreadcrumbs(){
+    public WebElement getHeadingBreadcrumbs(){
         List<WebElement> items = driver.findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
         for (WebElement item : items) {
             if (item.getText().length() > 0)
@@ -196,7 +196,8 @@ public class NavBarImpl extends SeleniumBase {
         }
         return null;
     }
-    private WebElement getSubMeunBreadcrumbs() {
+
+    public WebElement getSubMeunBreadcrumbs() {
         List<WebElement> items = driver.findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
         for (WebElement item : items) {
             if (item.getText().length() > 0)

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 import org.apache.log4j.Logger;
 import utilities.GetProperties;
 
@@ -735,6 +735,82 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyUserDropdownforHE(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropdown().click();
+        Assert.assertTrue("'Account settings' option is not displayed",getAccoutSettingsBtn().isDisplayed());
+        Assert.assertTrue("'Your Profile' option is not displayed",getYourProfileBtn().isDisplayed());
+        Assert.assertTrue("'Institution Profile' option is not displayed",getInstitutionProfileBtn().isDisplayed());
+        Assert.assertTrue("'Logged In As' Text is not displayed",loggedInText().isDisplayed());
+        Assert.assertTrue("'Sign Out' option is not displayed",signOut().isDisplayed());
+    }
+
+    public void verifyNavigationUserDropdownforHE()  {
+        getAccoutSettingsBtn().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Settings is not displayed", navBar.getSubMeunBreadcrumbs().getText().contains("Settings"));
+        userDropdown().click();
+        getYourProfileBtn().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        communityFrame();
+        Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
+        driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+        userDropdown().click();
+        getInstitutionProfileBtn().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        communityFrame();
+        Assert.assertTrue("'Institution Profile' is not displayed",institutionProfilePage().isDisplayed());
+        driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyUserAdminorNot(String option){
+        userDropdown().click();
+        if (!option.equals("")) {
+            if (option.equalsIgnoreCase("ADMIN")) {
+                Assert.assertTrue(option + "is not displayed", adminLogin().isDisplayed());
+            } else if (option.equalsIgnoreCase("NON-ADMIN")) {
+                Assert.assertTrue("'Logged In As' Text is not displayed",nonAdminLogin().isDisplayed());
+            } else {
+                Assert.fail("The given option" + option + " is a invalid one");
+            }
+        }
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyHelpCentreforHE() {
+        userDropdown().click();
+        Assert.assertTrue("notifications icon is not displayed",notificationIconInHelpCentre().isDisplayed());
+        Assert.assertTrue("helpNav-dropdown icon is not displayed",helpNavDropdown().isDisplayed());
+        helpNavDropdown().click();
+        Assert.assertTrue("Help Center is not displayed",helpCentre().isDisplayed());
+        Assert.assertTrue("Contact Support is not displayed",contactSupport().isDisplayed());
+        helpCentre().click();
+        waitUntilPageFinishLoading();
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.switchTo().window(intersectWindow);
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("hobsons logo is not displayed",logo().isDisplayed());
+        driver.close();
+        driver.switchTo().window(navianceWindow);
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(getRepVisitsBtn());
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+    }
+
     public void verifyVisitsFeedbackNonAdminMessaging() {
         Assert.assertTrue("Non-administrator message was not displayed",text("Visit Feedback is only available to users with the Administrator role.").isDisplayed());
         Assert.assertTrue("Locked banner was not displayed",driver.findElement(By.xpath("//div[@class='centered one column row']")).findElement(By.cssSelector("[alt=locked]")).isDisplayed());
@@ -1091,6 +1167,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button;
    }
 
+    private WebElement getRepVisitsBtn() {
+        return link(By.id("js-main-nav-rep-visits-menu-link"));
+    }
     private WebElement getOverviewBtn() {
         return link("Overview");
     }
@@ -1121,6 +1200,57 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
     private WebElement getRepVisitsAvailabilitySidebar(){ return driver.findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
+    private WebElement userDropdown() {
+        WebElement dropdown=driver.findElement(By.id("user-dropdown"));
+        return  dropdown;
+    }
+    private WebElement getAccoutSettingsBtn() { return driver.findElement(By.xpath("//span[text()='Account Settings']")); }
+    private WebElement getInstitutionProfileBtn() { return driver.findElement(By.xpath("//span[text()='Institution Profile']")); }
+    private WebElement getYourProfileBtn() { return driver.findElement(By.xpath("//span[text()='Your Profile']")); }
+    private WebElement signOut() {
+        WebElement signOut=driver.findElement(By.xpath("//span[text()='Sign Out']"));
+        return  signOut;
+    }
+    private WebElement loggedInText() {
+        WebElement text=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
+        return  text;
+    }
+    private WebElement userProfilePage() {
+        WebElement profile=driver.findElement(By.xpath("//a[@class='active' and text()='Profile']"));
+        return  profile;
+    }
+    private WebElement institutionProfilePage() {
+        WebElement institution=driver.findElement(By.xpath("//a[@class='active' and text()='Institution']"));
+        return  institution;
+    }
+    private WebElement adminLogin() {
+        WebElement admin=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]/span[text()='ADMIN']"));
+        return admin;
+    }
+    private WebElement nonAdminLogin() {
+        WebElement nonAdmin=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
+        return nonAdmin;
+    }
+    private WebElement helpNavDropdown() {
+        WebElement help=driver.findElement(By.id("helpNav-dropdown"));
+        return  help;
+    }
+    private  WebElement logo() {
+        WebElement Logo=driver.findElement(By.xpath("//div/a[@class='logo']"));
+        return Logo;
+    }
+    private WebElement notificationIconInHelpCentre() {
+        WebElement notificationIcon=driver.findElement(By.id("notifications"));
+        return notificationIcon;
+    }
+    private WebElement helpCentre()  {
+        WebElement helpCentre=driver.findElement(By.xpath("//span[text()='Help Center']"));
+        return  helpCentre;
+    }
+    private WebElement contactSupport()  {
+        WebElement contactSupport= text("Contact Support");
+        return  contactSupport;
+    }
     private WebElement getRegistrationButton(String fairName) { return getDriver().findElement(By.xpath("//span[text()='" + fairName + "']/../../div/button/span")); }
     private WebElement getFairDate() { return getDriver().findElement(By.cssSelector("div.content span")); }
     private WebElement getStartEndTimeAndTimeZone() { return getDriver().findElement(By.cssSelector("div.content b:nth-of-type(1)")); }

@@ -508,3 +508,49 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
     Then HS I cancel the "Fair QA Test#03" College Fair
     And HS I successfully sign out
+
+  @MATCH-3060 @MATCH-3061
+    Scenario: As a RepVisits user,I want one page to go to to manage all my settings
+              To simplify my RepVisits configuration experience.
+    #HS admin(Naviance)
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I verify the items in the user dropdown for a Naviance user
+    Then HS I verify the items are navigate to the respective page in the user dropdown for a Naviance user
+    Then HS I verify the user is "ADMIN" or not
+    And HS I successfully sign out
+    #HS non-admin(Naviance)
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "molly.purple" and password "password"
+    And HS I verify the items in the user dropdown for a Naviance user
+    Then HS I verify the items are navigate to the respective page in the user dropdown for a Naviance user
+    Then HS I verify the user is "NON-ADMIN" or not
+    And HS I successfully sign out
+    #HS admin(Non-Naviance)
+    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
+    And HS I verify the items in the user dropdown for a Non-Naviance user
+    Then HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user
+    Then HS I verify the user is "ADMIN" or not
+    And HS I verify the items are present in the help center dropdown for a Non-Naviance user
+    And HS I successfully sign out
+    #HS Non-admin(Non-Naviance)
+    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password!1" as password
+    And HS I verify the items in the user dropdown for a Non-Naviance user
+    Then HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user
+    Then HS I verify the user is "NON-ADMIN" or not
+    And HS I verify the items are present in the help center dropdown for a Non-Naviance user
+    And HS I successfully sign out
+    #HE admin
+    Given HE I am logged in to Intersect HE as user type "limited"
+    And HE I verify the items in the user dropdown for a HE user
+    Then HE I verify the items are navigate to the respective page in the user dropdown for a HE user
+    Then HE I verify the user is "ADMIN" or not
+    And HE I verify the items are present in the help center dropdown for a HE user
+    And HE I successfully sign out
+    #HE Non-admin
+    Given HE I am logged in to Intersect HE as user type "publishing"
+    And HE I verify the items in the user dropdown for a HE user
+    Then HE I verify the items are navigate to the respective page in the user dropdown for a HE user
+    Then HE I verify the user is "NON-ADMIN" or not
+    And HE I verify the items are present in the help center dropdown for a HE user
+    And HE I successfully sign out
+
+
