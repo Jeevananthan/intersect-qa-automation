@@ -754,7 +754,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getYourProfileBtn().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        driver.switchTo().frame(frameInCommunity());
+        communityFrame();
         Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
         driver.switchTo().defaultContent();
         waitUntilPageFinishLoading();
@@ -762,7 +762,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getInstitutionProfileBtn().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        driver.switchTo().frame(frameInCommunity());
+        communityFrame();
         Assert.assertTrue("'Institution Profile' is not displayed",institutionProfilePage().isDisplayed());
         driver.switchTo().defaultContent();
         waitUntilPageFinishLoading();
@@ -1214,10 +1214,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement loggedInText() {
         WebElement text=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
         return  text;
-    }
-    private WebElement frameInCommunity() {
-        WebElement frame=driver.findElement(By.xpath("//iframe[@title='Community']"));
-        return frame;
     }
     private WebElement userProfilePage() {
         WebElement profile=driver.findElement(By.xpath("//a[@class='active' and text()='Profile']"));
