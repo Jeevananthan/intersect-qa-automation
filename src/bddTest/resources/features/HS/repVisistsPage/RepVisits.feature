@@ -554,3 +554,72 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I successfully sign out
 
 
+
+
+  @MATCH-3062
+  Scenario Outline: As a RepVisits User,I need to be able to update my contact information and reset my password
+            So I can effectively manage my RepVisits Account.
+    #ADMIN
+    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<oldPassword>" as password
+    Then HS I navigate to the "Account Settings" Page
+    Then HS I reset the password for "<oldPassword>","<newPassword>"
+    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+    And HS I successfully sign out
+
+    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<newPassword>" as password
+    Then HS I navigate to the "Account Settings" Page
+    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
+    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSadminFirstName>","<HSadminLastName>","<HSadminEmail>"
+    |contain a lowercase letter|contain an uppercase letter|contain a number|
+    And HS I validate the password field "<adminUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
+    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+    And HS I successfully sign out
+    #NON-ADMIN
+    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<oldPassword>" as password
+    Then HS I navigate to the "Account Settings" Page
+    Then HS I reset the password for "<oldPassword>","<newPassword>"
+    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+    And HS I successfully sign out
+
+    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<newPassword>" as password
+    Then HS I navigate to the "Account Settings" Page
+    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
+    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSmemberFirstName>","<HSmemberLastName>","<HSmemberEmail>"
+      |contain a lowercase letter|contain an uppercase letter|contain a number|
+    And  HS I validate the password field "<memberUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
+    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+    And HS I successfully sign out
+    #ADMIN
+    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<oldPassword>" as password
+    Then HE I navigate to the "Account Settings" Page
+    Then HE I reset the password for "<oldPassword>","<newPassword>"
+    And HE I verify the success message "Success! You've updated your account information." in Account settings page
+    And HE I successfully sign out
+
+    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<newPassword>" as password
+    Then HE I navigate to the "Account Settings" Page
+    And HE I verify the left-sub menu "Account Information,Users" are present in the Account Settings page
+    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEadminFirstName>","<HEadminLastName>","<HEadminEmail>"
+      |contain a lowercase letter|contain an uppercase letter|contain a number|
+    And HE I validate the password field "<adminUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
+    And HE I verify the success message "Success! You've updated your account information." in Account settings page
+    And HE I successfully sign out
+    #NON-ADMIN
+    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<oldPassword>" as password
+    Then HE I navigate to the "Account Settings" Page
+    Then HE I reset the password for "<oldPassword>","<newPassword>"
+    And HE I verify the success message "Success! You've updated your account information." in Account settings page
+    And HE I successfully sign out
+
+    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<newPassword>" as password
+    Then HE I navigate to the "Account Settings" Page
+    And HE I verify the left sub menu "Account Information" is present in the Account Settings page for Non-Admin
+    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
+      |contain a lowercase letter|contain an uppercase letter|contain a number|
+    And HE I validate the password field "<memberUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
+    And HE I verify the success message "Success! You've updated your account information." in Account settings page
+    And HE I successfully sign out
+
+    Examples:
+    |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
+    |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|

@@ -75,6 +75,22 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the freemium messaging on the Visits Feedback page$", repVisits::verifyVisitsFeedbackFreemiumMessaging);
 
+        And("^HE I navigate to the \"([^\"]*)\" Page$",repVisits::navaigateToAccountSettings);
+
+        And("^HE I verify the left-sub menu \"([^\"]*)\" are present in the Account Settings page$",repVisits::verifyAccountsettings);
+
+        And("^HE I verify the non-password fields \"([^\"]*)\" are pre-populated with current data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPasswordFields);
+
+        And("^HE I validate the password field \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::validatePassword);
+
+        And("^HE I verify the left sub menu are present in the Account Settings page$",repVisits::verifyDetailsInaccountSettings);
+
+        And("^HE I reset the password for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::resetPassword);
+
+        And("^HE I verify the left sub menu \"([^\"]*)\" is present in the Account Settings page for Non-Admin$",repVisits::verifyDetailsInaccountSettingsforNonAdmin);
+
+        And("^HE I verify the success message \"([^\"]*)\" in Account settings page$",repVisits::verifySuccessMessageinAccountSettingsPage);
+
         Then("^HE I verify the formatting of the Visit Feedback page$", repVisits::verifyVisitFeedbackPage);
 
         Then("^HE I verify the RepVisits Overview page and Search and Schedule hyperlink when no events are scheduled for the next 7 days", repVisits::verifyDefaultMessageOverviewPage);
