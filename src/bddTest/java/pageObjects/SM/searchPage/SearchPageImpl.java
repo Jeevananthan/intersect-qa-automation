@@ -395,26 +395,26 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void selectCheckBox(String checkBox){
         WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
-        Assert.assertTrue(checkBox+" is not displaying.", checkboxLocator.isDisplayed());
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
         Assert.assertTrue(checkBox+" checkbox by default is not selected.", !checkboxLocator.isSelected());
         if (!checkboxLocator.isSelected()) {
             checkboxLocator.click();
             waitUntilPageFinishLoading();
         }
-        Assert.assertTrue(checkBox+" checkbox is not selected.", checkboxLocator.isSelected());
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
     }
     /**
      * unselect any selected checkbox only when fit criteria menu is open.
      */
     public void unselectCheckbox(String checkBox) {
         WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
-        Assert.assertTrue(checkBox+" is not displaying.", checkboxLocator.isDisplayed());
-        Assert.assertTrue(checkBox+" checkbox is not selected.", checkboxLocator.isSelected());
-        if (checkboxLocator.isSelected()) {
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+        if (onlyCheckbox.isSelected()) {
             checkboxLocator.click();
             waitUntilPageFinishLoading();
         }
-        Assert.assertTrue(checkBox+" checkbox is selected.", !checkboxLocator.isSelected());
+        Assert.assertTrue(checkBox+" checkbox is selected.", !onlyCheckbox.isSelected());
     }
 
     private void selectFitCriteria(String fitCriteria){
