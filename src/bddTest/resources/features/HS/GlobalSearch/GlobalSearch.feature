@@ -11,7 +11,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
 
   @MATCH-590 @MATCH-592 @MATCH-593 @MATCH-594 @MATCH-596 @MATCH-1051 @MATCH-1052 @MATCH-1053 @MATCH-1110
   Scenario: As a HS user I want real-time results displayed to me while performing a global search.
-            so I can quickly find the person/institution/group/content/filter/event I want to view.
+  so I can quickly find the person/institution/group/content/filter/event I want to view.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I type into the global search box to show results are returned below the search box in real-time "admin"
     Then HS I verify real-time search results were categorized by entity
@@ -42,7 +42,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
 
   @MATCH-1545
   Scenario: As a HS user I want to see general recruitment territory details on all users returned to me when during advanced searches for people.
-            So I can find the other community user I want to network with more efficiently.
+  So I can find the other community user I want to network with more efficiently.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify advanced search returns the HS user's general description field below the title and institution fields "MatchSupportUIQA4"
     And HS I successfully sign out
@@ -61,11 +61,18 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
       | Institution Type                       | All            |
       | Position                               | Manager        |
       | Institution State                      | Ohio           |
-      | Zipcode                                | 45241          |
-      | State Served                           | Alabama        |
-      | County Served                          | Autauga        |
       | Advises Students on Admissions Process | No             |
       | Schedules College Visits               | No             |
+      | Zipcode                                | 45241          |
+    And HS I successfully sign out
+
+  @MATCH-932 @MATCH-934 @MATCH-1076 @MATCH-1077 @MATCH-1078
+  Scenario: As a Community user I want to perform an advanced search for other Community users using any combination of the fields below.
+  So I can more accurately find the users I want to network with in the Community.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify I can perform an advanced search utilizing any combination of fields for "People"
+      | State Served                           | Alabama        |
+      | County Served                          | Autauga        |
     And HS I successfully sign out
 
   @MATCH-933 @MATCH-1103 @MATCH-1105 @MATCH-1107
@@ -111,7 +118,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
 
   @MATCH-1400
   Scenario: As a HS user I want to preform a global and advanced search for groups that do not return HE results.
-            So I can ensure only HS groups are returned.
+  So I can ensure only HS groups are returned.
     Given HS I am logged in to Intersect HS as user type "default"
     Then HS I verify real-time search results do not return any results for HE groups "New Test HE Group"
     Then HS I verify advanced search results do not return any results for HE groups "New Test HE Group"
