@@ -364,6 +364,77 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 && !mustHaveBox().getText().contains("8") && !mustHaveBox().getText().toLowerCase().contains("act"));
     }
 
+
+
+    public void verifyMeest100ofNeedCheckbox(String checkBox){
+        /*String path = "//input[@id='meetsCostNeed']";
+        WebElement Meet100ofNeed = driver.findElement(By.xpath(path+"/../label"));
+        Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.",Meet100ofNeed.getText().equals("Meets 100% of Need"));
+        WebElement tooltip = driver.findElement(By.xpath(path+"/../../i[@aria-hidden='true']"));
+        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", tooltip.isDisplayed());
+        */
+        String path = "//label[contains(text(), '"+checkBox+"')]";
+        Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path)).getText().equals("Meets 100% of Need"));
+        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../i[@aria-hidden='true']")).isDisplayed());
+    }
+
+    /**
+     * unselect any selected checkbox only when fit criteria menu is open.
+     */
+    public void unsetCheckbox(String option) {
+        WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
+        WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
+        if (checkbox.isSelected()) {
+            label.click();
+            waitUntilPageFinishLoading();
+        }
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+    /**
+     * select any selected checkbox only when fit criteria menu is open.
+     */
+    public void selectCheckBox(String checkBox){
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        Assert.assertTrue(checkBox+" is not displaying.", checkboxLocator.isDisplayed());
+        Assert.assertTrue(checkBox+" checkbox by default is not selected.", !checkboxLocator.isSelected());
+        if (!checkboxLocator.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is not selected.", checkboxLocator.isSelected());
+    }
+    /**
+     * unselect any selected checkbox only when fit criteria menu is open.
+     */
+    public void unselectCheckbox(String checkBox) {
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        Assert.assertTrue(checkBox+" is not displaying.", checkboxLocator.isDisplayed());
+        Assert.assertTrue(checkBox+" checkbox is not selected.", checkboxLocator.isSelected());
+        if (checkboxLocator.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is selected.", !checkboxLocator.isSelected());
+    }
+
+    private void selectFitCriteria(String fitCriteria){
+        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).click();
+    }
+
+    public void selectMeest100ofNeedCheckbox(String checkboxName){
+        selectFitCriteria("Cost");
+        selectCheckBox(checkboxName);
+
+        /*costFitCriteria().click();
+        String path = "//input[@id='meetsCostNeed']";
+        WebElement Meet100ofNeedCheckBox = driver.findElement(By.xpath(path));
+        WebElement Meet100ofNeed = driver.findElement(By.xpath(path+"/../label"));
+        Assert.assertTrue("Meets 100% of Need Checkbox is not unselected by default", !Meet100ofNeedCheckBox.isSelected());
+        selectCheckBox(checkboxName);
+        Meet100ofNeed.click();
+        Assert.assertTrue("Meets 100% of Need Checkbox is not selected.", Meet100ofNeedCheckBox.isSelected());*/
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -430,6 +501,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//li[contains(text(), 'Resources')]"));
     }
     private WebElement mustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]"));
+    }
+    private WebElement costFitCriteria(){
+        return driver.findElement(By.xpath("//li[contains(text(), 'Cost')]"));
     }
 
 }

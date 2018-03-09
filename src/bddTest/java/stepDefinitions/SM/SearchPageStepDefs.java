@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -38,6 +39,14 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify that entered ACT score data persists$", searchPage::verifyACTScoreDataPersists);
 
         And("^SM I verify that ACT score doesn't become a fit criteria in the Must Have box$", searchPage::verifyACTScoreCriteriaNotInMustHaveBox);
+
+        Then("^SM I verify \"([^\"]*)\" checkbox in Cost fit criteria$", searchPage::verifyMeest100ofNeedCheckbox);
+
+        Then("^SM I unselect the \"([^\"]*)\" checkbox$", searchPage::unselectCheckbox);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Cost fit criteria$", searchPage::selectMeest100ofNeedCheckbox);
+
+
 
     }
 }
