@@ -1095,15 +1095,29 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyLinkInTravelPlanPage(){
-       Assert.assertTrue("",driver.findElement(By.xpath("//span[text()='The Travel Plan lists high schools you plan to visit or will be visiting. You can add additional schools by selecting \"Add to my travel plan\" from the ']")).isDisplayed());
-       Assert.assertTrue("",link("Recommendations").isDisplayed());
-       link("Recommendations").click();
-       waitUntilPageFinishLoading();
-       Assert.assertTrue("Navigated to Recommendations Page",driver.findElement(By.xpath("//div/h1/span[text()='Recommendations']")).isDisplayed());
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Travel Plan").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        Assert.assertTrue("Instructions is not displayed",driver.findElement(By.xpath("//span[text()='The Travel Plan lists high schools you plan to visit or will be visiting. You can add additional schools by selecting \"Add to my travel plan\" from the ']")).isDisplayed());
+        Assert.assertTrue("Recommendations link is not displayed",link("Recommendations").isDisplayed());
+        link("Recommendations").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Navigated to Recommendations Page",driver.findElement(By.xpath("//div/h1/span[text()='Recommendations']")).isDisplayed());
     }
 
     public void verifysortingStatesInTravelPlan(){
-
+        link("Travel Plan").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        List<WebElement> elementList = driver.findElements(By.xpath("//div[@class='ui stackable grid f4StyMpAtcTrzK5AccX8f']/div[1]/div/span"));
+        List<String> SortedList = new ArrayList();
+        for(WebElement element:elementList){
+            SortedList.add(element.getText());
+        }
+        Collections.sort(SortedList);
+        Assert.assertTrue("States are not sorted",elementList.equals(SortedList));
     }
 
     public void verifyVisitandFairDetailsInTravelPlan(){
