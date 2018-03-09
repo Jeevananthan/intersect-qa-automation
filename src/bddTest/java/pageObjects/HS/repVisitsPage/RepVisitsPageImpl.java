@@ -1,6 +1,7 @@
 package pageObjects.HS.repVisitsPage;
 
 import cucumber.api.DataTable;
+import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -11,12 +12,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-
 import java.util.*;
 import static org.junit.Assert.fail;
 import java.text.DateFormat;
 import utilities.GetProperties;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,10 +23,16 @@ import java.util.Collections;
 import java.util.Date;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utilities.GetProperties;
+import utilities.GetProperties;
+import java.util.*;
+import java.util.List;
+import static org.junit.Assert.fail;
+import static junit.framework.TestCase.fail;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -1727,6 +1732,122 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         return rowId;
     }
+
+    public void navaigateToAccountSettings(String accountSettings)
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropdown().click();
+        Assert.assertTrue("AccountSettings is not displayed",accountSettings(accountSettings).isDisplayed());
+        accountSettings(accountSettings).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyAccountsettings(String leftSubMenuInaccountSettings) {
+            Assert.assertTrue("Tab " + leftSubMenuInaccountSettings + " is not displaying as expected!",driver.findElement(By.xpath("//a/span[text()='"+leftSubMenuInaccountSettings+"']")).isDisplayed());
+    }
+
+    public void verifyPasswordFields(String AccountInformationPage,String firstName,String lastName,String eMail,DataTable dataTable) {
+        String details[] = AccountInformationPage.split(",");
+        for(int i=0;i<details.length-1;i++) {
+            Assert.assertTrue(details[i] + " is not showing.", text(details[i]).isDisplayed());}
+        currentPasswordInput().sendKeys(Keys.PAGE_DOWN);
+        List<String> list = dataTable.asList(String.class);
+        for (String passwordCriteria : list) {
+            Assert.assertTrue(passwordCriteria + " is not showing.",text(passwordCriteria).isDisplayed());
+        }
+        String firstname=firstNameTextbox().getAttribute("value");
+        Assert.assertTrue("FirstName is not displayed",firstname.equals(firstName));
+        String lastname=lastNameTextbox().getAttribute("value");
+        Assert.assertTrue("LastName is not displayed",lastname.equals(lastName));
+        String email=eMailTextbox().getAttribute("value");
+        Assert.assertTrue("Email is not displayed",email.equals(eMail));
+    }
+
+    public void validatePassword(String userType,String oldPassword,String minimum8character,String lowercaseletter,String uppercaseletter,String withoutNumber,String withoutspecialcharacter) {
+        currentPasswordInput().clear();
+        currentPasswordInput().sendKeys(oldPassword);
+        //verify the password policy of minimum of 8 characters
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        //verify the password policy of minimum of 8 characters
+        newPasswordInput().sendKeys(minimum8character);
+        confirmPasswordInput().sendKeys(minimum8character);
+        saveButton().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
+
+        //verify the password policy of lowercase letter
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys(lowercaseletter);
+        confirmPasswordInput().sendKeys(lowercaseletter);
+        saveButton().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
+
+        //verify the password policy of uppercase letter
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys(uppercaseletter);
+        confirmPasswordInput().sendKeys(uppercaseletter);
+        saveButton().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
+
+        //verify the password policy of without the number
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys(withoutNumber);
+        confirmPasswordInput().sendKeys(withoutNumber);
+        saveButton().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
+
+        //verify the password policy of without the Special Characters
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys(withoutspecialcharacter);
+        confirmPasswordInput().sendKeys(withoutspecialcharacter);
+        saveButton().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", passwordErrorMessage().isDisplayed());
+
+        //verify the password accepted with the password policy
+        newPasswordInput().clear();
+        confirmPasswordInput().clear();
+        newPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
+        confirmPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
+        saveButton().click();
+        waitForUITransition();
+        List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+        if(list.size()==1) {
+            logger.info("Error Message is displayed");
+            TestCase.fail();
+        }
+        waitUntilPageFinishLoading();
+    }
+
+        public void resetPassword(String oldPassword,String newPassword)
+        {
+            currentPasswordInput().clear();
+            currentPasswordInput().sendKeys(oldPassword);
+            newPasswordInput().sendKeys(newPassword);
+            confirmPasswordInput().sendKeys(newPassword);
+            saveButton().click();
+            waitForUITransition();
+            List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+            if(list.size()==1) {
+                logger.info("Error Message is displayed");
+                TestCase.fail();
+            }
+        }
+
+        public void verifySuccessMessageinAccountSettingsPage(String message){
+        String SuccessMessage = driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
+        Assert.assertTrue("Success message is not displayed",message.equals(SuccessMessage));
+        }
+
     public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){
 
 
@@ -1966,6 +2087,54 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } else {
             Assert.fail("The given option is not a valid one");
         }
+    }
+    public void verifyUserDropdownforNonNaviance(){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyUserDropdownforHE();
+    }
+
+    public void verifyNavigationUserDropdownforNonNaviance(){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyNavigationUserDropdownforHE();
+     }
+
+    public void verifyUserAdminorNot(String option){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyUserAdminorNot(option);
+    }
+
+    public void verifyHelpCentreforNonNaviance(){
+        //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
+        repVisitsPageHEObj.verifyHelpCentreforHE();
+    }
+
+
+    public void verifyUserDropdownforNaviance() {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropdown().click();
+        Assert.assertTrue("'Your Profile' option is not displayed",getYourProfileBtn().isDisplayed());
+        Assert.assertTrue("'Institution Profile' option is not displayed",getInstitutionProfileBtn().isDisplayed());
+        Assert.assertTrue("'Logged In As' Text is not displayed",loggedInText().isDisplayed());
+        Assert.assertTrue("'Sign Out' option is not displayed",signOut().isDisplayed());
+    }
+
+    public void verifyNavigationinUserDropdownforNaviance() {
+        getYourProfileBtn().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.switchTo().frame(frameInCommunity());
+        Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
+        driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+        userDropdown().click();
+        getInstitutionProfileBtn().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.switchTo().frame(frameInCommunity());
+        Assert.assertTrue("'Institution Profile' is not displayed",institutionProfilePage().isDisplayed());
+        driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
     }
 
     private WebElement getCollegeFairsPrimaryContactPhoneNumberField() {
@@ -2832,5 +3001,66 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String time = Integer.toString(n);
         logger.info("random = "+time );
         return time;
+    }
+    private WebElement getRepVisitsBtn() {
+        return link(By.id("js-main-nav-rep-visits-menu-link"));
+    }
+    private WebElement userDropdown() {
+        WebElement dropdown=driver.findElement(By.id("user-dropdown"));
+        return  dropdown;
+    }
+    private WebElement getInstitutionProfileBtn() { return driver.findElement(By.xpath("//span[text()='Institution Profile']")); }
+    private WebElement getYourProfileBtn() { return driver.findElement(By.xpath("//span[text()='Your Profile']")); }
+    private WebElement signOut() {
+        WebElement signOut=driver.findElement(By.xpath("//span[text()='Sign Out']"));
+        return  signOut;
+    }
+    private WebElement loggedInText() {
+        WebElement text=driver.findElement(By.xpath("//span[contains(text(),'Logged in as')]"));
+        return  text;
+    }
+    private WebElement frameInCommunity() {
+        WebElement frame=driver.findElement(By.xpath("//iframe[@title='Community']"));
+        return frame;
+    }
+    private WebElement userProfilePage() {
+        WebElement profile=driver.findElement(By.xpath("//a[@class='active' and text()='Profile']"));
+        return  profile;
+    }
+    private WebElement institutionProfilePage() {
+        WebElement institution=driver.findElement(By.xpath("//a[@class='active' and text()='Institution']"));
+        return  institution;
+    }
+    private WebElement accountSettings(String accountSettings)
+    {
+        WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
+        return  label;
+    }
+    private WebElement currentPasswordInput() {
+        WebElement currentPassword=driver.findElement(By.id("current-password-input"));
+    return  currentPassword;
+    }
+    private WebElement newPasswordInput() {
+        WebElement newPassword=driver.findElement(By.id("new-password-input"));
+        return  newPassword;
+    }
+    private WebElement confirmPasswordInput() {
+        WebElement confirmPassword=driver.findElement(By.id("confirm-password-input"));
+        return  confirmPassword;}
+    private WebElement passwordErrorMessage() {
+     WebElement msg=driver.findElement(By.xpath("//span[contains(text(),'The new password failed to satisfy security requirements')]"));
+     return  msg;
+     }
+     private WebElement firstNameTextbox() {
+         WebElement text=driver.findElement(By.id("user-form-first-name"));
+         return  text;
+     }
+    private WebElement lastNameTextbox() {
+        WebElement text=driver.findElement(By.id("user-form-last-name"));
+        return  text;
+    }
+    private WebElement eMailTextbox() {
+        WebElement text=driver.findElement(By.id("user-form-email"));
+        return  text;
     }
 }

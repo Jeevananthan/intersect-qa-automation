@@ -113,6 +113,18 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I change the primary contact from \"([^\"]*)\" to \"([^\"]*)\" and verify that the save option is working",repVisits::verifyNotificationAndPrimaryContactInSetupWizard);
 
+        And("^HS I navigate to the \"([^\"]*)\" Page$",repVisits::navaigateToAccountSettings);
+
+        And("^HS I verify the left-sub menu \"([^\"]*)\" is present in the Account Settings page$",repVisits::verifyAccountsettings);
+
+        And("^HS I verify the non-password fields \"([^\"]*)\" are pre-populated with current data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPasswordFields);
+
+        And("^HS I validate the password field \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::validatePassword);
+
+        And("^HS I reset the password for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::resetPassword);
+
+        And("^HS I verify the success message \"([^\"]*)\" in Account settings page$",repVisits::verifySuccessMessageinAccountSettingsPage);
+
         Then("^HS I go to welcome wizard of the repvisits$",repVisits::goToWelcomeWizard);
 
         And("^HS I navigate to \"([^\"]*)\" wizard in repvisits$",repVisits::navigateToRepvisitWizard);
@@ -242,6 +254,21 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS date$", repVisits::enterCollegeFairData);
 
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
+
+
+        And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
+
+        And("^HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user$",repVisits::verifyNavigationUserDropdownforNonNaviance);
+
+        And("^HS I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUserAdminorNot);
+
+        And("^HS I verify the items are present in the help center dropdown for a Non-Naviance user$",repVisits::verifyHelpCentreforNonNaviance);
+
+        And("^HS I verify the items in the user dropdown for a Naviance user$",repVisits::verifyUserDropdownforNaviance);
+
+        And("^HS I verify the items are navigate to the respective page in the user dropdown for a Naviance user$",repVisits::verifyNavigationinUserDropdownforNaviance);
+
+
 
     }
 }
