@@ -4,7 +4,9 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
@@ -29,21 +31,24 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
 
     public void verfyActiveMatchPage(){
         Assert.assertTrue("Connection link is not displayed",connectionTab().isDisplayed());
-        Assert.assertTrue("Dropdown button is not displayed",dropDownMenu().isDisplayed());
+        Assert.assertTrue("Dropdown button is not displayed",exportConnectionsDropdown().isDisplayed());
         Assert.assertTrue("Download button is not displayed",downloadButton().isDisplayed());
     }
 
     public void verifyActiveMatchDropdownMenu(String Option,DataTable dataTable){
-        dropDownMenu().click();
+        exportConnectionsDropdown().click();
         List<String> value=dataTable.asList(String.class);
         for(String option:value){
             Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span[text()='"+Option+"']/parent::div/following-sibling::div/span[text()='"+option+"']")).isDisplayed());
             waitUntilPageFinishLoading();
         }
+        Actions action = new Actions(getDriver());
+        action.sendKeys(Keys.ESCAPE).build().perform();
     }
 
     public void verifyDropdownMenuHeader(DataTable dataTable){
         List<String> value=dataTable.asList(String.class);
+        exportConnectionsDropdown().click();
         for(String option:value){
             Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']")).isDisplayed());
         }
@@ -54,7 +59,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
             for (String option : value) {
-                dropDownMenu().click();
+                exportConnectionsDropdown().click();
                 driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
                 waitUntilPageFinishLoading();
                 String displayingValue = Option+": "+option;
@@ -63,7 +68,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyHeader(String option){
-        dropDownMenu().click();
+        exportConnectionsDropdown().click();
         Assert.assertTrue("Since Last Export option is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']")).isDisplayed());
         Assert.assertTrue("Last exported connection details are not displayed",driver.findElement(By.xpath("//div/span[contains(text(),'connections since last export on')]")).isDisplayed());
     }
@@ -75,7 +80,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
         for (String option : value) {
-            dropDownMenu().click();
+            exportConnectionsDropdown().click();
             driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
             waitUntilPageFinishLoading();
             navBar.goToRepVisits();
@@ -95,7 +100,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
        WebElement Tab=driver.findElement(By.linkText("Connections"));
        return Tab;
     }
-    private WebElement dropDownMenu() {
+    private WebElement exportConnectionsDropdown() {
         WebElement button=driver.findElement(By.xpath("//div[@class='ui button dropdown gyhR4eL0bZuX-AtA9-Cgy']"));
         return button;
     }

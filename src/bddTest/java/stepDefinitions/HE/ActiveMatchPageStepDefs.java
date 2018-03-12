@@ -15,11 +15,11 @@ public class ActiveMatchPageStepDefs implements En {
 
         Then("^HE I verify the ActiveMatch page$", activeMatchPage::verfyActiveMatchPage);
 
-        Then("^HE I verify the following details are present under the new header of \"([^\"]*)\" in the ActiveMatch dropdown Menu$",activeMatchPage::verifyActiveMatchDropdownMenu);
+        Then("^HE I verify the following details are present under the new header of \"([^\"]*)\" in the ActiveMatch export connections dropdown Menu$",activeMatchPage::verifyActiveMatchDropdownMenu);
 
-        Then("^HE I verify the following headers are present in the ActiveMatch dropdown Menu in the following order$",activeMatchPage::verifyDropdownMenuHeader);
+        Then("^HE I verify the following headers are present in the ActiveMatch export connections dropdown Menu in the following order$",activeMatchPage::verifyDropdownMenuHeader);
 
-        Then("^HE I verify the Header after selecting \"([^\"]*)\" for the following selection$",activeMatchPage::verifySelectedHeader);
+        Then("^HE I verify the Header after selecting \"([^\"]*)\" for the following selection in the ActiveMatch export connections$",activeMatchPage::verifySelectedHeader);
 
         Then("^HE I verify the Header \"([^\"]*)\"$",activeMatchPage::verifyHeader);
 

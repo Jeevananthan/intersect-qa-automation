@@ -40,11 +40,11 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user wit
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to the ActiveMatch Tab
     And HE I verify the ActiveMatch page
-    And HE I verify the following details are present under the new header of "Historical" in the ActiveMatch dropdown Menu
+    And HE I verify the following details are present under the new header of "Historical" in the ActiveMatch export connections dropdown Menu
     |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
-    And HE I verify the following headers are present in the ActiveMatch dropdown Menu in the following order
+    And HE I verify the following headers are present in the ActiveMatch export connections dropdown Menu in the following order
     |Since Last Export|Historical|By School Year|
-    And HE I verify the Header after selecting "Historical" for the following selection
+    And HE I verify the Header after selecting "Historical" for the following selection in the ActiveMatch export connections
     |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
     And HE I verify the Header "Since Last Export"
     And HE I verify the Default drop-down Menu selection to remain "Since Last Export" after all connections are modified
