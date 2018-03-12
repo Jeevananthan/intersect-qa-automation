@@ -39,5 +39,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that ACT score doesn't become a fit criteria in the Must Have box$", searchPage::verifyACTScoreCriteriaNotInMustHaveBox);
 
+        And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
+
     }
 }

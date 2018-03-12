@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
@@ -360,6 +362,39 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 && !mustHaveBox().getText().contains("8") && !mustHaveBox().getText().toLowerCase().contains("act"));
     }
 
+    public void verifyOnlineLearningOpportunitiesTooltipIcon() {
+
+        academicsMenuItem().click();
+        waitForUITransition();
+        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+
+        certificateRadioButton().click();
+        waitForUITransition();
+        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+
+        associatesRadioButton().click();
+        waitForUITransition();
+        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+
+        bachelorsRadioButton().click();
+        waitForUITransition();
+        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+
+        mastersRadioButton().click();
+        waitForUITransition();
+        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+
+        doctorateRadioButton().click();
+        waitForUITransition();
+        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+
+        graduateCertificateRadioButton().click();
+        waitForUITransition();
+        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+
+
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -367,6 +402,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[2]")); }
     private WebElement admissionMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Admission')]"));
+    }
+    private WebElement academicsMenuItem() {
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Academics')]"));
     }
     private WebElement institutionCharacteristicsMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Institution Characteristics')]"));
@@ -424,6 +462,30 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement resourcesMenuItem() {
         return driver.findElement(By.xpath("//li[contains(text(), 'Resources')]"));
+    }
+    private WebElement certificateRadioButton() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[text()='Certificate']")));
+    }
+    private WebElement associatesRadioButton() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[contains(text(),'Associate')]")));
+    }
+    private WebElement bachelorsRadioButton() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[contains(text(),'Bachelor')]")));
+    }
+    private WebElement mastersRadioButton() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[contains(text(),'Master')]")));
+    }
+    private WebElement doctorateRadioButton() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[text()='Doctorate']")));
+    }
+    private WebElement graduateCertificateRadioButton() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[text()='Graduate Certificate']")));
     }
     private WebElement mustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]"));
     }
