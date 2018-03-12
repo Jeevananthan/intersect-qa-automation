@@ -255,61 +255,61 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         veryLargeStudentBodyLabel().click();
         Assert.assertTrue("'Very large (Over 20,000 students)' checkbox is not selected", veryLargeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Very large (Over 20,000 students)' fit criteria is not displayed in 'Must Have' box", mustHaveBox().getText().contains("VERY LARGE (OVER 20,000 STUDENTS)"));
+        Assert.assertTrue("'Very large (Over 20,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("VERY LARGE (OVER 20,000 STUDENTS)"));
         veryLargeStudentBodyLabel().click();
         Assert.assertFalse("'Very large (Over 20,000 students)' checkbox is selected", veryLargeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Very large (Over 20,000 students)' fit criteria is displayed in 'Must Have' box", mustHaveBox().getText().contains("VERY LARGE (OVER 20,000 STUDENTS)"));
+        Assert.assertFalse("'Very large (Over 20,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("VERY LARGE (OVER 20,000 STUDENTS)"));
 
 
         largeStudentBodyLabel().click();
         Assert.assertTrue("'Large (13,001 to 20,000 students)' checkbox is not selected", largeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Large (13,001 to 20,000 students)' fit criteria is not displayed in 'Must Have' box", mustHaveBox().getText().contains("LARGE (13,001 TO 20,000 STUDENTS)"));
+        Assert.assertTrue("'Large (13,001 to 20,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("LARGE (13,001 TO 20,000 STUDENTS)"));
         largeStudentBodyLabel().click();
         Assert.assertFalse("'Large (13,001 to 20,000 students)' checkbox is selected", largeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Large (13,001 to 20,000 students)' fit criteria is displayed in 'Must Have' box", mustHaveBox().getText().contains("LARGE (13,001 TO 20,000 STUDENTS)"));
+        Assert.assertFalse("'Large (13,001 to 20,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("LARGE (13,001 TO 20,000 STUDENTS)"));
 
 
         midSizeStudentBodyLabel().click();
         Assert.assertTrue("'Mid-Size (7,001 to 13,000 students)' checkbox is not selected", midSizeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Mid-Size (7,001 to 13,000 students)' fit criteria is not displayed in 'Must Have' box", mustHaveBox().getText().contains("MID-SIZE (7,001 TO 13,000 STUDENTS)"));
+        Assert.assertTrue("'Mid-Size (7,001 to 13,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("MID-SIZE (7,001 TO 13,000 STUDENTS)"));
         midSizeStudentBodyLabel().click();
         Assert.assertFalse("'Mid-Size (7,001 to 13,000 students)' checkbox is selected", midSizeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Mid-Size (7,001 to 13,000 students)' fit criteria is displayed in 'Must Have' box", mustHaveBox().getText().contains("MID-SIZE (7,001 TO 13,000 STUDENTS)"));
+        Assert.assertFalse("'Mid-Size (7,001 to 13,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("MID-SIZE (7,001 TO 13,000 STUDENTS)"));
 
 
         mediumStudentBodyLabel().click();
         Assert.assertTrue("'Medium (4,001 to 7,000 students)' checkbox is not selected", mediumStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Medium (4,001 to 7,000 students)' fit criteria is not displayed in 'Must Have' box", mustHaveBox().getText().contains("MEDIUM (4,001 TO 7,000 STUDENTS)"));
+        Assert.assertTrue("'Medium (4,001 to 7,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("MEDIUM (4,001 TO 7,000 STUDENTS)"));
         mediumStudentBodyLabel().click();
         Assert.assertFalse("'Medium (4,001 to 7,000 students)' checkbox is selected", mediumStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Medium (4,001 to 7,000 students)' fit criteria is displayed in 'Must Have' box", mustHaveBox().getText().contains("MEDIUM (4,001 TO 7,000 STUDENTS)"));
+        Assert.assertFalse("'Medium (4,001 to 7,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("MEDIUM (4,001 TO 7,000 STUDENTS)"));
 
 
         smallStudentBodyLabel().click();
         Assert.assertTrue("'Small (2,001 to 4,000 students)' checkbox is not selected", smallStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Small (2,001 to 4,000 students)' fit criteria is not displayed in 'Must Have' box", mustHaveBox().getText().contains("SMALL (2,001 TO 4,000 STUDENTS)"));
+        Assert.assertTrue("'Small (2,001 to 4,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("SMALL (2,001 TO 4,000 STUDENTS)"));
         smallStudentBodyLabel().click();
         Assert.assertFalse("'Small (2,001 to 4,000 students)' checkbox is selected", smallStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Small (2,001 to 4,000 students)' fit criteria is displayed in 'Must Have' box", mustHaveBox().getText().contains("SMALL (2,001 TO 4,000 STUDENTS)"));
+        Assert.assertFalse("'Small (2,001 to 4,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("SMALL (2,001 TO 4,000 STUDENTS)"));
 
 
         verySmallStudentBodyLabel().click();
         Assert.assertTrue("'Very Small (2,000 or fewer students)' checkbox is not selected", verySmallStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Very Small (2,000 or fewer students)' fit criteria is not displayed in 'Must Have' box", mustHaveBox().getText().contains("VERY SMALL (2,000 OR FEWER STUDENTS)"));
+        Assert.assertTrue("'Very Small (2,000 or fewer students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("VERY SMALL (2,000 OR FEWER STUDENTS)"));
         verySmallStudentBodyLabel().click();
         Assert.assertFalse("'Very Small (2,000 or fewer students)' checkbox is selected", verySmallStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Very Small (2,000 or fewer students)' fit criteria is displayed in 'Must Have' box", mustHaveBox().getText().contains("VERY SMALL (2,000 OR FEWER STUDENTS)"));
+        Assert.assertFalse("'Very Small (2,000 or fewer students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("VERY SMALL (2,000 OR FEWER STUDENTS)"));
     }
 
     public void verifySystemResponseWhenGPAInputIsValid() {
@@ -397,8 +397,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         gpaTextBox().clear();
         gpaTextBox().sendKeys("3");
 
-        Assert.assertTrue("Must have box doesn't contain GPA score fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
-                && !mustHaveBox().getText().contains("3") && !mustHaveBox().getText().toLowerCase().contains("gpa"));
+        Assert.assertTrue("Must have box doesn't contain GPA score fit criteria", getMustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
+                && !getMustHaveBox().getText().contains("3") && !getMustHaveBox().getText().toLowerCase().contains("gpa"));
     }
 
     public void verifySystemResponseWhenACTScoreIsValid() {
@@ -489,8 +489,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         actScoreTextBox().clear();
         actScoreTextBox().sendKeys("8");
 
-        Assert.assertTrue("Must have box doesn't contain ACT score fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
-                && !mustHaveBox().getText().contains("8") && !mustHaveBox().getText().toLowerCase().contains("act"));
+        Assert.assertTrue("Must have box doesn't contain ACT score fit criteria", getMustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
+                && !getMustHaveBox().getText().contains("8") && !getMustHaveBox().getText().toLowerCase().contains("act"));
     }
 
     // Locators Below
