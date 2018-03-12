@@ -45,8 +45,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-home-menu-link")).click();
         userDropdown().click();
         button(By.id("user-dropdown-change-profile")).click();
-        waitUntilElementExists(changeProfileLabel());
-        Assert.assertTrue("User was not taken to Account Settings screen",button("SAVE").isDisplayed());
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@id='current-password-input']")).sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("User was not taken to Account Settings screen",driver.findElement(By.xpath("//button/span[text()='SAVE']")).isDisplayed());
     }
 
     public void updateProfile() {
@@ -60,14 +61,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyAccountSettings(DataTable data) {
         accountSettings();
         Map<String,String> entity = data.asMap(String.class,String.class);
-        Assert.assertTrue(link("update your profile?").isDisplayed());
+        Assert.assertTrue(link("Account Information").isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("E-mail Address") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Current Password").isDisplayed());
         Assert.assertTrue(textbox("New Password").isDisplayed());
         Assert.assertTrue(textbox("Confirm New Password").isDisplayed());
 
         // Verify that Update your profile? link works as expected
-        link("update your profile?").click();
+        link("Your Profile").click();
         waitUntilPageFinishLoading();
         ensureWeAreOnUpdateProfilePage();
         driver.switchTo().defaultContent();
@@ -76,9 +77,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private void ensureWeAreOnUpdateProfilePage() {
         // Go into Community Frame
         communityFrame();
-
+        waitForUITransition();
         // This line should not be needed.  Current flow is broken.
-        link("EDIT PROFILE").click();
+        waitUntil(ExpectedConditions.visibilityOf( link("Edit Profile")));
+        link("Edit Profile").click();
 
         Assert.assertTrue("User was not taken to Update Profile screen",link("Back to Profile").isDisplayed());
     }
@@ -111,12 +113,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyCommunityUpgradeMessage() {
         navBar.goToHome();
-       try {
-           Assert.assertTrue(driver.findElement(By.id("upgrade-message")).isDisplayed());
-           Assert.assertTrue("Expected message for the new widget was not found!"
-                   ,text( "You currently have limited access to the Counselor Community.").isDisplayed());
-           Assert.assertTrue("Expected message for the new widget was not found!"
-                   ,text("Upgrade today to search, connect, message, and collaborate within the Counselor Community.").isDisplayed());
+        try {
+            Assert.assertTrue(driver.findElement(By.id("upgrade-message")).isDisplayed());
+            Assert.assertTrue("Expected message for the new widget was not found!"
+                    ,text( "You currently have limited access to the Counselor Community.").isDisplayed());
+            Assert.assertTrue("Expected message for the new widget was not found!"
+                    ,text("Upgrade today to search, connect, message, and collaborate within the Counselor Community.").isDisplayed());
 
         } catch (Exception e) {
             logger.info("Exception while verifying new Widget: " + e.getMessage());
@@ -203,10 +205,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                         String actualMessage = driver.findElement(By.id("field18")).getText();
                         Assert.assertTrue("Messages was not as expected.", actualMessage.equals(CounselorCommunity.get(key)));
                         break;
-                    }
                 }
             }
         }
+    }
 
     public void accessCounselorCommunity() {
         button("Request Information").click();
@@ -261,6 +263,19 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void clickEvents() {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-events-menu-link span"), 1));
+        eventsButton().click();
+    }
+
+    public void openEventList() {
+        clickEvents();
+    }
+
+    public void clickEventsTab() {
+        eventsTab().click();
+    }
+
 
     //locators
     private WebElement userDropdown() {
@@ -273,5 +288,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
     private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
+    private WebElement eventsTab() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL _1NJbR9iqg-0K_JDhsKdO1B']/span[text()='Events']")); }
     private WebElement changeProfileLabel(){return text("Change Profile");}
 }

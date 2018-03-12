@@ -3,7 +3,6 @@ package pageObjects.COMMON;
 import cucumber.api.DataTable;
 import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
-import org.apache.tools.ant.taskdefs.Exit;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,8 +10,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import selenium.SeleniumBase;
-
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +46,7 @@ public class GlobalSearch extends SeleniumBase {
 
     public void searchForInstitutions(String searchTerm) {
         setSearchCategory("Institutions");
+        waitUntilPageFinishLoading();
         doSearch(searchTerm);
     }
 
@@ -60,7 +60,10 @@ public class GlobalSearch extends SeleniumBase {
         doSearch(searchTerm);
     }
 
+
     public void setSearchCategory(String searchCategory) {
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-filter")));
         getSearchSwitcher().click();
         waitUntilPageFinishLoading();
         switch(searchCategory) {
@@ -139,6 +142,7 @@ public class GlobalSearch extends SeleniumBase {
 
     public void selectResult(String optionToSelect) {
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-results")));
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
@@ -159,6 +163,15 @@ public class GlobalSearch extends SeleniumBase {
         }
         Assert.assertTrue("No HE Institutions where returned on the search", institutionsReturned);
         Assert.assertTrue("Unable to click on " + optionToSelect, institutionClickedOn);
+    }
+
+    public void verifyNoSearchResults(){
+        waitUntilPageFinishLoading();
+        List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
+        if (categories.size()==0){
+            logger.info("No search results found.  This is the expected result.");
+        }else
+            Assert.assertTrue("Search results were found, but should not have been!", false);
     }
 
     public void verifyNoAdvancedSearchResultsReturned(String searchRequest, DataTable dataTable){
@@ -621,6 +634,4 @@ public class GlobalSearch extends SeleniumBase {
     private void clickAdvancedSearchLink(){
         driver.findElement(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']/a")).click();
     }
-
 }
-

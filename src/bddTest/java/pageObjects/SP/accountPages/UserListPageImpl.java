@@ -152,11 +152,6 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//span[text()='Create New User']")).click();
     }
 
-    // This is necessary because Selenium doesn't think that the action options are visible (even though they are),
-    // so we interact with them directly through JS.
-    private void jsClick(WebElement element) {
-        driver.executeScript("arguments[0].click();",element);
-    }
     public void moveToElement(WebElement element) {
         Actions builder = new Actions(driver);
         builder.moveToElement(element).build().perform();

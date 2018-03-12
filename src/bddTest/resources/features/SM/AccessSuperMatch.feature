@@ -1,6 +1,8 @@
 @SM
 Feature: SM - AccessSuperMatch - As a SuperMatch user, I want to be able to access the SuperMatch UI
 
+  #This is only an example scenario for testing features, so it's tagged with NotInQA to stay out of Maven executions
+  @NotInQA
   Scenario: As a SuperMatch user, I want to be able to access the SuperMatch UI and search for colleges.
     Given SM I am logged in to SuperMatch through Family Connection as user "benhubs" with password "Hobsons!23" from school "rtsa"
     Then SM I sign out of SuperMatch through Family Connection
