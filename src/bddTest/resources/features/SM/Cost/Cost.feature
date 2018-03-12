@@ -8,6 +8,8 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
     Then SM I select the "Meets 100% of Need" checkbox from the Cost fit criteria
     Then SM I verify "Meets 100% of Need" checkbox in Cost fit criteria
     And SM I verify that the Must Have box contains "Meets 100% of Need"
-    Then SM I unselect the "Meets 100% of Need" checkbox
-    #And SM I verify that the Must Have box does not contain "Meets 100% of Need"
-    #Then SM I select the "Meets 100% of Need" checkbox from the Cost fit criteria
+    And SM I move "Meets 100% of Need" from the Must Have box to the Nice to Have box
+    Then SM I unselect the "Meets 100% of Need" checkbox from the "Cost" fit criteria
+    And SM I verify that the Must Have box does not contain "Meets 100% of Need"
+    Then SM I select the "Meets 100% of Need" checkbox from the Cost fit criteria
+    And SM I verify that the Must Have box contains "Meets 100% of Need"

@@ -98,7 +98,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void verifyMustHaveBoxContains(String item) {
-        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.",getMustHaveBox().getText().contains(item.toUpperCase()));
+        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.",getMustHaveBox().getText().contains(item));
     }
 
     /**
@@ -106,7 +106,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void verifyMustHaveBoxDoesNotContain(String item) {
-        Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.",!getMustHaveBox().getText().contains(item.toUpperCase()));
+        Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.",!getMustHaveBox().getText().contains(item));
     }
 
     /**
@@ -364,36 +364,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 && !mustHaveBox().getText().contains("8") && !mustHaveBox().getText().toLowerCase().contains("act"));
     }
 
-
-
     public void verifyMeest100ofNeedCheckbox(String checkBox){
-        /*String path = "//input[@id='meetsCostNeed']";
-        WebElement Meet100ofNeed = driver.findElement(By.xpath(path+"/../label"));
-        Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.",Meet100ofNeed.getText().equals("Meets 100% of Need"));
-        WebElement tooltip = driver.findElement(By.xpath(path+"/../../i[@aria-hidden='true']"));
-        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", tooltip.isDisplayed());
-        */
         String path = "//label[contains(text(), '"+checkBox+"')]";
         Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path)).getText().equals("Meets 100% of Need"));
         Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../i[@aria-hidden='true']")).isDisplayed());
     }
 
     /**
-     * unselect any selected checkbox only when fit criteria menu is open.
-     */
-    public void unsetCheckbox(String option) {
-        WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
-        WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
-        if (checkbox.isSelected()) {
-            label.click();
-            waitUntilPageFinishLoading();
-        }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
-    }
-    /**
      * select any selected checkbox only when fit criteria menu is open.
      */
-    public void selectCheckBox(String checkBox){
+    public void selectCheckBox(String checkBox, String fitCriteriaName){
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            selectFitCriteria(fitCriteriaName);
         WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
         WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
         Assert.assertTrue(checkBox+" checkbox by default is not selected.", !checkboxLocator.isSelected());
@@ -406,7 +388,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     /**
      * unselect any selected checkbox only when fit criteria menu is open.
      */
-    public void unselectCheckbox(String checkBox) {
+    public void unselectCheckbox(String checkBox, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            selectFitCriteria(fitCriteriaName);
         WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
         WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
         Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
@@ -422,17 +406,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectMeest100ofNeedCheckbox(String checkboxName){
-        selectFitCriteria("Cost");
-        selectCheckBox(checkboxName);
-
-        /*costFitCriteria().click();
-        String path = "//input[@id='meetsCostNeed']";
-        WebElement Meet100ofNeedCheckBox = driver.findElement(By.xpath(path));
-        WebElement Meet100ofNeed = driver.findElement(By.xpath(path+"/../label"));
-        Assert.assertTrue("Meets 100% of Need Checkbox is not unselected by default", !Meet100ofNeedCheckBox.isSelected());
-        selectCheckBox(checkboxName);
-        Meet100ofNeed.click();
-        Assert.assertTrue("Meets 100% of Need Checkbox is not selected.", Meet100ofNeedCheckBox.isSelected());*/
+        selectCheckBox(checkboxName, "Cost");
     }
 
     // Locators Below

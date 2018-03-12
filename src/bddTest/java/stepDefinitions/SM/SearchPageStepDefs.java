@@ -42,10 +42,9 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify \"([^\"]*)\" checkbox in Cost fit criteria$", searchPage::verifyMeest100ofNeedCheckbox);
 
-        Then("^SM I unselect the \"([^\"]*)\" checkbox$", searchPage::unselectCheckbox);
+        Then("^SM I unselect the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::unselectCheckbox);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the Cost fit criteria$", searchPage::selectMeest100ofNeedCheckbox);
-
 
 
     }
