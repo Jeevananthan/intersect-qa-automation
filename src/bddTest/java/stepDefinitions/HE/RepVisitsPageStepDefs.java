@@ -126,12 +126,30 @@ public class RepVisitsPageStepDefs implements En {
 
         And("HE I add \"([^\"]*)\" high school with location \"([^\"]*)\" to the Travel Plan",repVisits::addHighSchoolToRepVisitsTravelPlan);
 
-        Then("^HE I verify the School details in Travel plan \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifySchoolDetailsInTravelPlan);
+        Then("^HE I verify the School details in Travel plan \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifySchoolDetailsInTravelPlan);
 
-        Then("^HE I verify the instructional text and verify the link to navigate to the Recommendations page$",repVisits::verifyLinkInTravelPlanPage);
+        Then("^HE I verify the instructional text in Travel Plan and verify the link to navigate to the Recommendations page$",repVisits::verifyLinkInTravelPlanPage);
 
         Then("^HE I verify the states of the school are present in the ABC order$",repVisits::verifysortingStatesInTravelPlan);
 
-        Then("^HE I verify the Visit and Fair details are diplayed in the Travel plan$",repVisits::verifyVisitandFairDetailsInTravelPlan);
+        Then("^HE I verify the \"([^\"]*)\" Text is present in the Travel plan for \"([^\"]*)\"$",repVisits::verifyUpcommingAppointmentTextInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" Text is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyScheduledTextInTravelPlan);
+
+        Then("^HE I verify the Visit details are diplayed in the Travel plan for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInTravelPlan);
+
+        Then("^HE I verify the Fair details are diplayed in the Travel plan for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyFairDetailsInTravelPlan);
+
+        Then("^HE I verify the Text \"([^\"]*)\" is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyRepVisitTextInTravelPlan);
+
+        Then("^HE I verify \"([^\"]*)\" text is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyPreviousAppointmentsTextInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" Button is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyViewAvailabilityButtonInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" button for \"([^\"]*)\", navigate to the search and schedule page or not$",repVisits::selectViewAvailabilityButtonInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" button is present in the Travel Plan for \"([^\"]*)\"$",repVisits::verifyRemoveButtonInTravelPlan);
+
+        Then("^HE I verify upcoming fair message is displayed in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyUpcomingFairMessageInTravelPlan);
     }
 }

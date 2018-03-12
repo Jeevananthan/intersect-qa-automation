@@ -85,17 +85,63 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com |
     Then HE I successfully sign out
 
-  MATCH-1604
+  @MATCH-1604
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
               so that I can easily view all the high school I may want to visit on one screen.
+    Given HS I want to login to the HS app using "purpleheautomation+Lakota@gmail.com" as username and "Password!1" as password
+    And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
+    And HS I successfully sign out
 
-      Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
-      Then HE I verify the instructional text and verify the link to navigate to the Recommendations page
-      When HE I add "Lakota West High School" high school with location "West" to the Travel Plan
-      Then HE I verify the states of the school are present in the ABC order
-      Then HE I verify the School details in Travel plan "<school>","<address>","<college going rate>","<senior class size>","<primary POC>","<size of State>"
-      Then HE I verify the Visit and Fair details are diplayed in the Travel plan
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I verify the Text "This school isnt using RepVisits yet" is present in the Travel plan page for "<school>"
+    And HE I successfully sign out
+
+    Given HS I want to login to the HS app using "purpleheautomation+Lakota@gmail.com" as username and "Password!1" as password
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    Then HS I verify the Message "You currently have no notifications." is displayed in the Request Notification Tab
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
+    And HE I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    Then HE I verify the instructional text in Travel Plan and verify the link to navigate to the Recommendations page
+    When HE I add "Lakota West High School" high school with location "West" to the Travel Plan
+    Then HE I verify the states of the school are present in the ABC order
+    Then HE I verify the School details in Travel plan "<school>","<address>","<college going rate>","<senior class size>","<primary POC>","<size of State>","<stateName>"
+    Then HE I verify the "Upcoming Appointment" Text is present in the Travel plan for "<school>"
+    Then HE I verify the "Scheduled" Text is present in the Travel plan page for "<school>"
+    Then HE I verify upcoming fair message is displayed in the Travel plan page for "<school>"
+    Then HE I verify the Visit details are diplayed in the Travel plan for "<school>","<StartDate>"
+    Then HE I verify the Fair details are diplayed in the Travel plan for "<school>","<Date>"
+    Then HE I verify the "Remove" button is present in the Travel Plan for "<school>"
+    Then HE I verify the "Previous Appointments" Text is present in the Travel plan page for "<school>"
+    Then HE I verify the "Nothing scheduled yet" Text is present in the Travel plan page for "<school>"
+    Then HE I verify the "View Availability" Button is present in the Travel plan page for "<school>"
+    Then HE I verify the "View Availability" button for "<school>", navigate to the search and schedule page or not
+    And HE I successfully sign out
+
+    Given HS I want to login to the HS app using "purpleheautomation+Lakota@gmail.com" as username and "Password!1" as password
+#    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
 Examples:
-      |school                  |address                                                          |college going rate|senior class size|primary POC         |size of State|
-      |Lakota West High School |8940 Union Centre Blvd West chester, Ohio, Butler county, 45069  |0                 |524              |PurpleHS LakotaWest |4            |
+      |school                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Name                     |
+      |Lakota West High School |8940 Union Centre Blvd West chester, Ohio, Butler county, 45069  |0                 |524              |PurpleHS LakotaWest |4            |OHIO      |14  |10:32am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests. |Lakota West High School |10:32am     |10:32am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |The University of Alabama|
 

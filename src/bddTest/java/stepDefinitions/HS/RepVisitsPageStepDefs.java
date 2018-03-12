@@ -243,5 +243,13 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
 
+        Then("^HS I verify the Message \"([^\"]*)\" is displayed in the Request Notification Tab$",repVisits::verifynoNotificationMessage);
+
+        Then("^HS I Click the \"([^\"]*)\" button for the attendee Name \"([^\"]*)\"$",repVisits::accessListoffairAttendees);
+
+        Then("^HS I Click on the View Details button for the College Fair \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
+
     }
 }
