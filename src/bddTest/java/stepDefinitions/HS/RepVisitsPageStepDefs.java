@@ -179,6 +179,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$",repVisits::navigateToNavianceSettingsPage);
 
-        Then("^HS I verify the Naviance Settings Page$",repVisits::verifyNavianceSettingsPage);
+        Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
     }
 }

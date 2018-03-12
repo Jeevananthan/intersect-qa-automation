@@ -392,7 +392,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   so that I know what the implications are for connecting and whether I can disconnect the sync.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I navigate to the Naviance Settings page through the setup Wizard
-    And HS I verify the Naviance Settings Page
+    And HS I verify the UI of the Naviance Settings Page in setup wizard
     And HS I successfully sign out
 
 
