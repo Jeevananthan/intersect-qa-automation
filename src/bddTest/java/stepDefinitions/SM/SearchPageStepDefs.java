@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -52,6 +53,8 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify the empty results table$", searchPage::verifyEmptyResultsTable);
 
         And("^SM I verify the dark blue footer$", searchPage::verifyDarkBlueFooter);
+
+        Then("^SM I verify that a survey is opened after clicking the \"([^\"]*)\" button$", searchPage::verifySurvey);
 
     }
 }

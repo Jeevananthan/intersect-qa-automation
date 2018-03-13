@@ -1,11 +1,14 @@
 package pageObjects.SM.loginPage;
 
+import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
+
+import java.util.List;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
 
@@ -30,6 +33,18 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         link("colleges").click();
         link("supermatch").click();
         enterSuperMatchiFrame();   */
+    }
+
+    public void defaultLoginThroughFamilyConnectionStaging(DataTable loginDetails) {
+        List<String> details = loginDetails.asList(String.class);
+        navigateToFamilyConnectionStaging(details.get(2));
+        getDriver().findElement(By.name("username")).sendKeys(details.get(0));
+        getDriver().findElement(By.name("password")).sendKeys(details.get(1));
+        button("Login").click();
+        waitForUITransition();
+        link("Colleges").click();
+        button("Search Tools").click();
+        link("SuperMatch™ College Search Next").click();
     }
 
     /**
@@ -71,6 +86,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      */
     private void navigateToFamilyConnection(String hsid) {
         String url = GetProperties.get("fc.app.url") + hsid;
+        load(url);
+    }
+
+    private void navigateToFamilyConnectionStaging(String hsid) {
+        String url = GetProperties.get("fc.staging.url") + hsid;
         load(url);
     }
 
