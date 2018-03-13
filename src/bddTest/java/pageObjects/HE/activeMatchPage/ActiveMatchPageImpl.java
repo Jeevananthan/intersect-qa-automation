@@ -39,7 +39,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         exportConnectionsDropdown().click();
         List<String> value=dataTable.asList(String.class);
         for(String option:value){
-            Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span[text()='"+Option+"']/parent::div/following-sibling::div/span[text()='"+option+"']")).isDisplayed());
+            Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span[text()='"+Option+"']/parent::div/following-sibling::div/span[contains(text(),'"+option+"')]")).isDisplayed());
             waitUntilPageFinishLoading();
         }
         Actions action = new Actions(getDriver());
