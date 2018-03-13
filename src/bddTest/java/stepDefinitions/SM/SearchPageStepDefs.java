@@ -39,5 +39,19 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that ACT score doesn't become a fit criteria in the Must Have box$", searchPage::verifyACTScoreCriteriaNotInMustHaveBox);
 
+        And("^SM I verify if dark blue header is present$", searchPage::verifyDarkBlueHeaderIsPresent);
+
+        And("^SM I verify if Your Fit Criteria text is present$", searchPage::verifyYourFitCriteriaTextIsPresent);
+
+        And("^SM I verify the Choose Fit Criteria bar$", searchPage::verifyChooseFitCriteriaBar);
+
+        And("^SM I verify Select Criteria to Start button and instructional text$", searchPage::verifySelectCriteriaButtonAndInstructionalText);
+
+        And("^SM I verify Must Have and Nice to Have boxes$", searchPage::verifyMustHaveAndNiceToHaveBoxes);
+
+        And("^SM I verify the empty results table$", searchPage::verifyEmptyResultsTable);
+
+        And("^SM I verify the dark blue footer$", searchPage::verifyDarkBlueFooter);
+
     }
 }
