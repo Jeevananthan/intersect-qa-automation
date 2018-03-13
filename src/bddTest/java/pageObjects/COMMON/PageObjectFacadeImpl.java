@@ -248,7 +248,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         String currentWindow = driver.getWindowHandle();
         String communityGuidelinesWindow = null;
         if(navigateToPage.equals("Counselor Community Guidelines")){
-        driver.findElement(By.xpath("//div/i[@class='help outline circle huge icon _2rz7xyFIRCUZSBm_GbNvUS']")).click();
+        driver.findElement(By.id("helpNav-dropdown")).click();
         Assert.assertTrue("Help center is not displayed",driver.findElement(By.id("js-helpNavMenu-help-menu-link")).isDisplayed());
         driver.findElement(By.id("js-helpNavMenu-help-menu-link")).click();
         waitUntilPageFinishLoading();
