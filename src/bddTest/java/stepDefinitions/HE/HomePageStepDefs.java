@@ -67,9 +67,11 @@ public class HomePageStepDefs implements En {
 
         And("^HE I open the Events section$", navBar::goToEvents);
 
-        And("^HE I verify \"([^\"]*)\",\"([^\"]*)\" are present in the footer$",homePage::verifyLinksInFoooter);
+        And("^HE I verify \"([^\"]*)\" is present in the footer$",homePage::verifyLinkInFooter);
 
-        And("^HE I navigate to each page and verify the unique URL's are present in the \"([^\"]*)\",\"([^\"]*)\" pages$",homePage::navigateAndVerifyURL);
+        And("^HE I navigate to each page and verify the unique URL is present in the \"([^\"]*)\" page$",homePage::navigateAndVerifyURL);
+
+        And("^HE I navigate to each page and verify the unique URL is present in the \"([^\"]*)\" page in Help Center$",homePage::verifyURLinCounselorCommunityGuidelines);
 
     }
 }

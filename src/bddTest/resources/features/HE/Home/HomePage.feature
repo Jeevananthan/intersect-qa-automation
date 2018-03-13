@@ -117,17 +117,31 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
   Scenario: As an Intersect system, I need to have a Privacy Policy page, a Terms of Use page,
             and a Community Guidelines page available for users to read and understand how they are supposed to used the system and how the system uses their information.
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify "Terms of Service","Privacy Policy" are present in the footer
-#    Then HE I verify "Counselor Community Guidelines" is present in the Help Center
-    Then HE I navigate to each page and verify the unique URL's are present in the "Terms of Service","Privacy Policy" pages
+    Then HE I verify "Terms of Service" is present in the footer
+    Then HE I verify "Privacy Policy" is present in the footer
+    Then HE I navigate to each page and verify the unique URL is present in the "Terms of Service" page
+    Then HE I navigate to each page and verify the unique URL is present in the "Privacy Policy" page
+    Then HE I navigate to each page and verify the unique URL is present in the "Counselor Community Guidelines" page in Help Center
     Then HE I successfully sign out
 
     Given SP I am logged in to the Admin page as an Admin user
-    Then SP I verify "Terms of Service","Privacy Policy" are present in the footer
-    Then SP I navigate to each page and verify the unique URL's are present in the "Terms of Service","Privacy Policy" pages
+    Then SP I verify "Terms of Service" is present in the footer
+    Then SP I verify "Privacy Policy" is present in the footer
+    Then SP I navigate to each page and verify the unique URL is present in the "Terms of Service" page
+    Then SP I navigate to each page and verify the unique URL is present in the "Privacy Policy" page
     Then SP I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I verify "Terms of Service","Privacy Policy" are present in the footer
-    Then HS I navigate to each page and verify the unique URL's are present in the "Terms of Service","Privacy Policy" pages
+    Then HS I verify "Terms of Service" is present in the footer
+    Then HS I verify "Privacy Policy" is present in the footer
+    Then HS I navigate to each page and verify the unique URL is present in the "Terms of Service" page
+    Then HS I navigate to each page and verify the unique URL is present in the "Privacy Policy" page
+    And HS I successfully sign out
+
+    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Then HS I verify "Terms of Service" is present in the footer
+    Then HS I verify "Privacy Policy" is present in the footer
+    Then HS I navigate to each page and verify the unique URL is present in the "Terms of Service" page
+    Then HS I navigate to each page and verify the unique URL is present in the "Privacy Policy" page
+    Then HS I navigate to each page and verify the unique URL is present in the "Counselor Community Guidelines" page in Help Center
     And HS I successfully sign out
