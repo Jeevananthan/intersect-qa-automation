@@ -113,9 +113,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
-    And HE I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
@@ -127,8 +125,8 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the "Upcoming Appointment" Text is present in the Travel plan for "<school>"
     Then HE I verify the "Scheduled" Text is present in the Travel plan page for "<school>"
     Then HE I verify upcoming fair message is displayed in the Travel plan page for "<school>"
-    Then HE I verify the Visit details are diplayed in the Travel plan for "<school>","<StartDate>"
-    Then HE I verify the Fair details are diplayed in the Travel plan for "<school>","<Date>"
+    Then HE I verify the Visit details are displayed in the Travel plan for "<school>","<StartDate>"
+    Then HE I verify the Fair details are displayed in the Travel plan for "<school>","<Date>"
     Then HE I verify the "Remove" button is present in the Travel Plan for "<school>"
     Then HE I verify the "Previous Appointments" Text is present in the Travel plan page for "<school>"
     Then HE I verify the "Nothing scheduled yet" Text is present in the Travel plan page for "<school>"
@@ -137,7 +135,8 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     And HE I successfully sign out
 
     Given HS I want to login to the HS app using "purpleheautomation+Lakota@gmail.com" as username and "Password!1" as password
-#    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I select "Edit" button to cancel the college Fair "<College Fair Name>"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 

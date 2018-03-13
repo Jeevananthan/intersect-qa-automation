@@ -251,5 +251,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
 
+        Then("^HS I select \"([^\"]*)\" button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
+
     }
 }

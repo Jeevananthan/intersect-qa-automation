@@ -834,6 +834,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
+        searchTextBox().clear();
         searchTextBox().sendKeys(school);
         waitUntilElementExists(search());
         searchButton().click();
@@ -1133,6 +1134,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         waitForUITransition();
+        waitForUITransition();
         Assert.assertTrue("Instruction is not displayed",driver.findElement(By.xpath("//span[text()='The Travel Plan lists high schools you plan to visit or will be visiting. You can add additional schools by selecting \"Add to my travel plan\" from the ']")).isDisplayed());
         Assert.assertTrue("Recommendations link is not displayed",link("Recommendations").isDisplayed());
         link("Recommendations").click();
@@ -1161,8 +1163,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyVisitDetailsInTravelPlan(String school,String date){
+        link("Travel Plan").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         String visitDate = getSpecificDateforTravelPlan(date);
-        WebElement visitDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/following-sibling::div/div/button/span[text()='"+visitDate+"']"));
+        WebElement visitDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/following-sibling::div/div/button/span[text()='"+visitDate+"']/preceding-sibling::span/span[text()='Visit,']"));
         Assert.assertTrue("VisitDetails is not displayed",visitDetails.isDisplayed());
         visitDetails.click();
         waitUntilPageFinishLoading();
@@ -1176,11 +1181,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Yes, Cancel Visit").click();
         waitUntilPageFinishLoading();
         waitForUITransition();
+        waitForUITransition();
     }
 
     public void verifyFairDetailsInTravelPlan(String school,String date){
+        waitForUITransition();
         String fairDate = getSpecificDateforTravelPlan(date);
-        WebElement fairDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/following-sibling::div/div/button/span[text()='"+fairDate+"']"));
+        WebElement fairDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/following-sibling::div/div/button/span[text()='"+fairDate+"']/preceding-sibling::span/span[text()='College Fair,']"));
         Assert.assertTrue("FairDetails is not displayed",fairDetails.isDisplayed());
         fairDetails.click();
         waitUntilPageFinishLoading();
@@ -1244,7 +1251,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         Assert.assertTrue("Search text box is not displayed",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).isDisplayed());
         Assert.assertTrue("visit button is not displayed",driver.findElement(By.xpath("//div/span[text()='Visits']")).isDisplayed());
-
     }
 
     //The below method will verify the message which will display when there is no visit/fair for the next week.

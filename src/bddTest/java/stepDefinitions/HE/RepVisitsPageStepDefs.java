@@ -136,9 +136,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the \"([^\"]*)\" Text is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyScheduledTextInTravelPlan);
 
-        Then("^HE I verify the Visit details are diplayed in the Travel plan for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInTravelPlan);
+        Then("^HE I verify the Visit details are displayed in the Travel plan for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInTravelPlan);
 
-        Then("^HE I verify the Fair details are diplayed in the Travel plan for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyFairDetailsInTravelPlan);
+        Then("^HE I verify the Fair details are displayed in the Travel plan for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyFairDetailsInTravelPlan);
 
         Then("^HE I verify the Text \"([^\"]*)\" is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyRepVisitTextInTravelPlan);
 

@@ -1386,11 +1386,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         link("College Fairs").click();
+        waitUntilPageFinishLoading();
         while (link("View More Upcoming Events").isDisplayed()){
             link("View More Upcoming Events").click();
+            waitForUITransition();
         }
         driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='QA Fair New']/parent::tr/td/a[span='View Details']")).click();
+
     }
 
     public void accessCollegeFairOverviewPage(String fairName) {
@@ -2745,7 +2749,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return rowId;
     }
 
-
+    public void cancelRgisteredCollegeFair(String edit,String fairName){
+        Assert.assertTrue("Edit button is not displayed",button(edit).isDisplayed());
+        button(edit).click();
+        waitUntilPageFinishLoading();
+        String displayedFairName = driver.findElement(By.id("college-fair-name")).getAttribute("value");
+        Assert.assertTrue("FairName is displayed",displayedFairName.equals(FairName));
+        driver.findElement(By.id("college-fair-start-time")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.id("college-fair-max-number-colleges")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.id("college-fair-email-message-to-colleges")).sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("Cancel This College Fair button is not displayed",button("Cancel This College Fair").isDisplayed());
+        button("Cancel This College Fair").click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.id("college-fair-cancellation-message")).sendKeys("by QA");
+        driver.findElement(By.id("college-fair-cancellation-message")).sendKeys(Keys.PAGE_DOWN);
+        button("Cancel fair and notify colleges").click();
+        waitUntilPageFinishLoading();
+        button("Close").click();
+        waitUntilPageFinishLoading();
+    }
 
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
