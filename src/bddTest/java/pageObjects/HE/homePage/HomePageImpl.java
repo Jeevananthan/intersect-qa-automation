@@ -281,7 +281,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyURLinCounselorCommunityGuidelines(String communityGuidelines){
-        switchToCommunityGuidelinesWindowAndVerifyURL(communityGuidelines);
+        switchToCommunityGuidelinesWindowAndVerifyURL(communityGuidelines,"HE");
     }
 
     public void clickEventsTab() {

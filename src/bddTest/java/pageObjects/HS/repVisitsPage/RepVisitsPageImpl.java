@@ -2323,7 +2323,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyURLinCounselorCommunityGuidelines(String communityGuidelines){
-        switchToCommunityGuidelinesWindowAndVerifyURL(communityGuidelines);
+        switchToCommunityGuidelinesWindowAndVerifyURL(communityGuidelines,"HS");
     }
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {

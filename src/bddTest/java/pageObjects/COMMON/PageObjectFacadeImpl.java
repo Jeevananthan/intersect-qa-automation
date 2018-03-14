@@ -242,7 +242,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         }
     }
 
-    protected void switchToCommunityGuidelinesWindowAndVerifyURL(String navigateToPage){
+    protected void switchToCommunityGuidelinesWindowAndVerifyURL(String navigateToPage,String option){
         waitUntilPageFinishLoading();
         waitForUITransition();
         String currentWindow = driver.getWindowHandle();
@@ -261,7 +261,14 @@ public class PageObjectFacadeImpl extends SeleniumBase {
                 }
             }
             driver.switchTo().window(communityGuidelinesWindow);
-            driver.findElement(By.xpath("//span/a/b[text()='Hobsons Counselor Community']")).click();
+            waitForUITransition();
+            if(option.equals("HE")) {
+                driver.findElement(By.xpath("//span/a/b[text()='Hobsons Counselor Community']")).click();
+            }else if(option.equals("HS")){
+                driver.findElement(By.xpath("//span/a[text()='Hobsons Counselor Community']")).click();
+            }else {
+                Assert.fail("The option given for the Hobsons counselor community is a Invalid one");
+            }
             String communityGuidelinesURL = link("Counselor Community Guidelines").getUrl();
             link("Counselor Community Guidelines").click();
             waitUntilPageFinishLoading();
