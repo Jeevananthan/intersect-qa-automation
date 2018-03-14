@@ -122,14 +122,15 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     When HE I add "Lakota West High School" high school with location "West" to the Travel Plan
     Then HE I verify the states of the school are present in the ABC order
     Then HE I verify the School details in Travel plan "<school>","<address>","<college going rate>","<senior class size>","<primary POC>","<size of State>","<stateName>"
-    Then HE I verify the "Upcoming Appointment" Text is present in the Travel plan for "<school>"
+    Then HE I verify the "Upcoming Appointments" Text is present in the Travel plan for "<school>"
     Then HE I verify the "Scheduled" Text is present in the Travel plan page for "<school>"
     Then HE I verify upcoming fair message is displayed in the Travel plan page for "<school>"
     Then HE I verify the Visit details are displayed in the Travel plan for "<school>","<StartDate>"
     Then HE I verify the Fair details are displayed in the Travel plan for "<school>","<Date>"
     Then HE I verify the "Remove" button is present in the Travel Plan for "<school>"
-    Then HE I verify the "Previous Appointments" Text is present in the Travel plan page for "<school>"
-    Then HE I verify the "Nothing scheduled yet" Text is present in the Travel plan page for "<school>"
+    Then HE I verify the "To Do" text is displaying in the Travel Plan for "<school>"
+    Then HE I verify the text "Previous Appointments" is present in the Travel plan page for "<school>"
+    Then HE I verify the text "Nothing scheduled yet" is present in the Travel plan page for "<school>"
     Then HE I verify the "View Availability" Button is present in the Travel plan page for "<school>"
     Then HE I verify the "View Availability" button for "<school>", navigate to the search and schedule page or not
     And HE I successfully sign out

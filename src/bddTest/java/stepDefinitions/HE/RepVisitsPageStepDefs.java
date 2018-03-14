@@ -142,7 +142,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the Text \"([^\"]*)\" is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyRepVisitTextInTravelPlan);
 
-        Then("^HE I verify \"([^\"]*)\" text is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyPreviousAppointmentsTextInTravelPlan);
+        Then("^HE I verify the text \"([^\"]*)\" is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyPreviousAppointmentsTextInTravelPlan);
 
         Then("^HE I verify the \"([^\"]*)\" Button is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyViewAvailabilityButtonInTravelPlan);
 
@@ -151,5 +151,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the \"([^\"]*)\" button is present in the Travel Plan for \"([^\"]*)\"$",repVisits::verifyRemoveButtonInTravelPlan);
 
         Then("^HE I verify upcoming fair message is displayed in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyUpcomingFairMessageInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" text is displaying in the Travel Plan for \"([^\"]*)\"$",repVisits::verifyToDoTextInTravelPlan);
     }
 }

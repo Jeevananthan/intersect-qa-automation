@@ -1192,6 +1192,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         fairDetails.click();
         waitUntilPageFinishLoading();
         waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//input[@aria-label='Internal Notes']"))));
         Assert.assertTrue("Internal Notes text box is displayed",driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).isDisplayed());
         driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("Cancel This Fair is not Displayed",button("Cancel This Fair").isDisplayed());
@@ -1224,8 +1225,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("This school isnt using RepVisits yet text is not displayed",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/span/span[text()='"+text+"']")).isDisplayed());
     }
 
-    public void verifyPreviousAppointmentsTextInTravelPlan(String text){
-        Assert.assertTrue("Previous Appointments Text is not displayed",driver.findElement(By.xpath("")).isDisplayed());
+    public void verifyPreviousAppointmentsTextInTravelPlan(String text,String school){
+        Assert.assertTrue("Previous Appointments Text is not displayed",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/span/span[text()='"+text+"']")).isDisplayed());
     }
 
     public void verifyViewAvailabilityButtonInTravelPlan(String viewAvailabilityButton,String school){
@@ -1251,6 +1252,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         Assert.assertTrue("Search text box is not displayed",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).isDisplayed());
         Assert.assertTrue("visit button is not displayed",driver.findElement(By.xpath("//div/span[text()='Visits']")).isDisplayed());
+    }
+
+    public void verifyToDoTextInTravelPlan(String toDoText,String school){
+        Assert.assertTrue("Scheduled text is not displayed",driver.findElement(By.xpath("//div[text()='"+school+"']/following-sibling::div/div/span[text()='"+toDoText+"']")).isDisplayed());
     }
 
     //The below method will verify the message which will display when there is no visit/fair for the next week.

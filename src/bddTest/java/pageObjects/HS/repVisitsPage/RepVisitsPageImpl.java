@@ -1393,7 +1393,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             link("View More Upcoming Events").click();
             waitForUITransition();
         }
-        driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='QA Fair New']/parent::tr/td/a[span='View Details']")).click();
+        driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+FairName+"']/parent::tr/td/a[span='View Details']")).click();
 
     }
 
@@ -2761,9 +2761,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Cancel This College Fair button is not displayed",button("Cancel This College Fair").isDisplayed());
         button("Cancel This College Fair").click();
         waitUntilPageFinishLoading();
-        driver.findElement(By.id("college-fair-cancellation-message")).sendKeys("by QA");
-        driver.findElement(By.id("college-fair-cancellation-message")).sendKeys(Keys.PAGE_DOWN);
-        button("Cancel fair and notify colleges").click();
+//        driver.findElement(By.id("college-fair-cancellation-message")).sendKeys("by QA");
+//        driver.findElement(By.id("college-fair-cancellation-message")).sendKeys(Keys.PAGE_DOWN);
+        button("Yes, Cancel this fair").click();
         waitUntilPageFinishLoading();
         button("Close").click();
         waitUntilPageFinishLoading();
