@@ -11,6 +11,7 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
@@ -227,6 +228,26 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Accepts a String with the name of the option in the Resources fit criteria to verify, and whether it should
+     * be checked or unchecked.
+     * @param option String with the name of the option to verify.  e.x.: Counseling Services, Day Care Services, etc.
+     * @param checkedOrUnchecked String containing "checked" or "unchecked"
+     */
+    public void verifyResourcesCriteria(String option, String checkedOrUnchecked) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        WebElement label = driver.findElement(By.xpath("//label[contains(text(), '" + option + "')]"));
+        WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '" + option + "')]/../input"));
+        if (checkedOrUnchecked.equalsIgnoreCase("checked")) {
+            Assert.assertTrue("Expected '" + option + "' to be selected, but it was not.", checkbox.isSelected());
+        } else if (checkedOrUnchecked.equalsIgnoreCase("unchecked")) {
+            Assert.assertFalse("Expected '" + option + "' to be unselected, but it was not.",checkbox.isSelected());
+        } else {
+            Assert.fail("Expected value shuould be 'checked' or 'unchecked'. '" + checkedOrUnchecked + "' is not a valid value.");
+        }
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    /**
      * Verifies that the "Must Have" box contains the passed item.
      * @param item String containing the value to look for in the "Must Have" box.
      */
@@ -239,7 +260,31 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void verifyMustHaveBoxDoesNotContain(String item) {
-        Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.",!getMustHaveBox().getText().contains(item.toUpperCase()));
+        try {
+            Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.",!getMustHaveBox().getText().contains(item.toUpperCase()));
+        } catch (org.openqa.selenium.NoSuchElementException nsee) {
+            logger.info("Could not find the 'Must Have' box, so the item we don't want to see there clearly isn't there.");
+        }
+    }
+
+    /**
+     * Verifies that the "Nice to Have" box contains the passed item.
+     * @param item String containing the value to look for in the "Nice to Have" box.
+     */
+    public void verifyNiceToHaveBoxContains(String item) {
+        Assert.assertTrue("'Nice to Have' box should contain " + item + ", but it does not.",getNiceToHaveBox().getText().contains(item.toUpperCase()));
+    }
+
+    /**
+     * Verifies that the "Nice to Have" box does not contain the passed item.
+     * @param item String containing the value to look for in the "Nice to Have" box.
+     */
+    public void verifyNiceToHaveBoxDoesNotContain(String item) {
+        try {
+            Assert.assertTrue("'Nice to Have' box should not contain " + item + ", but it does.",!getNiceToHaveBox().getText().contains(item.toUpperCase()));
+        } catch (org.openqa.selenium.NoSuchElementException nsee) {
+            logger.info("Could not find the 'Nice to Have' box, so the item we don't want to see there clearly isn't there.");
+        }
     }
 
     /**
@@ -247,7 +292,23 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void moveToNiceToHave(String item) {
-        getParent(button(item)).findElement(By.xpath(".//button[3]")).click();
+        getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")).click();
+    }
+
+    /**
+     * Moves the passed item from the "Nice to Have" box to the "Must Have" box.
+     * @param item String containing the value to look for in the "Nice to Have" box.
+     */
+    public void moveToMustHave(String item) {
+        getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow left icon']")).click();
+    }
+
+    /**
+     * Removes the passed item from the "Must Have" or "Nice to Have" box.
+     * @param item String containing the value to look for in the "Must HAae" or "Nice to Have" boxes.
+     */
+    public void removeFitCriteria(String item) {
+        getParent(button(item)).findElement(By.xpath(".//button[1]")).click();
     }
 
     public void verifyStudentBodyUI() {
