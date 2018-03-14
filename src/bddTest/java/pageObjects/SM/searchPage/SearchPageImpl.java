@@ -497,6 +497,65 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 && !getMustHaveBox().getText().contains("8") && !getMustHaveBox().getText().toLowerCase().contains("act"));
     }
 
+
+    /*
+    public void setStudentSuccessCriteria(String option) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Institution Characteristics')]")).click();
+        WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
+        WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
+        if (!checkbox.isSelected()) {
+            label.click();
+            waitUntilPageFinishLoading();
+        }
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+    */
+    public void selectStudentSuccessFitCriteriaCheckbox(String checkboxName){
+        selectCheckBox(checkboxName, "Institution Characteristics");
+    }
+
+    public void verifyStudentSuccessFitCriteriaCheckbox(String checkboxName){
+        String path = "//label[contains(text(),'"+checkboxName+"')]";
+        Assert.assertTrue("Student Success text is not displaying.", driver.findElement(By.xpath("//span[@class='supermatch-menu-institution-characteristics-heading'][contains(text(), 'Student Success')]")).isDisplayed());
+        Assert.assertTrue(checkboxName+" label is not displaying.", driver.findElement(By.xpath(path)).isDisplayed());
+        Assert.assertTrue(checkboxName+" checkbox tooltip is not showing.", driver.findElement(By.xpath(path+"/../../i")).isDisplayed());
+    }
+
+    /**
+     * select any selected checkbox only when fit criteria menu is open.
+     */
+    public void selectCheckBox(String checkBox, String fitCriteriaName){
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            selectFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
+        Assert.assertTrue(checkBox+" checkbox by default is not selected.", !checkboxLocator.isSelected());
+        if (!checkboxLocator.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+    }
+    /**
+     * unselect any selected checkbox only when fit criteria menu is open.
+     */
+    public void unselectCheckbox(String checkBox, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            selectFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+        if (onlyCheckbox.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is selected.", !onlyCheckbox.isSelected());
+    }
+
+    private void selectFitCriteria(String fitCriteria){
+        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).click();
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
