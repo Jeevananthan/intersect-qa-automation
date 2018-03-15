@@ -504,7 +504,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
         waitForUITransition();
         Assert.assertTrue("The survey is not displayed", survey.surveySubtitle().isDisplayed());
-        driver.close();
+        if (driver.getWindowHandles().size() > 1) {
+            driver.close();
+        }
         driver.switchTo().window(winHandleBefore);
     }
 
