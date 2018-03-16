@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
 
@@ -146,6 +147,12 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUserAdminorNot);
 
         And("^HE I verify the items are present in the help center dropdown for a HE user$",repVisits::verifyHelpCentreforHE);
+
+        And("^HE I verify the default toggle \"([^\"]*)\" is \"([^\"]*)\"$",repVisits::verifyDefaultToggleinSearchAndSchedule);
+
+        And("^HE I verify the Availability slot \"([^\"]*)\" is displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAvailabilitySlotInSearchAndSchedule);
+
+        And("^HE I verify the Availability slot \"([^\"]*)\" is not displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAvailabilitySlotIsNotDisplayingInSearchAndSchedule);
 
     }
 }

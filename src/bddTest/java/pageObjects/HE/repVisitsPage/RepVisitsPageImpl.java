@@ -840,6 +840,66 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyDefaultToggleinSearchAndSchedule(String visitOrFairs,String enabledOrDisabled){
+        if(visitOrFairs.equals("Visit")) {
+            if(enabledOrDisabled.equals("Enabled")) {
+                Assert.assertTrue("Visit toggle is not Enabled",driver.findElement(By.xpath("//div/span[text()='Visit']")).isEnabled());
+            }else if(enabledOrDisabled.equals("Disabled")){
+                Assert.assertTrue("Visit is not Disabled",!driver.findElement(By.xpath("//div/span[text()='Visit']")).isEnabled());
+            }else {
+             logger.info("Invalid option");
+            }
+        }else if(visitOrFairs.equals("Fairs")) {
+            if(enabledOrDisabled.equals("Enabled")) {
+                Assert.assertTrue("Fairs toggle is not Enabled",driver.findElement(By.xpath("//div/span[text()='Fairs']")).isEnabled());
+            }else if(enabledOrDisabled.equals("Disabled")) {
+                Assert.assertTrue("Fairs toggle is not Disabled",!driver.findElement(By.xpath("//div/span[text()='Fairs']")).isEnabled());
+            }else {
+                logger.info("Invalid option");
+            }
+        }else {
+            logger.info("Invalid option");
+        }
+    }
+
+    public void verifyAvailabilitySlotInSearchAndSchedule(String time,String startDate,String school){
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
+        waitUntilElementExists(schoolName);
+        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
+        waitUntilElementExists(goToDate());
+        String gotoDate = getSpecificDate(startDate);
+        setDate(gotoDate, "Go To Date");
+        waitForUITransition();
+        WebElement appointmentSlot = getDriver().findElement(By.cssSelector("table[class='ui celled padded table _2eF3VXyCbtuvPYc_1_GyO_']"));
+        waitUntil(ExpectedConditions.visibilityOf(appointmentSlot));
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        String visitDate=getMonthandDate(startDate);
+        List<WebElement> button= driver.findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+       //verify availability
+        Assert.assertTrue("Availability is not displayed",button.size()==0);
+    }
+
+    public void verifyAvailabilitySlotIsNotDisplayingInSearchAndSchedule(String time,String startDate,String school){
+        waitUntilPageFinishLoading();
+        visit().click();
+        waitForUITransition();
+        WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
+        waitUntilElementExists(schoolName);
+        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
+        waitUntilElementExists(goToDate());
+        String gotoDate = getSpecificDate(startDate);
+        setDate(gotoDate, "Go To Date");
+        waitForUITransition();
+        WebElement appointmentSlot = getDriver().findElement(By.cssSelector("table[class='ui celled padded table _2eF3VXyCbtuvPYc_1_GyO_']"));
+        waitUntil(ExpectedConditions.visibilityOf(appointmentSlot));
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        String visitDate=getMonthandDate(startDate);
+        WebElement button= driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        Assert.assertTrue("Availability is not displayed",button.isDisplayed());
+    }
+
     private void verifyVisitFeedbackHeading() {
         waitUntilPageFinishLoading();
         Assert.assertTrue("Visit Feedback heading not displayed", driver.findElement(By.xpath("//h1[contains(@class, 'ui header _26ekcAlhCmjadW7ShhS7aj')]")).getText().equals("Visit Feedback"));
@@ -913,14 +973,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void searchSchool(String school){
+        waitUntilPageFinishLoading();
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
         searchTextBox().sendKeys(school);
         waitUntilElementExists(search());
         searchButton().click();
-        waitUntilElementExists(schoolInSearchAndSchedule(school));
-        Assert.assertTrue("school is not displayed",schoolInSearchAndSchedule(school).isDisplayed());
-        schoolInSearchAndSchedule(school).click();
+        waitForUITransition();
+        WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        waitUntil(ExpectedConditions.visibilityOf(schoolName));
+        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
+        schoolName.click();
+        waitUntilPageFinishLoading();
     }
+
 
     public void visitsSchedule(String school,String startDate,String time){
         visit().click();

@@ -623,3 +623,43 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
     |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
     |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|
+
+
+  @MATCH-1812
+  Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools who have made their RepVisits availability publicly available
+                    so HE users are not presented with high schools in the search results that don't use RepVisits.
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify the default toggle "Visit" is "Enabled"
+    Then HE I verify the default toggle "Fairs" is "Disabled"
+    Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>"
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify the default toggle "Visit" is "Disabled"
+    Then HE I verify the default toggle "Fairs" is "Enabled"
+    Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>"
+    Then HE I successfully sign out
+
+  Examples:
+    |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|
+    |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |14  |
+
