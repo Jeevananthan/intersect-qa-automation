@@ -16,13 +16,4 @@ Feature: SM - Resources - As a HS student, I need to be able to search for colle
     Examples: Each of the available options for the Resources fit criteria
       | ResourcesCheckboxOption                     |
       | Learning Differences Support                |
-      | Academic/Career Counseling                  |
-      | Counseling Services                         |
-      | Tutoring Services                           |
-      | Remedial Services                           |
-      | ESL/ELL Services                            |
-      | Physical Accessibility                      |
-      | Services for the Blind or Visually Impaired |
-      | Services for the Deaf and Hard of Hearing   |
-      | Asperger's/Autism Support                   |
-      | Day Care Services                           |
+

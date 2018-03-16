@@ -231,7 +231,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void verifyMustHaveBoxContains(String item) {
-        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.",getMustHaveBox().getText().contains(item.toUpperCase()));
+        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.",getMustHaveBox().getText().contains(item));
     }
 
     /**
@@ -247,6 +247,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void moveToNiceToHave(String item) {
+        //need to remove the code except
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
         getParent(button(item)).findElement(By.xpath(".//button[3]")).click();
     }
 
@@ -497,21 +499,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 && !getMustHaveBox().getText().contains("8") && !getMustHaveBox().getText().toLowerCase().contains("act"));
     }
 
-
-    /*
-    public void setStudentSuccessCriteria(String option) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Institution Characteristics')]")).click();
-        WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
-        WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
-        if (!checkbox.isSelected()) {
-            label.click();
-            waitUntilPageFinishLoading();
-        }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
-    }
-    */
     public void selectStudentSuccessFitCriteriaCheckbox(String checkboxName){
         selectCheckBox(checkboxName, "Institution Characteristics");
+    }
+
+    public void unselectStudentSuccessFitCriteriaCheckbox(String checkboxName){
+        unselectCheckbox(checkboxName, "Institution Characteristics");
     }
 
     public void verifyStudentSuccessFitCriteriaCheckbox(String checkboxName){
@@ -559,8 +552,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
-    private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]")); }
-    private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[2]")); }
+    private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='column box box-selection'])[1]")); }
+    private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='column box box-selection'])[2]")); }
     private WebElement admissionMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Admission')]"));
     }
