@@ -706,6 +706,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    private int getMonthNumber(String monthName) {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("MMMM").parse(monthName);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.MONTH) + 1;
+    }
+
     public void verifyTimeZonePage(String ValueTZ){
         link("Availability & Settings").click();
         link("Time Zone").click();

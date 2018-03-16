@@ -162,18 +162,18 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 
   @MATCH-1577
-  Scenario Outline: As a high school community member,
-            I want to be able to indicate the date ranges for which I am available for college visits,
-            so that colleges know when to visit my high school.
+  Scenario Outline: As a high school community member, I want to be able to indicate the date ranges for which I am
+                    available for college visits, so that colleges know when to visit my high school.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     Then HS I verify the "<StartDate>" and "<EndDate>" date was set in the calendar
     And HS I successfully sign out
 
     Examples:
-      |StartDate            |EndDate           |
-      |July 23 2017         |June 23 2018      |
-      |August 15 2017       |September 23 2017 |
+      |StartDate            |EndDate      |
+      |July 16 2017         |July 15 2018 |
+      |August 15 2017       |June 11 2018 |
+      |July 16 2017         |July 15 2018 |
 
   @MATCH-1578
   Scenario: As a HS RepVisits user I want to be able to use the Availability and Settings tab of RepVisits to Set Visit Scheduling
