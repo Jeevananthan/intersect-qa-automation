@@ -63,5 +63,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the dark blue footer$", searchPage::verifyDarkBlueFooter);
 
+        Then("^SM I verify that a survey is opened after clicking the \"([^\"]*)\" button$", searchPage::verifySurvey);
+
     }
 }

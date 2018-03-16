@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public SearchPageImpl() {
         logger = Logger.getLogger(SearchPageImpl.class);
     }
+    public SurveyPageImpl survey = new SurveyPageImpl();
 
 
     public void verifyDarkBlueHeaderIsPresent() {
@@ -556,6 +558,21 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         Assert.assertTrue("Must have box doesn't contain ACT score fit criteria", getMustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
                 && !getMustHaveBox().getText().contains("8") && !getMustHaveBox().getText().toLowerCase().contains("act"));
+    }
+
+    public void verifySurvey(String buttonLabel) {
+        waitForUITransition();
+        button(buttonLabel).click();
+        String winHandleBefore = driver.getWindowHandle();
+        for(String winHandle : driver.getWindowHandles()){
+            driver.switchTo().window(winHandle);
+        }
+        waitForUITransition();
+        Assert.assertTrue("The survey is not displayed", survey.surveySubtitle().isDisplayed());
+        if (driver.getWindowHandles().size() > 1) {
+            driver.close();
+        }
+        driver.switchTo().window(winHandleBefore);
     }
 
     // Locators Below
