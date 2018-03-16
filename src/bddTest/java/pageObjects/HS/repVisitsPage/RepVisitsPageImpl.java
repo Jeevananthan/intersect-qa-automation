@@ -2314,17 +2314,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
-    public void verifyLinkInFooter(String footerLink){
-        verifyLinksInFooter(footerLink);
-    }
-
-    public void navigateAndVerifyURL(String navigateToPage){
-        switchToWindowAndVerifyURL(navigateToPage);
-    }
-
-    public void verifyURLinCounselorCommunityGuidelines(String communityGuidelines){
-        switchToCommunityGuidelinesWindowAndVerifyURL(communityGuidelines,"HS");
-    }
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));

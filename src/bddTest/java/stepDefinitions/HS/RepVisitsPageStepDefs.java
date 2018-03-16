@@ -235,10 +235,5 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I validating the pagination of 25 contacts in Contacts Page",repVisits::validatingthePaginationof25Contacts);
 
-        And("^HS I verify \"([^\"]*)\" is present in the footer$",repVisits::verifyLinkInFooter);
-
-        And("^HS I navigate to each page and verify the unique URL is present in the \"([^\"]*)\" page$",repVisits::navigateAndVerifyURL);
-
-        And("^HS I navigate to each page and verify the unique URL is present in the \"([^\"]*)\" page in Help Center$",repVisits::verifyURLinCounselorCommunityGuidelines);
     }
 }

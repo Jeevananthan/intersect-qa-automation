@@ -272,18 +272,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         clickEvents();
     }
 
-    public void verifyLinkInFooter(String footerLink){
-        verifyLinksInFooter(footerLink);
-    }
-
-    public void navigateAndVerifyURL(String navigateToPage){
-        switchToWindowAndVerifyURL(navigateToPage);
-    }
-
-    public void verifyURLinCounselorCommunityGuidelines(String communityGuidelines){
-        switchToCommunityGuidelinesWindowAndVerifyURL(communityGuidelines,"HE");
-    }
-
     public void clickEventsTab() {
         eventsTab().click();
     }

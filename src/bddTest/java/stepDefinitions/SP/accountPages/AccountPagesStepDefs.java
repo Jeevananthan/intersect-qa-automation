@@ -43,8 +43,5 @@ public class AccountPagesStepDefs implements En {
 
         Then("^SP I add the user account \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and set the user to be a new primary user \"([^\"]*)\"$", accountPage::addUserAccount);
 
-        And("^SP I verify \"([^\"]*)\" is present in the footer$", accountPage::verifyLinkInFooter);
-
-        And("^SP I navigate to each page and verify the unique URL is present in the \"([^\"]*)\" page$",accountPage::navigateAndVerifyURL);
     }
 }

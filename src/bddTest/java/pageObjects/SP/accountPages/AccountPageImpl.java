@@ -381,14 +381,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyLinkInFooter(String footerLink){
-        verifyLinksInFooter(footerLink);
-    }
-
-    public void navigateAndVerifyURL(String navigateToPage){
-        switchToWindowAndVerifyURL(navigateToPage);
-    }
-
     public String generateRandomNumber() {
         Random random = new Random();
         int value = random.nextInt(100000) + 100;
