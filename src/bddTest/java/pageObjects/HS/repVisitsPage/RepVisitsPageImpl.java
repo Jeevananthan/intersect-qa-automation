@@ -560,9 +560,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
         button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
-        setDate(startDate, "Start");
+        setDateFixed(startDate, "Start");
         button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        setDate(endDate, "End");
+        setDateFixed(endDate, "End");
         waitUntilElementExists(text("UPDATE DATE"));
         text("UPDATE DATE").click();
     }
@@ -706,6 +706,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    private int getMonthNumber(String monthName) {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("MMMM").parse(monthName);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.MONTH) + 1;
+    }
+
     public void verifyTimeZonePage(String ValueTZ){
         link("Availability & Settings").click();
         link("Time Zone").click();
@@ -827,6 +839,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } else {
             button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
         }
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void setDateFixed(String inputDate, String startOrEndDate){
+
+        String[] parts = inputDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+
+//        if (startOrEndDate.contains("Start")) {
+//            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+//        } else {
+//            button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+//        }
         findMonth(calendarHeading);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();

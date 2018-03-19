@@ -12,6 +12,7 @@ import utilities.GetProperties;
 import java.util.List;
 import java.nio.file.Watchable;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
@@ -94,6 +95,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
