@@ -812,6 +812,70 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifytSearchHeadingInSearchAndScheduleTab(){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        Assert.assertTrue("Search text box is not displayed",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).isDisplayed());
+        Assert.assertTrue("Search heading is not over the search bar",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']/ancestor::form/preceding-sibling::h1/span[text()='Search']")).isDisplayed());
+    }
+
+    public void verifyScheduleHeadingOverAvailabilityBlockInSearchAndSchedule(){
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        Assert.assertTrue("Schedule text is not over the Availability block",driver.findElement(By.xpath("//div/span[text()='Visits']/ancestor::div/preceding-sibling::h1/span[text()='Schedule']")).isDisplayed());
+    }
+
+    public void verifyCalendarIconNextToDateInSearchAndSchedule(){
+        Assert.assertTrue("Go To Date button is not displayed",driver.findElement(By.xpath("//button[text()='Go To Date']")).isDisplayed());
+        Assert.assertTrue("Calendar icon is not present next to date",driver.findElement(By.xpath("//button[text()='Go To Date']/ancestor::div/button/i[@class='calendar icon']")).isDisplayed());
+    }
+
+    public void verifyDateAndCalenderIconOverAvailabilityTable(){
+        Assert.assertTrue("Calendar icon is not displayed over the Availability Table",driver.findElement(By.xpath("//thead/tr[@class='_27onojIbT_EM64h57k6Mee']/ancestor::table/ancestor::div/div/button[text()='Go To Date']")).isDisplayed());
+    }
+
+    public void verifyNextPrevButtonInSearchAndSchedule(){
+        Assert.assertTrue("Previous Week button is not displayed",driver.findElement(By.xpath("//button[text()='Go To Date']/preceding-sibling::span/button[@aria-label='Previous week']")).isDisplayed());
+        Assert.assertTrue("Next week button is not displayed",driver.findElement(By.xpath("//button[text()='Go To Date']/preceding-sibling::span/button[@aria-label='Next week']")).isDisplayed());
+    }
+
+    public void verifyViewTypeButtonInsearchAndSchedule(){
+        Assert.assertTrue("View Type button is not displayed",driver.findElement(By.xpath("//span/button[@aria-label='Previous week']/parent::span/following-sibling::div/button[@aria-label='List']")).isDisplayed());
+    }
+
+    public void verifyColorofViewTypeButton(){
+        String originalValue = "rgba(210, 0, 97, 1)";
+        String currentValue = driver.findElement(By.xpath("//button[@aria-label='List']")).getCssValue("color");
+        logger.info(currentValue+"currentValue");
+        Assert.assertTrue("",currentValue.equals(originalValue));
+    }
+
+    public void verifyMapInSearchAndScheduleTab(){
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        Assert.assertTrue("Map icon is not displayed",driver.findElement(By.xpath("//button/span[text()='Map']")).isDisplayed());
+        driver.findElement(By.xpath("//button/span[text()='Map']")).click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        Assert.assertTrue("Current school is not displayed in the Map",driver.findElement(By.xpath("//div[@class='_2WDkiBOfzASeH5aeq7kJXv']")).isDisplayed());
+    }
+
+    public void verifyTextInFairsTabInSearchAndScheduleTab(String showingScheduledFairs){
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div/span[text()='Fairs']")).click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        Assert.assertTrue("Showing All Scheduled Fairs text is not displayed in the Fair Tab",driver.findElement(By.xpath("//span[text()='"+showingScheduledFairs+"']")).isDisplayed());
+    }
+
+    public void verifyYourScheduleTextInSearchAndScheduleTab(){
+        Assert.assertTrue("Your Schedule text is not displayed",driver.findElement(By.xpath("//span[text()='Your Schedule']")).isDisplayed());
+    }
+
     public void verifyVisitsFeedbackNonAdminMessaging() {
         Assert.assertTrue("Non-administrator message was not displayed",text("Visit Feedback is only available to users with the Administrator role.").isDisplayed());
         Assert.assertTrue("Locked banner was not displayed",driver.findElement(By.xpath("//div[@class='centered one column row']")).findElement(By.cssSelector("[alt=locked]")).isDisplayed());
@@ -913,13 +977,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void searchSchool(String school){
+        waitUntilPageFinishLoading();
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
         searchTextBox().sendKeys(school);
         waitUntilElementExists(search());
         searchButton().click();
-        waitUntilElementExists(schoolInSearchAndSchedule(school));
-        Assert.assertTrue("school is not displayed",schoolInSearchAndSchedule(school).isDisplayed());
-        schoolInSearchAndSchedule(school).click();
+        waitForUITransition();
+        WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        waitUntil(ExpectedConditions.visibilityOf(schoolName));
+        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
+        schoolName.click();
+        waitUntilPageFinishLoading();
     }
 
     public void visitsSchedule(String school,String startDate,String time){

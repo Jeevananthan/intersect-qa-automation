@@ -85,3 +85,20 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com |
     Then HE I successfully sign out
 
+  @MATCH-2133
+  Scenario: As an HE User, I want to be able to view the weekly recurring time slots and able to view the UI for the "Search and Schedule" Page
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the Search heading over the search bar in Search and Schedule Tab
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I verify the Search heading over the search bar in Search and Schedule Tab
+    Then HE I verify the Schedule heading over the availability block
+    Then HE I verify the calender icon is present next to date
+    Then HE I verify the date and calendar icon present over the availability table
+    Then HE I verify the next and previous buttons at the top, far right of the availability table
+    Then HE I verify the view type button to the left of the next/previous buttons
+    Then HE I verify the color of the active view type button
+    Then HE I verify "Showing All Scheduled Fairs" Text in Fairs Tab in Search and Schedule Tab
+    Then HE I verify the Your Schedule Text in Search and Schedule Page
+    And HE I search for "Mays High School" in RepVisits page
+    Then HE I verify the Map in SearchAndSchedule Page
+    Then HE I successfully sign out

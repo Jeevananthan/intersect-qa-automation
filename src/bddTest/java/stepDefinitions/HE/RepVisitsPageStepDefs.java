@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
 
@@ -146,6 +147,26 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify the user is \"([^\"]*)\" or not$",repVisits::verifyUserAdminorNot);
 
         And("^HE I verify the items are present in the help center dropdown for a HE user$",repVisits::verifyHelpCentreforHE);
+
+        And("^HE I verify the Search heading over the search bar in Search and Schedule Tab$",repVisits::verifytSearchHeadingInSearchAndScheduleTab);
+
+        And("^HE I verify the Schedule heading over the availability block$",repVisits::verifyScheduleHeadingOverAvailabilityBlockInSearchAndSchedule);
+
+        Then("^HE I verify the calender icon is present next to date$",repVisits::verifyCalendarIconNextToDateInSearchAndSchedule);
+
+        Then("^HE I verify the date and calendar icon present over the availability table$",repVisits::verifyDateAndCalenderIconOverAvailabilityTable);
+
+        Then("^HE I verify the next and previous buttons at the top, far right of the availability table$",repVisits::verifyNextPrevButtonInSearchAndSchedule);
+
+        Then("^HE I verify the view type button to the left of the next/previous buttons$",repVisits::verifyViewTypeButtonInsearchAndSchedule);
+
+        Then("^HE I verify the color of the active view type button$",repVisits::verifyColorofViewTypeButton);
+
+        Then("^HE I verify the Map in SearchAndSchedule Page$",repVisits::verifyMapInSearchAndScheduleTab);
+
+        Then("^HE I verify \"([^\"]*)\" Text in Fairs Tab in Search and Schedule Tab$",repVisits::verifyTextInFairsTabInSearchAndScheduleTab);
+
+        Then("^HE I verify the Your Schedule Text in Search and Schedule Page$",repVisits::verifyYourScheduleTextInSearchAndScheduleTab);
 
     }
 }
