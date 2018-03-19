@@ -659,6 +659,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
 
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    And HS I successfully sign out
+
   Examples:
     |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|
     |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |14  |

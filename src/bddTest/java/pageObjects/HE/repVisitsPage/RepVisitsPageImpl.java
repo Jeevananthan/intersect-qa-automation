@@ -843,17 +843,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyDefaultToggleinSearchAndSchedule(String visitOrFairs,String enabledOrDisabled){
         if(visitOrFairs.equals("Visits")) {
             if(enabledOrDisabled.equals("Enabled")) {
-                Assert.assertTrue("Visits toggle is not Enabled",isButtonEnabled(driver.findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
+                Assert.assertTrue("Visits toggle is not Enabled",isButtonEnabledInSearchandScheduleTab(driver.findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
             }else if(enabledOrDisabled.equals("Disabled")){
-                Assert.assertTrue("Visits is not Disabled",isButtonDisabled(driver.findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
+                Assert.assertTrue("Visits is not Disabled",isButtonDisabledInSearchandScheduleTab(driver.findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
             }else {
              logger.info("Invalid option");
             }
         }else if(visitOrFairs.equals("Fairs")) {
             if(enabledOrDisabled.equals("Enabled")) {
-                Assert.assertTrue("Fairs toggle is not Enabled",isButtonEnabled(driver.findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
+                Assert.assertTrue("Fairs toggle is not Enabled",isButtonEnabledInSearchandScheduleTab(driver.findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
             }else if(enabledOrDisabled.equals("Disabled")) {
-                Assert.assertTrue("Fairs toggle is not Disabled",isButtonDisabled(driver.findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
+                Assert.assertTrue("Fairs toggle is not Disabled",isButtonDisabledInSearchandScheduleTab(driver.findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
             }else {
                 logger.info("Invalid option");
             }
@@ -1599,11 +1599,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
 
-    private boolean isButtonEnabled(WebElement link) {
+    private boolean isButtonEnabledInSearchandScheduleTab(WebElement link) {
         //_3uhLnGGw9ic0jbBIDirRkC is the class that is added to indicate css active
         return link.getAttribute("class").contains("_3uhLnGGw9ic0jbBIDirRkC");
     }
-    private boolean isButtonDisabled(WebElement link){
+    private boolean isButtonDisabledInSearchandScheduleTab(WebElement link){
         return link.getAttribute("class").contains("lM1ka_IX-p7Hiuh9URqAJ");
     }
 
