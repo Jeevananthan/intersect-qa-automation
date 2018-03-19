@@ -338,14 +338,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void accessVisitAvailability(String visitAvailability){
+        waitUntilPageFinishLoading();
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
         link("Availability Settings").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(saveChanges()));
         waitUntilElementExists(driver.findElement(By.cssSelector("button[class='ui primary button']")));
         waitUntilElementExists(driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']/input[@type='radio']")));
         driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']/input[@type='radio']")).click();
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        waitUntilPageFinishLoading();
     }
 
     public void verifyVisitAvailability(String visitAvailabiltyOption) {

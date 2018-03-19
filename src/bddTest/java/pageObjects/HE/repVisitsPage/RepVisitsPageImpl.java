@@ -841,19 +841,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDefaultToggleinSearchAndSchedule(String visitOrFairs,String enabledOrDisabled){
-        if(visitOrFairs.equals("Visit")) {
+        if(visitOrFairs.equals("Visits")) {
             if(enabledOrDisabled.equals("Enabled")) {
-                Assert.assertTrue("Visit toggle is not Enabled",driver.findElement(By.xpath("//div/span[text()='Visit']")).isEnabled());
+                Assert.assertTrue("Visits toggle is not Enabled",isButtonEnabled(driver.findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
             }else if(enabledOrDisabled.equals("Disabled")){
-                Assert.assertTrue("Visit is not Disabled",!driver.findElement(By.xpath("//div/span[text()='Visit']")).isEnabled());
+                Assert.assertTrue("Visits is not Disabled",isButtonDisabled(driver.findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
             }else {
              logger.info("Invalid option");
             }
         }else if(visitOrFairs.equals("Fairs")) {
             if(enabledOrDisabled.equals("Enabled")) {
-                Assert.assertTrue("Fairs toggle is not Enabled",driver.findElement(By.xpath("//div/span[text()='Fairs']")).isEnabled());
+                Assert.assertTrue("Fairs toggle is not Enabled",isButtonEnabled(driver.findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
             }else if(enabledOrDisabled.equals("Disabled")) {
-                Assert.assertTrue("Fairs toggle is not Disabled",!driver.findElement(By.xpath("//div/span[text()='Fairs']")).isEnabled());
+                Assert.assertTrue("Fairs toggle is not Disabled",isButtonDisabled(driver.findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
             }else {
                 logger.info("Invalid option");
             }
@@ -876,9 +876,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOf(appointmentSlot));
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         String visitDate=getMonthandDate(startDate);
-        List<WebElement> button= driver.findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        WebElement button= driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
        //verify availability
-        Assert.assertTrue("Availability is not displayed",button.size()==0);
+        Assert.assertTrue("Availability slot is not displayed",button.isDisplayed());
     }
 
     public void verifyAvailabilitySlotIsNotDisplayingInSearchAndSchedule(String time,String startDate,String school){
@@ -896,8 +896,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOf(appointmentSlot));
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         String visitDate=getMonthandDate(startDate);
-        WebElement button= driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
-        Assert.assertTrue("Availability is not displayed",button.isDisplayed());
+        List<WebElement> button= driver.findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        Assert.assertTrue("Availability slot is displayed",button.size()==0);
     }
 
     private void verifyVisitFeedbackHeading() {
@@ -1598,6 +1598,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.xpath("//span[text()='"+option+"']"));
         return text;
     }
+
+    private boolean isButtonEnabled(WebElement link) {
+        //_3uhLnGGw9ic0jbBIDirRkC is the class that is added to indicate css active
+        return link.getAttribute("class").contains("_3uhLnGGw9ic0jbBIDirRkC");
+    }
+    private boolean isButtonDisabled(WebElement link){
+        return link.getAttribute("class").contains("lM1ka_IX-p7Hiuh9URqAJ");
+    }
+
 }
 
 

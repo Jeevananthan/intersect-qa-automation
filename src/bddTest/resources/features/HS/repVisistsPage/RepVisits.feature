@@ -643,9 +643,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
-    Then HE I verify the default toggle "Visit" is "Enabled"
-    Then HE I verify the default toggle "Fairs" is "Disabled"
-    Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>"
+    Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
+    Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
+    Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
@@ -654,9 +654,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
-    Then HE I verify the default toggle "Visit" is "Disabled"
-    Then HE I verify the default toggle "Fairs" is "Enabled"
-    Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>"
+    Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
+    Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
+    Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
 
   Examples:

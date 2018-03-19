@@ -148,11 +148,11 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the items are present in the help center dropdown for a HE user$",repVisits::verifyHelpCentreforHE);
 
-        And("^HE I verify the default toggle \"([^\"]*)\" is \"([^\"]*)\"$",repVisits::verifyDefaultToggleinSearchAndSchedule);
+        And("^HE I verify the default toggle \"([^\"]*)\" is \"([^\"]*)\" in search and schedule Tab$",repVisits::verifyDefaultToggleinSearchAndSchedule);
 
-        And("^HE I verify the Availability slot \"([^\"]*)\" is displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAvailabilitySlotInSearchAndSchedule);
+        And("^HE I verify the Availability slot \"([^\"]*)\" is displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\" in search and schedule Tab$",repVisits::verifyAvailabilitySlotInSearchAndSchedule);
 
-        And("^HE I verify the Availability slot \"([^\"]*)\" is not displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAvailabilitySlotIsNotDisplayingInSearchAndSchedule);
+        And("^HE I verify the Availability slot \"([^\"]*)\" is not displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\" in search and schedule Tab$",repVisits::verifyAvailabilitySlotIsNotDisplayingInSearchAndSchedule);
 
     }
 }
