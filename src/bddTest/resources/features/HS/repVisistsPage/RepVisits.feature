@@ -628,7 +628,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1812
   Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools who have made their RepVisits availability publicly available
                     so HE users are not presented with high schools in the search results that don't use RepVisits.
-
+#Pre-condition
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
@@ -658,7 +658,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
-
+#Post-Condition
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     And HS I successfully sign out
