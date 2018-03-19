@@ -366,7 +366,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     #precondition
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
-    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the RepVisits Visits Confirmations option to "<VisitConfirmationOption1>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
@@ -427,10 +427,15 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #Remove the time slot in Regular Weekly Hours Tab
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I remove the Time Slot created with "<StartTime>" in Regular Weekly Hours Tab
+#post-condition
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<VisitConfirmationOption2>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "5"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     And HS I successfully sign out
 
     Examples:
-      |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School              |heStartTime|heTime |
-      |28   |28  |10:55am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4|10:55am    |10:55am|
+      |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |VisitConfirmationOption1                            |VisitConfirmationOption2           |School              |heStartTime|heTime |
+      |28   |28  |10:55am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Yes, accept all incoming requests. |Int Qa High School 4|10:55am    |10:55am|
 
