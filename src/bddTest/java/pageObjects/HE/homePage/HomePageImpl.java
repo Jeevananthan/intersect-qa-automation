@@ -277,6 +277,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
 
+
+
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
