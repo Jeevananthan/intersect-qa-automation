@@ -818,7 +818,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
-        waitForUITransition();
         Assert.assertTrue("Search text box is not displayed",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).isDisplayed());
         Assert.assertTrue("Search heading is not over the search bar",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']/ancestor::form/preceding-sibling::h1/span[text()='Search']")).isDisplayed());
     }
@@ -874,6 +873,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyYourScheduleTextInSearchAndScheduleTab(){
         Assert.assertTrue("Your Schedule text is not displayed",driver.findElement(By.xpath("//span[text()='Your Schedule']")).isDisplayed());
+    }
+
+    public void verifytSearchHeadingInSearchAndScheduleTabAfterSchoolSearch(){
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Search text box is not displayed",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).isDisplayed());
+        Assert.assertTrue("Search heading is not over the search bar",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']/ancestor::form/preceding-sibling::h1/span[text()='Search']")).isDisplayed());
     }
 
     public void verifyVisitsFeedbackNonAdminMessaging() {
@@ -982,6 +987,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
+        searchTextBox().clear();
         searchTextBox().sendKeys(school);
         waitUntilElementExists(search());
         searchButton().click();

@@ -168,5 +168,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the Your Schedule Text in Search and Schedule Page$",repVisits::verifyYourScheduleTextInSearchAndScheduleTab);
 
+        And("^HE I verify the Search heading over the search bar after search the school in Search and Schedule Tab$",repVisits::verifytSearchHeadingInSearchAndScheduleTabAfterSchoolSearch);
+
     }
 }

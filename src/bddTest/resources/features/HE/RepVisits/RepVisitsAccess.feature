@@ -90,7 +90,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the Search heading over the search bar in Search and Schedule Tab
     And HE I search for "Int Qa High School 4" in RepVisits page
-    Then HE I verify the Search heading over the search bar in Search and Schedule Tab
+    Then HE I verify the Search heading over the search bar after search the school in Search and Schedule Tab
     Then HE I verify the Schedule heading over the availability block
     Then HE I verify the calender icon is present next to date
     Then HE I verify the date and calendar icon present over the availability table
