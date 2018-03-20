@@ -232,7 +232,7 @@
                 </property>
             </activation>
             <properties>
-                <tags>@ProdSmokeTest</tags>
+                <cucumber.options>--tags @ProdSmokeTest</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -407,7 +407,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <testFailureIgnore>false</testFailureIgnore>
                 </configuration>
                 <executions>
                     <execution>
