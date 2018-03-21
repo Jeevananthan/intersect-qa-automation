@@ -2483,6 +2483,43 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void accessListoffairAttendees(String buttonToClick, String name){
+        int nameID = getColumnIdByFieldName( "//table[@id='he-account-dashboard']//thead","Name");
+        int rowID = getRowIdByColumnId("//table[@id='he-account-dashboard']//tbody", nameID,name);
+        nameID = nameID+1;
+        rowID = rowID+1;
+        if(buttonToClick.equals("Cancel")){
+            WebElement cancelbutton = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody//tr["+rowID+"]//td//button/span[text()='CANCEL']"));
+            cancelbutton.click();
+            waitUntilPageFinishLoading();
+        }
+    }
+
+    public void accessConfirmCancelPopup(String cancellationMessage, String buttonToClick){
+
+        if(!cancellationMessage.equals("")) {
+            Assert.assertTrue("Cancellation Message TextBox is not displayed",driver.findElement(By.xpath("//textarea[@id='attendee-cancellation-message']")).isDisplayed());
+            driver.findElement(By.xpath("//textarea[@id='attendee-cancellation-message']")).clear();
+            driver.findElement(By.xpath("//textarea[@id='attendee-cancellation-message']")).sendKeys(cancellationMessage);
+            //verify 'Yes, cancel visit" Button
+            Assert.assertTrue("Button 'Yes, cancel visit' is not displayed",driver.findElement(By.cssSelector("button[class='ui red small right floated button']")).isDisplayed());
+        }
+
+        if(!buttonToClick.equals("")) {
+            if(buttonToClick.equals("No, go back")){
+                WebElement goBackButton = driver.findElement(By.cssSelector("button[id='go-back']"));
+                goBackButton.click();
+                waitUntilPageFinishLoading();
+            }else if(buttonToClick.equals("Yes, cancel visit")){
+                WebElement yesCancelVisit = driver.findElement(By.cssSelector("button[class='ui red small right floated button']"));
+                yesCancelVisit.click();
+                waitUntilPageFinishLoading();
+            }else{
+                Assert.fail("The given option for the button to click is not a valid one");
+            }
+        }
+    }
+
     public void verifyListofRegisteredAttendee(String name, String contact, String notes, String status, String action) {
         int nameID = getColumnIdByFieldName("//table[@id='he-account-dashboard']//thead","Name");
         int rowID = getRowIdByColumnId("//table[@id='he-account-dashboard']//tbody",nameID,name);
@@ -2507,7 +2544,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!status.equals("")) {
             String actualStatus = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[4]")).getText();
-            Assert.assertTrue("Status is not Displayed.", actualStatus.equals(status));
+            Assert.assertTrue("Status is not Displayed.  Expected: " + status + "  Actual: " + actualStatus, actualStatus.equals(status));
         }
         if(!action.equals("")) {
             Assert.assertTrue("Cancel Button is not Displayed.", driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody/tr["+rowID+"]/td[5]//button/span[text()='CANCEL']")).isDisplayed());

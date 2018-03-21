@@ -271,6 +271,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Fair Details Page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairDetailsPage);
 
+        Then("^HS I set the following data in the confirm cancel pop-up \"([^\"]*)\",\"([^\"]*)\"$",repVisits::accessConfirmCancelPopup);
+
+        Then("^HS I Click the \"([^\"]*)\" button for the attendee named \"([^\"]*)\"$",repVisits::accessListoffairAttendees);
+
         Then("^HS I verify the list of registered college fair attendees for the \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyListofRegisteredAttendee);
     }
 }
