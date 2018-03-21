@@ -1,0 +1,88 @@
+@HE
+Feature:  HE - Settings - AccountSettings - As an HE user, I want to be able to manage my user profile details.
+
+  @MATCH-1172 @MATCH-1155
+  Scenario: As an HE user, I can enter the Account Settings screen and then cancel my
+            changes without updating my profile.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I access the Account Settings page
+    And HE I verify the Password Requirements are displayed
+    And HE I enter the following data on the Account Settings page and click "Home"
+      |Current Password     |Password!1   |
+      |New Password         |BadPassword1!|
+      |Confirm New Password |BadPassword1!|
+    Then HE I successfully sign out
+    # This step will fail if the password was changed when clicking "Cancel"
+    And HE I am logged in to Intersect HE as user type "administrator"
+    And HE I am able to successfully login
+    Then HE I successfully sign out
+
+
+  @MATCH-1191
+  Scenario: As an HE user, I want to be able to manage my Purple account and my Community account separately.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the Account Settings page for the following user
+      |E-mail Address |purpleheautomation@gmail.com |
+    Then HE I verify the Update Profile page for the following user
+      |E-mail Address   |purpleheautomation@gmail.com   |
+      |First Name       |PurpleHE                       |
+      |Last Name        |Automation                     |
+      |Your institution |The University of Alabama (636)|
+    Then HE I successfully sign out
+
+
+  @MATCH-1134
+  Scenario: As an HE user, I can update my Account Settings.
+    Given HE I am logged in to Intersect HE as user type "updates"
+    Then HE I access the Account Settings page
+    And HE I enter the following data on the Account Settings page and click "Save"
+      |First Name           |PurpleHE_Updated |
+      |Last Name            |Updates_Updated  |
+      |Current Password     |Password!1       |
+      |New Password         |Password!1       |
+      |Confirm New Password |Password!1       |
+  #  And I receive the "Matching Account has been Updated" email below
+  #    |Subject                             |From                                 |Messages |Body                                                                                                                               |
+  #    |Intersect Account has been Updated  |no-reply@purpledev.hobsonspobox.net  |1        |THIS TEXT IS UNKNOWN AS THE EMAIL WAS NOT WORKING |
+    Then HE I access the Account Settings page
+    And HE I enter the following data on the Account Settings page and click "Save"
+      |First Name       |PurpleHE                                     |
+      |Last Name        |Updates                                      |
+      |Email            |purpleheautomation+updates_updated@gmail.com |
+    And HE I receive the "Matching Account has been Updated" email below
+      |Subject                             |To                                    |Messages |Body                                                                                                                                                          |
+      |Intersect Account has been Updated  |purpleheautomation+updates@gmail.com  |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact|
+    Then HE I access the Account Settings page
+    And HE I enter the following data on the Account Settings page and click "Save"
+      |Email            |purpleheautomation+updates@gmail.com |
+    And HE I receive the "Matching Account has been Updated" email below
+      |Subject                             |To                                            |Messages |Body                                                                                                                                                          |
+      |Intersect Account has been Updated  |purpleheautomation+updates_updated@gmail.com  |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact|
+    Then HE I successfully sign out
+
+# This test case isn't actually testing MATCH-1129, and since the AC for that ticket is basically a negative test with email, it will be hard to automate in the first place
+# Given that, I've commented it out, but left it to be fixed at a later time if necessary.
+#  @MATCH-1129
+#  Scenario: As a non view only Hobsons staff member I want the admin page to NOT send the 'email updated verification code'
+#            email to the primary owner each time I update the primary owner's email address after they have logged in to the Purple UI at least once
+#            so the primary owner does not get confused when logging in with their new email address.
+#    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+#    Then HE I navigate to the "Account Settings" page to access the "Users" page
+#    Then HE I select the "Edit" options from the actions dropdown for the HE primary account "purpleheautomation@gmail.com"
+#    And HE I enter the following data on the Account Settings page and click "Save"
+#      |First Name       |PurpleHE                                     |
+#      |Last Name        |Updates                                      |
+#      |Email            |purpleheautomation+Updates@gmail.com         |
+#    And HE I receive the "Matching Account has been Updated" email below
+#      |Subject                             |To                                    |Messages |Body                                                                                                                                                          |
+#      |Intersect Account has been Updated  |purpleheautomation@gmail.com          |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact|
+#    Then HE I navigate to the "Account Settings" page to access the "Users" page
+#    Then HE I select the "Edit" options from the actions dropdown for the HE primary account "purpleheautomation+Updates@gmail.com"
+#    And HE I enter the following data on the Account Settings page and click "Save"
+#      |First Name       |PurpleHE                       |
+#      |Last Name        |Automation                     |
+#      |Email            |purpleheautomation@gmail.com   |
+#    And HE I receive the "Matching Account has been Updated" email below
+#      |Subject                             |To                                            |Messages |Body                                                                                                                                                          |
+#      |Intersect Account has been Updated  |purpleheautomation+Updates@gmail.com          |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact|
+#    Then HE I successfully sign out
