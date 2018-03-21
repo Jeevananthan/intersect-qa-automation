@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -210,6 +211,90 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
+    public void selectRadioButtonInAcademicsFitCriteria(String option) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'"+ option.split("'")[0] + "')]"))).click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement chevronInSearchMajorsCombobox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[contains(@class, 'supermatch-menuitem-popup')]//i[@class='teal chevron down icon'])[1]")));
+
+        //open combobox
+        chevronInSearchMajorsCombobox.click();
+
+        List<List<String>> itemsToSelect = items.raw();
+        int itemsToSelectSize = itemsToSelect.size();
+
+        for(int i = 0; i < itemsToSelectSize; i++)
+        {
+            String item = itemsToSelect.get(i).get(0);
+            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[1]")).click();
+
+        }
+
+        //close combobox
+        chevronInSearchMajorsCombobox.click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    public void unselectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+
+        List<List<String>> itemsToUnselect = items.raw();
+        int itemsToUnselectSize = itemsToUnselect.size();
+
+        for(int i = 0; i < itemsToUnselectSize; i++)
+        {
+            String item = itemsToUnselect.get(i).get(0);
+            getDriver().findElement(By.xpath("(//div[@role='combobox'])[1]//a[text()='" + item +"']/i[@class='delete icon']")).click();
+        }
+
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    public void selectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType(DataTable items) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement chevronInSearchMinorsCombobox = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//div[contains(@class, 'supermatch-menuitem-popup')]//i[@class='teal chevron down icon'])[2]")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", chevronInSearchMinorsCombobox);
+
+        //open combobox
+        chevronInSearchMinorsCombobox.click();
+
+        List<List<String>> itemsToSelect = items.raw();
+        int itemsToSelectSize = itemsToSelect.size();
+
+        for(int i = 0; i < itemsToSelectSize; i++)
+        {
+            String item = itemsToSelect.get(i).get(0);
+            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[2]")).click();
+        }
+
+        //close combobox
+        chevronInSearchMinorsCombobox.click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    public void unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType(DataTable items) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+
+        List<List<String>> itemsToUnselect = items.raw();
+        int itemsToUnselectSize = itemsToUnselect.size();
+
+        for(int i = 0; i < itemsToUnselectSize; i++)
+        {
+            String item = itemsToUnselect.get(i).get(0);
+            getDriver().findElement(By.xpath("(//div[@role='combobox'])[2]//a[text()='" + item +"']/i[@class='delete icon']")).click();
+        }
+
+          getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+
     /**
      * Accepts a String with the name of the option in the Resources fit criteria list to deactivate.
      * @param option String with the name of the option to disable.  e.x.: Counseling Services, Day Care Services, etc.
@@ -250,7 +335,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void verifyMustHaveBoxContains(String item) {
-        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.",getMustHaveBox().getText().contains(item.toUpperCase()));
+        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.",getMustHaveBox().getText().contains(item));
     }
 
     /**
@@ -270,7 +355,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Nice to Have" box.
      */
     public void verifyNiceToHaveBoxContains(String item) {
-        Assert.assertTrue("'Nice to Have' box should contain " + item + ", but it does not.",getNiceToHaveBox().getText().contains(item.toUpperCase()));
+        Assert.assertTrue("'Nice to Have' box should contain " + item + ", but it does not.",getNiceToHaveBox().getText().contains(item));
     }
 
     /**
@@ -574,8 +659,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
-    private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]")); }
-    private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[2]")); }
+    private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='column box box-selection'])[1]")); }
+    private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='column box box-selection'])[2]")); }
     private WebElement admissionMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Admission')]"));
     }

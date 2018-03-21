@@ -65,5 +65,15 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that a survey is opened after clicking the \"([^\"]*)\" button$", searchPage::verifySurvey);
 
+        Then("^SM I select the \"([^\"]*)\" radio button from the Academics fit criteria",searchPage::selectRadioButtonInAcademicsFitCriteria);
+
+        Then("^SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type$", searchPage::selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType);
+
+        Then("^SM I select the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type$", searchPage::selectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType);
+
+        Then("^SM I unselect the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type$", searchPage::unselectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType);
+
+        Then("^SM I unselect the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type$", searchPage::unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType);
+
     }
 }
