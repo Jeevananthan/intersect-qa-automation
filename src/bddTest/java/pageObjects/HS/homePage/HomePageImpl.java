@@ -1,9 +1,11 @@
 package pageObjects.HS.homePage;
 
+import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
@@ -43,7 +45,47 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Page Name is not displayed in the title name ",driver.findElement(By.xpath("//div[text()='"+pageName+"']")).isDisplayed());
     }
 
+    public void verifyAdditionalInfoURLBeforeClickingBackToIntersectLink(String additionalInfoURL,String additionalInfo,String backToIntersect,String SCID,String college,String info){
+        waitUntilPageFinishLoading();
+        communityFrame();
+        WebElement additionalLink = link(additionalInfo);
+        waitUntil(ExpectedConditions.visibilityOf(additionalLink));
+        additionalLink.click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("College is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+college+"']")).isDisplayed());
+        String currentURL = additionalInfoURL+SCID+info;
+        String additionalInfoCurrentURL = driver.getCurrentUrl();
+        Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
+        WebElement viewNavianceCollegeProfile = link("VIEW NAVIANCE COLLEGE PROFILE");
+        waitUntil(ExpectedConditions.visibilityOf(viewNavianceCollegeProfile));
+        viewNavianceCollegeProfile.click();
+        waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Back to Intersect link is not displayed",link(backToIntersect).isDisplayed());
+    }
+
+    public void verifyAdditionalInfoURLAfterClickingBackToIntersectLink(String additionalInfoURL,String backToIntersect,String institutionID,String info){
+        String currentURL = additionalInfoURL+institutionID+info;
+        link(backToIntersect).click();
+        waitUntilPageFinishLoading();
+        String additionalInfoCurrentURL = driver.getCurrentUrl();
+        Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        //  getDriver().switchTo().defaultContent();
+        driver.switchTo().defaultContent();
+    }
+
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
+    }
+
+    private WebElement collageNameLabel() {
+        return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }
 }
