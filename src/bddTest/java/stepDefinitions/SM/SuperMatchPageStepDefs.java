@@ -9,8 +9,6 @@ public class SuperMatchPageStepDefs implements En {
 
         FCSuperMatchPageImpl fcSuperMatch = new FCSuperMatchPageImpl();
 
-        Then("^SM I verify that a banner with a message about the new SuperMatch is displayed$", fcSuperMatch::verifySuperMatchBanner);
-
         Then("^SM I verify that the link in the new SuperMatch banner takes me to the new SuperMatch$", fcSuperMatch::verifySuperMatchBannerLink);
     }
 }
