@@ -243,6 +243,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Verifies that the "Nice to Have" box does not contain the passed item.
+     * @param item String containing the value to look for in the "Nice to Have" box.
+     */
+    public void verifyNiceToHaveBoxDoesNotContain(String item) {
+        try {
+            Assert.assertTrue("'Nice to Have' box should not contain " + item + ", but it does.",!getNiceToHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+        } catch (org.openqa.selenium.NoSuchElementException nsee) {
+            logger.info("Could not find the 'Nice to Have' box, so the item we don't want to see there clearly isn't there.");
+        }
+    }
+
+    /**
      * Moves the passed item from the "Must Have" box to the "Nice to Have" box.
      * @param item String containing the value to look for in the "Must Have" box.
      */
