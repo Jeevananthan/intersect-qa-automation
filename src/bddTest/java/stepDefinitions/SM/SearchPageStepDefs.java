@@ -60,5 +60,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I unselect the \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::unselectStudentSuccessFitCriteriaCheckbox);
 
+        And("^SM I verify that the Nice to Have box does not contain \"([^\"]*)\"$", searchPage::
+
     }
 }
