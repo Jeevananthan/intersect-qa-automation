@@ -46,6 +46,6 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the Cost fit criteria$", searchPage::selectMeest100ofNeedCheckbox);
 
-
+        And("^SM I verify that Nice to Have box does not contain \"([^\"]*)\"$", searchPage::verifyNiceToHaveBoxDoesNotContain);
     }
 }
