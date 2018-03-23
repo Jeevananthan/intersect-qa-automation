@@ -5,20 +5,20 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I create a new college fair with the following details:
       | Name | AutoApprovals |
-      | Date | November 14   |
+      | Date | In 3 days   |
       | Start time | 07:34 AM |
       | End time   | 09:30 AM |
-      | RSVP deadline | October 14 |
+      | RSVP deadline | In 2 day |
       | Cost          | 123        |
       | Max colleges  | 5          |
       | Max students  | 5          |
       | Auto Approvals | Yes       |
     Then HS I create a new college fair with the following details:
       | Name | NoAutoApprovals |
-      | Date | November 17     |
+      | Date | In 3 days     |
       | Start time | 08:34 AM |
       | End time   | 09:30 AM |
-      | RSVP deadline | October 17 |
+      | RSVP deadline | In 2 day |
       | Cost          | 123        |
       | Max colleges  | 5          |
       | Max students  | 5          |

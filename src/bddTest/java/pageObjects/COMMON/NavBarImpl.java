@@ -129,7 +129,7 @@ public class NavBarImpl extends SeleniumBase {
             try{
                 headerWebElement= new WebDriverWait(getDriver(),10).
                         until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(
-                                "//nav[@class='hidden-mobile hidden-tablet _3sM-wM6bB02P6669gxCsoP']//span[text()='%s']"
+                                "//nav[@class='hidden-mobile hidden-tablet print _3x2qW0SvZpA5OC0k_9dL30 _3sM-wM6bB02P6669gxCsoP']/div/dl/dt/span[text()='%s']"
                                 ,heading))));
             } catch (Exception e){throw new AssertionFailedError(String.format("The header: %s is not visible",
                     heading));}

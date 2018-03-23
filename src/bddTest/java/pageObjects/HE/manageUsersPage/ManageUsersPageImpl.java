@@ -10,6 +10,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
@@ -105,7 +106,8 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     private void takeUserAction(String accountName, String action) {
-        navBar.goToUsers();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
         WebElement userAccountRow = getDriver().findElement(By.xpath(String.format(".//div[text()='%s']/parent::td/parent::tr",accountName)));
         WebElement actionsButton = userAccountRow.findElement(By.cssSelector("div[aria-label='Actions']"));
         WebElement button = actionsButton.findElement(By.xpath("div/div/span[contains(text(),'"+action+"')]"));
