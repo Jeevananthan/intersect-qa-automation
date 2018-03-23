@@ -2,6 +2,7 @@ package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.cs.A;
+import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import cucumber.api.java.gl.E;
 import org.junit.Assert;
@@ -1112,6 +1113,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchByLocationTextBox().sendKeys(location);
     }
 
+    /**
+     +     * Removes a given high school from the travel plan page
+     +     * @param school to be removed
+     +     */
+    public void removeHighSchoolFromTravelPlan(String school){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']",school))).click();
+        Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?").isDisplayed());
+        Assert.assertTrue("The remove from travel plan confirmation message is not displayed",text(String.format("Are you sure you want to remove %s from your travel plan?", school)).isDisplayed());
+        button("YES, REMOVE").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
+    }
+
     public void verifySchoolDetailsInTravelPlan(String school,String address,String collegeGoingRate,String seniorclassSize,String primaryPoc,String numberofHighSchool,String stateName){
         String addressdetails[] = address.split(",");
         String city = addressdetails[0];
@@ -1167,7 +1183,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         String visitDate = getSpecificDateforTravelPlan(date);
-        WebElement visitDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/following-sibling::div/div/button/span[text()='"+visitDate+"']/preceding-sibling::span/span[text()='Visit,']"));
+        WebElement visitDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']//div[@class='content _1SfpP2fklL5GVWMyfqjq4q']//button/span/span[text()='Visit,']/parent::span/following-sibling::span[text()='"+visitDate+"']"));
         Assert.assertTrue("VisitDetails is not displayed",visitDetails.isDisplayed());
         visitDetails.click();
         waitUntilPageFinishLoading();
@@ -1187,7 +1203,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyFairDetailsInTravelPlan(String school,String date){
         waitForUITransition();
         String fairDate = getSpecificDateforTravelPlan(date);
-        WebElement fairDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/following-sibling::div/div/button/span[text()='"+fairDate+"']/preceding-sibling::span/span[text()='College Fair,']"));
+        WebElement fairDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']//div[@class='content _1SfpP2fklL5GVWMyfqjq4q']//button/span/span[text()='College Fair,']/parent::span/following-sibling::span[text()='"+fairDate+"']"));
         Assert.assertTrue("FairDetails is not displayed",fairDetails.isDisplayed());
         fairDetails.click();
         waitUntilPageFinishLoading();
@@ -1214,15 +1230,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Scheduled text is not displayed",driver.findElement(By.xpath("//div[text()='"+school+"']/following-sibling::div/div/span[text()='"+scheduled+"']")).isDisplayed());
     }
 
-    public void verifyRepVisitTextInTravelPlan(String text,String school){
-        navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        link("Travel Plan").click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
-        waitForUITransition();
-        waitForUITransition();
-        Assert.assertTrue("This school isnt using RepVisits yet text is not displayed",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/span/span[text()='"+text+"']")).isDisplayed());
+
+     /* Verifies that a given label is displayed for a given high school
+     * @param school to verify the label
+     * @param labelText to verify*/
+    public void verifyLabelForTravelPlanHighSchool(String school, String labelText){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        try{
+            getDriver().findElements(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='%s']",school,labelText)));
+        }catch(Exception e){
+            throw new AssertionFailedError(String.format("The %s label is not displayed for high school: %s, error: %s",labelText,school,e.toString()));
+        }
     }
 
     public void verifyPreviousAppointmentsTextInTravelPlan(String text,String school){
@@ -1273,7 +1292,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public String getSpecificDateforTravelPlan(String addDays){
-        String DATE_FORMAT_NOW = "MMMM dd, yyyy";
+        String DATE_FORMAT_NOW = "MMMM d, yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);

@@ -88,21 +88,13 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
   @MATCH-1604
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
               so that I can easily view all the high school I may want to visit on one screen.
-    Given HS I want to login to the HS app using "purpleheautomation+Lakota@gmail.com" as username and "Password!1" as password
-    And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
-    And HS I successfully sign out
-
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
-    Then HE I verify the Text "This school isnt using RepVisits yet" is present in the Travel plan page for "<school>"
-    And HE I successfully sign out
-
+#Pre-Conditions
     Given HS I want to login to the HS app using "purpleheautomation+Lakota@gmail.com" as username and "Password!1" as password
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I verify the Message "You currently have no notifications." is displayed in the Request Notification Tab
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
@@ -141,7 +133,14 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 
+#Verify the label "This school isnt using RepVisits yet"
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    When HE I add "Westlake H S" high school with location "Austin" to the Travel Plan
+    Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "Westlake H S"
+    Then HE I remove "Westlake H S" high school from the travel plan
+    And HE I successfully sign out
+
 Examples:
-      |school                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Name                     |
-      |Lakota West High School |8940 Union Centre Blvd West chester, Ohio, Butler county, 45069  |0                 |524              |PurpleHS LakotaWest |4            |OHIO      |14  |10:32am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests. |Lakota West High School |10:32am     |10:32am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |The University of Alabama|
+      |school                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |
+      |Lakota West High School |8940 Union Centre Blvd West chester, Ohio, Butler county, 45069  |0                 |524              |PurpleHS LakotaWest |4            |OHIO      |14  |10:32am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests. |Lakota West High School |10:32am     |10:32am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |
 
