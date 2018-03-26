@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -64,6 +65,14 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify the dark blue footer$", searchPage::verifyDarkBlueFooter);
 
         Then("^SM I verify that a survey is opened after clicking the \"([^\"]*)\" button$", searchPage::verifySurvey);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Diversity fit criteria$", searchPage::selectHighInternationalPopulationCheckbox);
+
+        Then("^SM I verify \"([^\"]*)\" checkbox in Diversity fit criteria$", searchPage::verifyHighInternationalPopulationCheckbox);
+
+        Then("^SM I unselect the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::unselectCheckbox);
+
+        And("^SM I verify that Nice to Have box does not contain \"([^\"]*)\"$", searchPage::verifyNiceToHaveBoxDoesNotContain);
 
     }
 }

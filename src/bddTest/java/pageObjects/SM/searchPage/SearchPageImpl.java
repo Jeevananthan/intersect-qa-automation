@@ -209,7 +209,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             label.click();
             waitUntilPageFinishLoading();
         }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     /**
@@ -226,7 +226,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             label.click();
             waitUntilPageFinishLoading();
         }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     /**
@@ -246,7 +246,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         } else {
             Assert.fail("Expected value shuould be 'checked' or 'unchecked'. '" + checkedOrUnchecked + "' is not a valid value.");
         }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     /**
@@ -575,6 +575,55 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().window(winHandleBefore);
     }
 
+    public void selectHighInternationalPopulationCheckbox(String checkboxName){
+        selectCheckBox(checkboxName, "Diversity");
+        closeButtonForFitCriteria().click();
+    }
+
+    /**
+     * select any selected checkbox only when fit criteria menu is open.
+     */
+    public void selectCheckBox(String checkBox, String fitCriteriaName){
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            selectFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
+        Assert.assertTrue(checkBox+" checkbox by default is not selected.", !checkboxLocator.isSelected());
+        if (!checkboxLocator.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+    }
+
+    private void selectFitCriteria(String fitCriteria){
+        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).click();
+    }
+
+    public void verifyHighInternationalPopulationCheckbox(String checkBox){
+        String path = "//label[contains(text(), '"+checkBox+"')]";
+        Assert.assertTrue("International Students Label is not displaying.", driver.findElement(By.xpath("//span[contains(text(),'International Students')]")).isDisplayed());
+        Assert.assertTrue(checkBox+" is by default is selected.", !driver.findElement(By.xpath(path+"/../input")).isSelected());
+        Assert.assertTrue(checkBox+" is not displaying.", driver.findElement(By.xpath(path)).getText().equals("High International Population"));
+    }
+
+    /**
+     * unselect any selected checkbox only when fit criteria menu is open.
+     */
+    public void unselectCheckbox(String checkBox, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            selectFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+        if (onlyCheckbox.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is selected.", !onlyCheckbox.isSelected());
+    }
+
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -660,5 +709,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement superMatchFooter() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"));
+    }
+    private WebElement closeButtonForFitCriteria(){
+        return getDriver().findElement(By.xpath("//button[contains(text(),' Close')]"));
     }
 }
