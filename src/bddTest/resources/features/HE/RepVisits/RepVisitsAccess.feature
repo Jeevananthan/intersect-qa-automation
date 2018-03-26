@@ -95,21 +95,21 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-
+#Creating Visits and Fairs
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
-
+#Register a Fair
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
-
+#Register a Visit
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-
+#Verify Travel Plan Tab
     Then HE I verify the instructional text in Travel Plan and verify the link to navigate to the Recommendations page
     When HE I add "Lakota West High School" high school with location "West" to the Travel Plan
     Then HE I verify the states of the school are present in the ABC order
@@ -125,20 +125,17 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the text "Nothing scheduled yet" is present in the Travel plan page for "<school>"
     Then HE I verify the "View Availability" Button is present in the Travel plan page for "<school>"
     Then HE I verify the "View Availability" button for "<school>", navigate to the search and schedule page or not
+#Verify the label "This school isnt using RepVisits yet"
+    When HE I add "Westlake H S" high school with location "Austin" to the Travel Plan
+    Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "Westlake H S"
+    Then HE I remove "Westlake H S" high school from the travel plan
     And HE I successfully sign out
-
+#Post Conditions [Removing the created visits and Fairs]
     Given HS I want to login to the HS app using "purpleheautomation+Lakota@gmail.com" as username and "Password!1" as password
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I select "Edit" button to cancel the college Fair "<College Fair Name>"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
-
-#Verify the label "This school isnt using RepVisits yet"
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
-    When HE I add "Westlake H S" high school with location "Austin" to the Travel Plan
-    Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "Westlake H S"
-    Then HE I remove "Westlake H S" high school from the travel plan
-    And HE I successfully sign out
 
 Examples:
       |school                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |

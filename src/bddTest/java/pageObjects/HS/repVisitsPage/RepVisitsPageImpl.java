@@ -579,7 +579,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
-        String EndDate=getSpecificDate(endDate);
+        String EndDate = getSpecificDate(endDate);
         setDate(EndDate, "End");
         String StartDate = getSpecificDate(startDate);
         setDate(StartDate, "Start");
@@ -588,7 +588,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public String getSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
         Calendar cal = Calendar.getInstance();
-        int days=Integer.parseInt(addDays);
+        int days = Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
