@@ -1207,7 +1207,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         String fairDate = getSpecificDateforTravelPlan(date);
-        WebElement fairDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div[@class='row 2Hy63yUH9iXIx771rmjucr']//div[@class='content 1SfpP2fklL5GVWMyfqjq4q']//button/span/span[text()='College Fair,']/parent::span/following-sibling::span[text()='"+fairDate+"']"));
+        WebElement fairDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']//div[@class='content _1SfpP2fklL5GVWMyfqjq4q']//button/span/span[text()='College Fair,']/parent::span/following-sibling::span[text()='"+fairDate+"']"));
         Assert.assertTrue("FairDetails is not displayed",fairDetails.isDisplayed());
         fairDetails.click();
         waitUntilPageFinishLoading();
