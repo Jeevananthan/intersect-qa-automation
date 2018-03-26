@@ -708,15 +708,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         emailTextBox().sendKeys(Email);
         emailTextBox().sendKeys(ValidEmail);
         saveButton().click();
-        waitForUITransition();
+        waitUntilPageFinishLoading();
         String ExactMessage=driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
         String SuccessMessage="Success! You've updated your notifications settings.";
         Assert.assertTrue("Success Message is not displayed", ExactMessage.equals(SuccessMessage));
     }
 
-    public void validateCheckboxInInstitutionNotificationPage(){
-        checkBoxInAccountSettingsNotification("purple HEadmin").click();
-        checkBoxInAccountSettingsNotification("purple HEadmin").click();
+    public void validateCheckboxInInstitutionNotificationPage(String checkboxValue){
+        checkBoxInAccountSettingsNotification(checkboxValue).click();
+        checkBoxInAccountSettingsNotification(checkboxValue).click();
     }
 
     public void verifyNotificationTabinNonAdmin(){
@@ -725,14 +725,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         userDropDown().click();
         accountSettings().click();
         waitUntilPageFinishLoading();
-        try{
-        Assert.assertFalse("Institution Notifications is displayed",!institutionNotification().isDisplayed());}
-        catch (Exception e){}
+        List<WebElement> list = driver.findElements(By.xpath("//span[text()='Institution Notifications']"));
+        Assert.assertTrue("'Institution Notifications' is displayed in Account settings page",list.size()==0);
    }
 
     public void verifyNavigationInNonAdminByURl(){
-        load("https://qa-he.intersect.hobsons.com/settings/institution-notifications");
-        Assert.assertTrue("Authorization message is not displayed",driver.findElement(By.xpath("//div/h1[text()='You are not authorized to view the content on this page']")).isDisplayed());
+        load(GetProperties.get("he.accountsettings.url"));
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Authorization message is not displayed in Account settings page",driver.findElement(By.xpath("//div/h1[text()='You are not authorized to view the content on this page']")).isDisplayed());
     }
 
     private WebElement upgradeButton(){

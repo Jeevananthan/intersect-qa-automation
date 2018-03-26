@@ -86,7 +86,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I validate the Email in the Institution Notification page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::validateEmailInInstitutionNotificationPage);
 
-        Then("^HE I validate the Checkbox in the Institution Notification page$",repVisits::validateCheckboxInInstitutionNotificationPage);
+        Then("^HE I validate the Checkbox in the Institution Notification page using \"([^\"]*)\"$",repVisits::validateCheckboxInInstitutionNotificationPage);
 
         Then("^HE I verify the Non-admins do not have the tab in navigation$",repVisits::verifyNotificationTabinNonAdmin);
 

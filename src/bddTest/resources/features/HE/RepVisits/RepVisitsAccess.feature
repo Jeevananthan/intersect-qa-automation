@@ -92,7 +92,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to the Institution Notification page
     Then HE I verify the Institution Notification page
-    Then HE I validate the Checkbox in the Institution Notification page
+    Then HE I validate the Checkbox in the Institution Notification page using "purple HEadmin"
     Then HE I validate the Email in the Institution Notification page using "purpleheautomation@gmail.com","purpleheautomation+admin@gmail.com",",purpleheautomation+admin@gmail.com"
     Then HE I successfully sign out
 
