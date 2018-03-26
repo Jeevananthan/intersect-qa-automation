@@ -52,14 +52,18 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
     |Accounting|
     Then SM I unselect the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type
     |Drawing|
+    And SM I verify that the Must Have box does not contain "Major [1]"
+    And SM I verify that the Must Have box does not contain "Minor [1]"
+    And SM I verify that Nice to Have box does not contain "Major [1]"
+    And SM I verify that Nice to Have box does not contain "Minor [1]"
     Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
     |Accounting|
     Then SM I select the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type
     |Drawing|
     And SM I verify that the Must Have box contains "Major [1]"
     And SM I verify that the Must Have box contains "Minor [1]"
-    And SM I verify that the Nice to Have box does not contain "Major [1]"
-    And SM I verify that the Nice to Have box does not contain "Minor [1]"
+    And SM I verify that Nice to Have box does not contain "Major [1]"
+    And SM I verify that Nice to Have box does not contain "Minor [1]"
     Then SM I select the "Associate's" radio button from the Academics fit criteria
     And SM I verify that the Must Have box does not contain "Major [1]"
     And SM I verify that the Must Have box does not contain "Minor [1]"

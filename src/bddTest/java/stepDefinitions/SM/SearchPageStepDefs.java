@@ -23,7 +23,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that the Nice to Have box contains \"([^\"]*)\"$", searchPage::verifyNiceToHaveBoxContains);
 
-        And("^SM I verify that the Nice to Have box does not contain \"([^\"]*)\"$", searchPage::verifyNiceToHaveBoxDoesNotContain);
+        And("^SM I verify that Nice to Have box does not contain \"([^\"]*)\"$", searchPage::verifyNiceToHaveBoxDoesNotContain);
 
         And("^SM I move \"([^\"]*)\" from the Must Have box to the Nice to Have box$", searchPage::moveToNiceToHave);
 
