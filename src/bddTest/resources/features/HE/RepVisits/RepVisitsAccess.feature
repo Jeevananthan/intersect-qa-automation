@@ -125,7 +125,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the text "Nothing scheduled yet" is present in the Travel plan page for "<school>"
     Then HE I verify the "View Availability" Button is present in the Travel plan page for "<school>"
     Then HE I verify the "View Availability" button for "<school>", navigate to the search and schedule page or not
-#Verify the label "This school isnt using RepVisits yet"
+#Verify the label "This school isnt using RepVisits yet" in Travel Plan
     When HE I add "Westlake H S" high school with location "Austin" to the Travel Plan
     Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "Westlake H S"
     Then HE I remove "Westlake H S" high school from the travel plan

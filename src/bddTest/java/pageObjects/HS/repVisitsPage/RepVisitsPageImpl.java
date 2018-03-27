@@ -533,9 +533,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         inputStartTime.sendKeys(Keys.TAB);
     }
 
-    public void visitsNumber(String numVisits)
-    {
+    public void visitsNumber(String numVisits) {
         WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='numVisits']"));
+        inputStartTime.clear();
         inputStartTime.sendKeys(numVisits);
     }
 
