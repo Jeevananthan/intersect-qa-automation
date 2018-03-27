@@ -170,5 +170,18 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the Search heading over the search bar after search the school in Search and Schedule Tab$",repVisits::verifytSearchHeadingInSearchAndScheduleTabAfterSchoolSearch);
 
+        Then("^HE I select calendar in RepVisits$",repVisits::selectCalendar);
+
+        Then("^HE I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCalendarPage);
+
+        Then("^HE I verify the popup for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCalendarPopup);
+
+        Then("^HE I verify the popup for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for freemium$",repVisits::verifyCalendarPopupforfreemium$);
+
+        Then("^HE I select Visits to schedule the appointment for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\" in freemium$",repVisits::visitsScheduleInFreemium);
+
+        Then("^HE I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
+
+
     }
 }

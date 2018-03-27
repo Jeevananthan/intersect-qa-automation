@@ -276,5 +276,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I Click the \"([^\"]*)\" button for the attendee named \"([^\"]*)\"$",repVisits::accessListoffairAttendees);
 
         Then("^HS I verify the list of registered college fair attendees for the \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyListofRegisteredAttendee);
+
+        Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
     }
 }

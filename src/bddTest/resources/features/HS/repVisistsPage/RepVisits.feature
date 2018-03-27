@@ -650,6 +650,61 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
      |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                     |Contact                                                    |Notes|Status   |Action|cancellationMessage             |buttonToClickNo,go back|buttonToClickYes, cancel visit|StatusCanceled  |ActionCanceled |
      |QA Fair Cancel Fair Attendee|3               |2               |0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|3                |                                     |The University of Alabama|PurpleHE Automation,QA,purpleheautomation@gmail.com        |     |Attending|yes   |QA Test for canceling Attendees |No, go back            |Yes, cancel visit             |Canceled        |               |
 
+  @MATCH-1762
+  Scenario Outline: As an HE Community member,
+  I need to be able to view appointment details in my calendar of my appointments
+  so that I can easily get address/contact/additional info on the scheduled visit.
 
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
+
+#premium
+    Given HE I want to login to the HE app using "purpleheautomation+HEadmin@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    And HE I select calendar in RepVisits
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I remove the appointment from the calendar
+    Then HE I successfully sign out
+
+#community
+    Given HE I want to login to the HE app using "purpleheautomation+community@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
+    Then HE I successfully sign out
+
+#freemium
+    Given HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>" in freemium
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>" for freemium
+    Then HE I successfully sign out
+
+#Remove the time slot in Regular Weekly Hours Tab
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
+
+    Examples:
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School              |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo|user      |eMail                        |
+      |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|hobsons.rrt+other16@gmail.com|
 
 

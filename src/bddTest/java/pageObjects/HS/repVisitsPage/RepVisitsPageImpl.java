@@ -326,15 +326,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void setVisitsConfirmations(String option){
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         WebElement element=link("Availability & Settings");
         waitUntilElementExists(element);
         link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
         link("Availability").click();
+        waitUntilPageFinishLoading();
         link("Availability Settings").click();
         waitUntilElementExists(saveChanges());
         WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
         options.findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
         button("Save Changes").click();
+        waitUntilPageFinishLoading();
     }
 
 
@@ -578,7 +582,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
         link("Availability").click();
+        waitUntilPageFinishLoading();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
         String EndDate=getSpecificDate(endDate);
@@ -2551,6 +2557,88 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void removeTimeSlotsInRegularWeeklyHoursTab(String date, String time) {
+        time = StartTime.toUpperCase();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        int Date = Integer.parseInt(date);
+        String Day = getSpecificDate(Date,"EEE").toUpperCase();
+        int columnID = getColumnIdFromTable( "//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']/thead",Day );
+        int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody", columnID, time);
+
+        if(columnID>= 0 && rowID>= 0) {
+            columnID = columnID + 1;
+            rowID = rowID + 1;
+            //Remove Time slot
+            WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+            jsClick(removeIcon);
+            waitUntilPageFinishLoading();
+            driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+            waitUntilPageFinishLoading();
+        }else{
+            Assert.fail("The Time Slot "+time+"is not displayed in the Regular weekly hours ");
+        }
+    }
+
+    //Function Name  : getColumnIdByUsingColumnName() for Regular Weekly Hours
+    public int  getColumnIdFromTable(String tableHeaderLocator, String fieldName)
+    {
+        int columnId=-1, colCount = 0;
+        String presentField=null;
+
+        WebElement webEleTableHeader=driver.findElement(By.xpath(tableHeaderLocator));
+        List<WebElement> webEleRows=webEleTableHeader.findElements(By.tagName("tr"));
+        logger.info("webEleRows ="+webEleRows.size());
+        List<WebElement> webEleColumns=webEleRows.get(0).findElements(By.tagName("th"));
+        colCount = webEleColumns.size();
+        logger.info("webEleColumns ="+webEleColumns.size());
+
+        if(colCount > 0)
+        {
+            for(int colNum=0;colNum<colCount;colNum++)
+            {
+                presentField = webEleColumns.get(colNum).getText().trim().replace("\"", "");
+
+                if(presentField.equals(fieldName))
+                {
+                    columnId = colNum;
+                    break;
+                }
+            }
+        }
+
+        return columnId;
+    }
+
+    //Function Name  : getRowIdByColumnId()  for Regular Weekly Hours
+    public int  getRowIdByColumn(String tableBodyLocator, int columnId, String dataToFind) {
+        int rowId=-1, rowCount = 0;
+
+        WebElement webEleTableBody=driver.findElement(By.xpath(tableBodyLocator));
+        List<WebElement> webEleRows=webEleTableBody.findElements(By.tagName("tr"));
+        rowCount = webEleRows.size();
+
+        if(rowCount > 0)
+        {
+            for(int rowNum=0;rowNum<rowCount;rowNum++)
+            {
+                List<WebElement> webEleColumns=webEleRows.get(rowNum).findElements(By.tagName("td"));
+                webEleColumns.size();
+                logger.info("Time Slot ="+webEleColumns.get(columnId).findElement(By.tagName("button")).getText());
+                if(webEleColumns.get(columnId).findElement(By.tagName("button")).getText().equals(dataToFind))
+                {
+                    rowId = rowNum;
+                    break;
+                }
+            }
+        }
+
+        return rowId;
+    }
+
     private WebElement getAddAttendeeSearchBox() {
         return driver.findElement(By.cssSelector("input[placeholder='Start Typing ...']"));
     }
@@ -2792,12 +2880,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement element = link("Availability & Settings");
         waitUntilElementExists(element);
         link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
         link("Availability").click();
+        waitUntilPageFinishLoading();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
         startOrEndDate().sendKeys(Keys.PAGE_DOWN);
         addTimeSlot().click();
-        availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        List<WebElement> slot= driver.findElements(By.cssSelector("button[class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
+        if(slot.size()>0){
+            availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        }
         availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
         waitUntilElementExists(selectDay());
@@ -2811,6 +2904,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
         addTimeSlotSubmit().click();
+        waitUntilPageFinishLoading();
     }
 
 
@@ -3229,5 +3323,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement eMailTextbox() {
         WebElement text=driver.findElement(By.id("user-form-email"));
         return  text;
+    }
+    private WebElement availabilityAndSettings() {
+        WebElement availabilityAndSettings = link("Availability & Settings");
+        return availabilityAndSettings;
     }
 }
