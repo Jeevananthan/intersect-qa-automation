@@ -5,8 +5,8 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I create a new college fair with the following details:
       | Name | AutoApprovals |
-      | Date | In 3 days   |
-      | Start time | 07:34 AM |
+      | Date | In 12 days   |
+      | Start time | 12:10 AM |
       | End time   | 09:30 AM |
       | RSVP deadline | In 2 day |
       | Cost          | 123        |
@@ -15,7 +15,7 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
       | Auto Approvals | Yes       |
     Then HS I create a new college fair with the following details:
       | Name | NoAutoApprovals |
-      | Date | In 3 days     |
+      | Date | In 12 days     |
       | Start time | 08:34 AM |
       | End time   | 09:30 AM |
       | RSVP deadline | In 2 day |
@@ -52,8 +52,8 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     And HE I open the fairs tab
     Then HE I register to the "AutoApprovals" fair from Search and Schedule screen
     Then HE I verify that the message for registered fairs with auto approval is displayed
-    Then HE I verify that the registered fair is displayed in the calendar for the date "November 14 7:34AM"
-    Then HE I verify that the registered fair is displayed for "Int Qa High School 4" in the Search and Schedule quickview in the date "November 14 7:34AM"
+    Then HE I verify that the registered fair "AutoApprovals" is displayed in the calendar for the date "In 12 days" and time "12:10AM"
+    Then HE I verify that the registered fair is displayed for "Int Qa High School 4" in the Search and Schedule quickview in the date "In 12 days" and time "12:10AM"
     And HE I successfully sign out
     When HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I cancel the fair of name "AutoApprovals" with the reason "test"

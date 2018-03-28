@@ -1063,6 +1063,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         dateCalendarIcon().click();
         String fairDay;
         String fairMonth;
+
         if(fairDetails.get(1).get(1).contains("In")&& fairDetails.get(1).get(1).contains("day")){
             int days = Integer.parseInt(fairDetails.get(1).get(1).replaceAll("[^0-9]",""));
             fairDay = getRelativeDate(days).split(" ")[0];
@@ -1104,8 +1105,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private String getRelativeDate(int addDays){
+        String day;
         Calendar relativeDate = getDeltaDate(addDays);
-        return getDay(relativeDate)+" "+getMonth(relativeDate)+" "+getYear(relativeDate);
+        day =getDay(relativeDate);
+        if(day.startsWith("0")){
+            day = day.replace("0","");
+        }
+        return day+" "+getMonth(relativeDate)+" "+getYear(relativeDate);
     }
 
     public void removeTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {

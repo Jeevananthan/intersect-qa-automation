@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
+import pageObjects.HE.homePage.HomePageImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
@@ -83,7 +84,8 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyUserRoles(DataTable table) {
-        navBar.goToUsers();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
         button("ADD NEW USER").click();
         List<String> li = table.transpose().asList(String.class);
         for (int i=1;i<li.size();i++){
@@ -93,7 +95,8 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUserData(DataTable data) {
-        navBar.goToUsers();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
         List<Map<String,String>> entities = data.asMaps(String.class,String.class);
         for (Map<String,String> entity : entities) {
             WebElement row = getDriver().findElement(By.xpath(String.format(".//div[text()='%s']/parent::td/parent::tr",
