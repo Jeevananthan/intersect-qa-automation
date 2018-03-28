@@ -31,13 +31,16 @@ public class AccountPagesStepDefs implements En {
 
         Then("^SP I verify the left navigation bar and section breadcrumbs are as follows$",navBar::verifyLeftNavAndBreadcrumbs);
 
-        And("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActiveWithDate);
-
         And("^SP I Click the Save Changes button",accountPage::clicksaveChangesButton);
 
+        Then ("^SP I verify the \"([^\"]*)\" should be \"([^\"]*)\" for \"([^\"]*)\"$",accountPage::verifyModuleDetails);
 
-        And("^SP I update Institutional Details with Connect Id as \"([^\"]*)\" and Radius Id as \"([^\"]*)\"$",accountPage::updateInstitutionalDetailsWithConnectAndRadiusId);
+        Then("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" with the start date \"([^\"]*)\" and end date \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActiveWithDate);
 
-        Then("^SP I verify the updated details are displaying in the account page$",accountPage::verifyInstitutionalDetails);
+        Then("^SP I verify the status \"([^\"]*)\" with the start date \"([^\"]*)\" and end date \"([^\"]*)\" for the module \"([^\"]*)\"$",accountPage::verifyModuleDetails);
+
+        And("^SP I set the \"([^\"]*)\" module to \"([^\"]*)\" in the institution page$",accountPage::setModuleStatusAsActiveOrInActive);
+
+        Then("^SP I add the user account \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and set the user to be a new primary user \"([^\"]*)\"$", accountPage::addUserAccount);
     }
 }

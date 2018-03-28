@@ -18,6 +18,10 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.elementToBeClickable(studiesTab()));
         studiesTab().click();
     }
+    public void clickCostsTab() {
+        waitUntil(ExpectedConditions.elementToBeClickable(costsTab()));
+        costsTab().click();
+    }
 
     public void clickStudentLifeTab() {
         waitUntil(ExpectedConditions.elementToBeClickable(studentLifeTab()));
@@ -34,11 +38,6 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
         internationalTab().click();
     }
 
-    public void clickCostsTab() {
-        waitUntil(ExpectedConditions.elementToBeClickable(internationalTab()));
-        costsTab().click();
-    }
-
     //Locators
 
     private WebElement studiesTab() {
@@ -51,5 +50,5 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
 
     private WebElement internationalTab() { return getDriver().findElement(By.xpath("//span[contains(text(), 'International')]")); }
 
-    private WebElement costsTab() { return getDriver().findElement(By.cssSelector("//span[contains(text(), 'Costs')]")); }
+    private WebElement costsTab() { return getDriver().findElement(By.xpath("//span[contains(text(), 'Costs')]")); }
 }
