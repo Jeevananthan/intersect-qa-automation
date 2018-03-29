@@ -51,6 +51,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         WebElement additionalLink = link(additionalInfo);
         waitUntil(ExpectedConditions.visibilityOf(additionalLink));
         additionalLink.click();
+        waitForUITransition();
         waitUntilPageFinishLoading();
         Assert.assertTrue("College is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+college+"']")).isDisplayed());
         String currentURL = additionalInfoURL+SCID+info;
@@ -77,7 +78,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
         waitUntilPageFinishLoading();
         waitForUITransition();
-        //  getDriver().switchTo().defaultContent();
         driver.switchTo().defaultContent();
     }
 
