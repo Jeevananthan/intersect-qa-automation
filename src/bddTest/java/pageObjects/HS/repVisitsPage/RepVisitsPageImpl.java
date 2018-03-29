@@ -2149,6 +2149,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//label[text()='All RepVisits Users']")).click();
         button("Next").click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
         Assert.assertTrue("Take me to my visits button is not displayed",button("Take me to my visits").isDisplayed());
         button("Take me to my visits").click();
         waitUntilPageFinishLoading();
