@@ -152,9 +152,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         jsClick(driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")));
         driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("Cancel This Visit is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This Fair']")).isDisplayed());
-        driver.findElement(By.xpath("//button/span[text()='Cancel This Fair']")).click();
-        waitForUITransition();
+        button("Cancel This Fair").click();
+        waitUntilPageFinishLoading();
         driver.findElement(By.id("cancel-message")).click();
+        waitUntilPageFinishLoading();
         driver.findElement(By.id("cancel-message")).sendKeys(Keys.PAGE_DOWN);
         driver.findElement(By.id("cancel-message")).sendKeys("by QA");
         button("Yes, Cancel Fair").click();
