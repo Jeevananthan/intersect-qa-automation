@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -152,6 +153,8 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyChangesPublishedInHUBS(String username, String password, String college, DataTable stringsDataTable) {
+        driver.close();
+        load(GetProperties.get("hubs.app.url"));
         List<List<String>> sections = stringsDataTable.asLists(String.class);
         List<String> creds = new ArrayList<String>() {{
             add(username);
