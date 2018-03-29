@@ -86,6 +86,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     public void verifyUserRoles(DataTable table) {
         AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
         accountSettings.accessUsersPage("Account Settings","Users");
+        waitUntil(ExpectedConditions.visibilityOf(button("ADD NEW USER")));
         button("ADD NEW USER").click();
         List<String> li = table.transpose().asList(String.class);
         for (int i=1;i<li.size();i++){
@@ -134,7 +135,8 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
 
     //The below method is to validate the Last Login Date for Administrator (MATCH-192)
     public void verifyLastLoginData(String usertype) {
-        navBar.goToUsers();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
         String username = GetProperties.get("he." + usertype + ".username");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
         LocalDate localDate = LocalDate.now();
