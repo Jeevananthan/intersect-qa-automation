@@ -44,40 +44,38 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         assertTrue("The visits section is displayed for HE users, which should not happen", visitsSection().size() == 0);
     }
 
-    public HashMap<String, String> getValuesFromFields(List<List<String>> fieldList) {
+    public HashMap<String, String> getValuesFromFields(List<String> fieldList) {
         waitUntilPageFinishLoading();
         HashMap<String, String> fieldValues = new HashMap<String, String>();
-        for (List<String> field : fieldList) {
-            switch (field.get(0)) {
-                //not working because of MATCH-3930
-                /*case "Opening Statement" :
-                    fieldValues.put(field.get(0), openingStatement().getText());
-                    break;*/
+        for (String field : fieldList) {
+            switch (field) {
+                case "Opening Statement" :
+                    fieldValues.put(field, openingStatement().getText());
+                    break;
                 case "Website" :
-                    fieldValues.put(field.get(0), websiteText().getText());
+                    fieldValues.put(field, websiteText().getText());
                     break;
                 case "School Type" :
-                    fieldValues.put(field.get(0), getSchoolTypeForEdit(getQuickFact(field.get(0)).getText()));
+                    fieldValues.put(field, getSchoolTypeForEdit(getQuickFact(field).getText()));
                     break;
                 case "Undergraduate Enrollment" :
-                    fieldValues.put(field.get(0), getQuickFact(field.get(0)).getText().replace(",", ""));
+                    fieldValues.put(field, getQuickFact(field).getText());
                     break;
                 case "Student / Faculty Ratio" :
-                    fieldValues.put(field.get(0), getQuickFact(field.get(0)).getText());
+                    fieldValues.put(field, getQuickFact(field).getText());
                     break;
                 case "Campus Surroundings" :
-                    fieldValues.put(field.get(0), getQuickFact(field.get(0)).getText());
+                    fieldValues.put(field, getQuickFact(field).getText());
                     break;
                 case "Test Scores" :
                     getTestScoresTableButton("SAT").click();
-                    waitForUITransition();
-                    fieldValues.put(field.get(0), getTestScoresTableValue("SAT 2400 Reading", "Low").getText());
+                    fieldValues.put(field, getTestScoresTableValue("SAT 2400 Reading", "Low").getText());
                     break;
                 case "Average GPA" :
-                    fieldValues.put(field.get(0), avgGPAText().getText());
+                    fieldValues.put(field, avgGPAText().getText());
                     break;
                 case "Contact Information" :
-                    fieldValues.put(field.get(0), contactInfoSection().getText());
+                    fieldValues.put(field, contactInfoSection().getText());
                     break;
             }
         }
@@ -129,7 +127,7 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
                             getDriver().findElement(By.cssSelector("div.hub-links-bar__links a:nth-of-type(1)")).sendKeys(Keys.ARROW_DOWN);
                         }
                     }
-                    assertTrue("The value for " + key + " was not successfully generated. UI value: " + getTestScoresTableValue("SAT 2400 Reading", "Low").getText(),
+                    assertTrue("The value for " + key + " was not successfully generated",
                             generatedValues.get(key).equals(getTestScoresTableValue("SAT 2400 Reading", "Low").getText()));
                     break;
                 case "Average GPA" :
@@ -204,11 +202,11 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         String label = "";
         switch (identifier) {
             case "ACT" : label = "ACT Combined";
-            break;
+                break;
             case "SAT" : label = "SAT 2400 Combined";
-            break;
+                break;
             case "GPA" : label = "GPA Cumulative";
-            break;
+                break;
         }
         return getDriver().findElement(By.xpath("//span[text()='" + label + "']"));
     }
@@ -225,11 +223,11 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         String position = "";
         switch (level) {
             case "Low" : position = "2";
-            break;
+                break;
             case "Average" : position = "3";
-            break;
+                break;
             case "High" : position = "4";
-            break;
+                break;
         }
         return getDriver().findElement(By.xpath("//span[text()='" + section + "']/../../div[" + position + "]"));
     }
@@ -237,13 +235,21 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         String result = "";
         switch (previewLabel) {
             case "Private / 4 Year" : result = "Four Year School";
-            break;
+                break;
+            case "Public / 4 Year" : result = "Four Year School";
+                break;
             case "Private / 2 Year" : result = "Two Year School";
-            break;
+                break;
+            case "Public / 2 Year" : result = "Two Year School";
+                break;
             case "Private / <2 Year" : result = "Less than 2 Year School";
-            break;
+                break;
+            case "Public / <2 Year" : result = "Less than 2 Year School";
+                break;
+            case "Private / Corporate" : result = "Corporation";
+                break;
             case "Public / Corporate" : result = "Corporation";
-            break;
+                break;
         }
         return result;
     }
@@ -254,21 +260,21 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         String result = "";
         switch (hubsValue) {
             case "Large City" : result = "Large City, greater than 250,000 pop";
-            break;
+                break;
             case "Midsize City" : result = "Midsize City, greater than 100,000 pop";
-            break;
+                break;
             case "Small City" : result = "Small City, less than 100,000 pop";
-            break;
+                break;
             case "Suburb near large city" : result = "Suburb, near city w/ greater than 250,000 pop";
-            break;
+                break;
             case "Suburb near midsize city" : result = "Suburb, near city w/ greater than 100,000 pop";
-            break;
+                break;
             case "Suburb near small city" : result = "Suburb, near city w/ less than 100,000 pop";
-            break;
+                break;
             case "Town" : result = "Town, within 10 miles of urban area";
-            break;
+                break;
             case "Rural" : result = "Rural, within 5 miles of urban area";
-            break;
+                break;
         }
         return result;
     }

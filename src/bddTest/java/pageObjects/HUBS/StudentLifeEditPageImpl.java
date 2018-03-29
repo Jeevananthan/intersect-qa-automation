@@ -92,24 +92,27 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                             studentLifePreview.getGreekLifeSectionValue(fieldAndValueElement.get(1)).getText().equals(fieldAndValueElement.get(2)));
                     break;
                 case "Services" :
+                    servicesButton().click();
+                    studentLifePreview.servicesTab().click();
                     List<String> basicServicesTextList = new ArrayList<>();
                     for (WebElement serviceElement : studentLifePreview.basicServicesList()) {
                         basicServicesTextList.add(serviceElement.getText());
                     }
-                    servicesButton().click();
-                    studentLifePreview.servicesTab().click();
-                    if (fieldAndValueElement.get(2).equals("yes")) {
-                        if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-empty")) {
-                            innerCheckBox(fieldAndValueElement.get(1)).click();
-                            assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
-                                    basicServicesTextList.contains(fieldAndValueElement.get(1)));
+                    innerCheckBox(fieldAndValueElement.get(1)).click();
+                    if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-empty")) {
+                        basicServicesTextList.clear();
+                        for (WebElement serviceElement : studentLifePreview.basicServicesList()) {
+                            basicServicesTextList.add(serviceElement.getText());
                         }
-                    } else if (fieldAndValueElement.get(2).equals("no")) {
-                        if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-not-empty")) {
-                            innerCheckBox(fieldAndValueElement.get(1)).click();
-                            assertFalse(fieldAndValueElement.get(0) + " is not successfully edited in real time",
-                                    basicServicesTextList.contains(fieldAndValueElement.get(1)));
+                        assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
+                                !basicServicesTextList.contains(fieldAndValueElement.get(1)));
+                    } else if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-not-empty")) {
+                        basicServicesTextList.clear();
+                        for (WebElement serviceElement : studentLifePreview.basicServicesList()) {
+                            basicServicesTextList.add(serviceElement.getText());
                         }
+                        assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
+                                basicServicesTextList.contains(fieldAndValueElement.get(1)));
                     }
                     break;
                 case "Computing Resources" :
@@ -120,10 +123,9 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     String typeOfComputerPart = fieldAndValueElement.get(0).split("in")[0];
                     String locationPart = fieldAndValueElement.get(0).split("in")[1];
 
-
                     if (typeOfComputerPart.contains("PCs")) {
                         assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
-                            studentLifePreview.getComputerResourcesValue(locationPart.trim(), "pc").getText().equals(fieldAndValueElement.get(2)));
+                                studentLifePreview.getComputerResourcesValue(locationPart.trim(), "pc").getText().equals(fieldAndValueElement.get(2)));
                     } else if (typeOfComputerPart.contains("Macs")) {
                         assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                                 studentLifePreview.getComputerResourcesValue(locationPart.trim(), "mac").getText().equals(fieldAndValueElement.get(2)));
@@ -156,11 +158,11 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     studentLifePreview.athleticsInnerSection(fieldAndValueElement.get(1)).click();
                     athleticsButton().click();
                     athleticsInnerEditSection(fieldAndValueElement.get(2).split(";")[0]).click();
-                    getAthleticsDropDown(fieldAndValueElement.get(1), fieldAndValueElement.get(2).split(";")[1]).
-                            selectByVisibleText(fieldAndValueElement.get(2).split(";")[2]);
+                    Select dropdown = new Select(getAthleticsDropDown(fieldAndValueElement.get(1), fieldAndValueElement.get(2).split(";")[1]));
+                    dropdown.selectByVisibleText(fieldAndValueElement.get(2).split(";")[2]);
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                             studentLifePreview.athleticsTableValue(fieldAndValueElement.get(2).split(";")[0],
-                            fieldAndValueElement.get(2).split(";")[1]).getText().equals(fieldAndValueElement.get(2).split(";")[2]));
+                                    fieldAndValueElement.get(2).split(";")[1]).getText().equals(fieldAndValueElement.get(2).split(";")[2]));
 
             }
         }
@@ -172,8 +174,8 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                 case "School Size" :
                     schoolSizeButton().click();
                     int totalStudents = Integer.parseInt(generatedValues.get(key));
-                    int individualValue = totalStudents/4;
-                    int diffValue = totalStudents - (individualValue*4);
+                    int individualValue = totalStudents/3;
+                    int diffValue = totalStudents - (individualValue*3);
                     innerEditSection("Undergraduate Women").clear();
                     innerEditSection("Undergraduate Women").sendKeys(Integer.toString(individualValue));
                     innerEditSection("Undergraduate Men").clear();
@@ -221,6 +223,29 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                         }
                     }
                     break;
+                case "Computing Resources" :
+                    computingResourcesButton().click();
+                    innerEditSection(details.get(8).get(1)).clear();
+                    innerEditSection(details.get(8).get(1)).sendKeys(generatedValues.get(key));
+                    break;
+                case "Organizations" :
+                    organizationsButton().click();
+                    if (generatedValues.get(key).equals("yes")) {
+                        if (innerCheckBox(details.get(9).get(1)).getAttribute("class").contains("ng-empty")) {
+                            innerCheckBox(details.get(9).get(1)).click();
+                        }
+                    } else if (generatedValues.get(key).equals("no")) {
+                        if (innerCheckBox(details.get(9).get(1)).getAttribute("class").contains("ng-not-empty")) {
+                            innerCheckBox(details.get(9).get(1)).click();
+                        }
+                    }
+                    break;
+                case "Athletics" :
+                    athleticsButton().click();
+                    athleticsInnerEditSection(details.get(10).get(1).split(";")[1]).click();
+                    Select athleticsDropDown = new Select(getAthleticsDropDown(details.get(10).get(1).split(";")[0], details.get(10).get(1).split(";")[2]));
+                    athleticsDropDown.selectByVisibleText(details.get(10).get(1).split(";")[2] + " " + generatedValues.get(key));
+                    break;
             }
         }
     }
@@ -248,8 +273,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     generatedValues.put(key, String.valueOf(Integer.parseInt(cleanedEthnicityData) + 1));
                     break;
                 case "Gender Data" :
-                    String cleanedGenderData = fieldValues.get(key).replace("%", "").trim();
-                    generatedValues.put(key, String.valueOf(Integer.parseInt(cleanedGenderData) + 1));
+                    generatedValues.put(key, "50");
                     break;
                 case "Age Data" :
                     String cleanedAgeData = fieldValues.get(key).replace("%", "").trim();
@@ -307,6 +331,26 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         logger.info("All changes were submitted");
     }
 
+    public void verifyErrorMessageWithInvalidData(DataTable stringsDataTable) {
+        List<List<String>> fieldsDetails = stringsDataTable.cells(0);
+        for (List<String> fieldElement : fieldsDetails) {
+            switch (fieldElement.get(0)) {
+                case "Computing Resources" :
+                    computingResourcesButton().click();
+                    innerEditSection(fieldElement.get(1)).clear();
+                    innerEditSection(fieldElement.get(1)).sendKeys(fieldElement.get(2));
+                    assertTrue("Error message is not displayed", errorMsg().isDisplayed());
+                    break;
+                case "Age Data" :
+                    ageDataButton().click();
+                    innerEditSection(fieldElement.get(1)).clear();
+                    innerEditSection(fieldElement.get(1)).sendKeys(fieldElement.get(2));
+                    assertTrue("Error message is not displayed", errorMsg().isDisplayed());
+                    break;
+            }
+        }
+    }
+
     //Locators
     private WebElement schoolSizeButton() {
         return getDriver().findElement(By.xpath("//h3[text()='School Size']"));
@@ -350,35 +394,36 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
     private WebElement athleticsInnerEditSection(String label) {
         return getDriver().findElement(By.xpath("//strong[text()='" + label + "']"));
     }
-    private Select getAthleticsDropDown(String section, String dropDownLabel) {
-        Select dropDown = null;
+    private WebElement getAthleticsDropDown(String section, String dropDownLabel) {
+        WebElement dropDown = null;
         if (section.equals("Men")) {
             switch (dropDownLabel) {
-                case "Association" : dropDown = new Select(getDriver().findElement(By.cssSelector("select[ng-model=\"vm.mensAssocField.value\"]")));
-                break;
-                case "Division" : dropDown = new Select(getDriver().findElement(By.cssSelector("select[ng-model=\"vm.mensDivField.value\"]")));
-                break;
-                case "Conference" : dropDown = new Select(getDriver().findElement(By.cssSelector("select[ng-model=\"vm.mensConfField.value\"]")));
+                case "Association" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.mensAssocField.value\"]"));
+                    break;
+                case "Division" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.mensDivField.value\"]"));
+                    break;
+                case "Conference" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.mensConfField.value\"]"));
             }
         } else if (section.equals("Women")) {
             switch (dropDownLabel) {
-                case "Association" : dropDown = new Select(getDriver().findElement(By.cssSelector("select[ng-model=\"vm.womensAssocField.value\"]")));
-                break;
-                case "Division" : dropDown = new Select(getDriver().findElement(By.cssSelector("select[ng-model=\"vm.womensDivField.value\"]")));
-                break;
-                case "Conference" : dropDown = new Select(getDriver().findElement(By.cssSelector("ng-model=\"vm.womensConfField.value\"")));
-                break;
+                case "Association" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.womensAssocField.value\"]"));
+                    break;
+                case "Division" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.womensDivField.value\"]"));
+                    break;
+                case "Conference" : dropDown = getDriver().findElement(By.cssSelector("ng-model=\"vm.womensConfField.value\""));
+                    break;
             }
         } else if (section.equals("Co-Ed")) {
             switch (dropDownLabel) {
-                case "Association" : dropDown = new Select(getDriver().findElement(By.cssSelector("select[ng-model=\"vm.coedAssocField.value\"]")));
+                case "Association" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.coedAssocField.value\"]"));
                     break;
-                case "Division" : dropDown = new Select(getDriver().findElement(By.cssSelector("select[ng-model=\"vm.coedDivField.value\"]")));
+                case "Division" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.coedDivField.value\"]"));
                     break;
-                case "Conference" : dropDown = new Select(getDriver().findElement(By.cssSelector("select[ng-model=\"vm.coedConfField.value\"]")));
+                case "Conference" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.coedConfField.value\"]"));
                     break;
             }
         }
         return dropDown;
     }
+    private WebElement errorMsg() { return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span")); }
 }

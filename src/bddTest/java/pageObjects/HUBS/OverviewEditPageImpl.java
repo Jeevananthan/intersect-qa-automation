@@ -9,12 +9,10 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class OverviewEditPageImpl extends PageObjectFacadeImpl {
@@ -90,12 +88,13 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     overviewPreview.getTestScoresTableButton(fieldAndValueElement.get(1).split(";")[0].split(" ")[0]).click();
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                             overviewPreview.getTestScoresTableValue("SAT 2400 Reading", fieldAndValueElement.get(1).split(";")[1])
-                            .getText().equals(fieldAndValueElement.get(1).split(";")[2]));
+                                    .getText().equals(fieldAndValueElement.get(1).split(";")[2]));
                     break;
                 case "Average GPA" :
                     avgGPAButton().click();
                     avgGPATextArea().clear();
                     avgGPATextArea().sendKeys(fieldAndValueElement.get(1));
+
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                             overviewPreview.avgGPAText().getText().equals(fieldAndValueElement.get(1)));
                     break;
@@ -193,7 +192,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     generatedValues.put(key, getNextSchoolTypeDropDown(fieldValues.get(key)));
                     break;
                 case "Undergraduate Enrollment" :
-                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key).replace(",", "")) + 1));
                     break;
                 case "Student / Faculty Ratio" :
                     int finalValue = Integer.parseInt(fieldValues.get(key).split(" ")[0]);
@@ -221,7 +220,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         return generatedValues;
     }
 
-//    private void enterPublishReasonsText(String publishReason) {
+    //    private void enterPublishReasonsText(String publishReason) {
 //        publishReasonsTextArea().sendKeys(publishReason);
 //    }
 //
@@ -281,7 +280,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//h3[text()='Contact Information']"));
     }
     private WebElement websiteTextArea() {
-        return getDriver().findElement(By.cssSelector("input[name='inputField']"));
+        return getDriver().findElement(By.cssSelector("input[id*='-field_url']"));
     }
     private WebElement getSchoolTypeDropDown(String label) {
         return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../select"));
@@ -303,13 +302,13 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         switch (section) {
             case "Application Mailing Address" :
                 if (inputLabel.equals("Country")) {
-                    result = getDriver().findElement(By.xpath("//ng-transclude/fieldset/address-field/select-field[@name='Country']/div/select"));
+                    result = getDriver().findElement(By.xpath("select[id*='-field_country_ref'].fc-select.fc-select--full-bleed.hem-select-field.ng-pristine.ng-valid.ng-empty.ng-touched"));
                 } else if (inputLabel.equals("State")) {
                     result = getDriver().findElement(By.xpath("//legend[text()='Application Mailing Address']/../address-field/typeahead-field[1]/div/div/input"));
                 } else {
                     result = getDriver().findElement(By.xpath("//legend[text()='Application Mailing Address']/../address-field/text-field[@name='" + inputLabel + "']/div/ng-form/input"));
                 }
-            break;
+                break;
         }
         return result;
     }
@@ -320,11 +319,11 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         String result = "";
         switch (dropDownValue) {
             case "Four Year School" : result = "Two Year School";
-            break;
+                break;
             case "Two Year School" : result = "Less than 2 Year School";
-            break;
+                break;
             case  "Less than 2 Year School" : result = "Corporation";
-            break;
+                break;
             case "Corporation" : result = "Four Year School";
         }
         return result;
@@ -333,21 +332,21 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         String result = "";
         switch (currentCampusSurroundings) {
             case "Large City" : result = "Midsize City, greater than 100,000 pop";
-            break;
+                break;
             case "Midsize City" : result = "Small City, less than 100,000 pop";
-            break;
+                break;
             case "Small City" : result = "Suburb, near city w/ greater than 250,000 pop";
-            break;
+                break;
             case "Suburb near large city" : result = "Suburb, near city w/ greater than 100,000 pop";
-            break;
+                break;
             case "Suburb near midsize city" : result = "Suburb, near city w/ less than 100,000 pop";
-            break;
+                break;
             case "Suburb near small city" : result = "Town, within 10 miles of urban area";
-            break;
+                break;
             case "Town" : result = "Rural, within 5 miles of urban area";
-            break;
+                break;
             case "Rural" : result = "Large City, greater than 250,000 pop";
-            break;
+                break;
         }
         return result;
     }
