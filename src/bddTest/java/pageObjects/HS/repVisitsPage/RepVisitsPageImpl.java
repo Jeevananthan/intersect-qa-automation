@@ -1075,13 +1075,34 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(dateCalendarIcon()));
         dateCalendarIcon().click();
-        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", fairDetails.get(1).get(1).split(" ")[0], 10);
-        repVisitsPageHEObj.miniCalendarDayCell(fairDetails.get(1).get(1).split(" ")[1]).click();
+        String fairDay;
+        String fairMonth;
+
+        if(fairDetails.get(1).get(1).contains("In")&& fairDetails.get(1).get(1).contains("day")){
+            int days = Integer.parseInt(fairDetails.get(1).get(1).replaceAll("[^0-9]",""));
+            fairDay = getRelativeDate(days).split(" ")[0];
+            fairMonth = getRelativeDate(days).split(" ")[1];
+        } else{
+            fairDay = fairDetails.get(1).get(1).split(" ")[1];
+            fairMonth = fairDetails.get(1).get(1).split(" ")[0];
+        }
+        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", fairMonth, 10);
+        repVisitsPageHEObj.miniCalendarDayCell(fairDay).click();
         startTimeTextBox().sendKeys(fairDetails.get(2).get(1).replace(" ", ""));
         endTimeTextBox().sendKeys(fairDetails.get(3).get(1).replace(" ", ""));
         rsvpCalendarIcon().click();
-        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", fairDetails.get(4).get(1).split(" ")[0], 10);
-        repVisitsPageHEObj.miniCalendarDayCell(fairDetails.get(4).get(1).split(" ")[1]).click();
+        String rsvpDay;
+        String rsvpMonth;
+        if(fairDetails.get(4).get(1).contains("In")&& fairDetails.get(4).get(1).contains("day")){
+            int days = Integer.parseInt(fairDetails.get(4).get(1).replaceAll("[^0-9]",""));
+            rsvpDay = getRelativeDate(days).split(" ")[0];
+            rsvpMonth = getRelativeDate(days).split(" ")[1];
+        } else{
+            rsvpDay = fairDetails.get(4).get(1).split(" ")[1];
+            rsvpMonth = fairDetails.get(4).get(1).split(" ")[0];
+        }
+        repVisitsPageHEObj.pressMiniCalendarArrowUntil("right", rsvpMonth, 10);
+        repVisitsPageHEObj.miniCalendarDayCell(rsvpDay).click();
         costTextBox().sendKeys(fairDetails.get(5).get(1));
         maxNumOfColleges().sendKeys(fairDetails.get(6).get(1));
         numOfStudents().sendKeys(fairDetails.get(7).get(1));
@@ -1095,6 +1116,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.elementToBeClickable(closeButton()));
         closeButton().click();
         waitUntilPageFinishLoading();
+    }
+
+    private String getRelativeDate(int addDays){
+        String day;
+        Calendar relativeDate = getDeltaDate(addDays);
+        day =getDay(relativeDate);
+        if(day.startsWith("0")){
+            day = day.replace("0","");
+        }
+        return day+" "+getMonth(relativeDate)+" "+getYear(relativeDate);
     }
 
     public void removeTimeSlotAdded(String hourStartTime, String minuteStartTime, String meridianStartTime) {

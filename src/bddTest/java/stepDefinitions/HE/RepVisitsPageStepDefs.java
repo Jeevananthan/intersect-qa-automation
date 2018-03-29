@@ -50,9 +50,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify that the message for registered fairs with auto approval is displayed$", repVisits::verifySuccessMessageWithAutoApprovals);
 
-        Then("^HE I verify that the registered fair is displayed in the calendar for the date \"([^\"]*)\"$", repVisits::verifyFairInCalendar);
+        Then("^HE I verify that the registered fair \"([^\"]*)\" is displayed in the calendar for the date \"([^\"]*)\" and time \"([^\"]*)\"$", repVisits::verifyFairInCalendar);
 
-        Then("^HE I verify that the registered fair is displayed for \"([^\"]*)\" in the Search and Schedule quickview in the date \"([^\"]*)\"$", repVisits::verifyFairInQuickView);
+        Then("^HE I verify that the registered fair is displayed for \"([^\"]*)\" in the Search and Schedule quickview in the date \"([^\"]*)\" and time \"([^\"]*)\"$", repVisits::verifyFairInQuickView);
 
         Then("^HE I verify that the message for registered fairs without auto approval is displayed$", repVisits::verifySuccessMessageWithoutAutoApprovals);
 

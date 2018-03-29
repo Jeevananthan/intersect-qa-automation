@@ -33,6 +33,9 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
       | Legacy: Community                 | inactive |
       | Intersect Awareness Subscription  | inactive |
       | Intersect Presence Subscription   | inactive |
+      | Legacy: ActiveMatch Events        | inactive |
+      | ActiveMatch Plus                  | inactive |
+
     And SP I successfully sign out
     Given HE I want to login to the HE app using "daniel.kirtman@hobsons.com" as username and "internHOBS25%" as password
     Then HE I verify there is no global search options available
@@ -43,6 +46,8 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
       | Legacy: Community                 | active |
       | Intersect Awareness Subscription  | active |
       | Intersect Presence Subscription   | active |
+      | Legacy: ActiveMatch Events        | active |
+      | ActiveMatch Plus                  | active |
     And SP I successfully sign out
 
   @MATCH-1063 @MATCH-1064 @MATCH-1065 @MATCH-1066 @MATCH-1067 @MATCH-1073 @MATCH-1074 @MATCH-1075

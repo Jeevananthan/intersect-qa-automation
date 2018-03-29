@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.COMMON.HelpImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -128,7 +129,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessHelpPage() {
-        link(By.id("js-main-nav-help-menu-link")).click();
+        //link(By.id("js-main-nav-help-menu-link")).click();
+        HelpImpl help = new HelpImpl();
+        help.selectHelpOption("Help Center");
         String heWindow = driver.getWindowHandle();
         Set<String> windows = driver.getWindowHandles();
         for (String window : windows) {
