@@ -36,6 +36,7 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
 
     public void approveChangesInCMS(String userMail, DataTable CMSDetails) {
         List<String> details = CMSDetails.asList(String.class);
+        waitForUITransition();
         cmsLogin.defaultLogIn(details);
         workflowOverviewButton().click();
         userEmailTextBox().sendKeys(userMail);
@@ -48,6 +49,7 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         userEmailTextBox().clear();
         for (int i = 0; i < numberOfRows; i++) {
             userEmailTextBox().sendKeys(userMail);
+            submitButton().click();
             waitUntilPageFinishLoading();
             WebElement workFlowRow = getDriver().findElements(By.cssSelector("table.sticky-enabled.tableheader-processed.sticky-table tbody tr")).get(workflowRows().size() - 1);
             WebElement institutionCell = workFlowRow.findElement(By.cssSelector("tr td:nth-of-type(2) a"));
@@ -92,8 +94,12 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         navigation.closeNewTabAndSwitchToOriginal(originalWindowHandle);
     }
-    //Locators
 
+    public void clickLogout() {
+        logOutButton().click();
+    }
+
+    //Locators
     private WebElement moderateButton() {
         return button("Moderate");
     }
@@ -112,4 +118,5 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement confirmationMessage() { return getDriver().findElement(By.cssSelector("div.messages.status")); }
     private WebElement userEmailTextBox() { return getDriver().findElement(By.cssSelector("input#edit-apiuseremail")); }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("input#edit-submit")); }
+    private WebElement logOutButton() { return driver.findElement(By.xpath("//a[text()='Log out']")); }
 }
