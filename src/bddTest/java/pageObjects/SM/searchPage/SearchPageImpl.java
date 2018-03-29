@@ -344,7 +344,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyMustHaveBoxDoesNotContain(String item) {
         try {
-            Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.",!getMustHaveBox().getText().contains(item.toUpperCase()));
             Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.",!getMustHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
             logger.info("Could not find the 'Must Have' box, so the item we don't want to see there clearly isn't there.");
