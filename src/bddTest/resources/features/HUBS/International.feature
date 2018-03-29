@@ -3,7 +3,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
   understand what Hubs offers students.
 
   Background:
-    Given HE I want to login to the HE app using "testhobsons678@mailinator.com" as username and "Hobsons!23" as password
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "International" tab in the preview
   @HUBS-946
@@ -30,7 +30,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Fees | Application Fee     |
       | Test Requirements | SAT |
       | Applications | Received |
-      | Test Scores  | TOEFL (Computer);Low |
+      | Test Scores  | TOEFL (Paper);Low |
       | Qualifications | Ability to Finance |
       | Accepted English Tests | TOEFL      |
     And HUBS I edit all the fields in International based on the gathered values, with the following details:
@@ -38,19 +38,20 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Fees | Application Fee     |
       | Test Requirements | SAT |
       | Applications | Received |
-      | Test Scores  | TOEFL (Computer);Low |
+      | Test Scores  | TOEFL (Paper);Low |
       | Qualifications | Ability to Finance |
       | Accepted English Tests | TOEFL      |
       | Publishing reason      | test       |
     And HE I successfully sign out
-    And HUBS I approve the changes in CMS with the user email "testhobsons678@mailinator.com" and the following details:
-      | admin | hbcmsxx | University of Montevallo | Published |
-    Then Then HUBS I should be able to verify the changes for International published in HUBS, with username "samstudent", password "Hobsons!23" and college "University of Montevallo", in the following sections
+    And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
+      | admin | hbcmsxx | The University of Alabama | Published |
+    And HUBS I successfully sign out from CMS
+    Then Then HUBS I should be able to verify the changes for International published in HUBS, with username "samstudent", password "Hobsons!23" and college "The University of Alabama", in the following sections
       | Application Deadline | Day |
       | Fees | Application Fee     |
       | Test Requirements | SAT |
       | Applications | Received |
-      | Test Scores  | TOEFL (Computer);Low |
+      | Test Scores  | TOEFL (Paper);Low |
       | Qualifications | Ability to Finance |
       | Accepted English Tests | TOEFL      |
     And HUBS I successfully sign out

@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class InternationalPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyAllElementsDisplayed() {
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div[ng-if=\"vm.deadlines.length > 0\"]"), 1));
+        waitForUITransition();
         assertTrue("Text message for international is not displayed", internationalMessage().isDisplayed());
         assertTrue("Application Deadline section is not displayed", internationalApplicationDeadlineSection().isDisplayed());
         assertTrue("Fees section is not displayed", feesSection().isDisplayed());
@@ -140,6 +141,8 @@ public class InternationalPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyChangesPublishedInHUBS(String username, String password, String college, DataTable stringsDataTable) {
+        driver.close();
+        load(GetProperties.get("hubs.app.url"));
         List<List<String>> sections = stringsDataTable.asLists(String.class);
         List<String> creds = new ArrayList<String>() {{
             add(username);

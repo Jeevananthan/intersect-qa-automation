@@ -121,7 +121,11 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
                 case "Application Deadline" :
                     getEditButton(key).click();
                     Select dropDown = new Select(getAppDeadlineDropDown(details.get(0).get(1)));
-                    dropDown.selectByVisibleText(generatedValues.get(key));
+                    if(generatedValues.get(key).equals("32")) {
+                        dropDown.selectByVisibleText("1");
+                    } else {
+                        dropDown.selectByVisibleText(generatedValues.get(key));
+                    }
                     break;
                 case "Fees" :
                     getEditButton(key).click();

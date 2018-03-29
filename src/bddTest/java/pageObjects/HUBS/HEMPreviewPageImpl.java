@@ -15,7 +15,8 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickMenuButton(String buttonLabel) {
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), \"Studies\")]")));
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), '" + buttonLabel + "')]")));
         WebElement button = null;
         switch (buttonLabel) {
             case "Studies" : button = studiesButton();
@@ -25,10 +26,16 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
             case "Overview" : button = overviewButton();
                 break;
             case "International" : button = internationalButton();
+                break;
+            case "Costs" : button = costsButton();
+                break;
         }
         waitUntil(ExpectedConditions.elementToBeClickable(button));
         button.click();
         waitUntilPageFinishLoading();
+        if (!button.getText().equals(buttonLabel)) {
+            button.click();
+        }
         logger.info(buttonLabel + " button clicked");
     }
 
@@ -36,6 +43,7 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     private WebElement studiesButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Studies\")]"));
     }
+
     private WebElement studentLifeButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Student Life\")]"));
     }
@@ -44,5 +52,8 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement internationalButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"International\")]"));
+    }
+    private WebElement costsButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), \"Costs\")]"));
     }
 }
