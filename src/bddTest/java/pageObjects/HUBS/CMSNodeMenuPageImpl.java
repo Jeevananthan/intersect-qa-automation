@@ -39,6 +39,7 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
 
     public void approveChangesInCMS(String userMail, DataTable CMSDetails) {
         List<String> details = CMSDetails.asList(String.class);
+        waitForUITransition();
         cmsLogin.defaultLogIn(details);
         workflowOverviewButton().click();
         userEmailTextBox().sendKeys(userMail);
@@ -122,8 +123,12 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         navigation.closeNewTabAndSwitchToOriginal(originalWindowHandle);
     }
-    //Locators
 
+    public void clickLogout() {
+        logOutButton().click();
+    }
+
+    //Locators
     private WebElement moderateButton() {
         return button("Moderate");
     }
@@ -142,10 +147,5 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("a[title=\"Go to next page\"]"));
     }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("input#edit-submit")); }
-//    private WebElement workflowOverviewButton() { return getDriver().findElement(By.xpath("//li[@class = 'admin-menu-toolbar-category']/a[text()='Workflow']")); }
-//    private List<WebElement> workflowRows() { return getDriver().findElements(By.cssSelector("table.sticky-enabled.tableheader-processed.sticky-table tbody tr")); }
-//    private WebElement approveButton() { return getDriver().findElement(By.cssSelector("input#edit-submit")); }
-//    private WebElement confirmationMessage() { return getDriver().findElement(By.cssSelector("div.messages.status")); }
-//    private WebElement userEmailTextBox() { return getDriver().findElement(By.cssSelector("input#edit-apiuseremail")); }
-//    private WebElement submitButton() { return driver.findElement(By.cssSelector("input#edit-submit")); }
+    private WebElement logOutButton() { return driver.findElement(By.xpath("//a[text()='Log out']")); }
 }

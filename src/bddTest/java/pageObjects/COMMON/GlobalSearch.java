@@ -98,7 +98,6 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         getSearchBox().click();
         getSearchBox().clear();
-        waitUntilPageFinishLoading();
         getSearchBox().sendKeys(searchTerm);
     }
 

@@ -269,7 +269,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCheckRepVisitsAvailabilityButton(){
-        driver.switchTo().frame(0);
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(0));
+        waitForUITransition();
         Assert.assertTrue("Check RepVisits Availability Button is not present", getCheckRepVisitsAvailabilityButton().isDisplayed());
         getCheckRepVisitsAvailabilityButton().click();
         driver.switchTo().defaultContent();
@@ -328,8 +329,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 trim().equals("Fair registration confirmed! Your request has been automatically confirmed by the high school.")));
     }
 
-    public void verifyFairInCalendar(String date) {
-        boolean result = false;
+    public void verifyFairInCalendar(String fairName, String date, String time) {
+        if(date.contains("In") && date.contains("day")){
+            int relativeDays =  Integer.parseInt(date.replaceAll("[^0-9]",""));
+            date = getRelativeDate(relativeDays).split(" ")[1]+" "+
+                    getRelativeDate(relativeDays).split(" ")[0];
+        }
         waitUntil(ExpectedConditions.elementToBeClickable(getCalendarBtn()));
         getCalendarBtn().click();
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ui.medium.inverted.loader")));
@@ -337,25 +342,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (!rightCalendarHeaderDate().getText().equals(date.split(" ")[0])) {
             pressCalendarArrowUntil("right", date.split(" ")[0], 10);
         }
-        try {
-            if (showMoreLink().isDisplayed()) {
-                showMoreLink().click();
-                for (WebElement overlayEvent : overlayEventsList()) {
-                    if (overlayEvent.findElement(By.cssSelector("span.rbc-event-time")).getText().equals(date.split(" ")[2])) {
-                        result = true;
-                        break;
-                    }
-                }
-            }
-        } catch (NoSuchElementException e) {
-            for (int i = 1; i < 3; i++) {
-                if (getDateCell(date.split(" ")[1], date.split(" ")[2], i).isDisplayed()) {
-                    result = true;
-                    break;
-                }
-            }
+        try{
+            driver.findElements(By.xpath(String.format(".//span[text()='%s']",fairName)));
+            driver.findElements(By.xpath(String.format(".//span[text()='%s']/preceding-sibling::span[text()='%s']",
+                    fairName,time)));
+        } catch(Exception e){
+            throw new AssertionError(String.format("The fair with name: %s and time: %s is not displayed in the calendar" +
+                            ", error: %s"
+                    ,fairName,time, e.toString()));
         }
-        Assert.assertTrue("The fair is not displayed in the calendar", result);
+    }
+
+    private String getRelativeDate(int addDays){
+        String day;
+        Calendar relativeDate = getDeltaDate(addDays);
+        day =getDay(relativeDate);
+        if(day.startsWith("0")){
+            day = day.replace("0","");
+        }
+        return day+" "+getMonth(relativeDate)+" "+getYear(relativeDate);
     }
 
     public void pressCalendarArrowUntil(String side, String month, int tries) {
@@ -372,7 +377,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyFairInQuickView(String schoolName, String date) {
+    public void verifyFairInQuickView(String schoolName, String date, String hour) {
+        if(date.contains("In") && date.contains("day")){
+            int relativeDays =  Integer.parseInt(date.replaceAll("[^0-9]",""));
+            date = getRelativeDate(relativeDays).split(" ")[1]+" "+
+                    getRelativeDate(relativeDays).split(" ")[0]+" "+hour;
+        }
         boolean result = false;
         getSearchAndScheduleBtn().click();
         getSearchBox().sendKeys(schoolName);
@@ -630,7 +640,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
-        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" i[class='icons']")).isDisplayed());
+        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" img[alt='locked']")).isDisplayed());
     }
 
 
@@ -1614,7 +1624,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement miniCalendarHeader() { return getDriver().findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement miniCalendarRightButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Next Month\"]")); }
     private WebElement miniCalendarLeftButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Previous Month\"]")); }
-    public WebElement miniCalendarDayCell(String day) { return getDriver().findElement(By.xpath("//div[@class='DayPicker-Week']/div[text()='" + day + "']")); }
+    public WebElement miniCalendarDayCell(String day) { return getDriver().findElement(By.xpath("//div[@class='DayPicker-Week']/div[text()='" + day + "' and @class='DayPicker-Day']")); }
     public WebElement showMoreLink() { return getDriver().findElement(By.cssSelector("a.rbc-show-more")); }
     private List<WebElement> overlayEventsList() { return getDriver().findElements(By.cssSelector("div.rbc-overlay div.rbc-event")); }
     private WebElement visitsTab() { return getDriver().findElement(By.cssSelector("div.ui.left.attached.button")); }

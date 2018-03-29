@@ -21,8 +21,8 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
         goButton().click();
     }
 
-    public void clickSingleResult() {
-        singleResult().click();
+    public void clickSingleResult(String collegeName) {
+        singleResult(collegeName).click();
         waitUntilPageFinishLoading();
     }
 
@@ -30,7 +30,7 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         enterSearchString(searchString.toLowerCase());
         clickGoButton();
-        collegeInList(searchString).click();
+        clickSingleResult(searchString);
     }
 
     //Locators
@@ -41,8 +41,8 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
     private WebElement goButton() {
         return button("Go");
     }
-    private WebElement singleResult() {
-        return getDriver().findElement(By.cssSelector("table.standard.striped a"));
+    private WebElement singleResult(String collegeName) {
+        return getDriver().findElement(By.xpath("//a[text()='" + collegeName + "']"));
     }
     private WebElement collegeInList(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']")); }
 }
