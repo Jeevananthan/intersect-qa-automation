@@ -20,11 +20,13 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
         WebElement button = null;
         switch (buttonLabel) {
             case "Studies" : button = studiesButton();
-            break;
+                break;
             case "Student Life" : button = studentLifeButton();
-            break;
+                break;
             case "Overview" : button = overviewButton();
-            break;
+                break;
+            case "International" : button = internationalButton();
+                break;
             case "Costs" : button = costsButton();
                 break;
         }
@@ -46,6 +48,9 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement overviewButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Overview\")]"));
+    }
+    private WebElement internationalButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), \"International\")]"));
     }
     private WebElement costsButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Costs\")]"));

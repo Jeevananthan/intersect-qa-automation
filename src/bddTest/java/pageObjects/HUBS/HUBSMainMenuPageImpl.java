@@ -50,4 +50,5 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement internationalTab() { return getDriver().findElement(By.xpath("//span[contains(text(), 'International')]")); }
 
     private WebElement costsTab() { return getDriver().findElement(By.xpath("//span[contains(text(), 'Costs')]")); }
+
 }
