@@ -283,7 +283,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyNiceToHaveBoxDoesNotContain(String item) {
         try {
-            Assert.assertTrue("'Nice to Have' box should not contain " + item + ", but it does.",!getNiceToHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+            //Assert.assertTrue("'Nice to Have' box should not contain " + item + ", but it does.",!getNiceToHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+            Assert.assertTrue("'Nice to Have' box should not contain " + item + ", but it does.", !(getNiceToHaveBox().getText().contains(item)));
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
             logger.info("Could not find the 'Nice to Have' box, so the item we don't want to see there clearly isn't there.");
         }
