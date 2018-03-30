@@ -1,12 +1,14 @@
 package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
+import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import cucumber.api.java.gl.E;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -1265,6 +1267,143 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             logger.info("The HE User has upcoming visits/fair for the coming 7 days, so can't show the default text in Overview page...");
     }
 
+    /**
+     * Searches a high schools by location in RepVisits>Recommendations page given a location
+     * @param location to search
+     */
+    private void searchHighSchoolByLocationInRecommendationsPage(String location){
+        getSearchByLocationTextBox().sendKeys(location);
+    }
+
+    /**
+     * Adds a given school to the travel plan in RepVisits>Travel Plan
+     * @param school
+     */
+    private void addHighSchoolToTravelPlan(String school){
+        try{
+            driver.findElement(By.xpath(String.format(".//td/a[text()='%s']/ancestor::tr/td/div[@class='_1az38UH6Zn-lk--8jTDv2w']/span[text()='Added To Travel Plan']"
+                    ,school)));
+        } catch (Exception e){
+            button(By.xpath(String.format(".//td/a[text()='%s']/ancestor::tr/td/div/button/span[text()='Add To Travel Plan']"
+                    ,school))).click();
+            Assert.assertTrue(String.format("The school: %s was not added to the travel plan",school),
+                    text(By.xpath("//span[text()='School added to Travel Plan']")).isDisplayed());
+        }
+    }
+
+    /**
+     * Adds a given school and a location to the RevVisits travel plan
+     * @param school to be added
+     * @param location to search the school
+     */
+    public void addHighSchoolToRepVisitsTravelPlan(String school, String location){
+        navigateToRepVisitsSection("Recommendations");
+        searchHighSchoolByLocationInRecommendationsPage(location);
+        addHighSchoolToTravelPlan(school);
+    }
+
+    /**
+     * Verifies if the trash icon is displayed for a given school in the Travel Plan page
+     * @param school to verify the trash icon
+     */
+    public void verifyTrashIconForTravelPlanHighSchool(String school){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        try{
+            getDriver().findElement(By.xpath(String.format(
+                    ".//div/div/div[text()='%s']/ancestor::div[@class='item']/div/div/button/i[@class='trash icon _22IhW8lEh2abuRIROnZXJx']"
+                    ,school)));
+        }catch(Exception e){
+            throw new AssertionFailedError(String.format("The trash icon is not displayed for school: %s, error: %s"
+                    ,school,e.toString()));
+        }
+    }
+
+    /**
+     * Verifies that a given label is displayed for a given high school
+     * @param school to verify the label
+     * @param labelText to verify
+     */
+    public void verifyLabelForTravelPlanHighSchool(String school, String labelText){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        try{
+            getDriver().findElements(By.xpath(String.format(
+                    ".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='%s']",school,labelText
+            )));
+        }catch(Exception e){
+            throw new AssertionFailedError(String.format("The %s label is not displayed for high school: %s, error: %s"
+                    ,labelText,school,e.toString()));
+        }
+    }
+
+    /**
+     * Removes a given high school from the travel plan page
+     * @param school to be removed
+     */
+    public void removeHighSchoolFromTravelPlan(String school){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
+                ,school))).click();
+        Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?")
+                .isDisplayed());
+        Assert.assertTrue("The remove from travel plan confirmation message is not displayed",
+                text(String.format("Are you sure you want to remove %s from your travel plan?", school)).isDisplayed());
+        button("YES, REMOVE").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
+    }
+
+    /**
+     * Cancels removing a given high school from the travel plan page
+     * @param school to be removed and canceled
+     */
+    public void cancelRemoveHighSchoolFromTravelPlan(String school){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
+                ,school))).click();
+        Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?")
+                .isDisplayed());
+        Assert.assertTrue("The remove from travel plan confirmation message is not displayed",
+                text(String.format("Are you sure you want to remove %s from your travel plan?", school)).isDisplayed());
+        button("CANCEL").click();
+    }
+
+    /**
+     * Verifies if a given high school was removed from the travel plan list
+     * @param school to verify if was removed
+     */
+    public void verifyHighSchoolIsNotInTravelPlan(String school){
+        try{
+            getDriver().findElement(By.xpath(String.format(".//div[@class='content']/div/div/div[text()='%s']", school)));
+            throw new AssertionFailedError(String.format("The high school: %s  is displayed in the travel plan page",
+                    school));
+        } catch(Exception e){}
+    }
+
+    /**
+     * Verifies if a given high school was removed from the travel plan list
+     * @param school to verify if was removed
+     */
+    public void verifyHighSchoolInTravelPlan(String school){
+        try{
+            getDriver().findElement(By.xpath(String.format(".//div[@class='content']/div/div/div[text()='%s']", school)));
+        } catch(Exception e){
+            throw new AssertionFailedError(String.format("The high school: %s is not displayed in the travel plan page",
+                    school));
+        }
+    }
+
+    /**
+     * Verifies that travel plan is locked
+     */
+    public void verifyTravelPlanIsLocked(){
+        navigateToRepVisitsSection("Travel Plan");
+        Assert.assertTrue("Travel Plan is not locked",text("Unlock Travel Plan").isDisplayed());
+    }
+
     private WebElement upgradeButton(){
         WebElement button=button("UPGRADE");
         return button;
@@ -1825,6 +1964,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         String startTime=time+" "+option;
         return startTime;
+    }
+
+    /**
+     * Gets the searchByLocation textbox in the repvisits>recommendations page
+     * @return WebElement
+     */
+    private WebElement getSearchByLocationTextBox(){
+        return textbox("Search by location...");
     }
 }
 

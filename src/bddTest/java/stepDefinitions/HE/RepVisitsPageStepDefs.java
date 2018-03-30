@@ -182,6 +182,20 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
 
+        And("HE I add \"([^\"]*)\" high school with location \"([^\"]*)\" to the Travel Plan",repVisits::addHighSchoolToRepVisitsTravelPlan);
 
+        Then("HE I verify the \"([^\"]*)\" label is displayed for \"([^\"]*)\" high school", repVisits::verifyLabelForTravelPlanHighSchool);
+
+        Then("HE I verify the trash icon for \"([^\"]*)\" high school", repVisits::verifyTrashIconForTravelPlanHighSchool);
+
+        And("HE I remove \"([^\"]*)\" high school from the travel plan", repVisits::removeHighSchoolFromTravelPlan);
+
+        And("HE I cancel removing \"([^\"]*)\" high school from the travel plan", repVisits::cancelRemoveHighSchoolFromTravelPlan);
+
+        Then("HE I verify \"([^\"]*)\" is not displayed in the Travel Plan list",repVisits::verifyHighSchoolIsNotInTravelPlan);
+
+        Then("HE I verify \"([^\"]*)\" is displayed in the Travel Plan list",repVisits::verifyHighSchoolInTravelPlan);
+
+        Then("HE I verify travel plan is locked for non premium users",repVisits::verifyTravelPlanIsLocked);
     }
 }
