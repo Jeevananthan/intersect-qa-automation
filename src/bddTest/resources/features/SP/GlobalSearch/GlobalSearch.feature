@@ -45,20 +45,20 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
   So I can more accurately find the users I want to network with in the Community.
     Given SP I am logged in to the Admin page as a Support user
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "People"
-      | Keyword                                | Admin          |
-      | First Name                             | Admin          |
-      | Last Name                              | Administrator  |
-      | Email                                  | admin@fake.com |
-      | Alma Mater                             | UNC Capel Hill |
-      | Institution                            | Hobsons        |
-      | Institution Type                       | All            |
-      | Position                               | Manager        |
-      | Institution State                      | Ohio           |
-      | Zipcode                                | 45241          |
-      | State Served                           | Alabama        |
-      | County Served                          | Autauga        |
-      | Advises Students on Admissions Process | No             |
-      | Schedules College Visits               | No             |
+      | Keyword                                | Admin                                |
+      | First Name                             | Admin                                |
+      | Last Name                              | Administrator                        |
+      | Email                                  | purpleheautomation+Hobsons@gmail.com |
+      | Alma Mater                             | UNC Capel Hill                       |
+      | Institution                            | Hobsons                              |
+      | Institution Type                       | All                                  |
+      | Position                               | Manager                              |
+      | Institution State                      | Ohio                                 |
+      | Zipcode                                | 45241                                |
+      | State Served                           | Alabama                              |
+      | County Served                          | Autauga                              |
+      | Advises Students on Admissions Process | No                                   |
+      | Schedules College Visits               | No                                   |
     And SP I successfully sign out
 
   @MATCH-933 @MATCH-1103 @MATCH-1105 @MATCH-1107

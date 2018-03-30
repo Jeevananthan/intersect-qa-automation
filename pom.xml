@@ -54,6 +54,40 @@
             </build>
         </profile>
         <profile>
+            <id>SM-QA</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>qaEnv</value>
+                </property>
+            </activation>
+            <properties>
+                <cucumber.options>--tags @SM --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete file="${configFilePath}"/>
+                                        <copy file="${folderFilePath}/qaEnv.properties" tofile="${configFilePath}"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>HS-QA</id>
             <activation>
                 <property>
@@ -198,7 +232,7 @@
                 </property>
             </activation>
             <properties>
-                <tags>@ProdSmokeTest</tags>
+                <cucumber.options>--tags @ProdSmokeTest</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -373,7 +407,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <testFailureIgnore>false</testFailureIgnore>
                 </configuration>
                 <executions>
                     <execution>
