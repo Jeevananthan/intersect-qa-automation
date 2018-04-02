@@ -511,12 +511,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-2444
   Scenario Outline: No mail is sent to the HS users after cancelling a fair as an HE user
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
     Then HS I add the email "<EMail>" in the primary contact in Notifications & Primary Contact page
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Given HE I want to login to the HE app using "purplehsautomations@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
 
@@ -525,12 +525,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I successfully sign out
 
     Then HE I verify the Email Notification Message for "<School>" using "<Date>","<EmailTimeForFair>"
-      |Subject                                                     |To       |Messages |
-      |College fair registration cancelled for "<School>"          |<EMail>  |1        |
+      |Subject                                            |To       |Messages |
+      |College fair registration cancelled for <School>   |<EMail>  |1        |
 
 
     Examples:
-      |School                  |EMail                            |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
-      |Int Qa High School 4    |purpleheautomation@gmail.com     |QAs Fairs tests       |14  |1000AM    |1100AM  |12           |$25 |25                    |100                        | Save          |10AM   |10:00am         |
+      |School            |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|institution                   |
+      |Homeconnection    |purpleheautomation@gmail.com    |QAs Fairs tests       |14  |1000AM    |1100AM  |12           |$25 |25                    |100                        | Save          |10AM   |10:00am         |Alpena Community College (MI) |
 
 

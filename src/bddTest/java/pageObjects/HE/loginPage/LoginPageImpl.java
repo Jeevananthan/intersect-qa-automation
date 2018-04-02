@@ -406,9 +406,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             e.printStackTrace();
             Assert.fail("There was an error retrieving the email from Gmail.");
         }
-        int SchoolLength = 54+School.length();
+        int SchoolLength = School.length();
         Integer codeMessageIndex = emailBody.indexOf("We have cancelled your college fair registration with ");
-        String SchoolName = emailBody.substring(codeMessageIndex + 54,codeMessageIndex + SchoolLength);
+        String SchoolName = emailBody.substring(codeMessageIndex + 54,codeMessageIndex + 54 + SchoolLength);
         String CurrentDate = getSpecificDate(Date);
         Integer DateIndex = emailBody.indexOf("2018");
         String dateandTime = emailBody.substring(DateIndex+0,DateIndex+21);
