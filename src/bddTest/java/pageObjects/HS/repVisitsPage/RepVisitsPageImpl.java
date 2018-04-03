@@ -384,9 +384,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
     }
 
-    public void addNewTimeSlotInRegularWeeklyHoursTab(String day,String startTime,String endTime,String numVisits)
-    {
+    public void addNewTimeSlotInRegularWeeklyHoursTab(String day,String startTime,String endTime,String numVisits) {
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         WebElement element=link("Availability & Settings");
         waitUntilElementExists(element);
         link("Availability & Settings").click();
@@ -397,6 +397,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addTimeSlot().click();
         availabilityButton().sendKeys(Keys.PAGE_DOWN);
         availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
         waitUntilElementExists(selectDay());
         day=day(day);
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
@@ -408,6 +409,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
         addTimeSlotSubmit().click();
+        waitUntilPageFinishLoading();
     }
 
 
@@ -446,13 +448,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
     }
 
-    public void selectDayForSlotTime(String element, String day)
-    {
+    public void selectDayForSlotTime(String element, String day) {
+        waitUntilPageFinishLoading();
         WebElement element1=driver.findElement(By.cssSelector("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']"));
         waitUntilElementExists(element1);
         WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
         waitUntilElementExists(dayList);
         dayList.click();
+        waitUntilPageFinishLoading();
         WebElement element12=driver.findElement(By.xpath("//div/span[contains(text(), '"+day+"')]"));
         waitUntilElementExists(element12);
         driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
@@ -740,6 +743,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void setSpecificStartAndEndDatesinRegularWeeklyHoursTab(String startDate,String endDate) {
         waitUntilPageFinishLoading();
+        setDefaultDateforStartOrEndDate();
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -761,7 +765,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public String getSpecificDate(String addDays) {
-        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        String DATE_FORMAT_NOW = "MMMM d yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
@@ -1502,6 +1506,67 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(getCurrentDate(), getCurrentDate());
 //        previousWeekInNewScheduleVisitPage().click();
         Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
+    }
+
+    private void setDefaultDateforStartOrEndDate(){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        availabilityAndSettings().click();
+        availability().click();
+        regularWeeklyHours().click();
+        waitUntilPageFinishLoading();
+        String date = verifyStartDate();
+        if(verifyDateIsEnabledOrDisabled(date)){
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
+            date = verifyEndDate();
+            if(verifyDateIsEnabledOrDisabled(date)) {
+                driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
+            }
+        }else {
+            date = verifyEndDate();
+            if(verifyDateIsEnabledOrDisabled(date)) {
+                driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
+                }
+                date = verifyStartDate();
+            if(verifyDateIsEnabledOrDisabled(date)) {
+                driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
+                }
+            }
+        clickUpdateButtonInRepVisits();
+    }
+
+    private boolean verifyDateIsEnabledOrDisabled(String date){
+        boolean enabledDate = false;
+        List<WebElement> enabledOrDisabled = driver.findElements(By.xpath("//div[text()="+date+" and @aria-disabled='false']"));
+        if(enabledOrDisabled.size()!=0) {
+            enabledDate = true;
+        } else if(enabledOrDisabled.size()==0){
+            enabledDate = false;
+        }else {
+            logger.info("The Date selected is out of RANGE.");
+        }
+        return enabledDate;
+    }
+
+    private String verifyStartDate(){
+        String startDate=getSpecificDate("-1");
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        String[] parts = startDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        String date = parts[1];
+        findMonth(calendarHeading,"Start");
+        return date;
+    }
+    private String verifyEndDate(){
+        String endDate=getSpecificDate("1");
+        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        String[] parts = endDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        String date = parts[1];
+        findMonth(calendarHeading,"End");
+        return date;
     }
 
     //locators
