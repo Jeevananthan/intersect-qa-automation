@@ -386,26 +386,30 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void addNewTimeSlotInRegularWeeklyHoursTab(String day,String startTime,String endTime,String numVisits) {
         navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        WebElement element=link("Availability & Settings");
+        WebElement element = link("Availability & Settings");
         waitUntilElementExists(element);
         link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
         link("Availability").click();
+        waitUntilPageFinishLoading();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
         startOrEndDate().sendKeys(Keys.PAGE_DOWN);
         addTimeSlot().click();
-        availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        List<WebElement> slot= driver.findElements(By.cssSelector("button[class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
+        if(slot.size()>0){
+            availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        }
         availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
         waitUntilElementExists(selectDay());
-        day=day(day);
+        day = day(day);
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
         StartTime = startTime(startTime);
-        logger.info("Start Time = "+StartTime);
+        logger.info("Start Time = " + StartTime);
         addStartTime().sendKeys(StartTime);
         addEndTime().sendKeys(endTime);
-        logger.info("End Time = "+endTime);
+        logger.info("End Time = " + endTime);
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
         addTimeSlotSubmit().click();
