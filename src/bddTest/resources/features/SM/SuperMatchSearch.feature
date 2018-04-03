@@ -67,3 +67,11 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
     Then SM I select the "Associate's" radio button from the Academics fit criteria
     And SM I verify that the Must Have box does not contain "Major [1]"
     And SM I verify that the Must Have box does not contain "Minor [1]"
+
+  @MATCH-3432
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to select what details I see on each
+            college in my search results so the information I care most about is visible to review.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+    Then SM I verify the default column headers displayed in the results table
+    Then SM I verify if the option selected or defaulted in column header can be changed

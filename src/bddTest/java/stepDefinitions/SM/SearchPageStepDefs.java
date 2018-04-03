@@ -75,5 +75,9 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I unselect the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type$", searchPage::unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType);
 
+        And("^SM I verify the default column headers displayed in the results table$", searchPage::verifyDefaultColumnHeadersInResultsTable);
+
+        And("^SM I verify if the option selected or defaulted in column header can be changed$", searchPage::verifyIfOptionDefaultedInColumnHeaderCanBeChanged);
+
     }
 }
