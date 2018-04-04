@@ -73,7 +73,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyAdditionalInfoURLAfterClickingBackToIntersectLink(String additionalInfoURL,String backToIntersect,String institutionID,String info){
         String currentURL = additionalInfoURL+institutionID+info;
         link(backToIntersect).click();
-        waitUntilPageFinishLoading();
         String additionalInfoCurrentURL = driver.getCurrentUrl();
         Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
         waitUntilPageFinishLoading();
