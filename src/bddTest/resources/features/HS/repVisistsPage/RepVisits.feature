@@ -642,6 +642,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+#by SchoolLocation
+    Then HE I search the "<School>" by "<location>"
+    Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
+    Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
+    Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
+#by SchoolName
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
@@ -653,6 +659,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+#by SchoolLocation
+    Then HE I search the "<School>" by "<location>"
+    Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
+    Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
+    Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
+#by SchoolName
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
@@ -664,6 +676,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
   Examples:
-    |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|
-    |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |14  |
+    |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         |
+    |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |14  |Liberty Township |
 
