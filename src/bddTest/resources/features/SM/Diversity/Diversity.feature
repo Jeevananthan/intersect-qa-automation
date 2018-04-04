@@ -2,7 +2,8 @@
 Feature: SM - Feature - As a HS student, I need to be able to search for colleges based on the 'Diversity' fit criteria
 
   @MATCH-3375
-  Scenario: As a HS student, I want to filter colleges I am searching for by International Students within the Diversity category so I can see relevant colleges that match my International Students requirements.
+  Scenario: As a HS student, I want to filter colleges I am searching for by International Students within the Diversity
+  category so I can see relevant colleges that match my International Students requirements.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I select the "High International Population" checkbox from the Diversity fit criteria
     And SM I verify that the Must Have box contains "High International Population"
