@@ -15,9 +15,38 @@ import java.util.Map;
 public class SurveyPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    static String originalHandle;
 
     public SurveyPageImpl() {
         logger = Logger.getLogger(SurveyPageImpl.class);
+    }
+
+    public void verifySurveyURL(String URL) {
+        Assert.assertTrue("The URL of the survey page is incorrect: " + driver.getCurrentUrl(), driver.getCurrentUrl().equals(URL));
+    }
+
+    public void verifySurvey(String buttonLabel) {
+        originalHandle = openSurvey(buttonLabel);
+        Assert.assertTrue("The survey is not displayed", surveySubtitle().isDisplayed());
+    }
+
+    public String openSurvey(String buttonLabel) {
+        waitForUITransition();
+        button(buttonLabel).click();
+        String winHandleBefore = driver.getWindowHandle();
+        for(String winHandle : driver.getWindowHandles()){
+            driver.switchTo().window(winHandle);
+        }
+        waitForUITransition();
+        originalHandle = winHandleBefore;
+        return winHandleBefore;
+    }
+
+    public void closeSurvey() {
+        if (driver.getWindowHandles().size() > 1) {
+            driver.close();
+        }
+        driver.switchTo().window(originalHandle);
     }
 
     // Locators Below
