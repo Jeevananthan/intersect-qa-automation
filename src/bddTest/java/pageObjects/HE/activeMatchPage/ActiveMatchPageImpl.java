@@ -55,6 +55,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     public void downloadActiveMatchConnectionsForCurrentYear(){
         String currentYear = DateUtility.getCurrentYear();
         selectDownloadCriteriaForConnections(String.format("-%s",currentYear));
+        waitUntil(ExpectedConditions.visibilityOf(getDownloadActiveMatchConnectionsButton()));
         getDownloadActiveMatchConnectionsButton().click();
         Assert.assertTrue("The download Active Match Connections modal was not displayed",
                 getDownloadActiveMatchConnectionsModal().isDisplayed());
