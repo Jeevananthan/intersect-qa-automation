@@ -5,8 +5,8 @@ Feature: Community User - View Additional Information on HS Institutions
 
 
   Scenario: As a Community user or institution while viewing an HS institution within the Community I want to see additional information.
-    Given I am logged in to Purple Community through the HS App
+    Given HS I am logged in to Intersect HS as user type "default"
     And I go to HS institution page
     And I click on Additional Info
     Then I check items on the Lebanon High School institution additional info
-    And I sign out from the HE app
+    And HE I successfully sign out

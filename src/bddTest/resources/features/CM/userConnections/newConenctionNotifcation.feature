@@ -6,13 +6,13 @@ Feature: Community User - New Connection Request Notification
 
   @MATCH-409
   Scenario: As a Community user I see a notification within the Community that I have pending connection requests.
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And I am not connected to "PurpleHS User" user
     And I clear all the notifications
     And I am connected to HS user
     Then I open Notifications list
     And I check if user has new notification
-    And I sign out from the HE app
+    And HE I successfully sign out
 
 
   #This scenario cannot be covered because of gmail security system

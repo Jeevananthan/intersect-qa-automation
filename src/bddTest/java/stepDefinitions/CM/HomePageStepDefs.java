@@ -14,19 +14,19 @@ public class HomePageStepDefs implements En {
 
         Then("^I am able to successfully login$", homePage::verifyUserIsLoggedIn);
 
-        And("^I successfully sign out from the HE app$", homePage::logoutHE);
+        //And("^I successfully sign out from the HE app$", homePage::logoutHE);
 
-        And("^I successfully sign out from the Support app$", homePage::logoutSupport);
+        //And("^I successfully sign out from the Support app$", homePage::logoutSupport);
 
         And("^I go to Counselor Community page$", homePage::accessCounselorCommunityPage);
 
         And("^I go to HS Counselor Community page$", homePage::accessHSCounselorCommunityPage);
 
-        And("^I sign out from the HE app$", homePage::logoutHEDefault);
+        //And("^I sign out from the HE app$", homePage::logoutHEDefault);
 
-        And("^I sign out from the HS app$", homePage::logoutHSDefault);
+        //And("^I sign out from the HS app$", homePage::logoutHSDefault);
 
-        And("^I sign out from the Support app$", homePage::logoutSupport);
+        //And("^I sign out from the Support app$", homePage::logoutSupport);
 
         Then("^I check if Home posts are visible$", homePage::checkIfHomePostsAreVisible);
 

@@ -14,6 +14,12 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
   @MATCH-1266
   Scenario: As an HE user I want a home page that familiarizes me with the Intersect product and its features.
             so I am clear on what I can do within the app.
+    Given SP I am logged in to the Admin page as a Support user
+    When SP I search for "2400006" in "HE Accounts"
+    And SP I select "The University of Alabama" from the global search results
+    And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then I verify that the "The Hobsons Counselor Community" widget is displayed
     Then I verify that the "Manage and update your institution's profile" widget is displayed
@@ -51,7 +57,6 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     Then HE I verify the left navigation bar and section breadcrumbs are as follows
       | Awareness | Counselor Community, Naviance College Profile |
       | Presence  | RepVisits                                     |
-      | Settings  | User                                          |
     And HE I successfully sign out
 
   @MATCH-1344
@@ -61,7 +66,6 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     And HE I verify the "Counselor Community" nav link is displaying for this user
     And HE I verify the "Naviance College Profile" nav link is displaying for this user
     And HE I verify the "RepVisits" nav link is displaying for this user
-    And HE I verify the "Users" nav link is displaying for this user
     Then HE I successfully sign out
 
   @MATCH-1344
