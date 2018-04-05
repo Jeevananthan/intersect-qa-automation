@@ -298,7 +298,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
     And HS I successfully sign out
 
-  @MATCH-1946
+@MATCH-1946
   Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
   so that I can be sure my RepVisits account is properly set up.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
@@ -365,10 +365,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
     And HS I successfully sign out
 
-
-  @MATCH-1584
-  Scenario Outline: As a high school user, when I confirm an appointment I need to email colleges with specific details
-  about visiting my high school  so that they are prepared to visit my high school.
+ 
+ @MATCH-1584
+ Scenario Outline: As a high school user, when I confirm an appointment I need to email colleges with specific details
+                    about visiting my high school  so that they are prepared to visit my high school.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set the RepVisits Confirmation message to "<Message>"
     And HS I verify the messaging updated confirmation toast message
@@ -378,6 +378,24 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
       |Message                 |
       |Test update New Message |
+
+
+  @MATCH-2682
+  Scenario Outline:As a high school staff member, I want to be able to edit my regular hours in RepVisits,
+           so that I can easily change the number of colleges I will allow during a certain time slot.
+#create a visit
+    #precondition
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<VisitConfirmationOption1>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Then HS I set a date using "<StartDate>" and "<EndDate>" in Regular Weekly Hours Tab
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "10" visits per day
 
   @MATCH-2833
   Scenario: As an HS RepVisits user I want to see a message on the RepVisits Overview page that informs me I have no
@@ -405,6 +423,48 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    Then HE I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    Then HE I successfully sign out
+
+#verify the Exception tab(before changing the NumofVists : NumVisits-3)
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>","<StartDate>","2"
+
+#verify & edit regular weekly hours(changing NumofVisits from 3 to 2)
+    Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
+    Then HS I edit the slots in Regular Weekly Hours using "2"
+
+#verify the Exception tab(after changing the NumofVists : NumVisits-2)
+    Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>","<StartDate>","2"
+    Then HS I verify the pills "<StartDate>","<StartTime>" is not displayed in the schedule new visit popup
+    And HS I successfully sign out
+
+#verify the pills is not present in the search and schedule page
+    Given HE I want to login to the HE app using "purpleheautomation+marketing@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify the pills is not displayed in the search and schedule page using "<School>","<Date>" and "<heStartTime>"
+    Then HE I successfully sign out
+
+#edit regular weekly hours(changing NumofVisits from 2 to 3)
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
+    Then HS I edit the slots in Regular Weekly Hours using "3"
+
+#verify the Exception tab(after changing the NumofVists : NumVisits-3)
+    Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>","<StartDate>","2"
+    Then HS I verify the pills "<StartDate>","<StartTime>" is displayed in the schedule new visit popup
+    And HS I successfully sign out
+
+#verify the pills is present in the search and schedule page
+    Given HE I want to login to the HE app using "purpleheautomation+marketing@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify the pills is displayed in the search and schedule page using "<School>","<Date>" and "<heStartTime>"
     Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
     Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
     And HE I verify the Notifications & Tasks using "<School>","<StartDate>","<heStartTime>"
@@ -698,6 +758,19 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 #Remove the time slot in Regular Weekly Hours Tab
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I remove the Time Slot created with "<StartTime>" in Regular Weekly Hours Tab
+#post-condition
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<VisitConfirmationOption2>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "5"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "5"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    And HS I successfully sign out
+
+    Examples:
+      |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |VisitConfirmationOption1                            |VisitConfirmationOption2           |School              |heStartTime|heTime |
+      |28   |28  |10:55am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Yes, accept all incoming requests. |Int Qa High School 4|10:55am    |10:55am|
+
     Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
@@ -706,5 +779,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School              |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo|user      |eMail                        |
       |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|hobsons.rrt+other16@gmail.com|
+
 
 

@@ -1,6 +1,7 @@
 package stepDefinitions.HS;
 
 import cucumber.api.java8.En;
+import cucumber.api.java8.Th;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
 public class RepVisitsPageStepDefs implements En {
@@ -29,9 +30,15 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the visit availability dates to \"([^\"]*)\" through \"([^\"]*)\"$", repVisits::setStartAndEndDates);
 
+        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::setSpecificStartAndEndDatesinRegularWeeklyHoursTab);
+
+        And ("^HS I verify the update button appears and I click update button$",repVisits::clickUpdateButtonInRepVisits);
+
         Then("^HS I verify the Time Slot time were added with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyTimeSlotAdded);
 
         Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addNewTimeSlot);
+
+        And("^HS I add the new time slot with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::addNewTimeSlotInRegularWeeklyHoursTab);
 
         Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
 
@@ -139,8 +146,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the RepVisits Visits Confirmations option to \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::availabilityandSettingsPage);
 
-        And ("^HS I verify the update button appears and I click update button$",repVisits::clickUpdateButtonInRepVisits);
-
         And ("^HS I verify the StartDate is set to \"([^\"]*)\" and EndDate is set to \"([^\"]*)\"$",repVisits::verifyStartDateAndEndDateInAvailabilitySetting);
 
         Then("^HS I select option for welcome in setup wizard \"([^\"]*)\",\"([^\"]*)\"$", repVisits::accessWelcomeSetupWizard);
@@ -168,6 +173,20 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the RepVisits Confirmation message is set to \"([^\"]*)\"$", repVisits::verifyMessageUpdated);
 
         And("^HS I verify the messaging updated confirmation toast message$", repVisits::verifyMessageConfirmation);
+
+        Then("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
+
+        Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTimeslot);
+
+        Then("^HS I edit the slots in Regular Weekly Hours using \"([^\"]*)\"$",repVisits::editSlot);
+
+        Then("^HS I remove the Time Slot created with \"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotAddedInRegularWeeklyHoursTab);
+
+        Then("^HS I set the \"([^\"]*)\" visits using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::setVisitsStatus);
+
+        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is displayed in the schedule new visit popup$",repVisits::verifyPillsdisplayedScheduleNewVisit);
+
+        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is not displayed in the schedule new visit popup$",repVisits::verifyPillsNotdisplayedScheduleNewVisit);
 
         Then("^HS I navigate to the \"([^\"]*)\" page in RepVisits$", repVisits::navigateToRepVisitsSection);
 
@@ -278,5 +297,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the list of registered college fair attendees for the \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyListofRegisteredAttendee);
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
+
     }
 }
