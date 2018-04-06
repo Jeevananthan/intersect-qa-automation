@@ -12,6 +12,7 @@ import utilities.GetProperties;
 import java.util.List;
 import java.nio.file.Watchable;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
@@ -94,6 +95,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
@@ -180,6 +182,35 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         driver.manage().deleteAllCookies();
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
+    }
+
+    public void verifyLogoInLoginPage()
+    {
+        openHSLoginPage();
+        String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-gray-teal.jpg";
+        String actualIntersectLogo=driver.findElement(By.cssSelector("div[class='centered row']>div>img[alt='Intersect Logo']")).getAttribute("src");
+        if(intersectLogo.equals(actualIntersectLogo))
+        {
+            logger.info("Logo is present in the Login Page");
+        }else
+        {
+            logger.info("Logo is not displayed in the Login Page");
+        }
+}
+
+    public void verifyLogoInHomePage()
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-white.png";
+        String actualIntersectLogo=driver.findElement(By.cssSelector("dt[class='header _2_tAB8btcE4Sc5e1O_XUwn']>img[alt='Intersect Logo']")).getAttribute("src");
+        if(intersectLogo.equals(actualIntersectLogo))
+        {
+            logger.info("Logo is present in the Home Page");
+        }else
+        {
+            logger.info("Logo is not displayed in the Home Page");
+        }
     }
 
     public void login(String username, String password) {

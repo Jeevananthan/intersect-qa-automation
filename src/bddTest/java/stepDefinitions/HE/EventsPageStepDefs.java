@@ -36,6 +36,7 @@ public class EventsPageStepDefs implements En {
         When("^HE I delete the event of name \"([^\"]*)\"$", eventsPage::deleteEvent);
 
         And("^HE I verify required fields error messages$", eventsPage::verifyAllErrorMessages);
+        And("^HE I verify required fields error messages for events$", eventsPage::verifyAllErrorMessagesForEvents);
 
         Then("^HE The deleted event of name \"([^\"]*)\" should not be displayed in the unpublished events list$", eventsPage::verifyEventNotPresentInList);
 
