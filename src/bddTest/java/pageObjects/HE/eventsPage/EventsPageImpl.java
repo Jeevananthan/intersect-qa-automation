@@ -8,6 +8,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.homePage.HomePageImpl;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -17,6 +21,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
     public static HashMap<String, String> editedData = new HashMap<>();
     public static String eventName = "";
+    private HomePageImpl homePage = new HomePageImpl();
     public static Calendar generatedTime;
 
     public EventsPageImpl() {
@@ -73,13 +78,15 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void deleteEvent(String eventName) {
         getEventsTab("Unpublished").click();
+        waitUntilPageFinishLoading();
         menuButtonForEvent(eventName).click();
+        waitUntilPageFinishLoading();
         getOptionFromMenuButtonForEvents("Delete").click();
         deleteYesButton().click();
     }
 
     public void verifyEventIsInCancelledList(String eventName) {
-        getEventsTab("CANCELLED").click();
+        getEventsTab("Cancelled").click();
         verifyEventIsPresent(eventName);
     }
 
@@ -128,11 +135,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "EVENT LOCATION":
-                    if (isStringNumber(row.get(1))) {
-                        selectLocationByPosition(Integer.parseInt(row.get(1)));
-                    } else {
-                        selectLocationByName(row.get(1));
-                    }
+                    selectLocationByPosition(Integer.parseInt(row.get(1)));
                     break;
                 case "EVENT PRIMARY CONTACT":
                     selectContactByPosition(Integer.parseInt(row.get(1)));
@@ -145,10 +148,31 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectLocationByPosition(int position) {
-        clearSelectionField(locationField());
-        openSelectionFieldMenu(locationField());
+        if (locationField().getText().length() > 0) {
+            for (int i = 0; i <= locationField().getText().length(); i++) {
+                locationField().sendKeys(Keys.BACK_SPACE);
+            }
+        } else {
+            locationField().clear();
+        }
+        locationField().sendKeys("a");
+        locationField().sendKeys(Keys.BACK_SPACE);
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table AUCnq8YpQQX6dyWSXlgRo']" +
                 "/tbody/tr[@class='_1hExGvG5jluro4Q-IOyjd7'][" + position + "]")).click();
+    }
+
+    public void selectContactByPosition(int position) {
+        if (primaryContactField().getText().length() > 0) {
+            for (int i = 0; i <= primaryContactField().getText().length(); i++) {
+                primaryContactField().sendKeys(Keys.BACK_SPACE);
+            }
+        } else {
+            primaryContactField().clear();
+        }
+        primaryContactField().sendKeys("a");
+        primaryContactField().sendKeys(Keys.BACK_SPACE);
+        driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _1CESARq218cDE7u8vMyW3O']" +
+                "/tbody/tr[" + position + "]/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']")).click();
     }
 
     public void selectLocationByName(String name) {
@@ -159,16 +183,17 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                 "[text() = '" + name + "']")).click();
     }
 
-    public void selectContactByPosition(int position) {
-        clearSelectionField(primaryContactField());
-        openSelectionFieldMenu(primaryContactField());
-        driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _1CESARq218cDE7u8vMyW3O']" +
-                "/tbody/tr[" + position + "]/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']")).click();
-    }
 
     public void selectFilterByPosition(int position) {
-        clearSelectionField(audienceField());
-        openSelectionFieldMenu(audienceField());
+        if (audienceField().getText().length() > 0) {
+            for (int i = 0; i <= audienceField().getText().length(); i++) {
+                audienceField().sendKeys(Keys.BACK_SPACE);
+            }
+        } else {
+            audienceField().clear();
+        }
+        audienceField().sendKeys("a");
+        audienceField().sendKeys(Keys.BACK_SPACE);
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _2NlS0bmSsF9TMGlRj-exrG']" +
                 "/tbody/tr[" + position + "]/td/div[@class='_3BUJ-YOdd0uTHeZhux4Duw']")).click();
     }
@@ -199,7 +224,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         editedData.put("Timezone", timeZoneText().getText());
         editedData.put("Description", descriptionField().getText());
         editedData.put("Max Attendees", maxAttendeesField().getText());
-        editedData.put("RSVP Deadline", rsvpTimeField().getText());
+        editedData.put("RSVP Deadline", rsvpCalendarButton().getText());
         editedData.put("EVENT LOCATION", locationField().getAttribute("value"));
         editedData.put("EVENT PRIMARY CONTACT", primaryContactField().getAttribute("value"));
         editedData.put("EVENT AUDIENCE", audienceField().getAttribute("value"));
@@ -232,7 +257,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     Assert.assertTrue(key + " was not successfully updated", maxAttendeesField().getText().equals(editedData.get(key)));
                     break;
                 case "RSVP Deadline" :
-                    Assert.assertTrue(key + " was not successfully updated", rsvpTimeField().getText().equals(editedData.get(key)));
+                    Assert.assertTrue(key + " was not successfully updated", rsvpCalendarButton().getText().equals(editedData.get(key)));
                     break;
                 case "EVENT LOCATION" :
                     Assert.assertTrue(key + " was not successfully updated. UI: " + locationField().getText()
@@ -265,7 +290,20 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         eventNameField().click();
     }
 
+    public void verifyAllErrorMessagesForEvents() {
+        Assert.assertTrue("The error message for Event Name is not displayed", eventNameError().isDisplayed());
+        /*This is disabled because of an issue noted in MATCH-2913*/
+        //Assert.assertTrue("The error message for Event Start is not displayed", eventStartError().isDisplayed());
+        Assert.assertTrue("The error message for Event Name is not displayed", eventNameError().isDisplayed());
+        Assert.assertTrue("The error message for Max Attendees is not displayed", maxAttendeesError().isDisplayed());
+        Assert.assertTrue("The error message for Event Location is not displayed", eventLocationError().isDisplayed());
+        Assert.assertTrue("The error message for Primary Contact is not displayed", primaryContactError().isDisplayed());
+    }
+
+
     public void verifyEventNotPresentInList(String eventName) {
+        waitUntilPageFinishLoading();
+        driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
         Assert.assertTrue("The deleted event is still present in the list",
                 driver.findElements(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']" +
@@ -277,6 +315,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             eventsTabFromEditEventScreen().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
         }
+        homePage.openEventList();
         getEventsTab("Published").click();
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
@@ -349,18 +388,16 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement timeZoneText() { return driver.findElement(By.cssSelector("input.search + div")); }
     private WebElement descriptionField() { return driver.findElement(By.cssSelector("textarea#eventDescription")); }
     private WebElement maxAttendeesField() { return driver.findElement(By.cssSelector("input#availableSeats")); }
-    private WebElement rsvpCalendarButton() { return driver.findElement(By.cssSelector("div.three.wide.column button[title='Event Date']")); }
-    private WebElement rsvpTimeField() { return driver.findElement(By.cssSelector("div.three.wide.column button[title='Event Date']")); }
+    private WebElement rsvpCalendarButton() { return driver.findElement(By.cssSelector("div.ui.stackable.middle.aligned.grid div.row:nth-of-type(7) button")); }
+    private WebElement rsvpTimeField() { return driver.findElement(By.cssSelector("input#registrationDeadlineTime")); }
     public WebElement locationField() { return driver.findElement(By.cssSelector("input[name='locations-dropdown']")); }
     private WebElement primaryContactField() { return driver.findElement(By.cssSelector("input[name='contacts-search']")); }
     private WebElement audienceField() { return driver.findElement(By.cssSelector("input[name='filters-dropdown']")); }
-    private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button.ui.button.zPxT0vhJlMhEbCWzz52_S")); }
-    private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button.ui.button.bI0v4ge6zgbar6xs9MqwX")); }
+    private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button[title='Save Draft']")); }
+    private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
     private WebElement menuButtonForEvent(String eventName) {
-        return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div" +
-                "[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']/../../../div[4]" +
-                "/div/div/i"));
+        return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'three wide column')]/div/div/i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
         return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));
