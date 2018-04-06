@@ -102,10 +102,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
 
-        Then("^HE I verify the pills is not displayed in the search and schedule page using \"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyPills);
-
-        Then("^HE I verify the pills is displayed in the search and schedule page using \"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyPillsIsPresent);
-
         Then("^HE I select Fairs for \"([^\"]*)\" and schoolName \"([^\"]*)\"$",repVisits::visitFairsToRegister);
 
         Then("^HE I verify the Notifications & Tasks using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotification);
@@ -201,6 +197,5 @@ public class RepVisitsPageStepDefs implements En {
         Then("HE I verify \"([^\"]*)\" is displayed in the Travel Plan list",repVisits::verifyHighSchoolInTravelPlan);
 
         Then("HE I verify travel plan is locked for non premium users",repVisits::verifyTravelPlanIsLocked);
-
     }
 }
