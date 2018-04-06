@@ -11,6 +11,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -121,6 +122,52 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         validateInfolink();
     }
+
+    public void verifyCalendarPageforFairs(String school,String time,String date) {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        collegeFairTextBoxInCalendarPage().click();
+        waitUntilPageFinishLoading();
+        visitCheckBoxInCalendarPage().click();
+        waitUntilPageFinishLoading();
+        String month = month(date);
+        String currentMonth = currentMonthInCalendarPage().getText();
+        String selectMonth[] = currentMonth.split(" ");
+        String Month = selectMonth[0];
+        while (!month.equals(Month)) {
+            nextMonthButton().click();
+            waitForUITransition();
+            currentMonth = currentMonthInCalendarPage().getText();
+            selectMonth = currentMonth.split(" ");
+            Month = selectMonth[0];
+        }
+        WebElement appointmentSlot = getDriver().findElement(By.xpath("//span[text()='"+time+"']/following-sibling::span[text()='"+school+"']"));
+        Assert.assertTrue("Appointment Slot time and university is not displayed",appointmentSlot.isDisplayed());
+        jsClick(appointmentSlot);
+        waitUntilPageFinishLoading();
+    }
+
+    public void removeFairAppointmentfromCalendar(){
+        waitForUITransition();
+        jsClick(driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")));
+        driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("Cancel This Visit is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This Fair']")).isDisplayed());
+        button("Cancel This Fair").click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.id("cancel-message")).click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.id("cancel-message")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.id("cancel-message")).sendKeys("by QA");
+        button("Yes, Cancel Fair").click();
+        waitUntilPageFinishLoading();
+        // This wait is necessary for the toast to disappear after canceling the fair.
+        waitForUITransition();
+        waitForUITransition();
+    }
+
 
     private void validateInfolink(){
         Assert.assertTrue("Text 'For more information' is not displayed", text("For more information:").isDisplayed());
@@ -1073,6 +1120,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         registerButton(Fair) .click();
         Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
         submitButton().click();
+        waitForUITransition();
         navBar.goToRepVisits();
     }
 

@@ -278,5 +278,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the list of registered college fair attendees for the \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyListofRegisteredAttendee);
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
+
+        Then("^HS I add the email \"([^\"]*)\" in the primary contact in Notifications & Primary Contact page$",repVisits::addEmailInNotificationandPrimaryContactPage);
     }
 }

@@ -32,7 +32,7 @@ public class LoginPageStepDefs implements En {
 
         Then ("^HE I select \"([^\"]*)\" and verify that the appropriate text is displayed$",loginPage::goToAppropriateRegistrationpage);
 
-
+        Then("^HE I verify the Email Notification Message for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\"$",loginPage::verifyEmailNotification);
 
     }
 }
