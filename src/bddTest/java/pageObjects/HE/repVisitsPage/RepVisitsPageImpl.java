@@ -160,6 +160,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.id("cancel-message")).sendKeys("by QA");
         button("Yes, Cancel Fair").click();
         waitUntilPageFinishLoading();
+        // This wait is necessary for the toast to disappear after canceling the fair.
+        waitForUITransition();
         waitForUITransition();
     }
 
