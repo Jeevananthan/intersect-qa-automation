@@ -75,12 +75,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I unselect the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type$", searchPage::unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType);
 
-        Then("^SM I verify \"([^\"]*)\" checkbox in Cost fit criteria$", searchPage::verifyMeest100ofNeedCheckbox);
+        Then("^SM I verify \"([^\"]*)\" checkbox in Cost fit criteria$", searchPage::verifyMeets100ofNeedCheckbox);
 
         Then("^SM I unselect the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::unselectCheckbox);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the Cost fit criteria$", searchPage::selectMeest100ofNeedCheckbox);
-
-        And("^SM I verify that Nice to Have box does not contain \"([^\"]*)\"$", searchPage::verifyNiceToHaveBoxDoesNotContain);
     }
 }

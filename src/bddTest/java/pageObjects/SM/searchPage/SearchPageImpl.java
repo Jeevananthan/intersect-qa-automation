@@ -660,7 +660,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().window(winHandleBefore);
     }
 
-    public void verifyMeest100ofNeedCheckbox(String checkBox){
+    public void verifyMeets100ofNeedCheckbox(String checkBox){
         String path = "//label[contains(text(), '"+checkBox+"')]";
         Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path)).getText().equals("Meets 100% of Need"));
         Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../i[@aria-hidden='true']")).isDisplayed());
