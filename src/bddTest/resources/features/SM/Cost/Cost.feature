@@ -1,5 +1,5 @@
 @SM
-Feature: SM - Feature - As a HS student, I need to be able to search for colleges based on the 'Admission' fit criteria
+Feature: SM - Cost - As a HS student, I need to be able to search for colleges based on the 'Admission' fit criteria
 
   @MATCH-3391
   Scenario: As a HS student, I want to filter colleges I am searching for by 'Meets 100% of Need' within the Cost
