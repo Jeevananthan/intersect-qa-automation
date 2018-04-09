@@ -11,6 +11,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -25,6 +26,9 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import utilities.GetProperties;
+
+import javax.swing.*;
+
 import static junit.framework.TestCase.fail;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
@@ -104,7 +108,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             for (String key : school.keySet()) {
                 switch (key) {
                     case "School Name":
-                        String header = driver.findElement(By.className("_2sidGZdt-6WEIYD6BrBvZ")).getText();
+                        String header = driver.findElement(By.xpath(".//h2[@class='ui header _1Lpvqe0tqVOX5RBm2576B2']")).getText();
+                        String a = school.get(key);
                         Assert.assertTrue("School name was not found in header.", header.contains(school.get(key)));
                         break;
                     case "High School Contact:":
@@ -246,8 +251,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
-        WebElement schoolLocation = text(location);
-        getParent(schoolLocation).findElement(By.tagName("a")).click();
+        driver.findElement(By.xpath(String.format(".//td[text()='%s']/preceding::td/a[text()='%s']"
+                ,location, schoolName))).click();
         waitUntilPageFinishLoading();
     }
 
@@ -274,7 +279,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(0));
         waitForUITransition();
         Assert.assertTrue("Check RepVisits Availability Button is not present", getCheckRepVisitsAvailabilityButton().isDisplayed());
-        getCheckRepVisitsAvailabilityButton().click();
+        waitUntil(ExpectedConditions.visibilityOf(getCheckRepVisitsAvailabilityButton()));
+        JavascriptExecutor executor = getDriver();
+        executor.executeScript("arguments[0].click();",getCheckRepVisitsAvailabilityButton());
+        //getCheckRepVisitsAvailabilityButton().click();
         driver.switchTo().defaultContent();
         Assert.assertTrue("RepVisits Availability Sidebar is not displaying.", getRepVisitsAvailabilitySidebar().isDisplayed());
     }
@@ -999,12 +1007,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
+        searchTextBox().clear();
         searchTextBox().sendKeys(school);
         waitUntil(ExpectedConditions.visibilityOf(search()),10);
         searchButton().click();
         waitForUITransition();
+
+        //waitUntil(ExpectedConditions.visibilityOf(schoolName),10);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/a[contains(text(),'"+school+"')]")));
         WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
-        waitUntil(ExpectedConditions.visibilityOf(schoolName),10);
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         schoolName.click();
         waitUntilPageFinishLoading();
