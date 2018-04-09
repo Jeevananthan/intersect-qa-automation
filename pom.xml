@@ -407,7 +407,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <testFailureIgnore>false</testFailureIgnore>
+                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
                 <executions>
                     <execution>
@@ -474,6 +474,7 @@
                             <projectName>Intersect QA Automation</projectName>
                             <outputDirectory>${project.build.directory}/reports/build-${build.number}-${project.activeProfiles[0].id}/</outputDirectory>
                             <cucumberOutput>${project.build.directory}/cucumber-json</cucumberOutput>
+                            <checkBuildResult>true</checkBuildResult>
                             <parallelTesting>true</parallelTesting>
                         </configuration>
                     </execution>
