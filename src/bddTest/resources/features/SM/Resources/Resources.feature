@@ -27,3 +27,4 @@ Feature: SM - Resources - As a HS student, I need to be able to search for colle
       | Services for the Deaf and Hard of Hearing   |
       | Asperger's/Autism Support                   |
       | Day Care Services                           |
+

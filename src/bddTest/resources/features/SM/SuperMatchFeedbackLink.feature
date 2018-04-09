@@ -1,5 +1,5 @@
 @SM
-Feature: As a HS student interacting with SuperMatch Beta, I need a way to submit feedback on and ideas for the tool
+Feature: SM - SuperMatchFeedbackLink - As a HS student interacting with SuperMatch Beta, I need a way to submit feedback on and ideas for the tool
 
   @MATCH-3433
   Scenario: As a HS student interacting with SuperMatch Beta, I need a way to submit feedback on and ideas for the tool

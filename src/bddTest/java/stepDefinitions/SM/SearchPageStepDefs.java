@@ -80,5 +80,11 @@ public class SearchPageStepDefs implements En {
         Then("^SM I unselect the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::unselectCheckbox);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the Cost fit criteria$", searchPage::selectMeest100ofNeedCheckbox);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::selectStudentSuccessFitCriteriaCheckbox);
+
+        And("^SM I verify \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::verifyStudentSuccessFitCriteriaCheckbox);
+
+        Then("^SM I unselect the \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::unselectStudentSuccessFitCriteriaCheckbox);
     }
 }

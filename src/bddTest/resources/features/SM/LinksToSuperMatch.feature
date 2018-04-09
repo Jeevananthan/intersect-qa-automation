@@ -1,5 +1,5 @@
 @SM
-Feature: As a HS student interacting with the current version of SuperMatch in FCv1, FCv2 Beta, or collegeview.com,
+Feature: SM - LinksToSuperMatch - As a HS student interacting with the current version of SuperMatch in FCv1, FCv2 Beta, or collegeview.com,
   I want to be able to access and preview/interact with the new version of SuperMatch
 
   @MATCH-3457
