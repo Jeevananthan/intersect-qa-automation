@@ -47,7 +47,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-811 @MATCH-814 @MATCH-815
   Scenario: As an authorized HS User, I need to be able to update my enrollment data in the purple community.
-            So I should be able to change my address, phone, fax, and website URL.
+  So I should be able to change my address, phone, fax, and website URL.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -224,7 +224,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-1563
   Scenario: As a HS User on my HS Institution Edit page I would like to see a header above the Title I data entry boxes
-            To reduce the risk of confusion.
+  To reduce the risk of confusion.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -233,7 +233,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-1562
   Scenario: As an authenticated HS user on the HS Institution Edit Page I don't want to have a "total" box in demographic data
-            So data entry is less confusing.
+  So data entry is less confusing.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -243,7 +243,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-1564
   Scenario: As an HS Intersect user viewing my HS Institution Edit page I want dropdowns that don't have too many options
-            So I'm not confused during editing.
+  So I'm not confused during editing.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -282,7 +282,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-1565
   Scenario: As a HS Intersect User on the HS Institution edit page I want to see placeholder text when fields are blank
-            So there is less confusion on what to put in the field.
+  So there is less confusion on what to put in the field.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -296,14 +296,14 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-2052
   Scenario: As a HS user, I need to be able to request a new user account AND a new high school institution during the registration process.
-            So I can still complete the registration workflow process when I am unable to successfully search and locate my high school.
+  So I can still complete the registration workflow process when I am unable to successfully search and locate my high school.
     Given HS I navigate to Registration Intersect url
     And HS I search for "Request new institution" in the registration page
     Then HS I verify the Request New User page
 
   @MATCH-1848
   Scenario: As a HS user, I need to see particular information and instructions on a HS Reg Institution Page.
-            So I can verify the institution is my high school and request a user account.
+  So I can verify the institution is my high school and request a user account.
     Given HS I navigate to Registration Intersect url
     Then HS I verify the Institution page
     And HS I search for "Homeconnection" in High School Staff Member registration page

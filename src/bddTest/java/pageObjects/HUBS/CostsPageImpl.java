@@ -113,6 +113,7 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
         hubsMainMenu.clickCostsTab();
         waitUntilPageFinishLoading();
         for (int i = 0; i < 10; i++) {
+            waitForUITransition();
             Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
             avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
             if (!generatedValues.get("Average Net Prices").equals(avgNetPriceText().getText().replace(",", ""))) {

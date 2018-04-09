@@ -43,5 +43,9 @@ public class LoginPageStepDefs implements En {
 
         Then("^HS I verify the link \"([^\"]*)\"$",loginPage::verifyLink);
 
+        Then("^HS I verify the Intersect Logo present in the Login Page$",loginPage::verifyLogoInLoginPage);
+
+        Then("^HS I verify the Intersect Logo present in the Home Page$",loginPage::verifyLogoInHomePage);
+
     }
 }

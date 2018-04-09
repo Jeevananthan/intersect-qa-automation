@@ -10,6 +10,7 @@ Feature: SM - Resources - As a HS student, I need to be able to search for colle
     And SM I verify that the Must Have box does not contain "<ResourcesCheckboxOption>"
     Then SM I select the "<ResourcesCheckboxOption>" checkbox from the Resources fit criteria
     And SM I move "<ResourcesCheckboxOption>" from the Must Have box to the Nice to Have box
+    Then SM I verify that the Nice to Have box contains "<ResourcesCheckboxOption>"
     Then SM I unselect the "<ResourcesCheckboxOption>" checkbox from the Resources fit criteria
     Then SM I select the "<ResourcesCheckboxOption>" checkbox from the Resources fit criteria
     And SM I verify that the Must Have box contains "<ResourcesCheckboxOption>"
