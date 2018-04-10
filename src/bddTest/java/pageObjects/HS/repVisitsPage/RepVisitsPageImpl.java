@@ -1678,7 +1678,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Blocked Days").click();
         chooseDates().click();
-        setDate(blockdate, "End");
+        setDateFixed(blockdate, "End");
         setDateDoubleClick(blockdate);
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
         selectReason.click();
@@ -2020,7 +2020,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
         waitForUITransition();
-        setDate(getCurrentDate(), getCurrentDate());
+        setDateFixed(getCurrentDate(), getCurrentDate());
 //        previousWeekInNewScheduleVisitPage().click();
         Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
     }

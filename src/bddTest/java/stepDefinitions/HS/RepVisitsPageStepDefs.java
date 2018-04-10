@@ -107,6 +107,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I set and verify that \"([^\"]*)\" is blocked on the Blocked Days page$", repVisits::verifyManualBlockedHolidays);
 
+        Then("HE I search for school \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked$", repVisits::searchforSchool);
+        
         Then("HE I search in \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked actually$", repVisits::searchforSchool);
 
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
