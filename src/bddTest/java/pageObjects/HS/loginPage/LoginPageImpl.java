@@ -60,6 +60,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             button("Higher Education Staff Member").click();
         }
 
+        driver.findElement(By.cssSelector("input[class='prompt']")).clear();
         driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
         button("Search").click();
         while(button("More Institutions").isDisplayed()){
