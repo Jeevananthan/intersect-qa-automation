@@ -2,10 +2,13 @@ package pageObjects.HE.loginPage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
+import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.SessionNotFoundException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
@@ -29,7 +32,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openLoginPage() {
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("he.app.url"));
         // If a previous test fails, we'll still have an open session.  Log out first.
         if (button(By.id("user-dropdown")).isDisplayed()) {
