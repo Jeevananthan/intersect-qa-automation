@@ -260,7 +260,7 @@
     </profiles>
 
     <repositories>
-        <repository>
+<!--        <repository>
             <id>qasymphony-releases</id>
             <name>Qasymphony Release Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/releases</url>
@@ -270,7 +270,7 @@
             <id>qasymphony-snapshots</id>
             <name>Qasymphony Snapshot Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/snapshots</url>
-        </repository>
+        </repository>-->
 
         <repository>
             <id>radius-crm</id>
@@ -281,7 +281,7 @@
     </repositories>
 
     <pluginRepositories>
-        <pluginRepository>
+<!--        <pluginRepository>
             <id>qasymphony-releases</id>
             <name>Qasymphony Release Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/releases</url>
@@ -291,7 +291,7 @@
             <id>qasymphony-snapshots</id>
             <name>Qasymphony Snapshot Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/snapshots</url>
-        </pluginRepository>
+        </pluginRepository>-->
     </pluginRepositories>
 
     <dependencies>
