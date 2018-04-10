@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.Keys;
@@ -22,7 +23,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void loginThroughNaviance(String account, String username, String password) {
-        driver.manage().deleteAllCookies();
         String navianceWindow = driver.getWindowHandle();
         String intersectWindow = null;
         openNavianceLoginPage();
@@ -45,7 +45,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openNonNavianceLoginPage(){
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
 
@@ -96,7 +100,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+        try {
+            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
@@ -180,7 +188,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openHSLoginPage() {
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
     }
