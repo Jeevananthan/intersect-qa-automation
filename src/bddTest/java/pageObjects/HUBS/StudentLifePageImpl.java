@@ -200,7 +200,7 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     athleticsTab().sendKeys(Keys.RETURN);
                     athleticsInnerSection(sections.get(10).get(1).split(";")[0]).click();
                     assertTrue("The value for " + key + " was not successfully generated",
-                                athleticsTableValue(sections.get(10).get(1).split(";")[1], sections.get(10).get(1).split(";")[2]).getText().equals(generatedValues.get(key)));
+                            athleticsTableValue(sections.get(10).get(1).split(";")[1], sections.get(10).get(1).split(";")[2]).getText().equals(generatedValues.get(key)));
                     break;
             }
         }
@@ -250,9 +250,9 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         WebElement result = null;
         switch (section) {
             case "# of Fraternaties" : result = getOrgAndServInnerSectionText("Number of Fraternities");
-            break;
+                break;
             case "# of Sororities" : result = getOrgAndServInnerSectionText("Number of Sororities");
-            break;
+                break;
         }
         return result;
     }
@@ -314,21 +314,21 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         String sectionTextLocator = "";
         switch (section) {
             case "% African American" : sectionTextLocator = "Black / African American";
-            break;
+                break;
             case "% Hispanic" : sectionTextLocator = "Hispanic / Latino";
-            break;
+                break;
             case "% Two Or More Races" : sectionTextLocator = "Two or more races";
-            break;
+                break;
             case "% Caucasian" : sectionTextLocator = "White / Caucasian";
-            break;
+                break;
             case "% Asian" : sectionTextLocator = "Asian";
-            break;
+                break;
             case "Male" : sectionTextLocator = "Male";
-            break;
+                break;
             case "Female" : sectionTextLocator = "Female";
-            break;
+                break;
             case "% Students 24 Years Old" : sectionTextLocator = "Over 24";
-            break;
+                break;
         }
         return getDriver().findElement(By.xpath("//div[@class='student-body-legend__key-title ng-binding'][text()='" + sectionTextLocator + "']/following-sibling::div"));
     }
@@ -349,11 +349,11 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         String sectionNumber = "";
         switch (section) {
             case "Division" : sectionNumber = "1";
-            break;
+                break;
             case "Conference" : sectionNumber = "2";
-            break;
+                break;
             case "Association" : sectionNumber = "3";
-            break;
+                break;
         }
         return getDriver().findElement(By.xpath("//td[text()='" + sportName + "']/following-sibling::td[" + sectionNumber + "]"));
     }

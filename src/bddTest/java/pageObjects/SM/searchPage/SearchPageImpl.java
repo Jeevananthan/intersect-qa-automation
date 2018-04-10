@@ -4,15 +4,17 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
@@ -201,6 +203,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void setResourcesCriteria(String option) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        if (option.equals("Asperger's/Autism Support"))
+            option="Autism Support";
         WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
         WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
         if (!checkbox.isSelected()) {
@@ -210,12 +214,98 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
+    public void selectRadioButtonInAcademicsFitCriteria(String option) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'"+ option.split("'")[0] + "')]"))).click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement chevronInSearchMajorsCombobox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[contains(@class, 'supermatch-menuitem-popup')]//i[@class='teal chevron down icon'])[1]")));
+
+        //open combobox
+        chevronInSearchMajorsCombobox.click();
+
+        List<List<String>> itemsToSelect = items.raw();
+        int itemsToSelectSize = itemsToSelect.size();
+
+        for(int i = 0; i < itemsToSelectSize; i++)
+        {
+            String item = itemsToSelect.get(i).get(0);
+            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[1]")).click();
+
+        }
+
+        //close combobox
+        chevronInSearchMajorsCombobox.click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    public void unselectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+
+        List<List<String>> itemsToUnselect = items.raw();
+        int itemsToUnselectSize = itemsToUnselect.size();
+
+        for(int i = 0; i < itemsToUnselectSize; i++)
+        {
+            String item = itemsToUnselect.get(i).get(0);
+            getDriver().findElement(By.xpath("(//div[@role='combobox'])[1]//a[text()='" + item +"']/i[@class='delete icon']")).click();
+        }
+
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    public void selectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType(DataTable items) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        WebElement chevronInSearchMinorsCombobox = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//div[contains(@class, 'supermatch-menuitem-popup')]//i[@class='teal chevron down icon'])[2]")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", chevronInSearchMinorsCombobox);
+
+        //open combobox
+        chevronInSearchMinorsCombobox.click();
+
+        List<List<String>> itemsToSelect = items.raw();
+        int itemsToSelectSize = itemsToSelect.size();
+
+        for(int i = 0; i < itemsToSelectSize; i++)
+        {
+            String item = itemsToSelect.get(i).get(0);
+            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[2]")).click();
+        }
+
+        //close combobox
+        chevronInSearchMinorsCombobox.click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    public void unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType(DataTable items) {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+
+        List<List<String>> itemsToUnselect = items.raw();
+        int itemsToUnselectSize = itemsToUnselect.size();
+
+        for(int i = 0; i < itemsToUnselectSize; i++)
+        {
+            String item = itemsToUnselect.get(i).get(0);
+            getDriver().findElement(By.xpath("(//div[@role='combobox'])[2]//a[text()='" + item +"']/i[@class='delete icon']")).click();
+        }
+
+          getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+
     /**
      * Accepts a String with the name of the option in the Resources fit criteria list to deactivate.
      * @param option String with the name of the option to disable.  e.x.: Counseling Services, Day Care Services, etc.
      */
     public void unsetResourcesCriteria(String option) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        if (option.equals("Asperger's/Autism Support"))
+            option="Autism Support";
         WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
         WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
         if (checkbox.isSelected()) {
@@ -250,7 +340,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void verifyMustHaveBoxContains(String item) {
-        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.",getMustHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());
+        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.",getMustHaveBox().getText().contains(item));
     }
 
     /**
@@ -259,8 +349,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyMustHaveBoxDoesNotContain(String item) {
         try {
+            driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
             Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.",!getMustHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             logger.info("Could not find the 'Must Have' box, so the item we don't want to see there clearly isn't there.");
         }
     }
@@ -270,7 +363,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Nice to Have" box.
      */
     public void verifyNiceToHaveBoxContains(String item) {
-        Assert.assertTrue("'Nice to Have' box should contain " + item + ", but it does not.",getNiceToHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+        Assert.assertTrue("'Nice to Have' box should contain " + item + ", but it does not.",getNiceToHaveBox().getText().contains(item));
     }
 
     /**
@@ -279,8 +372,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyNiceToHaveBoxDoesNotContain(String item) {
         try {
+            driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
             Assert.assertTrue("'Nice to Have' box should not contain " + item + ", but it does.",!getNiceToHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             logger.info("Could not find the 'Nice to Have' box, so the item we don't want to see there clearly isn't there.");
         }
     }
@@ -571,6 +667,70 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().window(winHandleBefore);
     }
 
+    public void verifyMeets100ofNeedCheckbox(String checkBox){
+        String path = "//label[contains(text(), '"+checkBox+"')]";
+        Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path)).getText().equals("Meets 100% of Need"));
+        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../i[@aria-hidden='true']")).isDisplayed());
+    }
+
+    /**
+     * select any selected checkbox only when fit criteria menu is open.
+     */
+    public void selectCheckBox(String checkBox, String fitCriteriaName){
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            openFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
+        Assert.assertTrue(checkBox+" checkbox by default is not selected.", !checkboxLocator.isSelected());
+        if (!checkboxLocator.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+    /**
+     * unselect any selected checkbox only when fit criteria menu is open.
+     */
+    public void unselectCheckbox(String checkBox, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            openFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+        if (onlyCheckbox.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is selected.", !onlyCheckbox.isSelected());
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    private void openFitCriteria(String fitCriteria){
+        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).click();
+    }
+
+    public void selectMeest100ofNeedCheckbox(String checkboxName){
+        selectCheckBox(checkboxName, "Cost");
+    }
+
+    public void selectStudentSuccessFitCriteriaCheckbox(String checkboxName){
+        selectCheckBox(checkboxName, "Institution Characteristics");
+    }
+
+    public void unselectStudentSuccessFitCriteriaCheckbox(String checkboxName){
+        unselectCheckbox(checkboxName, "Institution Characteristics");
+    }
+
+    public void verifyStudentSuccessFitCriteriaCheckbox(String checkboxName) {
+        openFitCriteria("Institution Characteristics");
+        String path = "//label[contains(text(),'" + checkboxName + "')]";
+        Assert.assertTrue("Student Success text is not displaying.", driver.findElement(By.xpath("//span[@class='supermatch-menu-institution-characteristics-heading'][contains(text(), 'Student Success')]")).isDisplayed());
+        Assert.assertTrue(checkboxName + " label is not displaying.", driver.findElement(By.xpath(path)).isDisplayed());
+        Assert.assertTrue(checkboxName + " checkbox tooltip is not showing.", driver.findElement(By.xpath(path + "/../../i")).isDisplayed());
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -657,4 +817,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement superMatchFooter() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"));
     }
+    private WebElement costFitCriteria(){
+        return driver.findElement(By.xpath("//li[contains(text(), 'Cost')]"));
+    }
+
 }

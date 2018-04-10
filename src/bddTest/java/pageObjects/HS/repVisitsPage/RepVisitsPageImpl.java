@@ -2249,6 +2249,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save").click();
     }
 
+    public void addEmailInNotificationandPrimaryContactPage(String Email){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
+        link("Notifications & Primary Contact").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        driver.findElement(By.id("notification_contacts_additional_emails")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.id("notification_contacts_additional_emails")).clear();
+        driver.findElement(By.id("notification_contacts_additional_emails")).sendKeys(Email);
+        button("Save changes").click();
+        waitUntilPageFinishLoading();
+    }
+
     public String createFutureDateForFair(int days) {
         DateFormat dateFormat_3 = DateFormat.getDateInstance(DateFormat.LONG);
         Calendar cal_1 = Calendar.getInstance();
