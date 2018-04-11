@@ -141,7 +141,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I search for school "Int QA High School 4" in RepVisits page using "Liberty Township, OH" and verify that "<Date>" is blocked
+    Then HE I search for school "Int Qa High School 4" in RepVisits page using "Liberty Township, OH" and verify that "<Date>" is blocked
     Examples:
       |Holiday               | Date                | StartDate  | EndDate     |
       |LABOR_DAY             | September 04 2018   |July 23 2018|July 14 2019 |
@@ -468,10 +468,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the contacts page is full or empty
     And HS I verify contacts details  in Contacts
       |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications & Tasks|
-    And HS I search for "Alma College" in Contacts
+    And HS I search for "The University of Alabama" in Contacts
     And HS I search for invalid data of "invalid data" in Contacts
     #Page layout is the same for HE/HS, so use the existing HE code for this.
-    And HE I search for partial data of "Alma" in Contacts
+    And HE I search for partial data of "The Univer" in Contacts
     And HS I successfully sign out
 
 

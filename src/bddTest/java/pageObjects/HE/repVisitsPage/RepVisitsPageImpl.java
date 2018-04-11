@@ -290,7 +290,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         getContactsBtn().click();
         getSearchBoxforContact().sendKeys(institutionName);
-        List<WebElement> searchedValueOfinstitutionName = driver.findElements(By.className("_2ZIfaO8qcJzzQzgSfH1Z8h"));
+        waitUntilPageFinishLoading();
+        List<WebElement> searchedValueOfinstitutionName = driver.findElements(By.cssSelector("div[class='_2ZIfaO8qcJzzQzgSfH1Z8h']"));
         for(int i=0;i<searchedValueOfinstitutionName.size();i++){
             String value = searchedValueOfinstitutionName.get(i).getText();
             Assert.assertTrue("Partial matching on institution name is not available",value.toLowerCase().contains(institutionName.toLowerCase()));

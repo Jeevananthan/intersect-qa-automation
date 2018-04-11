@@ -48,6 +48,7 @@ public class NavBarImpl extends SeleniumBase {
             getRepVisitsBtn().click();
         }
         waitUntilPageFinishLoading();
+        waitUntilElementExists(link(By.id("js-main-nav-rep-visits-menu-link")));
         Assert.assertTrue("Unable to navigate to RepVisits", isLinkActive(getRepVisitsBtn()));
     }
 
