@@ -379,6 +379,17 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void unpublishEventOfGeneratedName() {
+        menuButtonForEvent(eventName).click();
+        menuButtonForEventsUnpublish().click();
+    }
+
+    public void verifyNoUnpublishWithAttendeesMessage() {
+        waitForUITransition();
+        Assert.assertTrue("No error message is displayed when unpublishing an event with attendees", eventWithAttendeesUnpublishMessage().isDisplayed());
+        unpublishOkButton().click();
+    }
+
     //locators
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
@@ -455,5 +466,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement locationZipError() {
         return driver.findElement(By.cssSelector("div.dimmable div._2gPcidNhI4UgSMMTgArhV8:nth-of-type(2) span"));
+    }
+    private WebElement eventWithAttendeesUnpublishMessage() {
+        return driver.findElement(By.cssSelector("div.ui.warning.message span"));
+    }
+    private WebElement unpublishOkButton() {
+        return driver.findElement(By.cssSelector("button.ui.black.basic.button"));
     }
 }
