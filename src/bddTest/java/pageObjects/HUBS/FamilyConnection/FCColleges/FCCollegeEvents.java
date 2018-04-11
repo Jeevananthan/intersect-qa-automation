@@ -143,6 +143,7 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
 
     public void searchHost(String collegeName) {
         PageFactory.initElements(driver,FCCollegeEventsPage.class);
+        waitForUITransition();
         FCCollegeEventsPage.hostedByTextBox.sendKeys(collegeName);
         waitForUITransition();
     }
@@ -159,6 +160,7 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         }
 
         while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            waitForUITransition();
             upperNextArrow.click();
         }
 
