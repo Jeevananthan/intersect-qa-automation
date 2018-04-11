@@ -57,10 +57,12 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         selectDownloadCriteriaForConnections(String.format("-%s",currentYear));
         waitUntil(ExpectedConditions.visibilityOf(getDownloadActiveMatchConnectionsButton()));
         getDownloadActiveMatchConnectionsButton().click();
+        waitUntil(ExpectedConditions.visibilityOf(getDownloadActiveMatchConnectionsModal()));
         Assert.assertTrue("The download Active Match Connections modal was not displayed",
-                driver.findElement(By.xpath("//div[@class='actions']/button/span[text()='Download']")).isDisplayed());
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui primary disabled button']/span[text()='Download']"), 0));
-        driver.findElement(By.xpath("//div[@class='actions']/button/span[text()='Download']")).click();
+              getDownloadActiveMatchConnectionsModal().isDisplayed());
+        getDownloadActiveMatchConnectionsModalButton().click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath(
+                "//div[@class='ui modal transition visible active']//button[@class='ui primary button']/span[text()='Download']")));
         waitForUITransition();
     }
 
@@ -89,8 +91,8 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         String[] actualHeaderValues = CsvFileUtility.getCsvHeaders(String.format("%s/Downloads/%s",home,csvFile));
         for(int i=0; i<expectedHeaderValues.size(); i++){
             Assert.assertTrue(String.format("The Csv header is not correct, actual: %s, expected: %s ",
-                    actualHeaderValues[i].toString(),expectedHeaderValues.get(i).toString()),
-                    actualHeaderValues[i].toString().contains(expectedHeaderValues.get(i).toString()));
+                    actualHeaderValues[i], expectedHeaderValues.get(i)),
+                    actualHeaderValues[i].contains(expectedHeaderValues.get(i)));
         }
     }
 
@@ -119,13 +121,23 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         return button("Download");
     }
 
+    /**
+     * Gets the download download AM connections modal
+     * @return
+     */
     private WebElement getDownloadActiveMatchConnectionsModal(){
-        return driver.findElement(By.cssSelector("div[class='ui modal transition visible active']"));
+        return driver.findElement(By.xpath(".//div[@class='ui modal transition visible active']"));
     }
 
+    /**
+     * Gets the download button of the download AM connections modal
+     * @return WebElement
+     */
     private WebElement getDownloadActiveMatchConnectionsModalButton(){
-        return getDownloadActiveMatchConnectionsModal().findElement(By.xpath(".//span[text()='Download']"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+                ".//div[@class='ui modal transition visible active']//button[@class='ui primary button']/span[text()='Download']")));
+        return driver.findElement(By.xpath(
+                ".//div[@class='ui modal transition visible active']//button[@class='ui primary button']/span[text()='Download']"));
     }
-
 
 }

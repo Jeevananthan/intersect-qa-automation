@@ -20,7 +20,7 @@ public final class CsvFileUtility {
         try {
             bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(csvFile)));
             line = bufferedReader.readLine();
-            line = line.toString().replace(System.getProperty("line.separator"),"");
+            line = line.replace(System.getProperty("line.separator"),"");
             csvHeaders = line.split(csvSplitBy);
             csvHeaders = removeDoubleQuotes(csvHeaders);
             return csvHeaders;
