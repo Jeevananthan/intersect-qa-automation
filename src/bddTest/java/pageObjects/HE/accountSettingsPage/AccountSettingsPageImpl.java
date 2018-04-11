@@ -60,7 +60,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         selectOptionInAccountSettings(value).click();
         waitForUITransition();
         // Temporary fix because an error is displayed due to amount of data to be processed
-        for(int i=0; i<10;i++){
+        for(int i=0; i<20;i++){
             try{
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
                         xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);

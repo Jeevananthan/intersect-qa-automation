@@ -135,7 +135,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "EVENT LOCATION":
-                    selectLocationByPosition(Integer.parseInt(row.get(1)));
+                    selectLocationByName(row.get(1));
                     break;
                 case "EVENT PRIMARY CONTACT":
                     selectContactByPosition(Integer.parseInt(row.get(1)));
