@@ -1678,7 +1678,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Blocked Days").click();
         chooseDates().click();
-        setDate(blockdate, "End");
+        setDateFixed(blockdate, "End");
         setDateDoubleClick(blockdate);
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
         selectReason.click();
@@ -2020,7 +2020,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
         waitForUITransition();
-        setDate(getCurrentDate(), getCurrentDate());
+        setDateFixed(getCurrentDate(), getCurrentDate());
 //        previousWeekInNewScheduleVisitPage().click();
         Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
     }
@@ -2247,6 +2247,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
         button("Save").click();
+    }
+
+    public void addEmailInNotificationandPrimaryContactPage(String Email){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
+        link("Notifications & Primary Contact").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.findElement(By.id("notification_contacts_primary_contact_phone")).sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        driver.findElement(By.id("notification_contacts_additional_emails")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.id("notification_contacts_additional_emails")).clear();
+        driver.findElement(By.id("notification_contacts_additional_emails")).sendKeys(Email);
+        button("Save changes").click();
+        waitUntilPageFinishLoading();
     }
 
     public String createFutureDateForFair(int days) {

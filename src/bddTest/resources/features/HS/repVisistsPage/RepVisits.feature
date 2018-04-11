@@ -141,7 +141,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I search in "Int QA High School 4" in RepVisits page using "Liberty Township, OH" and verify that "<Date>" is blocked actually
+    Then HE I search for school "Int QA High School 4" in RepVisits page using "Liberty Township, OH" and verify that "<Date>" is blocked
     Examples:
       |Holiday               | Date                | StartDate  | EndDate     |
       |LABOR_DAY             | September 04 2018   |July 23 2018|July 14 2019 |
@@ -275,7 +275,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
     Examples:
       |BlockedDate          |Reason       |StartDate  | EndDate   |
-      |September 23 2017    |School Event |Sep 23, 2018 | Sep 23, 2018|
+      |September 23 2018    |No School |Sep 23, 2018 | Sep 23, 2018|
 
   @MATCH-1756
   Scenario:As an HS Community member,I need to view a calendar of my appointments
@@ -419,7 +419,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     #TC may fail on the next step due to MATCH-3877
-    Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
     Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
     Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
     And HE I verify the Notifications & Tasks using "<School>","<Date>","<fairTime>" for fairs
@@ -702,9 +702,30 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 
-
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School              |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo|user      |eMail                        |
       |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|hobsons.rrt+other16@gmail.com|
+
+
+  @MATCH-2444
+  Scenario Outline: Verify that email is sent to HS users after cancelling a fair as an HE user
+    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Then HS I add the email "<EMail>" in the primary contact in Notifications & Primary Contact page
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purplehsautomations@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>" for Fairs
+    Then HE I remove the Fair appointment from the calendar
+    And HE I successfully sign out
+    Then HE I verify the Email Notification Message for "<School>" using "<Date>","<EmailTimeForFair>"
+      |Subject                                            |To       |Messages |
+      |College fair registration cancelled for <School>   |<EMail>  |1        |
+
+    Examples:
+      |School            |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
+      |Homeconnection    |purpleheautomation@gmail.com    |QAs Fairs tests       |4   |1000AM    |1100AM  |2            |$25 |25                    |100                        | Save          |10AM   |10:00am         |
 
 
