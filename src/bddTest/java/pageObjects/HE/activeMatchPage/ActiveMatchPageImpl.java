@@ -58,9 +58,9 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOf(getDownloadActiveMatchConnectionsButton()));
         getDownloadActiveMatchConnectionsButton().click();
         Assert.assertTrue("The download Active Match Connections modal was not displayed",
-                getDownloadActiveMatchConnectionsModal().isDisplayed());
-        waitUntil(ExpectedConditions.visibilityOf(getDownloadActiveMatchConnectionsButton()));
-        getDownloadActiveMatchConnectionsModalButton().click();
+                driver.findElement(By.xpath("//div[@class='actions']/button/span[text()='Download']")).isDisplayed());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui primary disabled button']/span[text()='Download']"), 0));
+        driver.findElement(By.xpath("//div[@class='actions']/button/span[text()='Download']")).click();
         waitForUITransition();
     }
 
