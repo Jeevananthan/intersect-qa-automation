@@ -23,9 +23,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void loginThroughNaviance(String account, String username, String password) {
+        openNavianceLoginPage();
         String navianceWindow = driver.getWindowHandle();
         String intersectWindow = null;
-        openNavianceLoginPage();
         textbox(By.name("hsid")).sendKeys(account);
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
