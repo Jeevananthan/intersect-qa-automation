@@ -68,3 +68,69 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And HE I publish the current event
     Then HE I verify required fields error messages for events
     And HE I successfully sign out
+
+  @MATCH-3614
+  Scenario: Unpublish Not Allowed for Registered Events
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I create and save a new event with a unique name and the following details:
+      | Event Name | NewTestEvent |
+      | Event Start | 12-21-2018;10:00AM |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | Test              |
+      | Max Attendees | 30 |
+      | RSVP Deadline | 12-15-2018;10:00AM |
+      | EVENT LOCATION        | 1 |
+      | EVENT PRIMARY CONTACT | 1 |
+    And HE I successfully sign out
+    When I log in to Family Connection with the following user details:
+      | rtsa       | benhubs | Hobsons!23  |
+    And I Navigate to old Colleges tab
+    And I open link Upcoming college events
+    And I look for the host "The University of Alabama"
+    Then I sign up for the event of generated name at "The University of Alabama"
+    And HUBS I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I attempt to unpublish the event of generated name
+    Then HE I verify the message that warns that an event with attendee cannot be unpublished
+
+    And HE I cancel the created event
+    And HE I successfully sign out
+
+  @MATCH-3613
+  Scenario: Bug: Cancelled Event Not Showing in Family Connection
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I create and save a new event with a unique name and the following details:
+      | Event Name | EventForCancelTest |
+      | Event Start | 12-21-2018;10:00AM |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | Test              |
+      | Max Attendees | 30 |
+      | RSVP Deadline | 12-15-2018;10:00AM |
+      | EVENT LOCATION BY POSITION  | 1 |
+      | EVENT PRIMARY CONTACT | 1 |
+    And HE I cancel the created event
+    When I log in to Family Connection with the following user details:
+      | rtsa       | benhubs | Hobsons!23  |
+    And I Navigate to old Colleges tab
+    And I open link Upcoming college events
+    And I look for the host "The University of Alabama"
+    Then I verify the cancelation message for the generated event
+    And HUBS I successfully sign out
+
+  @MATCH-3489
+  Scenario: If a user attempts to publish an event and the event date is past, the system should treat that as an invalid date
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I create and save a new event "-10" minutes ahead from now with the following details:
+      | Event Name | EventForCancelTest |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | Test |
+      | Max Attendees | 30 |
+      | EVENT LOCATION BY POSITION  | 1 |
+      | EVENT PRIMARY CONTACT | 1 |
+    Then HE I verify that a warning message about the past date is displayed
+    And HE I successfully sign out

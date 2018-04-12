@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.homePage.HomePageImpl;
+import pageObjects.HUBS.FamilyConnection.FCColleges.FCCollegeEventsPage;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -136,6 +137,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "EVENT LOCATION":
                     selectLocationByName(row.get(1));
+                    break;
+                case "EVENT LOCATION BY POSITION":
+                    selectLocationByPosition(Integer.parseInt(row.get(1)));
                     break;
                 case "EVENT PRIMARY CONTACT":
                     selectContactByPosition(Integer.parseInt(row.get(1)));
@@ -379,6 +383,47 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void unpublishEventOfGeneratedName() {
+        menuButtonForEvent(eventName).click();
+        menuButtonForEventsUnpublish().click();
+    }
+
+    public void verifyNoUnpublishWithAttendeesMessage() {
+        waitForUITransition();
+        Assert.assertTrue("No error message is displayed when unpublishing an event with attendees", eventWithAttendeesUnpublishMessage().isDisplayed());
+        unpublishOkButton().click();
+    }
+
+    public void verifyCancellationMessageOfGenEvent() {
+        waitForUITransition();
+        List<WebElement> listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+        List<String> listOfEventNamesStrings = new ArrayList<>();
+        WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
+
+        for (WebElement eventNameElement : listOfEventNames) {
+            listOfEventNamesStrings.add(eventNameElement.getText());
+        }
+
+        while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            waitForUITransition();
+            waitUntilElementExists(upperNextArrow);
+            upperNextArrow.click();
+        }
+
+        if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
+                            cancelledEventMessage(EventsPageImpl.eventName).getText(),
+                    cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+        }
+        waitForUITransition();
+    }
+
+    public void verifyPastDateErrorMessage() {
+        List<WebElement> errorMessagesList = driver.findElements(By.cssSelector(pastDateErrorMessagesListLocator));
+        Assert.assertTrue("The past date error message is not displayed. Message: " + errorMessagesList.get(0).getText(), errorMessagesList.get(0).getText().equals(pastDateErrorMessageString) &&
+                errorMessagesList.get(1).getText().equals(pastRSVPErrorMessageString));
+    }
+
     //locators
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
@@ -456,4 +501,17 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement locationZipError() {
         return driver.findElement(By.cssSelector("div.dimmable div._2gPcidNhI4UgSMMTgArhV8:nth-of-type(2) span"));
     }
+    private WebElement eventWithAttendeesUnpublishMessage() {
+        return driver.findElement(By.cssSelector("div.ui.warning.message span"));
+    }
+    private WebElement unpublishOkButton() {
+        return driver.findElement(By.cssSelector("button.ui.black.basic.button"));
+    }
+    private WebElement cancelledEventMessage(String eventName) {
+        return driver.findElement(By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']"));
+    }
+    private String cancellationMessage = "Event cancelled by hosts";
+    private String pastDateErrorMessagesListLocator = "div.ui.red.pointing.basic.label span";
+    private String pastDateErrorMessageString = "Event Start date and time must not be in the past";
+    private String pastRSVPErrorMessageString = "Event RSVP Deadline date and time must not be in the past";
 }
