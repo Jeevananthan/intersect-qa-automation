@@ -202,5 +202,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I remove the Fair appointment from the calendar$",repVisits::removeFairAppointmentfromCalendar);
 
+        Then("^HE I verify the pills is displayed in the search and schedule page using \"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyPillsIsPresent);
+
+        Then("^HE I verify the pills is not displayed in the search and schedule page using \"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyPills);
+
     }
 }
