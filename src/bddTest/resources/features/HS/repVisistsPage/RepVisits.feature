@@ -729,17 +729,16 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Homeconnection    |purpleheautomation@gmail.com    |QAs Fairs tests       |4   |1000AM    |1100AM  |2            |$25 |25                    |100                        | Save          |10AM   |10:00am         |
 
   @MATCH-2682
-  Scenario Outline:As a high school staff member, I want to be able to edit my regular hours in RepVisits,
-  so that I can easily change the number of colleges I will allow during a certain time slot.
-#create a visit
-    #precondition
+  Scenario Outline: As a high school staff member, I want to be able to edit my regular hours in RepVisits,
+                    so that I can easily change the number of colleges I will allow during a certain time slot.
+#precondition
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-
+#create a visit
     Then HS I set a date using "<StartDate>" and "<EndDate>" in Regular Weekly Hours Tab
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
@@ -800,7 +799,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
     Examples:
-      |Day  |Date|StartTime|EndTime |NumVisits|StartDate |EndDate|hsEndTime |Option                                              |School              |heStartTime|heTime |
-      |28   |28  |10:55am  |12:11pm |3        |28        |49     |12:11pm   |No, I want to manually review all incoming requests.|Int Qa High School 4|10:55am    |10:55am|
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School              |heStartTime|heTime |
+      |7   |7   |10:55am  |12:11pm|3        |7        |14     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|10:55am    |10:55am|
 
 
