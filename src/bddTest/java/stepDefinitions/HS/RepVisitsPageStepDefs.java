@@ -328,5 +328,13 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I select cancel the Visit$",repVisits::selectCancel);
 
         Then("^HS I verify the calendar page in RepVisits using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for cancel the Visit$",repVisits::verifyCalendarPageForCancelVisit);
+
+        Then("^HS I select Activity in RepVisits to verify \"([^\"]*)\" notification for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::verifyActivityforFairs);
+
+        Then("^HS I Click on the View Details button for the College Fair \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        Then("^HS I verify the edit fair popup \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyEditFairPopup);
+
+        Then("^HS I reschedule the fair using \"([^\"]*)\"$",repVisits::rescheduleFairs);
     }
 }

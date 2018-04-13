@@ -1,6 +1,7 @@
 package pageObjects.HS.repVisitsPage;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.cs.A;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.WebSocketListener;
@@ -606,6 +607,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    public String getSpecificDateForFairsEdit(String addDays) {
+        String DATE_FORMAT_NOW = "EEEE, MM dd, yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
     public void setDateDoubleClick(String inputDate) {
 
         String[] parts = inputDate.split(" ");
@@ -1150,6 +1161,59 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("university is not displayed", driver.findElement(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + university + "']")).isDisplayed());
         Assert.assertTrue("time is not displayed", driver.findElement(By.xpath("//span[text()='" + university + "']/preceding-sibling::span[text()='" + startTime + "']")).isDisplayed());
         driver.findElement(By.xpath("//span[text()='"+university+"']/preceding-sibling::span[text()='"+startTime+"']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyActivityforFairs(String option,String user,String university,String date,String time){
+        navBar.goToRepVisits();
+        notificationAndTasks().click();
+        activityTab().click();
+        Assert.assertTrue("user name is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']")).isDisplayed());
+        Assert.assertTrue("notification is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
+        Assert.assertTrue(option+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
+        String Date =driver.findElement(By.xpath("//b[text()='"+university+"']/parent::div/following-sibling::div/span[contains(text(),'"+time+"')]/parent::div/span")).getText();
+        String actualDate[]=Date.split(" at");
+        String originalDate=actualDate[0];
+        String fairsDate = selectdateForActivity(date);
+        Assert.assertTrue("Date is not equal",originalDate.equals(fairsDate));
+    }
+
+    public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("College Fairs").click();
+        waitUntilPageFinishLoading();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
+            waitUntilPageFinishLoading();
+        }
+        waitUntilElementExists(selectViewDetails(fairNametoClickViewDetails));
+        selectViewDetails(fairNametoClickViewDetails).click();
+    }
+
+    public void verifyEditFairPopup(String fairName,String fairStartTime,String date){
+        Assert.assertTrue("",button("Edit").isDisplayed());
+        button("Edit").click();
+        waitUntilPageFinishLoading();
+        String displayedFairName = driver.findElement(By.id("college-fair-name")).getAttribute("value");
+        Assert.assertTrue("Fairname is not equal",fairName.equals(displayedFairName));
+        String displayedTime = driver.findElement(By.id("college-fair-start-time")).getAttribute("value");
+        Assert.assertTrue("Start time is not equal",fairStartTime.equals(displayedTime));
+        String originalDate = getSpecificDateForFairsEdit(date);
+        String displayedDate = driver.findElement(By.id("college-fair-date")).getAttribute("value");
+        Assert.assertTrue("Date is not equal",displayedDate.equals(originalDate));
+    }
+
+    public void rescheduleFairs(String newFairsStartTime){
+        driver.findElement(By.id("college-fair-start-time")).clear();
+        driver.findElement(By.id("college-fair-start-time")).sendKeys(newFairsStartTime);
+        driver.findElement(By.id("college-fair-end-time")).sendKeys(Keys.PAGE_DOWN);
+        waitUntilPageFinishLoading();
+        driver.findElement(By.id("college-fair-max-number-colleges")).sendKeys(Keys.PAGE_DOWN);
+        waitUntilPageFinishLoading();
+        driver.findElement(By.id("college-fair-email-message-to-colleges")).sendKeys(Keys.PAGE_DOWN);
+        waitUntilPageFinishLoading();
+        button("Save").click();
         waitUntilPageFinishLoading();
     }
 
@@ -2417,6 +2481,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRequestNotificationTab(String user, String university, String time,String date) {
+        waitUntilPageFinishLoading();
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         WebElement element=button("Notifications & Tasks");
@@ -3304,10 +3369,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             if(buttonToClick.equals("Cancel This College Fair")) {
                 Assert.assertTrue("'Cancel This College Fair' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).isDisplayed());
                 driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).click();
+                waitUntilPageFinishLoading();
             }else if(buttonToClick.equals("Save")){
                 waitUntilElementExists(save());
                 Assert.assertTrue("'Save' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Save']")).isDisplayed());
-                driver.findElement(By.xpath("//button/span[text()='Save']")).click();
+                jsClick(getDriver().findElement(By.xpath("//button/span[text()='Save']")));
+                waitUntilPageFinishLoading();
             }else {
                 Assert.fail("The option for the button to click ="+buttonToClick+" is not a valid one");
             }
@@ -4180,5 +4247,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement regularWeeklyHours= link("Regular Weekly Hours");
         return  regularWeeklyHours;
+    }
+    private WebElement selectViewDetails(String fairNametoClickViewDetails)
+    {
+        WebElement select=driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+fairNametoClickViewDetails+"']/parent::tr/td/a[span='View Details']"));
+        return select;
     }
 }

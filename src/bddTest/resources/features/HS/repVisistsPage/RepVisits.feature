@@ -734,10 +734,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #FOR VISITS
 #precondition
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
-#    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
-#    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
-#    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
-#    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 #FOR CONFIRM
     Then HS I set the date using "<StartDateforNewVisit>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
@@ -797,10 +797,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I select Activity in RepVisits to verify "scheduled" notification for "<HSuser>","<institution>","<activityDate>","<newVisitSTime>"
 
 #FOR FAIRS
-    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
-#VERIFY ACTIVITY
-    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<heStartTime>"
-
 #FOR CONFIRM
     Then HS I set the following data to On the College Fair page "<newFairName>", "<Date>", "<fairCreateSTime>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
@@ -819,15 +815,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I verify the Notification "<user>","<institution>","<Start Time>","<Date>" in the Request Notification Tab for Fairs
     And HS I select "Confirm" option for the Notification using "<user>","<Start Time>","<institution>" for Fairs
 #VERIFY ACTIVITY
-
-#FOR RESCHEDULE
-
-#FOR CANCEL
-    And HS I verify the Dashboard Upcoming events for "<College Fair Name>" and "<RSVP Deadline>"
-    Then HS I cancel new event created for "<College Fair Name>"
-    And HS I verify the Canceled events for "<College Fair Name>"
-#VERIFY ACTIVITY
-
+    And HS I select Activity in RepVisits to verify "confirmed" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
 
 #FOR DECLINE
     Then HS I verify the Notification "<user>","<institution>","<Start Time>","<Date>" in the Request Notification Tab for Fairs
@@ -835,12 +823,26 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<Start Time>","<Date>" for Fairs
     Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
 #VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
 
+#FOR RESCHEDULE
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the edit fair popup "<College Fair Name>","<FairsSTime>","<Date>"
+    And HS I reschedule the fair using "<newFairsSTime>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "rescheduled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
+
+#FOR CANCEL
+    And HS I verify the Dashboard Upcoming events for "<College Fair Name>" and "<RSVP Deadline>"
+    Then HS I cancel new event created for "<College Fair Name>"
+    And HS I verify the Canceled events for "<College Fair Name>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
     Then HS I verify the message "You currently have no notifications" is displayed in the ACTIVITY subtab
     Then HS I verify the Paginate the ACTIVITY subtab via 25 entries with a "Show More" action to display the next 25 entries
     And HS I successfully sign out
 
  Examples:
-   |activityDate |calendarST    |visitLocation|Attendees           |user    |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                   |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|newVisitETime|RescheduleStartTime|RescheduleEndTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|newFairsSTime|fairCreateSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|
-   |7            |10:59AM       |USA          |PurpleHE Automation |PurpleHE|School Manager |The University of Alabama |7   |10:59am  |10:25pm |3        |7        |14      |10:25pm      |No, I want to manually review all incoming requests. |Standalone High School 6 |10:59am     |10:59am |Qa Fair for testng    |7   |1000AM    |1200AM  |22           |$25 |25                    |100                        |Save          |7                   |10:31am      |10:58pm      |10:59 AM           |11:25 PM         |10:59am                        |10:58pm                      |10:00am      |1100AM         |10:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |
+   |activityDate |calendarST    |user    |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                   |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|FairsSTime|newFairsSTime|fairCreateSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|
+   |7            |10:59AM       |PurpleHE|School Manager |The University of Alabama |7   |10:59am  |10:25pm |3        |7        |14      |10:25pm      |No, I want to manually review all incoming requests. |Standalone High School 6 |10:59am     |10:59am |Qa Fair for testng    |7   |1000AM    |1200AM  |5            |$25 |25                    |100                        |Save          |7                   |10:31am      |10:59 AM           |10:59am                        |10:58pm                      |10:00am   |10:00am      |1100AM         |10:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |
 
