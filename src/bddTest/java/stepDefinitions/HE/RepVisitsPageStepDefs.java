@@ -202,5 +202,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I remove the Fair appointment from the calendar$",repVisits::removeFairAppointmentfromCalendar);
 
+        Then("^HE I verify the unpaid users are blocked from exporting in Calendar page$",repVisits::verifyExportButtonInCalendar);
+
     }
 }

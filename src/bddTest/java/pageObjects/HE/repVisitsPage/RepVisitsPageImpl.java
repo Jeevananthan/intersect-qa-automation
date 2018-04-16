@@ -172,6 +172,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
     }
 
+    public void verifyExportButtonInCalendar(){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Calendar").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        Assert.assertTrue("Export button is Enabled in Calendar page",driver.findElement(By.xpath("//button[@class='ui teal basic disabled button _1I0GHfcjpniiDr2MOWxpxw _3Rc-fBQEQJr4FpMhLBYL0m']")).isDisplayed());
+    }
+
 
     private void validateInfolink(){
         Assert.assertTrue("Text 'For more information' is not displayed", text("For more information:").isDisplayed());
