@@ -396,18 +396,26 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCancellationMessageOfGenEvent() {
         waitForUITransition();
-        List<WebElement> listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+        List<WebElement> listOfEventNames = new ArrayList<>();
         List<String> listOfEventNamesStrings = new ArrayList<>();
+
         WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
 
+        listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
         for (WebElement eventNameElement : listOfEventNames) {
             listOfEventNamesStrings.add(eventNameElement.getText());
         }
 
         while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
             waitForUITransition();
+            waitUntilPageFinishLoading();
             waitUntilElementExists(upperNextArrow);
             upperNextArrow.click();
+            waitForUITransition();
+            listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+            for (WebElement eventNameElement : listOfEventNames) {
+                listOfEventNamesStrings.add(eventNameElement.getText());
+            }
         }
 
         if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
