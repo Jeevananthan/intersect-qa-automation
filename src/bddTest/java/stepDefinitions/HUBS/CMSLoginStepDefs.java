@@ -11,5 +11,7 @@ public class CMSLoginStepDefs implements En{
 
         And("^HUBS I approve the changes in CMS with the user email \"([^\"]*)\" and the following details:$", nodeMenu::approveChangesInCMS);
 
+        And("^HUBS I successfully sign out from CMS$", nodeMenu::clickLogout);
+
     }
 }

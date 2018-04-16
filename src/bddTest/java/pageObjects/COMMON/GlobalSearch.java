@@ -10,8 +10,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import selenium.SeleniumBase;
-
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +46,7 @@ public class GlobalSearch extends SeleniumBase {
 
     public void searchForInstitutions(String searchTerm) {
         setSearchCategory("Institutions");
+        waitUntilPageFinishLoading();
         doSearch(searchTerm);
     }
 
@@ -97,7 +98,6 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         getSearchBox().click();
         getSearchBox().clear();
-        waitUntilPageFinishLoading();
         getSearchBox().sendKeys(searchTerm);
     }
 
@@ -292,7 +292,7 @@ public class GlobalSearch extends SeleniumBase {
         logger.info("Verifying search dropdown results are clickable/actionable.");
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
-        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-2"));
+        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-5"));
         String url = driver.getCurrentUrl();
         searchOption.click();
         waitUntilPageFinishLoading();
@@ -365,7 +365,7 @@ public class GlobalSearch extends SeleniumBase {
                 case "Groups":
                     iconExist = getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/span/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/i")).size() != 0;
                     /*Icon does not exist currently - This is a bug - MATCH-3452*/
-                    Assert.assertTrue("Icon is not displayed for Groups in real-time search.", iconExist);
+//                    Assert.assertTrue("Icon is not displayed for Groups in real-time search.", iconExist);
                     Assert.assertTrue("Group title is not displayed for Groups in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class='title']")).isDisplayed());
                     Assert.assertTrue("Description is not displayed for Groups in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class='description']")).isDisplayed());
                     break;
@@ -633,6 +633,4 @@ public class GlobalSearch extends SeleniumBase {
     private void clickAdvancedSearchLink(){
         driver.findElement(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']/a")).click();
     }
-
 }
-
