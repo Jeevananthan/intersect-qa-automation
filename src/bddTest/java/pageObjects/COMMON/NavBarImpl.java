@@ -43,9 +43,12 @@ public class NavBarImpl extends SeleniumBase {
     }
 
     public void goToRepVisits() {
-        if (!isLinkActive(getRepVisitsBtn()))
+        if (!isLinkActive(getRepVisitsBtn())) {
             getRepVisitsBtn().click();
+            getRepVisitsBtn().click();
+        }
         waitUntilPageFinishLoading();
+        waitUntilElementExists(link(By.id("js-main-nav-rep-visits-menu-link")));
         Assert.assertTrue("Unable to navigate to RepVisits", isLinkActive(getRepVisitsBtn()));
     }
 
@@ -127,7 +130,7 @@ public class NavBarImpl extends SeleniumBase {
             try{
                 headerWebElement= new WebDriverWait(getDriver(),10).
                         until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(
-                                "//nav[@class='hidden-mobile hidden-tablet print _3x2qW0SvZpA5OC0k_9dL30 _3sM-wM6bB02P6669gxCsoP']//span[text()='%s']"
+                                "//nav[@class='hidden-mobile hidden-tablet _3sM-wM6bB02P6669gxCsoP']/div/dl/dt/span[text()='%s']"
                                 ,heading))));
             } catch (Exception e){throw new AssertionFailedError(String.format("The header: %s is not visible",
                     heading));}
@@ -186,7 +189,7 @@ public class NavBarImpl extends SeleniumBase {
     }
     private WebElement getActiveMatchButton() { return link(By.id("js-main-nav-am-plus-menu-link")); }
 
-    private WebElement getHeadingBreadcrumbs(){
+    public WebElement getHeadingBreadcrumbs(){
         List<WebElement> items = driver.findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
         for (WebElement item : items) {
             if (item.getText().length() > 0)
@@ -194,7 +197,8 @@ public class NavBarImpl extends SeleniumBase {
         }
         return null;
     }
-    private WebElement getSubMeunBreadcrumbs() {
+
+    public WebElement getSubMeunBreadcrumbs() {
         List<WebElement> items = driver.findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
         for (WebElement item : items) {
             if (item.getText().length() > 0)

@@ -7,7 +7,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-import selenium.SeleniumBase;
 
 import org.apache.log4j.Logger;
 
@@ -19,10 +18,13 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToHubsPage(String collegeName){
         waitUntilPageFinishLoading();
         communityFrame();
-        waitForUITransition();
-        link("Additional info").click();
+        WebElement additionalLink = link("Additional info");
+        waitUntil(ExpectedConditions.visibilityOf(additionalLink));
+        additionalLink.click();
         waitUntilPageFinishLoading();
-        link("VIEW NAVIANCE COLLEGE PROFILE").click();
+        WebElement viewNavianceCollegeProfile = link("VIEW NAVIANCE COLLEGE PROFILE");
+        waitUntil(ExpectedConditions.visibilityOf(viewNavianceCollegeProfile));
+        viewNavianceCollegeProfile.click();
         waitUntilPageFinishLoading();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -31,6 +33,8 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         try{
             waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
         }catch(Exception e){
+            logger.info("Caught Exception: " + e.getMessage());
+            getDriver().switchTo().defaultContent();
             throw new AssertionFailedError("College Name is not displaying in Hubs View");
         }
         getDriver().switchTo().defaultContent();
