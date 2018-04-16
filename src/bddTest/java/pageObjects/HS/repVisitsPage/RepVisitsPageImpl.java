@@ -608,7 +608,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public String getSpecificDateForFairsEdit(String addDays) {
-        String DATE_FORMAT_NOW = "EEEE, MM dd, yyyy";
+        String DATE_FORMAT_NOW = "EEEE, MMM dd, yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public String getSpecificDateForFairsPage(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd, yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
@@ -1181,31 +1191,39 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
+        waitForUITransition();
         link("College Fairs").click();
         waitUntilPageFinishLoading();
         while (link("View More Upcoming Events").isDisplayed()){
             link("View More Upcoming Events").click();
             waitUntilPageFinishLoading();
         }
+        fairNametoClickViewDetails = FairName;
         waitUntilElementExists(selectViewDetails(fairNametoClickViewDetails));
         selectViewDetails(fairNametoClickViewDetails).click();
+        waitUntilPageFinishLoading();
     }
 
     public void verifyEditFairPopup(String fairName,String fairStartTime,String date){
-        Assert.assertTrue("",button("Edit").isDisplayed());
+        fairName = FairName;
+        waitForUITransition();
+        String fairTime[] = fairStartTime.split(" ");
+        WebElement button = button("Edit");
+        waitUntil(ExpectedConditions.visibilityOf(button),10);
+        Assert.assertTrue("Edit button is not displayed",button("Edit").isDisplayed());
         button("Edit").click();
         waitUntilPageFinishLoading();
         String displayedFairName = driver.findElement(By.id("college-fair-name")).getAttribute("value");
         Assert.assertTrue("Fairname is not equal",fairName.equals(displayedFairName));
         String displayedTime = driver.findElement(By.id("college-fair-start-time")).getAttribute("value");
-        Assert.assertTrue("Start time is not equal",fairStartTime.equals(displayedTime));
+        Assert.assertTrue("Start time is not equal",displayedTime.equals(fairTime[0]));
         String originalDate = getSpecificDateForFairsEdit(date);
         String displayedDate = driver.findElement(By.id("college-fair-date")).getAttribute("value");
         Assert.assertTrue("Date is not equal",displayedDate.equals(originalDate));
     }
 
     public void rescheduleFairs(String newFairsStartTime){
-        driver.findElement(By.id("college-fair-start-time")).clear();
+        driver.findElement(By.id("college-fair-start-time")).click();
         driver.findElement(By.id("college-fair-start-time")).sendKeys(newFairsStartTime);
         driver.findElement(By.id("college-fair-end-time")).sendKeys(Keys.PAGE_DOWN);
         waitUntilPageFinishLoading();
@@ -3316,6 +3334,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void accessCreateCollegeFair(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected,String buttonToClick){
+        waitUntilPageFinishLoading();
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         WebElement fairs=link("College Fairs");
@@ -3535,6 +3554,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("College Fairs").click();
         waitUntilPageFinishLoading();
+        rsvpDeadLine = getSpecificDateForFairsPage(rsvpDeadLine);
         boolean resultUpcomingVerification = findUpcommingEvents(FairName, rsvpDeadLine);
         Assert.assertTrue("Upcoming Events it's not working as expected ", resultUpcomingVerification);
     }
@@ -3577,17 +3597,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public Boolean cancelNewEvent(String collegeFairName) {
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         String eventsData;
         String eventsRsvp;
         Boolean flag = false;
-
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         link("College Fairs").click();
         waitUntilPageFinishLoading();
-
+        waitForUITransition();
         while (link("View More Upcoming Events").isDisplayed()) {
             link("View More Upcoming Events").click();
             waitUntilPageFinishLoading();
+            waitForUITransition();
         }
 
         List<WebElement> pastEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(1)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
@@ -3625,7 +3649,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void cancelCollegeFair() {
         driver.findElement(By.cssSelector("button[class='ui red basic button _1cCLCZWTdTFaaExQxVjUzr _2Mxz8MGcxLQjyp9ht7UTNz']")).click();
+        List<WebElement> button = driver.findElements(By.cssSelector("button[class='ui primary right floated button _4kmwcVf4F-UxKXuNptRFQ']"));
+        if(button.size()==0) {
+            driver.findElement(By.id("college-fair-cancellation-message")).sendKeys("by QA");
+        }
         driver.findElement(By.cssSelector("button[class='ui primary right floated button _4kmwcVf4F-UxKXuNptRFQ']")).click();
+        waitUntilPageFinishLoading();
     }
 
     public void verifyCanceledEvents(String collegeFairName) {

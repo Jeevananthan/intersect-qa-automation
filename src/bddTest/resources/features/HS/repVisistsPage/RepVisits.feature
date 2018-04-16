@@ -798,7 +798,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 #FOR FAIRS
 #FOR CONFIRM
-    Then HS I set the following data to On the College Fair page "<newFairName>", "<Date>", "<fairCreateSTime>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I set the following data to On the College Fair page "<newFairName>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
@@ -812,37 +812,36 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
-    Then HS I verify the Notification "<user>","<institution>","<Start Time>","<Date>" in the Request Notification Tab for Fairs
-    And HS I select "Confirm" option for the Notification using "<user>","<Start Time>","<institution>" for Fairs
+    Then HS I verify the Notification "<user>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Confirm" option for the Notification using "<user>","<FairsSTime>","<institution>" for Fairs
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "confirmed" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
 
 #FOR DECLINE
-    Then HS I verify the Notification "<user>","<institution>","<Start Time>","<Date>" in the Request Notification Tab for Fairs
-    And HS I select "Decline" option for the Notification using "<user>","<Start Time>","<institution>" for Fairs
-    Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<Start Time>","<Date>" for Fairs
+    Then HS I verify the Notification "<user>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Decline" option for the Notification using "<user>","<FairsSTime>","<institution>" for Fairs
+    Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<FairsSTime>","<Date>" for Fairs
     Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
 
 #FOR RESCHEDULE
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
-    Then HS I verify the edit fair popup "<College Fair Name>","<FairsSTime>","<Date>"
+    Then HS I verify the edit fair popup "<College Fair Name>","<FairSTimeforReschedule>","<Date>"
     And HS I reschedule the fair using "<newFairsSTime>"
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "rescheduled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
 
 #FOR CANCEL
-    And HS I verify the Dashboard Upcoming events for "<College Fair Name>" and "<RSVP Deadline>"
     Then HS I cancel new event created for "<College Fair Name>"
     And HS I verify the Canceled events for "<College Fair Name>"
 #VERIFY ACTIVITY
-    And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
+    And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
     Then HS I verify the message "You currently have no notifications" is displayed in the ACTIVITY subtab
     Then HS I verify the Paginate the ACTIVITY subtab via 25 entries with a "Show More" action to display the next 25 entries
     And HS I successfully sign out
 
  Examples:
-   |activityDate |calendarST    |user    |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                   |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|FairsSTime|newFairsSTime|fairCreateSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|
-   |7            |10:59AM       |PurpleHE|School Manager |The University of Alabama |7   |10:59am  |10:25pm |3        |7        |14      |10:25pm      |No, I want to manually review all incoming requests. |Standalone High School 6 |10:59am     |10:59am |Qa Fair for testng    |7   |1000AM    |1200AM  |5            |$25 |25                    |100                        |Save          |7                   |10:31am      |10:59 AM           |10:59am                        |10:58pm                      |10:00am   |10:00am      |1100AM         |10:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |
+   |activityDate |calendarST    |user    |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                   |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|FairsSTime|newFairsSTime|fairCreateSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|FairSTimeforReschedule|
+   |7            |10:59AM       |PurpleHE|School Manager |The University of Alabama |7   |10:59am  |10:25pm |3        |7        |14      |10:25pm      |No, I want to manually review all incoming requests. |Standalone High School 6 |10:59am     |10:59am |Qa Fair for testng    |7   |1000AM    |1200PM  |5            |$25 |25                    |100                        |Save          |7                   |10:31am      |10:59 AM           |10:59am                        |10:58pm                      |10:00am   |11:00am      |1100AM         |10:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |10:00 AM              |
 
