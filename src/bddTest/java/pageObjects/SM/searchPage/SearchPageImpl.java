@@ -552,6 +552,80 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifySystemResponseWhenSATScoreInputIsValid() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("400");
+        waitForUITransition();
+        Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1000");
+        waitForUITransition();
+        Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1600");
+        waitForUITransition();
+        Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+    }
+
+    public void verifySystemResponseWhenSATScoreInputIsInvalid() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("100");
+        waitForUITransition();
+        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("399");
+        waitForUITransition();
+        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1601");
+        waitForUITransition();
+        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+    }
+
+    public void verifyIfSATScoreDataIsStoredOnOurSide() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("827");
+        resourcesMenuItem().click();
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+        Assert.assertTrue("SAT score data is not persisting", satScoreTextBox().getAttribute("value").equals("827"));
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1300");
+        resourcesMenuItem().click();
+
+    }
+
     public void verifyGPADataPersists() {
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
@@ -777,6 +851,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement actScoreTextBox() {
         return driver.findElement(By.xpath("//input[@name='actScore']"));
+    }
+    private WebElement satScoreTextBox() {
+        return driver.findElement(By.xpath("//input[@name='satScore']"));
     }
     private WebElement allStudentsRadioButton() {
         return driver.findElement(By.xpath("//label[contains(text(), 'All students')]//preceding-sibling::input"));
