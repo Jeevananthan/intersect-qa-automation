@@ -18,7 +18,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the system response when the SAT score entered by the user is invalid$", searchPage::verifySystemResponseWhenSATScoreInputIsInvalid);
 
-        And("^SM I verify that SAT score data is stored on our side$", searchPage::verifyIfSATScoreDataIsStoredOnOurSide);
+        And("^SM I verify that SAT score persists when changing fit criteria$", searchPage::verifyIfSATScoreDataIsStoredOnOurSide);
 
         And("^SM I verify that SAT score doesn't become fit criteria in Must Have box$", searchPage::verifySATScoreCriteriaNotInMustHaveBox);
 

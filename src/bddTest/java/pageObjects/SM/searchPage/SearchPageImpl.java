@@ -88,7 +88,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenSATScoreInputIsValid() {
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -113,8 +113,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenSATScoreInputIsInvalid() {
 
-
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
@@ -139,30 +138,31 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyIfSATScoreDataIsStoredOnOurSide() {
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
         }
 
         satScoreTextBox().clear();
-        satScoreTextBox().sendKeys("800");
-
+        satScoreTextBox().sendKeys("827");
         resourcesMenuItem().click();
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
         }
-
-        Assert.assertTrue("SAT score data is not stored on our side", satScoreTextBox().getAttribute("value").equals("800"));
+        Assert.assertTrue("SAT score data is not persisting", satScoreTextBox().getAttribute("value").equals("827"));
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1300");
+        resourcesMenuItem().click();
 
     }
 
     public void verifySATScoreCriteriaNotInMustHaveBox() {
 
-        if(admissionMenuItem().getAttribute("class").contains("active") == false)
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
             waitForUITransition();
