@@ -626,22 +626,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifySATScoreCriteriaNotInMustHaveBox() {
-
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
-            admissionMenuItem().click();
-            waitForUITransition();
-        }
-
-        satScoreTextBox().clear();
-        satScoreTextBox().sendKeys("500");
-
-        Assert.assertTrue("Must have box doesn't contain SAT score fit criteria", mustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
-        && !mustHaveBox().getText().contains("500") && !mustHaveBox().getText().toLowerCase().contains("sat"));
-    }
-
-
     public void verifyGPADataPersists() {
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))

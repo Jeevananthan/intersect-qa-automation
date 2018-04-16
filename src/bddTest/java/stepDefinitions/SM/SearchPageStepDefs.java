@@ -39,8 +39,6 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that SAT score persists when changing fit criteria$", searchPage::verifyIfSATScoreDataIsStoredOnOurSide);
 
-        And("^SM I verify that SAT score doesn't become fit criteria in Must Have box$", searchPage::verifySATScoreCriteriaNotInMustHaveBox);
-
         And("^SM I verify that entered GPA data persists$", searchPage::verifyGPADataPersists);
 
         And("^SM I verify that GPA doesn't become a fit criteria in the Must Have box$", searchPage::verifyGPACriteriaNotInMustHaveBox);

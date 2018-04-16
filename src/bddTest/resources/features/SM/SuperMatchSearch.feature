@@ -28,7 +28,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify the system response when the SAT score entered by the user is valid
     Then SM I verify the system response when the SAT score entered by the user is invalid
     Then SM I verify that SAT score persists when changing fit criteria
-    Then SM I verify that SAT score doesn't become fit criteria in Must Have box
+    Then SM I verify that the Must Have box does not contain "SAT"
 
   @MATCH-3208
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be able to
