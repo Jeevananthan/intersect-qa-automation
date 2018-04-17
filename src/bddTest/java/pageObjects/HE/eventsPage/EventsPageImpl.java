@@ -396,6 +396,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCancellationMessageOfGenEvent() {
         waitForUITransition();
+        if (driver.findElements(By.cssSelector(FCCollegeEventsPage.welcomeTooltipLocator)).size() > 0) {
+            FCCollegeEventsPage.welcomeTooltipCloseButton.click();
+        }
         List<WebElement> listOfEventNames = new ArrayList<>();
         List<String> listOfEventNamesStrings = new ArrayList<>();
 
