@@ -65,5 +65,9 @@ public class EventsPageStepDefs implements En {
         Then("^I verify the cancelation message for the generated event$", eventsPage::verifyCancellationMessageOfGenEvent);
 
         Then("^HE I verify that a warning message about the past date is displayed$", eventsPage::verifyPastDateErrorMessage);
+
+        And("^HE I open the \"([^\"]*)\" tab in the Events section$", eventsPage::openTab);
+
+        Then("^HE A filter of name \"([^\"]*)\" is displayed in the filters list$", eventsPage::verifyFilterIsPresentInList);
     }
 }

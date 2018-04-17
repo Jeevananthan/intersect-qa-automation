@@ -435,6 +435,20 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                 errorMessagesList.get(1).getText().equals(pastRSVPErrorMessageString));
     }
 
+    public void openTab(String tabName) {
+        waitUntilPageFinishLoading();
+        getTab(tabName).click();
+    }
+
+    public void verifyFilterIsPresentInList(String eventName) {
+        List<String> filtersNamesStrings = new ArrayList<>();
+        List<WebElement> filtersNames = driver.findElements(By.cssSelector(filtersList));
+        for (WebElement filterName : filtersNames) {
+            filtersNamesStrings.add(filterName.getText());
+        }
+        Assert.assertTrue("The filter is not displayed in the filters list", filtersNamesStrings.contains(eventName));
+    }
+
     //locators
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
@@ -525,4 +539,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private String pastDateErrorMessagesListLocator = "div.ui.red.pointing.basic.label span";
     private String pastDateErrorMessageString = "Event Start date and time must not be in the past";
     private String pastRSVPErrorMessageString = "Event RSVP Deadline date and time must not be in the past";
+    private WebElement getTab(String tabName) { return driver.findElement(By.xpath("//span[text()='" + tabName + "']")); }
+    private String filtersList = "div[class*=dimmable] strong";
 }
