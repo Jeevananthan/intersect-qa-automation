@@ -4,8 +4,14 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
+import pageObjects.HE.homePage.HomePageImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
@@ -27,20 +33,40 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
 
     public void inactivateUser(String accountName) {
         takeUserAction(accountName,"Inactivate");
-        button("Yes").click();
-        waitForStatusChangeModalToClear();
+        waitUntilElementExists( button("Yes"));
+        Actions action = new Actions(getDriver());
+        jsClick(getDriver().findElement(By.xpath(".//span[text()='Yes']")));
+        waitForUITransition();
+        try{
+            (new WebDriverWait(getDriver(),10)).until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath(".//span[text()='Yes']")));
+            waitForUITransition();
+            action.sendKeys(Keys.TAB).sendKeys(Keys.TAB).sendKeys(Keys.ENTER).build().perform();
+        }catch (Exception e){}
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath(".//div[text()='Inactivate this user']")));
+        waitForUITransition();
     }
 
     public void activateUser(String accountName) {
         takeUserAction(accountName,"Activate");
-        button("Yes").click();
-        waitForStatusChangeModalToClear();
+        waitUntilElementExists( button("Yes"));
+        Actions action = new Actions(getDriver());
+        action.moveToElement(getDriver().findElement(By.xpath(".//span[text()='Yes']"))).click().build().perform();
+        try{
+            (new WebDriverWait(getDriver(),10)).until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath(".//span[text()='Yes']")));
+            waitForUITransition();
+            action.sendKeys(Keys.TAB).sendKeys(Keys.TAB).sendKeys(Keys.ENTER).build().perform();
+        }catch (Exception e){}
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath(".//div[text()='Activate this user']")));
+        waitForUITransition();
     }
 
     public void unlockUser(String accountName) {
         takeUserAction(accountName,"Unlock");
-        button("Yes").click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.xpath(".//div[text()='Unlock this user']")));
+        jsClick(getDriver().findElement(By.cssSelector("button[class='ui positive button']")));
+        waitForUITransition();
     }
 
     public void editUser(String accountName,DataTable dataTable) {
@@ -58,7 +84,9 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyUserRoles(DataTable table) {
-        navBar.goToUsers();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
+        waitUntil(ExpectedConditions.visibilityOf(button("ADD NEW USER")));
         button("ADD NEW USER").click();
         List<String> li = table.transpose().asList(String.class);
         for (int i=1;i<li.size();i++){
@@ -68,12 +96,12 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUserData(DataTable data) {
-        navBar.goToUsers();
-        Assert.assertTrue("Expected message \"Click the arrow to the right of any existing user to manage their settings and permissions.\" was not found!"
-                ,text("Click the arrow to the right of any existing user to manage their settings and permissions.").isDisplayed());
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
         List<Map<String,String>> entities = data.asMaps(String.class,String.class);
         for (Map<String,String> entity : entities) {
-           WebElement row = getParent(text(entity.get("Email")));
+            WebElement row = getDriver().findElement(By.xpath(String.format(".//div[text()='%s']/parent::td/parent::tr",
+                    entity.get("Email"))));
            for (String key : entity.keySet()) {
                logger.info("User Data Row: "+ row.getText());
                Assert.assertTrue("Expected to find " + entity.get(key) + "in row for " + entity.get("Email") + ", but it was not found.",row.getText().contains(entity.get(key)));
@@ -82,12 +110,12 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     private void takeUserAction(String accountName, String action) {
-        navBar.goToUsers();
-        WebElement actionsButton = getParent(text(accountName)).findElement(By.cssSelector("[aria-label=Actions]"));
-        WebElement button = actionsButton.findElement(By.xpath("./div/div/span[contains(text(),'"+action+"')]"));
-        actionsButton.click();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
+        WebElement userAccountRow = getDriver().findElement(By.xpath(String.format(".//div[text()='%s']/parent::td/parent::tr",accountName)));
+        WebElement actionsButton = userAccountRow.findElement(By.cssSelector("div[aria-label='Actions']"));
+        WebElement button = actionsButton.findElement(By.xpath("div/div/span[contains(text(),'"+action+"')]"));
         jsClick(button);
-        waitUntilPageFinishLoading();
     }
 
     public void verifyEmailChangedNotification(DataTable data) {
@@ -107,52 +135,16 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
 
     //The below method is to validate the Last Login Date for Administrator (MATCH-192)
     public void verifyLastLoginData(String usertype) {
-        navBar.goToUsers();
-        String username = GetProperties.get("he."+ usertype + ".username");
-        Assert.assertTrue("Expected message \"Click the arrow to the right of any existing user to manage their settings and permissions.\" was not found!"
-                ,text("Click the arrow to the right of any existing user to manage their settings and permissions.").isDisplayed());
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
+        String username = GetProperties.get("he." + usertype + ".username");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
         LocalDate localDate = LocalDate.now();
         String currentDate = dtf.format(localDate);
-
-        Assert.assertTrue("Last login date is not correct for "+username, getDriver().findElement(By.xpath("//td[contains(text(),'"+username+"')]/following::span[contains(text(),'"+currentDate+"')]")).isDisplayed());
-    }
-
-
-    public void createHigherEducationUser(String firstName, String lastName,String Email,String role){
-
-        navBar.goToUsers();
-        button("Add New User").click();
-
-        textbox("First Name").sendKeys(firstName);
-        textbox("Last Name").sendKeys(lastName);
-        textbox("Email").sendKeys(Email);
-        driver.findElement(By.xpath("//input[@aria-label='"+role+"']")).click();
-
-
-//
-
-        button("SAVE").click();
-    }
-
-    // This is necessary because Selenium doesn't think that the action options are visible (even though they are),
-    // so we interact with them directly through JS.
-    private void jsClick(WebElement element) {
-        driver.executeScript("arguments[0].click();",element);
-    }
-
-    // These actions can be very slow in the UI and eat further script clicks.  Wait up to 20 seconds for them to disappear.
-    private void waitForStatusChangeModalToClear() {
-        long now = System.currentTimeMillis();
-        long timeout = now + 20000;
-        try {
-            do {
-                driver.findElement(By.id("manage-user-status-change-modal")).isDisplayed();
-            } while (timeout > System.currentTimeMillis());
-            Assert.fail("Waited 20 seconds for Modal to clear and it did not.");
-        } catch (Exception e) {
-            System.out.println("\nWaited " + (System.currentTimeMillis() - now) + " ms for Modal.\n");
-        }
+        WebElement userRow = driver.findElement(By.xpath(String.format(
+                "//div[contains(text(),'%s')]/parent::*/parent::*",username)));
+        Assert.assertTrue(String.format("Last login is not correct for user: %s",username),userRow.
+                findElement(By.xpath(String.format(".//td/span[text()='%s']", currentDate))).isDisplayed());
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
