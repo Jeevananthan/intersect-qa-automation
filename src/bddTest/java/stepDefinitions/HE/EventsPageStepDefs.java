@@ -63,5 +63,9 @@ public class EventsPageStepDefs implements En {
         Then("^HE I verify the message that warns that an event with attendee cannot be unpublished$", eventsPage::verifyNoUnpublishWithAttendeesMessage);
 
         Then("^I verify the cancelation message for the generated event$", eventsPage::verifyCancellationMessageOfGenEvent);
+
+        And("^HE I open the \"([^\"]*)\" tab in the Events section$", eventsPage::openTab);
+
+        Then("^HE A filter of name \"([^\"]*)\" is displayed in the filters list$", eventsPage::verifyFilterIsPresentInList);
     }
 }

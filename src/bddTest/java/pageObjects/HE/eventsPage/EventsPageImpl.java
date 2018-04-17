@@ -396,26 +396,51 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCancellationMessageOfGenEvent() {
         waitForUITransition();
-        List<WebElement> listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+        if (driver.findElements(By.cssSelector(FCCollegeEventsPage.welcomeTooltipLocator)).size() > 0) {
+            FCCollegeEventsPage.welcomeTooltipCloseButton.click();
+        }
+        List<WebElement> listOfEventNames = new ArrayList<>();
         List<String> listOfEventNamesStrings = new ArrayList<>();
+
         WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
 
+        listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
         for (WebElement eventNameElement : listOfEventNames) {
             listOfEventNamesStrings.add(eventNameElement.getText());
         }
 
         while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
             waitForUITransition();
+            waitUntilPageFinishLoading();
             waitUntilElementExists(upperNextArrow);
             upperNextArrow.click();
+            waitForUITransition();
+            listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+            for (WebElement eventNameElement : listOfEventNames) {
+                listOfEventNamesStrings.add(eventNameElement.getText());
+            }
         }
 
         if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
             Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
-                    cancelledEventMessage(EventsPageImpl.eventName).getText(),
+                            cancelledEventMessage(EventsPageImpl.eventName).getText(),
                     cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
         }
         waitForUITransition();
+    }
+
+    public void openTab(String tabName) {
+        waitUntilPageFinishLoading();
+        getTab(tabName).click();
+    }
+
+    public void verifyFilterIsPresentInList(String eventName) {
+        List<String> filtersNamesStrings = new ArrayList<>();
+        List<WebElement> filtersNames = driver.findElements(By.cssSelector(filtersList));
+        for (WebElement filterName : filtersNames) {
+            filtersNamesStrings.add(filterName.getText());
+        }
+        Assert.assertTrue("The filter is not displayed in the filters list", filtersNamesStrings.contains(eventName));
     }
 
     //locators
@@ -505,4 +530,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']"));
     }
     private String cancellationMessage = "Event cancelled by hosts";
+    private WebElement getTab(String tabName) { return driver.findElement(By.xpath("//span[text()='" + tabName + "']")); }
+    private String filtersList = "div[class*=dimmable] strong";
 }
