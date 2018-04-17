@@ -148,13 +148,14 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         waitForUITransition();
     }
 
-    public void signUpToEvent(String collegeName) {
+    public void signUpToEvent() {
         PageFactory.initElements(driver,FCCollegeEventsPage.class);
         waitForUITransition();
-        List<WebElement> listOfEventNames = new ArrayList<>();
+        if (driver.findElements(By.cssSelector(FCCollegeEventsPage.welcomeTooltipLocator)).size() > 0) {
+            FCCollegeEventsPage.welcomeTooltipCloseButton.click();
+        }
+        List<WebElement> listOfEventNames;
         List<String> listOfEventNamesStrings = new ArrayList<>();
-        //List<WebElement> listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
-        //List<String> listOfEventNamesStrings = new ArrayList<>();
         WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
         listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
         for (WebElement eventNameElement : listOfEventNames) {
