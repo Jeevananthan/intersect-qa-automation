@@ -3,8 +3,11 @@ package pageObjects.COMMON;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -194,6 +197,17 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     protected String getTime(Calendar cal) {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
         return sdf.format(cal.getTime());
+    }
+
+    public void waitUntilFileExists(String path){
+        ExpectedCondition<Boolean> expectation = webDriver -> Files.exists(Paths.get(path));
+        try{
+            waitUntil(expectation);
+        }
+        catch (Exception e){
+            throw  new AssertionError(String.format("There was a problem waiting for the file: %s, error: %s",
+                    path, e.toString()));
+        }
     }
   
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }

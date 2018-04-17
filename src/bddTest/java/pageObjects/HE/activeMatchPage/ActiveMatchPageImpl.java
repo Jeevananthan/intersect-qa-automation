@@ -65,7 +65,6 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         getDownloadActiveMatchConnectionsModalButton().click();
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath(
                 "//div[@class='ui modal transition visible active']//button[@class='ui primary button']/span[text()='Download']")));
-        waitForUITransition();
     }
 
     /**
@@ -90,6 +89,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     public void verifyDownloadedActiveMatchConnectionsHeaders(String csvFile, DataTable headers){
         List<String> expectedHeaderValues=headers.asList(String.class);
         String home = System.getProperty("user.home");
+        waitUntilFileExists(String.format("%s/Downloads/%s",home,csvFile));
         String[] actualHeaderValues = CsvFileUtility.getCsvHeaders(String.format("%s/Downloads/%s",home,csvFile));
         for(int i=0; i<expectedHeaderValues.size(); i++){
             Assert.assertTrue(String.format("The Csv header is not correct, actual: %s, expected: %s ",
