@@ -99,6 +99,24 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And HE I cancel the created event
     And HE I successfully sign out
 
-
-
-
+  @MATCH-3613
+  Scenario: Bug: Cancelled Event Not Showing in Family Connection
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I create and save a new event with a unique name and the following details:
+      | Event Name | EventForCancelTest |
+      | Event Start | 12-21-2018;10:00AM |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | Test              |
+      | Max Attendees | 30 |
+      | RSVP Deadline | 12-15-2018;10:00AM |
+      | EVENT LOCATION BY POSITION  | 1 |
+      | EVENT PRIMARY CONTACT | 1 |
+    And HE I cancel the created event
+    When I log in to Family Connection with the following user details:
+      | rtsa       | benhubs | Hobsons!23  |
+    And I Navigate to old Colleges tab
+    And I open link Upcoming college events
+    And I look for the host "The University of Alabama"
+    Then I verify the cancelation message for the generated event
+    And HUBS I successfully sign out

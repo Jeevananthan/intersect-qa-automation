@@ -138,7 +138,7 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
     }
     public void signUpDealineMessage(String deadlinePassed){
         PageFactory.initElements(driver,FCCollegeEventsPage.class);
-        assertTrue("The signup deadline has passed message is not available",FCCollegeEventsPage.signUpMessage.getText().equals(deadlinePassed));
+        assertTrue("The signup deadline has passed message is not available", FCCollegeEventsPage.signUpMessage.getText().equals(deadlinePassed));
     }
 
     public void searchHost(String collegeName) {
