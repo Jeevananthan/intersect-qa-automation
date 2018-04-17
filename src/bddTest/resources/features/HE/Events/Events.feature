@@ -16,7 +16,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
 #    Select Location, Contact and Filter (audience) by position (starting in 1).
 #    This is because currently we can create locations, contacts and filters with
 #    the same name.
-    | EVENT LOCATION        | 1 |
+    | EVENT LOCATION BY POSITION  | 1 |
     | EVENT PRIMARY CONTACT | 1 |
     | EVENT AUDIENCE        | 1 |
     Then HE I should see the event of name "TestEvent7777" present in the unpublished events list as Draft event
@@ -28,7 +28,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | Description | TestEdited         |
     | Max Attendees | 40               |
     | RSVP Deadline | 12-22-2018;11:00AM |
-    | EVENT LOCATION | 2 |
+    | EVENT LOCATION BY POSITION | 2 |
     | EVENT PRIMARY CONTACT | 2 |
     | EVENT AUDIENCE        | 2 |
     And HE I take note of the data in the Event
@@ -55,7 +55,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
   #    Select Location, Contact and Filter (audience) by position (starting in 1).
   #    This is because currently we can create locations, contacts and filters with
   #    the same name.
-      | EVENT LOCATION        | 1 |
+      | EVENT LOCATION BY POSITION | 1 |
       | EVENT PRIMARY CONTACT | 1 |
     When HE I cancel the created event
     Then HE The cancelled event should be displayed in the canceled events list
@@ -80,7 +80,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
       | Description | Test              |
       | Max Attendees | 30 |
       | RSVP Deadline | 12-15-2018;10:00AM |
-      | EVENT LOCATION        | 1 |
+      | EVENT LOCATION BY POSITION | 1 |
       | EVENT PRIMARY CONTACT | 1 |
     And HE I successfully sign out
     When I log in to Family Connection with the following user details:
