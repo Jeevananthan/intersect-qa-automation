@@ -1,9 +1,13 @@
 package pageObjects.HE.accountSettingsPage;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.cs.A;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.Map;
@@ -22,12 +26,9 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         for (String key : data.keySet()) {
             textbox(key).sendKeys(data.get(key));
         }
-      //  currentPasswordBox().sendKeys((String)data.get("Current Password"));
-      //  newPasswordBox().sendKeys((String)data.get("New Password"));
-      //  confirmPasswordBox().sendKeys((String)data.get("Confirm Password"));
         switch (action) {
-            case "Cancel":
-                cancelButton().click();
+            case "Home":
+                navBar.goToHome();
                 waitUntilPageFinishLoading();
                 break;
             case "Save":
@@ -47,6 +48,37 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Password requirements are not correctly displayed on Change Password screen", messagingDisplayed);
     }
 
+    public void accessUsersPage(String option,String value)
+    {
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+        userDropdown().click();
+        Assert.assertTrue("Account Settings option is not displayed",selectOptionfromDropdownList(option).isDisplayed());
+        selectOptionfromDropdownList(option).click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue(String.format("%s option is not displayed",value),selectOptionInAccountSettings(value).isDisplayed());
+        selectOptionInAccountSettings(value).click();
+        waitForUITransition();
+        // Temporary fix because an error is displayed due to amount of data to be processed
+        for(int i=0; i<20;i++){
+            try{
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
+                        xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
+                driver.navigate().refresh();
+                waitUntilPageFinishLoading();
+            } catch (Exception e){
+                break;
+            }
+        }
+        waitUntilPageFinishLoading();
+    }
+
+    public  void selectOption(String option,String eMail)
+    {
+        driver.findElement(By.xpath("//div[text()='"+eMail+"']/parent::td/following-sibling::td/div/div[text()='Actions']")).click();
+        jsClick(driver.findElement(By.xpath("//div/span[text()='"+option+"']")));
+    }
+
     private WebElement currentPasswordBox() {
         return textbox("Current Password");
     }
@@ -63,5 +95,18 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement cancelButton() { return button("CANCEL"); }
 
+    private WebElement userDropdown() {
+        return button(By.id("user-dropdown"));
+    }
+    private WebElement selectOptionfromDropdownList(String Option)
+    {
+        WebElement option=driver.findElement(By.xpath("//span[text()='"+Option+"']"));
+        return option;
+    }
+    private WebElement selectOptionInAccountSettings(String value)
+    {
+    WebElement option=driver.findElement(By.xpath("//span[text()='"+value+"']"));
+    return option;
+    }
 
 }

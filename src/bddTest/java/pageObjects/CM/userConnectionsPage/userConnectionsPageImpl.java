@@ -5,14 +5,16 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.CM.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
-import sun.rmi.runtime.Log;
+//import sun.rmi.runtime.Log;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by bojan on 6/2/17.
@@ -45,7 +47,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 //        link(By.id("js-main-nav-counselor-community-menu-link")).click();
         iframeExit();
         link(By.partialLinkText("Counselor Community")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/connections']")).click();
     }
 
@@ -56,7 +58,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void goToUserCOnenctionsList() {
         logger.info("Going to user's connections list.");
-        iframeEnter();
+        communityFrame();
         link(By.xpath("//ul[@class='tabs primary']/li[2]/a[contains(text(), 'Connections')]")).click();
     }
 
@@ -65,10 +67,16 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "mutual-wrapper"));
     }
 
+    public void checkConnectionsDisplayed() {
+        logger.info("Checking if I see user's connections.");
+        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "connections-wrapper"));
+    }
+
     public void goToHSUserConnectionsPage() {
         logger.info("Going to user connections page.");
+        iframeExit();
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/connections']")).click();
     }
 
@@ -113,13 +121,13 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void checkIfConnectionButtonExists(){
         logger.info("Checking if connect to user button exists.");
-        iframeEnter();
+        communityFrame();
         Assert.assertTrue(connectToUserButton().isDisplayed());
     }
 
     public void connectToUser() {
         logger.info("Clicking on connect to user button.");
-        iframeEnter();
+        communityFrame();
         connectToUserButton().click();
     }
 
@@ -127,7 +135,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         logger.info("Making sure that I am connected to PurpleHS user");
         iframeExit();
         searchForUser("PurpleHS User");
-        iframeEnter();
+        communityFrame();
         try {
             connectToUserButton().click();
             sendInvitationToUserButton().click();
@@ -143,7 +151,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         logger.info("Making sure that I am not connected to PurpleHS user");
         iframeExit();
         searchForUser(user);
-        iframeEnter();
+        communityFrame();
         try {
             clickDisconnectBtn();
         } catch (NoSuchElementException ex) {
@@ -154,8 +162,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickDisconnectBtn() {
-        iframeExit();
-        iframeEnter();
+        communityFrame();
         connectToUserButton().click();
         waitUntilPageFinishLoading();
         disconnectFromUserBtn().click();
@@ -178,7 +185,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         lp.defaultLoginHS();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
         iframeExit();
         driver.navigate().refresh();
@@ -197,7 +204,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         lp.defaultLoginHE();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
         iframeExit();
         driver.navigate().refresh();
@@ -217,7 +224,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         lp.defaultLoginHE();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
         iframeExit();
         driver.navigate().refresh();
@@ -237,7 +244,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         lp.defaultLoginHS();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
         iframeExit();
         driver.navigate().refresh();
@@ -305,15 +312,15 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     public void checkIfNewConnectionsCategoryIsAdded(String catName) {
         logger.info("Asserting if new connections category is added.");
         Assert.assertTrue("The category is not being added.", driver.findElement(By.xpath("//li/a[contains(text(), '" + catName + "')]")).isDisplayed());
-        deleteCreatedConenctionsCategory(catName);
+//        deleteCreatedConenctionsCategory(catName);
     }
 
-    private void deleteCreatedConenctionsCategory(String catToDelete) {
-        logger.info("Deleting created category.");
+    public void deleteCreatedConenctionsCategory(String catToDelete) {
+        logger.info("Deleting "+catToDelete+" category.");
         driver.findElement(By.xpath("//li/a[contains(text(), '" + catToDelete + "')]/../a[@title='Edit category']")).click();
         deleteCategoryBtn().click();
-        logger.info("Checking if category is deleted.");
-        Assert.assertFalse("The category is still present.", checkIfConnectionsCategoryIsDeleted(catToDelete));
+//        logger.info("Checking if category is deleted.");
+//        Assert.assertFalse("The category is still present.", checkIfConnectionsCategoryIsDeleted(catToDelete));
     }
 
     private boolean checkIfConnectionsCategoryIsDeleted(String category) {
@@ -334,7 +341,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
         } catch (NoSuchElementException ex) {
             driver.get("https://qa-he.intersect.hobsons.com/counselor-community/profile/5539");
-            iframeEnter();
+            communityFrame();
             connectToUserButton().click();
             sendInvitationToUserButton().click();
             waitUntilPageFinishLoading();
@@ -412,7 +419,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     public void statusInvitedVisible( String status) {
         logger.info("Checking if correct button status is displayed.");
         iframeExit();
-        iframeEnter();
+        communityFrame();
         Assert.assertTrue("The status is not displayed correctly!", checkItemVisibleByCssSelector("a", "title", status));
     }
 
@@ -442,6 +449,109 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void clickOnMessageButton() {
+        logger.info("Clicking on Message button.");
+        button(By.cssSelector("a[href='/message?destination=connections/my-connections']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void addUserToSandMessageTo(String user) {
+        logger.info("Adding "+user+" to selected conenctions list.");
+        searchUserField().sendKeys(user);
+        searchBtn().click();
+        driver.findElement(By.cssSelector("label[class='option']")).click();
+        driver.findElement(By.cssSelector("input[value='Add']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+
+    public void checkMessageActionNotification() {
+        logger.info("Checking if there is a message action notification on the page.");
+        Assert.assertTrue("The message action notification is not displayed!", checkItemVisibleByCssSelector("div", "class", "messages status"));
+    }
+
+    public void checkIfICanConnectToUsersConnections() {
+        logger.info("Checking when viewing a connection's connections if I am able to request to connect with them");
+        Assert.assertTrue("When viewing a connection's connections it is not possible to request to connect with them!", checkItemVisibleByCssSelector("a","title","Send Connect Request"));
+    }
+
+    public void addUserToCustomCategory(String user, String category) {
+        logger.info("Adding "+user+" to the category "+category+".");
+        connectToSpecificUserBtn(user).click();
+        waitUntilPageFinishLoading();
+        addToSpecificCategory(category).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void goToCategory(String category){
+        logger.info("Going to the category "+category+".");
+        goToUserConnectionsPage();
+        driver.findElement(By.xpath("//a[contains(text(), '"+category+"')]")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void checkIfUserIsInCategory(String user){
+        logger.info("Checking if "+user+" is added to the category.");
+        Assert.assertTrue("The user is not in the cattegory!", checkItemVisible(user));
+    }
+
+    public void checkIfUserIsNotInCategory(String user){
+        logger.info("Checking if "+user+" is not displayed to the category.");
+        Assert.assertFalse("The user is displayed in the category!", checkItemVisible(user));
+    }
+
+    public void removeAllConnectionsFromCategory(String category) {
+        logger.info("Removing all users from the "+category+" category.");
+//        driver.findElement(By.cssSelector("a[class='ctools-dropdown-link ctools-dropdown-text-link']"));
+        List<WebElement> connections = driver.findElements(By.cssSelector("a[class='ctools-dropdown-link ctools-dropdown-text-link']"));
+
+        for (int i=0; i<connections.size(); i++) {
+            driver.findElement(By.cssSelector("a[class='ctools-dropdown-link ctools-dropdown-text-link']")).click();
+            removeFromSpecificCategory(category).click();
+            driver.findElement(By.xpath("//a[contains(text(), '"+category+"')]")).click();
+            waitUntilPageFinishLoading();
+        }
+    }
+
+    public void removeUserFromCustomCategory(String user, String category) {
+        logger.info("Removing "+user+" from the category "+category+".");
+        connectToSpecificUserBtn(user).click();
+        waitUntilPageFinishLoading();
+        removeFromSpecificCategory(category).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void changeConenctionCategoryName(String catNameCurrent, String catNameNew) {
+        logger.info("Changing name of "+catNameCurrent+" category.");
+        editCustomCategory(catNameCurrent).click();
+        newCategoryNameField().clear();
+        newCategoryNameField().sendKeys(catNameNew);
+        saveBtn().click();
+        waitUntilPageFinishLoading();
+
+    }
+
+    public void checkIfCategoriesAreDisplayed(String cat1, String cat2) {
+        logger.info("Checking if categories are displayed.");
+        Assert.assertTrue(""+cat1+" category not visible!", checkItemVisible(cat1));
+        Assert.assertTrue(""+cat2+" category not visible!", checkItemVisible(cat2));
+    }
+
+    public void checkRedIndicatorVisible() {
+        logger.info("Checking if red indicator is visible.");
+        Assert.assertTrue("", checkItemVisibleByCssSelector("span", "class", "pending-conn-count"));
+    }
+
+    public void clickOnPendingRequestsLink() {
+        logger.info("Clicking on Pending requests link.");
+        pendingRequestsLink().click();
+    }
+
+    public void clickApproveBtn(String user) {
+        logger.info("Clicking on Approve button.");
+        specificApproveNewConnectionBtn(user).click();
+        waitUntilPageFinishLoading();
+    }
 
 
     public void enterConnectionRequestMsg(String msg) {
@@ -479,4 +589,14 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     private WebElement messageLink() {return driver.findElement(By.cssSelector("a[title='Send Message']"));}
     private WebElement msgSubject() {return driver.findElement(By.id("edit-subject"));}
     private WebElement msgBody() {return driver.findElement(By.id("edit-message"));}
+    private WebElement searchUserField() {return driver.findElement(By.id("edit-search"));}
+    private WebElement searchBtn() {return driver.findElement(By.id("edit-search-btn"));}
+    private WebElement connectToSpecificUserBtn(String user){return driver.findElement(By.xpath("//div[contains(text(), '"+user+"')]/../../../../..//div[@class='ctools-dropdown-link-wrapper']"));}
+    private WebElement addToSpecificCategory(String category) {return driver.findElement(By.xpath("//div[@style='display: block;']//a[contains(text(), '+ "+category+"')]"));}
+    private WebElement removeFromSpecificCategory(String category) {return driver.findElement(By.xpath("//div[@style='display: block;']//a[contains(text(), '- "+category+"')]"));}
+    private WebElement specificApproveNewConnectionBtn(String user){return driver.findElement(By.xpath("//div[contains(text(), '"+user+"')]/../../../../..//a[@title='Accept Connect Request']"));}
+
+    private WebElement saveBtn(){return driver.findElement(By.id("edit-save"));}
+    private WebElement editCustomCategory(String category) {return driver.findElement(By.xpath("//a[contains(text(), '"+category+"')]/..//a[@title='Edit category']"));}
+
 }

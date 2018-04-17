@@ -17,7 +17,6 @@ public class HomePageStepDefs implements En {
 
         And("^HS I go to the Counselor Community$", homePage::goToCounselorCommunity);
 
-        Given("^HS I navigate to Registration Intersect url$",loginPage::navigateToHSRegistrationPage);
         And("^HS I search for \"([^\"]*)\" in the registration page$",loginPage::searchForHEInstitution);
         And ("^HS I click the link \"([^\"]*)\"$",loginPage::clickLinkInRegisterationPage);
         Then ("^HS I verify all field type in request user page$",loginPage::validateRequestUserForm);
@@ -30,5 +29,9 @@ public class HomePageStepDefs implements En {
         Then("^HS I verify the left navigation bar and section breadcrumbs are as follows$",navBar::verifyLeftNavAndBreadcrumbs);
 
         Then ("^HS I verify the Request New User page$",loginPage::validateFieldsInRequestUserForm);
+
+        Then("^HS I verify the URL \"([^\"]*)\" of \"([^\"]*)\" page before clicking \"([^\"]*)\" link using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the college profile page$",homePage::verifyAdditionalInfoURLBeforeClickingBackToIntersectLink);
+
+        Then("^HS I verify the URL \"([^\"]*)\" after clicking \"([^\"]*)\" link using \"([^\"]*)\",\"([^\"]*)\" in the college profile page$",homePage::verifyAdditionalInfoURLAfterClickingBackToIntersectLink);
     }
 }
