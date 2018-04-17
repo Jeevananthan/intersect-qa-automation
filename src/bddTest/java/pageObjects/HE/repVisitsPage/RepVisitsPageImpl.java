@@ -1099,6 +1099,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         schoolName.click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
     public void visitsSchedule(String school,String startDate,String time){
