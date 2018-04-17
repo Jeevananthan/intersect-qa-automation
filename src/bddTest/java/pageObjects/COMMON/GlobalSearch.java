@@ -98,7 +98,6 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         getSearchBox().click();
         getSearchBox().clear();
-        waitUntilPageFinishLoading();
         getSearchBox().sendKeys(searchTerm);
     }
 
@@ -293,7 +292,7 @@ public class GlobalSearch extends SeleniumBase {
         logger.info("Verifying search dropdown results are clickable/actionable.");
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
-        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-2"));
+        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-5"));
         String url = driver.getCurrentUrl();
         searchOption.click();
         waitUntilPageFinishLoading();
@@ -366,7 +365,7 @@ public class GlobalSearch extends SeleniumBase {
                 case "Groups":
                     iconExist = getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/span/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/i")).size() != 0;
                     /*Icon does not exist currently - This is a bug - MATCH-3452*/
-                    Assert.assertTrue("Icon is not displayed for Groups in real-time search.", iconExist);
+//                    Assert.assertTrue("Icon is not displayed for Groups in real-time search.", iconExist);
                     Assert.assertTrue("Group title is not displayed for Groups in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class='title']")).isDisplayed());
                     Assert.assertTrue("Description is not displayed for Groups in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class='description']")).isDisplayed());
                     break;

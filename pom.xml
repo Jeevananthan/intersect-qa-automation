@@ -232,7 +232,7 @@
                 </property>
             </activation>
             <properties>
-                <tags>@ProdSmokeTest</tags>
+                <cucumber.options>--tags @ProdSmokeTest</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -260,7 +260,7 @@
     </profiles>
 
     <repositories>
-        <repository>
+<!--        <repository>
             <id>qasymphony-releases</id>
             <name>Qasymphony Release Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/releases</url>
@@ -270,7 +270,7 @@
             <id>qasymphony-snapshots</id>
             <name>Qasymphony Snapshot Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/snapshots</url>
-        </repository>
+        </repository>-->
 
         <repository>
             <id>radius-crm</id>
@@ -281,7 +281,7 @@
     </repositories>
 
     <pluginRepositories>
-        <pluginRepository>
+<!--        <pluginRepository>
             <id>qasymphony-releases</id>
             <name>Qasymphony Release Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/releases</url>
@@ -291,7 +291,7 @@
             <id>qasymphony-snapshots</id>
             <name>Qasymphony Snapshot Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/snapshots</url>
-        </pluginRepository>
+        </pluginRepository>-->
     </pluginRepositories>
 
     <dependencies>
@@ -462,7 +462,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>3.2.0</version>
+                <version>3.16.0</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -474,6 +474,7 @@
                             <projectName>Intersect QA Automation</projectName>
                             <outputDirectory>${project.build.directory}/reports/build-${build.number}-${project.activeProfiles[0].id}/</outputDirectory>
                             <cucumberOutput>${project.build.directory}/cucumber-json</cucumberOutput>
+                            <checkBuildResult>true</checkBuildResult>
                             <parallelTesting>true</parallelTesting>
                         </configuration>
                     </execution>

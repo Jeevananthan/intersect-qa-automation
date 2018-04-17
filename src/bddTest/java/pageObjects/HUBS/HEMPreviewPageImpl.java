@@ -21,9 +21,16 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
         switch (buttonLabel) {
             case "Studies" : button = studiesButton();
                 break;
+            case "Student Life" : button = studentLifeButton();
+                break;
+            case "Overview" : button = overviewButton();
+                break;
+            case "International" : button = internationalButton();
+                break;
             case "Costs" : button = costsButton();
                 break;
         }
+        waitUntil(ExpectedConditions.elementToBeClickable(button));
         button.click();
         waitUntilPageFinishLoading();
         if (!button.getText().equals(buttonLabel)) {
@@ -35,6 +42,15 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     //Locators
     private WebElement studiesButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Studies\")]"));
+    }
+    private WebElement studentLifeButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), \"Student Life\")]"));
+    }
+    private WebElement overviewButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), \"Overview\")]"));
+    }
+    private WebElement internationalButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), \"International\")]"));
     }
     private WebElement costsButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Costs\")]"));
