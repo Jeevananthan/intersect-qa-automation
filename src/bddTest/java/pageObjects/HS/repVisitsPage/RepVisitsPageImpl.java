@@ -317,6 +317,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Availability Settings").click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
         WebElement selectAccept = getDriver().findElement(By.cssSelector("div[class='ui selection dropdown']>div"));
         waitUntilPageFinishLoading();
         selectAccept.click();
@@ -3121,8 +3122,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(startDate, "Start");
     }
 
-    public void verifyVisitsinException(String option,String time,String Date,String visits)
-    {
+    public void verifyVisitsinException(String option,String time,String Date,String visits) {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
@@ -3136,14 +3136,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement slot=driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+StartTime+"']"));
         doubleClick(slot);
         if (option.equals("Max visits met") || option.equals("Fully booked")) {
-            if(!driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/div/span[text()='"+visits+" Appointments scheduled']/following-sibling::button[text()='"+StartTime+"']/parent::div[contains(text(),'("+visits+")')]")).isDisplayed())
-            {
+            if(!driver.findElement(By.xpath("//table//thead//div/span[text()='"+date+"']/parent::div/following-sibling::div/span[text()='"+option+"']/ancestor::thead/following-sibling::tbody/tr/td/div/span[text()='Appointment scheduled']/following-sibling::button[text()='"+StartTime+"']")).isDisplayed()) {
                 Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//table//th//div/span[text()='" + date + "']/ancestor::th/div/span[text()='" + option + "']")).isDisplayed());
             }
-            else
-            {logger.info("More than one time slots are there");}
-        }else
-        {
+            else {
+                logger.info("More than one time slots are there");}
+        }else {
             Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//span[text()='"+date+"']/ancestor::th/ancestor::thead/following-sibling::tbody//tr//td//div//span[text()='"+option+"']")).isDisplayed());
         }
     }
