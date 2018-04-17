@@ -738,7 +738,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-#create a visit
+#create a visits
     Then HS I set a date using "<StartDate>" and "<EndDate>" in Regular Weekly Hours Tab
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
@@ -757,7 +757,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
     Then HE I successfully sign out
 
-#verify the Exception tab(before changing the NumofVists : NumVisits-3)
+#verify the Exception tab(before changing the NumofVisits : NumVisits-3)
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>","<StartDate>","2"
 
@@ -765,7 +765,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours using "2"
 
-#verify the Exception tab(after changing the NumofVists : NumVisits-2)
+#verify the Exception tab(after changing the NumofVisits : NumVisits-2)
     Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>","<StartDate>","2"
     Then HS I verify the pills "<StartDate>","<StartTime>" is not displayed in the schedule new visit popup
     And HS I successfully sign out
@@ -781,7 +781,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours using "3"
 
-#verify the Exception tab(after changing the NumofVists : NumVisits-3)
+#verify the Exception tab(after changing the NumofVisits : NumVisits-3)
     Then HS I go to the Exception tab to verify the visits using "2 Appointments scheduled","<heStartTime>","<StartDate>","2"
     Then HS I verify the pills "<StartDate>","<StartTime>" is displayed in the schedule new visit popup
     And HS I successfully sign out
