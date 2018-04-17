@@ -28,9 +28,9 @@ public class FCHubsEvents_StepDef {
         collegeEvents.searchHost(collegeName);
     }
 
-    @Then("^I sign up for the event of generated name at \"([^\"]*)\"$")
-    public void iSignUpForTheEventOfNameAt(String collegeName) throws Throwable {
-        collegeEvents.signUpToEvent(collegeName);
+    @Then("^I sign up for the event of generated name$")
+    public void iSignUpForTheEventOfNameAt() throws Throwable {
+        collegeEvents.signUpToEvent();
     }
 }
 

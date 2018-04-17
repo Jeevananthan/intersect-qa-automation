@@ -94,5 +94,10 @@ public class FCCollegeEventsPage {
     public static WebElement getSignUpButton(String eventName) {
         return driver.findElement(By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']/div/div/span[@class='ng-scope']"));
     }
+
+    public static String welcomeTooltipLocator = "div[aria-hidden=\"false\"]";
+
+    @FindBy(how = How.CSS, using = "div[aria-hidden=\"false\"] span.fc-tooltip__close.fc-tooltip__close--event-message")
+    public static WebElement welcomeTooltipCloseButton;
 }
 

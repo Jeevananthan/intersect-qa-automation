@@ -88,7 +88,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And I Navigate to old Colleges tab
     And I open link Upcoming college events
     And I look for the host "The University of Alabama"
-    Then I sign up for the event of generated name at "The University of Alabama"
+    Then I sign up for the event of generated name
     And HUBS I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "administrator"
