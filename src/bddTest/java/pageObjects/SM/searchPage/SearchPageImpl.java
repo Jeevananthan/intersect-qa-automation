@@ -4,14 +4,12 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.JavascriptExecutor;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
-
-import java.sql.Time;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -155,6 +153,38 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'MORE' menu is not displayed", superMatchFooter().findElement(By.xpath("//span[text()='More']"))
                 .isDisplayed());
     }
+
+    public void verifyWidthsOfThreeBoxes() {
+        Assert.assertEquals(25.0, round((firstBox().getSize().getWidth()/(double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
+        Assert.assertEquals(37.5, round((secondBox().getSize().getWidth()/(double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
+        Assert.assertEquals(37.5, round((thirdBox().getSize().getWidth()/(double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
+    }
+
+    private WebElement threeBoxContainer() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui equal width grid box-container']")));
+    }
+
+    private WebElement firstBox() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='ui equal width grid box-container']/div[contains(@class, 'column')])[1]")));
+    }
+
+    private WebElement secondBox() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='ui equal width grid box-container']/div[contains(@class, 'column')])[2]")));
+    }
+
+    private WebElement thirdBox() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='ui equal width grid box-container']/div[contains(@class, 'column')])[3]")));
+    }
+
+    private static double round (double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
+
 
     /**
      * Accepts a DataTable that describes the location fit criteria to be selected, and selects them from the dialog
@@ -522,6 +552,80 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifySystemResponseWhenSATScoreInputIsValid() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("400");
+        waitForUITransition();
+        Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1000");
+        waitForUITransition();
+        Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1600");
+        waitForUITransition();
+        Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+    }
+
+    public void verifySystemResponseWhenSATScoreInputIsInvalid() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("100");
+        waitForUITransition();
+        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("399");
+        waitForUITransition();
+        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1601");
+        waitForUITransition();
+        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+    }
+
+    public void verifyIfSATScoreDataIsStoredOnOurSide() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("827");
+        resourcesMenuItem().click();
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+        Assert.assertTrue("SAT score data is not persisting", satScoreTextBox().getAttribute("value").equals("827"));
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1300");
+        resourcesMenuItem().click();
+
+    }
+
     public void verifyGPADataPersists() {
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
@@ -747,6 +851,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement actScoreTextBox() {
         return driver.findElement(By.xpath("//input[@name='actScore']"));
+    }
+    private WebElement satScoreTextBox() {
+        return driver.findElement(By.xpath("//input[@name='satScore']"));
     }
     private WebElement allStudentsRadioButton() {
         return driver.findElement(By.xpath("//label[contains(text(), 'All students')]//preceding-sibling::input"));
