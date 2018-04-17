@@ -73,6 +73,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setBlockedDate);
 
+        Then("^HS I verify in exceptions the appointments color and status for \"([^\"]*)\" with color \"([^\"]*)\"$",repVisits::verifyPillsColorDays);
+
         Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in the Holiday tab$",repVisits::RemoveBlockedDate);
 
         Then("^HS I verify the \"([^\"]*)\" and \"([^\"]*)\" date with \"([^\"]*)\" was not present in the Holidays tab in the Availability & Settings page in RepVisits",repVisits::verifyBlockedHolidaysRemoved);

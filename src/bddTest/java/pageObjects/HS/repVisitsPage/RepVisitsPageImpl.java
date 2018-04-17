@@ -1704,6 +1704,53 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         BlockedDate.click();
     }
 
+    private List<WebElement> getTables() {
+        waitUntilPageFinishLoading();
+        //Get the table body
+        List<WebElement> tablesCollction = getDriver().findElements(By.cssSelector("div[class='igoATb7tmfPWBM8CX8CkN']>table"));
+        //Get the table rows
+
+        return tablesCollction;
+    }
+
+    public void findAndVerifyAppointments(String appointmentsStatus, String color) {
+        waitUntilPageFinishLoading();
+        List<WebElement> tables = getTables();
+
+        for (WebElement row : tables) {
+            String appointmentInfo = row.getText();
+
+            try {
+                boolean containsAppointmentStatus = appointmentInfo.contains(appointmentsStatus);
+                if (containsAppointmentStatus && appointmentsStatus.contains("Max visits met")) {
+                    String colorString = driver.findElement(By.cssSelector("table[class='ui collapsing unstackable basic table _21jBvV68Sef1d0Un31tmtH _3S4SmOSH8T6zHU5ljMEg-I']")).getCssValue("background-color");
+                    Assert.assertTrue((colorString.equals(color)));
+                    String pillColorString = driver.findElement(By.cssSelector("button[class='ui small button _2-OMVouKECaUV5WyAtvs-Z']")).getCssValue("background-color");
+                    Assert.assertTrue((pillColorString.equals("rgba(255, 255, 255, 1)")));
+                } else {
+                    if (containsAppointmentStatus) {
+                        String colorString = driver.findElement(By.cssSelector("td[class='three wide _3zhio8osKNifGJpvKFwCYC cv3lYT7gz-yQ--WLrZI0A']")).getCssValue("background-color");
+                        Assert.assertTrue((colorString.equals(color)));
+                    }
+
+                }
+            } catch (Exception e) {
+                logger.info("Exception while retrieving Appointment Statuses: " + e.getMessage());
+                e.printStackTrace();
+                Assert.fail("The Appointment Status and color was not recovered for verification.");
+            }
+        }
+    }
+
+    public void verifyPillsColorDays(String appointmentsStatus, String color){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
+        link("Exceptions").click();
+        waitUntilPageFinishLoading();
+        findAndVerifyAppointments(appointmentsStatus, color);
+    }
+
     public void verifyBlockedHolidaysAdded(String startDate,String endDate,String reason) {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
