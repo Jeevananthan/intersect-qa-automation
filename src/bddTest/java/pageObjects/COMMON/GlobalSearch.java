@@ -292,7 +292,7 @@ public class GlobalSearch extends SeleniumBase {
         logger.info("Verifying search dropdown results are clickable/actionable.");
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
-        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-2"));
+        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-5"));
         String url = driver.getCurrentUrl();
         searchOption.click();
         waitUntilPageFinishLoading();

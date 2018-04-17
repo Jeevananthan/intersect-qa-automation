@@ -108,7 +108,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I set and verify that \"([^\"]*)\" is blocked on the Blocked Days page$", repVisits::verifyManualBlockedHolidays);
 
         Then("HE I search for school \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked$", repVisits::searchforSchool);
-        
+
         Then("HE I search in \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked actually$", repVisits::searchforSchool);
 
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
@@ -282,5 +282,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
 
         Then("^HS I add the email \"([^\"]*)\" in the primary contact in Notifications & Primary Contact page$",repVisits::addEmailInNotificationandPrimaryContactPage);
+
+        Then("^HS I navigate to the Naviance Settings page through the setup Wizard$",repVisits::navigateToNavianceSettingsPage);
+
+        Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
     }
 }
