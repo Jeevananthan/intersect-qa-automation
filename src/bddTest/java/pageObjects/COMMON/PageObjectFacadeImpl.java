@@ -199,6 +199,10 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return sdf.format(cal.getTime());
     }
 
+    /**
+     * Waits until a given path exists.
+     * @param path
+     */
     public void waitUntilFileExists(String path){
         ExpectedCondition<Boolean> expectation = webDriver -> Files.exists(Paths.get(path));
         try{
