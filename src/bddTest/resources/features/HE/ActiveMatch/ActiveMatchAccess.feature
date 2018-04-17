@@ -33,6 +33,7 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user wit
     Then HE I verify the "ActiveMatch" nav link is not displaying for this user
     And HE I successfully sign out
 
+
   @MATCH-3016
   Scenario:  As an HE intersect user, I need the ability to view my student connections from AM so I can see who has made a connection
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -50,6 +51,19 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user wit
       |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
     And HE I successfully sign out
 
-
-
-
+    @MATCH-3012
+    Scenario: As an HE intersect user, I need the ability to export my student connections from AM so I can import them
+              into my own system.
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      When HE I navigate to the ActiveMatch Tab
+      Then HE I verify the following details are present under the new header of "Historical" in the ActiveMatch export connections dropdown Menu
+        |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
+      And HE I verify the following details are present under the new header of "By School Year" in the ActiveMatch export connections dropdown Menu
+        |2017-2018|2016-2017|2015-2016|2014-2015|2013-2014|
+      And HE I verify the following details are present under the new header of "Since Last Export" in the ActiveMatch export connections dropdown Menu
+        |connections since last export on|
+      When HE I export the ActiveMatchConnections for the current year
+      Then HE I verify the downloaded ActiveMatch Cvs file "student-connections.csv" contains the following headers
+        |First Name|Last Name|Email|Phone|Address|City|State|Zip|Ethnicity|Gender|BirthDate|SchoolName|Ceeb|Graduation Year|Gpa|Created/Modified Date|Connection Status|
+      Then HE I delete the downloaded ActiveMatch Cvs file "student-connections.csv"
+      Then HE I successfully sign out
