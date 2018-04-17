@@ -83,3 +83,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   and Nice to Have boxes split the rest
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the widths of the three boxes
+
+  @MATCH-4133
+  Scenario: Verify the validation message displayed in the Zip Code field
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify if the validation message displayed for Zip Code field is user friendly

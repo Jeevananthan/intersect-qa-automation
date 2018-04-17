@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -130,6 +131,52 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyZipCodeValidationMessage() {
+        getDriver().findElement(By.xpath("//li[contains(text(),'Location')]")).click();
+
+        selectRadioButton("Search by distance");
+
+        //Verify that pills are not created until both Miles are selected and a valid zip code entered
+        selectOptionFromSelectMilesListBox("Within 500 miles");
+        verifyNoPillsArePresentInMustHaveBox();
+
+        selectOptionFromSelectMilesListBox("Select Miles");
+        zipCodeTextBox().sendKeys("90001");
+        verifyNoPillsArePresentInMustHaveBox();
+
+        selectOptionFromSelectMilesListBox("Within 25 miles");
+        zipCodeTextBox().clear();
+        zipCodeTextBox().sendKeys("90001");
+        verifyMustHaveBoxContains("Within 25 miles of 90001");
+
+        //Verify the 'Enter a valid, 5 digit zip code' validation message
+        zipCodeTextBox().clear();
+        zipCodeTextBox().sendKeys("9000");
+        Assert.assertFalse(driver.findElement(By.xpath("//div[@class='div-distance']")).getText().contains("Enter a valid, 5 digit zip code"));
+
+        waitForUITransition();
+        waitForUITransition();
+
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@class='div-distance']")).getText().contains("Enter a valid, 5 digit zip code"));
+
+        //Verify Network error message
+        selectOptionFromSelectMilesListBox("Within 25 miles");
+        zipCodeTextBox().clear();
+        zipCodeTextBox().sendKeys("90001");
+        zipCodeTextBox().sendKeys(Keys.BACK_SPACE);
+        waitForUITransition();
+
+        verifyNoPillsArePresentInMustHaveBox();
+        Assert.assertFalse("'Network error message is displayed when an invalid zip code is entered'", driver.getPageSource().contains("Network error: Failed to fetch"));
+
+    }
+
+    public void selectOptionFromSelectMilesListBox(String optionText) {
+        WebElement listBoxPlaceholder = driver.findElement(By.xpath("//div[@id='supermatch-location-miles-dropdown']/div[@role='alert']"));
+        listBoxPlaceholder.click();
+        WebElement optionToSelect = driver.findElement(By.xpath("//div[@id='supermatch-location-miles-dropdown']//span[text()='"+ optionText + "']"));
+        optionToSelect.click();
+    }
 
     public void verifyDarkBlueFooter()
     {
@@ -250,6 +297,21 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'"+ option.split("'")[0] + "')]"))).click();
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
+
+    /**
+     * select any radio button only when fit criteria menu is open.
+     */
+    public void selectRadioButton(String radioButton){
+        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
+        Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
+        if (!radioButtonLocator.isSelected()) {
+            radioButtonLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
+    }
+
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
@@ -408,6 +470,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             logger.info("Could not find the 'Nice to Have' box, so the item we don't want to see there clearly isn't there.");
+        }
+    }
+
+    public void verifyNoPillsArePresentInMustHaveBox() {
+        try {
+            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+            Assert.assertTrue("'Must Have' box contains one or more pills", !getMustHaveBox().findElement(By.xpath("//div[contains(@class, 'button-group')]")).isDisplayed());
+        } catch(Exception ex) {
+            Assert.assertTrue(true);
+            logger.info("No pills are present in the Must Have box");
         }
     }
 
@@ -926,6 +998,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement costFitCriteria(){
         return driver.findElement(By.xpath("//li[contains(text(), 'Cost')]"));
+    }
+    private WebElement zipCodeTextBox() {
+        return driver.findElement(By.xpath("//input[@placeholder='Zip Code']"));
     }
 
 }

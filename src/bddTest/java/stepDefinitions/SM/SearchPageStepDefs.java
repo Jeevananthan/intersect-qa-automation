@@ -90,5 +90,7 @@ public class SearchPageStepDefs implements En {
         Then("^SM I unselect the \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::unselectStudentSuccessFitCriteriaCheckbox);
 
         Then("^SM I verify the widths of the three boxes$", searchPage::verifyWidthsOfThreeBoxes);
+
+        Then("^SM I verify if the validation message displayed for Zip Code field is user friendly$", searchPage::verifyZipCodeValidationMessage);
     }
 }
