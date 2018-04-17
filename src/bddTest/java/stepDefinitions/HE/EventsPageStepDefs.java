@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.eventsPage.EventsPageImpl;
 
@@ -55,5 +56,9 @@ public class EventsPageStepDefs implements En {
         And("^HE I create and publish a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::createAndPublishEventWithGenDate);
 
         And("^HE I verify that the event of name \"([^\"]*)\" is in the expired list$", eventsPage::verifyEventInExpiredList);
+
+        And("^HE I attempt to unpublish the event of generated name$", eventsPage::unpublishEventOfGeneratedName);
+
+        Then("^HE I verify the message that warns that an event with attendee cannot be unpublished$", eventsPage::verifyNoUnpublishWithAttendeesMessage);
     }
 }

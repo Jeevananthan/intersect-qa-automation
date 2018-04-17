@@ -16,7 +16,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
 #    Select Location, Contact and Filter (audience) by position (starting in 1).
 #    This is because currently we can create locations, contacts and filters with
 #    the same name.
-    | EVENT LOCATION        | 1 |
+    | EVENT LOCATION BY POSITION  | 1 |
     | EVENT PRIMARY CONTACT | 1 |
     | EVENT AUDIENCE        | 1 |
     Then HE I should see the event of name "TestEvent7777" present in the unpublished events list as Draft event
@@ -28,7 +28,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | Description | TestEdited         |
     | Max Attendees | 40               |
     | RSVP Deadline | 12-22-2018;11:00AM |
-    | EVENT LOCATION | 2 |
+    | EVENT LOCATION BY POSITION | 2 |
     | EVENT PRIMARY CONTACT | 2 |
     | EVENT AUDIENCE        | 2 |
     And HE I take note of the data in the Event
@@ -55,7 +55,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
   #    Select Location, Contact and Filter (audience) by position (starting in 1).
   #    This is because currently we can create locations, contacts and filters with
   #    the same name.
-      | EVENT LOCATION        | 1 |
+      | EVENT LOCATION BY POSITION | 1 |
       | EVENT PRIMARY CONTACT | 1 |
     When HE I cancel the created event
     Then HE The cancelled event should be displayed in the canceled events list
@@ -68,3 +68,37 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And HE I publish the current event
     Then HE I verify required fields error messages for events
     And HE I successfully sign out
+
+  @MATCH-3614
+  Scenario: Unpublish Not Allowed for Registered Events
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I create and save a new event with a unique name and the following details:
+      | Event Name | NewTestEvent |
+      | Event Start | 12-21-2018;10:00AM |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | Test              |
+      | Max Attendees | 30 |
+      | RSVP Deadline | 12-15-2018;10:00AM |
+      | EVENT LOCATION BY POSITION | 1 |
+      | EVENT PRIMARY CONTACT | 1 |
+    And HE I successfully sign out
+    When I log in to Family Connection with the following user details:
+      | rtsa       | benhubs | Hobsons!23  |
+    And I Navigate to old Colleges tab
+    And I open link Upcoming college events
+    And I look for the host "The University of Alabama"
+    Then I sign up for the event of generated name
+    And HUBS I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I attempt to unpublish the event of generated name
+    Then HE I verify the message that warns that an event with attendee cannot be unpublished
+
+    And HE I cancel the created event
+    And HE I successfully sign out
+
+
+
+
