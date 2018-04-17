@@ -728,7 +728,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |School            |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
       |Homeconnection    |purpleheautomation@gmail.com    |QAs Fairs tests       |4   |1000AM    |1100AM  |2            |$25 |25                    |100                        | Save          |10AM   |10:00am         |
 
-
   @MATCH-3462
   Scenario: As a RepVisits HS user that is interested in opting in to connect events with Naviance, I want the copy on
             the screen to clearly provide me with information on my ability to opt in/out of the publish connection,
@@ -738,5 +737,15 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the UI of the Naviance Settings Page in setup wizard
     And HS I successfully sign out
 
-
-
+  @MATCH-2691
+  Scenario Outline: As a High School RepVisits User who is viewing my exceptions (/rep-visits/settings/availability/exceptions)
+                    I want to see availability pills during times when appointments are scheduled
+                    So that I can edit remaining availabilities.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify in exceptions the appointments color and status for "<AppointmentStatus>" with color "<Color>"
+    Then HS I successfully sign out
+    Examples:
+      |AppointmentStatus       |Color                   |
+      |Max visits met          | rgba(233, 233, 245, 1) |
+      |Fully booked            | rgba(233, 238, 245, 1) |
+      |Appointment scheduled   | rgba(233, 238, 245, 1) |
