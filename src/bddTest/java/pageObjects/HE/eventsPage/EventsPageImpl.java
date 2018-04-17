@@ -429,6 +429,12 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
     }
 
+    public void verifyPastDateErrorMessage() {
+        List<WebElement> errorMessagesList = driver.findElements(By.cssSelector(pastDateErrorMessagesListLocator));
+        Assert.assertTrue("The past date error message is not displayed. Message: " + errorMessagesList.get(0).getText(), errorMessagesList.get(0).getText().equals(pastDateErrorMessageString) &&
+                errorMessagesList.get(1).getText().equals(pastRSVPErrorMessageString));
+    }
+
     public void openTab(String tabName) {
         waitUntilPageFinishLoading();
         getTab(tabName).click();
@@ -530,6 +536,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']"));
     }
     private String cancellationMessage = "Event cancelled by hosts";
+    private String pastDateErrorMessagesListLocator = "div.ui.red.pointing.basic.label span";
+    private String pastDateErrorMessageString = "Event Start date and time must not be in the past";
+    private String pastRSVPErrorMessageString = "Event RSVP Deadline date and time must not be in the past";
     private WebElement getTab(String tabName) { return driver.findElement(By.xpath("//span[text()='" + tabName + "']")); }
     private String filtersList = "div[class*=dimmable] strong";
 }

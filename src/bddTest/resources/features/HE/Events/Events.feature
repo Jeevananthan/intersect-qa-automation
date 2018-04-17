@@ -55,7 +55,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
   #    Select Location, Contact and Filter (audience) by position (starting in 1).
   #    This is because currently we can create locations, contacts and filters with
   #    the same name.
-      | EVENT LOCATION BY POSITION | 1 |
+      | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT | 1 |
     When HE I cancel the created event
     Then HE The cancelled event should be displayed in the canceled events list
@@ -80,7 +80,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
       | Description | Test              |
       | Max Attendees | 30 |
       | RSVP Deadline | 12-15-2018;10:00AM |
-      | EVENT LOCATION BY POSITION | 1 |
+      | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT | 1 |
     And HE I successfully sign out
     When I log in to Family Connection with the following user details:
@@ -120,3 +120,17 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And I look for the host "The University of Alabama"
     Then I verify the cancelation message for the generated event
     And HUBS I successfully sign out
+
+  @MATCH-3489
+  Scenario: If a user attempts to publish an event and the event date is past, the system should treat that as an invalid date
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I create and save a new event "-10" minutes ahead from now with the following details:
+      | Event Name | EventForCancelTest |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | Test |
+      | Max Attendees | 30 |
+      | EVENT LOCATION BY POSITION  | 1 |
+      | EVENT PRIMARY CONTACT | 1 |
+    Then HE I verify that a warning message about the past date is displayed
+    And HE I successfully sign out
