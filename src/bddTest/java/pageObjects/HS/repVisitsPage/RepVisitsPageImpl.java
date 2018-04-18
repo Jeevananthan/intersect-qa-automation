@@ -585,13 +585,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void setStartandEndDates(String startDate,String endDate) {
+        setDefaultDateforStartAndEndDate();
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
         link("Availability & Settings").click();
-        waitUntilPageFinishLoading();
         link("Availability").click();
-        waitUntilPageFinishLoading();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
         String EndDate=getSpecificDate(endDate);
@@ -3247,6 +3246,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDateforCalendarPage(To, "To");
         Assert.assertTrue("Download button is not displayed",button("Download").isDisplayed());
         button("Download").click();
+        waitForUITransition();
         waitUntilPageFinishLoading();
     }
 
@@ -3261,7 +3261,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void deleteDownloadedFileInCalendar(String csvFile,String filePath){
+    public void deleteDownloadedFileInCalendar(String filePath){
         String home = System.getProperty("user.home");
         FileManager.deleteFile(String.format("%s/Downloads/%s",home,filePath));
     }
@@ -3348,13 +3348,74 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public String selectdateforExportAppointmentsIncalendar(String addDays)
     {
-        String DATE_FORMAT_NOW = "MM d, yyyy";
+        String DATE_FORMAT_NOW = "MMMM d yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
+    }
+
+    private void setDefaultDateforStartAndEndDate(){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        availabilityAndSettings().click();
+        availability().click();
+        regularWeeklyHours().click();
+        waitUntilPageFinishLoading();
+        String date = verifyStartDate();
+        if(verifyDateIsEnabledOrDisabled(date)){
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
+            date = verifyEndDate();
+            if(verifyDateIsEnabledOrDisabled(date)) {
+                driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
+            }
+        }else {
+            date = verifyEndDate();
+            if(verifyDateIsEnabledOrDisabled(date)) {
+                driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
+            }
+            date = verifyStartDate();
+            if(verifyDateIsEnabledOrDisabled(date)) {
+                driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();
+            }
+        }
+        clickUpdateButtonInRepVisits();
+    }
+
+    private boolean verifyDateIsEnabledOrDisabled(String date){
+        boolean enabledDate = false;
+        List<WebElement> enabledOrDisabled = driver.findElements(By.xpath("//div[text()="+date+" and @aria-disabled='false']"));
+        if(enabledOrDisabled.size()!=0) {
+            enabledDate = true;
+        } else if(enabledOrDisabled.size()==0){
+            enabledDate = false;
+        }else {
+            logger.info("The Date selected is out of RANGE.");
+        }
+        return enabledDate;
+    }
+
+    private String verifyStartDate(){
+        String startDate=getSpecificDate("-1");
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        String[] parts = startDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        String date = parts[1];
+        findMonth(calendarHeading,"Start");
+        return date;
+    }
+    private String verifyEndDate(){
+        String endDate=getSpecificDate("1");
+        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        String[] parts = endDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        String date = parts[1];
+        findMonth(calendarHeading,"End");
+        return date;
     }
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
@@ -3655,4 +3716,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement message = driver.findElement(By.xpath("//span[text()='Are you sure you want to decline?']"));
         return message;
     }
+    private WebElement availability()
+    {
+        WebElement availability=  link("Availability");
+        return  availability;
+    }
+    private WebElement regularWeeklyHours()
+    {
+        WebElement regularWeeklyHours= link("Regular Weekly Hours");
+        return  regularWeeklyHours;
+    }
+
 }

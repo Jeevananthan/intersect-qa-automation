@@ -807,13 +807,21 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I verify the Export button is Enabled in Calendar page
     Then HS I export the appointments for the following details "<StartDate>","<EndDate>"
     Then HS I verify the downloaded Appointments csv file "RepVisitsEvents.csv" contains following details
-    |Appt Type/Fair Name|Number Attending|Appt Date|Appt Start|Appt Finish|Appt Location|Status|Rep Name|Rep Title|College|City|State|email|email|
+    |Appt Type/Fair Name|Number Attending|Appt Date|Appt Start|Appt Finish|Appt Location|Status|Rep Name|Rep Title|College|City|State|email|phone|
     Then HS I delete the downloaded Appointments Cvs file "RepVisitsEvents.csv"
     And HS I successfully sign out
 
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I verify the Export button is Enabled in Calendar page
+    Then HE I export the appointments for the following details "<StartDate>","<EndDate>"
+    Then HE I verify the downloaded Appointments csv file "RepVisitsEvents.csv" contains following details
+      |Appt Type/Fair Name|Number Attending|Appt Date|Appt Start|Appt Finish|Appt Location|Status|Rep Name|Rep Title|College|City|State|email|phone|
+    Then HE I delete the downloaded Appointments Cvs file "RepVisitsEvents.csv"
+    Then HE I successfully sign out
+
   Examples:
   |user    |institution               |fairStartTime|Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |Option2                           |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |
-  |PurpleHE|The University of Alabama |9:00am       |14  |10:32am  |11:25pm |3        |90       |99      |11:25pm      |No, I want to manually review all incoming requests. |Yes, accept all incoming requests.|Int Qa High School 4    |10:32am     |10:32am |QAs Fairs tests       |95  |0900AM    |1000AM  |90           |$25 |25                    |100                        | Save          |
+  |PurpleHE|The University of Alabama |9:00am       |7   |10:32am  |11:25pm |3        |7        |14      |11:25pm      |No, I want to manually review all incoming requests. |Yes, accept all incoming requests.|Int Qa High School 4    |10:32am     |10:32am |QAs Fairs tests       |7   |0900AM    |1000AM  |14           |$25 |25                    |100                        | Save          |
 
 
 
