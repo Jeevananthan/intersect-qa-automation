@@ -112,7 +112,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
     And SP I successfully sign out
 
-    Given HS I want to login to the HS app using "yournijan1992+lokatawest@gmail.com" as username and "Password#1" as password
+    Given HS I want to login to the HS app using "purpleheautomation+hstest@gmail.com" as username and "Password!1" as password
     Then HS I go to the repvisits page
     Then HS I select "All RepVisits Users" to show view availability
     And HS I successfully sign out
