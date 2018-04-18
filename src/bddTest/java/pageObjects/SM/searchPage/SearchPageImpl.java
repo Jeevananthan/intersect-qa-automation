@@ -162,14 +162,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void setLocationCriteria(DataTable dataTable) {
         List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
-        getDriver().findElement(By.xpath("//li[contains(text(),'Location')]")).click();
-        for (Map<String,String> criteria : entities) {
+        chooseFitCriteriaTab("Location");
+        for (Map<String, String> criteria : entities) {
             for (String key : criteria.keySet()) {
                 switch (key) {
                     // TODO - Some of this is not working yet
                     case "Search Type":
                         if (criteria.get(key).contains("distance"))
-                            radioButton("searchByDistance").select();
+                           searchByDistance().click();
                         else
                             radioButton("searchByStateOrRegion").select();
                         break;
@@ -191,6 +191,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                             checkbox(surrounding).select();
                         }
                         break;
+                    case "Select Miles":
+                        selectMilesDropdown().click();
+                        driver.findElement(By.xpath("//span[text()='" + criteria.get(key) + "']")).click();
+                        break;
+                    case "Zip Code":
+                        zipCodeInput().sendKeys(criteria.get(key));
+                        break;
+
                 }
             }
         }
@@ -656,6 +664,25 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().window(winHandleBefore);
     }
 
+    /**
+     * Activates particular filter criteria tab
+     *
+     * @param filterCriteria containing the value of filter tab, example:Locale, Admission, etc.
+     */
+    public void chooseFitCriteriaTab(String filterCriteria) {
+        checkbox(By.xpath("(//li[contains(.,'" + filterCriteria + "')])")).click();
+
+    }
+
+    /**
+     *
+     * @param validationMessage
+     */
+    public void checkValidationMessageIsVisible(String validationMessage) {
+        Assert.assertTrue("Validation message '" + validationMessage + "' did not appear",
+                driver.findElement(By.className("supermatch-error-text")).getText().equals(validationMessage));
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -741,5 +768,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement superMatchFooter() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"));
+    }
+
+    private WebElement selectMilesDropdown() {
+        return driver.findElement(By.id("supermatch-location-miles-dropdown"));
+    }
+
+    private WebElement zipCodeInput() {
+        return driver.findElement(By.xpath("//input[@placeholder = 'Zip Code']"));
+    }
+
+    private WebElement searchByDistance(){
+        return driver.findElement(By.xpath("//input[@value='searchByDistance']/../label"));
     }
 }
