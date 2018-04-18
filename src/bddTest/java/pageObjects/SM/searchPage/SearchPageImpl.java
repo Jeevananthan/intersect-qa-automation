@@ -796,7 +796,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void checkValidationMessageIsVisible(String validationMessage) {
         Assert.assertTrue("Validation message '" + validationMessage + "' did not appear",
                 driver.findElement(By.className("supermatch-error-text")).getText().equals(validationMessage));
-      
+    }
+
     public void verifyMeets100ofNeedCheckbox(String checkBox){
         String path = "//label[contains(text(), '"+checkBox+"')]";
         Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path)).getText().equals("Meets 100% of Need"));
