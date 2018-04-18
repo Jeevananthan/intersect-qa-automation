@@ -10,12 +10,12 @@ public class SurveyPageStepDefs implements En {
 
         SurveyPageImpl surveyPage = new SurveyPageImpl();
 
-        Then("^SM I verify that a survey is opened after clicking the \"([^\"]*)\" button$", surveyPage::verifySurvey);
+        Then("^SM I verify that a survey is opened after clicking the Provide Feedback button$", surveyPage::verifySurvey);
 
         Then("^SM I verify that the survey URL is \"([^\"]*)\"$", surveyPage::verifySurveyURL);
 
         And("^SM I close the survey$", surveyPage::closeSurvey);
 
-        Then("^SM I open the survey using the \"([^\"]*)\" button$", surveyPage::openSurvey);
+        Then("^SM I open the survey using the Provide Feedback button$", surveyPage::openSurvey);
     }
 }

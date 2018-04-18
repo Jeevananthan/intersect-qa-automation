@@ -25,14 +25,15 @@ public class SurveyPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The URL of the survey page is incorrect: " + driver.getCurrentUrl(), driver.getCurrentUrl().equals(URL));
     }
 
-    public void verifySurvey(String buttonLabel) {
-        originalHandle = openSurvey(buttonLabel);
+    public void verifySurvey() {
+        originalHandle = openSurvey();
         Assert.assertTrue("The survey is not displayed", surveySubtitle().isDisplayed());
+        closeSurvey();
     }
 
-    public String openSurvey(String buttonLabel) {
+    public String openSurvey() {
         waitForUITransition();
-        button(buttonLabel).click();
+        smSurveyButton().click();
         String winHandleBefore = driver.getWindowHandle();
         for(String winHandle : driver.getWindowHandles()){
             driver.switchTo().window(winHandle);
@@ -52,5 +53,8 @@ public class SurveyPageImpl extends PageObjectFacadeImpl {
     // Locators Below
     public WebElement surveySubtitle() {
         return driver.findElement(By.cssSelector("div.newSurveyTitle.customSurveyTitle"));
+    }
+    public WebElement smSurveyButton() {
+        return driver.findElement(By.cssSelector("span[class=\"button\"]"));
     }
 }
