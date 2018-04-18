@@ -5,6 +5,7 @@ import Selenium.WebElement.TextboxImpl;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
@@ -22,7 +23,11 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void login(String username, String password) {
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         openAdminPage();
         // Make sure our previous session ended.
         if (link(By.id("user-dropdown")).isDisplayed()) {

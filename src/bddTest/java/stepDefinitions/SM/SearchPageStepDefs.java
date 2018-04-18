@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -33,9 +34,11 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the Student Body UI in Resources Dropdown$", searchPage::verifyStudentBodyUI);
 
-        And("^SM I verify the system response when the GPA entered by the user is valid$", searchPage::verifySystemResponseWhenGPAInputIsValid);
+        And("^SM I verify the system response when the SAT score entered by the user is valid$", searchPage::verifySystemResponseWhenSATScoreInputIsValid);
 
-        And("^SM I verify the system response when the GPA entered by the user is invalid$", searchPage::verifySystemResponseWhenGPAInputIsInvalid);
+        And("^SM I verify the system response when the SAT score entered by the user is invalid$", searchPage::verifySystemResponseWhenSATScoreInputIsInvalid);
+
+        And("^SM I verify that SAT score persists when changing fit criteria$", searchPage::verifyIfSATScoreDataIsStoredOnOurSide);
 
         And("^SM I verify that entered GPA data persists$", searchPage::verifyGPADataPersists);
 
@@ -73,5 +76,23 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I unselect the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type$", searchPage::unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType);
 
+        Then ("SM I click \"([^\"]*)\" filter criteria tab", searchPage::chooseFitCriteriaTab);
+
+        Then("^SM I see validation message \"([^\"]*)\"$", (searchPage::checkValidationMessageIsVisible));
+      
+        Then("^SM I verify \"([^\"]*)\" checkbox in Cost fit criteria$", searchPage::verifyMeets100ofNeedCheckbox);
+
+        Then("^SM I unselect the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::unselectCheckbox);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Cost fit criteria$", searchPage::selectMeest100ofNeedCheckbox);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::selectStudentSuccessFitCriteriaCheckbox);
+
+        And("^SM I verify \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::verifyStudentSuccessFitCriteriaCheckbox);
+
+        Then("^SM I unselect the \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::unselectStudentSuccessFitCriteriaCheckbox);
+
+        Then("^SM I verify the widths of the three boxes$", searchPage::verifyWidthsOfThreeBoxes);
+      
     }
 }

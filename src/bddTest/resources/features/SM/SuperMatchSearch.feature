@@ -1,5 +1,5 @@
 @SM
-Feature: As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
+Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
   certain fit criteria
 
   @MATCH-3592
@@ -19,6 +19,16 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
     Then SM I verify Must Have and Nice to Have boxes
     Then SM I verify the empty results table
     Then SM I verify the dark blue footer
+
+  @MATCH-3381
+  Scenario: As a HS student, I want to filter colleges I am searching for by my specific SAT Scores within the Admission
+            category so I can see relevant colleges that accept students similar to me based on my SAT Scores in my
+            search results.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the system response when the SAT score entered by the user is valid
+    Then SM I verify the system response when the SAT score entered by the user is invalid
+    Then SM I verify that SAT score persists when changing fit criteria
+    Then SM I verify that the Must Have box does not contain "SAT"
 
   @MATCH-3208
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be able to
@@ -67,3 +77,9 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
     Then SM I select the "Associate's" radio button from the Academics fit criteria
     And SM I verify that the Must Have box does not contain "Major [1]"
     And SM I verify that the Must Have box does not contain "Minor [1]"
+
+  @MATCH-3667
+  Scenario: Verify that the box containing instructional text has a width of 25% and the Must Have
+  and Nice to Have boxes split the rest
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the widths of the three boxes

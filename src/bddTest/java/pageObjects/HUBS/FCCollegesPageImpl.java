@@ -44,4 +44,5 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
     private WebElement singleResult(String collegeName) {
         return getDriver().findElement(By.xpath("//a[text()='" + collegeName + "']"));
     }
+    private WebElement collegeInList(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']")); }
 }

@@ -88,7 +88,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     overviewPreview.getTestScoresTableButton(fieldAndValueElement.get(1).split(";")[0].split(" ")[0]).click();
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                             overviewPreview.getTestScoresTableValue("SAT 2400 Reading", fieldAndValueElement.get(1).split(";")[1])
-                            .getText().equals(fieldAndValueElement.get(1).split(";")[2]));
+                                    .getText().equals(fieldAndValueElement.get(1).split(";")[2]));
                     break;
                 case "Average GPA" :
                     avgGPAButton().click();
@@ -111,42 +111,23 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void editFieldValuesWithGeneratedData(HashMap<String, String> generatedValues, List<List<String>> details) {
+    public void editFieldValuesWithGeneratedData(HashMap<String, String> generatedValues) {
         for (String key : generatedValues.keySet()) {
             switch (key) {
                 case "Opening Statement" :
                     openingStatementButton().click();
                     openingStatementTextArea().clear();
                     openingStatementTextArea().sendKeys(generatedValues.get(key));
-//                    schoolSizeButton().click();
-//                    int totalStudents = Integer.parseInt(generatedValues.get(key));
-//                    int individualValue = totalStudents/4;
-//                    int diffValue = totalStudents - (individualValue*4);
-//                    innerEditSection("Undergraduate Women").clear();
-//                    innerEditSection("Undergraduate Women").sendKeys(Integer.toString(individualValue));
-//                    innerEditSection("Undergraduate Men").clear();
-//                    innerEditSection("Undergraduate Men").sendKeys(Integer.toString(individualValue));
-//                    innerEditSection("Graduate Women").clear();
-//                    innerEditSection("Graduate Women").sendKeys(Integer.toString(individualValue));
-//                    innerEditSection("Graduate Men").clear();
-//                    innerEditSection("Graduate Men").sendKeys(Integer.toString(diffValue));
-//                    String percentMaleGender = studentLifePreview.chartsPercent("Male").getText();
                     break;
                 case "Website" :
                     websiteButton().click();
                     websiteTextArea().clear();
                     websiteTextArea().sendKeys(generatedValues.get(key));
-//                    nearestCityButton().click();
-//                    innerEditSection(details.get(1).get(1)).clear();
-//                    innerEditSection(details.get(1).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "School Type" :
                     schoolTypeButton().click();
                     Select dropDown = new Select(getSchoolTypeDropDown("Level"));
                     dropDown.selectByVisibleText(generatedValues.get(key));
-//                    ethnicityButton().click();
-//                    innerEditSection(details.get(2).get(1)).clear();
-//                    innerEditSection(details.get(2).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Undergraduate Enrollment" :
                     undergradEnrollButton().click();
@@ -211,7 +192,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     generatedValues.put(key, getNextSchoolTypeDropDown(fieldValues.get(key)));
                     break;
                 case "Undergraduate Enrollment" :
-                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key).replace(",", "")) + 1));
                     break;
                 case "Student / Faculty Ratio" :
                     int finalValue = Integer.parseInt(fieldValues.get(key).split(" ")[0]);
@@ -239,7 +220,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         return generatedValues;
     }
 
-//    private void enterPublishReasonsText(String publishReason) {
+    //    private void enterPublishReasonsText(String publishReason) {
 //        publishReasonsTextArea().sendKeys(publishReason);
 //    }
 //
@@ -256,13 +237,12 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
 //        publishButton().click();
 //    }
 //
-    public void editAllFieldsBasedOnGatheredValues(DataTable stringsDataTable, HashMap<String, String> originalValues) {
-        List<List<String>> details = stringsDataTable.asLists(String.class);
+    public void editAllFieldsBasedOnGatheredValues(String publishReason, HashMap<String, String> originalValues) {
         HashMap<String, String> newValues = generateValues(originalValues);
         OverviewPageImpl.generatedValues = newValues;
-        editFieldValuesWithGeneratedData(newValues, details);
+        editFieldValuesWithGeneratedData(newValues);
         publish.clickPublishButton();
-        publish.enterPublishReasonsText(details.get(9).get(0));
+        publish.enterPublishReasonsText(publishReason);
         publish.clickSubmitChangesButton();
         publish.clickContinueEditingLink();
         logger.info("All changes were submitted");
@@ -300,7 +280,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//h3[text()='Contact Information']"));
     }
     private WebElement websiteTextArea() {
-        return getDriver().findElement(By.cssSelector("input#field-node688135-field_url"));
+        return getDriver().findElement(By.cssSelector("input[id*='-field_url']"));
     }
     private WebElement getSchoolTypeDropDown(String label) {
         return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../select"));
@@ -309,41 +289,41 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//label[text()='" + section + "']/following-sibling::input"));
     }
     private WebElement stuFacRatioTextArea() {
-        return getDriver().findElement(By.cssSelector("input#field-node581469-field_he_studentfacultyratio"));
+        return getDriver().findElement(By.cssSelector("input[id*='-field_he_studentfacultyratio']"));
     }
     private WebElement testScoresInnerSection(String label) {
         return getDriver().findElement(By.xpath("//strong[text()='" + label + "']"));
     }
     private WebElement avgGPATextArea() {
-        return getDriver().findElement(By.cssSelector("input#field-node666074-field_he_gpaaverage"));
+        return getDriver().findElement(By.cssSelector("input[id*='-field_he_gpaaverage']"));
     }
     private WebElement getContactInfoInput(String section, String inputLabel) {
         WebElement result = null;
         switch (section) {
             case "Application Mailing Address" :
                 if (inputLabel.equals("Country")) {
-                    result = getDriver().findElement(By.xpath("select#field-node666074-field_country_ref"));
+                    result = getDriver().findElement(By.xpath("select[id*='-field_country_ref'].fc-select.fc-select--full-bleed.hem-select-field.ng-pristine.ng-valid.ng-empty.ng-touched"));
                 } else if (inputLabel.equals("State")) {
                     result = getDriver().findElement(By.xpath("//legend[text()='Application Mailing Address']/../address-field/typeahead-field[1]/div/div/input"));
                 } else {
                     result = getDriver().findElement(By.xpath("//legend[text()='Application Mailing Address']/../address-field/text-field[@name='" + inputLabel + "']/div/ng-form/input"));
                 }
-            break;
+                break;
         }
         return result;
     }
     private WebElement getCampusSurroundingsDropDown() {
-        return getDriver().findElement(By.cssSelector("select#field-node688135-field_he_city_size"));
+        return getDriver().findElement(By.cssSelector("select[id*='-field_he_city_size']"));
     }
     private String getNextSchoolTypeDropDown(String dropDownValue) {
         String result = "";
         switch (dropDownValue) {
             case "Four Year School" : result = "Two Year School";
-            break;
+                break;
             case "Two Year School" : result = "Less than 2 Year School";
-            break;
+                break;
             case  "Less than 2 Year School" : result = "Corporation";
-            break;
+                break;
             case "Corporation" : result = "Four Year School";
         }
         return result;
@@ -352,21 +332,21 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         String result = "";
         switch (currentCampusSurroundings) {
             case "Large City" : result = "Midsize City, greater than 100,000 pop";
-            break;
+                break;
             case "Midsize City" : result = "Small City, less than 100,000 pop";
-            break;
+                break;
             case "Small City" : result = "Suburb, near city w/ greater than 250,000 pop";
-            break;
+                break;
             case "Suburb near large city" : result = "Suburb, near city w/ greater than 100,000 pop";
-            break;
+                break;
             case "Suburb near midsize city" : result = "Suburb, near city w/ less than 100,000 pop";
-            break;
+                break;
             case "Suburb near small city" : result = "Town, within 10 miles of urban area";
-            break;
+                break;
             case "Town" : result = "Rural, within 5 miles of urban area";
-            break;
+                break;
             case "Rural" : result = "Large City, greater than 250,000 pop";
-            break;
+                break;
         }
         return result;
     }
