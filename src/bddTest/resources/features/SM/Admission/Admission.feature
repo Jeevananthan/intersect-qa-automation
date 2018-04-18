@@ -1,5 +1,5 @@
 @SM
-Feature: SM - Feature - As a HS student, I need to be able to search for colleges based on the 'Admission' fit criteria
+Feature: SM - Admission - As a HS student, I need to be able to search for colleges based on the 'Admission' fit criteria
 
   @MATCH-3379
   Scenario: As a HS student, I want to filter colleges I am searching for by my specific GPA within the Admission

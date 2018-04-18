@@ -73,6 +73,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setBlockedDate);
 
+        Then("^HS I verify in exceptions the appointments color and status for \"([^\"]*)\" with color \"([^\"]*)\"$",repVisits::verifyPillsColorDays);
+
         Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in the Holiday tab$",repVisits::RemoveBlockedDate);
 
         Then("^HS I verify the \"([^\"]*)\" and \"([^\"]*)\" date with \"([^\"]*)\" was not present in the Holidays tab in the Availability & Settings page in RepVisits",repVisits::verifyBlockedHolidaysRemoved);
@@ -106,6 +108,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I clear the day$", repVisits::clearDay);
 
         Then("^HE I set and verify that \"([^\"]*)\" is blocked on the Blocked Days page$", repVisits::verifyManualBlockedHolidays);
+
+        Then("HE I search for school \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked$", repVisits::searchforSchool);
 
         Then("HE I search in \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked actually$", repVisits::searchforSchool);
 
@@ -278,5 +282,11 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the list of registered college fair attendees for the \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyListofRegisteredAttendee);
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
+
+        Then("^HS I add the email \"([^\"]*)\" in the primary contact in Notifications & Primary Contact page$",repVisits::addEmailInNotificationandPrimaryContactPage);
+
+        Then("^HS I navigate to the Naviance Settings page through the setup Wizard$",repVisits::navigateToNavianceSettingsPage);
+
+        Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
     }
 }

@@ -43,7 +43,6 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     private WebElement studiesButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Studies\")]"));
     }
-
     private WebElement studentLifeButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Student Life\")]"));
     }

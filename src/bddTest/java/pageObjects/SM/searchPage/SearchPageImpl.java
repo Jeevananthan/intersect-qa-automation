@@ -4,16 +4,15 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.JavascriptExecutor;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
-
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
@@ -155,6 +154,38 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 .isDisplayed());
     }
 
+    public void verifyWidthsOfThreeBoxes() {
+        Assert.assertEquals(25.0, round((firstBox().getSize().getWidth()/(double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
+        Assert.assertEquals(37.5, round((secondBox().getSize().getWidth()/(double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
+        Assert.assertEquals(37.5, round((thirdBox().getSize().getWidth()/(double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
+    }
+
+    private WebElement threeBoxContainer() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui equal width grid box-container']")));
+    }
+
+    private WebElement firstBox() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='ui equal width grid box-container']/div[contains(@class, 'column')])[1]")));
+    }
+
+    private WebElement secondBox() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='ui equal width grid box-container']/div[contains(@class, 'column')])[2]")));
+    }
+
+    private WebElement thirdBox() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='ui equal width grid box-container']/div[contains(@class, 'column')])[3]")));
+    }
+
+    private static double round (double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
+
+
     /**
      * Accepts a DataTable that describes the location fit criteria to be selected, and selects them from the dialog
      * @param dataTable - Valid sections:  Search Type, State or Province, Quick Selection: US Regions & Others, Campus Surroundings
@@ -210,6 +241,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void setResourcesCriteria(String option) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        if (option.equals("Asperger's/Autism Support"))
+            option="Autism Support";
         WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
         WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
         if (!checkbox.isSelected()) {
@@ -309,6 +342,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void unsetResourcesCriteria(String option) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        if (option.equals("Asperger's/Autism Support"))
+            option="Autism Support";
         WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
         WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
         if (checkbox.isSelected()) {
@@ -352,8 +387,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyMustHaveBoxDoesNotContain(String item) {
         try {
+            driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
             Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.",!getMustHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             logger.info("Could not find the 'Must Have' box, so the item we don't want to see there clearly isn't there.");
         }
     }
@@ -372,8 +410,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyNiceToHaveBoxDoesNotContain(String item) {
         try {
+            driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
             Assert.assertTrue("'Nice to Have' box should not contain " + item + ", but it does.",!getNiceToHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             logger.info("Could not find the 'Nice to Have' box, so the item we don't want to see there clearly isn't there.");
         }
     }
@@ -516,6 +557,80 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         gpaTextBox().sendKeys("5");
         waitForUITransition();
         Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+
+    }
+
+    public void verifySystemResponseWhenSATScoreInputIsValid() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("400");
+        waitForUITransition();
+        Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1000");
+        waitForUITransition();
+        Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1600");
+        waitForUITransition();
+        Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+    }
+
+    public void verifySystemResponseWhenSATScoreInputIsInvalid() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("100");
+        waitForUITransition();
+        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("399");
+        waitForUITransition();
+        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1601");
+        waitForUITransition();
+        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+
+    }
+
+    public void verifyIfSATScoreDataIsStoredOnOurSide() {
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("827");
+        resourcesMenuItem().click();
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+            waitForUITransition();
+        }
+        Assert.assertTrue("SAT score data is not persisting", satScoreTextBox().getAttribute("value").equals("827"));
+        satScoreTextBox().clear();
+        satScoreTextBox().sendKeys("1300");
+        resourcesMenuItem().click();
 
     }
 
@@ -681,6 +796,69 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void checkValidationMessageIsVisible(String validationMessage) {
         Assert.assertTrue("Validation message '" + validationMessage + "' did not appear",
                 driver.findElement(By.className("supermatch-error-text")).getText().equals(validationMessage));
+      
+    public void verifyMeets100ofNeedCheckbox(String checkBox){
+        String path = "//label[contains(text(), '"+checkBox+"')]";
+        Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path)).getText().equals("Meets 100% of Need"));
+        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../i[@aria-hidden='true']")).isDisplayed());
+    }
+
+    /**
+     * select any selected checkbox only when fit criteria menu is open.
+     */
+    public void selectCheckBox(String checkBox, String fitCriteriaName){
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            openFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
+        Assert.assertTrue(checkBox+" checkbox by default is not selected.", !checkboxLocator.isSelected());
+        if (!checkboxLocator.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+    /**
+     * unselect any selected checkbox only when fit criteria menu is open.
+     */
+    public void unselectCheckbox(String checkBox, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            openFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
+        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+        if (onlyCheckbox.isSelected()) {
+            checkboxLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(checkBox+" checkbox is selected.", !onlyCheckbox.isSelected());
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+    }
+
+    private void openFitCriteria(String fitCriteria){
+        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).click();
+    }
+
+    public void selectMeest100ofNeedCheckbox(String checkboxName){
+        selectCheckBox(checkboxName, "Cost");
+    }
+
+    public void selectStudentSuccessFitCriteriaCheckbox(String checkboxName){
+        selectCheckBox(checkboxName, "Institution Characteristics");
+    }
+
+    public void unselectStudentSuccessFitCriteriaCheckbox(String checkboxName){
+        unselectCheckbox(checkboxName, "Institution Characteristics");
+    }
+
+    public void verifyStudentSuccessFitCriteriaCheckbox(String checkboxName) {
+        openFitCriteria("Institution Characteristics");
+        String path = "//label[contains(text(),'" + checkboxName + "')]";
+        Assert.assertTrue("Student Success text is not displaying.", driver.findElement(By.xpath("//span[@class='supermatch-menu-institution-characteristics-heading'][contains(text(), 'Student Success')]")).isDisplayed());
+        Assert.assertTrue(checkboxName + " label is not displaying.", driver.findElement(By.xpath(path)).isDisplayed());
+        Assert.assertTrue(checkboxName + " checkbox tooltip is not showing.", driver.findElement(By.xpath(path + "/../../i")).isDisplayed());
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
     // Locators Below
@@ -699,6 +877,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement actScoreTextBox() {
         return driver.findElement(By.xpath("//input[@name='actScore']"));
+    }
+    private WebElement satScoreTextBox() {
+        return driver.findElement(By.xpath("//input[@name='satScore']"));
     }
     private WebElement allStudentsRadioButton() {
         return driver.findElement(By.xpath("//label[contains(text(), 'All students')]//preceding-sibling::input"));
@@ -781,4 +962,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement searchByDistance(){
         return driver.findElement(By.xpath("//input[@value='searchByDistance']/../label"));
     }
+
+    private WebElement costFitCriteria(){
+        return driver.findElement(By.xpath("//li[contains(text(), 'Cost')]"));
+    }
+
 }
