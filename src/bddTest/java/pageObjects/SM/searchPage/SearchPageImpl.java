@@ -132,7 +132,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyZipCodeValidationMessage() {
-        fitCriteriaMenuItem("Location").click();
+        openFitCriteria("Location");
 
         selectRadioButton("Search by distance");
 
@@ -985,9 +985,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement superMatchFooter() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"));
-    }
-    private WebElement fitCriteriaMenuItem(String menuItemName) {
-        return getDriver().findElement(By.xpath("//li[contains(text(),'" + menuItemName+ "')]"));
     }
     private WebElement costFitCriteria(){
         return driver.findElement(By.xpath("//li[contains(text(), 'Cost')]"));
