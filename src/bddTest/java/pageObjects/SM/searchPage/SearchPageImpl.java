@@ -132,17 +132,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyZipCodeValidationMessage() {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Location')]")).click();
+        fitCriteriaMenuItem("Location").click();
 
         selectRadioButton("Search by distance");
 
         //Verify that pills are not created until both Miles are selected and a valid zip code entered
         selectOptionFromSelectMilesListBox("Within 500 miles");
-        verifyNoPillsArePresentInMustHaveBox();
+        verifyMustHaveBoxDoesNotContain("Within 500 miles");
 
         selectOptionFromSelectMilesListBox("Select Miles");
         zipCodeTextBox().sendKeys("90001");
-        verifyNoPillsArePresentInMustHaveBox();
+        verifyMustHaveBoxDoesNotContain("90001");
 
         selectOptionFromSelectMilesListBox("Within 25 miles");
         zipCodeTextBox().clear();
@@ -166,7 +166,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         zipCodeTextBox().sendKeys(Keys.BACK_SPACE);
         waitForUITransition();
 
-        verifyNoPillsArePresentInMustHaveBox();
+        verifyMustHaveBoxDoesNotContain("9000");
         Assert.assertFalse("'Network error message is displayed when an invalid zip code is entered'", driver.getPageSource().contains("Network error: Failed to fetch"));
 
     }
@@ -470,16 +470,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             logger.info("Could not find the 'Nice to Have' box, so the item we don't want to see there clearly isn't there.");
-        }
-    }
-
-    public void verifyNoPillsArePresentInMustHaveBox() {
-        try {
-            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-            Assert.assertTrue("'Must Have' box contains one or more pills", !getMustHaveBox().findElement(By.xpath("//div[contains(@class, 'button-group')]")).isDisplayed());
-        } catch(Exception ex) {
-            Assert.assertTrue(true);
-            logger.info("No pills are present in the Must Have box");
         }
     }
 
@@ -995,6 +985,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement superMatchFooter() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"));
+    }
+    private WebElement fitCriteriaMenuItem(String menuItemName) {
+        return getDriver().findElement(By.xpath("//li[contains(text(),'" + menuItemName+ "')]"));
     }
     private WebElement costFitCriteria(){
         return driver.findElement(By.xpath("//li[contains(text(), 'Cost')]"));
