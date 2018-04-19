@@ -759,12 +759,23 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1775
   Scenario: As a High School Community user, I wan tto be able to cancel my college fair and notify attendees
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs3" and username "school-user" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I Navigate to College Fairs tab of the Repvisits Page
-    And HS I click View Details against fair "eee"
+    And HS I create a College Fair with the following data
+      | College Fair Name                                         | Cancel This Fair        |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0800AM                  |
+      | Date                                                      | 5                       |
+      | RSVP Deadline                                             | 4                       |
+      | End Time                                                  | 0800PM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I Click the View Details button for the College Fair Event for "Cancel This Fair"
     And HS I click on Edit button to navigate to Edit College Fair
     And HS I Click on button Cancel This College Fair
-    And HS I Enter Fair Cancellation Message for colleges"Canceled Fair For Automation Testing"
-    And HS I click on button Cancel Fair and Notify Colleges
+    And HS I cancel the "Cancel This Fair" College Fair
     And HS I Click on close button
 

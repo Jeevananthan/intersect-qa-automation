@@ -292,8 +292,8 @@ public class RepVisitsPageStepDefs implements En {
         And("^^HS I Set the Primary Contact for Visits for my  school with phone\"([^\"]*)\" and Email \"([^\"]*)\"$",repVisits:: primaryContactForVisit );
         And("^HS I click View Details against fair \"([^\"]*)\"$",repVisits:: viewFairDetails);
         And("^HS I click on Edit button to navigate to Edit College Fair$",repVisits:: editCollegeFair);
-        And("^HS I Click on button Cancel This College Fair$",repVisits::cancelCollegeFair);
-        And("^^HS I Enter Fair Cancellation Message for colleges\"([^\"]*)\"$",repVisits::cancelMessageForColleges);
+        And("^HS I Click on button Cancel This College Fair$",repVisits::cancelCollegeFairClick);
+        And("^^HS I Enter Fair Cancellation Message for colleges \"([^\"]*)\"$",repVisits::cancelMessageForColleges);
         And("^HS I click on button Cancel Fair and Notify Colleges$",repVisits::cancelFairAndNotifyColleges);
         And("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
 
