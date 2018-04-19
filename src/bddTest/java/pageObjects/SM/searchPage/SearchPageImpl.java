@@ -236,6 +236,35 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Accepts a DataTable that describes the diversity
+     * @param dataTable - Valid sections:  Diversity, Percentage, Select race or ethnicity etc.
+     */
+    public void setDiversityCriteria(DataTable dataTable) {
+        List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
+        chooseFitCriteriaTab("Diversity");
+        for (Map<String, String> criteria : entities) {
+            for (String key : criteria.keySet()) {
+                switch (key) {
+                    case "Diversity":
+                        if (criteria.get(key).contains("Overall"))
+                            overallDiversity().click();
+                        else
+                           specificDiversity().click();
+                        break;
+                    case "Percentage":
+                       diversityPercentDropdown().click();
+                       diversityPercentDropdown().findElement(By.xpath("//*[text()='"+criteria.get(key)+"']")).click();
+                        break;
+                    case "Select race or ethnicity":
+                       diversityRaceDropdown().click();
+                       diversityRaceDropdown().findElement(By.xpath("//*[text()='"+criteria.get(key)+"']")).click();
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
      * Accepts a String with the name of the option in the Resources fit criteria list to activate.
      * @param option String with the name of the option to enable.  e.x.: Counseling Services, Day Care Services, etc.
      */
@@ -962,6 +991,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement searchByDistance(){
         return driver.findElement(By.xpath("//input[@value='searchByDistance']/../label"));
+    }
+
+    private WebElement overallDiversity(){
+        return driver.findElement(By.xpath("//input[@value='overallDiversity']/../label"));
+    }
+
+    private WebElement specificDiversity(){
+        return driver.findElement(By.xpath("//input[@value='specificDiversity']/../label"));
+    }
+
+    private WebElement diversityPercentDropdown(){
+        return driver.findElement(By.id("supermatch-diversity-percent-dropdown"));
+    }
+
+    private WebElement diversityRaceDropdown(){
+        return driver.findElement(By.id("supermatch-diversity-race-dropdown"));
     }
 
     private WebElement costFitCriteria(){
