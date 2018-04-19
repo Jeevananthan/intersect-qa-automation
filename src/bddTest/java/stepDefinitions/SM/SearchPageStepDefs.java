@@ -66,8 +66,6 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the dark blue footer$", searchPage::verifyDarkBlueFooter);
 
-        Then("^SM I verify that a survey is opened after clicking the \"([^\"]*)\" button$", searchPage::verifySurvey);
-
         Then("^SM I select the \"([^\"]*)\" radio button from the Academics fit criteria",searchPage::selectRadioButtonInAcademicsFitCriteria);
 
         Then("^SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type$", searchPage::selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType);

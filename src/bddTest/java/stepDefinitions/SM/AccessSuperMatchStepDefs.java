@@ -18,5 +18,7 @@ public class AccessSuperMatchStepDefs implements En {
         Given("^SM I am logged in to SuperMatch through Family Connection as user \"([^\"]*)\" with password \"([^\"]*)\" from school \"([^\"]*)\"$",loginPage::loginThroughFamilyConnection);
 
         Given("^SM I am logged in to SuperMatch through Family Connection in Staging with the following details$", loginPage::defaultLoginThroughFamilyConnectionStaging);
+
+        Given("^SM I am logged in to SuperMatch through the SuperMatch link$", loginPage::navigateToSuperMatchDirectly);
     }
 }
