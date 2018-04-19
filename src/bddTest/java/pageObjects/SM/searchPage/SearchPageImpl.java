@@ -237,6 +237,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Accepts a DataTable that describes the diversity
+     *
      * @param dataTable - Valid sections:  Diversity, Percentage, Select race or ethnicity etc.
      */
     public void setDiversityCriteria(DataTable dataTable) {
@@ -249,15 +250,23 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         if (criteria.get(key).contains("Overall"))
                             overallDiversity().click();
                         else
-                           specificDiversity().click();
+                            specificDiversity().click();
                         break;
                     case "Percentage":
-                       diversityPercentDropdown().click();
-                       diversityPercentDropdown().findElement(By.xpath("//*[text()='"+criteria.get(key)+"']")).click();
+                        diversityPercentDropdown().click();
+                        diversityPercentDropdown().findElement(By.xpath("//*[text()='" + criteria.get(key) + "']")).click();
                         break;
                     case "Select race or ethnicity":
-                       diversityRaceDropdown().click();
-                       diversityRaceDropdown().findElement(By.xpath("//*[text()='"+criteria.get(key)+"']")).click();
+                        diversityRaceDropdown().click();
+                        diversityRaceDropdown().findElement(By.xpath("//*[text()='" + criteria.get(key) + "']")).click();
+                        break;
+                    case "% MALE VS. FEMALE":
+                        maleFemalePercentDropdown().click();
+                        maleFemalePercentDropdown().findElement(By.id("male-female-percent-selection-option-" + criteria.get(key) + "")).click();
+                        break;
+                    case "Gender":
+                        maleFemaleGenderDropdown().click();
+                        maleFemaleGenderDropdown().findElement(By.xpath("//*[text()='" + criteria.get(key) + "']")).click();
                         break;
                 }
             }
@@ -1007,6 +1016,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement diversityRaceDropdown(){
         return driver.findElement(By.id("supermatch-diversity-race-dropdown"));
+    }
+
+    private WebElement maleFemalePercentDropdown(){
+        return driver.findElement(By.id("male-female-percent-dropdown"));
+    }
+
+    private WebElement maleFemaleGenderDropdown(){
+        return driver.findElement(By.id("male-female-gender-dropdown"));
     }
 
     private WebElement costFitCriteria(){
