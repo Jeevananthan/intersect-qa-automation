@@ -1,9 +1,9 @@
 @HS
-Feature:  Users should be able to modify their enrollment data using the HS Community in Edit Mode.
+Feature:  As an HS user, I should be able to modify my enrollment data via the Community.
 
   @MATCH-811 @MATCH-814 @MATCH-815 @MATCH-1561
   Scenario: As an authorized HS User, I need to be able to update my contact information in the purple community.
-            So I should be able to change my address, phone, fax, and website URL.
+  So I should be able to change my address, phone, fax, and website URL.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -12,7 +12,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     And HS I enter the following CONTACT data on the Institution Profile page and click "Save"
       | Address     | 3480 DIXIE HWY    |
       | City        | ERLANGER          |
-      | State       | KENTUCKY          |
+      | State       | Kentucky        |
       | Zip         | 41018             |
       | County      | KENTON COUNTY     |
       | Country     | United States     |
@@ -24,7 +24,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     And HS I verify updated data entered has successfully been saved
       | Address     | 3480 DIXIE HWY    |
       | City        | ERLANGER          |
-      | State       | KENTUCKY          |
+      | State       | Kentucky          |
       | Zip         | 41018             |
       | County      | KENTON COUNTY     |
       | Country     | United States     |
@@ -47,7 +47,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
   @MATCH-811 @MATCH-814 @MATCH-815
   Scenario: As an authorized HS User, I need to be able to update my enrollment data in the purple community.
-            So I should be able to change my address, phone, fax, and website URL.
+  So I should be able to change my address, phone, fax, and website URL.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -142,14 +142,14 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
   @MATCH-811 @MATCH-814 @MATCH-815
   Scenario: As an authorized HS User, I need to be able to update my academic data fields in the purple community.
-            So I should be able to change any academic data attributes.
+  So I should be able to change any academic data attributes.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the ACADEMIC DATA FIELDS exist
       |Charter School |Coeducational |College-Going Rate |Student/Teacher ratio |Full Time Teachers |Highest Grade |Lowest Grade |School Level |School Type Options |School Year of Last Reported Data|
     And HS I enter the following ACADEMIC data on the Institution Profile page and click "Save"
-      | Charter School                     | Yes                                          |
+      | Charter School                     | No                                          |
       | Coeducational                      | All-male (school only has all-male students) |
       # The College-Going Rate field will not save, manually or by test
       #| College-Going Rate                 | 80                                           |
@@ -163,7 +163,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
-      | Charter School                     | Yes                                          |
+      | Charter School                     | No                                          |
       | Coeducational                      | All-male (school only has all-male students) |
       #| College-Going Rate                 | 80                                           |
       | Student/Teacher ratio              | 20                                           |
@@ -190,7 +190,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
   @MATCH-1245
   Scenario: As a HS user with the appropriate permissions enabled in Naviance I need to be able to edit my HS institution's profile data that displays in Community
-            So that data is always fresh and current.
+  So that data is always fresh and current.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -224,7 +224,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
   @MATCH-1563
   Scenario: As a HS User on my HS Institution Edit page I would like to see a header above the Title I data entry boxes
-            To reduce the risk of confusion.
+  To reduce the risk of confusion.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -233,7 +233,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
   @MATCH-1562
   Scenario: As an authenticated HS user on the HS Institution Edit Page I don't want to have a "total" box in demographic data
-            So data entry is less confusing.
+  So data entry is less confusing.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -243,7 +243,7 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
 
   @MATCH-1564
   Scenario: As an HS Intersect user viewing my HS Institution Edit page I want dropdowns that don't have too many options
-            So I'm not confused during editing.
+  So I'm not confused during editing.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -257,16 +257,32 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | Coed (school has male and female students) | All-male (school only has all-male students) | All-female (school only has all-female students) | Unknown |
     And HS I successfully sign out
 
+
+
+  @MATCH-1849
+  Scenario: As a HS user, I need to be able to request a user account by providing the necessary information about myself.
+  So Support can provision my user account.
+
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "INFINITY INSTITUTE" in the registration page
+    And HE I click the link "please complete this form."
+    Then HS I verify all field type in request user page
+      |firstName |lastName |email |verifyEmail |jobTitle |
+      |text      |text     |email |email       |text     |
+    And HS I enter the following data in request user page
+      |firstName |lastName |email                 |verifyEmail           |jobTitle |
+      |mahi      |qateam   |kpmahi93+12@gmail.com |kpmahi93+12@gmail.com |test role|
+
   @MATCH-1781
   Scenario: As a HS user, I need to be able to search for high schools during the registration process.
-            so I can associate myself with the high school I work at
+  so I can associate myself with the high school I work at
     Given HS Iam navigating to Intersect HS through Non naviance Url
     Then HS I click the new user link in the login page
-    And HS I search for "Int QA High School 4" in "High school" and verify the results
+    And HS I search for "Int Qa High School 4" in "High school" and verify the results
 
   @MATCH-1565
   Scenario: As a HS Intersect User on the HS Institution edit page I want to see placeholder text when fields are blank
-            So there is less confusion on what to put in the field.
+  So there is less confusion on what to put in the field.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
@@ -277,3 +293,23 @@ Feature:  Users should be able to modify their enrollment data using the HS Comm
       | collegeRate | Ex: 78%                |
       | ratio       | Ex: 12 (for 12:1)      |
     And HS I successfully sign out
+
+  @MATCH-2052
+  Scenario: As a HS user, I need to be able to request a new user account AND a new high school institution during the registration process.
+  So I can still complete the registration workflow process when I am unable to successfully search and locate my high school.
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Request new institution" in the registration page
+    Then HS I verify the Request New User page
+
+  @MATCH-1848
+  Scenario: As a HS user, I need to see particular information and instructions on a HS Reg Institution Page.
+  So I can verify the institution is my high school and request a user account.
+    Given HS I navigate to Registration Intersect url
+    Then HS I verify the Institution page
+    And HS I search for "Homeconnection" in High School Staff Member registration page
+    Then HS I verify the address page of "Homeconnection" which is a "non-naviance" school in "Washington"
+    And HS I verify the link "please complete this form."
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Int QA High School 3" in High School Staff Member registration page
+    Then HS I verify the address page of "Int QA High School 3" which is a "naviance" school in "Arlington"
+    And HS I verify the link "Naviance"
