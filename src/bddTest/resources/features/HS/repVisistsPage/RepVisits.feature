@@ -834,7 +834,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 #FOR CANCEL
     Then HS I cancel new event created for "<College Fair Name>"
-    And HS I verify the Canceled events for "<College Fair Name>"
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
     Then HS I verify the message "You currently have no notifications" is displayed in the ACTIVITY subtab
