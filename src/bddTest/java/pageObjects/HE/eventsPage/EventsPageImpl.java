@@ -436,8 +436,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTab(String tabName) {
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         getTab(tabName).click();
+        waitForUITransition();
     }
 
     public void verifyFilterIsPresentInList(String eventName) {
@@ -447,6 +448,16 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             filtersNamesStrings.add(filterName.getText());
         }
         Assert.assertTrue("The filter is not displayed in the filters list", filtersNamesStrings.contains(eventName));
+    }
+
+    public void openCreateFilterFromEventAudience() {
+        audienceField().click();
+        newFilterLink().click();
+    }
+
+    public void verifyFilterInEventAudienceList(String filterName) {
+        audienceField().click();
+        Assert.assertTrue("The filter is not in the Event Audience List", filterInEventAudienceList(filterName).isDisplayed());
     }
 
     //locators
@@ -466,7 +477,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button[title='Save Draft']")); }
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
-    private WebElement menuButtonForEvent(String eventName) {
+    public WebElement menuButtonForEvent(String eventName) {
         return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'three wide column')]/div/div/i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
@@ -539,6 +550,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private String pastDateErrorMessagesListLocator = "div.ui.red.pointing.basic.label span";
     private String pastDateErrorMessageString = "Event Start date and time must not be in the past";
     private String pastRSVPErrorMessageString = "Event RSVP Deadline date and time must not be in the past";
-    private WebElement getTab(String tabName) { return driver.findElement(By.xpath("//span[text()='" + tabName + "']")); }
+    private WebElement getTab(String tabName) { return driver.findElement(By.xpath("//li[contains(@class, 'link item')]/a/span[text()='" + tabName + "']")); }
     private String filtersList = "div[class*=dimmable] strong";
+    private WebElement newFilterLink() { return driver.findElement(By.cssSelector("table[class *= \"ui unstackable very basic left aligned table\"] a")); }
+    private WebElement filterInEventAudienceList(String filterName) { return driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
 }

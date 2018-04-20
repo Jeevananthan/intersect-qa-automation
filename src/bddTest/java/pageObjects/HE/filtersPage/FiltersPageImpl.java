@@ -18,35 +18,43 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void createFilter(DataTable newFilterData) {
-        createFilterButton().click();
         List<List<String>> filterData = newFilterData.asLists(String.class);
         for (List<String> filterDataElement : filterData) {
             switch (filterDataElement.get(0)) {
                 case "Gender" : genderCheckBox(filterDataElement.get(1)).click();
-                break;
+                    break;
                 case "Location" :
-//                    Select milesDropdown = new Select(locationMilesDropdown());
-//                milesDropdown.selectByVisibleText(filterDataElement.get(1).split(";")[0]);
-//                locationPostalCodeField().clear();
-//                locationPostalCodeField().sendKeys(filterDataElement.get(1).split(";")[1]);
-                locationMilesDropdown().click();
-
-                break;
-                case "Race and Ethnicity" : raceAndEthnicityField().clear();
-                raceAndEthnicityField().sendKeys(filterDataElement.get(1));
-                break;
-                case "Grade Level" : gradeLevel().clear();
-                gradeLevel().sendKeys(filterDataElement.get(1));
-                break;
-                case "GPA" : gpaField().clear();
-                gpaField().sendKeys(filterDataElement.get(1));
-                break;
-                case "Filter Name" : filterNameField().clear();
-                filterNameField().sendKeys(filterDataElement.get(1));
-                break;
+                    locationMilesDropdown().click();
+                    getDropdownOption(filterDataElement.get(1).split(";")[0]).click();
+                    locationPostalCodeField().sendKeys(filterDataElement.get(1).split(";")[1]);
+                    break;
+                case "Race and Ethnicity" :
+                    raceAndEthnicityField().click();
+                    getDropdownOption(filterDataElement.get(1)).click();
+                    //raceAndEthnicityField().click();
+                    filterNameLabel().click();
+                    break;
+                case "Grade Level" :
+                    filterNameLabel().click();
+                    gradeLevel().click();
+                    getDropdownOption(filterDataElement.get(1)).click();
+                    //gradeLevel().click();
+                    filterNameLabel().click();
+                    break;
+                case "GPA" :
+                    gpaField().click();
+                    getDropdownOption(filterDataElement.get(1)).click();
+                    //raceAndEthnicityField().click();
+                    filterNameLabel().click();
+                    break;
+                case "Filter Name" :
+                    filterNameLabel().click();
+                    filterNameField().sendKeys(filterDataElement.get(1));
+                    break;
             }
         }
         saveFilterButton().click();
+        waitForUITransition();
     }
 
     public void clickCreateFilter() {
@@ -61,6 +69,13 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         /*code to verify error messages for missing data in the fields*/
     }
 
+    public void deleteFilter(String filterName) {
+        threePointsMenu(filterName).click();
+        threePointsMenuElement("Delete").click();
+        deleteConfirmationButton().click();
+        waitForUITransition();
+    }
+
     //locators
     private WebElement genderCheckBox(String option) { return driver.findElement(By.cssSelector("input[value=\"" + option.toUpperCase() + "\"]")); }
     private WebElement locationMilesDropdown() { return driver.findElement(By.cssSelector("div[name=\"distanceValue\"]")); }
@@ -68,7 +83,12 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement raceAndEthnicityField() { return driver.findElement(By.cssSelector("div[name=\"ethnicities\"]")); }
     private WebElement gradeLevel() { return driver.findElement(By.cssSelector("div[name=\"gradeLevels\"]")); }
     private WebElement gpaField() { return driver.findElement(By.cssSelector("div[name=\"letterGrades\"]")); }
-    private WebElement filterNameField() { return driver.findElement(By.cssSelector("input[id=\"name\"]")); }
+    private WebElement filterNameField() { return driver.findElement(By.cssSelector("input[aria-label=\"Filter Name\"]")); }
     private WebElement saveFilterButton() { return driver.findElement(By.cssSelector("button[type=\"submit\"] span")); }
     private WebElement createFilterButton() { return driver.findElement(By.cssSelector("a[role=\"button\"] span")); }
+    private WebElement getDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'menu transition visible']/div/span[text() = '" + optionName + "']")); }
+    private WebElement filterNameLabel() { return driver.findElement(By.xpath("//label/span[text()='Filter Name']")); }
+    private WebElement threePointsMenu(String filterName) { return driver.findElement(By.xpath("//strong[text() = '" + filterName + "']/../../div[contains(@class, 'ui right pointing dropdown button')]")); }
+    private WebElement threePointsMenuElement(String optionName) { return driver.findElement(By.xpath("//div[@class='menu transition visible']/*[contains(@class, 'item')]/span[text()='" + optionName + "']")); }
+    private WebElement deleteConfirmationButton() { return driver.findElement(By.cssSelector("button.ui.teal.button:not(.basic)")); }
 }
