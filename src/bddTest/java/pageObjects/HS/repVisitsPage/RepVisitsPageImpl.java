@@ -3481,8 +3481,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyActivityforReschedule(String option,String user,String university,String date,String time){
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         notificationAndTasks().click();
         activityTab().click();
+        waitForUITransition();
         Assert.assertTrue("user name is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']")).isDisplayed());
         Assert.assertTrue("notification is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
         Assert.assertTrue(option+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
