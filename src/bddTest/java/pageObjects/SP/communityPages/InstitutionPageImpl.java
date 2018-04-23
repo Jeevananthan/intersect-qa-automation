@@ -1,23 +1,47 @@
 package pageObjects.SP.communityPages;
 
+import junit.framework.AssertionFailedError;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import selenium.SeleniumBase;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import org.apache.log4j.Logger;
 
-public class InstitutionPageImpl extends SeleniumBase {
+public class InstitutionPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
 
     public InstitutionPageImpl() { logger = Logger.getLogger(InstitutionPageImpl.class);    }
 
     public void goToHubsPage(String collegeName){
-        getDriver().switchTo().frame(driver.findElement(By.tagName("iframe")));
-        link("Additional info").click();
-        link("VIEW NAVIANCE COLLEGE PROFILE").click();
-        getDriver().switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+        communityFrame();
+        WebElement additionalLink = link("Additional info");
+        waitUntil(ExpectedConditions.visibilityOf(additionalLink));
+        additionalLink.click();
+        waitUntilPageFinishLoading();
+        WebElement viewNavianceCollegeProfile = link("VIEW NAVIANCE COLLEGE PROFILE");
+        waitUntil(ExpectedConditions.visibilityOf(viewNavianceCollegeProfile));
+        viewNavianceCollegeProfile.click();
+        waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
-        Assert.assertTrue("College Name is not displaying in Hubs View", text(collegeName).isDisplayed());
+        waitForUITransition();
+        try{
+            waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
+        }catch(Exception e){
+            logger.info("Caught Exception: " + e.getMessage());
+            getDriver().switchTo().defaultContent();
+            throw new AssertionFailedError("College Name is not displaying in Hubs View");
+        }
         getDriver().switchTo().defaultContent();
     }
+
+        //locator
+        private WebElement collageNameLabel() {
+            return getDriver().findElement(By.cssSelector("h1.masthead__name"));
+        }
 }
