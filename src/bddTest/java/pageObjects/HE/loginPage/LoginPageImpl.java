@@ -367,6 +367,10 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
                         String actualPhone = driver.findElement(By.name(key)).getAttribute("type");
                         Assert.assertTrue("Phone was not as expected.", actualPhone.equals(individualField.get(key)));
                         break;
+                    case "institutionName":
+                        String institutionName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Phone was not as expected.", institutionName.equals(individualField.get(key)));
+                        break;
                     case "jobTitle":
                         String actualSchoolInstitutionName = driver.findElement(By.name(key)).getAttribute("type");
                         Assert.assertTrue("School / Institution Name was not as expected.", actualSchoolInstitutionName.equals(individualField.get(key)));

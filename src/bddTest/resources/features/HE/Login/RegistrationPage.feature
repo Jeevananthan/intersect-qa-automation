@@ -65,5 +65,5 @@ Feature: HE - Login - RegistrationPage - As a potential HE User, I want to be ab
     Given HE I navigate to Registration Intersect url
     And HE I search for "invalid" in "Higher Education Staff Member" register page
     Then HE I verify all field type in request user page
-      |firstName |lastName |email |verifyEmail |jobTitle |authorizedToPostPublicInformation |schedulesVisits |
-      |text      |text     |email |email       |text     |checkbox                          |checkbox        |
+      |firstName |lastName |email |verifyEmail |institutionName |jobTitle |authorizedToPostPublicInformation |schedulesVisits |
+      |text      |text     |email |email       |text            |text     |checkbox                          |checkbox        |
