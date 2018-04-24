@@ -27,6 +27,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 import utilities.GetProperties;
 import javax.swing.*;
@@ -779,10 +781,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void  verifyPills(String time,String school)
     {
         try {
-            if(driver.findElement(By.xpath("//div[text()='"+school+"']/../../../../following-sibling::td//div/button[text()='"+time+"']")).isDisplayed())
-            Assert.fail("Time slot is displayed");
+            driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+            if(driver.findElement(By.xpath("//div[text()='"+school+"']/../../../../following-sibling::td//div/button[text()='"+time+"']")).isDisplayed()) {
+                Assert.fail("Time slot is displayed");
+                driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+            }
         } catch (Exception e)
         {
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         }
     }
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
@@ -1174,9 +1180,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String gotoDate = getSpecificDate(startDate);
         setDate(gotoDate, "Go To Date");
         waitForUITransition();
-        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        if (time.length() < 5)
+            time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         String visitDate = getMonthandDate(startDate);
-        WebElement availabilityButton = driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        WebElement availabilityButton = driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
         Assert.assertTrue("Availability is not displayed",availabilityButton.isDisplayed());
         availabilityButton.click();
         waitUntilPageFinishLoading();
@@ -1204,10 +1211,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySchedulePopup(String school,String startTime,String endTime){
-        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        if(startTime.length() < 5)
+            startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
-        Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+visitTime+"-"+endTime+"')]")).isDisplayed());
+        Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
         visitRequestButton().click();
         waitUntilElementExists(goToDate());
         navBar.goToRepVisits();

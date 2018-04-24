@@ -497,21 +497,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void addNewTimeSlot(String day, String hourStartTime, String hourEndTime, String minuteStartTime, String minuteEndTime, String meridianStartTime, String meridianEndTime, String numVisits) {
-        navBar.goToRepVisits();
-        link("Availability & Settings").click();
-        link("Availability").click();
-        link("Regular Weekly Hours").click();
-        waitUntilPageFinishLoading();
-
-        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
-        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
-        inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
-        inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
-        visitsNumber(numVisits);
-        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
-    }
-
     public void verifyContentsOfRegularWeeklyHours() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -593,8 +578,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
         button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        if (endDate.length() < 3) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd YYYY");
+            endDate = sdf.format(getDeltaDate(Integer.parseInt(endDate)).getTime());
+        }
         setDateFixed(endDate, "End");
         button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        if (startDate.length() < 3) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd YYYY");
+            startDate = sdf.format(getDeltaDate(Integer.parseInt(startDate)).getTime());
+        }
         setDateFixed(startDate, "Start");
         waitUntilElementExists(text("UPDATE DATE"));
         text("UPDATE DATE").click();
