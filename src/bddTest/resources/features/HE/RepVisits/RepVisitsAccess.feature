@@ -115,20 +115,18 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the states of the school are present in the ABC order
     Then HE I verify the School details in Travel plan "<school>","<address>","<college going rate>","<senior class size>","<primary POC>","<size of State>","<stateName>"
     Then HE I verify the "Upcoming Appointments" Text is present in the Travel plan for "<school>"
-    Then HE I verify the "Scheduled" Text is present in the Travel plan page for "<school>"
     Then HE I verify upcoming fair message is displayed in the Travel plan page for "<school>"
     Then HE I verify the Visit details are displayed in the Travel plan for "<school>","<StartDate>"
     Then HE I verify the Fair details are displayed in the Travel plan for "<school>","<Date>"
     Then HE I verify the "Remove" button is present in the Travel Plan for "<school>"
-    Then HE I verify the "To Do" text is displaying in the Travel Plan for "<school>"
     Then HE I verify the text "Previous Appointments" is present in the Travel plan page for "<school>"
     Then HE I verify the text "Nothing scheduled yet" is present in the Travel plan page for "<school>"
     Then HE I verify the "View Availability" Button is present in the Travel plan page for "<school>"
     Then HE I verify the "View Availability" button for "<school>", navigate to the search and schedule page or not
 #Verify the label "This school isnt using RepVisits yet" in Travel Plan
-    When HE I add "<school>" high school with location "<location>" to the Travel Plan
-    Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "<school>"
-    Then HE I remove "<school>" high school from the travel plan
+    When HE I add "Westlake H S" high school with location "Austin" to the Travel Plan
+    Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "Westlake H S"
+    Then HE I remove "Westlake H S" high school from the travel plan
     And HE I successfully sign out
 #Post Conditions [Removing the created visits and Fairs]
     Given HS I want to login to the HS app using "purplehsautomations+centralHS@gmail.com" as username and "Password!1" as password

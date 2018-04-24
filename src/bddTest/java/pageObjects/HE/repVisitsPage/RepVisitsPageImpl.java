@@ -1251,15 +1251,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyPreviousAppointmentsTextInTravelPlan(String text,String school){
-        Assert.assertTrue("'"+text+"' Text is not displayed for the school '"+school+"' in the Travel Plan",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/span/span[text()='"+text+"']")).isDisplayed());
+        Assert.assertTrue("'"+text+"' Text is not displayed for the school '"+school+"' in the Travel Plan",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div//span[text()='"+text+"']")).isDisplayed());
     }
 
     public void verifyViewAvailabilityButtonInTravelPlan(String viewAvailabilityButton,String school){
-        Assert.assertTrue("'View Availability' is not displayed for the school '"+school+"' in the Travel Plan",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/a/span[text()='"+viewAvailabilityButton+"']")).isDisplayed());
+        Assert.assertTrue("'View Availability' is not displayed for the school '"+school+"' in the Travel Plan",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div//span[text()='"+viewAvailabilityButton+"']")).isDisplayed());
     }
 
-    public void selectViewAvailabilityButtonInTravelPlan(String ViewAvailabilityButton,String school){
-       getDriver().findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/a/span[text()='"+ViewAvailabilityButton+"']")).click();
+    public void selectViewAvailabilityButtonInTravelPlan(String viewAvailabilityButton,String school){
+       getDriver().findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div//span[text()='"+viewAvailabilityButton+"']")).click();
        waitForUITransition();
        waitUntilPageFinishLoading();
        Assert.assertTrue("Search text box is not displayed in the 'Search and Schedule' Page",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).isDisplayed());
