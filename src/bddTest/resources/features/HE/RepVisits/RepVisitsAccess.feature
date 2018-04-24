@@ -89,7 +89,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
               so that I can easily view all the high school I may want to visit on one screen.
 #Pre-Conditions
-    Given HS I want to login to the HS app using "purpleheautomation+Lakota@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purplehsautomations+centralHS@gmail.com" as username and "Password!1" as password
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -103,15 +103,15 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     And HS I successfully sign out
 #Register a Fair
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    Then HE I select Fairs for "<College Fair Name>" and schoolName "<School>"
+    And HE I search for "<school>" in RepVisits page
+    Then HE I select Fairs for "<College Fair Name>" and schoolName "<school>"
 #Register a Visit
-    And HE I search for "<School>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
-    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    And HE I search for "<school>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<school>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<school>" using "<heTime>" and "<hsEndTime>"
 #Verify Travel Plan Tab
     Then HE I verify the instructional text in Travel Plan and verify the link to navigate to the Recommendations page
-    When HE I add "Lakota West High School" high school with location "West" to the Travel Plan
+    When HE I add "<school>" high school with location "<location>" to the Travel Plan
     Then HE I verify the states of the school are present in the ABC order
     Then HE I verify the School details in Travel plan "<school>","<address>","<college going rate>","<senior class size>","<primary POC>","<size of State>","<stateName>"
     Then HE I verify the "Upcoming Appointments" Text is present in the Travel plan for "<school>"
@@ -126,18 +126,18 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the "View Availability" Button is present in the Travel plan page for "<school>"
     Then HE I verify the "View Availability" button for "<school>", navigate to the search and schedule page or not
 #Verify the label "This school isnt using RepVisits yet" in Travel Plan
-    When HE I add "Westlake H S" high school with location "Austin" to the Travel Plan
-    Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "Westlake H S"
-    Then HE I remove "Westlake H S" high school from the travel plan
+    When HE I add "<school>" high school with location "<location>" to the Travel Plan
+    Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "<school>"
+    Then HE I remove "<school>" high school from the travel plan
     And HE I successfully sign out
 #Post Conditions [Removing the created visits and Fairs]
-    Given HS I want to login to the HS app using "purpleheautomation+Lakota@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purplehsautomations+centralHS@gmail.com" as username and "Password!1" as password
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I select "Edit" button to cancel the college Fair "<College Fair Name>"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 
 Examples:
-      |school                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |
-      |Lakota West High School |8940 Union Centre Blvd West chester, Ohio, Butler county, 45069  |0                 |524              |PurpleHS LakotaWest |4            |OHIO      |14  |10:32am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests. |Lakota West High School |10:32am     |10:32am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |
+      |school                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
+      |Central High School     |16900 W Gebhardt Rd Brookfield, Wisconsin, Waukesha county, 53005|82                |320              |CENTRAL HIGH HS     |2            |WISCONSIN |14  |10:32am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:32am     |10:32am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Brookfield |
 
