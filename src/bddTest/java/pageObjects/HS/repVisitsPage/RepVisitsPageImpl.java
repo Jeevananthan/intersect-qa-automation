@@ -3504,15 +3504,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Close").click();
 
     }
-
-
     //*locators for Edit/Cancel Fair
-   /* private WebElement editFairButton(){
-        return getDriver().findElement(By.cssSelector("button#edit-college-fair.ui.basic.primary.right.floated.button._2WIBPMrHDvfagooC6zkFpq"));
-    }*/
-    /*private WebElement cancelThisCollegeFair(){
-        return getDriver().findElement(By.cssSelector("button.ui.red.basic.button._1cCLCZWTdTFaaExQxVjUzr._2Mxz8MGcxLQjyp9ht7UTNz"));
-}*/
+
     private WebElement cancelFairMessage(){
         return getDriver().findElement(By.cssSelector("textarea#college-fair-cancellation-message"));
 

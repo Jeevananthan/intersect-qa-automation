@@ -778,4 +778,5 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I Click on button Cancel This College Fair
     And HS I cancel the "Cancel This Fair" College Fair
     And HS I Click on close button
+    And HS I successfully sign out
 
