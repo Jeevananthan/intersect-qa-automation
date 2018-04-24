@@ -254,9 +254,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     #    |QA Tests for Fairs|December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
 @MATCH-1464
   Scenario: As a HS Repvisit user send Mass email to college fair attendees
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs1" and username "school-user" and password "password"
-    Then  HS I Navigate to College Fairs tab of the Repvisits page
-    Then  HS I click the "View Details" link against Fair Name "QA Automation Fair"
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Manual Attendee"
     Then  HS I click the Message Colleges button
     Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
     Then  HS I click on Send Message
@@ -266,34 +266,47 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1462
   Scenario: As a HS Repvisit user manually add college fair attendees
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs3" and username "school-user" and password "password"
-    Then  HS I Navigate to College Fairs tab of the Repvisits page
-    Then  HS I Click button Add a College Fair to Add a fair
-    Then  HS I enter the following data to create fair
-    |College Fair Name | Mandeep Added Fair During Automation Run|
-    | Date       | December 21                |
-    |Start Time  |09:30AM                          |
-    |End Time    |11:30AM                          |
-    |RSVP Deadline|December 20                      |
-    |Max Number of Colleges|  3                    |
-    |Number of Students Expected|33                |
-    |Cost                       | $4               |
-    |Instructions for College Representatives|QA Automation Test|
-    |Email Message to colleges after confirmation|QA Automation Confirmation Email|
-    Then  HS I click on Save button to save fair
-    Then  HS I click close button  to return to Upcoming Events screen
-    Then HS I click View Details  againts fair "eee"
-    Then HS I click on button Add Attendee to add schools to fair
-    Then HS I Add an Attendee from list "AlmaUser AlmaMandeep"
-    Then HS I click on button Add attendees
-    Then HS I click button NO, I'M DONE to return to Fair Colleges Attening screen
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I create a College Fair with the following data
+      | College Fair Name                                         | Automation Fair Add Attendee      |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0800AM                  |
+      | Date                                                      | 5                       |
+      | RSVP Deadline                                             | 4                       |
+      | End Time                                                  | 0800PM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+
+    And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Attendee"
+    And HS I Click on the "Add Attendee" button in the College Fair Details Page
+    And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
+    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    And HS I successfully sign out
+
 
    @MATCH-1462
    Scenario: As a HS Repvisit user manually add college fair attendees and save it
-     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs3" and username "school-user" and password "password"
-     Then  HS I Navigate to College Fairs tab of the Repvisits page
-     Then HS I click View Details  againts fair "eee"
-     Then HS I click on button Add Attendee to add schools to fair
+     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+     And HS I Navigate to College Fairs tab of the Repvisits Page
+     And HS I create a College Fair with the following data
+       | College Fair Name                                         | Automation Fair Add Manual Attendee       |
+       | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+       | Cost                                                      | 10                      |
+       | Start Time                                                | 0800AM                  |
+       | Date                                                      | 5                       |
+       | RSVP Deadline                                             | 4                       |
+       | End Time                                                  | 0800PM                  |
+       | Max Number of Colleges                                    | 10                      |
+       | Number of Students Expected                               | 10                      |
+       | Instructions for College Representatives                  | Submit request by Email |
+       | Email Message to Colleges After Confirmation              | why not                 |
+
+     And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Manual Attendee"
+     And HS I Click on the "Add Attendee" button in the College Fair Details Page
      Then HS I click on link Add School User Manually
      Then HS I Enter Folliwng Data to Add a School User Manually
      |First Name| AlmauserFirstName|
@@ -303,13 +316,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
      |Position  |Alma Tester        |
      |Institution|Alma College    |
      Then HS I click on button Add attendees
-     Then HS I click button NO, I'M DONE to return to Fair Colleges Attening screen
-
-
-
-
-
-
+     Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+     And HS I successfully sign out
 
 
   @MATCH-1496

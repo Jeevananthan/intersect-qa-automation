@@ -32,21 +32,17 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Time Slot time were added with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyTimeSlotAdded);
 
-        Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addNewTimeSlot);
+        Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addNewTimeSlot);
 
         Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
-
-        Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
-
-        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
 
         Then("^HS I verify the \"([^\"]*)\" and \"([^\"]*)\" date was set in the calendar$", repVisits::verifyStartAndEndDates);
 
-        Then("^HS I verify the time zone in Repvisits Availability & Settings is \"([^\"]*)\"$", repVisits::verifyTimeZonePage);
+        Then("^HS I verify the time zone in Repvisits Availability & Settings is \"([^\"]*)\"$",repVisits::verifyTimeZonePage);
 
         And("^HS I set the RepVisits Availability & Settings time zone to \"([^\"]*)\"$", repVisits::setTimeZone);
 
-        And("^HS I click on Availability on the Availability & Settings tab in RepVisits$", repVisits::clickLinkAvailability);
+        And("^HS I click on Availability on the Availability & Settings tab in RepVisits$",repVisits::clickLinkAvailability);
 
         And("^HS I Navigate to College Fairs tab of the Repvisits Page$",repVisits::clicklinkCollegeFair);
 
@@ -85,17 +81,16 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the \"([^\"]*)\" and \"([^\"]*)\" date with \"([^\"]*)\" was not present in the Holidays tab in the Availability & Settings page in RepVisits",repVisits::verifyBlockedHolidaysRemoved);
 
         And ("^HS I verify the repvisit setup wizard displayed for high school information$",repVisits::verifyRepvisitsSetupWizardTimeZoneMilestones);
-        And("^HS I verify the repvisit setup wizard displayed for high school information$", repVisits::verifyRepvisitsSetupWizardTimeZoneMilestones);
 
-        Then("^HS I check the time zone is selected as \"([^\"]*)\" and change it to \"([^\"]*)\"$", repVisits::verifyTimeZoneInRepVisits);
+        Then ("^HS I check the time zone is selected as \"([^\"]*)\" and change it to \"([^\"]*)\"$",repVisits::verifyTimeZoneInRepVisits);
 
-        Then("^HS I am verifying the welcome milestone in setup wizard$", repVisits::verifyWelcomeWizard);
+        Then ("^HS I am verifying the welcome milestone in setup wizard$",repVisits::verifyWelcomeWizard);
 
-        And("^HS I click the Get Started button in the welcome milestone page$", repVisits::clickGetStartedBtn);
+        And ("^HS I click the Get Started button in the welcome milestone page$",repVisits::clickGetStartedBtn);
 
-        And("^HS I navigate to college fairs,visits through availability option$", repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
+        And ("^HS I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
 
-        Then("^HS I set the Visit Availability of RepVisits Availability Settings to \"([^\"]*)\"$", repVisits::accessVisitAvailability);
+        Then ("^HS I set the Visit Availability of RepVisits Availability Settings to \"([^\"]*)\"$",repVisits::accessVisitAvailability);
 
         Then ("^HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with \"([^\"]*)\"$",repVisits::verifyVisitAvailability);
 
@@ -294,26 +289,12 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$",repVisits::navigateToNavianceSettingsPage);
 
         Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
-        Then("^HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with \"([^\"]*)\"$", repVisits::verifyVisitAvailability);
-        Then("^HS I Navigate to College Fairs tab of the Repvisits page$", repVisits::clicklinkCollegeFair);
-        Then("^HS I click the \"([^\"]*)\" link against Fair Name \"([^\"]*)\"$", repVisits::clickViewDetails);
+        Then("^HS I click on link Add School User Manually$",repVisits::addSchoolUserManually);
+        Then("^HS I Enter Folliwng Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
+        Then("^HS I click on button Add attendees$",repVisits::clickAddAttendeetovisit);
         Then("^HS I click the Message Colleges button$",repVisits::clickMessageCollegesButton);
-        Then("^HS I Enter Message as \"([^\"]*)\"$",repVisits::massEmailMessageForAttendees);
+        Then("^HS I Enter Message as \"([^\"]*)\"$",repVisits:: massEmailMessageForAttendees);
         Then("^HS I click on Send Message$",repVisits::sendMessage);
         Then("^HS I verify confirmation message$",repVisits::verifySentEmailConfirmationMessage);
         Then("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
-        Then("^HS I Click button Add a College Fair to Add a fair$",repVisits:: clickAddCollegeFairButton);
-        Then("^HS I click on Save button to save fair$",repVisits::clickSaveButtonToSaveFairDetails);
-        Then("^HS I click close button  to return to Upcoming Events screen$",repVisits::clickFairClose);
-        Then("^HS I enter the following data to create fair$", repVisits:: addCollegeFairdetails);
-        Then("^HS I click on Add Attendees button$",repVisits:: clickAddAttendees);
-        Then("^HS I Add an Attendee from list \"([^\"]*)\"$", repVisits:: addAttendeeFromList);
-        Then("^HS I click View Details  againts fair \"([^\"]*)\"$",repVisits:: viewFairDetails);
-        Then("^HS I click on button Add attendees$", repVisits:: clickAddAttendeetovisit);
-        Then("^HS I click on button Add Attendee to add schools to fair$",repVisits:: addSchoolsToFair);
-        Then("^HS I click button NO, I'M DONE to return to Fair Colleges Attening screen$",repVisits::noIamDoneclick);
-        Then("^HS I click on link Add School User Manually$", repVisits::addSchoolUserManually);
-        Then("^HS I Enter Folliwng Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
-
-    }
-}
+    }}
