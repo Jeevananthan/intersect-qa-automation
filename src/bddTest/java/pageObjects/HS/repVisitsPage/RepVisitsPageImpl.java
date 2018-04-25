@@ -854,7 +854,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         getSearchAndScheduleBtn().click();
         driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
-        driver.findElement(By.xpath("//form[@class='ui form _2Z8eaWTc5nFILCDiDTD__z']//button[contains(@class,'ui button')]")).click();
+        driver.findElement(By.xpath("//form[@class='ui form _5HmcoKe1wdwl-K-v4lyiX']//button[contains(@class,'ui button')]")).click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("location is not displayed",driver.findElement(By.xpath("//td[text()='"+location+"']")).isDisplayed());
         WebElement schoolLocation = text(location);

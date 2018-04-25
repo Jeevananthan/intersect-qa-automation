@@ -1183,6 +1183,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (time.length() < 5)
             time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         String visitDate = getMonthandDate(startDate);
+        waitUntilElementExists(driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']")));
         WebElement availabilityButton = driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
         Assert.assertTrue("Availability is not displayed",availabilityButton.isDisplayed());
         availabilityButton.click();
