@@ -252,6 +252,72 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |QA Test Fair New/Edit|35              |0900AM    |1000AM  |7                |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2018|Wednesday, Nov 15, 2018|09:00          |10:00        |
     #    |QA Tests for Fair |December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
     #    |QA Tests for Fairs|December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
+@MATCH-1464
+  Scenario: As a HS Repvisit user send Mass email to college fair attendees
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Manual Attendee"
+    Then  HS I click the Message Colleges button
+    Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
+    Then  HS I click on Send Message
+    Then  HS I verify confirmation message
+    Then  HS I Click on close button
+    Then  HS I successfully sign out
+
+  @MATCH-1462
+  Scenario: As a HS Repvisit user manually add college fair attendees
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I create a College Fair with the following data
+      | College Fair Name                                         | Automation Fair Add Attendee      |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0800AM                  |
+      | Date                                                      | 5                       |
+      | RSVP Deadline                                             | 4                       |
+      | End Time                                                  | 0800PM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+
+    And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Attendee"
+    And HS I Click on the "Add Attendee" button in the College Fair Details Page
+    And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
+    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    And HS I successfully sign out
+
+
+   @MATCH-1462
+   Scenario: As a HS Repvisit user manually add college fair attendees and save it
+     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+     And HS I Navigate to College Fairs tab of the Repvisits Page
+     And HS I create a College Fair with the following data
+       | College Fair Name                                         | Automation Fair Add Manual Attendee       |
+       | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+       | Cost                                                      | 10                      |
+       | Start Time                                                | 0800AM                  |
+       | Date                                                      | 5                       |
+       | RSVP Deadline                                             | 4                       |
+       | End Time                                                  | 0800PM                  |
+       | Max Number of Colleges                                    | 10                      |
+       | Number of Students Expected                               | 10                      |
+       | Instructions for College Representatives                  | Submit request by Email |
+       | Email Message to Colleges After Confirmation              | why not                 |
+
+     And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Manual Attendee"
+     And HS I Click on the "Add Attendee" button in the College Fair Details Page
+     Then HS I click on link Add School User Manually
+     Then HS I Enter Folliwng Data to Add a School User Manually
+     |First Name| AlmauserFirstName|
+     |Last Name |AlmaUserLastName  |
+     |E-mail    |almauser@E-mail.com|
+     |Phone     |12345              |
+     |Position  |Alma Tester        |
+     |Institution|Alma College    |
+     Then HS I click on button Add attendees
+     Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+     And HS I successfully sign out
 
 
   @MATCH-1496
@@ -750,18 +816,24 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Fully booked            | rgba(233, 238, 245, 1) |
       |Appointment scheduled   | rgba(233, 238, 245, 1) |
 
-    @MATCH-2061
-    Scenario: As a HS user add a Visit from Calendar and add Internal Notes for Colleges
-      Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs3" and username "school-user" and password "password"
+
+      @MATCH-2061
+      Scenario: : This scenario is to verify Internal Notes
+      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
       And HS I am Navigating to Calendar Home Screen
       And HS I click on button Add Visit
-      And Hs I open the date picker
-      And HS I select Month and Date of Visit "November 2017" and day "Nov 21"
-      And HS I select representative from drop down "AlmaUser AlmaMandeep"
+      And HS I select custom time manually
+      And HS I select a date "2" days ahead from now
+      And HS I select Visit StartTime "9:40am" and End Time "10:00am"
+      And HS I select representative from drop down "AlmauserFirstName"
       And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
       And HS I click on Add Visit button
-      And HS I click on Calendar Dashboard Arrow  to navigate to "November 2017"
-      And HS I Verify "9AM,Alma College" on "21" is present on Calendar
+      And HS I click on Agenda on Calendar
+      And Hs I open the date picker on Agenda View
+      And HS I select a date "2" days ahead from now from the standard date picker
+      And HS I click on Day on Calendar
+      And HS I click on Visit with "Alma College" from "9:40 AM" to "10:00 AM" on Day Calendar
+      And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
+      And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
       And HS I successfully sign out
-
 
