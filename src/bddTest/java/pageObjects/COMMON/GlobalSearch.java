@@ -12,6 +12,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import selenium.SeleniumBase;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -228,6 +231,109 @@ public class GlobalSearch extends SeleniumBase {
                 Assert.assertTrue("Real-time search did not return a partial match for " + searchRequest + " under " + opt + " category, but should have.", searchThroughResults(partialOtp,opt));
             }
         }
+    }
+
+    public void searchandSelectInGlobalSearch(String school) {
+        waitUntilPageFinishLoading();
+        searchForHSInstitutions(school);
+        selectResult(school);
+    }
+
+    public void searchForHSInstitutions(String searchTerm) {
+        setSearchCategory("Institutions");
+        searchTerm = "\""+searchTerm+"\"";
+        doSearch(searchTerm);
+    }
+
+    public void selectRepvisitsAvialability() {
+        waitUntilPageFinishLoading();
+        try{
+            waitUntilElementExists(RepvisitsAvialbilityButton());
+            Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvialbilityButton().isDisplayed());
+        }catch(Exception e){}
+        WebElement frameClass=driver.findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
+        driver.switchTo().frame(frameClass);
+        waitUntilElementExists(RepvisitsAvialbilityButton());
+        Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvialbilityButton().isDisplayed());
+        RepvisitsAvialbilityButton().click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+    }
+
+    public void verifyblockedAvaialbility(String date,String time) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Repvisits Availability']"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Visits']"),1));
+        waitUntilElementExists(visit());
+        visit().click();
+        waitUntilElementExists(dateInRepVisitsAvailability());
+        dateInRepVisitsAvailability().click();
+        setSpecificDate(date);
+        String dateResult=getMonthandDate(date);
+        String Time=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        List<WebElement> availabilitySlot = driver.findElements(By.xpath("//span[text()='" + dateResult + "']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/button[text()='" + Time + "']"));
+        if(availabilitySlot.size()==0){
+            logger.info("Availability is displayed");
+        }else {
+            logger.info("Availability is not displayed");
+        }
+    }
+
+    public String getMonthandDate(String addDays)
+    {
+        String DATE_FORMAT_NOW = "MMM d";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public void setSpecificDate(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void findMonth(String month) {
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try{
+            int i = 0;
+            while (!DayPickerCaption.contains(month) && i < 12) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                i++;
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+            while (!DayPickerCaption.contains(month) && i > -12) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                i--;
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+        }
+        catch (Exception e) {
+            Assert.fail("The Date selected is out of RANGE.\n" + e.getMessage());
+        }
+    }
+
+    public void clickOnDay(String date) {
+        try {
+
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
+
+        } catch (Exception e) {
+            Assert.fail("The Date selected is out of RANGE.");
+        }
+
     }
 
     public boolean searchThroughResults(String searchRequest, String categoryOption) {
@@ -670,5 +776,20 @@ public class GlobalSearch extends SeleniumBase {
     }
     private void clickAdvancedSearchLink(){
         driver.findElement(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']/a")).click();
+    }
+    private WebElement RepvisitsAvialbilityButton()
+    {
+        WebElement button=button("Check RepVisits Availability");
+        return button;
+    }
+    private WebElement visit()
+    {
+        WebElement visit=driver.findElement(By.xpath("//span[text()='Visits']"));
+        return  visit;
+    }
+    private WebElement dateInRepVisitsAvailability()
+    {
+        WebElement date=button("Go to date");
+        return date;
     }
 }

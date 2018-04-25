@@ -626,8 +626,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String calendarHeading = parts[0] + " " + parts[2];
 
         findMonth(calendarHeading);
-        WebElement Date = driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+parts[1]+")]"));
+        WebElement Date = driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+parts[1]+"]"));
         doubleClick(Date);
+        jsClick(Date);
         waitUntilPageFinishLoading();
     }
 
@@ -3191,6 +3192,128 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    public void navigateToException() {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Availability & Settings").click();
+        exceptionLink().click();
+        waitForUITransition();
+    }
+
+    public void verifyBlockedDayInException(String date)
+    {
+        Assert.assertTrue("Date button is not displayed",dateButtonInException().isDisplayed());
+        dateButtonInException().click();
+        setSpecificDate(date);
+        waitForUITransition();
+        String currentDate=getcurrentBlockedDate(date);
+        Assert.assertTrue("Blocked day is not displayed", driver.findElement(By.xpath("//div/span[text()='"+currentDate+"']/parent::div/following-sibling::div/span[text()='Blocked - Holiday']")).isDisplayed());
+    }
+
+    public String getcurrentBlockedDate(String addDays) {
+        String DATE_FORMAT_NOW = "MM/dd/yy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public void verifyCalendarPageForaddVisit() {   navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(addVisitButton());
+        Assert.assertTrue("add visit button is not displayed",addVisitButton().isDisplayed());
+        Assert.assertTrue("calendar page is not displayed",calendar().isDisplayed());
+        addVisitButton().click();
+    }
+
+    public void verifyVisitSchedulepopup() {
+        waitForUITransition();
+        waitUntilElementExists(gotoDateButtonInVisitSchedulePopup());
+        Assert.assertTrue("schedule new visit is not displayed",textInVisitSchedulePopup().isDisplayed());
+        Assert.assertTrue("select an available time slot is not displayed",verifyTextInVisitSchedulePopup().isDisplayed());
+        Assert.assertTrue("Go to date is not displayed",gotoDateButtonInVisitSchedulePopup().isDisplayed());
+        addAttendee().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        Assert.assertTrue("event location is not displayed",eventLocationTextboxInSchedulePopup().isDisplayed());
+        eventLocationTextboxInSchedulePopup().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        Assert.assertTrue("internal notes is not displayed",internalNotesTextBoxInVisitSchedulePopup().isDisplayed());
+        Assert.assertTrue("add visit button is not displayed",addVisitButtonInVisitSchedulePopup().isDisplayed());
+        internalNotesTextBoxInVisitSchedulePopup().sendKeys(Keys.PAGE_UP);
+        eventLocationTextboxInSchedulePopup().sendKeys(Keys.PAGE_UP);
+        waitForUITransition();
+        findRepTextbox().sendKeys(Keys.PAGE_UP);
+        waitForUITransition();
+    }
+
+    public void scheduleNewVisit(String date,String startTime,String endTime,String Attendee,String location) {
+        addVisitManually().click();
+        waitUntilElementExists(selectDateButton());
+        selectDateButton().click();
+        setSpecificDate(date);
+        StartTime = startTime(startTime);
+        manualStartTime().sendKeys(StartTime);
+        manualEndTime().sendKeys(endTime);
+        addAttendee().sendKeys(Attendee);
+        waitForUITransition();
+        driver.findElement(By.xpath("//div[text()='"+Attendee+"']")).click();
+        manualStartTime().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        eventLocation().clear();
+        eventLocation().sendKeys(location);
+        eventLocation().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        studentsNotes().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        addVisitButtonInVisitSchedulePopup().click();
+        waitForUITransition();
+        waitUntilElementExists(addVisitButton());
+    }
+
+    public void removeManuallyAddedBlockedDate(String startDate, String endDate){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
+        link("Blocked Days").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        startDate = getSpecificDateFormat(startDate);
+        //endDate = getSpecificDateFormat(endDate);
+        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
+        moveToElement(BlockedDate);
+        jsClick(BlockedDate);
+        waitUntilPageFinishLoading();
+    }
+
+    public void setSpecificBlockedDate(String reason,String blockdate){
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Blocked Days").click();
+        chooseDates().click();
+        String Date=getSpecificDate(blockdate);
+        setDateDoubleClick(Date);
+        WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
+        selectReason.click();
+        selectReason.click();
+        waitUntilPageFinishLoading();
+        WebElement element = driver.findElement(By.xpath("//span[text()='"+reason+"']"));
+        moveToElement(element);
+        jsClick(element);
+        addBlockedTime().click();
+    }
+
+    public String getSpecificDateFormat(String addDays) {
+        String DATE_FORMAT_NOW = "MMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
@@ -3481,5 +3604,82 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement availabilityAndSettings() {
         WebElement availabilityAndSettings = link("Availability & Settings");
         return availabilityAndSettings;
+    }
+    private WebElement exceptionLink() {
+        WebElement link=link("Exceptions");
+        return link;
+    }
+    private WebElement dateButtonInException() {
+        WebElement button=driver.findElement(By.xpath("//button[@class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']"));
+        return button;
+    }
+    private WebElement addVisitButton() {
+        WebElement button=button("add visit");
+        return button;
+    }
+    private WebElement calendar() {
+        WebElement page=driver.findElement(By.xpath("//div[text()='Calendars']"));
+        return page;
+    }
+    private WebElement gotoDateButtonInVisitSchedulePopup() {
+        WebElement button=driver.findElement(By.xpath("//span[contains(text(),'Go to date')]"));
+        return button;
+    }
+    private WebElement textInVisitSchedulePopup() {
+        WebElement text=driver.findElement(By.xpath("//span[contains(text(),'schedule new visit')]"));
+        return text;
+    }
+    private WebElement verifyTextInVisitSchedulePopup() {
+        WebElement text=driver.findElement(By.xpath("//span[contains(text(),'select an available time slot')]"));
+        return text;
+    }
+    private WebElement addAttendee() {
+        WebElement text=driver.findElement(By.id("calendar-search-reps"));
+        return text;
+    }
+    private WebElement eventLocationTextboxInSchedulePopup() {
+        WebElement text=driver.findElement(By.xpath("//div/input[@aria-label='Event Location']"));
+        return text;
+    }
+    private WebElement internalNotesTextBoxInVisitSchedulePopup() {
+        WebElement text=driver.findElement(By.id("internalNotes"));
+        return text;
+    }
+    private WebElement addVisitManually() {
+        WebElement link=driver.findElement(By.xpath("//span[text()='Want a custom time? Add it manually']"));
+        return link;
+    }
+    private WebElement selectDateButton() {
+        WebElement button=button("Select Date");
+        return button;
+    }
+    private WebElement manualStartTime() {
+        WebElement text=driver.findElement(By.id("manualStartTime"));
+        return text;
+    }
+    private WebElement manualEndTime() {
+        WebElement text=driver.findElement(By.id("manualEndTime"));
+        return text;
+    }
+    private WebElement eventLocation() {
+        WebElement location=driver.findElement(By.xpath("//div/input[@aria-label='Event Location']"));
+        return location;
+    }
+    private WebElement studentsNotes(){
+        WebElement text=driver.findElement(By.xpath("//input[@name='studentNotes']"));
+        return text;
+    }
+    private WebElement findRepTextbox()
+    {
+        WebElement text=driver.findElement(By.id("calendar-search-reps"));
+        return text;
+    }
+    private WebElement addVisitButtonInVisitSchedulePopup() {
+        WebElement button=driver.findElement(By.xpath("//div[@class='ui basic segment _16UN_Nc3SVFtvr9Us0dP_']/button/span[text()='add visit']"));
+        return button;
+    }
+    public void moveToElement(WebElement element) {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
     }
 }

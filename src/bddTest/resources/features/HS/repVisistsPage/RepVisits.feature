@@ -749,3 +749,32 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Max visits met          | rgba(233, 233, 245, 1) |
       |Fully booked            | rgba(233, 238, 245, 1) |
       |Appointment scheduled   | rgba(233, 238, 245, 1) |
+
+  @MATCH-2589
+  Scenario Outline: In HS RepVisits, The Visit should not be displayed on the blocked days
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set a date using "<BlockedDate>" and "<EndDate>"
+    Then HS I set Blocked date as "<Reason>" and select the reason as "<BlockedDate>" in the Holiday tab
+    Then HS I go the Exception tab in RepVisits
+    And HS I verify the blocked day in Exception tab using "<BlockedDate>"
+
+    And HS I verify the calendar page
+    Then HS I verify the visit schedule popup
+    Then HS I schedule a new visit for "<BlockedDate>","<StartTime>","<EndTime>","<Attendees>","<visitLocation>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to verify the appointment is not present for "<School>" using "<BlockedDate>" and "<StartTime>"
+    Then HE I type into the global search box and select the result using "<School>"
+    Then HE I select Check RepVisits Availability in the community page
+    Then HE I select Visits to verify the appointment is not present using "<BlockedDate>" and "<StartTime>" in the RepvisitsAvailability
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
+    And HS I successfully sign out
+
+    Examples:
+      |BlockedDate|EndDate|StartTime|EndTime  |Attendees          |visitLocation|Reason |School              |
+      |14         |21     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Int Qa High School 4|
