@@ -205,6 +205,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I search for school in RepVisits using \"([^\"]*)\"$",repVisits::searchSchoolinRepVisits);
 
+        Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
+
 
     }
 }

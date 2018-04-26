@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.log4j.Logger;
 import utilities.GetProperties;
 import javax.swing.*;
@@ -1794,6 +1793,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
+    }
+
+    /**
+     * Verifies that the college fair stored in hsRepVisitsPage.FairName
+     * @param schoolName - Name of the school to look for the fair under.
+     */
+    public void verifyCollegeFairVisible(String schoolName) {
+        navBar.goToRepVisits();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        getSearchBox().sendKeys(schoolName);
+        getSearchButton().click();
+        waitUntilPageFinishLoading();
+        fairs().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("College Fair: " + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + " wan not displayed in upcoming fairs list",driver.findElement(By.xpath("//span[text()," + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + "]")).isDisplayed());
     }
 
     private WebElement accountSettings(String accountSettings)

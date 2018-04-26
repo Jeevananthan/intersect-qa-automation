@@ -1,6 +1,7 @@
-@HE @MATCH-1771
-Feature: As an HE user I want to submit a fair request to a high school for approval so I can build out my travel plan.
+@HE
+Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisits College Fairs features.
 
+  @MATCH-1771
   Scenario: Create test fairs
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I create a new college fair with the following details:
@@ -24,6 +25,7 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
       | Max students  | 5          |
       | Auto Approvals | No        |
 
+  @MATCH-1771
   Scenario: As a HE user, on the "Community availability sidebar", each college fair has a Register button that presents
             the HE user with a fair request confirmation popup
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -34,6 +36,7 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     And HE I close the fair request popup
     And HE I successfully sign out
 
+  @MATCH-1771
   Scenario: As a HE user, on the scheduling results page, each college fair listed has a "register" button that presents
             the user with a fair request confirmation popup when clicked
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -45,6 +48,7 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     And HE I close the fair request popup
     And HE I successfully sign out
 
+  @MATCH-1771
   Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I search for "Int Qa High School 4" in RepVisits
@@ -60,6 +64,7 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     And HS I successfully sign out
 
   # The following scenario is failing because of MATCH-3704.
+  @MATCH-1771
   Scenario: As a HE user, I am able to submit a fair request without auto approvals enabled (MATCH-3704)
 #    Given HE I am logged in to Intersect HE as user type "administrator"
 #    When HE I search for "Int Qa High School 4" in RepVisits
@@ -73,6 +78,42 @@ Feature: As an HE user I want to submit a fair request to a high school for appr
     When HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I cancel the fair of name "NoAutoApprovals" with the reason "test"
     And HS I successfully sign out
+
+  @MATCH-2082
+  Scenario: As an HE user, I want to only see college fairs that have been published by a high school.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    #TODO -- This doesn't create dynamic names, consider using a different method/writing a new one.
+    Then HS I create a College Fair with the following data
+      | College Fair Name                                         | MATCH-2082 Fair         |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0810AM                  |
+      | Date                                                      | 3                       |
+      | RSVP Deadline                                             | 2                       |
+      | End Time                                                  | 0820AM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I successfully sign out
+  # Log into HE app and verify that the fair is visible
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify that the previously created fair appears for "Int QA High School 4"
+
+
+
+
+ #   Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
+ #   And HE I successfully sign out
+ #   Given HE I am logged in to Intersect HE as user type "publishing"
+ #   Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
+ #   And HE I successfully sign out
+  # Log back into the HS app to accept and decline the attendance requests from above
+ #   Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+ #   Then HS I make sure the "Confirm" button works properly for college fair attendee requests for "Fair QA Test#03"
+ #   Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
+ #   Then HS I cancel the "Fair QA Test#03" College Fair
+ #   And HS I successfully sign out
 
   @manual @NotInQA
   Scenario: As a HE user, I need to verify that the error message when the fair is not available anymore
