@@ -29,6 +29,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
     public void verifyFieldsInRealTime(DataTable stringsDataTable) {
         List<List<String>> fieldsAndValues = stringsDataTable.cells(0);
         for (List<String> fieldAndValueElement : fieldsAndValues) {
+            waitForUITransition();
             switch (fieldAndValueElement.get(0)) {
                 case "School Size" :
                     schoolSizeButton().click();
@@ -134,7 +135,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                 case "Organizations" :
                     studentLifePreview.organizationsTab().click();
                     List<String> organizationsTextList = new ArrayList<>();
-                    for (WebElement organizationsElement : studentLifePreview.organizationsList()) {
+                    for (WebElement organizationsElement : driver.findElements(By.cssSelector(studentLifePreview.organizationsList))) {
                         organizationsTextList.add(organizationsElement.getText());
                     }
                     organizationsButton().click();
@@ -142,12 +143,20 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     if (fieldAndValueElement.get(2).equals("yes")) {
                         if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-empty")) {
                             innerCheckBox(fieldAndValueElement.get(1)).click();
+                            organizationsTextList.clear();
+                            for (WebElement organizationsElement : driver.findElements(By.cssSelector(studentLifePreview.organizationsList))) {
+                                organizationsTextList.add(organizationsElement.getText());
+                            }
                             assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                                     organizationsTextList.contains(fieldAndValueElement.get(1)));
                         }
                     } else if (fieldAndValueElement.get(2).equals("no")) {
                         if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-not-empty")) {
                             innerCheckBox(fieldAndValueElement.get(1)).click();
+                            organizationsTextList.clear();
+                            for (WebElement organizationsElement : driver.findElements(By.cssSelector(studentLifePreview.organizationsList))) {
+                                organizationsTextList.add(organizationsElement.getText());
+                            }
                             assertFalse(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                                     organizationsTextList.contains(fieldAndValueElement.get(1)));
                         }
