@@ -46,5 +46,4 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
-
 }
