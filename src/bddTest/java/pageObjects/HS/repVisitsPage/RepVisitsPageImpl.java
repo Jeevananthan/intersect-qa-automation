@@ -29,7 +29,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import java.util.Calendar;
 import java.util.Calendar;
-import java.util.Calendar
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
