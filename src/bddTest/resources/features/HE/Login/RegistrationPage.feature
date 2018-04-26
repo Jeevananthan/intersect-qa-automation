@@ -57,3 +57,13 @@ Feature: HE - Login - RegistrationPage - As a potential HE User, I want to be ab
       |Job Title            |The boss                        |
       |Are you authorized to post public information about your institution?| Yes |
       |Do you schedule visits to high schools?                              | No |
+
+
+  @MATCH-2053 @MATCH-2092
+  Scenario: As a HE user, I need the request institution form to include the three new fields that have been added to the request user form
+  so Intersect is collecting consistent data on all HE users requesting an account and/or account + institution.
+    Given HE I navigate to Registration Intersect url
+    And HE I search for "invalid" in "Higher Education Staff Member" register page
+    Then HE I verify all field type in request user page
+      |firstName |lastName |email |verifyEmail |institutionName |jobTitle |authorizedToPostPublicInformation |schedulesVisits |
+      |text      |text     |email |email       |text            |text     |checkbox                          |checkbox        |

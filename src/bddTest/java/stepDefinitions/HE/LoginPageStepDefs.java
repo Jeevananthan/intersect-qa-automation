@@ -32,6 +32,16 @@ public class LoginPageStepDefs implements En {
 
         Then ("^HE I select \"([^\"]*)\" and verify that the appropriate text is displayed$",loginPage::goToAppropriateRegistrationpage);
 
+        Then("^HE I verify the Email Notification Message for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\"$",loginPage::verifyEmailNotification);
+
+        Given("^HE I navigate to Registration Intersect url$",loginPage::navigateToRegistrationPage);
+
+        And("^HE I search for \"([^\"]*)\" in \"([^\"]*)\" register page$",loginPage::searchForHEInstitutionWithInvalidData);
+
+        Then("^HE I verify captcha in request user page$",loginPage::verifyCaptcha);
+
+
+
 
 
     }
