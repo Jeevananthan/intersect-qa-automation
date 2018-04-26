@@ -313,5 +313,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I click on Visit with \"([^\"]*)\" from \"([^\"]*)\" to \"([^\"]*)\" on Day Calendar$", repVisits ::clickVisitName);
         And("^HS I verify Internal Notes on Visit Details screen \"([^\"]*)\"$", repVisits :: verifyVisitInternalNotes);
         And("^HS I Cancel visit to create again add Notes to Cancel \"([^\"]*)\"$", repVisits :: visitCancelled);
-
+        And("^HS I Enter Following Data to Add a School User Manually$",repVisits :: addDataToAddAttendeeManually);
+        And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits :: verifyRepDetails);
+        And("^HS I click on link Add School User Manually$",repVisits :: addRepresentativeManually);
     }}

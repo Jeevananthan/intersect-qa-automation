@@ -817,7 +817,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Appointment scheduled   | rgba(233, 238, 245, 1) |
 
 
-      @MATCH-2061
+  @MATCH-2061
       Scenario: : This scenario is to verify Internal Notes
       Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
       And HS I am Navigating to Calendar Home Screen
@@ -837,3 +837,29 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
       And HS I successfully sign out
 
+  @MATCH-1469
+  Scenario: As a HS user Manually Add a Contact to Appointment
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I am Navigating to Calendar Home Screen
+    And HS I click on button Add Visit
+    And HS I select custom time manually
+    And HS I select a date "5" days ahead from now
+    And HS I select Visit StartTime "9:40am" and End Time "10:00am"
+    And HS I click on link Add School User Manually
+    And HS I Enter Following Data to Add a School User Manually
+      |FirstName|Amanda|
+      |LastName |Hubs  |
+      |E-mail|amanda@hobsons.com  |
+      |Phone    |5137462317         |
+      |Position |QA Tester         |
+      |Institution|Alma College    |
+    And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
+    And HS I click on Add Visit button
+    And HS I click on Agenda on Calendar
+    And Hs I open the date picker on Agenda View
+    And HS I select a date "5" days ahead from now from the standard date picker
+    And HS I click on Day on Calendar
+    And HS I click on Visit with "Alma College" from "9:40 AM" to "10:00 AM" on Day Calendar
+    And HS I verify Representative details on Visit Details screen "amanda@hobsons.com"
+    And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
+    And HS I successfully sign out

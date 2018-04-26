@@ -3653,6 +3653,47 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         pickDateInDatePicker(calendarStartDate);
 
     }
+
+    public void addDataToAddAttendeeManually(DataTable AttendeeDetails){
+        List<List<String>> AttendeeInformation = AttendeeDetails.asLists(String.class);
+        for (List<String> fieldrow : AttendeeInformation) {
+            switch (fieldrow.get(0)) {
+                case "FirstName":
+                    //attendeeFirstNameTextBox().clear();
+                    attendeeFirstNameTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "LastName":
+                    attendeeLastNameTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "E-mail":
+                    attendeeEmailTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Phone":
+                    attendeePhoneTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Position":
+                    attendeePositionTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Institution":
+                    attendeeInstitutionTextBox().sendKeys(fieldrow.get(1));
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"), 1));
+                    attendeeCollege().click();
+                    break;
+            }
+        }
+
+    }
+
+    public void addRepresentativeManually() {
+        linkToAddRepresentativeManually().click();
+    }
+
+    public void verifyRepDetails( String repDetails){
+
+        Assert.assertTrue("Email address is not correct",getRepDetails().getText().equals(repDetails));
+
+
+    }
     //Locator for calendar screen
         private WebElement rightArrowMonth(){
             return getDriver().findElement(By.cssSelector("div._HSuPqZbac8aQcV7GQOr i.caret.right.icon"));
@@ -3716,6 +3757,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getYesCancelVisit()
     {
         return  getDriver().findElement(By.cssSelector("button.ui.negative.right.floated.button span"));
+    }
+    private WebElement attendeeFirstNameTextBox() {
+        return getDriver().findElement(By.cssSelector("input#add-rep-first-name"));
+    }
+    private WebElement attendeeLastNameTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-last-name"));
+    }
+    private WebElement attendeeEmailTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-email"));
+    }
+    private WebElement attendeePhoneTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-phone"));
+    }
+    private WebElement attendeePositionTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-position"));
+    }
+    private WebElement attendeeInstitutionTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-institution"));
+    }
+    private WebElement attendeeCollege(){
+        return  getDriver().findElement(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"));
+    }
+    private WebElement getRepDetails()
+    {
+        return  getDriver().findElement(By.cssSelector("div._3DhFv-KjwgxmXKcCAgKD8c"));
+    }
+    private WebElement linkToAddRepresentativeManually(){
+        return getDriver().findElement(By.cssSelector("div._1rww_NFFW9w2qLO-JBkqf"));
+
     }
 }
 
