@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import static org.junit.Assert.fail;
+
+import java.util.List;
 import java.util.Map;
 
 public class UserListPageImpl extends PageObjectFacadeImpl {
@@ -25,8 +27,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         } else {
             Assert.fail("Valid user actions are \"activate\",\"inactivate\" and \"unlock\".");
         }
-        button("YES").click();
-        waitForUITransition();
+//        button("YES").click();
         try {
             driver.wait(2000);
         } catch (Exception e) {}
@@ -96,10 +97,6 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
 
     public void setPrimaryUser(String userName) {
         takeUserAction(userName,"Assign as Primary");
-        waitUntilPageFinishLoading();
-        button("YES").click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
     }
 
     public void verifyUserIsPrimary(String userName) {
@@ -116,10 +113,15 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         WebElement actionsButton = driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/following-sibling::td/div[@aria-label='Actions']"));
         //WebElement actionsButton = getParent(getParent(link(userName))).findElement(By.cssSelector("[aria-label=Actions]"));
         waitUntilElementExists(actionsButton);
-        WebElement button = driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/following-sibling::td/div[@aria-label='Actions']/div/div/span[contains(text(),'"+action+"')]"));
         actionsButton.click();
-        jsClick(button);
-        waitUntilPageFinishLoading();
+        List<WebElement> button = driver.findElements(By.xpath("//a[text()='"+userName+"']/parent::td/following-sibling::td/div[@aria-label='Actions']/div/div/span[contains(text(),'"+action+"')]"));
+        if(button.size()==1) {
+            WebElement buttonToClick = driver.findElement(By.xpath("//a[text()='" + userName + "']/parent::td/following-sibling::td/div[@aria-label='Actions']/div/div/span[contains(text(),'" + action + "')]"));
+            jsClick(buttonToClick);
+            button("YES").click();
+            waitUntilPageFinishLoading();
+            waitForUITransition();
+        }
     }
 
     private void verifyStatusIcon(String userName, String status) {

@@ -3,8 +3,11 @@ package pageObjects.COMMON;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -55,6 +58,18 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     protected Calendar getDeltaDate(int delta) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, delta);
+        return cal;
+    }
+
+    /**
+     * Generates a Calendar object with a time in the future (or past for negative numbers) from the current date.
+     *
+     * @param delta - Integer for the number of minutes from now.  Negative numbers = minutes in the past.
+     * @return Calendar object with the date set to delta minutes from current time.
+     */
+    protected Calendar getDeltaTime(int delta) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, delta);
         return cal;
     }
 
@@ -110,6 +125,12 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      */
     protected void pickDateInDatePicker(Calendar date) {
         Calendar todaysDate = Calendar.getInstance();
+
+        String dateString = getDay(date);
+        if (Character.valueOf(dateString.charAt(0)).equals('0')) {
+            dateString = dateString.substring(1);
+        }
+
         if (date.before(todaysDate)) {
             while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
                 datePickerPrevMonthButton().click();
@@ -120,7 +141,9 @@ public class PageObjectFacadeImpl extends SeleniumBase {
             }
         }
         waitForUITransition();
-        driver.findElement(By.xpath("//div[@class='DayPicker-Day'][text()='" + getDay(date).replaceFirst("0", "") + "']")).click();
+        driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
+                "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
+                "DayPicker-Day--today'][text()='" + dateString + "']")).click();
     }
 
     /**
@@ -150,6 +173,47 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return result;
     }
 
+    /**
+     * Returns a boolean indicating if the passed string is a number or not
+     *
+     * @param num - String object
+     * @return boolean indicating if the passed string is a number or not
+     */
+    protected boolean isStringNumber(String num) {
+        try {
+            double number = Double.parseDouble(num);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns a String representing the time from a Calendar object
+     *
+     * @param cal - Calendar object
+     * @return String containing the time in hh:mm a (e.g.: 10:30 AM) format
+     */
+    protected String getTime(Calendar cal) {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        return sdf.format(cal.getTime());
+    }
+
+    /**
+     * Waits until a given path exists.
+     * @param path
+     */
+    public void waitUntilFileExists(String path){
+        ExpectedCondition<Boolean> expectation = webDriver -> Files.exists(Paths.get(path));
+        try{
+            waitUntil(expectation);
+        }
+        catch (Exception e){
+            throw  new AssertionError(String.format("There was a problem waiting for the file: %s, error: %s",
+                    path, e.toString()));
+        }
+    }
+  
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
