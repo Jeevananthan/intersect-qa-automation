@@ -1,6 +1,5 @@
 package stepDefinitions.HE;
 
-import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
 
@@ -202,6 +201,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I remove the Fair appointment from the calendar$",repVisits::removeFairAppointmentfromCalendar);
 
+        Then("HE verify the Pills got disappear for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPills);
+
+        Then("^HE I search for school in RepVisits using \"([^\"]*)\"$",repVisits::searchSchoolinRepVisits);
+      
         Then("^HE I verify the unpaid users are blocked from exporting in Calendar page$",repVisits::verifyExportButtonInCalendar);
 
         Then("^HE I verify the Export button is Enabled in Calendar page$",repVisits::verifyExportButtonisEnabledInCalendar);

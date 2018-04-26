@@ -704,7 +704,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School              |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo|user      |eMail                        |
-      |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|hobsons.rrt+other16@gmail.com|
+      |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|naviance-email@mock.com|
 
 
   @MATCH-2444
@@ -728,6 +728,28 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |School            |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
       |Homeconnection    |purpleheautomation@gmail.com    |QAs Fairs tests       |4   |1000AM    |1100AM  |2            |$25 |25                    |100                        | Save          |10AM   |10:00am         |
 
+  @MATCH-3462
+  Scenario: As a RepVisits HS user that is interested in opting in to connect events with Naviance, I want the copy on
+            the screen to clearly provide me with information on my ability to opt in/out of the publish connection,
+            so that I know what the implications are for connecting and whether I can disconnect the sync.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I navigate to the Naviance Settings page through the setup Wizard
+    And HS I verify the UI of the Naviance Settings Page in setup wizard
+    And HS I successfully sign out
+
+  @MATCH-2691
+  Scenario Outline: As a High School RepVisits User who is viewing my exceptions (/rep-visits/settings/availability/exceptions)
+                    I want to see availability pills during times when appointments are scheduled
+                    So that I can edit remaining availabilities.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify in exceptions the appointments color and status for "<AppointmentStatus>" with color "<Color>"
+    Then HS I successfully sign out
+    Examples:
+      |AppointmentStatus       |Color                   |
+      |Max visits met          | rgba(233, 233, 245, 1) |
+      |Fully booked            | rgba(233, 238, 245, 1) |
+      |Appointment scheduled   | rgba(233, 238, 245, 1) |
+      
   @MATCH-1484
   Scenario Outline: A RepVisits user, I want to be able to export my visit data,
             So that I can easily show and sort the data to students/parents/my boss.
@@ -779,6 +801,3 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Examples:
   |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                             |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |
   |7   |10:32am  |11:25pm |3        |7        |14      |11:25pm      |Yes, accept all incoming requests. |Int Qa High School 4    |10:32am     |10:32am |QAs Fairs tests       |14   |0900AM    |1000AM |7            |$25 |25                    |100                        | Save          |
-
-
-

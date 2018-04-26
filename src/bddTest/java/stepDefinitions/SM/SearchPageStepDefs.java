@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -10,6 +11,8 @@ public class SearchPageStepDefs implements En {
         SearchPageImpl searchPage = new SearchPageImpl();
 
         Then("^I select the following data from the Location Fit Criteria$",searchPage::setLocationCriteria);
+
+        Then("^I select the following data from the Diversity Fit Criteria$",searchPage::setDiversityCriteria);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the Resources fit criteria$",searchPage::setResourcesCriteria);
 
@@ -33,21 +36,23 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the Student Body UI in Resources Dropdown$", searchPage::verifyStudentBodyUI);
 
-        And("^SM I verify the system response when the GPA entered by the user is valid$", searchPage::verifySystemResponseWhenGPAInputIsValid);
+        And("^SM I verify the system response when the SAT score entered by the user is valid$", searchPage::verifySystemResponseWhenSATScoreInputIsValid);
 
-        And("^SM I verify the system response when the GPA entered by the user is invalid$", searchPage::verifySystemResponseWhenGPAInputIsInvalid);
+        And("^SM I verify the system response when the SAT score entered by the user is invalid$", searchPage::verifySystemResponseWhenSATScoreInputIsInvalid);
+
+        And("^SM I verify that SAT score persists when changing fit criteria$", searchPage::verifyIfSATScoreDataIsStoredOnOurSide);
 
         And("^SM I verify that entered GPA data persists$", searchPage::verifyGPADataPersists);
 
-        And("^SM I verify that GPA doesn't become a fit criteria in the Must Have box$", searchPage::verifyGPACriteriaNotInMustHaveBox);
+        Then("^SM I verify the system response when the GPA entered by the user is valid$",searchPage::verifySystemResponseWhenGPAInputIsValid);
+
+        Then("^SM I verify the system response when the GPA entered by the user is invalid$",searchPage::verifySystemResponseWhenGPAInputIsInvalid);
 
         And("^SM I verify the system response when the ACT score entered by the user is valid$", searchPage::verifySystemResponseWhenACTScoreIsValid);
 
         And("^SM I verify the system response when the ACT score entered by the user is invalid$", searchPage::verifySystemResponseWhenACTScoreIsInvalid);
 
         And("^SM I verify that entered ACT score data persists$", searchPage::verifyACTScoreDataPersists);
-
-        And("^SM I verify that ACT score doesn't become a fit criteria in the Must Have box$", searchPage::verifyACTScoreCriteriaNotInMustHaveBox);
 
         And("^SM I verify if dark blue header is present$", searchPage::verifyDarkBlueHeaderIsPresent);
 
@@ -63,8 +68,6 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the dark blue footer$", searchPage::verifyDarkBlueFooter);
 
-        Then("^SM I verify that a survey is opened after clicking the \"([^\"]*)\" button$", searchPage::verifySurvey);
-
         Then("^SM I select the \"([^\"]*)\" radio button from the Academics fit criteria",searchPage::selectRadioButtonInAcademicsFitCriteria);
 
         Then("^SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type$", searchPage::selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType);
@@ -75,6 +78,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I unselect the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type$", searchPage::unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType);
 
+        Then ("SM I click \"([^\"]*)\" filter criteria tab", searchPage::chooseFitCriteriaTab);
+
+        Then("^SM I see validation message \"([^\"]*)\"$", (searchPage::checkValidationMessageIsVisible));
+      
         Then("^SM I verify \"([^\"]*)\" checkbox in Cost fit criteria$", searchPage::verifyMeets100ofNeedCheckbox);
 
         Then("^SM I unselect the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::unselectCheckbox);
@@ -86,5 +93,7 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::verifyStudentSuccessFitCriteriaCheckbox);
 
         Then("^SM I unselect the \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::unselectStudentSuccessFitCriteriaCheckbox);
+
+        Then("^SM I verify the widths of the three boxes$", searchPage::verifyWidthsOfThreeBoxes);
     }
 }

@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.eventsPage.EventsPageImpl;
 
@@ -36,6 +37,7 @@ public class EventsPageStepDefs implements En {
         When("^HE I delete the event of name \"([^\"]*)\"$", eventsPage::deleteEvent);
 
         And("^HE I verify required fields error messages$", eventsPage::verifyAllErrorMessages);
+
         And("^HE I verify required fields error messages for events$", eventsPage::verifyAllErrorMessagesForEvents);
 
         Then("^HE The deleted event of name \"([^\"]*)\" should not be displayed in the unpublished events list$", eventsPage::verifyEventNotPresentInList);
@@ -55,5 +57,17 @@ public class EventsPageStepDefs implements En {
         And("^HE I create and publish a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::createAndPublishEventWithGenDate);
 
         And("^HE I verify that the event of name \"([^\"]*)\" is in the expired list$", eventsPage::verifyEventInExpiredList);
+
+        And("^HE I attempt to unpublish the event of generated name$", eventsPage::unpublishEventOfGeneratedName);
+
+        Then("^HE I verify the message that warns that an event with attendee cannot be unpublished$", eventsPage::verifyNoUnpublishWithAttendeesMessage);
+
+        Then("^I verify the cancelation message for the generated event$", eventsPage::verifyCancellationMessageOfGenEvent);
+
+        Then("^HE I verify that a warning message about the past date is displayed$", eventsPage::verifyPastDateErrorMessage);
+
+        And("^HE I open the \"([^\"]*)\" tab in the Events section$", eventsPage::openTab);
+
+        Then("^HE A filter of name \"([^\"]*)\" is displayed in the filters list$", eventsPage::verifyFilterIsPresentInList);
     }
 }

@@ -25,7 +25,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
 
   @MATCH-1063 @MATCH-1064 @MATCH-1065 @MATCH-1066 @MATCH-1067 @MATCH-1073 @MATCH-1074 @MATCH-1075
   Scenario: As a HS user I want to be taken to a search results page after performing a "hard" global search.
-  So I can see all of my results not just the first few results within the real-time drop down.
+            So I can see all of my results not just the first few results within the real-time drop down.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I type into the global search box and hit return/enter key to display advanced search results "admin"
     Then HS I verify the search results page defaults me to the users tab after performing a global search
@@ -49,7 +49,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
 
   @MATCH-932 @MATCH-934 @MATCH-1076 @MATCH-1077 @MATCH-1078
   Scenario: As a Community user I want to perform an advanced search for other Community users using any combination of the fields below.
-  So I can more accurately find the users I want to network with in the Community.
+            So I can more accurately find the users I want to network with in the Community.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify I can perform an advanced search utilizing any combination of fields for "People"
       | Keyword                                | Admin                                |
@@ -70,7 +70,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
 
   @MATCH-933 @MATCH-1103 @MATCH-1105 @MATCH-1107
   Scenario: As a Community user I want to perform an advanced search for groups using any combination of the fields below.
-  So I can more accurately find the groups I want to join with in the Community.
+            So I can more accurately find the groups I want to join with in the Community.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify I can perform an advanced search utilizing any combination of fields for "Groups"
       | Keyword     | Hobsons                                    |
@@ -82,7 +82,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
 
   @MATCH-934 @MATCH-1104 @MATCH-1106 @MATCH-1108
   Scenario: As a Community user I want to perform an advanced search for institutions using any combination of the fields below.
-  So I can more accurately find the institutions I want to follow with in the Community.
+            So I can more accurately find the institutions I want to follow with in the Community.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify I can perform an advanced search utilizing any combination of fields for "Higher Education"
       | Keyword                       | Arkansas                   |
@@ -116,4 +116,12 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
     Then HS I verify real-time search results do not return any results for HE groups "New Test HE Group"
     Then HS I verify advanced search results do not return any results for HE groups "New Test HE Group"
       | Groups |
+    And HS I successfully sign out
+
+  @MATCH-1054
+  Scenario: As an Intersect user I want the global search box to return results based on a full match.
+            So the results returned to me are as accurate and relevant as possible.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the real-time results return for global search are a partial and full match "Adrian College"
+      | People | Institutions |
     And HS I successfully sign out

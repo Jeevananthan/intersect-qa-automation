@@ -2,14 +2,15 @@ package utilities.File;
 
 import junit.framework.AssertionFailedError;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
 
 public final class CsvFileUtility {
+
+    /**
+     * Gets the headers of a given Csv File
+     * @param pathFile of the Csv
+     * @return
+     */
     public static String[] getCsvHeaders(String pathFile){
         String csvFile = pathFile;
         String line;
@@ -37,18 +38,15 @@ public final class CsvFileUtility {
         }
     }
 
+    /**
+     *Removes the double quote of an array of strings
+     * @param words, String Array
+     * @return String Array
+     */
     private static String[] removeDoubleQuotes(String[] words){
         for(int i=0; i<words.length; i++){
             words[i] = words[i].replace("\"", "");
         }
         return words;
-    }
-
-    public static void deleteFile(String filePath){
-        try{
-            Files.delete(Paths.get(filePath));
-        } catch (Exception e){
-            throw new AssertionFailedError(String.format("There was an error deleting the file: %s, error: %s",filePath,e.toString()));
-        }
     }
 }

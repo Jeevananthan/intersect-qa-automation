@@ -1,9 +1,7 @@
 package utilities.File;
 
 import junit.framework.AssertionFailedError;
-import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public final class FileManager {
@@ -18,4 +16,5 @@ public final class FileManager {
             throw new AssertionFailedError(String.format("There was an error deleting the file: %s, error: %s",filePath,e.toString()));
         }
     }
+
 }
