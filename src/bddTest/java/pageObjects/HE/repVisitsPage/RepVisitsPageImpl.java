@@ -401,6 +401,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("RepVisits Availability Sidebar is not displaying.", getRepVisitsAvailabilitySidebar().isDisplayed());
     }
 
+    public void navigatetoRepVisits()
+    {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+    }
+
+    public void selectAllRepVisitsUser(String option){
+        driver.findElement(By.xpath("//ul[@class='ui pointing secondary fourth menu']//a/span[text()='Availability Settings']")).click();
+        waitUntilElementExists(saveChanges());
+        driver.findElement(By.xpath("//label[text()='"+option+"']")).click();
+        button("Save Changes").click();
+    }
+
     public void clickRegistrationButton(String fairName) {
         getRegistrationButton(fairName).click();
     }
@@ -862,6 +875,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
         Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" img[alt='locked']")).isDisplayed());
+    }
+
+    public void verifySeeDetailsLinkInRepVisits(){
+
+        navBar.goToRepVisits();
+        getTravelPlanBtn().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'See Details' text is not displayed",text("See details").isDisplayed());
+        travelPlanSeeDetailsLink().click();
+        Assert.assertTrue("Fairs Tab it' active",text("Fairs").isDisplayed());
+        Assert.assertTrue("'Fairs'  button it's not activated.",driver.findElement(By.cssSelector("div[class='ui right attached button _3uhLnGGw9ic0jbBIDirRkC']")).isDisplayed());
+        Assert.assertTrue("'All Fairs' does not not displayed.",driver.findElement(By.cssSelector("div[class='_135QG0V-mOkCAZD0s14PUf']")).isDisplayed());
+        Assert.assertTrue("Show All Fais does not displayed",text("Showing All Scheduled Fairs").isDisplayed());
     }
 
 
@@ -1894,6 +1920,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getOverviewBtn() {
         return link("Overview");
     }
+    private WebElement travelPlanSeeDetailsLink() {
+        return link("See details »");
+    }
     private WebElement getSearchAndScheduleBtn() {
         return link("Search and Schedule");
     }
@@ -1921,6 +1950,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
     private WebElement getRepVisitsAvailabilitySidebar(){ return driver.findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
+    private WebElement saveChanges(){WebElement button=button("Save Changes"); return  button; }
     private WebElement userDropdown() {
         WebElement dropdown=driver.findElement(By.id("user-dropdown"));
         return  dropdown;

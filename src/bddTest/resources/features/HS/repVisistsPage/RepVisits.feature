@@ -749,7 +749,31 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Max visits met          | rgba(233, 233, 245, 1) |
       |Fully booked            | rgba(233, 238, 245, 1) |
       |Appointment scheduled   | rgba(233, 238, 245, 1) |
-      
+
+  @MATCH-2381 @test
+  Scenario: As a HS RepVisits user verify note to let users know their contact info will be visible
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click button Add a College Fair to Add a fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+    And HS I click View Details against fair
+    And HS I click on Edit button to edit fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I successfully sign out
+
+  @MATCH-2381 @test
+  Scenario: As a Non Naviance HS RepVisits user verify note to let users know their contact info will be visible
+    Given HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "Control!23" as password
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click button Add a College Fair to Add a fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+    And HS I click View Details against fair
+    And HS I click on Edit button to edit fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I successfully sign out
+
   @MATCH-1484
   Scenario Outline: A RepVisits user, I want to be able to export my visit data,
             So that I can easily show and sort the data to students/parents/my boss.
