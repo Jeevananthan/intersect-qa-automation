@@ -9,7 +9,7 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
     Then SM I verify the system response when the GPA entered by the user is valid
     Then SM I verify the system response when the GPA entered by the user is invalid
     Then SM I verify that entered GPA data persists
-    Then SM I verify that GPA doesn't become a fit criteria in the Must Have box
+    Then SM I verify that the Must Have box does not contain "GPA"
 
   @MATCH-3382
   Scenario: As a HS student, I want to filter colleges I am searching for by my specific ACT Scores within the Admission
@@ -19,4 +19,14 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
     Then SM I verify the system response when the ACT score entered by the user is valid
     Then SM I verify the system response when the ACT score entered by the user is invalid
     Then SM I verify that entered ACT score data persists
-    Then SM I verify that ACT score doesn't become a fit criteria in the Must Have box
+    Then SM I verify that the Must Have box does not contain "ACT"
+
+  @MATCH-3381
+  Scenario: As a HS student, I want to filter colleges I am searching for by my specific SAT Scores within the Admission
+  category so I can see relevant colleges that accept students similar to me based on my SAT Scores in my search
+  results.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the system response when the SAT score entered by the user is valid
+    Then SM I verify the system response when the SAT score entered by the user is invalid
+    Then SM I verify that SAT score persists when changing fit criteria
+    Then SM I verify that the Must Have box does not contain "SAT"

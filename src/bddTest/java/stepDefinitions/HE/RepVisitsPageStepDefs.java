@@ -1,6 +1,5 @@
 package stepDefinitions.HE;
 
-import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
 
@@ -30,7 +29,13 @@ public class RepVisitsPageStepDefs implements En {
 
         Then ("^HE I verify the upgrade messaging on the Travel Plan page in RepVisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
 
+        Then ("^HE I verify the see details link in RepVisits$",repVisits::verifySeeDetailsLinkInRepVisits);
+
         Then("^HE I verify the Check RepVisits Availability button$", repVisits::verifyCheckRepVisitsAvailabilityButton);
+
+        Then("^HS I go to the repvisits page$",repVisits::navigatetoRepVisits);
+
+        Then("^HS I select \"([^\"]*)\" to show view availability$",repVisits::selectAllRepVisitsUser);
 
         And("^HE I select \"([^\"]*)\" from the RepVisits search result$", repVisits::selectHighSchoolFromResults);
 
@@ -201,6 +206,11 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::verifyCalendarPageforFairs);
 
         Then("^HE I remove the Fair appointment from the calendar$",repVisits::removeFairAppointmentfromCalendar);
+
+        Then("HE verify the Pills got disappear for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPills);
+
+        Then("^HE I search for school in RepVisits using \"([^\"]*)\"$",repVisits::searchSchoolinRepVisits);
+
 
     }
 }
