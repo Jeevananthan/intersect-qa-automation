@@ -30,6 +30,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import utilities.File.CsvFileUtility;
+import utilities.File.FileManager;
 import utilities.GetProperties;
 import javax.swing.*;
 import static junit.framework.TestCase.fail;
@@ -176,12 +178,73 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
     }
 
+    public void verifyExportButtonInCalendar(){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Calendar").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        Assert.assertTrue("Export button is Enabled in Calendar page",driver.findElement(By.xpath("//button[@class='ui teal basic disabled button _1I0GHfcjpniiDr2MOWxpxw _3Rc-fBQEQJr4FpMhLBYL0m']")).isDisplayed());
+    }
+
+    public void verifyExportButtonisEnabledInCalendar(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Calendar").click();
+        waitForUITransition();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Export button is not enabled",button("Export").isEnabled());
+    }
+
+    public void exportAppointmentsInCalendarPage(String startDate,String endDate){
+        button("Export").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Export Settings text is not displayed in the Export button",driver.findElement(By.xpath("//div/span[text()='Export Settings']")).isDisplayed());
+        Assert.assertTrue("From Text is not displayed in the Export button",driver.findElement(By.xpath("//span[text()='From']")).isDisplayed());
+        Assert.assertTrue("To text is not displayed in the Export button",driver.findElement(By.xpath("//span[text()='To']")).isDisplayed());
+        String From = selectdateforExportAppointmentsIncalendar(startDate);
+        setDateforCalendarPage(From, "From");
+        String To = selectdateforExportAppointmentsIncalendar(endDate);
+        setDateforCalendarPage(To, "To");
+        Assert.assertTrue("Download button is not displayed",button("Download").isDisplayed());
+        button("Download").click();
+        waitForUITransition();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyDownloadedCsvFileInCalendar(String csvFile,DataTable headers){
+        List<String> expectedHeaderValues=headers.asList(String.class);
+        String home = System.getProperty("user.home");
+        String[] actualHeaderValues = CsvFileUtility.getCsvHeaders(String.format("%s/Downloads/%s",home,csvFile));
+        for(int i=0; i<expectedHeaderValues.size(); i++){
+            Assert.assertTrue(String.format("The Csv header is not correct, actual: %s, expected: %s ",
+                    actualHeaderValues[i], expectedHeaderValues.get(i)),
+                    actualHeaderValues[i].contains(expectedHeaderValues.get(i)));
+        }
+    }
+
+    public void deleteDownloadedFileInCalendar(String filePath){
+        String home = System.getProperty("user.home");
+        FileManager.deleteFile(String.format("%s/Downloads/%s",home,filePath));
+    }
 
     private void validateInfolink(){
         Assert.assertTrue("Text 'For more information' is not displayed", text("For more information:").isDisplayed());
         WebElement item = getParent(text("For more information:"));
         item.findElement(By.tagName("a")).click();
         Assert.assertTrue("Did not end up in Community!", driver.getCurrentUrl().contains("counselor-community/institution"));
+    }
+
+    public String selectdateforExportAppointmentsIncalendar(String addDays)
+    {
+        String DATE_FORMAT_NOW = "MMMM d yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     public void verifySearchAndSchedulePage() {
@@ -1821,6 +1884,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
+    }
+
+    public void setDateforCalendarPage(String date,String fromOrTo){
+        String[] parts = date.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        if(fromOrTo.equals("From")){
+            driver.findElement(By.xpath("//button[@class='ui basic button _1wqaQnL4wzTmKK7w_sXTwT']")).click();
+        }else if (fromOrTo.equals("To")){
+            driver.findElement(By.xpath("//button[@class='ui basic button _2pj6YkRYwl9szEe_wh7dxF']")).click();
+        }else {
+            logger.info("Invalid option");
+        }
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
     }
 
     private WebElement accountSettings(String accountSettings)
