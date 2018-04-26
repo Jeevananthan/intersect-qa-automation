@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -78,7 +79,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void renameFilter(String originalName, String newName) {
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOf(threePointsMenu(originalName)));
         threePointsMenu(originalName).click();
         threePointsMenuElement("Rename").click();
         nameField().clear();
