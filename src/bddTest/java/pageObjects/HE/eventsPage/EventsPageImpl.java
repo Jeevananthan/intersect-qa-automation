@@ -449,8 +449,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTab(String tabName) {
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         getTab(tabName).click();
+        waitForUITransition();
     }
 
     public void verifyFilterIsPresentInList(String eventName) {
@@ -460,6 +461,16 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             filtersNamesStrings.add(filterName.getText());
         }
         Assert.assertTrue("The filter is not displayed in the filters list", filtersNamesStrings.contains(eventName));
+    }
+
+    public void openCreateFilterFromEventAudience() {
+        audienceField().click();
+        newFilterLink().click();
+    }
+
+    public void verifyFilterInEventAudienceList(String filterName) {
+        audienceField().click();
+        Assert.assertTrue("The filter is not in the Event Audience List", filterInEventAudienceList(filterName).isDisplayed());
     }
 
     public void verifyFiltersList() {
@@ -530,7 +541,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button[title='Save Draft']")); }
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
-    private WebElement menuButtonForEvent(String eventName) {
+    public WebElement menuButtonForEvent(String eventName) {
         return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'three wide column')]/div/div/i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
@@ -605,8 +616,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private String pastRSVPErrorMessageString = "Event RSVP Deadline date and time must not be in the past";
     private WebElement getTab(String tabName) { return driver.findElement(By.xpath("//li[contains(@class, 'link item')]/a/span[text()='" + tabName + "']")); }
     private String filtersList = "div[class*=dimmable] strong";
-    private WebElement filtersListContainer() { return driver.findElement(By.cssSelector("ul[class *= \"ui huge pointing secondary stackable\"] + div")); }
+    private WebElement newFilterLink() { return driver.findElement(By.cssSelector("table[class *= \"ui unstackable very basic left aligned table\"] a")); }
     private WebElement filterInEventAudienceList(String filterName) { return driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
+    private WebElement filtersListContainer() { return driver.findElement(By.cssSelector("ul[class *= \"ui huge pointing secondary stackable\"] + div")); }
     private List<WebElement> filtersInEventsAudienceList(String filterName) { return driver.findElements(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
     private WebElement attendeeStatusBarStudent(String eventName) { return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'four wide column')]/a")); }
     private WebElement noAttendeesMessage() { return driver.findElement(By.cssSelector("div.ui.stackable.middle.aligned.grid")); }

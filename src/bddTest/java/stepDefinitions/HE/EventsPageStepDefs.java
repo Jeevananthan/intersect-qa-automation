@@ -70,6 +70,10 @@ public class EventsPageStepDefs implements En {
 
         Then("^HE A filter of name \"([^\"]*)\" is displayed in the filters list$", eventsPage::verifyFilterIsPresentInList);
 
+        And("^HE I open the Create Filter dialog from the Event Audience field$", eventsPage::openCreateFilterFromEventAudience);
+
+        Then("^HE A filter of name \"([^\"]*)\" is displayed in the Event Audience list$", eventsPage::verifyFilterInEventAudienceList);
+
         Then("^HE I should be able to see a list of all the AM Events filters$", eventsPage::verifyFiltersList);
 
         And("^HE I open the event of name \"([^\"]*)\"$", eventsPage::openEvent);

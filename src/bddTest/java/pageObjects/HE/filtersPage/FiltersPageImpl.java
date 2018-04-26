@@ -33,20 +33,17 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
                 case "Race and Ethnicity" :
                     raceAndEthnicityField().click();
                     getDropdownOption(filterDataElement.get(1)).click();
-                    //raceAndEthnicityField().click();
                     filterNameLabel().click();
                     break;
                 case "Grade Level" :
-                    filterNameLabel().click();
                     gradeLevel().click();
+                    waitForUITransition();
                     getDropdownOption(filterDataElement.get(1)).click();
-                    //gradeLevel().click();
                     filterNameLabel().click();
                     break;
                 case "GPA" :
                     gpaField().click();
                     getDropdownOption(filterDataElement.get(1)).click();
-                    //raceAndEthnicityField().click();
                     filterNameLabel().click();
                     break;
                 case "Filter Name" :

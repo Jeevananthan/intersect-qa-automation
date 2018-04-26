@@ -20,9 +20,9 @@ public class FiltersPageStepDefs implements En {
 
         And("^HE I open the Create Filter screen$", filtersPage::clickCreateFilter);
 
-        And("^HE I edit the Event Filter's name \"([^\"]*)\" to \"([^\"]*)\"$", filtersPage::renameFilter);
-
         And("^HE I delete the filter of name \"([^\"]*)\"$", filtersPage::deleteFilter);
+
+        And("^HE I edit the Event Filter's name \"([^\"]*)\" to \"([^\"]*)\"$", filtersPage::renameFilter);
 
         And("^HE I verify that the filter of name \"([^\"]*)\" is assigned to \"([^\"]*)\" events$", filtersPage::verifyNumberOfAssignedEvents);
     }
