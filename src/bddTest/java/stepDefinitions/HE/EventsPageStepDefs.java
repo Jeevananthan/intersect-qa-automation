@@ -69,5 +69,13 @@ public class EventsPageStepDefs implements En {
         And("^HE I open the \"([^\"]*)\" tab in the Events section$", eventsPage::openTab);
 
         Then("^HE A filter of name \"([^\"]*)\" is displayed in the filters list$", eventsPage::verifyFilterIsPresentInList);
+
+        And("^HE I create and publish a new event with the following details:$", eventsPage::createAndPublishEvent);
+
+        And("^HE I verify that the Attendees tab in the event of name \"([^\"]*)\" is opened by clicking the attendee status bar/students area$", eventsPage::verifyAttendeesFromStatusBar);
+
+        Then("^HE I verify that the Attendees tab in the event of name \"([^\"]*)\" is opened by clicking the Attendees option in the edit menu$", eventsPage::verifyAttendeesFromEditMenu);
+
+        And("^HE I open the \"([^\"]*)\" tab in Events$", eventsPage::openEventsTab);
     }
 }
