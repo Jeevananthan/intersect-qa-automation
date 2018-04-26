@@ -50,7 +50,7 @@ Feature: HE - Events - As a Premium HE Intersect user, I need the ability to vie
       | Max Attendees | 30 |
       | RSVP Deadline | 12-15-2018;10:00AM |
       | EVENT LOCATION BY POSITION | 1  |
-      | EVENT PRIMARY CONTACT | 1  |
+      | EVENT PRIMARY CONTACT BY POSITION | 1  |
       | EVENT AUDIENCE        | FilterToBeRemoved776     |
     And HE I open the "Filters" tab in the Events section
     And HE I delete the filter of name "FilterToBeRemoved776"
@@ -84,7 +84,7 @@ Feature: HE - Events - As a Premium HE Intersect user, I need the ability to vie
       | Description | Test              |
       | Max Attendees | 30 |
       | EVENT LOCATION BY POSITION | 1  |
-      | EVENT PRIMARY CONTACT | 1  |
+      | EVENT PRIMARY CONTACT BY POSITION | 1  |
       | EVENT AUDIENCE        | AssignedFilter88663     |
     When HE I open the Events section
     And HE I open the "Filters" tab in the Events section
