@@ -78,6 +78,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void renameFilter(String originalName, String newName) {
+        waitForUITransition();
         threePointsMenu(originalName).click();
         threePointsMenuElement("Rename").click();
         nameField().clear();
