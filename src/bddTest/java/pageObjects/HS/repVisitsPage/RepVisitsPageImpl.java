@@ -37,6 +37,14 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.GetProperties;
 import utilities.GetProperties;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.fail;
+import static junit.framework.TestCase.fail;
+import utilities.GetProperties;
 import java.util.*;
 import java.util.List;
 import static org.junit.Assert.fail;
@@ -3481,5 +3489,32 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement availabilityAndSettings() {
         WebElement availabilityAndSettings = link("Availability & Settings");
         return availabilityAndSettings;
+    }
+    public void clickAddCollegeFairButton() {
+        button("Add a College Fair").click();
+        }
+    public void noteForSchools(String note){
+        Assert.assertTrue("Note For Schools is not displayed",noteDeclaration().getText().contains(note));
+    }
+    public void closeAddEditFairScreen(){
+        closeFairScreen().click();
+        waitForUITransition();
+    }
+    public void viewFairDetails() {
+        waitUntilPageFinishLoading();
+        getDriver().findElement(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr[1]/td/following-sibling::td[4]/a/span")).click();
+    }
+    public void editFair(){
+        waitUntilPageFinishLoading();
+        editButton().click();
+    }
+    private WebElement noteDeclaration(){
+        return getDriver().findElement(By.cssSelector("p._2jKMD8r6D3Vkw7TQidWlZ_"));
+    }
+    private WebElement closeFairScreen(){
+        return getDriver().findElement(By.cssSelector("button.ui.black.basic.circular.icon.button._1zaSIpaNy8bj4C9yOAOsXw"));
+    }
+    private  WebElement editButton(){
+        return getDriver().findElement(By.cssSelector("button#edit-college-fair.ui.basic.primary.right.floated.button._2WIBPMrHDvfagooC6zkFpq"));
     }
 }
