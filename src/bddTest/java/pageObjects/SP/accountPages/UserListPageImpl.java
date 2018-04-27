@@ -10,6 +10,8 @@ import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import static org.junit.Assert.fail;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -22,10 +24,10 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
-        if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") ) {
+        if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
-            Assert.fail("Valid user actions are \"activate\",\"inactivate\" and \"unlock\".");
+            Assert.fail("Valid user actions are \"activate\",\"inactivate\",\"unlock\",\"re-invite\" and \"Login As\".");
         }
 //        button("YES").click();
         try {
@@ -118,6 +120,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         if(button.size()==1) {
             WebElement buttonToClick = driver.findElement(By.xpath("//a[text()='" + userName + "']/parent::td/following-sibling::td/div[@aria-label='Actions']/div/div/span[contains(text(),'" + action + "')]"));
             jsClick(buttonToClick);
+            waitForUITransition();
             button("YES").click();
             waitUntilPageFinishLoading();
             waitForUITransition();
@@ -158,4 +161,110 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         Actions builder = new Actions(driver);
         builder.moveToElement(element).build().perform();
     }
+
+    public void verifyVisitDetailsInLogHistory(String supportUserName,String user,String option,String date){
+        driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")).click();
+        driver.findElement(By.xpath("//span [text()='"+option+"']")).click();
+        waitUntilPageFinishLoading();
+        String visitDate = getSpecificDateForVisit(date);
+        String currentDate = getDate("0");
+        String value = supportUserName+" logged in as "+user+" RSVP'd RepVisitsDay "+visitDate+"";
+        String originalDate = "";
+        String originalValue = "";
+        int rowData = 1;
+        List rowCount = driver.findElements(By.xpath("//table/tbody/tr"));
+        for (int row= 1;row<=rowCount.size();row++){
+            originalValue = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[2]")).getText();
+            if (value.equals(originalValue)) {
+                break;
+            }rowData = rowData+1;
+        }
+        originalDate = driver.findElement(By.xpath("//table/tbody/tr[" + rowData + "]/td[1]/span")).getText();
+        Assert.assertTrue("Current date is not displayed",originalDate.equals(currentDate));
+        Assert.assertTrue("Visit details is not displayed",originalValue.equals(value));
+    }
+
+    public void verifyFairDetailsInLogHistory(String supportUserName,String user,String option){
+        String fairName=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
+        driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")).click();
+        driver.findElement(By.xpath("//span [text()='"+option+"']")).click();
+        waitUntilPageFinishLoading();
+        String date = getDate("0");
+        String value = supportUserName+" logged in as "+user+" RSVP'd "+fairName;
+        String originalDate = "";
+        String originalValue = "";
+        int rowData = 1;
+        List rowCount = driver.findElements(By.xpath("//table/tbody/tr"));
+        for (int row= 1;row<=rowCount.size();row++){
+            originalValue = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[2]")).getText();
+            if (value.equals(originalValue)) {
+                break;
+            }rowData = rowData+1;
+        }
+        originalDate = driver.findElement(By.xpath("//table/tbody/tr[" + rowData + "]/td[1]/span")).getText();
+        Assert.assertTrue("Current date is not displayed",originalDate.equals(date));
+        Assert.assertTrue("Fair details is not displayed",originalValue.equals(value));
+    }
+
+    public void verifyLoggedInDetailsInLogHistory(String supportUserName,String user,String option){
+        driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")).click();
+        driver.findElement(By.xpath("//span [text()='"+option+"']")).click();
+        waitUntilPageFinishLoading();
+        String date = getDate("0");
+        String value = supportUserName+" Logged in as "+user;
+        String originalDate = "";
+        String originalValue = "";
+        int rowData = 1;
+        List rowCount = driver.findElements(By.xpath("//table/tbody/tr"));
+        for (int row= 1;row<=rowCount.size();row++){
+            originalValue = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[2]")).getText();
+            if (value.equals(originalValue)) {
+                break;
+            }rowData = rowData+1;
+        }
+        originalDate = driver.findElement(By.xpath("//table/tbody/tr[" + rowData + "]/td[1]/span")).getText();
+        Assert.assertTrue("Current date is not displayed",originalDate.equals(date));
+        Assert.assertTrue("Logged in details not displayed",originalValue.equals(value));
+    }
+
+    public void verifyCreatedPostDetailsInLogHistory(String user,String option){
+        driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")).click();
+        driver.findElement(By.xpath("//span [text()='"+option+"']")).click();
+        waitUntilPageFinishLoading();
+        String date = getDate("0");
+        String value = user+" created post";
+        String originalDate = "";
+        String originalValue = "";
+        int rowData = 1;
+        List rowCount = driver.findElements(By.xpath("//table/tbody/tr"));
+        for (int row= 1;row<=rowCount.size();row++){
+            originalValue = driver.findElement(By.xpath("//table/tbody/tr[" + row + "]/td[2]")).getText();
+            if (value.equals(originalValue)) {
+                break;
+            }rowData = rowData+1;
+        }
+        originalDate = driver.findElement(By.xpath("//table/tbody/tr[" + rowData + "]/td[1]/span")).getText();
+        Assert.assertTrue("Current date is not displayed",originalDate.equals(date));
+        Assert.assertTrue("Created post value is not displayed",originalValue.equals(value));
+    }
+
+    public String getDate(String addDays){
+        String DATE_FORMAT_NOW = "M/d/yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+    public String getSpecificDateForVisit(String addDays){
+        String DATE_FORMAT_NOW = "yyyy-MM-dd";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
 }

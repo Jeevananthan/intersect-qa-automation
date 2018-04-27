@@ -43,5 +43,14 @@ public class HomePageStepDefs implements En {
 
         Then("^SP verify there is no empty field error message in the create user page$",userList::verifyNoErrorMessageinCreateUser);
 
+        Then("^SP I verify the visit details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",userList::verifyVisitDetailsInLogHistory);
+
+        Then("^SP I verify the Fairs details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",userList::verifyFairDetailsInLogHistory);
+
+        Then("^SP I verify the Logged in details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",userList::verifyLoggedInDetailsInLogHistory);
+
+        Then("^SP I verify the created post details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\"$",userList::verifyCreatedPostDetailsInLogHistory);
+
+
     }
 }

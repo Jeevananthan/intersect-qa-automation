@@ -3372,6 +3372,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         FileManager.deleteFile(String.format("%s/Downloads/%s",home,filePath));
     }
 
+    public void verifySuccessMessage(String originalMessage){
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']"),1));
+        String successMessage = driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div")).getText();
+        Assert.assertTrue("Success Message is not equal",successMessage.equals(originalMessage));
+    }
+
     public void setDateforCalendarPage(String date,String fromOrTo){
         String[] parts = date.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
