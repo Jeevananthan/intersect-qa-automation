@@ -1217,6 +1217,84 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyDefaultToggleinSearchAndSchedule(String visitOrFairs,String enabledOrDisabled){
+        if(visitOrFairs.equals("Visits")) {
+            if(enabledOrDisabled.equals("Enabled")) {
+                Assert.assertTrue("Visits toggle is not Enabled",isButtonEnabledInSearchandScheduleTab(driver.findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
+            }else if(enabledOrDisabled.equals("Disabled")){
+                Assert.assertTrue("Visits is not Disabled",isButtonDisabledInSearchandScheduleTab(driver.findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
+            }else {
+             logger.info("Invalid option");
+            }
+        }else if(visitOrFairs.equals("Fairs")) {
+            if(enabledOrDisabled.equals("Enabled")) {
+                Assert.assertTrue("Fairs toggle is not Enabled",isButtonEnabledInSearchandScheduleTab(driver.findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
+            }else if(enabledOrDisabled.equals("Disabled")) {
+                Assert.assertTrue("Fairs toggle is not Disabled",isButtonDisabledInSearchandScheduleTab(driver.findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
+            }else {
+                logger.info("Invalid option");
+            }
+        }else {
+            logger.info("Invalid option");
+        }
+    }
+
+    public void verifyAvailabilitySlotInSearchAndSchedule(String time,String startDate,String school){
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
+        waitUntilElementExists(schoolName);
+        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
+        waitUntilElementExists(goToDate());
+        String gotoDate = getSpecificDate(startDate);
+        setDate(gotoDate, "Go To Date");
+        waitForUITransition();
+        WebElement appointmentSlot = getDriver().findElement(By.cssSelector("table[class='ui celled padded table _2eF3VXyCbtuvPYc_1_GyO_']"));
+        waitUntil(ExpectedConditions.visibilityOf(appointmentSlot));
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        String visitDate=getMonthandDate(startDate);
+        WebElement button= driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+       //verify availability
+        Assert.assertTrue("Availability slot is not displayed",button.isDisplayed());
+    }
+
+    public void verifyAvailabilitySlotIsNotDisplayingInSearchAndSchedule(String time,String startDate,String school){
+        waitUntilPageFinishLoading();
+        visit().click();
+        waitForUITransition();
+        WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
+        waitUntilElementExists(schoolName);
+        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
+        waitUntilElementExists(goToDate());
+        String gotoDate = getSpecificDate(startDate);
+        setDate(gotoDate, "Go To Date");
+        waitForUITransition();
+        WebElement appointmentSlot = getDriver().findElement(By.cssSelector("table[class='ui celled padded table _2eF3VXyCbtuvPYc_1_GyO_']"));
+        waitUntil(ExpectedConditions.visibilityOf(appointmentSlot));
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        String visitDate=getMonthandDate(startDate);
+        List<WebElement> button= driver.findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        Assert.assertTrue("Availability slot is displayed",button.size()==0);
+    }
+
+    public void searchSchoolbyLocation(String school,String location){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        searchTextBox().clear();
+        searchTextBox().sendKeys(location);
+        waitUntilElementExists(search());
+        searchButton().click();
+        waitForUITransition();
+        WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        waitUntil(ExpectedConditions.visibilityOf(schoolName));
+        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
+        schoolName.click();
+        waitUntilPageFinishLoading();
+    }
+
     private void verifyVisitFeedbackHeading() {
         waitUntilPageFinishLoading();
         Assert.assertTrue("Visit Feedback heading not displayed", driver.findElement(By.xpath("//h1[contains(@class, 'ui header _26ekcAlhCmjadW7ShhS7aj')]")).getText().equals("Visit Feedback"));
@@ -1303,6 +1381,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //waitUntil(ExpectedConditions.visibilityOf(schoolName),10);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/a[contains(text(),'"+school+"')]")));
         WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         schoolName.click();
         waitUntilPageFinishLoading();
@@ -2518,6 +2597,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement getSearchByLocationTextBox(){
         return textbox("Search by location...");
+    }
+    private boolean isButtonEnabledInSearchandScheduleTab(WebElement link) {
+        //_3uhLnGGw9ic0jbBIDirRkC is the class that is added to indicate css active
+        return link.getAttribute("class").contains("_3uhLnGGw9ic0jbBIDirRkC");
+    }
+    private boolean isButtonDisabledInSearchandScheduleTab(WebElement link){
+        return link.getAttribute("class").contains("lM1ka_IX-p7Hiuh9URqAJ");
     }
 }
 
