@@ -43,7 +43,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     int calculatedValue = roundedAcceptanceRate.intValue();
                     logger.info(calculatedValue);
                     assertTrue(fieldAndValueElement.get(0) + " cannot be edited in real time. UI value: " + admissionsPreview.acceptanceRateText().getText() +
-                            " . Calculated value: " + roundedAcceptanceRate,
+                                    " . Calculated value: " + roundedAcceptanceRate,
                             admissionsPreview.acceptanceRateText().getText().equals(Integer.toString(calculatedValue)));
                     break;
                 case "Important Policies" :
@@ -53,7 +53,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     importantPolicyDropdown.selectByVisibleText(fieldAndValueElement.get(2));
                     for (WebElement policy : admissionsPreview.importantPoliciesList()) {
                         if (policy.getText().toLowerCase().contains(fieldAndValueElement.get(2).replace("policy", "").toLowerCase().trim())){
-                                isPolicyAdded = true;
+                            isPolicyAdded = true;
                         }
                     }
                     assertTrue(fieldAndValueElement.get(0) + " cannot be edited in real time", isPolicyAdded);
@@ -260,29 +260,29 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
         String result = "";
         switch (monthFirstThreeLetters) {
             case "Jan" : result = "February";
-            break;
+                break;
             case "Feb" : result = "March";
-            break;
+                break;
             case "Mar" : result = "April";
-            break;
+                break;
             case "Apr" : result = "May";
-            break;
+                break;
             case "May" : result = "June";
-            break;
+                break;
             case "Jun" : result = "July";
-            break;
+                break;
             case "Jul" : result = "August";
-            break;
+                break;
             case "Aug" : result = "September";
-            break;
+                break;
             case "Sep" : result = "October";
-            break;
+                break;
             case "Oct" : result = "November";
-            break;
+                break;
             case "Nov" : result = "December";
-            break;
+                break;
             case "Dec" : result = "January";
-            break;
+                break;
             default : result = "No value was assigned. Check the input string format";
         }
         return result;
@@ -292,17 +292,17 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
         WebElement result = null;
         switch (type) {
             case "Freshman Application Fee" : result = admissionsPreview.freshmanApplicationFee();
-            break;
+                break;
             case "Freshman Deposit Fee" : result = admissionsPreview.freshmanDeposit();
-            break;
+                break;
             case "Transfer Application Fee" : result = admissionsPreview.transferApplicationFee();
-            break;
+                break;
             case "Transfer Deposit Fee" : result = admissionsPreview.transferDepositFee();
-            break;
+                break;
             case "International Application Fee" : result = admissionsPreview.internationalApplicationFee();
-            break;
+                break;
             case "International Deposit Fee" : result = admissionsPreview.internationalDeposit();
-            break;
+                break;
         }
         return result;
     }

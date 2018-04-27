@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AdmissionsPageImpl extends PageObjectFacadeImpl {
@@ -38,60 +37,60 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
         assertTrue("Application Information section is not displayed", appInformationSection().isDisplayed());
     }
 
-    public HashMap<String, String> getValuesFromFields(List<List<String>> fieldList) {
+    public HashMap<String, String> getValuesFromFields(List<String> fieldList) {
         HashMap<String, String> fieldValues = new HashMap<String, String>();
-        for (List<String> field : fieldList) {
-            switch (field.get(0)) {
+        for (String field : fieldList) {
+            switch (field.split(";")[0]) {
                 case "Acceptance Rate" :
-                    fieldValues.put(field.get(0), acceptanceRateText().getText());
+                    fieldValues.put(field.split(";")[0], acceptanceRateText().getText());
                     break;
                 case "Important Policies" :
                     //This detects the presence of "Wait List" in the
                     //"Important" policies column
                     String isPolicyPresent = "not present";
                     for (WebElement policy : importantPoliciesList()) {
-                        if (policy.getText().equals("Wait List")) {
+                        if (policy.getText().equals(field.split(";")[1])) {
                             isPolicyPresent = "present";
                         }
                         break;
                     }
-                    fieldValues.put(field.get(0), isPolicyPresent);
+                    fieldValues.put(field.split(";")[0], isPolicyPresent);
                     break;
                 case "Deadlines" :
                     //This tales the value of the month of the Early Action Deadline
-                    fieldValues.put(field.get(0), earlyActionDeadlineMonthText().getText());
+                    fieldValues.put(field.split(";")[0], earlyActionDeadlineMonthText().getText());
                     break;
                 case "Fees" :
                     //This takes the value of the Freshman Application Fee
                     feesTab().click();
-                    fieldValues.put(field.get(0), freshmanApplicationFee().getText().replace("$", ""));
+                    fieldValues.put(field.split(";")[0], freshmanApplicationFee().getText().replace("$", ""));
                     break;
                 case "Application Requirements" :
                     //This detects the presence of the "Campus Visit" item in the "Required" list
                     String isCampusVisitPresent = "not present";
-                    for (WebElement appReqRequired: requiredAppReqList()) {
-                        if (appReqRequired.getText().equals("Campus Visit")) {
+                    for (WebElement appReqRequired: appReqList(field.split(";")[1])) {
+                        if (appReqRequired.getText().equals(field.split(";")[2])) {
                             isCampusVisitPresent = "present";
                             break;
                         }
                     }
-                    fieldValues.put(field.get(0), isCampusVisitPresent);
+                    fieldValues.put(field.split(";")[0], isCampusVisitPresent);
                     break;
                 case "Recommended Courses" :
                     //This takes the "Years Required" for "English"
-                    String yearsRequired = getCourseYears("English", "Years Required").getText();
-                    fieldValues.put(field.get(0), yearsRequired);
+                    String yearsRequired = getCourseYears(field.split(";")[1], field.split(";")[2]).getText();
+                    fieldValues.put(field.split(";")[0], yearsRequired);
                     break;
                 case "Application Factors" :
                     //This detects the presence of the "Class Rank" item in the "Important" application factors list
                     String isAppFactorPresent = "not present";
-                    for (WebElement appFactor : appFactorsList("Important")) {
-                        if (appFactor.getText().equals("Class Rank")) {
+                    for (WebElement appFactor : appFactorsList(field.split(";")[2])) {
+                        if (appFactor.getText().equals(field.split(";")[1])) {
                             isAppFactorPresent = "present";
                             break;
                         }
                     }
-                    fieldValues.put(field.get(0), isAppFactorPresent);
+                    fieldValues.put(field.split(";")[0], isAppFactorPresent);
                     break;
             }
         }
@@ -102,125 +101,100 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
         return fieldValues;
     }
 
-//    private void verifyGeneratedValues(List<List<String>> sections, HashMap<String, String> generatedValues) {
-//
-//        for (int i = 0; i < 20; i++) {
-//            if (!generatedValues.get("Average Net Prices").equals(avgNetPriceText().getText().replace(",", ""))) {
-//                String whatever = avgNetPriceText().getText();
-//                logger.info(generatedValues.get("Average Net Prices"));
-//                logger.info(whatever.replace(",", ""));
-//                Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
-//                avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
-//                getDriver().get(getDriver().getCurrentUrl());
-//            }
-//        }
-//
-//        for (String key : generatedValues.keySet()) {
-//            switch (key) {
-//                case "Average Net Prices" :
-//                    Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
-//                    avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
-//                    System.out.println("cosa: " + generatedValues.get(key));
-//                    System.out.println("cosa: " + avgNetPriceText().getText());
-//                    assertTrue("The value for " + key + " was not successfully generated",
-//                            generatedValues.get(key).equals(avgNetPriceText().getText().replace(",", "")));
-//                    break;
-//                case "% Receiving Aid" :
-//                    Select receivingAidDropdown = new Select(receivingAidDropDown());
-//                    receivingAidDropdown.selectByVisibleText(sections.get(1).get(1));
-//                    assertTrue("The value for " + key + " was not successfully generated",
-//                            generatedValues.get(key).equals(percentReceivingAidText().getText()));
-//                    break;
-//                case "Average Amount of Aid" :
-//                    avgAmountOfAidButton(sections.get(2).get(1)).sendKeys(Keys.RETURN);
-//                    assertTrue("The value for " + key + " was not successfully generated",
-//                            generatedValues.get(key).equals(avgGrantAmountText().getText().replace(",", "")));
-//                    break;
-//            }
-//        }
-//    }
-
     public void verifyChangesPublishedInHUBS(String username, String password, String college, DataTable stringsDataTable) {
-        while (!generatedValues.get("Acceptance Rate").equals(acceptanceRateText().getText())) {
-            getDriver().get(getDriver().getCurrentUrl());
-        }
+        List<String> sections = stringsDataTable.asList(String.class);
+        List<String> creds = new ArrayList<String>() {{
+            add(username);
+            add(password);
+            add(college);
+        }};
+        hubsLogin.defaultLogIn(creds);
+        fcMain.clickCollegesTab();
+        collegesPage.searchAndOpenCollege(college);
+        waitUntilPageFinishLoading();
+        hubsMainMenu.clickAdmissionsTab();
+        waitUntilPageFinishLoading();
+        verifyGeneratedValues(sections, generatedValues);
+    }
+
+    private void verifyGeneratedValues(List<String> sections, HashMap<String, String> generatedValues) {
+        String course = "";
+        String requiredOrRecommended = "";
+        String importance = "";
 
         for (String key : generatedValues.keySet()) {
             switch (key) {
                 case "Acceptance Rate" :
-                    assertTrue("The value for " + key + " was not successfully generated",
+                    assertTrue("The value for " + key + "was not successfully generated",
                             generatedValues.get(key).equals(acceptanceRateText().getText()));
                     break;
                 case "Important Policies" :
-                    List<String> importantPoliciesStrings = new ArrayList<>();
-                    for (WebElement importantPolicy : importantPoliciesList()) {
-                        importantPoliciesStrings.add(importantPolicy.getText());
+                    List<String> policiesStrings = new ArrayList<>();
+                    String policy = "";
+                    for (WebElement element : importantPoliciesList()) {
+                        policiesStrings.add(element.getText());
                     }
-                    if (generatedValues.get(key).equals("present")) {
-                        assertTrue("The policy 'Wait List' was not successfully added to the important policies",
-                                importantPoliciesStrings.contains("Wait List"));
-                    } else if (generatedValues.get(key).equals("not present")) {
-                        assertFalse("The policy 'Wait List' is present in important policies, when it shouldn't",
-                                importantPoliciesStrings.contains("Wait List"));
+                    for (String row : sections) {
+                        if (row.split(";")[0].equals(key)) {
+                            policy = row.split(";")[1];
+                        }
                     }
+                    assertTrue("The value for " + key + " was not successfully generated",
+                            policiesStrings.contains(policy));
                     break;
                 case "Deadlines" :
-                    assertTrue("The 'Early Action Deadline' was not modified successfully",
+                    assertTrue("The value for " + key + " was not successfully generated",
                             generatedValues.get(key).equals(earlyActionDeadlineMonthText().getText()));
                     break;
                 case "Fees" :
-                    assertTrue("Freshman Application Fee was not updated successfully",
-                            generatedValues.get(key).equals(freshmanApplicationFee().getText()));
+                    assertTrue("The value for " + key + " was not successfully generated",
+                            generatedValues.get(key).equals(applicationFeesText().getText()));
                     break;
                 case "Application Requirements" :
-                    List<String> appReqStrings = new ArrayList<>();
-                    for (WebElement appReq : requiredAppReqList()) {
-                        appReqStrings.add(appReq.getText());
+                    List<String> requirementsStrings = new ArrayList<>();
+                    String requirement = "";
+                    for (WebElement element : importantPoliciesList()) {
+                        requirementsStrings.add(element.getText());
                     }
-                    if (generatedValues.get(key).equals("present")) {
-                        assertTrue("'Campus Visit' was not added to the 'Required' list",
-                                appReqStrings.contains("Campus Visit"));
-                    } else if (generatedValues.get(key).equals("not present")) {
-                        assertFalse("'Campus Visit' was added to the 'Important' list, when it shouldn't",
-                                appReqStrings.contains("Campus Visit"));
+                    for (String row : sections) {
+                        if (row.split(";")[0].equals(key)) {
+                            requirement = row.split(";")[2];
+                        }
                     }
+                    assertTrue("The value for " + key + " was not successfully generated",
+                            requirementsStrings.contains(requirement));
                     break;
                 case "Recommended Courses" :
-                    assertTrue("'Years Required' field for 'English' was not sucessfully updated",
-                            getCourseYears("English", "Years Required").getText().equals(generatedValues.get(key)));
+                    for (String row : sections) {
+                        if (row.split(";")[0].equals(key)) {
+                            course = row.split(";")[1];
+                            requiredOrRecommended = row.split(";")[2];
+                        }
+                    }
+                    assertTrue("The value for " + key + " was not successfully generated",
+                            generatedValues.get(key).equals(getCourseYears(course, requiredOrRecommended).getText()));
                     break;
                 case "Application Factors" :
-                    List<String> appFactorsStrings = new ArrayList<>();
-                    for (WebElement appFactor : appFactorsList("Important")) {
-                        appFactorsStrings.add(appFactor.getText());
+                    List<String> appFactors = new ArrayList<>();
+                    String isPresentOrNot = "";
+                    for (String row : sections) {
+                        if (row.split(";")[0].equals(key)) {
+                            importance = row.split(";")[2];
+                        }
                     }
-                    if (generatedValues.get(key).equals("present")) {
-                        assertTrue("'Class Rank' was not added to te 'Important' list",
-                                appFactorsStrings.contains("Class Rank"));
-                    } else if (generatedValues.get(key).equals("not present")) {
-                        assertFalse("'Class Rank' isn in the 'Important' list, when it shouldn't",
-                                appFactorsStrings.contains("Class Rank"));
+                    for (WebElement appFactor : appFactorsList(importance)) {
+                        appFactors.add(appFactor.getText());
                     }
+                    if (appFactors.contains(generatedValues.get(key))) {
+                        isPresentOrNot = "present";
+                    } else {
+                        isPresentOrNot = "not present";
+                    }
+                    assertTrue("The value for " + key + " was not successfully generated",
+                            generatedValues.get(key).equals(isPresentOrNot));
                     break;
             }
         }
-    }
-
-    public String getDropDownOption(String avgNetPriceRange) {
-        String option = "";
-        switch (avgNetPriceRange) {
-            case "$0 - $30,000" : option = "$0 - $30K";
-                break;
-            case "$30,001 - $48,000" : option = "$30 - $48K";
-                break;
-            case "$48,001 - $75,000" : option = "$48 - $75K";
-                break;
-            case "$75,001 - $110,000" : option = "$75 - $110K";
-                break;
-            case "$110,001+" : option = " > $110K";
-                break;
-        }
-        return option;
     }
 
     public WebElement getCourseYears(String courseName, String requiredOrRecommended) {
@@ -260,6 +234,7 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
     public WebElement appInformationSection() {
         return getDriver().findElement(By.cssSelector("div[ng-if=\"vm.informationTabs.isAnyVisible()\"]"));
     }
+    private WebElement avgNetPriceText() { return getDriver().findElement(By.cssSelector("")); }
     public WebElement feesTab() { return getDriver().findElement(By.cssSelector("div.fc-tabs__labels span[ng-if=\"vm.informationTabs.isVisible('fees')\"]")); }
     public WebElement transferApplicationFee() { return getDriver().findElement(By.cssSelector("dd[ng-if=\"vm.fees.transferApplicationFee\"]")); }
     public WebElement transferDepositFee() { return getDriver().findElement(By.cssSelector("dd[ng-if=\"vm.fees.transferApplicationDeposit\"]")); }
