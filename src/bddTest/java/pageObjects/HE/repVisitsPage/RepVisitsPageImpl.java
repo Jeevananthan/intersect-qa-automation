@@ -250,6 +250,54 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    public void switchToSupportApp(){
+        String HEWindow = driver.getWindowHandle();
+        String supportWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for(String thisWindow : windows){
+            if(!thisWindow.equals(HEWindow)){
+                supportWindow = thisWindow;
+            }
+        }
+        driver.close();
+        driver.switchTo().window(supportWindow);
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyLoginMessageInHomPage(String message){
+        waitForUITransition();
+        waitForUITransition();
+        waitForUITransition();
+        waitUntilPageFinishLoading();
+        String supportWindow = driver.getWindowHandle();
+        String HEWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for(String thisWindow : windows){
+            if(!thisWindow.equals(supportWindow)){
+                HEWindow = thisWindow;
+            }
+        }
+        driver.switchTo().window(HEWindow);
+        String originalMessage = driver.findElement(By.xpath("//div[@class='_1iOWqkacLvWSlz2RWS4WYl']/span")).getText();
+        Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
+    }
+
+    public void postMessageInHomePage(String message){
+        waitUntilPageFinishLoading();
+        driver.findElement(By.id("js-main-nav-counselor-community-menu-link")).click();
+        waitUntilPageFinishLoading();
+        WebElement element=driver.findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
+        driver.switchTo().frame(element);
+        waitForUITransition();
+        Assert.assertTrue("Message text box is not displayed",driver.findElement(By.id("edit-body")).isDisplayed());
+        driver.findElement(By.id("edit-body")).click();
+        driver.findElement(By.id("edit-body")).sendKeys(message);
+        Assert.assertTrue("Message text box is not displayed",driver.findElement(By.id("edit-save")).isDisplayed());
+        driver.findElement(By.id("edit-save")).click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+    }
+
     public void verifySearchAndSchedulePage() {
         navBar.goToRepVisits();
         getSearchAndScheduleBtn().click();
