@@ -824,8 +824,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Examples:
   |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                             |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |
   |7   |10:      |11:25pm |3        |7        |14      |11:25pm      |Yes, accept all incoming requests. |Int Qa High School 4    |10:         |10:     |QAs Fairs tests       |14   |0900AM    |1000AM |7            |$25 |25                    |100                        | Save          |
-  
-   @MATCH-1812
+
+ @MATCH-1812
   Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools who have made their RepVisits availability publicly available
                     so HE users are not presented with high schools in the search results that don't use RepVisits.
 #Pre-condition
@@ -874,3 +874,16 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         |
     |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |14  |Liberty Township |
 
+ @MATCH-2436
+  Scenario: As a HS user, I want to be taken to the Calendar page (month view) after my school's RepVisits' wizard has been completed
+            so I don't see the Overview page as my first experience with RepVisits.
+   #Naviance
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I navigate to the college visits page
+    Then HS I verify the default calendar page present after the Wizard completion
+    And HS I successfully sign out
+   #Non-Naviance
+    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    And HS I navigate to the college visits page
+    Then HS I verify the default calendar page present after the Wizard completion
+    And HS I successfully sign out

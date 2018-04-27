@@ -333,6 +333,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I select \"([^\"]*)\" button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
 
+        And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
+
+        Then("^HS I verify the default calendar page present after the Wizard completion$",repVisits::verifydefaultRepVisitPage);
+
         And("^HS I verify the success Message \"([^\"]*)\" in Availability Settings page",repVisits::verifySuccessMessage);
 
     }

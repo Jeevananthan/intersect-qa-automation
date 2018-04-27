@@ -101,44 +101,6 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
         return fieldValues;
     }
 
-//    private void verifyGeneratedValues(List<List<String>> sections, HashMap<String, String> generatedValues) {
-
-//        for (int i = 0; i < 20; i++) {
-//            if (!generatedValues.get("Average Net Prices").equals(avgNetPriceText().getText().replace(",", ""))) {
-//                String whatever = avgNetPriceText().getText();
-//                logger.info(generatedValues.get("Average Net Prices"));
-//                logger.info(whatever.replace(",", ""));
-//                Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
-//                avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
-//                getDriver().get(getDriver().getCurrentUrl());
-//            }
-//        }
-
-//        for (String key : generatedValues.keySet()) {
-//            switch (key) {
-//                case "Average Net Prices" :
-//                    Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
-//                    avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
-//                    System.out.println("cosa: " + generatedValues.get(key));
-//                    System.out.println("cosa: " + avgNetPriceText().getText());
-//                    assertTrue("The value for " + key + " was not successfully generated",
-//                            generatedValues.get(key).equals(avgNetPriceText().getText().replace(",", "")));
-//                    break;
-//                case "% Receiving Aid" :
-//                    Select receivingAidDropdown = new Select(receivingAidDropDown());
-//                    receivingAidDropdown.selectByVisibleText(sections.get(1).get(1));
-//                    assertTrue("The value for " + key + " was not successfully generated",
-//                            generatedValues.get(key).equals(percentReceivingAidText().getText()));
-//                    break;
-//                case "Average Amount of Aid" :
-//                    avgAmountOfAidButton(sections.get(2).get(1)).sendKeys(Keys.RETURN);
-//                    assertTrue("The value for " + key + " was not successfully generated",
-//                            generatedValues.get(key).equals(avgGrantAmountText().getText().replace(",", "")));
-//                    break;
-//            }
-//        }
-//    }
-
     public void verifyChangesPublishedInHUBS(String username, String password, String college, DataTable stringsDataTable) {
         List<String> sections = stringsDataTable.asList(String.class);
         List<String> creds = new ArrayList<String>() {{
@@ -152,32 +114,10 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         hubsMainMenu.clickAdmissionsTab();
         waitUntilPageFinishLoading();
-//        for (int i = 0; i < 10; i++) {
-//            Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
-//            avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
-//            if (!generatedValues.get("Average Net Prices").equals(avgNetPriceText().getText().replace(",", ""))) {
-//                header.clickLogOut();
-//                hubsLogin.defaultLogIn(creds);
-//                fcMain.clickCollegesTab();
-//                collegesPage.searchAndOpenCollege(creds.get(2));
-//                hubsMainMenu.clickStudiesTab();
-//            }
-//        }
         verifyGeneratedValues(sections, generatedValues);
     }
 
     private void verifyGeneratedValues(List<String> sections, HashMap<String, String> generatedValues) {
-
-//        for (int i = 0; i < 20; i++) {
-//            if (!generatedValues.get("Average Net Prices").equals(avgNetPriceText().getText().replace(",", ""))) {
-//                String whatever = avgNetPriceText().getText();
-//                logger.info(generatedValues.get("Average Net Prices"));
-//                logger.info(whatever.replace(",", ""));
-//                Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
-//                avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
-//                getDriver().get(getDriver().getCurrentUrl());
-//            }
-//        }
         String course = "";
         String requiredOrRecommended = "";
         String importance = "";
