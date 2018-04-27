@@ -304,7 +304,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I click View Details against fair$",repVisits::viewFairDetails);
 
         And("^HS I click on Edit button to edit fair$",repVisits:: editFair);
-      
+
         Then("^HS I verify the Notification \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the Request Notification Tab$",repVisits::verifyRequestNotificationTab);
 
         Then("^HS I select \"([^\"]*)\" option for the Notification using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectoption);
@@ -326,12 +326,17 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the downloaded Appointments csv file \"([^\"]*)\" contains following details$",repVisits::verifyDownloadedCsvFileInCalendar);
 
         Then("^HS I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
-      
+
         And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
 
         Then("^HS I verify the default calendar page present after the Wizard completion$",repVisits::verifydefaultRepVisitPage);
 
         And("^HS I verify the success Message \"([^\"]*)\" in Availability Settings page",repVisits::verifySuccessMessage);
 
+        And("^HS I Navigate to Notifications & Tasks tab of the Repvisits Page$",repVisits::clickLinkNotificationsAndTasks );
+
+        And("^HS I click the Visit Feedback sub tab$", repVisits::clickLinkVisitFeedback);
+
+        And("^HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab$", repVisits::verifyTextAskingHSUserForFeedbackOnHEVisit);
     }
 }
