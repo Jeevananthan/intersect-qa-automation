@@ -43,7 +43,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     int calculatedValue = roundedAcceptanceRate.intValue();
                     logger.info(calculatedValue);
                     assertTrue(fieldAndValueElement.get(0) + " cannot be edited in real time. UI value: " + admissionsPreview.acceptanceRateText().getText() +
-                            " . Calculated value: " + roundedAcceptanceRate,
+                                    " . Calculated value: " + roundedAcceptanceRate,
                             admissionsPreview.acceptanceRateText().getText().equals(Integer.toString(calculatedValue)));
                     break;
                 case "Important Policies" :
@@ -53,7 +53,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     importantPolicyDropdown.selectByVisibleText(fieldAndValueElement.get(2));
                     for (WebElement policy : admissionsPreview.importantPoliciesList()) {
                         if (policy.getText().toLowerCase().contains(fieldAndValueElement.get(2).replace("policy", "").toLowerCase().trim())){
-                                isPolicyAdded = true;
+                            isPolicyAdded = true;
                         }
                     }
                     assertTrue(fieldAndValueElement.get(0) + " cannot be edited in real time", isPolicyAdded);
@@ -180,12 +180,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Application Factors" :
                     applicationFactorsButton().click();
-                    for(List<String> fieldDetail : fieldsDetails) {
-                        switch (fieldDetail.get(0)) {
-                            case "Application Factors" :
-                                appFactorType(fieldDetail.get(1)).click();
-                        }
-                    }
+                    appFactorType("Class Rank").click();
                     Select importanceDropdown = new Select(appFactorsImportanceDropdownElement());
                     if (generatedValues.get(key).equals("present")) {
                         importanceDropdown.selectByVisibleText("Important");
@@ -265,29 +260,29 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
         String result = "";
         switch (monthFirstThreeLetters) {
             case "Jan" : result = "February";
-            break;
+                break;
             case "Feb" : result = "March";
-            break;
+                break;
             case "Mar" : result = "April";
-            break;
+                break;
             case "Apr" : result = "May";
-            break;
+                break;
             case "May" : result = "June";
-            break;
+                break;
             case "Jun" : result = "July";
-            break;
+                break;
             case "Jul" : result = "August";
-            break;
+                break;
             case "Aug" : result = "September";
-            break;
+                break;
             case "Sep" : result = "October";
-            break;
+                break;
             case "Oct" : result = "November";
-            break;
+                break;
             case "Nov" : result = "December";
-            break;
+                break;
             case "Dec" : result = "January";
-            break;
+                break;
             default : result = "No value was assigned. Check the input string format";
         }
         return result;
@@ -297,19 +292,39 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
         WebElement result = null;
         switch (type) {
             case "Freshman Application Fee" : result = admissionsPreview.freshmanApplicationFee();
-            break;
+                break;
             case "Freshman Deposit Fee" : result = admissionsPreview.freshmanDeposit();
-            break;
+                break;
             case "Transfer Application Fee" : result = admissionsPreview.transferApplicationFee();
-            break;
+                break;
             case "Transfer Deposit Fee" : result = admissionsPreview.transferDepositFee();
-            break;
+                break;
             case "International Application Fee" : result = admissionsPreview.internationalApplicationFee();
-            break;
+                break;
             case "International Deposit Fee" : result = admissionsPreview.internationalDeposit();
-            break;
+                break;
         }
         return result;
+    }
+
+    public void verifyErrorMessageWithInvalidData(DataTable stringsDataTable) {
+        List<List<String>> fieldsDetails = stringsDataTable.cells(0);
+        for (List<String> fieldElement : fieldsDetails) {
+            switch (fieldElement.get(0)) {
+                case "Recommended Courses" :
+                    recommendedCoursesButton().click();
+                    recommendedCourse(fieldElement.get(1)).click();
+                    courseYears(fieldElement.get(2)).clear();
+                    courseYears(fieldElement.get(2)).sendKeys(fieldElement.get(3));
+                    assertTrue("Error message is not displayed", errorMsg().isDisplayed());
+                    break;
+                case "Fees" :
+                    feesButton().click();
+                    feesType(fieldElement.get(1)).clear();
+                    feesType(fieldElement.get(1)).sendKeys(fieldElement.get(2));
+                    assertTrue("Error message is not displayed", errorMsg().isDisplayed());
+            }
+        }
     }
 
     //Locators
@@ -325,7 +340,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
     private WebElement getImportantPolicyDropDown(String label) { return getDriver().findElement(By.xpath("//label[text()='" + label + "']/following-sibling::select")); }
     private WebElement deadlinesButton() { return getDriver().findElement(By.xpath("//h3[text()='Deadlines']")); }
     private WebElement deadlineType(String label) { return getDriver().findElement(By.xpath("//strong[text()='" + label + "']")); }
-    private WebElement deadlineMonth() { return getDriver().findElement(By.cssSelector("select[id*='-field_he_month_of_the_deadline-month']")); }
+    private WebElement deadlineMonth() { return getDriver().findElement(By.cssSelector("select#fieldnode983047-field_he_month_of_the_deadline-month")); }
     private WebElement deadlineDay() { return getDriver().findElement(By.cssSelector("select#fieldnode983047-field_he_day_of_the_deadline-day")); }
     private WebElement feesButton() { return getDriver().findElement(By.xpath("//h3[text()='Fees']")); }
     private WebElement feesType(String label) { return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../input")); }
@@ -338,4 +353,5 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
     private WebElement appFactorsImportanceDropdownElement() { return getDriver().findElement(By.xpath("//select[contains(@id, 'field_he_importance')]")); }
     private WebElement recommendedCourse(String label) { return getDriver().findElement(By.xpath("//strong[text()='" + label + "']")); }
     private WebElement courseYears(String requiredOrRecommended) { return getDriver().findElement(By.xpath("//label[text()='" + requiredOrRecommended + "']/following-sibling::input")); }
+    private WebElement errorMsg() { return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span")); }
 }
