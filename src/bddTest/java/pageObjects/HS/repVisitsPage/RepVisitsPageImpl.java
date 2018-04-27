@@ -4,7 +4,8 @@ import cucumber.api.DataTable;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Keys;
@@ -52,8 +53,6 @@ import static junit.framework.TestCase.fail;
 import utilities.File.CsvFileUtility;
 
 import utilities.File.FileManager;
-import java.util.Map;
-
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -61,7 +60,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public static String StartTime;
     public static String FairName;
     public static String generatedDateForExceptions;
-
 
     //Creating RepVisitsPageImpl class object of for HE.
     pageObjects.HE.repVisitsPage.RepVisitsPageImpl repVisitsPageHEObj = new pageObjects.HE.repVisitsPage.RepVisitsPageImpl();
@@ -626,7 +624,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
         link("Availability").click();
+        waitUntilPageFinishLoading();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
         String EndDate=getSpecificDate(endDate);
@@ -2913,7 +2913,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
     private WebElement fairCost() { return getDriver().findElement(By.id("college-fair-cost")); }
 
-
     public String verifySpecificDate(int addDays) {
         String DATE_FORMAT_NOW = "MMMM d, yyyy";
         Calendar cal = Calendar.getInstance();
@@ -3553,6 +3552,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         findMonth(calendarHeading,"End");
         return date;
     }
+
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
@@ -3889,6 +3889,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement regularWeeklyHours= link("Regular Weekly Hours");
         return  regularWeeklyHours;
     }
+}
 
     public void navigateToRVCalendar(){
         navBar.goToRepVisits();
