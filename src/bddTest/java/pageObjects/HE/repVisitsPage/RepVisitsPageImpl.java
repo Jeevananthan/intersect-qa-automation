@@ -2028,6 +2028,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * Verifies that the given title is present in RepVisits branding header
+     * @param expectedHeaderTitle to verify
+     */
+    public void verifyRepVisitsBrandingHeader(String expectedHeaderTitle){
+        List<WebElement> headerElements = getRepVisitsBrandingHeaderContainer().findElements(By.cssSelector("div"));
+        String actualHeaderTitle = String.format("%s %s",headerElements.get(0).getAttribute("innerText"),
+                headerElements.get(1).getAttribute("innerText"));
+        Assert.assertTrue(String.format(" The branding header title is not correct: actual: %s, expected: %s",
+                actualHeaderTitle,expectedHeaderTitle),expectedHeaderTitle.equalsIgnoreCase(actualHeaderTitle));
+
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
@@ -2365,6 +2378,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private boolean isButtonDisabledInSearchandScheduleTab(WebElement link){
         return link.getAttribute("class").contains("lM1ka_IX-p7Hiuh9URqAJ");
+    }
+
+    /**
+     * Gets the web element container of the RepVisits branding header
+     * @return Webelement
+     */
+    private WebElement getRepVisitsBrandingHeaderContainer(){
+        WebElement headerContainer = driver.findElement(By.cssSelector(
+                "div[class='hidden-mobile hidden-tablet _3ExBVDvA2sy-YCcBYK00PU']"));
+        return headerContainer;
     }
 }
 
