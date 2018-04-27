@@ -17,8 +17,8 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
 #    This is because currently we can create locations, contacts and filters with
 #    the same name.
     | EVENT LOCATION BY POSITION  | 1 |
-    | EVENT PRIMARY CONTACT | 1 |
-    | EVENT AUDIENCE        | 1 |
+    | EVENT PRIMARY CONTACT BY POSITION | 1 |
+    | EVENT AUDIENCE BY POSITION       | 1 |
     Then HE I should see the event of name "TestEvent7777" present in the unpublished events list as Draft event
 
     When HE I edit the event of name "TestEvent7777" with the following details:
@@ -29,8 +29,8 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | Max Attendees | 40               |
     | RSVP Deadline | 12-22-2018;11:00AM |
     | EVENT LOCATION BY POSITION | 2 |
-    | EVENT PRIMARY CONTACT | 2 |
-    | EVENT AUDIENCE        | 2 |
+    | EVENT PRIMARY CONTACT BY POSITION | 2 |
+    | EVENT AUDIENCE BY POSITION       | 2 |
     And HE I take note of the data in the Event
     And HE I save the draft
     Then HE The event of name "TestEvent7777Edited" should be updated
@@ -56,7 +56,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
   #    This is because currently we can create locations, contacts and filters with
   #    the same name.
       | EVENT LOCATION BY POSITION  | 1 |
-      | EVENT PRIMARY CONTACT | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
     When HE I cancel the created event
     Then HE The cancelled event should be displayed in the canceled events list
 
@@ -81,7 +81,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
       | Max Attendees | 30 |
       | RSVP Deadline | 12-15-2018;10:00AM |
       | EVENT LOCATION BY POSITION  | 1 |
-      | EVENT PRIMARY CONTACT | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I successfully sign out
     When I log in to Family Connection with the following user details:
       | rtsa       | benhubs | Hobsons!23  |
@@ -111,7 +111,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
       | Max Attendees | 30 |
       | RSVP Deadline | 12-15-2018;10:00AM |
       | EVENT LOCATION BY POSITION  | 1 |
-      | EVENT PRIMARY CONTACT | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I cancel the created event
     When I log in to Family Connection with the following user details:
       | rtsa       | benhubs | Hobsons!23  |
@@ -131,6 +131,66 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
       | Description | Test |
       | Max Attendees | 30 |
       | EVENT LOCATION BY POSITION  | 1 |
-      | EVENT PRIMARY CONTACT | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
     Then HE I verify that a warning message about the past date is displayed
+    And HE I successfully sign out
+
+  @MATCH-3312
+  Scenario: As a HE User, I can access the Attendees bar by clicking the "attendee status bar / students" area of Published Events
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I create and publish a new event with the following details:
+      | Event Name | TestEventAttendees65334 |
+      | Event Start | 13-31-2018;10:00AM |
+      | Max Attendees | 30 |
+      | RSVP Deadline | 13-30-2018;10:00AM |
+      | EVENT LOCATION BY POSITION  | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
+    And HE I open the Events section
+    And HE I verify that the Attendees tab in the event of name "TestEventAttendees65334" is opened by clicking the attendee status bar/students area
+    And HE I open the Events list
+    And HE I unpublish the event of name "TestEventAttendees65334"
+    And HE I delete the event of name "TestEventAttendees65334"
+    And HE I successfully sign out
+
+  @MATCH-3312
+  Scenario: As a HE User, I can access the Attendees bar by clicking the ellipse on the far right of a Published
+  Event, we should provide an option to "View Attendees".
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I create and publish a new event with the following details:
+      | Event Name | TestEventAttendees2 |
+      | Event Start | 13-31-2018;10:00AM |
+      | Max Attendees | 30 |
+      | RSVP Deadline | 13-30-2018;10:00AM |
+      | EVENT LOCATION BY POSITION       | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
+    Then HE I verify that the Attendees tab in the event of name "TestEventAttendees2" is opened by clicking the Attendees option in the edit menu
+    And HE I open the Events list
+    And HE I unpublish the event of name "TestEventAttendees2"
+    And HE I open the "Unpublished" tab in Events
+    And HE I delete the event of name "TestEventAttendees2"
+    And HE I successfully sign out
+
+  @MATCH-3312
+  Scenario: As a HE User, I can access the Attendees bar by clicking the ellipse on the far right of a Cancelled and Expired
+  Event, we should provide an option to "View Attendees".
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I open the "Cancelled" tab in Events
+    Then HE I verify that the Attendees tab in the event of name "AutomationCancelledEvent" is opened by clicking the Attendees option in the edit menu
+    When HE I open the Events list
+    And HE I open the "Expired" tab in Events
+    Then HE I verify that the Attendees tab in the event of name "ExpiredEventForAutomation" is opened by clicking the Attendees option in the edit menu
+    And HE I successfully sign out
+
+  @MATCH-3312
+  Scenario: As a HE User, I can access the Attendees bar by clicking the "attendee status bar / students" area of Cancelled/Expired Events
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I open the "Cancelled" tab in Events
+    Then HE I verify that the Attendees tab in the event of name "AutomationCancelledEvent" is opened by clicking the attendee status bar/students area
+    When HE I open the Events list
+    And HE I open the "Expired" tab in Events
+    Then HE I verify that the Attendees tab in the event of name "ExpiredEventForAutomation" is opened by clicking the attendee status bar/students area
     And HE I successfully sign out
