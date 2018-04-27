@@ -46,7 +46,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
       | admin | hbcmsxx | The University of Alabama | Published |
     And HUBS I successfully sign out from CMS
-    Then Then HUBS I should be able to verify the changes for International published in HUBS, with username "samstudent", password "Hobsons!23" and college "The University of Alabama", in the following sections
+    Then HUBS I should be able to verify the changes for International published in HUBS, with username "samstudent", password "Hobsons!23" and college "The University of Alabama", in the following sections
       | Application Deadline | Day |
       | Fees | Application Fee     |
       | Test Requirements | SAT |
