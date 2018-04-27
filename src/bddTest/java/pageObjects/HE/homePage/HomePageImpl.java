@@ -5,10 +5,14 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.COMMON.HelpImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
 import utilities.GetProperties;
 
 import java.util.List;
@@ -41,13 +45,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void accountSettings() {
-        // This is needed to "reset" the Account Settings page if we just made changes to the account.
-        link(By.id("js-main-nav-home-menu-link")).click();
-        userDropdown().click();
-        button(By.id("user-dropdown-change-profile")).click();
-        waitUntilPageFinishLoading();
-        driver.findElement(By.xpath("//input[@id='current-password-input']")).sendKeys(Keys.PAGE_DOWN);
-        Assert.assertTrue("User was not taken to Account Settings screen",driver.findElement(By.xpath("//button/span[text()='SAVE']")).isDisplayed());
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Account Information");
     }
 
     public void updateProfile() {
@@ -128,7 +127,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessHelpPage() {
-        link(By.id("js-main-nav-help-menu-link")).click();
+        //link(By.id("js-main-nav-help-menu-link")).click();
+        HelpImpl help = new HelpImpl();
+        help.selectHelpOption("Help Center");
         String heWindow = driver.getWindowHandle();
         Set<String> windows = driver.getWindowHandles();
         for (String window : windows) {
@@ -275,6 +276,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void clickEventsTab() {
         eventsTab().click();
     }
+
+
 
 
     //locators

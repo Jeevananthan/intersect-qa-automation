@@ -25,6 +25,6 @@ public class HUBSHeaderPageImpl extends PageObjectFacadeImpl {
     //Locators
 
     private WebElement logOutButton() {
-        return getDriver().findElement(By.cssSelector("span.fc-user-nav__student a"));
+        return getDriver().findElement(By.cssSelector("span.fc-user-nav__student a.fc-user-nav__link"));
     }
 }

@@ -48,6 +48,7 @@ public class NavBarImpl extends SeleniumBase {
             getRepVisitsBtn().click();
         }
         waitUntilPageFinishLoading();
+        waitUntilElementExists(link(By.id("js-main-nav-rep-visits-menu-link")));
         Assert.assertTrue("Unable to navigate to RepVisits", isLinkActive(getRepVisitsBtn()));
     }
 
@@ -129,7 +130,7 @@ public class NavBarImpl extends SeleniumBase {
             try{
                 headerWebElement= new WebDriverWait(getDriver(),10).
                         until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(
-                                "//nav[@class='hidden-mobile hidden-tablet _3sM-wM6bB02P6669gxCsoP']//span[text()='%s']"
+                                "//nav[@class='hidden-mobile hidden-tablet _3sM-wM6bB02P6669gxCsoP']/div/dl/dt/span[text()='%s']"
                                 ,heading))));
             } catch (Exception e){throw new AssertionFailedError(String.format("The header: %s is not visible",
                     heading));}

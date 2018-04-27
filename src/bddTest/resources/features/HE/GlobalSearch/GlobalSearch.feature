@@ -33,6 +33,9 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
       | Legacy: Community                 | inactive |
       | Intersect Awareness Subscription  | inactive |
       | Intersect Presence Subscription   | inactive |
+      | Legacy: ActiveMatch Events        | inactive |
+      | ActiveMatch Plus                  | inactive |
+
     And SP I successfully sign out
     Given HE I want to login to the HE app using "daniel.kirtman@hobsons.com" as username and "internHOBS25%" as password
     Then HE I verify there is no global search options available
@@ -43,6 +46,8 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
       | Legacy: Community                 | active |
       | Intersect Awareness Subscription  | active |
       | Intersect Presence Subscription   | active |
+      | Legacy: ActiveMatch Events        | active |
+      | ActiveMatch Plus                  | active |
     And SP I successfully sign out
 
   @MATCH-1063 @MATCH-1064 @MATCH-1065 @MATCH-1066 @MATCH-1067 @MATCH-1073 @MATCH-1074 @MATCH-1075
@@ -140,9 +145,17 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
 
   @MATCH-1400
   Scenario: As a HE user I want to preform a global and advanced search for groups that do not return HS results.
-  So I can ensure only HS groups are returned.
+            So I can ensure only HS groups are returned.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify real-time search results do not return any results for HS groups "New Test HS Group"
     Then HE I verify advanced search results do not return any results for HS groups "New Test HS Group"
       | Groups |
+    And HE I successfully sign out
+
+  @MATCH-1054
+  Scenario: As an Intersect user I want the global search box to return results based on a full match.
+            So the results returned to me are as accurate and relevant as possible.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the real-time results return for global search are a partial and full match "Adrian College"
+      | People | Institutions |
     And HE I successfully sign out

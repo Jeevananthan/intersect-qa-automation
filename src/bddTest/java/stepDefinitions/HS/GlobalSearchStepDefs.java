@@ -25,5 +25,6 @@ public class GlobalSearchStepDefs implements En {
         Then("^HS I verify I can perform an advanced search utilizing any combination of fields for \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchFieldsReturnResults);
         Then("^HS I verify real-time search results do not return any results for HE groups \"([^\"]*)\"$", globalSearch::verifyNoRealTimeSearchResultsReturned);
         Then("^HS I verify advanced search results do not return any results for HE groups \"([^\"]*)\"$", globalSearch::verifyNoAdvancedSearchResultsReturned);
+        Then("^HS I verify the real-time results return for global search are a partial and full match \"([^\"]*)\"$", globalSearch::verifyRealTimeSearchMatch);
     }
 }

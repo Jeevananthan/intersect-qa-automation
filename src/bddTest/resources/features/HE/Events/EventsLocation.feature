@@ -54,7 +54,7 @@ Feature: HE - Active Match Events - As a HE Intersect user with AM Events, I nee
       | Event Name     | TestEventUnpublished |
       | Max Attendees  | 30        |
       | EVENT LOCATION | LocationToDelete |
-      | EVENT PRIMARY CONTACT | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I open the Create Event screen
     Then HE I verify the error message when deleting the location of name "LocationToDelete" associated to a "unpublished" event
     And HE I open the Events list
@@ -73,7 +73,7 @@ Feature: HE - Active Match Events - As a HE Intersect user with AM Events, I nee
       | Event Name     | TestEventPublished |
       | Max Attendees  | 30        |
       | EVENT LOCATION | LocationToDelete2 |
-      | EVENT PRIMARY CONTACT | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I open the Create Event screen
     Then HE I verify the error message when deleting the location of name "LocationToDelete2" associated to a "published" event
     And HE I open the Events list

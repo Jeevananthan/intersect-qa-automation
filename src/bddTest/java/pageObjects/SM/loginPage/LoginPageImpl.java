@@ -94,6 +94,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         load(url);
     }
 
+    public void navigateToSuperMatchDirectly() {
+        String url = GetProperties.get("sm.direct.url");
+        load(url);
+    }
+
     /**
      * Moves the focus of the WebDriver into the SuperMatch iFrame
      */
