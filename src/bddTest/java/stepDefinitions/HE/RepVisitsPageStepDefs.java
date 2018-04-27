@@ -29,7 +29,13 @@ public class RepVisitsPageStepDefs implements En {
 
         Then ("^HE I verify the upgrade messaging on the Travel Plan page in RepVisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
 
+        Then ("^HE I verify the see details link in RepVisits$",repVisits::verifySeeDetailsLinkInRepVisits);
+
         Then("^HE I verify the Check RepVisits Availability button$", repVisits::verifyCheckRepVisitsAvailabilityButton);
+
+        Then("^HS I go to the repvisits page$",repVisits::navigatetoRepVisits);
+
+        Then("^HS I select \"([^\"]*)\" to show view availability$",repVisits::selectAllRepVisitsUser);
 
         And("^HE I select \"([^\"]*)\" from the RepVisits search result$", repVisits::selectHighSchoolFromResults);
 
@@ -204,7 +210,16 @@ public class RepVisitsPageStepDefs implements En {
         Then("HE verify the Pills got disappear for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPills);
 
         Then("^HE I search for school in RepVisits using \"([^\"]*)\"$",repVisits::searchSchoolinRepVisits);
+      
+        Then("^HE I verify the unpaid users are blocked from exporting in Calendar page$",repVisits::verifyExportButtonInCalendar);
 
+        Then("^HE I verify the Export button is Enabled in Calendar page$",repVisits::verifyExportButtonisEnabledInCalendar);
+
+        Then("^HE I export the appointments for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::exportAppointmentsInCalendarPage);
+
+        Then("^HE I verify the downloaded Appointments csv file \"([^\"]*)\" contains following details$",repVisits::verifyDownloadedCsvFileInCalendar);
+
+        Then("^HE I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
 
     }
 }

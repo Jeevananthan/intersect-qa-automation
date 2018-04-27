@@ -21,10 +21,10 @@ public class HUBSLoginStepDefs implements En{
 
         Then("^HUBS I should be able to verify the changes for costs published in HUBS, with username \"([^\"]*)\", password \"([^\"]*)\" and college \"([^\"]*)\", in the following sections$", costs::verifyChangesPublishedInHUBS);
 
-        Then("^Then HUBS I should be able to verify the changes for Student Life published in HUBS, with username \"([^\"]*)\", password \"([^\"]*)\" and college \"([^\"]*)\", in the following sections$", studentLife::verifyChangesPublishedInHUBS);
+        Then("^HUBS I should be able to verify the changes for Student Life published in HUBS, with username \"([^\"]*)\", password \"([^\"]*)\" and college \"([^\"]*)\", in the following sections$", studentLife::verifyChangesPublishedInHUBS);
 
-        Then("^Then HUBS I should be able to verify the changes for Overview published in HUBS, with username \"([^\"]*)\", password \"([^\"]*)\" and college \"([^\"]*)\", in the following sections$", overview::verifyChangesPublishedInHUBS);
+        Then("^HUBS I should be able to verify the changes for Overview published in HUBS, with username \"([^\"]*)\", password \"([^\"]*)\" and college \"([^\"]*)\", in the following sections$", overview::verifyChangesPublishedInHUBS);
 
-        Then("^Then HUBS I should be able to verify the changes for International published in HUBS, with username \"([^\"]*)\", password \"([^\"]*)\" and college \"([^\"]*)\", in the following sections$", international::verifyChangesPublishedInHUBS);
+        Then("^HUBS I should be able to verify the changes for International published in HUBS, with username \"([^\"]*)\", password \"([^\"]*)\" and college \"([^\"]*)\", in the following sections$", international::verifyChangesPublishedInHUBS);
     }
 }
