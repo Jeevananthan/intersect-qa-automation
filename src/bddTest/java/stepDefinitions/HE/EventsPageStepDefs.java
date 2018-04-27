@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.eventsPage.EventsPageImpl;
 
@@ -36,6 +37,7 @@ public class EventsPageStepDefs implements En {
         When("^HE I delete the event of name \"([^\"]*)\"$", eventsPage::deleteEvent);
 
         And("^HE I verify required fields error messages$", eventsPage::verifyAllErrorMessages);
+
         And("^HE I verify required fields error messages for events$", eventsPage::verifyAllErrorMessagesForEvents);
 
         Then("^HE The deleted event of name \"([^\"]*)\" should not be displayed in the unpublished events list$", eventsPage::verifyEventNotPresentInList);
@@ -55,5 +57,35 @@ public class EventsPageStepDefs implements En {
         And("^HE I create and publish a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::createAndPublishEventWithGenDate);
 
         And("^HE I verify that the event of name \"([^\"]*)\" is in the expired list$", eventsPage::verifyEventInExpiredList);
+
+        And("^HE I attempt to unpublish the event of generated name$", eventsPage::unpublishEventOfGeneratedName);
+
+        Then("^HE I verify the message that warns that an event with attendee cannot be unpublished$", eventsPage::verifyNoUnpublishWithAttendeesMessage);
+
+        Then("^I verify the cancelation message for the generated event$", eventsPage::verifyCancellationMessageOfGenEvent);
+
+        Then("^HE I verify that a warning message about the past date is displayed$", eventsPage::verifyPastDateErrorMessage);
+
+        And("^HE I open the \"([^\"]*)\" tab in the Events section$", eventsPage::openTab);
+
+        Then("^HE A filter of name \"([^\"]*)\" is displayed in the filters list$", eventsPage::verifyFilterIsPresentInList);
+
+        And("^HE I open the Create Filter dialog from the Event Audience field$", eventsPage::openCreateFilterFromEventAudience);
+
+        Then("^HE A filter of name \"([^\"]*)\" is displayed in the Event Audience list$", eventsPage::verifyFilterInEventAudienceList);
+
+        Then("^HE I should be able to see a list of all the AM Events filters$", eventsPage::verifyFiltersList);
+
+        And("^HE I open the event of name \"([^\"]*)\"$", eventsPage::openEvent);
+
+        Then("^HE The filter of name \"([^\"]*)\" should not be present in the Event Audience list$", eventsPage::verifyFilterNotPresentInAudienceList);
+
+        And("^HE I create and publish a new event with the following details:$", eventsPage::createAndPublishEvent);
+
+        And("^HE I verify that the Attendees tab in the event of name \"([^\"]*)\" is opened by clicking the attendee status bar/students area$", eventsPage::verifyAttendeesFromStatusBar);
+
+        Then("^HE I verify that the Attendees tab in the event of name \"([^\"]*)\" is opened by clicking the Attendees option in the edit menu$", eventsPage::verifyAttendeesFromEditMenu);
+
+        And("^HE I open the \"([^\"]*)\" tab in Events$", eventsPage::openEventsTab);
     }
 }

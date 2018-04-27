@@ -73,6 +73,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setBlockedDate);
 
+        Then("^HS I verify in exceptions the appointments color and status for \"([^\"]*)\" with color \"([^\"]*)\"$",repVisits::verifyPillsColorDays);
+
         Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in the Holiday tab$",repVisits::RemoveBlockedDate);
 
         Then("^HS I verify the \"([^\"]*)\" and \"([^\"]*)\" date with \"([^\"]*)\" was not present in the Holidays tab in the Availability & Settings page in RepVisits",repVisits::verifyBlockedHolidaysRemoved);
@@ -108,7 +110,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I set and verify that \"([^\"]*)\" is blocked on the Blocked Days page$", repVisits::verifyManualBlockedHolidays);
 
         Then("HE I search for school \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked$", repVisits::searchforSchool);
-        
+
         Then("HE I search in \"([^\"]*)\" in RepVisits page using \"([^\"]*)\" and verify that \"([^\"]*)\" is blocked actually$", repVisits::searchforSchool);
 
         And("^HS I verify the calendar view in RepVisits$",repVisits::verifyCalendarViewOnRepVisits);
@@ -282,5 +284,47 @@ public class RepVisitsPageStepDefs implements En {
         Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
 
         Then("^HS I add the email \"([^\"]*)\" in the primary contact in Notifications & Primary Contact page$",repVisits::addEmailInNotificationandPrimaryContactPage);
+
+        Then("^HS I navigate to the Naviance Settings page through the setup Wizard$",repVisits::navigateToNavianceSettingsPage);
+
+        Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
+
+        And("^HS I validating the pagination of 25 contacts in Contacts Page",repVisits::validatingthePaginationof25Contacts);
+
+        And("^HS I Click button Add a College Fair to Add a fair$",repVisits::clickAddCollegeFairButton);
+
+        And("^HS I verify Note on Add Edit Fair screen \"([^\"]*)\"$",repVisits:: noteForSchools);
+
+        And("^HS I click on close icon on Add Edit College Fair pop-up$",repVisits:: closeAddEditFairScreen);
+
+        And("^HS I click View Details against fair$",repVisits::viewFairDetails);
+
+        And("^HS I click on Edit button to edit fair$",repVisits:: editFair);
+      
+        Then("^HS I verify the Notification \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the Request Notification Tab$",repVisits::verifyRequestNotificationTab);
+
+        Then("^HS I select \"([^\"]*)\" option for the Notification using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectoption);
+
+        And("^HS I verify the Decline Pop-up in the Notification Tab \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDeclinePopup);
+
+        Then("HS I select the \"([^\"]*)\" button by entering the message \"([^\"]*)\" for \"([^\"]*)\"$",repVisits::declineConfirmation);
+
+        Then("^HS I select \"([^\"]*)\" option for the Notification using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::selectoptionforFairs);
+
+        Then("^HS I verify the Notification \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the Request Notification Tab for Fairs$",repVisits::verifyRequestNotificationTabforFairs);
+
+        Then("^HS I verify the Decline Pop-up in the Notification Tab \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::verifyDeclinePopupforFairs);
+
+        Then("^HS I verify the Export button is Enabled in Calendar page$",repVisits::verifyExportButtonInCalendar);
+
+        Then("^HS I export the appointments for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::exportAppointmentsInCalendarPage);
+
+        Then("^HS I verify the downloaded Appointments csv file \"([^\"]*)\" contains following details$",repVisits::verifyDownloadedCsvFileInCalendar);
+
+        Then("^HS I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
+
+        And("^HS I verify the success Message \"([^\"]*)\" in Availability Settings page",repVisits::verifySuccessMessage);
+
+
     }
 }

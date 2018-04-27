@@ -29,6 +29,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
     public void verifyFieldsInRealTime(DataTable stringsDataTable) {
         List<List<String>> fieldsAndValues = stringsDataTable.cells(0);
         for (List<String> fieldAndValueElement : fieldsAndValues) {
+            waitForUITransition();
             switch (fieldAndValueElement.get(0)) {
                 case "School Size" :
                     schoolSizeButton().click();
@@ -125,7 +126,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
 
                     if (typeOfComputerPart.contains("PCs")) {
                         assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
-                            studentLifePreview.getComputerResourcesValue(locationPart.trim(), "pc").getText().equals(fieldAndValueElement.get(2)));
+                                studentLifePreview.getComputerResourcesValue(locationPart.trim(), "pc").getText().equals(fieldAndValueElement.get(2)));
                     } else if (typeOfComputerPart.contains("Macs")) {
                         assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                                 studentLifePreview.getComputerResourcesValue(locationPart.trim(), "mac").getText().equals(fieldAndValueElement.get(2)));
@@ -134,7 +135,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                 case "Organizations" :
                     studentLifePreview.organizationsTab().click();
                     List<String> organizationsTextList = new ArrayList<>();
-                    for (WebElement organizationsElement : studentLifePreview.organizationsList()) {
+                    for (WebElement organizationsElement : driver.findElements(By.cssSelector(studentLifePreview.organizationsList))) {
                         organizationsTextList.add(organizationsElement.getText());
                     }
                     organizationsButton().click();
@@ -142,12 +143,20 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     if (fieldAndValueElement.get(2).equals("yes")) {
                         if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-empty")) {
                             innerCheckBox(fieldAndValueElement.get(1)).click();
+                            organizationsTextList.clear();
+                            for (WebElement organizationsElement : driver.findElements(By.cssSelector(studentLifePreview.organizationsList))) {
+                                organizationsTextList.add(organizationsElement.getText());
+                            }
                             assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                                     organizationsTextList.contains(fieldAndValueElement.get(1)));
                         }
                     } else if (fieldAndValueElement.get(2).equals("no")) {
                         if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-not-empty")) {
                             innerCheckBox(fieldAndValueElement.get(1)).click();
+                            organizationsTextList.clear();
+                            for (WebElement organizationsElement : driver.findElements(By.cssSelector(studentLifePreview.organizationsList))) {
+                                organizationsTextList.add(organizationsElement.getText());
+                            }
                             assertFalse(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                                     organizationsTextList.contains(fieldAndValueElement.get(1)));
                         }
@@ -162,7 +171,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     dropdown.selectByVisibleText(fieldAndValueElement.get(2).split(";")[2]);
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                             studentLifePreview.athleticsTableValue(fieldAndValueElement.get(2).split(";")[0],
-                            fieldAndValueElement.get(2).split(";")[1]).getText().equals(fieldAndValueElement.get(2).split(";")[2]));
+                                    fieldAndValueElement.get(2).split(";")[1]).getText().equals(fieldAndValueElement.get(2).split(";")[2]));
 
             }
         }
@@ -399,19 +408,19 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         if (section.equals("Men")) {
             switch (dropDownLabel) {
                 case "Association" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.mensAssocField.value\"]"));
-                break;
+                    break;
                 case "Division" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.mensDivField.value\"]"));
-                break;
+                    break;
                 case "Conference" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.mensConfField.value\"]"));
             }
         } else if (section.equals("Women")) {
             switch (dropDownLabel) {
                 case "Association" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.womensAssocField.value\"]"));
-                break;
+                    break;
                 case "Division" : dropDown = getDriver().findElement(By.cssSelector("select[ng-model=\"vm.womensDivField.value\"]"));
-                break;
+                    break;
                 case "Conference" : dropDown = getDriver().findElement(By.cssSelector("ng-model=\"vm.womensConfField.value\""));
-                break;
+                    break;
             }
         } else if (section.equals("Co-Ed")) {
             switch (dropDownLabel) {

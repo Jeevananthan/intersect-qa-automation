@@ -39,7 +39,6 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
     }
 
     //Locators
-
     private WebElement studiesTab() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'Studies')]"));
     }

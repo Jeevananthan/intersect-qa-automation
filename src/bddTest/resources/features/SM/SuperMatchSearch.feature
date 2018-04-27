@@ -67,3 +67,9 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I select the "Associate's" radio button from the Academics fit criteria
     And SM I verify that the Must Have box does not contain "Major [1]"
     And SM I verify that the Must Have box does not contain "Minor [1]"
+
+  @MATCH-3667
+  Scenario: Verify that the box containing instructional text has a width of 25% and the Must Have
+  and Nice to Have boxes split the rest
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the widths of the three boxes
