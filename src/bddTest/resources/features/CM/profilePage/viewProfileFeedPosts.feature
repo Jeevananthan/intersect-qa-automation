@@ -5,6 +5,7 @@ Feature: Community User - Aggregate Feed on Profile Page
 
   @MATCH-819
   Scenario: As a Community user I can see Aggregate Feed on Profile Page.
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     Then I go to user profile page
     And I check if Profile posts are visible
+    Then HE I successfully sign out

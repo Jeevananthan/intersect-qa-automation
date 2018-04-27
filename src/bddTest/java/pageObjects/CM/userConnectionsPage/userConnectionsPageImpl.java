@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.CM.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
 //import sun.rmi.runtime.Log;
@@ -47,7 +47,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 //        link(By.id("js-main-nav-counselor-community-menu-link")).click();
         iframeExit();
         link(By.partialLinkText("Counselor Community")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/connections']")).click();
     }
 
@@ -58,7 +58,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void goToUserCOnenctionsList() {
         logger.info("Going to user's connections list.");
-        iframeEnter();
+        communityFrame();
         link(By.xpath("//ul[@class='tabs primary']/li[2]/a[contains(text(), 'Connections')]")).click();
     }
 
@@ -76,7 +76,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         logger.info("Going to user connections page.");
         iframeExit();
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/connections']")).click();
     }
 
@@ -121,13 +121,13 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void checkIfConnectionButtonExists(){
         logger.info("Checking if connect to user button exists.");
-        iframeEnter();
+        communityFrame();
         Assert.assertTrue(connectToUserButton().isDisplayed());
     }
 
     public void connectToUser() {
         logger.info("Clicking on connect to user button.");
-        iframeEnter();
+        communityFrame();
         connectToUserButton().click();
     }
 
@@ -135,7 +135,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         logger.info("Making sure that I am connected to PurpleHS user");
         iframeExit();
         searchForUser("PurpleHS User");
-        iframeEnter();
+        communityFrame();
         try {
             connectToUserButton().click();
             sendInvitationToUserButton().click();
@@ -151,7 +151,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         logger.info("Making sure that I am not connected to PurpleHS user");
         iframeExit();
         searchForUser(user);
-        iframeEnter();
+        communityFrame();
         try {
             clickDisconnectBtn();
         } catch (NoSuchElementException ex) {
@@ -162,8 +162,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickDisconnectBtn() {
-        iframeExit();
-        iframeEnter();
+        communityFrame();
         connectToUserButton().click();
         waitUntilPageFinishLoading();
         disconnectFromUserBtn().click();
@@ -186,7 +185,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         lp.defaultLoginHS();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
         iframeExit();
         driver.navigate().refresh();
@@ -205,7 +204,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         lp.defaultLoginHE();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
         iframeExit();
         driver.navigate().refresh();
@@ -225,7 +224,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         lp.defaultLoginHE();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
         iframeExit();
         driver.navigate().refresh();
@@ -245,7 +244,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         lp.defaultLoginHS();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
         link(By.id("js-main-nav-home-menu-link")).click();
-        iframeEnter();
+        communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
         iframeExit();
         driver.navigate().refresh();
@@ -342,7 +341,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
         } catch (NoSuchElementException ex) {
             driver.get("https://qa-he.intersect.hobsons.com/counselor-community/profile/5539");
-            iframeEnter();
+            communityFrame();
             connectToUserButton().click();
             sendInvitationToUserButton().click();
             waitUntilPageFinishLoading();
@@ -420,7 +419,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     public void statusInvitedVisible( String status) {
         logger.info("Checking if correct button status is displayed.");
         iframeExit();
-        iframeEnter();
+        communityFrame();
         Assert.assertTrue("The status is not displayed correctly!", checkItemVisibleByCssSelector("a", "title", status));
     }
 

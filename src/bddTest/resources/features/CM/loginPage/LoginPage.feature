@@ -2,12 +2,12 @@
 Feature: As an HE or Support user I want to login to the Community
 
   Scenario: As an HE user I'm able to log in to the Community
-    Given I am logged in to Purple Community through the HE App
+    Given HE I am logged in to Intersect HE as user type "administrator"
     Then I am able to successfully login
-    And I successfully sign out from the HE app
+    And HE I successfully sign out
 
   @MATCH-1179
   Scenario: As a Support user I'm able to log in to the Community
-    Given I am logged in to Purple Community through the Support App
+    Given SP I am logged in to the Admin page as an Admin user
     Then I am able to successfully login
-    And I successfully sign out from the Support app
+    And SP I successfully sign out

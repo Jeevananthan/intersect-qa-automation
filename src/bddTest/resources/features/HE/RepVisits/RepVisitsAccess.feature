@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the RepVisits features  based on my role/subscription
+Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the RepVisits features based on my role/subscription
 
   @MATCH-1697
   Scenario: As an HE user I want to be able to access RepVisit functionality within Intersect so I can find value from this new module and its features
@@ -50,7 +50,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     And HE I verify the non-administrator messaging on the Visits Feedback page
     And HE I successfully sign out
 
-
   @MATCH-1989
   Scenario: As an HE user tied to an HE account that has not paid for the Intersect Presence Subscription.
   I want to be presented with a popup/form that allows me to inquire about upgrading my HE account
@@ -84,6 +83,42 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |First Name |Last Name  |Work Email Address                   |
       |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com |
     Then HE I successfully sign out
+
+  @MATCH-2133
+  Scenario: As an HE User, I want to be able to view the weekly recurring time slots and able to view the UI for the "Search and Schedule" Page
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the Search heading over the search bar in Search and Schedule Tab
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I verify the Search heading over the search bar after search the school in Search and Schedule Tab
+    Then HE I verify the Schedule heading over the availability block
+    Then HE I verify the calender icon is present next to date
+    Then HE I verify the date and calendar icon present over the availability table
+    Then HE I verify the next and previous buttons at the top, far right of the availability table
+    Then HE I verify the view type button to the left of the next/previous buttons
+    Then HE I verify the color of the active view type button
+    Then HE I verify "Showing All Scheduled Fairs" Text in Fairs Tab in Search and Schedule Tab
+    Then HE I verify the Your Schedule Text in Search and Schedule Page
+    And HE I search for "Mays High School" in RepVisits page
+    Then HE I verify the Map in SearchAndSchedule Page
+    Then HE I successfully sign out
+
+  @MATCH-2485
+  Scenario: Issue: For HE users viewing their travel plan, the "see details" link for college fairs
+  opens the HS in the visits view.
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "2400006"
+    And SP I select "The University of Alabama" from the global search results
+    Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    And SP I successfully sign out
+
+    Given HS I want to login to the HS app using "purpleheautomation+hstest@gmail.com" as username and "Password!1" as password
+    Then HS I go to the repvisits page
+    Then HS I select "All RepVisits Users" to show view availability
+    And HS I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the see details link in RepVisits
+    And HE I successfully sign out
 
   @MATCH-2238
   Scenario: Verify Overview page when HE user DOES NOT have Intersect subscription activated

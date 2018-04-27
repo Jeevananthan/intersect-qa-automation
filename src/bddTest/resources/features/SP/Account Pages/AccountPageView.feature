@@ -29,6 +29,7 @@ Feature: Hobsons Support - View HE Institution Accounts
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
+    Then SP I set the "Legacy: Hub page management" module to "active" in the institution page
     Then SP I verify subscription end date restrictions
     Then SP I verify subscription start date restrictions
     And SP I successfully sign out
@@ -66,8 +67,52 @@ Feature: Hobsons Support - View HE Institution Accounts
   Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I verify the left navigation bar and section breadcrumbs are as follows
-      | Awareness | Counselor Community |
+      |Awareness|Counselor Community|
     And SP I successfully sign out
+
+
+    @MATCH-128
+    Scenario Outline: As a Support user with admin privilege or support privilege or sales ops privilege is able to edit
+              Activate/Inactivate modules/products within the institutional accounts
+
+      Given SP I am logged in to the Admin page as an Admin user
+      When SP I select "<University>" from the institution dashboard
+      Then SP I set the "<HubsModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+      Then SP I set the "<CommunityModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+      Then SP I set the "<IntersectAwarenessModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+      Then SP I set the "<IntersectPresenceModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+      And SP I Click the Save Changes button
+      When SP I select "<University>" from the institution dashboard
+      Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<HubsModule>"
+      Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<CommunityModule>"
+      Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<IntersectAwarenessModule>"
+      Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<IntersectPresenceModule>"
+      When SP I select "<University>" from the institution dashboard
+      Then SP I set the "<HubsModule>" module to "<Inactive>" in the institution page
+      Then SP I set the "<CommunityModule>" module to "<Inactive>" in the institution page
+      Then SP I set the "<IntersectAwarenessModule>" module to "<Inactive>" in the institution page
+      Then SP I set the "<IntersectPresenceModule>" module to "<Inactive>" in the institution page
+      And SP I Click the Save Changes button
+      When SP I select "<University>" from the institution dashboard
+      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<HubsModule>"
+      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<CommunityModule>"
+      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<IntersectAwarenessModule>"
+      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<IntersectPresenceModule>"
+      And SP I successfully sign out
+
+      Examples:
+      |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |StartDate|EndDate|Inactive|Active|
+      |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|0        |35     |inactive|active|
+
+
+
+
+
+
+
+
+
+
 
 
 
