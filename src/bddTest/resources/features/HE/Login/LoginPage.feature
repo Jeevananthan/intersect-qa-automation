@@ -21,15 +21,11 @@ Feature: HE - Login - LoginPage - As an HE user I should be able to login to Int
     And HE I am able to successfully login
     Then HE I successfully sign out
 
-@MATCH-1846
-Scenario: As a potential Intersect user, I need to go down the appropriate HE or HS path in the registration url.
-          So I can request the correct user account.
-  Given HE I navigate to the Intersect Registration app
-  Then HE I select "Higher Education Staff Member" and verify that the appropriate text is displayed
-  Then HE I select "High School Staff Member" and verify that the appropriate text is displayed
-
-
-
-
+  @MATCH-1846
+  Scenario: As a potential Intersect user, I need to go down the appropriate HE or HS path in the registration url.
+            So I can request the correct user account.
+    Given HE I navigate to the Intersect Registration app
+    Then HE I select "Higher Education Staff Member" and verify that the appropriate text is displayed
+    Then HE I select "High School Staff Member" and verify that the appropriate text is displayed
 
 

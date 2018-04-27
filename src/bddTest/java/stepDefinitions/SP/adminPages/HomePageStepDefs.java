@@ -1,6 +1,5 @@
 package stepDefinitions.SP.adminPages;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.SP.accountPages.UserListPageImpl;
@@ -21,10 +20,6 @@ public class HomePageStepDefs implements En {
         And("^SP I successfully sign out$", homePage::logout);
 
         When("^SP I click on an institution name$", homePage::selectTheFistInstitutionOnTheList);
-
-        Then("^SP I go to the institution dashboard and make sure \"([^\"]*)\" is on the dashboard$", homePage::verifyInstitutionExist);
-
-        Then("^SP I go to the institution dashboard and make sure \"([^\"]*)\" is not on the dashboard$", homePage::verifyInstitutionDoesNotExist);
 
         Then("^SP I select \"([^\"]*)\" from the institution dashboard$", homePage::goToInstitution);
 
@@ -47,6 +42,15 @@ public class HomePageStepDefs implements En {
         Then("^SP verify the error message in create user page$",userList::verifyErrorMessageinCreateUser);
 
         Then("^SP verify there is no empty field error message in the create user page$",userList::verifyNoErrorMessageinCreateUser);
+
+        Then("^SP I verify the visit details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",userList::verifyVisitDetailsInLogHistory);
+
+        Then("^SP I verify the Fairs details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",userList::verifyFairDetailsInLogHistory);
+
+        Then("^SP I verify the Logged in details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",userList::verifyLoggedInDetailsInLogHistory);
+
+        Then("^SP I verify the created post details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\"$",userList::verifyCreatedPostDetailsInLogHistory);
+
 
     }
 }

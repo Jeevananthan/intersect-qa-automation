@@ -4,8 +4,9 @@ import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptExecutor;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
-import pageObjects.CM.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
@@ -48,6 +49,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
 
     public void defaultLoginHE() {
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         openLoginPageHE();
         String username = GetProperties.get("he.administrator.username");
         String password = GetProperties.get("he.administrator.password");
@@ -66,6 +72,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void defaultLoginHS() {
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         openLoginPageHS();
         String username = GetProperties.get("hs.default.username");
         String password = GetProperties.get("hs.default.password");
@@ -81,6 +92,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void defaultLoginSupport() {
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         openLoginPageSupport();
         String username = GetProperties.get("sp.admin.username");
         String password = GetProperties.get("sp.admin.password");
