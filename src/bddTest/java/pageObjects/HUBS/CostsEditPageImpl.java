@@ -115,6 +115,38 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
         logger.info("All changes were submitted");
     }
 
+    public void verifyValidDataInFields(DataTable stringsDataTable) {
+        List<List<String>> fieldsDetails = stringsDataTable.cells(0);
+        for (List<String> fieldElement : fieldsDetails) {
+            switch (fieldElement.get(0)) {
+                case "Average Net Prices" :
+                    avgNetPricesButton().click();
+                    avgNetPriceTextBox(fieldElement.get(1)).clear();
+                    avgNetPriceTextBox(fieldElement.get(1)).sendKeys(fieldElement.get(2));
+                    Select dropDown  = new Select(costsPreview.avgNetPriceDropDown());
+                    dropDown.selectByVisibleText(costsPreview.getDropDownOption(fieldElement.get(1)));
+                    assertTrue(fieldElement.get(0) + " is receiving invalid data", costsPreview.avgNetPriceText()
+                            .getText().replace(",", "").equals(fieldElement.get(3)));
+            }
+        }
+
+    }
+
+    public void verifyErrorMessageWithInvalidData(DataTable stringsDataTable) {
+        List<List<String>> fieldsDetails = stringsDataTable.cells(0);
+        for (List<String> fieldElement : fieldsDetails) {
+            switch (fieldElement.get(0)) {
+                case "Average Net Prices" :
+                    avgNetPricesButton().click();
+                    avgNetPriceTextBox(fieldElement.get(1)).clear();
+                    avgNetPriceTextBox(fieldElement.get(1)).sendKeys(fieldElement.get(2));
+                    Select dropDown  = new Select(costsPreview.avgNetPriceDropDown());
+                    dropDown.selectByVisibleText(costsPreview.getDropDownOption(fieldElement.get(1)));
+                    assertTrue("Error message is not displayed", errorMsg().isDisplayed());
+            }
+        }
+    }
+
     //Locators
     private WebElement avgNetPricesButton() {
         return getDriver().findElement(By.xpath("//h3[text()='Average Net Prices']"));
@@ -133,5 +165,8 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement avgAmountOfAidTextBox(String label) {
         return getDriver().findElement(By.cssSelector("text-field[name=\"" + label + "\"] input"));
+    }
+    private WebElement errorMsg() {
+        return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span"));
     }
 }

@@ -14,9 +14,9 @@ public class HUBSEditModeStepDefs implements En{
 
         Then("^HUBS I access HUBS Edit Mode$", navianceCollegeProfilePage::openHUBSEditorMode);
 
-//        And("^HUBS I open the \"([^\"]*)\" tab in the preview$", hemPreviewPage::clickMenuButton);
+        And("^HUBS I open the \"([^\"]*)\" tab in the preview$", hemPreviewPage::clickMenuButton);
 
-//        Then("^HUBS All the elements of the studies tab should be displayed$", studiesPage::verifyAllElementsDisplayed);
+        Then("^HUBS All the elements of the studies tab should be displayed$", studiesPage::verifyAllElementsDisplayed);
 
     }
 

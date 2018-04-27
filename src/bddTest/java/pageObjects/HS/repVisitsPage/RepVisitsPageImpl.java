@@ -623,7 +623,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
         link("Availability").click();
+        waitUntilPageFinishLoading();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
         String EndDate=getSpecificDate(endDate);
@@ -3409,6 +3411,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         FileManager.deleteFile(String.format("%s/Downloads/%s",home,filePath));
     }
 
+    public void verifySuccessMessage(String originalMessage){
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']"),1));
+        String successMessage = driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div")).getText();
+        Assert.assertTrue("Success Message is not equal",successMessage.equals(originalMessage));
+    }
+
     public void setDateforCalendarPage(String date,String fromOrTo){
         String[] parts = date.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
@@ -3577,6 +3586,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         findMonth(calendarHeading,"End");
         return date;
     }
+  
     /*locators for Messaging Options Page*/
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
@@ -3913,5 +3923,4 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement regularWeeklyHours= link("Regular Weekly Hours");
         return  regularWeeklyHours;
     }
-
 }
