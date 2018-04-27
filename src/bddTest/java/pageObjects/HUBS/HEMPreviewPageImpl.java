@@ -29,6 +29,8 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
                 break;
             case "Costs" : button = costsButton();
                 break;
+            case "Admissions" : button = admissionsButton();
+                break;
         }
         waitUntil(ExpectedConditions.elementToBeClickable(button));
         button.click();
@@ -54,5 +56,8 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement costsButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), \"Costs\")]"));
+    }
+    private WebElement admissionsButton() {
+        return driver.findElement(By.xpath("//span[contains(text(), \"Admissions\")]"));
     }
 }
