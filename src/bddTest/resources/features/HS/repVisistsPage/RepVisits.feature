@@ -887,3 +887,17 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I navigate to the college visits page
     Then HS I verify the default calendar page present after the Wizard completion
     And HS I successfully sign out
+
+  @MATCH-2728
+  Scenario Outline: As an HS RepVisists user who I click on a College Fair in the calendar
+  I want to be able to edit fairs in the summary drawer
+  So that calendar appointments all have a consistent interface
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    And HS I verify the fairs are clickable "<College Fair Name>","<VerifyDateEdit>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>"
+    Then HS I cancel college fair created "<College Fair Name>"
+    Examples:
+      |College Fair Name |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
+      |Fair#778         |December 12 2017|0900AM    |1000AM  |April 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
