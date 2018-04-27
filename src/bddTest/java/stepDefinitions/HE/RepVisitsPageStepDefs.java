@@ -211,7 +211,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("HE verify the Pills got disappear for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPills);
 
         Then("^HE I search for school in RepVisits using \"([^\"]*)\"$",repVisits::searchSchoolinRepVisits);
-      
+
         Then("^HE I verify the unpaid users are blocked from exporting in Calendar page$",repVisits::verifyExportButtonInCalendar);
 
         Then("^HE I verify the Export button is Enabled in Calendar page$",repVisits::verifyExportButtonisEnabledInCalendar);
@@ -221,7 +221,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the downloaded Appointments csv file \"([^\"]*)\" contains following details$",repVisits::verifyDownloadedCsvFileInCalendar);
 
         Then("^HE I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
-      
+
         And("^HE I verify the default toggle \"([^\"]*)\" is \"([^\"]*)\" in search and schedule Tab$",repVisits::verifyDefaultToggleinSearchAndSchedule);
 
         And("^HE I verify the Availability slot \"([^\"]*)\" is displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\" in search and schedule Tab$",repVisits::verifyAvailabilitySlotInSearchAndSchedule);
@@ -238,5 +238,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HE I verify the title \"([^\"]*)\" in RepVisits branding header",repVisits::verifyRepVisitsBrandingHeader);
 
+        And("^HE I verify that rate or rating text is not present on Visit Feedback Overview page$", repVisits::verifyRateTextIsPresentInVFOverviewPage);
+
+        And("^HE I verify text displayed while viewing individual staff member feedback$", repVisits::verifyTextDisplayedOnViewingStaffFeedback);
     }
 }
