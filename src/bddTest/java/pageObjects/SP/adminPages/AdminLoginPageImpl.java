@@ -5,9 +5,12 @@ import Selenium.WebElement.TextboxImpl;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
+
+import java.util.List;
 
 public class AdminLoginPageImpl extends PageObjectFacadeImpl {
 
@@ -20,7 +23,11 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void login(String username, String password) {
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         openAdminPage();
         // Make sure our previous session ended.
         if (link(By.id("user-dropdown")).isDisplayed()) {
@@ -37,6 +44,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
         button("Next").click();
+        waitForUITransition();
         passwordTextbox().click();
         logger.info("Using " + password + " as password");
         handleAccountTypeDialog(password);
@@ -58,14 +66,18 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
             passwordTextbox().sendKeys(password);
         }
         button("Sign in").click();
-        if (button(By.id("idBtn_Back")).isDisplayed())
-        {
+        waitUntilPageFinishLoading();
+        List<WebElement> resetLink = driver.findElements(By.xpath("//a[@id='idA_IL_ForgotPassword0']"));
+        if (resetLink.size()==1){
+            logger.info("The given username or password is wrong");
+        }else if(button(By.id("idBtn_Back")).isDisplayed()){
             button("No").click();
+            waitUntilPageFinishLoading();
         }
     }
 
     public void verifyExpectedErrorMessage(String expectedErrorMsg) {
-        String actualErrorMsg = getDriver().findElement(By.id("recover_container")).getText().replace("\n", " ");
+        String actualErrorMsg = getDriver().findElement(By.id("passwordError")).getText();
         Assert.assertEquals("Error message did not match", expectedErrorMsg, actualErrorMsg);
     }
 

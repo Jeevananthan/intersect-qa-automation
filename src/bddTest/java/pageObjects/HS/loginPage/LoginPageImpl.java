@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.Keys;
@@ -12,6 +13,7 @@ import utilities.GetProperties;
 import java.util.List;
 import java.nio.file.Watchable;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
@@ -21,10 +23,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void loginThroughNaviance(String account, String username, String password) {
-        driver.manage().deleteAllCookies();
+        openNavianceLoginPage();
         String navianceWindow = driver.getWindowHandle();
         String intersectWindow = null;
-        openNavianceLoginPage();
         textbox(By.name("hsid")).sendKeys(account);
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
@@ -44,7 +45,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openNonNavianceLoginPage(){
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
 
@@ -59,6 +64,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             button("Higher Education Staff Member").click();
         }
 
+        driver.findElement(By.cssSelector("input[class='prompt']")).clear();
         driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
         button("Search").click();
         while(button("More Institutions").isDisplayed()){
@@ -94,6 +100,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
+        try {
+            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
@@ -177,9 +188,42 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openHSLoginPage() {
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
+    }
+
+    public void verifyLogoInLoginPage()
+    {
+        openHSLoginPage();
+        String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-gray-teal.jpg";
+        String actualIntersectLogo=driver.findElement(By.cssSelector("div[class='centered row']>div>img[alt='Intersect Logo']")).getAttribute("src");
+        if(intersectLogo.equals(actualIntersectLogo))
+        {
+            logger.info("Logo is present in the Login Page");
+        }else
+        {
+            logger.info("Logo is not displayed in the Login Page");
+        }
+}
+
+    public void verifyLogoInHomePage()
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-white.png";
+        String actualIntersectLogo=driver.findElement(By.cssSelector("dt[class='header _2_tAB8btcE4Sc5e1O_XUwn']>img[alt='Intersect Logo']")).getAttribute("src");
+        if(intersectLogo.equals(actualIntersectLogo))
+        {
+            logger.info("Logo is present in the Home Page");
+        }else
+        {
+            logger.info("Logo is not displayed in the Home Page");
+        }
     }
 
     public void login(String username, String password) {
@@ -260,8 +304,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     //Log in as an HS user
     public void defaultLogin(String usertype) {
         openHSLoginPage();
-        String username = GetProperties.get("he."+ usertype + ".username");
-        String password = GetProperties.get("he."+ usertype + ".password");
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        String password = GetProperties.get("hs."+ usertype + ".password");
         logger.info("Logging into the HS app");
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
