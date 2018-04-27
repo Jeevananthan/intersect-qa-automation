@@ -3494,26 +3494,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Calendar").click();
     }
     public void buttonAddVisit(){
+        waitForUITransition();
         button("add visit").click();
 
     }
-   /* public void selectVisitDate(String dayOfMonth){
 
-        monthday(dayOfMonth).click();
-
-
-        for(int i=0;i<48;i++)
-        {
-            List<WebElement> slots = getDriver().findElements(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(4) button"));
-            if (slots.size()==0) {
-                rightArrowNextWeek().click();
-            }
-
-        }
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(4) button"),1));
-        selectFridayVisit().click();
-
-    }*/
     public void selectRepresentative(String representative){
         addrepresentativefromlist().clear();
         addrepresentativefromlist().sendKeys(representative);
