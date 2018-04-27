@@ -241,5 +241,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify that rate or rating text is not present on Visit Feedback Overview page$", repVisits::verifyRateTextIsPresentInVFOverviewPage);
 
         And("^HE I verify text displayed while viewing individual staff member feedback$", repVisits::verifyTextDisplayedOnViewingStaffFeedback);
+
+        And("^HE I verify the Repvisits Overview Upgrade Subscription page$", repVisits::verifyRepvisitsOverviewUpgradeSubscriptionPage);
     }
 }
