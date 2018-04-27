@@ -704,7 +704,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School              |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo|user      |eMail                        |
-      |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|hobsons.rrt+other16@gmail.com|
+      |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|naviance-email@mock.com|
 
 
   @MATCH-2444
@@ -749,3 +749,79 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Max visits met          | rgba(233, 233, 245, 1) |
       |Fully booked            | rgba(233, 238, 245, 1) |
       |Appointment scheduled   | rgba(233, 238, 245, 1) |
+
+  @MATCH-2381 @test
+  Scenario: As a HS RepVisits user verify note to let users know their contact info will be visible
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click button Add a College Fair to Add a fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+    And HS I click View Details against fair
+    And HS I click on Edit button to edit fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I successfully sign out
+
+  @MATCH-2381 @test
+  Scenario: As a Non Naviance HS RepVisits user verify note to let users know their contact info will be visible
+    Given HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "Control!23" as password
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click button Add a College Fair to Add a fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+    And HS I click View Details against fair
+    And HS I click on Edit button to edit fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I successfully sign out
+
+  @MATCH-1484
+  Scenario Outline: A RepVisits user, I want to be able to export my visit data,
+            So that I can easily show and sort the data to students/parents/my boss.
+#Verify unpaid HE users are blocked from exporting
+    Given HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
+    Then HE I verify the unpaid users are blocked from exporting in Calendar page
+    Then HE I successfully sign out
+
+#CREATE VISITS AND FAIRS
+#precondition
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+
+#Exporting appointments
+    Then HE I verify the Export button is Enabled in Calendar page
+    Then HE I export the appointments for the following details "<StartDate>","<EndDate>"
+    Then HE I verify the downloaded Appointments csv file "RepVisitsEvents.csv" contains following details
+      |Appt Type/Fair Name|High School|Appt Date|Appt Time Zone|Appt Start|Appt Finish|Status|Address|City|State|Zip|Contact|Title|Email|Phone|
+    Then HE I delete the downloaded Appointments Cvs file "RepVisitsEvents.csv"
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the Export button is Enabled in Calendar page
+    Then HS I export the appointments for the following details "<StartDate>","<EndDate>"
+    Then HS I verify the downloaded Appointments csv file "RepVisitsEvents.csv" contains following details
+    |Appt Type/Fair Name|Number Attending|Appt Date|Appt Start|Appt Finish|Appt Location|Status|Rep Name|Rep Title|College|City|State|email|phone|
+    Then HS I delete the downloaded Appointments Cvs file "RepVisitsEvents.csv"
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
+  Examples:
+  |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                             |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |
+  |7   |10:      |11:25pm |3        |7        |14      |11:25pm      |Yes, accept all incoming requests. |Int Qa High School 4    |10:         |10:     |QAs Fairs tests       |14   |0900AM    |1000AM |7            |$25 |25                    |100                        | Save          |

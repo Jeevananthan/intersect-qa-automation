@@ -50,7 +50,7 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
 
     public HashMap<String, String> getValuesFromFields(List<List<String>> fieldList) {
         HashMap<String, String> fieldValues = new HashMap<String, String>();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.fc-loader.fc-loader-three-bounce.fc-loader--color-primary"), 0));
+        waitForUITransition();
         for (List<String> field : fieldList) {
             switch (field.get(0)) {
                 case "School Size" :
@@ -99,7 +99,7 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     String isOrgPresent = "";
                     organizationsTab().click();
                     List<String> orgListStrings = new ArrayList<>();
-                    for (WebElement orgElement : organizationsList()) {
+                    for (WebElement orgElement : driver.findElements(By.cssSelector(organizationsList))) {
                         orgListStrings.add(orgElement.getText());
                     }
                     if (orgListStrings.contains(field.get(1))) {
@@ -137,24 +137,24 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Ethnicity" :
                     assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(chartsPercent(sections.get(2).get(1)).getText().replace("%", "")));
+                            generatedValues.get(key).equals(chartsPercent(getSectionFromDataList(sections, key)).getText().replace("%", "")));
                     break;
                 case "Gender Data" :
                     assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(chartsPercent(sections.get(3).get(1)).getText().replace("%", "")));
+                            generatedValues.get(key).equals(chartsPercent(getSectionFromDataList(sections, key)).getText().replace("%", "")));
                     break;
                 case "Age Data" :
                     assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(chartsPercent(sections.get(4).get(1)).getText().replace("%", "")));
+                            generatedValues.get(key).equals(chartsPercent(getSectionFromDataList(sections, key)).getText().replace("%", "")));
                     break;
                 case "Housing Data" :
                     assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(getHousingDataSectionValue(sections.get(5).get(1)).getText().replace(",", "")));
+                            generatedValues.get(key).equals(getHousingDataSectionValue(getSectionFromDataList(sections, key)).getText().replace(",", "")));
                     break;
                 case "Greek Life" :
                     greekLifeTab().sendKeys(Keys.RETURN);
                     assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(getGreekLifeSectionValue(sections.get(6).get(1)).getText()));
+                            generatedValues.get(key).equals(getGreekLifeSectionValue(getSectionFromDataList(sections, key)).getText()));
                     break;
                 case "Services" :
                     servicesTab().sendKeys(Keys.RETURN);
@@ -165,45 +165,55 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     for (String controlText : servicesStringList) {
                         System.out.println(controlText);
                     }
-                    String control = sections.get(7).get(1);
+                    String control = getSectionFromDataList(sections, key);
                     System.out.println(control);
                     if (generatedValues.get(key).equals("yes")) {
                         assertTrue("The value for " + key + " was not successfully generated",
-                                servicesStringList.contains(sections.get(7).get(1)));
+                                servicesStringList.contains(getSectionFromDataList(sections, key)));
                     } else {
                         assertFalse("The value for " + key + " was not successfully generated",
-                                servicesStringList.contains(sections.get(7).get(1)));
+                                servicesStringList.contains(getSectionFromDataList(sections, key)));
                     }
 
                     break;
                 case "Computing Resources" :
                     computingResourcesTab().sendKeys(Keys.RETURN);
                     assertTrue("The value for " + key + " was not successfully generated",
-                            getComputerResourcesValue(sections.get(8).get(1).split(";")[0], sections.get(8).get(1).
+                            getComputerResourcesValue(getSectionFromDataList(sections, key).split(";")[0], getSectionFromDataList(sections, key).
                                     split(";")[1]).getText().equals(generatedValues.get(key)));
                     break;
                 case "Organizations" :
                     organizationsTab().sendKeys(Keys.RETURN);
                     List<String> orgStringList = new ArrayList<>();
-                    for (WebElement orgElement : organizationsList()) {
+                    for (WebElement orgElement : driver.findElements(By.cssSelector(organizationsList))) {
                         orgStringList.add(orgElement.getText());
                     }
                     if (generatedValues.get(key).equals("yes")) {
                         assertTrue("The value for " + key + " was not successfully generated",
-                                orgStringList.contains(sections.get(7).get(1)));
+                                orgStringList.contains(getSectionFromDataList(sections, key)));
                     } else {
                         assertFalse("The value for " + key + " was not successfully generated",
-                                orgStringList.contains(sections.get(7).get(1)));
+                                orgStringList.contains(getSectionFromDataList(sections, key)));
                     }
                     break;
                 case "Athletics" :
                     athleticsTab().sendKeys(Keys.RETURN);
-                    athleticsInnerSection(sections.get(10).get(1).split(";")[0]).click();
+                    athleticsInnerSection(getSectionFromDataList(sections, key).split(";")[0]).click();
                     assertTrue("The value for " + key + " was not successfully generated",
-                            athleticsTableValue(sections.get(10).get(1).split(";")[1], sections.get(10).get(1).split(";")[2]).getText().equals(generatedValues.get(key)));
+                            athleticsTableValue(getSectionFromDataList(sections, key).split(";")[1], getSectionFromDataList(sections, key).split(";")[2]).getText().equals(generatedValues.get(key)));
                     break;
             }
         }
+    }
+
+    private String getSectionFromDataList(List<List<String>> sections, String index) {
+        String result = "";
+        for (List<String> section : sections) {
+            if (section.get(0).equals(index)) {
+                result = section.get(1);
+            }
+        }
+        return result;
     }
 
     public void verifyChangesPublishedInHUBS(String username, String password, String college, DataTable stringsDataTable) {
@@ -343,7 +353,7 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         }
         return getDriver().findElement(By.xpath("//td[text()='" + location + "']/following-sibling::td[" + columnNumber + "]"));
     }
-    public List<WebElement> organizationsList() { return getDriver().findElements(By.cssSelector("div.fc-grid__col.fc-grid__col--xs-12.fc-grid__col--sm-6.organizations__item.ng-binding.ng-scope")); }
+    public String organizationsList = "div.fc-grid__col.fc-grid__col--xs-12.fc-grid__col--sm-6.organizations__item.ng-binding.ng-scope";
     public WebElement athleticsInnerSection(String tabLabel) { return getDriver().findElement(By.xpath("//span[text()='" + tabLabel + "']")); }
     public WebElement athleticsTableValue(String sportName, String section) {
         String sectionNumber = "";
