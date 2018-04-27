@@ -3890,9 +3890,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  regularWeeklyHours;
     }
 
-}
-
-
     public void navigateToRVCalendar(){
         navBar.goToRepVisits();
         link("Calendar").click();

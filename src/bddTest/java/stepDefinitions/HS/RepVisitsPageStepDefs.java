@@ -340,9 +340,6 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify the success Message \"([^\"]*)\" in Availability Settings page",repVisits::verifySuccessMessage);
 
-
-    }
-}
         And("^HS I select custom time manually$",repVisits:: clickCustomeTimelink);
         And("^HS I select Visit StartTime \"([^\"]*)\" and End Time \"([^\"]*)\"$", repVisits:: visitStartandEndTime);
         And("^HS I verify Visits on Calendar created \"([^\"]*)\" from now$", repVisits :: verifyVisitDaysFromNow);
