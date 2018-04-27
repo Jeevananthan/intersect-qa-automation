@@ -3889,7 +3889,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement regularWeeklyHours= link("Regular Weekly Hours");
         return  regularWeeklyHours;
     }
-}
+
 
     public void navigateToRVCalendar(){
         navBar.goToRepVisits();
