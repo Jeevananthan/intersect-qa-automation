@@ -214,23 +214,6 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
         return generatedValues;
     }
 
-//    private void enterPublishReasonsText(String publishReason) {
-//        publishReasonsTextArea().sendKeys(publishReason);
-//    }
-//
-//    private void clickSubmitChangesButton() {
-//        submitChangesButton().click();
-//        new WebDriverWait(getDriver(), 40).until(ExpectedConditions.elementToBeClickable(By.linkText("Continue editing")));
-//    }
-//
-//    private void clickContinueEditingLink() {
-//        continueEditingLink().click();
-//    }
-//
-//    private void clickPublishButton() {
-//        publishButton().click();
-//    }
-//
     public void editAllFieldsBasedOnGatheredValues(DataTable stringsDataTable, HashMap<String, String> originalValues) {
         List<List<String>> details = stringsDataTable.asLists(String.class);
         HashMap<String, String> newValues = generateValues(originalValues);
@@ -241,6 +224,21 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
         publish.clickSubmitChangesButton();
         publish.clickContinueEditingLink();
         logger.info("All changes were submitted");
+    }
+
+    public void verifyErrorMessageWithInvalidData(DataTable stringsDataTable) {
+        List<List<String>> fieldsDetails = stringsDataTable.cells(0);
+        for (List<String> fieldElement : fieldsDetails) {
+            switch (fieldElement.get(0)) {
+                case "Test Scores" :
+                    getEditButton(fieldElement.get(0)).click();
+                    getTestScoresInnerSection(fieldElement.get(1)).click();
+                    innerEditSection(fieldElement.get(2)).clear();
+                    innerEditSection(fieldElement.get(2)).sendKeys(fieldElement.get(3));
+                    assertTrue("Error message is not displayed", errorMsg().isDisplayed());
+                    break;
+            }
+        }
     }
 
     //Locators
@@ -311,4 +309,5 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
         }
         return result;
     }
+    private WebElement errorMsg() { return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span")); }
 }

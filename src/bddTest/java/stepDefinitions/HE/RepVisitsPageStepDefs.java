@@ -30,7 +30,13 @@ public class RepVisitsPageStepDefs implements En {
 
         Then ("^HE I verify the upgrade messaging on the Travel Plan page in RepVisits$",repVisits::verifyUpgradeMessageInTravelPlanInRepVisits);
 
+        Then ("^HE I verify the see details link in RepVisits$",repVisits::verifySeeDetailsLinkInRepVisits);
+
         Then("^HE I verify the Check RepVisits Availability button$", repVisits::verifyCheckRepVisitsAvailabilityButton);
+
+        Then("^HS I go to the repvisits page$",repVisits::navigatetoRepVisits);
+
+        Then("^HS I select \"([^\"]*)\" to show view availability$",repVisits::selectAllRepVisitsUser);
 
         And("^HE I select \"([^\"]*)\" from the RepVisits search result$", repVisits::selectHighSchoolFromResults);
 
@@ -202,5 +208,40 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I remove the Fair appointment from the calendar$",repVisits::removeFairAppointmentfromCalendar);
 
+        Then("HE verify the Pills got disappear for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPills);
+
+        Then("^HE I search for school in RepVisits using \"([^\"]*)\"$",repVisits::searchSchoolinRepVisits);
+
+        Then("^HE I verify the unpaid users are blocked from exporting in Calendar page$",repVisits::verifyExportButtonInCalendar);
+
+        Then("^HE I verify the Export button is Enabled in Calendar page$",repVisits::verifyExportButtonisEnabledInCalendar);
+
+        Then("^HE I export the appointments for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::exportAppointmentsInCalendarPage);
+
+        Then("^HE I verify the downloaded Appointments csv file \"([^\"]*)\" contains following details$",repVisits::verifyDownloadedCsvFileInCalendar);
+
+        Then("^HE I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
+
+        And("^HE I verify the default toggle \"([^\"]*)\" is \"([^\"]*)\" in search and schedule Tab$",repVisits::verifyDefaultToggleinSearchAndSchedule);
+
+        And("^HE I verify the Availability slot \"([^\"]*)\" is displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\" in search and schedule Tab$",repVisits::verifyAvailabilitySlotInSearchAndSchedule);
+
+        And("^HE I verify the Availability slot \"([^\"]*)\" is not displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\" in search and schedule Tab$",repVisits::verifyAvailabilitySlotIsNotDisplayingInSearchAndSchedule);
+
+        Then("^HE I search the \"([^\"]*)\" by \"([^\"]*)\"$",repVisits::searchSchoolbyLocation);
+
+        Then("^HE I switch to the Support App$",repVisits::switchToSupportApp);
+
+        And("^HE I verify the \"([^\"]*)\" message in the homepage$",repVisits::verifyLoginMessageInHomPage);
+
+        Then("^HE I post a \"([^\"]*)\" Message in the homepage$",repVisits::postMessageInHomePage);
+
+        Then("HE I verify the title \"([^\"]*)\" in RepVisits branding header",repVisits::verifyRepVisitsBrandingHeader);
+
+        And("^HE I verify that rate or rating text is not present on Visit Feedback Overview page$", repVisits::verifyRateTextIsPresentInVFOverviewPage);
+
+        And("^HE I verify text displayed while viewing individual staff member feedback$", repVisits::verifyTextDisplayedOnViewingStaffFeedback);
+
+        And("^HE I verify the Repvisits Overview Upgrade Subscription page$", repVisits::verifyRepvisitsOverviewUpgradeSubscriptionPage);
     }
 }

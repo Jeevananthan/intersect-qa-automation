@@ -236,6 +236,44 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Accepts a DataTable that describes the diversity
+     *
+     * @param dataTable - Valid sections:  Diversity, Percentage, Select race or ethnicity etc.
+     */
+    public void setDiversityCriteria(DataTable dataTable) {
+        List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
+        chooseFitCriteriaTab("Diversity");
+        for (Map<String, String> criteria : entities) {
+            for (String key : criteria.keySet()) {
+                switch (key) {
+                    case "Diversity":
+                        if (criteria.get(key).contains("Overall"))
+                            overallDiversity().click();
+                        else
+                            specificDiversity().click();
+                        break;
+                    case "Percentage":
+                        diversityPercentDropdown().click();
+                        diversityPercentDropdown().findElement(By.xpath("//*[text()='" + criteria.get(key) + "']")).click();
+                        break;
+                    case "Select race or ethnicity":
+                        diversityRaceDropdown().click();
+                        diversityRaceDropdown().findElement(By.xpath("//*[text()='" + criteria.get(key) + "']")).click();
+                        break;
+                    case "% MALE VS. FEMALE":
+                        maleFemalePercentDropdown().click();
+                        maleFemalePercentDropdown().findElement(By.id("male-female-percent-selection-option-" + criteria.get(key) + "")).click();
+                        break;
+                    case "Gender":
+                        maleFemaleGenderDropdown().click();
+                        maleFemaleGenderDropdown().findElement(By.xpath("//*[text()='" + criteria.get(key) + "']")).click();
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
      * Accepts a String with the name of the option in the Resources fit criteria list to activate.
      * @param option String with the name of the option to enable.  e.x.: Counseling Services, Day Care Services, etc.
      */
@@ -452,61 +490,56 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         veryLargeStudentBodyLabel().click();
         Assert.assertTrue("'Very large (Over 20,000 students)' checkbox is not selected", veryLargeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Very large (Over 20,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("VERY LARGE (OVER 20,000 STUDENTS)"));
+        verifyMustHaveBoxContains("Student Body Size [1]");
         veryLargeStudentBodyLabel().click();
         Assert.assertFalse("'Very large (Over 20,000 students)' checkbox is selected", veryLargeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Very large (Over 20,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("VERY LARGE (OVER 20,000 STUDENTS)"));
-
+        verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         largeStudentBodyLabel().click();
         Assert.assertTrue("'Large (13,001 to 20,000 students)' checkbox is not selected", largeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Large (13,001 to 20,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("LARGE (13,001 TO 20,000 STUDENTS)"));
+        verifyMustHaveBoxContains("Student Body Size [1]");
         largeStudentBodyLabel().click();
         Assert.assertFalse("'Large (13,001 to 20,000 students)' checkbox is selected", largeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Large (13,001 to 20,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("LARGE (13,001 TO 20,000 STUDENTS)"));
-
+        verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         midSizeStudentBodyLabel().click();
         Assert.assertTrue("'Mid-Size (7,001 to 13,000 students)' checkbox is not selected", midSizeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Mid-Size (7,001 to 13,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("MID-SIZE (7,001 TO 13,000 STUDENTS)"));
+        verifyMustHaveBoxContains("Student Body Size [1]");
         midSizeStudentBodyLabel().click();
         Assert.assertFalse("'Mid-Size (7,001 to 13,000 students)' checkbox is selected", midSizeStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Mid-Size (7,001 to 13,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("MID-SIZE (7,001 TO 13,000 STUDENTS)"));
-
+        verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         mediumStudentBodyLabel().click();
         Assert.assertTrue("'Medium (4,001 to 7,000 students)' checkbox is not selected", mediumStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Medium (4,001 to 7,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("MEDIUM (4,001 TO 7,000 STUDENTS)"));
+        verifyMustHaveBoxContains("Student Body Size [1]");
         mediumStudentBodyLabel().click();
         Assert.assertFalse("'Medium (4,001 to 7,000 students)' checkbox is selected", mediumStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Medium (4,001 to 7,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("MEDIUM (4,001 TO 7,000 STUDENTS)"));
-
+        verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         smallStudentBodyLabel().click();
         Assert.assertTrue("'Small (2,001 to 4,000 students)' checkbox is not selected", smallStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Small (2,001 to 4,000 students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("SMALL (2,001 TO 4,000 STUDENTS)"));
+        verifyMustHaveBoxContains("Student Body Size [1]");
         smallStudentBodyLabel().click();
         Assert.assertFalse("'Small (2,001 to 4,000 students)' checkbox is selected", smallStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Small (2,001 to 4,000 students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("SMALL (2,001 TO 4,000 STUDENTS)"));
-
+        verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         verySmallStudentBodyLabel().click();
         Assert.assertTrue("'Very Small (2,000 or fewer students)' checkbox is not selected", verySmallStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertTrue("'Very Small (2,000 or fewer students)' fit criteria is not displayed in 'Must Have' box", getMustHaveBox().getText().contains("VERY SMALL (2,000 OR FEWER STUDENTS)"));
+        verifyMustHaveBoxContains("Student Body Size [1]");
         verySmallStudentBodyLabel().click();
         Assert.assertFalse("'Very Small (2,000 or fewer students)' checkbox is selected", verySmallStudentBodyCheckbox().isSelected());
         waitForUITransition();
-        Assert.assertFalse("'Very Small (2,000 or fewer students)' fit criteria is displayed in 'Must Have' box", getMustHaveBox().getText().contains("VERY SMALL (2,000 OR FEWER STUDENTS)"));
+        verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
     }
 
     public void verifySystemResponseWhenGPAInputIsValid() {
@@ -657,21 +690,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyGPACriteriaNotInMustHaveBox() {
-
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
-            admissionMenuItem().click();
-            waitForUITransition();
-        }
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("3");
-
-        Assert.assertTrue("Must have box doesn't contain GPA score fit criteria", getMustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
-                && !getMustHaveBox().getText().contains("3") && !getMustHaveBox().getText().toLowerCase().contains("gpa"));
-    }
-
     public void verifySystemResponseWhenACTScoreIsValid() {
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
@@ -709,7 +727,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             waitForUITransition();
         }
 
-        actScoreTextBox().clear();
+        // You can no longer enter a leading zero in ACT scores, or enter decimals at all.
+        /*actScoreTextBox().clear();
         actScoreTextBox().sendKeys("0");
         waitForUITransition();
         Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
@@ -718,7 +737,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         actScoreTextBox().sendKeys("18.1");
         waitForUITransition();
         Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
-
+*/
         actScoreTextBox().clear();
         actScoreTextBox().sendKeys("37");
         waitForUITransition();
@@ -747,21 +766,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals("6"));
 
-    }
-
-    public void verifyACTScoreCriteriaNotInMustHaveBox() {
-
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
-            admissionMenuItem().click();
-            waitForUITransition();
-        }
-
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("8");
-
-        Assert.assertTrue("Must have box doesn't contain ACT score fit criteria", getMustHaveBox().findElement(By.xpath("./p[@class='helper-text']")).isDisplayed()
-                && !getMustHaveBox().getText().contains("8") && !getMustHaveBox().getText().toLowerCase().contains("act"));
     }
 
     public void verifySurvey(String buttonLabel) {
@@ -962,6 +966,30 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement searchByDistance(){
         return driver.findElement(By.xpath("//input[@value='searchByDistance']/../label"));
+    }
+
+    private WebElement overallDiversity(){
+        return driver.findElement(By.xpath("//input[@value='overallDiversity']/../label"));
+    }
+
+    private WebElement specificDiversity(){
+        return driver.findElement(By.xpath("//input[@value='specificDiversity']/../label"));
+    }
+
+    private WebElement diversityPercentDropdown(){
+        return driver.findElement(By.id("supermatch-diversity-percent-dropdown"));
+    }
+
+    private WebElement diversityRaceDropdown(){
+        return driver.findElement(By.id("supermatch-diversity-race-dropdown"));
+    }
+
+    private WebElement maleFemalePercentDropdown(){
+        return driver.findElement(By.id("male-female-percent-dropdown"));
+    }
+
+    private WebElement maleFemaleGenderDropdown(){
+        return driver.findElement(By.id("male-female-gender-dropdown"));
     }
 
     private WebElement costFitCriteria(){
