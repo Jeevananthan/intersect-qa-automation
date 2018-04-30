@@ -903,7 +903,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I am Navigating to Calendar Home Screen
     And HS I click on button Add Visit
     And HS I select custom time manually
-    And HS I select a date "5" days ahead from now
+    And HS I select a date "3" days ahead from now
     And HS I select Visit StartTime "9:40am" and End Time "10:00am"
     And HS I click on link Add School User Manually
     And HS I Enter Following Data to Add a School User Manually
@@ -917,7 +917,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I click on Add Visit button
     And HS I click on Agenda on Calendar
     And Hs I open the date picker on Agenda View
-    And HS I select a date "5" days ahead from now from the standard date picker
+    And HS I select a date "3" days ahead from now from the standard date picker
     And HS I click on Day on Calendar
     And HS I click on Visit with "Alma College" from "9:40 AM" to "10:00 AM" on Day Calendar
     And HS I verify Representative details on Visit Details screen "amanda@hobsons.com"
