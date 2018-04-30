@@ -127,6 +127,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     default:
                         WebElement label = driver.findElement(By.xpath("//div[contains(text(),'" + key + "')]"));
                         WebElement item = getParent(label);
+                        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.className("_2WVz9-VTbgicuNzZo9Vc_o")));
                         String content = item.findElement(By.className("_2WVz9-VTbgicuNzZo9Vc_o")).getText();
                         Assert.assertTrue(key + " was not found in the popup",content.contains(school.get(key)));
                 }
@@ -381,6 +382,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         int count;
         navBar.goToRepVisits();
         getContactsBtn().click();
+        waitUntil(ExpectedConditions.visibilityOf(button("EXPORT CONTACTS")));
         Assert.assertTrue("Contacts is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).isDisplayed());
          count=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).size();
        try{ logger.info(count);}catch(Exception e){}
@@ -448,6 +450,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         executor.executeScript("arguments[0].click();",getCheckRepVisitsAvailabilityButton());
         //getCheckRepVisitsAvailabilityButton().click();
         driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.visibilityOf(getRepVisitsAvailabilitySidebar()));
         Assert.assertTrue("RepVisits Availability Sidebar is not displaying.", getRepVisitsAvailabilitySidebar().isDisplayed());
     }
 
@@ -737,6 +740,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void selectSchoolFromMap(String schoolName) {
         button(schoolName).click();
+        waitForUITransition();
         waitUntilPageFinishLoading();
     }
 
@@ -885,7 +889,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickOnDay(String date) {
-        driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+date+")]")).click();
+        driver.findElement(By.cssSelector("div[class='DayPicker-Body']")).findElement(By.xpath("//div[@class='DayPicker-Day' and text()='"+date+"']")).click();
             }
 
     public void findMonth(String month) {
@@ -1611,7 +1615,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             findMonth(calendarHeading, startOrEndDate);
         }else{button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
             findMonth(calendarHeading);}
-
+        if(parts[1].startsWith("0")) {
+            parts[1]=parts[1].replace("0","");
+        }
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
     }
@@ -2209,7 +2215,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchAndScheduleSearchBox(){ return textbox("Search by school name or location..."); }
     //private WebElement getSearchBox() { return textbox("Enter a school name or location");}
     private WebElement getSearchBoxforContact() { return driver.findElement(By.name("contacts-search"));}
-    private WebElement getSearchButton() { return driver.findElement(By.className("_3pWea2IV4hoAzTQ12mEux-"));}
+    private WebElement getSearchButton() { return driver.findElement(By.xpath("//i[@class='teal search large link icon Umyjf8WyIatPr6Rajw7y6']"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
