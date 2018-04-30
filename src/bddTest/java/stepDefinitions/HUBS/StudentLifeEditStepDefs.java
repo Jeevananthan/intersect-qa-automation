@@ -13,6 +13,7 @@ public class StudentLifeEditStepDefs implements En{
         StudentLifeEditPageImpl studentLifeEdit = new StudentLifeEditPageImpl();
 
         Then("^HUBS I should be able to edit the following fields for Student Life in real time:$", studentLifeEdit::verifyFieldsInRealTime);
+        Then("^HUBS I verify an error message when non valid data is used in Student Life:$", studentLifeEdit::verifyErrorMessageWithInvalidData);
     }
 
 }
