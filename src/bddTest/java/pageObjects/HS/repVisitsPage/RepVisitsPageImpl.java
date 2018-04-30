@@ -4049,11 +4049,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  getDriver().findElement(By.cssSelector("textarea#notification_contacts_additional_emails"));
     }
 
-    public void viewFairDetails(String fairName) {
+    /*public void viewFairDetails(String fairName) {
         accessSuccessMessageforFair("Close");
         waitForUITransition();
         getDriver().findElement(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr[1]/td[text()= '"+fairName+"' ]/following-sibling::td[4]/a/span")).click();
-         }
+         } */
 
     public void editCollegeFair(){
         waitUntilPageFinishLoading();
