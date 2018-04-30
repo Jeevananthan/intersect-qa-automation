@@ -220,6 +220,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the \"([^\"]*)\" button in the success page of the college fair$",repVisits::accessSuccessMessageforFair);
 
+        And ("^HS I verify the fairs are clickable \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyFairsAreClickable);
+
+        And ("^HS I cancel college fair created \"([^\"]*)\"$",repVisits::cancelCollegeFair);
+
         Then("^HS I Click on the \"([^\"]*)\" button in the College Fair Details Page$",repVisits::accessCollegeFairDetailsPage);
 
         And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
@@ -338,14 +342,24 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
 
+        And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
+
+        Then("^HS I verify the default calendar page present after the Wizard completion$",repVisits::verifydefaultRepVisitPage);
+
         And("^HS I verify the success Message \"([^\"]*)\" in Availability Settings page",repVisits::verifySuccessMessage);
 
+        And("^HS I Navigate to Notifications & Tasks tab of the Repvisits Page$",repVisits::clickLinkNotificationsAndTasks );
         And("^HS I select custom time manually$",repVisits:: clickCustomeTimelink);
         And("^HS I select Visit StartTime \"([^\"]*)\" and End Time \"([^\"]*)\"$", repVisits:: visitStartandEndTime);
         And("^HS I verify Visits on Calendar created \"([^\"]*)\" from now$", repVisits :: verifyVisitDaysFromNow);
         And("^HS I click on Agenda on Calendar$", repVisits :: clickAgenda);
         And("^HS I click on Day on Calendar$", repVisits :: clickDayCalendar);
 
+        And("^HS I click the Visit Feedback sub tab$", repVisits::clickLinkVisitFeedback);
+
+        And("^HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab$", repVisits::verifyTextAskingHSUserForFeedbackOnHEVisit);
+    }
+}
         And("^Hs I open the date picker on Agenda View$",repVisits :: clickAgendaDatePicker);
         And("^HS I click on Visit with \"([^\"]*)\" from \"([^\"]*)\" to \"([^\"]*)\" on Day Calendar$", repVisits ::clickVisitName);
         And("^HS I verify Internal Notes on Visit Details screen \"([^\"]*)\"$", repVisits :: verifyVisitInternalNotes);
