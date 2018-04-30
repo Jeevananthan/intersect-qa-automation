@@ -2521,13 +2521,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.id("am_notification_contacts_additional_emails"));
         return text;
     }
-    private WebElement saveButton(){
-        WebElement button=button("Save");
-        return button;
-    }
-    private WebElement checkBoxInAccountSettingsNotification(String value){
-        WebElement checkbox=driver.findElement(By.xpath("//label[text()='"+value+"']"));
+
+    private WebElement checkBoxInAccountSettingsNotification(String value) {
+        WebElement checkbox = driver.findElement(By.xpath("//label[text()='" + value + "']"));
         return checkbox;
+    }
 
     private boolean isButtonEnabledInSearchandScheduleTab(WebElement link) {
         //_3uhLnGGw9ic0jbBIDirRkC is the class that is added to indicate css active
