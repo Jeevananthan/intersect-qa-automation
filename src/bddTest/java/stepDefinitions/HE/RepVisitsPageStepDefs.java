@@ -46,7 +46,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I close the fair request popup$", repVisits::closeFairRequestPopup);
 
-        And("^HE I open the fairs tab$", repVisits::clickFairsTab);
+        And("^HE I open the getFairsButton tab$", repVisits::clickFairsTab);
 
         And("^HE I open the Fairs tab in Check RepVisits Availability sidebar$", repVisits::openFairsInChckRepVisitsAv);
 
@@ -54,13 +54,13 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I register to the \"([^\"]*)\" fair from Search and Schedule screen$", repVisits::registerFair);
 
-        Then("^HE I verify that the message for registered fairs with auto approval is displayed$", repVisits::verifySuccessMessageWithAutoApprovals);
+        Then("^HE I verify that the message for registered getFairsButton with auto approval is displayed$", repVisits::verifySuccessMessageWithAutoApprovals);
 
         Then("^HE I verify that the registered fair \"([^\"]*)\" is displayed in the calendar for the date \"([^\"]*)\" and time \"([^\"]*)\"$", repVisits::verifyFairInCalendar);
 
         Then("^HE I verify that the registered fair is displayed for \"([^\"]*)\" in the Search and Schedule quickview in the date \"([^\"]*)\" and time \"([^\"]*)\"$", repVisits::verifyFairInQuickView);
 
-        Then("^HE I verify that the message for registered fairs without auto approval is displayed$", repVisits::verifySuccessMessageWithoutAutoApprovals);
+        Then("^HE I verify that the message for registered getFairsButton without auto approval is displayed$", repVisits::verifySuccessMessageWithoutAutoApprovals);
 
         When("^HE I open the institution of ID \"([^\"]*)\"$", repVisits::openInstitutionByURLPartID);
 
@@ -112,13 +112,13 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the Notifications & Tasks using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotification);
 
-        Then("^HE I verify the Notifications & Tasks using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for fairs$",repVisits::verifyNotificationforFairs);
+        Then("^HE I verify the Notifications & Tasks using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for getFairsButton$",repVisits::verifyNotificationforFairs);
 
         Then("^HE I verify the Paginate the REQUESTS subtab via 25 entries with a \"([^\"]*)\" action to display the next 25 entries$",repVisits::verify25Entries);
 
         Then("^HE I click the View full details option in the Request subTab using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectViewDetails);
 
-        Then("^HE I click the View full details option in the Request subTab using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for fairs$",repVisits::selectViewDetailsforFairs);
+        Then("^HE I click the View full details option in the Request subTab using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for getFairsButton$",repVisits::selectViewDetailsforFairs);
 
         Then("^HE I verify the message \"([^\"]*)\" is displayed in the Request subTab$",repVisits::verifynoNotificationMessage);
 
@@ -214,8 +214,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the unpaid users are blocked from exporting in Calendar page$",repVisits::verifyExportButtonInCalendar);
 
-        Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
-
         Then("^HE I verify the Export button is Enabled in Calendar page$",repVisits::verifyExportButtonisEnabledInCalendar);
 
         Then("^HE I export the appointments for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::exportAppointmentsInCalendarPage);
@@ -245,5 +243,10 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify text displayed while viewing individual staff member feedback$", repVisits::verifyTextDisplayedOnViewingStaffFeedback);
 
         And("^HE I verify the Repvisits Overview Upgrade Subscription page$", repVisits::verifyRepvisitsOverviewUpgradeSubscriptionPage);
+
+        Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
+
+        Then("^HE I verify that the previously created fair does not appear for \"([^\"]*)\"$",repVisits::verifyCollegeFairNotVisible);
+
     }
 }

@@ -87,7 +87,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And ("^HS I click the Get Started button in the welcome milestone page$",repVisits::clickGetStartedBtn);
 
-        And ("^HS I navigate to college fairs,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
+        And ("^HS I navigate to college getFairsButton,visits through availability option$",repVisits::navigateToFairsAndVisistsAndVerifyEachScreen);
 
         Then ("^HS I set the Visit Availability of RepVisits Availability Settings to \"([^\"]*)\"$",repVisits::accessVisitAvailability);
 
@@ -205,7 +205,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the \"([^\"]*)\" button in the success page of the college fair$",repVisits::accessSuccessMessageforFair);
 
-        And ("^HS I verify the fairs are clickable \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyFairsAreClickable);
+        And ("^HS I verify the getFairsButton are clickable \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyFairsAreClickable);
 
         And ("^HS I cancel college fair created \"([^\"]*)\"$",repVisits::cancelCollegeFair);
 
@@ -260,6 +260,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS date$", repVisits::enterCollegeFairData);
 
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
+
+        Then("^HS I create a dynamic College Fair with the following data$", repVisits::createDynamicCollegeFair);
 
         And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
 
@@ -338,5 +340,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I click the Visit Feedback sub tab$", repVisits::clickLinkVisitFeedback);
 
         And("^HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab$", repVisits::verifyTextAskingHSUserForFeedbackOnHEVisit);
+
+        Then("^HS I unpublish the College Fair$", repVisits::unpublishCollegeFair);
     }
 }

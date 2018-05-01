@@ -82,8 +82,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
   @MATCH-2082
   Scenario: As an HE user, I want to only see college fairs that have been published by a high school.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    #TODO -- This doesn't create dynamic names, consider using a different method/writing a new one.
-    Then HS I create a College Fair with the following data
+    Then HS I create a dynamic College Fair with the following data
       | College Fair Name                                         | MATCH-2082 Fair         |
       | Automatically Confirm Incoming Requestions From Colleges? | no                      |
       | Cost                                                      | 10                      |
@@ -95,25 +94,17 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
       | Number of Students Expected                               | 10                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
-    And HS I successfully sign out
   # Log into HE app and verify that the fair is visible
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify that the previously created fair appears for "Int QA High School 4"
-
-
-
-
- #   Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
- #   And HE I successfully sign out
- #   Given HE I am logged in to Intersect HE as user type "publishing"
- #   Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
- #   And HE I successfully sign out
-  # Log back into the HS app to accept and decline the attendance requests from above
- #   Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
- #   Then HS I make sure the "Confirm" button works properly for college fair attendee requests for "Fair QA Test#03"
- #   Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
- #   Then HS I cancel the "Fair QA Test#03" College Fair
- #   And HS I successfully sign out
+  # Log into HS app and unpublish the previous College Fair
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
+    And HS I click on Edit button to edit fair
+    Then HS I unpublish the College Fair
+  # Log into HE app and verify that the fair is not visible
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify that the previously created fair does not appear for "Int QA High School 4"
 
   @manual @NotInQA
   Scenario: As a HE user, I need to verify that the error message when the fair is not available anymore
@@ -130,6 +121,8 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
     And HE I navigate back to first browser
     And HE I register to the "TestFair" fair from Search and Schedule screen
     Then HE I should see a red upper bar with the text: "Sorry, this fair is no longer available. Please select another fair:"
+
+
 
 
 
