@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.security.Key;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -290,8 +291,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//button[@class='ui button _1RspRuP-VqMAKdEts1TBAC']")).sendKeys(Keys.PAGE_DOWN);
         button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
-        driver.findElement(By.xpath("//button[@class='ui small button IHDZQsICrqtWmvEpqi7Nd']")).sendKeys(Keys.PAGE_DOWN);
-        driver.findElement(By.xpath("//input[@id='availability-end-time']")).sendKeys(Keys.PAGE_DOWN);
+        Actions action = new Actions(getDriver());
+        action.sendKeys(Keys.PAGE_DOWN).sendKeys(Keys.PAGE_DOWN).build().perform();
         waitUntilElementExists(selectDay());
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
         inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
@@ -299,6 +300,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        if(driver.findElements(By.xpath("//div[@class='ui small modal transition visible active']")).size()>0){
+            selectOptionInReviewPreviouslyDeletedTimeSlotsModal
+                    ("Add time slot to regular hours, but DO NOT create for the dates above");
+        }
+    }
+
+    /**
+     *
+     * Selects the given option in Review Previously Deleted Time Slots Modal
+     * @param option to be selected
+     */
+    public void selectOptionInReviewPreviouslyDeletedTimeSlotsModal(String option){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@class='ui small modal transition visible active']")));
+        driver.findElement(By.xpath(String.format("//label[text()='%s']",option))).click();
+        button("ADD REGULAR HOURS").click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='ui small modal transition visible active']")));
     }
 
     public void setPreventCollegesSchedulingNewVisits(String Numberofdays){
@@ -2943,6 +2962,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * deletes a slot time in the regular weekly hours
+     *
+     * @param day,  the day of the slot time to be deleted: MON, TUE, WED, THU, FRI
+     * @param time, the time of the slot time to be deleted: 8:25PM
+     */
+    public void removeSlotTimeByDayAndTime(String day, String time) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("REGULAR WEEKLY HOURS").click();
+        boolean slotWasDeleted = false;
+        Map<String, String> days = new HashMap<String, String>();
+        days.put("Mon", "0");
+        days.put("Tue", "1");
+        days.put("Wed", "2");
+        days.put("Thu", "3");
+        days.put("Fri", "4");
+        WebElement table = driver.findElement(By.xpath(".//tbody"));
+        List<WebElement> rows = table.findElements(By.xpath(".//tr"));
+        for (WebElement row : rows) {
+            List<WebElement> timeSlots = row.findElements(By.xpath(".//td"));
+            if (!timeSlots.get(Integer.parseInt(days.get(day))).findElements
+                    (By.xpath(String.format(".//div/button[text()='%s']", time))).isEmpty()) {
+                WebElement deleteButton = timeSlots.get(Integer.parseInt(days.get(day)))
+                        .findElement(By.xpath(".//span/i"));
+                deleteButton.click();
+                getRemoveTimeSlotButton().click();
+                slotWasDeleted = true;
+                break;
+            }
+        }
+        Assert.assertTrue(String.format("The time slot with day: %s and time: %s was not deleted", day, time), slotWasDeleted);
+    }
+
     //Function Name  : getColumnIdByUsingColumnName() for Regular Weekly Hours
     public int  getColumnIdFromTable(String tableHeaderLocator, String fieldName)
     {
@@ -4062,5 +4116,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement regularWeeklyHours= link("Regular Weekly Hours");
         return  regularWeeklyHours;
+    }
+
+    private WebElement getRemoveTimeSlotButton() {
+        return button("REMOVE");
     }
 }

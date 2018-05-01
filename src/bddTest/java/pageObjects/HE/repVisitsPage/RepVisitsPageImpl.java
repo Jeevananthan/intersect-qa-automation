@@ -1,6 +1,8 @@
 package pageObjects.HE.repVisitsPage;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.cs.A;
+import cucumber.api.java.gl.E;
 import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -119,6 +121,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     default:
                         WebElement label = driver.findElement(By.xpath("//div[contains(text(),'" + key + "')]"));
                         WebElement item = getParent(label);
+                        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.className("_2WVz9-VTbgicuNzZo9Vc_o")));
                         String content = item.findElement(By.className("_2WVz9-VTbgicuNzZo9Vc_o")).getText();
                         Assert.assertTrue(key + " was not found in the popup",content.contains(school.get(key)));
                 }
@@ -373,6 +376,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         int count;
         navBar.goToRepVisits();
         getContactsBtn().click();
+        waitUntil(ExpectedConditions.visibilityOf(button("EXPORT CONTACTS")));
         Assert.assertTrue("Contacts is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).isDisplayed());
          count=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).size();
        try{ logger.info(count);}catch(Exception e){}
@@ -440,6 +444,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         executor.executeScript("arguments[0].click();",getCheckRepVisitsAvailabilityButton());
         //getCheckRepVisitsAvailabilityButton().click();
         driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.visibilityOf(getRepVisitsAvailabilitySidebar()));
         Assert.assertTrue("RepVisits Availability Sidebar is not displaying.", getRepVisitsAvailabilitySidebar().isDisplayed());
     }
 
@@ -729,6 +734,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void selectSchoolFromMap(String schoolName) {
         button(schoolName).click();
+        waitForUITransition();
         waitUntilPageFinishLoading();
     }
 
@@ -877,7 +883,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickOnDay(String date) {
-        driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[contains(text(), "+date+")]")).click();
+        driver.findElement(By.cssSelector("div[class='DayPicker-Body']")).findElement(By.xpath("//div[@class='DayPicker-Day' and text()='"+date+"']")).click();
             }
 
     public void findMonth(String month) {
@@ -1603,7 +1609,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             findMonth(calendarHeading, startOrEndDate);
         }else{button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
             findMonth(calendarHeading);}
-
+        if(parts[1].startsWith("0")) {
+            parts[1]=parts[1].replace("0","");
+        }
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
     }
@@ -1811,6 +1819,69 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyTravelPlanIsLocked(){
         navigateToRepVisitsSection("Travel Plan");
         Assert.assertTrue("Travel Plan is not locked",text("Unlock Travel Plan").isDisplayed());
+    }
+     public void navigateToInstitutionNotificationPage(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        institutionNotification().click();
+    }
+
+    public void verifyInstitutionNotificationPage(){
+        // Temporary fix because an error is displayed due to amount of data to be processed
+        for(int i=0; i<10;i++){
+                        try{
+                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
+                                                xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
+                                navigateToInstitutionNotificationPage();
+                                waitUntilPageFinishLoading();
+                            } catch (Exception e){
+                                break;
+                            }
+                    }
+        Assert.assertTrue("Institution Notifications is not displayed",institutionNotificationText().isDisplayed());
+        Assert.assertTrue("Naviance ActiveMatch is not displayed",navianceActiveMatchText().isDisplayed());
+        Assert.assertTrue("Email Textbox is not displayed",emailTextBox().isDisplayed());
+        Assert.assertTrue("Save button is not displayed",saveButton().isDisplayed());
+    }
+
+    public void validateEmailInInstitutionNotificationPage(String Email,String InvalidEmail,String ValidEmail){
+        emailTextBox().clear();
+        emailTextBox().sendKeys(Email);
+        emailTextBox().sendKeys(InvalidEmail);
+        saveButton().click();
+        Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//span[text()='Emails must be valid and separated by comma.']")).isDisplayed());
+        emailTextBox().clear();
+        emailTextBox().sendKeys(Email);
+        emailTextBox().sendKeys(ValidEmail);
+        saveButton().click();
+        waitUntilPageFinishLoading();
+        String ExactMessage=driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
+        String SuccessMessage="Success! You've updated your notifications settings.";
+        Assert.assertTrue("Success Message is not displayed", ExactMessage.equals(SuccessMessage));
+    }
+
+    public void validateCheckboxInInstitutionNotificationPage(String checkboxValue){
+        checkBoxInAccountSettingsNotification(checkboxValue).click();
+        checkBoxInAccountSettingsNotification(checkboxValue).click();
+    }
+
+    public void verifyNotificationTabinNonAdmin(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        List<WebElement> list = driver.findElements(By.xpath("//span[text()='Institution Notifications']"));
+        Assert.assertTrue("'Institution Notifications' is displayed in Account settings page",list.size()==0);
+   }
+
+    public void verifyNavigationInNonAdminByURl(){
+        load(GetProperties.get("he.accountsettings.url"));
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Authorization message is not displayed in Account settings page",driver.findElement(By.xpath("//div/h1[text()='You are not authorized to view the content on this page']")).isDisplayed());
     }
 
     private WebElement upgradeButton(){
@@ -2464,6 +2535,37 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchByLocationTextBox(){
         return textbox("Search by location...");
     }
+
+    private WebElement userDropDown(){
+        WebElement button=driver.findElement(By.id("user-dropdown"));
+        return button;
+    }
+    private WebElement accountSettings(){
+        WebElement link=driver.findElement(By.xpath("//span[text()='Account Settings']"));
+        return link;
+    }
+    private WebElement institutionNotification(){
+        WebElement link=driver.findElement(By.xpath("//span[text()='Institution Notifications']"));
+        return link;
+    }
+    private WebElement institutionNotificationText(){
+        WebElement text=driver.findElement(By.xpath("//span[text()='Institution Notifications']"));
+        return text;
+    }
+    private WebElement navianceActiveMatchText(){
+        WebElement text=driver.findElement(By.xpath("//span[text()='Naviance ActiveMatch']"));
+        return text;
+    }
+    private WebElement emailTextBox(){
+        WebElement text=driver.findElement(By.id("am_notification_contacts_additional_emails"));
+        return text;
+    }
+
+    private WebElement checkBoxInAccountSettingsNotification(String value) {
+        WebElement checkbox = driver.findElement(By.xpath("//label[text()='" + value + "']"));
+        return checkbox;
+    }
+
     private boolean isButtonEnabledInSearchandScheduleTab(WebElement link) {
         //_3uhLnGGw9ic0jbBIDirRkC is the class that is added to indicate css active
         return link.getAttribute("class").contains("_3uhLnGGw9ic0jbBIDirRkC");
@@ -2480,6 +2582,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement headerContainer = driver.findElement(By.cssSelector(
                 "div[class='hidden-mobile hidden-tablet _3ExBVDvA2sy-YCcBYK00PU']"));
         return headerContainer;
+
     }
 }
 

@@ -221,6 +221,18 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the downloaded Appointments csv file \"([^\"]*)\" contains following details$",repVisits::verifyDownloadedCsvFileInCalendar);
 
         Then("^HE I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
+      
+        Then("^HE I navigate to the Institution Notification page$",repVisits::navigateToInstitutionNotificationPage);
+
+        Then("^HE I verify the Institution Notification page$",repVisits::verifyInstitutionNotificationPage);
+
+        Then("^HE I validate the Email in the Institution Notification page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::validateEmailInInstitutionNotificationPage);
+
+        Then("^HE I validate the Checkbox in the Institution Notification page using \"([^\"]*)\"$",repVisits::validateCheckboxInInstitutionNotificationPage);
+
+        Then("^HE I verify the Non-admins do not have the tab in navigation$",repVisits::verifyNotificationTabinNonAdmin);
+
+        Then("^HE I verify the Non-admins cannot reach the page directly by URL$",repVisits::verifyNavigationInNonAdminByURl);
 
         And("^HE I verify the default toggle \"([^\"]*)\" is \"([^\"]*)\" in search and schedule Tab$",repVisits::verifyDefaultToggleinSearchAndSchedule);
 

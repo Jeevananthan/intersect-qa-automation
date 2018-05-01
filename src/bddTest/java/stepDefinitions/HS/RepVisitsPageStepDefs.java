@@ -341,6 +341,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab$", repVisits::verifyTextAskingHSUserForFeedbackOnHEVisit);
 
+        And("^HS I remove the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::removeSlotTimeByDayAndTime);
+
         Then("^HS I unpublish the College Fair$", repVisits::unpublishCollegeFair);
     }
 }
