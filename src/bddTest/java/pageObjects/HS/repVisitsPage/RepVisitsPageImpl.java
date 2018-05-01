@@ -727,7 +727,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.navigate().back();
         waitUntilPageFinishLoading();
 
-        button("Get started with college getFairsButton").click();
+        button("Get started with college fairs").click();
         Assert.assertTrue("College Fair at Int QA High School is not displayed", text("CollegeFairs at Int Qa High School 4").isDisplayed());
 
     }
@@ -2367,7 +2367,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             button("Close").click();
         }
         else{
-            Assert.assertTrue("There were no job getFairsButton registered for this high school.", false);
+            Assert.assertTrue("There were no job fairs registered for this high school.", false);
         }
         Assert.assertFalse("College fair was not canceled.", getDriver().findElements(By.xpath("//span[contains(text(), 'Upcoming Events')]/../../following-sibling::table/tbody/tr/td[contains(text(), '"+fairName+"')]")).size() >= 1);
     }
@@ -3109,11 +3109,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void  verifyRepVisitsPageWhenNoVisitsScheduledForNext7Days() {
 
-        Assert.assertTrue("'You don't have any visits or getFairsButton for the next week' text is not displayed",
-                driver.findElement(By.xpath("//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y _2yDDA7hJhhRjDz5LtnmL-e']")).getText().equals("You don't have any visits or getFairsButton for the next week."));
+        Assert.assertTrue("'You don't have any visits or fairs for the next week' text is not displayed",
+                driver.findElement(By.xpath("//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y _2yDDA7hJhhRjDz5LtnmL-e']")).getText().equals("You don't have any visits or fairs for the next week."));
         Assert.assertTrue("Calendar icon is not displayed", driver.findElement(By.xpath("(//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y'])[1]")).isDisplayed());
-        Assert.assertTrue("'It looks like you don't have any upcoming visits or getFairsButton in the next 7 days.' text is not displayed",
-                driver.findElement(By.xpath("(//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y'])[2]")).getText().equals("It looks like you don't have any upcoming visits or getFairsButton in the next 7 days.\n" +
+        Assert.assertTrue("'It looks like you don't have any upcoming visits or fairs in the next 7 days.' text is not displayed",
+                driver.findElement(By.xpath("(//div[@class='column _2oJjQM9p7RJ4cIsu8IJs-y'])[2]")).getText().equals("It looks like you don't have any upcoming visits or fairs in the next 7 days.\n" +
                 "You can always check your calendar for more upcoming appointments."));
         link("calendar").click();
 

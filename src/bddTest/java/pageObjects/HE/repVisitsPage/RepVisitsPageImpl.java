@@ -497,7 +497,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySuccessMessageWithAutoApprovals() {
-        Assert.assertTrue("The sucess message for getFairsButton with Auto Approval enabled is not displayed",
+        Assert.assertTrue("The sucess message for fairs with Auto Approval enabled is not displayed",
                 upperMessage().getText().trim().equals("Fair registration confirmed! Your request has been automatically " +
                         "confirmed by the high school."));
     }
@@ -1303,8 +1303,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Locked' icon is not displayed", driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
         Assert.assertTrue("'Unlock Overview' text is not displayed", text("Unlock Overview").isDisplayed());
         Assert.assertTrue("'You'll get right to work faster' text is not displayed", text("You'll get right to work faster").isDisplayed());
-        Assert.assertTrue("'The Overview provides a summary of your scheduled visits and getFairsButton for the week with easy access to appointment details—all in one quick view.' text is not displayed",
-                driver.findElement(By.className("yA0LbT1wFzAHyLC-oUZgc")).getText().equals("The Overview provides a summary of your scheduled visits and getFairsButton for the week with easy access to appointment details—all in one quick view."));
+        Assert.assertTrue("'The Overview provides a summary of your scheduled visits and fairs for the week with easy access to appointment details—all in one quick view.' text is not displayed",
+                driver.findElement(By.className("yA0LbT1wFzAHyLC-oUZgc")).getText().equals("The Overview provides a summary of your scheduled visits and fairs for the week with easy access to appointment details—all in one quick view."));
         Assert.assertTrue("'UPGRADE' button is not displayed", button("UPGRADE").isDisplayed());
 
         button("UPGRADE").click();
@@ -1664,8 +1664,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     //The below method will verify the message which will display when there is no visit/fair for the next week.
     public void verifyDefaultMessageOverviewPage(){
-        if(text("You don't have any visits or getFairsButton for the next week.").isDisplayed()){
-            Assert.assertTrue("You don't have any visits or getFairsButton for the next week. text message is not displaying.", text("You don't have any visits or getFairsButton for the next week.").isDisplayed());
+        if(text("You don't have any visits or fairs for the next week.").isDisplayed()){
+            Assert.assertTrue("You don't have any visits or fairs for the next week. text message is not displaying.", text("You don't have any visits or fairs for the next week.").isDisplayed());
             Assert.assertTrue("You can always make appointments by using the text is not displaying.", text("You can always make appointments by using the").isDisplayed());
             Assert.assertTrue("Search and Schedule link is not displaying.", link("Search and Schedule").isDisplayed());
             link("Search and Schedule").click();
@@ -2095,7 +2095,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
-     * Verifies that the college fair stored in HS.repVisitsPage.FairName is visible in the getFairsButton list for the given school
+     * Verifies that the college fair stored in HS.repVisitsPage.FairName is visible in the fairs list for the given school
      * @param schoolName - Name of the school to look for the fair under.
      */
     public void verifyCollegeFairVisible(String schoolName) {
@@ -2108,11 +2108,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getFairsButton().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("College Fair: " + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + " was not displayed in upcoming getFairsButton list",driver.findElement(By.xpath("//span[text()='" + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + "']")).isDisplayed());
+        Assert.assertTrue("College Fair: " + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + " was not displayed in upcoming fairs list",driver.findElement(By.xpath("//span[text()='" + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + "']")).isDisplayed());
     }
 
     /**
-     * Verifies that the college fair stored in HS.repVisitsPage.FairName is not visible in the getFairsButton list for the given school
+     * Verifies that the college fair stored in HS.repVisitsPage.FairName is not visible in the fairs list for the given school
      * @param schoolName - Name of the school to look for the fair under.
      */
     public void verifyCollegeFairNotVisible(String schoolName) {
@@ -2127,7 +2127,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         try {
-            Assert.assertFalse("College Fair: " + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + " was displayed in upcoming getFairsButton list",driver.findElement(By.xpath("//span[text()='" + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + "']")).isDisplayed());
+            Assert.assertFalse("College Fair: " + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + " was displayed in upcoming fairs list",driver.findElement(By.xpath("//span[text()='" + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + "']")).isDisplayed());
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         } catch (Exception e) {
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
