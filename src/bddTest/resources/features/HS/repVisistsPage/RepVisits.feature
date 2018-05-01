@@ -586,9 +586,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I successfully sign out
 
     Examples:
-      |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
-      |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|
-
+    |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
+    |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|
 
   @MATCH-1631 @MATCH-1463
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
@@ -669,7 +668,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School              |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo|user      |eMail                        |
-      |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|hobsons.rrt+other16@gmail.com|
+      |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|naviance-email@mock.com|
 
 
   @MATCH-2444
@@ -714,3 +713,164 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Max visits met          | rgba(233, 233, 245, 1) |
       |Fully booked            | rgba(233, 238, 245, 1) |
       |Appointment scheduled   | rgba(233, 238, 245, 1) |
+
+  @MATCH-2381 @test
+  Scenario: As a HS RepVisits user verify note to let users know their contact info will be visible
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click button Add a College Fair to Add a fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+    And HS I click View Details against fair
+    And HS I click on Edit button to edit fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I successfully sign out
+
+  @MATCH-2381 @test
+  Scenario: As a Non Naviance HS RepVisits user verify note to let users know their contact info will be visible
+    Given HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "Control!23" as password
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click button Add a College Fair to Add a fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+    And HS I click View Details against fair
+    And HS I click on Edit button to edit fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I successfully sign out
+
+  @MATCH-1484
+  Scenario Outline: A RepVisits user, I want to be able to export my visit data,
+            So that I can easily show and sort the data to students/parents/my boss.
+#Verify unpaid HE users are blocked from exporting
+    Given HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
+    Then HE I verify the unpaid users are blocked from exporting in Calendar page
+    Then HE I successfully sign out
+
+#CREATE VISITS AND FAIRS
+#precondition
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+
+#Exporting appointments
+    Then HE I verify the Export button is Enabled in Calendar page
+    Then HE I export the appointments for the following details "<StartDate>","<EndDate>"
+    Then HE I verify the downloaded Appointments csv file "RepVisitsEvents.csv" contains following details
+      |Appt Type/Fair Name|High School|Appt Date|Appt Time Zone|Appt Start|Appt Finish|Status|Address|City|State|Zip|Contact|Title|Email|Phone|
+    Then HE I delete the downloaded Appointments Cvs file "RepVisitsEvents.csv"
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify the Export button is Enabled in Calendar page
+    Then HS I export the appointments for the following details "<StartDate>","<EndDate>"
+    Then HS I verify the downloaded Appointments csv file "RepVisitsEvents.csv" contains following details
+    |Appt Type/Fair Name|Number Attending|Appt Date|Appt Start|Appt Finish|Appt Location|Status|Rep Name|Rep Title|College|City|State|email|phone|
+    Then HS I delete the downloaded Appointments Cvs file "RepVisitsEvents.csv"
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
+  Examples:
+  |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                             |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |
+  |7   |10:      |11:25pm |3        |7        |14      |11:25pm      |Yes, accept all incoming requests. |Int Qa High School 4    |10:         |10:     |QAs Fairs tests       |14   |0900AM    |1000AM |7            |$25 |25                    |100                        | Save          |
+
+ @MATCH-1812
+  Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools who have made their RepVisits availability publicly available
+                    so HE users are not presented with high schools in the search results that don't use RepVisits.
+#Pre-condition
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+#by SchoolLocation
+    Then HE I search the "<School>" by "<location>"
+    Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
+    Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
+    Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
+#by SchoolName
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
+    Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
+    Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+#by SchoolLocation
+    Then HE I search the "<School>" by "<location>"
+    Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
+    Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
+    Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
+#by SchoolName
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
+    Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
+    Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
+    Then HE I successfully sign out
+#Post-Condition
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    And HS I successfully sign out
+
+  Examples:
+    |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         |
+    |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |14  |Liberty Township |
+
+ @MATCH-2436
+  Scenario: As a HS user, I want to be taken to the Calendar page (month view) after my school's RepVisits' wizard has been completed
+            so I don't see the Overview page as my first experience with RepVisits.
+   #Naviance
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I navigate to the college visits page
+    Then HS I verify the default calendar page present after the Wizard completion
+    And HS I successfully sign out
+   #Non-Naviance
+    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    And HS I navigate to the college visits page
+    Then HS I verify the default calendar page present after the Wizard completion
+    And HS I successfully sign out
+
+  @MATCH-2728
+  Scenario Outline: As an HS RepVisists user who I click on a College Fair in the calendar
+  I want to be able to edit fairs in the summary drawer
+  So that calendar appointments all have a consistent interface
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    And HS I verify the fairs are clickable "<College Fair Name>","<VerifyDateEdit>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>"
+    Then HS I cancel college fair created "<College Fair Name>"
+    Examples:
+      |College Fair Name |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
+      |Fair#778         |December 12 2017|0900AM    |1000AM  |April 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
+
+  @MATCH-3101
+  Scenario: As a HS Repvisits user, I should be able to see the text '#HE User# has asked for feedback on their recent visit.' in every entry present in
+            Visit Feedback Pending tab
+    Given HS I want to login to the HS app using "purpleheautomation+hstest@gmail.com" as username and "Password!1" as password
+    Then HS I Navigate to Notifications & Tasks tab of the Repvisits Page
+    Then HS I click the Visit Feedback sub tab
+    Then HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab
