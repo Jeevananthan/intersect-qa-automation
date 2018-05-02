@@ -53,4 +53,4 @@ Feature: HE- RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be a
 
     Examples:
       |hsEndTime|heStartTime  |heTime  |SchoolName             |Date    |Day   |HourStartTime|HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|StartDate  |EndDate  |Option                                              |
-      |01:30am  |1:29am       |01:29   |Int Qa High School 4   |1       |Friday|1            |1          |29             |30           |am               |am             |3        |0          |10       |No, I want to manually review all incoming requests.|
+      |01:30am  |1:29am       |01:29   |Int Qa High School 4   |7       |Friday|1            |1          |29             |30           |am               |am             |3        |0          |10       |No, I want to manually review all incoming requests.|
