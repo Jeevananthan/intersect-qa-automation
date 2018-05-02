@@ -131,44 +131,50 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyZipCodeValidationMessage() {
+    public void verifyZipCodeValidationMessage(DataTable dataTable) {
+        String locationSearchType, selectMiles, zipCode, verifyErrorMessageIsDisplayed, verifyErrorMessageIsNotDisplayed
+                , verifyPillIsDisplayedInMustHaveBox, verifyPillIsNotDisplayedInMustHaveBox;
         openFitCriteria("Location");
 
-        selectRadioButton("Search by distance");
+        List<List<String>> rows = dataTable.asLists(String.class);
 
-        //Verify that pills are not created until both Miles are selected and a valid zip code entered
-        selectOptionFromSelectMilesListBox("Within 500 miles");
-        verifyMustHaveBoxDoesNotContain("Within 500 miles");
+        for(int index = 1; index < rows.size(); index++)
+        {
+            locationSearchType = rows.get(index).get(0);
+            if(locationSearchType != null && locationSearchType.trim().length() != 0)
+                selectRadioButton(locationSearchType);
 
-        selectOptionFromSelectMilesListBox("Select Miles");
-        zipCodeTextBox().sendKeys("90001");
-        verifyMustHaveBoxDoesNotContain("90001");
+            selectMiles = rows.get(index).get(1);
+            if(selectMiles != null && selectMiles.trim().length() != 0)
+                selectOptionFromSelectMilesListBox(selectMiles);
 
-        selectOptionFromSelectMilesListBox("Within 25 miles");
-        zipCodeTextBox().clear();
-        zipCodeTextBox().sendKeys("90001");
-        verifyMustHaveBoxContains("Within 25 miles of 90001");
+            zipCode = rows.get(index).get(2);
+            if(zipCode != null && zipCode.trim().length() != 0) {
+                zipCodeTextBox().clear();
+                zipCodeTextBox().sendKeys(zipCode);
+            }
 
-        //Verify the 'Enter a valid, 5 digit zip code' validation message
-        zipCodeTextBox().clear();
-        zipCodeTextBox().sendKeys("9000");
-        Assert.assertFalse(driver.findElement(By.xpath("//div[@class='div-distance']")).getText().contains("Enter a valid, 5 digit zip code"));
+            verifyErrorMessageIsDisplayed = rows.get(index).get(3);
+            if(verifyErrorMessageIsDisplayed != null && verifyErrorMessageIsDisplayed.trim().length() != 0) {
+                Assert.assertFalse(driver.findElement(By.xpath("//div[@class='div-distance']")).getText().contains(verifyErrorMessageIsDisplayed));
 
-        waitForUITransition();
-        waitForUITransition();
+                waitForUITransition();
+                waitForUITransition();
 
-        Assert.assertTrue(driver.findElement(By.xpath("//div[@class='div-distance']")).getText().contains("Enter a valid, 5 digit zip code"));
+                Assert.assertTrue(driver.findElement(By.xpath("//div[@class='div-distance']")).getText().contains(verifyErrorMessageIsDisplayed));
+            }
 
-        //Verify Network error message
-        selectOptionFromSelectMilesListBox("Within 25 miles");
-        zipCodeTextBox().clear();
-        zipCodeTextBox().sendKeys("90001");
-        zipCodeTextBox().sendKeys(Keys.BACK_SPACE);
-        waitForUITransition();
+            verifyPillIsDisplayedInMustHaveBox = rows.get(index).get(4);
+            if(verifyPillIsDisplayedInMustHaveBox != null && verifyPillIsDisplayedInMustHaveBox.trim().length() != 0) {
+                verifyMustHaveBoxContains(verifyPillIsDisplayedInMustHaveBox);
+            }
 
-        verifyMustHaveBoxDoesNotContain("9000");
-        Assert.assertFalse("'Network error message is displayed when an invalid zip code is entered'", driver.getPageSource().contains("Network error: Failed to fetch"));
+            verifyPillIsNotDisplayedInMustHaveBox = rows.get(index).get(5);
+            if(verifyPillIsNotDisplayedInMustHaveBox != null && verifyPillIsNotDisplayedInMustHaveBox.trim().length() != 0) {
+                verifyMustHaveBoxDoesNotContain(verifyPillIsNotDisplayedInMustHaveBox);
+            }
 
+        }
     }
 
     public void selectOptionFromSelectMilesListBox(String optionText) {
