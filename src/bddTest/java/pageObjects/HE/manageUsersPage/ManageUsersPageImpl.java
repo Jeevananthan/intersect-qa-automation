@@ -119,8 +119,10 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEmailChangedNotification(DataTable data) {
+        waitForUITransition();
         GetProperties.setGmailAPIWait(60);     //Time unit is in seconds
         try {
+            waitForUITransition();
             List<Email> emails = getGmailApi().getMessages(data);
 
             for (Email email : emails) {

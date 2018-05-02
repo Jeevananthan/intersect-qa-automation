@@ -889,7 +889,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickOnDay(String date) {
-        driver.findElement(By.cssSelector("div[class='DayPicker-Body']")).findElement(By.xpath("//div[@class='DayPicker-Day' and text()='"+date+"']")).click();
+        driver.findElement(By.cssSelector("div[class='DayPicker-Body']")).findElement(By.xpath("//div[contains(@class,'DayPicker-Day') and @aria-disabled='false' and text()='"+date+"']")).click();
             }
 
     public void findMonth(String month) {
