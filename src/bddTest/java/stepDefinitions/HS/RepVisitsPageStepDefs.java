@@ -346,5 +346,8 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I remove the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::removeSlotTimeByDayAndTime);
 
         Then("^HS I unpublish the College Fair$", repVisits::unpublishCollegeFair);
+
+        Then("^HS I verify the data for the fair present on the College Fair Overview page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairOverview);
+
     }
 }
