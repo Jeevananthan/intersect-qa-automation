@@ -205,6 +205,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the \"([^\"]*)\" button in the success page of the college fair$",repVisits::accessSuccessMessageforFair);
 
+        And ("^HS I verify the fairs are clickable \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyFairsAreClickable);
+
+        And ("^HS I cancel college fair created \"([^\"]*)\"$",repVisits::cancelCollegeFair);
+
         Then("^HS I Click on the \"([^\"]*)\" button in the College Fair Details Page$",repVisits::accessCollegeFairDetailsPage);
 
         And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
@@ -289,6 +293,54 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
 
+        And("^HS I validating the pagination of 25 contacts in Contacts Page",repVisits::validatingthePaginationof25Contacts);
+
+        And("^HS I Click button Add a College Fair to Add a fair$",repVisits::clickAddCollegeFairButton);
+
+        And("^HS I verify Note on Add Edit Fair screen \"([^\"]*)\"$",repVisits:: noteForSchools);
+
+        And("^HS I click on close icon on Add Edit College Fair pop-up$",repVisits:: closeAddEditFairScreen);
+
+        And("^HS I click View Details against fair$",repVisits::viewFairDetails);
+
+        And("^HS I click on Edit button to edit fair$",repVisits:: editFair);
+
+        Then("^HS I verify the Notification \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the Request Notification Tab$",repVisits::verifyRequestNotificationTab);
+
+        Then("^HS I select \"([^\"]*)\" option for the Notification using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectoption);
+
+        And("^HS I verify the Decline Pop-up in the Notification Tab \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDeclinePopup);
+
+        Then("HS I select the \"([^\"]*)\" button by entering the message \"([^\"]*)\" for \"([^\"]*)\"$",repVisits::declineConfirmation);
+
+        Then("^HS I select \"([^\"]*)\" option for the Notification using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::selectoptionforFairs);
+
+        Then("^HS I verify the Notification \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the Request Notification Tab for Fairs$",repVisits::verifyRequestNotificationTabforFairs);
+
+        Then("^HS I verify the Decline Pop-up in the Notification Tab \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::verifyDeclinePopupforFairs);
+
+        Then("^HS I verify the Export button is Enabled in Calendar page$",repVisits::verifyExportButtonInCalendar);
+
+        Then("^HS I export the appointments for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::exportAppointmentsInCalendarPage);
+
+        Then("^HS I verify the downloaded Appointments csv file \"([^\"]*)\" contains following details$",repVisits::verifyDownloadedCsvFileInCalendar);
+
+        Then("^HS I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
+
+        And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
+
+        Then("^HS I verify the default calendar page present after the Wizard completion$",repVisits::verifydefaultRepVisitPage);
+
+        And("^HS I verify the success Message \"([^\"]*)\" in Availability Settings page",repVisits::verifySuccessMessage);
+
+        And("^HS I Navigate to Notifications & Tasks tab of the Repvisits Page$",repVisits::clickLinkNotificationsAndTasks );
+
+        And("^HS I click the Visit Feedback sub tab$", repVisits::clickLinkVisitFeedback);
+
+        And("^HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab$", repVisits::verifyTextAskingHSUserForFeedbackOnHEVisit);
+
+        And("^HS I remove the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::removeSlotTimeByDayAndTime);
+      
         Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
 
         Then("^HS I verify the blocked day in Exception tab using \"([^\"]*)\"$",repVisits::verifyBlockedDayInException);
