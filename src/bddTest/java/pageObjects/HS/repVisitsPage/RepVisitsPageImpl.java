@@ -4384,8 +4384,4 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement button=driver.findElement(By.xpath("//div[@class='ui basic segment _16UN_Nc3SVFtvr9Us0dP_']/button/span[text()='add visit']"));
         return button;
     }
-    public void moveToElement(WebElement element) {
-        Actions builder = new Actions(driver);
-        builder.moveToElement(element).build().perform();
-    }
 }
