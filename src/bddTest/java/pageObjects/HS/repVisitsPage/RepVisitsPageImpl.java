@@ -7,8 +7,6 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,31 +24,18 @@ import java.text.DateFormat;
 import utilities.GetProperties;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.text.SimpleDateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import java.util.Calendar;
-import java.util.Calendar;
-import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import utilities.GetProperties;
-import utilities.GetProperties;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 import static junit.framework.TestCase.fail;
-import utilities.GetProperties;
-import java.util.*;
-import java.util.List;
 import static org.junit.Assert.fail;
 import static junit.framework.TestCase.fail;
 import utilities.File.CsvFileUtility;
@@ -2436,6 +2421,50 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save").click();
     }
 
+    /**
+     * Creates a college fair with a random number appended to the end of the supplied name.
+     * This reduces name collisions with repeated tests.
+     * @param dataTable - Data Table containing all the fields for the College Fair
+     */
+    public void createDynamicCollegeFair(DataTable dataTable) {
+        logger.info("Creating a Job Fair under RepVisits.");
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("College Fairs").click();
+        waitUntilPageFinishLoading();
+
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(text(By.id("add-college"))));
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(text(By.id("add-college"))));
+        button("ADD A COLLEGE FAIR").click();
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        for (String key : data.keySet()) {
+            if(key.equals("Date")){
+                String fairDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
+                enterCollegeFairData(key, fairDateToFill);
+            }
+            else if (key.equals("RSVP Deadline")){
+                String fairRSVPDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
+                enterCollegeFairData(key, fairRSVPDateToFill);
+            } else if (key.equals("College Fair Name")) {
+                String fairName = randomizeFairName(data.get(key));
+                FairName = fairName;
+                enterCollegeFairData(key, fairName);
+            } else
+                enterCollegeFairData(key, data.get(key));
+
+        }
+        scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
+        button("Save").click();
+    }
+
+    public void unpublishCollegeFair() {
+        waitUntilElementExists(getUnpublishButton());
+        getUnpublishButton().click();
+        waitUntilElementExists(close());
+        close().click();
+    }
+
     public void addEmailInNotificationandPrimaryContactPage(String Email){
         waitUntilPageFinishLoading();
         navBar.goToRepVisits();
@@ -3567,8 +3596,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(fairs);
         link("College Fairs").click();
         button(By.id("add-college")).click();
-        FairName = fairName(collegeFairName);
-        FairName = collegeFairName;
+        FairName = randomizeFairName(collegeFairName);
+        //FairName = collegeFairName;
 
         if(!collegeFairName.equals("")) {
             Assert.assertTrue("College Fair TextBox is not displayed",textbox(By.id("college-fair-name")).isDisplayed());
@@ -3760,6 +3789,71 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyCollegeFairOverview(String fairName,String date, String attendees, String RSVPBy, String time,String viewDetails){
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
+        }
+        //Verify UI
+        Assert.assertTrue("'Settings' button is not displayed",driver.findElement(By.xpath("//a/span[text()='SETTINGS']")).isDisplayed());
+        Assert.assertTrue("'Add a College Fair' button is not displayed",driver.findElement(By.cssSelector("button[id='add-college']")).isDisplayed());
+        Assert.assertTrue("'Upcoming Events' Heading ",driver.findElement(By.xpath("//div/span[text()='Upcoming Events']")).isDisplayed());
+        Assert.assertTrue("'Past Events' Heading",driver.findElement(By.xpath("//div/span[text()='PAST EVENTS']")).isDisplayed());
+
+        //Verify the Headers of the table
+        List<String> columns = new ArrayList<>();
+        columns.add("Fair Date");
+        columns.add("Fair Name");
+        columns.add("Attendees");
+        columns.add("RSVP By");
+        columns.add("Time");
+
+        for (String column : columns) {
+            Assert.assertTrue("column Name " + column + " is not displaying as expected!", driver.findElement(By.xpath("//table[@class='ui unstackable table']//thead/tr//th/span[text()='"+column+"']")).isDisplayed());
+        }
+
+        if (fairName.equals("PreviouslySetFair")) {
+            fairName = FairName;
+        }
+
+        //Verify the data present in the table
+        int nameColumnID = getColumnIdByFieldName("//table[@class='ui unstackable table']//thead", "Fair Name");
+        int rowID = getRowIdByColumnId("//table[@class='ui unstackable table']//tbody", nameColumnID, fairName);
+        nameColumnID = nameColumnID+1;
+        rowID = rowID+1;
+
+
+        if(!fairName.equals("")) {
+            String actualName = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td["+nameColumnID+"]")).getText();
+            Assert.assertTrue("Name Column is not present.",actualName.equals(fairName));
+        }
+
+        if(!date.equals("")) {
+            String actualDate = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[1]")).getText();
+            String fairDate = verifySpecificDate(Integer.parseInt(date));
+            Assert.assertTrue("Date Column is not present.",actualDate.contains(fairDate));
+
+        }
+        if(!attendees.equals("")) {
+            String actualcollegesRegistered = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[3]")).getText();
+            Assert.assertTrue("Colleges Registered Column is not present.",actualcollegesRegistered.equals(attendees));
+        }
+        if(!RSVPBy.equals("")) {
+            String actualRSVPBy = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[4]")).getText();
+            String RSVPfairDate = verifySpecificDate(Integer.parseInt(RSVPBy));
+            Assert.assertTrue("RSVP By Column is not present.",actualRSVPBy.equals(RSVPfairDate));
+        }
+        if(!time.equals("")) {
+            String actualTime = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[5]")).getText();
+            Assert.assertTrue("RSVP By Column is not present.",actualTime.equals(time));
+        }
+        if(!viewDetails.equals("")){
+            WebElement actualviewDetails = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td//a/span[text()='View Details']"));
+            actualviewDetails.isDisplayed();
+        }
+    }
+
     public void verifyExportButtonInCalendar(){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
@@ -3826,10 +3920,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void setSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
         Calendar cal = Calendar.getInstance();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd yyyy", Locale.ENGLISH);
-        LocalDate date = LocalDate.parse(addDays, formatter);
-        int days = date.getMonthValue();
-        cal.add(Calendar.DATE, days);
+        if (addDays.length() > 2) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd yyyy", Locale.ENGLISH);
+            LocalDate date = LocalDate.parse(addDays, formatter);
+            int days = date.getMonthValue();
+            cal.add(Calendar.DATE, days);
+        }
+        else {
+            cal = getDeltaDate(Integer.parseInt(addDays));
+        }
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         String[] parts = currentDate.split(" ");
@@ -4113,7 +4212,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement close()
     {
         WebElement button=button("Close");
-        waitUntilElementExists(button);
         return  button;
     }
 
@@ -4288,11 +4386,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         logger.info("Time = "+time);
         return time;
     }
-    public String fairName(String Fair) {
-        String randomNo = randomNumberGenerator();
-        logger.info("randomNo = "+randomNo);
-        String FairName=Fair+""+randomNo;
-        logger.info("FairName = "+FairName);
+    public String randomizeFairName(String fair) {
+        String randomNo = Integer.toString(new Random().nextInt(9999));
+        logger.info("random suffix = "+randomNo + "\n");
+        String FairName = fair+""+randomNo;
+        logger.info("New FairName = "+FairName + "\n");
         return FairName;
     }
     public String randomNumberGenerator() {
@@ -4393,6 +4491,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private  WebElement editButton(){
         return getDriver().findElement(By.cssSelector("button#edit-college-fair.ui.basic.primary.right.floated.button._2WIBPMrHDvfagooC6zkFpq"));
+    }
+
+    private WebElement getUnpublishButton() {
+        return getDriver().findElement(By.xpath("//button[text()[contains(.,'Unpublish')]]"));
     }
     public void moveToElement(WebElement element){
         Actions builder = new Actions(driver);
