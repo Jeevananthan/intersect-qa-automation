@@ -1,5 +1,7 @@
 package stepDefinitions.HS;
 
+import cucumber.api.java.cs.A;
+import cucumber.api.java.en_scouse.An;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -344,6 +346,8 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I remove the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::removeSlotTimeByDayAndTime);
 
         Then("^HS I unpublish the College Fair$", repVisits::unpublishCollegeFair);
+
+        Then("^HS I verify the data for the fair present on the College Fair Overview page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairOverview);
       
         Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
 

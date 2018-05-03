@@ -3531,6 +3531,71 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyCollegeFairOverview(String fairName,String date, String attendees, String RSVPBy, String time,String viewDetails){
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
+        }
+        //Verify UI
+        Assert.assertTrue("'Settings' button is not displayed",driver.findElement(By.xpath("//a/span[text()='SETTINGS']")).isDisplayed());
+        Assert.assertTrue("'Add a College Fair' button is not displayed",driver.findElement(By.cssSelector("button[id='add-college']")).isDisplayed());
+        Assert.assertTrue("'Upcoming Events' Heading ",driver.findElement(By.xpath("//div/span[text()='Upcoming Events']")).isDisplayed());
+        Assert.assertTrue("'Past Events' Heading",driver.findElement(By.xpath("//div/span[text()='PAST EVENTS']")).isDisplayed());
+
+        //Verify the Headers of the table
+        List<String> columns = new ArrayList<>();
+        columns.add("Fair Date");
+        columns.add("Fair Name");
+        columns.add("Attendees");
+        columns.add("RSVP By");
+        columns.add("Time");
+
+        for (String column : columns) {
+            Assert.assertTrue("column Name " + column + " is not displaying as expected!", driver.findElement(By.xpath("//table[@class='ui unstackable table']//thead/tr//th/span[text()='"+column+"']")).isDisplayed());
+        }
+
+        if (fairName.equals("PreviouslySetFair")) {
+            fairName = FairName;
+        }
+
+        //Verify the data present in the table
+        int nameColumnID = getColumnIdByFieldName("//table[@class='ui unstackable table']//thead", "Fair Name");
+        int rowID = getRowIdByColumnId("//table[@class='ui unstackable table']//tbody", nameColumnID, fairName);
+        nameColumnID = nameColumnID+1;
+        rowID = rowID+1;
+
+
+        if(!fairName.equals("")) {
+            String actualName = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td["+nameColumnID+"]")).getText();
+            Assert.assertTrue("Name Column is not present.",actualName.equals(fairName));
+        }
+
+        if(!date.equals("")) {
+            String actualDate = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[1]")).getText();
+            String fairDate = verifySpecificDate(Integer.parseInt(date));
+            Assert.assertTrue("Date Column is not present.",actualDate.contains(fairDate));
+
+        }
+        if(!attendees.equals("")) {
+            String actualcollegesRegistered = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[3]")).getText();
+            Assert.assertTrue("Colleges Registered Column is not present.",actualcollegesRegistered.equals(attendees));
+        }
+        if(!RSVPBy.equals("")) {
+            String actualRSVPBy = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[4]")).getText();
+            String RSVPfairDate = verifySpecificDate(Integer.parseInt(RSVPBy));
+            Assert.assertTrue("RSVP By Column is not present.",actualRSVPBy.equals(RSVPfairDate));
+        }
+        if(!time.equals("")) {
+            String actualTime = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[5]")).getText();
+            Assert.assertTrue("RSVP By Column is not present.",actualTime.equals(time));
+        }
+        if(!viewDetails.equals("")){
+            WebElement actualviewDetails = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td//a/span[text()='View Details']"));
+            actualviewDetails.isDisplayed();
+        }
+    }
+
     public void verifyExportButtonInCalendar(){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();

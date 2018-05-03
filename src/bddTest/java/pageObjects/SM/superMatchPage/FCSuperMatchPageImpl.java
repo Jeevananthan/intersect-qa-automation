@@ -35,7 +35,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         for(String winHandle : driver.getWindowHandles()){
             driver.switchTo().window(winHandle);
         }
-        waitForUITransition();
         Assert.assertTrue("The new SuperMatch is not disaplyed", newSuperMatch.collegeSearchHeader().isDisplayed());
         if (driver.getWindowHandles().size() > 1) {
             driver.close();
