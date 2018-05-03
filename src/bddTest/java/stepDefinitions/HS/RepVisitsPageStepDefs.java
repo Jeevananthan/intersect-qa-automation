@@ -261,6 +261,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
 
+        Then("^HS I create a dynamic College Fair with the following data$", repVisits::createDynamicCollegeFair);
+
         And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
 
         And("^HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user$",repVisits::verifyNavigationUserDropdownforNonNaviance);
@@ -340,6 +342,8 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab$", repVisits::verifyTextAskingHSUserForFeedbackOnHEVisit);
 
         And("^HS I remove the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::removeSlotTimeByDayAndTime);
+
+        Then("^HS I unpublish the College Fair$", repVisits::unpublishCollegeFair);
       
         Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
 
