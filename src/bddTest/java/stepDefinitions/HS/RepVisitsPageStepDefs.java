@@ -340,5 +340,36 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab$", repVisits::verifyTextAskingHSUserForFeedbackOnHEVisit);
 
         And("^HS I remove the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::removeSlotTimeByDayAndTime);
+
+        Then("^HS I navigate to the calendar page to verify AddVisit Button is \"([^\"]*)\"$",repVisits::verifyAddvisitButtonInCalendarPage);
+
+        Then("^HS I add the appointment based on pre-determined time slots using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::addVisitsManuallyFromCalendarTab);
+
+        Then("^HS I manually add the contact to an appointment using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::addContactManually);
+
+        Then("^HS verify the created Appointment is present in the calendar \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAppointmentsIncalendar);
+
+        Then("^HS I schedule a new visit for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::scheduleNewVisit);
+
+        Then("^HS I verify the confirmation message \"([^\"]*)\" for the created visit$",repVisits::verifyConfirmationMessage);
+
+        Then("^HS I verify the calendar page is displayed$",repVisits::verifyCalendarPageIsDisplayed);
+
+        Then("^HS I verify the close drawer is displaying in the visit Schedule popup$",repVisits::verifyCloseDrawerInVisitSchedulePopup);
+
+        Then("^HS I verify the link \"([^\"]*)\" is displaying in the visit Schedule popup$",repVisits::verifyLinkInVisitSchedulePopup);
+
+        Then("^HS I verify the link \"([^\"]*)\" is displayed in the visit Schedule popup$",repVisits::verifyGobacktoListLinkInVisitSchedulePopup);
+
+        Then("^HS I verify the text \"([^\"]*)\" is present in the Attendee text box$",repVisits::verifyStartTypingTextInVisitSchedulePopup);
+
+        Then("^HS I verify the text box is displaying in the visit Schedule popup for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTextboxInVisitSchedulePopup);
+
+        Then("^HS I verify the \"([^\"]*)\" only required field in the visit Schedule popup$",repVisits::verifyRequiredFieldInVisitSchedulePopup);
+
+        Then("^HS I verify the \"([^\"]*)\" text is present under \"([^\"]*)\" in the visit Schedule popup$",repVisits::verifyTextInVisitSchedulepopup);
+
+        Then("^HS I verify the button \"([^\"]*)\" is displaying in the visit Schedule popup$",repVisits::verifyAddvisitButtoninVisitSchedulepopup);
+
     }
 }
