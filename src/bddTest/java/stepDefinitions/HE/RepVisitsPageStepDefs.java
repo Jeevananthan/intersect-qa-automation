@@ -255,5 +255,10 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify text displayed while viewing individual staff member feedback$", repVisits::verifyTextDisplayedOnViewingStaffFeedback);
 
         And("^HE I verify the Repvisits Overview Upgrade Subscription page$", repVisits::verifyRepvisitsOverviewUpgradeSubscriptionPage);
+
+        Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
+
+        Then("^HE I verify that the previously created fair does not appear for \"([^\"]*)\"$",repVisits::verifyCollegeFairNotVisible);
+
     }
 }

@@ -803,9 +803,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyMeets100ofNeedCheckbox(String checkBox){
+        chooseFitCriteriaTab("Cost");
         String path = "//label[contains(text(), '"+checkBox+"')]";
         Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path)).getText().equals("Meets 100% of Need"));
-        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../i[@aria-hidden='true']")).isDisplayed());
+        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../button[@aria-label='undefined help']")).isDisplayed());
+        getFitCriteriaCloseButton().click();
     }
 
     /**
@@ -822,7 +824,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
         }
         Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        getFitCriteriaCloseButton().click();
     }
     /**
      * unselect any selected checkbox only when fit criteria menu is open.
@@ -838,7 +840,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
         }
         Assert.assertTrue(checkBox+" checkbox is selected.", !onlyCheckbox.isSelected());
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        getFitCriteriaCloseButton().click();
     }
 
     private void openFitCriteria(String fitCriteria){
