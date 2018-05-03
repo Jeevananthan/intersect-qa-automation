@@ -1,6 +1,5 @@
 package stepDefinitions.HS;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
