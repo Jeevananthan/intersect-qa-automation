@@ -2194,6 +2194,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchButton().click();
         link(schoolName).click();
         waitUntilPageFinishLoading();
+        waitUntilElementExists( getFairsButton());
         getFairsButton().click();
         waitUntilPageFinishLoading();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);

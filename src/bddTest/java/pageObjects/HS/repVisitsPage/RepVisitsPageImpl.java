@@ -2457,7 +2457,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpublishCollegeFair() {
+        waitUntilElementExists(getUnpublishButton());
         getUnpublishButton().click();
+        waitUntilElementExists(close());
         close().click();
     }
 
@@ -3872,7 +3874,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement close()
     {
         WebElement button=button("Close");
-        waitUntilElementExists(button);
         return  button;
     }
 
