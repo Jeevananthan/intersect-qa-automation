@@ -1,7 +1,5 @@
 package stepDefinitions.HS;
 
-import cucumber.api.java.cs.A;
-import cucumber.api.java.en_scouse.An;
 import cucumber.api.java8.En;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 
@@ -347,6 +345,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I unpublish the College Fair$", repVisits::unpublishCollegeFair);
 
+        Then("^HS I create a new college fair \"([^\"]*)\" days ahead of today and the following details:$", repVisits::createFairWithGeneratedDate);
+
         Then("^HS I verify the data for the fair present on the College Fair Overview page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairOverview);
 
         And("^HS I schedule a new visit with day \"([^\"]*)\" time \"([^\"]*)\" representative name \"([^\"]*)\" representative last name \"([^\"]*)\" representative institution \"([^\"]*)\" location \"([^\"]*)\" NumberOfStudents \"([^\"]*)\" registrationWillClose \"([^\"]*)\"$", repVisits::scheduleNewVisit);
@@ -370,6 +370,5 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify that the number of visits for the time slot with day \"([^\"]*)\" and time \"([^\"]*)\" is \"([^\"]*)\"$",repVisits::verifyNumberOfVisits);
 
         And("^HS I cancel a visit with time \"([^\"]*)\" college \"([^\"]*)\" and note \"([^\"]*)\"$",repVisits::cancelVisit);
-
     }
 }
