@@ -90,7 +90,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Search and Schedule").click();
         //text("Search by school name or location...").sendKeys(highSchool);
         driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(highSchool);
-        driver.findElement(By.xpath("//i[@class='teal search large link icon _3pWea2IV4hoAzTQ12mEux-']")).click();
+        driver.findElement(By.xpath("//i[@class='teal search large link icon Umyjf8WyIatPr6Rajw7y6']")).click();
         text(highSchool).click();
         text("Fairs").click();
         if (text(fairTitle).isDisplayed()){

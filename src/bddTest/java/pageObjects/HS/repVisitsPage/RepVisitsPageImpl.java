@@ -891,7 +891,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchAndScheduleBtn().click();
         driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
         driver.findElement(By.xpath("//form[@class='ui form _5HmcoKe1wdwl-K-v4lyiX']//button[contains(@class,'ui button')]")).click();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.xpath("//td[text()='"+location+"']")));
         Assert.assertTrue("location is not displayed",driver.findElement(By.xpath("//td[text()='"+location+"']")).isDisplayed());
         WebElement schoolLocation = text(location);
         getParent(schoolLocation).findElement(By.tagName("a")).click();
@@ -1264,7 +1264,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 if (driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")).findElement(By.xpath("//button[contains(text(), '" + hourStartTime + ":" + minuteStartTime + meridianStartTime + "')]")).isDisplayed()) {
                     waitUntilPageFinishLoading();
                     deleteTimeSlot.click();
-                    waitUntilPageFinishLoading();
+                    waitUntilElementExists(driver.findElement(By.cssSelector("button[class='ui primary button']")));
                     driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
                     waitUntilPageFinishLoading();
                     break;
