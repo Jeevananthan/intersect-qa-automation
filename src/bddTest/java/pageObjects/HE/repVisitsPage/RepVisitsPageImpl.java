@@ -36,6 +36,7 @@ import static org.junit.Assert.fail;
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    public static String formattedDate;
 
     public RepVisitsPageImpl() {
         logger = Logger.getLogger(RepVisitsPageImpl.class);
@@ -2206,6 +2207,84 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void openCalendar() {
+        navBar.goToRepVisits();
+        getCalendarBtn().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void openFairDetailsWithGeneratedDate() {
+        formattedDate = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.generatedDate + ","
+                + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.generatedDateDayOfWeek + ","
+                + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.time.replaceFirst(" ", "");
+        openFairDetails(formattedDate);
+    }
+
+    public void openFairDetails(String date) {
+        pressCalendarArrowUntil("right", date.split(",")[0], 10);
+        getDateCell(date.split(",")[1].split(" ")[1], date.split(",")[2], 1).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("h1.ui.header"), 1));
+    }
+
+    public void verifyFairDetailsWithGenDate(DataTable fairDetails) {
+        verifyFairDetails(formattedDate, fairDetails);
+    }
+
+    public void verifyFairDetails(String date, DataTable fairDetails) {
+        List<List<String>> fairDetailsList = fairDetails.asLists(String.class);
+        String internalNotesText = "";
+        for (List<String> fairDataElement : fairDetailsList) {
+            switch (fairDataElement.get(0)) {
+                case "College Fair Name" : Assert.assertTrue(fairNameHeader().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "High School name" : Assert.assertTrue(fairHSName().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "High School address" : Assert.assertTrue(fairHSAddress().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Contact name" : Assert.assertTrue(fairContactName().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Contact title" : Assert.assertTrue(fairContactTitle().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Contact email" : Assert.assertTrue(fairContactEmail().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Contact phone" : Assert.assertTrue("UI: " + fairContactPhone().getText(), fairContactPhone().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Date" : Assert.assertTrue(fairDate().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Start time" : Assert.assertTrue("UI: " + fairStartTime().getText(), fairStartTime().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "End time" : Assert.assertTrue(fairEndTime().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Time zone" : Assert.assertTrue("UI: " + fairTimeZone().getText(), fairTimeZone().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Cost" : Assert.assertTrue(fairCost().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Number of students" : Assert.assertTrue(fairExpectedStudents().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Instructions" : Assert.assertTrue(fairInstructions().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Cancellation text" : Assert.assertTrue(fairCancellationInstructions().getText().contains(fairDataElement.get(1)));
+                    break;
+                case "Cancel link" :
+                    if (fairDataElement.get(1).equals("Present")) {
+                        Assert.assertTrue("The Cancel link is not present", fairCancelLink().isDisplayed());
+                    } else if (fairDataElement.get(1).equals("Not Present")) {
+                        Assert.assertFalse("The Cancel link is present, when it shouldn't", fairCancelLink().isDisplayed());
+                    }
+                    break;
+                case "Internal notes" :
+                    internalNotesText = fairDataElement.get(1);
+                    break;
+            }
+        }
+        fairInternalNotesTextBox().clear();
+        fairInternalNotesTextBox().sendKeys(internalNotesText);
+        fairSaveButton().click();
+        Assert.assertTrue("The message of successful saving is not disaplyed", fairSavedConfirmationMessage().isDisplayed());
+        openFairDetails(date);
+        Assert.assertTrue("The Internal notes were not saved", fairInternalNotesTextBox().getAttribute("value").equals(internalNotesText));
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
@@ -2307,7 +2386,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement contactSupport= text("Contact Support");
         return  contactSupport;
     }
-    private WebElement getRegistrationButton(String fairName) { return getDriver().findElement(By.xpath("//span[text()='" + fairName + "']/../../div/button/span")); }
+    private WebElement getRegistrationButton(String fairName) { return getDriver().findElement(By.xpath("//span[text()='" + fairName + "']/../../div/button")); }
     private WebElement getFairDate() { return getDriver().findElement(By.cssSelector("div.content span")); }
     private WebElement getStartEndTimeAndTimeZone() { return getDriver().findElement(By.cssSelector("div.content b:nth-of-type(1)")); }
     private WebElement requestText() { return getDriver().findElement(By.cssSelector("div.ui.modal.transition.visible.active div.content div")); }
@@ -2585,6 +2664,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return headerContainer;
 
     }
+
+    private WebElement fairNameHeader() { return getDriver().findElement(By.cssSelector("h1.ui.header")); }
+    private WebElement fairHSName() { return getDriver().findElement(By.cssSelector("div._3RqdVnu3tniPVn-91Bd61M")); }
+    private WebElement fairHSAddress() { return getDriver().findElement(By.cssSelector("div.rvsP8MMShznvvZWePlkUO")); }
+    private WebElement fairContactName() { return getDriver().findElement(By.cssSelector("div._3gQNLVW3B3CfdELmCdwdfG")); }
+    private WebElement fairContactTitle() { return getDriver().findElement(By.cssSelector("div._25t7gNvT8MVtZfRUq4WSK3")); }
+    private WebElement fairContactEmail() { return getDriver().findElement(By.cssSelector("div._38U_qKPRgGTogiYwQidWQu")); }
+    private WebElement fairContactPhone() { return getDriver().findElement(By.cssSelector("div._2Yft-cZFY8BFL0J6NPSWna")); }
+    private WebElement fairDate() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[1]/div/span")); }
+    private WebElement fairStartTime() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[2]/div/span[1]")); }
+    private WebElement fairEndTime() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[2]/div/span[2]")); }
+    private WebElement fairTimeZone() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[2]/div/span[3]")); }
+    private WebElement fairCost() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[4]/div[1]/div")); }
+    private WebElement fairExpectedStudents() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[4]/div[2]/div")); }
+    private WebElement fairInstructions() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[5]/div/div")); }
+    private WebElement fairCancellationInstructions() { return getDriver().findElement(By.xpath("//div[@class='_3JCQh0qrOlZKBKE8m4D5Iz']/span/span")); }
+    private WebElement fairCancelLink() { return getDriver().findElement(By.cssSelector("div._3JCQh0qrOlZKBKE8m4D5Iz button span")); }
+    private WebElement fairInternalNotesTextBox() { return getDriver().findElement(By.cssSelector("input[aria-label=\"Internal Notes\"]")); }
+    private WebElement fairSaveButton() { return getDriver().findElement(By.cssSelector("button.ui.teal.right.floated.button span")); }
+    private WebElement fairSavedConfirmationMessage() { return getDriver().findElement(By.cssSelector("div.content span span")); }
 }
 
 

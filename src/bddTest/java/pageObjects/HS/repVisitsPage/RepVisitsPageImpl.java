@@ -50,6 +50,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public static String FairName;
     public static String generatedDateForExceptions;
 
+    public static String generatedDate;
+    public static String generatedDateDayOfWeek;
+    public static String time;
+
     //Creating RepVisitsPageImpl class object of for HE.
     pageObjects.HE.repVisitsPage.RepVisitsPageImpl repVisitsPageHEObj = new pageObjects.HE.repVisitsPage.RepVisitsPageImpl();
 
@@ -3845,6 +3849,80 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Visit Feedback").click();
     }
 
+    public void createFairWithGeneratedDate(String daysFromNow, DataTable fairDetails) {
+        Calendar calendarStartDate = getDeltaDate(Integer.parseInt(daysFromNow));
+        generatedDate = getMonth(calendarStartDate);
+        generatedDateDayOfWeek = getDayOfWeek(calendarStartDate) + " " + getDay(calendarStartDate);
+        Calendar calendarRSVPDate = getDeltaDate(Integer.parseInt(daysFromNow) - 1);
+        waitForUITransition();
+        addFairButton().click();
+        waitForUITransition();
+        dateCalendarIcon().click();
+        pickDateInDatePicker(calendarStartDate);
+        rsvpCalendarIcon().click();
+        pickDateInDatePicker(calendarRSVPDate);
+        fillFairForm(fairDetails);
+        saveButton().click();
+    }
+
+    public void fillFairForm(DataTable fairDetails) {
+        List<List<String>> details = fairDetails.asLists(String.class);
+        for (List<String> row : details) {
+            switch (row.get(0)) {
+                case "Name":
+                    fairNameTextBox().sendKeys(row.get(1));
+                    break;
+                case "Date":
+                    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyy");
+                    dateCalendarIcon().click();
+                    Calendar date = Calendar.getInstance();
+                    try {
+                        Date formattedDate = formatter.parse(row.get(1));
+                        date.setTime(formattedDate);
+                        pickDateInDatePicker(date);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                case "Start time":
+                    startTimeTextBox().sendKeys(row.get(1));
+                    time = row.get(1).replaceFirst("0", "");
+                    break;
+                case "End time":
+                    endTimeTextBox().sendKeys(row.get(1));
+                    break;
+                case "RSVP deadline":
+                    rsvpCalendarIcon().click();
+                    SimpleDateFormat rsvpFormatter = new SimpleDateFormat("MM-dd-yyy");
+                    Calendar rsvpDate = Calendar.getInstance();
+                    try {
+                        Date formattedDate = rsvpFormatter.parse(row.get(1));
+                        rsvpDate.setTime(formattedDate);
+                        pickDateInDatePicker(rsvpDate);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                case "Cost":
+                    costTextBox().sendKeys(row.get(1));
+                    break;
+                case "Max colleges":
+                    maxNumOfColleges().sendKeys(row.get(1));
+                    break;
+                case "Max students":
+                    numOfStudents().sendKeys(row.get(1));
+                    break;
+                case "Instructions":
+                    instructionsTextBox().sendKeys(row.get(1));
+                    break;
+                case "Auto Approvals":
+                    if (row.get(1).equals("Yes")) {
+                        autoApprovalYesRadButton().click();
+                    } else if (row.get(1).equals("No")) {
+                        autoApprovalNoRadButton().click();
+                    }
+            }
+        }
+    }
+
     /**
      * Schedules a new visit
      * @param day
@@ -4768,4 +4846,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getRemoveTimeSlotButton() {
         return button("REMOVE");
     }
+
+    private WebElement instructionsTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-instructions")); }
 }

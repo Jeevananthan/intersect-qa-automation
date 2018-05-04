@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
@@ -259,6 +260,12 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
 
         Then("^HE I verify that the previously created fair does not appear for \"([^\"]*)\"$",repVisits::verifyCollegeFairNotVisible);
+
+        When("^HE I open the Calendar tab in RepVisits$", repVisits::openCalendar);
+
+        And("^HE I open the new fair details in the generated date$", repVisits::openFairDetailsWithGeneratedDate);
+
+        Then("^HE I verify that the following details are present in the fair details in the generated date:$", repVisits::verifyFairDetailsWithGenDate);
 
     }
 }
