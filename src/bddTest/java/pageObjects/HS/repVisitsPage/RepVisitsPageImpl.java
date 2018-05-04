@@ -1831,10 +1831,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> getTables() {
         waitUntilPageFinishLoading();
         //Get the table body
-        List<WebElement> tablesCollction = getDriver().findElements(By.cssSelector("div[class='igoATb7tmfPWBM8CX8CkN']>table"));
+        List<WebElement> tablesCollection = getDriver().findElements(By.cssSelector("div[class='igoATb7tmfPWBM8CX8CkN']>table"));
         //Get the table rows
 
-        return tablesCollction;
+        return tablesCollection;
     }
 
     public void findAndVerifyAppointments(String appointmentsStatus, String color) {
@@ -4187,10 +4187,130 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
     }
 
+    /**
+     * Adds atendees to a college fair that was just created.
+     * Prerequisite:  User has the "Close or Add Attendees" drawer open after saving a new college fair.
+     * @param dataTable Data Table containing all the names for the attendees to be added.
+     */
+    public void addAttendees(DataTable dataTable) {
+        getAddAttendeesButton().click();
+        List<String> names = dataTable.asList(String.class);
+        for (String name : names) {
+            getAddAttendeeSearchBox().sendKeys(name);
+            getDriver().findElement(By.xpath("//div[text()[contains(.,'"+name+"')]]")).click();
+        }
+        getDriver().findElement(By.xpath("//button/span[text()='Add Attendees']")).click();
+    }
+
+    public void verifyStaffNotifications(String primaryContactName, String alternativePrimaryContact) {
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        waitUntilPageFinishLoading();
+        link("CollegeFairs/Settings").click();
+        waitUntilPageFinishLoading();
+
+        /* Primary contact is selected using a drop down verification */
+        WebElement PrimaryContactDropDown = primaryContact();
+        primaryContact().click();
+        primaryContactName(primaryContactName).click();
+        Assert.assertTrue("Primary Contact was not found.", PrimaryContactDropDown.findElement(By.className("text")).getText().contains(primaryContactName));
+
+        /* Dropdown is populated with a list of all community members that are tied to my school */
+
+        /* Primary contact is shown in the list of users (check boxes below), but cannot be unchecked (as primary must always receive notifications) */
+
+        Assert.assertFalse("Primary Contact can be checked.", checkbox(By.cssSelector("[name='Q29tbXVuaXR5UGVyc29uOjczNTg1MTAwLWVkZWUtYTQ4NS0xNmMzLTNhMjQzNmMyMjIxZg==']")).isEnabled());
+
+        /* If primary contact is changed, previous primary user becomes checkable in the list and currently selected primary user is checked and not un-checkable.   */
+
+        primaryContact().click();
+        primaryContactName(alternativePrimaryContact).click();
+        Assert.assertTrue("Primary Contact was not found.", PrimaryContactDropDown.findElement(By.className("text")).getText().contains(alternativePrimaryContact));
+        Assert.assertFalse("New Primary Contact can be checked.", checkbox(By.cssSelector("[name='Q29tbXVuaXR5UGVyc29uOjBjOTlmZDdjLTNkNjctNDhkMC1iZmFiLTY0M2Q1NDUyNDkwYQ==']")).isEnabled());
+
+        /* Heading: "Notifications for Visits"  */
+        Assert.assertTrue("Notification Header was not found.", getDriver().findElement(By.cssSelector("div[class='ui header']:nth-child(3)")).getText().contains("Notifications for Fairs"));
+
+        /* Text: "Choose users who will receive mail notifications. Users are notified when visit requests are made, confirmed, denied, rescheduled, canceled, or manually added."  */
+
+        waitUntilPageFinishLoading();
+        String textNotificationVerification = getDriver().findElement(By.cssSelector("form[id='form-repvisits-notifications-and-fair-settings']>span")).getText();
+        Assert.assertTrue("Notification Header was not found.", textNotificationVerification.
+                contains("Choose users who will receive email notifications. Users are notified when visit requests are made, confirmed, denied, rescheduled, canceled or manually added."));
+
+        /*  A list of all community members from the current high school is shown.
+            The list is in two columns
+            The list includes a check box next to each name
+            Primary contact's check box (a) is checked, and (b) cannot be unchecked */
+
+        Assert.assertTrue("Two columns are not displayed",getDriver().findElement(By.cssSelector("div[class='grouped fields _3wL_DuaLhBL9_OQEhGZg0p']")).isDisplayed());
+        Assert.assertTrue("Two columns are not displayed",getDriver().findElement(By.cssSelector("div[class='grouped fields _3wL_DuaLhBL9_OQEhGZg0p']:nth-child(2)")).isDisplayed());
+
+        Assert.assertFalse("Primary Contact can be checked.", checkbox(By.cssSelector("[name='Q29tbXVuaXR5UGVyc29uOjBjOTlmZDdjLTNkNjctNDhkMC1iZmFiLTY0M2Q1NDUyNDkwYQ==']")).isEnabled());
+
+        Assert.assertTrue("Check boxes for Primary contacts are not displayed ",getDriver().findElement(By.cssSelector("div[class='ui checkbox']")).isDisplayed());
+
+        /* When a user is checked, and the save changes button has been clicked, that user receives notifications when visit requests are made, confirmed, denied, rescheduled, canceled, or manually added. */
+
+        primaryContact().click();
+        primaryContactName(alternativePrimaryContact).findElement(By.xpath("//span[@class='text'][contains(text(), '"+ alternativePrimaryContact +"')]")).click();
+        checkbox(By.cssSelector("button[class='ui primary right floated button'")).click();
+
+    }
+
+    public void verifyCollegeFairNotificationWasReceived(String collegeFair, String attendee) {
+        if (collegeFair.equals("PreviouslySetFair"))
+            collegeFair = FairName;
+        navBar.goToRepVisits();
+        link("Notifications & Tasks").click();
+        waitUntilPageFinishLoading();
+        link("Activity").click();
+        waitUntilPageFinishLoading();
+        getDriver().findElements(By.xpath("//span[text()='View Full Details']")).get(0).click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Fairs does not contains New Fair", getDriver().findElement(By.cssSelector("div[class='ui segments _3pzgJh2J1gbNBaq2S9asNJ']")).getText().contains(collegeFair));
+        Assert.assertTrue("Fairs does not contains Attendee name", getDriver().findElement(By.cssSelector("div[class='ui segments _3pzgJh2J1gbNBaq2S9asNJ']")).getText().contains(attendee));
+    }
+
+    public void verifyNotificationsToNonMembersSection(String correctEmail, String incorrectEmail) {
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        waitUntilPageFinishLoading();
+        link("CollegeFairs/Settings").click();
+        waitUntilPageFinishLoading();
+        try {
+            Assert.assertTrue("Notification Area for Non Community Does not exist.", getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).isDisplayed());
+            getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).clear();
+            getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).sendKeys(incorrectEmail);
+            getDriver().findElement(By.cssSelector("button[class='ui primary right floated button']")).click();
+            Assert.assertTrue("Invalid email format error isn't being shown correctly", getDriver().findElement(By.xpath("//span[text() = 'Emails must be valid and separated by comma']")).isDisplayed());
+            getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).clear();
+            getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).sendKeys(correctEmail);
+            getDriver().findElement(By.cssSelector("button[class='ui primary right floated button']")).click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']")).getText().contains("You've updated College Fair settings"));
+        }catch (Exception e) {
+            logger.info("Notifications displayed in bad format: " + e.getMessage());
+            e.printStackTrace();
+            Assert.fail("Notification it's failing.");
+        }
+
+    }
+
     /*locators for Messaging Options Page*/
+
+    private WebElement primaryContact() {
+        return getDriver().findElement(By.cssSelector("div[name='primaryContact'"));
+    }
+    private WebElement primaryContactName(String primaryContactName) {
+        return getDriver().findElement(By.xpath("//span[@class='text'][contains(text(), '"+ primaryContactName +"')]"));
+    }
+
     private WebElement getWebInstructions() {
         return getDriver().findElement(By.id("webInstructions"));
     }
+
+    private WebElement getAddAttendeesButton() { return getDriver().findElement(By.id("next-action-add"));}
 
     private WebElement currentDateInCalendar()
     {

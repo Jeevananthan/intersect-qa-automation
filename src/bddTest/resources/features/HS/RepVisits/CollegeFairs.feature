@@ -45,3 +45,15 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
     Examples:
       |CollegeFairName      |Date            |StartTime|EndTime|RSVPDate        |Cost  |MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|date        |CollegesRegistered   |RSVPBy	    |Time             |ViewDetails|
       |QA Test Fair Overview|3               |1012AM   |1112AM |2               |$25   |25                 |100                     |Save         |3           |0 of 25 spots filled |2             |10:12am - 11:12am|Yes        |
+
+  @MATCH-1937
+  Scenario: As a high school RepVisits user, I want to be able to specify who is notified of changes to college fairs,
+            So that I can be sure the right staff members are informed.
+    #BLUE4HS has an issue with duplicated Primary contacts, so using standalone 1 instead.
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs1" and username "school-user" and password "password"
+    Then HS I verify configuration and staff notifications for "School Manager" and "Nidhu Thomas"
+    Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
+    Then HS I add the following attendees to the College Fair
+      |undefined|
+    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "undefined"
+    Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
