@@ -1,6 +1,7 @@
 package pageObjects.HS.repVisitsPage;
 
 import cucumber.api.DataTable;
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -306,7 +307,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
         if(driver.findElements(By.xpath("//div[@class='ui small modal transition visible active']")).size()>0){
             selectOptionInReviewPreviouslyDeletedTimeSlotsModal
-                    ("Add time slot to regular hours, but DO NOT create for the dates above");
+                    ("Add time slot to regular hours, and create for the dates above");
         }
     }
 
@@ -3534,6 +3535,71 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyCollegeFairOverview(String fairName,String date, String attendees, String RSVPBy, String time,String viewDetails){
+        navBar.goToRepVisits();
+        link("College Fairs").click();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
+        }
+        //Verify UI
+        Assert.assertTrue("'Settings' button is not displayed",driver.findElement(By.xpath("//a/span[text()='SETTINGS']")).isDisplayed());
+        Assert.assertTrue("'Add a College Fair' button is not displayed",driver.findElement(By.cssSelector("button[id='add-college']")).isDisplayed());
+        Assert.assertTrue("'Upcoming Events' Heading ",driver.findElement(By.xpath("//div/span[text()='Upcoming Events']")).isDisplayed());
+        Assert.assertTrue("'Past Events' Heading",driver.findElement(By.xpath("//div/span[text()='PAST EVENTS']")).isDisplayed());
+
+        //Verify the Headers of the table
+        List<String> columns = new ArrayList<>();
+        columns.add("Fair Date");
+        columns.add("Fair Name");
+        columns.add("Attendees");
+        columns.add("RSVP By");
+        columns.add("Time");
+
+        for (String column : columns) {
+            Assert.assertTrue("column Name " + column + " is not displaying as expected!", driver.findElement(By.xpath("//table[@class='ui unstackable table']//thead/tr//th/span[text()='"+column+"']")).isDisplayed());
+        }
+
+        if (fairName.equals("PreviouslySetFair")) {
+            fairName = FairName;
+        }
+
+        //Verify the data present in the table
+        int nameColumnID = getColumnIdByFieldName("//table[@class='ui unstackable table']//thead", "Fair Name");
+        int rowID = getRowIdByColumnId("//table[@class='ui unstackable table']//tbody", nameColumnID, fairName);
+        nameColumnID = nameColumnID+1;
+        rowID = rowID+1;
+
+
+        if(!fairName.equals("")) {
+            String actualName = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td["+nameColumnID+"]")).getText();
+            Assert.assertTrue("Name Column is not present.",actualName.equals(fairName));
+        }
+
+        if(!date.equals("")) {
+            String actualDate = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[1]")).getText();
+            String fairDate = verifySpecificDate(Integer.parseInt(date));
+            Assert.assertTrue("Date Column is not present.",actualDate.contains(fairDate));
+
+        }
+        if(!attendees.equals("")) {
+            String actualcollegesRegistered = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[3]")).getText();
+            Assert.assertTrue("Colleges Registered Column is not present.",actualcollegesRegistered.equals(attendees));
+        }
+        if(!RSVPBy.equals("")) {
+            String actualRSVPBy = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[4]")).getText();
+            String RSVPfairDate = verifySpecificDate(Integer.parseInt(RSVPBy));
+            Assert.assertTrue("RSVP By Column is not present.",actualRSVPBy.equals(RSVPfairDate));
+        }
+        if(!time.equals("")) {
+            String actualTime = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td[5]")).getText();
+            Assert.assertTrue("RSVP By Column is not present.",actualTime.equals(time));
+        }
+        if(!viewDetails.equals("")){
+            WebElement actualviewDetails = driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr["+rowID+"]//td//a/span[text()='View Details']"));
+            actualviewDetails.isDisplayed();
+        }
+    }
+
     public void verifyExportButtonInCalendar(){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
@@ -3855,6 +3921,270 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     }
             }
         }
+    }
+
+    /**
+     * Schedules a new visit
+     * @param day
+     * @param time
+     * @param representativeFirstName
+     * @param representativeLastName
+     * @param representativeInstitution
+     * @param location
+     * @param maxNumberOfStudents
+     * @param registrationWillClose
+     */
+    public void scheduleNewVisit(String day, String time, String representativeFirstName, String representativeLastName,
+                                 String representativeInstitution ,String location, String maxNumberOfStudents,
+                                 String registrationWillClose) {
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        waitUntilPageFinishLoading();
+        getAddVisitButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(
+                ".//h1/span[text()='schedule new visit']"), 1));
+        Map<String, String> days = new HashMap<String, String>();
+        days.put("Mon", "0");
+        days.put("Tue", "1");
+        days.put("Wed", "2");
+        days.put("Thu", "3");
+        days.put("Fri", "4");
+        WebElement table = driver.findElement(By.xpath(".//tbody"));
+        List<WebElement> rows = table.findElements(By.xpath(".//tr"));
+        boolean timeSlotWasSelected = false;
+        for (WebElement row : rows) {
+            List<WebElement> timeSlots = row.findElements(By.xpath(".//td"));
+            if (!timeSlots.get(Integer.parseInt(days.get(day))).findElements(By.xpath(
+                    String.format(".//button[text()='%s']", time))).isEmpty()) {
+                timeSlots.get(Integer.parseInt(days.get(day))).click();
+                timeSlotWasSelected = true;
+                break;
+            }
+        }
+        if (timeSlotWasSelected) {
+            Actions action = new Actions(getDriver());
+            action.sendKeys(Keys.PAGE_DOWN).build().perform();
+            waitForUITransition();
+            getAddRepresentativeManuallyLink().click();
+            getRepresentativeFirstNameTextBox().sendKeys(representativeFirstName);
+            action.sendKeys(Keys.PAGE_UP).build().perform();
+            getRepresentativeLastName().sendKeys(representativeLastName);
+            action.sendKeys(Keys.PAGE_DOWN).build().perform();
+            getRepresentativeInstitutionTextBox().sendKeys(representativeInstitution);
+            action.sendKeys(Keys.TAB).sendKeys(Keys.TAB).build().perform();
+            getEventLocationTextBox().sendKeys(location);
+            getMaxNumberOfStudentsTextBox().sendKeys(maxNumberOfStudents);
+            getRegistrationWillCloseTextBox().sendKeys(registrationWillClose.split(" ")[0]);
+            getRegistrationWillCloseDropDown().click();
+            getDriver().findElement(By.xpath(String.format(".//span[text()='%s']",
+                    registrationWillClose.split(" ")[1]))).click();
+            action.sendKeys(Keys.TAB).build().perform();
+            getInternalNotesLabel().click();
+            action.sendKeys(Keys.END).build().perform();
+            waitForUITransition();
+            getAddVisitCalendarAppointmentButton().click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(
+                    By.xpath(".//form[@id='add-calendar-appointment']/div/button/span[text()='add visit']"), 0));
+        } else {
+            new AssertionFailedError(String.format("The time slot with day: %s and time: %s could not be selected"
+                    , day, time));
+        }
+    }
+
+    /**
+     * Verifies if the block this time slot button is displayed when clicking on a slot time in the exceptions tab
+     *
+     * @param day  of the time slot to be selected
+     * @param time of the time slot to be selected
+     */
+    public void verifyBlockThisTimeSlotButtonIsDisplayed(String day, String time) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Exceptions").click();
+        selectTimeSlot(day, time);
+        Assert.assertTrue("Block this time slot button is not present", getBlockThisTimeSlotButton()
+                .isDisplayed());
+        getCancelExceptionButton().click();
+    }
+
+    /**
+     * Clicks a time slot given the day and time in the exceptions tab
+     *
+     * @param time, string with the time to find a slot time, example: 12:00AM
+     * @param day,  string with the day to find a slot time, it could be: MON, TUE, WED, THU, FRI
+     */
+    public void selectTimeSlot(String day, String time) {
+        button(By.xpath(String.format(".//table[.//caption/span ='%s']//button[text()='%s']", day, time)))
+                .click();
+    }
+
+    /**
+     * Verifies that the block this time tooltip is displayed when blocking a time slot in exceptions tab
+     *
+     * @param day  of the time slot to be selected
+     * @param time of the time slot to be selected
+     */
+    public void verifyBlockThisTimeSlotToolTipIsDisplayed(String day, String time) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Exceptions").click();
+        selectTimeSlot(day, time);
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getWhatDoesThisMeanLabel()).build().perform();
+        Assert.assertTrue("Block this time tool tip is not present", getBlockThisTimeSlotToolTip()
+                .isDisplayed());
+        getCancelExceptionButton().click();
+    }
+
+    /**
+     * Blocks a given time slot
+     *
+     * @param day,  the day of the time slot to block
+     * @param time, the time of the time slot to block
+     */
+    public void blockTimeSlot(String day, String time) {
+        selectTimeSlot(day, time);
+        getBlockThisTimeSlotButton().click();
+        waitForUITransition();
+    }
+
+    /**
+     * Verifies if the unblock this time slot button is displayed when clicking on a slot time in the exceptions tab
+     *
+     * @param day  of the time slot to be slected
+     * @param time of the time slot to be selected
+     */
+    public void verifyUnblockThisTimeSlotButtonIsDisplayed(String day, String time) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Exceptions").click();
+        selectTimeSlot(day, time);
+        Assert.assertTrue("Unblock this time slot button is not present", getUnblockThisTimeSlotButton()
+                .isDisplayed());
+        getCancelExceptionButton().click();
+    }
+
+    /**
+     * @param day,  the day of the slot to check the blocked label
+     * @param time, the time of the slot to check the blocked label
+     */
+    public void verifyBlockedLabelIsDisplayedInTimeSlot(String day, String time) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Exceptions").click();
+        Assert.assertTrue(String.format("The blocked label is not dosplayed in the time slot with day: %s and time: %s"
+                , day, time), getDriver().findElement(By.xpath(String.format(
+                ".//table[.//caption/span ='%s']//button[text()='%s']/preceding-sibling::span[text()='Blocked']"
+                , day, time))).isDisplayed());
+    }
+
+    /**
+     * Verifies if an appointment can be set in the calendar tab for a given slot time
+     *
+     * @param day,  the day of the slot time to try to set the appointment, Mon, Tue, Wed, Thu, Fri
+     * @param time, the time of the slot time to try to set the appointment, 2:30PM
+     */
+    public void verifyNewVisitCannotBeSet(String day, String time) {
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        getAddVisitButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(
+                ".//h1/span[text()='schedule new visit']"), 1));
+        WebElement table = driver.findElement(By.xpath(".//tbody"));
+        List<WebElement> rows = table.findElements(By.xpath(".//tr"));
+        for (WebElement row : rows) {
+            List<WebElement> timeSlots = row.findElements(By.xpath(".//td"));
+            if (timeSlots.size() > 1) {
+                try {
+                    (new WebDriverWait(getDriver(), 3))
+                            .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(String.format("//button[text()='$s']", time))));
+                    new AssertionFailedError(String.format
+                            ("It is possible to set a new visit with day: %s and time: %s", day, time));
+                } catch (Exception e) {
+                }
+            }
+        }
+        getCloseScheduleNewVisitButton().click();
+        waitForUITransition();
+    }
+
+    /**
+     * Unblocks a given time slot
+     *
+     * @param day,  the day of the time slot to unblock
+     * @param time, the time of the time slot to unblock
+     */
+    public void unblockTimeSlot(String day, String time) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Exceptions").click();
+        selectTimeSlot(day, time);
+        getUnblockThisTimeSlotButton().click();
+        waitForUITransition();
+    }
+
+    /**
+     * Verifies that the blocked label is not displayed for a given time slot
+     *
+     * @param day  of the time slot to be verified
+     * @param time of the time slot to be verified
+     */
+    public void verifyBlockedLabelIsNotDisplayedInTimeSlot(String day, String time) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Availability").click();
+        link("Exceptions").click();
+        try {
+            (new WebDriverWait(getDriver(), 3)).until(ExpectedConditions.
+                    presenceOfElementLocated(By.xpath(String.format(
+                            ".//table[.//caption/span ='%s']//button[text()='%s']/preceding-sibling::span[text()='Blocked']"
+                            , day, time))));
+            new AssertionFailedError(String.format("The blocked label is displayed for time slot with day: %s and time: %s"
+                    , day, time));
+        } catch (Exception e) {
+        }
+    }
+
+    /**
+     * Verifies the number of visits of a given time slot in exceptions tab
+     *
+     * @param day,            the day of the slot to verify the number of visits
+     * @param time,           the time of the slot to verify the number of visits
+     * @param numberOfVisits, the expected number of visits for the given time slot
+     */
+    public void verifyNumberOfVisits(String day, String time, String numberOfVisits) {
+        selectTimeSlot(day, time);
+        String actualNumberOfVisits = getNumberOfVisitsTextBox().getAttribute("value");
+        Assert.assertEquals("The number of visits are not equal, actual: " + actualNumberOfVisits + ", expected: " +
+                numberOfVisits, numberOfVisits, actualNumberOfVisits);
+    }
+
+    /**
+     * Cancels a visit in the calendar
+     *
+     * @param time,    the time of the appointment to be canceled
+     * @param college, the college of the appointment to be canceled
+     * @param note,    the note to cancel the appointment
+     */
+    public void cancelVisit(String time, String college, String note) {
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        waitUntil(ExpectedConditions.visibilityOf(getAddVisitButton()));
+        waitForUITransition();
+        getDriver().findElement(By.xpath(String.format(".//div[span/text()='%s' and span/text()='%s']", time, college))).click();
+        waitForUITransition();
+        Actions action = new Actions(getDriver());
+        action.sendKeys(Keys.END).build().perform();
+        getCancelThisVisitButon().click();
+        getMessageRegardingCancellationTextBox().sendKeys(note);
+        getYesCancelVisitButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("repVisit-cancelation-message"), 0));
+        waitForUITransition();
     }
 
     /*locators for Messaging Options Page*/
@@ -4197,6 +4527,202 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  regularWeeklyHours;
     }
 
+    /**
+     * Gets the add representative manually link
+     *
+     * @return webelement
+     */
+    private WebElement getAddRepresentativeManuallyLink() {
+        return getDriver().findElement(By.xpath(".//span[text()='Not in the list? Add them manually']"));
+    }
+
+    /**
+     * Gets the add visit button
+     *
+     * @return webelement
+     */
+    private WebElement getAddVisitButton() {
+        return getDriver().findElement(By.cssSelector("i[class='plus icon']"));
+    }
+
+    /**
+     * Gets the representative first name text box
+     *
+     * @return webelement
+     */
+    private WebElement getRepresentativeFirstNameTextBox() {
+        return getDriver().findElement(By.id("add-rep-first-name"));
+    }
+
+    /**
+     * Gets the representative las name textbox
+     * @return webelement
+     */
+    private WebElement getRepresentativeLastName(){
+        return getDriver().findElement(By.id("add-rep-last-name"));
+    }
+
+    /**
+     * Gets the representative institution textbox
+     * @return webelement
+     */
+    private WebElement getRepresentativeInstitutionTextBox(){
+        return getDriver().findElement(By.id("add-rep-institution"));
+    }
+
+    /**
+     * Gets the event location textbox
+     *
+     * @return webelement
+     */
+    private WebElement getEventLocationTextBox() {
+        return textbox(By.cssSelector("input[aria-label='Event Location']"));
+    }
+
+    /**
+     * Gets the max number of students textbox
+     *
+     * @return webelement
+     */
+    private WebElement getMaxNumberOfStudentsTextBox() {
+        return textbox(By.cssSelector("input[aria-label='Max Number of Students']"));
+    }
+
+    /**
+     * Gets the registration will close textbox
+     *
+     * @return webelement
+     */
+    private WebElement getRegistrationWillCloseTextBox() {
+        return textbox(By.cssSelector("input[aria-label='Student Registration Deadline']"));
+    }
+
+    /**
+     * Gets the registration will close dropdown
+     *
+     * @return webelement
+     */
+    private WebElement getRegistrationWillCloseDropDown() {
+        return getDriver().findElement(By.cssSelector("div[class='ui button labeled dropdown icon _1aL4UbWpFb0cG9xlCe1orC']"));
+    }
+
+    /**
+     * Gets the internal notes label
+     *
+     * @return webelement
+     */
+    private WebElement getInternalNotesLabel() {
+        return getDriver().findElement(By.cssSelector("p[class='oIgGvJmf_cKi9PQcEeG3Z']"));
+    }
+
+    /**
+     * Gets the add visit appointment button
+     *
+     * @return webelement
+     */
+    private WebElement getAddVisitCalendarAppointmentButton() {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(
+                "button[class='ui teal right floated button']")));
+        return getDriver().findElement(By.cssSelector(
+                "button[class='ui teal right floated button']"));
+    }
+
+    /**
+     * Gets the cancel button of the exceptions tab
+     *
+     * @return webelement
+     */
+    private WebElement getCancelExceptionButton() {
+        return button("Cancel");
+    }
+
+    /**
+     * Gets the block this time button
+     *
+     * @return, webelement, the block this time button
+     */
+    private WebElement getBlockThisTimeSlotButton() {
+        return getDriver().findElement(By.xpath("//span[text()='Block this time slot']"));
+    }
+
+    /**
+     * Gets the what does this mean label
+     *
+     * @return webelement, the what does this mean label
+     */
+    private WebElement getWhatDoesThisMeanLabel() {
+        return getDriver().findElement(By.xpath("*//span[text()='What does this mean?']"));
+    }
+
+    /**
+     * Gets the block this time slot tooltip
+     *
+     * @return, webelement, the block this time slot tooltip
+     */
+    private WebElement getBlockThisTimeSlotToolTip() {
+        return getDriver().findElement(By.xpath("//div[text()='Blocking this time slot will prevent new appointments from being scheduled for " +
+                "this particular date. Blocking this time slot will not cancel pre-existing appointments.']"));
+    }
+
+    /**
+     * Gets the unblok this time slot button
+     *
+     * @return webelement
+     */
+    private WebElement getUnblockThisTimeSlotButton() {
+        return getDriver().findElement(By.xpath("//span[text()='Unblock this time slot']"));
+    }
+
+    /**
+     * Gets the close schedule new visit button
+     *
+     * @return webelement
+     */
+    private WebElement getCloseScheduleNewVisitButton() {
+        return getDriver().findElement(By.cssSelector("i[class='close icon']"));
+    }
+
+    /**
+     * Gets the number of visits textbox
+     *
+     * @return webelemet
+     */
+    private WebElement getNumberOfVisitsTextBox() {
+        return getDriver().findElement(By.cssSelector("input[type='number']"));
+    }
+
+    /**
+     * Gets the cancel this visit button
+     *
+     * @return webelement
+     */
+    private WebElement getCancelThisVisitButon() {
+        return button("Cancel This Visit");
+    }
+
+    /**
+     * Gets the message regarding cancellation textbox
+     *
+     * @return webelement
+     */
+    private WebElement getMessageRegardingCancellationTextBox() {
+        return getDriver().findElement(By.id("repVisit-cancelation-message"));
+    }
+
+    /**
+     * Gets the yes cancel visit button
+     *
+     * @return webelement
+     */
+    private WebElement getYesCancelVisitButton() {
+        return button("Yes, cancel visit");
+    }
+
+    /**
+     * Gets the remove slot button
+     *
+     * @return webelement
+     */
     private WebElement getRemoveTimeSlotButton() {
         return button("REMOVE");
     }
