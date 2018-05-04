@@ -1517,7 +1517,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("fair is not displayed",fairname.isDisplayed());
         WebElement schoolDetails = driver.findElement(By.xpath("//a/h3[text()='"+schoolName+"']"));
         Assert.assertTrue("schoolName is not displayed",schoolDetails.isDisplayed());
-        WebElement button=  driver.findElement(By.xpath("//span[text()='"+Fair+"']/parent::div/following-sibling::div/button/span[text()='Register']"));
+        WebElement button=  driver.findElement(By.xpath("//span[text()='"+Fair+"']/parent::div/following-sibling::div/button[text()='Register']"));
         button.click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
@@ -1682,27 +1682,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         boolean before = (first.before(second));
         return  before;
 
-    }
-
-    public void findMonth(String month) {
-
-        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-
-        try{
-            while (!DayPickerCaption.contains(month)) {
-                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
-                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-            }
-        }
-        catch (Exception e) {
-            Assert.fail("The Date selected it's out of RANGE.");
-        }
-    }
-
-    public void clickOnDay(String date) {
-        try{
-            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+" and @aria-disabled='false']")).click();}
-        catch (Exception e){logger.info("Invalid date");}
     }
 
     public void addHighSchoolToRepVisitsTravelPlan(String school, String location){
@@ -1910,13 +1889,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
-    /**
-     * Searches a high schools by location in RepVisits>Recommendations page given a location
-     * @param location to search
-     */
-    private void searchHighSchoolByLocationInRecommendationsPage(String location){
-        getSearchByLocationTextBox().sendKeys(location);
-    }
 
     /**
      * Adds a given school to the travel plan in RepVisits>Travel Plan
@@ -1934,16 +1906,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    /**
-     * Adds a given school and a location to the RevVisits travel plan
-     * @param school to be added
-     * @param location to search the school
-     */
-    public void addHighSchoolToRepVisitsTravelPlan(String school, String location){
-        navigateToRepVisitsSection("Recommendations");
-        searchHighSchoolByLocationInRecommendationsPage(location);
-        addHighSchoolToTravelPlan(school);
-    }
 
     /**
      * Verifies if the trash icon is displayed for a given school in the Travel Plan page
@@ -1960,42 +1922,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             throw new AssertionFailedError(String.format("The trash icon is not displayed for school: %s, error: %s"
                     ,school,e.toString()));
         }
-    }
-
-    /**
-     * Verifies that a given label is displayed for a given high school
-     * @param school to verify the label
-     * @param labelText to verify
-     */
-    public void verifyLabelForTravelPlanHighSchool(String school, String labelText){
-        navigateToRepVisitsSection("Travel Plan");
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
-        try{
-            getDriver().findElements(By.xpath(String.format(
-                    ".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='%s']",school,labelText
-            )));
-        }catch(Exception e){
-            throw new AssertionFailedError(String.format("The %s label is not displayed for high school: %s, error: %s"
-                    ,labelText,school,e.toString()));
-        }
-    }
-
-    /**
-     * Removes a given high school from the travel plan page
-     * @param school to be removed
-     */
-    public void removeHighSchoolFromTravelPlan(String school){
-        navigateToRepVisitsSection("Travel Plan");
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
-        button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
-                ,school))).click();
-        Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?")
-                .isDisplayed());
-        Assert.assertTrue("The remove from travel plan confirmation message is not displayed",
-                text(String.format("Are you sure you want to remove %s from your travel plan?", school)).isDisplayed());
-        button("YES, REMOVE").click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
     }
 
     /**
@@ -2676,17 +2602,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement showMoreButton(String option){
         WebElement text=driver.findElement(By.xpath("//span[text()='"+option+"']"));
         return text;
-    }
-    private void addHighSchoolToTravelPlan(String school){
-        try{
-            driver.findElement(By.xpath(String.format(".//td/a[text()='%s']/ancestor::tr/td/div[@class='_1az38UH6Zn-lk--8jTDv2w']/span[text()='Added To Travel Plan']"
-                    ,school)));
-        } catch (Exception e){
-            button(By.xpath(String.format(".//td/a[text()='%s']/ancestor::tr/td/div/button/span[text()='Add To Travel Plan']"
-                    ,school))).click();
-            Assert.assertTrue(String.format("The school: %s was not added to the travel plan",school),
-                    text(By.xpath("//span[text()='School added to Travel Plan']")).isDisplayed());
-        }
     }
     private WebElement calendar() {
         WebElement navbar=link("Calendar");

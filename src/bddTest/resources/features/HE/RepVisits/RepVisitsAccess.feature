@@ -170,26 +170,26 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     And HS I successfully sign out
 #Register a Fair
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
-    And HE I search for "<school>" in RepVisits page
+    And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #Register a Visit
-    And HE I search for "<school>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<school>" using "<Date>" and "<heStartTime>"
-    And HE I verify the schedule pop_up for "<school>" using "<heTime>" and "<hsEndTime>"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 #Verify Travel Plan Tab
     Then HE I verify the instructional text in Travel Plan and verify the link to navigate to the Recommendations page
-    When HE I add "<school>" high school with location "<location>" to the Travel Plan
+    When HE I add "<School>" high school with location "<location>" to the Travel Plan
     Then HE I verify the states of the school are present in the ABC order
-    Then HE I verify the School details in Travel plan "<school>","<address>","<college going rate>","<senior class size>","<primary POC>","<size of State>","<stateName>"
-    Then HE I verify the "Upcoming Appointments" Text is present in the Travel plan for "<school>"
-    Then HE I verify upcoming fair message is displayed in the Travel plan page for "<school>"
-    Then HE I verify the Visit details are displayed in the Travel plan for "<school>","<StartDate>"
-    Then HE I verify the Fair details are displayed in the Travel plan for "<school>","<Date>"
-    Then HE I verify the "Remove" button is present in the Travel Plan for "<school>"
-    Then HE I verify the text "Previous Appointments" is present in the Travel plan page for "<school>"
-    Then HE I verify the text "Nothing scheduled yet" is present in the Travel plan page for "<school>"
-    Then HE I verify the "View Availability" Button is present in the Travel plan page for "<school>"
-    Then HE I verify the "View Availability" button for "<school>", navigate to the search and schedule page or not
+    Then HE I verify the School details in Travel plan "<School>","<address>","<college going rate>","<senior class size>","<primary POC>","<size of State>","<stateName>"
+    Then HE I verify the "Upcoming Appointments" Text is present in the Travel plan for "<School>"
+    Then HE I verify upcoming fair message is displayed in the Travel plan page for "<School>"
+    Then HE I verify the Visit details are displayed in the Travel plan for "<School>","<StartDate>"
+    Then HE I verify the Fair details are displayed in the Travel plan for "<School>","<Date>"
+    Then HE I verify the "Remove" button is present in the Travel Plan for "<School>"
+    Then HE I verify the text "Previous Appointments" is present in the Travel plan page for "<School>"
+    Then HE I verify the text "Nothing scheduled yet" is present in the Travel plan page for "<School>"
+    Then HE I verify the "View Availability" Button is present in the Travel plan page for "<School>"
+    Then HE I verify the "View Availability" button for "<School>", navigate to the search and schedule page or not
 #Verify the label "This school isnt using RepVisits yet" in Travel Plan
     When HE I add "Westlake H S" high school with location "Austin" to the Travel Plan
     Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "Westlake H S"
@@ -203,6 +203,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     And HS I successfully sign out
 
 Examples:
-      |school                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
-      |Central High School     |16900 W Gebhardt Rd Brookfield, Wisconsin, Waukesha county, 53005|82                |320              |CENTRAL HIGH HS     |2            |WISCONSIN |14  |10:32am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:32am     |10:32am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Brookfield |
+      |School                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
+      |Central High School     |16900 W Gebhardt Rd Brookfield, Wisconsin, Waukesha county, 53005|82                |320              |CENTRAL HIGH HS     |2            |WISCONSIN |14  |10:      |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:         |10:     |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Brookfield |
 
