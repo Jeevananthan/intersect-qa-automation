@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.cs.A;
 import cucumber.api.java.en_scouse.An;
 import cucumber.api.java8.En;
@@ -371,5 +372,12 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I cancel a visit with time \"([^\"]*)\" college \"([^\"]*)\" and note \"([^\"]*)\"$",repVisits::cancelVisit);
 
+        Then("^HS I add the following attendees to the College Fair$", repVisits::addAttendees);
+
+        Then("^HS I verify configuration and staff notifications for \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyStaffNotifications);
+
+        Then("^HS I verify that the user receives an activity notification with \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyCollegeFairNotificationWasReceived);
+
+        Then("^HS I verify non community members to be notified with \"([^\"]*)\" and \"([^\"]*)\" email$",repVisits::verifyNotificationsToNonMembersSection);
     }
 }
