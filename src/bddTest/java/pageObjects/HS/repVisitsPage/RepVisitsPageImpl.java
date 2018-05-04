@@ -1361,9 +1361,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         String actualTimeZoneWhenNextButtonClicked = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
         Assert.assertTrue("'Timezone is not saved when click on Next button'", actualTimeZoneWhenNextButtonClicked.contains(timeZoneToSet));
-
-        button("Back").click();
-
+        setTimeZoneValue(newTimeZone);
+        button("Next").click();
     }
 
     public void clickUpdateButtonInRepVisits(){
