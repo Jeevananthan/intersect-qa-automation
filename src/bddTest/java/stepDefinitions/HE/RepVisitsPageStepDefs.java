@@ -3,6 +3,7 @@ package stepDefinitions.HE;
 import cucumber.api.PendingException;
 import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
+import pageObjects.COMMON.EmailNotifications;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
 
 public class RepVisitsPageStepDefs implements En {
@@ -294,6 +295,8 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I open the new fair details in the generated date$", repVisits::openFairDetailsWithGeneratedDate);
 
         Then("^HE I verify that the following details are present in the fair details in the generated date:$", repVisits::verifyFairDetailsWithGenDate);
+
+        And("^HE I verify that the Email Notification Message says: \"([^\"]*)\"$",EmailNotifications::verifyEmailBody);
 
     }
 }

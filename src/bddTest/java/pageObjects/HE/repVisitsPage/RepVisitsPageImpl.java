@@ -96,7 +96,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         text(highSchool).click();
         text("Fairs").click();
         if (text(fairTitle).isDisplayed()){
-            driver.findElement(By.xpath("//span[contains(text(), '"+fairTitle+"')]/../following-sibling::div/button/span[contains(text(),'Register')]")).click();
+            driver.findElement(By.xpath("//span[contains(text(), '"+fairTitle+"')]/../following-sibling::div/button[contains(text(),'Register')]")).click();
         }else
             Assert.assertFalse("Fair = "+fairTitle+" is not exist.", text(fairTitle).isDisplayed());
 
