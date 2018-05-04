@@ -1121,18 +1121,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void visitFairsToRegister(String fairName,String schoolName){
+        waitUntilPageFinishLoading();
         String Fair=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
-        waitUntilElementExists(fairs());
-        fairs().click();
+        waitUntilElementExists(getFairsButton());
+        getFairsButton().click();
         waitUntilElementExists(register());
-        waitUntilElementExists(fairName(schoolName,Fair));
-        Assert.assertTrue("fair is not displayed",fairName(schoolName,Fair).isDisplayed());
-        Assert.assertTrue("schoolName is not displayed",schoolName(schoolName).isDisplayed());
-        registerButton(Fair) .click();
+        WebElement fairname=driver.findElement(By.xpath("//a/h3[text()='"+schoolName+"']/parent::a/following-sibling::span[text()='"+Fair+"']"));
+        waitUntilElementExists(fairname);
+        Assert.assertTrue("fair is not displayed",fairname.isDisplayed());
+        WebElement schoolDetails = driver.findElement(By.xpath("//a/h3[text()='"+schoolName+"']"));
+        Assert.assertTrue("schoolName is not displayed",schoolDetails.isDisplayed());
+        WebElement button=  driver.findElement(By.xpath("//span[text()='"+Fair+"']/parent::div/following-sibling::div/button[text()='Register']"));
+        button.click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
         submitButton().click();
         waitForUITransition();
         navBar.goToRepVisits();
+        waitForUITransition();
+        waitUntilPageFinishLoading();
     }
 
     public void verifyNotification(String school,String date,String time) {
@@ -2031,6 +2038,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement getSearchByLocationTextBox(){
         return textbox("Search by location...");
+    }
+    public WebElement getFairsButton() {
+        return button("Fairs");
     }
 }
 
