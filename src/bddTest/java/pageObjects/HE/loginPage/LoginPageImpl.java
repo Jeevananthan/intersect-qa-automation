@@ -109,15 +109,16 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         link("Forgot Password").click();
         textbox("E-Mail Address").sendKeys(userName);
         button("RESET PASSWORD").click();
+        waitForUITransition();
     }
 
     public void processResetPassword(String userType, DataTable data) {
+        waitForUITransition();
         String emailBody = "";
         GetProperties.setGmailAPIWait(120);     //Time unit is in seconds
         try {
+            waitForUITransition();
             List<Email> emails = getGmailApi().getMessages(data);
-
-            boolean verified = false;
             for (Email email : emails) {
                 System.out.print(email.toString());
                 emailBody = email.getBody();

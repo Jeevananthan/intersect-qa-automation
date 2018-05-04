@@ -50,7 +50,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     And HE I verify the non-administrator messaging on the Visits Feedback page
     And HE I successfully sign out
 
-
   @MATCH-1989
   Scenario: As an HE user tied to an HE account that has not paid for the Intersect Presence Subscription.
   I want to be presented with a popup/form that allows me to inquire about upgrading my HE account
@@ -120,7 +119,40 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the see details link in RepVisits
     And HE I successfully sign out
     
-      @MATCH-1604
+  @MATCH-3065
+  Scenario: As a RepVisits Admin User
+  I want to be able to configure email forwarding of my ActiveMatch and ActiveMatch Events Reports
+  So that I can keep non RV Using members of my school staff informed
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the Institution Notification page
+    Then HE I verify the Institution Notification page
+    Then HE I validate the Checkbox in the Institution Notification page using "purple HEadmin"
+    Then HE I validate the Email in the Institution Notification page using "purpleheautomation@gmail.com","purpleheautomation+admin@gmail.com",",purpleheautomation+admin@gmail.com"
+    Then HE I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "community"
+    Then HE I verify the Non-admins do not have the tab in navigation
+    Then HE I verify the Non-admins cannot reach the page directly by URL
+    Then HE I successfully sign out
+
+  @MATCH-2238
+  Scenario: Verify Overview page when HE user DOES NOT have Intersect subscription activated
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the "Overview" page in RepVisits
+    Then HE I verify the Repvisits Overview Upgrade Subscription page
+    Then HE I successfully sign out
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+    
+    @MATCH-1604
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
               so that I can easily view all the high school I may want to visit on one screen.
 #Pre-Conditions
@@ -139,7 +171,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
 #Register a Fair
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<school>" in RepVisits page
-    Then HE I select Fairs for "<College Fair Name>" and schoolName "<school>"
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #Register a Visit
     And HE I search for "<school>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<school>" using "<Date>" and "<heStartTime>"

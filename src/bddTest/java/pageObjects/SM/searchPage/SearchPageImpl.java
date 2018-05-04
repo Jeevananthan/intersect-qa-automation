@@ -489,56 +489,44 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         veryLargeStudentBodyLabel().click();
         Assert.assertTrue("'Very large (Over 20,000 students)' checkbox is not selected", veryLargeStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxContains("Student Body Size [1]");
         veryLargeStudentBodyLabel().click();
         Assert.assertFalse("'Very large (Over 20,000 students)' checkbox is selected", veryLargeStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         largeStudentBodyLabel().click();
         Assert.assertTrue("'Large (13,001 to 20,000 students)' checkbox is not selected", largeStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxContains("Student Body Size [1]");
         largeStudentBodyLabel().click();
         Assert.assertFalse("'Large (13,001 to 20,000 students)' checkbox is selected", largeStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         midSizeStudentBodyLabel().click();
         Assert.assertTrue("'Mid-Size (7,001 to 13,000 students)' checkbox is not selected", midSizeStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxContains("Student Body Size [1]");
         midSizeStudentBodyLabel().click();
         Assert.assertFalse("'Mid-Size (7,001 to 13,000 students)' checkbox is selected", midSizeStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         mediumStudentBodyLabel().click();
         Assert.assertTrue("'Medium (4,001 to 7,000 students)' checkbox is not selected", mediumStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxContains("Student Body Size [1]");
         mediumStudentBodyLabel().click();
         Assert.assertFalse("'Medium (4,001 to 7,000 students)' checkbox is selected", mediumStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         smallStudentBodyLabel().click();
         Assert.assertTrue("'Small (2,001 to 4,000 students)' checkbox is not selected", smallStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxContains("Student Body Size [1]");
         smallStudentBodyLabel().click();
         Assert.assertFalse("'Small (2,001 to 4,000 students)' checkbox is selected", smallStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
 
         verySmallStudentBodyLabel().click();
         Assert.assertTrue("'Very Small (2,000 or fewer students)' checkbox is not selected", verySmallStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxContains("Student Body Size [1]");
         verySmallStudentBodyLabel().click();
         Assert.assertFalse("'Very Small (2,000 or fewer students)' checkbox is selected", verySmallStudentBodyCheckbox().isSelected());
-        waitForUITransition();
         verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
     }
 
@@ -547,22 +535,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         gpaTextBox().clear();
         gpaTextBox().sendKeys("0.1");
-        waitForUITransition();
         Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
 
         gpaTextBox().clear();
         gpaTextBox().sendKeys("2");
-        waitForUITransition();
         Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
 
         gpaTextBox().clear();
         gpaTextBox().sendKeys("4");
-        waitForUITransition();
         Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
 
     }
@@ -573,22 +557,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         gpaTextBox().clear();
         gpaTextBox().sendKeys("0");
-        waitForUITransition();
         Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
 
         gpaTextBox().clear();
         gpaTextBox().sendKeys("4.1");
-        waitForUITransition();
         Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
 
         gpaTextBox().clear();
         gpaTextBox().sendKeys("5");
-        waitForUITransition();
         Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
 
     }
@@ -598,22 +578,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("400");
-        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1000");
-        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1600");
-        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
     }
@@ -623,22 +599,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("100");
-        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("399");
-        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1601");
-        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
     }
@@ -648,7 +620,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         satScoreTextBox().clear();
@@ -658,7 +629,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
         Assert.assertTrue("SAT score data is not persisting", satScoreTextBox().getAttribute("value").equals("827"));
         satScoreTextBox().clear();
@@ -672,7 +642,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         gpaTextBox().clear();
@@ -683,7 +652,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         Assert.assertTrue("GPA data is not stored on our side", gpaTextBox().getAttribute("value").equals("3"));
@@ -695,24 +663,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         actScoreTextBox().clear();
         actScoreTextBox().sendKeys("1");
-        waitForUITransition();
         Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"))
                 .getText().contains("ACT value must be a number between 1 and 36"));
 
         actScoreTextBox().clear();
         actScoreTextBox().sendKeys("18");
-        waitForUITransition();
         Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText()
                 .contains("ACT value must be a number between 1 and 36"));
 
         actScoreTextBox().clear();
         actScoreTextBox().sendKeys("36");
-        waitForUITransition();
         Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText()
                 .contains("ACT value must be a number between 1 and 36"));
 
@@ -724,23 +688,19 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         // You can no longer enter a leading zero in ACT scores, or enter decimals at all.
         /*actScoreTextBox().clear();
         actScoreTextBox().sendKeys("0");
-        waitForUITransition();
         Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
 
         actScoreTextBox().clear();
         actScoreTextBox().sendKeys("18.1");
-        waitForUITransition();
         Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
 */
         actScoreTextBox().clear();
         actScoreTextBox().sendKeys("37");
-        waitForUITransition();
         Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
 
     }
@@ -750,7 +710,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         actScoreTextBox().clear();
@@ -761,7 +720,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
-            waitForUITransition();
         }
 
         Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals("6"));
@@ -769,13 +727,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySurvey(String buttonLabel) {
-        waitForUITransition();
         button(buttonLabel).click();
         String winHandleBefore = driver.getWindowHandle();
         for(String winHandle : driver.getWindowHandles()){
             driver.switchTo().window(winHandle);
         }
-        waitForUITransition();
         Assert.assertTrue("The survey is not displayed", survey.surveySubtitle().isDisplayed());
         if (driver.getWindowHandles().size() > 1) {
             driver.close();
@@ -803,9 +759,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyMeets100ofNeedCheckbox(String checkBox){
+        chooseFitCriteriaTab("Cost");
         String path = "//label[contains(text(), '"+checkBox+"')]";
         Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path)).getText().equals("Meets 100% of Need"));
-        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../i[@aria-hidden='true']")).isDisplayed());
+        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../button[@aria-label='undefined help']")).isDisplayed());
+        getFitCriteriaCloseButton().click();
     }
 
     /**
@@ -822,7 +780,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
         }
         Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        getFitCriteriaCloseButton().click();
     }
     /**
      * unselect any selected checkbox only when fit criteria menu is open.
@@ -838,7 +796,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
         }
         Assert.assertTrue(checkBox+" checkbox is selected.", !onlyCheckbox.isSelected());
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        getFitCriteriaCloseButton().click();
     }
 
     private void openFitCriteria(String fitCriteria){

@@ -211,7 +211,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("HE verify the Pills got disappear for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPills);
 
         Then("^HE I search for school in RepVisits using \"([^\"]*)\"$",repVisits::searchSchoolinRepVisits);
-      
+
         Then("^HE I verify the unpaid users are blocked from exporting in Calendar page$",repVisits::verifyExportButtonInCalendar);
 
         Then("^HE I verify the Export button is Enabled in Calendar page$",repVisits::verifyExportButtonisEnabledInCalendar);
@@ -221,6 +221,18 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the downloaded Appointments csv file \"([^\"]*)\" contains following details$",repVisits::verifyDownloadedCsvFileInCalendar);
 
         Then("^HE I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
+      
+        Then("^HE I navigate to the Institution Notification page$",repVisits::navigateToInstitutionNotificationPage);
+
+        Then("^HE I verify the Institution Notification page$",repVisits::verifyInstitutionNotificationPage);
+
+        Then("^HE I validate the Email in the Institution Notification page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::validateEmailInInstitutionNotificationPage);
+
+        Then("^HE I validate the Checkbox in the Institution Notification page using \"([^\"]*)\"$",repVisits::validateCheckboxInInstitutionNotificationPage);
+
+        Then("^HE I verify the Non-admins do not have the tab in navigation$",repVisits::verifyNotificationTabinNonAdmin);
+
+        Then("^HE I verify the Non-admins cannot reach the page directly by URL$",repVisits::verifyNavigationInNonAdminByURl);
 
         And("HE I add \"([^\"]*)\" high school with location \"([^\"]*)\" to the Travel Plan",repVisits::addHighSchoolToRepVisitsTravelPlan);
 
@@ -267,6 +279,18 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify the \"([^\"]*)\" message in the homepage$",repVisits::verifyLoginMessageInHomPage);
 
         Then("^HE I post a \"([^\"]*)\" Message in the homepage$",repVisits::postMessageInHomePage);
+
+        Then("HE I verify the title \"([^\"]*)\" in RepVisits branding header",repVisits::verifyRepVisitsBrandingHeader);
+
+        And("^HE I verify that rate or rating text is not present on Visit Feedback Overview page$", repVisits::verifyRateTextIsPresentInVFOverviewPage);
+
+        And("^HE I verify text displayed while viewing individual staff member feedback$", repVisits::verifyTextDisplayedOnViewingStaffFeedback);
+
+        And("^HE I verify the Repvisits Overview Upgrade Subscription page$", repVisits::verifyRepvisitsOverviewUpgradeSubscriptionPage);
+
+        Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
+
+        Then("^HE I verify that the previously created fair does not appear for \"([^\"]*)\"$",repVisits::verifyCollegeFairNotVisible);
 
     }
 }

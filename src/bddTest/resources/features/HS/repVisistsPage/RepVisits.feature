@@ -474,41 +474,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I search for partial data of "The Univer" in Contacts
     And HS I successfully sign out
 
-
-
-  @MATCH-1617 @MATCH-1997
-  Scenario: As a high school community user, I want to be able to accept or deny a college that requests to attend my fair.
-  So that I can ensure the colleges attending are a good match for my students. 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I create a College Fair with the following data
-      | College Fair Name                                         | Fair QA Test#03         |
-      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
-      | Cost                                                      | 10                      |
-      | Start Time                                                | 0800AM                  |
-      | Date                                                      | 5                       |
-      | RSVP Deadline                                             | 4                       |
-      | End Time                                                  | 0800PM                  |
-      | Max Number of Colleges                                    | 10                      |
-      | Number of Students Expected                               | 10                      |
-      | Instructions for College Representatives                  | Submit request by Email |
-      | Email Message to Colleges After Confirmation              | why not                 |
-    And HS I successfully sign out
-
-    # Log into HE app to request attendance to college fair created in HS app above
-    Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
-    And HE I successfully sign out
-    Given HE I am logged in to Intersect HE as user type "publishing"
-    Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
-    And HE I successfully sign out
-
-    # Log back into the HS app to accept and decline the attendance requests from above
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I make sure the "Confirm" button works properly for college fair attendee requests for "Fair QA Test#03"
-    Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
-    Then HS I cancel the "Fair QA Test#03" College Fair
-    And HS I successfully sign out
-
   @MATCH-3060 @MATCH-3061
   Scenario: As a RepVisits user,I want one page to go to to manage all my settings
   To simplify my RepVisits configuration experience.
@@ -835,7 +800,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    
+
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
 #by SchoolLocation
     Then HE I search the "<School>" by "<location>"
@@ -887,3 +852,25 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I navigate to the college visits page
     Then HS I verify the default calendar page present after the Wizard completion
     And HS I successfully sign out
+
+  @MATCH-2728
+  Scenario Outline: As an HS RepVisists user who I click on a College Fair in the calendar
+  I want to be able to edit fairs in the summary drawer
+  So that calendar appointments all have a consistent interface
+
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    And HS I verify the fairs are clickable "<College Fair Name>","<VerifyDateEdit>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>"
+    Then HS I cancel college fair created "<College Fair Name>"
+    Examples:
+      |College Fair Name |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
+      |Fair#778         |December 12 2017|0900AM    |1000AM  |April 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
+
+  @MATCH-3101
+  Scenario: As a HS Repvisits user, I should be able to see the text '#HE User# has asked for feedback on their recent visit.' in every entry present in
+            Visit Feedback Pending tab
+    Given HS I want to login to the HS app using "purpleheautomation+hstest@gmail.com" as username and "Password!1" as password
+    Then HS I Navigate to Notifications & Tasks tab of the Repvisits Page
+    Then HS I click the Visit Feedback sub tab
+    Then HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab
