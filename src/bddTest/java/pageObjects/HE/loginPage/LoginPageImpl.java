@@ -109,15 +109,16 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         link("Forgot Password").click();
         textbox("E-Mail Address").sendKeys(userName);
         button("RESET PASSWORD").click();
+        waitForUITransition();
     }
 
     public void processResetPassword(String userType, DataTable data) {
+        waitForUITransition();
         String emailBody = "";
         GetProperties.setGmailAPIWait(120);     //Time unit is in seconds
         try {
+            waitForUITransition();
             List<Email> emails = getGmailApi().getMessages(data);
-
-            boolean verified = false;
             for (Email email : emails) {
                 System.out.print(email.toString());
                 emailBody = email.getBody();
@@ -302,6 +303,105 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Login error message is not displayed as expected!\nExpected: "+errorMessage+"\n",text(errorMessage).isDisplayed());
     }
 
+    public void searchForHEInstitutionWithInvalidData(String institutionName,String institutionType){
+
+        if(institutionType.contains("High School")){
+            button("High School Staff Member").click();
+        }
+        else{
+            button("Higher Education Staff Member").click();
+        }
+
+        driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
+        button("Search").click();
+
+        while(button("More Institutions").isDisplayed()){
+            button("More Institutions").click();
+        }
+        try{
+        if(link(institutionName).isEnabled()){
+            link(institutionName).click();
+            Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
+            link("please complete this form.").click();
+        }
+       else{
+            Assert.assertTrue("Institution Page is not loaded",text("No Institutions Found").isDisplayed());
+
+        }}
+        catch (Exception e){}
+        //link("Back to search").click();
+        try{
+            if(driver.findElement(By.xpath("//div/a/span[text()='Request new institution']")).isDisplayed())
+            {
+                link("Request new institution").click();
+            }
+          }catch(Exception e){}
+    }
+
+    public void validateFieldsInRequestUserForm(DataTable dataTable){
+        //back - link validation
+        Assert.assertTrue("Back option is not displayed",link("Back").isDisplayed());
+        //Already have an account? -text validation
+        Assert.assertTrue("'Already have an account?' text is not displayed",text("Already have an account?").isDisplayed());
+        //Cancel -button validation
+        Assert.assertTrue("'Cancel' button is not displayed",button("Cancel").isDisplayed());
+        //Request User -button validation
+        Assert.assertTrue("'Request User' button is not displayed",button("Request User").isDisplayed());
+
+        List<Map<String,String>> fieldCollections = dataTable.asMaps(String.class,String.class);
+        for (Map<String,String> individualField : fieldCollections ) {
+            for (String key : individualField.keySet()) {
+                switch (key) {
+                    case "firstName":
+                        String actualFirstName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("First Name was not as expected.", actualFirstName.contains(individualField.get(key)));
+                        break;
+                    case "lastName":
+                        String actualLastName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Last Name was not as expected.", actualLastName.equals(individualField.get(key)));
+                        break;
+                    case "email":
+                        String actualEmailAddress = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Work Email Address was not as expected.", actualEmailAddress.equals(individualField.get(key)));
+                        break;
+                    case "verifyEmail":
+                        String actualPhone = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Phone was not as expected.", actualPhone.equals(individualField.get(key)));
+                        break;
+                    case "institutionName":
+                        String institutionName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Phone was not as expected.", institutionName.equals(individualField.get(key)));
+                        break;
+                    case "jobTitle":
+                        String actualSchoolInstitutionName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("School / Institution Name was not as expected.", actualSchoolInstitutionName.equals(individualField.get(key)));
+                        break;
+                    case "authorizedToPostPublicInformation":
+                        String actualMessage = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Messages was not as expected.", actualMessage.equals(individualField.get(key)));
+                        break;
+                    case "schedulesVisits":
+                        String actualSchedule = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("First Name was not as expected.", actualSchedule.contains(individualField.get(key)));
+                        break;
+
+                }
+            }
+        }
+
+    }
+
+
+    public void verifyCaptcha()
+    {
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='recaptcha widget']")));
+        Assert.assertTrue("I'm not a robot text is not displayed",driver.findElement(By.xpath("//label[@id='recaptcha-anchor-label']")).isDisplayed());
+        Assert.assertTrue("inline block is not displayed",driver.findElement(By.xpath("//div[@class='rc-inline-block']")).isDisplayed());
+        Assert.assertTrue("reCAPTCHA text is not displayed",driver.findElement(By.xpath("//div[text()='reCAPTCHA']")).isDisplayed());
+        driver.switchTo().defaultContent();
+    }
+
+
     public void enterDummyVerificationCode() {
 //
        driver.findElement(By.xpath("//input[@name='verification']")).sendKeys("12345");
@@ -381,7 +481,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void validateFieldsInRequestUserForm() {
+    public void validateFieldsPresentInRequestUserForm() {
         //validating header of this page
         Assert.assertTrue("Header of this page doesnot contains 'Request User Account' text", text("Request New Institution").isDisplayed());
         Assert.assertTrue("Message 'Answer all fields below to complete your request. You can expect a response from Hobsons within 1 business day.' is not displayed",driver.findElement(By.xpath("//div/span[text()='Answer all fields below to complete your request. You can expect a response from Hobsons within 1 business day.']")).isDisplayed());

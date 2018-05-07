@@ -41,7 +41,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.name("username")).sendKeys(details.get(0));
         getDriver().findElement(By.name("password")).sendKeys(details.get(1));
         button("Login").click();
-        waitForUITransition();
         link("Colleges").click();
         button("Search Tools").click();
         link("SuperMatch™ College Search Next").click();
@@ -91,6 +90,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private void navigateToFamilyConnectionStaging(String hsid) {
         String url = GetProperties.get("fc.staging.url") + hsid;
+        load(url);
+    }
+
+    public void navigateToSuperMatchDirectly() {
+        String url = GetProperties.get("sm.direct.url");
         load(url);
     }
 
