@@ -796,6 +796,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "scheduled" notification for "<HSuser>","<institution>","<activityDate>","<newVisitSTime>"
 
+#Remove the time slot in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+
 #FOR FAIRS
 #FOR CONFIRM
     Then HS I set the following data to On the College Fair page "<newFairName>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
