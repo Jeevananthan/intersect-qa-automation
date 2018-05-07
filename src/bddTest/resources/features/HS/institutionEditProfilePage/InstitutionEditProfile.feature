@@ -300,6 +300,7 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
     Given HS I navigate to Registration Intersect url
     And HS I search for "Request new institution" in the registration page
     Then HS I verify the Request New User page
+      | firstName      | email  | verifyEmail  | institutionName  |  lastName  | jobTitle |
 
   @MATCH-1848
   Scenario: As a HS user, I need to see particular information and instructions on a HS Reg Institution Page.

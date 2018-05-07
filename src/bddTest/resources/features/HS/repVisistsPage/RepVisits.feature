@@ -474,41 +474,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I search for partial data of "The Univer" in Contacts
     And HS I successfully sign out
 
-
-
-  @MATCH-1617 @MATCH-1997
-  Scenario: As a high school community user, I want to be able to accept or deny a college that requests to attend my fair.
-  So that I can ensure the colleges attending are a good match for my students. 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I create a College Fair with the following data
-      | College Fair Name                                         | Fair QA Test#03         |
-      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
-      | Cost                                                      | 10                      |
-      | Start Time                                                | 0800AM                  |
-      | Date                                                      | 5                       |
-      | RSVP Deadline                                             | 4                       |
-      | End Time                                                  | 0800PM                  |
-      | Max Number of Colleges                                    | 10                      |
-      | Number of Students Expected                               | 10                      |
-      | Instructions for College Representatives                  | Submit request by Email |
-      | Email Message to Colleges After Confirmation              | why not                 |
-    And HS I successfully sign out
-
-    # Log into HE app to request attendance to college fair created in HS app above
-    Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
-    And HE I successfully sign out
-    Given HE I am logged in to Intersect HE as user type "publishing"
-    Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
-    And HE I successfully sign out
-
-    # Log back into the HS app to accept and decline the attendance requests from above
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I make sure the "Confirm" button works properly for college fair attendee requests for "Fair QA Test#03"
-    Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
-    Then HS I cancel the "Fair QA Test#03" College Fair
-    And HS I successfully sign out
-
   @MATCH-3060 @MATCH-3061
   Scenario: As a RepVisits user,I want one page to go to to manage all my settings
   To simplify my RepVisits configuration experience.
@@ -909,3 +874,26 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I Navigate to Notifications & Tasks tab of the Repvisits Page
     Then HS I click the Visit Feedback sub tab
     Then HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab
+
+  @MATCH-2692
+  Scenario: As a high school staff member, I want to be able to toggle blocking of specific availabilities in RepVisits,
+  so that I can effectively close a time slot for further visits and re-open it later, if I choose.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set a date using "0" and "90"
+    And HS I add new time slot with "Friday", "2", "3", "15", "15", "AM", "AM" and "2"
+    And HS I schedule a new visit with day "Fri" time "2:15am" representative name "Test Person name" representative last name "Test Last N" representative institution "RepresentativeTest" location "Cbba" NumberOfStudents "7" registrationWillClose "7 days"
+    Then HS I verify that Block this time slot button is displayed for time slot with day "Fri" and time "2:15am"
+    And HS I verify that Block this time slot ToolTip is displayed for time slot with day "Fri" and time "2:15am"
+    When HS I block the time slot with day "Fri" and time "2:15am"
+    Then HS I verify that Unblock this time slot button is displayed for time slot with day "Fri" and time "2:15am"
+    And HS I verify that Block this time slot ToolTip is displayed for time slot with day "Fri" and time "2:15am"
+    And HS I verify that Blocked label is displayed in the slot time with day "Fri" and time "2:15am"
+    And HS I verify that a new visit with day "Fri" and time "2:15am" cannot be set
+    When HS I unblock the time slot with day "Fri" and time "2:15am"
+    Then HS I verify that the blocked label is not displayed for the time slot with day "Fri" and time "2:15am"
+    And HS I verify that the number of visits for the time slot with day "Fri" and time "2:15am" is "2"
+    And HS I schedule a new visit with day "Fri" time "2:15am" representative name "Test Person name" representative last name "Test Last N" representative institution "RepresentativeTest2" location "Cbba" NumberOfStudents "7" registrationWillClose "7 days"
+    And HS I cancel a visit with time "2:15AM" college "RepresentativeTest" and note "Cancel"
+    And HS I cancel a visit with time "2:15AM" college "RepresentativeTest2" and note "Cancel"
+    And HS I remove the time slot with day "Fri" and time "2:15am"
+    And HS I successfully sign out

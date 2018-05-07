@@ -32,13 +32,11 @@ public class SurveyPageImpl extends PageObjectFacadeImpl {
     }
 
     public String openSurvey() {
-        waitForUITransition();
         smSurveyButton().click();
         String winHandleBefore = driver.getWindowHandle();
         for(String winHandle : driver.getWindowHandles()){
             driver.switchTo().window(winHandle);
         }
-        waitForUITransition();
         originalHandle = winHandleBefore;
         return winHandleBefore;
     }
