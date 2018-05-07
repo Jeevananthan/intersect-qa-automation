@@ -106,7 +106,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
     private WebElement superMatchBannerLink() { return driver.findElement(By.cssSelector("div#reBannerContent strong a")); }
     private String superMatchBannerMessage = "Check it out!  We've been working on an updated SuperMatch experience  Click here to try it out";
-    private String tooltipsInTabListLocator = "button.supermatch-tooltip-trigger";
+    private String tooltipsInTabListLocator = "div.ui.bottom.left.basic.popup.transition.visible.supermatch-menuitem-popup button.supermatch-tooltip-trigger";
     private List<String> locationTooltipsTitlesList = new ArrayList<String>() {{
         add("US Regions & Others");
         add("Campus Surroundings");
