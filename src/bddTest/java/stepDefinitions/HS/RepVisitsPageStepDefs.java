@@ -386,5 +386,25 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify that the user receives an activity notification with \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyCollegeFairNotificationWasReceived);
 
         Then("^HS I verify non community members to be notified with \"([^\"]*)\" and \"([^\"]*)\" email$",repVisits::verifyNotificationsToNonMembersSection);
+
+        And("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
+
+        Then("^HS I verify the Partially scheduled Appointments With Message \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyPartiallyScheduledDayInExceptionsSubtab);
+
+        Then("^HS I verify the Trash icon is present in the Exception Tab to remove the slot$",repVisits::verifyTrashIconInExcepionTab);
+
+        Then("^HS I verify the Availability slot color after select the slot \"([^\"]*)\",\"([^\"]*)\" in the Exception Tab$",repVisits::verifyAvailabilityslotColorInException);
+
+        Then("^HS I verify the diagonal HashLines present in the Blocked date \"([^\"]*)\"$",repVisits::verifyHashLinesInBlockedDate);
+
+        Then("^HS I verify the \"([^\"]*)\" Maximum colleges are present in the Availability slot for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyMaximumCollegesInException);
+
+        Then("^HS I verify the Unscheduled Appointments using \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyUnscheduledAppointmentsInExceptionsSubtab);
+
+        Then("^HS I set the Blocked date and select the reason as \"([^\"]*)\" in the Holiday tab using \"([^\"]*)\"$",repVisits::setBlockedDate);
+
+        Then("^HS I verify the Blocked days with reason \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyBlockedDaysInExceptionsSubtab);
+
+        Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in blocked days$",repVisits::removeManuallyAddedBlockedDate);
     }
 }
