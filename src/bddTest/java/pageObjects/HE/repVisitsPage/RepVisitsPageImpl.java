@@ -2835,9 +2835,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement fairInternalNotesTextBox() { return getDriver().findElement(By.cssSelector("input[aria-label=\"Internal Notes\"]")); }
     private WebElement fairSaveButton() { return getDriver().findElement(By.cssSelector("button.ui.teal.right.floated.button span")); }
     private WebElement fairSavedConfirmationMessage() { return getDriver().findElement(By.cssSelector("div.content span span")); }
-      public WebElement getFairsButton() {
-        return button("Fairs");
-    }
 }
 
 
