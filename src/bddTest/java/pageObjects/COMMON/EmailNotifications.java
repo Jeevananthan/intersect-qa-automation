@@ -22,7 +22,8 @@ public class EmailNotifications {
             for (Email email : emails) {
                 emailBody = email.getBody();
             }
-            emailBody = emailBody.replace("\r\n"," ");
+            emailBody = emailBody.replace("\r\n"," ").replace("(","")
+                    .replace(")","");
             Assert.assertTrue(String.format("The email body is not correct, actual: %s, expected to contain: %s",
                     emailBody, expectedEmailBody),emailBody.matches(expectedEmailBody));
         } catch (Exception e) {
