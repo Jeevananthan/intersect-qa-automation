@@ -1179,6 +1179,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         fairElementDetails(fairName).click();
         editFairButton().click();
+        waitForUITransition();
         cancelThisCollegeFair().click();
         if (driver.findElements(By.id(cancelMessageTextBoxLocator())).size() > 0) {
             driver.findElement(By.id(cancelMessageTextBoxLocator())).sendKeys(cancelationReason);
