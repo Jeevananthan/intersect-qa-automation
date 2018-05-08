@@ -395,7 +395,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Availability slot color after select the slot \"([^\"]*)\",\"([^\"]*)\" in the Exception Tab$",repVisits::verifyAvailabilityslotColorInException);
 
-        Then("^HS I verify the diagonal HashLines present in the Blocked date \"([^\"]*)\"$",repVisits::verifyHashLinesInBlockedDate);
+        Then("^HS I verify the diagonal HashLines present in the Blocked date \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHashLinesInBlockedDate);
 
         Then("^HS I verify the \"([^\"]*)\" Maximum colleges are present in the Availability slot for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyMaximumCollegesInException);
 
@@ -406,5 +406,15 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the Blocked days with reason \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyBlockedDaysInExceptionsSubtab);
 
         Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in blocked days$",repVisits::removeManuallyAddedBlockedDate);
+
+        Then("^HS I verify the color of the Appointments using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyPillsColorInException);
+
+        Then("^HS I verify the color of selected date picker outline using \"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyOutlineColorInException);
+
+        Then("^HS I verify the diagonal HashLines present in the Max Appointments Met date \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHashLinesInMaxAppointmentsMetDate);
+
+        Then("^HS I verify the diagonal HashLines present in the Fully booked date \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHashLinesInFullyBookedDate);
+
+        Then("^HS I verify the light blue background color present in the Partially Scheduled availability using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyColorInPartiallyScheduledAvailability);
     }
 }

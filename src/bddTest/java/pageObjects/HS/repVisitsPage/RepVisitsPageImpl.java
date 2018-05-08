@@ -4429,9 +4429,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyHashLinesInBlockedDate(String Date){
+    public void verifyHashLinesInBlockedDate(String Date,String color){
         String date = selectCurrentDate(Date);
-        Assert.assertTrue("HashLines are not displayed in the blocked date",driver.findElement(By.xpath("//thead[@class='_2uN4q3KH3kk4d9EwW1yIDF']//div/span[text()='"+date+"']/ancestor::thead/following-sibling::tbody/tr[@class='_1BUM5Ok_ar3LdElIYGXqFv']")).isDisplayed());
+        String actualColor = driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']")).getCssValue("background-color");
+        Assert.assertTrue("HashLines are not displayed in the blocked date",actualColor.equals(color));
+    }
+
+    public void verifyHashLinesInMaxAppointmentsMetDate(String Date,String color){
+        String date = selectCurrentDate(Date);
+        String actualColor = driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']")).getCssValue("background-color");
+        Assert.assertTrue("HashLines are not displayed in the blocked date",actualColor.equals(color));
+    }
+
+    public void verifyHashLinesInFullyBookedDate(String Date,String color){
+        String date = selectCurrentDate(Date);
+        String actualColor = driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']")).getCssValue("background-color");
+        Assert.assertTrue("HashLines are not displayed in the blocked date",actualColor.equals(color));
+    }
+
+    public void verifyColorInPartiallyScheduledAvailability(String startTime,String Date,String color){
+        String date = selectCurrentDate(Date);
+        String actualColor = driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+StartTime+"']")).getCssValue("background-color");
+        Assert.assertTrue("HashLines are not displayed in the blocked date",actualColor.equals(color));
     }
 
     public void verifyMaximumCollegesInException(String noOfColleges,String Date,String time){
@@ -4488,6 +4507,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         moveToElement(BlockedDate);
         jsClick(BlockedDate);
         waitUntilPageFinishLoading();
+    }
+
+    public void verifyPillsColorInException(String startTime,String Date,String slotOriginalColor,String startTimeOriginalColor){
+        String date = selectCurrentDate(Date);
+        String SlotActualColor = driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody/tr/td//button[text()='"+StartTime+"']")).getCssValue("background-color");
+        Assert.assertTrue("Color is not equal",slotOriginalColor.equals(SlotActualColor));
+        String startTimeActualColor = driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody/tr/td//button[text()='"+StartTime+"']")).getCssValue("color");
+        Assert.assertTrue("StartTime Color is not equal",startTimeOriginalColor.equals(startTimeActualColor));
+    }
+
+    public void verifyOutlineColorInException(String Date,String outlineColor){
+        String date = selectCurrentDate(Date);
+        String actualOutlineColor = driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']")).getCssValue("border-color");
+        Assert.assertTrue("Outline Color is not equal",outlineColor.equalsIgnoreCase(actualOutlineColor));
     }
 
     public String selectCurrentDate(String addDays) {
