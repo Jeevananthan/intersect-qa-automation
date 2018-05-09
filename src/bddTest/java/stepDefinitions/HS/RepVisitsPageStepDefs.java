@@ -389,6 +389,6 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I go to the Naviance settings$",repVisits::naviagateToAvailbilityandSettings);
 
-        And("^HS I verify the success message after save the changes$",repVisits::verifySuccessMessage);
+        And("^HS I verify the success message after save the changes$",repVisits::verifyNavianceSuccessMessage);
     }
 }

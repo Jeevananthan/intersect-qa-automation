@@ -2101,7 +2101,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navianceSettings().click();
     }
 
-    public void verifySuccessMessage(){
+    public void verifyNavianceSuccessMessage(){
       saveSettings().click();
       waitUntilPageFinishLoading();
       String successMessage="You've updated Naviance settings.";
@@ -4675,8 +4675,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  text;
     }
     private WebElement availabilityAndSettings() {
-        WebElement availabilityAndSettings = link("Availability & Settings");
-        return availabilityAndSettings;
+        return link("Availability & Settings");
     }
     public void clickAddCollegeFairButton() {
         button("Add a College Fair").click();
@@ -4929,12 +4928,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement instructionsTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-instructions")); }
-
-    private WebElement availabilityAndSettings()
-    {
-        WebElement availabilityAndSettings= link("Availability & Settings");
-        return  availabilityAndSettings;
-    }
 
     private WebElement navianceSettings()
     {
