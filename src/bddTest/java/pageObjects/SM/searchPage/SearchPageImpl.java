@@ -856,12 +856,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
     public void checkSelectCriteriaToStartButtonsRedirectsLocation(){
         Assert.assertTrue("First Select Criteria To Start button is not displaying.", firstSelectCriteriaToStartButton().isDisplayed());
-        js.executeScript("window.scrollBy(0,300)");
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstSelectCriteriaToStartButton());
         firstSelectCriteriaToStartButton().click();
         Assert.assertTrue("After clicking on Select Criteria to Start button Location fit criteria is not opening.", locationFitCriteria().isDisplayed());
         ChooseFitCriteriaText().click();
         Assert.assertTrue("Second Select Criteria To Start button is not displaying.", secondSelectCriteriaToStartButton().isDisplayed());
-        js.executeScript("window.scrollBy(0,1000)");
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", secondSelectCriteriaToStartButton());
         secondSelectCriteriaToStartButton().click();
         Assert.assertTrue("After clicking on Select Criteria to Start button Location fit criteria is not opening.", locationFitCriteria().isDisplayed());
     }
