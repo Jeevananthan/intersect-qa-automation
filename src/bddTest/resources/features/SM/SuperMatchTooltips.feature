@@ -18,5 +18,5 @@ Feature: SM - SuperMatchSearch - As a HS student who is interacting with SuperMa
     | Institution Characteristics |
     | Cost                        |
     | Student Life                |
-    | Athletics                   |
+    | Athletics:Aerobics          |
     | Resources                   |

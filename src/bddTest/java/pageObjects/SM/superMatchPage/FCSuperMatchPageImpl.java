@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ import java.util.Map;
 public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private static String fs = File.separator;
+    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSMTooltipsContent%sSMTooltipsContent.properties",fs ,fs ,fs ,fs ,fs);
 
     public FCSuperMatchPageImpl() {
         logger = Logger.getLogger(FCSuperMatchPageImpl.class);
@@ -47,41 +50,44 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyTooltipsInTab(String tabName) {
+
         searchPage.chooseFitCriteriaTab(tabName);
-        switch (tabName) {
-            case "Location" : verifyTooltips(locationTooltipsTitlesList);
+        switch (tabName.split(":")[0]) {
+            case "Location" : verifyTooltips(getListFromPropFile(propertiesFilePath, ";", "location.tooltips.titles.list"));
             break;
-            case "Academics" : verifyTooltips(academicsTooltipsTitlesList);
+            case "Academics" : verifyTooltips(getListFromPropFile(propertiesFilePath, ";", "academics.tooltips.titles.list"));
             break;
-            case "Admission" : verifyTooltips(admissionTooltipsTitlesList);
+            case "Admission" : verifyTooltips(getListFromPropFile(propertiesFilePath, ";", "admission.tooltips.titles.list"));
             break;
-            case "Diversity" : verifyTooltips(diversityTooltipsTitlesList);
+            case "Diversity" : verifyTooltips(getListFromPropFile(propertiesFilePath, ";", "diversity.tooltips.titles.list"));
             break;
-            case "Institution Characteristics" : verifyTooltips(instCharacteristicsTitlesList);
+            case "Institution Characteristics" : verifyTooltips(getListFromPropFile(propertiesFilePath, ";", "institution.characteristics.titles.list"));
             break;
-            case "Cost" : verifyTooltips(costTooltipsTitlesList);
+            case "Cost" : verifyTooltips(getListFromPropFile(propertiesFilePath, ";", "cost.tooltips.titles.list"));
             break;
-            case "Student Life" : verifyTooltips(studentLifeTooltipsTitlesList);
+            case "Student Life" : verifyTooltips(getListFromPropFile(propertiesFilePath, ";", "student.life.tooltips.titles.list"));
             break;
-            case "Athletics" : verifyTooltips(athleticsTooltipsTitlesList);
+            case "Athletics" : verifyTooltips(getListFromPropFile(propertiesFilePath, ";", "athletics.tooltips.titles.list"), tabName.split(":")[1]);
             break;
-            case "Resources" : verifyTooltips(resourcesTooltipsTextList);
+            case "Resources" : verifyTooltips(getListFromPropFile(propertiesFilePath, ";", "resources.tooltips.text.list"));
             break;
         }
     }
 
-    private void verifyTooltips(List<String> tooltipsTitlesList) {
-        if (tooltipsTitlesList.equals(resourcesTooltipsTextList)) {
+    private void verifyTooltips(List<String> tooltipsTitlesList, String... sportOption) {
+        if (tooltipsTitlesList.equals(getListFromPropFile(propertiesFilePath, ";", "resources.tooltips.text.list"))) {
             List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
             for (int i = 0; i < tooltipsList.size(); i++) {
                 tooltipsList.get(i).click();
-                Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipText().getText(), tooltipText().getText().equals(resourcesTooltipsTextList.get(i)));
+                Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipText().getText(),
+                        tooltipText().getText().equals(getListFromPropFile(propertiesFilePath, ";",
+                                "resources.tooltips.text.list").get(i)));
                 tooltipsList.get(i).click();
             }
-        } else if (tooltipsTitlesList.equals(athleticsTooltipsTitlesList)) {
+        } else if (tooltipsTitlesList.equals(getListFromPropFile(propertiesFilePath, ";", "athletics.tooltips.titles.list"))) {
             addSportButton().click();
             sportField().click();
-            sportOption("Aerobics").click();
+            sportOption(sportOption[0]).click();
             List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
             for (int i = 0; i < tooltipsList.size(); i++) {
                 tooltipsList.get(i).click();
@@ -106,62 +112,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement superMatchBannerLink() { return driver.findElement(By.cssSelector("div#reBannerContent strong a")); }
     private String superMatchBannerMessage = "Check it out!  We've been working on an updated SuperMatch experience  Click here to try it out";
     private String tooltipsInTabListLocator = "div.ui.bottom.left.basic.popup.transition.visible.supermatch-menuitem-popup button.supermatch-tooltip-trigger";
-    private List<String> locationTooltipsTitlesList = new ArrayList<String>() {{
-        add("US Regions & Others");
-        add("Campus Surroundings");
-    }};
-    private List<String> academicsTooltipsTitlesList = new ArrayList<String>() {{
-        add("Degree Type");
-    }};
-    private List<String> admissionTooltipsTitlesList = new ArrayList<String>() {{
-        add("GPA (4.0 Scale)");
-        add("Your SAT Scores");
-        add("Your ACT Scores");
-        add("Accepts AP Credits");
-        add("Accepts IB Credits");
-        add("Test optional");
-        add("Common App Member");
-        add("Coalition App Member");
-        add("No application fee");
-    }};
-    private List<String> diversityTooltipsTitlesList = new ArrayList<String>() {{
-        add("Overall Diversity");
-        add("Historically Black Institutions");
-        add("Hispanic Serving Institutions");
-        add("Tribal Colleges and Universities");
-        add("% Male Vs Female");
-        add("High International Population");
-    }};
-    private List<String> instCharacteristicsTitlesList = new ArrayList<String>() {{
-        add("College Type (Public vs Private)");
-        add("Show Only Non-Profit");
-        add("High Graduation Rate");
-        add("High Retention Rate");
-        add("High Job Placement Rate");
-    }};
-    private List<String> costTooltipsTitlesList = new ArrayList<String>() {{
-        add("Total Costs");
-        add("Meets 100% of Need");
-    }};
-    private List<String> studentLifeTooltipsTitlesList = new ArrayList<String>() {{
-        add("Greek Life");
-        add("Internships and Co-ops");
-        add("Offers Study abroad");
-        add("ROTC");
-    }};
-    private List<String> athleticsTooltipsTitlesList = new ArrayList<String>() {{
-        add("Levels");
-    }};
-    private List<String> resourcesTooltipsTextList = new ArrayList<String>() {{
-        add("Learning Differences Support - LDS programs provide specialized assistance to help students with a wide " +
-                "range of learning disabilities (ADHD, dyslexia, auditory/visual processing deficit, etc.).");
-        add("Mental and behavioral health resources are available to support and help students as they navigate college life.");
-        add("Remedial services provide students with courses in specific subject areas (math, reading, and writing) to " +
-                "help them build the skills and confidence to succeed in their classroom studies. Students do not " +
-                "typically receive credit for these courses.");
-        add("English as a Second Language and English Language Learner programs provide assistance in learning English " +
-                "to students who are not native English speakers.");
-    }};
     private WebElement tooltipTitle() { return driver.findElement(By.cssSelector("div[id*='supermatch-toolip-'] div.header")); }
     private WebElement tooltipText() { return driver.findElement(By.cssSelector("div[id*='supermatch-toolip-'] span")); }
     private WebElement addSportButton() { return driver.findElement(By.cssSelector("button[title=\"Add a Sport\"]")); }
