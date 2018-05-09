@@ -54,6 +54,40 @@
             </build>
         </profile>
         <profile>
+            <id>SM-QA</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>qaEnv</value>
+                </property>
+            </activation>
+            <properties>
+                <cucumber.options>--tags @SM --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete file="${configFilePath}"/>
+                                        <copy file="${folderFilePath}/qaEnv.properties" tofile="${configFilePath}"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>HS-QA</id>
             <activation>
                 <property>
@@ -198,7 +232,7 @@
                 </property>
             </activation>
             <properties>
-                <tags>@ProdSmokeTest</tags>
+                <cucumber.options>--tags @ProdSmokeTest</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -226,7 +260,7 @@
     </profiles>
 
     <repositories>
-        <repository>
+<!--        <repository>
             <id>qasymphony-releases</id>
             <name>Qasymphony Release Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/releases</url>
@@ -236,7 +270,7 @@
             <id>qasymphony-snapshots</id>
             <name>Qasymphony Snapshot Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/snapshots</url>
-        </repository>
+        </repository>-->
 
         <repository>
             <id>radius-crm</id>
@@ -247,7 +281,7 @@
     </repositories>
 
     <pluginRepositories>
-        <pluginRepository>
+<!--        <pluginRepository>
             <id>qasymphony-releases</id>
             <name>Qasymphony Release Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/releases</url>
@@ -257,7 +291,7 @@
             <id>qasymphony-snapshots</id>
             <name>Qasymphony Snapshot Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/snapshots</url>
-        </pluginRepository>
+        </pluginRepository>-->
     </pluginRepositories>
 
     <dependencies>
@@ -304,7 +338,7 @@
         <dependency>
             <groupId>com.hobsons.automation.library</groupId>
             <artifactId>AutomationLibrary</artifactId>
-            <version>0.0.4</version>
+            <version>0.0.5-SNAPSHOT</version>
             <classifier>jar-with-dependencies</classifier>
         </dependency>
 
@@ -383,13 +417,14 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                        <!--    <forkCount>1</forkCount>
+                           <!-- <forkCount>2.0C</forkCount>
                             <parallel>all</parallel>
-                            <reuseForks>true</reuseForks>-->
-                            <useUnlimitedThreads>false</useUnlimitedThreads>
+                            <useUnlimitedThreads>true</useUnlimitedThreads>-->
                             <useSystemClassLoader>false</useSystemClassLoader>
                             <perCoreThreadCount>false</perCoreThreadCount>
                             <threadCount>20</threadCount>
+                            <reuseForks>true</reuseForks>
+                            <useUnlimitedThreads>true</useUnlimitedThreads>
                             <includes>
                                 <include>**/*IT.class</include>
                             </includes>
@@ -427,7 +462,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>3.2.0</version>
+                <version>3.16.0</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -436,9 +471,10 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <projectName>Match HE UI Automation</projectName>
+                            <projectName>Intersect QA Automation</projectName>
                             <outputDirectory>${project.build.directory}/reports/build-${build.number}-${project.activeProfiles[0].id}/</outputDirectory>
                             <cucumberOutput>${project.build.directory}/cucumber-json</cucumberOutput>
+                            <checkBuildResult>true</checkBuildResult>
                             <parallelTesting>true</parallelTesting>
                         </configuration>
                     </execution>

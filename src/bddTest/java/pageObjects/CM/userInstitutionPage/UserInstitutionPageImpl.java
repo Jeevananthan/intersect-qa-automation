@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.CM.commonPages.PageObjectFacadeImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 
 /**
@@ -33,7 +33,14 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToUserInstitutionPage() {
         logger.info("Going to user profile page.");
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        iframeEnter();
+        communityFrame();
+        link(By.cssSelector("a[href='/institution']")).click();
+    }
+
+    public void goToHSUserInstitutionPage() {
+        logger.info("Going to user profile page.");
+        link(By.id("js-main-nav-home-menu-link")).click();
+        communityFrame();
         link(By.cssSelector("a[href='/institution']")).click();
     }
 
@@ -66,7 +73,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToHobsonsInstitutionPage() {
         waitUntilPageFinishLoading();
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/1");
-        iframeEnter();
+        communityFrame();
     }
 
     public void goToInstitutionPageById(String instiId) {
@@ -75,7 +82,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
         waitUntilPageFinishLoading();
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/"+instiId+"");
-        iframeEnter();
+        communityFrame();
     }
 
     public void checkIfInstituionBannerExists() {
@@ -99,7 +106,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkIfStaffMembersExistsAndCanConenct() {
-        goToInstitutionStaffMembersList();
+//        goToInstitutionStaffMembersList();
         logger.info("Checking if there are staff members on the Institution page");
         Assert.assertTrue(profilePicStaffMember().isDisplayed());
 
@@ -150,7 +157,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     private boolean checkItemVisibleByCssSelector(String tag, String cssselector, String selectorvalue) {
         try {
-            driver.findElement(By.cssSelector(""+tag+"["+cssselector+"='"+selectorvalue+"']"));
+            driver.findElement(By.cssSelector(""+tag+"["+cssselector+"*='"+selectorvalue+"']"));
             return true;
         } catch (NoSuchElementException ex)  {
             return false;
@@ -161,7 +168,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         logger.info("Making sure I am not following the institution.");
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/"+institutionid+"");
         waitUntilPageFinishLoading();
-        iframeEnter();
+        communityFrame();
         try {
             unfollowBtn();
             unfollowBtn().click();
@@ -176,7 +183,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         logger.info("Making sure I am following the institution.");
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/"+institutionid+"");
         waitUntilPageFinishLoading();
-        iframeEnter();
+        communityFrame();
         try {
             followBtn();
             followBtn().click();
@@ -223,6 +230,70 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The institutions list table is not visible!", checkItemVisibleByCssSelector("table", "class", "members-list-table institutions-list-table"));
     }
 
+    public void goToAlabamaInstitution(){
+        logger.info("Going to Alabama institution page.");
+        driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/636");
+        communityFrame();
+        waitUntilPageFinishLoading();
+    }
+
+    public void goToInstitutionAdditionalInfo() {
+        logger.info("Going to the Alabama Institution Aditional Info.");
+        link(By.xpath("//a[contains(@href, '/info')]")).click();
+//        link(By.cssSelector("a[href='/institution/636/info']")).click();
+    }
+
+    public void goToInstitutionFollowersList() {
+        logger.info("Going to the Alabama Institution Aditional Info.");
+        link(By.xpath("//a[contains(@href, '/followers')]")).click();
+    }
+
+    public void checkHEInstitutionAdditionalInfoPageItems() {
+        logger.info("Checking if all items are displayed on the Institution page.");
+        Assert.assertTrue("Institution logo is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-logo"));
+        Assert.assertTrue("Institution name is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-title"));
+        Assert.assertTrue("Website field is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-website-url"));
+        Assert.assertTrue("Institution location is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-location"));
+        Assert.assertTrue("Institution type not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-type"));
+        Assert.assertTrue("Undergraduate enrollment not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-undergraduate-enrollment"));
+        Assert.assertTrue("Degrees offered not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-degrees"));
+        Assert.assertTrue("institution stats not displayed!", checkItemVisibleByCssSelector("div", "class", "institution-stats"));
+        Assert.assertTrue("Student:Faculty ratio not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-student-faculty-ratio"));
+        Assert.assertTrue("Student retention not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-student-retention"));
+        Assert.assertTrue("Graduation rate not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-graduation-rate"));
+        Assert.assertTrue("CEEB code not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-ceeb"));
+
+    }
+
+    public void checkHSInstitutionAdditionalInfoPageItems() {
+        logger.info("Checking if all items are displayed on the Institution page.");
+//        Assert.assertTrue("Institution logo is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-logo"));
+        Assert.assertTrue("Institution name is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-title"));
+        Assert.assertTrue("Enrollment field is not displayed!", checkItemVisibleByCssSelector("div", "class", "type-enrolled"));
+        Assert.assertTrue("Collage Bord ID is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-hs-colllege-board-id"));
+        Assert.assertTrue("District field not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-district"));
+        Assert.assertTrue("Address field not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-hs-address"));
+        Assert.assertTrue("Website field not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-website-url"));
+        Assert.assertTrue("Phone field not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-phone"));
+        Assert.assertTrue("Fax field not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-fax"));
+        Assert.assertTrue("Collage going rate not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-hs-college-rate"));
+        Assert.assertTrue("Last updated field not displayed!", checkItemVisibleByCssSelector("div", "class", "hs-last-updated"));
+        Assert.assertTrue("Title I Eligible School not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-titleieligible-schoo"));
+        Assert.assertTrue("Title I School Status not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-titlei-school-status"));
+        Assert.assertTrue("Enrollment by Grade not displayed!", checkItemVisibleByCssSelector("div", "class", "form-item-demographic-by-grade"));
+        Assert.assertTrue("Enrollment by Gender not displayed!", checkItemVisibleByCssSelector("div", "class", "form-item-demographic-by-gender"));
+        Assert.assertTrue("Enrollment by Race not displayed!", checkItemVisibleByCssSelector("div", "class", "form-item-demographic-by-race"));
+        Assert.assertTrue("County name field not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-county"));
+        Assert.assertTrue("Charter School field not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-charter-school"));
+        Assert.assertTrue("Grades field not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-hs-grades"));
+        Assert.assertTrue("Coeducational field not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-coeducational"));
+
+    }
+
+    public void checkIfISeePagination() {
+        logger.info("Checking if I see pagination on the page.");
+        Assert.assertTrue("The pagination is not visible!", checkItemVisibleByCssSelector("ul", "class", "pager"));
+    }
 
 
     private WebElement newPostTextbox() {

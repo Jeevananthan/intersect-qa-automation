@@ -5,10 +5,14 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.COMMON.HelpImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
 import utilities.GetProperties;
 
 import java.util.List;
@@ -41,11 +45,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void accountSettings() {
-        // This is needed to "reset" the Account Settings page if we just made changes to the account.
-        link(By.id("js-main-nav-home-menu-link")).click();
-        userDropdown().click();
-        button(By.id("user-dropdown-change-profile")).click();
-        Assert.assertTrue("User was not taken to Account Settings screen",button("SAVE").isDisplayed());
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Account Information");
     }
 
     public void updateProfile() {
@@ -59,14 +60,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyAccountSettings(DataTable data) {
         accountSettings();
         Map<String,String> entity = data.asMap(String.class,String.class);
-        Assert.assertTrue(link("update your profile?").isDisplayed());
+        Assert.assertTrue(link("Account Information").isDisplayed());
         Assert.assertTrue(driver.findElement(By.cssSelector("[value=\"" + entity.get("E-mail Address") + "\"]")).isDisplayed());
         Assert.assertTrue(textbox("Current Password").isDisplayed());
         Assert.assertTrue(textbox("New Password").isDisplayed());
-        Assert.assertTrue(textbox("Confirm Password").isDisplayed());
+        Assert.assertTrue(textbox("Confirm New Password").isDisplayed());
 
         // Verify that Update your profile? link works as expected
-        link("update your profile?").click();
+        link("Your Profile").click();
         waitUntilPageFinishLoading();
         ensureWeAreOnUpdateProfilePage();
         driver.switchTo().defaultContent();
@@ -75,9 +76,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private void ensureWeAreOnUpdateProfilePage() {
         // Go into Community Frame
         communityFrame();
-
+        waitForUITransition();
         // This line should not be needed.  Current flow is broken.
-        link("EDIT PROFILE").click();
+        waitUntil(ExpectedConditions.visibilityOf( link("Edit Profile")));
+        link("Edit Profile").click();
 
         Assert.assertTrue("User was not taken to Update Profile screen",link("Back to Profile").isDisplayed());
     }
@@ -110,12 +112,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyCommunityUpgradeMessage() {
         navBar.goToHome();
-       try {
-           Assert.assertTrue(driver.findElement(By.id("upgrade-message")).isDisplayed());
-           Assert.assertTrue("Expected message for the new widget was not found!"
-                   ,text( "You currently have limited access to the Counselor Community.").isDisplayed());
-           Assert.assertTrue("Expected message for the new widget was not found!"
-                   ,text("Upgrade today to search, connect, message, and collaborate within the Counselor Community.").isDisplayed());
+        try {
+            Assert.assertTrue(driver.findElement(By.id("upgrade-message")).isDisplayed());
+            Assert.assertTrue("Expected message for the new widget was not found!"
+                    ,text( "You currently have limited access to the Counselor Community.").isDisplayed());
+            Assert.assertTrue("Expected message for the new widget was not found!"
+                    ,text("Upgrade today to search, connect, message, and collaborate within the Counselor Community.").isDisplayed());
 
         } catch (Exception e) {
             logger.info("Exception while verifying new Widget: " + e.getMessage());
@@ -125,7 +127,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessHelpPage() {
-        link(By.id("js-main-nav-help-menu-link")).click();
+        //link(By.id("js-main-nav-help-menu-link")).click();
+        HelpImpl help = new HelpImpl();
+        help.selectHelpOption("Help Center");
         String heWindow = driver.getWindowHandle();
         Set<String> windows = driver.getWindowHandles();
         for (String window : windows) {
@@ -202,10 +206,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                         String actualMessage = driver.findElement(By.id("field18")).getText();
                         Assert.assertTrue("Messages was not as expected.", actualMessage.equals(CounselorCommunity.get(key)));
                         break;
-                    }
                 }
             }
         }
+    }
 
     public void accessCounselorCommunity() {
         button("Request Information").click();
@@ -221,14 +225,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyCommunityActivationForRepVisits(){
         getRepVisitsBtn().click();
         waitUntilPageFinishLoading();
-        driver.switchTo().frame(0);
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
+        waitForUITransition();
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();
     }
 
     public void verifyWidgetIsVisible(String widgetName){
-
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
@@ -245,10 +249,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
+        getRepVisitsBtn().click();
     }
 
     public void verifyRepVisitsLandingPage(){
         navBar.goToRepVisits();
+        waitForUITransition();
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
 
@@ -257,6 +263,21 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("he.community.clear"));
         waitUntilPageFinishLoading();
     }
+
+    public void clickEvents() {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-events-menu-link span"), 1));
+        eventsButton().click();
+    }
+
+    public void openEventList() {
+        clickEvents();
+    }
+
+    public void clickEventsTab() {
+        eventsTab().click();
+    }
+
+
 
 
     //locators
@@ -270,4 +291,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
     private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
+    private WebElement eventsTab() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL _1NJbR9iqg-0K_JDhsKdO1B']/span[text()='Events']")); }
+    private WebElement changeProfileLabel(){return text("Change Profile");}
 }

@@ -9,7 +9,7 @@ Feature: As a HS user I need to login to Intersect
   Scenario: As an non Naviance HS user, I want to verify that the links in the HS Login page are working properly
     Given HS I verify that the following links are working as expected:
     | New User? | https://qa-reg.intersect.hobsons.com/hs |
-    | Naviance User? | https://succeed-int.dev.naviance.com/auth/signin |
+    | Mock Naviance User? | https://qa-hs.intersect.hobsons.com/mock-naviance-login |
     | Forgot Password | https://qa-hs.intersect.hobsons.com/forgot-password |
 
   Scenario: As an non Naviance HS user, I want to verify the error messages in the HS login page
@@ -31,4 +31,11 @@ Feature: As a HS user I need to login to Intersect
     And SP I "unlock" the user account for "hobsonstest11@mailinator.com"
     And SP I successfully sign out
     And HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "Control!23" as password
+    And HS I successfully sign out
+
+ @MATCH-2062
+  Scenario: As a HS user,I want to see the right logo, So that I know I'm in the counselor community (by Hobsons).
+    When HS I verify the Intersect Logo present in the Login Page
+    When HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    And HS I verify the Intersect Logo present in the Home Page
     And HS I successfully sign out

@@ -2,16 +2,24 @@ package pageObjects.HE.loginPage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
+import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.SessionNotFoundException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
 
@@ -24,7 +32,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openLoginPage() {
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("he.app.url"));
         // If a previous test fails, we'll still have an open session.  Log out first.
         if (button(By.id("user-dropdown")).isDisplayed()) {
@@ -46,8 +58,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + password + " as password");
         loginButton().click();
         logger.info("Clicked the login button");
-        waitUntilElementExists(link(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
+        waitForUITransition();
+        List<WebElement> errorMessage = driver.findElements(By.cssSelector("div[class='ui negative message']"));
+        if (errorMessage.size()==1){
+            logger.info("Login failed. Invalid user or password.");
+        }else {
+            waitUntilElementExists(link(By.id("user-dropdown")));
+            waitForUITransition();
+        }
     }
 
     //Log in as an HE administrator
@@ -61,8 +80,13 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Sending credentials - " + username + ":" + password);
         loginButton().click();
         logger.info("Clicked the login button");
-        waitUntilElementExists(link(By.id("user-dropdown")));
-        waitUntilPageFinishLoading();
+        List<WebElement> errorMessage = driver.findElements(By.cssSelector("div[class='ui negative message']"));
+        if (errorMessage.size()==1){
+            logger.info("Login failed. Invalid user or password.");
+        }else {
+            waitUntilElementExists(link(By.id("user-dropdown")));
+            waitForUITransition();
+        }
     }
 
     public void createNewUser() {
@@ -85,17 +109,16 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         link("Forgot Password").click();
         textbox("E-Mail Address").sendKeys(userName);
         button("RESET PASSWORD").click();
-
-
+        waitForUITransition();
     }
 
     public void processResetPassword(String userType, DataTable data) {
+        waitForUITransition();
         String emailBody = "";
-        GetProperties.setGmailAPIWait(60);     //Time unit is in seconds
+        GetProperties.setGmailAPIWait(120);     //Time unit is in seconds
         try {
+            waitForUITransition();
             List<Email> emails = getGmailApi().getMessages(data);
-
-            boolean verified = false;
             for (Email email : emails) {
                 System.out.print(email.toString());
                 emailBody = email.getBody();
@@ -109,10 +132,50 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String code = emailBody.substring(codeMessageIndex + 41,codeMessageIndex + 47);
         logger.info("Verification code is: " + code + "\n");
         textbox("Verification Code").sendKeys(code);
+
+    //verify the password policy of minimum of 8 characters
+        textbox("New Password").sendKeys("word!1");
+        textbox("Confirm Password").sendKeys("word!1");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
+
+    //verify the password policy of lowercase letter
+        textbox("New Password").sendKeys("password#1");
+        textbox("Confirm Password").sendKeys("password#1");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
+
+    //verify the password policy of uppercase letter
+        textbox("New Password").sendKeys("PASSWORD#1");
+        textbox("Confirm Password").sendKeys("PASSWORD#1");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
+
+    //verify the password policy of without the number
+        textbox("New Password").sendKeys("Password#*");
+        textbox("Confirm Password").sendKeys("Password#*");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
+
+    //verify the password policy of without the Special Characters
+        textbox("New Password").sendKeys("Password1");
+        textbox("Confirm Password").sendKeys("Password1");
+        button("CHANGE PASSWORD").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements']")).isDisplayed());
+
+    //verify the password accepted with the password policy
         textbox("New Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         textbox("Confirm Password").sendKeys(GetProperties.get("he."+ userType + ".password"));
         button("CHANGE PASSWORD").click();
-        Assert.assertTrue("Password reset was not successful!", button("LOGIN").isDisplayed());
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.xpath("//button/span[text()='Login']")));
+        Assert.assertTrue("Password was not Reset successful!", driver.findElement(By.xpath("//button/span[text()='Login']")).isDisplayed());
     }
 
     public void navigateToLoginScreenAndVerify() {
@@ -170,12 +233,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
     }
 
-    public void navigateToHSRegistrationPage(){
-        load(GetProperties.get("hs.registration.url"));
-        Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
-    }
-
-    public void searchForHEInstitution(String institutionName, String institutionType){ //,String institutionType){
+    public void searchForHEInstitution(String institutionName){ //,String institutionType){
         // This is no longer needed, as the app automatically sends you to the right URL.
         /*if(institutionType.contains("High School")){
             //button("High School Staff Member").click();
@@ -245,6 +303,128 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Login error message is not displayed as expected!\nExpected: "+errorMessage+"\n",text(errorMessage).isDisplayed());
     }
 
+    public void searchForHEInstitutionWithInvalidData(String institutionName,String institutionType){
+
+        if(institutionType.contains("High School")){
+            button("High School Staff Member").click();
+        }
+        else{
+            button("Higher Education Staff Member").click();
+        }
+
+        driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
+        button("Search").click();
+
+        while(button("More Institutions").isDisplayed()){
+            button("More Institutions").click();
+        }
+        try{
+        if(link(institutionName).isEnabled()){
+            link(institutionName).click();
+            Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
+            link("please complete this form.").click();
+        }
+       else{
+            Assert.assertTrue("Institution Page is not loaded",text("No Institutions Found").isDisplayed());
+
+        }}
+        catch (Exception e){}
+        //link("Back to search").click();
+        try{
+            if(driver.findElement(By.xpath("//div/a/span[text()='Request new institution']")).isDisplayed())
+            {
+                link("Request new institution").click();
+            }
+          }catch(Exception e){}
+    }
+
+    public void validateFieldsInRequestUserForm(DataTable dataTable){
+        //back - link validation
+        Assert.assertTrue("Back option is not displayed",link("Back").isDisplayed());
+        //Already have an account? -text validation
+        Assert.assertTrue("'Already have an account?' text is not displayed",text("Already have an account?").isDisplayed());
+        //Cancel -button validation
+        Assert.assertTrue("'Cancel' button is not displayed",button("Cancel").isDisplayed());
+        //Request User -button validation
+        Assert.assertTrue("'Request User' button is not displayed",button("Request User").isDisplayed());
+
+        List<Map<String,String>> fieldCollections = dataTable.asMaps(String.class,String.class);
+        for (Map<String,String> individualField : fieldCollections ) {
+            for (String key : individualField.keySet()) {
+                switch (key) {
+                    case "firstName":
+                        String actualFirstName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("First Name was not as expected.", actualFirstName.contains(individualField.get(key)));
+                        break;
+                    case "lastName":
+                        String actualLastName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Last Name was not as expected.", actualLastName.equals(individualField.get(key)));
+                        break;
+                    case "email":
+                        String actualEmailAddress = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Work Email Address was not as expected.", actualEmailAddress.equals(individualField.get(key)));
+                        break;
+                    case "verifyEmail":
+                        String actualPhone = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Phone was not as expected.", actualPhone.equals(individualField.get(key)));
+                        break;
+                    case "institutionName":
+                        String institutionName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Phone was not as expected.", institutionName.equals(individualField.get(key)));
+                        break;
+                    case "jobTitle":
+                        String actualSchoolInstitutionName = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("School / Institution Name was not as expected.", actualSchoolInstitutionName.equals(individualField.get(key)));
+                        break;
+                    case "authorizedToPostPublicInformation":
+                        String actualMessage = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("Messages was not as expected.", actualMessage.equals(individualField.get(key)));
+                        break;
+                    case "schedulesVisits":
+                        String actualSchedule = driver.findElement(By.name(key)).getAttribute("type");
+                        Assert.assertTrue("First Name was not as expected.", actualSchedule.contains(individualField.get(key)));
+                        break;
+
+                }
+            }
+        }
+
+    }
+
+
+    public void verifyCaptcha()
+    {
+        driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@title='recaptcha widget']")));
+        Assert.assertTrue("I'm not a robot text is not displayed",driver.findElement(By.xpath("//label[@id='recaptcha-anchor-label']")).isDisplayed());
+        Assert.assertTrue("inline block is not displayed",driver.findElement(By.xpath("//div[@class='rc-inline-block']")).isDisplayed());
+        Assert.assertTrue("reCAPTCHA text is not displayed",driver.findElement(By.xpath("//div[text()='reCAPTCHA']")).isDisplayed());
+        driver.switchTo().defaultContent();
+    }
+
+
+    public void enterDummyVerificationCode() {
+//
+       driver.findElement(By.xpath("//input[@name='verification']")).sendKeys("12345");
+
+
+    }
+
+    public void enterInvalidPassword(String invalidPassword){
+
+        driver.findElement(By.xpath("//input[@name='password']")).sendKeys(invalidPassword);
+        driver.findElement(By.xpath("//input[@name='confirmPassword']")).sendKeys(invalidPassword);
+        button("CHANGE PASSWORD").click();
+        validatePasswordFailureText();
+
+    }
+
+    public void validatePasswordFailureText(){
+
+        Assert.assertTrue("'Password Failed' warning message is not displayed ", driver.findElement(By.xpath("//span[text()='Password failed to satisfy security requirements.']")).isDisplayed());
+
+    }
+
+
     public void clickLinkInRegisterationPage(String linkToClick){
         link(linkToClick).click();
     }
@@ -301,7 +481,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void validateFieldsInRequestUserForm() {
+    public void validateFieldsPresentInRequestUserForm() {
         //validating header of this page
         Assert.assertTrue("Header of this page doesnot contains 'Request User Account' text", text("Request New Institution").isDisplayed());
         Assert.assertTrue("Message 'Answer all fields below to complete your request. You can expect a response from Hobsons within 1 business day.' is not displayed",driver.findElement(By.xpath("//div/span[text()='Answer all fields below to complete your request. You can expect a response from Hobsons within 1 business day.']")).isDisplayed());
@@ -316,6 +496,45 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("jobTitle Textbox was not as displayed", driver.findElement(By.xpath("//input[@name='jobTitle' and @type='text']")).isDisplayed());
         Assert.assertTrue("'Cancel' button is not displayed", button("Cancel").isDisplayed());
         Assert.assertTrue("'Request User' button is not displayed", button("Request User").isDisplayed());
+    }
+
+    public void verifyEmailNotification(String School,String Date,String Time,DataTable data){
+        String emailBody = "";
+        GetProperties.setGmailAPIWait(120);     //Time unit is in seconds
+        try {
+            List<Email> emails = getGmailApi().getMessages(data);
+            boolean verified = false;
+            for (Email email : emails) {
+                System.out.print(email.toString());
+                emailBody = email.getBody();
+            }
+            } catch (Exception e) {
+            logger.info("Exception while retrieving Gmail messages: " + e.getMessage());
+            e.printStackTrace();
+            Assert.fail("There was an error retrieving the email from Gmail.");
+        }
+        int SchoolLength = School.length();
+        Integer codeMessageIndex = emailBody.indexOf("We have cancelled your college fair registration with ");
+        String SchoolName = emailBody.substring(codeMessageIndex + 54,codeMessageIndex + 54 + SchoolLength);
+        String CurrentDate = getSpecificDate(Date);
+        Integer DateIndex = emailBody.indexOf("2018");
+        String dateandTime = emailBody.substring(DateIndex+0,DateIndex+21);
+        String getTimeValue[] = dateandTime.split(" ");
+        String DateValue = getTimeValue[0];
+        String TimeValue = getTimeValue[2];
+        Assert.assertTrue("School is not equal",SchoolName.equals(School));
+        Assert.assertTrue("Date is not equal",CurrentDate.equals(DateValue));
+        Assert.assertTrue("Time is not equal",Time.equals(TimeValue));
+    }
+
+    public String getSpecificDate(String addDays) {
+        String DATE_FORMAT_NOW = "yyyy-MM-dd";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     private void iamNotRobotChk() {
