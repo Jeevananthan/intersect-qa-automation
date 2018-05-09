@@ -73,29 +73,29 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   so that I can visually see the status of each appointment window.
 #Blocked Days
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set the date using "<BlockedDate>" and "<EndDate>"
+    Then HS I set the date using "<BlockedDateforSchoolEvent>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I set the Blocked date and select the reason as "School Event" in the Holiday tab using "<BlockedDate>"
-    Then HS I verify the Blocked days with reason "Blocked - School Event" in Exception subtab using "<BlockedDate>"
-    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
+    Then HS I set the Blocked date and select the reason as "School Event" in the Holiday tab using "<BlockedDateforSchoolEvent>"
+    Then HS I verify the Blocked days with reason "Blocked - School Event" in Exception subtab using "<BlockedDateforSchoolEvent>"
+    Then HS I click the Remove option for the "<BlockedDateforSchoolEvent>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "No School" in the Holiday tab using "<BlockedDate>"
-    Then HS I verify the Blocked days with reason "Blocked - No School" in Exception subtab using "<BlockedDate>"
-    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
+    Then HS I set the Blocked date and select the reason as "No School" in the Holiday tab using "<BlockedDateforNoSchool>"
+    Then HS I verify the Blocked days with reason "Blocked - No School" in Exception subtab using "<BlockedDateforNoSchool>"
+    Then HS I click the Remove option for the "<BlockedDateforNoSchool>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "Holiday" in the Holiday tab using "<BlockedDate>"
-    Then HS I verify the Blocked days with reason "Blocked - Holiday" in Exception subtab using "<BlockedDate>"
-    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
+    Then HS I set the Blocked date and select the reason as "Holiday" in the Holiday tab using "<BlockedDateforHoliday>"
+    Then HS I verify the Blocked days with reason "Blocked - Holiday" in Exception subtab using "<BlockedDateforHoliday>"
+    Then HS I click the Remove option for the "<BlockedDateforHoliday>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "Other" in the Holiday tab using "<BlockedDate>"
-    Then HS I verify the Blocked days with reason "Blocked - Other" in Exception subtab using "<BlockedDate>"
-    Then HS I verify the diagonal HashLines present in the Blocked date "<BlockedDate>","<back-ground color>"
-    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
+    Then HS I set the Blocked date and select the reason as "Other" in the Holiday tab using "<BlockedDateforOther>"
+    Then HS I verify the Blocked days with reason "Blocked - Other" in Exception subtab using "<BlockedDateforOther>"
+    Then HS I verify the diagonal HashLines present in the Blocked date "<BlockedDateforOther>","<back-ground color>"
+    Then HS I click the Remove option for the "<BlockedDateforOther>" and "<EndDate>" in blocked days
     Then HS I successfully sign out
 
     Examples:
-      |BlockedDate|EndDate |back-ground color|
-      |42         |49      |rgba(0, 0, 0, 0) |
+      |BlockedDateforSchoolEvent|BlockedDateforNoSchool|BlockedDateforHoliday|BlockedDateforOther|EndDate |back-ground color|
+      |42                       |49                    |56                   |63                 |98      |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581
@@ -118,7 +118,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "1" visits per day
     Then HS I go to the Exception tab to verify the visits using "Max visits met","<MaxhestartTime>","<StartDate>",""
-    Then HS I verify the diagonal HashLines present in the Max Appointments Met date "<BlockedDate>","<back-ground color>"
+    Then HS I verify the diagonal HashLines present in the Max Appointments Met date "<StartDate>","<back-ground color>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     Then HS I successfully sign out
@@ -188,11 +188,11 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I go to the Exception tab to verify the visits using "Fully booked","<FullyhestartTime>","<FullyBookedStartDate>","2"
+    Then HS I go to the Exception tab to verify the visits using "Fully booked","<FullyhestartTime>","<FullyBookedStartDate>",""
     Then HS I verify the diagonal HashLines present in the Fully booked date "<FullyBookedStartDate>","<back-ground color>"
-    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<FullyBookedStartDate>","<FullystartTime>" in Regular Weekly Hours Tab
     Then HS I successfully sign out
 
     Examples:
-      |Day|StartDate |StartTime|School              |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color|
-      |28 |28        |10:41am  |Int Qa High School 4|2             |12:           |12:             |12:59pm     |14                  |35                |rgba(0, 0, 0, 0) |
+      |Day |School              |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color|
+      |28  |Int Qa High School 4|2             |12:           |12:             |12:59pm     |14                  |35                |rgba(0, 0, 0, 0) |

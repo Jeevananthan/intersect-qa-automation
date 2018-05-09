@@ -334,6 +334,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         link("Availability Settings").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("input[title='Days in advance to prevent colleges from cancelling or rescheduling visits.'][min='1'][max='99']"),1));
         WebElement visitBox = getDriver().findElement(By.cssSelector("input[title='Days in advance to prevent colleges from scheduling new visits.'][min='1'][max='99']"));
         visitBox.clear();
         visitBox.sendKeys(Numberofdays);
@@ -347,6 +348,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Availability").click();
         link("Availability Settings").click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("input[title='Days in advance to prevent colleges from cancelling or rescheduling visits.'][min='1'][max='99']"),1));
         WebElement visitBox = getDriver().findElement(By.cssSelector("input[title='Days in advance to prevent colleges from cancelling or rescheduling visits.'][min='1'][max='99']"));
         visitBox.clear();
         visitBox.sendKeys(DaysInAdvance);
@@ -366,6 +368,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Availability Settings").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("input[title='Days in advance to prevent colleges from cancelling or rescheduling visits.'][min='1'][max='99']"),1));
         WebElement selectAccept = getDriver().findElement(By.cssSelector("div[class='ui selection dropdown']>div"));
         waitUntilPageFinishLoading();
         selectAccept.click();
@@ -4400,18 +4403,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOf(exceptiontable));
         Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+StartTime+"']")).isDisplayed());
         if (option.equals("Fully booked") ) {
-            if(!driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/div/span[text()='"+visits+" Appointments scheduled']/following-sibling::button[text()='"+StartTime+"']/parent::div[contains(text(),'("+visits+")')]")).isDisplayed())
-            {
+            if(!driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/div/span[text()='"+visits+" Appointments scheduled']/following-sibling::button[text()='"+StartTime+"']/parent::div[contains(text(),'("+visits+")')]")).isDisplayed()) {
                 Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//table//th//div/span[text()='" + date + "']/ancestor::th/div/span[text()='" + option + "']")).isDisplayed());
             }
-            else
-            {logger.info("More than one time slots are there");}
-        }else if(option.equals("Max visits met"))
-        {
+            else {
+                logger.info("More than one time slots are there");
+            }
+        }else if(option.equals("Max visits met")) {
             Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//table//th//div/span[text()='" + date + "']/ancestor::th/div/span[text()='" + option + "']")).isDisplayed());
         }
-        else
-        {
+        else {
             Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//span[text()='"+date+"']/ancestor::th/ancestor::thead/following-sibling::tbody//tr//td//div//span[text()='"+option+"']")).isDisplayed());
         }
     }
