@@ -387,6 +387,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify non community members to be notified with \"([^\"]*)\" and \"([^\"]*)\" email$",repVisits::verifyNotificationsToNonMembersSection);
 
+        And("^HS I go to the Naviance settings$",repVisits::naviagateToAvailbilityandSettings);
+
+        And("^HS I verify the success message after save the changes$",repVisits::verifyNavianceSuccessMessage);
+      
         And("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
 
         Then("^HS I verify the Partially scheduled Appointments With Message \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyPartiallyScheduledDayInExceptionsSubtab);

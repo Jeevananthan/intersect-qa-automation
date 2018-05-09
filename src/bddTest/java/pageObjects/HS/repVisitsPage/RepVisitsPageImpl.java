@@ -895,11 +895,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchAndScheduleBtn().click();
         driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
         driver.findElement(By.xpath("//form[@class='ui form _5HmcoKe1wdwl-K-v4lyiX']//button[contains(@class,'ui button')]")).click();
+        waitForUITransition();
         waitUntilElementExists(driver.findElement(By.xpath("//td[text()='"+location+"']")));
         Assert.assertTrue("location is not displayed",driver.findElement(By.xpath("//td[text()='"+location+"']")).isDisplayed());
         WebElement schoolLocation = text(location);
         getParent(schoolLocation).findElement(By.tagName("a")).click();
-        //driver.findElement(By.cssSelector("button[class='ui right labeled tiny icon button _1alys3gHE0t2ksYSNzWGgY right floated']")).click();
         waitForUITransition();
         driver.findElement(By.className("_135QG0V-mOkCAZD0s14PUf")).findElement(By.xpath("button")).click();
         setDateFixed(Date, "Start");
@@ -1184,6 +1184,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         fairElementDetails(fairName).click();
         editFairButton().click();
+        waitUntil(ExpectedConditions.visibilityOf(cancelThisCollegeFair()));
         cancelThisCollegeFair().click();
         if (driver.findElements(By.id(cancelMessageTextBoxLocator())).size() > 0) {
             driver.findElement(By.id(cancelMessageTextBoxLocator())).sendKeys(cancelationReason);
@@ -2098,6 +2099,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Success message is not displayed",message.equals(SuccessMessage));
         }
 
+
+    public void naviagateToAvailbilityandSettings()
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettings().click();
+        navianceSettings().click();
+    }
+
+    public void verifyNavianceSuccessMessage(){
+      saveSettings().click();
+      waitUntilPageFinishLoading();
+      String successMessage="You've updated Naviance settings.";
+      String actualSuccessMessage=driver.findElement(By.xpath("//span[text()='Great!']/following-sibling::span")).getText();
+      waitUntilPageFinishLoading();
+      Assert.assertTrue("Success Message is not displayed",successMessage.equals(actualSuccessMessage));
+    }
+
     public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){
 
 
@@ -2747,6 +2766,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
             while(driver.findElements(By.xpath("//div[@class='active step' and @name='Naviance Settings']")).size()==0){
+                waitUntilElementExists(button("Next"));
                button("Next").click();
                waitForUITransition();
         }
@@ -4850,8 +4870,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  text;
     }
     private WebElement availabilityAndSettings() {
-        WebElement availabilityAndSettings = link("Availability & Settings");
-        return availabilityAndSettings;
+        return link("Availability & Settings");
     }
     public void clickAddCollegeFairButton() {
         button("Add a College Fair").click();
@@ -5105,7 +5124,34 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement instructionsTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-instructions")); }
 
-    private WebElement exception() {
+    private WebElement navianceSettings()
+    {
+        WebElement navianceSettings= link("Naviance Settings");
+        return  navianceSettings;
+    }
+
+    private WebElement autopublishInNavianceSettings(String option)
+    {
+        WebElement publish=driver.findElement(By.xpath("//input[@name='autoPublish']/parent::label[text()='"+option+"']"));
+        return publish;
+    }
+    private WebElement notifyStudents(String option)
+    {
+        WebElement notifyStudents=driver.findElement(By.xpath("//input[@name='notifyStudents']/parent::label[text()='"+option+"']"));
+        return notifyStudents;
+    }
+    private WebElement displayDeadlines(String option)
+    {
+        WebElement displayDeadlines=driver.findElement(By.xpath("//input[@name='displayDeadline']/parent::label[text()='"+option+"']"));
+        return displayDeadlines;
+    }
+    private WebElement saveSettings()
+    {
+        WebElement button=button("Save changes");
+        return button;
+    }
+  
+      private WebElement exception() {
         WebElement link=link("Exceptions");
         return  link;
     }
@@ -5122,4 +5168,5 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String days = driver.findElement(By.xpath("//button[@class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']/div/span")).getText();
         return days;
     }
+
 }
