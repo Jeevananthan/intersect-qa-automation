@@ -2567,7 +2567,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> headerWeekDays() { return getDriver().findElements(By.cssSelector("table.ui.fixed.unstackable.basic.center thead th div span")); }
     private List<WebElement> visitsRows() { return getDriver().findElements(By.cssSelector("table.ui.fixed.unstackable.basic.center tbody tr")); }
     private List<WebElement> eventsRows(String day) { return getDriver().findElements(By.xpath("//div[not(contains(@class, 'rbc-off-range'))][contains(@class,'rbc-date-cell')]/a[text()='" + day + "']/../../following-sibling::div")); }
-    private WebElement getVerticalStaffMembersMenu() {
+    protected WebElement getVerticalStaffMembersMenu() {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));
     }

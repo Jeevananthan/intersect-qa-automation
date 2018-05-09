@@ -685,12 +685,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I remove the Fair appointment from the calendar
     And HE I successfully sign out
     Then HE I verify the Email Notification Message for "<School>" using "<Date>","<EmailTimeForFair>"
-      |Subject                                            |To       |Messages |
-      |College fair registration cancelled for <School>   |<EMail>  |1        |
+      |Subject                                                             |To       |Messages |
+      |College fair registration cancelled for <School for Notification>   |<EMail>  |1        |
 
     Examples:
-      |School            |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
-      |Homeconnection    |purpleheautomation@gmail.com    |QAs Fairs tests       |4   |1000AM    |1100AM  |2            |$25 |25                    |100                        | Save          |10AM   |10:00am         |
+      |School for Notification|School        |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
+      |Homeconnection (WA)    |Homeconnection|purpleheautomation@gmail.com    |QAs Fairs tests       |4   |1000AM    |1100AM  |2            |$25 |25                    |100                        | Save          |10AM   |10:00am         |
 
   @MATCH-3462
   Scenario: As a RepVisits HS user that is interested in opting in to connect events with Naviance, I want the copy on
@@ -800,6 +800,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
 #by SchoolLocation

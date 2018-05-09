@@ -890,11 +890,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchAndScheduleBtn().click();
         driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
         driver.findElement(By.xpath("//form[@class='ui form _5HmcoKe1wdwl-K-v4lyiX']//button[contains(@class,'ui button')]")).click();
+        waitForUITransition();
         waitUntilElementExists(driver.findElement(By.xpath("//td[text()='"+location+"']")));
         Assert.assertTrue("location is not displayed",driver.findElement(By.xpath("//td[text()='"+location+"']")).isDisplayed());
         WebElement schoolLocation = text(location);
         getParent(schoolLocation).findElement(By.tagName("a")).click();
-        //driver.findElement(By.cssSelector("button[class='ui right labeled tiny icon button _1alys3gHE0t2ksYSNzWGgY right floated']")).click();
         waitForUITransition();
         driver.findElement(By.className("_135QG0V-mOkCAZD0s14PUf")).findElement(By.xpath("button")).click();
         setDateFixed(Date, "Start");
@@ -1179,6 +1179,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         fairElementDetails(fairName).click();
         editFairButton().click();
+        waitUntil(ExpectedConditions.visibilityOf(cancelThisCollegeFair()));
         cancelThisCollegeFair().click();
         if (driver.findElements(By.id(cancelMessageTextBoxLocator())).size() > 0) {
             driver.findElement(By.id(cancelMessageTextBoxLocator())).sendKeys(cancelationReason);
@@ -2740,6 +2741,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
             while(driver.findElements(By.xpath("//div[@class='active step' and @name='Naviance Settings']")).size()==0){
+                waitUntilElementExists(button("Next"));
                button("Next").click();
                waitForUITransition();
         }
