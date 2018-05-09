@@ -2092,6 +2092,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Success message is not displayed",message.equals(SuccessMessage));
         }
 
+
+    public void naviagateToAvailbilityandSettings()
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettings().click();
+        navianceSettings().click();
+    }
+
+    public void verifyNavianceSuccessMessage(){
+      saveSettings().click();
+      waitUntilPageFinishLoading();
+      String successMessage="You've updated Naviance settings.";
+      String actualSuccessMessage=driver.findElement(By.xpath("//span[text()='Great!']/following-sibling::span")).getText();
+      waitUntilPageFinishLoading();
+      Assert.assertTrue("Success Message is not displayed",successMessage.equals(actualSuccessMessage));
+    }
+
     public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){
 
 
@@ -4657,8 +4675,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  text;
     }
     private WebElement availabilityAndSettings() {
-        WebElement availabilityAndSettings = link("Availability & Settings");
-        return availabilityAndSettings;
+        return link("Availability & Settings");
     }
     public void clickAddCollegeFairButton() {
         button("Add a College Fair").click();
@@ -4911,4 +4928,32 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement instructionsTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-instructions")); }
+
+    private WebElement navianceSettings()
+    {
+        WebElement navianceSettings= link("Naviance Settings");
+        return  navianceSettings;
+    }
+
+    private WebElement autopublishInNavianceSettings(String option)
+    {
+        WebElement publish=driver.findElement(By.xpath("//input[@name='autoPublish']/parent::label[text()='"+option+"']"));
+        return publish;
+    }
+    private WebElement notifyStudents(String option)
+    {
+        WebElement notifyStudents=driver.findElement(By.xpath("//input[@name='notifyStudents']/parent::label[text()='"+option+"']"));
+        return notifyStudents;
+    }
+    private WebElement displayDeadlines(String option)
+    {
+        WebElement displayDeadlines=driver.findElement(By.xpath("//input[@name='displayDeadline']/parent::label[text()='"+option+"']"));
+        return displayDeadlines;
+    }
+    private WebElement saveSettings()
+    {
+        WebElement button=button("Save changes");
+        return button;
+    }
+
 }
