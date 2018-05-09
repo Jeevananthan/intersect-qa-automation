@@ -73,3 +73,10 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   and Nice to Have boxes split the rest
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the widths of the three boxes
+
+  @MATCH-3339
+  Scenario: As a HS student looking to search for colleges, I want each fit category that I see in the 'Choose Fit Criteria' header bar to be clickable so I can select specific fit criteria.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify each fit category in the Choose Fit Criteria header bar is clickable and match the color
+    Then SM I verify clicking outside of the box will also close the box
+    And SM I check both Select Criteria To Start buttons take the user to the Location dropdown
