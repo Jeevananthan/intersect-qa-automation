@@ -364,36 +364,65 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyOnlineLearningOpportunitiesTooltipIcon() {
 
-        academicsMenuItem().click();
-        waitForUITransition();
-        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+        chooseFitCriteriaTab("Academics");
 
-        certificateRadioButton().click();
-        waitForUITransition();
-        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+        selectRadioButton("Certificate");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Certificate' degree type",
+                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
+                 "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
 
-        associatesRadioButton().click();
-        waitForUITransition();
-        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+        selectRadioButton("Associate");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Associate' degree type",
+                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
+                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
 
-        bachelorsRadioButton().click();
-        waitForUITransition();
-        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+        selectRadioButton("Bachelor");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Bachelor' degree type",
+                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
+                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
 
-        mastersRadioButton().click();
-        waitForUITransition();
-        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+        selectRadioButton("Master");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Master' degree type",
+                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
+                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
 
-        doctorateRadioButton().click();
-        waitForUITransition();
-        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
+        selectRadioButton("Doctorate");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Doctorate' degree type",
+                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
+                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
 
-        graduateCertificateRadioButton().click();
-        waitForUITransition();
-        Assert.assertTrue(driver.findElement(By.xpath("//label[text()='Include online learning opportunities']//ancestor::div[@class='column']/i[@class='teal info circle icon']")).isDisplayed());
-
+        selectRadioButton("Graduate Certificate");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Graduate Certificate' degree type",
+                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
+                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
 
     }
+
+    /**
+     * Activates particular filter criteria tab
+     *
+     * @param filterCriteria containing the value of filter tab, example:Locale, Admission, etc.
+     */
+    public void chooseFitCriteriaTab(String filterCriteria) {
+        checkbox(By.xpath("(//li[contains(.,'" + filterCriteria + "')])")).click();
+
+    }
+
+    /**
+     * select any radio button only when fit criteria menu is open.
+     */
+    public void selectRadioButton(String radioButton){
+        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
+        Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
+        if (!radioButtonLocator.isSelected()) {
+            radioButtonLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
+        Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
+    }
+
 
     // Locators Below
 
@@ -462,30 +491,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement resourcesMenuItem() {
         return driver.findElement(By.xpath("//li[contains(text(), 'Resources')]"));
-    }
-    private WebElement certificateRadioButton() {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[text()='Certificate']")));
-    }
-    private WebElement associatesRadioButton() {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[contains(text(),'Associate')]")));
-    }
-    private WebElement bachelorsRadioButton() {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[contains(text(),'Bachelor')]")));
-    }
-    private WebElement mastersRadioButton() {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[contains(text(),'Master')]")));
-    }
-    private WebElement doctorateRadioButton() {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[text()='Doctorate']")));
-    }
-    private WebElement graduateCertificateRadioButton() {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//label[text()='Graduate Certificate']")));
     }
     private WebElement mustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]"));
     }
