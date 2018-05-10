@@ -22,6 +22,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void editInstitutionProfile() {
+        waitUntilElementExists(link("edit"));
         if (link("edit").isDisplayed()){
             link("edit").click();
             waitUntilPageFinishLoading();

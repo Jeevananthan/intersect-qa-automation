@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.homePage.HomePageImpl;
+import pageObjects.HUBS.FamilyConnection.FCColleges.FCCollegeEventsPage;
+import utilities.GetProperties;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -137,10 +139,19 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                 case "EVENT LOCATION":
                     selectLocationByName(row.get(1));
                     break;
+                case "EVENT LOCATION BY POSITION":
+                    selectLocationByPosition(Integer.parseInt(row.get(1)));
+                    break;
                 case "EVENT PRIMARY CONTACT":
+                    selectContactByName(row.get(1));
+                    break;
+                case "EVENT PRIMARY CONTACT BY POSITION":
                     selectContactByPosition(Integer.parseInt(row.get(1)));
                     break;
                 case "EVENT AUDIENCE":
+                    selectFilterByName(row.get(1));
+                    break;
+                case "EVENT AUDIENCE BY POSITION":
                     selectFilterByPosition(Integer.parseInt(row.get(1)));
                     break;
             }
@@ -181,6 +192,12 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table AUCnq8YpQQX6dyWSXlgRo']" +
                 "/tbody/tr[@class='_1hExGvG5jluro4Q-IOyjd7']/td/div[@class = '_1mf5Fc8-Wa2hXhNfBdgxce']" +
                 "[text() = '" + name + "']")).click();
+    }
+
+    public void selectFilterByName(String filterName) {
+        clearSelectionField(audienceField());
+        openSelectionFieldMenu(audienceField());
+        driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")).click();
     }
 
 
@@ -311,6 +328,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpublishEvent(String eventName) {
+        waitForUITransition();
         if (driver.findElements(By.cssSelector("input#name")).size() == 1) {
             eventsTabFromEditEventScreen().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
@@ -379,6 +397,142 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void unpublishEventOfGeneratedName() {
+        menuButtonForEvent(eventName).click();
+        menuButtonForEventsUnpublish().click();
+    }
+
+    public void verifyNoUnpublishWithAttendeesMessage() {
+        waitForUITransition();
+        Assert.assertTrue("No error message is displayed when unpublishing an event with attendees", eventWithAttendeesUnpublishMessage().isDisplayed());
+        unpublishOkButton().click();
+    }
+
+    public void verifyCancellationMessageOfGenEvent() {
+        waitForUITransition();
+        if (driver.findElements(By.cssSelector(FCCollegeEventsPage.welcomeTooltipLocator)).size() > 0) {
+            FCCollegeEventsPage.welcomeTooltipCloseButton.click();
+        }
+        List<WebElement> listOfEventNames = new ArrayList<>();
+        List<String> listOfEventNamesStrings = new ArrayList<>();
+
+        WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
+
+        listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+        for (WebElement eventNameElement : listOfEventNames) {
+            listOfEventNamesStrings.add(eventNameElement.getText());
+        }
+
+        while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            waitForUITransition();
+            waitUntilPageFinishLoading();
+            waitUntilElementExists(upperNextArrow);
+            upperNextArrow.click();
+            waitForUITransition();
+            listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+            for (WebElement eventNameElement : listOfEventNames) {
+                listOfEventNamesStrings.add(eventNameElement.getText());
+            }
+        }
+
+        if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
+                            cancelledEventMessage(EventsPageImpl.eventName).getText(),
+                    cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+        }
+        waitForUITransition();
+    }
+
+    public void verifyPastDateErrorMessage() {
+        List<WebElement> errorMessagesList = driver.findElements(By.cssSelector(pastDateErrorMessagesListLocator));
+        Assert.assertTrue("The past date error message is not displayed. Message: " + errorMessagesList.get(0).getText(), errorMessagesList.get(0).getText().equals(pastDateErrorMessageString) &&
+                errorMessagesList.get(1).getText().equals(pastRSVPErrorMessageString));
+    }
+
+    public void openTab(String tabName) {
+        waitForUITransition();
+        getTab(tabName).click();
+        waitForUITransition();
+    }
+
+    public void verifyFilterIsPresentInList(String eventName) {
+        List<String> filtersNamesStrings = new ArrayList<>();
+        List<WebElement> filtersNames = driver.findElements(By.cssSelector(filtersList));
+        for (WebElement filterName : filtersNames) {
+            filtersNamesStrings.add(filterName.getText());
+        }
+        Assert.assertTrue("The filter is not displayed in the filters list", filtersNamesStrings.contains(eventName));
+    }
+
+    public void openCreateFilterFromEventAudience() {
+        audienceField().click();
+        newFilterLink().click();
+    }
+
+    public void verifyFilterInEventAudienceList(String filterName) {
+        audienceField().click();
+        Assert.assertTrue("The filter is not in the Event Audience List", filterInEventAudienceList(filterName).isDisplayed());
+    }
+
+    public void verifyFiltersList() {
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("The filters list is not displayed", filtersListContainer().isDisplayed());
+    }
+
+    public void openEvent(String eventName) {
+        menuButtonForEvent(eventName).click();
+        menuButtonForEventsEdit().click();
+    }
+
+    public void verifyFilterNotPresentInAudienceList(String filterName) {
+        audienceField().click();
+        Assert.assertTrue("The deleted filter is displayed in the Event Audience list", filtersInEventsAudienceList(filterName).size() == 0);
+    }
+
+    public void createAndPublishEvent(DataTable eventDetailsData) {
+        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
+        waitUntilPageFinishLoading();
+        createEventButton().click();
+        fillCreateEventForm(eventDetails);
+        publishNowButton().sendKeys(Keys.RETURN);
+    }
+
+    public void verifyAttendeesFromStatusBar(String eventName) {
+        waitForUITransition();
+        attendeeStatusBarStudent(eventName).click();
+        verifyNoAttendeesMessage();
+    }
+
+    private void verifyNoAttendeesMessage() {
+        Assert.assertTrue("The message for no attendees in the event is not displayed", noAttendeesMessage().
+                getText().equals(noAttendeesMessageString));
+    }
+
+    public void verifyAttendeesFromEditMenu(String eventName) {
+        menuButtonForEvent(eventName).click();
+        getOptionFromMenuButtonForEvents("Attendees").click();
+        verifyNoAttendeesMessage();
+    }
+
+    public void openEventsTab(String tabName) {
+        waitUntilPageFinishLoading();
+        getEventsTab(tabName).click();
+    }
+
+    private void selectContactByName(String contactName) {
+        clearSelectionField(primaryContactField());
+        openSelectionFieldMenu(primaryContactField());
+        driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + contactName + "']"));
+    }
+
+    public void verifyNoAccessToConnections() {
+        waitUntilPageFinishLoading();
+        String connectionsUrl = driver.getCurrentUrl() + GetProperties.get("amconnections.url.part");
+        driver.get(connectionsUrl);
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("No error message is displayed when a community user access AM Connections by URL", notAuthorizedErrorMessage().getText().equals(expectedNotAuthorizedErrorText));
+    }
+
     //locators
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
@@ -396,7 +550,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button[title='Save Draft']")); }
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
-    private WebElement menuButtonForEvent(String eventName) {
+    public WebElement menuButtonForEvent(String eventName) {
         return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'three wide column')]/div/div/i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
@@ -456,4 +610,28 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement locationZipError() {
         return driver.findElement(By.cssSelector("div.dimmable div._2gPcidNhI4UgSMMTgArhV8:nth-of-type(2) span"));
     }
+    private WebElement eventWithAttendeesUnpublishMessage() {
+        return driver.findElement(By.cssSelector("div.ui.warning.message span"));
+    }
+    private WebElement unpublishOkButton() {
+        return driver.findElement(By.cssSelector("button.ui.black.basic.button"));
+    }
+    private WebElement cancelledEventMessage(String eventName) {
+        return driver.findElement(By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']"));
+    }
+    private String cancellationMessage = "Event cancelled by hosts";
+    private String pastDateErrorMessagesListLocator = "div.ui.red.pointing.basic.label span";
+    private String pastDateErrorMessageString = "Event Start date and time must not be in the past";
+    private String pastRSVPErrorMessageString = "Event RSVP Deadline date and time must not be in the past";
+    private WebElement getTab(String tabName) { return driver.findElement(By.xpath("//li[contains(@class, 'link item')]/a/span[text()='" + tabName + "']")); }
+    private String filtersList = "div[class*=dimmable] strong";
+    private WebElement newFilterLink() { return driver.findElement(By.cssSelector("table[class *= \"ui unstackable very basic left aligned table\"] a")); }
+    private WebElement filterInEventAudienceList(String filterName) { return driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
+    private WebElement filtersListContainer() { return driver.findElement(By.cssSelector("ul[class *= \"ui huge pointing secondary stackable\"] + div")); }
+    private List<WebElement> filtersInEventsAudienceList(String filterName) { return driver.findElements(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
+    private WebElement attendeeStatusBarStudent(String eventName) { return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'four wide column')]/a")); }
+    private WebElement noAttendeesMessage() { return driver.findElement(By.cssSelector("div.ui.stackable.middle.aligned.grid")); }
+    private String noAttendeesMessageString = "There are no attendees currently registered for this event.";
+    private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
+    private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
 }

@@ -70,3 +70,8 @@ Feature: HE - EventsAccess - As a HE Intersect Administrator/Publishing user wit
     And SP I set the "Legacy: ActiveMatch Events" module to "inactive" in the institution page
     And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button
+
+  @MATCH-4186
+  Scenario: Community roles should not be able to access the Connections Page to download the names.
+    Given HE I am logged in to Intersect HE as user type "community"
+    Then HE I verify that that the user does not have access to the connections page by URL
