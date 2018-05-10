@@ -2437,6 +2437,58 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The Internal notes were not saved", fairInternalNotesTextBox().getAttribute("value").equals(internalNotesText));
     }
 
+    public void verifyCityAndStateInRequestNotificationsubTab(String cityAndState,String school){
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Notifications").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        String value[] = cityAndState.split(",");
+        String city = value[0];
+        String state = value[1];
+        Assert.assertTrue("City and state are not displayed",driver.findElement(By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']")).isDisplayed());
+    }
+
+    public void verifyCityAndStateInActivitysubTab(String cityAndState,String school){
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Notifications").click();
+        waitForUITransition();
+        link("Activity").click();
+        waitForUITransition();
+        String value[] = cityAndState.split(",");
+        String city = value[0];
+        String state = value[1];
+        Assert.assertTrue("City and state are not displayed",driver.findElement(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']")).isDisplayed());
+    }
+
+    public void verifyCityAndStateInRequestNotificationsubTabforFairs(String cityAndState,String school){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Notifications").click();
+        waitForUITransition();
+        String value[] = cityAndState.split(",");
+        String city = value[0];
+        String state = value[1];
+        Assert.assertTrue("City and state are not displayed",driver.findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']")).isDisplayed());
+    }
+
+    public void verifyCityAndStateInActivitysubTabforFairs(String cityAndState,String school){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Notifications").click();
+        waitForUITransition();
+        link("Activity").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        String value[] = cityAndState.split(",");
+        String city = value[0];
+        String state = value[1];
+        Assert.assertTrue("City and state are not displayed",driver.findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']")).isDisplayed());
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
