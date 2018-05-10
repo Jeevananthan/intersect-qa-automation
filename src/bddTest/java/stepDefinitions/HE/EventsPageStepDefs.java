@@ -87,5 +87,7 @@ public class EventsPageStepDefs implements En {
         Then("^HE I verify that the Attendees tab in the event of name \"([^\"]*)\" is opened by clicking the Attendees option in the edit menu$", eventsPage::verifyAttendeesFromEditMenu);
 
         And("^HE I open the \"([^\"]*)\" tab in Events$", eventsPage::openEventsTab);
+
+        Then("^HE I verify that that the user does not have access to the connections page by URL$", eventsPage::verifyNoAccessToConnections);
     }
 }
