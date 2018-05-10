@@ -67,6 +67,6 @@ Feature:  As an HS user, I want to be able to access the features of Availabilit
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                            |School              |heStartTime|heTime |
-      |14  |14  |10:55am  |12:11pm|2        |14       |21     |12:11pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:55am    |10:55am|
+      |42  |42  |10:55am  |12:11pm|2        |42       |49     |12:11pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:        |10:    |
 
 

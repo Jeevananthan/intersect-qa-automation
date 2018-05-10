@@ -244,7 +244,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Availability is not displayed",button.isDisplayed());
     }
 
-    public void verifyPills(String school,String startDate,String time){
+    public void verifyPillsIsNotPresent(String school,String startDate,String time){
         visit().click();
         waitUntilPageFinishLoading();
         WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
