@@ -164,7 +164,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |CHRISTMAS_DAY         | December 25 2018    |July 23 2018|July 14 2019 |
       |NEW_YEAR_EVE          | December 31 2018    |July 23 2018|July 14 2019 |
       |NEW_YEAR_DAY          | January 01 2019     |July 23 2018|July 14 2019 |
-      |MARTIN_LUTHER_DAY     | January 15 2019     |July 23 2018|July 14 2019 |
+      |MARTIN_LUTHER_DAY     | January 21 2019     |July 23 2018|July 14 2019 |
       |PRESIDENTS_DAY        | February 19 2019    |July 23 2018|July 14 2019 |
       |MEMORIAL_DAY          | May 28 2019         |July 23 2018|July 14 2019 |
       |INDEPENDENCE_DAY      | July 04 2019        |July 23 2018|July 14 2019 |
