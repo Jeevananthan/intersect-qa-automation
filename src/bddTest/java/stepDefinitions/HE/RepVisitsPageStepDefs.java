@@ -1,7 +1,5 @@
 package stepDefinitions.HE;
 
-import cucumber.api.PendingException;
-import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.EmailNotifications;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
@@ -298,5 +296,18 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify that the Email Notification Message says: \"([^\"]*)\"$",EmailNotifications::verifyEmailBody);
 
+        Then ("HE I verify default page as show visits tab and toggle between tabs",repVisits::verifyDefaultTabAndToggleTab);
+
+        Then("HE I verify the high school information contains the following data", repVisits::checkHighSchoolDetails);
+
+        Then("HE I verify the Intersect Presence Subscription module is active for \"([^\"]*)\"$",repVisits::verifyActiveSubscription);
+
+        Then("^HE I verify the high school information popup contains the following details$",repVisits::verifyHSpopup);
+
+        Then("^HE I verify No Appointments Available and blocked text for \"([^\"]*)\"$",repVisits::verifyHSBlockedText);
+
+        Then("^HE I select high school's Counselor Community institution profile link for \"([^\"]*)\"$",repVisits::selectHSLink);
+
+        Then("HE I verify the Intersect Presence Subscription module is Inactive for \"([^\"]*)\"$",repVisits::verifyInActiveSubscription);
     }
 }
