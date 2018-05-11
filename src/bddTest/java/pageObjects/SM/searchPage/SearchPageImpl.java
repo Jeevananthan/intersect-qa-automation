@@ -13,6 +13,7 @@ import pageObjects.SM.surveyPage.SurveyPageImpl;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.support.Color;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
@@ -23,6 +24,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     public SurveyPageImpl survey = new SurveyPageImpl();
 
+    /** The below line of code for just a declaration for the object which we can use in scroll down purpose */
+    JavascriptExecutor js = (JavascriptExecutor)driver;
 
     public void verifyDarkBlueHeaderIsPresent() {
         Assert.assertTrue("The dark blue header is not displayed correctly",
@@ -745,7 +748,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param filterCriteria containing the value of filter tab, example:Locale, Admission, etc.
      */
     public void chooseFitCriteriaTab(String filterCriteria) {
-        checkbox(By.xpath("(//li[contains(.,'" + filterCriteria + "')])")).click();
+        checkbox(By.xpath("(//li[contains(.,'" + filterCriteria.split(":")[0] + "')])")).click();
 
     }
 
@@ -847,6 +850,45 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             }
         }
         getFitCriteriaCloseButton().click();
+    }
+
+    /**The below method is to check all the fit criteria is clickable and as per the fit criteria menu option is showing */
+    public void verifyEachFitCriteria() {
+        int counter = getFitCriteriaBar().findElements(By.xpath(".//li")).size();
+        for (int i=1;i<counter;i++){
+            List<WebElement> listFitCriterias = getFitCriteriaBar().findElements(By.xpath(".//li"));
+            Assert.assertTrue("Font color is not correct.", Color.fromString(listFitCriterias.get(i).getCssValue("color")).asHex().equals("#00838c"));
+            listFitCriterias.get(i).click();
+            Assert.assertTrue("Fit criteria menu is not displaying.", closeFitCriteria().isDisplayed());
+            Assert.assertTrue("Close action is not available to close the box", closeFitCriteria().isDisplayed());
+            closeFitCriteria().click();
+            Assert.assertTrue("Close action is not available to close the box", getDriver().findElements(By.xpath("//i[@class='close icon']")).size()==0);
+        }
+    }
+
+    /**The below method is to check while clicking outside the fit criteria, menu box is closing. */
+    public void checkOutsideClick(){
+        int counter = getFitCriteriaBar().findElements(By.xpath(".//li")).size();
+        for (int i=1;i<counter;i++) {
+            List<WebElement> listFitCriterias = getFitCriteriaBar().findElements(By.xpath(".//li"));
+            listFitCriterias.get(i).click();
+            Assert.assertTrue("Close action is not available to close the box", closeFitCriteria().isDisplayed());
+            ChooseFitCriteriaText().click();
+            Assert.assertTrue("Close action is not available to close the box", getDriver().findElements(By.xpath("//i[@class='close icon']")).size()==0);
+        }
+    }
+
+    /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
+    public void checkSelectCriteriaToStartButtonsRedirectsLocation(){
+        Assert.assertTrue("First Select Criteria To Start button is not displaying.", firstSelectCriteriaToStartButton().isDisplayed());
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstSelectCriteriaToStartButton());
+        firstSelectCriteriaToStartButton().click();
+        Assert.assertTrue("After clicking on Select Criteria to Start button Location fit criteria is not opening.", locationFitCriteria().isDisplayed());
+        ChooseFitCriteriaText().click();
+        Assert.assertTrue("Second Select Criteria To Start button is not displaying.", secondSelectCriteriaToStartButton().isDisplayed());
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", secondSelectCriteriaToStartButton());
+        secondSelectCriteriaToStartButton().click();
+        Assert.assertTrue("After clicking on Select Criteria to Start button Location fit criteria is not opening.", locationFitCriteria().isDisplayed());
     }
 
     // Locators Below
@@ -982,4 +1024,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getAcceptanceRateCheckbox(String checkboxLabel) {
         return driver.findElement(By.xpath("//label[text()='" + checkboxLabel + "']"));
     }
+
+    private WebElement getFitCriteriaBar() {
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']/ul"));
+    }
+
+    private WebElement firstSelectCriteriaToStartButton() {
+        return driver.findElement(By.xpath("(//button[contains(text(),'Select Criteria To Start')])[2]"));
+    }
+
+    private WebElement secondSelectCriteriaToStartButton(){
+        return driver.findElement(By.xpath("(//button[contains(text(),'Select Criteria To Start')])[3]"));
+    }
+
+    private WebElement closeFitCriteria(){ return driver.findElement(By.xpath("//i[@class='close icon']")); }
+
+    private WebElement locationFitCriteria(){ return getDriver().findElement(By.xpath("//h1[text()='Location']")); }
+
+    private WebElement ChooseFitCriteriaText(){ return getDriver().findElement(By.xpath("//span[text()='Choose Fit Criteria']")); }
 }

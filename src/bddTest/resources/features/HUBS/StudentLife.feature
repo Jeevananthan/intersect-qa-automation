@@ -1,4 +1,4 @@
-@HUBS @HUBSStudentLife
+@HUBS @HUBSStudentLife @HUBS-942
 Feature: As a community user viewing College Hubs, I want to be able to view Student Life Tab content so I can
   understand what Hubs offers students.
 
@@ -30,6 +30,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
       | Athletics           | Men                     | Track And Field;Association;NWAACC |
     And HE I successfully sign out
 
+  @HUBS-1044 @HUBS-1023
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4055)
     When HUBS I open "Student Life" in the edit menu
     And HUBS I take note of the values from the following fields in Student Life:
