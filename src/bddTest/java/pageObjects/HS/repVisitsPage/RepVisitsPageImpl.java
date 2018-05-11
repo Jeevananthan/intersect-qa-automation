@@ -3230,7 +3230,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void scheduleNewVisit(String date,String startTime,String endTime,String attendee,String location) {
+    public void scheduleNewVisitusingCustomTime(String date,String startTime,String endTime,String attendee,String location) {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Calendar").click();

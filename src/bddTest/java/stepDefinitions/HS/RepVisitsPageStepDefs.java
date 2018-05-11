@@ -365,7 +365,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS verify the created Appointment is present in the calendar \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAppointmentsIncalendar);
 
-        Then("^HS I schedule a new visit for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::scheduleNewVisit);
+        Then("^HS I schedule a new visit for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::scheduleNewVisitusingCustomTime);
 
         Then("^HS I verify the confirmation message \"([^\"]*)\" for the created visit$",repVisits::verifyConfirmationMessage);
 

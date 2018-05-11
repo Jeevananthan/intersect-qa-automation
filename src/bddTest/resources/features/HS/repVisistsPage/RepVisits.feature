@@ -904,7 +904,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I remove the time slot with day "Fri" and time "2:15am"
     And HS I successfully sign out
     
-      @MATCH-1765
+  @MATCH-1765
   Scenario Outline: As a high school user, I want to be able to manually add appointments including custom contact info/custom time slots,
   so that I can create appointments that are custom to my high school's needs.
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
