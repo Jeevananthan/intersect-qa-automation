@@ -314,6 +314,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchButton().click();
     }
 
+    public void searchSchoolForSupport(String schoolName){
+        waitUntilPageFinishLoading();
+        getSchoolFindOutInTheSearch().clear();
+        getSchoolFindOutInTheSearch().sendKeys(schoolName);
+        waitUntilElementExists(link(By.id("global-search-box-item-0")));
+        link(By.id("global-search-box-item-0")).click();
+        waitUntilPageFinishLoading();
+    }
+
     public void verifyEmptyContactPage(){
         navBar.goToRepVisits();
         getContactsBtn().click();
@@ -1617,6 +1626,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
     }
 
+    public void clickOnSeeAllUsersLink(String link) {
+        seeAllUsersLink(link).click();
+    }
+
+    public void reInviteSendEmail(String action, String loginName){
+
+        waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.xpath("//table[@class='ui table']//tbody//tr//td[5]/a[text()='"+loginName+"']")));
+        WebElement login = driver.findElement(By.xpath("//table[@class='ui table']//tbody//tr//td[5]/a[text()='"+loginName+"']"));
+
+        WebElement Actions = getParent(getParent(login)).findElement(By.cssSelector("[aria-label='Actions']"));
+        Actions.click();
+
+        WebElement selectsReInviteDropDown = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+action+"']"));
+        driver.executeScript("arguments[0].click();",selectsReInviteDropDown);
+        yesButton().click();
+    }
+
     public void selectViewDetailsforFairs(String school,String date,String time) {
         String Date = selectdate(date);
         Assert.assertTrue("View full details option is not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+time+"']/following-sibling::div/a/span[text()='View full details']")).isDisplayed());
@@ -2772,6 +2799,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement button=button("Save");
         return button;
     }
+    private WebElement yesButton() {
+        WebElement button = button("Yes");
+        return button;
+    }
+    public WebElement seeAllUsersLink(String link) {
+        WebElement seealluser = link(link);
+        return seealluser;
+    }
     private WebElement textBoxInViewDetails() {
         WebElement text= driver.findElement(By.xpath("//input[@aria-label='Internal Notes']"));
         return text;
@@ -2912,6 +2947,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement headerContainer = driver.findElement(By.cssSelector(
                 "div[class='hidden-mobile hidden-tablet _3ExBVDvA2sy-YCcBYK00PU']"));
         return headerContainer;
+
+    }
+
+    /**
+     * Gets the web element container of the text to search a school
+     * @return Webelement
+     */
+    private WebElement getSchoolFindOutInTheSearch(){
+        WebElement schoolFoundInSupport = textbox(By.id("global-search-box-input"));
+        return schoolFoundInSupport;
 
     }
 
