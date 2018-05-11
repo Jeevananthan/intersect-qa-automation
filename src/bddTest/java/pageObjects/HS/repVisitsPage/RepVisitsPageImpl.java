@@ -330,26 +330,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Availability & Settings").click();
-        waitUntilPageFinishLoading();
         link("Availability").click();
-        waitUntilPageFinishLoading();
         link("Availability Settings").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("input[title='Days in advance to prevent colleges from scheduling new visits.'][min='1'][max='99']"),1));
         WebElement visitBox = getDriver().findElement(By.cssSelector("input[title='Days in advance to prevent colleges from scheduling new visits.'][min='1'][max='99']"));
         visitBox.clear();
         visitBox.sendKeys(Numberofdays);
         button("Save Changes").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
     public void setPreventCollegesCancellingorRescheduling(String DaysInAdvance){
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         link("Availability & Settings").click();
         link("Availability").click();
         link("Availability Settings").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("input[title='Days in advance to prevent colleges from scheduling new visits.'][min='1'][max='99']"),1));
         WebElement visitBox = getDriver().findElement(By.cssSelector("input[title='Days in advance to prevent colleges from cancelling or rescheduling visits.'][min='1'][max='99']"));
         visitBox.clear();
         visitBox.sendKeys(DaysInAdvance);
         button("Save Changes").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
     public void setAcceptInVisitSchedulingToFullyBooked(String accept){
@@ -361,11 +366,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitUntilElementExists(link("Availability & Settings"));
         link("Availability & Settings").click();
-        waitUntilPageFinishLoading();
         link("Availability").click();
-        waitUntilPageFinishLoading();
         link("Availability Settings").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("input[title='Days in advance to prevent colleges from scheduling new visits.'][min='1'][max='99']"),1));
         WebElement selectAccept = getDriver().findElement(By.cssSelector("div[class='ui selection dropdown']>div"));
         waitUntilPageFinishLoading();
         selectAccept.click();
@@ -377,6 +381,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         button("Save Changes").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
     public void setVisitsConfirmations(String option){
         navBar.goToRepVisits();
@@ -393,6 +398,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         options.findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
         button("Save Changes").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
     public void accessVisitAvailability(String visitAvailability){
@@ -409,6 +415,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']/input[@type='radio']")).click();
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
     public void verifyVisitAvailability(String visitAvailabiltyOption) {
@@ -607,7 +614,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setStartAndEndDates(String startDate, String endDate) {
+        setDefaultDateforStartAndEndDate();
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         link("Availability & Settings").click();
         link("Availability").click();
         link("Regular Weekly Hours").click();
@@ -886,12 +895,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void searchforSchool(String school,String location, String Date)
-    {
+    public void searchforSchool(String school,String location, String Date) {
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
-        driver.findElement(By.xpath("//form[@class='ui form _5HmcoKe1wdwl-K-v4lyiX']//button[contains(@class,'ui button')]")).click();
+        driver.findElement(By.xpath("//button[contains(@class,'ui button')]")).click();
         waitForUITransition();
         waitUntilElementExists(driver.findElement(By.xpath("//td[text()='"+location+"']")));
         Assert.assertTrue("location is not displayed",driver.findElement(By.xpath("//td[text()='"+location+"']")).isDisplayed());
@@ -1266,8 +1275,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 if (driver.findElement(By.cssSelector("table[class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']>tbody>tr>td>div")).findElement(By.xpath("//button[contains(text(), '" + hourStartTime + ":" + minuteStartTime + meridianStartTime + "')]")).isDisplayed()) {
                     waitUntilPageFinishLoading();
                     deleteTimeSlot.click();
-                    waitUntilElementExists(driver.findElement(By.cssSelector("button[class='ui primary button']")));
-                    driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+                    waitUntilElementExists(driver.findElement(By.cssSelector("button[class='ui primary button']>span")));
+                    driver.findElement(By.cssSelector("button[class='ui primary button']>span")).click();
                     waitUntilPageFinishLoading();
                     break;
                 }
@@ -1657,7 +1666,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void navigateToAvailabilityAndSettings() {
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//span[text()='Availability & Settings']")).click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("Availability is not displayed", text("Availability").isDisplayed());
         driver.findElement(By.xpath("//span[text()='Notifications & Primary Contact']")).click();
         waitUntilPageFinishLoading();
@@ -4123,6 +4134,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
         availability().click();
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
