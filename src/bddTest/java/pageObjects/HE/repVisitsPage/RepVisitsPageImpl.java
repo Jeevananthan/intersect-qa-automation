@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +38,7 @@ import static org.junit.Assert.fail;
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    public static String formattedDate;
 
     public RepVisitsPageImpl() {
         logger = Logger.getLogger(RepVisitsPageImpl.class);
@@ -89,11 +92,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Search and Schedule").click();
         //text("Search by school name or location...").sendKeys(highSchool);
         driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(highSchool);
-        driver.findElement(By.xpath("//i[@class='teal search large link icon _3pWea2IV4hoAzTQ12mEux-']")).click();
+        driver.findElement(By.xpath("//i[@class='teal search large link icon Umyjf8WyIatPr6Rajw7y6']")).click();
         text(highSchool).click();
         text("Fairs").click();
         if (text(fairTitle).isDisplayed()){
-            driver.findElement(By.xpath("//span[contains(text(), '"+fairTitle+"')]/../following-sibling::div/button/span[contains(text(),'Register')]")).click();
+            driver.findElement(By.xpath("//span[contains(text(), '"+fairTitle+"')]/../following-sibling::div/button[contains(text(),'Register')]")).click();
         }else
             Assert.assertFalse("Fair = "+fairTitle+" is not exist.", text(fairTitle).isDisplayed());
 
@@ -1459,6 +1462,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void visitsSchedule(String school,String startDate,String time){
+        waitUntilPageFinishLoading();
         visit().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -1478,6 +1482,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilityButton.click();
         waitUntilPageFinishLoading();
     }
+
 
     public String getSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
@@ -1501,31 +1506,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySchedulePopup(String school,String startTime,String endTime){
+        waitUntilPageFinishLoading();
         if(startTime.length() < 5)
             startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
         Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
         visitRequestButton().click();
+        waitUntilPageFinishLoading();
         waitUntilElementExists(goToDate());
         navBar.goToRepVisits();
-        waitForUITransition();
         waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
+
     public void visitFairsToRegister(String fairName,String schoolName){
+        waitUntilPageFinishLoading();
         String Fair=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
         waitUntilElementExists(getFairsButton());
         getFairsButton().click();
         waitUntilElementExists(register());
-        waitUntilElementExists(fairName(schoolName,Fair));
-        Assert.assertTrue("fair is not displayed",fairName(schoolName,Fair).isDisplayed());
-        Assert.assertTrue("schoolName is not displayed",schoolName(schoolName).isDisplayed());
-        registerButton(Fair) .click();
+        WebElement fairname=driver.findElement(By.xpath("//a/h3[text()='"+schoolName+"']/parent::a/following-sibling::span[text()='"+Fair+"']"));
+        waitUntilElementExists(fairname);
+        Assert.assertTrue("fair is not displayed",fairname.isDisplayed());
+        WebElement schoolDetails = driver.findElement(By.xpath("//a/h3[text()='"+schoolName+"']"));
+        Assert.assertTrue("schoolName is not displayed",schoolDetails.isDisplayed());
+        WebElement button=  driver.findElement(By.xpath("//span[text()='"+Fair+"']/parent::div/following-sibling::div/button[text()='Register']"));
+        button.click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
         submitButton().click();
         waitForUITransition();
         navBar.goToRepVisits();
+        waitForUITransition();
+        waitUntilPageFinishLoading();
     }
 
     public void verifyNotification(String school,String date,String time) {
@@ -1684,6 +1699,188 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void addHighSchoolToRepVisitsTravelPlan(String school, String location){
+        navigateToRepVisitsSection("Recommendations");
+        searchHighSchoolByLocationInRecommendationsPage(location);
+        addHighSchoolToTravelPlan(school);
+    }
+    private void searchHighSchoolByLocationInRecommendationsPage(String location){
+        getSearchByLocationTextBox().sendKeys(location);
+    }
+
+    /**
+     +     * Removes a given high school from the travel plan page
+     +     * @param school to be removed
+     +     */
+    public void removeHighSchoolFromTravelPlan(String school){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']",school))).click();
+        Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?").isDisplayed());
+        Assert.assertTrue("The remove from travel plan confirmation message is not displayed",text(String.format("Are you sure you want to remove %s from your travel plan?", school)).isDisplayed());
+        button("YES, REMOVE").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
+    }
+
+    public void verifySchoolDetailsInTravelPlan(String school,String address,String collegeGoingRate,String seniorclassSize,String primaryPoc,String numberofHighSchool,String stateName){
+        String addressdetails[] = address.split(",");
+        String city = addressdetails[0];
+        String state = addressdetails[1];
+        String county = addressdetails[2];
+        String zip = addressdetails[3];
+        Assert.assertTrue("HighSchool count is not displayed",driver.findElement(By.xpath("//span[text()='"+stateName+"']/parent::div/span[text()='"+numberofHighSchool+"']")).isDisplayed());
+        Assert.assertTrue("HighSchool avatar image is not displayed",driver.findElement(By.xpath("//div/img[@class='ui centered image yUiNH8XB_uHGXhISF0aaL']")).isDisplayed());
+        Assert.assertTrue("School is not displayed",driver.findElement(By.xpath("//div[text()='"+school+"']")).isDisplayed());
+        Assert.assertTrue("Address is not displayed",driver.findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+","+county+","+zip+"']")).isDisplayed());
+        Assert.assertTrue("CollegeGoingRate is not displayed",driver.findElement(By.xpath("//div[text()='"+collegeGoingRate+"']")).isDisplayed());
+        Assert.assertTrue("Senior class size is not displayed",driver.findElement(By.xpath("//div[text()='"+seniorclassSize+"']")).isDisplayed());
+        Assert.assertTrue("primary Poc is not displayed",driver.findElement(By.xpath("//div[text()='"+primaryPoc+"']")).isDisplayed());
+    }
+
+    public void verifyLinkInTravelPlanPage(){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        try{
+            Assert.assertTrue("Instruction is not displayed",driver.findElement(By.xpath("//span[text()='The Travel Plan lists high schools you plan to visit or will be visiting. You can add additional schools by selecting \"Add to my travel plan\" from the ']")).isDisplayed());
+            Assert.assertTrue("Recommendations link is not displayed",link("Recommendations").isDisplayed());
+            link("Recommendations").click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue("Navigated to Recommendations Page",driver.findElement(By.xpath("//div/h1/span[text()='Recommendations']")).isDisplayed());
+        }catch(Exception e){
+            throw new AssertionFailedError("The label for the 'Recommendation' is not displayed in the 'Travel Plan' tab");
+        }
+    }
+
+    public void verifysortingStatesInTravelPlan(){
+        link("Travel Plan").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        List<WebElement> elements = driver.findElements(By.xpath("//div[@class='ui stackable grid f4StyMpAtcTrzK5AccX8f']/div[1]/div/span"));
+        List<String> original = new ArrayList<>();
+        for(WebElement element:elements){
+            original.add(element.getText());
+        }
+        List<String> sortedList = new ArrayList();
+        for(String element:sortedList){
+            sortedList.add(element);
+        }
+        int i = 0;
+        for (String entry : sortedList) {
+            Assert.assertTrue("Entry in sorted list doesn't match an entry in the original list. Sorted: " + entry + ", Original: " + original.get(i),entry.equalsIgnoreCase(original.get(i)));
+            i++;
+        }
+    }
+
+    public void verifyVisitDetailsInTravelPlan(String school,String date){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        String visitDate = getSpecificDateforTravelPlan(date);
+        WebElement visitDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']//div[@class='content _1SfpP2fklL5GVWMyfqjq4q']//button/span/span[text()='Visit,']/parent::span/following-sibling::span[text()='"+visitDate+"']"));
+        Assert.assertTrue("Visit Details is not displayed",visitDetails.isDisplayed());
+        visitDetails.click();
+        waitForUITransition();
+        Assert.assertTrue("Internal Notes text box is displayed",driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).isDisplayed());
+        driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("Cancel This Visit button is not displayed",button("Cancel This Visit").isDisplayed());
+        button("Cancel This Visit").click();
+        driver.findElement(By.id("cancel-message")).sendKeys("by QA");
+        Assert.assertTrue("Yes, Cancel Visit button is not Enabled",button("Yes, Cancel Visit").isEnabled());
+        button("Yes, Cancel Visit").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitForUITransition();
+    }
+
+    public void verifyFairDetailsInTravelPlan(String school,String date){
+        navBar.goToCommunity();
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Travel Plan").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        String fairDate = getSpecificDateforTravelPlan(date);
+        WebElement fairDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']//div[@class='content _1SfpP2fklL5GVWMyfqjq4q']//button/span/span[text()='College Fair,']/parent::span/following-sibling::span[text()='"+fairDate+"']"));
+        Assert.assertTrue("FairDetails is not displayed",fairDetails.isDisplayed());
+        fairDetails.click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//input[@aria-label='Internal Notes']"))));
+        Assert.assertTrue("Internal Notes text box is displayed",driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).isDisplayed());
+        driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("Cancel This Fair is not Displayed",button("Cancel This Fair").isDisplayed());
+        button("Cancel This Fair").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        driver.findElement(By.id("cancel-message")).sendKeys("by QA");
+        Assert.assertTrue("Yes, Cancel Fair button is not Enabled",button("Yes, Cancel Fair").isEnabled());
+        button("Yes, Cancel Fair").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitForUITransition();
+        waitForUITransition();
+    }
+
+    public void verifyUpcommingAppointmentTextInTravelPlan(String upcomingAppointmentsText,String school){
+        Assert.assertTrue("'Upcoming Appointments' text is not displayed for the school '"+school+"' in Travel Plan",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/span/span[text()='"+upcomingAppointmentsText+"']")).isDisplayed());
+    }
+
+    public void verifyScheduledTextInTravelPlan(String scheduled,String school){
+        Assert.assertTrue("'Scheduled' Label text is not displayed for the school '"+school+"' in the Travel Plan" ,driver.findElement(By.xpath("//div[text()='"+school+"']/following-sibling::div/div/span[text()='"+scheduled+"']")).isDisplayed());
+    }
+
+
+     /* Verifies that a given label is displayed for a given high school
+     * @param school to verify the label
+     * @param labelText to verify*/
+    public void verifyLabelForTravelPlanHighSchool(String school, String labelText){
+        navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        try{
+            getDriver().findElements(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='%s']",school,labelText)));
+        }catch(Exception e){
+            throw new AssertionFailedError(String.format("The %s label is not displayed for high school: %s, error: %s",labelText,school,e.toString()));
+        }
+    }
+
+    public void verifyPreviousAppointmentsTextInTravelPlan(String text,String school){
+        Assert.assertTrue("'"+text+"' Text is not displayed for the school '"+school+"' in the Travel Plan",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div//span[text()='"+text+"']")).isDisplayed());
+    }
+
+    public void verifyViewAvailabilityButtonInTravelPlan(String viewAvailabilityButton,String school){
+        Assert.assertTrue("'View Availability' is not displayed for the school '"+school+"' in the Travel Plan",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div//span[text()='"+viewAvailabilityButton+"']")).isDisplayed());
+    }
+
+    public void selectViewAvailabilityButtonInTravelPlan(String viewAvailabilityButton,String school){
+       getDriver().findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div//span[text()='"+viewAvailabilityButton+"']")).click();
+       waitForUITransition();
+       waitUntilPageFinishLoading();
+       Assert.assertTrue("Search text box is not displayed in the 'Search and Schedule' Page",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).isDisplayed());
+       Assert.assertTrue("visit button is not displayed in the 'Search and Schedule' Page",driver.findElement(By.xpath("//div/span[text()='Visits']")).isDisplayed());
+    }
+
+    public void verifyRemoveButtonInTravelPlan(String removeButton,String school){
+        waitForUITransition();
+        Assert.assertTrue("Remove button is not displayed",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/preceding-sibling::div/div/button/span[text()='"+removeButton+"']")).isDisplayed());
+    }
+
+    public void verifyUpcomingFairMessageInTravelPlan(String school){
+        Assert.assertTrue("'Upcoming Fair' Highlighted Text is not displayed for the school '"+school+"' in the Travel Page",driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/div/span[text()='This school has an upcoming College Fair on']/parent::div/a/span[text()='See details »']")).isDisplayed());
+        WebElement seeDetailsLink = getDriver().findElement(By.xpath("//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/div/div/div/span[text()='This school has an upcoming College Fair on']/parent::div/a/span[text()='See details »']"));
+        seeDetailsLink.click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        Assert.assertTrue("Search text box is not displayed in the 'Search and Schedule' page",driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).isDisplayed());
+        Assert.assertTrue("visit button is not displayed in the 'Search and Schedule' page",driver.findElement(By.xpath("//div/span[text()='Visits']")).isDisplayed());
+    }
+
+    public void verifyToDoTextInTravelPlan(String toDoText,String school){
+        waitForUITransition();
+        Assert.assertTrue("'To Do' Label is not displayed for the school '"+school+"' in the Travel Plan",driver.findElement(By.xpath("//div[text()='"+school+"']/following-sibling::div/div/span[text()='"+toDoText+"']")).isDisplayed());
+    }
+
     //The below method will verify the message which will display when there is no visit/fair for the next week.
     public void verifyDefaultMessageOverviewPage(){
         if(text("You don't have any visits or fairs for the next week.").isDisplayed()){
@@ -1698,12 +1895,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             logger.info("The HE User has upcoming visits/fair for the coming 7 days, so can't show the default text in Overview page...");
     }
 
-    /**
-     * Searches a high schools by location in RepVisits>Recommendations page given a location
-     * @param location to search
-     */
-    private void searchHighSchoolByLocationInRecommendationsPage(String location){
-        getSearchByLocationTextBox().sendKeys(location);
+    public String getSpecificDateforTravelPlan(String addDays){
+        String DATE_FORMAT_NOW = "MMMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     /**
@@ -1722,16 +1921,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    /**
-     * Adds a given school and a location to the RevVisits travel plan
-     * @param school to be added
-     * @param location to search the school
-     */
-    public void addHighSchoolToRepVisitsTravelPlan(String school, String location){
-        navigateToRepVisitsSection("Recommendations");
-        searchHighSchoolByLocationInRecommendationsPage(location);
-        addHighSchoolToTravelPlan(school);
-    }
 
     /**
      * Verifies if the trash icon is displayed for a given school in the Travel Plan page
@@ -1748,42 +1937,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             throw new AssertionFailedError(String.format("The trash icon is not displayed for school: %s, error: %s"
                     ,school,e.toString()));
         }
-    }
-
-    /**
-     * Verifies that a given label is displayed for a given high school
-     * @param school to verify the label
-     * @param labelText to verify
-     */
-    public void verifyLabelForTravelPlanHighSchool(String school, String labelText){
-        navigateToRepVisitsSection("Travel Plan");
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
-        try{
-            getDriver().findElements(By.xpath(String.format(
-                    ".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='%s']",school,labelText
-            )));
-        }catch(Exception e){
-            throw new AssertionFailedError(String.format("The %s label is not displayed for high school: %s, error: %s"
-                    ,labelText,school,e.toString()));
-        }
-    }
-
-    /**
-     * Removes a given high school from the travel plan page
-     * @param school to be removed
-     */
-    public void removeHighSchoolFromTravelPlan(String school){
-        navigateToRepVisitsSection("Travel Plan");
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
-        button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
-                ,school))).click();
-        Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?")
-                .isDisplayed());
-        Assert.assertTrue("The remove from travel plan confirmation message is not displayed",
-                text(String.format("Are you sure you want to remove %s from your travel plan?", school)).isDisplayed());
-        button("YES, REMOVE").click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
     }
 
     /**
@@ -2220,6 +2373,84 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void openCalendar() {
+        navBar.goToRepVisits();
+        getCalendarBtn().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void openFairDetailsWithGeneratedDate() {
+        formattedDate = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.generatedDate + ","
+                + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.generatedDateDayOfWeek + ","
+                + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.time.replaceFirst(" ", "");
+        openFairDetails(formattedDate);
+    }
+
+    public void openFairDetails(String date) {
+        pressCalendarArrowUntil("right", date.split(",")[0], 10);
+        getDateCell(date.split(",")[1].split(" ")[1], date.split(",")[2], 1).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("h1.ui.header"), 1));
+    }
+
+    public void verifyFairDetailsWithGenDate(DataTable fairDetails) {
+        verifyFairDetails(formattedDate, fairDetails);
+    }
+
+    public void verifyFairDetails(String date, DataTable fairDetails) {
+        List<List<String>> fairDetailsList = fairDetails.asLists(String.class);
+        String internalNotesText = "";
+        for (List<String> fairDataElement : fairDetailsList) {
+            switch (fairDataElement.get(0)) {
+                case "College Fair Name" : Assert.assertTrue(fairNameHeader().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "High School name" : Assert.assertTrue(fairHSName().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "High School address" : Assert.assertTrue(fairHSAddress().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Contact name" : Assert.assertTrue(fairContactName().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Contact title" : Assert.assertTrue(fairContactTitle().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Contact email" : Assert.assertTrue(fairContactEmail().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Contact phone" : Assert.assertTrue("UI: " + fairContactPhone().getText(), fairContactPhone().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Date" : Assert.assertTrue(fairDate().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Start time" : Assert.assertTrue("UI: " + fairStartTime().getText(), fairStartTime().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "End time" : Assert.assertTrue(fairEndTime().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Time zone" : Assert.assertTrue("UI: " + fairTimeZone().getText(), fairTimeZone().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Cost" : Assert.assertTrue(fairCost().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Number of students" : Assert.assertTrue(fairExpectedStudents().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Instructions" : Assert.assertTrue(fairInstructions().getText().equals(fairDataElement.get(1)));
+                    break;
+                case "Cancellation text" : Assert.assertTrue(fairCancellationInstructions().getText().contains(fairDataElement.get(1)));
+                    break;
+                case "Cancel link" :
+                    if (fairDataElement.get(1).equals("Present")) {
+                        Assert.assertTrue("The Cancel link is not present", fairCancelLink().isDisplayed());
+                    } else if (fairDataElement.get(1).equals("Not Present")) {
+                        Assert.assertFalse("The Cancel link is present, when it shouldn't", fairCancelLink().isDisplayed());
+                    }
+                    break;
+                case "Internal notes" :
+                    internalNotesText = fairDataElement.get(1);
+                    break;
+            }
+        }
+        fairInternalNotesTextBox().clear();
+        fairInternalNotesTextBox().sendKeys(internalNotesText);
+        fairSaveButton().click();
+        Assert.assertTrue("The message of successful saving is not disaplyed", fairSavedConfirmationMessage().isDisplayed());
+        openFairDetails(date);
+        Assert.assertTrue("The Internal notes were not saved", fairInternalNotesTextBox().getAttribute("value").equals(internalNotesText));
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
@@ -2321,7 +2552,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement contactSupport= text("Contact Support");
         return  contactSupport;
     }
-    private WebElement getRegistrationButton(String fairName) { return getDriver().findElement(By.xpath("//span[text()='" + fairName + "']/../../div/button/span")); }
+    private WebElement getRegistrationButton(String fairName) { return getDriver().findElement(By.xpath("//span[text()='" + fairName + "']/../../div/button")); }
     private WebElement getFairDate() { return getDriver().findElement(By.cssSelector("div.content span")); }
     private WebElement getStartEndTimeAndTimeZone() { return getDriver().findElement(By.cssSelector("div.content b:nth-of-type(1)")); }
     private WebElement requestText() { return getDriver().findElement(By.cssSelector("div.ui.modal.transition.visible.active div.content div")); }
@@ -2350,7 +2581,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> headerWeekDays() { return getDriver().findElements(By.cssSelector("table.ui.fixed.unstackable.basic.center thead th div span")); }
     private List<WebElement> visitsRows() { return getDriver().findElements(By.cssSelector("table.ui.fixed.unstackable.basic.center tbody tr")); }
     private List<WebElement> eventsRows(String day) { return getDriver().findElements(By.xpath("//div[not(contains(@class, 'rbc-off-range'))][contains(@class,'rbc-date-cell')]/a[text()='" + day + "']/../../following-sibling::div")); }
-    private WebElement getVerticalStaffMembersMenu() {
+    protected WebElement getVerticalStaffMembersMenu() {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));
     }
@@ -2599,6 +2830,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return headerContainer;
 
     }
+
+    private WebElement fairNameHeader() { return getDriver().findElement(By.cssSelector("h1.ui.header")); }
+    private WebElement fairHSName() { return getDriver().findElement(By.cssSelector("div._3RqdVnu3tniPVn-91Bd61M")); }
+    private WebElement fairHSAddress() { return getDriver().findElement(By.cssSelector("div.rvsP8MMShznvvZWePlkUO")); }
+    private WebElement fairContactName() { return getDriver().findElement(By.cssSelector("div._3gQNLVW3B3CfdELmCdwdfG")); }
+    private WebElement fairContactTitle() { return getDriver().findElement(By.cssSelector("div._25t7gNvT8MVtZfRUq4WSK3")); }
+    private WebElement fairContactEmail() { return getDriver().findElement(By.cssSelector("div._38U_qKPRgGTogiYwQidWQu")); }
+    private WebElement fairContactPhone() { return getDriver().findElement(By.cssSelector("div._2Yft-cZFY8BFL0J6NPSWna")); }
+    private WebElement fairDate() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[1]/div/span")); }
+    private WebElement fairStartTime() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[2]/div/span[1]")); }
+    private WebElement fairEndTime() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[2]/div/span[2]")); }
+    private WebElement fairTimeZone() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[2]/div/span[3]")); }
+    private WebElement fairCost() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[4]/div[1]/div")); }
+    private WebElement fairExpectedStudents() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[4]/div[2]/div")); }
+    private WebElement fairInstructions() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[5]/div/div")); }
+    private WebElement fairCancellationInstructions() { return getDriver().findElement(By.xpath("//div[@class='_3JCQh0qrOlZKBKE8m4D5Iz']/span/span")); }
+    private WebElement fairCancelLink() { return getDriver().findElement(By.cssSelector("div._3JCQh0qrOlZKBKE8m4D5Iz button span")); }
+    private WebElement fairInternalNotesTextBox() { return getDriver().findElement(By.cssSelector("input[aria-label=\"Internal Notes\"]")); }
+    private WebElement fairSaveButton() { return getDriver().findElement(By.cssSelector("button.ui.teal.right.floated.button span")); }
+    private WebElement fairSavedConfirmationMessage() { return getDriver().findElement(By.cssSelector("div.content span span")); }
 }
 
 

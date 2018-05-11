@@ -18,7 +18,6 @@ public class HelpImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyHelpExistAndSecure(String highSchool){
-        System.out.println();
         logger.info("I verify that the help content is secure and matches the correct URL.");
         ArrayList<String> windows = null;
         String url;
@@ -36,6 +35,8 @@ public class HelpImpl extends PageObjectFacadeImpl {
                 url = driver.getCurrentUrl();
                 driver.close();
                 driver.switchTo().window(windows.get(0));
+                waitForUITransition();
+                //waitUntilElementExists(textbox(By.id("edit-body")));
                 Assert.assertEquals("The Help link is not secure or is not the correct web address.","https://helpsite.hobsons.com/RepVisits/Content/Getting%20Started%20HS.htm", url);
                 break;
             case "HE Users":
