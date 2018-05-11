@@ -106,6 +106,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I search for \"([^\"]*)\" in RepVisits page",repVisits::searchSchool);
 
+        And("^SP I search for \"([^\"]*)\" in Support", repVisits::searchSchoolForSupport);
+
         Then("^HE I select Visits to schedule the appointment for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::visitsSchedule);
 
         Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
@@ -299,6 +301,10 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify that the following details are present in the fair details in the generated date:$", repVisits::verifyFairDetailsWithGenDate);
 
         And("^HE I verify that the Email Notification Message says: \"([^\"]*)\"$",EmailNotifications::verifyEmailBody);
+
+        Then("^SP I click in \"([^\"]*)\" link$",repVisits::clickOnSeeAllUsersLink);
+
+        And("^SP I \"([^\"]*)\" to \"([^\"]*)\"$",repVisits::reInviteSendEmail);
 
     }
 }
