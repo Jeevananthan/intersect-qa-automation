@@ -36,14 +36,15 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I set the RepVisits Availability & Settings time zone to "US/Eastern"
     And HS I successfully sign out
 
-  @MATCH-1625 @MATCH-1958
+  @MATCH-1625 @MATCH-1958 @MATCH-1943
   Scenario: As a high school counselor using Naviance and RepVisits,
   I want to integrate my RepVisits account with Naviance college visits
   So that I do not have to manually enter appointments.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page
-    #Changed now because exists Upcoming Visits & Fairs
-    #And HS I verify the Coming Soon message on the RepVisits Overview page
+    Then HS I verify the success message after save the changes
+#Comming soon message is removed
+#   And HS I verify the Coming Soon message on the RepVisits Overview page
     And HS I successfully sign out
 
   @MATCH-1574 @MATCH-1802
@@ -685,12 +686,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I remove the Fair appointment from the calendar
     And HE I successfully sign out
     Then HE I verify the Email Notification Message for "<School>" using "<Date>","<EmailTimeForFair>"
-      |Subject                                            |To       |Messages |
-      |College fair registration cancelled for <School>   |<EMail>  |1        |
+      |Subject                                                             |To       |Messages |
+      |College fair registration cancelled for <School for Notification>   |<EMail>  |1        |
 
     Examples:
-      |School            |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
-      |Homeconnection    |purpleheautomation@gmail.com    |QAs Fairs tests       |4   |1000AM    |1100AM  |2            |$25 |25                    |100                        | Save          |10AM   |10:00am         |
+      |School for Notification|School        |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
+      |Homeconnection (WA)    |Homeconnection|purpleheautomation@gmail.com    |QAs Fairs tests       |4   |1000AM    |1100AM  |2            |$25 |25                    |100                        | Save          |10AM   |10:00am         |
 
   @MATCH-3462
   Scenario: As a RepVisits HS user that is interested in opting in to connect events with Naviance, I want the copy on
@@ -801,6 +802,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
+
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
 #by SchoolLocation
     Then HE I search the "<School>" by "<location>"
@@ -875,7 +881,30 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I click the Visit Feedback sub tab
     Then HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab
 
-  @MATCH-1765
+  @MATCH-2692
+  Scenario: As a high school staff member, I want to be able to toggle blocking of specific availabilities in RepVisits,
+  so that I can effectively close a time slot for further visits and re-open it later, if I choose.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set a date using "0" and "90"
+    And HS I add new time slot with "Friday", "2", "3", "15", "15", "AM", "AM" and "2"
+    And HS I schedule a new visit with day "Fri" time "2:15am" representative name "Test Person name" representative last name "Test Last N" representative institution "RepresentativeTest" location "Cbba" NumberOfStudents "7" registrationWillClose "7 days"
+    Then HS I verify that Block this time slot button is displayed for time slot with day "Fri" and time "2:15am"
+    And HS I verify that Block this time slot ToolTip is displayed for time slot with day "Fri" and time "2:15am"
+    When HS I block the time slot with day "Fri" and time "2:15am"
+    Then HS I verify that Unblock this time slot button is displayed for time slot with day "Fri" and time "2:15am"
+    And HS I verify that Block this time slot ToolTip is displayed for time slot with day "Fri" and time "2:15am"
+    And HS I verify that Blocked label is displayed in the slot time with day "Fri" and time "2:15am"
+    And HS I verify that a new visit with day "Fri" and time "2:15am" cannot be set
+    When HS I unblock the time slot with day "Fri" and time "2:15am"
+    Then HS I verify that the blocked label is not displayed for the time slot with day "Fri" and time "2:15am"
+    And HS I verify that the number of visits for the time slot with day "Fri" and time "2:15am" is "2"
+    And HS I schedule a new visit with day "Fri" time "2:15am" representative name "Test Person name" representative last name "Test Last N" representative institution "RepresentativeTest2" location "Cbba" NumberOfStudents "7" registrationWillClose "7 days"
+    And HS I cancel a visit with time "2:15AM" college "RepresentativeTest" and note "Cancel"
+    And HS I cancel a visit with time "2:15AM" college "RepresentativeTest2" and note "Cancel"
+    And HS I remove the time slot with day "Fri" and time "2:15am"
+    And HS I successfully sign out
+    
+      @MATCH-1765
   Scenario Outline: As a high school user, I want to be able to manually add appointments including custom contact info/custom time slots,
   so that I can create appointments that are custom to my high school's needs.
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
@@ -921,3 +950,4 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
       |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|
       |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |
+

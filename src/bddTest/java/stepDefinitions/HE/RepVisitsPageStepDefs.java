@@ -1,7 +1,9 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.cs.A;
 import cucumber.api.java8.En;
+import pageObjects.COMMON.EmailNotifications;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
 
 public class RepVisitsPageStepDefs implements En {
@@ -234,6 +236,34 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the Non-admins cannot reach the page directly by URL$",repVisits::verifyNavigationInNonAdminByURl);
 
+        Then("^HE I verify the School details in Travel plan \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifySchoolDetailsInTravelPlan);
+
+        Then("^HE I verify the instructional text in Travel Plan and verify the link to navigate to the Recommendations page$",repVisits::verifyLinkInTravelPlanPage);
+
+        Then("^HE I verify the states of the school are present in the ABC order$",repVisits::verifysortingStatesInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" Text is present in the Travel plan for \"([^\"]*)\"$",repVisits::verifyUpcommingAppointmentTextInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" Text is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyScheduledTextInTravelPlan);
+
+        Then("^HE I verify the Visit details are displayed in the Travel plan for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInTravelPlan);
+
+        Then("^HE I verify the Fair details are displayed in the Travel plan for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyFairDetailsInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" label is displayed for \"([^\"]*)\"$",repVisits::verifyLabelForTravelPlanHighSchool);
+
+        Then("^HE I verify the text \"([^\"]*)\" is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyPreviousAppointmentsTextInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" Button is present in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyViewAvailabilityButtonInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" button for \"([^\"]*)\", navigate to the search and schedule page or not$",repVisits::selectViewAvailabilityButtonInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" button is present in the Travel Plan for \"([^\"]*)\"$",repVisits::verifyRemoveButtonInTravelPlan);
+
+        Then("^HE I verify upcoming fair message is displayed in the Travel plan page for \"([^\"]*)\"$",repVisits::verifyUpcomingFairMessageInTravelPlan);
+
+        Then("^HE I verify the \"([^\"]*)\" text is displaying in the Travel Plan for \"([^\"]*)\"$",repVisits::verifyToDoTextInTravelPlan);
+
         And("^HE I verify the default toggle \"([^\"]*)\" is \"([^\"]*)\" in search and schedule Tab$",repVisits::verifyDefaultToggleinSearchAndSchedule);
 
         And("^HE I verify the Availability slot \"([^\"]*)\" is displaying in the visit toggle \"([^\"]*)\",\"([^\"]*)\" in search and schedule Tab$",repVisits::verifyAvailabilitySlotInSearchAndSchedule);
@@ -259,6 +289,14 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
 
         Then("^HE I verify that the previously created fair does not appear for \"([^\"]*)\"$",repVisits::verifyCollegeFairNotVisible);
+
+        When("^HE I open the Calendar tab in RepVisits$", repVisits::openCalendar);
+
+        And("^HE I open the new fair details in the generated date$", repVisits::openFairDetailsWithGeneratedDate);
+
+        Then("^HE I verify that the following details are present in the fair details in the generated date:$", repVisits::verifyFairDetailsWithGenDate);
+
+        And("^HE I verify that the Email Notification Message says: \"([^\"]*)\"$",EmailNotifications::verifyEmailBody);
 
     }
 }

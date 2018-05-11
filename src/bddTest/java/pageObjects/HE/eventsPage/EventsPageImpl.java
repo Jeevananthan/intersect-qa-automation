@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.homePage.HomePageImpl;
 import pageObjects.HUBS.FamilyConnection.FCColleges.FCCollegeEventsPage;
+import utilities.GetProperties;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -524,6 +525,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + contactName + "']"));
     }
 
+    public void verifyNoAccessToConnections() {
+        waitUntilPageFinishLoading();
+        String connectionsUrl = driver.getCurrentUrl() + GetProperties.get("amconnections.url.part");
+        driver.get(connectionsUrl);
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("No error message is displayed when a community user access AM Connections by URL", notAuthorizedErrorMessage().getText().equals(expectedNotAuthorizedErrorText));
+    }
+
     //locators
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
@@ -623,4 +632,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement attendeeStatusBarStudent(String eventName) { return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'four wide column')]/a")); }
     private WebElement noAttendeesMessage() { return driver.findElement(By.cssSelector("div.ui.stackable.middle.aligned.grid")); }
     private String noAttendeesMessageString = "There are no attendees currently registered for this event.";
+    private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
+    private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
 }
