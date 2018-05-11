@@ -902,3 +902,15 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I cancel a visit with time "2:15AM" college "RepresentativeTest2" and note "Cancel"
     And HS I remove the time slot with day "Fri" and time "2:15am"
     And HS I successfully sign out
+
+  @MATCH-2652
+  Scenario: As a nonNaviance HS, Freemium HE, or Premium HE user who is receiving their 'Welcome to Counselor Community/Intersect'
+            email with their user credentials to access the system for the first time I want to see more accurate information in
+            the email so I can appropriately contact Support, if needed, and, ideally, log in on my own.
+    Then SP I am logged in to Support for Intersect
+    Then SP I search for "Alabama" in Support
+    Then SP I click in "See All Users" link
+    And  SP I "Re-invite" to "purpleheautomation+Match2652@gmail.com"
+    Then HE I verify that the Email Notification Message says: "(.*)https://counselorcommunity.com(.*)purpleheautomation(.*)Match2652@gmail.com(.*)Hobsons Support(.*)counselorcommunity@purpledev.hobsonspobox.net(.*)"
+      |Subject                                                        |To                            |Messages |
+      |Your Intersect Invitation | purpleheautomation+Match2652@gmail.com|1        |
