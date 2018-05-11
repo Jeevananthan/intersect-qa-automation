@@ -959,3 +959,51 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I verify that the Email Notification Message says: "(.*)https://counselorcommunity.com(.*)purpleheautomation(.*)Match2652@gmail.com(.*)Hobsons Support(.*)counselorcommunity@purpledev.hobsonspobox.net(.*)"
       |Subject                                                        |To                            |Messages |
       |Your Intersect Invitation | purpleheautomation+Match2652@gmail.com|1        |
+
+  @MATCH-1765
+  Scenario Outline: As a high school user, I want to be able to manually add appointments including custom contact info/custom time slots,
+  so that I can create appointments that are custom to my high school's needs.
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
+  #verify AddVisit Button is Disabled in Calendar page
+    Then HS I select the "Fairs" option on the welcome page in the RepVisits setup wizard
+    Then HS I navigate to the calendar page to verify AddVisit Button is "Disabled"
+  #verify AddVisit Button is Enabled in Calendar page
+    Then HS I select the "Visits and Fairs" option on the welcome page in the RepVisits setup wizard
+    Then HS I navigate to the calendar page to verify AddVisit Button is "Enabled"
+
+#verify the UI of the visit schedule popup
+    And HS I verify the calendar page is displayed
+    Then HS I verify the close drawer is displaying in the visit Schedule popup
+    Then HS I verify the link "Want a custom time? Add it manually" is displaying in the visit Schedule popup
+    Then HS I verify the link "Go back to select from list" is displaying in the visit Schedule popup
+    Then HS I verify the text "Start Typing ..." is present in the Attendee text box
+    Then HS I verify the link "Not in the list? Add them manually" is displaying in the visit Schedule popup
+    Then HS I verify the link "Go back to list" is displayed in the visit Schedule popup
+    Then HS I verify the text box is displaying in the visit Schedule popup for "add-rep-first-name","add-rep-last-name","add-rep-email","add-rep-phone","add-rep-position"
+    Then HS I verify the "Institution" only required field in the visit Schedule popup
+    Then HS I verify the "If their school isn't in the list, you can simply type it in" text is present under "add-rep-institution" in the visit Schedule popup
+    Then HS I verify the button "add visit" is displaying in the visit Schedule popup
+
+#Manually adding appointment based on pre-determined time slots:
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I add the appointment based on pre-determined time slots using "<StartDate>","<StartTime>","<Attendees>","<visitLocation>"
+
+  #Manually adding a contact to an appointment:
+    Then HS I manually add the contact to an appointment using "<StartDate>","<StartTime>","<FName>","<LName>","<EMail>","<Phone>","<Position>","<institution>"
+    Then HS verify the created Appointment is present in the calendar "<StartDate>","<StartTime>","<institution>"
+
+  #Adding a manual appointment based on a custom time:
+    Then HS I schedule a new visit for "<Date>","<newVisitSTime>","<newVisitETime>","<Attendees>","<visitLocation>"
+
+  #Confirmation message:
+    Then HS I verify the confirmation message "Appointment Scheduled!,We have emailed the college with the appointment details." for the created visit
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
+    Examples:
+      |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|
+      |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |
+
