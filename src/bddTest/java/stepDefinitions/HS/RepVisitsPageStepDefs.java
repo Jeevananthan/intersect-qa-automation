@@ -365,7 +365,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the visit schedule popup$",repVisits::verifyVisitSchedulepopup);
 
-        Then("^HS I schedule a new visit for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::scheduleNewVisit);
+        Then("^HS I schedule a new visit for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::scheduleNewVisitusingCustomTime);
 
         Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in blocked days$",repVisits::removeManuallyAddedBlockedDate);
 

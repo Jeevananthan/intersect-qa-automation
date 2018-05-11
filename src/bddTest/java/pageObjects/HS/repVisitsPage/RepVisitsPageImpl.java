@@ -606,6 +606,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setStartAndEndDates(String startDate, String endDate) {
+        setDefaultDateforStartAndEndDate();
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Availability").click();
@@ -4405,19 +4406,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Go to date is not displayed",gotoDateButtonInVisitSchedulePopup().isDisplayed());
         addAttendee().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
-        Assert.assertTrue("event location is not displayed",eventLocationTextboxInSchedulePopup().isDisplayed());
-        eventLocationTextboxInSchedulePopup().sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("event location is not displayed",eventLocationTextboxInAddVisitSchedulePopup().isDisplayed());
+        eventLocationTextboxInAddVisitSchedulePopup().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
         Assert.assertTrue("internal notes is not displayed",internalNotesTextBoxInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("add visit button is not displayed",addVisitButtonInVisitSchedulePopup().isDisplayed());
         internalNotesTextBoxInVisitSchedulePopup().sendKeys(Keys.PAGE_UP);
-        eventLocationTextboxInSchedulePopup().sendKeys(Keys.PAGE_UP);
+        eventLocationTextboxInAddVisitSchedulePopup().sendKeys(Keys.PAGE_UP);
         waitForUITransition();
         findRepTextbox().sendKeys(Keys.PAGE_UP);
         waitForUITransition();
     }
 
-    public void scheduleNewVisit(String date,String startTime,String endTime,String Attendee,String location) {
+    public void scheduleNewVisitusingCustomTime(String date,String startTime,String endTime,String Attendee,String location) {
         addVisitManually().click();
         waitUntilElementExists(selectDateButton());
         selectDateButton().click();
@@ -4492,15 +4493,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
     }
 
-    public void verifyBlockedDayInException(String date)
-    {
-        Assert.assertTrue("Date button is not displayed",dateButtonInException().isDisplayed());
+    public void verifyBlockedDayInException(String date) {
+        Assert.assertTrue("Date button is not displayed", dateButtonInException().isDisplayed());
         dateButtonInException().click();
         setSpecificDate(date);
         waitForUITransition();
-        String currentDate=getcurrentBlockedDate(date);
-        Assert.assertTrue("Blocked day is not displayed", driver.findElement(By.xpath("//div/span[text()='"+currentDate+"']/parent::div/following-sibling::div/span[text()='Blocked - Holiday']")).isDisplayed());
-
+        String currentDate = getcurrentBlockedDate(date);
+        Assert.assertTrue("Blocked day is not displayed", driver.findElement(By.xpath("//div/span[text()='" + currentDate + "']/parent::div/following-sibling::div/span[text()='Blocked - Holiday']")).isDisplayed());
+    }
 
     /*locators for Messaging Options Page*/
 
@@ -5116,6 +5116,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.xpath("//div/input[@aria-label='Event Location']"));
         return text;
     }
+    private WebElement eventLocationTextboxInAddVisitSchedulePopup() {
+        WebElement text=driver.findElement(By.xpath("//div/input[@id='eventLocation']"));
+        return text;
+    }
     private WebElement internalNotesTextBoxInVisitSchedulePopup() {
         WebElement text=driver.findElement(By.id("internalNotes"));
         return text;
@@ -5137,11 +5141,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private WebElement eventLocation() {
-        WebElement location=driver.findElement(By.xpath("//div/input[@aria-label='Event Location']"));
+        WebElement location=driver.findElement(By.xpath("//div/input[@id='eventLocation']"));
         return location;
     }
     private WebElement studentsNotes(){
-        WebElement text=driver.findElement(By.xpath("//input[@name='studentNotes']"));
+        WebElement text=driver.findElement(By.xpath("//div/textarea[@id='internalNotes']"));
         return text;
     }
     private WebElement findRepTextbox()
