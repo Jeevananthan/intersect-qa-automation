@@ -144,8 +144,8 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String superMatchBannerMessage = "Check it out!  We've been working on an updated SuperMatch experience  Click here to try it out";
     private String tooltipsInTabListLocator = "div.ui.bottom.left.basic.popup.transition.visible.supermatch-menuitem-popup button.supermatch-tooltip-trigger";
     private String tooltipsInWhyDrawerLocator = "table.ui.unstackable.very.basic.center.aligned.table.supermatch-sidebar-academic-qualifications button.supermatch-tooltip-trigger";
-    private WebElement tooltipTitle() { return driver.findElement(By.cssSelector("div[id*='supermatch-toolip-'] div.header")); }
-    private WebElement tooltipText() { return driver.findElement(By.cssSelector("div[id*='supermatch-toolip-'] span")); }
+    private WebElement tooltipTitle() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.header")); }
+    private WebElement tooltipText() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] span")); }
     private WebElement addSportButton() { return driver.findElement(By.cssSelector("button[title=\"Add a Sport\"]")); }
     private WebElement sportField() { return driver.findElement(By.cssSelector("div.default.text")); }
     private WebElement sportOption(String sport) { return driver.findElement(By.xpath("//div[@class='menu transition visible']/div/span[text()='" + sport + "']")); }
