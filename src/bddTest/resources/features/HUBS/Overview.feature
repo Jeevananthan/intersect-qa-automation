@@ -12,6 +12,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     Then HUBS All the elements of the overview tab should be displayed
     And HE I successfully sign out
 
+  @HUBS-1087
   Scenario: All the types of fields are editable in real time
     And HUBS I open "Overview" in the edit menu
     Then HUBS I should be able to edit the following fields for Overview in real time:
