@@ -459,5 +459,13 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I reschedule the fair using \"([^\"]*)\"$",repVisits::rescheduleFairs);
 
+        Then("^HS I verify the \"([^\"]*)\" in reschedule page$",repVisits::verifyTextInReschedulePopup);
+
+        Then("^HS I verify the university \"([^\"]*)\" in reschedule page$",repVisits::verifyUniversityInReschedulePopup);
+
+        Then("^HS I verify the date \"([^\"]*)\" in reschedule page$",repVisits::verifyDateInReschedulePopup);
+
+        Then("^HS I verify the time \"([^\"]*)\" in reschedule page$",repVisits::verifyTimeInReschedulePopup);
+
     }
 }

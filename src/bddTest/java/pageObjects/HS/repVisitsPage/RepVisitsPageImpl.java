@@ -687,6 +687,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    public String getSpecificDateForReschedule(String addDays) {
+        String DATE_FORMAT_NOW = "MM/dd/yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
     public void setDateDoubleClick(String inputDate) {
 
         String[] parts = inputDate.split(" ");
@@ -1368,6 +1378,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         button("Save").click();
         waitUntilPageFinishLoading();
+    }
+
+    public void verifyTextInReschedulePopup(String expectedText){
+        String actualText = driver.findElement(By.xpath("//span[@class='_25XyePHsmpWU1qQ18ojKip']/span")).getText();
+        Assert.assertTrue(expectedText+" is not displayed",actualText.equals(expectedText));
+    }
+
+    public void verifyUniversityInReschedulePopup(String university){
+        Assert.assertTrue(university+" is not displayed",driver.findElement(By.xpath("//div[text()='"+university+"']")).isDisplayed());
+    }
+
+    public void verifyDateInReschedulePopup(String date){
+        String actualDate = getSpecificDateForReschedule(date);
+        Assert.assertTrue("Date is not displayed",driver.findElement(By.xpath("//div/span[text()='"+actualDate+"']")).isDisplayed());
+    }
+
+    public void verifyTimeInReschedulePopup(String time){
+        time = getVisitStartTimeInReschedule();
+        Assert.assertTrue("Time is not displayed",driver.findElement(By.xpath("//div/span[text()='"+time+"']")).isDisplayed());
     }
 
     private String getRelativeDate(int addDays){
@@ -2530,12 +2559,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Cancel This College Fair").click();
         if (getDriver().findElements(By.xpath("//span[contains(text(), 'Yes, Cancel this fair')]")).size() >= 1) {
             button("yes, cancel this fair").click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Close']"),1));
         }
         else if (getDriver().findElements(By.xpath("//span[contains(text(), 'Cancel fair and notify colleges')]")).size() >= 1) {
             textbox(By.name("cancellationMessage")).sendKeys("College fair has been cancelled.");
             button("cancel fair and notify colleges").click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Close']"),1));
-            button("Close").click();
         }
         else{
             Assert.assertTrue("There were no job fairs registered for this high school.", false);
@@ -3080,12 +3109,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//input[@aria-label='Instructions for Students']")).sendKeys(Keys.PAGE_DOWN);
         driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("Reschedule button is not displayed",rescheduleButtonInReScheduleVisitPage().isDisplayed());
-    }
-
-    public void selectReschedule(String time,String reason,String date) {
         rescheduleButtonInReScheduleVisitPage().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
+    }
+
+    public void selectReschedule(String time,String reason,String date) {
         dateButtonInVisitReschedule().click();
         setSpecificDate(date);
         waitForUITransition();
@@ -4520,7 +4549,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     eventRsvp.click();
                     clickOnEditFair();
                     cancelCollegeFair(FairName);
-                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/img[@class='ui tiny centered image _1X-K9GOZD3aLo4u1sgdySD']"),1));
                     clickOnClose();
                     flag = true;
                     break;
@@ -5960,6 +5988,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private String getVisitStartTimeInCalendar(){
         String[] time=StartTime.split("am");
         String startTime=time[0]+"AM";
+        return startTime;
+    }
+    private String getVisitStartTimeInReschedule(){
+        String[] time=StartTime.split("am");
+        String startTime=time[0]+" "+"AM";
         return startTime;
     }
 }

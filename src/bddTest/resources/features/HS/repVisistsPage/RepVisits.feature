@@ -1007,7 +1007,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|
       |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |
 
- @MATCH-2093
+ @MATCH-2093 @MATCH-2828
    Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab
              so I can efficiently find the updates I am looking for within RepVisits.
 #FOR VISITS
@@ -1057,6 +1057,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #FOR RESCHEDULE
     Then HS I reschedule the visit for the following data "<institution>","<RescheduleStartTime>","<Date>"
     Then HS I verify reschedule pop-up for the following data "<user>","<institution>","<RescheduleStartTime>","<Date>"
+#VERIFY RESCHEDULE PAGE FOR MATCH-2828
+    Then HS I verify the "Rescheduled visits aren't automatically confirmed" in reschedule page
+    Then HS I verify the university "<institution>" in reschedule page
+    Then HS I verify the date "<Date>" in reschedule page
+    Then HS I verify the time "<RescheduleStartTime>" in reschedule page
+
     Then HS I reschedule a visit for the following details "<newVisitSTime>","<reason>","<StartDateforNewVisit>"
 #VERIFY ACTIVITY
      And HS I select Activity in RepVisits to verify "rescheduled" notification for "<HSuser>","<institution>","<activityDate>","<RescheduleAvailabilityStartTime>" after Rescheduled the visit
