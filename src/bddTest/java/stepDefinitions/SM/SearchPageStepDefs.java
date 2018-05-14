@@ -103,5 +103,7 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify clicking outside of the box will also close the box$", searchPage::checkOutsideClick);
 
         And("^SM I check both Select Criteria To Start buttons take the user to the Location dropdown$", searchPage::checkSelectCriteriaToStartButtonsRedirectsLocation);
+
+        Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from the Diversity$",searchPage::selectOrUnselectDiversityCheckbox);
     }
 }
