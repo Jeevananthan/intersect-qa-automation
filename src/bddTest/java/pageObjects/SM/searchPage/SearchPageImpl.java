@@ -729,6 +729,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void selectOrUnselectDiversityCheckbox(String selectOrUnselect, String option)
+    {
+        switch (selectOrUnselect.toUpperCase())
+        {
+            case "SELECT": selectCheckBox(option, "Diversity");
+                break;
+            case "UNSELECT": unselectCheckbox(option, "Diversity");
+                break;
+        }
+
+    }
+
     public void verifySurvey(String buttonLabel) {
         button(buttonLabel).click();
         String winHandleBefore = driver.getWindowHandle();
