@@ -637,6 +637,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         text("UPDATE DATE").click();
     }
 
+    public void setAvailabilityToFullSchoolYear() {
+        setStartAndEndDates(GetProperties.get("repvisits.schoolyear.startdate"),GetProperties.get("repvisits.schoolyear.enddate"));
+    }
 
     public void setStartandEndDates(String startDate,String endDate) {
         setDefaultDateforStartAndEndDate();
@@ -4566,6 +4569,30 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             getDriver().findElement(By.xpath("//div[text()[contains(.,'"+name+"')]]")).click();
         }
         getDriver().findElement(By.xpath("//button/span[text()='Add Attendees']")).click();
+    }
+
+    public void verifyTimeslotInException(String date, String time)
+    {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Exceptions").click();
+        String startDate = getSpecificDate(date);
+        setDate(startDate, "Choose a Date");
+        String formattedDate = selectCurrentDate(date);
+        waitForUITransition();
+        //verify Timeslot
+        Assert.assertTrue("Timeslot is not displayed",driver.findElement(By.xpath("//div/span[text()='"+date+"']/parent::div/parent::th/parent::tr/parent::thead/following-sibling::tbody/tr/td/div/button[text()='"+time+"']")).isDisplayed());
+    }
+
+    public String selectCurrentDate(String addDays)
+    {
+        String DATE_FORMAT_NOW = "MM/dd/yy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     public void verifyStaffNotifications(String primaryContactName, String alternativePrimaryContact) {
