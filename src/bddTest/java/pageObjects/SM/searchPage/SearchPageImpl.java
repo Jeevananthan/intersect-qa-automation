@@ -656,27 +656,28 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().window(winHandleBefore);
     }
 
-    public void verifyDefaultColumnHeadersInResultsTable() {
-        waitForUITransition();
+    public void verifyDefaultColumnHeadersInResultsTable(DataTable data) {
+        List<List<String>> defaultColumnHeaders = data.raw();
 
-        Assert.assertTrue("'Admission Info' header is not displayed by default", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
-                .equals("Admission Info"));
+        int initialColumnIndex = 4;
 
-        Assert.assertTrue("'Financial Aid' header is not displayed by default", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[5]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
-                .equals("Financial Aid"));
+        for(int i = 0; i < defaultColumnHeaders.size(); i++)
+        {
+            Assert.assertTrue("'" + defaultColumnHeaders.get(i).get(0) + "' header is not displayed by default", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[" + (initialColumnIndex + i) + "]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
+                    .equals(defaultColumnHeaders.get(i).get(0)));
 
-        Assert.assertTrue("'Pick what to show' header is not displayed by default", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[6]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
-                .equals("Pick what to show"));
-
+        }
     }
 
-    public void verifyIfOptionDefaultedInColumnHeaderCanBeChanged() {
+    public void verifyIfOptionDefaultedInColumnHeaderCanBeChanged(String optionToSelect) {
 
-        superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//i")).click();
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='Athletics']")));
-        superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='Athletics']")).click();
-        Assert.assertTrue("'Athletics' header is not displayed as the column header", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
-                .equals("Athletics"));
+        WebElement downChevron = superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//i"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", downChevron);
+        downChevron.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")));
+        superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")).click();
+        Assert.assertTrue("'" + optionToSelect + "' header is not displayed as the column header", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
+                .equals(optionToSelect));
 
     }
 

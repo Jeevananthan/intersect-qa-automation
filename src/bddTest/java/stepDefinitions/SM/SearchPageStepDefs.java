@@ -77,7 +77,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the default column headers displayed in the results table$", searchPage::verifyDefaultColumnHeadersInResultsTable);
 
-        And("^SM I verify if the option selected or defaulted in column header can be changed$", searchPage::verifyIfOptionDefaultedInColumnHeaderCanBeChanged);
+        And("^SM I verify if the option selected or defaulted in column header can be changed to \"([^\"]*)\"$", searchPage::verifyIfOptionDefaultedInColumnHeaderCanBeChanged);
 
     }
 }
