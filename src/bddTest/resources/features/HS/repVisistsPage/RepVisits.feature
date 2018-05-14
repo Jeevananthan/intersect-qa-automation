@@ -1021,13 +1021,11 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the date using "<StartDateforNewVisit>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<RescheduleAvailabilityStartTime>","<RescheduleAvailabilityEndTime>" and "<NumVisits>"
-    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the value for Reschedule the visit
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
-    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
@@ -1124,5 +1122,5 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
  Examples:
    |activityDate |calendarST    |user    |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                   |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|FairsSTime|newFairsSTime|fairCreateSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|FairSTimeforReschedule|
-   |7            |10:59AM       |PurpleHE|School Manager |The University of Alabama |7   |10:59am  |10:25pm |3        |7        |14      |10:25pm      |No, I want to manually review all incoming requests. |Standalone High School 6 |10:59am     |10:59am |Qa Fair for testng    |7   |1000AM    |1200PM  |5            |$25 |25                    |100                        |Save          |7                   |10:31am      |10:59 AM           |10:59am                        |10:58pm                      |10:00am   |11:00am      |1100AM         |10:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |10:00 AM              |
+   |7            |10:59AM       |PurpleHE|School Manager |The University of Alabama |7   |10:59am  |10:25pm |3        |7        |14      |10:25pm      |No, I want to manually review all incoming requests. |Standalone High School 6 |10:         |10:     |Qa Fair for testng    |7   |1000AM    |1200PM  |5            |$25 |25                    |100                        |Save          |7                   |10:31am      |10:59 AM           |10:59am                        |10:58pm                      |10:00am   |11:00am      |1100AM         |10:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |10:00 AM              |
 
