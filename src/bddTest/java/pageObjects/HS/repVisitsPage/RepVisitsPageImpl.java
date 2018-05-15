@@ -3246,6 +3246,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void scheduleNewVisitusingCustomTime(String date,String startTime,String endTime,String attendee,String location) {
+        link("Availability & Settings").click();
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Calendar").click();
@@ -3273,7 +3274,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String selectedAttendeeValue = driver.findElement(By.id("calendar-search-reps")).getAttribute("value");
         Assert.assertTrue("Representative is not present in the Representative text box",selectedAttendeeValue.equals(attendee));
         manualStartTime().sendKeys(Keys.PAGE_DOWN);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//input[@aria-label='Event Location']"),1));
+        waitForUITransition();
         moveToElement(eventLocationTextboxInSchedulePopup());
         eventLocationTextboxInSchedulePopup().clear();
         eventLocationTextboxInSchedulePopup().sendKeys(location);
@@ -4723,36 +4724,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         eventLocationTextboxInAddVisitSchedulePopup().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
         Assert.assertTrue("internal notes is not displayed",internalNotesTextBoxInVisitSchedulePopup().isDisplayed());
-        Assert.assertTrue("add visit button is not displayed",addVisitButtonInVisitSchedulePopup().isDisplayed());
+        Assert.assertTrue("add visit button is not displayed",verifyAddVisitButtonInVisitSchedulePopup().isDisplayed());
         internalNotesTextBoxInVisitSchedulePopup().sendKeys(Keys.PAGE_UP);
         eventLocationTextboxInAddVisitSchedulePopup().sendKeys(Keys.PAGE_UP);
         waitForUITransition();
         findRepTextbox().sendKeys(Keys.PAGE_UP);
         waitForUITransition();
-    }
-
-    public void scheduleNewVisitusingCustomTime(String date,String startTime,String endTime,String Attendee,String location) {
-        addVisitManually().click();
-        waitUntilElementExists(selectDateButton());
-        selectDateButton().click();
-        setSpecificDate(date);
-        StartTime = startTime(startTime);
-        manualStartTime().sendKeys(StartTime);
-        manualEndTime().sendKeys(endTime);
-        addAttendee().sendKeys(Attendee);
-        waitForUITransition();
-        driver.findElement(By.xpath("//div[text()='"+Attendee+"']")).click();
-        manualStartTime().sendKeys(Keys.PAGE_DOWN);
-        waitForUITransition();
-        eventLocation().clear();
-        eventLocation().sendKeys(location);
-        eventLocation().sendKeys(Keys.PAGE_DOWN);
-        waitForUITransition();
-        studentsNotes().sendKeys(Keys.PAGE_DOWN);
-        waitForUITransition();
-        addVisitButtonInVisitSchedulePopup().click();
-        waitForUITransition();
-        waitUntilElementExists(addVisitButton());
     }
 
     public void removeManuallyAddedBlockedDate(String startDate, String endDate){
@@ -5526,22 +5503,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement button=driver.findElement(By.cssSelector("button[class$='_3GJIUrSQadO6hk9FZvH28D']"));
         return button;
     }
-    private WebElement calendar() {
-        WebElement page=driver.findElement(By.xpath("//div[text()='Calendars']"));
-        return page;
-    }
-    private WebElement textInVisitSchedulePopup() {
-        WebElement text=driver.findElement(By.xpath("//span[contains(text(),'schedule new visit')]"));
-        return text;
-    }
-    private WebElement verifyTextInVisitSchedulePopup() {
-        WebElement text=driver.findElement(By.xpath("//span[contains(text(),'select an available time slot')]"));
-        return text;
-    }
-    private WebElement gotoDateButtonInVisitSchedulePopup() {
-        WebElement button=driver.findElement(By.xpath("//span[contains(text(),'Go to date')]"));
-        return button;
-    }
     private WebElement internalNotesTextBoxInVisitSchedulePopup() {
         WebElement text=driver.findElement(By.xpath("//div/textarea[@id='internalNotes']"));
         return text;
@@ -5559,10 +5520,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.id("calendar-search-reps"));
         return text;
     }
-    private WebElement addVisitButtonInVisitSchedulePopup() {
-        WebElement button=driver.findElement(By.xpath("//div[@class='ui basic segment _16UN_Nc3SVFtvr9Us0dP_']/button/span[text()='add visit']"));
-        return button;
-    }
     private WebElement exceptionLink() {
         WebElement link=link("Exceptions");
         return link;
@@ -5570,14 +5527,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement dateButtonInException() {
         WebElement button=driver.findElement(By.xpath("//button[@class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']"));
         return button;
-    }
-    private WebElement addVisitButton() {
-        WebElement button=button("add visit");
-        return button;
-    }
-    private WebElement calendar() {
-        WebElement page=driver.findElement(By.xpath("//div[text()='Calendars']"));
-        return page;
     }
     private WebElement gotoDateButtonInVisitSchedulePopup() {
         WebElement button=driver.findElement(By.xpath("//span[contains(text(),'Go to date')]"));
@@ -5591,19 +5540,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.xpath("//span[contains(text(),'select an available time slot')]"));
         return text;
     }
-    private WebElement addAttendee() {
-        WebElement text=driver.findElement(By.id("calendar-search-reps"));
-        return text;
-    }
-    private WebElement eventLocationTextboxInSchedulePopup() {
-        WebElement text=driver.findElement(By.xpath("//div/input[@aria-label='Event Location']"));
-        return text;
+    private WebElement calendar() {
+        WebElement page=driver.findElement(By.xpath("//div[text()='Calendars']"));
+        return page;
     }
     private WebElement eventLocationTextboxInAddVisitSchedulePopup() {
         WebElement text=driver.findElement(By.xpath("//div/input[@id='eventLocation']"));
         return text;
     }
-    private WebElement internalNotesTextBoxInVisitSchedulePopup() {
-        WebElement text=driver.findElement(By.id("internalNotes"));
+    private WebElement verifyAddVisitButtonInVisitSchedulePopup() {
+        WebElement button=driver.findElement(By.xpath("//form[@id='add-calendar-appointment']//button[@class='ui teal disabled right floated button']"));
+        return button;
     }
 }
