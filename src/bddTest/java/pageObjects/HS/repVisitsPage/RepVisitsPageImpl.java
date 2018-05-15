@@ -4731,17 +4731,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Timeslot is not displayed",driver.findElement(By.xpath("//div/span[text()='"+formattedDate+"']/parent::div/parent::th/parent::tr/parent::thead/following-sibling::tbody/tr/td/div/button[text()='"+time+"']")).isDisplayed());
     }
 
-    public String selectCurrentDate(String addDays)
-    {
-        String DATE_FORMAT_NOW = "MM/dd/yy";
-        Calendar cal = Calendar.getInstance();
-        int days=Integer.parseInt(addDays);
-        cal.add(Calendar.DATE, days);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String currentDate = sdf.format(cal.getTime());
-        return currentDate;
-    }
-
     public void verifyStaffNotifications(String primaryContactName, String alternativePrimaryContact) {
         navBar.goToRepVisits();
         link("College Fairs").click();
