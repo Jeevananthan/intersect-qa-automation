@@ -44,13 +44,13 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   Scenario Outline: As a high school staff member, I want to be able to edit my regular hours in RepVisits,
   so that I can easily change the number of colleges I will allow during a certain time slot.
 #precondition
-    Given HS I want to login to the HS app using "purplehsautomations+fabens@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I remove the Time Slot created with "<StartDate>" in Regular Weekly Hours Tab
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
 
 #create a visits
     Then HS I set a date using "<StartDate>" and "<EndDate>" in Regular Weekly Hours Tab
@@ -65,7 +65,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HE I successfully sign out
 
 #verify the Exception tab(before changing the NumofVisits : NumVisits-2)
-    Given HS I want to login to the HS app using "purplehsautomations+fabens@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
     Then HS I go to the Exception tab to verify the visits using "Appointment scheduled","<heStartTime>","<StartDate>",""
 
 #verify & edit regular weekly hours(changing NumofVisits from 2 to 1)
@@ -84,7 +84,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HE I successfully sign out
 
 #edit regular weekly hours(changing NumofVisits from 1 to 2)
-    Given HS I want to login to the HS app using "purplehsautomations+fabens@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours to "2"
 
@@ -100,13 +100,13 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HE I successfully sign out
 
 #Remove the time slot in Regular Weekly Hours Tab
-    Given HS I want to login to the HS app using "purplehsautomations+fabens@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     And HS I successfully sign out
 
     Examples:
-      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                            |School    |heStartTime|heTime |
-      |42  |42  |10:55am  |12:11pm|2        |42       |49     |12:11pm  |Yes, accept all incoming requests.|Fabens H S|10:        |10:    |
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                            |School        |heStartTime|heTime |
+      |42  |42  |10:55am  |12:11pm|2        |42       |49     |12:11pm  |Yes, accept all incoming requests.|Homeconnection|10:        |10:    |
 
 
