@@ -424,7 +424,21 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the success message after save the changes$",repVisits::verifyNavianceSuccessMessage);
       
         And("^HS I verify the success Message \"([^\"]*)\" in Fair Settings page",repVisits::verifySuccessMessage);
-
+      
         Then("^HS I verify there is a timeslot on \"([^\"]*)\" at \"([^\"]*)\" in the Exceptions tab$", repVisits::verifyTimeslotInException);
+
+        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::setSpecificStartAndEndDatesinRegularWeeklyHoursTab);
+
+        Then("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
+
+        Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTimeslot);
+
+        Then("^HS I edit the slots in Regular Weekly Hours to \"([^\"]*)\"$",repVisits::editSlot);
+
+        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is displayed in the schedule new visit popup$",repVisits::verifyPillsInManuallyAddedAppointmentsPage);
+
+        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is not displayed in the schedule new visit popup$",repVisits::verifyPillsNotdisplayedScheduleNewVisit);
+
+        Then("^HS I clear the time slot for the particular day \"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::removeTimeslotforEntireDayInRegularWeeklyHours);
     }
 }
