@@ -53,6 +53,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
 
+        Then("^HS I set my RepVisits availability to the current school year$", repVisits::setAvailabilityToFullSchoolYear);
+
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::removeTimeSlotAdded);
@@ -422,5 +424,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the success message after save the changes$",repVisits::verifyNavianceSuccessMessage);
       
         And("^HS I verify the success Message \"([^\"]*)\" in Fair Settings page",repVisits::verifySuccessMessage);
+
+        Then("^HS I verify there is a timeslot on \"([^\"]*)\" at \"([^\"]*)\" in the Exceptions tab$", repVisits::verifyTimeslotInException);
     }
 }
