@@ -1479,12 +1479,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOf(schoolInVisits),10);
         Assert.assertTrue("school is not displayed",schoolInVisits.isDisplayed());
         waitUntil(ExpectedConditions.visibilityOf(goToDate()),10);
-        String gotoDate = getSpecificDate(startDate);
+        String gotoDate;
+        String visitDate;
+        if (startDate.length() < 3) {
+            gotoDate = getSpecificDate(startDate);
+            visitDate = getMonthandDate(startDate);
+        }
+        else {
+            gotoDate = startDate;
+            String[] dateParts = startDate.split(" ");
+            visitDate = getShortMonth(dateParts[0]) + " " + dateParts[1];
+        }
         setDate(gotoDate, "Go To Date");
         waitForUITransition();
         if (time.length() < 5)
             time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        String visitDate = getMonthandDate(startDate);
         waitUntilElementExists(driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']")));
         WebElement availabilityButton = driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
         Assert.assertTrue("Availability is not displayed",availabilityButton.isDisplayed());
@@ -1492,6 +1501,36 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public String getShortMonth(String month) {
+        switch(month) {
+            case "January":
+                return "Jan";
+            case "February":
+                return "Feb";
+            case "March":
+                return "Mar";
+            case "April":
+                return "Apr";
+            case "May":
+                return "May";
+            case "June":
+                return "Jun";
+            case "July":
+                return "Jul";
+            case "August":
+                return "Aug";
+            case "September":
+                return "Sep";
+            case "October":
+                return "Oct";
+            case "November":
+                return "Nov";
+            case "December":
+                return "Dec";
+            default:
+                return "ERROR: " + month + " is not a valid month.";
+        }
+    }
 
     public String getSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
@@ -2476,6 +2515,65 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The message of successful saving is not disaplyed", fairSavedConfirmationMessage().isDisplayed());
         openFairDetails(date);
         Assert.assertTrue("The Internal notes were not saved", fairInternalNotesTextBox().getAttribute("value").equals(internalNotesText));
+    }
+
+    public void verifyDefaultTabAndToggleTab(){
+        Assert.assertTrue("'Visits' tab is not displayed as Default tab",driver.findElement(By.xpath("//span[text()='Visits']")).isDisplayed());
+        driver.findElement(By.xpath("//span[text()='Fairs']")).click();
+        Assert.assertTrue("Unable to Toggle 'Fairs' tab",driver.findElement(By.xpath("//span[text()='Fairs']")).isEnabled());
+        driver.findElement(By.xpath("//span[text()='Visits']")).click();
+        Assert.assertTrue("Unable to Toggle 'Visits' tab",driver.findElement(By.xpath("//span[text()='Visits']")).isEnabled());
+        waitUntilPageFinishLoading();
+    }
+
+    public void checkHighSchoolDetails(DataTable dataTable){
+        List<String> list = dataTable.asList(String.class);
+        for (String schoolDetails : list) {
+            WebElement details=text(schoolDetails);
+            waitUntilElementExists(details);
+            Assert.assertTrue(schoolDetails + " is not showing.",text(schoolDetails).isDisplayed());
+        }
+    }
+
+    public void verifyActiveSubscription(String schoolName){
+        Assert.assertTrue("Searched school is not displayed",driver.findElement(By.xpath("//div/a[text()='"+schoolName+"']")).isDisplayed());
+        Assert.assertTrue("High school name scheduling results is a not a hyperlink",link(schoolName).isEnabled());
+        link(schoolName).click();
+    }
+
+    public void verifyHSpopup(DataTable dataTable)
+    {
+        List<String> list = dataTable.asList(String.class);
+        for (String schoolDetails : list) {
+            Assert.assertTrue(schoolDetails + " is not showing.",text(schoolDetails).isDisplayed());}
+        driver.findElement(By.xpath("//div[@class='ui page modals dimmer transition visible active']/div/i")).click();
+    }
+
+    public void verifyHSBlockedText(String school)
+    {
+        try {
+            Assert.assertTrue("No Appointments Available text is not displayed", driver.findElement(By.xpath("//a[contains(text(),'" + school + "')]/../ancestor::div[@class='ui items']/../following-sibling::td/span[contains(text(),'No Appointments Available')]")).isDisplayed());
+        }catch(Exception e) {}
+        try {
+            Assert.assertTrue("Blocked text is not displayed", driver.findElement(By.xpath("//a[contains(text(),'" + school + "')]/../ancestor::div[@class='ui items']/../following-sibling::td/h1/span[contains(text(),'Blocked')]")).isDisplayed());
+        }catch(Exception e) {}
+    }
+
+    public void selectHSLink(String schoolName)
+    {
+        link(schoolName).click();
+        driver.findElement(By.xpath("//div[@class='column _3dlZYPxGjtMbv6sS-JsWeA']/a[contains(text(),'"+schoolName+"')]")).click();
+    }
+
+    public void verifyInActiveSubscription(String schoolName){
+        waitUntilElementExists(goToDate());
+        Assert.assertTrue("Searched school is not displayed",driver.findElement(By.xpath("//div[text()='"+schoolName+"']")).isDisplayed());
+        try {
+            Assert.assertTrue("High school name scheduling results is not a hyperlink", link(schoolName).isEnabled());
+        }
+        catch(Exception e)
+        {
+        }
     }
 
     private WebElement accountSettings(String accountSettings)

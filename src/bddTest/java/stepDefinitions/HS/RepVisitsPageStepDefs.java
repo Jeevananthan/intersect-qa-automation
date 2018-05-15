@@ -53,6 +53,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
 
+        Then("^HS I set my RepVisits availability to the current school year$", repVisits::setAvailabilityToFullSchoolYear);
+
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::removeTimeSlotAdded);
@@ -357,19 +359,35 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the data for the fair present on the College Fair Overview page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairOverview);
       
-        Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
+        Then("^HS I navigate to the calendar page to verify AddVisit Button is \"([^\"]*)\"$",repVisits::verifyAddvisitButtonInCalendarPage);
 
-        Then("^HS I verify the blocked day in Exception tab using \"([^\"]*)\"$",repVisits::verifyBlockedDayInException);
+        Then("^HS I add the appointment based on pre-determined time slots using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::addVisitsManuallyFromCalendarTab);
 
-        Then("^HS I verify the calendar page$",repVisits::verifyCalendarPageForaddVisit);
+        Then("^HS I manually add the contact to an appointment using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::addContactManually);
 
-        Then("^HS I verify the visit schedule popup$",repVisits::verifyVisitSchedulepopup);
+        Then("^HS verify the created Appointment is present in the calendar \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAppointmentsIncalendar);
 
         Then("^HS I schedule a new visit for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::scheduleNewVisitusingCustomTime);
 
-        Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in blocked days$",repVisits::removeManuallyAddedBlockedDate);
+        Then("^HS I verify the confirmation message \"([^\"]*)\" for the created visit$",repVisits::verifyConfirmationMessage);
 
-        Then("^HS I set Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setSpecificBlockedDate);
+        Then("^HS I verify the calendar page is displayed$",repVisits::verifyCalendarPageIsDisplayed);
+
+        Then("^HS I verify the close drawer is displaying in the visit Schedule popup$",repVisits::verifyCloseDrawerInVisitSchedulePopup);
+
+        Then("^HS I verify the link \"([^\"]*)\" is displaying in the visit Schedule popup$",repVisits::verifyLinkInVisitSchedulePopup);
+
+        Then("^HS I verify the link \"([^\"]*)\" is displayed in the visit Schedule popup$",repVisits::verifyGobacktoListLinkInVisitSchedulePopup);
+
+        Then("^HS I verify the text \"([^\"]*)\" is present in the Attendee text box$",repVisits::verifyStartTypingTextInVisitSchedulePopup);
+
+        Then("^HS I verify the text box is displaying in the visit Schedule popup for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTextboxInVisitSchedulePopup);
+
+        Then("^HS I verify the \"([^\"]*)\" only required field in the visit Schedule popup$",repVisits::verifyRequiredFieldInVisitSchedulePopup);
+
+        Then("^HS I verify the \"([^\"]*)\" text is present under \"([^\"]*)\" in the visit Schedule popup$",repVisits::verifyTextInVisitSchedulepopup);
+
+        Then("^HS I verify the button \"([^\"]*)\" is displaying in the visit Schedule popup$",repVisits::verifyAddvisitButtoninVisitSchedulepopup);
 
         And("^HS I schedule a new visit with day \"([^\"]*)\" time \"([^\"]*)\" representative name \"([^\"]*)\" representative last name \"([^\"]*)\" representative institution \"([^\"]*)\" location \"([^\"]*)\" NumberOfStudents \"([^\"]*)\" registrationWillClose \"([^\"]*)\"$", repVisits::scheduleNewVisit);
 
@@ -406,5 +424,21 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the success message after save the changes$",repVisits::verifyNavianceSuccessMessage);
       
         And("^HS I verify the success Message \"([^\"]*)\" in Fair Settings page",repVisits::verifySuccessMessage);
+
+        Then("^HS I verify there is a timeslot on \"([^\"]*)\" at \"([^\"]*)\" in the Exceptions tab$", repVisits::verifyTimeslotInException);
+      
+        Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
+
+        Then("^HS I verify the blocked day in Exception tab using \"([^\"]*)\"$",repVisits::verifyBlockedDayInException);
+
+        Then("^HS I verify the calendar page$",repVisits::verifyCalendarPageForaddVisit);
+
+        Then("^HS I verify the visit schedule popup$",repVisits::verifyVisitSchedulepopup);
+
+        Then("^HS I schedule a new visit for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::scheduleNewVisitusingCustomTime);
+
+        Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in blocked days$",repVisits::removeManuallyAddedBlockedDate);
+
+        Then("^HS I set Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setSpecificBlockedDate);
     }
 }
