@@ -434,5 +434,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is displayed in the schedule new visit popup$",repVisits::verifyPillsInManuallyAddedAppointmentsPage);
 
         Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is not displayed in the schedule new visit popup$",repVisits::verifyPillsNotdisplayedScheduleNewVisit);
+
+        Then("^HS I remove the Time Slot created with \"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::removeTimeslotforEntireDayInRegularWeeklyHours);
     }
 }

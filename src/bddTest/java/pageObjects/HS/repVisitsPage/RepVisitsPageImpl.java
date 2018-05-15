@@ -4131,6 +4131,32 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } catch(Exception e){}
     }
 
+    public void removeTimeslotforEntireDayInRegularWeeklyHours(String date){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        int Date = Integer.parseInt(date);
+        String Day = getSpecificDate(Date,"EEE").toUpperCase();
+        int columnID = getColumnIdFromTable( "//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']/thead",Day );
+        columnID = columnID + 1;
+        List<WebElement> rowCount = driver.findElements(By.xpath("//table/tbody/tr/td["+columnID+"]/div/span/i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+
+        if(columnID > 0 ) {
+            //Remove Time slot
+            for(int rowID = rowCount.size();rowID>= 1;rowID--) {
+                WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+                jsClick(removeIcon);
+                waitUntilPageFinishLoading();
+                driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+                waitUntilPageFinishLoading();
+            }
+        }else{
+            Assert.fail("Time Slot is not displayed in the Regular weekly hours ");
+        }
+    }
+
     private void setDefaultDateforStartAndEndDate(){
         waitUntilPageFinishLoading();
         navBar.goToRepVisits();

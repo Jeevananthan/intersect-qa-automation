@@ -50,6 +50,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    Then HS I remove the Time Slot created with "<StartDate>" in Regular Weekly Hours Tab
 
 #create a visits
     Then HS I set a date using "<StartDate>" and "<EndDate>" in Regular Weekly Hours Tab
