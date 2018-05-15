@@ -4577,11 +4577,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability & Settings").click();
         link("Exceptions").click();
         String startDate = getSpecificDate(date);
-        setDate(startDate, "Choose a Date");
+        setDate(startDate, "other");
         String formattedDate = selectCurrentDate(date);
         waitForUITransition();
         //verify Timeslot
-        Assert.assertTrue("Timeslot is not displayed",driver.findElement(By.xpath("//div/span[text()='"+date+"']/parent::div/parent::th/parent::tr/parent::thead/following-sibling::tbody/tr/td/div/button[text()='"+time+"']")).isDisplayed());
+        if (time.equals("PreviouslySetTime"))
+            time = StartTime;
+        Assert.assertTrue("Timeslot is not displayed",driver.findElement(By.xpath("//div/span[text()='"+formattedDate+"']/parent::div/parent::th/parent::tr/parent::thead/following-sibling::tbody/tr/td/div/button[text()='"+time+"']")).isDisplayed());
     }
 
     public String selectCurrentDate(String addDays)
@@ -4965,7 +4967,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String startTime[] = Time.split(":");
         String randomNo = randomNumberGenerator();
         logger.info("randomNo = "+randomNo);
-        String time=startTime[0]+":"+randomNo+"am";
+        String time;
+        if (Integer.parseInt(startTime[0]) < 4 || Integer.parseInt(startTime[0]) == 12 ) {
+            time = startTime[0]+":"+randomNo+"pm";
+        } else {
+            time = startTime[0]+":"+randomNo+"am";
+        }
         logger.info("Time = "+time);
         return time;
     }

@@ -18,12 +18,11 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   #visit
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I set my RepVisits availability to the current school year
-  #Start Time:12:00 pm, EndTime:01:00pm
-  #TODO - This randomizes the time and uses am always...  Fix.
+  #Start Time:12:xx pm, EndTime:01:00pm
     Then HS I add the new time slot with "21","12:00pm","01:00pm" and "3"
   #verify Timeslot in Exception
-    Then HS I verify there is a timeslot on "21" at "12:00pm" in the Exceptions tab
-    Then HS I remove the Time Slot created with "21","12:00pm" in Regular Weekly Hours Tab
+    Then HS I verify there is a timeslot on "21" at "PreviouslySetTime" in the Exceptions tab
+    Then HS I remove the Time Slot created with "21","PreviouslySetTime" in Regular Weekly Hours Tab
   #fair Start Time:12:00 pm, EndTime:01:00pm
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     Examples:
