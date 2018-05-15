@@ -12,6 +12,24 @@ Feature: As a high school user, I need to be able to add or delete appointment w
       | StartDate          |EndDate         |
       | July 29 2018       |July 14 2019    |
 
+  @MATCH-2989
+  Scenario Outline: When entering an appointment that starts between 12:00 pm and 12:59 pm and ends at 1:00 pm or later,
+  the appointment should not be blocked by the "Start time must be before end time" error.
+  #visit
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set my RepVisits availability to the current school year
+  #Start Time:12:xx pm, EndTime:01:00pm
+    Then HS I add the new time slot with "21","12:00pm","01:00pm" and "3"
+  #verify Timeslot in Exception
+    Then HS I verify there is a timeslot on "21" at "PreviouslySetTime" in the Exceptions tab
+    Then HS I remove the Time Slot created with "21","PreviouslySetTime" in Regular Weekly Hours Tab
+  #fair Start Time:12:00 pm, EndTime:01:00pm
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Examples:
+      |College Fair Name        |Date  |Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Day  |StartTime|EndTime |NumVisits|StartDate|EndDate|exceptionTime|
+      |QA Fair NotificationsTest|21    |1200PM    |0100PM  |17           |$25 |25                    |100                        |Save         |21   |12:00pm  |01:00pm |3        |21       |35     |12:00pm      |
+
+
     #Scenario is failing and need to be fixed
 #  Scenario: As an HS user, I want to be able to add/remove time slots
 #    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
