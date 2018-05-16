@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -58,10 +60,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         navigateToFamilyConnection(hsid);
         getDriver().findElement(By.name("username")).sendKeys(username);
         getDriver().findElement(By.name("password")).sendKeys(password);
-        button("Log In").click();
-        link("colleges").click();
-        link("supermatch").click();
-        enterSuperMatchiFrame();
+        button("Login").click();
+        new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("/colleges"))).click();
+        new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(button("Search Tools"))).click();
+        new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("SuperMatch™ College Search Next"))).click();
+        new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
     }
 
     /**
