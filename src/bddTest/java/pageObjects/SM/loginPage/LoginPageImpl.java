@@ -41,7 +41,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.name("username")).sendKeys(details.get(0));
         getDriver().findElement(By.name("password")).sendKeys(details.get(1));
         button("Login").click();
+        waitUntilElementExists(link("Colleges"));
         link("Colleges").click();
+        waitUntilElementExists(button("Search Tools"));
         button("Search Tools").click();
         link("SuperMatch™ College Search Next").click();
     }
