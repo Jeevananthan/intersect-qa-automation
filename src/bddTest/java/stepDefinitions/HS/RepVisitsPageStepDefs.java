@@ -279,7 +279,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a dynamic College Fair with the following data$", repVisits::createDynamicCollegeFair);
 
-        And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
+        //And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
         And("^HS I verify the items in the user dropdown for a Non-Naviance user$", repVisits::verifyUserDropdownforNonNaviance);
 
         And("^HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user$", repVisits::verifyNavigationUserDropdownforNonNaviance);
@@ -355,7 +355,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I select \"([^\"]*)\" button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
 
         And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
-        And("^HS I navigate to the college visits page$", repVisits::navigateToVisitPage);
+//        And("^HS I navigate to the college visits page$", repVisits::navigateToVisitPage);
 
         Then("^HS I verify the default calendar page present after the Wizard completion$", repVisits::verifydefaultRepVisitPage);
 
