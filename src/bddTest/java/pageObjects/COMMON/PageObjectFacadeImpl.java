@@ -240,6 +240,27 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return resultList;
     }
 
+    /**
+     * Returns a String corresponding to the entry in a properties file
+     *
+     * @param propertiesFilePath - String representing the path to the properties file to be used
+     * @param propertiesEntry - String that corresponds to the appropriate list in the properties file
+     * @return String - String containing the data in the entry of the properties file
+     */
+    public String getStringFromPropFile(String propertiesFilePath, String propertiesEntry) {
+        Properties properties = new Properties();
+        InputStream input = null;
+        String resultString = "";
+        try {
+            input = new FileInputStream(propertiesFilePath);
+            properties.load(input);
+            resultString = properties.getProperty(propertiesEntry);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultString;
+    }
+
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
