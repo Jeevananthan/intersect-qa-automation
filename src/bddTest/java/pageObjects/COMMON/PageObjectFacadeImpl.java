@@ -1,15 +1,19 @@
 package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.*;
 
 public class PageObjectFacadeImpl extends SeleniumBase {
 
@@ -213,7 +217,29 @@ public class PageObjectFacadeImpl extends SeleniumBase {
                     path, e.toString()));
         }
     }
-  
+
+    /**
+     * Returns a list of String based on a list in a properties file
+     *
+     * @param propertiesFilePath - String representing the path to the properties files to be used
+     * @param separator - Separation character
+     * @param propertiesEntry - String that corresponds to the appropriate list in the properties file
+     * @return List<String> - List of String containing the data in the entry of the properties file
+     */
+    public List<String> getListFromPropFile(String propertiesFilePath, String separator, String propertiesEntry) {
+        Properties properties = new Properties();
+        InputStream input = null;
+        List<String> resultList = new ArrayList<>();
+        try {
+            input = new FileInputStream(propertiesFilePath);
+            properties.load(input);
+            resultList = Arrays.asList(properties.getProperty(propertiesEntry).split(separator));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }

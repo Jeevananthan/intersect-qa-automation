@@ -43,7 +43,14 @@ Feature: HE- RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be a
     And HE I verify the schedule pop_up for "<SchoolName>" using "<heTime>" and "<hsEndTime>"
     And HE verify the Pills got disappear for "<heStartTime>","<SchoolName>"
     And HE I successfully sign out
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I remove the time slot with day "Mon" and time "<heStartTime>"
+    And HS I remove the time slot with day "Tue" and time "<heStartTime>"
+    And HS I remove the time slot with day "Wed" and time "<heStartTime>"
+    And HS I remove the time slot with day "Thu" and time "<heStartTime>"
+    And HS I remove the time slot with day "Fri" and time "<heStartTime>"
+    And HS I successfully sign out
 
     Examples:
-      |hsEndTime|heStartTime|heTime  |SchoolName          |Date    |Day   |HourStartTime|HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|StartDate  |EndDate  |Option                                              |
-      |12:10pm  |11:29am    |11:29am |Int Qa High School 4|1       |Friday|11           |12         |29             |10           |am               |pm             |3        |0          |10       |No, I want to manually review all incoming requests.|
+      |hsEndTime|heStartTime  |heTime  |SchoolName             |Date    |Day   |HourStartTime|HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|StartDate  |EndDate  |Option                                              |
+      |01:30am  |1:29am       |01:29   |Int Qa High School 4   |7       |Friday|1            |1          |29             |30           |am               |am             |3        |0          |10       |No, I want to manually review all incoming requests.|

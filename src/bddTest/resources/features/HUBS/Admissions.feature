@@ -23,6 +23,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Application Factors      | Ethnicity | Considered |
     And HE I successfully sign out
 
+  @HUBS-1052
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4022)
     When HUBS I open "Admissions" in the edit menu
     And HUBS I take note of the values from the following fields in Admissions:
