@@ -136,6 +136,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
 
 #Unscheduled but Available Day
     Then HS I set the date using "<StartDate>" and "<EndDate>"
@@ -160,6 +161,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   so that I can visually see the status of each appointment window.
 #Blocked Days
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I clear the time slot for the particular day "<BlockedDateforSchoolEvent>" in Regular Weekly Hours Tab
     Then HS I set the date using "<BlockedDateforSchoolEvent>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I set the Blocked date and select the reason as "School Event" in the Holiday tab using "<BlockedDateforSchoolEvent>"
@@ -190,6 +192,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   so that I can visually see the status of each appointment window.
 #Max Appointments Met Day
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<MaxstartTime>","<MaxEndTime>" and "<MaxNumVisits>"
@@ -220,6 +223,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   so that I can visually see the status of each appointment window.
  #Partially Scheduled Day
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<PartiallystartTime>","<PartiallyEndTime>" and "<PartiallyNumVisits>"
@@ -256,6 +260,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   so that I can visually see the status of each appointment window.
  #Fully Booked Day
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<FullyBookedStartDate>" and "<FullyBookedEndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<FullystartTime>","<FullyEndTime>" and "<FullyNumVisits>"
