@@ -153,7 +153,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |Day|StartDate|EndDate |StartTime|EndTime |heStartTime|NumVisits|SlotColor             |StartTimeColor        |OutlineColor      |
-      |28 |28       |49      |10:41am  |12:59pm |10:41am    |4        |rgba(124, 174, 112, 1)|rgba(255, 255, 255, 1)|rgb(127, 143, 162)|
+      |28 |28       |49      |10:41am  |12:59pm |10:        |4        |rgba(124, 174, 112, 1)|rgba(255, 255, 255, 1)|rgb(127, 143, 162)|
 
 
   @MATCH-1581
@@ -161,30 +161,31 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   so that I can visually see the status of each appointment window.
 #Blocked Days
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I clear the time slot for the particular day "<BlockedDateforSchoolEvent>" in Regular Weekly Hours Tab
-    Then HS I set the date using "<BlockedDateforSchoolEvent>" and "<EndDate>"
+    Then HS I clear the time slot for the particular day "<BlockedDate>" in Regular Weekly Hours Tab
+    Then HS I set the date using "<BlockedDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I set the Blocked date and select the reason as "School Event" in the Holiday tab using "<BlockedDateforSchoolEvent>"
-    Then HS I verify the Blocked days with reason "Blocked - School Event" in Exception subtab using "<BlockedDateforSchoolEvent>"
-    Then HS I click the Remove option for the "<BlockedDateforSchoolEvent>" and "<EndDate>" in blocked days
+    Then HS I Remove the created blocked days
+    Then HS I set the Blocked date and select the reason as "School Event" in the Holiday tab using "<BlockedDate>"
+    Then HS I verify the Blocked days with reason "Blocked - School Event" in Exception subtab using "<BlockedDate>"
+    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "No School" in the Holiday tab using "<BlockedDateforNoSchool>"
-    Then HS I verify the Blocked days with reason "Blocked - No School" in Exception subtab using "<BlockedDateforNoSchool>"
-    Then HS I click the Remove option for the "<BlockedDateforNoSchool>" and "<EndDate>" in blocked days
+    Then HS I set the Blocked date and select the reason as "No School" in the Holiday tab using "<BlockedDate>"
+    Then HS I verify the Blocked days with reason "Blocked - No School" in Exception subtab using "<BlockedDate>"
+    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "Holiday" in the Holiday tab using "<BlockedDateforHoliday>"
-    Then HS I verify the Blocked days with reason "Blocked - Holiday" in Exception subtab using "<BlockedDateforHoliday>"
-    Then HS I click the Remove option for the "<BlockedDateforHoliday>" and "<EndDate>" in blocked days
+    Then HS I set the Blocked date and select the reason as "Holiday" in the Holiday tab using "<BlockedDate>"
+    Then HS I verify the Blocked days with reason "Blocked - Holiday" in Exception subtab using "<BlockedDate>"
+    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "Other" in the Holiday tab using "<BlockedDateforOther>"
-    Then HS I verify the Blocked days with reason "Blocked - Other" in Exception subtab using "<BlockedDateforOther>"
-    Then HS I verify the diagonal HashLines present in the Blocked date "<BlockedDateforOther>","<back-ground color>"
-    Then HS I click the Remove option for the "<BlockedDateforOther>" and "<EndDate>" in blocked days
+    Then HS I set the Blocked date and select the reason as "Other" in the Holiday tab using "<BlockedDate>"
+    Then HS I verify the Blocked days with reason "Blocked - Other" in Exception subtab using "<BlockedDate>"
+    Then HS I verify the diagonal HashLines present in the Blocked date "<BlockedDate>","<back-ground color>"
+    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
     Then HS I successfully sign out
 
     Examples:
-      |BlockedDateforSchoolEvent|BlockedDateforNoSchool|BlockedDateforHoliday|BlockedDateforOther|EndDate |back-ground color|
-      |42                       |49                    |56                   |63                 |98      |rgba(0, 0, 0, 0) |
+      |BlockedDate|EndDate |back-ground color|
+      |7          |14      |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581
@@ -210,12 +211,12 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HS I go to the Exception tab to verify the visits using "Max visits met","<MaxhestartTime>","<StartDate>",""
     Then HS I verify the diagonal HashLines present in the Max Appointments Met date "<StartDate>","<back-ground color>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<StartDate>","<MaxstartTime>" in Regular Weekly Hours Tab
     Then HS I successfully sign out
 
     Examples:
-      |Day|StartDate|EndDate |StartTime|School              |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|
-      |28 |28       |49      |10:41am  |Int Qa High School 4|4           |12:         |12:           |12:59pm   |rgba(0, 0, 0, 0) |
+      |Day|StartDate|EndDate |School              |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|
+      |28 |28       |49      |Int Qa High School 4|4           |11:         |12:           |12:59pm   |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581
@@ -247,12 +248,12 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HS I verify the Partially scheduled Appointments With Message "2 Appointments scheduled" in Exception subtab using "<StartDate>"
     Then HS I verify the light blue background color present in the Partially Scheduled availability using "<PartiallystartTime>","<StartDate>","<back-ground color>" in Exception Tab
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<StartDate>","<PartiallystartTime>" in Regular Weekly Hours Tab
     Then HS I successfully sign out
 
     Examples:
-      |Day|StartDate|EndDate |StartTime|School              |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     |
-      |28 |28       |49      |10:41am  |Int Qa High School 4|5                 |12:               |12:                 |12:59pm          |rgba(255, 255, 255, 1)|
+      |Day|StartDate|EndDate |School              |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     |
+      |28 |28       |49      |Int Qa High School 4|5                 |10:               |12:                 |12:59pm          |rgba(255, 255, 255, 1)|
 
 
   @MATCH-1581
@@ -260,7 +261,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   so that I can visually see the status of each appointment window.
  #Fully Booked Day
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
+    Then HS I clear the time slot for the particular day "<FullyBookedStartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<FullyBookedStartDate>" and "<FullyBookedEndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<FullystartTime>","<FullyEndTime>" and "<FullyNumVisits>"
@@ -287,5 +288,5 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |Day |School              |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color|
-      |28  |Int Qa High School 4|2             |12:           |12:             |12:59pm     |14                  |35                |rgba(0, 0, 0, 0) |
+      |21  |Int Qa High School 4|2             |11:           |12:             |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) |
 

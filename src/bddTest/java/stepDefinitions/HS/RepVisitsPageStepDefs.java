@@ -469,5 +469,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the light blue background color present in the Partially Scheduled availability using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyColorInPartiallyScheduledAvailability);
 
+        Then("^HS I Remove the created blocked days$",repVisits::removeCreatedBlockedDaysInBlockedDaysTab);
     }
 }

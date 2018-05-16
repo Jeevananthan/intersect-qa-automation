@@ -1780,6 +1780,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/div/span[text()='Choose Dates']"),1));
         chooseDates().click();
         String Date=getSpecificDate(blockdate);
         setDateDoubleClick(Date);
@@ -4065,7 +4066,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement slot=driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody//tr/td/div//button[text()='"+StartTime+"']"));
         doubleClick(slot);
         if (option.equals("Max visits met") || option.equals("Fully booked")) {
-            if(!driver.findElement(By.xpath("//table//thead//div/span[text()='"+date+"']/parent::div/following-sibling::div/span[text()='"+option+"']/ancestor::thead/following-sibling::tbody/tr/td/div/span[text()='Appointment scheduled']/following-sibling::button[text()='"+StartTime+"']")).isDisplayed()) {
+            List<WebElement> element = driver.findElements(By.xpath("//table//thead//div/span[text()='"+date+"']/parent::div/following-sibling::div/span[text()='"+option+"']/ancestor::thead/following-sibling::tbody/tr/td/div/span[text()='Appointment scheduled']/following-sibling::button[text()='"+StartTime+"']"));
+            if(element.size()==0) {
                 Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//table//th//div/span[text()='" + date + "']/ancestor::th/div/span[text()='" + option + "']")).isDisplayed());
             }
             else {
@@ -4939,6 +4941,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         link("Blocked Days").click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/div/span[text()='Choose Dates']"),1));
         startDate = getSpecificDateFormat(startDate);
         //endDate = getSpecificDateFormat(endDate);
         WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
@@ -4969,6 +4972,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
+    }
+
+    public void removeCreatedBlockedDaysInBlockedDaysTab(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
+        link("Blocked Days").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/div/span[text()='Choose Dates']"),1));
+        WebElement dateButton = driver.findElement(By.xpath("//button/div/span[text()='Choose Dates']"));
+        moveToElement(dateButton);
+        List<WebElement> removeButton = driver.findElements(By.xpath("//span[text()='Remove']"));
+        while(removeButton.size()>0){
+            WebElement remove = driver.findElement(By.xpath("//span[text()='Remove']"));
+            jsClick(remove);
+            waitUntilPageFinishLoading();
+            removeButton = driver.findElements(By.xpath("//span[text()='Remove']"));
+        }
     }
     /*locators for Messaging Options Page*/
     private WebElement addTimeSlotSubmit()
