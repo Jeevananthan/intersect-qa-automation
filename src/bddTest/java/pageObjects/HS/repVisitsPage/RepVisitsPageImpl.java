@@ -10,8 +10,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.Keys;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.security.Key;
@@ -6312,10 +6315,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.id("manualStartTime"));
         return text;
     }
-    private WebElement manualEndTime() {
+   /* private WebElement manualEndTime() {
         WebElement text=driver.findElement(By.id("manualEndTime"));
         return text;
-    }
+    }*/
     private WebElement addAttendee() {
         WebElement text=driver.findElement(By.id("calendar-search-reps"));
         return text;
@@ -6385,7 +6388,322 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String days = driver.findElement(By.xpath("//button[@class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']/div/span")).getText();
         return days;
     }
-    private String getRescheduleVisitStartTimeInCalendar(){
+    public void navigateToRVCalendar(){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+    }
+    public void buttonAddVisit(){
+        waitForUITransition();
+        button("add visit").click();
+
+    }
+
+    public void selectRepresentative(String representative){
+        addrepresentativefromlist().clear();
+        addrepresentativefromlist().sendKeys(representative);
+        waitForUITransition();
+        representativeuser().click();
+    }
+    public void addVisitInternalNotes(String internalNotes){
+        internalNotes().sendKeys(internalNotes);
+
+    }
+    public void addVisitHSUser(){
+        addVisitHS().click();
+    }
+    public void datepicker(){
+        datepickerbuton().click();
+    }
+    public void pickMonthDateforVisit( String monthAndYear, String visitDate){
+        int control=0;
+
+        while(!monthselector().getText().equals(monthAndYear))
+        {
+            monthRightArrow().click();
+        }
+          monthday(visitDate.split(" ")[1]).click();
+
+        List<WebElement>  dayslist=getDriver().findElements(By.xpath("//th[@class='center aligned middle aligned _39IsE6GwUYRagGhvLF1PMz']/div/span"));
+        for(int i=0;i<5;i++){
+           //String
+            String controle=dayslist.get(i).getText();
+
+            if(dayslist.get(i).getText().equals(visitDate)){
+                control=i+1;
+                break;
+            }
+
+        }
+         getDriver().findElement(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(" + control + ") button")).click();
+
+
+    }
+
+
+
+    //locator for Add Visit
+    private  WebElement rightArrowNextWeek(){
+        return getDriver().findElement(By.xpath("//button[@aria-label='Next week']"));
+    }
+    private WebElement selectFridayVisit(){
+        return getDriver().findElement(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(4) button"));
+    }
+    private WebElement addrepresentativefromlist(){
+        return getDriver().findElement(By.cssSelector("input#calendar-search-reps"));
+            }
+
+    private WebElement representativeuser(){
+        return getDriver().findElement(By.xpath("//div[@class='results transition visible']/div/div[2]"));
+    }
+    private WebElement internalNotes(){
+        return getDriver().findElement(By.cssSelector("textarea#internalNotes"));
+    }
+    private  WebElement addVisitHS() {
+        return  getDriver().findElement(By.cssSelector("button.ui.teal.right.floated.button"));
+
+    }
+        private WebElement datepickerbuton(){
+        return getDriver().findElement(By.cssSelector("button.ui.tiny.button._3GJIUrSQadO6hk9FZvH28D"));
+    }
+    private WebElement monthselector(){
+            return getDriver().findElement(By.cssSelector("div.DayPicker-Caption"));
+    }
+    private WebElement monthRightArrow(){
+        return getDriver().findElement(By.cssSelector("span[aria-label='Next Month']"));
+
+    }
+    private WebElement monthday( String day){
+        return getDriver().findElement(By.xpath("//div[@class='DayPicker-Day' and text()='" + day + "']"));
+    }
+
+    //Calendar verification for created Visit
+
+    public void goToMonthOnCalendar( String visitMonth) {
+            navBar.goToRepVisits();
+            link("Calendar").click();
+
+        while (!monthHeader().getText().equals(visitMonth)) {
+            //rightArrowMonth().sendKeys(Keys.RETURN);
+            rightArrowMonth().click();
+        }
+    }
+    public void visitGetsAdded(String visitpresent , String dateOfVisit){
+        int position=0;
+        List<WebElement>  visitDaysList=getDriver().findElements(By.xpath("//div[@class='rbc-date-cell']/a[text()='"+dateOfVisit+"']/../../div[@class='rbc-date-cell']"));
+        for(int i=0;i<7;i++){
+            if(visitDaysList.get(i).getText().equals(dateOfVisit)){
+
+                position=i+1;
+                break;
+            }
+        }
+        Assert.assertTrue("Time of the Visit is not displayed on Calendar", addedVisitTime(dateOfVisit,Integer.toString(position)).getText().equals(visitpresent.split(",")[0]));
+
+        Assert.assertTrue("Name of the school is not displayed on Calendar",addedVisitSchoolName(dateOfVisit,Integer.toString(position)).getText().equals(visitpresent.split(",")[1]));
+        try{
+        Thread.sleep(10000);
+        } catch (Exception e ){}
+
+
+
+    }
+
+    public void clickCustomeTimelink(){
+        waitForUITransition();
+        linkForCustomeSlot().click();
+    }
+    public void visitStartandEndTime(String startTime, String endtime){
+        manualstartTime().sendKeys(startTime);
+        manualEndTime().sendKeys(endtime);
+    }
+    public void clickAgenda(){
+       clicklinkAgenda().sendKeys(Keys.RETURN);
+    }
+
+    public  void clickDayCalendar(){
+        waitForUITransition();
+        clicklinkDays().click();
+
+    }
+
+    public void clickAgendaDatePicker()
+
+    {
+      getAgendaDatePicker().click();
+      waitUntilPageFinishLoading();
+    }
+
+      public  void datePickeronAgendaView( String daysonAgenda)
+      {
+          pickDateInDatePicker(getDeltaDate(Integer.parseInt(daysonAgenda)));
+      }
+
+      public void verifyVisitInternalNotes(String visitInternalNotes){
+            Assert.assertTrue("Visit Internal Notes are not displayed",getDriver().findElement(By.cssSelector("input[value='"+visitInternalNotes+"']")).isDisplayed());
+      }
+
+    public void clickVisitName(String schoolName, String startTime, String endTime){
+        getDriver().findElement(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).click();
+        waitForUITransition();
+
+    }
+
+    public void visitCancelled( String cancellationNotes){
+        getCancelVisit().click();
+        getCancelnotes().sendKeys(cancellationNotes);
+        getYesCancelVisit().click();
+
+    }
+
+    public void verifyVisitDaysFromNow(String futureVisitday){
+        Calendar calendarStartDate = getDeltaDate(Integer.parseInt(futureVisitday));
+        if(getDayOfWeek(calendarStartDate).equals("Saturday")) {
+            calendarStartDate = getDeltaDate(Integer.parseInt(futureVisitday) - 1);
+        } else if(getDayOfWeek(calendarStartDate).equals("Sunday")) {
+            calendarStartDate = getDeltaDate(Integer.parseInt(futureVisitday) + 1);
+        }
+
+        generatedDateForExceptions = getMonthNumber(calendarStartDate) + "/" + getDay(calendarStartDate) + "/"
+                + getYear(calendarStartDate).substring(2);
+
+        chooseADateButton().click();
+        pickDateInDatePicker(calendarStartDate);
+
+    }
+
+    public void addDataToAddAttendeeManually(DataTable AttendeeDetails){
+        List<List<String>> AttendeeInformation = AttendeeDetails.asLists(String.class);
+        for (List<String> fieldrow : AttendeeInformation) {
+            switch (fieldrow.get(0)) {
+                case "FirstName":
+                    //attendeeFirstNameTextBox().clear();
+                    attendeeFirstNameTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "LastName":
+                    attendeeLastNameTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "E-mail":
+                    attendeeEmailTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Phone":
+                    attendeePhoneTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Position":
+                    attendeePositionTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Institution":
+                    attendeeInstitutionTextBox().sendKeys(fieldrow.get(1));
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"), 1));
+                    attendeeCollege().click();
+                    break;
+            }
+        }
+
+    }
+
+    public void addRepresentativeManually() {
+        linkToAddRepresentativeManually().click();
+    }
+
+    public void verifyRepDetails( String repDetails){
+
+        Assert.assertTrue("Email address is not correct",getRepDetails().getText().equals(repDetails));
+
+
+    }
+    //Locator for calendar screen
+        private WebElement rightArrowMonth(){
+            return getDriver().findElement(By.cssSelector("div._HSuPqZbac8aQcV7GQOr i.caret.right.icon"));
+
+        }
+        private WebElement monthHeader(){
+            return getDriver().findElement(By.cssSelector("div[role='heading']"));
+        }
+        private List<WebElement> addedVisitweekday(String visitDate){
+            return getDriver().findElements(By.xpath("//div[@class='rbc-date-cell']/a[text()='"+visitDate+"']/../../div[@class='rbc-date-cell']"));
+        }
+        private WebElement addedVisitTime(String dayNumber, String position){
+            return getDriver().findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='"+ dayNumber +"']/../../following-sibling::*/div["+ position +"]/div/div/div/span[@class='rbc-event-time']"));
+        }
+        private WebElement addedVisitSchoolName(String dayNumber, String position){
+            return getDriver().findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='"+ dayNumber +"']/../../following-sibling::*/div["+ position + "]/div/div/div/span[not(@class='rbc-event-time')]"));
+        }
+        private WebElement linkForCustomeSlot(){
+            return getDriver().findElement(By.cssSelector("div._3nrJ9RwrMDsDPZ9tAJC4q6 span"));
+
+        }
+
+    private WebElement manualstartTime(){
+        return getDriver().findElement(By.cssSelector("input#manualStartTime"));
+
+    }
+
+    private WebElement manualEndTime(){
+        return getDriver().findElement(By.cssSelector("input#manualEndTime"));
+
+    }
+
+    private WebElement clicklinkAgenda(){
+        return getDriver().findElement(By.cssSelector("button.ui.teal.basic.button.GFr3D5C_jMOwFFfwEoOXq._1CTi_onI6_4BEyd2aTw3c2"));
+
+    }
+
+    private WebElement clicklinkDays(){
+        return getDriver().findElement(By.cssSelector("button.ui.teal.basic.button.GFr3D5C_jMOwFFfwEoOXq._1aOzhO0fbLlfLnEsVWQZCQ"));
+
+    }
+    private WebElement getVisistName(String collegeName){
+        //return getDriver().findElements(By.xpath("//span[contains(text(),'"+collegeName+"')]")).get(0);
+        return getDriver().findElement(By.cssSelector("div[title='3:00 AM — 5:00 AM: Alma College']"));
+
+    }
+
+    private WebElement getAgendaDatePicker(){
+        return getDriver().findElement(By.cssSelector("button.bne-HEiKl3BvzkB-LIC8M:nth-child(1)"));
+
+    }
+    private WebElement getCancelVisit(){
+        return getDriver().findElement(By.cssSelector("._1CeoLUvpYCPd81FPL670wj span"));
+
+    }
+    private WebElement getCancelnotes(){
+        return getDriver().findElement(By.cssSelector("textarea#repVisit-cancelation-message"));
+
+    }
+
+    private WebElement getYesCancelVisit()
+    {
+        return  getDriver().findElement(By.cssSelector("button.ui.negative.right.floated.button span"));
+    }
+    private WebElement attendeeFirstNameTextBox() {
+        return getDriver().findElement(By.cssSelector("input#add-rep-first-name"));
+    }
+    private WebElement attendeeLastNameTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-last-name"));
+    }
+    private WebElement attendeeEmailTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-email"));
+    }
+    private WebElement attendeePhoneTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-phone"));
+    }
+    private WebElement attendeePositionTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-position"));
+    }
+    private WebElement attendeeInstitutionTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-institution"));
+    }
+    private WebElement attendeeCollege(){
+        return  getDriver().findElement(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"));
+    }
+    private WebElement getRepDetails()
+    {
+        return  getDriver().findElement(By.cssSelector("div._3DhFv-KjwgxmXKcCAgKD8c"));
+    }
+    private WebElement linkToAddRepresentativeManually(){
+        return getDriver().findElement(By.cssSelector("div._1rww_NFFW9w2qLO-JBkqf"));
+    }
+      private String getRescheduleVisitStartTimeInCalendar(){
         String[] time=RescheduleStartTimeforNewVisit.split("am");
         String startTime=time[0]+"AM";
         return startTime;
@@ -6460,3 +6778,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return startTime;
     }
 }
+
+
+
+
+
+
