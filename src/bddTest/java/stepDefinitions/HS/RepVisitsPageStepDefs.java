@@ -485,8 +485,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the light blue background color present in the Partially Scheduled availability using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyColorInPartiallyScheduledAvailability);
 
         Then("^HS I Remove the created blocked days$",repVisits::removeCreatedBlockedDaysInBlockedDaysTab);
-    }
-}
         And("^HS I select custom time manually$",repVisits:: clickCustomeTimelink);
         And("^HS I select Visit StartTime \"([^\"]*)\" and End Time \"([^\"]*)\"$", repVisits:: visitStartandEndTime);
         And("^HS I verify Visits on Calendar created \"([^\"]*)\" from now$", repVisits :: verifyVisitDaysFromNow);

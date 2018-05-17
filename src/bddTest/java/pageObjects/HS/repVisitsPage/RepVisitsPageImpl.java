@@ -5916,8 +5916,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         manualEndTime().sendKeys(endtime);
     }
     public void clickAgenda(){
-        waitForUITransition();
-        clicklinkAgenda().click();
+       clicklinkAgenda().sendKeys(Keys.RETURN);
     }
 
     public  void clickDayCalendar(){
@@ -5997,10 +5996,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    private WebElement manualEndTime(){
+    /*private WebElement manualEndTime(){
         return getDriver().findElement(By.cssSelector("input#manualEndTime"));
 
-    }
+    }*/
 
     private WebElement clicklinkAgenda(){
         return getDriver().findElement(By.cssSelector("button.ui.teal.basic.button.GFr3D5C_jMOwFFfwEoOXq._1CTi_onI6_4BEyd2aTw3c2"));
