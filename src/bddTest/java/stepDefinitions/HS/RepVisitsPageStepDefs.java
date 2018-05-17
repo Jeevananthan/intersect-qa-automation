@@ -42,7 +42,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I set the RepVisits Availability & Settings time zone to \"([^\"]*)\"$", repVisits::setTimeZone);
 
-        And("^HS I click on Availability on the Availability & Settings tab in RepVisits$", repVisits::clickLinkAvailability);
+        And("^HS I click on Availability on the Availability & Settings tab in RepVisits$",repVisits::clickLinkAvailability);
 
         And("^HS I Navigate to College Fairs tab of the Repvisits Page$", repVisits::clicklinkCollegeFair);
 
@@ -461,6 +461,36 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is not displayed in the schedule new visit popup$",repVisits::verifyPillsNotdisplayedScheduleNewVisit);
 
         Then("^HS I clear the time slot for the particular day \"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::removeTimeslotforEntireDayInRegularWeeklyHours);
+
+        Then("^HS I verify the Partially scheduled Appointments With Message \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyPartiallyScheduledDayInExceptionsSubtab);
+
+        Then("^HS I verify the Trash icon is present in the Exception Tab to remove the slot$",repVisits::verifyTrashIconInExcepionTab);
+
+        Then("^HS I verify the Availability slot color after select the slot \"([^\"]*)\",\"([^\"]*)\" in the Exception Tab$",repVisits::verifyAvailabilityslotColorInException);
+
+        Then("^HS I verify the diagonal HashLines present in the Blocked date \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHashLinesInBlockedDate);
+
+        Then("^HS I verify the \"([^\"]*)\" Maximum colleges are present in the Availability slot for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyMaximumCollegesInException);
+
+        Then("^HS I verify the Unscheduled Appointments using \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyUnscheduledAppointmentsInExceptionsSubtab);
+
+        Then("^HS I set the Blocked date and select the reason as \"([^\"]*)\" in the Holiday tab using \"([^\"]*)\"$",repVisits::setBlockedDate);
+
+        Then("^HS I verify the Blocked days with reason \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyBlockedDaysInExceptionsSubtab);
+
+        Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in blocked days$",repVisits::removeManuallyAddedBlockedDate);
+
+        Then("^HS I verify the color of the Appointments using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyPillsColorInException);
+
+        Then("^HS I verify the color of selected date picker outline using \"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyOutlineColorInException);
+
+        Then("^HS I verify the diagonal HashLines present in the Max Appointments Met date \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHashLinesInMaxAppointmentsMetDate);
+
+        Then("^HS I verify the diagonal HashLines present in the Fully booked date \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHashLinesInFullyBookedDate);
+
+        Then("^HS I verify the light blue background color present in the Partially Scheduled availability using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyColorInPartiallyScheduledAvailability);
+
+        Then("^HS I Remove the created blocked days$",repVisits::removeCreatedBlockedDaysInBlockedDaysTab);
 
 
         And("^Hs I open the date picker on Agenda View$", repVisits::clickAgendaDatePicker);
