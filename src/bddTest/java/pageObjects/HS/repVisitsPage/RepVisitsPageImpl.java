@@ -5714,8 +5714,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         manualEndTime().sendKeys(endtime);
     }
     public void clickAgenda(){
-        waitForUITransition();
-        clicklinkAgenda().click();
+       clicklinkAgenda().sendKeys(Keys.RETURN);
     }
 
     public  void clickDayCalendar(){
