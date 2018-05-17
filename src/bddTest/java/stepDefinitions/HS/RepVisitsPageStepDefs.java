@@ -311,7 +311,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$", repVisits::navigateToNavianceSettingsPage);
 
         Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$", repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
-        Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
+//        Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
 
         And("^HS I validating the pagination of 25 contacts in Contacts Page", repVisits::validatingthePaginationof25Contacts);
 
@@ -507,17 +507,4 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits::verifyRepDetails);
 
         And("^HS I click on link Add School User Manually$", repVisits::addRepresentativeManually);
-    }
-}
-        And("^HS I select custom time manually$",repVisits:: clickCustomeTimelink);
-        And("^HS I select Visit StartTime \"([^\"]*)\" and End Time \"([^\"]*)\"$", repVisits:: visitStartandEndTime);
-        And("^HS I verify Visits on Calendar created \"([^\"]*)\" from now$", repVisits :: verifyVisitDaysFromNow);
-        And("^HS I click on Agenda on Calendar$", repVisits :: clickAgenda);
-        And("^HS I click on Day on Calendar$", repVisits :: clickDayCalendar);
-
-        And("^Hs I open the date picker on Agenda View$",repVisits :: clickAgendaDatePicker);
-        And("^HS I click on Visit with \"([^\"]*)\" from \"([^\"]*)\" to \"([^\"]*)\" on Day Calendar$", repVisits ::clickVisitName);
-        And("^HS I verify Internal Notes on Visit Details screen \"([^\"]*)\"$", repVisits :: verifyVisitInternalNotes);
-        And("^HS I Cancel visit to create again add Notes to Cancel \"([^\"]*)\"$", repVisits :: visitCancelled);
-
-    }}
+        }}
