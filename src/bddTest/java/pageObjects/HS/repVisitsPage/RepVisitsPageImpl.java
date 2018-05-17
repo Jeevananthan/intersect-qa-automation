@@ -3133,7 +3133,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void addContactManually(String Date,String Time,String FName,String LName,String Email,String PhNo,String Position,String Institution) {
+    public void addContactManually(String date,String Time,String FName,String LName,String Email,String PhNo,String Position,String Institution) {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Calendar").click();
@@ -3143,10 +3143,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("button[class$='_3GJIUrSQadO6hk9FZvH28D']"),1));
         doubleClick( DateButton());
         waitForUITransition();
-        setSpecificDate(Date);
+        setSpecificDate(date);
         waitForUITransition();
-        button(StartTime).click();
-        button(StartTime).click();
+        int Date = Integer.parseInt(date);
+        Time = StartTime.toUpperCase();
+        String Day = getSpecificDate(Date,"EEE").toUpperCase();
+        int columnID = getColumnIdFromTableforManuallyAddVisit( "//table[@class='ui unstackable basic table']/thead",Day );
+        int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table']//tbody", columnID, Time);
+        if(columnID>= 0 && rowID>= 0) {
+            columnID = columnID + 1;
+            rowID = rowID + 1;
+            //Remove Time slot
+            WebElement appointmentSlot = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//tr[" + rowID + "]//td[" + columnID + "]//button[text()='"+StartTime+"']"));
+            jsClick(appointmentSlot);
+            waitUntilPageFinishLoading();
+        }else{
+            Assert.fail("The Time Slot "+StartTime+"is not displayed in the Regular weekly hours ");
+        }
         DateButton().sendKeys(Keys.PAGE_DOWN);
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Not in the list? Add them manually']"),1));
         addcontactManually().click();
@@ -4469,6 +4482,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Institution name is not displayed",driver.findElement(By.xpath("//div[contains(text(),'"+institution+"')]")).isDisplayed());
         Assert.assertTrue("Username is not displayed",driver.findElement(By.xpath("//div[contains(text(),'"+user+"')]")).isDisplayed());
         String actualDate=selectdate(date);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='"+actualDate+"']"),1));
         Assert.assertTrue("Date is not displayed",driver.findElement(By.xpath("//span[text()='"+actualDate+"']")).isDisplayed());
         Assert.assertTrue("Time is not displayed",driver.findElement(By.xpath("//div/span[text()='"+startTime+"']")).isDisplayed());
         eventLocationTextboxInSchedulePopup().sendKeys(Keys.PAGE_DOWN);
@@ -5226,6 +5240,37 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
     }
+
+    public int  getColumnIdFromTableforManuallyAddVisit(String tableHeaderLocator, String fieldName)
+    {
+        int columnId=-1, colCount = 0;
+        String presentField=null;
+
+        WebElement webEleTableHeader=driver.findElement(By.xpath(tableHeaderLocator));
+        List<WebElement> webEleRows=webEleTableHeader.findElements(By.tagName("tr"));
+        logger.info("webEleRows ="+webEleRows.size());
+        List<WebElement> webEleColumns=webEleRows.get(0).findElements(By.tagName("th"));
+        colCount = webEleColumns.size();
+        logger.info("webEleColumns ="+webEleColumns.size());
+
+        if(colCount > 0)
+        {
+            for(int colNum=0;colNum<colCount;colNum++)
+            {
+                presentField = webEleColumns.get(colNum).getText().trim().replace("\"", "");
+                String day[] = presentField.split("\n");
+                String selectDay = day[0];
+                if(selectDay.equals(fieldName))
+                {
+                    columnId = colNum;
+                    break;
+                }
+            }
+        }
+
+        return columnId;
+    }
+
 
     /*locators for Messaging Options Page*/
 
