@@ -239,3 +239,14 @@ Examples:
     Examples:
       |Day     |HourStartTime |HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|Option                                              |hsEndTime|Option                             |School               |heStartTime   |heTime   |Date             |StartDate        |EndDate        |
       |Friday  |11            |12         |34             |34           |am               |pm             |3        |No, I want to manually review all incoming requests.|12:34pm  |Yes, accept all incoming requests. |Int Qa High School 4 |11:34am       |11:34am  |June 7 2019  |March 28 2018    |July 14 2019   |
+
+  @MATCH-3856
+  Scenario: As an HE freemium user (any role) searching for a school in RVs on the Search and Schedule view,
+  I want to see a Search By drop-down clearly indicating what's available to me and what what requires an upgrade
+  so that I won't be confused as to what I can search against as a free user.
+    Given HE I want to login to the HE app using "Purpleheautomation+AnneArundel@gmail.com" as username and "Password#1" as password
+    Then HE I verify the dropdown named "" in search and schedule page
+    Then HE I verify the fields "","","","","","" after click the "" drop-down
+    Then HE I verify the Background color for "","","" after click the "" drop-down for freemium
+    Then HE I verify the Background color for "","","" after click the "" drop-down for freemium
+    Then HE I verify the 
