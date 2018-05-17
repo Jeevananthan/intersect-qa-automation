@@ -524,7 +524,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the items are present in the help center dropdown for a Non-Naviance user
     And HS I successfully sign out
     #HS Non-admin(Non-Naviance)
-    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password#1" as password
     And HS I verify the items in the user dropdown for a Non-Naviance user
     Then HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user
     Then HS I verify the user is "NON-ADMIN" or not
