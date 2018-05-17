@@ -43,6 +43,7 @@ public class NavBarImpl extends SeleniumBase {
     }
 
     public void goToRepVisits() {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-rep-visits-menu-link"), 1));
         if (!isLinkActive(getRepVisitsBtn())) {
             getRepVisitsBtn().click();
             getRepVisitsBtn().click();
