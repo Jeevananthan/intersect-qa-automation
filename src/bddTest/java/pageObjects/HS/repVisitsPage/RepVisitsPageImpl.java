@@ -5,6 +5,9 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -58,7 +61,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public static String generatedDate;
     public static String generatedDateDayOfWeek;
     public static String time;
-
 
     //Creating RepVisitsPageImpl class object of for HE.
     pageObjects.HE.repVisitsPage.RepVisitsPageImpl repVisitsPageHEObj = new pageObjects.HE.repVisitsPage.RepVisitsPageImpl();
@@ -5691,10 +5693,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=driver.findElement(By.id("manualStartTime"));
         return text;
     }
-    private WebElement manualEndTime() {
+   /* private WebElement manualEndTime() {
         WebElement text=driver.findElement(By.id("manualEndTime"));
         return text;
-    }
+    }*/
     private WebElement addAttendee() {
         WebElement text=driver.findElement(By.id("calendar-search-reps"));
         return text;
@@ -5772,31 +5774,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 
+
     public void navigateToRVCalendar(){
         navBar.goToRepVisits();
         link("Calendar").click();
     }
     public void buttonAddVisit(){
+        waitForUITransition();
         button("add visit").click();
 
     }
-   /* public void selectVisitDate(String dayOfMonth){
 
-        monthday(dayOfMonth).click();
-
-
-        for(int i=0;i<48;i++)
-        {
-            List<WebElement> slots = getDriver().findElements(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(4) button"));
-            if (slots.size()==0) {
-                rightArrowNextWeek().click();
-            }
-
-        }
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(4) button"),1));
-        selectFridayVisit().click();
-
-    }*/
     public void selectRepresentative(String representative){
         addrepresentativefromlist().clear();
         addrepresentativefromlist().sendKeys(representative);
@@ -5969,6 +5957,47 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         pickDateInDatePicker(calendarStartDate);
 
     }
+
+    public void addDataToAddAttendeeManually(DataTable AttendeeDetails){
+        List<List<String>> AttendeeInformation = AttendeeDetails.asLists(String.class);
+        for (List<String> fieldrow : AttendeeInformation) {
+            switch (fieldrow.get(0)) {
+                case "FirstName":
+                    //attendeeFirstNameTextBox().clear();
+                    attendeeFirstNameTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "LastName":
+                    attendeeLastNameTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "E-mail":
+                    attendeeEmailTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Phone":
+                    attendeePhoneTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Position":
+                    attendeePositionTextBox().sendKeys(fieldrow.get(1));
+                    break;
+                case "Institution":
+                    attendeeInstitutionTextBox().sendKeys(fieldrow.get(1));
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"), 1));
+                    attendeeCollege().click();
+                    break;
+            }
+        }
+
+    }
+
+    public void addRepresentativeManually() {
+        linkToAddRepresentativeManually().click();
+    }
+
+    public void verifyRepDetails( String repDetails){
+
+        Assert.assertTrue("Email address is not correct",getRepDetails().getText().equals(repDetails));
+
+
+    }
     //Locator for calendar screen
         private WebElement rightArrowMonth(){
             return getDriver().findElement(By.cssSelector("div._HSuPqZbac8aQcV7GQOr i.caret.right.icon"));
@@ -6032,6 +6061,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getYesCancelVisit()
     {
         return  getDriver().findElement(By.cssSelector("button.ui.negative.right.floated.button span"));
+    }
+    private WebElement attendeeFirstNameTextBox() {
+        return getDriver().findElement(By.cssSelector("input#add-rep-first-name"));
+    }
+    private WebElement attendeeLastNameTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-last-name"));
+    }
+    private WebElement attendeeEmailTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-email"));
+    }
+    private WebElement attendeePhoneTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-phone"));
+    }
+    private WebElement attendeePositionTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-position"));
+    }
+    private WebElement attendeeInstitutionTextBox(){
+        return getDriver().findElement(By.cssSelector("input#add-rep-institution"));
+    }
+    private WebElement attendeeCollege(){
+        return  getDriver().findElement(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"));
+    }
+    private WebElement getRepDetails()
+    {
+        return  getDriver().findElement(By.cssSelector("div._3DhFv-KjwgxmXKcCAgKD8c"));
+    }
+    private WebElement linkToAddRepresentativeManually(){
+        return getDriver().findElement(By.cssSelector("div._1rww_NFFW9w2qLO-JBkqf"));
+
     }
 }
 
