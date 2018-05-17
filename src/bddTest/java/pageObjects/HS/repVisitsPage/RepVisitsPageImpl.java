@@ -5768,7 +5768,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String days = driver.findElement(By.xpath("//button[@class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']/div/span")).getText();
         return days;
     }
-}
+
 
 
     public void navigateToRVCalendar(){
