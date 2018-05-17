@@ -12,6 +12,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     Then HUBS All the elements of the overview tab should be displayed
     And HE I successfully sign out
 
+  @HUBS-1087
   Scenario: All the types of fields are editable in real time
     And HUBS I open "Overview" in the edit menu
     Then HUBS I should be able to edit the following fields for Overview in real time:
@@ -44,7 +45,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     And HE I successfully sign out
     And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
       | admin | hbcmsxx | The University of Alabama | Published |
-    Then Then HUBS I should be able to verify the changes for Overview published in HUBS, with username "benhubs", password "Hobsons!23" and college "The University of Alabama", in the following sections
+    Then HUBS I should be able to verify the changes for Overview published in HUBS, with username "benhubs", password "Hobsons!23" and college "The University of Alabama", in the following sections
       | Opening Statement |
       | Website |
       | School Type  |

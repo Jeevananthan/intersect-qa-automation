@@ -54,6 +54,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
 
+        Then("^HS I set my RepVisits availability to the current school year$", repVisits::setAvailabilityToFullSchoolYear);
+
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::removeTimeSlotAdded);
@@ -220,6 +222,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the \"([^\"]*)\" button in the success page of the college fair$",repVisits::accessSuccessMessageforFair);
 
+        And ("^HS I verify the fairs are clickable \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyFairsAreClickable);
+
+        And ("^HS I cancel college fair created \"([^\"]*)\"$",repVisits::cancelCollegeFair);
+
         Then("^HS I Click on the \"([^\"]*)\" button in the College Fair Details Page$",repVisits::accessCollegeFairDetailsPage);
 
         And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
@@ -272,6 +278,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
 
+        Then("^HS I create a dynamic College Fair with the following data$", repVisits::createDynamicCollegeFair);
+
         And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
 
         And("^HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user$",repVisits::verifyNavigationUserDropdownforNonNaviance);
@@ -303,6 +311,182 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$",repVisits::navigateToNavianceSettingsPage);
 
         Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
+
+        And("^HS I validating the pagination of 25 contacts in Contacts Page",repVisits::validatingthePaginationof25Contacts);
+
+        And("^HS I Click button Add a College Fair to Add a fair$",repVisits::clickAddCollegeFairButton);
+
+        And("^HS I verify Note on Add Edit Fair screen \"([^\"]*)\"$",repVisits:: noteForSchools);
+
+        And("^HS I click on close icon on Add Edit College Fair pop-up$",repVisits:: closeAddEditFairScreen);
+
+        And("^HS I click View Details against fair$",repVisits::viewFairDetails);
+
+        And("^HS I click on Edit button to edit fair$",repVisits:: editFair);
+
+        Then("^HS I verify the Notification \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the Request Notification Tab$",repVisits::verifyRequestNotificationTab);
+
+        Then("^HS I select \"([^\"]*)\" option for the Notification using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectoption);
+
+        And("^HS I verify the Decline Pop-up in the Notification Tab \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyDeclinePopup);
+
+        Then("HS I select the \"([^\"]*)\" button by entering the message \"([^\"]*)\" for \"([^\"]*)\"$",repVisits::declineConfirmation);
+
+        Then("^HS I select \"([^\"]*)\" option for the Notification using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::selectoptionforFairs);
+
+        Then("^HS I verify the Notification \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the Request Notification Tab for Fairs$",repVisits::verifyRequestNotificationTabforFairs);
+
+        Then("^HS I verify the Decline Pop-up in the Notification Tab \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::verifyDeclinePopupforFairs);
+
+        Then("^HS I verify the Export button is Enabled in Calendar page$",repVisits::verifyExportButtonInCalendar);
+
+        Then("^HS I export the appointments for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::exportAppointmentsInCalendarPage);
+
+        Then("^HS I verify the downloaded Appointments csv file \"([^\"]*)\" contains following details$",repVisits::verifyDownloadedCsvFileInCalendar);
+
+        Then("^HS I delete the downloaded Appointments Cvs file \"([^\"]*)\"$",repVisits::deleteDownloadedFileInCalendar);
+
+        Then("^HS I verify the Message \"([^\"]*)\" is displayed in the Request Notification Tab$",repVisits::verifynoNotificationMessage);
+
+        Then("^HS I Click the \"([^\"]*)\" button for the attendee Name \"([^\"]*)\"$",repVisits::accessListoffairAttendees);
+
+        Then("^HS I Click on the View Details button for the College Fair \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        Then("^HS I select \"([^\"]*)\" button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
+
+        And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
+
+        Then("^HS I verify the default calendar page present after the Wizard completion$",repVisits::verifydefaultRepVisitPage);
+
+        And("^HS I verify the success Message \"([^\"]*)\" in Availability Settings page",repVisits::verifySuccessMessage);
+
+        And("^HS I Navigate to Notifications & Tasks tab of the Repvisits Page$",repVisits::clickLinkNotificationsAndTasks );
+
+        And("^HS I click the Visit Feedback sub tab$", repVisits::clickLinkVisitFeedback);
+
+        And("^HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab$", repVisits::verifyTextAskingHSUserForFeedbackOnHEVisit);
+
+        And("^HS I remove the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::removeSlotTimeByDayAndTime);
+
+        Then("^HS I unpublish the College Fair$", repVisits::unpublishCollegeFair);
+
+        Then("^HS I create a new college fair \"([^\"]*)\" days ahead of today and the following details:$", repVisits::createFairWithGeneratedDate);
+
+        Then("^HS I verify the data for the fair present on the College Fair Overview page \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairOverview);
+
+        Then("^HS I navigate to the calendar page to verify AddVisit Button is \"([^\"]*)\"$",repVisits::verifyAddvisitButtonInCalendarPage);
+
+        Then("^HS I add the appointment based on pre-determined time slots using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::addVisitsManuallyFromCalendarTab);
+
+        Then("^HS I manually add the contact to an appointment using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::addContactManually);
+
+        Then("^HS verify the created Appointment is present in the calendar \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAppointmentsIncalendar);
+
+        Then("^HS I schedule a new visit for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::scheduleNewVisitusingCustomTime);
+
+        Then("^HS I verify the confirmation message \"([^\"]*)\" for the created visit$",repVisits::verifyConfirmationMessage);
+
+        Then("^HS I verify the calendar page is displayed$",repVisits::verifyCalendarPageIsDisplayed);
+
+        Then("^HS I verify the close drawer is displaying in the visit Schedule popup$",repVisits::verifyCloseDrawerInVisitSchedulePopup);
+
+        Then("^HS I verify the link \"([^\"]*)\" is displaying in the visit Schedule popup$",repVisits::verifyLinkInVisitSchedulePopup);
+
+        Then("^HS I verify the link \"([^\"]*)\" is displayed in the visit Schedule popup$",repVisits::verifyGobacktoListLinkInVisitSchedulePopup);
+
+        Then("^HS I verify the text \"([^\"]*)\" is present in the Attendee text box$",repVisits::verifyStartTypingTextInVisitSchedulePopup);
+
+        Then("^HS I verify the text box is displaying in the visit Schedule popup for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTextboxInVisitSchedulePopup);
+
+        Then("^HS I verify the \"([^\"]*)\" only required field in the visit Schedule popup$",repVisits::verifyRequiredFieldInVisitSchedulePopup);
+
+        Then("^HS I verify the \"([^\"]*)\" text is present under \"([^\"]*)\" in the visit Schedule popup$",repVisits::verifyTextInVisitSchedulepopup);
+
+        Then("^HS I verify the button \"([^\"]*)\" is displaying in the visit Schedule popup$",repVisits::verifyAddvisitButtoninVisitSchedulepopup);
+
+        And("^HS I schedule a new visit with day \"([^\"]*)\" time \"([^\"]*)\" representative name \"([^\"]*)\" representative last name \"([^\"]*)\" representative institution \"([^\"]*)\" location \"([^\"]*)\" NumberOfStudents \"([^\"]*)\" registrationWillClose \"([^\"]*)\"$", repVisits::scheduleNewVisit);
+
+        Then("^HS I verify that Block this time slot button is displayed for time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::verifyBlockThisTimeSlotButtonIsDisplayed);
+
+        Then("^HS I verify that Block this time slot ToolTip is displayed for time slot with day \"([^\"]*)\" and time \"([^\"]*)\"",repVisits::verifyBlockThisTimeSlotToolTipIsDisplayed);
+
+        And("^HS I block the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::blockTimeSlot);
+
+        Then("^HS I verify that Unblock this time slot button is displayed for time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::verifyUnblockThisTimeSlotButtonIsDisplayed);
+
+        Then("^HS I verify that Blocked label is displayed in the slot time with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::verifyBlockedLabelIsDisplayedInTimeSlot);
+
+        Then("^HS I verify that a new visit with day \"([^\"]*)\" and time \"([^\"]*)\" cannot be set$",repVisits::verifyNewVisitCannotBeSet);
+
+        And("^HS I unblock the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::unblockTimeSlot);
+
+        Then("^HS I verify that the blocked label is not displayed for the time slot with day \"([^\"]*)\" and time \"([^\"]*)\"$",repVisits::verifyBlockedLabelIsNotDisplayedInTimeSlot);
+
+        Then("^HS I verify that the number of visits for the time slot with day \"([^\"]*)\" and time \"([^\"]*)\" is \"([^\"]*)\"$",repVisits::verifyNumberOfVisits);
+
+        And("^HS I cancel a visit with time \"([^\"]*)\" college \"([^\"]*)\" and note \"([^\"]*)\"$",repVisits::cancelVisit);
+
+        Then("^HS I add the following attendees to the College Fair$", repVisits::addAttendees);
+
+        Then("^HS I verify configuration and staff notifications for \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyStaffNotifications);
+
+        Then("^HS I verify that the user receives an activity notification with \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyCollegeFairNotificationWasReceived);
+
+        Then("^HS I verify non community members to be notified with \"([^\"]*)\" and \"([^\"]*)\" email$",repVisits::verifyNotificationsToNonMembersSection);
+
+        And("^HS I go to the Naviance settings$",repVisits::naviagateToAvailbilityandSettings);
+
+        And("^HS I verify the success message after save the changes$",repVisits::verifyNavianceSuccessMessage);
+
+        And("^HS I verify the success Message \"([^\"]*)\" in Fair Settings page",repVisits::verifySuccessMessage);
+
+        Then("^HS I verify there is a timeslot on \"([^\"]*)\" at \"([^\"]*)\" in the Exceptions tab$", repVisits::verifyTimeslotInException);
+
+        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::setSpecificStartAndEndDatesinRegularWeeklyHoursTab);
+
+        Then("^HS I go to the Exception tab to verify the visits using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitsinException);
+
+        Then("^HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyTimeslot);
+
+        Then("^HS I edit the slots in Regular Weekly Hours to \"([^\"]*)\"$",repVisits::editSlot);
+
+        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is displayed in the schedule new visit popup$",repVisits::verifyPillsInManuallyAddedAppointmentsPage);
+
+        Then("^HS I verify the pills \"([^\"]*)\",\"([^\"]*)\" is not displayed in the schedule new visit popup$",repVisits::verifyPillsNotdisplayedScheduleNewVisit);
+
+        Then("^HS I clear the time slot for the particular day \"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::removeTimeslotforEntireDayInRegularWeeklyHours);
+
+        Then("^HS I verify the Partially scheduled Appointments With Message \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyPartiallyScheduledDayInExceptionsSubtab);
+
+        Then("^HS I verify the Trash icon is present in the Exception Tab to remove the slot$",repVisits::verifyTrashIconInExcepionTab);
+
+        Then("^HS I verify the Availability slot color after select the slot \"([^\"]*)\",\"([^\"]*)\" in the Exception Tab$",repVisits::verifyAvailabilityslotColorInException);
+
+        Then("^HS I verify the diagonal HashLines present in the Blocked date \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHashLinesInBlockedDate);
+
+        Then("^HS I verify the \"([^\"]*)\" Maximum colleges are present in the Availability slot for the following details \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyMaximumCollegesInException);
+
+        Then("^HS I verify the Unscheduled Appointments using \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyUnscheduledAppointmentsInExceptionsSubtab);
+
+        Then("^HS I set the Blocked date and select the reason as \"([^\"]*)\" in the Holiday tab using \"([^\"]*)\"$",repVisits::setBlockedDate);
+
+        Then("^HS I verify the Blocked days with reason \"([^\"]*)\" in Exception subtab using \"([^\"]*)\"$",repVisits::verifyBlockedDaysInExceptionsSubtab);
+
+        Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in blocked days$",repVisits::removeManuallyAddedBlockedDate);
+
+        Then("^HS I verify the color of the Appointments using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyPillsColorInException);
+
+        Then("^HS I verify the color of selected date picker outline using \"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyOutlineColorInException);
+
+        Then("^HS I verify the diagonal HashLines present in the Max Appointments Met date \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHashLinesInMaxAppointmentsMetDate);
+
+        Then("^HS I verify the diagonal HashLines present in the Fully booked date \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyHashLinesInFullyBookedDate);
+
+        Then("^HS I verify the light blue background color present in the Partially Scheduled availability using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Exception Tab$",repVisits::verifyColorInPartiallyScheduledAvailability);
+
+        Then("^HS I Remove the created blocked days$",repVisits::removeCreatedBlockedDaysInBlockedDaysTab);
+    }
+}
         And("^HS I select custom time manually$",repVisits:: clickCustomeTimelink);
         And("^HS I select Visit StartTime \"([^\"]*)\" and End Time \"([^\"]*)\"$", repVisits:: visitStartandEndTime);
         And("^HS I verify Visits on Calendar created \"([^\"]*)\" from now$", repVisits :: verifyVisitDaysFromNow);

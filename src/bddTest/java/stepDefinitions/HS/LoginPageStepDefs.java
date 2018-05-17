@@ -47,5 +47,7 @@ public class LoginPageStepDefs implements En {
 
         Then("^HS I verify the Intersect Logo present in the Home Page$",loginPage::verifyLogoInHomePage);
 
+        Then("^SP I am logged in to Support for Intersect$", loginPage::defaultLoginForSupport);
+
     }
 }

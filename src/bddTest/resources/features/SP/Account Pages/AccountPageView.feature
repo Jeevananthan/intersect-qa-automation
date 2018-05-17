@@ -29,6 +29,7 @@ Feature: Hobsons Support - View HE Institution Accounts
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
+    Then SP I set the "Legacy: Hub page management" module to "active" in the institution page
     Then SP I verify subscription end date restrictions
     Then SP I verify subscription start date restrictions
     And SP I successfully sign out
