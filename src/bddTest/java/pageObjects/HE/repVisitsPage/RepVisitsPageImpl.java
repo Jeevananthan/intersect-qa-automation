@@ -2596,6 +2596,99 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyDropdownInSearchAndSchedulePage(String dropdown){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+dropdown+"']"),1));
+        Assert.assertTrue("Search by text is displayed in the drop-down",driver.findElement(By.xpath("//div/span[text()='"+dropdown+"']")).isDisplayed());
+    }
+
+    public void verifyDropdownFieldsInSearchAndSchedule(String dropdown,DataTable dataTable){
+        List<String> list = dataTable.asList(String.class);
+        dropdownInSearchAndSchedule().click();
+        for(String fields:list){
+            Assert.assertTrue(fields+" is not displayed in the dropdown",driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).isDisplayed());
+        }
+    }
+
+    public void verifyBackgroundColorforFreeemium(String color,DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        List<String> list = dataTable.asList(String.class);
+        dropdownInSearchAndSchedule().click();
+        for(String fields:list) {
+            String displayingColor = driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).getCssValue("background-color");
+            Assert.assertTrue("Color is not equal",displayingColor.equals(color));
+        }
+    }
+
+    public void verifyPremiumSearchInSearchByDropdown(){
+        Assert.assertTrue("Premium Search text with lock icon is not displayed",driver.findElement(By.xpath("//span[text()='Premium Search']/following-sibling::i[@class='lock icon right floated']")).isDisplayed());
+    }
+
+    public void verifyDefaultOptionInSearchByDropdown(String defaultOption,DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        String defaultValue[] = defaultOption.split(",");
+        List<String> list = dataTable.asList(String.class);
+        for(String fields:list){
+            dropdownInSearchAndSchedule().click();
+            Assert.assertTrue(fields+" is not displayed in the dropdown",driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).isDisplayed());
+            driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).click();
+            Assert.assertTrue(fields+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+fields+"']")).isDisplayed());
+            link("Calendar").click();
+            waitUntilPageFinishLoading();
+            link("Search and Schedule").click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue(defaultOption+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+defaultValue[1]+"']")).isDisplayed());
+        }
+    }
+
+    public void verifyUpgradeNotificationPage(String upgrade,DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        List<String> list = dataTable.asList(String.class);
+        for(String fields:list){
+            dropdownInSearchAndSchedule().click();
+            driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).click();
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Upgrade']"),1));
+            Assert.assertTrue("Upgrade popup is not displayed",driver.findElement(By.xpath("//span[text()='"+upgrade+"']")).isDisplayed());
+            driver.findElement(By.xpath("//i[@class='close icon']")).click();
+            waitUntilPageFinishLoading();
+        }
+    }
+
+    public void verifyTextBoxAfterSelecttheFields(String dropdown,DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        List<String> list = dataTable.asList(String.class);
+        for(String fields:list) {
+            dropdownInSearchAndSchedule().click();
+            driver.findElement(By.xpath("//div/span[text()='" + fields + "']")).click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue(fields + " is not present in the Textbox", driver.findElement(By.xpath("//div/span[text()='Search by']/parent::div/div/div[text()='" + fields + "']")).isDisplayed());
+        }
+    }
+
+    public void verifyTextInSearchAndScheduleTextBox(String text){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue(text+" is not present in the textbox",driver.findElement(By.xpath("//input[@placeholder='"+text+"']")).isDisplayed());
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
@@ -3013,6 +3106,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement fairInternalNotesTextBox() { return getDriver().findElement(By.cssSelector("input[aria-label=\"Internal Notes\"]")); }
     private WebElement fairSaveButton() { return getDriver().findElement(By.cssSelector("button.ui.teal.right.floated.button span")); }
     private WebElement fairSavedConfirmationMessage() { return getDriver().findElement(By.cssSelector("div.content span span")); }
+    private WebElement dropdownInSearchAndSchedule(){
+        WebElement dropdown = driver.findElement(By.xpath("//i[@class='teal caret down small icon']"));
+        return dropdown;
+    }
 }
 
 
