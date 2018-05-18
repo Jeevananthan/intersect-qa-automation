@@ -515,8 +515,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the visit schedule popup$",repVisits::verifyVisitSchedulepopup);
 
-        Then("^HS I click the Remove option for the \"([^\"]*)\" and \"([^\"]*)\" in blocked days$",repVisits::removeManuallyAddedBlockedDate);
-
         Then("^HS I set Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setSpecificBlockedDate);
 
     }

@@ -5036,22 +5036,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/parent::div/following-sibling::div/span[text()='"+reason+"']")).isDisplayed());
     }
 
-    public void removeManuallyAddedBlockedDate(String startDate, String endDate){
-        navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        link("Availability & Settings").click();
-        waitUntilPageFinishLoading();
-        link("Blocked Days").click();
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/div/span[text()='Choose Dates']"),1));
-        startDate = getSpecificDateFormat(startDate);
-        //endDate = getSpecificDateFormat(endDate);
-        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
-        moveToElement(BlockedDate);
-        jsClick(BlockedDate);
-        waitUntilPageFinishLoading();
-    }
-
     public void verifyPillsColorInException(String startTime,String Date,String slotOriginalColor,String startTimeOriginalColor){
         String date = selectCurrentDate(Date);
         String SlotActualColor = driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody/tr/td//button[text()='"+StartTime+"']")).getCssValue("background-color");
@@ -5245,16 +5229,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String time = Integer.toString(n);
         logger.info("random = "+time );
         return time;
-    }
-
-    public String getSpecificDateFormat(String addDays) {
-        String DATE_FORMAT_NOW = "MMM d, yyyy";
-        Calendar cal = Calendar.getInstance();
-        int days=Integer.parseInt(addDays);
-        cal.add(Calendar.DATE, days);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String currentDate = sdf.format(cal.getTime());
-        return currentDate;
     }
 
     private WebElement getRepVisitsBtn() {
@@ -5820,7 +5794,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement id = driver.findElement(By.id("add-rep-institution"));
         return id;
     }
-          private WebElement studentsNotes(){
+    private WebElement studentsNotes(){
         WebElement text=driver.findElement(By.xpath("//div/textarea[@id='internalNotes']"));
         return text;
     }
@@ -5848,10 +5822,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement verifyTextInVisitSchedulePopup() {
         WebElement text=driver.findElement(By.xpath("//span[contains(text(),'select an available time slot')]"));
         return text;
-    }
-    private WebElement calendar() {
-        WebElement page=driver.findElement(By.xpath("//div[text()='Calendars']"));
-        return page;
     }
     private WebElement eventLocationTextboxInAddVisitSchedulePopup() {
         WebElement text=driver.findElement(By.xpath("//div/input[@id='eventLocation']"));

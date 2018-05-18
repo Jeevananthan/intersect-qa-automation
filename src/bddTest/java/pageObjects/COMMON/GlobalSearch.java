@@ -248,14 +248,14 @@ public class GlobalSearch extends SeleniumBase {
     public void selectRepvisitsAvialability() {
         waitUntilPageFinishLoading();
         try{
-            waitUntilElementExists(RepvisitsAvialbilityButton());
-            Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvialbilityButton().isDisplayed());
+            waitUntilElementExists(RepvisitsAvailabilityButton());
+            Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvailabilityButton().isDisplayed());
         }catch(Exception e){}
         WebElement frameClass=driver.findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
         driver.switchTo().frame(frameClass);
-        waitUntilElementExists(RepvisitsAvialbilityButton());
-        Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvialbilityButton().isDisplayed());
-        RepvisitsAvialbilityButton().click();
+        waitUntilElementExists(RepvisitsAvailabilityButton());
+        Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvailabilityButton().isDisplayed());
+        RepvisitsAvailabilityButton().click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
     }
@@ -777,10 +777,10 @@ public class GlobalSearch extends SeleniumBase {
     private void clickAdvancedSearchLink(){
         driver.findElement(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']/a")).click();
     }
-    private WebElement RepvisitsAvialbilityButton()
+    private WebElement RepvisitsAvailabilityButton()
     {
-        WebElement button=button("Check RepVisits Availability");
-        return button;
+        WebElement link=link("Check RepVisits Availability");
+        return link;
     }
     private WebElement visit()
     {
