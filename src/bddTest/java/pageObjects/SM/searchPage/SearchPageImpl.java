@@ -216,7 +216,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     case "Quick Selection: US Regions & Others":
                         String[] regions = criteria.get(key).split(",");
                         for (String region : regions) {
-                            checkbox(region).select();
+                            checkbox(region).click();
                         }
                         break;
                     case "Campus Surroundings":
@@ -839,6 +839,31 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
+    public void setAdmissionCriteria(DataTable dataTable) {
+        List<List<String>> entities = dataTable.asLists(String.class);
+        chooseFitCriteriaTab("Admission");
+        for (List<String> criteria : entities) {
+            switch (criteria.get(0)) {
+                case "GPA (4.0 scale)":
+                    gpaTextBox().clear();
+                    gpaTextBox().sendKeys(criteria.get(1));
+                    break;
+                case "SAT Composite":
+                    satScoreTextBox().clear();
+                    satScoreTextBox().sendKeys(criteria.get(1));
+                    break;
+                case "ACT Composite":
+                    actScoreTextBox().clear();
+                    actScoreTextBox().sendKeys(criteria.get(1));
+                    break;
+                case "Acceptance Rate":
+                    getAcceptanceRateCheckbox(criteria.get(1)).click();
+                    break;
+            }
+        }
+        getFitCriteriaCloseButton().click();
+    }
+
     /**The below method is to check all the fit criteria is clickable and as per the fit criteria menu option is showing */
     public void verifyEachFitCriteria() {
         int counter = getFitCriteriaBar().findElements(By.xpath(".//li")).size();
@@ -886,7 +911,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(checkboxName+" checkbox tooltip is not showing.", driver.findElement(By.xpath(path+"/../../button/i")).isDisplayed());
         openFitCriteria("Admission");
     }
-
 
     // Locators Below
 
@@ -1016,6 +1040,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement costFitCriteria(){
         return driver.findElement(By.xpath("//li[contains(text(), 'Cost')]"));
+    }
+
+    private WebElement getAcceptanceRateCheckbox(String checkboxLabel) {
+        return driver.findElement(By.xpath("//label[text()='" + checkboxLabel + "']"));
     }
 
     private WebElement getFitCriteriaBar() {

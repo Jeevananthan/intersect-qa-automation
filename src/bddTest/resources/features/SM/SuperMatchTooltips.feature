@@ -20,3 +20,16 @@ Feature: SM - SuperMatchSearch - As a HS student who is interacting with SuperMa
     | Student Life                |
     | Athletics:Aerobics          |
     | Resources                   |
+
+  Scenario Outline: As a HS student accessing SuperMatch through Family Connection I need to be verify that the tooltips are displayed/closed (2nd part)
+    When I select the following data from the Admission Fit Criteria
+    | GPA (4.0 scale) | 4 |
+    | SAT Composite   | 400 |
+    | ACT Composite   | 3   |
+    | Acceptance Rate | 25% or Lower |
+    Then SM I verify that the tooltips are displayed in the section "<sectionLabel>"
+    Examples:
+    | sectionLabel |
+    | Fit Score    |
+    | Academic Match |
+    | Scores  |
