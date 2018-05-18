@@ -878,6 +878,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("After clicking on Select Criteria to Start button Location fit criteria is not opening.", locationFitCriteria().isDisplayed());
     }
 
+    public void verifyAdmissionFitCriteriaCheckbox(String checkboxName, String fitCriteriaName){
+        String path = "//label[contains(text(),'"+checkboxName+"')]";
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            openFitCriteria(fitCriteriaName);
+        Assert.assertTrue(checkboxName+" label is not displaying.", driver.findElement(By.xpath(path)).isDisplayed());
+        Assert.assertTrue(checkboxName+" checkbox tooltip is not showing.", driver.findElement(By.xpath(path+"/../../button/i")).isDisplayed());
+        openFitCriteria("Admission");
+    }
+
 
     // Locators Below
 
