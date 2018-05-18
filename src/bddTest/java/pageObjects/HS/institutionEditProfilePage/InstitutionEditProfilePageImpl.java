@@ -188,6 +188,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
 
     public void verifyHeaderExist(String header){
         logger.info("Verifying that the " + header + " header is visible.");
+        waitUntilPageFinishLoading();
         Assert.assertTrue("Institution header " + header + " was not found.", getParent(driver.findElement(By.xpath("//span[contains(text(),'" + header + "')]"))).getTagName().contains("h"));
     }
 
