@@ -96,6 +96,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         text(highSchool).click();
         text("Fairs").click();
         if (text(fairTitle).isDisplayed()){
+            waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//span[contains(text(), '"+fairTitle+"')]/../following-sibling::div/button[contains(text(),'Register')]")).click();
         }else
             Assert.assertFalse("Fair = "+fairTitle+" is not exist.", text(fairTitle).isDisplayed());
@@ -227,6 +228,39 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void deleteDownloadedFileInCalendar(String filePath){
         String home = System.getProperty("user.home");
         FileManager.deleteFile(String.format("%s/Downloads/%s",home,filePath));
+    }
+  
+   public  void verifyPillsIsPresent(String school,String startDate,String time){
+        visit().click();
+        waitForUITransition();
+        WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
+        waitUntilElementExists(schoolName);
+        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
+        waitUntilElementExists(goToDate());
+        String gotoDate = getSpecificDate(startDate);
+        setDate(gotoDate, "other");
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        String visitDate=getMonthandDate(startDate);
+        WebElement button= driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        Assert.assertTrue("Availability is not displayed",button.isDisplayed());
+    }
+
+    public void verifyPillsIsNotPresent(String school,String startDate,String time){
+        visit().click();
+        waitUntilPageFinishLoading();
+        WebElement schoolName=driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
+        waitUntilElementExists(schoolName);
+        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
+        waitUntilElementExists(goToDate());
+        String gotoDate = getSpecificDate(startDate);
+        setDate(gotoDate, "other");
+        String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        String visitDate=getMonthandDate(startDate);
+        List<WebElement> button= driver.findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        if(button.size()==0)
+        {
+            logger.info("appointment is not displayed");
+        }else{logger.info("appointment is displayed");}
     }
 
     private void validateInfolink(){
@@ -1467,6 +1501,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         schoolName.click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
 
