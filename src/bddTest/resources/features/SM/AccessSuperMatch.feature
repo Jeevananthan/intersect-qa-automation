@@ -11,7 +11,7 @@ Feature: SM - AccessSuperMatch - As a SuperMatch user, I want to be able to acce
       |Search type                |State or Province  |Quick Selection: US Regions & Others |Campus Surroundings     |
       |Search by state or region  |Ohio, Indiana      |Northeast, Canada                    |Large City, Small City  |
 
-  @SMINTEGRATIONTEST
+  @SMINTEGRATIONTEST @NotInQA
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be able to
             add or remove filter criteria from the Must Have box
     Given SM I am logged in to SuperMatch through Family Connection

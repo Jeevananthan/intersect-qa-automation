@@ -96,7 +96,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @SMINTEGRATIONTEST --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+                <cucumber.options>--tags @SM --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -514,31 +514,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!--
-            <plugin>
-                <groupId>com.qasymphony.qtestscenario</groupId>
-                <artifactId>qtestscenario-maven-plugin</artifactId>
-                <version>1.1.0</version>
-                <configuration>
-                    <server>https://services.qtestscenario.com</server>
-                    <apiKey>N2ZjZjYyNmMtZGUyYi00ZTJjLWE2YzgtNjFjOTY4YWZmYTdm</apiKey>
-                    <destinationDir>src/bddTest/resources/features/-UnassignedFeatures</destinationDir>
-                    <jql>issuetype = "qTest Scenario Feature" AND project = "Matching Solutions" AND status != Closed AND labels = ReadyToAutomate AND labels = match-ui-he AND labels != Automated</jql>
-                    <features>
-                        <param></param>
-                    </features>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>prepare-test</id>
-                        <goals>
-                            <goal>prepare-test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
         </plugins>
     </build>
 
