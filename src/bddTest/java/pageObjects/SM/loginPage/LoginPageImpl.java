@@ -1,16 +1,12 @@
 package pageObjects.SM.loginPage;
 
-import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
-
-import java.util.List;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
 
@@ -25,9 +21,13 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      * If SuperMatchEnv = FamilyConnection, use that, otherwise, use standalone.
      */
     public void defaultLoginThroughFamilyConnection() {
-        if (System.getProperty("SuperMatchEnv").equals("FamilyConnection")){
-            loginThroughFamilyConnection(GetProperties.get("fc.default.username"),GetProperties.get("fc.default.password"),GetProperties.get("fc.default.hsid"));
-        } else {
+        try {
+            if (System.getProperty("SuperMatchEnv").equals("FamilyConnection")) {
+                loginThroughFamilyConnection(GetProperties.get("fc.default.username"), GetProperties.get("fc.default.password"), GetProperties.get("fc.default.hsid"));
+            } else {
+                navigateToSuperMatch();
+            }
+        } catch (NullPointerException npe) {
             navigateToSuperMatch();
         }
     }
