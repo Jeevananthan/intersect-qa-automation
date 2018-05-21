@@ -5,4 +5,4 @@ echo "Profile: SM-QA"
 echo "Browser: GridDriver"
 
 mvn -version
-mvn install -P SM-FamilyConnection -Dbrowser=GridDriver
+mvn install -P SM-FamilyConnection -Dbrowser=GridDriver -DSuperMatchEnv=FamilyConnection

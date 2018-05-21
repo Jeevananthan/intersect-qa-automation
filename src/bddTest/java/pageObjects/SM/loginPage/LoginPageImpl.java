@@ -21,23 +21,18 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
-     * Logs in to SuperMatch through Family Connection, using the default credentials:
-     * Username:  Password:  SchoolID:
+     * Checks the System property SuperMatchEnv and then logs in to the appropriate system
+     * If SuperMatchEnv = FamilyConnection, use that, otherwise, use standalone.
      */
     public void defaultLoginThroughFamilyConnection() {
-        //Right now Family Connection is not integrated with SuperMatch, so we'll just go to the public URL
-        navigateToSuperMatch();
-        //In the future, we'll need to actually go through family connection
-/*        navigateToFamilyConnection("school ID here");
-        getDriver().findElement(By.name("username")).sendKeys("user ID here");
-        getDriver().findElement(By.name("password")).sendKeys("password here");
-        button("Log In").click();
-        link("colleges").click();
-        link("supermatch").click();
-        enterSuperMatchiFrame();   */
+        if (System.getProperty("SuperMatchEnv").equals("FamilyConnection")){
+            loginThroughFamilyConnection(GetProperties.get("fc.default.username"),GetProperties.get("fc.default.password"),GetProperties.get("fc.default.hsid"));
+        } else {
+            navigateToSuperMatch();
+        }
     }
 
-    public void defaultLoginThroughFamilyConnectionStaging(DataTable loginDetails) {
+    /*public void defaultLoginThroughFamilyConnectionStaging(DataTable loginDetails) {
         List<String> details = loginDetails.asList(String.class);
         navigateToFamilyConnectionStaging(details.get(2));
         getDriver().findElement(By.name("username")).sendKeys(details.get(0));
@@ -48,7 +43,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(button("Search Tools"));
         button("Search Tools").click();
         link("SuperMatch™ College Search Next").click();
-    }
+    }*/
 
     /**
      * Logs in to SuperMatch through Family Connection
@@ -70,17 +65,17 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     /**
      * Logs out of SuperMatch from inside Family Connection
      */
-    public void logoutFromFamilyConnection() {
+    /*public void logoutFromFamilyConnection() {
         //Right now Family Connection is not integrated with SuperMatch, so we'll just delete our cookies
-        /*getDriver().switchTo().defaultContent();
-        link("sign out").click();*/
+        *//*getDriver().switchTo().defaultContent();
+        link("sign out").click();*//*
         getDriver().manage().deleteAllCookies();
-    }
+    }*/
 
     /**
      * Naviagates to the public-facing SuperMatch URL that has no login screen
      */
-    private void navigateToSuperMatch() {
+    public void navigateToSuperMatch() {
         load(GetProperties.get("sm.app.url"));
     }
 
@@ -93,22 +88,10 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         load(url);
     }
 
-    private void navigateToFamilyConnectionStaging(String hsid) {
+    /*private void navigateToFamilyConnectionStaging(String hsid) {
         String url = GetProperties.get("fc.staging.url") + hsid;
         load(url);
-    }
-
-    public void navigateToSuperMatchDirectly() {
-        String url = GetProperties.get("sm.direct.url");
-        load(url);
-    }
-
-    /**
-     * Moves the focus of the WebDriver into the SuperMatch iFrame
-     */
-    private void enterSuperMatchiFrame() {
-        // TODO - Don't know what it's called yet.
-    }
+    }*/
 
     //Locators
     private WebElement getMenuBar(){
