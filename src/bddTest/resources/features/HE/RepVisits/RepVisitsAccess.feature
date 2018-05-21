@@ -206,3 +206,36 @@ Examples:
       |School                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
       |Central High School     |16900 W Gebhardt Rd Brookfield, Wisconsin, Waukesha county, 53005|82                |320              |CENTRAL HIGH HS     |2            |WISCONSIN |14  |10:      |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:         |10:     |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Brookfield |
 
+  @MATCH-1603
+  Scenario Outline: As an HE user I need to be able to view the scheduling results of my Visits search AFTER I have
+                    selected an individual high school from the intermediate results list OR my original search matched
+                    one specific high school so I can optimize my high school visit and fair travel schedule.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify default page as show visits tab and toggle between tabs
+    Then HE I verify the high school information contains the following data
+      |Int Qa High School 4|Liberty Township,|
+    Then HE I verify the Intersect Presence Subscription module is active for "<School>"
+    Then HE I verify the high school information popup contains the following details
+      |Int Qa High School 4|Liberty Township,|
+    Then HE I verify No Appointments Available and blocked text for "<School>"
+    Then HE I select high school's Counselor Community institution profile link for "<School>"
+  #Check school with a Limited HE account
+    Given HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify the Intersect Presence Subscription module is Inactive for "<School>"
+  #Log in to HS and set an appointment slot
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+  #Log back into HE and make sure that the visit popups work as expected
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    Examples:
+      |Day     |HourStartTime |HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|Option                                              |hsEndTime|Option                             |School               |heStartTime   |heTime   |Date             |StartDate        |EndDate        |
+      |Friday  |11            |12         |34             |34           |am               |pm             |3        |No, I want to manually review all incoming requests.|12:34pm  |Yes, accept all incoming requests. |Int Qa High School 4 |11:34am       |11:34am  |June 7 2019  |March 28 2018    |July 14 2019   |
