@@ -2,7 +2,9 @@ package pageObjects.SM.loginPage;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.SessionNotFoundException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -21,6 +23,14 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      * If SuperMatchEnv = FamilyConnection, use that, otherwise, use standalone.
      */
     public void defaultLoginThroughFamilyConnection() {
+        // Clear our cookies so we aren't already logged into a session
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
+
+        // Check if we're testing the embedded version of SM, or the standalone
         try {
             if (System.getProperty("SuperMatchEnv").equals("FamilyConnection")) {
                 loginThroughFamilyConnection(GetProperties.get("fc.default.username"), GetProperties.get("fc.default.password"), GetProperties.get("fc.default.hsid"));
