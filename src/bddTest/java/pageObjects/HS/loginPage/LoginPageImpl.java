@@ -33,6 +33,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
         waitUntilPageFinishLoading();
         link(By.cssSelector("[title='Counselor Community']")).click();
         Set<String> windows = driver.getWindowHandles();
