@@ -2605,7 +2605,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Search by text is displayed in the drop-down",driver.findElement(By.xpath("//div/span[text()='"+dropdown+"']")).isDisplayed());
     }
 
-    public void verifyDropdownFieldsInSearchAndSchedule(String dropdown,DataTable dataTable){
+    public void verifyDropdownFieldsInSearchAndSchedule(DataTable dataTable){
         List<String> list = dataTable.asList(String.class);
         dropdownInSearchAndSchedule().click();
         for(String fields:list){
@@ -2621,7 +2621,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         List<String> list = dataTable.asList(String.class);
         dropdownInSearchAndSchedule().click();
         for(String fields:list) {
-            String displayingColor = driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).getCssValue("background-color");
+            String displayingColor = driver.findElement(By.xpath("//div/span[text()='"+fields+"']/parent::div")).getCssValue("background-color");
             Assert.assertTrue("Color is not equal",displayingColor.equals(color));
         }
     }
@@ -2667,7 +2667,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyTextBoxAfterSelecttheFields(String dropdown,DataTable dataTable){
+    public void verifyTextBoxAfterSelecttheFields(DataTable dataTable){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Search and Schedule").click();

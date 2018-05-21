@@ -322,17 +322,17 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the dropdown named \"([^\"]*)\" in search and schedule page$",repVisits::verifyDropdownInSearchAndSchedulePage);
 
-        Then("^HE I verify the following fields after click the \"([^\"]*)\" drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
+        Then("^HE I verify the following fields after click Search by drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
 
-        Then("^HE I verify the Background color \"([^\"]*)\" after click the search by drop-down in freemium for the following fields$",repVisits::verifyBackgroundColorforFreeemium);
+        Then("^HE I verify the Background color \"([^\"]*)\" after click the Search by drop-down in freemium for the following fields$",repVisits::verifyBackgroundColorforFreeemium);
 
         And("^HE I verify the Premium search text present with lock icon in the search by drop-down$",repVisits::verifyPremiumSearchInSearchByDropdown);
 
-        And("^HE I verify \"([^\"]*)\" is a default option in the search by drop-down for the following fields",repVisits::verifyDefaultOptionInSearchByDropdown);
+        Then("^HE I verify \"([^\"]*)\" is a default option in the Search by drop-down for the following fields$",repVisits::verifyDefaultOptionInSearchByDropdown);
 
-        Then("^HE I verify the page trigger to \"([^\"]*)\" model after clicking the fields under the premium section in the search by drop-down$",repVisits::verifyUpgradeNotificationPage);
+        Then("^HE I verify the page trigger to \"([^\"]*)\" model after clicking the fields under the premium section in the Search by drop-down$",repVisits::verifyUpgradeNotificationPage);
 
-        Then("^HE I verify the search by drop-down text box after selecting the following fields$",repVisits::verifyTextBoxAfterSelecttheFields);
+        Then("^HE I verify the Search by drop-down text box after selecting the following fields$",repVisits::verifyTextBoxAfterSelecttheFields);
 
         Then("^HE I verify the text \"([^\"]*)\" present in the text box$",repVisits::verifyTextInSearchAndScheduleTextBox);
     }

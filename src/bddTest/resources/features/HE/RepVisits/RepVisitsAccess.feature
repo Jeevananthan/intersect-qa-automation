@@ -248,7 +248,7 @@ Examples:
  #Administrator
     Given HE I want to login to the HE app using "Purpleheautomation+AnneArundel@gmail.com" as username and "Password#1" as password
     Then HE I verify the dropdown named "Search by" in search and schedule page
-    And HE I verify the following fields after click the "Name" drop-down
+    And HE I verify the following fields after click Search by drop-down
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
     Then HE I verify the Background color "<color>" after click the Search by drop-down in freemium for the following fields
       |Name|City|U.S. State|
@@ -267,7 +267,7 @@ Examples:
  #Publishing
     Given HE I want to login to the HE app using "Purpleheautomation+AnneArundel@gmail.com" as username and "Password#1" as password
     Then HE I verify the dropdown named "Search by" in search and schedule page
-    Then HE I verify the following fields after click the "Name" drop-down
+    And HE I verify the following fields after click Search by drop-down
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
     Then HE I verify the Background color "<color>" after click the Search by drop-down in freemium for the following fields
       |Name|City|U.S. State|
@@ -278,7 +278,7 @@ Examples:
       |Name|City|U.S. State|
     Then HE I verify the page trigger to "Upgrade" model after clicking the fields under the premium section in the Search by drop-down
       |U.S. County|U.S. Zip Code|Country|
-    Then HE I verify the Search by drop-down text box after selecting the following fieldss
+    Then HE I verify the Search by drop-down text box after selecting the following fields
       |Name|City|U.S. State|
     Then HE I verify the text "Search for a school..." present in the text box
     And HE I successfully sign out
@@ -286,7 +286,7 @@ Examples:
  #Community
     Given HE I want to login to the HE app using "Purpleheautomation+AnneArundel@gmail.com" as username and "Password#1" as password
     Then HE I verify the dropdown named "Search by" in search and schedule page
-    Then HE I verify the following fields after click the "Name" drop-down
+    And HE I verify the following fields after click Search by drop-down
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
     Then HE I verify the Background color "<color>" after click the Search by drop-down in freemium for the following fields
       |Name|City|U.S. State|
@@ -303,8 +303,8 @@ Examples:
     And HE I successfully sign out
 
     Examples:
-    |color              |freemium-color     |
-    |rgba(255, 255, 255)|rgba(255, 242, 248)|
+    |color              |freemium-color        |
+    |rgba(0, 0, 0, 0)   |rgba(255, 242, 248, 1)|
 
   @MATCH-3856
   Scenario: As an HE premium user (any role) searching for a school in RVs on the Search and Schedule view,
@@ -314,11 +314,11 @@ Examples:
  #Administrator
     Given HE I want to login to the HE app using "Purpleheautomation+AnneArundel@gmail.com" as username and "Password#1" as password
     Then HE I verify the dropdown named "Search by" in search and schedule page
-    Then HE I verify the following fields after click the "Search by" drop-down
+    And HE I verify the following fields after click Search by drop-down
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
     Then HE I verify "Search by,Name" is a default option in the Search by drop-down for the following fields
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
-    Then HE I verify the "Search by" drop-down text box after selecting the following fields
+    Then HE I verify the Search by drop-down text box after selecting the following fields
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
     Then HE I verify the text "Search for a school..." present in the text box
     And HE I successfully sign out
@@ -326,7 +326,7 @@ Examples:
  #Publishing
     Given HE I want to login to the HE app using "Purpleheautomation+AnneArundel@gmail.com" as username and "Password#1" as password
     Then HE I verify the dropdown named "Search by" in search and schedule page
-    Then HE I verify the following fields after click the "Search by" drop-down
+    And HE I verify the following fields after click Search by drop-down
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
     Then HE I verify "Search by,Name" is a default option in the Search by drop-down for the following fields
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
@@ -338,7 +338,7 @@ Examples:
  #Community
     Given HE I want to login to the HE app using "Purpleheautomation+AnneArundel@gmail.com" as username and "Password#1" as password
     Then HE I verify the dropdown named "Search by" in search and schedule page
-    Then HE I verify the following fields after click the "Search by" drop-down
+    And HE I verify the following fields after click Search by drop-down
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
     Then HE I verify "Search by,Name" is a default option in the Search by drop-down for the following fields
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
