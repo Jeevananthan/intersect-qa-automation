@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import java.util.concurrent.TimeUnit;
+
 public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -23,11 +25,14 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      * If SuperMatchEnv = FamilyConnection, use that, otherwise, use standalone.
      */
     public void defaultLoginThroughFamilyConnection() {
-        // Clear our cookies so we aren't already logged into a session
-        try {
-            driver.manage().deleteAllCookies();
-        } catch (NoSuchSessionException nsse) {
-            load("http://www.google.com");
+        // See if we're currently logged in to Family Connection and log out if we are
+        try{
+            getDriver().manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
+            getDriver().findElement(By.xpath("//button[text()='LOG OUT']")).click();
+            new WebDriverWait(getDriver(),20).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Login']")));
+            getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
+        } catch (Exception e){
+            getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
         }
 
         // Check if we're testing the embedded version of SM, or the standalone
