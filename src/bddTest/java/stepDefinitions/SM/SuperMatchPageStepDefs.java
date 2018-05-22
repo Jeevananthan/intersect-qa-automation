@@ -15,5 +15,9 @@ public class SuperMatchPageStepDefs implements En {
         Then("^SM I verify that the tooltips are displayed in the tab \"([^\"]*)\"$", fcSuperMatch::verifyTooltipsInFitCriteria);
 
         Then("^SM I verify that the tooltips are displayed in the section \"([^\"]*)\"$", fcSuperMatch::verifyTooltipsInSection);
+
+        Then("^SM I verify that the appropriate legend is displayed in the Why Drawer in position \"([^\"]*)\"$", fcSuperMatch::verifyLegendInWhyDrawer);
+
+        And("^SM I skip the onboarding modals$", fcSuperMatch::skipModals);
     }
 }

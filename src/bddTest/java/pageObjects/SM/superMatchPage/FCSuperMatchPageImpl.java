@@ -137,6 +137,20 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         button.sendKeys(Keys.RETURN);
     }
 
+    public void verifyLegendInWhyDrawer(String position) {
+        getWhyButtonByPosition(position).sendKeys(Keys.RETURN);
+        Assert.assertTrue("The 'Match' legend is not correctly displayed", matchLegend().getText().equals("Match"));
+        Assert.assertTrue("The 'Close Match' legend is not correctly displayed", closeMatchLegend().getText().equals("Close Match"));
+        Assert.assertTrue("The 'Data Unknown' legend is not correctly displayed", dataUnknownLegend().getText().equals("Data Unknown"));
+        Assert.assertTrue("The 'Doesn't Match' legend is not correctly displayed", doesntMatchLegend().getText().equals("Doesn't Match"));
+    }
+
+    public void skipModals() {
+        if (driver.findElements(By.cssSelector(onboardingHeaderLocator)).size() > 0) {
+            chooseFitCriteria().click();
+        }
+    }
+
     // Locators Below
 
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
@@ -154,4 +168,11 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement getWhyButtonByPosition(String position) { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr["+ Integer.parseInt(position) +"]/td/div/button")); }
     private WebElement searchHeaderTooltipTitle() { return driver.findElement(By.cssSelector("div.header")); }
     private WebElement searchHeaderTooltipText() { return driver.findElement(By.cssSelector("div.content")); }
+    private WebElement onboardingModalTitle() { return driver.findElement(By.cssSelector(onboardingHeaderLocator)); }
+    private String onboardingHeaderLocator = "div.header";
+    private WebElement chooseFitCriteria() { return driver.findElement(By.cssSelector("span.sm-hidden-l-down")); }
+    private WebElement matchLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-match")); }
+    private WebElement closeMatchLegend() { return driver.findElement(By.cssSelector("div.nine.wide.column.supermatch-sidebar-criteria-legend-icon")); }
+    private WebElement dataUnknownLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-icon")); }
+    private WebElement doesntMatchLegend() { return driver.findElement(By.cssSelector("div.eight.wide.column.supermatch-sidebar-criteria-legend-icon")); }
 }
