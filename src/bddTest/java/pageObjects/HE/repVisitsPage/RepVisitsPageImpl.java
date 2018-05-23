@@ -463,7 +463,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectHighSchoolFromResults(String schoolName) {
         waitUntilPageFinishLoading();
-        getDriver().findElement(By.xpath("//td[@class='D8iaokkmOTXAhIkOIzngL']/a[text()='" + schoolName + "']")).click();
+        getDriver().findElement(By.xpath("//td/a[text()='"+schoolName+"']")).click();
         waitUntilPageFinishLoading();
     }
 
@@ -790,9 +790,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void searchSchoolinRepVisits(String school)
     {
         navBar.goToRepVisits();
-        driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
+        getSearchBox().sendKeys(school);
         waitUntilElementExists(search());
-        driver.findElement(By.xpath("//button[@class='ui button']")).click();
+        getSearchButton().click();
         WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]")).isDisplayed());
@@ -2696,7 +2696,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  label;
     }
     private WebElement search(){
-        WebElement search=driver.findElement(By.xpath("//button[@class='ui button']"));
+        WebElement search=driver.findElement(By.cssSelector("button[class='ui icon button _3pWea2IV4hoAzTQ12mEux-']"));
         waitUntilElementExists(search);
         return  search;
     }
@@ -2729,12 +2729,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return link("Notifications");
     }
 
-    private WebElement getSearchBox() { return textbox("Search by school name or location...");}
+    private WebElement getSearchBox() { return textbox("Search for a school...");}
     private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
     private WebElement getSearchAndScheduleSearchBox(){ return textbox("Search by school name or location..."); }
     //private WebElement getSearchBox() { return textbox("Enter a school name or location");}
     private WebElement getSearchBoxforContact() { return driver.findElement(By.name("contacts-search"));}
-    private WebElement getSearchButton() { return driver.findElement(By.className("Umyjf8WyIatPr6Rajw7y6"));}
+    private WebElement getSearchButton() { return driver.findElement(By.cssSelector("button[class='ui icon button _3pWea2IV4hoAzTQ12mEux-']"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
@@ -2825,11 +2825,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));
     }
     private WebElement searchTextBox() {
-        WebElement textBox= driver.findElement(By.cssSelector("input[placeholder='Search by school name or location...']"));
+        WebElement textBox= driver.findElement(By.cssSelector("input[placeholder='Search for a school...']"));
         return textBox;
     }
     private WebElement searchButton() {
-        WebElement button=driver.findElement(By.cssSelector("button[class='ui button']"));
+        WebElement button=driver.findElement(By.cssSelector("button[class='ui icon button _3pWea2IV4hoAzTQ12mEux-']"));
         return  button;
     }
     private WebElement visit() {

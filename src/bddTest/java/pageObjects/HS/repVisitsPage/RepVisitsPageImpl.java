@@ -902,8 +902,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
-        driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
-        driver.findElement(By.xpath("//button[contains(@class,'ui button')]")).click();
+        driver.findElement(By.xpath("//input[@placeholder='Search for a school...']")).sendKeys(school);
+        driver.findElement(By.cssSelector("button[class='ui icon button _3pWea2IV4hoAzTQ12mEux-']")).click();
         waitForUITransition();
         waitUntilElementExists(driver.findElement(By.xpath("//td[text()='"+location+"']")));
         Assert.assertTrue("location is not displayed",driver.findElement(By.xpath("//td[text()='"+location+"']")).isDisplayed());
