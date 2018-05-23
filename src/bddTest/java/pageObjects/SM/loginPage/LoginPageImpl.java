@@ -2,9 +2,7 @@ package pageObjects.SM.loginPage;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.SessionNotFoundException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -29,9 +27,10 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         try{
             getDriver().manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
             getDriver().findElement(By.xpath("//button[text()='LOG OUT']")).click();
-            new WebDriverWait(getDriver(),20).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Login']")));
+            new WebDriverWait(getDriver(),30).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Login']")));
             getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
         } catch (Exception e){
+            logger.info("Caught Exception when logging out of Family Connection: " + e.getMessage() + e);
             getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
         }
 
@@ -46,19 +45,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             navigateToSuperMatch();
         }
     }
-
-    /*public void defaultLoginThroughFamilyConnectionStaging(DataTable loginDetails) {
-        List<String> details = loginDetails.asList(String.class);
-        navigateToFamilyConnectionStaging(details.get(2));
-        getDriver().findElement(By.name("username")).sendKeys(details.get(0));
-        getDriver().findElement(By.name("password")).sendKeys(details.get(1));
-        button("Login").click();
-        waitUntilElementExists(link("Colleges"));
-        link("Colleges").click();
-        waitUntilElementExists(button("Search Tools"));
-        button("Search Tools").click();
-        link("SuperMatch™ College Search Next").click();
-    }*/
 
     /**
      * Logs in to SuperMatch through Family Connection
@@ -76,16 +62,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("SuperMatch™ College Search Next"))).click();
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
     }
-
-    /**
-     * Logs out of SuperMatch from inside Family Connection
-     */
-    /*public void logoutFromFamilyConnection() {
-        //Right now Family Connection is not integrated with SuperMatch, so we'll just delete our cookies
-        *//*getDriver().switchTo().defaultContent();
-        link("sign out").click();*//*
-        getDriver().manage().deleteAllCookies();
-    }*/
 
     /**
      * Naviagates to the public-facing SuperMatch URL that has no login screen
