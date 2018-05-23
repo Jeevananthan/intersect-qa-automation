@@ -246,7 +246,7 @@ Examples:
   so that I won't be confused as to what I can search against as a premium user.
 #Premium
  #Administrator
-    Given HE I want to login to the HE app using "Purpleheautomation+AnneArundel@gmail.com" as username and "Password#1" as password
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password#1" as password
     Then HE I verify the dropdown named "Search by" in search and schedule page
     And HE I verify the following fields after click Search by drop-down
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
