@@ -2597,6 +2597,65 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyDropdownInSearchAndSchedulePage(String dropdown){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+dropdown+"']"),1));
+        Assert.assertTrue("Search by text is displayed in the drop-down",driver.findElement(By.xpath("//div/span[text()='"+dropdown+"']")).isDisplayed());
+    }
+
+    public void verifyDropdownFieldsInSearchAndSchedule(DataTable dataTable){
+        List<String> list = dataTable.asList(String.class);
+        dropdownInSearchAndSchedule().click();
+        for(String fields:list){
+            Assert.assertTrue(fields+" is not displayed in the dropdown",driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).isDisplayed());
+        }
+    }
+
+    public void verifyDefaultOptionInSearchByDropdown(String defaultOption,DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        String defaultValue[] = defaultOption.split(",");
+        List<String> list = dataTable.asList(String.class);
+        for(String fields:list){
+            dropdownInSearchAndSchedule().click();
+            Assert.assertTrue(fields+" is not displayed in the dropdown",driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).isDisplayed());
+            driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).click();
+            Assert.assertTrue(fields+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+fields+"']")).isDisplayed());
+            link("Calendar").click();
+            waitUntilPageFinishLoading();
+            link("Search and Schedule").click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue(defaultOption+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+defaultValue[1]+"']")).isDisplayed());
+        }
+    }
+
+    public void verifyTextBoxAfterSelecttheFields(DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        List<String> list = dataTable.asList(String.class);
+        for(String fields:list) {
+            dropdownInSearchAndSchedule().click();
+            driver.findElement(By.xpath("//div/span[text()='" + fields + "']")).click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue(fields + " is not present in the Textbox", driver.findElement(By.xpath("//div/span[text()='Search by']/parent::div/div/div[text()='" + fields + "']")).isDisplayed());
+        }
+    }
+
+    public void verifyTextInSearchAndScheduleTextBox(String text){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue(text+" is not present in the textbox",driver.findElement(By.xpath("//input[@placeholder='"+text+"']")).isDisplayed());
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
@@ -3014,6 +3073,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement fairInternalNotesTextBox() { return getDriver().findElement(By.cssSelector("input[aria-label=\"Internal Notes\"]")); }
     private WebElement fairSaveButton() { return getDriver().findElement(By.cssSelector("button.ui.teal.right.floated.button span")); }
     private WebElement fairSavedConfirmationMessage() { return getDriver().findElement(By.cssSelector("div.content span span")); }
+    private WebElement dropdownInSearchAndSchedule(){
+        WebElement dropdown = driver.findElement(By.xpath("//i[@class='teal caret down small icon']"));
+        return dropdown;
+    }
 }
 
 

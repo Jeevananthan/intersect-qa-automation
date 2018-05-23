@@ -319,5 +319,15 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I select high school's Counselor Community institution profile link for \"([^\"]*)\"$",repVisits::selectHSLink);
 
         Then("HE I verify the Intersect Presence Subscription module is Inactive for \"([^\"]*)\"$",repVisits::verifyInActiveSubscription);
+
+        Then("^HE I verify the dropdown named \"([^\"]*)\" in search and schedule page$",repVisits::verifyDropdownInSearchAndSchedulePage);
+
+        Then("^HE I verify the following fields after click Search by drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
+
+        Then("^HE I verify \"([^\"]*)\" is a default option in the Search by drop-down for the following fields$",repVisits::verifyDefaultOptionInSearchByDropdown);
+
+        Then("^HE I verify the Search by drop-down text box after selecting the following fields$",repVisits::verifyTextBoxAfterSelecttheFields);
+
+        Then("^HE I verify the text \"([^\"]*)\" present in the text box$",repVisits::verifyTextInSearchAndScheduleTextBox);
     }
 }
