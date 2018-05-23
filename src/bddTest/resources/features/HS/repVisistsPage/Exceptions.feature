@@ -125,7 +125,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                            |School              |heStartTime|heTime |
-      |42  |42  |10:55am  |12:11pm|2        |42       |49     |12:11pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:        |10:    |
+      |43  |43  |10:55am  |12:11pm|2        |43       |49     |12:11pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:        |10:    |
 
  @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Unscheduled availability
