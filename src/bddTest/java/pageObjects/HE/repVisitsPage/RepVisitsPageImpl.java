@@ -2613,7 +2613,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyBackgroundColorforFreeemium(String color,DataTable dataTable){
+    public void verifyBackgroundColorforFreemiumorPremium(String color,DataTable dataTable){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Search and Schedule").click();
@@ -2626,8 +2626,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyPremiumSearchInSearchByDropdown(){
-        Assert.assertTrue("Premium Search text with lock icon is not displayed",driver.findElement(By.xpath("//span[text()='Premium Search']/following-sibling::i[@class='lock icon right floated']")).isDisplayed());
+    public void verifyPremiumSearchInSearchByDropdown(String premiumText){
+        dropdownInSearchAndSchedule().click();
+        Assert.assertTrue("Premium Search text with lock icon is not displayed",driver.findElement(By.xpath("//span[text()='"+premiumText+"']/following-sibling::i[@class='lock icon right floated']")).isDisplayed());
     }
 
     public void verifyDefaultOptionInSearchByDropdown(String defaultOption,DataTable dataTable){
@@ -2667,7 +2668,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyTextBoxAfterSelecttheFields(DataTable dataTable){
+    public void verifySearchByOptionAfterSelectFields(DataTable dataTable){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Search and Schedule").click();

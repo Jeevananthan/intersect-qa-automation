@@ -322,17 +322,19 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the dropdown named \"([^\"]*)\" in search and schedule page$",repVisits::verifyDropdownInSearchAndSchedulePage);
 
-        Then("^HE I verify the following fields after click Search by drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
+        Then("^HE I verify the following fields are displayed after click Search by drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
 
-        Then("^HE I verify the Background color \"([^\"]*)\" after click the Search by drop-down in freemium for the following fields$",repVisits::verifyBackgroundColorforFreeemium);
+        Then("^HE I verify the Background color \"([^\"]*)\" for the following fields to represent that fields are Freemium$",repVisits::verifyBackgroundColorforFreemiumorPremium);
 
-        And("^HE I verify the Premium search text present with lock icon in the search by drop-down$",repVisits::verifyPremiumSearchInSearchByDropdown);
+        Then("^HE I verify the Background color \"([^\"]*)\" for the following fields to represent that fields are Premium$",repVisits::verifyBackgroundColorforFreemiumorPremium);
+
+        And("^HE I verify the \"([^\"]*)\" text present with lock icon in the search by drop-down$",repVisits::verifyPremiumSearchInSearchByDropdown);
 
         Then("^HE I verify \"([^\"]*)\" is a default option in the Search by drop-down for the following fields$",repVisits::verifyDefaultOptionInSearchByDropdown);
 
-        Then("^HE I verify the page trigger to \"([^\"]*)\" model after clicking the fields under the premium section in the Search by drop-down$",repVisits::verifyUpgradeNotificationPage);
+        Then("^HE I verify the \"([^\"]*)\" pop-up page, when selecting the premium options from the search by dropdown$",repVisits::verifyUpgradeNotificationPage);
 
-        Then("^HE I verify the Search by drop-down text box after selecting the following fields$",repVisits::verifyTextBoxAfterSelecttheFields);
+        Then("^HE I verify the following fields are able to select from the dropdown options$",repVisits::verifySearchByOptionAfterSelectFields);
 
         Then("^HE I verify the text \"([^\"]*)\" present in the text box$",repVisits::verifyTextInSearchAndScheduleTextBox);
     }
