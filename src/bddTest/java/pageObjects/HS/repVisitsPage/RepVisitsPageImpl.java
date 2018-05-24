@@ -924,8 +924,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
-        driver.findElement(By.xpath("//input[@placeholder='Search by school name or location...']")).sendKeys(school);
-        driver.findElement(By.xpath("//button[contains(@class,'ui button')]")).click();
+        getSearchBox().sendKeys(school);
+        driver.findElement(By.cssSelector("button[class='ui icon button _3pWea2IV4hoAzTQ12mEux-']")).click();
         waitForUITransition();
         waitUntilElementExists(driver.findElement(By.xpath("//td[text()='"+location+"']")));
         Assert.assertTrue("location is not displayed",driver.findElement(By.xpath("//td[text()='"+location+"']")).isDisplayed());
@@ -5793,7 +5793,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement primaryContactName (String primaryContactName){
         return getDriver().findElement(By.xpath("//span[@class='text'][contains(text(), '" + primaryContactName + "')]"));
     }
-     private WebElement trashIconInException(){
+    private WebElement getSearchBox() { return textbox("Search for a school...");}
+    private WebElement trashIconInException(){
         WebElement trash = driver.findElement(By.xpath("//span/i[@class='trash outline icon _6S_VIt7XKOpy-Mn7y_CJu']"));
         return trash;
     }
@@ -5801,9 +5802,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String days = driver.findElement(By.xpath("//button[@class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']/div/span")).getText();
         return days;
     }
-
-
-
     public void navigateToRVCalendar(){
         navBar.goToRepVisits();
         link("Calendar").click();
@@ -6048,22 +6046,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             return getDriver().findElement(By.cssSelector("div._3nrJ9RwrMDsDPZ9tAJC4q6 span"));
 
         }
-
     private WebElement manualstartTime(){
         return getDriver().findElement(By.cssSelector("input#manualStartTime"));
 
     }
-
     private WebElement manualEndTime(){
         return getDriver().findElement(By.cssSelector("input#manualEndTime"));
 
     }
-
     private WebElement clicklinkAgenda(){
         return getDriver().findElement(By.cssSelector("button.ui.teal.basic.button.GFr3D5C_jMOwFFfwEoOXq._1CTi_onI6_4BEyd2aTw3c2"));
 
     }
-
     private WebElement clicklinkDays(){
         return getDriver().findElement(By.cssSelector("button.ui.teal.basic.button.GFr3D5C_jMOwFFfwEoOXq._1aOzhO0fbLlfLnEsVWQZCQ"));
 
@@ -6073,7 +6067,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("div[title='3:00 AM — 5:00 AM: Alma College']"));
 
     }
-
     private WebElement getAgendaDatePicker(){
         return getDriver().findElement(By.cssSelector("button.bne-HEiKl3BvzkB-LIC8M:nth-child(1)"));
 
@@ -6086,7 +6079,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("textarea#repVisit-cancelation-message"));
 
     }
-
     private WebElement getYesCancelVisit()
     {
         return  getDriver().findElement(By.cssSelector("button.ui.negative.right.floated.button span"));
