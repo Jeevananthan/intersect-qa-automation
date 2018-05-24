@@ -96,6 +96,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         text(highSchool).click();
         text("Fairs").click();
         if (text(fairTitle).isDisplayed()){
+            waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//span[contains(text(), '"+fairTitle+"')]/../following-sibling::div/button[contains(text(),'Register')]")).click();
         }else
             Assert.assertFalse("Fair = "+fairTitle+" is not exist.", text(fairTitle).isDisplayed());
@@ -974,7 +975,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         navBar.goToRepVisits();
         getTravelPlanBtn().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         Assert.assertTrue("'See Details' text is not displayed",text("See details").isDisplayed());
         travelPlanSeeDetailsLink().click();
         Assert.assertTrue("Fairs Tab it' active",text("Fairs").isDisplayed());
