@@ -2599,7 +2599,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyDropdownInSearchAndSchedulePage(String dropdown){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Search and Schedule").click();
+        getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+dropdown+"']"),1));
         Assert.assertTrue("Search by text is displayed in the drop-down",driver.findElement(By.xpath("//div/span[text()='"+dropdown+"']")).isDisplayed());
@@ -2616,7 +2616,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyBackgroundColorforFreemiumorPremium(String color,DataTable dataTable){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Search and Schedule").click();
+        getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
         List<String> list = dataTable.asList(String.class);
         dropdownInSearchAndSchedule().click();
@@ -2634,7 +2634,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyDefaultOptionInSearchByDropdown(String defaultOption,DataTable dataTable){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Search and Schedule").click();
+        getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
         String defaultValue[] = defaultOption.split(",");
         List<String> list = dataTable.asList(String.class);
@@ -2643,9 +2643,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue(fields+" is not displayed in the dropdown",driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).isDisplayed());
             driver.findElement(By.xpath("//div/span[text()='"+fields+"']")).click();
             Assert.assertTrue(fields+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+fields+"']")).isDisplayed());
-            link("Calendar").click();
+            calendar().click();
             waitUntilPageFinishLoading();
-            link("Search and Schedule").click();
+            getSearchAndScheduleBtn().click();
             waitUntilPageFinishLoading();
             Assert.assertTrue(defaultOption+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+defaultValue[1]+"']")).isDisplayed());
         }
@@ -2654,7 +2654,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyUpgradeNotificationPage(String upgrade,DataTable dataTable){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Search and Schedule").click();
+        getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
         List<String> list = dataTable.asList(String.class);
         for(String fields:list){
@@ -2663,7 +2663,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Upgrade']"),1));
             Assert.assertTrue("Upgrade popup is not displayed",driver.findElement(By.xpath("//span[text()='"+upgrade+"']")).isDisplayed());
-            driver.findElement(By.xpath("//i[@class='close icon']")).click();
+            upgradePopupCloseButtonInSearchAndScheduleDropdown().click();
             waitUntilPageFinishLoading();
         }
     }
@@ -2671,7 +2671,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifySearchByOptionAfterSelectFields(DataTable dataTable){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Search and Schedule").click();
+        getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
         List<String> list = dataTable.asList(String.class);
         for(String fields:list) {
@@ -2685,9 +2685,34 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyTextInSearchAndScheduleTextBox(String text){
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Search and Schedule").click();
+        getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue(text+" is not present in the textbox",driver.findElement(By.xpath("//input[@placeholder='"+text+"']")).isDisplayed());
+    }
+
+    public void selectFieldswillnotSubmitSearch(String defaultOption,String school,DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        List<String> list = dataTable.asList(String.class);
+        getSearchBox().sendKeys(school);
+        dropdownInSearchAndSchedule().click();
+        driver.findElement(By.xpath("//div/span[text()='" + defaultOption + "']")).click();
+        getSearchButton().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Result is not displayed",driver.findElement(By.xpath("//td/a[text()='"+school+"']")).isDisplayed());
+        for(String fields:list){
+            dropdownInSearchAndSchedule().click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='" + fields + "']"),1));
+            driver.findElement(By.xpath("//div/span[text()='" + fields + "']")).click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue("Result is not displayed",driver.findElement(By.xpath("//td/a[text()='"+school+"']")).isDisplayed());
+        }
+        getSearchButton().click();
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(noResultsMessageInSearchAndSchedule());
+        Assert.assertTrue("Result is displayed",noResultsMessageInSearchAndSchedule().isDisplayed());
     }
 
     private WebElement accountSettings(String accountSettings)
@@ -3110,6 +3135,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement dropdownInSearchAndSchedule(){
         WebElement dropdown = driver.findElement(By.xpath("//i[@class='teal caret down small icon']"));
         return dropdown;
+    }
+    private WebElement upgradePopupCloseButtonInSearchAndScheduleDropdown(){
+        return getDriver().findElement(By.xpath("//i[@class='close icon']"));
+    }
+    private WebElement noResultsMessageInSearchAndSchedule() {
+        return getDriver().findElement(By.xpath("//span[text()='No results found.']"));
     }
 }
 

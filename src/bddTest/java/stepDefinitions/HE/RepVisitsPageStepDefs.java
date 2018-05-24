@@ -334,8 +334,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the \"([^\"]*)\" pop-up page, when selecting the premium options from the search by dropdown$",repVisits::verifyUpgradeNotificationPage);
 
-        Then("^HE I verify the following fields are able to select from the dropdown options$",repVisits::verifySearchByOptionAfterSelectFields);
+        Then("^HE I verify the fields are displaying box after selecting the following fields in the dropdown$",repVisits::verifySearchByOptionAfterSelectFields);
 
         Then("^HE I verify the text \"([^\"]*)\" present in the text box$",repVisits::verifyTextInSearchAndScheduleTextBox);
+
+        Then("^HE I select the following fields will not submit the search on the page search by \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFieldswillnotSubmitSearch);
     }
 }
