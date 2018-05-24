@@ -247,12 +247,15 @@ public class GlobalSearch extends SeleniumBase {
 
     public void selectRepvisitsAvialability() {
         waitUntilPageFinishLoading();
-        try{
-            waitUntilElementExists(RepvisitsAvailabilityButton());
-            Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvailabilityButton().isDisplayed());
-        }catch(Exception e){}
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
         WebElement frameClass=driver.findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
         driver.switchTo().frame(frameClass);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
         waitUntilElementExists(RepvisitsAvailabilityButton());
         Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvailabilityButton().isDisplayed());
         RepvisitsAvailabilityButton().click();
