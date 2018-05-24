@@ -5808,7 +5808,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return attendee;
     }
     private WebElement eventLocation() {
-        WebElement location=driver.findElement(By.xpath("//div/input[@id='eventLocation']"));
+        WebElement location=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
         return location;
     }
     private WebElement addVisitButtonInVisitSchedulePopup() {
@@ -5857,7 +5857,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private WebElement eventLocationTextboxInAddVisitSchedulePopup() {
-        WebElement text=driver.findElement(By.xpath("//div/input[@id='eventLocation']"));
+        WebElement text=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
         return text;
     }
     private WebElement verifyAddVisitButtonInVisitSchedulePopup() {
