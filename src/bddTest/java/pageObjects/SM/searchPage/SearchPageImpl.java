@@ -840,6 +840,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setAdmissionCriteria(DataTable dataTable) {
+        waitUntilPageFinishLoading();
         List<List<String>> entities = dataTable.asLists(String.class);
         chooseFitCriteriaTab("Admission");
         for (List<String> criteria : entities) {
