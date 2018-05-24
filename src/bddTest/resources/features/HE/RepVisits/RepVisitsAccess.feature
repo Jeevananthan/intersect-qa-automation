@@ -241,12 +241,11 @@ Examples:
       |Friday  |11            |12         |34             |34           |am               |pm             |3        |No, I want to manually review all incoming requests.|12:34pm  |Yes, accept all incoming requests. |Int Qa High School 4 |11:34am       |11:34am  |June 7 2019  |March 28 2018    |July 14 2019   |
 
   @MATCH-3857
-  Scenario: As an HE premium user (any role) searching for a school in RVs on the Search and Schedule view,
+  Scenario Outline: As an HE premium user (any role) searching for a school in RVs on the Search and Schedule view,
   I want to see a Search By drop-down clearly indicating what's available to me
   so that I won't be confused as to what I can search against as a premium user.
 #Premium
- #Administrator
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password#1" as password
+    Given HE I want to login to the HE app using "<user>" as username and "Password!1" as password
     Then HE I verify the dropdown named "Search by" in search and schedule page
     And HE I verify the following fields after click Search by drop-down
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
@@ -256,27 +255,8 @@ Examples:
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
     Then HE I verify the text "Search for a school..." present in the text box
     And HE I successfully sign out
-
- #Publishing
-    Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
-    Then HE I verify the dropdown named "Search by" in search and schedule page
-    And HE I verify the following fields after click Search by drop-down
-      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
-    Then HE I verify "Search by,Name" is a default option in the Search by drop-down for the following fields
-      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
-    Then HE I verify the Search by drop-down text box after selecting the following fields
-      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
-    Then HE I verify the text "Search for a school..." present in the text box
-    And HE I successfully sign out
-
- #Community
-    Given HE I want to login to the HE app using "purpleheautomation+community@gmail.com" as username and "Password!1" as password
-    Then HE I verify the dropdown named "Search by" in search and schedule page
-    And HE I verify the following fields after click Search by drop-down
-      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
-    Then HE I verify "Search by,Name" is a default option in the Search by drop-down for the following fields
-      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
-    Then HE I verify the Search by drop-down text box after selecting the following fields
-      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
-    Then HE I verify the text "Search for a school..." present in the text box
-    And HE I successfully sign out
+    Examples:
+    |user                                   |
+    |purpleheautomation@gmail.com           |
+    |purpleheautomation+publishing@gmail.com|
+    |purpleheautomation+community@gmail.com |
