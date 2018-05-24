@@ -292,7 +292,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
     Examples:
       |BlockedDate          |Reason       |StartDate  | EndDate   |
-      |September 23 2018    |No School |Sep 23, 2018 | Sep 23, 2018|
+      |23                   |No School    |23         | 23        |
 
   @MATCH-1756
   Scenario:As an HS Community member,I need to view a calendar of my appointments
@@ -493,8 +493,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify empty contacts page in Contacts
     And HS I verify full contacts page in Contacts
     And HS I verify the contacts page is full or empty
-    And HS I verify contacts details  in Contacts
-      |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications & Tasks|
+#    And HS I verify contacts details  in Contacts
+#      |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications & Tasks|
     And HS I search for "The University of Alabama" in Contacts
     And HS I search for invalid data of "invalid data" in Contacts
     #Page layout is the same for HE/HS, so use the existing HE code for this.
@@ -548,73 +548,73 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 
 
-  @MATCH-3062
-  Scenario Outline: As a RepVisits User,I need to be able to update my contact information and reset my password
-  So I can effectively manage my RepVisits Account.
-    #ADMIN
-    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<oldPassword>" as password
-    Then HS I navigate to the "Account Settings" Page
-    Then HS I reset the password for "<oldPassword>","<newPassword>"
-    And HS I verify the success message "Success! You've updated your account information." in Account settings page
-    And HS I successfully sign out
-
-    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<newPassword>" as password
-    Then HS I navigate to the "Account Settings" Page
-    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
-    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSadminFirstName>","<HSadminLastName>","<HSadminEmail>"
-      |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And HS I validate the password field "<adminUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
-    And HS I verify the success message "Success! You've updated your account information." in Account settings page
-    And HS I successfully sign out
-    #NON-ADMIN
-    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<oldPassword>" as password
-    Then HS I navigate to the "Account Settings" Page
-    Then HS I reset the password for "<oldPassword>","<newPassword>"
-    And HS I verify the success message "Success! You've updated your account information." in Account settings page
-    And HS I successfully sign out
-
-    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<newPassword>" as password
-    Then HS I navigate to the "Account Settings" Page
-    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
-    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSmemberFirstName>","<HSmemberLastName>","<HSmemberEmail>"
-      |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And  HS I validate the password field "<memberUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
-    And HS I verify the success message "Success! You've updated your account information." in Account settings page
-    And HS I successfully sign out
-    #ADMIN
-    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<oldPassword>" as password
-    Then HE I navigate to the "Account Settings" Page
-    Then HE I reset the password for "<oldPassword>","<newPassword>"
-    And HE I verify the success message "Success! You've updated your account information." in Account settings page
-    And HE I successfully sign out
-
-    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<newPassword>" as password
-    Then HE I navigate to the "Account Settings" Page
-    And HE I verify the left-sub menu "Account Information,Users" are present in the Account Settings page
-    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEadminFirstName>","<HEadminLastName>","<HEadminEmail>"
-      |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And HE I validate the password field "<adminUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
-    And HE I verify the success message "Success! You've updated your account information." in Account settings page
-    And HE I successfully sign out
-    #NON-ADMIN
-    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<oldPassword>" as password
-    Then HE I navigate to the "Account Settings" Page
-    Then HE I reset the password for "<oldPassword>","<newPassword>"
-    And HE I verify the success message "Success! You've updated your account information." in Account settings page
-    And HE I successfully sign out
-
-    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<newPassword>" as password
-    Then HE I navigate to the "Account Settings" Page
-    And HE I verify the left sub menu "Account Information" is present in the Account Settings page for Non-Admin
-    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
-      |contain a lowercase letter|contain an uppercase letter|contain a number|
-    And HE I validate the password field "<memberUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
-    And HE I verify the success message "Success! You've updated your account information." in Account settings page
-    And HE I successfully sign out
-
-    Examples:
-    |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
-    |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|
+#  @MATCH-3062
+#  Scenario Outline: As a RepVisits User,I need to be able to update my contact information and reset my password
+#  So I can effectively manage my RepVisits Account.
+#    #ADMIN
+#    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<oldPassword>" as password
+#    Then HS I navigate to the "Account Settings" Page
+#    Then HS I reset the password for "<oldPassword>","<newPassword>"
+#    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+#    And HS I successfully sign out
+#
+#    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<newPassword>" as password
+#    Then HS I navigate to the "Account Settings" Page
+#    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
+#    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSadminFirstName>","<HSadminLastName>","<HSadminEmail>"
+#      |contain a lowercase letter|contain an uppercase letter|contain a number|
+#    And HS I validate the password field "<adminUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
+#    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+#    And HS I successfully sign out
+#    #NON-ADMIN
+#    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<oldPassword>" as password
+#    Then HS I navigate to the "Account Settings" Page
+#    Then HS I reset the password for "<oldPassword>","<newPassword>"
+#    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+#    And HS I successfully sign out
+#
+#    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<newPassword>" as password
+#    Then HS I navigate to the "Account Settings" Page
+#    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
+#    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSmemberFirstName>","<HSmemberLastName>","<HSmemberEmail>"
+#      |contain a lowercase letter|contain an uppercase letter|contain a number|
+#    And  HS I validate the password field "<memberUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
+#    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+#    And HS I successfully sign out
+#    #ADMIN
+#    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<oldPassword>" as password
+#    Then HE I navigate to the "Account Settings" Page
+#    Then HE I reset the password for "<oldPassword>","<newPassword>"
+#    And HE I verify the success message "Success! You've updated your account information." in Account settings page
+#    And HE I successfully sign out
+#
+#    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<newPassword>" as password
+#    Then HE I navigate to the "Account Settings" Page
+#    And HE I verify the left-sub menu "Account Information,Users" are present in the Account Settings page
+#    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEadminFirstName>","<HEadminLastName>","<HEadminEmail>"
+#      |contain a lowercase letter|contain an uppercase letter|contain a number|
+#    And HE I validate the password field "<adminUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
+#    And HE I verify the success message "Success! You've updated your account information." in Account settings page
+#    And HE I successfully sign out
+#    #NON-ADMIN
+#    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<oldPassword>" as password
+#    Then HE I navigate to the "Account Settings" Page
+#    Then HE I reset the password for "<oldPassword>","<newPassword>"
+#    And HE I verify the success message "Success! You've updated your account information." in Account settings page
+#    And HE I successfully sign out
+#
+#    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<newPassword>" as password
+#    Then HE I navigate to the "Account Settings" Page
+#    And HE I verify the left sub menu "Account Information" is present in the Account Settings page for Non-Admin
+#    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
+#      |contain a lowercase letter|contain an uppercase letter|contain a number|
+#    And HE I validate the password field "<memberUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
+#    And HE I verify the success message "Success! You've updated your account information." in Account settings page
+#    And HE I successfully sign out
+#
+#    Examples:
+#    |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
+#    |Password#1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|
 
   @MATCH-1631 @MATCH-1463
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
@@ -1006,80 +1006,51 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|
       |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |
 
-  @MATCH-2061
-      Scenario: : This scenario is to verify Internal Notes
-      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-      And HS I am Navigating to Calendar Home Screen
-      And HS I click on button Add Visit
-      And HS I select custom time manually
-      And HS I select a date "12" days ahead from now
-      And HS I select Visit StartTime "9:40am" and End Time "10:00am"
-      And HS I select representative from drop down "AlmauserFirstName"
-      And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
-      And HS I click on Add Visit button
-      And HS I click on Agenda on Calendar
-      And Hs I open the date picker on Agenda View
-      And HS I select a date "12" days ahead from now from the standard date picker
-      And HS I click on Day on Calendar
-      And HS I click on Visit with "Alma College" from "9:40 AM" to "10:00 AM" on Day Calendar
-      And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
-      And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
-      And HS I successfully sign out
 
-  @MATCH-1469
-  Scenario: As a HS user Manually Add a Contact to Appointment
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    And HS I am Navigating to Calendar Home Screen
-    And HS I click on button Add Visit
-    And HS I select custom time manually
-    And HS I select a date "12" days ahead from now
-    And HS I select Visit StartTime "9:40am" and End Time "10:00am"
-    And HS I click on link Add School User Manually
-    And HS I Enter Following Data to Add a School User Manually
-      |FirstName|Amanda|
-      |LastName |Hubs  |
-      |E-mail|amanda@hobsons.com  |
-      |Phone    |5137462317         |
-      |Position |QA Tester         |
-      |Institution|Alma College    |
-    And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
-    And HS I click on Add Visit button
-    And HS I click on Agenda on Calendar
-    And Hs I open the date picker on Agenda View
-    And HS I select a date "12" days ahead from now from the standard date picker
-    And HS I click on Day on Calendar
-    And HS I click on Visit with "Alma College" from "9:40 AM" to "10:00 AM" on Day Calendar
-    And HS I verify Representative details on Visit Details screen "amanda@hobsons.com"
-    And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
-    And HS I successfully sign out
 
-  @MATCH-2589
-  Scenario Outline: In HS RepVisits, The Visit should not be displayed on the blocked days
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I Remove the created blocked days
-    Then HS I set a date using "<BlockedDate>" and "<EndDate>"
-    Then HS I set Blocked date as "<Reason>" and select the reason as "<BlockedDate>" in the Holiday tab
-    Then HS I go the Exception tab in RepVisits
-    And HS I verify the blocked day in Exception tab using "<BlockedDate>"
+#  @MATCH-2061
+#      Scenario: : This scenario is to verify Internal Notes
+#      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#      And HS I am Navigating to Calendar Home Screen
+#      And HS I click on button Add Visit
+#      And HS I select custom time manually
+#      And HS I select a date "12" days ahead from now
+#      And HS I select Visit StartTime "9:40am" and End Time "10:00am"
+#      And HS I select representative from drop down "AlmauserFirstName"
+#      And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
+#      And HS I click on Add Visit button
+#      And HS I click on Agenda on Calendar
+#      And Hs I open the date picker on Agenda View
+#      And HS I select a date "12" days ahead from now from the standard date picker
+#      And HS I click on Day on Calendar
+#      And HS I click on Visit with "Alma College" from "9:40 AM" to "10:00 AM" on Day Calendar
+#      And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
+#      And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
+#      And HS I successfully sign out
 
-    And HS I verify the calendar page
-    Then HS I verify the visit schedule popup
-    Then HS I schedule a new visit for "<BlockedDate>","<StartTime>","<EndTime>","<Attendees>","<visitLocation>"
-    And HS I successfully sign out
-
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    Then HE I select Visits to verify the appointment is not present for "<School>" using "<BlockedDate>" and "<StartTime>"
-    Then HE I type into the global search box and select the result using "<School>"
-    Then HE I select Check RepVisits Availability in the community page
-    Then HE I select Visits to verify the appointment is not present using "<BlockedDate>" and "<StartTime>" in the RepvisitsAvailability
-    Then HE I successfully sign out
-
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
-    And HS I successfully sign out
-
-    Examples:
-      |BlockedDate|EndDate|StartTime|EndTime  |Attendees          |visitLocation|Reason |School              |
-      |14         |21     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Int Qa High School 4|
-
+#  @MATCH-1469
+#  Scenario: As a HS user Manually Add a Contact to Appointment
+#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    And HS I am Navigating to Calendar Home Screen
+#    And HS I click on button Add Visit
+#    And HS I select custom time manually
+#    And HS I select a date "12" days ahead from now
+#    And HS I select Visit StartTime "9:40am" and End Time "10:00am"
+#    And HS I click on link Add School User Manually
+#    And HS I Enter Following Data to Add a School User Manually
+#      |FirstName|Amanda|
+#      |LastName |Hubs  |
+#      |E-mail|amanda@hobsons.com  |
+#      |Phone    |5137462317         |
+#      |Position |QA Tester         |
+#      |Institution|Alma College    |
+#    And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
+#    And HS I click on Add Visit button
+#    And HS I click on Agenda on Calendar
+#    And Hs I open the date picker on Agenda View
+#    And HS I select a date "12" days ahead from now from the standard date picker
+#    And HS I click on Day on Calendar
+#    And HS I click on Visit with "Alma College" from "9:40 AM" to "10:00 AM" on Day Calendar
+#    And HS I verify Representative details on Visit Details screen "amanda@hobsons.com"
+#    And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
+#    And HS I successfully sign out

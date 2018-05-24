@@ -989,7 +989,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         navBar.goToRepVisits();
         getTravelPlanBtn().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         Assert.assertTrue("'See Details' text is not displayed",text("See details").isDisplayed());
         travelPlanSeeDetailsLink().click();
         Assert.assertTrue("Fairs Tab it' active",text("Fairs").isDisplayed());

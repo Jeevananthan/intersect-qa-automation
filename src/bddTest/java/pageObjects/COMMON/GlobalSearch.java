@@ -540,7 +540,7 @@ public class GlobalSearch extends SeleniumBase {
         System.out.println();
         logger.info("Verifying real-time search results are returned for HE Account search.");
         searchForHEInstitutions(searchRequest);
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("global-search-box-results")));
         Boolean resultsReturned=false;
         // check to make sure a result is found
         if (getDriver().findElements(By.id("global-search-box-item-0")).size() > 0) {

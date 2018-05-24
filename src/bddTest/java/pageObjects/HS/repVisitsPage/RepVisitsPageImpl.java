@@ -61,6 +61,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     //Creating RepVisitsPageImpl class object of for HE.
     pageObjects.HE.repVisitsPage.RepVisitsPageImpl repVisitsPageHEObj = new pageObjects.HE.repVisitsPage.RepVisitsPageImpl();
 
+
     public RepVisitsPageImpl() {
         logger = Logger.getLogger(RepVisitsPageImpl.class);
     }
@@ -192,6 +193,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         int count;
         navBar.goToRepVisits();
         getContactsBtn().click();
+        waitForUITransition();
         Assert.assertTrue("Contacts is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).isDisplayed());
         count=driver.findElements(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).size();
         try{ logger.info(count);}catch(Exception e){}
@@ -278,6 +280,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getContactsBtn().click();
         getSearchBoxforContact().clear();
         getSearchBoxforContact().sendKeys(institutionName);
+        waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[@class='five wide hidden-mobile']/div[contains(text(),'"+institutionName+"')]")));
         Assert.assertTrue("the specified schoolname is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[@class='five wide hidden-mobile']/div[contains(text(),'"+institutionName+"')]")).isDisplayed());
     }
     public void partialsearchforContact(String institutionName){
@@ -671,6 +675,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
+//    public void setSpecificDate(int addDays) {
+//        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+//        Calendar cal = Calendar.getInstance();
+//        cal.add(Calendar.DATE, addDays);
+//        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+//        String currentDate = sdf.format(cal.getTime());
+//        String[] parts = currentDate.split(" ");
+//        String calendarHeading = parts[0] + " " + parts[2];
+//        findMonth(calendarHeading);
+//        clickOnDay(parts[1]);
+//        waitUntilPageFinishLoading();
+//    }
+//
 
     public void setDateDoubleClick(String inputDate) {
 
@@ -1779,7 +1796,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Messaging Options tab is not loaded",driver.findElement(By.xpath("//div[@class='active step' and @name ='Messaging Options']")).isDisplayed());
     }
 
-    public void setBlockedDate(String reason,String blockdate){
+    public void setBlockedDate(String blockdate, String reason){
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
@@ -1803,10 +1820,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
-        WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
-        selectReason.click();
-        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
-        BlockedDate.click();
+        //Remove specific Blocked Day
+        //WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
+        //Remove all Blocked Days
+        while (driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='Remove']")).getText() != "Remove"){
+            waitUntilPageFinishLoading();
+            WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='Remove']"));
+            BlockedDate.click();
+            waitForUITransition();
+
+            int columnID = getColumnIdByFieldName( "//table[@class='ui basic table']//thead", "Start Date");
+            int rowID = getRowIdByColumnId("//table[@class='ui basic table']//tbody", columnID, startDate);
+            rowID = rowID+1;
+            if(rowID<1) {
+                break;
+            }
+        }
     }
 
     private List<WebElement> getTables() {
@@ -1864,13 +1893,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         int columnID = getColumnIdByFieldName( "//table[@class='ui basic table']//thead", "Start Date");
         int rowID = getRowIdByColumnId("//table[@class='ui basic table']//tbody", columnID, startDate);
         columnID = columnID+1;
-        rowID = rowID+1;
+        rowID = rowID+2;
+
+        String verifyStartDate = getSpecificDateFormat(startDate);
+        String verifyEndDate =  getSpecificDateFormat(endDate);
+
         //verify Start Date
         String ActualStartDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr//td["+columnID+"]")).getText();
-        Assert.assertTrue("Start date " + startDate + "is not displayed", startDate.equals(ActualStartDate));
+        Assert.assertTrue("Start date " + verifyStartDate + "is not displayed", verifyStartDate.equals(ActualStartDate));
         //verify End date
-        String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td[2]")).getText();
-        Assert.assertTrue("End date " + endDate + "is not displayed", endDate.equals(ActualEnddate));
+        String ActualEnddate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td[3]")).getText();
+        Assert.assertTrue("End date " + verifyEndDate + "is not displayed", verifyEndDate.equals(ActualEnddate));
         //verify Reason
         String ActualReason = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr["+rowID+"]//td[1]")).getText();
         Assert.assertTrue("Reason " + reason + " is not displayed", reason.equals(ActualReason));
@@ -3344,7 +3377,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement numOfStudents() { return getDriver().findElement(By.cssSelector("#college-fair-number-expected-students")); }
     private WebElement autoApprovalYesRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-yes")); }
     private WebElement autoApprovalNoRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-no")); }
-    private WebElement saveButton() { return getDriver().findElement(By.cssSelector("button[type=\"submit\"]")); }
+    private WebElement saveButton() { return getDriver().findElement(By.cssSelector("button[class='ui primary button']")); }
     private WebElement cancelFairNoAutoApprovals() { return driver.findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ span")); }
     private WebElement availabilityAndSettingsButton() { return getDriver().findElement(By.xpath("//span[text()='Availability & Settings']")); }
     private WebElement innerExceptionsButton() { return getDriver().findElement(By.cssSelector("ul.ui.pointing.secondary.fourth.menu li:nth-of-type(3) a")); }
