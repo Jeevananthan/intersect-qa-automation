@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Invoking Maven Install lifecycle"
-echo "Profile: SM-QA"
+echo "Profile: SM-FamilyConnection"
 echo "Browser: GridDriver"
 
 mvn -version
