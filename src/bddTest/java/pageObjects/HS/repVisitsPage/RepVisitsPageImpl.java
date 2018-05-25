@@ -6112,7 +6112,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("div._1rww_NFFW9w2qLO-JBkqf"));
 
     }
-    private WebElement getSearchBox() { return textbox("Search for a school...");}
 }
 
 

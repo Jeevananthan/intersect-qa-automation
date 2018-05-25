@@ -341,11 +341,5 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I select the following fields will not submit the search on the page search by \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFieldswillnotSubmitSearch);
       
         Then("^HE I verify the following fields after click Search by drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
-
-        Then("^HE I verify \"([^\"]*)\" is a default option in the Search by drop-down for the following fields$",repVisits::verifyDefaultOptionInSearchByDropdown);
-
-        Then("^HE I verify the Search by drop-down text box after selecting the following fields$",repVisits::verifyTextBoxAfterSelecttheFields);
-
-        Then("^HE I verify the text \"([^\"]*)\" present in the text box$",repVisits::verifyTextInSearchAndScheduleTextBox);
     }
 }
