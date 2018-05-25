@@ -1,7 +1,7 @@
 @SM
 Feature: SM - Resources - As a HS student, I need to be able to search for colleges based on the 'Resources' fit criteria
 
-  @MATCH-3359 @MATCH-3361 @MATCH-3362 @MATCH-3363 @MATCH-3365 @MATCH-3366 @MATCH-3367 @MATCH-3369 @MATCH-3368
+  @MATCH-3290 @MATCH-3359 @MATCH-3361 @MATCH-3360 @MATCH-3362 @MATCH-3363 @MATCH-3365 @MATCH-3366 @MATCH-3367 @MATCH-3369 @MATCH-3368
   Scenario Outline: As a HS student, I want to filter colleges I am searching for by Resources category so I can see relevant colleges that match my requirements.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I select the "<ResourcesCheckboxOption>" checkbox from the Resources fit criteria

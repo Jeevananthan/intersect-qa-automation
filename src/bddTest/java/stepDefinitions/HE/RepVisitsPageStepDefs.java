@@ -322,6 +322,24 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the dropdown named \"([^\"]*)\" in search and schedule page$",repVisits::verifyDropdownInSearchAndSchedulePage);
 
+        Then("^HE I verify the following fields are displayed after click Search by drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
+
+        Then("^HE I verify the Background color \"([^\"]*)\" for the following fields to represent that fields are Freemium$",repVisits::verifyBackgroundColorforFreemiumorPremium);
+
+        Then("^HE I verify the Background color \"([^\"]*)\" for the following fields to represent that fields are Premium$",repVisits::verifyBackgroundColorforFreemiumorPremium);
+
+        And("^HE I verify the \"([^\"]*)\" text present with lock icon in the search by drop-down$",repVisits::verifyPremiumSearchInSearchByDropdown);
+
+        Then("^HE I verify \"([^\"]*)\" is a default option in the Search by drop-down for the following fields$",repVisits::verifyDefaultOptionInSearchByDropdown);
+
+        Then("^HE I verify the \"([^\"]*)\" pop-up page, when selecting the premium options from the search by dropdown$",repVisits::verifyUpgradeNotificationPage);
+
+        Then("^HE I verify the fields are displaying box after selecting the following fields in the dropdown$",repVisits::verifySearchByOptionAfterSelectFields);
+
+        Then("^HE I verify the text \"([^\"]*)\" present in the text box$",repVisits::verifyTextInSearchAndScheduleTextBox);
+
+        Then("^HE I select the following fields will not submit the search on the page search by \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFieldswillnotSubmitSearch);
+      
         Then("^HE I verify the following fields after click Search by drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
 
         Then("^HE I verify \"([^\"]*)\" is a default option in the Search by drop-down for the following fields$",repVisits::verifyDefaultOptionInSearchByDropdown);

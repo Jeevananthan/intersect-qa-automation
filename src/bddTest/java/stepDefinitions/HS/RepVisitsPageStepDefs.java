@@ -312,7 +312,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$", repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
 
-        And("^HS I validating the pagination of 25 contacts in Contacts Page", repVisits::validatingthePaginationof25Contacts);
+//        And("^HS I validating the pagination of 25 contacts in Contacts Page", repVisits::validatingthePaginationof25Contacts);
 
         And("^HS I Click button Add a College Fair to Add a fair$", repVisits::clickAddCollegeFairButton);
 
