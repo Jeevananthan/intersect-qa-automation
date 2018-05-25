@@ -339,5 +339,11 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the text \"([^\"]*)\" present in the text box$",repVisits::verifyTextInSearchAndScheduleTextBox);
 
         Then("^HE I select the following fields will not submit the search on the page search by \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFieldswillnotSubmitSearch);
+
+        And("^HE I search a school by \"([^\"]*)\" using \"([^\"]*)\"$",repVisits::searchBySchool);
+
+        And("^HE I verify the following data is displayed in the search results$",repVisits::verifySearchResult);
+
+        And("^HE I verify \"([^\"]*)\" is displayed in the search results$",repVisits::verifyLabelInSearchResult);
     }
 }

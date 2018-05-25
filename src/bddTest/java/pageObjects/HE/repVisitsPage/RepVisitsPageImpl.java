@@ -2716,6 +2716,62 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Result is displayed",noResultsMessageInSearchAndSchedule().isDisplayed());
     }
 
+    /**
+     * Searchs for schools given a text to search and the criteria
+     * @param criteria to perform the search
+     * @param parameter to find the schools
+     */
+    public void searchBySchool(String criteria, String parameter){
+        navBar.goToRepVisits();
+        link("Search and Schedule").click();
+        selectSearchCriteria(criteria);
+        searchTextBox().clear();
+        searchTextBox().sendKeys(parameter);
+        searchButton().click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@class='ui medium inverted loader']")));
+    }
+
+    /***
+     * Sets the search criteria, for the search and schedule page
+     * @param criteria to be selected
+     */
+    private void selectSearchCriteria(String criteria){
+        dropdownInSearchAndSchedule().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(
+                "//div/span[text()='%s']",criteria))));
+        driver.findElement(By.xpath(String.format("//div/span[text()='%s']",criteria))).click();
+    }
+
+    /**
+     * Verifies the given data is displayed in the search results
+     * @param schoolData, collection of school data
+     */
+    public void verifySearchResult(DataTable schoolData){
+        List<List<String>> data = schoolData.raw();
+        for(List<String> row: data){
+            //Getting row for a school
+            WebElement schoolRow =driver.findElement(By.xpath(String.format("//tr/td/a[text()='%s']/ancestor::td"
+                    ,row.get(0))));
+            //Verifying Location
+            Assert.assertTrue(String.format("The location: %s is not correct for the school: %s",row.get(1),row.get(0)),
+                    schoolRow.findElement(By.xpath(String.format("//td[text()='%s']",row.get(1)))).isDisplayed());
+            Assert.assertTrue(String.format("The location: %s is not correct for the school: %s",row.get(2),row.get(0)),
+                    schoolRow.findElement(By.xpath(String.format("//td/p[text()='%s']",row.get(2)))).isDisplayed());
+            //Verifying Country
+            Assert.assertTrue(String.format("The country: %s is not correct for the school: %s",row.get(3),row.get(0)),
+                    schoolRow.findElement(By.xpath(String.format("//td[text()='%s']",row.get(3)))).isDisplayed());
+        }
+    }
+
+    /**
+     * Verifies that a given text is displayed in the search results
+     * @param text
+     */
+    public void verifyLabelInSearchResult(String text){
+        Assert.assertTrue(String.format("The text: %s is not displayed in the search results",text),
+                getSearchResultContainer().findElement(By.xpath(String.format("//span[text()='%s']",text))).isDisplayed());
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
@@ -3112,6 +3168,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement schoolFoundInSupport = textbox(By.id("global-search-box-input"));
         return schoolFoundInSupport;
 
+    }
+
+    /**
+     * Gets the search results container element in the search and schedule page
+     * @return
+     */
+    private WebElement getSearchResultContainer(){
+        return driver.findElement(By.xpath("//div[@class='ui segment _2ayJrz3b13vtCc7KUcHHte']"));
     }
 
     private WebElement fairNameHeader() { return getDriver().findElement(By.cssSelector("h1.ui.header")); }
