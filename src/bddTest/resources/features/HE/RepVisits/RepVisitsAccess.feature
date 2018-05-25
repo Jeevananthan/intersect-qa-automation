@@ -239,4 +239,3 @@ Examples:
     Examples:
       |Day     |HourStartTime |HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|Option                                              |hsEndTime|Option                             |School               |heStartTime   |heTime   |Date             |StartDate        |EndDate        |
       |Friday  |11            |12         |34             |34           |am               |pm             |3        |No, I want to manually review all incoming requests.|12:34pm  |Yes, accept all incoming requests. |Int Qa High School 4 |11:34am       |11:34am  |June 7 2019  |March 28 2018    |July 14 2019   |
-
