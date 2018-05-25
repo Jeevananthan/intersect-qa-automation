@@ -2754,13 +2754,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
-
+  
     private WebElement getSearchBox() { return textbox("Search for a school...");}
     private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
     private WebElement getSearchAndScheduleSearchBox(){ return textbox("Search by school name or location..."); }
     //private WebElement getSearchBox() { return textbox("Enter a school name or location");}
     private WebElement getSearchBoxforContact() { return driver.findElement(By.name("contacts-search"));}
-    private WebElement getSearchButton() { return driver.findElement(By.cssSelector("button[class='ui icon button _3pWea2IV4hoAzTQ12mEux-']"));}
+    private WebElement getSearchButton() { return driver.findElement(By.xpath("//button[@class='ui icon button _3pWea2IV4hoAzTQ12mEux-']"));}
     private WebElement getMapButton() { return driver.findElement(By.cssSelector("[class='map outline icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return driver.findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return driver.findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
