@@ -33,6 +33,27 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     |rgba(0, 0, 0, 0)  |rgba(255, 242, 248, 1)  |limitedPublishing |
     |rgba(0, 0, 0, 0)  |rgba(255, 242, 248, 1)  |limitedCommunity  |
 
+  @MATCH-3857
+  Scenario Outline: As an HE premium user (any role) searching for a school in RVs on the Search and Schedule view,
+  I want to see a Search By drop-down clearly indicating what's available to me
+  so that I won't be confused as to what I can search against as a premium user.
+#Premium
+    Given HE I am logged in to Intersect HE as user type "<userType>"
+    Then HE I verify the dropdown named "Search by" in search and schedule page
+    And HE I verify the following fields after click Search by drop-down
+      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
+    Then HE I verify "Search by,Name" is a default option in the Search by drop-down for the following fields
+      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
+    Then HE I verify the fields are displaying box after selecting the following fields in the dropdown
+      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
+    Then HE I verify the text "Search for a school..." present in the text box
+    And HE I successfully sign out
+    Examples:
+      |userType      |
+      |administrator |
+      |publishing    |
+      |community     |
+
   @MATCH-3864
   Scenario Outline: As an HE premium/paid user (any roles) searching for a school in RV on the Search and Schedule
   view, I want to be able to Search By a country from the dropdown and have the results reflect such accordingly
