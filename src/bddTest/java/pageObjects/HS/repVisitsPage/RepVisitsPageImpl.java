@@ -2633,8 +2633,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size()==0) {
-            WebElement button =  button("Next");
-            waitUntil(ExpectedConditions.visibilityOf(button),20);
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Next']"), 1));
             button("Next").click();
             waitForUITransition();
             waitUntilPageFinishLoading();
