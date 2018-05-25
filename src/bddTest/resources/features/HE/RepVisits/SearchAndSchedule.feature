@@ -64,6 +64,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |International QA High School|Toronto, Ontario|test county|Canada|
     And HE I search a school by "Country" using "Null"
     Then HE I verify "No results found." is displayed in the search results
+    And HE I successfully sign out
     Examples:
       |userType     |
       |administrator|
