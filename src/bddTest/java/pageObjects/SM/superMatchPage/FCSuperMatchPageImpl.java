@@ -120,11 +120,11 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     public void verifyTooltipsInSection(String sectionName) {
         switch (sectionName) {
             case "Fit Score" : verifyTooltipsInSearchHeader(fitScoreTooltipButton(), "fit.score.title", "fit.score.text");
-            break;
+                break;
             case "Academic Match" : verifyTooltipsInSearchHeader(academicMatchTooltipButton(), "academic.match.title", "academic.match.text");
-            break;
+                break;
             case "Scores" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "scores.tooltips.titles"));
-            break;
+                break;
         }
     }
 
@@ -135,6 +135,23 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The content of the tooltip is incorrect", getStringFromPropFile(propertiesFilePath,
                 textEntry).equals(searchHeaderTooltipText().getText()));
         button.sendKeys(Keys.RETURN);
+    }
+
+    public void verifyOnboardingModals(DataTable dataTable) {
+        List<String> dataList = dataTable.asList(String.class);
+        for (String element : dataList) {
+            verifyOnboardingTitle(element);
+        }
+    }
+
+    private void verifyOnboardingTitle(String title) {
+        WebElement onboardingTitle = driver.findElement(By.cssSelector("div.header"));
+        String control = onboardingTitle.getText();
+        Assert.assertTrue("The title of the onboarding modal is not correct. UI: " + onboardingTitle.getText() +
+                " Data: " + title,
+                onboardingTitle.getText().equals(title));
+        nextButton().click();
+        waitUntilPageFinishLoading();
     }
 
     // Locators Below
@@ -154,4 +171,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement getWhyButtonByPosition(String position) { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr["+ Integer.parseInt(position) +"]/td/div/button")); }
     private WebElement searchHeaderTooltipTitle() { return driver.findElement(By.cssSelector("div.header")); }
     private WebElement searchHeaderTooltipText() { return driver.findElement(By.cssSelector("div.content")); }
+    private WebElement onboardingModalTitle() { return driver.findElement(By.cssSelector("div.header")); }
+    private WebElement nextButton() { return driver.findElement(By.cssSelector("div.onboarding-popup-footer button")); }
 }
