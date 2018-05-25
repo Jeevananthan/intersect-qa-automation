@@ -47,6 +47,56 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
       |CollegeFairName      |Date            |StartTime|EndTime|RSVPDate        |Cost  |MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|date        |CollegesRegistered   |RSVPBy	    |Time             |ViewDetails|
       |QA Test Fair Overview|3               |1012AM   |1112AM |2               |$25   |25                 |100                     |Save         |3           |0 of 25 spots filled |2             |10:12am - 11:12am|Yes        |
 
+
+  @HS @MATCH-2728
+  Scenario: Clickable fair summaries open in a drawer but are not editable. This ticket adds an "edit" link,
+  and once that's clicked the tray opens fields for data entry and adds a "save" button.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I create a dynamic College Fair with the following data
+      | College Fair Name                                         | MATCH-2082 Fair         |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0810AM                  |
+      | Date                                                      | 3                       |
+      | RSVP Deadline                                             | 2                       |
+      | End Time                                                  | 0820AM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+  # Log into HE app and verify that the fair is visible
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify that the previously created fair appears for "Int QA High School 4"
+  # Log into HS app and unpublish the previous College Fair
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
+    #And HS I click on Edit button to edit fair
+    Then HS I edit a dynamic College Fair with the following data
+      | College Fair Name                                         | MATCH-2082 Fair Edited  |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 11                     |
+      | Start Time                                                | 0815AM                  |
+      | Date                                                      |2                       |
+      | RSVP Deadline                                             |3                      |
+      | End Time                                                  | 0825AM                  |
+      | Max Number of Colleges                                    | 11                     |
+      | Number of Students Expected                               | 11                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    Then HS I verify edit a dynamic College Fair with the following data
+      | College Fair Name                                         | MATCH-2082 Fair Edited  |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 11                     |
+      | Start Time                                                | 0815AM                  |
+      | Date                                                      |2                       |
+      | RSVP Deadline                                             |2                       |
+      | End Time                                                  | 0825AM                  |
+      | Max Number of Colleges                                    | 11                     |
+      | Number of Students Expected                               | 11                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+
+
   @MATCH-1937
   Scenario: As a high school RepVisits user, I want to be able to specify who is notified of changes to college fairs,
             So that I can be sure the right staff members are informed.

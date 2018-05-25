@@ -279,6 +279,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a dynamic College Fair with the following data$", repVisits::createDynamicCollegeFair);
 
+        Then("^HS I edit a dynamic College Fair with the following data$", repVisits::editCollegeFair);
+
+        Then("^HS I verify edit a dynamic College Fair with the following data$", repVisits::verifyDataCollegeFair);
+
         //And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
         And("^HS I verify the items in the user dropdown for a Non-Naviance user$", repVisits::verifyUserDropdownforNonNaviance);
 
