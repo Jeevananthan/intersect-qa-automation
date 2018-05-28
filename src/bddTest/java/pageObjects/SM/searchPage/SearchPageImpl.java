@@ -465,6 +465,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void moveToNiceToHave(String item) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
         getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")).click();
     }
 
@@ -835,7 +836,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         String path = "//label[contains(text(),'" + checkboxName + "')]";
         Assert.assertTrue("Student Success text is not displaying.", driver.findElement(By.xpath("//span[@class='supermatch-menu-institution-characteristics-heading'][contains(text(), 'Student Success')]")).isDisplayed());
         Assert.assertTrue(checkboxName + " label is not displaying.", driver.findElement(By.xpath(path)).isDisplayed());
-        Assert.assertTrue(checkboxName + " checkbox tooltip is not showing.", driver.findElement(By.xpath(path + "/../../i")).isDisplayed());
+        Assert.assertTrue(checkboxName + " checkbox tooltip is not showing.", driver.findElement(By.xpath(path + "/../../button/i")).isDisplayed());
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
@@ -901,6 +902,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", secondSelectCriteriaToStartButton());
         secondSelectCriteriaToStartButton().click();
         Assert.assertTrue("After clicking on Select Criteria to Start button Location fit criteria is not opening.", locationFitCriteria().isDisplayed());
+    }
+
+    public void verifyAdmissionFitCriteriaCheckbox(String checkboxName, String fitCriteriaName){
+        String path = "//label[contains(text(),'"+checkboxName+"')]";
+        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+            openFitCriteria(fitCriteriaName);
+        Assert.assertTrue(checkboxName+" label is not displaying.", driver.findElement(By.xpath(path)).isDisplayed());
+        Assert.assertTrue(checkboxName+" checkbox tooltip is not showing.", driver.findElement(By.xpath(path+"/../../button/i")).isDisplayed());
+        openFitCriteria("Admission");
     }
 
     // Locators Below

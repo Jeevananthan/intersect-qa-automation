@@ -30,3 +30,30 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
     Then SM I verify the system response when the SAT score entered by the user is invalid
     Then SM I verify that SAT score persists when changing fit criteria
     Then SM I verify that the Must Have box does not contain "SAT"
+
+  @MATCH-3386
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by miscellaneous admission details
+  within the Admission category so I can see relevant colleges that match my miscellaneous admission
+  details requirements
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the "<AdmissionCheckbox>" checkbox from "Admission" fit criteria
+    And SM I verify "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
+    And SM I verify that the Must Have box contains "<AdmissionCheckbox>"
+    Then SM I unselect the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
+    And SM I verify that the Must Have box does not contain "<AdmissionCheckbox>"
+    Then SM I select the "<AdmissionCheckbox>" checkbox from "Admission" fit criteria
+    And SM I move "<AdmissionCheckbox>" from the Must Have box to the Nice to Have box
+    Then SM I verify that the Nice to Have box contains "<AdmissionCheckbox>"
+    Then SM I unselect the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
+    And SM I verify that the Must Have box does not contain "<AdmissionCheckbox>"
+    And SM I verify that Nice to Have box does not contain "<AdmissionCheckbox>"
+    Then SM I select the "<AdmissionCheckbox>" checkbox from "Admission" fit criteria
+    And SM I verify that the Must Have box contains "<AdmissionCheckbox>"
+    Examples: Each of the available options for the Admission
+      | AdmissionCheckbox    |
+      | Accepts AP Credits   |
+      | Accepts IB Credits   |
+      | Test Optional        |
+      | Common App Member    |
+      | Coalition App Member |
+      | No Application Fee   |
