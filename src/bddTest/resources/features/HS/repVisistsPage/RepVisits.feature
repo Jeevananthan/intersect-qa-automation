@@ -1107,8 +1107,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Activity Tab
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
-    Then HS I select "Edit" button to cancel the college Fair "<College Fair Name>"
     And HS I successfully sign out
 #Verify the City and State displayed in the HE Activity Notification Tab
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
@@ -1133,6 +1131,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option2>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
@@ -1192,8 +1192,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Activity Tab
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
-    Then HS I select "Edit" button to cancel the college Fair "<College Fair Name>"
     And HS I successfully sign out
 #Verify the City and State displayed in the HE Activity Notification Tab
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
@@ -1218,6 +1216,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I successfully sign out
 
     Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option2>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."

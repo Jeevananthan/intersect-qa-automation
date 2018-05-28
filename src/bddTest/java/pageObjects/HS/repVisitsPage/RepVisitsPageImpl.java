@@ -4392,9 +4392,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-     public void cancelRgisteredCollegeFair(String edit,String fairName){
-        Assert.assertTrue("Edit button is not displayed",button(edit).isDisplayed());
-        button(edit).click();
+     public void cancelRgisteredCollegeFair(String fairName){
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("edit-college-fair"),1));
+        Assert.assertTrue("Edit button is not displayed",editButtonInCollegeFair().isDisplayed());
+         editButtonInCollegeFair().click();
         waitUntilPageFinishLoading();
         String displayedFairName = driver.findElement(By.id("college-fair-name")).getAttribute("value");
         Assert.assertTrue("FairName is displayed",displayedFairName.equals(FairName));
@@ -6159,6 +6160,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement linkToAddRepresentativeManually(){
         return getDriver().findElement(By.cssSelector("div._1rww_NFFW9w2qLO-JBkqf"));
 
+    }
+    private WebElement editButtonInCollegeFair(){
+        return getDriver().findElement(By.id("edit-college-fair"));
     }
 }
 
