@@ -2725,6 +2725,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Search and Schedule").click();
         selectSearchCriteria(criteria);
+        searchTextBox().click();
         searchTextBox().clear();
         searchTextBox().sendKeys(parameter);
         searchButton().click();
@@ -2850,6 +2851,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyLabelInSearchResult(String text){
         Assert.assertTrue(String.format("The text: %s is not displayed in the search results",text),
                 getSearchResultContainer().findElement(By.xpath(String.format("//span[text()='%s']",text))).isDisplayed());
+    }
+
+    /**
+     * Verifies a given text in the search school tooltip
+     * @param text
+     */
+    public void verifySearchToolTip(String text){
+        Assert.assertTrue(String.format("The text: %s is not displayed in the search results tooltip",text),
+                driver.findElement(By.xpath(String.format(
+                        "//div[@class='ui pointing basic label _2rnRYFCNwUMXpFryzESst_']/span[text()='%s']",text)))
+                        .isDisplayed());
     }
 
     private WebElement accountSettings(String accountSettings)

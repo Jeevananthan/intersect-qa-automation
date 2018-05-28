@@ -1,7 +1,7 @@
 @HE
 Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the Search and Schedule in the RepVisits features based on my role/subscription
 
-  @MATCH-3856
+  @MATCH-3856 @MATCH-4273
   Scenario Outline: As an HE freemium user (any role) searching for a school in RVs on the Search and Schedule view,
                     I want to see a Search By drop-down clearly indicating what's available to me and what what requires an upgrade
                     so that I won't be confused as to what I can search against as a free user.
@@ -54,31 +54,33 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |publishing    |
       |community     |
 
-  @MATCH-3858 @MATCH-3864 @MATCH-3863 @MATCH-3860 @MATCH-3862
+  @MATCH-3858 @MATCH-3864 @MATCH-3863 @MATCH-3860 @MATCH-3862 @MATCH-4277
   Scenario Outline: As an HE premium/paid user (any roles) searching for a school in RV on the Search and Schedule
   view, I want to be able to Search By a country from the dropdown and have the results reflect such accordingly
   so that the results I see accurately reflect the field value I wanted my search value to search against.
     Given HE I am logged in to Intersect HE as user type "<userType>"
+    And HE I search a school by "<filter>" using "<fewCharacters>"
+    Then HE I verify "Please try a search term of at least 2 characters" is displayed in the search tooltip
     And HE I search a school by "<filter>" using "<toSearch>"
     Then HE I verify the search results have "<searchResult>" in the "<field>" field
-    And HE I search a school by "<filter>" using "Null"
+    And HE I search a school by "<filter>" using "<invalid>"
     Then HE I verify "No results found." is displayed in the search results
     And HE I successfully sign out
     Examples:
-      |userType     |filter         |toSearch            |searchResult        |field      |
-      |administrator|Name           |Int QA High School 3|Int QA High School 3|Name       |
-      |publishing   |Name           |Int QA High School 3|Int QA High School 3|Name       |
-      |community    |Name           |Int QA High School 3|Int QA High School 3|Name       |
-      |administrator|Country        |United States       |United States       |Country    |
-      |publishing   |Country        |United States       |United States       |Country    |
-      |community    |Country        |United States       |United States       |Country    |
-      |administrator|U.S. County    |Butler County       |Butler County       |U.S. County|
-      |publishing   |U.S. County    |Butler County       |Butler County       |U.S. County|
-      |community    |U.S. County    |Butler County       |Butler County       |U.S. County|
-      |administrator|U.S. State     |Texas               |Tx                  |U.S. State |
-      |publishing   |U.S. State     |Tx                  |Tx                  |U.S. State |
-      |community    |U.S. State     |Texas               |Tx                  |U.S. State |
-      |administrator|U.S. Zip Code  |92831               |Troy High School    |Name       |
-      |publishing   |U.S. Zip Code  |92831-1233          |Troy High School    |Name       |
-      |community    |U.S. Zip Code  |33195               |Schoolhouse Academy |Name       |
+      |userType     |filter         |toSearch                    |searchResult                |field      |invalid       |fewCharacters|
+      |administrator|Name           |Int QA High School 3        |Int QA High School 3        |Name       |InvalidName   |a            |
+      |publishing   |Name           |International QA High School|International QA High School|Name       |Null          |b            |
+      |community    |Name           |Standalone High School 7    |Standalone High School 7    |Name       |Null          |c            |
+      |administrator|Country        |Canada                      |Canada                      |Country    |Null          |d            |
+      |publishing   |Country        |United States               |United States               |Country    |InvalidCountry|e            |
+      |community    |Country        |United States               |United States               |Country    |Null          |a            |
+      |administrator|U.S. County    |Butler County               |Butler County               |U.S. County|Test County   |b            |
+      |publishing   |U.S. County    |Butler County               |Butler County               |U.S. County|Null          |c            |
+      |community    |U.S. County    |Butler County               |Butler County               |U.S. County|Null          |d            |
+      |administrator|U.S. State     |Texas                       |Tx                          |U.S. State |Ontario       |e            |
+      |publishing   |U.S. State     |Tx                          |Tx                          |U.S. State |Null          |a            |
+      |community    |U.S. State     |Texas                       |Tx                          |U.S. State |Null          |b            |
+      |administrator|U.S. Zip Code  |92831                       |Troy High School            |Name       |12345678      |c            |
+      |publishing   |U.S. Zip Code  |92831-1233                  |Troy High School            |Name       |Null          |d            |
+      |community    |U.S. Zip Code  |33195                       |Schoolhouse Academy         |Name       |33344455      |e            |
 
