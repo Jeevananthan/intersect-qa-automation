@@ -14,7 +14,6 @@ Feature: SM - Institution Characteristics - As a HS student, I need to be able t
     And SM I verify that Nice to Have box does not contain "<StudentSuccessCheckbox>"
     Then SM I select the "<StudentSuccessCheckbox>" checkbox from the Institution Characteristics fit criteria
     And SM I verify that the Must Have box contains "<StudentSuccessCheckbox>"
-
     Examples: Each of the available options for the Student Success fit criteria
       | StudentSuccessCheckbox  |
       | High Graduation Rate    |
