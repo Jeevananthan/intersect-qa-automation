@@ -11,4 +11,8 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
-    Then SM I verify that the appropriate legend is displayed in the Why Drawer in position "1"
+    Then SM I verify that the appropriate legend is displayed in the Why Drawer in position "1", according to the following data:
+    | Match |
+    | Close Match |
+    | Data Unknown |
+    | Doesn't Match |

@@ -137,12 +137,13 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         button.sendKeys(Keys.RETURN);
     }
 
-    public void verifyLegendInWhyDrawer(String position) {
+    public void verifyLegendInWhyDrawer(String position, DataTable dataTable) {
+        List<String> dataList = dataTable.asList(String.class);
         getWhyButtonByPosition(position).sendKeys(Keys.RETURN);
-        Assert.assertTrue("The 'Match' legend is not correctly displayed", matchLegend().getText().equals("Match"));
-        Assert.assertTrue("The 'Close Match' legend is not correctly displayed", closeMatchLegend().getText().equals("Close Match"));
-        Assert.assertTrue("The 'Data Unknown' legend is not correctly displayed", dataUnknownLegend().getText().equals("Data Unknown"));
-        Assert.assertTrue("The 'Doesn't Match' legend is not correctly displayed", doesntMatchLegend().getText().equals("Doesn't Match"));
+        Assert.assertTrue("The 'Match' legend is not correctly displayed", matchLegend().getText().equals(dataList.get(0)));
+        Assert.assertTrue("The 'Close Match' legend is not correctly displayed", closeMatchLegend().getText().equals(dataList.get(1)));
+        Assert.assertTrue("The 'Data Unknown' legend is not correctly displayed", dataUnknownLegend().getText().equals(dataList.get(2)));
+        Assert.assertTrue("The 'Doesn't Match' legend is not correctly displayed", doesntMatchLegend().getText().equals(dataList.get(3)));
     }
 
     public void skipModals() {
