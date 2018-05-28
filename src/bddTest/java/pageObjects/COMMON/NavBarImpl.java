@@ -147,7 +147,7 @@ public class NavBarImpl extends SeleniumBase {
                 } catch (Exception e){throw new AssertionFailedError(String.format("The submenu: %s is not visible"
                         ,subMenu));}
                 String actualHeadingBreadcrumText = getHeadingBreadcrumbs().getText().toLowerCase();
-                String actualSubmenuBreadcrumText = getSubMeunBreadcrumbs().getText().toLowerCase();
+                String actualSubmenuBreadcrumText = getSubMenuBreadcrumbs().getText().toLowerCase();
                 Assert.assertEquals(String.format("The Heading breadcrum text is incorrect, actual: %s, expected %s"
                         ,actualHeadingBreadcrumText,heading.toLowerCase()),heading.toLowerCase(),actualHeadingBreadcrumText);
                 Assert.assertEquals(String.format("The Submenu breadcrum text is incorrect, actual: %s, expected %s"
@@ -199,7 +199,7 @@ public class NavBarImpl extends SeleniumBase {
         return null;
     }
 
-    public WebElement getSubMeunBreadcrumbs() {
+    public WebElement getSubMenuBreadcrumbs() {
         List<WebElement> items = driver.findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
         for (WebElement item : items) {
             if (item.getText().length() > 0)

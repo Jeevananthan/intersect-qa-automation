@@ -1101,7 +1101,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyNavigationUserDropdownforHE()  {
         getAccoutSettingsBtn().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Settings is not displayed", navBar.getSubMeunBreadcrumbs().getText().contains("Settings"));
+        Assert.assertTrue("Settings is not displayed", navBar.getSubMenuBreadcrumbs().getText().contains("Settings"));
         userDropdown().click();
         getYourProfileBtn().click();
         waitUntilPageFinishLoading();

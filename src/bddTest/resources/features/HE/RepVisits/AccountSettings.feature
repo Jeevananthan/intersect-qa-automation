@@ -13,8 +13,9 @@ Feature: As an HE user, I want to be able to access the features of the Account 
     And HE I successfully sign out
   Examples:
     |usertype   |user     |
-    |limited    |ADMIN    |
     |publishing |NON-ADMIN|
+    |limited    |ADMIN    |
+
 
   @MATCH-3062
   Scenario Outline: As a HE RepVisits User,I need to be able to update my contact information and reset my password
