@@ -4887,26 +4887,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("add visit button is not displayed",addVisitButton().isDisplayed());
         Assert.assertTrue("calendar page is not displayed",calendar().isDisplayed());
         addVisitButton().click();
+        waitUntilPageFinishLoading();
     }
 
     public void verifyVisitSchedulepopup() {
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[contains(text(),'Go to date')]"),1));
         waitUntilElementExists(gotoDateButtonInVisitSchedulePopup());
         Assert.assertTrue("schedule new visit is not displayed",textInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("select an available time slot is not displayed",verifyTextInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("Go to date is not displayed",gotoDateButtonInVisitSchedulePopup().isDisplayed());
         addAttendee().sendKeys(Keys.PAGE_DOWN);
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//input[@name='locationWithinSchool']"),1));
         Assert.assertTrue("event location is not displayed",eventLocationTextboxInAddVisitSchedulePopup().isDisplayed());
         eventLocationTextboxInAddVisitSchedulePopup().sendKeys(Keys.PAGE_DOWN);
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/textarea[@name='internalNotes']"),1));
         Assert.assertTrue("internal notes is not displayed",internalNotesTextBoxInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("add visit button is not displayed",verifyAddVisitButtonInVisitSchedulePopup().isDisplayed());
         internalNotesTextBoxInVisitSchedulePopup().sendKeys(Keys.PAGE_UP);
         eventLocationTextboxInAddVisitSchedulePopup().sendKeys(Keys.PAGE_UP);
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/textarea[@id='internalNotes']"),1));
         findRepTextbox().sendKeys(Keys.PAGE_UP);
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[contains(text(),'Go to date')]"),1));
     }
 
     public void removeManuallyAddedBlockedDate(String startDate, String endDate){
@@ -4927,9 +4928,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void setSpecificBlockedDate(String reason,String blockdate){
         navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
         link("Availability & Settings").click();
         link("Blocked Days").click();
+        waitUntilPageFinishLoading();
         chooseDates().click();
+        waitUntilPageFinishLoading();
         String Date=getSpecificDate(blockdate);
         setDateDoubleClick(Date);
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
@@ -4957,7 +4961,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         link("Availability & Settings").click();
         exceptionLink().click();
-        waitForUITransition();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']"),1));
     }
 
     public void verifyBlockedDayInException(String date) {
@@ -5820,7 +5825,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button;
     }
     private WebElement internalNotesTextBoxInVisitSchedulePopup() {
-        WebElement text=driver.findElement(By.xpath("//div/textarea[@id='internalNotes']"));
+        WebElement text=driver.findElement(By.xpath("//div/textarea[@name='internalNotes']"));
         return text;
     }
     private WebElement addrepInstitution(){
