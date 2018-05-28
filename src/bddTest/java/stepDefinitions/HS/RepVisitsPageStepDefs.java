@@ -553,5 +553,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for cancel the Visit$",repVisits::verifyCalendarPageForCanceltheVisit);
 
         Then("^HS I verify the \"([^\"]*)\" notification for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCancelVisitPopup);
+
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        Then("^HS I select Edit button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
     }
 }
