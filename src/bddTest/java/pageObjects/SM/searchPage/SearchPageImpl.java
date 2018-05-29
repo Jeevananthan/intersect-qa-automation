@@ -364,37 +364,34 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyOnlineLearningOpportunitiesTooltipIcon() {
 
+        if(getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]")).isDisplayed())
+            getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']")).click();
+
         chooseFitCriteriaTab("Academics");
 
         selectRadioButton("Certificate");
         Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Certificate' degree type",
-                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
-                 "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
 
         selectRadioButton("Associate");
         Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Associate' degree type",
-                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
-                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
 
         selectRadioButton("Bachelor");
         Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Bachelor' degree type",
-                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
-                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
 
         selectRadioButton("Master");
         Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Master' degree type",
-                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
-                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
 
         selectRadioButton("Doctorate");
         Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Doctorate' degree type",
-                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
-                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
 
         selectRadioButton("Graduate Certificate");
         Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Graduate Certificate' degree type",
-                driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
-                        "//ancestor::div[@class='column']//i[@class='teal info circle icon']")).isDisplayed());
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
 
     }
 
@@ -493,6 +490,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//li[contains(text(), 'Resources')]"));
     }
     private WebElement mustHaveBox() { return driver.findElement(By.xpath("(//div[@class='box box-selection'])[1]"));
+    }
+    private WebElement includeOnlineLearningOpportunitiesTooltipIcon()
+    {
+        return driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
+                "//ancestor::div[@class='column']//i[@class='teal info circle icon']"));
     }
 
 }
