@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -913,6 +915,88 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         openFitCriteria("Admission");
     }
 
+    public void getInstitutionCharacteristicsFC(){
+        institutionCharacteristicsMenuItem().click();
+        Assert.assertTrue("Institution Characteristics fit criteria is not clicked.", getDriver().findElement(By.xpath("//h1[text()='Institution Characteristics']")).isDisplayed());
+    }
+
+    public void verifyAverageClassSizeList(){
+        int j=0;
+        String tempString;
+        String path = "//div[@id='class-size-selection-option-";
+        Assert.assertTrue("AVERAGE CLASS SIZE text is not displaying", getAverageClassSizeText().isDisplayed());
+        getAverageClassSizeListIcon().click();
+        waitForUITransition();
+        String expectedOptions[] =  {"Select","10", "20", "30", "40"};
+        ArrayList<WebElement> actualOptions = new ArrayList<>();
+        actualOptions.add(driver.findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")));
+        for (int i=1;i<5;i++){
+            actualOptions.add(driver.findElement(By.xpath(path+expectedOptions[i]+"']/span")));
+        }
+        Iterator<WebElement> ite = actualOptions.iterator();
+        while (ite.hasNext()){
+            WebElement temp = ite.next();
+            tempString = temp.getText();
+            Assert.assertTrue("AVERAGE CLASS SIZE expected option "+expectedOptions[j]+" is not matching with the actual option"+tempString, expectedOptions[j].equals(tempString));
+            temp.click();
+            waitForUITransition();
+            switch (tempString){
+                case "Select":
+                    logger.info("For Select option don't do anything...");
+                    Assert.assertTrue("AVERAGE CLASS SIZE option Select is not selected.", getSelectedAverageClassSizeOption().getText().equals("Select"));
+                    getAverageClassSizeListIcon().click();
+                    break;
+                case "10":
+                    logger.info("AVERAGE CLASS SIZE option 10 is selected");
+                    waitForUITransition();
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not selected.", getSelectedAverageClassSizeOption().getText().equals("10"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 10"));
+                    getAverageClassSizeListIcon().click();
+                    break;
+                case "20":
+                    logger.info("AVERAGE CLASS SIZE option 20 is selected");
+                    waitForUITransition();
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 20 is not selected.", getSelectedAverageClassSizeOption().getText().equals("20"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 20 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 20"));
+                    getAverageClassSizeListIcon().click();
+                    break;
+                case "30":
+                    logger.info("AVERAGE CLASS SIZE option 30 is selected");
+                    waitForUITransition();
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 30 is not selected.", getSelectedAverageClassSizeOption().getText().equals("30"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 30 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 30"));
+                    getAverageClassSizeListIcon().click();
+                    break;
+                case "40":
+                    logger.info("AVERAGE CLASS SIZE option 40 is selected");
+                    waitForUITransition();
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 40 is not selected.", getSelectedAverageClassSizeOption().getText().equals("40"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 40 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 40"));
+                    getAverageClassSizeListIcon().click();
+                    break;
+            }
+            j++;
+        }
+    }
+
+    public void verifyMAndNSyncWithAverageClassSizeFilter(){
+        text("Institution Characteristics").click();
+        getMustHaveBox().findElement(By.xpath(".//div/button[3]")).click();
+        waitForUITransition();
+        getNiceToHaveBox().findElement(By.xpath(".//div/button[2]")).click();
+        getAverageClassSizeListIcon().click();
+        waitForUITransition();
+        getDriver().findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")).click();
+        waitForUITransition();
+        Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("Class size < 40"));
+        Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Must Have box.", !getMustHaveBox().getText().contains("Class size < 40"));
+        getAverageClassSizeListIcon().click();
+        getDriver().findElement(By.xpath("//div[@id='class-size-selection-option-10']/span")).click();
+        waitForUITransition();
+        Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 10"));
+        Assert.assertTrue("AVERAGE CLASS SIZE option 10 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("Class size < 10"));
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1002,6 +1086,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement superMatchFooter() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"));
     }
+    private WebElement getAverageClassSizeText(){ return driver.findElement(By.xpath("//span[text()='AVERAGE CLASS SIZE']")); }
+    private WebElement getAverageClassSizeListIcon(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/i[@class='teal chevron down icon']")); }
+    private WebElement getSelectedAverageClassSizeOption(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/div[1]")); }
+
 
     private WebElement selectMilesDropdown() {
         return driver.findElement(By.id("supermatch-location-miles-dropdown"));

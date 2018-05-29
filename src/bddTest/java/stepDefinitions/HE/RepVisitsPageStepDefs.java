@@ -344,9 +344,11 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I search a school by \"([^\"]*)\" using \"([^\"]*)\"$",repVisits::searchBySchool);
 
-        And("^HE I verify the following data is displayed in the search results$",repVisits::verifySearchResult);
+        And("^HE I verify the search results have \"([^\"]*)\" in the \"([^\"]*)\" field$",repVisits::verifyFilteredSearchResults);
 
         And("^HE I verify \"([^\"]*)\" is displayed in the search results$",repVisits::verifyLabelInSearchResult);
+      
+        And("^HE I verify \"([^\"]*)\" is displayed in the search tooltip$",repVisits::verifySearchToolTip);
 
         Then("^HE I verify the null result page \"([^\"]*)\" by \"([^\"]*)\" in search And Schedule page$",repVisits::verifyNullResultsInsearchAndSchedule);
 
