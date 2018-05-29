@@ -2772,6 +2772,203 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 getSearchResultContainer().findElement(By.xpath(String.format("//span[text()='%s']",text))).isDisplayed());
     }
 
+    public void verifyNullResultsInsearchAndSchedule(String value,String defaultValue){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        searchTextBoxInSearchAndSchedulePage().clear();
+        searchTextBoxInSearchAndSchedulePage().sendKeys(value);
+        dropdownInSearchAndSchedule().click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div/span[text()='" + defaultValue + "']")).click();
+        searchButtonInSearchAndSchedulePage().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='No results found.']"),1));
+        Assert.assertTrue("Result is displayed", noResultsMessage().isDisplayed());
+    }
+
+    public void verifyErrorMessageInSearchAndSchedule(String errorMessage,String option,String value,String defaultValue){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        searchTextBoxInSearchAndSchedulePage().clear();
+        searchTextBoxInSearchAndSchedulePage().sendKeys(value);
+        dropdownInSearchAndSchedule().click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div/span[text()='" + defaultValue + "']")).click();
+        searchButtonInSearchAndSchedulePage().click();
+        waitUntilPageFinishLoading();
+        if(option.equals("single")||option.equals("empty")){
+            if(value.length()<2||value.length()==0) {
+                Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//span[text()='"+errorMessage+"']")).isDisplayed());
+            } else{
+                logger.info("Invalid option");
+            }
+        }else{
+            logger.info("Invalid option");
+        }
+
+    }
+
+    public void verifySchoolIsNonUsbasedOrUsbasedInSearchAndSchedule(String option,String value,String country,String state,String county,String defaultValue) {
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        searchTextBoxInSearchAndSchedulePage().clear();
+        searchTextBoxInSearchAndSchedulePage().sendKeys(value);
+        dropdownInSearchAndSchedule().click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div/span[text()='" + defaultValue + "']")).click();
+        searchButtonInSearchAndSchedulePage().click();
+        waitUntilPageFinishLoading();
+        if(defaultValue.equals("Name")){
+            if (option.equals("non-US")){
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//td/a[text()='"+value+"']/parent::td/following-sibling::td[text()='"+state+"']/p[text()='"+county+"']/parent::td/following-sibling::td[text()='"+country+"']"),1));
+                Assert.assertTrue(value+" is US based school", driver.findElement(By.xpath("//td/a[text()='"+value+"']/parent::td/following-sibling::td[text()='"+state+"']/p[text()='"+county+"']/parent::td/following-sibling::td[text()='"+country+"']")).isDisplayed());
+            } else if(option.equals("US")) {
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//td/a[text()='"+value+"']/parent::td/following-sibling::td[text()='"+state+"']/p[text()='"+county+"']/parent::td/following-sibling::td[text()='"+country+"']"),1));
+                Assert.assertTrue(value+" is non-US based school", driver.findElement(By.xpath("//td/a[text()='"+value+"']/parent::td/following-sibling::td[text()='"+state+"']/p[text()='"+county+"']/parent::td/following-sibling::td[text()='"+country+"']")).isDisplayed());
+            } else {
+                logger.info("Invalid option");
+            }
+        }else if(defaultValue.equals("City")){
+            if (option.equals("non-US")){
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//td[text()='"+value+", "+state+"']/p[text()='"+county+"']/parent::td/following-sibling::td[text()='"+country+"']"),1));
+                Assert.assertTrue(value+" is US based school", driver.findElement(By.xpath("//td[text()='"+value+", "+state+"']/p[text()='"+county+"']/parent::td/following-sibling::td[text()='"+country+"']")).isDisplayed());
+            } else if(option.equals("US")) {
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//td[text()='"+value+", "+state+"']/p[text()='"+county+"']/parent::td/following-sibling::td[text()='"+country+"']"),1));
+                Assert.assertTrue(value+" is non-US based school", driver.findElement(By.xpath("//td[text()='"+value+", "+state+"']/p[text()='"+county+"']/parent::td/following-sibling::td[text()='"+country+"']")).isDisplayed());
+            } else {
+                logger.info("Invalid option");
+            }
+        } else {
+            logger.info("Invalid option");
+        }
+    }
+
+    public void verifySearchResultsWithAlphanumericCharacters(String school,String defaultValue){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        searchTextBoxInSearchAndSchedulePage().clear();
+        searchTextBoxInSearchAndSchedulePage().sendKeys(school);
+        dropdownInSearchAndSchedule().click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div/span[text()='" + defaultValue + "']")).click();
+        searchButtonInSearchAndSchedulePage().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue(school+" is not displayed",driver.findElement(By.xpath("//tr/td/a[text()='" + school + "']")).isDisplayed());
+    }
+
+    public void verifyResultsAreListedInAlphabeticalOrder(String school,String defaultValue){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Search TextBox is not displayed",searchTextBoxInSearchAndSchedulePage().isDisplayed());
+        searchTextBoxInSearchAndSchedulePage().clear();
+        searchTextBoxInSearchAndSchedulePage().sendKeys(school);
+        dropdownInSearchAndSchedule().click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div/span[text()='" + defaultValue + "']")).click();
+        Assert.assertTrue("Search button is not displayed",searchButtonInSearchAndSchedulePage().isDisplayed());
+        searchButtonInSearchAndSchedulePage().click();
+        waitUntilPageFinishLoading();
+        while(button("More Results").isDisplayed()){
+            button("More Results").click();
+            waitUntilPageFinishLoading();
+        }
+        verifyCountry();
+        verifyState();
+    }
+
+    public void verifySearchResultPageInSearchAndSchedule(String school,String defaultValue){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Search TextBox is not displayed",searchTextBoxInSearchAndSchedulePage().isDisplayed());
+        searchTextBoxInSearchAndSchedulePage().clear();
+        searchTextBoxInSearchAndSchedulePage().sendKeys(school);
+        dropdownInSearchAndSchedule().click();
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div/span[text()='" + defaultValue + "']")).click();
+        Assert.assertTrue("Search button is not displayed",searchButtonInSearchAndSchedulePage().isDisplayed());
+        searchButtonInSearchAndSchedulePage().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Search Text is not displayed",verifySearchTextInSearchAndSchedulePage().isDisplayed());
+        Assert.assertTrue("Dropdown is not displayed",verifyDropdownInSearchAndSchedulePage().isDisplayed());
+        Assert.assertTrue("'Results' text is not displayed",verifyResultsTextInSearchAndSchedulePage().isDisplayed());
+        Assert.assertTrue("'Please choose a school or redo your search.' text is not displayed",verifyRedoTextInSearchAndSchedulePage().isDisplayed());
+        Assert.assertTrue("'Results are listed alphabetically by country, state, county, city, and then name.' text is not displayed",verifySearchResultsInstructionTextInSearchAndSchedulePage().isDisplayed());
+        Assert.assertTrue("'School Name' Header is not displayed",verifySchoolNameHeaderTextInSearchAndSchedulePage().isDisplayed());
+        Assert.assertTrue("'Location' Header is not displayed",verifyLocationHeaderTextInSearchAndSchedulePage().isDisplayed());
+        Assert.assertTrue("'Country' Header is not displayed",verifyCountryHeaderTextInSearchAndSchedulePage().isDisplayed());
+    }
+
+    private void verifyCountry(){
+        int count = driver.findElements(By.xpath("//thead/tr/th/span[text()='Country']/ancestor::thead/following-sibling::tbody//tr/td[3]")).size();
+        logger.info("Count "+count);
+        List<String> originalValue = new ArrayList<>();
+        List<WebElement> country = driver.findElements(By.xpath("//thead/tr/th/span[text()='Country']/ancestor::thead/following-sibling::tbody//tr/td[3]"));
+        for(WebElement value:country) {
+            String getCountry = value.getText();
+            if(!getCountry.equals("")){
+                originalValue.add(value.getText());
+            }
+            logger.info(originalValue);
+        }
+        ArrayList<String> sortedList=new ArrayList<>();
+        for(String s:originalValue) {
+            sortedList.add(s);
+        }
+        Collections.sort(sortedList);
+        Assert.assertTrue("Countries are not in Alphabetical order",sortedList.equals(originalValue));
+    }
+
+    private void verifyState(){
+        int count = driver.findElements(By.xpath("//thead/tr/th/span[text()='Country']/ancestor::thead/following-sibling::tbody//tr/td[3]")).size();
+        logger.info("Count "+count);
+        List<String> addState = new ArrayList<>();
+        List<WebElement> state = new ArrayList<>();
+        List<String> actualValue = new ArrayList<>();;
+        List<WebElement> country = driver.findElements(By.xpath("//thead/tr/th/span[text()='Country']/ancestor::thead/following-sibling::tbody//tr/td[3]"));
+        for(WebElement value:country) {
+            logger.info(value.getText());
+            String countryValue = value.getText();
+            if(!countryValue.equals("")){
+                state = driver.findElements(By.xpath("//thead/tr/th/span[text()='Country']/ancestor::thead/following-sibling::tbody//tr/td[3][text()='"+countryValue+"']/preceding-sibling::td[1]"));
+                for(WebElement stateValue:state) {
+                    String getState = stateValue.getText();
+                    String currentValue[] = getState.split(", ");
+                    String currentStateValue[] = currentValue[1].split("\n");
+                    logger.info(currentStateValue[0]);
+                    addState.add(currentStateValue[0]);
+                    logger.info(addState);
+                }
+                if(addState.size()==state.size()){
+                    verifyStateForCurrentState(addState);
+                }
+            }}
+    }
+    private void verifyStateForCurrentState(List<String> addState){
+        List<String> sortedList = new ArrayList<>();
+        for(String s:addState){
+            sortedList.add(s);
+        }
+        Collections.sort(sortedList);
+        Assert.assertTrue("States are not in Alphabetical order",sortedList.equals(addState));
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
@@ -3206,6 +3403,50 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement noResultsMessageInSearchAndSchedule() {
         return getDriver().findElement(By.xpath("//span[text()='No results found.']"));
+    }
+    private WebElement searchTextBoxInSearchAndSchedulePage(){
+        WebElement text = driver.findElement(By.xpath("//div/input[@placeholder='Search for a school...']"));
+        return text;
+    }
+    private WebElement searchButtonInSearchAndSchedulePage(){
+        WebElement button = driver.findElement(By.xpath("//button[@aria-label='search-btn']"));
+        return button;
+    }
+    private WebElement noResultsMessage(){
+        WebElement msg = driver.findElement(By.xpath("//span[text()='No results found.']"));
+        return msg;
+    }
+    private WebElement verifySearchTextInSearchAndSchedulePage(){
+        WebElement text = driver.findElement(By.xpath("//h1/span[text()='Search']"));
+        return text;
+    }
+    private WebElement verifyDropdownInSearchAndSchedulePage(){
+        WebElement text = driver.findElement(By.xpath("//div[@class='_28hq8O04cvmgVcb_0NpaqM']"));
+        return text;
+    }
+    private WebElement verifyResultsTextInSearchAndSchedulePage(){
+        WebElement text = driver.findElement(By.xpath("//div/h3[text()='Results']"));
+        return text;
+    }
+    private WebElement verifyRedoTextInSearchAndSchedulePage(){
+        WebElement text = driver.findElement(By.xpath("//span[text()='Please choose a school or redo your search.']"));
+        return text;
+    }
+    private WebElement verifySearchResultsInstructionTextInSearchAndSchedulePage(){
+        WebElement text = driver.findElement(By.xpath("//div/span[text()='Results are listed alphabetically by country, state, county, city, and then name.']"));
+        return text;
+    }
+    private WebElement verifySchoolNameHeaderTextInSearchAndSchedulePage(){
+        WebElement text = driver.findElement(By.xpath("//tr/th/span[text()='School Name']"));
+        return text;
+    }
+    private WebElement verifyLocationHeaderTextInSearchAndSchedulePage(){
+        WebElement text = driver.findElement(By.xpath("//tr/th/span[text()='Location']"));
+        return text;
+    }
+    private WebElement verifyCountryHeaderTextInSearchAndSchedulePage(){
+        WebElement text = driver.findElement(By.xpath("//tr/th/span[text()='Country']"));
+        return text;
     }
 }
 

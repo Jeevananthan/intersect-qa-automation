@@ -71,3 +71,48 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |publishing   |
       |community    |
 
+  @MATCH-3859
+  Scenario Outline: Ass an HE freemium user (any role) searching for a school in RVs on the Search and Schedule view,
+  I want to be able to Search By a school's city from the drop down and have the results reflect such accordingly
+  so that the results I see accurately reflect the field value I wanted my search value to search against.
+#freemium
+    Then HE I am logged in to Intersect HE as user type "<userType>"
+    Then HE I verify the Search Result Page with "<CityForUS>" by "<City>" in search And Schedule page
+    And HE I verify "<SearchbyName>" is a default option in the Search by drop-down for the following fields
+      |Name|City|U.S. State|
+    Then HE I verify the null result page "<valueForNullResults>" by "<City>" in search And Schedule page
+    Then HE I verify the Tool tip message "<ErrorMessage>" when search with the "single" character "Q" by "<City>" in search And Schedule page
+    Then HE I verify the Tool tip message "<ErrorMessage>" when search with the "empty" character "" by "<City>" in search And Schedule page
+    Then HE I verify the "non-US" based school with "<CityForNon-Us>","<CountryForNon-USSchool>","<StateForNon-USSchool>" and "<CountyForNon-USSchool>" by "<City>" in search And Schedule page
+    Then HE I verify the "US" based school with "<CityForUS>","<CountryForUSSchool>","<StateForUSSchool>" and "<CountyForUSSchool>" by "<City>" in search And Schedule page
+    Then HE I verify the "west" are listed in alphabetical order by "<City>"
+    Then HE I successfully sign out
+
+    Examples:
+      |userType         |SearchbyName  |City|valueForNullResults|ErrorMessage                                     |CityForUS         |CityForNon-Us |StateForNon-USSchool  |StateForUSSchool|CountyForUSSchool|CountyForNon-USSchool|CountryForUSSchool|CountryForNon-USSchool|
+      |limited          |Search by,Name|City|QA1                |Please try a search term of at least 2 characters|Liberty Township  |Toronto       |Ontario               |OH              |butler county    |test county          |United States     |Canada                |
+      |limitedPublishing|Search by,Name|City|QA1                |Please try a search term of at least 2 characters|Liberty Township  |Toronto       |Ontario               |OH              |butler county    |test county          |United States     |Canada                |
+      |limitedCommunity |Search by,Name|City|QA1                |Please try a search term of at least 2 characters|Liberty Township  |Toronto       |Ontario               |OH              |butler county    |test county          |United States     |Canada                |
+
+  @MATCH-3859
+  Scenario Outline: As an HE premium/paid user (any role) searching for a school in RVs on the Search and Schedule view,
+  I want to be able to Search By a school's city from the drop down and have the results reflect such accordingly
+  so that the results I see accurately reflect the field value I wanted my search value to search against.
+#premium
+    Then HE I am logged in to Intersect HE as user type "<userType>"
+    Then HE I verify the Search Result Page with "<CityForUS>" by "<City>" in search And Schedule page
+    And HE I verify "<SearchbyName>" is a default option in the Search by drop-down for the following fields
+      |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|
+    Then HE I verify the null result page "<valueForNullResults>" by "<City>" in search And Schedule page
+    Then HE I verify the Tool tip message "<ErrorMessage>" when search with the "single" character "Q" by "<City>" in search And Schedule page
+    Then HE I verify the Tool tip message "<ErrorMessage>" when search with the "empty" character "" by "<City>" in search And Schedule page
+    Then HE I verify the "non-US" based school with "<CityForNon-Us>","<CountryForNon-USSchool>","<StateForNon-USSchool>" and "<CountyForNon-USSchool>" by "<City>" in search And Schedule page
+    Then HE I verify the "US" based school with "<CityForUS>","<CountryForUSSchool>","<StateForUSSchool>" and "<CountyForUSSchool>" by "<City>" in search And Schedule page
+    Then HE I verify the "west" are listed in alphabetical order by "<City>"
+    Then HE I successfully sign out
+
+    Examples:
+      |userType     |SearchbyName  |City|valueForNullResults|ErrorMessage                                     |CityForUS         |CityForNon-Us |StateForNon-USSchool  |StateForUSSchool|CountyForUSSchool|CountyForNon-USSchool|CountryForUSSchool|CountryForNon-USSchool|
+      |administrator|Search by,Name|City|QA1                |Please try a search term of at least 2 characters|Liberty Township  |Toronto       |Ontario               |OH              |butler county    |test county          |United States     |Canada                |
+      |publishing   |Search by,Name|City|QA1                |Please try a search term of at least 2 characters|Liberty Township  |Toronto       |Ontario               |OH              |butler county    |test county          |United States     |Canada                |
+      |community    |Search by,Name|City|QA1                |Please try a search term of at least 2 characters|Liberty Township  |Toronto       |Ontario               |OH              |butler county    |test county          |United States     |Canada                |
