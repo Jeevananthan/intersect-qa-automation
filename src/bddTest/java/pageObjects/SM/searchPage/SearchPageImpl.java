@@ -950,28 +950,28 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     logger.info("AVERAGE CLASS SIZE option 10 is selected");
                     waitForUITransition();
                     Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not selected.", getSelectedAverageClassSizeOption().getText().equals("10"));
-                    Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("CLASS SIZE < 10"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 10"));
                     getAverageClassSizeListIcon().click();
                     break;
                 case "20":
                     logger.info("AVERAGE CLASS SIZE option 20 is selected");
                     waitForUITransition();
                     Assert.assertTrue("AVERAGE CLASS SIZE option 20 is not selected.", getSelectedAverageClassSizeOption().getText().equals("20"));
-                    Assert.assertTrue("AVERAGE CLASS SIZE option 20 is not added to Must Have box.", getMustHaveBox().getText().contains("CLASS SIZE < 20"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 20 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 20"));
                     getAverageClassSizeListIcon().click();
                     break;
                 case "30":
                     logger.info("AVERAGE CLASS SIZE option 30 is selected");
                     waitForUITransition();
                     Assert.assertTrue("AVERAGE CLASS SIZE option 30 is not selected.", getSelectedAverageClassSizeOption().getText().equals("30"));
-                    Assert.assertTrue("AVERAGE CLASS SIZE option 30 is not added to Must Have box.", getMustHaveBox().getText().contains("CLASS SIZE < 30"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 30 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 30"));
                     getAverageClassSizeListIcon().click();
                     break;
                 case "40":
                     logger.info("AVERAGE CLASS SIZE option 40 is selected");
                     waitForUITransition();
                     Assert.assertTrue("AVERAGE CLASS SIZE option 40 is not selected.", getSelectedAverageClassSizeOption().getText().equals("40"));
-                    Assert.assertTrue("AVERAGE CLASS SIZE option 40 is not added to Must Have box.", getMustHaveBox().getText().contains("CLASS SIZE < 40"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 40 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 40"));
                     getAverageClassSizeListIcon().click();
                     break;
             }
@@ -988,13 +988,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         getDriver().findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")).click();
         waitForUITransition();
-        Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("CLASS SIZE < 40"));
-        Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Must Have box.", !getMustHaveBox().getText().contains("CLASS SIZE < 40"));
+        Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("Class size < 40"));
+        Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Must Have box.", !getMustHaveBox().getText().contains("Class size < 40"));
         getAverageClassSizeListIcon().click();
         getDriver().findElement(By.xpath("//div[@id='class-size-selection-option-10']/span")).click();
         waitForUITransition();
-        Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("CLASS SIZE < 10"));
-        Assert.assertTrue("AVERAGE CLASS SIZE option 10 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("CLASS SIZE < 10"));
+        Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 10"));
+        Assert.assertTrue("AVERAGE CLASS SIZE option 10 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("Class size < 10"));
     }
 
     // Locators Below
