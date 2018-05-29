@@ -2725,6 +2725,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("Search and Schedule").click();
         selectSearchCriteria(criteria);
+        searchTextBox().click();
         searchTextBox().clear();
         searchTextBox().sendKeys(parameter);
         searchButton().click();
@@ -2743,23 +2744,103 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
-     * Verifies the given data is displayed in the search results
-     * @param schoolData, collection of school data
+     * Verifies that the search result contains a given value, in a given field.
+     * @param field, to verify the given value
+     * @param value to ve verified
      */
-    public void verifySearchResult(DataTable schoolData){
-        List<List<String>> data = schoolData.raw();
-        for(List<String> row: data){
-            //Getting row for a school
-            WebElement schoolRow =driver.findElement(By.xpath(String.format("//tr/td/a[text()='%s']/ancestor::td"
-                    ,row.get(0))));
-            //Verifying Location
-            Assert.assertTrue(String.format("The location: %s is not correct for the school: %s",row.get(1),row.get(0)),
-                    schoolRow.findElement(By.xpath(String.format("//td[text()='%s']",row.get(1)))).isDisplayed());
-            Assert.assertTrue(String.format("The location: %s is not correct for the school: %s",row.get(2),row.get(0)),
-                    schoolRow.findElement(By.xpath(String.format("//td/p[text()='%s']",row.get(2)))).isDisplayed());
-            //Verifying Country
-            Assert.assertTrue(String.format("The country: %s is not correct for the school: %s",row.get(3),row.get(0)),
-                    schoolRow.findElement(By.xpath(String.format("//td[text()='%s']",row.get(3)))).isDisplayed());
+    public void verifyFilteredSearchResults(String field, String value){
+        while(getMoreResultsButton().isDisplayed()){
+            getMoreResultsButton().click();
+        }
+        switch(field){
+            case "Name":
+                verifyNameFieldForSearchResults(value);
+                break;
+            case "City":
+                verifyCityFieldForSearchResults(value);
+                break;
+            case "U.S. State":
+                verifyStateFieldForSearchResults(value);
+                break;
+            case "U.S. County":
+                verifyCountyFieldForSearchResults(value);
+                break;
+            case "Country":
+                verifyCountryFieldForSearchResults(value);
+                break;
+        }
+    }
+
+    /**
+     * Verifies that the given value is present in the name field of the result search
+     * @param value to be verified
+     */
+    private void verifyNameFieldForSearchResults(String value){
+        List<WebElement> rows = driver.findElements(By.xpath("//tr"));
+        for(WebElement row : rows){
+            String school = row.findElement(By.cssSelector("td._2i9Ix-ZCUb0uO32jR3hE3x")).getAttribute("innerText");
+            Assert.assertTrue(String.format("The school name value is not correct, actual: %s, expected: %s",
+                    school,value), school.equalsIgnoreCase(value));
+        }
+    }
+
+    /**
+     * Verifies that the given value is present in the city field of the result search
+     * @param value to be verified
+     */
+    private void verifyCityFieldForSearchResults(String value){
+        List<WebElement> rows = driver.findElements(By.xpath("//tr"));
+        for(WebElement row : rows){
+            String school = row.findElement(By.cssSelector("td._2i9Ix-ZCUb0uO32jR3hE3x")).getAttribute("innerText");
+            String schoolCity = row.findElement(By.cssSelector("td._2153pfSQVTks2SHnwPyg-v")).
+                    getAttribute("innerText").split(",")[0];
+            Assert.assertTrue(String.format("The City value is not correct for the school: %s, actual: %s, expected: %s",
+                    school, schoolCity,value), schoolCity.equalsIgnoreCase(value));
+        }
+    }
+
+    /**
+     * Verifies that the given value is present in the state field of the result search
+     * @param value to be verified
+     */
+    public void verifyStateFieldForSearchResults(String value){
+        List<WebElement> rows = driver.findElements(By.xpath("//tr"));
+        for(WebElement row : rows){
+            String school = row.findElement(By.cssSelector("td._2i9Ix-ZCUb0uO32jR3hE3x")).getAttribute("innerText");
+            String schoolState = row.findElement(By.cssSelector("td._2153pfSQVTks2SHnwPyg-v")).
+                    getAttribute("innerText").split(",")[1];
+            Assert.assertTrue(String.format("The State value is not correct for the school: %s, actual: %s, expected: %s",
+                    school, schoolState,value), schoolState.equalsIgnoreCase(value));
+        }
+    }
+
+    /**
+     * Verifies that the given value is present in the county field of the result search
+     * @param value to be verified
+     */
+    public void verifyCountyFieldForSearchResults(String value){
+        List<WebElement> rows = driver.findElements(By.xpath("//tr"));
+        for(WebElement row : rows){
+            String school = row.findElement(By.cssSelector("td._2i9Ix-ZCUb0uO32jR3hE3x")).getAttribute("innerText");
+            String schoolCounty = row.findElement(By.cssSelector("p._1R_ntcOgVThs8R9j3y8dTW")).
+                    getAttribute("innerText");
+            Assert.assertTrue(String.format("The County value is not correct for the school: %s, actual: %s, expected: %s",
+                    school, schoolCounty,value), schoolCounty.equalsIgnoreCase(value));
+        }
+    }
+
+    /**
+     * Verifies that the given value is present in the country field of the result search
+     * @param value to be verified
+     */
+    private void verifyCountryFieldForSearchResults(String value){
+        List<WebElement> rows = driver.findElements(By.xpath("//tr"));
+        for(WebElement row : rows){
+            String school = row.findElement(By.cssSelector("td._2i9Ix-ZCUb0uO32jR3hE3x")).getAttribute("innerText");
+            String schoolCountry = row.findElement(By.xpath("//td/td")).
+                    getAttribute("innerText");
+            Assert.assertTrue(String.format("The Country value is not correct for the school: %s, actual: %s, expected: %s",
+                    school, schoolCountry,value), schoolCountry.equalsIgnoreCase(value));
         }
     }
 
@@ -2770,6 +2851,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyLabelInSearchResult(String text){
         Assert.assertTrue(String.format("The text: %s is not displayed in the search results",text),
                 getSearchResultContainer().findElement(By.xpath(String.format("//span[text()='%s']",text))).isDisplayed());
+    }
+
+    /**
+     * Verifies a given text in the search school tooltip
+     * @param text
+     */
+    public void verifySearchToolTip(String text){
+        Assert.assertTrue(String.format("The text: %s is not displayed in the search results tooltip",text),
+                driver.findElement(By.xpath(String.format(
+                        "//div[@class='ui pointing basic label _2rnRYFCNwUMXpFryzESst_']/span[text()='%s']",text)))
+                        .isDisplayed());
     }
 
     private WebElement accountSettings(String accountSettings)
@@ -3176,6 +3268,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement getSearchResultContainer(){
         return driver.findElement(By.xpath("//div[@class='ui segment _2ayJrz3b13vtCc7KUcHHte']"));
+    }
+
+    /**
+     * Gets the More results button in the search and schedule page
+     * @return
+     */
+    private WebElement getMoreResultsButton(){
+        return button("More Results");
     }
 
     private WebElement fairNameHeader() { return getDriver().findElement(By.cssSelector("h1.ui.header")); }
