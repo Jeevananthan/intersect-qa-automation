@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -109,5 +108,12 @@ public class SearchPageStepDefs implements En {
         Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
         And("^SM I verify \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::verifyAdmissionFitCriteriaCheckbox);
+
+        Then("^SM I click on Institution Characteristics fit criteria$", searchPage::getInstitutionCharacteristicsFC);
+
+        Then("^SM I check the selection and deselection and Must Have box functionality for Average Class Size drop down list$",
+                searchPage::verifyAverageClassSizeList);
+        Then("^SM I check when Average Class Size filter is selected, moved to Nice To Have, unselected, and then selected again it should be defaulted back to the Must Have box$",
+                searchPage::verifyMAndNSyncWithAverageClassSizeFilter);
     }
 }
