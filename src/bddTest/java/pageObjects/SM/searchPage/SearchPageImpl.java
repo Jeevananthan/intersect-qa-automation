@@ -134,6 +134,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void verifyZipCodeValidationMessage(DataTable dataTable) {
         String locationSearchType, selectMiles, zipCode, verifyErrorMessageIsDisplayed, verifyErrorMessageIsNotDisplayed
                 , verifyPillIsDisplayedInMustHaveBox, verifyPillIsNotDisplayedInMustHaveBox;
+
+        if(getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]")).isDisplayed())
+           getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']")).click();
+
         openFitCriteria("Location");
 
         List<List<String>> rows = dataTable.asLists(String.class);
