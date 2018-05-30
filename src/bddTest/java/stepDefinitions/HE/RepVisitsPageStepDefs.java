@@ -350,16 +350,6 @@ public class RepVisitsPageStepDefs implements En {
       
         And("^HE I verify \"([^\"]*)\" is displayed in the search tooltip$",repVisits::verifySearchToolTip);
 
-        Then("^HE I verify the null result page \"([^\"]*)\" by \"([^\"]*)\" in search And Schedule page$",repVisits::verifyNullResultsInsearchAndSchedule);
-
-        Then("^HE I verify the Tool tip message \"([^\"]*)\" when search with the \"([^\"]*)\" character \"([^\"]*)\" by \"([^\"]*)\" in search And Schedule page$",repVisits::verifyErrorMessageInSearchAndSchedule);
-
-        Then("^HE I verify the \"([^\"]*)\" based school with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\" by \"([^\"]*)\" in search And Schedule page$",repVisits::verifySchoolIsNonUsbasedOrUsbasedInSearchAndSchedule);
-
-        Then("^HE I verify the search Results with Alphanumeric characters \"([^\"]*)\" by \"([^\"]*)\" in search And Schedule page$",repVisits::verifySearchResultsWithAlphanumericCharacters);
-
-        Then("^HE I verify the \"([^\"]*)\" are listed in alphabetical order by \"([^\"]*)\"$",repVisits::verifyResultsAreListedInAlphabeticalOrder);
-
         Then("^HE I verify the Search Result Page with \"([^\"]*)\" by \"([^\"]*)\" in search And Schedule page$",repVisits::verifySearchResultPageInSearchAndSchedule);
     }
 }

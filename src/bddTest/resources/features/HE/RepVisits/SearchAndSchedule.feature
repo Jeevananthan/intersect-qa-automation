@@ -96,25 +96,28 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
   Scenario Outline: As an HE freemium or premium/paid user (any role) searching for a school in RVs on the Search and Schedule view,
                     I want to be able to Search By a school's city from the drop down and have the results reflect such accordingly
                     so that the results I see accurately reflect the field value I wanted my search value to search against.
+
     Then HE I am logged in to Intersect HE as user type "<userType>"
     Then HE I verify the Search Result Page with "Liberty Township" by "City" in search And Schedule page
-    Then HE I verify the null result page "QA1" by "City" in search And Schedule page
-    And HE I search a school by "City" using "Q"
+    And HE I search a school by "<filter>" using "<invalid>"
+    Then HE I verify "No results found." is displayed in the search results
+    And HE I search a school by "<filter>" using "<fewCharacters>"
     Then HE I verify "Please try a search term of at least 2 characters" is displayed in the search tooltip
-    And HE I search a school by "City" using ""
+    And HE I search a school by "<filter>" using ""
     Then HE I verify "Please try a search term of at least 2 characters" is displayed in the search tooltip
-    And HE I search a school by "City" using "<CityForNon-Us>"
-    Then HE I verify the search results have "<CityForNon-Us>" in the "City" field
-    And HE I search a school by "City" using "<CityForUS>"
-    Then HE I verify the search results have "<CityForUS>" in the "City" field
-    Then HE I verify the "west" are listed in alphabetical order by "City"
+    And HE I search a school by "<filter>" using "<CityForNon-Us>"
+    Then HE I verify the search results have "<searchResultForNon-US>" in the "<field>" field
+    And HE I search a school by "<filter>" using "<CityForUS>"
+    Then HE I verify the search results have "<searchResultForUS>" in the "<field>" field
     Then HE I successfully sign out
 
     Examples:
-      |userType         |CityForUS         |CityForNon-Us |
-      |limited          |Liberty Township  |Toronto       |
-      |limitedPublishing|Liberty Township  |Toronto       |
-      |limitedCommunity |Liberty Township  |Toronto       |
-      |administrator    |Liberty Township  |Toronto       |
-      |publishing       |Liberty Township  |Toronto       |
-      |community        |Liberty Township  |Toronto       |
+      |userType          |filter         |CityForUS             |CityForNon-Us|searchResultForUS|searchResultForNon-US|field      |invalid       |fewCharacters|
+      |administrator     |City           |Liberty Township      |Toronto      |Toronto          |iberty Township      |City       |InvalidName   |a            |
+      |publishing        |City           |Liberty Township      |Toronto      |Toronto          |iberty Township      |City       |InvalidName   |a            |
+      |community         |City           |Liberty Township      |Toronto      |Toronto          |iberty Township      |City       |InvalidName   |a            |
+      |limited           |City           |Liberty Township      |Toronto      |Toronto          |iberty Township      |City       |InvalidName   |a            |
+      |limitedPublishing |City           |Liberty Township      |Toronto      |Toronto          |iberty Township      |City       |InvalidName   |a            |
+      |limitedCommunity  |City           |Liberty Township      |Toronto      |Toronto          |iberty Township      |City       |InvalidName   |a            |
+
+
