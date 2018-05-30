@@ -666,6 +666,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenACTScoreIsValid() {
 
+        if(getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]")).isDisplayed())
+           getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']")).click();
+
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
