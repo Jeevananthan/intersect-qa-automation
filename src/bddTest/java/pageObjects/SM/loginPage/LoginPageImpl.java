@@ -28,6 +28,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             getDriver().manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
             getDriver().findElement(By.xpath("//button[text()='LOG OUT']")).click();
             new WebDriverWait(getDriver(),30).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Login']")));
+            // For some reason, seeing the login button doesn't *actually* mean we're logged out, so wait a few seconds...
+            waitForUITransition();
             getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
         } catch (Exception e){
             logger.info("Caught Exception when logging out of Family Connection: " + e.getMessage() + e);
