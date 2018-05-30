@@ -27,7 +27,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         try{
             getDriver().manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
             getDriver().findElement(By.xpath("//button[text()='LOG OUT']")).click();
-            new WebDriverWait(getDriver(),30).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Login']")));
+            new WebDriverWait(getDriver(),60).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Login']")));
             // For some reason, seeing the login button doesn't *actually* mean we're logged out, so wait a few seconds...
             waitForUITransition();
             getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
@@ -40,6 +40,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         try {
             if (System.getProperty("SuperMatchEnv").equals("FamilyConnection")) {
                 loginThroughFamilyConnection(GetProperties.get("fc.default.username"), GetProperties.get("fc.default.password"), GetProperties.get("fc.default.hsid"));
+                getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
             } else {
                 navigateToSuperMatch();
             }
@@ -56,7 +57,10 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      */
     public void loginThroughFamilyConnection(String username, String password, String hsid) {
         navigateToFamilyConnection(hsid);
+        // Sometimes the FC UI takes a long time to load, give it some extra room.
+        getDriver().manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         getDriver().findElement(By.name("username")).sendKeys(username);
+        getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
         getDriver().findElement(By.name("password")).sendKeys(password);
         button("Login").click();
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("/colleges"))).click();
