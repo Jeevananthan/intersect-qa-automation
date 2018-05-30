@@ -32,7 +32,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             waitForUITransition();
             getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
         } catch (Exception e){
-            logger.info("Caught Exception when logging out of Family Connection: " + e.getMessage() + e);
+            logger.info("Caught Exception when trying to log out of Family Connection: " + e.getMessage() + e);
             getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
         }
 
