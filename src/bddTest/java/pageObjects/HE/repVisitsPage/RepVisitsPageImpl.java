@@ -2996,6 +2996,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Search button is not displayed",searchButtonInSearchAndSchedulePage().isDisplayed());
         searchButtonInSearchAndSchedulePage().click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/h3[text()='Results']"),1));
         Assert.assertTrue("Search Text is not displayed",verifySearchTextInSearchAndSchedulePage().isDisplayed());
         Assert.assertTrue("Dropdown is not displayed",verifyDropdownInSearchAndSchedulePage().isDisplayed());
         Assert.assertTrue("'Results' text is not displayed",verifyResultsTextInSearchAndSchedulePage().isDisplayed());
