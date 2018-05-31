@@ -1020,7 +1020,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
         getDriver().findElement(By.className("csr-heading-dropdown-text")).click();
         WebElement resultsColumHeader =  getParent(getDriver().findElement(By.className("csr-heading-dropdown-text")));
-        resultsColumHeader.findElement(By.xpath(".//span[text()='Institution Characteristics']")).click();
+        // This tends to go off screen when running on the grid, so just force click it.  We're not testing the functionality, just the text after this is set.
+        jsClick(resultsColumHeader.findElement(By.xpath(".//span[text()='Institution Characteristics']")));
         Assert.assertTrue("Could not find \"Average Class Size\" label under Institution Characteristics!", getDriver().findElement(By.xpath("//span[@class='institution-char-label'][text()='Average Class Size']")).isDisplayed());
     }
 
