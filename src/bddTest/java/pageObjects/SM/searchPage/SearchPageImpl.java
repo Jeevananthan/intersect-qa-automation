@@ -1051,7 +1051,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void selectHighInternationalPopulationCheckbox(String checkboxName){
         selectCheckBox(checkboxName, "Diversity");
-        closeButtonForFitCriteria().click();
+        //closeButtonForFitCriteria().click();
     }
 
     private void selectFitCriteria(String fitCriteria){
@@ -1059,10 +1059,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyHighInternationalPopulationCheckbox(String checkBox){
+        openFitCriteria("Diversity");
         String path = "//label[contains(text(), '"+checkBox+"')]";
         Assert.assertTrue("International Students Label is not displaying.", driver.findElement(By.xpath("//span[contains(text(),'International Students')]")).isDisplayed());
         Assert.assertTrue(checkBox+" is by default is selected.", !driver.findElement(By.xpath(path+"/../input")).isSelected());
         Assert.assertTrue(checkBox+" is not displaying.", driver.findElement(By.xpath(path)).getText().equals("High International Population"));
+        getFitCriteriaCloseButton().click();
     }
 
     // Locators Below
