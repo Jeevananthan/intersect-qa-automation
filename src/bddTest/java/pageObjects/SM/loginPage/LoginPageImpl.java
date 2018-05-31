@@ -25,12 +25,12 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     public void defaultLoginThroughFamilyConnection() {
         // See if we're currently logged in to Family Connection and log out if we are
         try{
-            getDriver().manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
+            /*getDriver().manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
             getDriver().findElement(By.xpath("//button[text()='LOG OUT']")).click();
             new WebDriverWait(getDriver(),60).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Login']")));
             // For some reason, seeing the login button doesn't *actually* mean we're logged out, so wait a few seconds...
             waitForUITransition();
-            getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
+            getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);*/
         } catch (Exception e){
             logger.info("Caught Exception when trying to log out of Family Connection: " + e.getMessage() + e);
             getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
@@ -39,6 +39,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         // Check if we're testing the embedded version of SM, or the standalone
         try {
             if (System.getProperty("SuperMatchEnv").equals("FamilyConnection")) {
+                getDriver().manage().deleteAllCookies();
+                getDriver().close();
                 loginThroughFamilyConnection(GetProperties.get("fc.default.username"), GetProperties.get("fc.default.password"), GetProperties.get("fc.default.hsid"));
                 getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
             } else {
