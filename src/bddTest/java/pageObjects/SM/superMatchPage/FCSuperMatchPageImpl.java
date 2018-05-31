@@ -163,7 +163,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         WebElement onboardingTitle = driver.findElement(By.cssSelector("div.header"));
         String control = onboardingTitle.getText();
         Assert.assertTrue("The title of the onboarding modal is not correct. UI: " + onboardingTitle.getText() +
-                " Data: " + title,
+                " Expected: " + title,
                 onboardingTitle.getText().equals(title));
         nextButton().click();
         waitUntilPageFinishLoading();
