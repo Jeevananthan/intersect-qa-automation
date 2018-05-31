@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -123,6 +122,8 @@ public class SearchPageStepDefs implements En {
         Then("^SM I select the \"([^\"]*)\" checkbox from the Diversity fit criteria$", searchPage::selectHighInternationalPopulationCheckbox);
 
         Then("^SM I verify \"([^\"]*)\" checkbox in Diversity fit criteria$", searchPage::verifyHighInternationalPopulationCheckbox);
+
+        Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
 
     }
 }
