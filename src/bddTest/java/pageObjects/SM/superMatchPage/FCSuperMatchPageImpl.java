@@ -137,6 +137,21 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         button.sendKeys(Keys.RETURN);
     }
 
+    public void verifyLegendInWhyDrawer(String position, DataTable dataTable) {
+        List<String> dataList = dataTable.asList(String.class);
+        getWhyButtonByPosition(position).sendKeys(Keys.RETURN);
+        Assert.assertTrue("The 'Match' legend is not correctly displayed", matchLegend().getText().equals(dataList.get(0)));
+        Assert.assertTrue("The 'Close Match' legend is not correctly displayed", closeMatchLegend().getText().equals(dataList.get(1)));
+        Assert.assertTrue("The 'Data Unknown' legend is not correctly displayed", dataUnknownLegend().getText().equals(dataList.get(2)));
+        Assert.assertTrue("The 'Doesn't Match' legend is not correctly displayed", doesntMatchLegend().getText().equals(dataList.get(3)));
+    }
+
+    public void skipModals() {
+        if (driver.findElements(By.cssSelector(onboardingHeaderLocator)).size() > 0) {
+            chooseFitCriteria().click();
+        }
+    }
+
     public void verifyOnboardingModals(DataTable dataTable) {
         List<String> dataList = dataTable.asList(String.class);
         for (String element : dataList) {
@@ -171,6 +186,12 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement getWhyButtonByPosition(String position) { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr["+ Integer.parseInt(position) +"]/td/div/button")); }
     private WebElement searchHeaderTooltipTitle() { return driver.findElement(By.cssSelector("div.header")); }
     private WebElement searchHeaderTooltipText() { return driver.findElement(By.cssSelector("div.content")); }
-    private WebElement onboardingModalTitle() { return driver.findElement(By.cssSelector("div.header")); }
+    private WebElement onboardingModalTitle() { return driver.findElement(By.cssSelector(onboardingHeaderLocator)); }
+    private String onboardingHeaderLocator = "div.header";
+    private WebElement chooseFitCriteria() { return driver.findElement(By.cssSelector("span.sm-hidden-l-down")); }
+    private WebElement matchLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-match")); }
+    private WebElement closeMatchLegend() { return driver.findElement(By.cssSelector("div.nine.wide.column.supermatch-sidebar-criteria-legend-icon")); }
+    private WebElement dataUnknownLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-icon")); }
+    private WebElement doesntMatchLegend() { return driver.findElement(By.cssSelector("div.eight.wide.column.supermatch-sidebar-criteria-legend-icon")); }
     private WebElement nextButton() { return driver.findElement(By.cssSelector("div.onboarding-popup-footer button")); }
 }
