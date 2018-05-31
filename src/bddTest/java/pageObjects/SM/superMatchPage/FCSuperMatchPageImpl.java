@@ -72,7 +72,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 break;
             case "Athletics" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "athletics.tooltips.titles.list"), tabName.split(":")[1]);
                 break;
-            case "Resources" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "resources.tooltips.text.list"));
+            case "Resources" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "resources.tooltips.titles.list"));
                 break;
         }
     }
@@ -106,7 +106,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 tooltipsList.get(i).click();
             }
         }
-
         else {
             List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
             for (int i = 0; i < tooltipsList.size(); i++) {
@@ -180,7 +179,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement tooltipText() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] span")); }
     private WebElement addSportButton() { return driver.findElement(By.cssSelector("button[title=\"Add a Sport\"]")); }
     private WebElement sportField() { return driver.findElement(By.cssSelector("div.default.text")); }
-    private WebElement sportOption(String sport) { return driver.findElement(By.xpath("//div[@class='menu transition visible']/div/span[text()='" + sport + "']")); }
+    private WebElement sportOption(String sport) { return driver.findElement(By.xpath("//div[@class='visible menu transition']/div/span[text()='" + sport + "']")); }
     private WebElement fitScoreTooltipButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table csr-header-table']/thead/tr/th[@class='one wide']/button"));}
     private WebElement academicMatchTooltipButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table csr-header-table']/thead/tr/th[@class='two wide']/button"));}
     private WebElement getWhyButtonByPosition(String position) { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr["+ Integer.parseInt(position) +"]/td/div/button")); }
