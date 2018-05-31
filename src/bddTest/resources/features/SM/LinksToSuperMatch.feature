@@ -7,4 +7,3 @@ Feature: SM - LinksToSuperMatch - As a HS student interacting with the current v
     Given SM I am logged in to SuperMatch through Family Connection as user "benhubs" with password "Hobsons!23" from school "rtsa"
     Then SM I verify that a banner with a message about the new SuperMatch is displayed
     Then SM I verify that the link in the new SuperMatch banner takes me to the new SuperMatch
-    And SM I sign out of SuperMatch through Family Connection
