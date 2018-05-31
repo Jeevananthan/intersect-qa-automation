@@ -292,7 +292,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             label.click();
             waitUntilPageFinishLoading();
         }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     public void selectRadioButtonInAcademicsFitCriteria(String option) {
@@ -393,7 +393,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             label.click();
             waitUntilPageFinishLoading();
         }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     /**
@@ -413,7 +413,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         } else {
             Assert.fail("Expected value shuould be 'checked' or 'unchecked'. '" + checkedOrUnchecked + "' is not a valid value.");
         }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     /**
@@ -1023,6 +1023,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void selectHighInternationalPopulationCheckbox(String checkboxName){
+        selectCheckBox(checkboxName, "Diversity");
+        closeButtonForFitCriteria().click();
+    }
+
+    private void selectFitCriteria(String fitCriteria){
+        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).click();
+    }
+
+    public void verifyHighInternationalPopulationCheckbox(String checkBox){
+        String path = "//label[contains(text(), '"+checkBox+"')]";
+        Assert.assertTrue("International Students Label is not displaying.", driver.findElement(By.xpath("//span[contains(text(),'International Students')]")).isDisplayed());
+        Assert.assertTrue(checkBox+" is by default is selected.", !driver.findElement(By.xpath(path+"/../input")).isSelected());
+        Assert.assertTrue(checkBox+" is not displaying.", driver.findElement(By.xpath(path)).getText().equals("High International Population"));
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1114,6 +1130,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement superMatchFooter() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"));
+    }
+    private WebElement closeButtonForFitCriteria(){
+        return getDriver().findElement(By.xpath("//button[contains(text(),' Close')]"));
     }
     private WebElement getAverageClassSizeText(){ return driver.findElement(By.xpath("//span[text()='AVERAGE CLASS SIZE']")); }
     private WebElement getAverageClassSizeListIcon(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/i[@class='teal chevron down icon']")); }
