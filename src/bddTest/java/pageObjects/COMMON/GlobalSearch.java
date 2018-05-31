@@ -216,6 +216,44 @@ public class GlobalSearch extends SeleniumBase {
         Assert.assertTrue("No real-time results displaying in dropdown!", getDriver().findElement(By.id("global-search-box-results")).isDisplayed());
     }
 
+    public void verifyRealTimeSearchMatch(String searchRequest, DataTable dataTable) {
+        waitUntilPageFinishLoading();
+        logger.info("\nVerifying real-time partial and full match results are returned.");
+        List<String> categoryOptions = dataTable.asList(String.class);
+        String[] partialSearchRequest = searchRequest.split(" ");
+        for (String opt : categoryOptions) {
+            // check for full match does not work for HE Accounts search - 6-29-2017 submitted MATCH-2231
+            Assert.assertTrue("Real-time search did not return a full match for " + searchRequest + " under " + opt + " category, but should have.", searchThroughResults(searchRequest,opt));
+            for (String partialOtp : partialSearchRequest) {
+                Assert.assertTrue("Real-time search did not return a partial match for " + searchRequest + " under " + opt + " category, but should have.", searchThroughResults(partialOtp,opt));
+            }
+        }
+    }
+
+    public boolean searchThroughResults(String searchRequest, String categoryOption) {
+        doSearch(searchRequest);
+        boolean searchResultsFound;
+        switch (categoryOption) {
+            case "Users":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class = 'title']")).getText().contains(searchRequest);
+            case "People":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+            case "HE Accounts":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+            case "Institutions":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+            case "Groups":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+            default:
+                Assert.fail(categoryOption + " is not a valid search category.  Valid categories: HE Accounts, Users, People, Institutions, or Groups");
+                return false;
+        }
+    }
+
     public void verifyAdvanceSearchByEnterKey(String searchRequest) {
         waitUntilPageFinishLoading();
         System.out.println();
@@ -292,7 +330,7 @@ public class GlobalSearch extends SeleniumBase {
         logger.info("Verifying search dropdown results are clickable/actionable.");
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
-        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-2"));
+        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-5"));
         String url = driver.getCurrentUrl();
         searchOption.click();
         waitUntilPageFinishLoading();
@@ -396,7 +434,7 @@ public class GlobalSearch extends SeleniumBase {
         System.out.println();
         logger.info("Verifying real-time search results are returned for HE Account search.");
         searchForHEInstitutions(searchRequest);
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("global-search-box-results")));
         Boolean resultsReturned=false;
         // check to make sure a result is found
         if (getDriver().findElements(By.id("global-search-box-item-0")).size() > 0) {

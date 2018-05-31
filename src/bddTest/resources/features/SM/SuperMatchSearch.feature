@@ -1,5 +1,5 @@
 @SM
-Feature: As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
+Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
   certain fit criteria
 
   @MATCH-3592
@@ -67,6 +67,41 @@ Feature: As a HS student accessing SuperMatch through Family Connection I need t
     Then SM I select the "Associate's" radio button from the Academics fit criteria
     And SM I verify that the Must Have box does not contain "Major [1]"
     And SM I verify that the Must Have box does not contain "Minor [1]"
+
+  @MATCH-3667
+  Scenario: Verify that the box containing instructional text has a width of 25% and the Must Have
+  and Nice to Have boxes split the rest
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the widths of the three boxes
+
+  @MATCH-3339
+  Scenario: As a HS student looking to search for colleges, I want each fit category that I see in the 'Choose Fit Criteria'
+  header bar to be clickable so I can select specific fit criteria.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify each fit category in the Choose Fit Criteria header bar is clickable and match the color
+    Then SM I verify clicking outside of the box will also close the box
+    And SM I check both Select Criteria To Start buttons take the user to the Location dropdown
+
+
+  @MATCH-3371
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by Diversity checkboxes within the Diversity
+  category so I can see relevant colleges that match my Diversity checkboxes requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I verify that the Must Have box contains "<DiversityCheckboxOption>"
+    Then SM I "unselect" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I verify that the Must Have box does not contain "<DiversityCheckboxOption>"
+    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I move "<DiversityCheckboxOption>" from the Must Have box to the Nice to Have box
+    Then SM I "unselect" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I verify that the Must Have box does not contain "<DiversityCheckboxOption>"
+    And SM I verify that Nice to Have box does not contain "<DiversityCheckboxOption>"
+    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I verify that the Must Have box contains "<DiversityCheckboxOption>"
+    Examples: Each of the available options for the Student Life fit criteria
+    |DiversityCheckboxOption         |
+    |Historically Black Institutions |
+    |Tribal Colleges and Universities|
 
   @MATCH-3432
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to select what details I see on each

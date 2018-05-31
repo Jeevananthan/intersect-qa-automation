@@ -60,12 +60,20 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         selectOptionInAccountSettings(value).click();
         waitForUITransition();
         // Temporary fix because an error is displayed due to amount of data to be processed
-        for(int i=0; i<5;i++){
+        for(int i=0; i<20;i++){
             try{
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
                         xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
-                driver.navigate().refresh();
+                //driver.navigate().refresh();
+                navBar.goToHome();
                 waitUntilPageFinishLoading();
+                userDropdown().click();
+                Assert.assertTrue("Account Settings option is not displayed",selectOptionfromDropdownList(option).isDisplayed());
+                selectOptionfromDropdownList(option).click();
+                waitUntilPageFinishLoading();
+                Assert.assertTrue(String.format("%s option is not displayed",value),selectOptionInAccountSettings(value).isDisplayed());
+                selectOptionInAccountSettings(value).click();
+                waitForUITransition();
             } catch (Exception e){
                 break;
             }

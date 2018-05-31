@@ -21,6 +21,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Study Options        |Study Abroad Credit;disabled |
     And HE I successfully sign out
 
+  @HUBS-1043
   Scenario: Changes done in HEM are successfully published to HUBS
     When HUBS I open "Studies" in the edit menu
     And HUBS I take note of the values from the following fields:
