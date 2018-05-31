@@ -998,6 +998,31 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("AVERAGE CLASS SIZE option 10 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("Class size < 10"));
     }
 
+    public void verifyDefaultColumnHeadersInResultsTable(DataTable data) {
+        List<List<String>> defaultColumnHeaders = data.raw();
+
+        int initialColumnIndex = 4;
+
+        for(int i = 0; i < defaultColumnHeaders.size(); i++)
+        {
+            Assert.assertTrue("'" + defaultColumnHeaders.get(i).get(0) + "' header is not displayed by default", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[" + (initialColumnIndex + i) + "]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
+                    .equals(defaultColumnHeaders.get(i).get(0)));
+
+        }
+    }
+
+    public void verifyIfOptionDefaultedInColumnHeaderCanBeChanged(String optionToSelect) {
+
+        WebElement downChevron = superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//i"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", downChevron);
+        downChevron.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")));
+        superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")).click();
+        Assert.assertTrue("'" + optionToSelect + "' header is not displayed as the column header", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
+                .equals(optionToSelect));
+
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1080,6 +1105,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement superMatchEmptyTable() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table"));
+    }
+    private WebElement superMatchNonEmptyTable() {
+        return driver.findElement(By.xpath("(//div[contains(@class, 'supermatch-results')]//table[contains(@class, 'csr-results-table')])[1]"));
     }
     private WebElement selectCriteriaToStart2() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//button[text()='Select Criteria To Start']"));

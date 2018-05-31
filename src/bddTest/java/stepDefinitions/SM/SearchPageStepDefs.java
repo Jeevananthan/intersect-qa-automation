@@ -115,5 +115,9 @@ public class SearchPageStepDefs implements En {
                 searchPage::verifyAverageClassSizeList);
         Then("^SM I check when Average Class Size filter is selected, moved to Nice To Have, unselected, and then selected again it should be defaulted back to the Must Have box$",
                 searchPage::verifyMAndNSyncWithAverageClassSizeFilter);
+        And("^SM I verify the default column headers displayed in the results table$", searchPage::verifyDefaultColumnHeadersInResultsTable);
+
+        And("^SM I verify if the option selected or defaulted in column header can be changed to \"([^\"]*)\"$", searchPage::verifyIfOptionDefaultedInColumnHeaderCanBeChanged);
+
     }
 }
