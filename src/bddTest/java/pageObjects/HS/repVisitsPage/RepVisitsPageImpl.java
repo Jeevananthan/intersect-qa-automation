@@ -1407,6 +1407,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         eventLocationTextboxInSchedulePopup().sendKeys(Keys.PAGE_DOWN);
         internalNotesTextBoxInReschedulePopup().sendKeys(Keys.PAGE_DOWN);
         button(option).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(""),1));
     }
     private String getRelativeDate(int addDays){
         String day;
@@ -4647,6 +4648,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         eventLocationTextboxInSchedulePopup().sendKeys(Keys.PAGE_DOWN);
         internalNotesTextBoxInReschedulePopup().sendKeys(Keys.PAGE_DOWN);
         button(option).click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[contains(text(),'Visit canceled!')]"),1));
     }
 
     public void verifyUpcommingEvents(String collegeFairName, String rsvpDeadLine) {
@@ -5822,11 +5825,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String randomNo = randomNumberGenerator();
         logger.info("randomNo = "+randomNo);
         String time;
-        if (Integer.parseInt(startTime[0]) < 4 || Integer.parseInt(startTime[0]) == 12 ) {
-            time = startTime[0]+":"+randomNo+"pm";
-        } else {
-            time = startTime[0]+":"+randomNo+"am";
+//        if (Integer.parseInt(startTime[0]) < 4 || Integer.parseInt(startTime[0]) == 12 ) {
+//            time = startTime[0]+":"+randomNo+"pm";
+//        } else {
+//            time = startTime[0]+":"+randomNo+"am";
+//        }
+        String meridiem = "";
+        char getMeridiem[] = startTime[1].toCharArray();
+        int i=getMeridiem.length-1;
+        while(i>getMeridiem.length-3){
+            meridiem = meridiem+""+getMeridiem[i];
+            i--;
         }
+        String meridiemValue = new StringBuffer(meridiem).reverse().toString();
+        time = startTime[0]+":"+randomNo+meridiemValue;
         logger.info("Time = "+time);
         return time;
     }
@@ -6369,7 +6381,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return attendee;
     }
     private WebElement eventLocation() {
-        WebElement location=driver.findElement(By.xpath("//input[@name='eventLocation']"));
+        WebElement location=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
         return location;
     }
     private WebElement addVisitButtonInVisitSchedulePopup() {
