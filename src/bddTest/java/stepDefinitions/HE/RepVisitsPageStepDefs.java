@@ -349,7 +349,5 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify \"([^\"]*)\" is displayed in the search results$",repVisits::verifyLabelInSearchResult);
       
         And("^HE I verify \"([^\"]*)\" is displayed in the search tooltip$",repVisits::verifySearchToolTip);
-
-        Then("^HE I verify the Search Result Page with \"([^\"]*)\" by \"([^\"]*)\" in search And Schedule page$",repVisits::verifySearchResultPageInSearchAndSchedule);
     }
 }

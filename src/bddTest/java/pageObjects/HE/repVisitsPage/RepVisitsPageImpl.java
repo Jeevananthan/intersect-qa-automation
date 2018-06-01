@@ -2864,40 +2864,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         .isDisplayed());
     }
 
-    public void verifySearchResultPageInSearchAndSchedule(String school,String defaultValue){
-        waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        getSearchAndScheduleBtn().click();
-        waitUntilPageFinishLoading();
-        Assert.assertTrue("Search TextBox is not displayed",searchTextBoxInSearchAndSchedulePage().isDisplayed());
-        searchTextBoxInSearchAndSchedulePage().clear();
-        searchTextBoxInSearchAndSchedulePage().sendKeys(school);
-        dropdownInSearchAndSchedule().click();
-        waitUntilPageFinishLoading();
-        driver.findElement(By.xpath("//div/span[text()='" + defaultValue + "']")).click();
-        Assert.assertTrue("Search button is not displayed",searchButtonInSearchAndSchedulePage().isDisplayed());
-        searchButtonInSearchAndSchedulePage().click();
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/h3[text()='Results']"),1));
-        Assert.assertTrue("Search Text is not displayed",verifySearchTextInSearchAndSchedulePage().isDisplayed());
-        Assert.assertTrue("Dropdown is not displayed",verifyDropdownInSearchAndSchedulePage().isDisplayed());
-        Assert.assertTrue("'Results' text is not displayed",verifyResultsTextInSearchAndSchedulePage().isDisplayed());
-        Assert.assertTrue("'Please choose a school or redo your search.' text is not displayed",verifyRedoTextInSearchAndSchedulePage().isDisplayed());
-        Assert.assertTrue("'Results are listed alphabetically by country, state, county, city, and then name.' text is not displayed",verifySearchResultsInstructionTextInSearchAndSchedulePage().isDisplayed());
-        Assert.assertTrue("'School Name' Header is not displayed",verifySchoolNameHeaderTextInSearchAndSchedulePage().isDisplayed());
-        Assert.assertTrue("'Location' Header is not displayed",verifyLocationHeaderTextInSearchAndSchedulePage().isDisplayed());
-        Assert.assertTrue("'Country' Header is not displayed",verifyCountryHeaderTextInSearchAndSchedulePage().isDisplayed());
-    }
-
-    private void verifyStateForCurrentState(List<String> addState){
-        List<String> sortedList = new ArrayList<>();
-        for(String s:addState){
-            sortedList.add(s);
-        }
-        Collections.sort(sortedList);
-        Assert.assertTrue("States are not in Alphabetical order",sortedList.equals(addState));
-    }
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));

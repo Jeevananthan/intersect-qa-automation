@@ -98,7 +98,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
                     so that the results I see accurately reflect the field value I wanted my search value to search against.
 
     Then HE I am logged in to Intersect HE as user type "<userType>"
-    Then HE I verify the Search Result Page with "Liberty Township" by "City" in search And Schedule page
     And HE I search a school by "<filter>" using "<invalid>"
     Then HE I verify "No results found." is displayed in the search results
     And HE I search a school by "<filter>" using "<fewCharacters>"
