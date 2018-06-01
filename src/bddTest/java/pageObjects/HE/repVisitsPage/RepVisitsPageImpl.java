@@ -3307,50 +3307,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement noResultsMessageInSearchAndSchedule() {
         return getDriver().findElement(By.xpath("//span[text()='No results found.']"));
     }
-    private WebElement searchTextBoxInSearchAndSchedulePage(){
-        WebElement text = driver.findElement(By.xpath("//div/input[@placeholder='Search for a school...']"));
-        return text;
-    }
-    private WebElement searchButtonInSearchAndSchedulePage(){
-        WebElement button = driver.findElement(By.xpath("//button[@aria-label='search-btn']"));
-        return button;
-    }
-    private WebElement noResultsMessage(){
-        WebElement msg = driver.findElement(By.xpath("//span[text()='No results found.']"));
-        return msg;
-    }
-    private WebElement verifySearchTextInSearchAndSchedulePage(){
-        WebElement text = driver.findElement(By.xpath("//h1/span[text()='Search']"));
-        return text;
-    }
-    private WebElement verifyDropdownInSearchAndSchedulePage(){
-        WebElement text = driver.findElement(By.xpath("//div[@class='_28hq8O04cvmgVcb_0NpaqM']"));
-        return text;
-    }
-    private WebElement verifyResultsTextInSearchAndSchedulePage(){
-        WebElement text = driver.findElement(By.xpath("//div/h3[text()='Results']"));
-        return text;
-    }
-    private WebElement verifyRedoTextInSearchAndSchedulePage(){
-        WebElement text = driver.findElement(By.xpath("//span[text()='Please choose a school or redo your search.']"));
-        return text;
-    }
-    private WebElement verifySearchResultsInstructionTextInSearchAndSchedulePage(){
-        WebElement text = driver.findElement(By.xpath("//div/span[text()='Results are listed alphabetically by country, state, county, city, and then name.']"));
-        return text;
-    }
-    private WebElement verifySchoolNameHeaderTextInSearchAndSchedulePage(){
-        WebElement text = driver.findElement(By.xpath("//tr/th/span[text()='School Name']"));
-        return text;
-    }
-    private WebElement verifyLocationHeaderTextInSearchAndSchedulePage(){
-        WebElement text = driver.findElement(By.xpath("//tr/th/span[text()='Location']"));
-        return text;
-    }
-    private WebElement verifyCountryHeaderTextInSearchAndSchedulePage(){
-        WebElement text = driver.findElement(By.xpath("//tr/th/span[text()='Country']"));
-        return text;
-    }
 }
 
 
