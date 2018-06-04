@@ -1259,6 +1259,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void selectCancel() {
         cancellationMessageTextBox().sendKeys("by QA");
         cancelVisitButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[contains(text(),'Visit canceled!')]"),1));
     }
 
     public void verifyCalendarPageForCancelVisit(String university,String time,String date){
@@ -1329,8 +1330,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         String displayedFairName = fairsNameInEditFairsPopup().getAttribute("value");
         Assert.assertTrue("Fairname is not equal",fairName.equals(displayedFairName));
-        String displayedTime = fairsStartTimeInEditFairsPopup().getAttribute("value");
-        Assert.assertTrue("Start time is not equal",displayedTime.equals(fairTime[0]));
+//        String displayedTime = fairsStartTimeInEditFairsPopup().getAttribute("value");
+//        Assert.assertTrue("Start time is not equal",displayedTime.equals(fairTime[0]));
         String originalDate = getSpecificDateForFairsEdit(date);
         String displayedDate = fairsDateInEditFairsPopup().getAttribute("value");
         Assert.assertTrue("Date is not equal",displayedDate.equals(originalDate));
@@ -1407,7 +1408,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         eventLocationTextboxInSchedulePopup().sendKeys(Keys.PAGE_DOWN);
         internalNotesTextBoxInReschedulePopup().sendKeys(Keys.PAGE_DOWN);
         button(option).click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(""),1));
     }
     private String getRelativeDate(int addDays){
         String day;
@@ -3138,6 +3138,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         rescheduleButtonInReScheduleVisitPage().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='_25XyePHsmpWU1qQ18ojKip']/span"),1));
     }
 
     public void selectReschedule(String time,String reason,String date) {
@@ -4649,7 +4650,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         internalNotesTextBoxInReschedulePopup().sendKeys(Keys.PAGE_DOWN);
         button(option).click();
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[contains(text(),'Visit canceled!')]"),1));
     }
 
     public void verifyUpcommingEvents(String collegeFairName, String rsvpDeadLine) {
@@ -5820,11 +5820,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='numVisits']"));
         return inputStartTime;
     }
-    public String startTime(String Time) {
-        String startTime[] = Time.split(":");
+    public String startTime(String time) {
+        String startTime[] = time.split(":");
         String randomNo = randomNumberGenerator();
         logger.info("randomNo = "+randomNo);
-        String time;
+        String finalTime;
 //        if (Integer.parseInt(startTime[0]) < 4 || Integer.parseInt(startTime[0]) == 12 ) {
 //            time = startTime[0]+":"+randomNo+"pm";
 //        } else {
@@ -5838,9 +5838,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             i--;
         }
         String meridiemValue = new StringBuffer(meridiem).reverse().toString();
-        time = startTime[0]+":"+randomNo+meridiemValue;
+        finalTime = startTime[0]+":"+randomNo+meridiemValue;
         logger.info("Time = "+time);
-        return time;
+        return finalTime;
     }
     public String randomizeFairName(String fair) {
         String randomNo = Integer.toString(new Random().nextInt(9999));
