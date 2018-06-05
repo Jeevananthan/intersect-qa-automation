@@ -2065,7 +2065,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         newPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
         confirmPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
         saveButton().click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span"),1));
         List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
         if(list.size()==1) {
             logger.info("Error Message is displayed");
@@ -2081,7 +2081,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             newPasswordInput().sendKeys(newPassword);
             confirmPasswordInput().sendKeys(newPassword);
             saveButton().click();
-            waitForUITransition();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span"),1));
             List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
             if(list.size()==1) {
                 logger.info("Error Message is displayed");
@@ -5208,6 +5208,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  text;
     }
     private WebElement frameInCommunity() {
+        driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("iframe[title=Community]"),1));
         WebElement frame=driver.findElement(By.xpath("//iframe[@title='Community']"));
         return frame;
     }
