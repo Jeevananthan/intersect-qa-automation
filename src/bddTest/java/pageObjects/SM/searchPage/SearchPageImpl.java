@@ -292,7 +292,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             label.click();
             waitUntilPageFinishLoading();
         }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     public void selectRadioButtonInAcademicsFitCriteria(String option) {
@@ -393,7 +393,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             label.click();
             waitUntilPageFinishLoading();
         }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     /**
@@ -413,7 +413,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         } else {
             Assert.fail("Expected value shuould be 'checked' or 'unchecked'. '" + checkedOrUnchecked + "' is not a valid value.");
         }
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     /**
@@ -843,6 +843,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setAdmissionCriteria(DataTable dataTable) {
+        waitUntilElementExists(ChooseFitCriteriaText());
         List<List<String>> entities = dataTable.asLists(String.class);
         chooseFitCriteriaTab("Admission");
         for (List<String> criteria : entities) {
@@ -927,7 +928,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("AVERAGE CLASS SIZE text is not displaying", getAverageClassSizeText().isDisplayed());
         getAverageClassSizeListIcon().click();
         waitForUITransition();
-        String expectedOptions[] =  {"Select","10", "20", "30", "40"};
+        String expectedOptions[] =  {"Select","10", "20", "30", "40", "50", "100"};
         ArrayList<WebElement> actualOptions = new ArrayList<>();
         actualOptions.add(driver.findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")));
         for (int i=1;i<5;i++){
@@ -974,6 +975,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     Assert.assertTrue("AVERAGE CLASS SIZE option 40 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 40"));
                     getAverageClassSizeListIcon().click();
                     break;
+                case "50":
+                    logger.info("AVERAGE CLASS SIZE option 40 is selected");
+                    waitForUITransition();
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 50 is not selected.", getSelectedAverageClassSizeOption().getText().equals("50"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 50 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 50"));
+                    getAverageClassSizeListIcon().click();
+                    break;
+                case "100":
+                    logger.info("AVERAGE CLASS SIZE option 40 is selected");
+                    waitForUITransition();
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 100 is not selected.", getSelectedAverageClassSizeOption().getText().equals("100"));
+                    Assert.assertTrue("AVERAGE CLASS SIZE option 100 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 100"));
+                    getAverageClassSizeListIcon().click();
+                    break;
             }
             j++;
         }
@@ -995,6 +1010,62 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 10"));
         Assert.assertTrue("AVERAGE CLASS SIZE option 10 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("Class size < 10"));
+        getFitCriteriaCloseButton().click();
+    }
+
+    public void verifyAverageClassSizeTextInResults() {
+        text("Institution Characteristics").click();
+        getAverageClassSizeListIcon().click();
+        getDriver().findElement(By.id("class-size-selection-option-30")).click();
+        getFitCriteriaCloseButton().click();
+        getDriver().findElement(By.className("csr-heading-dropdown-text")).click();
+        WebElement resultsColumHeader =  getParent(getDriver().findElement(By.className("csr-heading-dropdown-text")));
+        // This tends to go off screen when running on the grid, so just force click it.  We're not testing the functionality, just the text after this is set.
+        jsClick(resultsColumHeader.findElement(By.xpath(".//span[text()='Institution Characteristics']")));
+        Assert.assertTrue("Could not find \"Average Class Size\" label under Institution Characteristics!", getDriver().findElement(By.xpath("//span[@class='institution-char-label'][text()='Average Class Size']")).isDisplayed());
+    }
+
+    public void verifyDefaultColumnHeadersInResultsTable(DataTable data) {
+        List<List<String>> defaultColumnHeaders = data.raw();
+
+        int initialColumnIndex = 4;
+
+        for(int i = 0; i < defaultColumnHeaders.size(); i++)
+        {
+            Assert.assertTrue("'" + defaultColumnHeaders.get(i).get(0) + "' header is not displayed by default", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[" + (initialColumnIndex + i) + "]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
+                    .equals(defaultColumnHeaders.get(i).get(0)));
+
+        }
+    }
+
+    public void verifyIfOptionDefaultedInColumnHeaderCanBeChanged(String optionToSelect) {
+
+        WebElement downChevron = superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//i"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", downChevron);
+        downChevron.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")));
+        superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")).click();
+        Assert.assertTrue("'" + optionToSelect + "' header is not displayed as the column header", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
+                .equals(optionToSelect));
+
+    }
+
+    public void selectHighInternationalPopulationCheckbox(String checkboxName){
+        selectCheckBox(checkboxName, "Diversity");
+        //closeButtonForFitCriteria().click();
+    }
+
+    private void selectFitCriteria(String fitCriteria){
+        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).click();
+    }
+
+    public void verifyHighInternationalPopulationCheckbox(String checkBox){
+        openFitCriteria("Diversity");
+        String path = "//label[contains(text(), '"+checkBox+"')]";
+        Assert.assertTrue("International Students Label is not displaying.", driver.findElement(By.xpath("//span[contains(text(),'International Students')]")).isDisplayed());
+        Assert.assertTrue(checkBox+" is by default is selected.", !driver.findElement(By.xpath(path+"/../input")).isSelected());
+        Assert.assertTrue(checkBox+" is not displaying.", driver.findElement(By.xpath(path)).getText().equals("High International Population"));
+        getFitCriteriaCloseButton().click();
     }
 
     // Locators Below
@@ -1080,11 +1151,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement superMatchEmptyTable() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//table"));
     }
+    private WebElement superMatchNonEmptyTable() {
+        return driver.findElement(By.xpath("(//div[contains(@class, 'supermatch-results')]//table[contains(@class, 'csr-results-table')])[1]"));
+    }
     private WebElement selectCriteriaToStart2() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-results')]//button[text()='Select Criteria To Start']"));
     }
     private WebElement superMatchFooter() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-footer')]"));
+    }
+    private WebElement closeButtonForFitCriteria(){
+        return getDriver().findElement(By.xpath("//button[contains(text(),' Close')]"));
     }
     private WebElement getAverageClassSizeText(){ return driver.findElement(By.xpath("//span[text()='AVERAGE CLASS SIZE']")); }
     private WebElement getAverageClassSizeListIcon(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/i[@class='teal chevron down icon']")); }

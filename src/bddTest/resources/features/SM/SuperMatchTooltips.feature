@@ -8,7 +8,6 @@ Feature: SM - SuperMatchSearch - As a HS student who is interacting with SuperMa
   @MATCH-3526
   Scenario Outline: As a HS student accessing SuperMatch through Family Connection I need to be verify that the tooltips are displayed/closed
     Then SM I verify that the tooltips are displayed in the tab "<tabLabel>"
-    And SM I sign out of SuperMatch through Family Connection
     Examples:
     | tabLabel |
     | Location |
