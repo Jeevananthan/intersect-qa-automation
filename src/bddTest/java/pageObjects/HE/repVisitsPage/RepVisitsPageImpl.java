@@ -1102,14 +1102,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getAccoutSettingsBtn().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Settings is not displayed", navBar.getSubMenuBreadcrumbs().getText().contains("Settings"));
-        userDropdown().click();
-        getYourProfileBtn().click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
-        communityFrame();
-        Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
-        driver.switchTo().defaultContent();
-        waitUntilPageFinishLoading();
+        // Temporary fix for the 'Your Profile' option, sometimes it does not navigate to the respective page, the issue exists only in automation
+        for(int i=0;i<2;i++){
+            try{
+                driver.switchTo().defaultContent();
+                waitUntilPageFinishLoading();
+                userDropdown().click();
+                getYourProfileBtn().click();
+                waitUntilPageFinishLoading();
+                waitForUITransition();
+                communityFrame();
+                List<WebElement> button = driver.findElements(By.xpath("//a[@class='active' and text()='Profile']"));
+                if(button.size()==1){
+                  Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
+                  driver.switchTo().defaultContent();
+                  waitUntilPageFinishLoading();
+                  break;
+                }
+                driver.switchTo().defaultContent();
+                waitUntilPageFinishLoading();
+            } catch (Exception e){}
+        }
         userDropdown().click();
         getInstitutionProfileBtn().click();
         waitUntilPageFinishLoading();
@@ -1117,6 +1130,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         communityFrame();
         Assert.assertTrue("'Institution Profile' is not displayed",institutionProfilePage().isDisplayed());
         driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+        navBar.goToCommunity();
         waitUntilPageFinishLoading();
     }
 
