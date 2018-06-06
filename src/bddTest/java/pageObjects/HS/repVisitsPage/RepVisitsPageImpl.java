@@ -629,7 +629,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Availability").click();
         link("Regular Weekly Hours").click();
         waitUntilPageFinishLoading();
-        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        button(By.cssSelector("div[style='display: inline-block; position: relative;'] :nth-child(3)")).click();
         if (endDate.length() < 3) {
             SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd YYYY");
             endDate = sdf.format(getDeltaDate(Integer.parseInt(endDate)).getTime());
@@ -4268,7 +4268,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private String verifyEndDate(){
         String endDate=getSpecificDate("1");
-        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        button(By.cssSelector("div[style='display: inline-block; position: relative;'] :nth-child(3)")).click();
         String[] parts = endDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
         String date = parts[1];
