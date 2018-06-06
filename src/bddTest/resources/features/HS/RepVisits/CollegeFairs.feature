@@ -76,7 +76,7 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
       | Automatically Confirm Incoming Requestions From Colleges? | no                      |
       | Cost                                                      | 11                     |
       | Start Time                                                | 0815AM                  |
-      | Date                                                      |2                       |
+      | Date                                                      |90                      |
       | RSVP Deadline                                             |3                      |
       | End Time                                                  | 0825AM                  |
       | Max Number of Colleges                                    | 11                     |
@@ -88,13 +88,14 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
       | Automatically Confirm Incoming Requestions From Colleges? | no                      |
       | Cost                                                      | 11                     |
       | Start Time                                                | 0815AM                  |
-      | Date                                                      |2                       |
-      | RSVP Deadline                                             |2                       |
+      | Date                                                      |90                       |
+      | RSVP Deadline                                             |3                       |
       | End Time                                                  | 0825AM                  |
       | Max Number of Colleges                                    | 11                     |
       | Number of Students Expected                               | 11                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
+    Then HS I cancel college fair created "MATCH-2082 Fair Edited"
 
 
   @MATCH-1937
