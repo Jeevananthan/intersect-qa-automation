@@ -27,6 +27,8 @@ public class GlobalSearchStepDefs implements En {
         Then("^HE I verify real-time search results do not return any results for HS groups \"([^\"]*)\"$", globalSearch::verifyNoRealTimeSearchResultsReturned);
         Then("^HE I verify advanced search results do not return any results for HS groups \"([^\"]*)\"$", globalSearch::verifyNoAdvancedSearchResultsReturned);
         Then("^HE I verify the real-time results return for global search are a partial and full match \"([^\"]*)\"$", globalSearch::verifyRealTimeSearchMatch);
-
+        Then("^HE I type into the global search box and select the result using \"([^\"]*)\"$",globalSearch::searchandSelectInGlobalSearch);
+        Then("^HE I select Check RepVisits Availability in the community page$",globalSearch::selectRepvisitsAvialability);
+        Then("^HE I select Visits to verify the appointment is not present using \"([^\"]*)\" and \"([^\"]*)\" in the RepvisitsAvailability$",globalSearch::verifyblockedAvaialbility);
     }
 }
