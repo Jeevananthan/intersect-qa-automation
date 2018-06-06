@@ -28,6 +28,7 @@ Feature: Hobsons Staff - Access Admin page via Network Credentials
     Then SP I am able to successfully login
     And SP I successfully sign out
 
+#  Bug ticket : MATCH-4508
   Scenario: As a Hobsons staff user I don't have access to the admin page with my Hobsons network credentials if I am not assigned to a Matching Active Directory group
     Given SP I am logged in to the Admin page as a user with no Intersect access
     And SP I am able to successfully login

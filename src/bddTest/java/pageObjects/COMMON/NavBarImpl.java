@@ -131,7 +131,7 @@ public class NavBarImpl extends SeleniumBase {
             try{
                 headerWebElement= new WebDriverWait(getDriver(),10).
                         until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(
-                                "//nav[@class='hidden-mobile hidden-tablet print _3x2qW0SvZpA5OC0k_9dL30 _3sM-wM6bB02P6669gxCsoP']/div/dl/dt/span[text()='%s']"
+                                "//nav[@class='hidden-mobile hidden-tablet _3sM-wM6bB02P6669gxCsoP']/div/dl/dt/span[text()='%s']"
                                 ,heading))));
             } catch (Exception e){throw new AssertionFailedError(String.format("The header: %s is not visible",
                     heading));}
@@ -141,7 +141,7 @@ public class NavBarImpl extends SeleniumBase {
                 try{
                     WebElement subMenuElement = (new WebDriverWait(getDriver(),10)).until
                             (ExpectedConditions.elementToBeClickable(headerWebElement.findElement(By.xpath(String.format(
-                                    "parent::dt/parent::dl//span[text()='%s']",subMenu)))));
+                                    "parent::dt/parent::dl/dt/a/span[text()='%s']",subMenu)))));
                     subMenuElement.click();
                     waitUntilPageFinishLoading();
                 } catch (Exception e){throw new AssertionFailedError(String.format("The submenu: %s is not visible"
