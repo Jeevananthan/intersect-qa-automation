@@ -1067,10 +1067,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     And HS I verify the calendar page
     Then HS I verify the visit schedule popup
-    Then HS I schedule a new visit for "<BlockedDate>","<StartTime>","<EndTime>","<Attendees>","<visitLocation>"
+    Then HS I schedule a new visit for "<BlockedDate>","<StartTime>","<EndTime>","<Attendee>","<visitLocation>"
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to verify the appointment is not present for "<School>" using "<BlockedDate>" and "<StartTime>"
     Then HE I type into the global search box and select the result using "<School>"
@@ -1083,5 +1083,5 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
     Examples:
-       |BlockedDate|EndDate|StartTime|EndTime  |Attendees          |visitLocation|Reason |School              |
-       |14         |21     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Int Qa High School 4|
+       |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School              |
+       |14         |21     |10:25 am |11:25 pm |PurpleHE Publishing|USA          |Holiday|Int Qa High School 4|
