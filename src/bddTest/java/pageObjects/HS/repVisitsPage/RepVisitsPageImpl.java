@@ -947,16 +947,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String calendarHeading = parts[0] + " " + parts[2];
 
         if (startOrEndDate.contains("Start")) {
-            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(1)")).click();
             findMonth(calendarHeading, startOrEndDate);
         } else if(startOrEndDate.contains("End")) {
-            button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).click();
             findMonth(calendarHeading, startOrEndDate);
         }else if(startOrEndDate.contains("other")){
             button(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
             findMonth(calendarHeading);}
         else {
-            button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).click();
             findMonth(calendarHeading);
         }
         clickOnDay(parts[1]);
@@ -4290,7 +4290,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private String verifyStartDate(){
         String startDate=getSpecificDate("-1");
-        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(1)")).click();
         String[] parts = startDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
         String date = parts[1];
@@ -4299,7 +4299,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private String verifyEndDate(){
         String endDate=getSpecificDate("1");
-        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).click();
         String[] parts = endDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
         String date = parts[1];
@@ -5202,18 +5202,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='numVisits']"));
         return inputStartTime;
     }
-    public String startTime(String Time) {
-        String startTime[] = Time.split(":");
+    public String startTime(String time) {
+        String startTime[] = time.split(":");
         String randomNo = randomNumberGenerator();
         logger.info("randomNo = "+randomNo);
-        String time;
-        if (Integer.parseInt(startTime[0]) < 4 || Integer.parseInt(startTime[0]) == 12 ) {
-            time = startTime[0]+":"+randomNo+"pm";
-        } else {
-            time = startTime[0]+":"+randomNo+"am";
+        String finalTime;
+        String meridiem = "";
+        char getMeridiem[] = startTime[1].toCharArray();
+        int i=getMeridiem.length-1;
+        while(i>getMeridiem.length-3){
+            meridiem = meridiem+""+getMeridiem[i];
+            i--;
         }
+        String meridiemValue = new StringBuffer(meridiem).reverse().toString();
+        finalTime = startTime[0]+":"+randomNo+meridiemValue;
         logger.info("Time = "+time);
-        return time;
+        return finalTime;
     }
     public String randomizeFairName(String fair) {
         String randomNo = Integer.toString(new Random().nextInt(9999));
