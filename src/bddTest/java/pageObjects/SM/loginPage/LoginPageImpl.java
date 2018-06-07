@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
@@ -64,6 +65,20 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      */
     public void navigateToSuperMatch() {
         load(GetProperties.get("sm.app.url"));
+    }
+
+    /**
+     * Clears the onboarding popups if they are present.
+     */
+    public void clearOnboardingPopups() {
+        try {
+            if (getDriver().findElement(By.cssSelector("div[class~=supermatch-onboarding-popup]")).isDisplayed()) {
+                getDriver().findElement(By.className("logoWrapper")).click();
+                //new WebDriverWait(getDriver(),3).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[class~=supermatch-onboarding-popup]")));
+            }
+        } catch (Exception e) {
+            logger.info("Exception when clearing Onboarding Popups: " + e.getMessage() + Arrays.toString(e.getStackTrace()));
+        }
     }
 
     /**

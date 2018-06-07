@@ -507,6 +507,16 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I click on link Add School User Manually$", repVisits::addRepresentativeManually);
       
+        Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
+
+        Then("^HS I verify the blocked day in Exception tab using \"([^\"]*)\"$",repVisits::verifyBlockedDayInException);
+
+        Then("^HS I verify the calendar page$",repVisits::verifyCalendarPageForaddVisit);
+
+        Then("^HS I verify the visit schedule popup$",repVisits::verifyVisitSchedulepopup);
+
+        Then("^HS I set Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setSpecificBlockedDate);
+      
         Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Request Notification Tab$",repVisits::verifyCityAndStateInRequestNotificationsubTab);
 
         Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Activity Tab$",repVisits::verifyCityAndStateInActivitysubTab);
