@@ -241,11 +241,15 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
-    public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle){
+    public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle, String euCitizen){
         driver.switchTo().frame(0);
         getofficePhone().sendKeys(OfficePhone);
         getJobTitle().sendKeys(JobTitle);
+        driver.findElement(By.xpath(String.format(
+                "//label[@for='edit-field-eu-citizen-und']/following-sibling::div/div/label[text()='%s ']",
+                euCitizen))).click();
         getTermsAndConditionCheckBox().click();
+        getCreationAndMaintenanceConsentCheckBox().click();
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
@@ -293,4 +297,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
     private WebElement eventsTab() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL _1NJbR9iqg-0K_JDhsKdO1B']/span[text()='Events']")); }
     private WebElement changeProfileLabel(){return text("Change Profile");}
+
+    /**
+     * Gets the consent to creation and maintenance check box
+     * @return
+     */
+    private WebElement getCreationAndMaintenanceConsentCheckBox(){
+        return driver.findElement(By.cssSelector("label[for=edit-field-account-consent-und]"));
+    }
 }
