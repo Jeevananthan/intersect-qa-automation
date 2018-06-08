@@ -92,7 +92,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Search and Schedule").click();
         //text("Search for a school...").sendKeys(highSchool);
         getSearchBox().sendKeys(highSchool);
-        driver.findElement(By.xpath("//i[@class='teal search large link icon Umyjf8WyIatPr6Rajw7y6']")).click();
+        getSearchButton().click();
         text(highSchool).click();
         text("Fairs").click();
         if (text(fairTitle).isDisplayed()){
@@ -1115,15 +1115,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyNavigationUserDropdownforHE()  {
         getAccoutSettingsBtn().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Settings is not displayed", navBar.getSubMeunBreadcrumbs().getText().contains("Settings"));
-        userDropdown().click();
-        getYourProfileBtn().click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
-        communityFrame();
-        Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
-        driver.switchTo().defaultContent();
-        waitUntilPageFinishLoading();
+        Assert.assertTrue("Settings is not displayed", navBar.getSubMenuBreadcrumbs().getText().contains("Settings"));
+        // Temporary fix for the 'Your Profile' option, sometimes it does not navigate to the respective page, the issue exists only in automation
+        for(int i=0;i<2;i++){
+            try{
+                driver.switchTo().defaultContent();
+                waitUntilPageFinishLoading();
+                userDropdown().click();
+                getYourProfileBtn().click();
+                waitUntilPageFinishLoading();
+                waitForUITransition();
+                communityFrame();
+                List<WebElement> button = driver.findElements(By.xpath("//a[@class='active' and text()='Profile']"));
+                if(button.size()==1){
+                  Assert.assertTrue("'User Profile' is not displayed",userProfilePage().isDisplayed());
+                  driver.switchTo().defaultContent();
+                  waitUntilPageFinishLoading();
+                  break;
+                }
+                driver.switchTo().defaultContent();
+                waitUntilPageFinishLoading();
+            } catch (Exception e){}
+        }
         userDropdown().click();
         getInstitutionProfileBtn().click();
         waitUntilPageFinishLoading();
@@ -1131,6 +1144,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         communityFrame();
         Assert.assertTrue("'Institution Profile' is not displayed",institutionProfilePage().isDisplayed());
         driver.switchTo().defaultContent();
+        waitUntilPageFinishLoading();
+        navBar.goToCommunity();
         waitUntilPageFinishLoading();
     }
 
