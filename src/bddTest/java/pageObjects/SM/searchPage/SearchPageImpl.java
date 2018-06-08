@@ -10,10 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.support.Color;
 
@@ -1026,15 +1024,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDefaultColumnHeadersInResultsTable(DataTable data) {
-        List<List<String>> defaultColumnHeaders = data.raw();
+        List<String> expectedHeaders = data.asList(String.class);
 
-        int initialColumnIndex = 4;
+        WebElement headerTable = getDriver().findElement(By.cssSelector("table[class~=csr-header-table]"));
+        List<WebElement> headerTitles = headerTable.findElements(By.xpath(".//span[@class='csr-heading-dropdown-text']"));
 
-        for(int i = 0; i < defaultColumnHeaders.size(); i++)
-        {
-            Assert.assertTrue("'" + defaultColumnHeaders.get(i).get(0) + "' header is not displayed by default", superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[" + (initialColumnIndex + i) + "]//span[@class='csr-heading-dropdown-text']")).getAttribute("innerHTML")
-                    .equals(defaultColumnHeaders.get(i).get(0)));
-
+        List<String> actualHeaders = new LinkedList<>();
+        for (WebElement we : headerTitles){
+            actualHeaders.add(we.getText());
+        }
+        for (String header : expectedHeaders){
+            Assert.assertTrue(header + " was not found in the default results list headers!",actualHeaders.contains(header));
         }
     }
 

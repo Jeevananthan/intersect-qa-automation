@@ -141,7 +141,7 @@ public class NavBarImpl extends SeleniumBase {
                 try{
                     WebElement subMenuElement = (new WebDriverWait(getDriver(),10)).until
                             (ExpectedConditions.elementToBeClickable(headerWebElement.findElement(By.xpath(String.format(
-                                    "parent::dt/parent::dl//span[text()='%s']",subMenu)))));
+                                    "parent::dt/parent::dl/dt/a/span[text()='%s']",subMenu)))));
                     subMenuElement.click();
                     waitUntilPageFinishLoading();
                 } catch (Exception e){throw new AssertionFailedError(String.format("The submenu: %s is not visible"

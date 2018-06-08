@@ -800,6 +800,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//a[contains(text(),'"+school+"')]")).click();
     }
 
+    public void verifyBlockedAvailability(String school,String Date,String time) {
+        visit().click();
+        waitUntilElementExists(driver.findElement(By.xpath("//div/a[text()='"+school+"']")));
+        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div/a[text()='"+school+"']")).isDisplayed());
+        waitUntilElementExists(goToDate());
+        String gotoDate = getSpecificDate(Date);
+        setDate(gotoDate, "Go To Date");
+        String date=getMonthandDate(Date);
+        String Time=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        List<WebElement> slot = driver.findElements(By.xpath("//span[text()='"+date+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+Time+"']"));
+        if(slot.size()==0) {
+            logger.info("Slot is not displayed");
+        }
+    }
 
 /*    public void visitsSchedule(String school,String date,String time)
     {
@@ -928,7 +942,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void clickOnDay(String date) {
+  public void clickOnDay(String date) {
         driver.findElement(By.cssSelector("div[class='DayPicker-Body']")).findElement(By.xpath("//div[contains(@class,'DayPicker-Day') and @aria-disabled='false' and text()='"+date+"']")).click();
             }
 
