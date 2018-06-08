@@ -1085,12 +1085,12 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
        |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School              |
        |14         |21     |10:25 am |11:25 pm |PurpleHE Publishing|USA          |Holiday|Int Qa High School 4|
        
-        @MATCH-2093 @MATCH-2828
+   @MATCH-2093 @MATCH-2828
    Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab
              so I can efficiently find the updates I am looking for within RepVisits.
 #FOR VISITS
 #precondition
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
@@ -1118,7 +1118,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
     Then HS I verify the Notification "<HEUser>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "<HEUser>","<heStartTime>","<institution>"
 #VERIFY ACTIVITY
@@ -1178,15 +1178,15 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
     And HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
     Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
-    And HS I select "Confirm" option for the Notification using "<HEUser>","<FairsSTime>","<institution>" for Fairs
+    And HS I select "Confirm" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "confirmed" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
 
 #FOR DECLINE
     Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
-    And HS I select "Decline" option for the Notification using "<HEUser>","<FairsSTime>","<institution>" for Fairs
+    And HS I select "Decline" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
     Then HS I verify the Decline Pop-up in the Notification Tab "<HEUser>","<institution>","<FairsSTime>","<Date>" for Fairs
     Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<HEUser>"
 #VERIFY ACTIVITY
@@ -1209,6 +1209,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
  Examples:
-   |activityDate |calendarST    |HEUser   |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School              |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|FairsSTime|newFairsSTime|fairCreateSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|FairSTimeforReschedule|
-   |14           |12:19AM       |purple   |IAM Purple     |Alpena Community College  |14  |12:19am  |10:59pm |3        |14       |21      |10:59pm      |No, I want to manually review all incoming requests. |Int Qa High School 4|12:         |12:     |Qa Fair for testng    |14  |1200AM    |0100AM  |5            |$25 |25                    |100                        |Save          |14                  |12:31am      |12:29 AM           |12:29am                        |10:59pm                      |12:00am   |12:00am      |1200AM         |12:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |12:00 AM              |
+   |activityDate |calendarST    |HEUser   |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|FairsSTime|newFairsSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|FairSTimeforReschedule|
+   |14           |12:19AM       |purple   |School Manager |Alpena Community College  |14  |12:19am  |10:59pm |3        |14       |21      |10:59pm      |No, I want to manually review all incoming requests. |Standalone High School 6|12:         |12:     |Qa Fair for testng    |14  |1200AM    |0100AM  |5            |$25 |25                    |100                        |Save          |14                  |12:31am      |12:29 AM           |12:29am                        |10:59pm                      |12:00am   |12:00am      |12:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |12:00 AM              |
 

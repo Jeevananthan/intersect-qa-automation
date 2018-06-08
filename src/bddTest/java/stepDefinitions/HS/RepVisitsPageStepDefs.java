@@ -330,7 +330,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HS I select the \"([^\"]*)\" button by entering the message \"([^\"]*)\" for \"([^\"]*)\"$", repVisits::declineConfirmation);
 
-        Then("^HS I select \"([^\"]*)\" option for the Notification using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$", repVisits::selectoptionforFairs);
+        Then("^HS I select \"([^\"]*)\" option for the Notification using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$", repVisits::selectoptionforFairs);
 
         Then("^HS I verify the Notification \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the Request Notification Tab for Fairs$", repVisits::verifyRequestNotificationTabforFairs);
 

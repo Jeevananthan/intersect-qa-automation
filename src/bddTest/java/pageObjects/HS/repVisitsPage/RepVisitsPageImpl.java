@@ -3061,10 +3061,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Yes, Decline button is not disabled",buttonDisabled.isDisplayed());
     }
 
-    public void selectoptionforFairs(String option,String user,String time,String university) {
+    public void selectoptionforFairs(String option,String user,String date,String fairsStartTime,String university) {
         waitUntilPageFinishLoading();
-        WebElement Confirmbutton=driver.findElement(By.xpath("//div[contains(text(),'"+user+"')]/parent::div/parent::div/following-sibling::div/div/div/strong[contains(text(),'"+university+"')]/parent::div/following-sibling::div/span[contains(text(),'"+time+"')]/../../following-sibling::div/button/span[text()='Confirm']"));
-        WebElement Declinebutton=driver.findElement(By.xpath("//div[contains(text(),'"+user+"')]/parent::div/parent::div/following-sibling::div/div/div/strong[contains(text(),'"+university+"')]/parent::div/following-sibling::div/span[contains(text(),'"+time+"')]/../../following-sibling::div/button/span[text()='Decline']"));
+        String fairsDate = selectdateForRequestSubTab(date);
+        WebElement Confirmbutton=driver.findElement(By.xpath("//div[contains(text(),'"+user+"')]/ancestor::div/following-sibling::div/div/div/strong[contains(text(),'"+university+"')]/parent::div/following-sibling::div/span/span[contains(text(),'"+fairsDate+"')]/parent::span[contains(text(),'"+fairsStartTime+"')]/../../following-sibling::div/button/span[text()='Confirm']"));
+        WebElement Declinebutton=driver.findElement(By.xpath("//div[contains(text(),'"+user+"')]/ancestor::div/following-sibling::div/div/div/strong[contains(text(),'"+university+"')]/parent::div/following-sibling::div/span/span[contains(text(),'"+fairsDate+"')]/parent::span[contains(text(),'"+fairsStartTime+"')]/../../following-sibling::div/button/span[text()='Decline']"));
         if(option.equals("Confirm")) {
             jsClick(Confirmbutton);
             waitUntilPageFinishLoading();
@@ -3199,7 +3200,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='"+Institution+"']"),1));
         driver.findElement(By.xpath("//div[text()='"+Institution+"']")).click();
         institutionTextBox().sendKeys(Keys.PAGE_DOWN);
-        eventLocation().sendKeys(Keys.PAGE_DOWN);
+        eventLocationInAddVisitPopup().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
         addVisitButtonInVisitSchedulePopup().click();
         waitUntilPageFinishLoading();
@@ -4784,8 +4785,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return false;
     }
 
-    public String selectdateForActivity(String addDays)
-    {
+    public String selectdateForActivity(String addDays) {
         String DATE_FORMAT_NOW = "EEEE, MMM dd, yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
@@ -4797,6 +4797,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
   
    public String getcurrentBlockedDate(String addDays) {
         String DATE_FORMAT_NOW = "MM/dd/yy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public String selectdateForRequestSubTab(String addDays) {
+        String DATE_FORMAT_NOW = "EEEE, MMMM d, yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
