@@ -120,3 +120,31 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |limitedCommunity  |City           |Liberty Township      |Toronto      |Toronto          |iberty Township      |City       |InvalidName   |a            |
 
 
+
+  @MATCH-3865 @MATCH-4489
+  Scenario Outline: As an HE premium/paid user (any role) searching for a school in RVs on the Search and Schedule view,
+                    I want to be able to see all high schools outside of the U.S.
+                    so that I don't have to do a country by country search to see ALL international high schools
+
+    Then HE I am logged in to Intersect HE as user type "<userType>"
+    And HE I search a school by "<filter>" using "<Non-USState>"
+    Then HE I verify the link "See all high schools outside of the U.S." is displayed in search and schedule page
+    Then HE I select the link "See all high schools outside of the U.S." in search and schedule page
+    Then HE I verify "International Schools" results is not displayed after move out from International Schools results view
+    And HE I search a school by "<filter>" using "<Non-USState>"
+    Then HE I verify the Header "Results" is displayed in search result Page
+    Then HE I verify the search results have "<Non-USState>" in the "<field>" field
+    Then HE I select the link "See all high schools outside of the U.S." in search and schedule page
+    Then HE I verify the Header changed to "International Schools" in search result Page
+    Then HE I verify the button "More Results" is displaying for more than 25 results
+    Then HE I select and verify the search result using "<school>" and "<Non-USState>"
+    Then HE I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "<limitedUser>"
+    Then HE I verify the International Schools list view does not load for HE RV freemium users
+
+    Examples:
+      |userType          |filter         |field      |Non-USState|school                      |limitedUser      |
+      |administrator     |Country        |Country    |Canada     |International QA High School|limited         |
+      |publishing        |Country        |Country    |Canada     |International QA High School|limitedPublishing|
+      |community         |Country        |Country    |Canada     |International QA High School|limitedCommunity |

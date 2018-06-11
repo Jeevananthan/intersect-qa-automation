@@ -2893,6 +2893,54 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         .isDisplayed());
     }
 
+    public void verifyLinkInSearchAndSchedule(String link){
+        Assert.assertTrue(link +" is not displayed",link(link).isDisplayed());
+    }
+
+    public void selectLinkInsearchAndSchedule(String link){
+        link(link).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyTextInSearchResultPage(String text){
+        Assert.assertTrue(text+" is not displayed",driver.findElement(By.xpath("//div/h3[text()='"+text+"']")).isDisplayed());
+    }
+
+    public void verifyResultInSearchAndSchedulePage(String school,String value){
+        link(school).click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("School is not displayed",link(school).isDisplayed());
+        Assert.assertTrue(value+" is not displayed",text(value).isDisplayed());
+    }
+
+    public void verifyMoreResultButtonInSearchAndSchedulePage(String moreResults){
+        List<WebElement> schoolCount = driver.findElements(By.xpath("//td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']"));
+        if(schoolCount.size()>25){
+            Assert.assertTrue("More results button is displayed",button(moreResults).isDisplayed());
+        }else {
+            logger.info("More results button is not displayed");
+        }
+    }
+
+    public void verifySearchAndSchedulePageAfterMovedOut(String internationalSchools){
+        getCalendarBtn().click();
+        waitUntilPageFinishLoading();
+        getSearchAndScheduleBtn();
+        waitUntilPageFinishLoading();
+        List<WebElement> text = driver.findElements(By.xpath("//h3[text()='"+internationalSchools+"']"));
+        if(text.size()==0){
+            logger.info("Previous result is not diplayed");
+        }else {
+            logger.info("Previous result is diplayed");
+        }
+    }
+
+    public void verifyInternationalSchoolsListIsNotDisplayedforFreemium(){
+        driver.get("https://he.intersect.hobsons.com/login?redirect=%2Frep-visits%2Fsearch%3Finternational%3Dtrue%29");
+        List<WebElement> results = driver.findElements(By.xpath("//td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']"));
+        Assert.assertTrue("International school list is displayed",results.size()==0);
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));

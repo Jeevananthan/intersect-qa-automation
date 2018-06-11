@@ -351,5 +351,21 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify \"([^\"]*)\" is displayed in the search results$",repVisits::verifyLabelInSearchResult);
       
         And("^HE I verify \"([^\"]*)\" is displayed in the search tooltip$",repVisits::verifySearchToolTip);
+
+        Then("^HE I verify the link \"([^\"]*)\" is displayed in search and schedule page$",repVisits::verifyLinkInSearchAndSchedule);
+
+        Then("^HE I select the link \"([^\"]*)\" in search and schedule page$",repVisits::selectLinkInsearchAndSchedule);
+
+        Then("^HE I verify the Header \"([^\"]*)\" is displayed in search result Page$",repVisits::verifyTextInSearchResultPage);
+
+        Then("^HE I verify the Header changed to \"([^\"]*)\" in search result Page$",repVisits::verifyTextInSearchResultPage);
+
+        Then("^HE I select and verify the search result using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyResultInSearchAndSchedulePage);
+
+        Then("^HE I verify the button \"([^\"]*)\" is displaying for more than 25 results$",repVisits::verifyMoreResultButtonInSearchAndSchedulePage);
+
+        Then("^HE I verify \"([^\"]*)\" results is not displayed after move out from International Schools results view$",repVisits::verifySearchAndSchedulePageAfterMovedOut);
+
+        Then("^HE I verify the International Schools list view does not load for HE RV freemium users$",repVisits::verifyInternationalSchoolsListIsNotDisplayedforFreemium);
     }
 }
