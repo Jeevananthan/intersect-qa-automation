@@ -170,7 +170,8 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
      * Clicks on consent creation and maintenance of Intersect Account
      */
     public void consentCreateAndMaintainIntersectAccount(){
-        driver.findElement(By.cssSelector("label[for=edit-field-account-consent-und]")).click();
+        WebElement hiddenWebElement = driver.findElement(By.id("edit-field-account-consent-und"));
+        driver.executeScript("arguments[0].click()",hiddenWebElement);
     }
 
     /***
