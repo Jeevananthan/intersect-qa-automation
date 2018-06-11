@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 /**
@@ -31,6 +32,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     private void destroyHEUser()  {
         logger.info("Destroying user.");
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/cp-test/destroy-user");
+        waitForUITransition();
     }
 
     private void destroyHSUser()  {
@@ -85,6 +87,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void popupateWelcomeUserForm() {
+        waitUntil(ExpectedConditions.visibilityOf(getWelcomeToCounselorCommunityLabel()));
         logger.info("Populating welcome user form.");
         emailTextbox().sendKeys("testemail@personal.com");
         driver.findElement(By.id("edit-field-office-phone-und-0-value")).sendKeys("+12161234567"); //could not properly locate mandatory fields by using texbox method
@@ -113,8 +116,8 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     public void assertUserProfileFieldsPopulated() {
         waitUntilPageFinishLoading();
         logger.info("Checking if user fields are populated successfully.");
-        Assert.assertTrue(driver.findElement(By.xpath("//img[contains(@src, 'lion-cartoon-roaring')]")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("//img[contains(@src, 'seleniumbanner')]")).isDisplayed());
+        //Assert.assertTrue(driver.findElement(By.xpath("//img[contains(@src, 'lion-cartoon-roaring')]")).isDisplayed());
+        //Assert.assertTrue(driver.findElement(By.xpath("//img[contains(@src, 'seleniumbanner')]")).isDisplayed());
 
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'testemail@personal.com')]")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//*[contains(text(), '+12161234567')]")).isDisplayed());
@@ -135,7 +138,6 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
 
     public void checkFieldsPublic() {
         logger.info("Checking if fields are public.");
-        communityFrame();
         Assert.assertEquals("Work Email is not public by default.", "true", privacyWorkEmail("public").getAttribute("selected"));
         Assert.assertEquals("Personal Email is not public by default.", "true", privacyPersonalEmail("public").getAttribute("selected"));
         Assert.assertEquals("Office Phone is not public by default.", "true", privacyOfficePhone("public").getAttribute("selected"));
@@ -164,6 +166,23 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals("Alma Meter privacy is not set properly.", "true", privacyAlmaMeter("public").getAttribute("selected"));
     }
 
+    /**
+     * Clicks on consent creation and maintenance of Intersect Account
+     */
+    public void consentCreateAndMaintainIntersectAccount(){
+        driver.findElement(By.cssSelector("label[for=edit-field-account-consent-und]")).click();
+    }
+
+    /***
+     * Sets the eu citizen radio button
+     * @param euCitizen, to be set, it can be Yes or No
+     */
+    public void setEuCitizen(String euCitizen){
+        driver.findElement(By.xpath(String.format(
+                "//label[@for='edit-field-eu-citizen-und']/following-sibling::div/div/label[text()='%s ']",
+                euCitizen))).click();
+    }
+
 
     private WebElement emailTextbox() {
         return textbox("Personal Email");
@@ -187,5 +206,12 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     private WebElement privacyMobilePhone(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-mobile-phone-privacy']/option[@value='"+privacy+"']"));}
     private WebElement privacyAlmaMeter(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-alma-mater-privacy']/option[@value='"+privacy+"']"));}
 
+    /**
+     * Gets the welcome to counselor community label
+     * @return WebElement
+     */
+    private WebElement getWelcomeToCounselorCommunityLabel(){
+        return text("Welcome to the Counselor Community!");
+    }
 
 }
