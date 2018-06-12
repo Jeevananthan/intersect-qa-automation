@@ -39,6 +39,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
     public static String formattedDate;
+    public static String currentURL;
 
     public RepVisitsPageImpl() {
         logger = Logger.getLogger(RepVisitsPageImpl.class);
@@ -2893,12 +2894,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         .isDisplayed());
     }
 
-    public void verifyLinkInSearchAndSchedule(String link){
-        Assert.assertTrue(link +" is not displayed",link(link).isDisplayed());
-    }
-
-    public void selectLinkInsearchAndSchedule(String link){
-        link(link).click();
+    public void selectLinkInsearchAndSchedule(String seeAllHighSchool){
+        Assert.assertTrue("See All HighSchool link is not displayed",link(seeAllHighSchool).isDisplayed());
+        link(seeAllHighSchool).click();
         waitUntilPageFinishLoading();
     }
 
@@ -2906,7 +2904,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(text+" is not displayed",driver.findElement(By.xpath("//div/h3[text()='"+text+"']")).isDisplayed());
     }
 
-    public void verifyResultInSearchAndSchedulePage(String school,String value){
+    public void verifySchoolInSchedulePage(String school,String value){
         link(school).click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("School is not displayed",link(school).isDisplayed());
@@ -2928,17 +2926,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchAndScheduleBtn();
         waitUntilPageFinishLoading();
         List<WebElement> text = driver.findElements(By.xpath("//h3[text()='"+internationalSchools+"']"));
-        if(text.size()==0){
-            logger.info("Previous result is not diplayed");
-        }else {
-            logger.info("Previous result is diplayed");
-        }
+        Assert.assertTrue("International Schools result is displayed",text.size()==0);
     }
 
     public void verifyInternationalSchoolsListIsNotDisplayedforFreemium(){
-        driver.get("https://he.intersect.hobsons.com/login?redirect=%2Frep-visits%2Fsearch%3Finternational%3Dtrue%29");
+        driver.get(currentURL);
         List<WebElement> results = driver.findElements(By.xpath("//td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']"));
         Assert.assertTrue("International school list is displayed",results.size()==0);
+    }
+
+    public void getCurrentPageURL(){
+        currentURL = driver.getCurrentUrl();
     }
 
     private WebElement accountSettings(String accountSettings)
