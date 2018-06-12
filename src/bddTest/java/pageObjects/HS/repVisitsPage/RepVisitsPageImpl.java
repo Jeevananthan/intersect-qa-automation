@@ -3363,7 +3363,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement editFairButton() { return getDriver().findElement(By.cssSelector("#edit-college-fair")); }
     private WebElement cancelThisCollegeFair() { return getDriver().findElement(By.cssSelector("button.ui.red.basic.button")); }
     private String cancelMessageTextBoxLocator() { return "college-fair-cancellation-message"; }
-    private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[type='submit']")); }
+    private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[class='ui primary right floated button _4kmwcVf4F-UxKXuNptRFQ']")); }
     private WebElement closeButton() { return getDriver().findElement(By.xpath("//button[text()='Close']")); }
     private WebElement addFairButton() { return getDriver().findElement(By.cssSelector("#add-college")); }
     private WebElement fairNameTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-name")); }
@@ -4429,6 +4429,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             rsvpCalendarIcon().click();
             pickDateInDatePicker(calendarRSVPDate);
             fillFairForm(fairDetails);
+            scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
             saveButton().click();
         }
 
