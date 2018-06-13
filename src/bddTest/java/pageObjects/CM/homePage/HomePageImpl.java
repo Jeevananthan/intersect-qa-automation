@@ -17,6 +17,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUpgradeWidget(String visibility, String userType){
+        //Wait page load function deleted.
         switch (visibility){
             case "visible":
                 Assert.assertTrue("New Widget Learn More is not displaying for "+userType+" User", getLearnMoreLink().isDisplayed());
