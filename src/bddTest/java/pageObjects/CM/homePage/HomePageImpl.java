@@ -6,11 +6,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import pageObjects.COMMON.NavBarImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private NavBarImpl navBar = new NavBarImpl();
 
     public HomePageImpl() {
         logger = Logger.getLogger(pageObjects.HE.homePage.HomePageImpl.class);
@@ -85,8 +87,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUserIsLoggedIn() {
-        //Check if user element is present
         waitUntilPageFinishLoading();
+        navBar.goToCommunity();
+        communityFrame();
+        //Check if user Profile element is present
         Assert.assertTrue("User did not sign in successfully",link("Profile").isDisplayed());
         logger.info("Logged in to Community successfully");
     }
