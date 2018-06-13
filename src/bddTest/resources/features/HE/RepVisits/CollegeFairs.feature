@@ -2,39 +2,32 @@
 Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisits College Fairs features.
 
   @MATCH-1771
-  Scenario: Create test fairs
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I create a new college fair with the following details:
-      | Name | AutoApprovals |
-      | Date | In 12 days   |
-      | Start time | 12:10 AM |
-      | End time   | 09:30 AM |
-      | RSVP deadline | In 2 day |
-      | Cost          | 123        |
-      | Max colleges  | 5          |
-      | Max students  | 5          |
-      | Auto Approvals | Yes       |
-    Then HS I create a new college fair with the following details:
-      | Name | NoAutoApprovals |
-      | Date | In 12 days     |
-      | Start time | 08:34 AM |
-      | End time   | 09:30 AM |
-      | RSVP deadline | In 2 day |
-      | Cost          | 123        |
-      | Max colleges  | 5          |
-      | Max students  | 5          |
-      | Auto Approvals | No        |
-
-  @MATCH-1771
   Scenario: As a HE user, on the "Community availability sidebar", each college fair has a Register button that presents
             the HE user with a fair request confirmation popup
-    Given HE I am logged in to Intersect HE as user type "administrator"
-    When HE I open the institution of ID "04d3b77e-18f5-43cd-a585-101268b1178b"
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I create a College Fair with the following data
+      | College Fair Name                                         | Fair-1771               |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 1800AM                  |
+      | Date                                                      | 7                       |
+      | RSVP Deadline                                             | 1                       |
+      | End Time                                                  | 1900PM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I successfully sign out
+    When HE I am logged in to Intersect HE as user type "administrator"
+    And HE I open the institution of ID "04d3b77e-18f5-43cd-a585-101268b1178b"
     And HE I open the Fairs tab in Check RepVisits Availability sidebar
-    Then HE I should be able to open the registration popup for the fair "AutoApprovals" in Check RepVisits Availability sidebar
+    Then HE I should be able to open the registration popup for the fair "Fair-1771" in Check RepVisits Availability sidebar
     Then HE I verify that the fair request confirmation popup contains all the required fields, including high school name "Int Qa High School 4"
     And HE I close the fair request popup
     And HE I successfully sign out
+    And HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I cancel the fair of name "Fair-1771" with the reason "test"
+    And HS I successfully sign out
 
   @MATCH-1771
   Scenario: As a HE user, on the scheduling results page, each college fair listed has a "register" button that presents
@@ -91,7 +84,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
     Then HE I verify that the registered fair is displayed for "Int Qa High School 4" in the Search and Schedule quickview in the date "In 2 days" and time "6:00AM"
     And HE I successfully sign out
     When HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    And HS I cancel the fair of name "AutoApprovals" with the reason "test"
+    And HS I cancel the fair of name "Fair-1771" with the reason "test"
     And HS I successfully sign out
 
   # The following scenario is failing because of MATCH-3704.
@@ -137,6 +130,10 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
   # Log into HE app and verify that the fair is not visible
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify that the previously created fair does not appear for "Int QA High School 4"
+    And HE I successfully sign out
+    And HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
+    And HS I successfully sign out
 
   @manual @NotInQA
   Scenario: As a HE user, I need to verify that the error message when the fair is not available anymore
@@ -181,7 +178,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
       | High School address | 6840 LAKOTA LN Liberty Township, OH 45044 |
       | Contact name      | IAM Purple              |
       | Contact email     | naviance-email@mock.com |
-      | Contact phone     | 1234567890              |
+      | Contact phone     | 9876543210              |
       | Start time        | 7:04 AM                 |
       | End time          | 8:00 AM                 |
       | Time zone         | (EDT)                   |
