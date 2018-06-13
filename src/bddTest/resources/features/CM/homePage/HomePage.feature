@@ -9,7 +9,6 @@ Feature: As a Freemium or Legacy Hubs HE user I want to see an additional Commun
             widget will not show
     When HE I want to login to the HE app using "<Username>" as username and "<Password>" as password
     Then CM I verify that the upgrade widget is "<Visibility>" for "<UserType>" users
-    And HE I successfully sign out
     Examples:
       |UserType            |Username                              |Password   |Visibility  |
       |Freemium            |purpleheautomation+limited@gmail.com  |Password!1 |visible     |
