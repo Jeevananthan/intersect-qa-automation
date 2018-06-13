@@ -595,6 +595,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void pressCalendarArrowUntil(String side, String month, int tries) {
+        waitUntil(ExpectedConditions.visibilityOf(rightCalendarRightButton()));
         for (int i = 0; i < tries; i++) {
             if (!rightCalendarHeaderDate().getText().split(" ")[0].equals(month)) {
                 if (side.equals("right")) {
@@ -2493,7 +2494,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void openCalendar() {
         navBar.goToRepVisits();
         getCalendarBtn().click();
-        waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
     public void openFairDetailsWithGeneratedDate() {
