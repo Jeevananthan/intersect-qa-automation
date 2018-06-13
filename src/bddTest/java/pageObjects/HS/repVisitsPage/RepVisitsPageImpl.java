@@ -1683,7 +1683,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } catch (final UnsupportedOperationException e) {
             logger.error(e.getMessage());
         } catch (final WebDriverException e) {
-            fail("The date " + day + " for next month than " + date + " was not disabled: " + e.getMessage());
+            fail("The date " + day + " for previous month than " + date + " was not disabled: " + e.getMessage());
+        }
         return enabledOrDisabledDate;
 
     }
@@ -1700,7 +1701,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } catch (final UnsupportedOperationException e) {
             logger.error(e.getMessage());
         } catch (final WebDriverException e) {
-            fail("The date " + day + " for previous month than " + date + " was not disabled: " + e.getMessage());
+            fail("The date " + day + " for next month than " + date + " was not disabled: " + e.getMessage());
         }
 
         return enabledOrDisabledDate;
