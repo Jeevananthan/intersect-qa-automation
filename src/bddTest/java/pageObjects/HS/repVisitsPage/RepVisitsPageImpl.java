@@ -3376,7 +3376,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement numOfStudents() { return getDriver().findElement(By.cssSelector("#college-fair-number-expected-students")); }
     private WebElement autoApprovalYesRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-yes")); }
     private WebElement autoApprovalNoRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-no")); }
-    private WebElement saveButton() { return getDriver().findElement(By.cssSelector("button[class='ui primary button']")); }
+    private WebElement saveButton() { return getDriver().findElement(By.xpath("//span[text()='Save']")); }
     private WebElement cancelFairNoAutoApprovals() { return driver.findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ span")); }
     private WebElement availabilityAndSettingsButton() { return getDriver().findElement(By.xpath("//span[text()='Availability & Settings']")); }
     private WebElement innerExceptionsButton() { return getDriver().findElement(By.cssSelector("ul.ui.pointing.secondary.fourth.menu li:nth-of-type(3) a")); }
@@ -4421,7 +4421,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             generatedDate = getMonth(calendarStartDate);
             generatedDateDayOfWeek = getDayOfWeek(calendarStartDate) + " " + getDay(calendarStartDate);
             Calendar calendarRSVPDate = getDeltaDate(Integer.parseInt(daysFromNow) - 1);
-            waitForUITransition();
+            waitUntil(ExpectedConditions.visibilityOf(addFairButton()));
             addFairButton().click();
             waitForUITransition();
             dateCalendarIcon().click();
@@ -4430,6 +4430,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             pickDateInDatePicker(calendarRSVPDate);
             fillFairForm(fairDetails);
             scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
+            waitUntil(ExpectedConditions.visibilityOf(saveButton()));
             saveButton().click();
         }
 
