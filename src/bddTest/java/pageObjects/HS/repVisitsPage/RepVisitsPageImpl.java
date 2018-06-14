@@ -2412,7 +2412,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navBar.goToRepVisits();
         link("College Fairs").click();
         button(By.xpath("//a[@aria-label='"+fairName+"']")).click();
-        button("Edit").click();
+        button(By.xpath("//button[@id='edit-college-fair']")).click();
         button("Cancel This College Fair").click();
         if (getDriver().findElements(By.xpath("//span[contains(text(), 'Yes, Cancel this fair')]")).size() >= 1) {
             button("yes, cancel this fair").click();
@@ -2493,6 +2493,68 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save").click();
     }
 
+    /**
+     * Edit a college fair with a random number appended to the end of the supplied name.
+     * This reduces name collisions with repeated tests.
+     * @param dataTable - Data Table containing all the fields for the College Fair
+     */
+    public void editCollegeFair(DataTable dataTable) {
+       editFair();
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        for (String key : data.keySet()) {
+            if(key.equals("Date")){
+                String fairDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
+                enterCollegeFairData(key, fairDateToFill);
+            }
+            else if (key.equals("RSVP Deadline")){
+                String fairRSVPDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
+                enterCollegeFairData(key, fairRSVPDateToFill);
+            } else if (key.equals("College Fair Name")) {
+                String fairName = data.get(key);
+                FairName = fairName;
+                enterCollegeFairData(key, fairName);
+            } else
+                enterCollegeFairData(key, data.get(key));
+
+        }
+        scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
+        button("Save").click();
+        button("Close").click();
+    }
+
+    /**
+     * Verify Edit a college fair with a random number appended to the end of the supplied name.
+     * This reduces name collisions with repeated tests.
+     * @param dataTable - Data Table containing all the fields for the College Fair
+     */
+    public void verifyDataCollegeFair(DataTable dataTable) {
+        editFair();
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        for (String key : data.keySet()) {
+            if(key.equals("Date")){
+                String fairDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
+                String currentFairDate = textbox(By.id("college-fair-date")).getAttribute("value");
+                fairDateToFill = formatterDate(fairDateToFill);
+                Assert.assertTrue(currentFairDate.contains(fairDateToFill));
+            }
+            else if (key.equals("RSVP Deadline")){
+                String fairRSVPDateToFill = createFutureDateForFair(Integer.parseInt(data.get(key)));
+                String currentRSVP = driver.findElement(By.cssSelector("input[id='college-fair-rsvp-deadline']")).getAttribute("value");
+                fairRSVPDateToFill = formatterDate(fairRSVPDateToFill);
+                Assert.assertTrue(currentRSVP.contains(fairRSVPDateToFill));
+            } else if (key.equals("College Fair Name")) {
+                String fairName = data.get(key);
+                String currentFairName = textbox(By.id("college-fair-name")).getAttribute("value");
+                Assert.assertTrue(currentFairName.contains(fairName));
+            } else
+                enterCollegeFairData(key, data.get(key));
+
+        }
+        scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
+        button("Save").click();
+        button("Close").click();
+    }
+
     public void unpublishCollegeFair() {
         waitUntilElementExists(getUnpublishButton());
         getUnpublishButton().click();
@@ -2525,6 +2587,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         cal_1.add(Calendar.DATE, days);
         String fixDate = dateFormat_3.format(cal_1.getTime());
         return fixDate;
+    }
+
+    /**
+     * Format the date from "Fri, June 7 2013" to "Fri, Jun 07 2013"
+     * @param dateFormat, date to formmatter
+     */
+    public String formatterDate(String dateToFormat)
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+        Date date = null;
+        try {
+            date = formatter.parse(dateToFormat);
+        } catch (ParseException e) {e.printStackTrace();
+
+        }
+        return dateToFormat = formatter.format(date);
     }
 
     public void scrollDown(WebElement element){

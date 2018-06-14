@@ -2979,7 +2979,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
-  
+
     private WebElement getSearchBox() { return textbox("Search for a school...");}
     private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
     private WebElement getSearchAndScheduleSearchBox(){ return textbox("Search for a school..."); }
