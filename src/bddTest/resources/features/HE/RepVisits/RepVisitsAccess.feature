@@ -156,7 +156,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
               so that I can easily view all the high school I may want to visit on one screen.
 #Pre-Conditions
-    Given HS I want to login to the HS app using "purplehsautomations+centralHS@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -196,15 +196,15 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I remove "Westlake H S" high school from the travel plan
     And HE I successfully sign out
 #Post Conditions [Removing the created visits and Fairs]
-    Given HS I want to login to the HS app using "purplehsautomations+centralHS@gmail.com" as username and "Password!1" as password
+    Given HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I select "Edit" button to cancel the college Fair "<College Fair Name>"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 
 Examples:
-      |School                  |address                                                          |college going rate|senior class size|primary POC         |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
-      |Central High School     |16900 W Gebhardt Rd Brookfield, Wisconsin, Waukesha county, 53005|82                |320              |CENTRAL HIGH HS     |2            |WISCONSIN |14  |10:      |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:         |10:     |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Brookfield |
+      |School                  |address                                             |college going rate|senior class size|primary POC      |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
+      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |11           |OHIO      |14  |10:      |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:         |10:     |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Butler     |
 
   @MATCH-1603
   Scenario Outline: As an HE user I need to be able to view the scheduling results of my Visits search AFTER I have
@@ -226,16 +226,16 @@ Examples:
     Then HE I verify the Intersect Presence Subscription module is Inactive for "<School>"
   #Log in to HS and set an appointment slot
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
   #Log back into HE and make sure that the visit popups work as expected
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
     Examples:
-      |Day     |HourStartTime |HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|Option                                              |hsEndTime|Option                             |School               |heStartTime   |heTime   |Date             |StartDate        |EndDate        |
-      |Friday  |11            |12         |34             |34           |am               |pm             |3        |No, I want to manually review all incoming requests.|12:34pm  |Yes, accept all incoming requests. |Int Qa High School 4 |11:34am       |11:34am  |June 7 2019  |March 28 2018    |July 14 2019   |
+      |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime |
+      |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:        |10:    |
