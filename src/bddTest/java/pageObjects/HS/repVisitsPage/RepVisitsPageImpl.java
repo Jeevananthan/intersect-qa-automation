@@ -2065,7 +2065,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         newPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
         confirmPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
         saveButton().click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span"),1));
         List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
         if(list.size()==1) {
             logger.info("Error Message is displayed");
@@ -2081,7 +2081,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             newPasswordInput().sendKeys(newPassword);
             confirmPasswordInput().sendKeys(newPassword);
             saveButton().click();
-            waitForUITransition();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span"),1));
             List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
             if(list.size()==1) {
                 logger.info("Error Message is displayed");
@@ -2675,8 +2675,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size()==0) {
-            WebElement button =  button("Next");
-            waitUntil(ExpectedConditions.visibilityOf(button),20);
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Next']"), 1));
             button("Next").click();
             waitForUITransition();
             waitUntilPageFinishLoading();
@@ -3406,7 +3405,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement editFairButton() { return getDriver().findElement(By.cssSelector("#edit-college-fair")); }
     private WebElement cancelThisCollegeFair() { return getDriver().findElement(By.cssSelector("button.ui.red.basic.button")); }
     private String cancelMessageTextBoxLocator() { return "college-fair-cancellation-message"; }
-    private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[type='submit']")); }
+    private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[class='ui primary right floated button _4kmwcVf4F-UxKXuNptRFQ']")); }
     private WebElement closeButton() { return getDriver().findElement(By.xpath("//button[text()='Close']")); }
     private WebElement addFairButton() { return getDriver().findElement(By.cssSelector("#add-college")); }
     private WebElement fairNameTextBox() { return getDriver().findElement(By.cssSelector("#college-fair-name")); }
@@ -3419,7 +3418,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement numOfStudents() { return getDriver().findElement(By.cssSelector("#college-fair-number-expected-students")); }
     private WebElement autoApprovalYesRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-yes")); }
     private WebElement autoApprovalNoRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-no")); }
-    private WebElement saveButton() { return getDriver().findElement(By.cssSelector("button[class='ui primary button']")); }
+    private WebElement saveButton() { return getDriver().findElement(By.xpath("//span[text()='Save']")); }
     private WebElement cancelFairNoAutoApprovals() { return driver.findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ span")); }
     private WebElement availabilityAndSettingsButton() { return getDriver().findElement(By.xpath("//span[text()='Availability & Settings']")); }
     private WebElement innerExceptionsButton() { return getDriver().findElement(By.cssSelector("ul.ui.pointing.secondary.fourth.menu li:nth-of-type(3) a")); }
@@ -4471,7 +4470,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             generatedDate = getMonth(calendarStartDate);
             generatedDateDayOfWeek = getDayOfWeek(calendarStartDate) + " " + getDay(calendarStartDate);
             Calendar calendarRSVPDate = getDeltaDate(Integer.parseInt(daysFromNow) - 1);
-            waitForUITransition();
+            waitUntil(ExpectedConditions.visibilityOf(addFairButton()));
             addFairButton().click();
             waitForUITransition();
             dateCalendarIcon().click();
@@ -4479,6 +4478,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             rsvpCalendarIcon().click();
             pickDateInDatePicker(calendarRSVPDate);
             fillFairForm(fairDetails);
+            scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
+            waitUntil(ExpectedConditions.visibilityOf(saveButton()));
             saveButton().click();
         }
 
@@ -5340,6 +5341,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  text;
     }
     private WebElement frameInCommunity() {
+        driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("iframe[title=Community]"),1));
         WebElement frame=driver.findElement(By.xpath("//iframe[@title='Community']"));
         return frame;
     }
