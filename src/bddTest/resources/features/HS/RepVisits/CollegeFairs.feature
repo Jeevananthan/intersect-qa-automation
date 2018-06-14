@@ -64,6 +64,7 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
       | Number of Students Expected                               | 10                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I successfully sign out
   # Log into HE app and verify that the fair is visible
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify that the previously created fair appears for "Int QA High School 4"
