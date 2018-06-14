@@ -104,6 +104,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
 
         if(!institutionName.equalsIgnoreCase("Request new institution")){
+
             if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
                 logger.info("Results are displayed after the search");
                 link(institutionName).click();

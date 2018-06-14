@@ -842,7 +842,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyManualBlockedHolidays(String holiday) {
-        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
+//        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
         navBar.goToRepVisits();
         link("Availability & Settings").click();
         link("Blocked Days").click();
