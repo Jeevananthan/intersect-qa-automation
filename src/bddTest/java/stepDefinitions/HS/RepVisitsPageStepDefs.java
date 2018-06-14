@@ -352,7 +352,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the View Details button for the College Fair \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
-        Then("^HS I select \"([^\"]*)\" button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
+        Then("^HS I select Edit button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
 
         And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
 //        And("^HS I navigate to the college visits page$", repVisits::navigateToVisitPage);

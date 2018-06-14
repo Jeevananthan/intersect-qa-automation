@@ -198,7 +198,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
 #Post Conditions [Removing the created visits and Fairs]
     Given HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
-    Then HS I select "Edit" button to cancel the college Fair "<College Fair Name>"
+    Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 
