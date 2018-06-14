@@ -168,6 +168,12 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void enableOnboardingModalsIfDisabled() {
+        if(driver.findElements(By.cssSelector(onboardingHeaderLocator)).size() < 1) {
+            aboutSuperMatchLink().click();
+        }
+    }
+
     // Locators Below
 
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
@@ -193,4 +199,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement dataUnknownLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-icon")); }
     private WebElement doesntMatchLegend() { return driver.findElement(By.cssSelector("div.eight.wide.column.supermatch-sidebar-criteria-legend-icon")); }
     private WebElement nextButton() { return driver.findElement(By.cssSelector("div.onboarding-popup-footer button")); }
+    private WebElement aboutSuperMatchLink() { return driver.findElement(By.cssSelector("i.question.circle.icon + span")); }
 }
