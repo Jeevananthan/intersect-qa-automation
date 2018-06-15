@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -124,6 +125,16 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify \"([^\"]*)\" checkbox in Diversity fit criteria$", searchPage::verifyHighInternationalPopulationCheckbox);
 
         Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
+
+        Then("^SM I verify that the Save Search popup is closed when I use the Cancel action$", searchPage::verifySaveSearchIsClosedWhenCancelIsClicked);
+
+        Then("^SM I verify that the Save Search popup is closed when I click outside the popup$", searchPage::verifySaveSearchIsClosedWithOutterClick);
+
+        Then("^SM I verify that the text inside the Save Search popup is correct$", searchPage::verifyTextInsideSaveSearchBox);
+
+        Then("^SM I verify the error message for more than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
+
+        And("^SM I save the search with the name \"([^\"]*)\"$", searchPage::saveSearchWithName);
 
     }
 }

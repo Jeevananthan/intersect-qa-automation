@@ -14,6 +14,7 @@ import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.support.Color;
@@ -21,6 +22,8 @@ import org.openqa.selenium.support.Color;
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private static String fs = File.separator;
+    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties",fs ,fs ,fs ,fs ,fs);
 
     public SearchPageImpl() {
         logger = Logger.getLogger(SearchPageImpl.class);
@@ -1073,6 +1076,42 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+    public void verifySaveSearchIsClosedWhenCancelIsClicked() {
+        saveSearchPopupCancelLink().click();
+        Assert.assertTrue("The Save Search popup was not closed when Cancel was clicked",
+                driver.findElements(By.xpath("saveSearchPopupCancelLinkLocator")).size() < 1);
+    }
+
+    public void verifySaveSearchIsClosedWithOutterClick() {
+        chooseFitCriteriaBar().click();
+        Assert.assertTrue("The Save Search popup was not closed when Cancel was clicked",
+                driver.findElements(By.xpath("saveSearchPopupCancelLinkLocator")).size() < 1);
+    }
+
+    public void verifyTextInsideSaveSearchBox() {
+        Assert.assertTrue("The text in the Save Search popup header is not correct",
+                saveSearchPopupHeader().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.header")));
+        Assert.assertTrue("The text in the section below the header in the Save Search popup is not correct",
+                saveSearchPopupGiveANameLine().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.give.name")));
+        Assert.assertTrue("The text in the Search Box in the Saved Search popup is not correct",
+                saveSearchPopupSearchBox().getAttribute("placeholder").equals(getStringFromPropFile(propertiesFilePath, "save.search.box")));
+        Assert.assertTrue("The text in the first line about special characters is not correct",
+                saveSearchPopupSpecialCharLine1().getText().contains(getStringFromPropFile(propertiesFilePath, "save.search.not.allowed.characters.1")));
+        Assert.assertTrue("The text in the second line about special characters is not correct",
+                saveSearchPopupSpecialCharLine2().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.not.allowed.characters.2")));
+    }
+
+    public void verifyErrorMessageforXCharacters(String numberOfCharacters) {
+        saveSearchPopupSearchBox().sendKeys(getStringFromPropFile(propertiesFilePath, "save.search.50.characters"));
+        Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
+                equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message")));
+    }
+
+    public void saveSearchWithName(String searchName) {
+        saveSearchPopupSearchBox().sendKeys(searchName);
+        saveSearchLink().click();
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1236,4 +1275,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement ChooseFitCriteriaText(){ return getDriver().findElement(By.xpath("//span[text()='Choose Fit Criteria']")); }
 
     private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
+
+    private WebElement saveSearchPopupCancelLink() { return driver.findElement(By.xpath(saveSearchPopupCancelLinkLocator)); }
+
+    private String saveSearchPopupCancelLinkLocator = "//button[@class='ui teal basic button' and text()='Cancel']";
+
+    private WebElement saveSearchPopupHeader() { return driver.findElement(By.cssSelector("div.header")); }
+
+    private WebElement saveSearchPopupGiveANameLine() { return driver.findElement(By.cssSelector("div.field label")); }
+
+    private WebElement saveSearchPopupSpecialCharLine1() { return driver.findElement(By.cssSelector("form.ui.form p")); }
+
+    private WebElement saveSearchPopupSpecialCharLine2() { return driver.findElement(By.cssSelector("form.ui.form p span")); }
+
+    private WebElement saveSearchPopupSearchBox() { return driver.findElement(By.cssSelector("div.field label + div input")); }
+
+    private WebElement saveSearchPopupErrorMessage() { return driver.findElement(By.cssSelector("div.ui.error.negative.visible.message div.content p")); }
+
+    private WebElement saveSearchLink() { return driver.findElement(By.xpath("//div[@class='actions']/button[@class='ui teal basic button' and text()='Save Search']")); }
 }
