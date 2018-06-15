@@ -27,9 +27,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
            // Check if we're testing the embedded version of SM, or the standalone
         try {
             if (System.getProperty("SuperMatchEnv").equals("FamilyConnection")) {
-                // Just deleting cookies isn't enough to end your session in FC, so close the browser too.
-                getDriver().manage().deleteAllCookies();
-                getDriver().close();
                 loginThroughFamilyConnection(GetProperties.get("fc.default.username"), GetProperties.get("fc.default.password"), GetProperties.get("fc.default.hsid"));
                 getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
             } else {
@@ -47,6 +44,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      * @param hsid - SchoolID that is needed for the hsid paramater in the request URL
      */
     public void loginThroughFamilyConnection(String username, String password, String hsid) {
+        // Just deleting cookies isn't enough to end your session in FC, so close the browser too.
+        getDriver().manage().deleteAllCookies();
+        getDriver().close();
         navigateToFamilyConnection(hsid);
         // Sometimes the FC UI takes a long time to load, give it some extra room.
         getDriver().manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);

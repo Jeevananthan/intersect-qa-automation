@@ -470,7 +470,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void moveToNiceToHave(String item) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
-        getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")).click();
+        // Intermittent problems with clicking this in Embedded version, so sending the click directly with JS.
+        jsClick(getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
     }
 
     /**
