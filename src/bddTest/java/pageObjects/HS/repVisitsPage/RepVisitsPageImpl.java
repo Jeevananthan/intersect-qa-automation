@@ -5,6 +5,7 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.internal.runners.statements.Fail;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -22,8 +23,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
 import java.text.DateFormat;
 import utilities.GetProperties;
 import java.text.ParseException;
@@ -37,11 +36,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.Map;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
+
 import static junit.framework.TestCase.fail;
-import static org.junit.Assert.fail;
 import static junit.framework.TestCase.fail;
+import static org.junit.Assert.*;
+
 import utilities.File.CsvFileUtility;
 
 import utilities.File.FileManager;
@@ -666,6 +665,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(StartDate, "Start");
     }
 
+    /**
+     *  Verify the date Availability in the specific range dates
+     * @startDate The start date
+     * @endDate The end date
+     * @day specific date to verify
+     */
+    public void verifyAvaliabilityDates(String startDate, String endDate, String day) {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
+        link("Availability").click();
+        waitUntilPageFinishLoading();
+        link("Regular Weekly Hours").click();
+        waitUntilPageFinishLoading();
+        findSpecificDate(startDate, day);
+        findSpecificDate(endDate, day);
+    }
+
     public String getSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
         Calendar cal = Calendar.getInstance();
@@ -745,6 +764,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         findMonth(calendarHeading);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
+    }
+
+    /**
+     *  Find the specific date in the calendar
+     * @date The calendar date
+     * @day specific date to verify
+     */
+    public void findSpecificDate(String date, String day) {
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+        findMonth(date);
+        if (date.contains("April")) {
+            verifyDisabledDates(date, day);
+        }else {
+        verifyEnabledDates(date, day);}
     }
 
     public void accessOneLastStepSetupWizard(String visitAvailability) {
@@ -1604,6 +1637,75 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         catch (Exception e) {
             Assert.fail("The Date selected it's out of RANGE.");
         }
+    }
+
+    /**
+     *  Verify the correct Availability of the dates range from April 1st 2018 to July 15th 2019
+     * @date String with the date selected Available and unavailable
+     * @day String with the day selected Available and unavailable
+     */
+    public void verifyEnabledDates(String date, String day) {
+        Boolean verifyDateEnabled = dateEnabled(date, day);
+        //Verify that April 1st is available to select
+        assertTrue("The Date is not available to select ", verifyDateEnabled);
+        //Verify that after April 1st is unavailable to select
+        driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+        verifyDateEnabled = dateDisabled(date, day);
+        assertTrue("The Date is not available to select ", verifyDateEnabled);
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+    }
+
+    /**
+     *  Verify the correct unavailability of the dates range from April 1st 2018 to July 15th 2019
+     * @date String with the date selected Available and unavailable
+     * @day String with the day selected Available and unavailable
+     */
+    public void verifyDisabledDates(String date, String day) {
+        Boolean verifyDateEnabled = dateEnabled(date, day);
+        //Verify that July 14th is available to select
+        assertTrue("The Date is not available to select ", verifyDateEnabled);
+        //Verify that after July 14th is unavailable to select
+        driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+        verifyDateEnabled = dateDisabled(date, day);
+        assertTrue("The Date is not available to select ", verifyDateEnabled);
+        button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).click();
+    }
+
+    /**
+     *  Return a boolean value if date it's available
+     * @date String with the date selected Available and unavailable
+     * @day String with the day selected Available and unavailable
+     */
+    public boolean dateEnabled(String date, String day) {
+        Boolean enabledOrDisabledDate = false;
+        try {
+            enabledOrDisabledDate = driver.findElement(By.cssSelector("div[class='DayPicker-Body']")).findElement(By.xpath("//div[contains(@class,'DayPicker-Day') and @aria-disabled='false' and text()='"+day+"']")).isDisplayed();
+        } catch (final UnsupportedOperationException e) {
+            logger.error(e.getMessage());
+        } catch (final WebDriverException e) {
+            fail("The date " + day + " for next month than " + date + " was not disabled: " + e.getMessage());
+        }
+        return enabledOrDisabledDate;
+
+    }
+
+    /**
+     *  Return a boolean value if date it's unavailable
+     * @date String with the date selected Available and unavailable
+     * @day String with the day selected Available and unavailable
+     */
+    public boolean dateDisabled(String date, String day) {
+        Boolean enabledOrDisabledDate = false;
+        try {
+            enabledOrDisabledDate = driver.findElement(By.cssSelector("div[class='DayPicker-Body']")).findElement(By.xpath("//div[contains(@class,'DayPicker-Day DayPicker-Day--disabled') and @aria-disabled='true' and text()='"+day+"']")).isDisplayed();
+        } catch (final UnsupportedOperationException e) {
+            logger.error(e.getMessage());
+        } catch (final WebDriverException e) {
+            fail("The date " + day + " for previous month than " + date + " was not disabled: " + e.getMessage());
+        }
+
+        return enabledOrDisabledDate;
+
     }
 
     public void primaryContactDetailsforVisitsAndFairs() {
