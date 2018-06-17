@@ -664,57 +664,48 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifySystemResponseWhenACTScoreIsValid() {
+    public void verifySystemResponseWhenACTScoreIsValid(DataTable dataTable) {
 
-        if(getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]")).isDisplayed())
-           getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']")).click();
+        List<List<String>> data = dataTable.raw();
+
+        if(firstOnboardingPopup().isDisplayed())
+            superMatchCollegeSearchHeader().click();
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("1");
-        Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"))
-                .getText().contains("ACT value must be a number between 1 and 36"));
+        for(int i = 0; i < data.size(); i++)
+        {
+            actScoreTextBox().clear();
+            actScoreTextBox().sendKeys(data.get(i).get(0));
+            Assert.assertFalse(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
+        }
+     }
 
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("18");
-        Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText()
-                .contains("ACT value must be a number between 1 and 36"));
+    public void verifySystemResponseWhenACTScoreIsInvalid(DataTable dataTable) {
 
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("36");
-        Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText()
-                .contains("ACT value must be a number between 1 and 36"));
+        List<List<String>> data = dataTable.raw();
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+        }
+
+        for(int i = 0; i < data.size(); i++)
+        {
+            actScoreTextBox().clear();
+            actScoreTextBox().sendKeys(data.get(i).get(0));
+            Assert.assertTrue(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
+        }
 
     }
 
-    public void verifySystemResponseWhenACTScoreIsInvalid() {
+    public void verifyACTScoreDataPersists(DataTable dataTable) {
 
-
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
-            admissionMenuItem().click();
-        }
-
-        // You can no longer enter a leading zero in ACT scores, or enter decimals at all.
-        /*actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("0");
-        Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
-
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("18.1");
-        Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
-*/
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("37");
-        Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
-
-    }
-
-    public void verifyACTScoreDataPersists() {
+        List<List<String>> data = dataTable.raw();
+        String dataToPersist = data.get(0).get(0);
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
@@ -722,7 +713,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
 
         actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("6");
+        actScoreTextBox().sendKeys(dataToPersist);
 
         getFitCriteriaCloseButton().click();
 
@@ -731,7 +722,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             admissionMenuItem().click();
         }
 
-        Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals("6"));
+        Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals(dataToPersist));
 
     }
 
@@ -1155,4 +1146,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement locationFitCriteria(){ return getDriver().findElement(By.xpath("//h1[text()='Location']")); }
 
     private WebElement ChooseFitCriteriaText(){ return getDriver().findElement(By.xpath("//span[text()='Choose Fit Criteria']")); }
+
+    private WebElement firstOnboardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
+
+    private WebElement superMatchCollegeSearchHeader() {
+        return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
+    }
+
+    private WebElement ACTValidationMessageElement() {
+        return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
+    }
 }
