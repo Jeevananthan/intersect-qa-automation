@@ -552,7 +552,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         {
             gpaTextBox().clear();
             gpaTextBox().sendKeys(data.get(i).get(0));
-            Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+            Assert.assertFalse(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
         }
     }
 
@@ -569,7 +569,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         {
             gpaTextBox().clear();
             gpaTextBox().sendKeys(data.get(i).get(0));
-            Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+            Assert.assertTrue(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
         }
     }
 
@@ -1157,5 +1157,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement superMatchCollegeSearchHeader() {
         return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
+    }
+
+    private WebElement GPAValidationMessageElement() {
+        return gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
 }
