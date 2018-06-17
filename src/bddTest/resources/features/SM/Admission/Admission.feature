@@ -7,8 +7,15 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
             results.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the system response when the GPA entered by the user is valid
+    |0.1|
+    |2  |
+    |4  |
     Then SM I verify the system response when the GPA entered by the user is invalid
+    |0  |
+    |4.1|
+    |5  |
     Then SM I verify that entered GPA data persists
+    |3|
     Then SM I verify that the Must Have box does not contain "GPA"
 
   @MATCH-3382

@@ -536,50 +536,41 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
     }
 
-    public void verifySystemResponseWhenGPAInputIsValid() {
+    public void verifySystemResponseWhenGPAInputIsValid(DataTable dataTable) {
 
-        if(getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]")).isDisplayed())
-           getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']")).click();
+        List<List<String>> data = dataTable.raw();
+
+        if(firstOnboardingPopup().isDisplayed())
+           superMatchCollegeSearchHeader().click();
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("0.1");
-        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("2");
-        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("4");
-        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
+        for(int i = 0; i < data.size(); i++)
+        {
+            gpaTextBox().clear();
+            gpaTextBox().sendKeys(data.get(i).get(0));
+            Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+        }
     }
 
-    public void verifySystemResponseWhenGPAInputIsInvalid() {
+    public void verifySystemResponseWhenGPAInputIsInvalid(DataTable dataTable) {
 
+        List<List<String>> data = dataTable.raw();
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("0");
-        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("4.1");
-        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("5");
-        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
+        for(int i = 0; i < data.size(); i++)
+        {
+            gpaTextBox().clear();
+            gpaTextBox().sendKeys(data.get(i).get(0));
+            Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
+        }
     }
 
     public void verifySystemResponseWhenSATScoreInputIsValid() {
@@ -646,15 +637,19 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyGPADataPersists() {
+    public void verifyGPADataPersists(DataTable dataTable) {
+
+        List<List<String>> data = dataTable.raw();
+        String dataToPersist = data.get(0).get(0);
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
+
         gpaTextBox().clear();
-        gpaTextBox().sendKeys("3");
+        gpaTextBox().sendKeys(dataToPersist);
 
         getFitCriteriaCloseButton().click();
 
@@ -663,7 +658,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             admissionMenuItem().click();
         }
 
-        Assert.assertTrue("GPA data is not stored on our side", gpaTextBox().getAttribute("value").equals("3"));
+        Assert.assertTrue("GPA data is not stored on our side", gpaTextBox().getAttribute("value").equals(dataToPersist));
 
     }
 
@@ -1155,4 +1150,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement locationFitCriteria(){ return getDriver().findElement(By.xpath("//h1[text()='Location']")); }
 
     private WebElement ChooseFitCriteriaText(){ return getDriver().findElement(By.xpath("//span[text()='Choose Fit Criteria']")); }
+
+    private WebElement firstOnboardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
+
+    private WebElement superMatchCollegeSearchHeader() {
+        return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
+    }
 }
