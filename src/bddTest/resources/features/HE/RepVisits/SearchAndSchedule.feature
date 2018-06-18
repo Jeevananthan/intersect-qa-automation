@@ -120,3 +120,35 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |limitedCommunity  |City           |Liberty Township      |Toronto      |Toronto          |iberty Township      |City       |InvalidName   |a            |
 
 
+
+  @MATCH-3865 @MATCH-4489
+  Scenario Outline: As an HE premium/paid user (any role) searching for a school in RVs on the Search and Schedule view,
+                    I want to be able to see all high schools outside of the U.S.
+                    so that I don't have to do a country by country search to see ALL international high schools
+
+    Then HE I am logged in to Intersect HE as user type "<userType>"
+    And HE I search a school by "<filter>" using "<Non-USState>"
+    Then HE I click the link "See all high schools outside of the U.S." in search and schedule page
+    Then HE I verify "International Schools" results is not displayed in search and schedule page after move out from International Schools results view
+    And HE I search a school by "<filter>" using "<Non-USState>"
+    Then HE I verify the Header "Results" is displayed in search results Page
+    Then HE I verify the search results have "<Non-USState>" in the "<field>" field
+    Then HE I click the link "See all high schools outside of the U.S." in search and schedule page
+    Then HE I verify the Header name is changed to "International Schools" in search result Page
+    Then HE I verify the button "More Results" is displaying for more than 25 results
+    Then HE I verify the school is displayed in schedule page after click the school link using "<school>" and "<Non-USState>"
+    And HE I search a school by "<filter>" using "<Non-USState>"
+    Then HE I click the link "See all high schools outside of the U.S." in search and schedule page
+    Then HE I get the URL of the current page
+    Then HE I successfully sign out
+
+#The International Schools list view does not load for HE RV freemium users
+    Then HE I am logged in to Intersect HE as user type "<limitedUser>"
+    Then HE I verify the International Schools list view does not load for freemium users in search and schedule page
+    Then HE I successfully sign out
+
+    Examples:
+      |userType          |filter         |field      |Non-USState|school                      |limitedUser      |
+      |administrator     |Country        |Country    |Canada     |International QA High School|limited         |
+      |publishing        |Country        |Country    |Canada     |International QA High School|limitedPublishing|
+      |community         |Country        |Country    |Canada     |International QA High School|limitedCommunity |

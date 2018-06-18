@@ -501,122 +501,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I search for partial data of "The Univer" in Contacts
     And HS I successfully sign out
 
-  @MATCH-3060 @MATCH-3061
-  Scenario: As a RepVisits user,I want one page to go to to manage all my settings
-  To simplify my RepVisits configuration experience.
-    #HS admin(Naviance)
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    And HS I verify the items in the user dropdown for a Naviance user
-    Then HS I verify the items are navigate to the respective page in the user dropdown for a Naviance user
-    Then HS I verify the user is "ADMIN" or not
-    And HS I successfully sign out
-    #HS non-admin(Naviance)
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "molly.purple" and password "password"
-    And HS I verify the items in the user dropdown for a Naviance user
-    Then HS I verify the items are navigate to the respective page in the user dropdown for a Naviance user
-    Then HS I verify the user is "NON-ADMIN" or not
-    And HS I successfully sign out
-    #HS admin(Non-Naviance)
-    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
-    And HS I verify the items in the user dropdown for a Non-Naviance user
-    Then HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user
-    Then HS I verify the user is "ADMIN" or not
-    And HS I verify the items are present in the help center dropdown for a Non-Naviance user
-    And HS I successfully sign out
-    #HS Non-admin(Non-Naviance)
-    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "Password#1" as password
-    And HS I verify the items in the user dropdown for a Non-Naviance user
-    Then HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user
-    Then HS I verify the user is "NON-ADMIN" or not
-    And HS I verify the items are present in the help center dropdown for a Non-Naviance user
-    And HS I successfully sign out
-    #HE admin
-    Given HE I am logged in to Intersect HE as user type "limited"
-    And HE I verify the items in the user dropdown for a HE user
-    Then HE I verify the items are navigate to the respective page in the user dropdown for a HE user
-    Then HE I verify the user is "ADMIN" or not
-    And HE I verify the items are present in the help center dropdown for a HE user
-    And HE I successfully sign out
-    #HE Non-admin
-    Given HE I am logged in to Intersect HE as user type "publishing"
-    And HE I verify the items in the user dropdown for a HE user
-    Then HE I verify the items are navigate to the respective page in the user dropdown for a HE user
-    Then HE I verify the user is "NON-ADMIN" or not
-    And HE I verify the items are present in the help center dropdown for a HE user
-    And HE I successfully sign out
-
-
-
-
-#  @MATCH-3062
-#  Scenario Outline: As a RepVisits User,I need to be able to update my contact information and reset my password
-#  So I can effectively manage my RepVisits Account.
-#    #ADMIN
-#    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<oldPassword>" as password
-#    Then HS I navigate to the "Account Settings" Page
-#    Then HS I reset the password for "<oldPassword>","<newPassword>"
-#    And HS I verify the success message "Success! You've updated your account information." in Account settings page
-#    And HS I successfully sign out
-#
-#    Given HS I want to login to the HS app using "purpleheautomation+administrator@gmail.com" as username and "<newPassword>" as password
-#    Then HS I navigate to the "Account Settings" Page
-#    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
-#    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSadminFirstName>","<HSadminLastName>","<HSadminEmail>"
-#      |contain a lowercase letter|contain an uppercase letter|contain a number|
-#    And HS I validate the password field "<adminUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
-#    And HS I verify the success message "Success! You've updated your account information." in Account settings page
-#    And HS I successfully sign out
-#    #NON-ADMIN
-#    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<oldPassword>" as password
-#    Then HS I navigate to the "Account Settings" Page
-#    Then HS I reset the password for "<oldPassword>","<newPassword>"
-#    And HS I verify the success message "Success! You've updated your account information." in Account settings page
-#    And HS I successfully sign out
-#
-#    Given HS I want to login to the HS app using "purpleheautomation+member@gmail.com" as username and "<newPassword>" as password
-#    Then HS I navigate to the "Account Settings" Page
-#    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
-#    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HSmemberFirstName>","<HSmemberLastName>","<HSmemberEmail>"
-#      |contain a lowercase letter|contain an uppercase letter|contain a number|
-#    And  HS I validate the password field "<memberUserForHS>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
-#    And HS I verify the success message "Success! You've updated your account information." in Account settings page
-#    And HS I successfully sign out
-#    #ADMIN
-#    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<oldPassword>" as password
-#    Then HE I navigate to the "Account Settings" Page
-#    Then HE I reset the password for "<oldPassword>","<newPassword>"
-#    And HE I verify the success message "Success! You've updated your account information." in Account settings page
-#    And HE I successfully sign out
-#
-#    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "<newPassword>" as password
-#    Then HE I navigate to the "Account Settings" Page
-#    And HE I verify the left-sub menu "Account Information,Users" are present in the Account Settings page
-#    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEadminFirstName>","<HEadminLastName>","<HEadminEmail>"
-#      |contain a lowercase letter|contain an uppercase letter|contain a number|
-#    And HE I validate the password field "<adminUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
-#    And HE I verify the success message "Success! You've updated your account information." in Account settings page
-#    And HE I successfully sign out
-#    #NON-ADMIN
-#    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<oldPassword>" as password
-#    Then HE I navigate to the "Account Settings" Page
-#    Then HE I reset the password for "<oldPassword>","<newPassword>"
-#    And HE I verify the success message "Success! You've updated your account information." in Account settings page
-#    And HE I successfully sign out
-#
-#    When HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "<newPassword>" as password
-#    Then HE I navigate to the "Account Settings" Page
-#    And HE I verify the left sub menu "Account Information" is present in the Account Settings page for Non-Admin
-#    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<HEmemberFirstName>","<HEmemberLastName>","<HEmemberEmail>"
-#      |contain a lowercase letter|contain an uppercase letter|contain a number|
-#    And HE I validate the password field "<memberUserForHE>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
-#    And HE I verify the success message "Success! You've updated your account information." in Account settings page
-#    And HE I successfully sign out
-#
-#    Examples:
-#    |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|adminUserForHS|adminUserForHE|memberUserForHS|memberUserForHE|HSadminFirstName|HSadminLastName|HSadminEmail                              |HSmemberFirstName|HSmemberLastName|HSmemberEmail                      |HEadminFirstName|HEadminLastName|HEadminEmail                        |HEmemberFirstName|HEmemberLastName|HEmemberEmail                          |
-#    |Password#1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |limited       |member         |publishing     |Test            |qa             |purpleheautomation+administrator@gmail.com|QA               |Test            |purpleheautomation+member@gmail.com|PurpleHE        |Limited        |purpleheautomation+limited@gmail.com|PurpleHE         |Publishing      |purpleheautomation+publishing@gmail.com|
-
-  @MATCH-1631 @MATCH-1463
+    @MATCH-1631 @MATCH-1463
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
   so I can keep track of who is attending.
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
@@ -1084,6 +969,19 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
        |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School              |
        |14         |21     |10:25 am |11:25 pm |PurpleHE Publishing|USA          |Holiday|Int Qa High School 4|
+       
+  @MATCH-3257 @MATCH-3603
+  Scenario Outline: As a HS admin user,I want the ability to specify my school's "regular weekly hours"
+                    for the upcoming school year (e.g. 2018-2019), so that I can begin allowing reps to start
+                    scheduling visits accordingly for the new school year.
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Then HS I verify that availability dates are from "<StartDate>" to "<EndDate>" for visits the days "<days>" in the calendar
+
+    Examples:
+    | StartDate      | EndDate    | days |
+    | April 2018     | July 2019  |   1  |
+    | April 2018     | July 2019  |   14 |
+    | April 2018     | July 2019  |   30 |
        
    @MATCH-2093 @MATCH-2828
    Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab

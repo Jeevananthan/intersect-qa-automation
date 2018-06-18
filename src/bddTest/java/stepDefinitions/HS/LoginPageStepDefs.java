@@ -12,7 +12,11 @@ public class LoginPageStepDefs implements En {
         HomePageImpl homePage = new HomePageImpl();
 
         Given("^HS I am logged in to Intersect HS through Naviance with account \"([^\"]*)\" and username \"([^\"]*)\" and password \"([^\"]*)\"$", loginPage::loginThroughNaviance);
+
+        Given ("^HS I am logged in to Intersect HS through Naviance with account \"([^\"]*)\"$",loginPage::loginNaviance);
+
         Given("^HS Iam navigating to Intersect HS through Non naviance Url$", loginPage::openNonNavianceLoginPage);
+
         Then("^HS I click the new user link in the login page$",loginPage::clickNewUserBtn);
 
         And("^HS I search for \"([^\"]*)\" in \"([^\"]*)\" and verify the results$",loginPage::searchForHSInstitution);

@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.loginPage.LoginPageImpl;
 
@@ -35,7 +36,9 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
     private void searchForInstitution(String institution){
         waitUntilPageFinishLoading();
         textbox("Search Institutions...").sendKeys(institution);
+        waitForUITransition();
         WebElement results = getDriver().findElement(By.id("global-search-box-results"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("search-box-item-0")));
         results.findElement(By.id("search-box-item-0")).click();
         waitUntilPageFinishLoading();
         if (driver.findElements(By.className("primary-user")).size() > 0) {
@@ -88,12 +91,14 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
             switch (field) {
                 case "Are you authorized to post public information about your institution?":
                     if (data.get(field).equalsIgnoreCase("Yes")) {
-                        checkbox(By.cssSelector("[name='authorizedToPostPublicInformation']")).select();
+                        WebElement hiddenWebElement = driver.findElement(By.cssSelector("[name='authorizedToPostPublicInformation']"));
+                        driver.executeScript("arguments[0].click()",hiddenWebElement);
                     }
                     break;
                 case "Do you schedule visits to high schools?":
                     if (data.get(field).equalsIgnoreCase("Yes")) {
-                        checkbox(By.cssSelector("[name='schedulesVisits']")).select();
+                        WebElement hiddenWebElement = driver.findElement(By.cssSelector("[name='schedulesVisits']"));
+                        driver.executeScript("arguments[0].click()",hiddenWebElement);
                     }
                     break;
                 default:
