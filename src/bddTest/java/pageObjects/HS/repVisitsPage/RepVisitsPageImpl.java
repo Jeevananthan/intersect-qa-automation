@@ -3315,7 +3315,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//input[@aria-label='Internal Notes']"),1));
         driver.findElement(By.xpath("//input[@aria-label='Internal Notes']")).sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("Reschedule button is not displayed",rescheduleButtonInReScheduleVisitPage().isDisplayed());
-        rescheduleButtonInReScheduleVisitPage().click();
+        jsClick(rescheduleButtonInReScheduleVisitPage());
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='_25XyePHsmpWU1qQ18ojKip']/span"),1));
     }
@@ -3325,8 +3325,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setSpecificDate(date);
         waitForUITransition();
         driver.findElement(By.xpath("//button[@class='_2ZD-g84n2fp2z3hn5FplyW']")).sendKeys(Keys.PAGE_DOWN);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//td/button[text()='"+RescheduleStartTimeforNewVisit+"']"),1));
-        driver.findElement(By.xpath("//td/button[text()='"+RescheduleStartTimeforNewVisit+"']")).click();
+        waitUntilPageFinishLoading();
+        int Date = Integer.parseInt(date);
+        time = StartTime.toUpperCase();
+        String Day = getSpecificDate(Date,"EEE").toUpperCase();
+        int columnID = getColumnIdFromTableforManuallyAddVisit( "//table[@class='ui unstackable basic table']/thead",Day );
+        int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table']//tbody", columnID, time);
+        if(columnID>= 0 && rowID>= 0) {
+            columnID = columnID + 1;
+            rowID = rowID + 1;
+            WebElement appointmentSlot = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//tr[" + rowID + "]//td[" + columnID + "]//button[text()='"+StartTime+"']"));
+            jsClick(appointmentSlot);
+            waitUntilPageFinishLoading();
+        }else{
+            Assert.fail("The Time Slot "+StartTime+"is not displayed in the Manually adding appointment page ");
+        }
         driver.findElement(By.xpath("//td/button[text()='"+RescheduleStartTimeforNewVisit+"']")).sendKeys(Keys.PAGE_DOWN);
         rescheduleMessageTextBox().sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("rescheduleMessage textbox is not displayed",rescheduleMessageTextBox().isDisplayed());
