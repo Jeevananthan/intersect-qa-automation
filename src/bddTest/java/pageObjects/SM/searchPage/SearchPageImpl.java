@@ -4,11 +4,14 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
+import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.util.*;
@@ -23,6 +26,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(SearchPageImpl.class);
     }
     public SurveyPageImpl survey = new SurveyPageImpl();
+    private RepVisitsPageImpl repVisitsPageUtility = new RepVisitsPageImpl();
 
     /** The below line of code for just a declaration for the object which we can use in scroll down purpose */
     JavascriptExecutor js = (JavascriptExecutor)driver;
@@ -466,7 +470,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void moveToNiceToHave(String item) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
-        getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")).click();
+        // Intermittent problems with clicking this in Embedded version, so sending the click directly with JS.
+        jsClick(getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
     }
 
     /**
@@ -816,7 +821,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openFitCriteria(String fitCriteria){
-        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).click();
+        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).sendKeys(Keys.RETURN);
     }
 
     public void selectMeest100ofNeedCheckbox(String checkboxName){
@@ -1016,6 +1021,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getAverageClassSizeListIcon().click();
         getDriver().findElement(By.id("class-size-selection-option-30")).click();
         getFitCriteriaCloseButton().click();
+        repVisitsPageUtility.scrollDown(firstWhyButton());
         getDriver().findElement(By.className("csr-heading-dropdown-text")).click();
         WebElement resultsColumHeader =  getParent(getDriver().findElement(By.className("csr-heading-dropdown-text")));
         // This tends to go off screen when running on the grid, so just force click it.  We're not testing the functionality, just the text after this is set.
@@ -1229,4 +1235,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement locationFitCriteria(){ return getDriver().findElement(By.xpath("//h1[text()='Location']")); }
 
     private WebElement ChooseFitCriteriaText(){ return getDriver().findElement(By.xpath("//span[text()='Choose Fit Criteria']")); }
+
+    private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 }

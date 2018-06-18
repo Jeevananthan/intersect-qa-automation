@@ -22,5 +22,7 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that the onboarding modal is displayed for the following sections$", fcSuperMatch::verifyOnboardingModals);
 
+        And("^SM I enable the onboarding modals if they are disabled$", fcSuperMatch::enableOnboardingModalsIfDisabled);
+
     }
 }
