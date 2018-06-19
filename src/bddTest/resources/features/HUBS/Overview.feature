@@ -1,4 +1,4 @@
-@HUBS-913
+@HUBS @HUBS-913
 Feature: As a community user viewing College Hubs, I want to be able to view Hubs Overview Tab content so I can
   understand what Hubs offers students.
 
@@ -7,7 +7,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "Overview" tab in the preview
 
-  @HUBSStudies @HUBS-923 @HUBS-1005 @HUBS-992
+  @HUBS-923 @HUBS-1005 @HUBS-992
   Scenario: All the elements of the page are displayed for HE users in Overview (MATCH-3930)
     Then HUBS All the elements of the overview tab should be displayed
     And HE I successfully sign out
@@ -29,7 +29,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       #| Contact Information      | Application Mailing Address;ZIP;777           |
     And HE I successfully sign out
 
-  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-3957)
+  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-3957 - MATCH-4652)
     When HUBS I open "Overview" in the edit menu
     And HUBS I take note of the values from the following fields in Overview:
       | Opening Statement |
@@ -45,6 +45,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     And HE I successfully sign out
     And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
       | admin | hbcmsxx | The University of Alabama | Published |
+    And HUBS I successfully sign out from CMS
     Then HUBS I should be able to verify the changes for Overview published in HUBS, with username "benhubs", password "Hobsons!23" and college "The University of Alabama", in the following sections
       | Opening Statement |
       | Website |

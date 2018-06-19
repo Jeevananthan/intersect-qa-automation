@@ -250,7 +250,7 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//legend[text()='" + group + "']/following-sibling::entity-collection/div/div/div/div/strong[text()='" + requirement + "']"));
     }
     public List<WebElement> appFactorsList(String importance) { return getDriver().findElements(By.xpath("//h4[text()='" + importance + "']/following-sibling::ul/li")); }
-    public WebElement appInfoEarlyDeadLineMonth() { return getDriver().findElement(By.xpath("//span[text()='Early Action Deadline']/../div/div[1]")); }
+    public WebElement deadLineMonth(String deadLineType) { return getDriver().findElement(By.xpath("//span[text()='" + deadLineType + " Deadline']/../div/div[1]")); }
     public List<WebElement> importantPoliciesList() { return getDriver().findElements(By.cssSelector("div.hub-data-pod--policy")); }
     public List<WebElement> requiredAppReqList() { return getDriver().findElements(By.xpath("//h4[text()='Required']/following-sibling::ul/li")); }
 }

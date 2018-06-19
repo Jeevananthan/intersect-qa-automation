@@ -1,5 +1,5 @@
-@HUBS-945 @HUBS-1060
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs Overview Tab content so I can
+@HUBS @HUBS-945 @HUBS-1060
+Feature: As a community user viewing College Hubs, I want to be able to view Hubs International Tab content so I can
   understand what Hubs offers students.
 
   Background:
@@ -24,14 +24,14 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Accepted English Tests | TOEFL      | -           |
     And HE I successfully sign out
   @HUBS-803 @HUBS-1063 @HUBS-1024 @HUBS-1060 @HUBS-1024
-  Scenario: Changes done in HEM are successfully published to HUBS
+  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4651)
     When HUBS I open "International" in the edit menu
     And HUBS I take note of the values from the following fields in International:
       | Application Deadline | Day |
       | Fees | Application Fee     |
       | Test Requirements | SAT |
       | Applications | Received |
-      | Test Scores  | TOEFL (Paper);Low |
+      | Test Scores  | Michigan (MELAB);Low |
       | Qualifications | Ability to Finance |
       | Accepted English Tests | TOEFL      |
     And HUBS I edit all the fields in International based on the gathered values, with the following details:
@@ -39,7 +39,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Fees | Application Fee     |
       | Test Requirements | SAT |
       | Applications | Received |
-      | Test Scores  | TOEFL (Paper);Low |
+      | Test Scores  | Michigan (MELAB);Low |
       | Qualifications | Ability to Finance |
       | Accepted English Tests | TOEFL      |
       | Publishing reason      | test       |

@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -106,13 +107,19 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
             add(password);
             add(college);
         }};
+        int numberOfTries = 0;
         hubsLogin.defaultLogIn(creds);
         fcMain.clickCollegesTab();
         collegesPage.searchAndOpenCollege(college);
         waitUntilPageFinishLoading();
         hubsMainMenu.clickCostsTab();
         waitUntilPageFinishLoading();
-        for (int i = 0; i < 10; i++) {
+        for (List<String> row : sections) {
+            switch (row.get(0)) {
+                case "Number of tries" : numberOfTries = Integer.parseInt(row.get(1));
+            }
+        }
+        for (int i = 0; i < numberOfTries; i++) {
             waitForUITransition();
             Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
             avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
@@ -121,7 +128,7 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
                 hubsLogin.defaultLogIn(creds);
                 fcMain.clickCollegesTab();
                 collegesPage.searchAndOpenCollege(creds.get(2));
-                hubsMainMenu.clickStudiesTab();
+                hubsMainMenu.clickCostsTab();
             }
         }
         verifyGeneratedValues(sections, generatedValues);
