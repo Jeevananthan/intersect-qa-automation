@@ -367,5 +367,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the International Schools list view does not load for freemium users in search and schedule page$",repVisits::verifyInternationalSchoolsListIsNotDisplayedforFreemium);
 
         Then("^HE I get the URL of the current page$",repVisits::getCurrentPageURL);
+
+        Then("^HE I verify the result count before clicking the \"([^\"]*)\" button in search result page$",repVisits::verifyResultCountInSchedulePage);
+
+        Then("^HE I verify the result count after clicking the More Results button in search result page$",repVisits::verifyResultCountAfterClickingMoreResultsInSchedulePage);
     }
 }

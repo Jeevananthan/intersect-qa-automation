@@ -152,3 +152,24 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |administrator     |Country        |Country    |Canada     |International QA High School|limited         |
       |publishing        |Country        |Country    |Canada     |International QA High School|limitedPublishing|
       |community         |Country        |Country    |Canada     |International QA High School|limitedCommunity |
+
+  @MATCH-3779
+  Scenario Outline: As an HE user searching for a school in RVs on the Search and Schedule view,
+                    I want to see how many search results were returned and what portion of the results I'm viewing (count)
+                    so that I can get a sense of how many hits I have based upon the search criteria I specified.
+
+    Given HE I am logged in to Intersect HE as user type "<userType>"
+    And HE I search a school by "<filter>" using "<value>"
+    Then HE I verify the result count before clicking the "More Results" button in search result page
+    Then HE I verify the result count after clicking the More Results button in search result page
+#verify the count for Limited users
+    Given HE I am logged in to Intersect HE as user type "<limitedUser>"
+    And HE I search a school by "<filter>" using "<value>"
+    Then HE I verify the result count before clicking the "More Results" button in search result page
+    Then HE I verify the result count after clicking the More Results button in search result page
+
+    Examples:
+      |userType          |filter      |value    |limitedUser      |
+      |administrator     |Name        |school   |limited          |
+      |publishing        |Name        |school   |limitedPublishing|
+      |community         |Name        |school   |limitedCommunity |

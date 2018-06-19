@@ -2941,6 +2941,34 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         currentURL = driver.getCurrentUrl();
     }
 
+    public void verifyResultCountInSchedulePage(String moreResults){
+        Assert.assertTrue("Count text is not displayed",driver.findElement(By.xpath("//b/span[contains(text(),'Showing')]")).isDisplayed());
+        int count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
+        logger.info("Result count:"+count);
+        if(count==25) {
+            Assert.assertTrue("Result count is less than 25", count == 25);
+            if(count>25){
+                List<WebElement> moreResultButton = driver.findElements(By.xpath("//button/span[text()='"+moreResults+"']"));
+                Assert.assertTrue("More results button is not displayed",moreResultButton.size()==1);
+            }
+        }else {
+            Assert.assertTrue("Result count is greater than 25", count < 25);
+        }
+    }
+
+    public void verifyResultCountAfterClickingMoreResultsInSchedulePage(){
+        int count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
+        logger.info("Result count:"+count);
+        if(count>25){
+            while(getMoreResultsButton().isDisplayed()) {
+                getMoreResultsButton().click();
+                waitUntilPageFinishLoading();
+                count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
+                logger.info("Result count:"+count);
+            }
+        }
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
