@@ -191,9 +191,9 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the "View Availability" Button is present in the Travel plan page for "<School>"
     Then HE I verify the "View Availability" button for "<School>", navigate to the search and schedule page or not
 #Verify the label "This school isnt using RepVisits yet" in Travel Plan
-    When HE I add "Westlake H S" high school with location "Austin" to the Travel Plan
-    Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "Westlake H S"
-    Then HE I remove "Westlake H S" high school from the travel plan
+    When HE I add "Westlake High School" high school with location "Austin" to the Travel Plan
+    Then HE I verify the "This school isnt using RepVisits yet" label is displayed for "Westlake High School"
+    Then HE I remove "Westlake High School" high school from the travel plan
     And HE I successfully sign out
 #Post Conditions [Removing the created visits and Fairs]
     Given HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
@@ -204,7 +204,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
 
 Examples:
       |School                  |address                                             |college going rate|senior class size|primary POC      |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
-      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |11           |OHIO      |14  |10:      |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:         |10:     |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Butler     |
+      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |3            |OHIO      |14  |10:      |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:         |10:     |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Butler     |
 
   @MATCH-1603
   Scenario Outline: As an HE user I need to be able to view the scheduling results of my Visits search AFTER I have
