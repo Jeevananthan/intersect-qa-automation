@@ -131,6 +131,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 //        link(By.cssSelector("a[href='/']")).click();
     }
 
+    public void clickOnHighEducationTab() {
+        logger.info("Going to High Education tab.");
+        waitUntilPageFinishLoading();
+        button(By.xpath("//*[@class='ui button _3y0_nbKvcnKh4vXrUyRAUa']")).click();
+    }
 
     public void clickOnHomeTab() {
         logger.info("Going to home tab.");

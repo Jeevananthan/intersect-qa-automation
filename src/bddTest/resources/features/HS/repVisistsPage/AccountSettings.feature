@@ -27,8 +27,8 @@ Feature:  As an HS user, I want to be able to access the features of the Account
     And HS I successfully sign out
   Examples:
     |usertype                                  |password  |user      |
-    |purpleheautomation+administrator@gmail.com|Password!1|ADMIN     |
-    |purpleheautomation+member@gmail.com       |Password!1|NON-ADMIN |
+    |purpleheautomation+administrator@gmail.com|Password#1|ADMIN     |
+    |purpleheautomation+member@gmail.com       |Password#1|NON-ADMIN |
 
   @MATCH-3062
   Scenario Outline: As a HS RepVisits User,I need to be able to update my contact information and reset my password
@@ -50,5 +50,5 @@ Feature:  As an HS user, I want to be able to access the features of the Account
     And HS I successfully sign out
   Examples:
    |usertype                                  |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|user          |FirstName|LastName|Email                                     |
-   |purpleheautomation+administrator@gmail.com|Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |Test     |qa      |purpleheautomation+administrator@gmail.com|
-   |purpleheautomation+member@gmail.com       |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |member        |QA       |Test    |purpleheautomation+member@gmail.com       |
+   |purpleheautomation+administrator@gmail.com|Password#1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |administrator |Test     |qa      |purpleheautomation+administrator@gmail.com|
+   |purpleheautomation+member@gmail.com       |Password#1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |member        |QA       |Test    |purpleheautomation+member@gmail.com       |
