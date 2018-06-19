@@ -64,11 +64,11 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     deadlineType(fieldAndValueElement.get(1)).click();
                     if (fieldAndValueElement.get(2).split(";")[0].equals("month")) {
                         Select deadlineMonthDropDown = new Select(deadlineMonth());
-                        newMonth = pickNextMonth(admissionsPreview.appInfoEarlyDeadLineMonth().getText());
+                        newMonth = pickNextMonth(admissionsPreview.deadLineMonth(fieldAndValueElement.get(1)).getText());
                         deadlineMonthDropDown.selectByVisibleText(newMonth);
                         assertTrue(fieldAndValueElement.get(0) + " cannot be edited in real time. UI value: " +
-                                        admissionsPreview.appInfoEarlyDeadLineMonth().getText() + ". Data: " + newMonth.substring(0, 3),
-                                admissionsPreview.appInfoEarlyDeadLineMonth().getText().equals(newMonth.substring(0, 3)));
+                                        admissionsPreview.deadLineMonth(fieldAndValueElement.get(1)).getText() + ". Data: " + newMonth.substring(0, 3),
+                                admissionsPreview.deadLineMonth(fieldAndValueElement.get(1)).getText().equals(newMonth.substring(0, 3)));
                     } else if (fieldAndValueElement.get(2).split(";")[0].equals("day")) {
                         Select deadlineDayDropDown = new Select(deadlineDay());
                         deadlineDayDropDown.selectByVisibleText(fieldAndValueElement.get(2).split(";")[1]);
@@ -152,7 +152,13 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Deadlines" :
                     deadlinesButton().click();
-                    deadlineType("Early Action").click();
+                    String deadlineName = "";
+                    for(List<String> row : fieldsDetails) {
+                        if(row.get(0).equals(key)) {
+                            deadlineName = row.get(1);
+                        }
+                    }
+                    deadlineType(deadlineName).click();
                     Select deadlineMonthDropdown =  new Select(deadlineMonth());
                     deadlineMonthDropdown.selectByVisibleText(generatedValues.get(key));
                     break;
@@ -179,8 +185,15 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     courseYears("Years Required").sendKeys(newRecommCoursesYearsReq);
                     break;
                 case "Application Factors" :
+                    String appFactor = "";
+                    for(List<String> row : fieldsDetails) {
+                        String control = row.get(0);
+                        if(row.get(0).equals("Application Factors")) {
+                            appFactor = row.get(1);
+                        }
+                    }
                     applicationFactorsButton().click();
-                    appFactorType("Class Rank").click();
+                    appFactorType(appFactor).click();
                     Select importanceDropdown = new Select(appFactorsImportanceDropdownElement());
                     if (generatedValues.get(key).equals("present")) {
                         importanceDropdown.selectByVisibleText("Important");
@@ -245,7 +258,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
     }
 
     public void editAllFieldsBasedOnGatheredValues(DataTable stringsDataTable, HashMap<String, String> originalValues) {
-        List<List<String>> fieldsDetails = stringsDataTable.cells(0);
+        List<List<String>> fieldsDetails = stringsDataTable.asLists(String.class);
         HashMap<String, String> newValues = generateValues(originalValues, fieldsDetails);
         AdmissionsPageImpl.generatedValues = newValues;
         editFieldValuesWithGeneratedData(newValues, fieldsDetails);
@@ -340,8 +353,8 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
     private WebElement getImportantPolicyDropDown(String label) { return getDriver().findElement(By.xpath("//label[text()='" + label + "']/following-sibling::select")); }
     private WebElement deadlinesButton() { return getDriver().findElement(By.xpath("//h3[text()='Deadlines']")); }
     private WebElement deadlineType(String label) { return getDriver().findElement(By.xpath("//strong[text()='" + label + "']")); }
-    private WebElement deadlineMonth() { return getDriver().findElement(By.cssSelector("select#fieldnode983047-field_he_month_of_the_deadline-month")); }
-    private WebElement deadlineDay() { return getDriver().findElement(By.cssSelector("select#fieldnode983047-field_he_day_of_the_deadline-day")); }
+    private WebElement deadlineMonth() { return getDriver().findElement(By.cssSelector("select[id *= '-field_he_month_of_the_deadline-month'")); }
+    private WebElement deadlineDay() { return getDriver().findElement(By.cssSelector("select[id *= '-field_he_day_of_the_deadline-day'")); }
     private WebElement feesButton() { return getDriver().findElement(By.xpath("//h3[text()='Fees']")); }
     private WebElement feesType(String label) { return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../input")); }
     private WebElement applicationRequirementsButton() { return getDriver().findElement(By.xpath("//h3[text()='Application Requirements']")); }
