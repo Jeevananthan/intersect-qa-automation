@@ -32,8 +32,8 @@ public class SurveyPageImpl extends PageObjectFacadeImpl {
     }
 
     public String openSurvey() {
-        waitForUITransition();
-        waitForUITransition();
+        //waitForUITransition();
+        //waitForUITransition();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(smSurveyButtonLocator), 1));
         smSurveyButton().click();
         String winHandleBefore = driver.getWindowHandle();
@@ -58,5 +58,5 @@ public class SurveyPageImpl extends PageObjectFacadeImpl {
     public WebElement smSurveyButton() {
         return driver.findElement(By.cssSelector(smSurveyButtonLocator));
     }
-    private String smSurveyButtonLocator = "span[class=\"button\"]";
+    private String smSurveyButtonLocator = "a[class=\"button\"]";
 }
