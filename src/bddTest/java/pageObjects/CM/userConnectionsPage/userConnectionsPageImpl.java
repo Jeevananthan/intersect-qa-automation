@@ -77,7 +77,6 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     public void checkConnectionsDisplayed() {
         logger.info("Checking if I see user's connections.");
         Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "connections-wrapper"));
-
     }
 
     public void goToHSUserConnectionsPage() {
@@ -119,14 +118,8 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         textbox(By.id("global-search-box-input")).sendKeys(user);
         logger.info("Searching for user.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
-        //link(By.id("global-search-box-item-0")).click();
-        waitUntilPageFinishLoading();
         //link(By.cssSelector("img[src='https://qa.community.hobsons.com/sites/default/files/lion-cartoon-roaring.jpg']")).click();
-        //Unable to locate lion cartoon picture.
-        link(By.xpath("//*[@id=\"global-search-box-item-0\"]/i")).click();
-
-        //link(By.xpath("//img[contains(@src, 'lion-cartoon-roaring')]")).click();
-        //link(By.xpath("//div[contains(text(), '"+user+"')]")).click();
+        link(By.xpath("//*[@id=\"global-search-box-item-0\"]/div")).click();
         waitUntilPageFinishLoading();
     }
 

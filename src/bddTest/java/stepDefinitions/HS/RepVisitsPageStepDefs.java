@@ -58,6 +58,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
 
+        Then("^HS I verify that availability dates are from \"([^\"]*)\" to \"([^\"]*)\" for visits the days \"([^\"]*)\" in the calendar$", repVisits::verifyAvaliabilityDates);
+
         Then("HS I remove the Time Slot created with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::removeTimeSlotAdded);
 
         Then("^HS I verify the Time Slot time were removed with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyTimeSlotRemoved);
@@ -278,6 +280,10 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
 
         Then("^HS I create a dynamic College Fair with the following data$", repVisits::createDynamicCollegeFair);
+
+        Then("^HS I edit a dynamic College Fair with the following data$", repVisits::editCollegeFair);
+
+        Then("^HS I verify edit a dynamic College Fair with the following data$", repVisits::verifyDataCollegeFair);
 
         //And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
         And("^HS I verify the items in the user dropdown for a Non-Naviance user$", repVisits::verifyUserDropdownforNonNaviance);
@@ -506,5 +512,16 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits::verifyRepDetails);
 
         And("^HS I click on link Add School User Manually$", repVisits::addRepresentativeManually);
+      
+        Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
+
+        Then("^HS I verify the blocked day in Exception tab using \"([^\"]*)\"$",repVisits::verifyBlockedDayInException);
+
+        Then("^HS I verify the calendar page$",repVisits::verifyCalendarPageForaddVisit);
+
+        Then("^HS I verify the visit schedule popup$",repVisits::verifyVisitSchedulepopup);
+
+        Then("^HS I set Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setSpecificBlockedDate);
+
     }
 }

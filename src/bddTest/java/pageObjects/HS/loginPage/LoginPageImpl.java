@@ -25,6 +25,34 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(pageObjects.HE.loginPage.LoginPageImpl.class);
     }
 
+    public void loginNaviance(String usertype) {
+        openNavianceLoginPage();
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        logger.info("Logging into the Naviance app -" + driver.getCurrentUrl());
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
+        textbox(By.name("hsid")).sendKeys(hsid);
+        textbox(By.name("username")).sendKeys(username);
+        textbox(By.name("password")).sendKeys(password);
+        logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
+        button("Sign In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
+        waitUntilPageFinishLoading();
+        link(By.cssSelector("[title='Counselor Community']")).click();
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.close();
+        driver.switchTo().window(intersectWindow);
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
+    }
+
     public void loginThroughNaviance(String account, String username, String password) {
         openNavianceLoginPage();
         String navianceWindow = driver.getWindowHandle();
@@ -76,6 +104,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
 
         if(!institutionName.equalsIgnoreCase("Request new institution")){
+
             if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
                 logger.info("Results are displayed after the search");
                 link(institutionName).click();
