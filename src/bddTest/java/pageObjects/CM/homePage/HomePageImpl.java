@@ -28,7 +28,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.xpath("//i[@class='close icon']")).click();
                 break;
             case "not visible":
+                setImplicitWaitTimeout(1);
                 Assert.assertFalse("New Widget Learn More is displaying for "+userType+" User", getLearnMoreLink().isDisplayed());
+                resetImplicitWaitTimeout();
                 driver.switchTo().defaultContent();
                 break;
             default:
@@ -213,7 +215,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 //        driver.findElement(By.id("edit-delete--3")).click();
     }
 
-    private WebElement getLearnMoreLink(){ return button ("LEARN MORE"); }
+    private WebElement getLearnMoreLink(){ return button ("Learn More"); }
     private WebElement getRequestInformationButton(){ return driver.findElement(By.cssSelector("[class='ui pink button']")); }
     private WebElement userDropdown() {return driver.findElement(By.id("user-dropdown"));}
     private WebElement signOutBtn() {return driver.findElement(By.id("user-dropdown-signout"));}
