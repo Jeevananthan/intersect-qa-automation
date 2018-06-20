@@ -4,6 +4,16 @@ Feature: As a Freemium or Legacy Hubs HE user I want to see an additional Commun
          upgrade my HE institution's account to a premium one.
 
   @MATCH-1550
+  Scenario: As a Freemium user I want to see an additional Community Home page widget
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    And SP I set the "Legacy: Hub Community" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+    When HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
+    Then CM I verify that the upgrade widget is "<Visibility>" for "<Subscription>" users
+    And HE I successfully sign out
+
   Scenario: As a Hubs Premium user I want to see an additional Community Home page widget
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
