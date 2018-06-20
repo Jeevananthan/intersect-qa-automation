@@ -7,6 +7,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import static org.junit.Assert.fail;
+
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 
@@ -34,7 +36,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                 driver.switchTo().defaultContent();
                 break;
             default:
-                logger.info("Wrong Visibility entered in Feature file.");
+                fail("Wrong Visibility entered in Feature file.");
         }
     }
 
