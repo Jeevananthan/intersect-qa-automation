@@ -19,9 +19,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUpgradeWidget(String visibility, String userType){
-        navBar.goToCommunity();
-        waitUntilPageFinishLoading();
-        communityFrame();
+        //Wait page load function deleted.
         switch (visibility){
             case "visible":
                 Assert.assertTrue("New Widget Learn More is not displaying for "+userType+" User", getLearnMoreLink().isDisplayed());
@@ -225,7 +223,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 //        driver.findElement(By.id("edit-delete--3")).click();
     }
 
-    private WebElement getLearnMoreLink(){ return link("Learn More"); }
+    private WebElement getLearnMoreLink(){ return button ("LEARN MORE"); }
     private WebElement getRequestInformationButton(){ return driver.findElement(By.cssSelector("[class='ui pink button']")); }
     private WebElement userDropdown() {return driver.findElement(By.id("user-dropdown"));}
     private WebElement signOutBtn() {return driver.findElement(By.id("user-dropdown-signout"));}
