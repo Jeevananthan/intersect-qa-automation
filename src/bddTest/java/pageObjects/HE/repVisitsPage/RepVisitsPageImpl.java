@@ -1597,7 +1597,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public String getMonthandDate(String addDays)
     {
-        String DATE_FORMAT_NOW = "d MMM";
+        String DATE_FORMAT_NOW = "MMM d";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
