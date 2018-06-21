@@ -1003,7 +1003,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #Register Visits and Fairs
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
     And HE I search for "<School>" in RepVisits page
@@ -1012,7 +1012,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
     And HE I search for "<School>" in RepVisits page
@@ -1066,8 +1066,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
 
     Examples:
-      |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |School              |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|cityAndStateofInstitution|cityAndStateofSchool  |schoolForHE                                    |
-      |PurpleHE|The University of Alabama|9:00am       |21 |10:25am  |11:25pm |3        |21       |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|Int Qa High School 4|10:        |10:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Tuscaloosa, AL           |LIBERTY TOWNSHIP, Ohio|Int Qa High School 4 - OhioInt Qa High School 4|
+      |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |School              |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|cityAndStateofInstitution|cityAndStateofSchool  |schoolForHE                    |
+      |PurpleHE|The University of Alabama|9:00am       |7  |10:25am  |11:25pm |3        |7        |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|Int Qa High School 4|10:        |10:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Tuscaloosa, AL           |Erlanger, Kentucky    |Int Qa High School 4 - Kentucky|
 
   @MATCH-2168
   Scenario Outline: As a Non-Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page, I want to see the City and State of each institution within each notification entry
@@ -1089,7 +1089,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #Register Visits and Fairs
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<Non-NavSchool>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<Non-NavSchool>" using "<Date>" and "<heStartTime>"
+    Then HE I select Visits to schedule the appointment for "<Non-NavSchool>" using "<StartDate>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<Non-NavSchool>" using "<heTime>" and "<hsEndTime>"
 
     And HE I search for "<Non-NavSchool>" in RepVisits page
@@ -1098,7 +1098,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
     And HE I search for "<Non-NavSchool>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<Non-NavSchool>" using "<Date>" and "<heStartTime>"
+    Then HE I select Visits to schedule the appointment for "<Non-NavSchool>" using "<StartDate>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<Non-NavSchool>" using "<heTime>" and "<hsEndTime>"
 
     And HE I search for "<Non-NavSchool>" in RepVisits page
