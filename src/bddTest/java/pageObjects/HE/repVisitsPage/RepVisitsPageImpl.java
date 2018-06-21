@@ -2947,25 +2947,39 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         logger.info("Result count:"+count);
         if(count==25) {
             Assert.assertTrue("Result count is less than 25", count == 25);
-            if(count>25){
-                List<WebElement> moreResultButton = driver.findElements(By.xpath("//button/span[text()='"+moreResults+"']"));
-                Assert.assertTrue("More results button is not displayed",moreResultButton.size()==1);
-            }
-        }else {
+        }else if(count<25) {
             Assert.assertTrue("Result count is greater than 25", count < 25);
+        }else if(count>25){
+            Assert.assertTrue("Result count is less than 25", count > 25);
+            List<WebElement> moreResultButton = driver.findElements(By.xpath("//button/span[text()='"+moreResults+"']"));
+            Assert.assertTrue("More results button is not displayed",moreResultButton.size()==1);
+        }else {
+            logger.info("Invalid value");
         }
     }
 
     public void verifyResultCountAfterClickingMoreResultsInSchedulePage(){
+        navBar.goToRepVisits();
+        link("Search and Schedule").click();
+        waitUntilPageFinishLoading();
         int count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
         logger.info("Result count:"+count);
         if(count>25){
+            Assert.assertTrue("Result count is not displayed",driver.findElement(By.xpath("//b/span[text()='Showing 1-25 of 54']")).isDisplayed());
             while(getMoreResultsButton().isDisplayed()) {
                 getMoreResultsButton().click();
                 waitUntilPageFinishLoading();
                 count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
                 logger.info("Result count:"+count);
+
             }
+        }
+    }
+
+    private void selectMoreResultsInSearchAndSchedule(){
+        while(getMoreResultsButton().isDisplayed()){
+            getMoreResultsButton().click();
+            waitUntilPageFinishLoading();
         }
     }
 
