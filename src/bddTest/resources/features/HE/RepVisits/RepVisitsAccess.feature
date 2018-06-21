@@ -180,7 +180,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the instructional text in Travel Plan and verify the link to navigate to the Recommendations page
     When HE I add "<School>" high school with location "<location>" to the Travel Plan
     Then HE I verify the states of the school are present in the ABC order
-    Then HE I verify the School details in Travel plan "<School>","<address>","<college going rate>","<senior class size>","<primary POC>","<size of State>","<stateName>"
+    Then HE I verify the School details in Travel plan "<School>","<address>","<college going rate>","<senior class size>","<primary POC>","<stateName>"
     Then HE I verify the "Upcoming Appointments" Text is present in the Travel plan for "<School>"
     Then HE I verify upcoming fair message is displayed in the Travel plan page for "<School>"
     Then HE I verify the Visit details are displayed in the Travel plan for "<School>","<StartDate>"
@@ -203,8 +203,8 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     And HS I successfully sign out
 
 Examples:
-      |School                  |address                                             |college going rate|senior class size|primary POC      |size of State|stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
-      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |3            |OHIO      |14  |10:      |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:         |10:     |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Butler     |
+      |School                  |address                                             |college going rate|senior class size|primary POC      |stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
+      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |OHIO      |14  |10:      |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:         |10:     |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Butler     |
 
   @MATCH-1603
   Scenario Outline: As an HE user I need to be able to view the scheduling results of my Visits search AFTER I have
@@ -214,10 +214,10 @@ Examples:
     And HE I search for "<School>" in RepVisits page
     Then HE I verify default page as show visits tab and toggle between tabs
     Then HE I verify the high school information contains the following data
-      |Int Qa High School 4|Liberty Township,|
+      |Int Qa High School 4|Erlanger,|
     Then HE I verify the Intersect Presence Subscription module is active for "<School>"
     Then HE I verify the high school information popup contains the following details
-      |Int Qa High School 4|Liberty Township,|
+      |Int Qa High School 4|Erlanger,|
     Then HE I verify No Appointments Available and blocked text for "<School>"
     Then HE I select high school's Counselor Community institution profile link for "<School>"
   #Check school with a Limited HE account
