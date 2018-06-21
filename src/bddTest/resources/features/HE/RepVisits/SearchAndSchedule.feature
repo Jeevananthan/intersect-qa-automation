@@ -161,12 +161,14 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Given HE I am logged in to Intersect HE as user type "<userType>"
     And HE I search a school by "<filter>" using "<value>"
     Then HE I verify the result count before clicking the "More Results" button in search result page
-    Then HE I verify the result count after clicking the More Results button in search result page
+    Then HE I verify the result count after clicking the More Results button by "<filter>" using "<value>" in search result page
+    Then HE I successfully sign out
 #verify the count for Limited users
     Given HE I am logged in to Intersect HE as user type "<limitedUser>"
     And HE I search a school by "<filter>" using "<value>"
     Then HE I verify the result count before clicking the "More Results" button in search result page
-    Then HE I verify the result count after clicking the More Results button in search result page
+    Then HE I verify the result count after clicking the More Results button by "<filter>" using "<value>" in search result page
+    Then HE I successfully sign out
 
     Examples:
       |userType          |filter      |value    |limitedUser      |

@@ -2951,27 +2951,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Result count is greater than 25", count < 25);
         }else if(count>25){
             Assert.assertTrue("Result count is less than 25", count > 25);
-            List<WebElement> moreResultButton = driver.findElements(By.xpath("//button/span[text()='"+moreResults+"']"));
-            Assert.assertTrue("More results button is not displayed",moreResultButton.size()==1);
         }else {
             logger.info("Invalid value");
         }
+        List<WebElement> moreResultButton = driver.findElements(By.xpath("//button/span[text()='"+moreResults+"']"));
+        Assert.assertTrue("More results button is not displayed",moreResultButton.size()==1);
     }
 
-    public void verifyResultCountAfterClickingMoreResultsInSchedulePage(){
-        navBar.goToRepVisits();
-        link("Search and Schedule").click();
-        waitUntilPageFinishLoading();
+    public void verifyResultCountAfterClickingMoreResultsInSchedulePage(String criteria, String parameter){
+        selectMoreResultsInSearchAndSchedule();
+        int finalSchoolCount = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
+        searchBySchool(criteria,parameter);
         int count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
         logger.info("Result count:"+count);
-        if(count>25){
-            Assert.assertTrue("Result count is not displayed",driver.findElement(By.xpath("//b/span[text()='Showing 1-25 of 54']")).isDisplayed());
+        if(count==25){
+            Assert.assertTrue("Result count is not displayed",driver.findElement(By.xpath("//b/span[text()='Showing 1-"+count+" of "+finalSchoolCount+"']")).isDisplayed());
             while(getMoreResultsButton().isDisplayed()) {
                 getMoreResultsButton().click();
                 waitUntilPageFinishLoading();
                 count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
                 logger.info("Result count:"+count);
-
+                Assert.assertTrue("Result count is not displayed",driver.findElement(By.xpath("//b/span[text()='Showing 1-"+count+" of "+finalSchoolCount+"']")).isDisplayed());
             }
         }
     }

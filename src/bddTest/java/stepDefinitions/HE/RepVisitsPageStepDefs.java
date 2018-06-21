@@ -370,6 +370,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the result count before clicking the \"([^\"]*)\" button in search result page$",repVisits::verifyResultCountInSchedulePage);
 
-        Then("^HE I verify the result count after clicking the More Results button in search result page$",repVisits::verifyResultCountAfterClickingMoreResultsInSchedulePage);
+        Then("^HE I verify the result count after clicking the More Results button by \"([^\"]*)\" using \"([^\"]*)\" in search result page$",repVisits::verifyResultCountAfterClickingMoreResultsInSchedulePage);
     }
 }
