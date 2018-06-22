@@ -33,19 +33,19 @@ public class HelpImpl extends PageObjectFacadeImpl {
                 driver.switchTo().window(windows.get(1));
                 waitForUITransition();
                 url = driver.getCurrentUrl();
-                driver.close();
                 driver.switchTo().window(windows.get(0));
                 waitForUITransition();
-                //waitUntilElementExists(textbox(By.id("edit-body")));
                 Assert.assertEquals("The Help link is not secure or is not the correct web address.","https://helpsite.hobsons.com/RepVisits/Content/Getting%20Started%20HS.htm", url);
                 break;
             case "HE Users":
                 driver.switchTo().window(windows.get(1));
                 waitForUITransition();
                 url = driver.getCurrentUrl();
-                driver.close();
-                driver.switchTo().window(windows.get(0));
+                waitUntilElementExists(link("Getting Started"));
+                waitUntilPageFinishLoading();
                 Assert.assertEquals("The Help link is not secure or is not the correct web address.", "https://helpsite.hobsons.com/Intersect/Content/Getting%20Started%20HE.htm", url);
+                 driver.close();
+                 driver.switchTo().window(windows.get(0));
                 break;
             case "SP Users":
                 getHelpLink().click();

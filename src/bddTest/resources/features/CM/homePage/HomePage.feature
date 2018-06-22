@@ -13,6 +13,4 @@ Feature: As a Freemium or Legacy Hubs HE user I want to see an additional Commun
     Examples:
       |UserType            |Username                              |Password   |Visibility  |
       |Freemium            |purpleheautomation+limited@gmail.com  |Password!1 |visible     |
-      |Legacy Hub          |yadav.arun24+qa01@gmail.com           |Arun@1990  |visible     |
-      |Legacy Community    |qa1.offshore+qa01@gmail.com           |Arun@1990  |not visible |
-      |Intersect Awareness |yadav.arun24+qa11@gmail.com           |Arun@1990  |not visible |
+      |Legacy Community    |floresu.test+xavierhe@gmail.com       |Xavier18!  |not visible |

@@ -289,6 +289,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
 
         Then("^HE I verify that the previously created fair does not appear for \"([^\"]*)\"$",repVisits::verifyCollegeFairNotVisible);
+      
+        Then("^HE I select Visits to verify the appointment is not present for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyBlockedAvailability);
 
         When("^HE I open the Calendar tab in RepVisits$", repVisits::openCalendar);
 
@@ -319,5 +321,51 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I select high school's Counselor Community institution profile link for \"([^\"]*)\"$",repVisits::selectHSLink);
 
         Then("HE I verify the Intersect Presence Subscription module is Inactive for \"([^\"]*)\"$",repVisits::verifyInActiveSubscription);
+
+        Then("^HE I verify the dropdown named \"([^\"]*)\" in search and schedule page$",repVisits::verifyDropdownInSearchAndSchedulePage);
+
+        Then("^HE I verify the following fields are displayed after click Search by drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
+
+        Then("^HE I verify the Background color \"([^\"]*)\" for the following fields to represent that fields are Freemium$",repVisits::verifyBackgroundColorforFreemiumorPremium);
+
+        Then("^HE I verify the Background color \"([^\"]*)\" for the following fields to represent that fields are Premium$",repVisits::verifyBackgroundColorforFreemiumorPremium);
+
+        And("^HE I verify the \"([^\"]*)\" text present with lock icon in the search by drop-down$",repVisits::verifyPremiumSearchInSearchByDropdown);
+
+        Then("^HE I verify \"([^\"]*)\" is a default option in the Search by drop-down for the following fields$",repVisits::verifyDefaultOptionInSearchByDropdown);
+
+        Then("^HE I verify the \"([^\"]*)\" pop-up page, when selecting the premium options from the search by dropdown$",repVisits::verifyUpgradeNotificationPage);
+
+        Then("^HE I verify the fields are displaying box after selecting the following fields in the dropdown$",repVisits::verifySearchByOptionAfterSelectFields);
+
+        Then("^HE I verify the text \"([^\"]*)\" present in the text box$",repVisits::verifyTextInSearchAndScheduleTextBox);
+
+        Then("^HE I select the following fields will not submit the search on the page search by \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFieldswillnotSubmitSearch);
+      
+        Then("^HE I verify the following fields after click Search by drop-down$",repVisits::verifyDropdownFieldsInSearchAndSchedule);
+
+        And("^HE I search a school by \"([^\"]*)\" using \"([^\"]*)\"$",repVisits::searchBySchool);
+
+        And("^HE I verify the search results have \"([^\"]*)\" in the \"([^\"]*)\" field$",repVisits::verifyFilteredSearchResults);
+
+        And("^HE I verify \"([^\"]*)\" is displayed in the search results$",repVisits::verifyLabelInSearchResult);
+      
+        And("^HE I verify \"([^\"]*)\" is displayed in the search tooltip$",repVisits::verifySearchToolTip);
+
+        Then("^HE I click the link \"([^\"]*)\" in search and schedule page$",repVisits::selectLinkInsearchAndSchedule);
+
+        Then("^HE I verify the Header \"([^\"]*)\" is displayed in search results Page$",repVisits::verifyTextInSearchResultPage);
+
+        Then("^HE I verify the Header name is changed to \"([^\"]*)\" in search result Page$",repVisits::verifyTextInSearchResultPage);
+
+        Then("^HE I verify the school is displayed in schedule page after click the school link using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchoolInSchedulePage);
+
+        Then("^HE I verify the button \"([^\"]*)\" is displaying for more than 25 results$",repVisits::verifyMoreResultButtonInSearchAndSchedulePage);
+
+        Then("^HE I verify \"([^\"]*)\" results is not displayed in search and schedule page after move out from International Schools results view$",repVisits::verifySearchAndSchedulePageAfterMovedOut);
+
+        Then("^HE I verify the International Schools list view does not load for freemium users in search and schedule page$",repVisits::verifyInternationalSchoolsListIsNotDisplayedforFreemium);
+
+        Then("^HE I get the URL of the current page$",repVisits::getCurrentPageURL);
     }
 }

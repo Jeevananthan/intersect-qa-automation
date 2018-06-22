@@ -808,7 +808,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I Navigate to Notifications & Tasks tab of the Repvisits Page
     Then HS I click the Visit Feedback sub tab
     Then HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab
-    
+
   @MATCH-2692
   Scenario: As a high school staff member, I want to be able to toggle blocking of specific availabilities in RepVisits,
   so that I can effectively close a time slot for further visits and re-open it later, if I choose.
@@ -910,6 +910,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
       And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
       And HS I successfully sign out
+
 
 
 

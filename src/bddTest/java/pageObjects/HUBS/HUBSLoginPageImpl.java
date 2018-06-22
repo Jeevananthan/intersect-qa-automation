@@ -2,6 +2,7 @@ package pageObjects.HUBS;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
@@ -45,6 +46,7 @@ public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void open(){
+        driver.close();
         load(GetProperties.get("hubs.app.url"));
     }
     private void openInternational() { load(GetProperties.get("hubs.app.int.url")); }

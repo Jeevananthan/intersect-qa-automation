@@ -50,7 +50,7 @@ public class HomePageStepDefs implements En {
 
         And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
 
-        And("^HE I activate my community profile by providing OfficePhone as \"([^\"]*)\" and JobTitle as \"([^\"]*)\"$",
+        And("^HE I activate my community profile by providing OfficePhone as \"([^\"]*)\" JobTitle as \"([^\"]*)\" and EU citizen as \"([^\"]*)\"$",
                 homePage::fillCommunityWelcomeMandatoryFields);
 
         And("^HE I go to the Counselor Community$", navBar::goToCommunity);

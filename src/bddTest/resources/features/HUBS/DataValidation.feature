@@ -1,8 +1,8 @@
-@HUBSDataValidation
+@HUBS @HUBSDataValidation
 Feature: As a community user viewing College Hubs, I want data to be validated properly in the edition mode fields.
 
   Background:
-    Given HE I want to login to the HE app using "jorgetesthobsons@gmail.com" as username and "Hobsons2016!" as password
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HUBS I access HUBS Edit Mode
   @HUBS-1040
   Scenario: HEM - UI - It is possible to enter unlimited characters in some fields in HEM (bug-fixed)

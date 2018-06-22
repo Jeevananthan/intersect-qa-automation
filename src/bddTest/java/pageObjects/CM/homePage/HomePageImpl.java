@@ -6,20 +6,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import pageObjects.COMMON.NavBarImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private NavBarImpl navBar = new NavBarImpl();
 
     public HomePageImpl() {
         logger = Logger.getLogger(pageObjects.HE.homePage.HomePageImpl.class);
     }
 
     public void verifyUpgradeWidget(String visibility, String userType){
-        navBar.goToCommunity();
-        waitUntilPageFinishLoading();
-        communityFrame();
+        //Wait page load function deleted.
         switch (visibility){
             case "visible":
                 Assert.assertTrue("New Widget Learn More is not displaying for "+userType+" User", getLearnMoreLink().isDisplayed());
@@ -85,8 +85,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUserIsLoggedIn() {
-        //Check if user element is present
         waitUntilPageFinishLoading();
+        navBar.goToCommunity();
+        communityFrame();
+        //Check if user Profile element is present
         Assert.assertTrue("User did not sign in successfully",link("Profile").isDisplayed());
         logger.info("Logged in to Community successfully");
     }
@@ -102,6 +104,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void accessCounselorCommunityPage() {
         logger.info("Going to Counselor Community page.");
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        communityFrame();
     }
 
     public void accessHSCounselorCommunityPage() {
@@ -126,6 +129,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 //        link(By.cssSelector("a[href='/']")).click();
     }
 
+    public void clickOnHighEducationTab() {
+        logger.info("Going to High Education tab.");
+        waitUntilPageFinishLoading();
+        button(By.xpath("//*[@class='ui button _3y0_nbKvcnKh4vXrUyRAUa']")).click();
+    }
 
     public void clickOnHomeTab() {
         logger.info("Going to home tab.");
@@ -215,7 +223,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 //        driver.findElement(By.id("edit-delete--3")).click();
     }
 
-    private WebElement getLearnMoreLink(){ return link("Learn More"); }
+    private WebElement getLearnMoreLink(){ return button ("LEARN MORE"); }
     private WebElement getRequestInformationButton(){ return driver.findElement(By.cssSelector("[class='ui pink button']")); }
     private WebElement userDropdown() {return driver.findElement(By.id("user-dropdown"));}
     private WebElement signOutBtn() {return driver.findElement(By.id("user-dropdown-signout"));}

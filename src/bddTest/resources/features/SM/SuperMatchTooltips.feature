@@ -1,14 +1,14 @@
 @SM
-Feature: SM - SuperMatchSearch - As a HS student who is interacting with SuperMatch, I want to see tooltips so I can
+Feature: SM - SuperMatchTooltips - As a HS student who is interacting with SuperMatch, I want to see tooltips so I can
   learn how to use the tool and what certain feature are/mean.
 
   Background:
     Given SM I am logged in to SuperMatch through Family Connection
+    Then I clear the onboarding popups if present
 
-  @MATCH-3526
+  @MATCH-3526 @MATCH-3525 @MATCH-3527
   Scenario Outline: As a HS student accessing SuperMatch through Family Connection I need to be verify that the tooltips are displayed/closed
     Then SM I verify that the tooltips are displayed in the tab "<tabLabel>"
-    And SM I sign out of SuperMatch through Family Connection
     Examples:
     | tabLabel |
     | Location |
@@ -21,6 +21,7 @@ Feature: SM - SuperMatchSearch - As a HS student who is interacting with SuperMa
     | Athletics:Aerobics          |
     | Resources                   |
 
+  @MATCH-3524
   Scenario Outline: As a HS student accessing SuperMatch through Family Connection I need to be verify that the tooltips are displayed/closed (2nd part)
     When I select the following data from the Admission Fit Criteria
     | GPA (4.0 scale) | 4 |
