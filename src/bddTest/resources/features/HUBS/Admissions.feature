@@ -1,5 +1,5 @@
 @HUBS
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs Cost Tab content so I can understand
+Feature: As a community user viewing College Hubs, I want to be able to view Hubs Admissions Tab content so I can understand
   what Hubs offers students.
 
   Background:
@@ -16,7 +16,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     Then HUBS I should be able to edit the following fields for Admissions in real time:
       | Acceptance Rate | 6666 | 7777 |
       | Important Policies | Admissions Policy  | Rolling admissions policy  |
-      | Deadlines          | Early Action       | month;February             |
+      | Deadlines          | Early Decision | month;February        |
       | Fees               | Transfer Deposit Fee | 777                      |
       | Application Requirements | Freshman       | Campus Visit;Optional    |
       | Recommended Courses      | Science        | Years Required;7         |
@@ -37,8 +37,10 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
     And HUBS I edit all the fields in Admissions based on the gathered values, with the following details:
       | Application Factors | Ethnicity |
       | Publish Reason      | test      |
+      | Deadlines           | Early Decision |
     And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
     | admin | hbcmsxx | The University of Alabama  |
+    And HUBS I successfully sign out from CMS
     Then HUBS I should be able to verify the changes for admissions published in HUBS, with username "benhubs", password "Hobsons!23" and college "The University of Alabama", in the following sections
       | Acceptance Rate |
       | Important Policies;Wait List |

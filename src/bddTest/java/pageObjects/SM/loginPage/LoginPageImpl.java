@@ -72,12 +72,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      */
     public void clearOnboardingPopups() {
         try {
+            getDriver().manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
             if (getDriver().findElement(By.cssSelector("div[class~=supermatch-onboarding-popup]")).isDisplayed()) {
                 getDriver().findElement(By.className("logoWrapper")).click();
                 //new WebDriverWait(getDriver(),3).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[class~=supermatch-onboarding-popup]")));
             }
+            getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")),TimeUnit.SECONDS);
         } catch (Exception e) {
             logger.info("Exception when clearing Onboarding Popups: " + e.getMessage() + Arrays.toString(e.getStackTrace()));
+            getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")),TimeUnit.SECONDS);
         }
     }
 
