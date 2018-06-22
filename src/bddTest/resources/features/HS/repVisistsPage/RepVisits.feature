@@ -256,7 +256,23 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario: As a HS Repvisit user send Mass email to college fair attendees
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     And HS I Navigate to College Fairs tab of the Repvisits Page
-    And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Manual Attendee"
+    And HS I create a College Fair with the following data
+    | College Fair Name                                         | Automation Fair for Mass Email  |
+    | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+    | Cost                                                      | 10                      |
+    | Start Time                                                | 0800AM                  |
+    | Date                                                      | 5                       |
+    | RSVP Deadline                                             | 4                       |
+    | End Time                                                  | 0800PM                  |
+    | Max Number of Colleges                                    | 10                      |
+    | Number of Students Expected                               | 10                      |
+    | Instructions for College Representatives                  | Submit request by Email |
+    | Email Message to Colleges After Confirmation              | why not                 |
+
+    And HS I Click the View Details button for the College Fair Event for "Automation Fair for Mass Email"
+    And HS I Click on the "Add Attendee" button in the College Fair Details Page
+    And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
+    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then  HS I click the Message Colleges button
     Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
     Then  HS I click on Send Message
