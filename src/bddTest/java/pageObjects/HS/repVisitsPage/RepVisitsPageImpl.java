@@ -4383,7 +4383,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.fail("Time Slot is not displayed in the Regular weekly hours ");
         }
     }
-  
+
    public String getcurrentBlockedDate(String addDays) {
         String DATE_FORMAT_NOW = "MM/dd/yy";
         Calendar cal = Calendar.getInstance();
@@ -5060,8 +5060,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.fail("Notification it's failing.");
         }
     }
-  
-   public void verifyCalendarPageForaddVisit() {  
+
+   public void verifyCalendarPageForaddVisit() {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitUntilElementExists(addVisitButton());
@@ -5136,7 +5136,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
-  
+
      public void navigateToException() {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();

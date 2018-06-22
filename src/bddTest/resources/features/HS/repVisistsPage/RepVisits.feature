@@ -808,7 +808,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I Navigate to Notifications & Tasks tab of the Repvisits Page
     Then HS I click the Visit Feedback sub tab
     Then HS I should be able to see the text - #HE User# has asked for feedback on their recent visit.- in every entry present in Visit Feedback Pending tab
-    
+
   @MATCH-2692
   Scenario: As a high school staff member, I want to be able to toggle blocking of specific availabilities in RepVisits,
   so that I can effectively close a time slot for further visits and re-open it later, if I choose.
@@ -891,27 +891,28 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|
       |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |
 
+  @MATCH-2061
+      Scenario: : This scenario is to verify Internal Notes
+      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+      And HS I am Navigating to Calendar Home Screen
+      And HS I click on button Add Visit
+      And HS I select custom time manually
+      And HS I select a date "3" days ahead from now
+      And HS I select Visit StartTime "9:40am" and End Time "10:00am"
+      And HS I select representative from drop down "Franky2 Auburn"
+      And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
+      And HS I click on Add Visit button
+      And HS I click on Agenda on Calendar
+      And Hs I open the date picker on Agenda View
+      And HS I select a date "3" days ahead from now from the standard date picker
+      And HS I click on Day on Calendar
+      And HS I click on Visit with "Auburn University" from "9:40 AM" to "10:00 AM" on Day Calendar
+      And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
+      And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
+      And HS I successfully sign out
 
 
-#  @MATCH-2061
-#      Scenario: : This scenario is to verify Internal Notes
-#      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-#      And HS I am Navigating to Calendar Home Screen
-#      And HS I click on button Add Visit
-#      And HS I select custom time manually
-#      And HS I select a date "12" days ahead from now
-#      And HS I select Visit StartTime "9:40am" and End Time "10:00am"
-#      And HS I select representative from drop down "AlmauserFirstName"
-#      And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
-#      And HS I click on Add Visit button
-#      And HS I click on Agenda on Calendar
-#      And Hs I open the date picker on Agenda View
-#      And HS I select a date "12" days ahead from now from the standard date picker
-#      And HS I click on Day on Calendar
-#      And HS I click on Visit with "Alma College" from "9:40 AM" to "10:00 AM" on Day Calendar
-#      And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
-#      And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
-#      And HS I successfully sign out
+
 
 #  @MATCH-1469
 #  Scenario: As a HS user Manually Add a Contact to Appointment

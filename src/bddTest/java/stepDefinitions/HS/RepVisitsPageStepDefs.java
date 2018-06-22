@@ -512,7 +512,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits::verifyRepDetails);
 
         And("^HS I click on link Add School User Manually$", repVisits::addRepresentativeManually);
-      
+
         Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
 
         Then("^HS I verify the blocked day in Exception tab using \"([^\"]*)\"$",repVisits::verifyBlockedDayInException);
