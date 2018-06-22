@@ -125,10 +125,10 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
       | College Type                  | Standard (4 Year)          |
       | School Type                   | Public                     |
       | Degree                        | 4                          |
-      | City                          | Jonesboro                  |
+      | City                          | State University           |
       #Search Institution by state is not working ATM --- MATCH-2219 created 6/26/17
       #| State                         | Arkansas                   |
-      | Postal Code                   | 72401                      |
+      | Postal Code                   | 72467                      |
 
     Then HE I verify I can perform an advanced search utilizing any combination of fields for "High School"
       | Keyword                       | Southern                   |

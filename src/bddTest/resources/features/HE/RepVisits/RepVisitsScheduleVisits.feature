@@ -22,7 +22,7 @@ Feature: HE- RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be a
     And HE I select "Lebanon High School" from the RepVisists map plugin
     Then HE I verify the high school information popup contains the following data
       |School Name          |High School Contact:   |Address                           |Phone          |District      |Type   |Senior Class Size |College Going Rate |
-      |Lebanon High School  |PurpleHS User          |1916 Drake Rd Lebanon, Ohio 45036 |(513) 934-5105 |Lebanon City  |PUBLIC |335               |65                 |
+      |Lebanon High School  |PurpleHS User          |1916 Drake Rd Lebanon, Ohio 45036 |(513) 934-5105 |Lebanon City  |PUBLIC |335               |81                 |
 
   @MATCH-2169
   Scenario Outline: HE Users - RepVisits - Availability Pills Updates
