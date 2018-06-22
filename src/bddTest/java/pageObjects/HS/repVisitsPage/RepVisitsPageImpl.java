@@ -1685,7 +1685,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } catch (final UnsupportedOperationException e) {
             logger.error(e.getMessage());
         } catch (final WebDriverException e) {
-            fail("The date " + day + " for next month than " + date + " was not disabled: " + e.getMessage());
+            Assert.fail("The date " + day + " for next month than " + date + " was not disabled: " + e.getMessage());
         }
         return enabledOrDisabledDate;
 
@@ -1703,7 +1703,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } catch (final UnsupportedOperationException e) {
             logger.error(e.getMessage());
         } catch (final WebDriverException e) {
-            fail("The date " + day + " for previous month than " + date + " was not disabled: " + e.getMessage());
+            Assert.fail("The date " + day + " for previous month than " + date + " was not disabled: " + e.getMessage());
         }
 
         return enabledOrDisabledDate;
@@ -5386,6 +5386,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void addSchoolUserManually(){
         linkToAddSchoolUser().click();
+        waitUntilPageFinishLoading();
     }
     public void addDataToAddAttendeeManually(DataTable AttendeeDetails){
         List<List<String>> AttendeeInformation = AttendeeDetails.asLists(String.class);
@@ -6271,7 +6272,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void addDataToAddAttendeeManually(DataTable AttendeeDetails){
+    /*public void addDataToAddAttendeeManually(DataTable AttendeeDetails){
         List<List<String>> AttendeeInformation = AttendeeDetails.asLists(String.class);
         for (List<String> fieldrow : AttendeeInformation) {
             switch (fieldrow.get(0)) {
@@ -6293,17 +6294,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Institution":
                     attendeeInstitutionTextBox().sendKeys(fieldrow.get(1));
-                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"), 1));
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("./*//*[@id='undefined-results']/div[1]/div/div[1]"), 1));
                     attendeeCollege().click();
                     break;
             }
         }
 
-    }
-
-    public void addRepresentativeManually() {
-        linkToAddRepresentativeManually().click();
-    }
+    }*/
 
     public void verifyRepDetails( String repDetails){
 
@@ -6369,7 +6366,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         return  getDriver().findElement(By.cssSelector("button.ui.negative.right.floated.button span"));
     }
-    private WebElement attendeeFirstNameTextBox() {
+/*    private WebElement attendeeFirstNameTextBox() {
         return getDriver().findElement(By.cssSelector("input#add-rep-first-name"));
     }
     private WebElement attendeeLastNameTextBox(){
@@ -6388,8 +6385,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("input#add-rep-institution"));
     }
     private WebElement attendeeCollege(){
-        return  getDriver().findElement(By.xpath(".//*[@id='undefined-results']/div[1]/div/div[1]"));
-    }
+        return  getDriver().findElement(By.xpath("./*//*[@id='undefined-results']/div[1]/div/div[1]"));
+    }*/
     private WebElement getRepDetails()
     {
         return  getDriver().findElement(By.cssSelector("div._3DhFv-KjwgxmXKcCAgKD8c"));

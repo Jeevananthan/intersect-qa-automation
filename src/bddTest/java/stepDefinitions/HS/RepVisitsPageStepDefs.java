@@ -316,7 +316,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$", repVisits::navigateToNavianceSettingsPage);
 
-        Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$",repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
         Then("^HS I click on link Add School User Manually$",repVisits::addSchoolUserManually);
         Then("^HS I Enter Folliwng Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
         Then("^HS I click on button Add attendees$",repVisits::clickAddAttendeetovisit);
@@ -325,7 +324,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I click on Send Message$",repVisits::sendMessage);
         Then("^HS I verify confirmation message$",repVisits::verifySentEmailConfirmationMessage);
         Then("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
-    }}
+
         Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$", repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
 
 //        And("^HS I validating the pagination of 25 contacts in Contacts Page", repVisits::validatingthePaginationof25Contacts);
@@ -520,8 +519,6 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I Enter Following Data to Add a School User Manually$", repVisits::addDataToAddAttendeeManually);
 
         And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits::verifyRepDetails);
-
-        And("^HS I click on link Add School User Manually$", repVisits::addRepresentativeManually);
 
         Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
 

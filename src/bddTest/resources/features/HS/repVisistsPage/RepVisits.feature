@@ -294,8 +294,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
     Then  HS I click on Send Message
     Then  HS I verify confirmation message
-    Then  HS I Click on close button
-    Then  HS I successfully sign out
+
 
   @MATCH-1462
   Scenario: As a HS Repvisit user manually add college fair attendees
@@ -318,7 +317,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
     And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
-    And HS I successfully sign out
 
 
    @MATCH-1462
@@ -350,7 +348,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
      |Institution|Alma College    |
      Then HS I click on button Add attendees
      Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
-     And HS I successfully sign out
+
 
 
   @MATCH-1496
