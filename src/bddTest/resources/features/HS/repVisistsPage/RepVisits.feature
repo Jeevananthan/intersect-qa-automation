@@ -1004,7 +1004,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purplehsautomations@gmail.com" as username and "Password!1" as password
+    Given HE I want to login to the HE app using "purpleheautomation+HEAlpena@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
@@ -1066,7 +1066,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the following data to On the College Fair page "<newFairName>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purplehsautomations@gmail.com" as username and "Password!1" as password
+    Given HE I want to login to the HE app using "purpleheautomation+HEAlpena@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
     And HE I successfully sign out

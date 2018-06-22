@@ -4285,8 +4285,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
         waitUntilElementExists(selectDay());
-        day = day(day);
-        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
+        String visitDay = day(day);
+        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", visitDay);
         StartTime = startTime(startTime);
         logger.info("Start Time = " + StartTime);
         addStartTime().sendKeys(StartTime);
@@ -4298,11 +4298,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
+        List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
         if(displayingPopup.size()==1){
             driver.findElement(By.id("ignore-time-slots")).click();
             button("Add regular hours").click();
             waitUntilPageFinishLoading();
             waitForUITransition();
+        }else if(duplicateTimeSlot.size()==1){
+            addnewTimeSlot(day, startTime, endTime, numVisits);
         }
     }
 
