@@ -31,7 +31,7 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyAllElementsDisplayed() {
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.summary__statement.ng-binding"), 1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(openingStatementLocator), 1));
         assertTrue("Opening Statement is not displayed", openingStatement().isDisplayed());
         assertTrue("Website is not displayed", websiteText().isDisplayed());
         assertTrue("School Type is not displayed", getQuickFact("School Type").isDisplayed());
@@ -180,8 +180,9 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
     //Locators
 
     public WebElement openingStatement() {
-        return getDriver().findElement(By.cssSelector("div.summary__statement.ng-binding"));
+        return getDriver().findElement(By.cssSelector(openingStatementLocator));
     }
+    private String openingStatementLocator = "div.summary__statement.ng-binding";
     public WebElement websiteText() {
         return getDriver().findElement(By.cssSelector("span[ng-if=\"vm.profile.displayUrl\"] + a"));
     }

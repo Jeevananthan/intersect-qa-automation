@@ -1,4 +1,4 @@
-@HUBS @HUBS-918 @HUBSCosts
+@HUBS @HUBS-918 @HUBSCosts @HUBS-944
 Feature: As a community user viewing College Hubs, I want to be able to view Hubs Cost Tab content so I can understand
   what Hubs offers students.
 
@@ -19,6 +19,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Average Amount of Aid | Grant          | 1111  |
     And HE I successfully sign out
 
+  @HUBS-1080
   Scenario: Changes done in HEM are successfully published to HUBS
     When HUBS I open "Costs" in the edit menu
     And HUBS I take note of the values from the following fields in Costs:
@@ -37,4 +38,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Average Net Prices    | $48,001 - $75,000 |
       | % Receiving Aid       | Pell Grant        |
       | Average Amount of Aid | Grant             |
+    #Sometimes, the Average Net Prices take a lot of time to be updated. So, the next
+    #setting is the number of times to reload the HUBS page to verify the value.
+      | Number of tries       | 10                |
     And HUBS I successfully sign out

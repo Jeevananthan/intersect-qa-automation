@@ -42,7 +42,7 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
 
   @MATCH-932 @MATCH-934 @MATCH-1076 @MATCH-1077 @MATCH-1078 @MATCH-1723
   Scenario: As a Community user I want to perform an advanced search for other Community users using any combination of the fields below.
-  So I can more accurately find the users I want to network with in the Community.
+            So I can more accurately find the users I want to network with in the Community.
     Given SP I am logged in to the Admin page as a Support user
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "People"
       | Keyword                                | Admin                                |
@@ -63,7 +63,7 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
 
   @MATCH-933 @MATCH-1103 @MATCH-1105 @MATCH-1107
   Scenario: As a Community user I want to perform an advanced search for groups using any combination of the fields below.
-  So I can more accurately find the groups I want to join with in the Community.
+            So I can more accurately find the groups I want to join with in the Community.
     Given SP I am logged in to the Admin page as a Support user
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "Groups"
       | Keyword     | Hobsons                                    |
@@ -83,10 +83,9 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
       | College Type                  | Standard (4 Year)          |
       | School Type                   | Public                     |
       | Degree                        | 4                          |
-      | City                          | Jonesboro                  |
-      #Search Institution by state is not working ATM --- MATCH-2219 created 6/26/17
-      #| State                         | Arkansas                   |
-      | Postal Code                   | 72401                      |
+      | City                          | State University           |
+      | State                         | Arkansas                   |
+      | Postal Code                   | 72467                      |
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "High School"
       | Keyword                       | Southern                   |
       | Institution Type              | High School                |
@@ -98,4 +97,14 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
       | Charter School                | Unknown                    |
       | Title I Eligible              | No                         |
       | College Going Rate            | 59-100                     |
+    And SP I successfully sign out
+
+  @MATCH-1054
+  Scenario: As an Intersect user I want the global search box to return results based on a full match.
+            So the results returned to me are as accurate and relevant as possible.
+    Given SP I am logged in to the Admin page as a Support user
+    # Only partials are being texted, commented out code to test full Match, MATCH-2231 submitted or HE Accounts full match search
+    Then SP I verify the real-time results return for global search are a partial and full match "Adrian College"
+      #| HE Accounts | People | Institutions |
+      | People |
     And SP I successfully sign out

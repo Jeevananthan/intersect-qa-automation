@@ -12,6 +12,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import selenium.SeleniumBase;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -216,6 +219,152 @@ public class GlobalSearch extends SeleniumBase {
         Assert.assertTrue("No real-time results displaying in dropdown!", getDriver().findElement(By.id("global-search-box-results")).isDisplayed());
     }
 
+    public void verifyRealTimeSearchMatch(String searchRequest, DataTable dataTable) {
+        waitUntilPageFinishLoading();
+        logger.info("\nVerifying real-time partial and full match results are returned.");
+        List<String> categoryOptions = dataTable.asList(String.class);
+        String[] partialSearchRequest = searchRequest.split(" ");
+        for (String opt : categoryOptions) {
+            // check for full match does not work for HE Accounts search - 6-29-2017 submitted MATCH-2231
+            Assert.assertTrue("Real-time search did not return a full match for " + searchRequest + " under " + opt + " category, but should have.", searchThroughResults(searchRequest,opt));
+            for (String partialOtp : partialSearchRequest) {
+                Assert.assertTrue("Real-time search did not return a partial match for " + searchRequest + " under " + opt + " category, but should have.", searchThroughResults(partialOtp,opt));
+            }
+        }
+    }
+
+    public void searchandSelectInGlobalSearch(String school) {
+        waitUntilPageFinishLoading();
+        searchForHSInstitutions(school);
+        selectResult(school);
+    }
+
+    public void searchForHSInstitutions(String searchTerm) {
+        setSearchCategory("Institutions");
+        searchTerm = "\""+searchTerm+"\"";
+        doSearch(searchTerm);
+    }
+
+    public void selectRepvisitsAvialability() {
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
+        WebElement frameClass=driver.findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
+        driver.switchTo().frame(frameClass);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
+        waitUntilElementExists(RepvisitsAvailabilityButton());
+        Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvailabilityButton().isDisplayed());
+        RepvisitsAvailabilityButton().click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+    }
+
+    public void verifyblockedAvaialbility(String date,String time) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Repvisits Availability']"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Visits']"),1));
+        waitUntilElementExists(visit());
+        visit().click();
+        waitUntilElementExists(dateInRepVisitsAvailability());
+        dateInRepVisitsAvailability().click();
+        setSpecificDate(date);
+        String dateResult=getMonthandDate(date);
+        String Time=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        List<WebElement> availabilitySlot = driver.findElements(By.xpath("//span[text()='" + dateResult + "']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/button[text()='" + Time + "']"));
+        if(availabilitySlot.size()==0){
+            logger.info("Availability is displayed");
+        }else {
+            logger.info("Availability is not displayed");
+        }
+    }
+
+    public String getMonthandDate(String addDays)
+    {
+        String DATE_FORMAT_NOW = "MMM d";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public void setSpecificDate(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void findMonth(String month) {
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try{
+            int i = 0;
+            while (!DayPickerCaption.contains(month) && i < 12) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                i++;
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+            while (!DayPickerCaption.contains(month) && i > -12) {
+                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                i--;
+                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+            }
+        }
+        catch (Exception e) {
+            Assert.fail("The Date selected is out of RANGE.\n" + e.getMessage());
+        }
+    }
+
+    public void clickOnDay(String date) {
+        try {
+
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
+
+        } catch (Exception e) {
+            Assert.fail("The Date selected is out of RANGE.");
+        }
+
+    }
+
+    public boolean searchThroughResults(String searchRequest, String categoryOption) {
+        doSearch(searchRequest);
+        boolean searchResultsFound;
+        switch (categoryOption) {
+            case "Users":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class = 'title']")).getText().contains(searchRequest);
+            case "People":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+            case "HE Accounts":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+            case "Institutions":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+            case "Groups":
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+            default:
+                Assert.fail(categoryOption + " is not a valid search category.  Valid categories: HE Accounts, Users, People, Institutions, or Groups");
+                return false;
+        }
+    }
+
     public void verifyAdvanceSearchByEnterKey(String searchRequest) {
         waitUntilPageFinishLoading();
         System.out.println();
@@ -396,7 +545,7 @@ public class GlobalSearch extends SeleniumBase {
         System.out.println();
         logger.info("Verifying real-time search results are returned for HE Account search.");
         searchForHEInstitutions(searchRequest);
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("global-search-box-results")));
         Boolean resultsReturned=false;
         // check to make sure a result is found
         if (getDriver().findElements(By.id("global-search-box-item-0")).size() > 0) {
@@ -479,6 +628,7 @@ public class GlobalSearch extends SeleniumBase {
                     jsClick(drpCharterSchool.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
+
                 case "College Going Rate":
                     WebElement slider = getDriver().findElement(By.xpath("//div[@class='input-range__track input-range__track--active']"));
                     JavascriptExecutor js=driver;
@@ -486,6 +636,7 @@ public class GlobalSearch extends SeleniumBase {
                     js.executeScript(scriptSetAttrValue, slider, "style.left", 20);
                     js.executeScript(scriptSetAttrValue, slider, "style.width", 80);
                     break;
+
                 case "College Type":
                     WebElement drpCollegeType = driver.findElement(By.id("he-type"));
                     drpCollegeType.click();
@@ -493,6 +644,7 @@ public class GlobalSearch extends SeleniumBase {
                     jsClick(drpCollegeType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
+
                 case "County Served":
                     WebElement drpCountyServed = driver.findElement(By.id("field_population_served_name_COUNTY"));
                     drpCountyServed.click();
@@ -500,6 +652,7 @@ public class GlobalSearch extends SeleniumBase {
                     jsClick(drpCountyServed.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
+
                 case "Institution State":
                     WebElement drpInstitutionState = driver.findElement(By.id("institutionState"));
                     drpInstitutionState.click();
@@ -507,6 +660,7 @@ public class GlobalSearch extends SeleniumBase {
                     jsClick(drpInstitutionState.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
+
                 case "Institution Type":
                     if(categorySearch.equalsIgnoreCase("People")){
                         WebElement drpInstitutionType = driver.findElement(By.id("field_institution_type_name"));
@@ -514,8 +668,7 @@ public class GlobalSearch extends SeleniumBase {
                         waitUntilPageFinishLoading();
                         jsClick(drpInstitutionType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key) + "')]")));
                         waitUntilPageFinishLoading();
-                    }
-                    else {
+                    }else {
                         WebElement drpInstitutionType = driver.findElement(By.id("institution-type"));
                         drpInstitutionType.click();
                         waitUntilPageFinishLoading();
@@ -523,12 +676,13 @@ public class GlobalSearch extends SeleniumBase {
                         waitUntilPageFinishLoading();
                         if (categorySearch.equalsIgnoreCase("Higher Education")) {
                             getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                        } else {
+                        }else {
                             getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
                             getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
                         }
                     }
                     break;
+
                 case "Schedules College Visits":
                     WebElement schedulesVisits = driver.findElement(By.id("college_visits"));
                     Boolean isSelected = schedulesVisits.findElement(By.id("college_visits")).isSelected();
@@ -537,6 +691,7 @@ public class GlobalSearch extends SeleniumBase {
                     }
                     waitUntilPageFinishLoading();
                     break;
+
                 case "School Type":
                     WebElement drpSchoolType = driver.findElement(By.id("he-control"));
                     drpSchoolType.click();
@@ -544,12 +699,12 @@ public class GlobalSearch extends SeleniumBase {
                     jsClick(drpSchoolType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
+
                 case "State":
                     WebElement drpState;
                     if(categorySearch.equalsIgnoreCase("Higher Education")) {
                         drpState = driver.findElement(By.id("he-state"));
-                    }
-                    else {
+                    }else {
                         drpState = driver.findElement(By.id("hs-state"));
                     }
                     drpState.click();
@@ -557,6 +712,7 @@ public class GlobalSearch extends SeleniumBase {
                     jsClick(drpState.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
+
                 case "State Served":
                     WebElement drpStateServed = driver.findElement(By.id("field_population_served_name_STATE"));
                     drpStateServed.click();
@@ -564,6 +720,7 @@ public class GlobalSearch extends SeleniumBase {
                     jsClick(drpStateServed.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
+
                 case "Title I Eligible":
                     WebElement drpTitleEligible = driver.findElement(By.id("hs-title-i-eligible"));
                     drpTitleEligible.click();
@@ -571,12 +728,12 @@ public class GlobalSearch extends SeleniumBase {
                     jsClick(drpTitleEligible.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
+
                 case "Type":
                     if(categorySearch.equalsIgnoreCase("Groups")) {
                         WebElement typeRadio = driver.findElement(By.id(textBoxData.get(key).toLowerCase()));
                         typeRadio.click();
-                    }
-                    else{
+                    }else {
                         WebElement drpType = driver.findElement(By.id("hs-type"));
                         drpType.click();
                         waitUntilPageFinishLoading();
@@ -596,7 +753,7 @@ public class GlobalSearch extends SeleniumBase {
                 case "Postal Code":
                     if (driver.findElements(By.id("he-postalCode")).size() > 0) {
                         driver.findElement(By.id("he-postalCode")).sendKeys(textBoxData.get(key));
-                    } else {
+                    }else {
                         driver.findElement(By.id("hs-postalCode")).sendKeys(textBoxData.get(key));
                     }
                     break;
@@ -632,5 +789,20 @@ public class GlobalSearch extends SeleniumBase {
     }
     private void clickAdvancedSearchLink(){
         driver.findElement(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']/a")).click();
+    }
+    private WebElement RepvisitsAvailabilityButton()
+    {
+        WebElement link=link("Check RepVisits Availability");
+        return link;
+    }
+    private WebElement visit()
+    {
+        WebElement visit=driver.findElement(By.xpath("//span[text()='Visits']"));
+        return  visit;
+    }
+    private WebElement dateInRepVisitsAvailability()
+    {
+        WebElement date=button("Go to date");
+        return date;
     }
 }

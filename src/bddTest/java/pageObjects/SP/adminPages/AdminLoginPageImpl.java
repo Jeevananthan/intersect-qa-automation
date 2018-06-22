@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -44,8 +46,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
         button("Next").click();
-        waitForUITransition();
-        passwordTextbox().click();
+        new WebDriverWait(driver,20).until(ExpectedConditions.elementToBeClickable(passwordTextbox())).click();
         logger.info("Using " + password + " as password");
         handleAccountTypeDialog(password);
         logger.info("Clicked the login button");
@@ -117,7 +118,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
 
     public void loginAsNoAccessUser() {
         login(GetProperties.get("sp.norole.username"), GetProperties.get("sp.norole.password"));
-        adminPage.verifyUserIsLoggedIn();
+        adminPage.verifyUserIsLoggedInForNoRole();
     }
 
     //Page Web Elements

@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -11,6 +10,8 @@ public class SearchPageStepDefs implements En {
         SearchPageImpl searchPage = new SearchPageImpl();
 
         Then("^I select the following data from the Location Fit Criteria$",searchPage::setLocationCriteria);
+
+        Then("^I select the following data from the Diversity Fit Criteria$",searchPage::setDiversityCriteria);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the Resources fit criteria$",searchPage::setResourcesCriteria);
 
@@ -42,15 +43,15 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that entered GPA data persists$", searchPage::verifyGPADataPersists);
 
-        And("^SM I verify that GPA doesn't become a fit criteria in the Must Have box$", searchPage::verifyGPACriteriaNotInMustHaveBox);
+        Then("^SM I verify the system response when the GPA entered by the user is valid$",searchPage::verifySystemResponseWhenGPAInputIsValid);
+
+        Then("^SM I verify the system response when the GPA entered by the user is invalid$",searchPage::verifySystemResponseWhenGPAInputIsInvalid);
 
         And("^SM I verify the system response when the ACT score entered by the user is valid$", searchPage::verifySystemResponseWhenACTScoreIsValid);
 
         And("^SM I verify the system response when the ACT score entered by the user is invalid$", searchPage::verifySystemResponseWhenACTScoreIsInvalid);
 
         And("^SM I verify that entered ACT score data persists$", searchPage::verifyACTScoreDataPersists);
-
-        And("^SM I verify that ACT score doesn't become a fit criteria in the Must Have box$", searchPage::verifyACTScoreCriteriaNotInMustHaveBox);
 
         And("^SM I verify if dark blue header is present$", searchPage::verifyDarkBlueHeaderIsPresent);
 
@@ -79,7 +80,7 @@ public class SearchPageStepDefs implements En {
         Then ("SM I click \"([^\"]*)\" filter criteria tab", searchPage::chooseFitCriteriaTab);
 
         Then("^SM I see validation message \"([^\"]*)\"$", (searchPage::checkValidationMessageIsVisible));
-      
+
         Then("^SM I verify \"([^\"]*)\" checkbox in Cost fit criteria$", searchPage::verifyMeets100ofNeedCheckbox);
 
         Then("^SM I unselect the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::unselectCheckbox);
@@ -93,6 +94,36 @@ public class SearchPageStepDefs implements En {
         Then("^SM I unselect the \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::unselectStudentSuccessFitCriteriaCheckbox);
 
         Then("^SM I verify the widths of the three boxes$", searchPage::verifyWidthsOfThreeBoxes);
-      
+
+        And("^I select the following data from the Admission Fit Criteria$", searchPage::setAdmissionCriteria);
+
+        Then("^SM I verify each fit category in the Choose Fit Criteria header bar is clickable and match the color$", searchPage::verifyEachFitCriteria);
+
+        Then("^SM I verify clicking outside of the box will also close the box$", searchPage::checkOutsideClick);
+
+        And("^SM I check both Select Criteria To Start buttons take the user to the Location dropdown$", searchPage::checkSelectCriteriaToStartButtonsRedirectsLocation);
+
+        Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from the Diversity$",searchPage::selectOrUnselectDiversityCheckbox);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
+
+        And("^SM I verify \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::verifyAdmissionFitCriteriaCheckbox);
+
+        Then("^SM I click on Institution Characteristics fit criteria$", searchPage::getInstitutionCharacteristicsFC);
+
+        Then("^SM I check the selection and deselection and Must Have box functionality for Average Class Size drop down list$",
+                searchPage::verifyAverageClassSizeList);
+        Then("^SM I check when Average Class Size filter is selected, moved to Nice To Have, unselected, and then selected again it should be defaulted back to the Must Have box$",
+                searchPage::verifyMAndNSyncWithAverageClassSizeFilter);
+        And("^SM I verify the default column headers displayed in the results table$", searchPage::verifyDefaultColumnHeadersInResultsTable);
+
+        And("^SM I verify if the option selected or defaulted in column header can be changed to \"([^\"]*)\"$", searchPage::verifyIfOptionDefaultedInColumnHeaderCanBeChanged);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Diversity fit criteria$", searchPage::selectHighInternationalPopulationCheckbox);
+
+        Then("^SM I verify \"([^\"]*)\" checkbox in Diversity fit criteria$", searchPage::verifyHighInternationalPopulationCheckbox);
+
+        Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
+
     }
 }

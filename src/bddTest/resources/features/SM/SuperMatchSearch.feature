@@ -20,16 +20,6 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify the empty results table
     Then SM I verify the dark blue footer
 
-  @MATCH-3381
-  Scenario: As a HS student, I want to filter colleges I am searching for by my specific SAT Scores within the Admission
-            category so I can see relevant colleges that accept students similar to me based on my SAT Scores in my
-            search results.
-    Given SM I am logged in to SuperMatch through Family Connection
-    Then SM I verify the system response when the SAT score entered by the user is valid
-    Then SM I verify the system response when the SAT score entered by the user is invalid
-    Then SM I verify that SAT score persists when changing fit criteria
-    Then SM I verify that the Must Have box does not contain "SAT"
-
   @MATCH-3208
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be able to
             add or remove filter criteria from the Must Have box
@@ -83,3 +73,43 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   and Nice to Have boxes split the rest
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the widths of the three boxes
+
+  @MATCH-3339
+  Scenario: As a HS student looking to search for colleges, I want each fit category that I see in the 'Choose Fit Criteria'
+  header bar to be clickable so I can select specific fit criteria.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify each fit category in the Choose Fit Criteria header bar is clickable and match the color
+    Then SM I verify clicking outside of the box will also close the box
+    And SM I check both Select Criteria To Start buttons take the user to the Location dropdown
+
+
+  @MATCH-3371
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by Diversity checkboxes within the Diversity
+  category so I can see relevant colleges that match my Diversity checkboxes requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I verify that the Must Have box contains "<DiversityCheckboxOption>"
+    Then SM I "unselect" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I verify that the Must Have box does not contain "<DiversityCheckboxOption>"
+    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I move "<DiversityCheckboxOption>" from the Must Have box to the Nice to Have box
+    Then SM I "unselect" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I verify that the Must Have box does not contain "<DiversityCheckboxOption>"
+    And SM I verify that Nice to Have box does not contain "<DiversityCheckboxOption>"
+    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
+    And SM I verify that the Must Have box contains "<DiversityCheckboxOption>"
+    Examples: Each of the available options for the Student Life fit criteria
+    |DiversityCheckboxOption         |
+    |Historically Black Institutions |
+    |Tribal Colleges and Universities|
+
+  @MATCH-3432
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to select what details I see on each
+            college in my search results so the information I care most about is visible to review.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+    Then SM I verify the default column headers displayed in the results table
+    |Admission Info   |
+    |Financial Aid    |
+    |Pick what to show|
+    Then SM I verify if the option selected or defaulted in column header can be changed to "Athletics"
