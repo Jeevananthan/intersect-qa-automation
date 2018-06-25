@@ -148,7 +148,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("College Search footer is not dark blue", superMatchFooter()
                 .getCssValue("background-color").equals("rgba(28, 29, 57, 1)"));
 
-        Assert.assertTrue("Search box in College Search footer is not displayed", superMatchFooter().findElement(By.xpath(".//input[@placeholder='Search...']"))
+        // placeholder changed in MATCH-3471 from Search... to Search by College Name
+        Assert.assertTrue("Search box in College Search footer is not displayed", superMatchFooter().findElement(By.xpath(".//input[@placeholder='Search by College Name']"))
                 .isDisplayed());
 
         Assert.assertTrue("'PINNED' menu is not displayed", superMatchFooter().findElement(By.xpath("//span[text()='Pinned']"))
@@ -392,8 +393,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
         if (option.equals("Asperger's/Autism Support"))
             option="Autism Support";
-        WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
-        WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
+        waitUntilElementExists(getDriver().findElement(By.xpath("//label[contains(text(), '"+option+"')]")));
+        WebElement label = getDriver().findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
+        WebElement checkbox = getDriver().findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
         if (checkbox.isSelected()) {
             label.click();
             waitUntilPageFinishLoading();
@@ -473,7 +475,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void moveToNiceToHave(String item) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
-        getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")).click();
+        // Intermittent problems with clicking this in Embedded version, so sending the click directly with JS.
+        jsClick(getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
     }
 
     /**
@@ -1023,7 +1026,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getAverageClassSizeListIcon().click();
         getDriver().findElement(By.id("class-size-selection-option-30")).click();
         getFitCriteriaCloseButton().click();
-        repVisitsPageUtility.scrollDown(firstWhyButton());
         getDriver().findElement(By.className("csr-heading-dropdown-text")).click();
         WebElement resultsColumHeader =  getParent(getDriver().findElement(By.className("csr-heading-dropdown-text")));
         // This tends to go off screen when running on the grid, so just force click it.  We're not testing the functionality, just the text after this is set.

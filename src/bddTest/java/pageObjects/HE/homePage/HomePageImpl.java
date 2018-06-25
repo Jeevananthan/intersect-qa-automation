@@ -250,7 +250,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                 "//label[@for='edit-field-eu-citizen-und']/following-sibling::div/div/label[text()='%s ']",
                 euCitizen))).click();
         getTermsAndConditionCheckBox().click();
-        getCreationAndMaintenanceConsentCheckBox().click();
+        driver.executeScript("arguments[0].click()",getCreationAndMaintenanceConsentCheckBox());
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
@@ -304,6 +304,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
      * @return
      */
     private WebElement getCreationAndMaintenanceConsentCheckBox(){
-        return driver.findElement(By.cssSelector("label[for=edit-field-account-consent-und]"));
+        return driver.findElement(By.id("edit-field-account-consent-und"));
     }
 }

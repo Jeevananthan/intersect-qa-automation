@@ -37,7 +37,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
       | School Size  | Total Students  |
       | Nearest City | Nearest City        |
       | Ethnicity    | % African American  |
-      | Gender Data  | Male   |
+      | Gender Data  | Female   |
       | Age Data     | % Students 24 Years Old |
       | Housing Data | Campus Housing Capacity |
       | Greek Life   | # of Fraternaties       |
@@ -49,7 +49,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
       | School Size  | Total Students  |
       | Nearest City | Nearest City        |
       | Ethnicity    | % African American  |
-      | Gender Data  | Male   |
+      | Gender Data  | Female   |
       | Age Data     | % Students 24 Years Old |
       | Housing Data | Campus Housing Capacity |
       | Greek Life   | # of Fraternaties       |
@@ -61,6 +61,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
     And HE I successfully sign out
     And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
       | admin | hbcmsxx | The University of Alabama  |
+    And HUBS I successfully sign out from CMS
     Then HUBS I should be able to verify the changes for Student Life published in HUBS, with username "benhubs", password "Hobsons!23" and college "The University of Alabama", in the following sections
       | School Size  | null |
       | Nearest City | null |
