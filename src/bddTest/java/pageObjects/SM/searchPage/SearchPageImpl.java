@@ -1102,9 +1102,19 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyErrorMessageforXCharacters(String numberOfCharacters) {
-        saveSearchPopupSearchBox().sendKeys(getStringFromPropFile(propertiesFilePath, "save.search.50.characters"));
-        Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
-                equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message")));
+        if(Integer.parseInt(numberOfCharacters) == 50) {
+            saveSearchPopupSearchBox().clear();
+            saveSearchPopupSearchBox().sendKeys(getStringFromPropFile(propertiesFilePath, "save.search.50.characters"));
+            Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
+                    equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message")));
+        } else if(Integer.parseInt(numberOfCharacters) == 3) {
+            saveSearchPopupSearchBox().clear();
+            saveSearchPopupSearchBox().sendKeys("aa");
+            saveSearchLink().click();
+            Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
+                    equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message.3.char")));
+        }
+
     }
 
     public void saveSearchWithName(String searchName) {

@@ -150,6 +150,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | Acceptance Rate | 25% or Lower |
     And SM I open the Save Search popup
     Then SM I verify the error message for more than "50" characters
+    And SM I verify the error message for less than "3" characters
 
   @MATCH-3506 @MATCH-3508
   Scenario: As a HS student, I want to verify that the save/load search functionality
