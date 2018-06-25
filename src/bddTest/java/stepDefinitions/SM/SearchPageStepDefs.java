@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -125,5 +126,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
 
+        Then("^SM I verify the College Profile page for \"([^\"]*)\" in the following sections:$", searchPage::verifyCollegeProfile);
+
+        And("^SM I open the Pinned Schools Compare screen$", searchPage::openPinnedCompareSchools);
+
+        And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
     }
 }
