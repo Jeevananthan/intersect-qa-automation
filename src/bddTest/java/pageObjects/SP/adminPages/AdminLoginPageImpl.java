@@ -118,7 +118,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
 
     public void loginAsNoAccessUser() {
         login(GetProperties.get("sp.norole.username"), GetProperties.get("sp.norole.password"));
-        adminPage.verifyUserIsLoggedIn();
+        adminPage.verifyUserIsLoggedInForNoRole();
     }
 
     //Page Web Elements

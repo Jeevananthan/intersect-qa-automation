@@ -129,9 +129,10 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
     private void verifyTooltipsInSearchHeader(WebElement button, String titleEntry, String textEntry) {
         button.sendKeys(Keys.RETURN);
-        Assert.assertTrue("The title of the tooltip is incorrect", getStringFromPropFile(propertiesFilePath,
+        Assert.assertTrue("The title of the tooltip is incorrect\n\nExpected: " + getStringFromPropFile(propertiesFilePath,
+                titleEntry) + "\n\nActual: " + searchHeaderTooltipTitle().getText(), getStringFromPropFile(propertiesFilePath,
                 titleEntry).equals(searchHeaderTooltipTitle().getText()));
-        Assert.assertTrue("The content of the tooltip is incorrect", getStringFromPropFile(propertiesFilePath,
+        Assert.assertTrue("The content of the tooltip is incorrect\n\nExpected: " + getStringFromPropFile(propertiesFilePath,textEntry) + "\n\nActual: " + searchHeaderTooltipText().getText(), getStringFromPropFile(propertiesFilePath,
                 textEntry).equals(searchHeaderTooltipText().getText()));
         button.sendKeys(Keys.RETURN);
     }
@@ -168,6 +169,12 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void enableOnboardingModalsIfDisabled() {
+        if(driver.findElements(By.cssSelector(onboardingHeaderLocator)).size() < 1) {
+            aboutSuperMatchLink().click();
+        }
+    }
+
     // Locators Below
 
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
@@ -184,7 +191,10 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement academicMatchTooltipButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table csr-header-table']/thead/tr/th[@class='two wide']/button"));}
     private WebElement getWhyButtonByPosition(String position) { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr["+ Integer.parseInt(position) +"]/td/div/button")); }
     private WebElement searchHeaderTooltipTitle() { return driver.findElement(By.cssSelector("div.header")); }
-    private WebElement searchHeaderTooltipText() { return driver.findElement(By.cssSelector("div.content")); }
+    private WebElement searchHeaderTooltipText() {
+        WebElement tooltip = getDriver().findElement(By.xpath("//div[@role='tooltip']"));
+        return tooltip.findElement(By.cssSelector("div.content"));
+    }
     private WebElement onboardingModalTitle() { return driver.findElement(By.cssSelector(onboardingHeaderLocator)); }
     private String onboardingHeaderLocator = "div.header";
     private WebElement chooseFitCriteria() { return driver.findElement(By.cssSelector("span.sm-hidden-l-down")); }
@@ -193,4 +203,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement dataUnknownLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-icon")); }
     private WebElement doesntMatchLegend() { return driver.findElement(By.cssSelector("div.eight.wide.column.supermatch-sidebar-criteria-legend-icon")); }
     private WebElement nextButton() { return driver.findElement(By.cssSelector("div.onboarding-popup-footer button")); }
+    private WebElement aboutSuperMatchLink() { return driver.findElement(By.cssSelector("i.question.circle.icon + span")); }
 }

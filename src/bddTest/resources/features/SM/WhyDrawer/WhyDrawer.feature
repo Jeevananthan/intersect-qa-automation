@@ -4,7 +4,7 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
 
   @MATCH-4266
   Scenario: As a HS student want to see a legend that provides an explanation of what each icon in the fit score breakdown means.
-    Given SM I am logged in to SuperMatch through the SuperMatch link
+    Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
