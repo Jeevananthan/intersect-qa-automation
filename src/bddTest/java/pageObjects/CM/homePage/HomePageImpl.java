@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import pageObjects.COMMON.NavBarImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import static org.junit.Assert.fail;
 
@@ -13,6 +14,7 @@ import static org.junit.Assert.fail;
 public class HomePageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private NavBarImpl navBar = new NavBarImpl();
 
     public HomePageImpl() {
         logger = Logger.getLogger(pageObjects.HE.homePage.HomePageImpl.class);
@@ -87,8 +89,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUserIsLoggedIn() {
-        //Check if user element is present
         waitUntilPageFinishLoading();
+        navBar.goToCommunity();
+        communityFrame();
+        //Check if user Profile element is present
         Assert.assertTrue("User did not sign in successfully",link("Profile").isDisplayed());
         logger.info("Logged in to Community successfully");
     }
@@ -104,6 +108,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void accessCounselorCommunityPage() {
         logger.info("Going to Counselor Community page.");
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        communityFrame();
     }
 
     public void accessHSCounselorCommunityPage() {
@@ -128,6 +133,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 //        link(By.cssSelector("a[href='/']")).click();
     }
 
+    public void clickOnHighEducationTab() {
+        logger.info("Going to High Education tab.");
+        waitUntilPageFinishLoading();
+        button(By.xpath("//*[@class='ui button _3y0_nbKvcnKh4vXrUyRAUa']")).click();
+    }
 
     public void clickOnHomeTab() {
         logger.info("Going to home tab.");
