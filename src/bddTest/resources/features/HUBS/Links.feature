@@ -1,8 +1,8 @@
-@HUBS-1016
+@HUBS @HUBS-1016
 Feature: As a community user viewing College Hubs, I want to verify the functionality of the links in HEM
 
   Background:
-    Given HE I want to login to the HE app using "jorgetesthobsons@gmail.com" as username and "Hobsons2016!" as password
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HUBS I access HUBS Edit Mode
 
   Scenario: The 'Terms of Service' link points to the Terms of Service page

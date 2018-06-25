@@ -168,7 +168,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         String visitDate = getSpecificDateForVisit(date);
         String currentDate = getDate("0");
-        String value = user+" RSVP'd RepVisitsDay "+visitDate+"";
+        String value =supportUserName+" logged in as "+ user+" RSVP'd RepVisitsDay "+visitDate+"";
         String originalDate = "";
         String originalValue = "";
         int rowData = 1;
@@ -190,7 +190,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//span [text()='"+option+"']")).click();
         waitUntilPageFinishLoading();
         String date = getDate("0");
-        String value = user+" RSVP'd "+fairName;
+        String value = supportUserName+" logged in as "+user+" RSVP'd "+fairName;
         String originalDate = "";
         String originalValue = "";
         int rowData = 1;

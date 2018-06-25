@@ -325,7 +325,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     public void setEndDateInModulePage(String... endDateArray){
         String endDate;
         if (endDateArray == null || endDateArray.length==0) {
-            endDate = "June 13, 2018";
+            endDate = "June 13, 2019";
         } else {
             endDate = endDateArray[0];
         }
