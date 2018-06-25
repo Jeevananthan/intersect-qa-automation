@@ -153,7 +153,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the error message for less than "3" characters
 
   @MATCH-3506 @MATCH-3508
-  Scenario: As a HS student, I want to verify that the save/load search functionality
+  Scenario: As a HS student, I want to verify that the save/load search functionality (MATCH-4703)
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     When I select the following data from the Admission Fit Criteria
@@ -163,6 +163,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | Acceptance Rate | 25% or Lower |
     And SM I open the Save Search popup
     And SM I save the search with the name "SavedTestSearch"
+    Then SM I verify the confirmation message
     Then SM I verify the saved search of name "SavedTestSearch" is displayed in the Saved Searches dropdown
     And SM I select "SavedTestSearch" in the Saved Searches dropdown
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown

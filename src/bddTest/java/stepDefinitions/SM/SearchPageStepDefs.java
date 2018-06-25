@@ -138,5 +138,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the error message for less than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
 
+        Then("^SM I verify the confirmation message$", searchPage::verifyConfirmationMessage);
+
     }
 }

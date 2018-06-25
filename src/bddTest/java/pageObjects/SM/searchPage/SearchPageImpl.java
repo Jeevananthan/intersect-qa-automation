@@ -1124,6 +1124,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         saveSearchLink().click();
     }
 
+    public void verifyConfirmationMessage() {
+        Assert.assertTrue("The confirmation message is not displayed when a Search is saved",
+                confirmationMessage().getText().contains(getStringFromPropFile(propertiesFilePath, "save.search.confirmation.message")));
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1305,4 +1310,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement saveSearchPopupErrorMessage() { return driver.findElement(By.cssSelector("div.ui.error.negative.visible.message div.content p")); }
 
     private WebElement saveSearchLink() { return driver.findElement(By.xpath("//div[@class='actions']/button[@class='ui teal basic button' and text()='Save Search']")); }
+
+    private WebElement confirmationMessage() { return driver.findElement(By.cssSelector("span.supermatch-toast-title + span")); }
 }
