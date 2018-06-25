@@ -1,7 +1,7 @@
 @HE
 Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the Search and Schedule in the RepVisits features based on my role/subscription
 
-  @MATCH-3856 @MATCH-4273 @MATCH-4378
+  @MATCH-3856 @MATCH-4273 @MATCH-4378 @MATCH-3861
   Scenario Outline: As an HE freemium user (any role) searching for a school in RVs on the Search and Schedule view,
                     I want to see a Search By drop-down clearly indicating what's available to me and what what requires an upgrade
                     so that I won't be confused as to what I can search against as a free user.
@@ -32,7 +32,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     |rgba(0, 0, 0, 0)  |rgba(255, 242, 248, 1)  |limitedPublishing |
     |rgba(0, 0, 0, 0)  |rgba(255, 242, 248, 1)  |limitedCommunity  |
 
-  @MATCH-3857 @MATCH-4378
+  @MATCH-3857 @MATCH-4378 @MATCH-3861
   Scenario Outline: As an HE premium user (any role) searching for a school in RVs on the Search and Schedule view,
                     I want to see a Search By drop-down clearly indicating what's available to me
                     so that I won't be confused as to what I can search against as a premium user.
@@ -54,7 +54,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |publishing    |
       |community     |
 
-  @MATCH-3858 @MATCH-3864 @MATCH-3863 @MATCH-3860 @MATCH-3862 @MATCH-4277 @MATCH-4378
+  @MATCH-3858 @MATCH-3864 @MATCH-3863 @MATCH-3860 @MATCH-3862 @MATCH-4277 @MATCH-4378 @MATCH-3861
   Scenario Outline: As an freemium or premium/paid user (any role) searching for a school in RV on the Search and Schedule
                     view, I want to be able to Search By a country from the dropdown and have the results reflect such accordingly
                     so that the results I see accurately reflect the field value I wanted my search value to search against.
