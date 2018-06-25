@@ -8,7 +8,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the Student Body UI in Resources Dropdown
 
-  @MATCH-3246
+  @MATCH-3246 @MATCH-3471
   Scenario: As a HS student accessing College Search through Family Connection I need to be presented with an
             'empty state' page (no filters selected yet) so I can perform a search when ready.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -103,13 +103,13 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     |Historically Black Institutions |
     |Tribal Colleges and Universities|
 
-  @MATCH-3432
+  @MATCH-3432 @MATCH-4317
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to select what details I see on each
             college in my search results so the information I care most about is visible to review.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
     Then SM I verify the default column headers displayed in the results table
     |Admission Info   |
-    |Financial Aid    |
+    |Cost             |
     |Pick what to show|
     Then SM I verify if the option selected or defaulted in column header can be changed to "Athletics"
