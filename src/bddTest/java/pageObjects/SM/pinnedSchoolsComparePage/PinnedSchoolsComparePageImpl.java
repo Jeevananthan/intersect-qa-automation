@@ -76,6 +76,13 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         navigation.closeNewTabAndSwitchToOriginal(originalHandle);
     }
 
+    public void unpinSchool(String collegeName) {
+        if(pinLink(collegeName).getText().contains("PINNED")) {
+            pinLink(collegeName).click();
+            waitUntilPageFinishLoading();
+        }
+    }
+
     private WebElement number4YearMajorsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Academics # of 4 Year Majors\"] + td a")); }
     private WebElement majorsHeaderInStudiesTab() { return driver.findElement(By.cssSelector("h3.ng-binding")); }
     private WebElement varsitySportsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Athletics Levels Available\"] + td > a")); }
@@ -83,4 +90,5 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private WebElement maleSportsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Athletics Levels Available\"] + td ul li:nth-of-type(1)")); }
     private WebElement femaleSportsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Athletics Levels Available\"] + td ul li:nth-of-type(2)")); }
     private WebElement clubsAndOrganizationsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Student Life Clubs & Organizations\"] + td a")); }
+    private WebElement pinLink(String collegeName) { return driver.findElement(By.xpath("//p[@class='collegename' and text() = '" + collegeName + "']/../p/a/span[@class = 'supermatch-toggle-icon']")); }
 }

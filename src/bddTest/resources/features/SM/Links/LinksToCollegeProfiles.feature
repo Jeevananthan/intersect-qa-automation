@@ -33,3 +33,4 @@ Feature: SM - LinksToCollegeProfiles - As a SuperMatch tool, I need to update th
       | Male varsity sports     |
       | Female varsity sports   |
       | Clubs and organizations |
+    And SM I unpin "Pomona College" from the Schools Compare screen

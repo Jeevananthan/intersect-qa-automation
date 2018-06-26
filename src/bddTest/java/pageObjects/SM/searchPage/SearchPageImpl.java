@@ -1152,13 +1152,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             while(elementNotFound) {
                 try {
                     firstPinLinkCoincidence.click();
-                    elementNotFound = false;
+                    if(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED")) {
+                        elementNotFound = false;
+                    }
                 } catch (WebDriverException e) {
                     whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
                     elementNotFound = true;
                 }
             }
-            Assert.assertTrue("The college was not pinned", driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED"));
+            Assert.assertTrue("The college was not pinned. UI: " + driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText(), driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED"));
         }
     }
 
