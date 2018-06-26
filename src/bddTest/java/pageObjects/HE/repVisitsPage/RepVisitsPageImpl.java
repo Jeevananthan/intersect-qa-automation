@@ -2941,37 +2941,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         currentURL = driver.getCurrentUrl();
     }
 
-    public void verifyResultCountInSchedulePage(String moreResults){
-        Assert.assertTrue("Count text is not displayed",driver.findElement(By.xpath("//b/span[contains(text(),'Showing')]")).isDisplayed());
-        int count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
-        logger.info("Result count:"+count);
-        if(count==25) {
-            Assert.assertTrue("Result count is less than 25", count == 25);
-        }else if(count<25) {
-            Assert.assertTrue("Result count is greater than 25", count < 25);
-        }else if(count>25){
-            Assert.assertTrue("Result count is less than 25", count > 25);
-        }else {
-            logger.info("Invalid value");
-        }
-        List<WebElement> moreResultButton = driver.findElements(By.xpath("//button/span[text()='"+moreResults+"']"));
-        Assert.assertTrue("More results button is not displayed",moreResultButton.size()==1);
-    }
-
-    public void verifyResultCountAfterClickingMoreResultsInSchedulePage(String criteria, String parameter){
+    public void verifyResultsCountInSchedulePage(String criteria, String parameter){
         selectMoreResultsInSearchAndSchedule();
-        int finalSchoolCount = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
+        int finalSchoolCount = searchResultsSize();
         searchBySchool(criteria,parameter);
-        int count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
+        int count = searchResultsSize();
         logger.info("Result count:"+count);
         if(count==25){
             Assert.assertTrue("Result count is not displayed",driver.findElement(By.xpath("//b/span[text()='Showing 1-"+count+" of "+finalSchoolCount+"']")).isDisplayed());
             while(getMoreResultsButton().isDisplayed()) {
                 getMoreResultsButton().click();
                 waitUntilPageFinishLoading();
-                count = driver.findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
+                count = searchResultsSize();
+                String currentValue = Integer.toString(count);
                 logger.info("Result count:"+count);
-                Assert.assertTrue("Result count is not displayed",driver.findElement(By.xpath("//b/span[text()='Showing 1-"+count+" of "+finalSchoolCount+"']")).isDisplayed());
+                String displayingCountText = resultCountInSearchResultsPage().getText();
+                String value[] = displayingCountText.split("-");
+                String countValue[] = value[1].split(" of");
+                String displayingValue = countValue[0];
+                Assert.assertTrue("Result count is not equal",currentValue.equals(displayingValue));
             }
         }
     }
@@ -3425,6 +3413,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement noResultsMessageInSearchAndSchedule() {
         return getDriver().findElement(By.xpath("//span[text()='No results found.']"));
+    }
+    private int searchResultsSize(){
+       int size = getDriver().findElements(By.xpath("//tr/td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']")).size();
+       return size;
+    }
+    private WebElement resultCountInSearchResultsPage(){
+        return getDriver().findElement(By.xpath("//p[@class='WWSRdogYvrcJkqEg52pv3']//span"));
     }
 }
 
