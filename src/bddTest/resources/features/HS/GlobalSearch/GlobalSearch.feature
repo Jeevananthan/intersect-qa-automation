@@ -56,7 +56,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
       | First Name                             | Admin                                |
       | Last Name                              | Administrator                        |
       | Email                                  | purpleheautomation+Hobsons@gmail.com |
-      | Alma Mater                             | UNC Capel Hill                       |
+      | Alma Mater                             |                        |
       | Institution                            | Hobsons                              |
       | Institution Type                       | All                                  |
       | Position                               | Manager                              |
@@ -91,10 +91,10 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
       | College Type                  | Standard (4 Year)          |
       | School Type                   | Public                     |
       | Degree                        | 4                          |
-      | City                          | Jonesboro                  |
+#      | City                          | Jonesboro                  |
       #Search Institution by state is not working ATM --- MATCH-2219 created 6/26/17
-      #| State                         | Arkansas                   |
-      | Postal Code                   | 72401                      |
+      | State                         | Arkansas                   |
+      | Postal Code                   |                       |
 
     Then HS I verify I can perform an advanced search utilizing any combination of fields for "High School"
       | Keyword                       | Southern                   |
