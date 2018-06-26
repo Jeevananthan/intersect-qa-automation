@@ -381,13 +381,65 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyYearInInstitutionPage(String year,String module,String startDate,String endDate){
+        waitUntilPageFinishLoading();
+        WebElement endDateButon = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
+        endDateButon.click();
+        waitUntilPageFinishLoading();
+        selectYearInInstitutionPage().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+year+"']")).isDisplayed());
+        driver.findElement(By.xpath("//select/option[@value='"+year+"']")).click();
+        driver.findElement(By.xpath("//select/option[@value='"+year+"']")).click();
+//        jsClick(driver.findElement(By.xpath("//select/option[@value='"+year+"']")));
+        WebElement selectEndDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day' and text()='"+endDate+"']"));
+        jsClick(selectEndDate);
+        String displayingEndDateValue = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td[4]/span")).getText();
+        String endDateValue[] = displayingEndDateValue.split(" ");
+        String displayingEndDateYear = endDateValue[2];
+        Assert.assertTrue("Year is not displayed",year.equals(displayingEndDateYear));
+        WebElement startDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+        startDateButton.click();
+        waitUntilPageFinishLoading();
+        selectYearInInstitutionPage().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+year+"']")).isDisplayed());
+        driver.findElement(By.xpath("//select/option[@value='"+year+"']")).click();
+        driver.findElement(By.xpath("//select/option[@value='"+year+"']")).click();
+        WebElement selectStartDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day' and text()='"+startDate+"']"));
+        jsClick(selectStartDate);
+        String displayingStartDateValue = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/span")).getText();
+        String startDateValue[] = displayingStartDateValue.split(" ");
+        String displayingStartDateYear = startDateValue[2];
+        Assert.assertTrue("Year is not displayed",year.equals(displayingStartDateYear));
+    }
+
+    public void verifySelectedDateColorInInstitutionPage(String color,String startDate,String endDate,String module){
+        WebElement startDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+        startDateButton.click();
+        startDateButton.click();
+        waitUntilPageFinishLoading();
+        String displayingColorforStartDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+startDate+"']")).getCssValue("background-color");
+        Assert.assertTrue("Given color is not displayed",color.equals(displayingColorforStartDate));
+        startDateButton.click();
+        waitUntilPageFinishLoading();
+        WebElement endDateButon = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
+        endDateButon.click();
+        waitUntilPageFinishLoading();
+        String displayingColorforEndDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+endDate+"']")).getCssValue("background-color");
+        Assert.assertTrue("Given color is not displayed",color.equals(displayingColorforEndDate));
+        endDateButon.click();
+    }
+
     public String generateRandomNumber() {
         Random random = new Random();
         int value = random.nextInt(100000) + 100;
         String Randomvalue=Integer.toString(value);
         return Randomvalue;
     }
-
+    private WebElement selectYearInInstitutionPage(){
+        return getDriver().findElement(By.id("year-select"));
+    }
 
 }
 

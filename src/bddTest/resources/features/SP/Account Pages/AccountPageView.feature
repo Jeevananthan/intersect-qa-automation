@@ -104,9 +104,36 @@ Feature: Hobsons Support - View HE Institution Accounts
       |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |StartDate|EndDate|Inactive|Active|
       |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|0        |35     |inactive|active|
 
+  @MATCH-3748
+  Scenario Outline: As a Support user (all roles) working in the Intersect Support app,
+            I want the ability to specify a module subscription start and end date past 2020 for paid HE institutions,
+            So that I can provision and activate multi-year subscriptions without issues (currently limits to 12/31/2020).
 
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "<University>" from the institution dashboard
+    Then SP I set the "<HubsModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+    Then SP I set the "<CommunityModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+    Then SP I set the "<IntersectAwarenessModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+    Then SP I set the "<IntersectPresenceModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+    And SP I Click the Save Changes button
 
+    Then SP I set the "<HubsModule>" module to "<Active>" in the institution page
+    When SP I verify the year "<year>" is present in the calendar of the institution page for "<HubsModule>" using "<startDate>","<endDate>"
+    Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<HubsModule>"
+    Then SP I set the "<CommunityModule>" module to "<Active>" in the institution page
+    When SP I verify the year "<year>" is present in the calendar of the institution page for "<CommunityModule>" using "<startDate>","<endDate>"
+    Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<CommunityModule>"
+    Then SP I set the "<IntersectAwarenessModule>" module to "<Active>" in the institution page
+    When SP I verify the year "<year>" is present in the calendar of the institution page for "<IntersectAwarenessModule>" using "<startDate>","<endDate>"
+    Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<IntersectAwarenessModule>"
+    Then SP I set the "<IntersectPresenceModule>" module to "<Active>" in the institution page
+    When SP I verify the year "<year>" is present in the calendar of the institution page for "<IntersectPresenceModule>" using "<startDate>","<endDate>"
+    Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<IntersectPresenceModule>"
+    And SP I successfully sign out
 
+  Examples:
+  |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |startDate|endDate|Inactive|Active|year|color              |StartDate|EndDate|
+  |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|15       |20     |inactive|active|2030|rgba(210, 0, 97, 1)|0        |35     |
 
 
 
