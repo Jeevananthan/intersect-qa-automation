@@ -204,6 +204,34 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clickSaveSearchButton() {
+        chooseFitCriteria().click();
+        saveSearchButton().click();
+    }
+
+    public void verifySaveSearchButtonDisabled() {
+        System.out.println("Control: " + saveSearchButton().getAttribute("tabindex").equals("-1"));
+        Assert.assertTrue("The Save Search button is enabled when it shouldn't", saveSearchButton().getAttribute("tabindex").equals("-1"));
+    }
+
+    public void verifySavedSearchInDropdown(String savedSearch) {
+        savedSearchesDropdown().click();
+        List<WebElement> savedSearchesList = driver.findElements(By.cssSelector(savedSearchesListLocator));
+        List<String> savedSearchesStringList = new ArrayList<>();
+        for(WebElement savedSearchElement : savedSearchesList) {
+            savedSearchesStringList.add(savedSearchElement.getText());
+        }
+        Assert.assertTrue("The saved search is not displayed in the Saved Searches List", savedSearchesStringList.contains(savedSearch));
+    }
+
+    public void selectOptionFromDropdown(String optionName) {
+        getSavedSearchesDropdownOption(optionName).click();
+    }
+
+    public void verifySelectedOption(String selectedOption) {
+        Assert.assertTrue("The option was not selected", selectedOption().getText().equals(selectedOption));
+    }
+
     // Locators Below
 
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
@@ -236,4 +264,9 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement bachelorsOption() { return driver.findElement(By.cssSelector("input[value *=\"Bachelor\"] + label")); }
     private String tooltipLabelsLocator = "label.supermatch-label-text";
     private String tooltipTextBlocksLocator = "div[id*='supermatch-tooltip-'] li";
+    private WebElement saveSearchButton() { return driver.findElement(By.cssSelector("div.supermatch-save-search button.ui.teal.basic.button")); }
+    private WebElement savedSearchesDropdown() { return driver.findElement(By.cssSelector("div.supermatch-saved-searches div div.text")); }
+    private String savedSearchesListLocator = "div.menu.transition.visible div span";
+    private WebElement getSavedSearchesDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']")); }
+    private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }
 }
