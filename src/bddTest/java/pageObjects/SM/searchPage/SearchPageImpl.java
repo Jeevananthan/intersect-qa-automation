@@ -135,8 +135,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         String locationSearchType, selectMiles, zipCode, verifyErrorMessageIsDisplayed, verifyErrorMessageIsNotDisplayed
                 , verifyPillIsDisplayedInMustHaveBox, verifyPillIsNotDisplayedInMustHaveBox;
 
-        if(getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]")).isDisplayed())
-           getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']")).click();
+        if(firstOnBoardingPopup().isDisplayed())
+            superMatchCollegeSearchHeader().click();
 
         openFitCriteria("Location");
 
@@ -160,16 +160,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
             verifyErrorMessageIsDisplayed = rows.get(index).get(3);
             if(verifyErrorMessageIsDisplayed != null && verifyErrorMessageIsDisplayed.trim().length() != 0) {
-                Assert.assertFalse(driver.findElement(By.xpath("//div[@class='div-distance']")).getText().contains(verifyErrorMessageIsDisplayed));
+                Assert.assertFalse(zipcodeErrorMessageElement().getText().contains(verifyErrorMessageIsDisplayed));
 
                 waitForUITransition();
                 waitForUITransition();
 
-                Assert.assertTrue(driver.findElement(By.xpath("//div[@class='div-distance']")).getText().contains(verifyErrorMessageIsDisplayed));
+                Assert.assertTrue(zipcodeErrorMessageElement().getText().contains(verifyErrorMessageIsDisplayed));
             }
 
             verifyPillIsDisplayedInMustHaveBox = rows.get(index).get(4);
             if(verifyPillIsDisplayedInMustHaveBox != null && verifyPillIsDisplayedInMustHaveBox.trim().length() != 0) {
+                waitForUITransition();
                 verifyMustHaveBoxContains(verifyPillIsDisplayedInMustHaveBox);
             }
 
@@ -1001,6 +1002,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement zipCodeTextBox() {
         return driver.findElement(By.xpath("//input[@placeholder='Zip Code']"));
+    }
+    private WebElement firstOnBoardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
+    private WebElement superMatchCollegeSearchHeader() {
+        return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
+    }
+    private WebElement zipcodeErrorMessageElement() {
+        return driver.findElement(By.xpath("//div[@class='div-distance']"));
     }
 
 }
