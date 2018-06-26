@@ -168,7 +168,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         String visitDate = getSpecificDateForVisit(date);
         String currentDate = getDate("0");
-        String value = supportUserName+" logged in as "+user+" RSVP'd RepVisitsDay "+visitDate+"";
+        String value =supportUserName+" logged in as "+ user+" RSVP'd RepVisitsDay "+visitDate+"";
         String originalDate = "";
         String originalValue = "";
         int rowData = 1;

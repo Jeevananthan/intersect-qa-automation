@@ -17,9 +17,40 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
+    private void openLoginPageSupport() {
+        load(GetProperties.get("sp.app.url"));
+    }
 
     public LoginPageImpl() {
         logger = Logger.getLogger(pageObjects.HE.loginPage.LoginPageImpl.class);
+    }
+
+    public void loginNaviance(String usertype) {
+        openNavianceLoginPage();
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        logger.info("Logging into the Naviance app -" + driver.getCurrentUrl());
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
+        textbox(By.name("hsid")).sendKeys(hsid);
+        textbox(By.name("username")).sendKeys(username);
+        textbox(By.name("password")).sendKeys(password);
+        logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
+        button("Sign In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
+        waitUntilPageFinishLoading();
+        link(By.cssSelector("[title='Counselor Community']")).click();
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.close();
+        driver.switchTo().window(intersectWindow);
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
     }
 
     public void loginThroughNaviance(String account, String username, String password) {
@@ -30,6 +61,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
         waitUntilPageFinishLoading();
         link(By.cssSelector("[title='Counselor Community']")).click();
         Set<String> windows = driver.getWindowHandles();
@@ -72,6 +104,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
 
         if(!institutionName.equalsIgnoreCase("Request new institution")){
+
             if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
                 logger.info("Results are displayed after the search");
                 link(institutionName).click();
@@ -315,6 +348,25 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void defaultLoginForSupport() {
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
+        openLoginPageSupport();
+        String username = GetProperties.get("sp.admin.username");
+        String password = GetProperties.get("sp.admin.password");
+        waitUntilPageFinishLoading();
+        logger.info("Logging into the Support app");
+        emailUserNameTextboxForSupport().sendKeys(username);
+        nextButtonToSupport().sendKeys(Keys.ENTER);
+        passwordTextboxForSupport().sendKeys(password);
+        signInForSupport().sendKeys(Keys.ENTER);
+        yesButtonForSupport().sendKeys(Keys.ENTER);
+    }
+
+
     //Locators
 
     private WebElement emptyEmailErrorMessage() {
@@ -343,5 +395,25 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         WebElement highSchool=button("High School Staff Member");
         waitUntilElementExists(highSchool);
         return highSchool;
+    }
+
+    private WebElement emailUserNameTextboxForSupport() {
+        return textbox(By.id("i0116"));
+    }
+
+    private WebElement passwordTextboxForSupport() {
+        return textbox(By.id("i0118"));
+    }
+
+    private WebElement signInForSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
+    }
+
+    private WebElement yesButtonForSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
+    }
+
+    private WebElement nextButtonToSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
     }
 }

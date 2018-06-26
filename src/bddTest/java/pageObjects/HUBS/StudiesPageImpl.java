@@ -28,6 +28,7 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyAllElementsDisplayed() {
+        waitUntilElementExists(degreesOfferedSection());
         assertTrue("Student Faculty Ratio is not displayed", studentFacultyRatioText().isDisplayed());
         assertTrue("Student Retention is not displayed", studentRetentionText().isDisplayed());
         assertTrue("Graduation Rate is not displayed", graduationRateText().isDisplayed());
