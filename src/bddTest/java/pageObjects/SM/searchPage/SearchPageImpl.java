@@ -364,8 +364,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyOnlineLearningOpportunitiesTooltipIcon() {
 
-        if(getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]")).isDisplayed())
-            getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']")).click();
+        if(firstOnboardingPopup().isDisplayed())
+            superMatchCollegeSearchHeader().click();
 
         chooseFitCriteriaTab("Academics");
 
@@ -495,6 +495,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     {
         return driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
                 "//ancestor::div[@class='column']//i[@class='teal info circle icon']"));
+    }
+    private WebElement firstOnboardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
+    private WebElement superMatchCollegeSearchHeader() {
+        return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
     }
 
 }
