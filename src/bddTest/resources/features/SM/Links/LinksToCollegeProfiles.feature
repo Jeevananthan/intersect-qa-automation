@@ -4,7 +4,7 @@ Feature: SM - LinksToCollegeProfiles - As a SuperMatch tool, I need to update th
 
   @MATCH-4331
   Scenario: As a HS student I want to see the college's profile page after clicking the proper links
-    Given SM I am logged in to SuperMatch through Family Connection as user "gauriparent1" with password "password" from school "blue1combo"
+    Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
@@ -18,7 +18,7 @@ Feature: SM - LinksToCollegeProfiles - As a SuperMatch tool, I need to update th
 
   @MATCH-4331
   Scenario:  As a HS student I want to see the college's profile Housing Information section after clicking the proper links
-    Given SM I am logged in to SuperMatch through Family Connection as user "gauriparent1" with password "password" from school "blue1combo"
+    Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
