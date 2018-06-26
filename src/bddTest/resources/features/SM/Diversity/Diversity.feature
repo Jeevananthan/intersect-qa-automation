@@ -50,4 +50,18 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
     Then SM I select the "High International Population" checkbox from the Diversity fit criteria
     And SM I verify that the Must Have box contains "High International Population"
 
+  @MATCH-3439
+  Scenario Outline: As a HS student reviewing results in SuperMatch, I want to be able to see Diversity details
+  about each college in my results table so I can quickly see information about the college's student body.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the "<GenderConcentration>" checkbox from the Diversity fit criteria
+    Then SM I check Diversity column in result colleges for "<GenderConcentration>"
+    Examples: Each of the available options for the Diversity fit criteria
+      | GenderConcentration |
+      | Coed                |
+      | Women               |
+      | Men                 |
+    #In above @MATCH-3439, under Examples section, we are not passing Women's college & Men's College because the special
+    # character ' is creating problem while writing xpath.
+
 
