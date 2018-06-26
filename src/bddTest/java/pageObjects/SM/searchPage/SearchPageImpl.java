@@ -4,12 +4,14 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
-import pageObjects.HUBS.OverviewPageImpl;
-import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.util.*;
@@ -1180,6 +1182,71 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         comparePinnedCollegesLink().click();
     }
 
+    /**
+     * The below method is to scroll down the webpage till the specific webelement, which method is collecting in method parameter
+     */
+    public void scrollDown(WebElement element){
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,350)", "");
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).perform();
+    }
+
+    /**
+     * The below method is to scroll down the webpage till the end
+     */
+    public void scrollDownAtTheEnd(){
+        ((JavascriptExecutor) driver)
+                .executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    public void checkDiversityColumnInResult(String genderConcentration){
+        int resultLimit = 25,counter=1;
+        boolean searchCollege = true;
+        //WebElement resultTable = getResultTable();
+        scrollDown(admissionInfoResultTableIcon());
+        getResultTable().findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")).click();
+        scrollDown(driver.findElement(By.xpath("//span[contains(text(), 'Diversity')]")));
+        getResultTable().findElement(By.xpath("//span[contains(text(), 'Diversity')]")).click();
+
+        do {
+            if (counter!=1&&(counter==26||counter==51||counter==151)){
+                scrollDownAtTheEnd();
+                getResultTable().findElement(By.xpath("//button[text()='Show More']")).click();
+                waitForUITransition();
+                switch (counter){
+                    case 26:
+                        resultLimit=50;
+                        break;
+                    case 51:
+                        resultLimit=150;
+                        break;
+                    case 151:
+                        resultLimit=250;
+                        break;
+                    default:
+                        logger.info("Counter value is = "+counter+" is not proper.");
+                }
+            }
+            for (;counter<=resultLimit;counter++) {
+                if (getResultTable().findElements(By.xpath(".//tbody/tr["+counter+"]/td[4]/div/p")).size() >= 5) {
+                    String columnData = getResultTable().findElement(By.xpath(".//tbody/tr["+counter+"]/td[4]")).getText();
+                    if(columnData.contains(genderConcentration)&&columnData.contains("% Male/Female")
+                            &&columnData.contains("Out of State")&&columnData.contains("International")
+                            &&columnData.contains("Minorities")){
+                        logger.info("Diversity Results Column contains the following status : "+genderConcentration+", " +
+                                "% Male/Female, Out of State, International and Minorities");
+                        searchCollege = false;
+                        System.out.println("Counter value = "+counter+", resultLimit = "+resultLimit);
+                        break;
+                    }
+                }
+            }
+        }while (searchCollege&&getResultTable().findElement(By.xpath("//button[text()='Show More']")).isDisplayed());
+        if (counter>resultLimit)
+            logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1367,4 +1434,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement comparePinnedCollegesLink() { return driver.findElement(By.cssSelector("div#supermatch-pinned-compare-colleges-link span")); }
 
     private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../a/span"; }
+
+    private WebElement getResultTable(){ return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']")); }
+
+    private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
 }

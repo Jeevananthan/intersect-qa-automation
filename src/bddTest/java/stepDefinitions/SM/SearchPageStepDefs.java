@@ -131,5 +131,7 @@ public class SearchPageStepDefs implements En {
         And("^SM I open the Pinned Schools Compare screen$", searchPage::openPinnedCompareSchools);
 
         And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
+
+        Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
     }
 }
