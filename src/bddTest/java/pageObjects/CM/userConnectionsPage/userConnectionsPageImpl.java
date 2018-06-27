@@ -64,21 +64,12 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void checkMutualConnectionsDisplayed() {
         logger.info("Checking if there are mutual connection section displayed.");
-        //Checks if user has mutual connections.
-        if (checkItemVisibleByCssSelector("div", "class", "connections-wrapper")){
-            Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "connections-wrapper"));
-        } else {
-            Assert.assertFalse("Your mutual connections", checkItemVisibleByCssSelector("div", "class", "connections-wrapper"));
-        }
-        // Previous assertion
-        //Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "mutual-wrapper"));
+        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "mutual-wrapper"));
     }
 
     public void checkConnectionsDisplayed() {
         logger.info("Checking if I see user's connections.");
-        //Uncommented assertion
         Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "connections-wrapper"));
-
     }
 
     public void goToHSUserConnectionsPage() {
