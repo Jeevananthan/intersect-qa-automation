@@ -43,9 +43,13 @@ public class AccountPagesStepDefs implements En {
 
         Then("^SP I add the user account \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and set the user to be a new primary user \"([^\"]*)\"$", accountPage::addUserAccount);
 
-        Then("^SP I verify the year \"([^\"]*)\" is present in the calendar of the institution page for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\"$",accountPage::verifyYearInInstitutionPage);
+        Then("^SP I verify the year \"([^\"]*)\" is present in the calendar of the institution page for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\"$",accountPage::verifyYearInInstitutionCalendarPage);
 
-        Then("^SP I verify the color \"([^\"]*)\" is present in the selected date \"([^\"]*)\",\"([^\"]*)\" in calendar of the institution page for \"([^\"]*)\"$",accountPage::verifySelectedDateColorInInstitutionPage);
+        Then("^SP I verify the color \"([^\"]*)\" is present in the selected date \"([^\"]*)\",\"([^\"]*)\" in calendar of the institution page for \"([^\"]*)\"$",accountPage::verifySelectedDateColorInInstitutionCalendarPage);
+
+        Then("^SP I verify the following years are present in the calendar of the institution page for \"([^\"]*)\"$",accountPage::verifyYearsListInInstitutionCalendarPage);
+
+        Then("^SP I verify the rolling update behaviour changed to \"([^\"]*)\" and \"([^\"]*)\" for \"([^\"]*)\" in institution calendar page$",accountPage::verifyRollingUpdatedBehaviourInInstitutionCalendarPage);
 
     }
 }

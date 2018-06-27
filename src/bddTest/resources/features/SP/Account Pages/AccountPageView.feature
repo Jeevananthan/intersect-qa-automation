@@ -115,25 +115,56 @@ Feature: Hobsons Support - View HE Institution Accounts
     Then SP I set the "<CommunityModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
     Then SP I set the "<IntersectAwarenessModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
     Then SP I set the "<IntersectPresenceModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+    Then SP I set the "<ActiveMatchEventsModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
+    Then SP I set the "<ActiveMatchPlusModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
     And SP I Click the Save Changes button
 
     Then SP I set the "<HubsModule>" module to "<Active>" in the institution page
+    Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<HubsModule>" in institution calendar page
+    Then SP I verify the following years are present in the calendar of the institution page for "<HubsModule>"
+    |2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|
     When SP I verify the year "<year>" is present in the calendar of the institution page for "<HubsModule>" using "<startDate>","<endDate>"
     Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<HubsModule>"
+
     Then SP I set the "<CommunityModule>" module to "<Active>" in the institution page
+    Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<CommunityModule>" in institution calendar page
+    Then SP I verify the following years are present in the calendar of the institution page for "<CommunityModule>"
+      |2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|
     When SP I verify the year "<year>" is present in the calendar of the institution page for "<CommunityModule>" using "<startDate>","<endDate>"
     Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<CommunityModule>"
+
     Then SP I set the "<IntersectAwarenessModule>" module to "<Active>" in the institution page
+    Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<IntersectAwarenessModule>" in institution calendar page
+    Then SP I verify the following years are present in the calendar of the institution page for "<IntersectAwarenessModule>"
+      |2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|
     When SP I verify the year "<year>" is present in the calendar of the institution page for "<IntersectAwarenessModule>" using "<startDate>","<endDate>"
     Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<IntersectAwarenessModule>"
+
     Then SP I set the "<IntersectPresenceModule>" module to "<Active>" in the institution page
+    Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<IntersectPresenceModule>" in institution calendar page
+    Then SP I verify the following years are present in the calendar of the institution page for "<IntersectPresenceModule>"
+      |2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|
     When SP I verify the year "<year>" is present in the calendar of the institution page for "<IntersectPresenceModule>" using "<startDate>","<endDate>"
     Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<IntersectPresenceModule>"
+
+    Then SP I set the "<ActiveMatchEventsModule>" module to "<Active>" in the institution page
+    Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<ActiveMatchEventsModule>" in institution calendar page
+    Then SP I verify the following years are present in the calendar of the institution page for "<ActiveMatchEventsModule>"
+      |2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|
+    When SP I verify the year "<year>" is present in the calendar of the institution page for "<ActiveMatchEventsModule>" using "<startDate>","<endDate>"
+    Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<ActiveMatchEventsModule>"
+
+    Then SP I set the "<ActiveMatchPlusModule>" module to "<Active>" in the institution page
+    Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<ActiveMatchPlusModule>" in institution calendar page
+    Then SP I verify the following years are present in the calendar of the institution page for "<ActiveMatchPlusModule>"
+      |2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|
+    When SP I verify the year "<year>" is present in the calendar of the institution page for "<ActiveMatchPlusModule>" using "<startDate>","<endDate>"
+    Then SP I verify the color "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<ActiveMatchPlusModule>"
     And SP I successfully sign out
 
   Examples:
-  |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |startDate|endDate|Inactive|Active|year|color              |StartDate|EndDate|
-  |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|15       |20     |inactive|active|2030|rgba(210, 0, 97, 1)|0        |35     |
+  |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |ActiveMatchEventsModule   |ActiveMatchPlusModule|startDate|endDate|Active|year|color              |StartDate|EndDate|
+  |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|Legacy: ActiveMatch Events|ActiveMatch Plus     |15       |20     |active|2030|rgba(210, 0, 97, 1)|0        |35     |
 
 
 
