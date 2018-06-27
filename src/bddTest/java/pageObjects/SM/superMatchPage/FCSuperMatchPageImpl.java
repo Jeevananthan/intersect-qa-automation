@@ -56,63 +56,138 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
         searchPage.chooseFitCriteriaTab(tabName);
         switch (tabName.split(":")[0]) {
-            case "Location" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "location.tooltips.titles.list"));
+            case "Location" : verifyTooltipsInTab("location.tooltips.titles.list");
                 break;
-            case "Academics" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "academics.tooltips.titles.list"));
+            case "Academics" :
+                bachelorsOption().click();
+                verifyTooltipsInTab("academics.tooltips.titles.list");
+                verifyTooltipsInTab("academics.degree.type.labels.list");
+                verifyTooltipsInTab("academics.degree.type.text.list");
                 break;
-            case "Admission" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "admission.tooltips.titles.list"));
+            case "Admission" :
+                verifyTooltipsInTab("admission.tooltips.titles.list");
+                verifyTooltipsInTab("admission.tooltips.text.list");
                 break;
-            case "Diversity" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "diversity.tooltips.titles.list"));
+            case "Diversity" : verifyTooltipsInTab("diversity.tooltips.titles.list");
                 break;
-            case "Institution Characteristics" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "institution.characteristics.titles.list"));
+            case "Institution Characteristics" : verifyTooltipsInTab("institution.characteristics.titles.list");
                 break;
-            case "Cost" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "cost.tooltips.titles.list"));
+            case "Cost" : verifyTooltipsInTab("cost.tooltips.titles.list");
                 break;
-            case "Student Life" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "student.life.tooltips.titles.list"));
+            case "Student Life" : verifyTooltipsInTab("student.life.tooltips.titles.list");
                 break;
-            case "Athletics" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "athletics.tooltips.titles.list"), tabName.split(":")[1]);
+            case "Athletics" : verifyTooltipsInTab("athletics.tooltips.titles.list", tabName.split(":")[1]);
                 break;
-            case "Resources" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "resources.tooltips.titles.list"));
+            case "Resources" : verifyTooltipsInTab("resources.tooltips.titles.list");
                 break;
         }
     }
 
-    private void verifyTooltipsInTab(List<String> tooltipsTitlesList, String... sportOption) {
-        if (tooltipsTitlesList.equals(getListFromPropFile(propertiesFilePath, ";", "resources.tooltips.text.list"))) {
-            List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
-            for (int i = 0; i < tooltipsList.size(); i++) {
-                tooltipsList.get(i).click();
-                Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipText().getText(),
-                        tooltipText().getText().equals(getListFromPropFile(propertiesFilePath, ";",
-                                "resources.tooltips.text.list").get(i)));
-                tooltipsList.get(i).click();
-            }
-        } else if (tooltipsTitlesList.equals(getListFromPropFile(propertiesFilePath, ";", "athletics.tooltips.titles.list"))) {
-            addSportButton().click();
-            sportField().click();
-            sportOption(sportOption[0]).click();
-            List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
-            for (int i = 0; i < tooltipsList.size(); i++) {
-                tooltipsList.get(i).click();
-                Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(), tooltipTitle().getText().equals(tooltipsTitlesList.get(i)));
-                tooltipsList.get(i).click();
-            }
-        } else if (tooltipsTitlesList.equals(getListFromPropFile(propertiesFilePath, ";", "scores.tooltips.titles"))) {
-            getWhyButtonByPosition("1").sendKeys(Keys.RETURN);
-            List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInWhyDrawerLocator));
-            for (int i = 0; i < tooltipsList.size(); i++) {
-                tooltipsList.get(i).click();
-                Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(), tooltipTitle().getText().equals(tooltipsTitlesList.get(i)));
-                tooltipsList.get(i).click();
-            }
-        }
-        else {
-            List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
-            for (int i = 0; i < tooltipsList.size(); i++) {
-                tooltipsList.get(i).click();
-                Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(), tooltipTitle().getText().equals(tooltipsTitlesList.get(i)));
-                tooltipsList.get(i).click();
-            }
+    private void verifyTooltipsInTab(String propertiesEntry, String... sportOption) {
+        switch(propertiesEntry) {
+            case "resources.tooltips.text.list" :
+                List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
+                for (int i = 0; i < tooltipsList.size(); i++) {
+                    tooltipsList.get(i).click();
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipText().getText(),
+                            tooltipText().getText().equals(getListFromPropFile(propertiesFilePath, ";",
+                                    propertiesEntry).get(i)));
+                    tooltipsList.get(i).click();
+                }
+                break;
+            case "athletics.tooltips.titles.list" :
+                addSportButton().click();
+                sportField().click();
+                sportOption(sportOption[0]).click();
+                List<WebElement> athleticsTooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
+                for (int i = 0; i < athleticsTooltipsList.size(); i++) {
+                    athleticsTooltipsList.get(i).click();
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(),
+                            tooltipTitle().getText().equals(getListFromPropFile(propertiesFilePath, ";",
+                                    propertiesEntry).get(i)));
+                    athleticsTooltipsList.get(i).click();
+                }
+                break;
+            case "scores.tooltips.titles" :
+                getWhyButtonByPosition("1").sendKeys(Keys.RETURN);
+                List<WebElement> scoresTooltipsList = driver.findElements(By.cssSelector(tooltipsInWhyDrawerLocator));
+                for (int i = 0; i < scoresTooltipsList.size(); i++) {
+                    scoresTooltipsList.get(i).click();
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(),
+                            tooltipTitle().getText().equals(getListFromPropFile(propertiesFilePath, ";",
+                                    propertiesEntry).get(i)));
+                    scoresTooltipsList.get(i).click();
+                }
+                break;
+            case "academics.degree.type.labels.list" :
+                List<WebElement> tooltipList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
+                List<WebElement> labels = driver.findElements(By.cssSelector(tooltipLabelsLocator));
+                tooltipList.get(0).click();
+                for(int i = 0; i < labels.size(); i++) {
+                    Assert.assertTrue("The label is not displayed in Degree Type", labels.get(i).getText().
+                            equals(getListFromPropFile(propertiesFilePath, ";",
+                            propertiesEntry).get(i)));
+                }
+                tooltipList.get(0).click();
+                break;
+            case "academics.degree.type.text.list" :
+                List<WebElement> academicsTooltipList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
+                List<WebElement> textBlocks = driver.findElements(By.cssSelector(tooltipTextBlocksLocator));
+                academicsTooltipList.get(0).click();
+                for(int i = 0; i < textBlocks.size(); i++) {
+                    Assert.assertTrue("The text block is not displayed in Degree Type", textBlocks.get(i).getText().
+                            equals(getListFromPropFile(propertiesFilePath, ";",
+                                    propertiesEntry).get(i)));
+                }
+                academicsTooltipList.get(0).click();
+                break;
+            case "academics.tooltips.titles.list" :
+                List<WebElement> academicsTitleTooltipList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
+                for(int i = 0; i < 2; i++) {
+                    academicsTitleTooltipList.get(i).click();
+                    Assert.assertTrue("The title is not displayed in Degree Type", tooltipTitle().getText().
+                            equals(getListFromPropFile(propertiesFilePath, ";",
+                                    propertiesEntry).get(i)));
+                    academicsTitleTooltipList.get(i).click();
+                }
+                break;
+            case "admission.tooltips.titles.list" :
+                List<WebElement> admissionTooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
+                for (int i = 0; i < admissionTooltipsList.size(); i++) {
+                    admissionTooltipsList.get(i).click();
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(), tooltipTitle().getText().
+                            equals(getListFromPropFile(propertiesFilePath, ";",
+                                    propertiesEntry).get(i)));
+                    admissionTooltipsList.get(i).click();
+                }
+                break;
+            case "admission.tooltips.text.list" :
+                List<WebElement> admissionTooltipsListForText = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
+                for (int i = 0; i < admissionTooltipsListForText.size(); i++) {
+                    if(i == 0) {
+                        admissionTooltipsListForText.get(i).click();
+                        Assert.assertTrue("The tooltip title is incorrect.", gpaTextBlock().getText().
+                                contains(getListFromPropFile(propertiesFilePath, ";",
+                                        propertiesEntry).get(i)));
+                        admissionTooltipsListForText.get(i).click();
+                    } else {
+                        admissionTooltipsListForText.get(i).click();
+                        Assert.assertTrue("The tooltip title is incorrect.", admissionTooltipText().getText().
+                                equals(getListFromPropFile(propertiesFilePath, ";",
+                                        propertiesEntry).get(i)));
+                        admissionTooltipsListForText.get(i).click();
+                    }
+                }
+                break;
+            default:
+                List<WebElement> genericTooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
+                for (int i = 0; i < genericTooltipsList.size(); i++) {
+                    genericTooltipsList.get(i).click();
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(), tooltipTitle().getText().
+                            equals(getListFromPropFile(propertiesFilePath, ";",
+                                    propertiesEntry).get(i)));
+                    genericTooltipsList.get(i).click();
+                }
         }
     }
 
@@ -122,7 +197,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 break;
             case "Academic Match" : verifyTooltipsInSearchHeader(academicMatchTooltipButton(), "academic.match.title", "academic.match.text");
                 break;
-            case "Scores" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "scores.tooltips.titles"));
+            case "Scores" : verifyTooltipsInTab("scores.tooltips.titles");
                 break;
         }
     }
@@ -163,7 +238,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         WebElement onboardingTitle = driver.findElement(By.cssSelector("div.header"));
         String control = onboardingTitle.getText();
         Assert.assertTrue("The title of the onboarding modal is not correct. UI: " + onboardingTitle.getText() +
-                " Expected: " + title,
+                        " Expected: " + title,
                 onboardingTitle.getText().equals(title));
         nextButton().click();
         waitUntilPageFinishLoading();
@@ -232,9 +307,14 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement doesntMatchLegend() { return driver.findElement(By.cssSelector("div.eight.wide.column.supermatch-sidebar-criteria-legend-icon")); }
     private WebElement nextButton() { return driver.findElement(By.cssSelector("div.onboarding-popup-footer button")); }
     private WebElement aboutSuperMatchLink() { return driver.findElement(By.cssSelector("i.question.circle.icon + span")); }
+    private WebElement bachelorsOption() { return driver.findElement(By.cssSelector("input[value *=\"Bachelor\"] + label")); }
+    private String tooltipLabelsLocator = "label.supermatch-label-text";
+    private String tooltipTextBlocksLocator = "div[id*='supermatch-tooltip-'] li";
     private WebElement saveSearchButton() { return driver.findElement(By.cssSelector("div.supermatch-save-search button.ui.teal.basic.button")); }
     private WebElement savedSearchesDropdown() { return driver.findElement(By.cssSelector("div.supermatch-saved-searches div div.text")); }
     private String savedSearchesListLocator = "div.menu.transition.visible div span";
     private WebElement getSavedSearchesDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']")); }
     private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }
+    private WebElement gpaTextBlock() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.content div")); }
+    private WebElement admissionTooltipText() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.content")); }
 }
