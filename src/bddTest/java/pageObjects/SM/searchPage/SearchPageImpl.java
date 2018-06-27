@@ -14,6 +14,7 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.support.Color;
@@ -22,6 +23,8 @@ import utilities.HUBSEditMode.Navigation;
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private static String fs = File.separator;
+    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties",fs ,fs ,fs ,fs ,fs);
 
     public SearchPageImpl() {
         logger = Logger.getLogger(SearchPageImpl.class);
@@ -1085,7 +1088,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
                         waitUntilPageFinishLoading();
                         backToTopButton().sendKeys(Keys.END);
-                        showMoreButton().sendKeys(Keys.RETURN);
+                        waitUntilPageFinishLoading();
+                        try {
+                            showMoreButton().click();
+                        } catch(WebDriverException e) {
+                            whyDrawerButton(collegeName).sendKeys(Keys.END);
+                            showMoreButton().click();
+                        }
                         waitUntilPageFinishLoading();
                     }
                     whyDrawerButton(collegeName).sendKeys(Keys.SPACE);
@@ -1168,9 +1177,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private void goToCollegeInSearchResults(String collegeName) {
         while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
-            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.elementToBeClickable(backToTopButton()));
             backToTopButton().sendKeys(Keys.END);
-            waitUntil(ExpectedConditions.elementToBeClickable(showMoreButton()));
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
             showMoreButton().sendKeys(Keys.RETURN);
             waitUntilPageFinishLoading();
         }
@@ -1180,6 +1189,57 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void openPinnedCompareSchools() {
         pinnedFooterOption().click();
         comparePinnedCollegesLink().click();
+    }
+
+    public void verifySaveSearchIsClosedWhenCancelIsClicked() {
+        saveSearchPopupCancelLink().click();
+        Assert.assertTrue("The Save Search popup was not closed when Cancel was clicked",
+                driver.findElements(By.xpath("saveSearchPopupCancelLinkLocator")).size() < 1);
+    }
+
+    public void verifySaveSearchIsClosedWithOutterClick() {
+        chooseFitCriteriaBar().click();
+        Assert.assertTrue("The Save Search popup was not closed when Cancel was clicked",
+                driver.findElements(By.xpath("saveSearchPopupCancelLinkLocator")).size() < 1);
+    }
+
+    public void verifyTextInsideSaveSearchBox() {
+        Assert.assertTrue("The text in the Save Search popup header is not correct",
+                saveSearchPopupHeader().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.header")));
+        Assert.assertTrue("The text in the section below the header in the Save Search popup is not correct",
+                saveSearchPopupGiveANameLine().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.give.name")));
+        Assert.assertTrue("The text in the Search Box in the Saved Search popup is not correct",
+                saveSearchPopupSearchBox().getAttribute("placeholder").equals(getStringFromPropFile(propertiesFilePath, "save.search.box")));
+        Assert.assertTrue("The text in the first line about special characters is not correct",
+                saveSearchPopupSpecialCharLine1().getText().contains(getStringFromPropFile(propertiesFilePath, "save.search.not.allowed.characters.1")));
+        Assert.assertTrue("The text in the second line about special characters is not correct",
+                saveSearchPopupSpecialCharLine2().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.not.allowed.characters.2")));
+    }
+
+    public void verifyErrorMessageforXCharacters(String numberOfCharacters) {
+        if(Integer.parseInt(numberOfCharacters) == 50) {
+            saveSearchPopupSearchBox().clear();
+            saveSearchPopupSearchBox().sendKeys(getStringFromPropFile(propertiesFilePath, "save.search.50.characters"));
+            Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
+                    equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message")));
+        } else if(Integer.parseInt(numberOfCharacters) == 3) {
+            saveSearchPopupSearchBox().clear();
+            saveSearchPopupSearchBox().sendKeys("aa");
+            saveSearchLink().click();
+            Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
+                    equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message.3.char")));
+        }
+
+    }
+
+    public void saveSearchWithName(String searchName) {
+        saveSearchPopupSearchBox().sendKeys(searchName);
+        saveSearchLink().click();
+    }
+
+    public void verifyConfirmationMessage() {
+        Assert.assertTrue("The confirmation message is not displayed when a Search is saved",
+                confirmationMessage().getText().contains(getStringFromPropFile(propertiesFilePath, "save.search.confirmation.message")));
     }
 
     /**
@@ -1425,7 +1485,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement whyDrawerAcademicMatchLink() { return driver.findElement(By.cssSelector("div.column em a.result-row-decription-label")); }
 
-    private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Load more Results\"]")); }
+    private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
 
     private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
 
@@ -1435,7 +1495,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../a/span"; }
 
+    private WebElement saveSearchPopupCancelLink() { return driver.findElement(By.xpath(saveSearchPopupCancelLinkLocator)); }
+
+    private String saveSearchPopupCancelLinkLocator = "//button[@class='ui teal basic button' and text()='Cancel']";
+
+    private WebElement saveSearchPopupHeader() { return driver.findElement(By.cssSelector("div.header")); }
+
+    private WebElement saveSearchPopupGiveANameLine() { return driver.findElement(By.cssSelector("div.field label")); }
+
+    private WebElement saveSearchPopupSpecialCharLine1() { return driver.findElement(By.cssSelector("form.ui.form p")); }
+
+    private WebElement saveSearchPopupSpecialCharLine2() { return driver.findElement(By.cssSelector("form.ui.form p span")); }
+
+    private WebElement saveSearchPopupSearchBox() { return driver.findElement(By.cssSelector("div.field label + div input")); }
+
+    private WebElement saveSearchPopupErrorMessage() { return driver.findElement(By.cssSelector("div.ui.error.negative.visible.message div.content p")); }
+
+    private WebElement saveSearchLink() { return driver.findElement(By.xpath("//div[@class='actions']/button[@class='ui teal basic button' and text()='Save Search']")); }
+
+    private WebElement confirmationMessage() { return driver.findElement(By.cssSelector("span.supermatch-toast-title + span")); }
+
     private WebElement getResultTable(){ return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']")); }
 
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
+
+    private String spinnerLocator = "button[disabled]";
 }

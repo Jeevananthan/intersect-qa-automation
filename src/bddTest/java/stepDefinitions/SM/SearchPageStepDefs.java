@@ -130,8 +130,22 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I open the Pinned Schools Compare screen$", searchPage::openPinnedCompareSchools);
 
-        And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
+        Then("^SM I verify that the Save Search popup is closed when I use the Cancel action$", searchPage::verifySaveSearchIsClosedWhenCancelIsClicked);
+
+        Then("^SM I verify that the Save Search popup is closed when I click outside the popup$", searchPage::verifySaveSearchIsClosedWithOutterClick);
+
+        Then("^SM I verify that the text inside the Save Search popup is correct$", searchPage::verifyTextInsideSaveSearchBox);
+
+        Then("^SM I verify the error message for more than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
+
+        And("^SM I save the search with the name \"([^\"]*)\"$", searchPage::saveSearchWithName);
+
+        And("^SM I verify the error message for less than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
+
+        Then("^SM I verify the confirmation message$", searchPage::verifyConfirmationMessage);
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
+
+        And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
     }
 }
