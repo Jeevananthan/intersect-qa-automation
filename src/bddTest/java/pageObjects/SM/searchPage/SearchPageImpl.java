@@ -1195,6 +1195,35 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
     }
 
+    public void verifyColumnHeaders(DataTable dataTable) {
+        List<String> details = dataTable.asList(String.class);
+        for(String element : details) {
+            switch (element) {
+                case "Fit Score" :
+                    Assert.assertTrue("The header name of the Fit Score column is not correct",
+                            fitScoreColumnHeader().getText().trim().contains(element));
+                    break;
+                case "Academic Match" :
+                    Assert.assertTrue("The header name of the Academic Match column is not correct",
+                            academicMatchColumnHeader().getText().trim().contains(element.split(" ")[0]) &
+                                    academicMatchColumnHeader().getText().trim().contains(element.split(" ")[1]));
+                    break;
+                case "Admission Info" :
+                    Assert.assertTrue("The header name of the Admission Info column is not correct",
+                            admissionInfoColumnHeader().getText().trim().equals(element));
+                    break;
+                case "Cost" :
+                    Assert.assertTrue("The header name of the Cost column is not correct",
+                            costColumnHeader().getText().trim().equals(element));
+                    break;
+                case "Pick what to show" :
+                    Assert.assertTrue("The header of the Pick what to show column is not correct",
+                            pickWhatToShowColumnHeader().getText().trim().equals(element));
+                    break;
+            }
+        }
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1382,4 +1411,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getResultTable(){ return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']")); }
 
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
+
+    private WebElement fitScoreColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(2)")); }
+
+    private WebElement academicMatchColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(3)")); }
+
+    private WebElement admissionInfoColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(4) div span")); }
+
+    private WebElement costColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(5) div span")); }
+
+    private WebElement pickWhatToShowColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(6) div span.csr-heading-dropdown-text")); }
 }
