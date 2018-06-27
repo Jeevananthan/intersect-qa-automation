@@ -21,6 +21,7 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
      |18|
      |36|
     Then SM I verify the system response when the ACT score entered by the user is invalid
+     |0|
      |37|
     Then SM I verify that entered ACT score data persists
      |35|
