@@ -11,10 +11,10 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
       | Address | City | State | Zip | County | Country | Phone | Fax | Website URL |
     And HS I enter the following CONTACT data on the Institution Profile page and click "Save"
       | Address     | 3480 DIXIE HWY    |
-      | City        | ERLANGER          |
+      | City        | Erlanger          |
       | State       | Kentucky        |
       | Zip         | 41018             |
-      | County      | KENTON COUNTY     |
+      | County      | Kenton     |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
@@ -23,10 +23,10 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
       | Address     | 3480 DIXIE HWY    |
-      | City        | ERLANGER          |
+      | City        | Erlanger          |
       | State       | Kentucky          |
       | Zip         | 41018             |
-      | County      | KENTON COUNTY     |
+      | County      | Kenton     |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
