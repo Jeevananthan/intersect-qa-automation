@@ -188,6 +188,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                                     propertiesEntry).get(i)));
                     genericTooltipsList.get(i).click();
                 }
+                break;
         }
     }
 
