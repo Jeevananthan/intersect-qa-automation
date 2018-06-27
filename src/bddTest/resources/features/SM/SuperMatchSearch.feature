@@ -113,3 +113,59 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     |Cost             |
     |Pick what to show|
     Then SM I verify if the option selected or defaulted in column header can be changed to "Athletics"
+
+  @MATCH-3506
+  Scenario: As a HS student, I want to be able to close the Save Search popup
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify that the Save Search button is disabled
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I open the Save Search popup
+    Then SM I verify that the Save Search popup is closed when I use the Cancel action
+
+  @MATCH-3506
+  Scenario: As a HS student, I want to verify that all the text displayed in the Save Search popup is correct
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I open the Save Search popup
+    Then SM I verify that the text inside the Save Search popup is correct
+
+  @MATCH-3506
+  Scenario: As a HS student, I want to verify the error messages in the Save Search popup
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I open the Save Search popup
+    Then SM I verify the error message for more than "50" characters
+    And SM I verify the error message for less than "3" characters
+
+  @MATCH-3506 @MATCH-3508
+  Scenario: As a HS student, I want to verify that the save/load search functionality (MATCH-4703)
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I open the Save Search popup
+    And SM I save the search with the name "SavedTestSearch"
+    Then SM I verify the confirmation message
+    Then SM I verify the saved search of name "SavedTestSearch" is displayed in the Saved Searches dropdown
+    And SM I select "SavedTestSearch" in the Saved Searches dropdown
+    Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
+
+
