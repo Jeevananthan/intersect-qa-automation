@@ -669,7 +669,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenACTScoreIsValid(DataTable dataTable) {
 
-        List<List<String>> data = dataTable.raw();
+        List<String> scores = dataTable.asList(String.class);
 
         if(firstOnboardingPopup().isDisplayed())
             superMatchCollegeSearchHeader().click();
@@ -679,27 +679,27 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             admissionMenuItem().click();
         }
 
-        for(int i = 0; i < data.size(); i++)
+        for(String score : scores)
         {
             actScoreTextBox().clear();
-            actScoreTextBox().sendKeys(data.get(i).get(0));
+            actScoreTextBox().sendKeys(score);
             Assert.assertFalse(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
         }
      }
 
     public void verifySystemResponseWhenACTScoreIsInvalid(DataTable dataTable) {
 
-        List<List<String>> data = dataTable.raw();
+        List<String> scores = dataTable.asList(String.class);
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        for(int i = 0; i < data.size(); i++)
+        for(String score : scores)
         {
             actScoreTextBox().clear();
-            actScoreTextBox().sendKeys(data.get(i).get(0));
+            actScoreTextBox().sendKeys(score);
             Assert.assertTrue(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
         }
 
@@ -707,26 +707,26 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyACTScoreDataPersists(DataTable dataTable) {
 
-        List<List<String>> data = dataTable.raw();
-        String dataToPersist = data.get(0).get(0);
+        List<String> scores = dataTable.asList(String.class);
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys(dataToPersist);
+        for(String score : scores) {
 
-        getFitCriteriaCloseButton().click();
+            actScoreTextBox().clear();
+            actScoreTextBox().sendKeys(score);
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
-            admissionMenuItem().click();
+            getFitCriteriaCloseButton().click();
+
+            if (!admissionMenuItem().getAttribute("class").contains("active")) {
+                admissionMenuItem().click();
+            }
+
+            Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals(score));
         }
-
-        Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals(dataToPersist));
-
     }
 
     public void selectOrUnselectDiversityCheckbox(String selectOrUnselect, String option)
