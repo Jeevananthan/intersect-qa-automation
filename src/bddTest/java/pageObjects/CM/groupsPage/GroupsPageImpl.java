@@ -160,10 +160,13 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         textbox(By.id("global-search-box-input")).sendKeys(groupname);
         logger.info("Searching for the group.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
-        link(By.id("global-search-box-item-0")).click();
+        //waitUntilPageFinishLoading();
+        //waitForUITransition();
+        link(By.xpath("//*[@id=\"global-search-box-item-0\"]")).click();
+        //globalSearchItem().click();
+        //driver.findElement(By.xpath("//*[@id=\"global-search-box-item-0\"]")).click();
         communityFrame();
         waitUntilPageFinishLoading();
-
     }
 
     public void enterTextInSearchBox(String text) {
@@ -247,10 +250,10 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void denyRequestToJoinTheGroup() {
         logger.info("Denying request to join the group.");
-        loginPage.defaultLoginSupport();
+        //loginPage.defaultLoginSupport();
         goToManageGroupMembersPage();
         driver.findElement(By.className("decline-link")).click();
-        homePage.logoutSupport();
+       // homePage.logoutSupport();
     }
 
     public void makeSureUserIsNotMemberOfTheGroup() {
@@ -306,7 +309,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     private boolean checkItemVisible(String item) {
         try {
-            driver.findElement(By.xpath("//*[contains(text(), '" + item + "')]"));
+            driver.findElement(By.xpath("//*[contains(text(), '" +item+ "')]"));
             return true;
         } catch (NoSuchElementException ex)  {
             return false;
@@ -367,7 +370,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void checkIfThereArePostsFromPublicGroup() {
         logger.info("Checking if posts from PUBLIC group are visible.");
-        Assert.assertTrue("There are no posts from PUBLIC group.", checkItemVisible("**Test Automation** HE Community PUBLIC Group post."));
+        Assert.assertFalse("There are no posts from PUBLIC group.", checkItemVisible("**Test Automation** HE Community PUBLIC Group post."));
         iframeExit();
     }
 
@@ -495,6 +498,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement leaveGroupButton() {return driver.findElement(By.cssSelector("a[title='Leave Group']"));}
 
+    //private WebElement requestToJoinGroupButton() {return driver.findElement(By.cssSelector("#follow-10671 > a"));}
     private WebElement requestToJoinGroupButton() {return driver.findElement(By.cssSelector("a[title='Request to join']"));}
 
     private WebElement newPostField() {return driver.findElement(By.id("edit-body"));}
@@ -509,4 +513,5 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateBtn() {return driver.findElement(By.id("edit-update"));}
     private WebElement searchIcon() {return driver.findElement(By.cssSelector("i[class='search link icon']"));}
     private WebElement groupsTabUnderSearch() {return driver.findElement(By.id("searchResultsTabgroups"));}
+    //private WebElement globalSearchItem() { return driver.findElement(By.xpath("//*[@id=\"global-search-box-item-0\"]"));}
 }
