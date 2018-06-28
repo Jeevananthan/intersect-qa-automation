@@ -72,7 +72,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 break;
             case "Athletics" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "athletics.tooltips.titles.list"), tabName.split(":")[1]);
                 break;
-            case "Resources" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "resources.tooltips.text.list"));
+            case "Resources" : verifyTooltipsInTab(getListFromPropFile(propertiesFilePath, ";", "resources.tooltips.titles.list"));
                 break;
         }
     }
@@ -106,7 +106,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 tooltipsList.get(i).click();
             }
         }
-
         else {
             List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
             for (int i = 0; i < tooltipsList.size(); i++) {
@@ -130,11 +129,27 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
     private void verifyTooltipsInSearchHeader(WebElement button, String titleEntry, String textEntry) {
         button.sendKeys(Keys.RETURN);
-        Assert.assertTrue("The title of the tooltip is incorrect", getStringFromPropFile(propertiesFilePath,
+        Assert.assertTrue("The title of the tooltip is incorrect\n\nExpected: " + getStringFromPropFile(propertiesFilePath,
+                titleEntry) + "\n\nActual: " + searchHeaderTooltipTitle().getText(), getStringFromPropFile(propertiesFilePath,
                 titleEntry).equals(searchHeaderTooltipTitle().getText()));
-        Assert.assertTrue("The content of the tooltip is incorrect", getStringFromPropFile(propertiesFilePath,
+        Assert.assertTrue("The content of the tooltip is incorrect\n\nExpected: " + getStringFromPropFile(propertiesFilePath,textEntry) + "\n\nActual: " + searchHeaderTooltipText().getText(), getStringFromPropFile(propertiesFilePath,
                 textEntry).equals(searchHeaderTooltipText().getText()));
         button.sendKeys(Keys.RETURN);
+    }
+
+    public void verifyLegendInWhyDrawer(String position, DataTable dataTable) {
+        List<String> dataList = dataTable.asList(String.class);
+        getWhyButtonByPosition(position).sendKeys(Keys.RETURN);
+        Assert.assertTrue("The 'Match' legend is not correctly displayed", matchLegend().getText().equals(dataList.get(0)));
+        Assert.assertTrue("The 'Close Match' legend is not correctly displayed", closeMatchLegend().getText().equals(dataList.get(1)));
+        Assert.assertTrue("The 'Data Unknown' legend is not correctly displayed", dataUnknownLegend().getText().equals(dataList.get(2)));
+        Assert.assertTrue("The 'Doesn't Match' legend is not correctly displayed", doesntMatchLegend().getText().equals(dataList.get(3)));
+    }
+
+    public void skipModals() {
+        if (driver.findElements(By.cssSelector(onboardingHeaderLocator)).size() > 0) {
+            chooseFitCriteria().click();
+        }
     }
 
     public void verifyOnboardingModals(DataTable dataTable) {
@@ -148,10 +163,44 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         WebElement onboardingTitle = driver.findElement(By.cssSelector("div.header"));
         String control = onboardingTitle.getText();
         Assert.assertTrue("The title of the onboarding modal is not correct. UI: " + onboardingTitle.getText() +
-                " Data: " + title,
+                " Expected: " + title,
                 onboardingTitle.getText().equals(title));
         nextButton().click();
         waitUntilPageFinishLoading();
+    }
+
+    public void enableOnboardingModalsIfDisabled() {
+        if(driver.findElements(By.cssSelector(onboardingHeaderLocator)).size() < 1) {
+            aboutSuperMatchLink().click();
+        }
+    }
+
+    public void clickSaveSearchButton() {
+        chooseFitCriteria().click();
+        saveSearchButton().click();
+    }
+
+    public void verifySaveSearchButtonDisabled() {
+        System.out.println("Control: " + saveSearchButton().getAttribute("tabindex").equals("-1"));
+        Assert.assertTrue("The Save Search button is enabled when it shouldn't", saveSearchButton().getAttribute("tabindex").equals("-1"));
+    }
+
+    public void verifySavedSearchInDropdown(String savedSearch) {
+        savedSearchesDropdown().click();
+        List<WebElement> savedSearchesList = driver.findElements(By.cssSelector(savedSearchesListLocator));
+        List<String> savedSearchesStringList = new ArrayList<>();
+        for(WebElement savedSearchElement : savedSearchesList) {
+            savedSearchesStringList.add(savedSearchElement.getText());
+        }
+        Assert.assertTrue("The saved search is not displayed in the Saved Searches List", savedSearchesStringList.contains(savedSearch));
+    }
+
+    public void selectOptionFromDropdown(String optionName) {
+        getSavedSearchesDropdownOption(optionName).click();
+    }
+
+    public void verifySelectedOption(String selectedOption) {
+        Assert.assertTrue("The option was not selected", selectedOption().getText().equals(selectedOption));
     }
 
     // Locators Below
@@ -165,12 +214,27 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement tooltipText() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] span")); }
     private WebElement addSportButton() { return driver.findElement(By.cssSelector("button[title=\"Add a Sport\"]")); }
     private WebElement sportField() { return driver.findElement(By.cssSelector("div.default.text")); }
-    private WebElement sportOption(String sport) { return driver.findElement(By.xpath("//div[@class='menu transition visible']/div/span[text()='" + sport + "']")); }
+    private WebElement sportOption(String sport) { return driver.findElement(By.xpath("//div[@class='visible menu transition']/div/span[text()='" + sport + "']")); }
     private WebElement fitScoreTooltipButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table csr-header-table']/thead/tr/th[@class='one wide']/button"));}
     private WebElement academicMatchTooltipButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table csr-header-table']/thead/tr/th[@class='two wide']/button"));}
     private WebElement getWhyButtonByPosition(String position) { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr["+ Integer.parseInt(position) +"]/td/div/button")); }
     private WebElement searchHeaderTooltipTitle() { return driver.findElement(By.cssSelector("div.header")); }
-    private WebElement searchHeaderTooltipText() { return driver.findElement(By.cssSelector("div.content")); }
-    private WebElement onboardingModalTitle() { return driver.findElement(By.cssSelector("div.header")); }
+    private WebElement searchHeaderTooltipText() {
+        WebElement tooltip = getDriver().findElement(By.xpath("//div[@role='tooltip']"));
+        return tooltip.findElement(By.cssSelector("div.content"));
+    }
+    private WebElement onboardingModalTitle() { return driver.findElement(By.cssSelector(onboardingHeaderLocator)); }
+    private String onboardingHeaderLocator = "div.header";
+    private WebElement chooseFitCriteria() { return driver.findElement(By.cssSelector("span.sm-hidden-l-down")); }
+    private WebElement matchLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-match")); }
+    private WebElement closeMatchLegend() { return driver.findElement(By.cssSelector("div.nine.wide.column.supermatch-sidebar-criteria-legend-icon")); }
+    private WebElement dataUnknownLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-icon")); }
+    private WebElement doesntMatchLegend() { return driver.findElement(By.cssSelector("div.eight.wide.column.supermatch-sidebar-criteria-legend-icon")); }
     private WebElement nextButton() { return driver.findElement(By.cssSelector("div.onboarding-popup-footer button")); }
+    private WebElement aboutSuperMatchLink() { return driver.findElement(By.cssSelector("i.question.circle.icon + span")); }
+    private WebElement saveSearchButton() { return driver.findElement(By.cssSelector("div.supermatch-save-search button.ui.teal.basic.button")); }
+    private WebElement savedSearchesDropdown() { return driver.findElement(By.cssSelector("div.supermatch-saved-searches div div.text")); }
+    private String savedSearchesListLocator = "div.menu.transition.visible div span";
+    private WebElement getSavedSearchesDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']")); }
+    private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }
 }

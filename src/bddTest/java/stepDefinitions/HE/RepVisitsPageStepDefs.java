@@ -289,6 +289,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
 
         Then("^HE I verify that the previously created fair does not appear for \"([^\"]*)\"$",repVisits::verifyCollegeFairNotVisible);
+      
+        Then("^HE I select Visits to verify the appointment is not present for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyBlockedAvailability);
 
         When("^HE I open the Calendar tab in RepVisits$", repVisits::openCalendar);
 
@@ -347,7 +349,23 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify the search results have \"([^\"]*)\" in the \"([^\"]*)\" field$",repVisits::verifyFilteredSearchResults);
 
         And("^HE I verify \"([^\"]*)\" is displayed in the search results$",repVisits::verifyLabelInSearchResult);
-
+      
         And("^HE I verify \"([^\"]*)\" is displayed in the search tooltip$",repVisits::verifySearchToolTip);
+
+        Then("^HE I click the link \"([^\"]*)\" in search and schedule page$",repVisits::selectLinkInsearchAndSchedule);
+
+        Then("^HE I verify the Header \"([^\"]*)\" is displayed in search results Page$",repVisits::verifyTextInSearchResultPage);
+
+        Then("^HE I verify the Header name is changed to \"([^\"]*)\" in search result Page$",repVisits::verifyTextInSearchResultPage);
+
+        Then("^HE I verify the school is displayed in schedule page after click the school link using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchoolInSchedulePage);
+
+        Then("^HE I verify the button \"([^\"]*)\" is displaying for more than 25 results$",repVisits::verifyMoreResultButtonInSearchAndSchedulePage);
+
+        Then("^HE I verify \"([^\"]*)\" results is not displayed in search and schedule page after move out from International Schools results view$",repVisits::verifySearchAndSchedulePageAfterMovedOut);
+
+        Then("^HE I verify the International Schools list view does not load for freemium users in search and schedule page$",repVisits::verifyInternationalSchoolsListIsNotDisplayedforFreemium);
+
+        Then("^HE I get the URL of the current page$",repVisits::getCurrentPageURL);
     }
 }

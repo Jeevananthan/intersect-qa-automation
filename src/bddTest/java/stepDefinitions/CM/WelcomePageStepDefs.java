@@ -27,6 +27,8 @@ public class WelcomePageStepDefs implements En {
         Then("^I set work email and office phone privacy to 'Connections Only'$", welcomePage::setPrivacyToConnectionsOnly);
         And("^I set personal email and mobile phone privacy to 'Visible to Only Me'$", welcomePage::setPrivacyToVisibleToOnlyMe);
         And("^I check if privacy settings are saved properly$", welcomePage::checkPrivacySettingsSaved);
+        And("^I consent to create and maintain my Intersect account$",welcomePage::consentCreateAndMaintainIntersectAccount);
+        And("^I set the EU citizen to \"([^\"]*)\"$",welcomePage::setEuCitizen);
 
 
     }
