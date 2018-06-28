@@ -1779,12 +1779,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button("Get Started!");
     }
 
-    private WebElement save()
-    {
-        WebElement button=button("Save");
-        waitUntilElementExists(button);
-        return button;
-    }
     public void goToWelcomeWizard(){
         load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
@@ -3761,8 +3755,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
         waitUntilElementExists(selectDay());
-        day = day(day);
-        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
+        String visitDay = day(day);
+        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", visitDay);
         StartTime = startTime(startTime);
         logger.info("Start Time = " + StartTime);
         addStartTime().sendKeys(StartTime);
@@ -3774,11 +3768,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
+        List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
         if(displayingPopup.size()==1){
             driver.findElement(By.id("ignore-time-slots")).click();
             button("Add regular hours").click();
             waitUntilPageFinishLoading();
             waitForUITransition();
+        }else if(duplicateTimeSlot.size()==1){
+            addnewTimeSlot(day, startTime, endTime, numVisits);
         }
     }
 
@@ -3840,7 +3837,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).click();
                 waitUntilPageFinishLoading();
             }else if(buttonToClick.equals("Save")){
-                waitUntilElementExists(save());
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Save']")),1);
                 Assert.assertTrue("'Save' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Save']")).isDisplayed());
                 jsClick(getDriver().findElement(By.xpath("//button/span[text()='Save']")));
                 waitUntilPageFinishLoading();
