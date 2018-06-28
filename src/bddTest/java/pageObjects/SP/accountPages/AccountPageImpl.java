@@ -384,8 +384,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     public void verifyYearInInstitutionCalendarPage(String year,String module,String startDate,String endDate){
         waitUntilPageFinishLoading();
-        WebElement endDateButon = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
-        endDateButon.click();
+        WebElement endDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
+        endDateButton.click();
         waitUntilPageFinishLoading();
         selectYearInInstitutionPage().click();
         waitUntilPageFinishLoading();
@@ -412,70 +412,74 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         String startDateValue[] = displayingStartDateValue.split(" ");
         String displayingStartDateYear = startDateValue[2];
         Assert.assertTrue("Year is not displayed",year.equals(displayingStartDateYear));
+        startDateButton.click();
     }
 
     public void verifySelectedDateColorInInstitutionCalendarPage(String color,String startDate,String endDate,String module){
         WebElement startDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
-        startDateButton.click();
         startDateButton.click();
         waitUntilPageFinishLoading();
         String displayingColorforStartDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+startDate+"']")).getCssValue("background-color");
         Assert.assertTrue("Given color is not displayed",color.equals(displayingColorforStartDate));
         startDateButton.click();
         waitUntilPageFinishLoading();
-        WebElement endDateButon = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
-        endDateButon.click();
+        WebElement endDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
+        endDateButton.click();
         waitUntilPageFinishLoading();
         String displayingColorforEndDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+endDate+"']")).getCssValue("background-color");
         Assert.assertTrue("Given color is not displayed",color.equals(displayingColorforEndDate));
-        endDateButon.click();
+        endDateButton.click();
     }
 
-    public void verifyYearsListInInstitutionCalendarPage(String module,DataTable dataTable){
-        List<String> yearsList = dataTable.asList(String.class);
+    public void verifyYearsListinStartandEndDateCalendar(String moduleName){
+        //End date
+        List<WebElement> yearsList = getDriver().findElements(By.cssSelector("select[id='year-select']>option"));
         waitUntilPageFinishLoading();
-        WebElement endDateButon = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
-        endDateButon.click();
+        WebElement endDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
+        endDateButton.click();
         waitUntilPageFinishLoading();
         selectYearInInstitutionPage().click();
         waitUntilPageFinishLoading();
-        for(String year:yearsList){
+        for(WebElement year:yearsList){
             Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+year+"']")).isDisplayed());
         }
-        endDateButon.click();
-        WebElement startDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+        endDateButton.click();
+        //Start date
+        WebElement startDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
         startDateButton.click();
         waitUntilPageFinishLoading();
         selectYearInInstitutionPage().click();
         waitUntilPageFinishLoading();
-        for(String year:yearsList){
+        for(WebElement year:yearsList){
             Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+year+"']")).isDisplayed());
         }
         startDateButton.click();
     }
 
-    public void verifyRollingUpdatedBehaviourInInstitutionCalendarPage(String previousYear,String lastYear,String module){
-        WebElement endDateButon = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
-        endDateButon.click();
+    public void verifyModulesStartandEndDateCalendar(String previousYear,String lastYear,String moduleName){
+    //End date
+        WebElement endDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
+        endDateButton.click();
         waitUntilPageFinishLoading();
         selectYearInInstitutionPage().click();
         waitUntilPageFinishLoading();
         String getPreviousYear = previousYear.replace("-","");
-        int firstYearValue = Integer.parseInt(getPreviousYear);
-        int firstYear = currentYear()-firstYearValue;
+        int startYear = Integer.parseInt(getPreviousYear);
+        int calendarStartYear = currentYear()-startYear;
         String getLastYear = lastYear.replace("+","");
-        int maxYearValue = Integer.parseInt(getLastYear);
-        int maxYear = currentYear()+maxYearValue;
-        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+firstYear+"']")).isDisplayed());
-        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+maxYear+"']")).isDisplayed());
-        endDateButon.click();
-        WebElement startDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+        int endYear = Integer.parseInt(getLastYear);
+        int calendarEndYear = currentYear()+endYear;
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+calendarStartYear+"']")).isDisplayed());
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+calendarEndYear+"']")).isDisplayed());
+        endDateButton.click();
+     //Start date
+        WebElement startDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
         startDateButton.click();
         waitUntilPageFinishLoading();
         selectYearInInstitutionPage().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+firstYear+"']")).isDisplayed());
-        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+maxYear+"']")).isDisplayed());
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+calendarStartYear+"']")).isDisplayed());
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+calendarEndYear+"']")).isDisplayed());
         startDateButton.click();
     }
 
