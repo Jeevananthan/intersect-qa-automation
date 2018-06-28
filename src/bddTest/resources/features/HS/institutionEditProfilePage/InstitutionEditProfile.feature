@@ -11,10 +11,10 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
       | Address | City | State | Zip | County | Country | Phone | Fax | Website URL |
     And HS I enter the following CONTACT data on the Institution Profile page and click "Save"
       | Address     | 3480 DIXIE HWY    |
-      | City        | ERLANGER          |
+      | City        | Erlanger          |
       | State       | Kentucky        |
       | Zip         | 41018             |
-      | County      | KENTON COUNTY     |
+      | County      | Kenton     |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
@@ -23,10 +23,10 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
       | Address     | 3480 DIXIE HWY    |
-      | City        | ERLANGER          |
+      | City        | Erlanger          |
       | State       | Kentucky          |
       | Zip         | 41018             |
-      | County      | KENTON COUNTY     |
+      | County      | Kenton     |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
@@ -264,7 +264,8 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
   So Support can provision my user account.
 
     Given HS I navigate to Registration Intersect url
-    And HS I search for "INFINITY INSTITUTE" in the registration page
+    When HS I click on HIGHER EDUCATION STAFF MEMBER
+    And HS I search for "Dr. A.P.J. Abdul Kalam Technical University" in the registration page
     And HE I click the link "please complete this form."
     Then HS I verify all field type in request user page
       |firstName |lastName |email |verifyEmail |jobTitle |
@@ -275,9 +276,10 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
 
   @MATCH-1781
   Scenario: As a HS user, I need to be able to search for high schools during the registration process.
-  so I can associate myself with the high school I work at
+  so I can associate myself with45 the high school I work at
     Given HS Iam navigating to Intersect HS through Non naviance Url
     Then HS I click the new user link in the login page
+    When HS I click on HIGHER EDUCATION STAFF MEMBER
     And HS I search for "Int Qa High School 4" in "High school" and verify the results
 
   @MATCH-1565

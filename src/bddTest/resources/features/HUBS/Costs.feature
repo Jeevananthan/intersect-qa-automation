@@ -38,4 +38,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Average Net Prices    | $48,001 - $75,000 |
       | % Receiving Aid       | Pell Grant        |
       | Average Amount of Aid | Grant             |
+    #Sometimes, the Average Net Prices take a lot of time to be updated. So, the next
+    #setting is the number of times to reload the HUBS page to verify the value.
+      | Number of tries       | 10                |
     And HUBS I successfully sign out

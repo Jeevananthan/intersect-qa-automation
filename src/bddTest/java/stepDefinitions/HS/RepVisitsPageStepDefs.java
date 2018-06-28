@@ -58,6 +58,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
 
+        Then("^HS I verify that availability dates are from \"([^\"]*)\" to \"([^\"]*)\" for visits the days \"([^\"]*)\" in the calendar$", repVisits::verifyAvaliabilityDates);
+
         Then("HS I remove the Time Slot created with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::removeTimeSlotAdded);
 
         Then("^HS I verify the Time Slot time were removed with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyTimeSlotRemoved);
@@ -279,6 +281,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a dynamic College Fair with the following data$", repVisits::createDynamicCollegeFair);
 
+        Then("^HS I edit a dynamic College Fair with the following data$", repVisits::editCollegeFair);
+
+        Then("^HS I verify edit a dynamic College Fair with the following data$", repVisits::verifyDataCollegeFair);
+
         //And("^HS I verify the items in the user dropdown for a Non-Naviance user$",repVisits::verifyUserDropdownforNonNaviance);
         And("^HS I verify the items in the user dropdown for a Non-Naviance user$", repVisits::verifyUserDropdownforNonNaviance);
 
@@ -309,6 +315,15 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I add the email \"([^\"]*)\" in the primary contact in Notifications & Primary Contact page$", repVisits::addEmailInNotificationandPrimaryContactPage);
 
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$", repVisits::navigateToNavianceSettingsPage);
+
+        Then("^HS I click on link Add School User Manually$",repVisits::addSchoolUserManually);
+        Then("^HS I Enter Folliwng Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
+        Then("^HS I click on button Add attendees$",repVisits::clickAddAttendeetovisit);
+        Then("^HS I click the Message Colleges button$",repVisits::clickMessageCollegesButton);
+        Then("^HS I Enter Message as \"([^\"]*)\"$",repVisits:: massEmailMessageForAttendees);
+        Then("^HS I click on Send Message$",repVisits::sendMessage);
+        Then("^HS I verify confirmation message$",repVisits::verifySentEmailConfirmationMessage);
+        Then("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
 
         Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$", repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
 
@@ -505,6 +520,15 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits::verifyRepDetails);
 
-        And("^HS I click on link Add School User Manually$", repVisits::addRepresentativeManually);
+        Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
+
+        Then("^HS I verify the blocked day in Exception tab using \"([^\"]*)\"$",repVisits::verifyBlockedDayInException);
+
+        Then("^HS I verify the calendar page$",repVisits::verifyCalendarPageForaddVisit);
+
+        Then("^HS I verify the visit schedule popup$",repVisits::verifyVisitSchedulepopup);
+
+        Then("^HS I set Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setSpecificBlockedDate);
+
     }
 }

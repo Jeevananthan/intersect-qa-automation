@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -115,5 +116,31 @@ public class SearchPageStepDefs implements En {
                 searchPage::verifyAverageClassSizeList);
         Then("^SM I check when Average Class Size filter is selected, moved to Nice To Have, unselected, and then selected again it should be defaulted back to the Must Have box$",
                 searchPage::verifyMAndNSyncWithAverageClassSizeFilter);
+        And("^SM I verify the default column headers displayed in the results table$", searchPage::verifyDefaultColumnHeadersInResultsTable);
+
+        And("^SM I verify if the option selected or defaulted in column header can be changed to \"([^\"]*)\"$", searchPage::verifyIfOptionDefaultedInColumnHeaderCanBeChanged);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Diversity fit criteria$", searchPage::selectHighInternationalPopulationCheckbox);
+
+        Then("^SM I verify \"([^\"]*)\" checkbox in Diversity fit criteria$", searchPage::verifyHighInternationalPopulationCheckbox);
+
+        Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
+
+        Then("^SM I verify that the Save Search popup is closed when I use the Cancel action$", searchPage::verifySaveSearchIsClosedWhenCancelIsClicked);
+
+        Then("^SM I verify that the Save Search popup is closed when I click outside the popup$", searchPage::verifySaveSearchIsClosedWithOutterClick);
+
+        Then("^SM I verify that the text inside the Save Search popup is correct$", searchPage::verifyTextInsideSaveSearchBox);
+
+        Then("^SM I verify the error message for more than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
+
+        And("^SM I save the search with the name \"([^\"]*)\"$", searchPage::saveSearchWithName);
+
+        And("^SM I verify the error message for less than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
+
+        Then("^SM I verify the confirmation message$", searchPage::verifyConfirmationMessage);
+
+        Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
+
     }
 }
