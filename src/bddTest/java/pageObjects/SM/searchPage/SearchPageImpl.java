@@ -547,7 +547,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenGPAInputIsValid(DataTable dataTable) {
 
-        List<List<String>> data = dataTable.raw();
+        List<String> scores = dataTable.asList(String.class);
 
         if(firstOnboardingPopup().isDisplayed())
            superMatchCollegeSearchHeader().click();
@@ -557,10 +557,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             admissionMenuItem().click();
         }
 
-        for(int i = 0; i < data.size(); i++)
+        for(String score : scores)
         {
             gpaTextBox().clear();
-            gpaTextBox().sendKeys(data.get(i).get(0));
+            gpaTextBox().sendKeys(score);
             Assert.assertFalse(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
         }
     }
