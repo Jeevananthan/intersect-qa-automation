@@ -3,22 +3,22 @@ package pageObjects.SM.searchPage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.JavascriptExecutor;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
-import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.support.Color;
+import utilities.HUBSEditMode.Navigation;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
@@ -31,6 +31,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     public SurveyPageImpl survey = new SurveyPageImpl();
     private RepVisitsPageImpl repVisitsPageUtility = new RepVisitsPageImpl();
+    private Navigation navigation = new Navigation();
 
     /** The below line of code for just a declaration for the object which we can use in scroll down purpose */
     JavascriptExecutor js = (JavascriptExecutor)driver;
@@ -212,7 +213,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     // TODO - Some of this is not working yet
                     case "Search Type":
                         if (criteria.get(key).contains("distance"))
-                           searchByDistance().click();
+                            searchByDistance().click();
                         else
                             radioButton("searchByStateOrRegion").select();
                         break;
@@ -382,7 +383,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             getDriver().findElement(By.xpath("(//div[@role='combobox'])[2]//a[text()='" + item +"']/i[@class='delete icon']")).click();
         }
 
-          getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
 
@@ -1079,6 +1080,117 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+    public void verifyCollegeProfile(String collegeName, DataTable dataTable) {
+        List<String> details = dataTable.asList(String.class);
+        for(String element : details) {
+            switch(element) {
+                case "Search results":
+                    while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
+                        waitUntilPageFinishLoading();
+                        backToTopButton().sendKeys(Keys.END);
+                        waitUntilPageFinishLoading();
+                        try {
+                            showMoreButton().click();
+                        } catch(WebDriverException e) {
+                            whyDrawerButton(collegeName).sendKeys(Keys.END);
+                            showMoreButton().click();
+                        }
+                        waitUntilPageFinishLoading();
+                    }
+                    whyDrawerButton(collegeName).sendKeys(Keys.SPACE);
+
+                    searchResultsCollegeNameLink(collegeName).click();
+                    verifyProfilePage(collegeName);
+                    break;
+                case "Why? drawer":
+                    whyDrawerButton(collegeName).click();
+                    waitUntil(ExpectedConditions.elementToBeClickable(whyDrawerCollegeProfileLink()));
+                    whyDrawerCollegeProfileLink().click();
+                    verifyProfilePage(collegeName);
+                    whyDrawerCloseButton().click();
+                    break;
+                case "Academic Match section":
+                    whyDrawerButton(collegeName).click();
+                    waitUntil(ExpectedConditions.elementToBeClickable(whyDrawerAcademicMatchLink()));
+                    whyDrawerAcademicMatchLink().click();
+                    verifyProfilePage(collegeName);
+                    break;
+            }
+        }
+    }
+
+    public void verifyProfilePage(String collegeName) {
+        String originalHandle = driver.getWindowHandle();
+        for (String handle : driver.getWindowHandles()) {
+            driver.switchTo().window(handle);
+        }
+
+        Assert.assertTrue("The Profile Page is not displayed. UI: " + profilePageCollegeName().getText() + ". Data: " + collegeName, profilePageCollegeName().getText().trim().equals(collegeName));
+
+        navigation.closeNewTabAndSwitchToOriginal(originalHandle);
+    }
+
+    public void pinCollege(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        boolean elementNotFound = true;
+        WebElement firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
+        if(firstPinLinkCoincidence.getText().trim().contains("PINNED")) {
+            while(elementNotFound) {
+                try {
+                    firstPinLinkCoincidence.click();
+                    elementNotFound = false;
+                } catch (WebDriverException e) {
+                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    elementNotFound = true;
+                }
+            }
+
+            elementNotFound = true;
+            whyDrawerButton(collegeName).sendKeys(Keys.HOME);
+            goToCollegeInSearchResults(collegeName);
+
+            while(elementNotFound) {
+                firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
+                try {
+                    firstPinLinkCoincidence.click();
+                    elementNotFound = false;
+                } catch (WebDriverException e) {
+                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_DOWN);
+                    elementNotFound = true;
+                }
+            }
+        } else {
+            while(elementNotFound) {
+                try {
+                    firstPinLinkCoincidence.click();
+                    if(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED")) {
+                        elementNotFound = false;
+                    }
+                } catch (WebDriverException e) {
+                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    elementNotFound = true;
+                }
+            }
+            Assert.assertTrue("The college was not pinned. UI: " + driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText(), driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED"));
+        }
+    }
+
+    private void goToCollegeInSearchResults(String collegeName) {
+        while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
+            waitUntil(ExpectedConditions.elementToBeClickable(backToTopButton()));
+            backToTopButton().sendKeys(Keys.END);
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+            showMoreButton().sendKeys(Keys.RETURN);
+            waitUntilPageFinishLoading();
+        }
+        repVisitsPageUtility.scrollDown(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0));
+    }
+
+    public void openPinnedCompareSchools() {
+        pinnedFooterOption().click();
+        comparePinnedCollegesLink().click();
+    }
+
     public void verifySaveSearchIsClosedWhenCancelIsClicked() {
         saveSearchPopupCancelLink().click();
         Assert.assertTrue("The Save Search popup was not closed when Cancel was clicked",
@@ -1193,6 +1305,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }while (searchCollege&&getResultTable().findElement(By.xpath("//button[text()='Show More']")).isDisplayed());
         if (counter>resultLimit)
             logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
+    }
+
+    public void pinCollegeIfNotPinnedAlready(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        if(pinLinkLocator(collegeName).equals("PIN TO COMPARE")) {
+            pinCollege(collegeName);
+        }
     }
 
     // Locators Below
@@ -1359,6 +1478,30 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
+    private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
+
+    private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
+
+    public WebElement profilePageCollegeName() { return driver.findElement(By.cssSelector("h1.masthead__name.ng-binding")); }
+
+    private WebElement whyDrawerButton(String collegeName) { return driver.findElement(By.xpath("//a[text()='" + collegeName + "']/../../../following-sibling::td/div/button")); }
+
+    private WebElement whyDrawerCollegeProfileLink() { return driver.findElement(By.cssSelector("div.twelve.wide.column a.result-row-decription-label")); }
+
+    private WebElement whyDrawerCloseButton() { return  driver.findElement(By.cssSelector("button.ui.teal.basic.button.asLink-btn")); }
+
+    private WebElement whyDrawerAcademicMatchLink() { return driver.findElement(By.cssSelector("div.column em a.result-row-decription-label")); }
+
+    private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
+
+    private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
+
+    private WebElement pinnedFooterOption() { return driver.findElement(By.cssSelector("div#pinCount + span")); }
+
+    private WebElement comparePinnedCollegesLink() { return driver.findElement(By.cssSelector("div#supermatch-pinned-compare-colleges-link span")); }
+
+    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../a/span"; }
+
     private WebElement saveSearchPopupCancelLink() { return driver.findElement(By.xpath(saveSearchPopupCancelLinkLocator)); }
 
     private String saveSearchPopupCancelLinkLocator = "//button[@class='ui teal basic button' and text()='Cancel']";
@@ -1382,4 +1525,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getResultTable(){ return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']")); }
 
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
+
+    private String spinnerLocator = "button[disabled]";
 }
