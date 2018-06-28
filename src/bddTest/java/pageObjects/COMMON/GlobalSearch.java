@@ -646,7 +646,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "County Served":
-                    WebElement drpCountyServed = driver.findElement(By.id("field_population_served_name_COUNTY"));
+                    WebElement drpCountyServed = driver.findElement(By.cssSelector("div[id='field_population_served_name_COUNTY']"));
                     drpCountyServed.click();
                     waitUntilPageFinishLoading();
                     jsClick(drpCountyServed.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -764,6 +764,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
             }
             getDriver().findElement(By.xpath("//span[contains(text(),'Update Search')]")).click();
+            waitUntilPageFinishLoading();
             Assert.assertFalse("The advanced search option " + key + "field did not work properly", getDriver().findElements(By.xpath("//span[contains(text(), 'No results found')]")).size()!=0);
             System.out.println(key + " field updated search.");
         }
