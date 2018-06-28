@@ -367,5 +367,10 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the International Schools list view does not load for freemium users in search and schedule page$",repVisits::verifyInternationalSchoolsListIsNotDisplayedforFreemium);
 
         Then("^HE I get the URL of the current page$",repVisits::getCurrentPageURL);
+
+        Then("^HE I verify \"([^\"]*)\" stub menu is present in the Account settings page for Premium$",repVisits::verifyYourNotificationTabforPremium);
+
+        Then("^HE I verify \"([^\"]*)\" stub menu is not present in the Account settings page for Freemium$",repVisits::verifyYourNotificationTabforfreemium);
+
     }
 }

@@ -238,4 +238,20 @@ Examples:
 
     Examples:
       |Day     |HourStartTime |HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|Option                                              |hsEndTime|Option                             |School               |heStartTime   |heTime   |Date             |StartDate        |EndDate        |
-      |Friday  |11            |12         |34             |34           |am               |pm             |3        |No, I want to manually review all incoming requests.|12:34pm  |Yes, accept all incoming requests. |Int Qa High School 4 |11:34am       |11:34am  |June 7 2019  |March 28 2018    |July 14 2019   |
+      |Friday  |11            |12         |34             |34           |am               |pm             |3        |No, I want to manually review all incoming requests.|12:34pm  |Yes, accept all incoming requests. |Int Qa High School 4 |11:34am       |11:34am  |June 7 2019      |March 28 2018    |July 14 2019   |
+
+  @MATCH-1603
+  Scenario Outline: As an HE Freemium user I can not be able to view Your Notifications stub menu in Account settings page
+    Given HE I am logged in to Intersect HE as user type "<premiumUser>"
+    Then HE I verify "<yourNotifications>" stub menu is present in the Account settings page for Premium
+    Then HE I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "<freemiumUser>"
+    Then HE I verify "<yourNotifications>" stub menu is not present in the Account settings page for Freemium
+    Then HE I successfully sign out
+
+   Examples:
+     |premiumUser  |freemiumUser      |yourNotifications |
+     |administrator|limited           |Your Notifications|
+     |publishing   |limitedPublishing |Your Notifications|
+     |community    |limitedCommunity  |Your Notifications|

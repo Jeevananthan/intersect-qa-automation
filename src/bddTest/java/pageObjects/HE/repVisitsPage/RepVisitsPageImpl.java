@@ -2941,6 +2941,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         currentURL = driver.getCurrentUrl();
     }
 
+    public void verifyYourNotificationTabforPremium(String yourNotification){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        List<WebElement> yourNotificationTab = driver.findElements(By.xpath("//a/span[text()='"+yourNotification+"']"));
+        Assert.assertTrue("Your Notification tab is not displayed",yourNotificationTab.size()==1);
+    }
+
+    public void verifyYourNotificationTabforfreemium(String yourNotification){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        List<WebElement> yourNotificationTab = driver.findElements(By.xpath("//a/span[text()='"+yourNotification+"']"));
+        Assert.assertTrue("Your Notification tab is displayed",yourNotificationTab.size()==0);
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
