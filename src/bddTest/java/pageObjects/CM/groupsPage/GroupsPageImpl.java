@@ -341,7 +341,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void removeUserFromTheGroup() {
         logger.info("Removing user from the group.");
-        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[@class='remove-link']")).click();
+        getDriver().findElement(By.id("active-members")).findElement(By.className("remove-link")).click();
     }
 
     public void checkIfUserIsRemoved() {
