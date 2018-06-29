@@ -382,7 +382,6 @@ public class GlobalSearch extends SeleniumBase {
 
     public void verifyAdvanceSearchByIcon(String searchRequest) {
         waitUntilPageFinishLoading();
-        System.out.println();
         logger.info("Verifying advanced search results are returned when the global search icon button is used.");
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
@@ -393,7 +392,6 @@ public class GlobalSearch extends SeleniumBase {
 
     public void verifyRealTimeSearchCategorized(DataTable dataTable) {
         waitUntilPageFinishLoading();
-        System.out.println();
         logger.info("Verifying real-time search categories exist.");
         List<String> categoryOptions = dataTable.asList(String.class);
         for(String opt : categoryOptions) {
@@ -405,7 +403,6 @@ public class GlobalSearch extends SeleniumBase {
 
     public void verifyAdvancedSearchResultsCategorized(DataTable dataTable) {
         waitUntilPageFinishLoading();
-        System.out.println();
         logger.info("Verifying advanced search category tabs exist.");
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String categoryTab : data.keySet()) {
@@ -415,7 +412,6 @@ public class GlobalSearch extends SeleniumBase {
 
     public void verifyRealTimeSearchCategoriesDisplayFiveOrLessResults(DataTable dataTable){
         waitUntilPageFinishLoading();
-        System.out.println();
         logger.info("Verifying real-time search results only display 5 or less results per category.");
         List<String> categoryOptions = dataTable.asList(String.class);
         for (String opt : categoryOptions) {
@@ -425,7 +421,6 @@ public class GlobalSearch extends SeleniumBase {
     }
     public void verifyAdvancedSearchCategoryTabsDisplayFiveOrLessResults(DataTable dataTable){
         waitUntilPageFinishLoading();
-        System.out.println();
         logger.info("Verifying advanced search results only display 5 or less results per category tab.");
         List<String> categoryOptions = dataTable.asList(String.class);
         for (String categoryTab : categoryOptions) {
@@ -437,26 +432,22 @@ public class GlobalSearch extends SeleniumBase {
 
     public void verifySearchDropBoxResultsActionable(String searchRequest){
         waitUntilPageFinishLoading();
-        System.out.println();
         logger.info("Verifying search dropdown results are clickable/actionable.");
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
-        WebElement searchOption = getDriver().findElement(By.id("global-search-box-item-5"));
-        String url = driver.getCurrentUrl();
-        searchOption.click();
+        selectResult(searchRequest);
         waitUntilPageFinishLoading();
-        Assert.assertNotEquals("Real-time search option was not clickable/actionable",url, driver.getCurrentUrl());
+        String url = driver.getCurrentUrl();
+        Assert.assertEquals("Real-time search option was not clickable/actionable","https://qa-support.intersect.hobsons.com/counselor-community/profile/5537",url);
     }
 
     public void VerifyUserSearchDefaultPage(){
-        System.out.println();
         logger.info("Verifying advanced search utilizes the user/people as the default return page.");
         Assert.assertTrue("User/People was not the default tab for advanced search results.", getDriver().findElement(By.id("searchResultsTabpeople")).isDisplayed());
     }
 
     public void verifyAdvancedSearchResultsLayout(String searchRequest, DataTable dataTable){
         waitUntilPageFinishLoading();
-        System.out.println();
         logger.info("Verifying advanced search results layouts are displayed correctly.");
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
@@ -490,8 +481,8 @@ public class GlobalSearch extends SeleniumBase {
         }
     }
     public void verifyRealTimeSearchLayout(String searchRequest, DataTable dataTable){
+        navHome().click();
         waitUntilPageFinishLoading();
-        System.out.println();
         logger.info("Verifying real-time search results layouts are displayed correctly.");
         doSearch(searchRequest);
         List<String> categoryOptions = dataTable.asList(String.class);
@@ -502,7 +493,7 @@ public class GlobalSearch extends SeleniumBase {
                 case "People":
                     iconExist = getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/span/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/i")).size() != 0;
                     Assert.assertTrue("Avatar is not displayed for People in real-time search.", iconExist);
-                    Assert.assertTrue("Name is not displayed for People in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class='title']")).isDisplayed());
+                    Assert.assertTrue("Name is not displayed for People in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class='title'][1]")).isDisplayed());
                     Assert.assertTrue("Institution is not displayed for People in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class='description']")).isDisplayed());
                     break;
                 case "Institutions":
@@ -646,7 +637,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "County Served":
-                    WebElement drpCountyServed = driver.findElement(By.id("field_population_served_name_COUNTY"));
+                    WebElement drpCountyServed = driver.findElement(By.cssSelector("div[id='field_population_served_name_COUNTY']"));
                     drpCountyServed.click();
                     waitUntilPageFinishLoading();
                     jsClick(drpCountyServed.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -764,6 +755,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
             }
             getDriver().findElement(By.xpath("//span[contains(text(),'Update Search')]")).click();
+            waitUntilPageFinishLoading();
             Assert.assertFalse("The advanced search option " + key + "field did not work properly", getDriver().findElements(By.xpath("//span[contains(text(), 'No results found')]")).size()!=0);
             System.out.println(key + " field updated search.");
         }
@@ -772,6 +764,9 @@ public class GlobalSearch extends SeleniumBase {
     //Getters
     private WebElement openSearchOptionsDropdowns(){
         return getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']"));
+    }
+    private WebElement navHome(){
+        return getDriver().findElement(By.id("js-main-nav-home-menu-link"));
     }
     private void jsClick(WebElement element) {
         driver.executeScript("arguments[0].click();",element);
