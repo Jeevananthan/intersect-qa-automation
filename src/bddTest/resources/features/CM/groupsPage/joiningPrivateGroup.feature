@@ -28,8 +28,10 @@ Feature: Community User - Joining Private Groups
     And SP I am logged in to the Admin page as an Admin user
     Then I open Notifications list
     And I check if user has new notification
-    And SP I successfully sign out
     Then I deny request to join the group
+
+
+
 
   #This scenario cannot be covered because of gmail security system
 #  @MATCH-692
