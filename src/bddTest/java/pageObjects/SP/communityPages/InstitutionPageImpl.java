@@ -31,7 +31,9 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
         waitForUITransition();
         try{
+            waitUntil(ExpectedConditions.visibilityOf(collageNameLabel()));
             waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
+
         }catch(Exception e){
             logger.info("Caught Exception: " + e.getMessage());
             getDriver().switchTo().defaultContent();

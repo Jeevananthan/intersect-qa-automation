@@ -30,33 +30,6 @@ Feature: As a high school user, I need to be able to add or delete appointment w
       |QA Fair NotificationsTest|21    |1200PM    |0100PM  |17           |$25 |25                    |100                        |Save         |21   |12:00pm  |01:00pm |3        |21       |35     |12:00pm      |
 
 
-    #Scenario is failing and need to be fixed
-#  Scenario: As an HS user, I want to be able to add/remove time slots
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-#    When HS I open the Exceptions page
-#    And HS I select a date "10" days ahead from now
-#    And HS I add a new time slot with the following data:
-#      | Start time | 07:03 am |
-#      | End time   | 08:00 am |
-#      | Visits     | 3        |
-#    Then HS I verify that the time slot was added in a generated date, with the start time "7:03am"
-#    And HS I delete the time slot in a generated date, with start time "7:03am"
-#    And HS I verify that the time slot was removed from the generated date, with the start time "7:03am"
-#    And HS I successfully sign out
-
-
-#  Scenario: As an HS User, I want to be able to clear a day
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-#    When HS I open the Exceptions page
-#    And HS I select a date "11" days ahead from now
-#    And HS I add a new time slot with the following data:
-#      | Start time | 07:04 am |
-#      | End time   | 08:00 am |
-#      | Max Visits | 3        |
-#    And HS I select a date "11" days ahead from now
-#    Then HS I clear the day
-#    And HS I verify that the time slot was removed from the generated date, with the start time "7:04am"
-#    And HS I successfully sign out
 
   @MATCH-2682
   Scenario Outline: As a high school staff member, I want to be able to edit my regular hours in RepVisits,
@@ -162,30 +135,30 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 #Blocked Days
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     Then HS I clear the time slot for the particular day "<BlockedDate>" in Regular Weekly Hours Tab
-    Then HS I set the date using "<BlockedDate>" and "<EndDate>"
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I Remove the created blocked days
-    Then HS I set the Blocked date and select the reason as "School Event" in the Holiday tab using "<BlockedDate>"
+    Then HS I set the Blocked date and select the reason as "<BlockedDate>" in the Holiday tab using "School Event"
     Then HS I verify the Blocked days with reason "Blocked - School Event" in Exception subtab using "<BlockedDate>"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "No School" in the Holiday tab using "<BlockedDate>"
+    Then HS I set the Blocked date and select the reason as "<BlockedDate>" in the Holiday tab using "No School"
     Then HS I verify the Blocked days with reason "Blocked - No School" in Exception subtab using "<BlockedDate>"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "Holiday" in the Holiday tab using "<BlockedDate>"
+    Then HS I set the Blocked date and select the reason as "<BlockedDate>" in the Holiday tab using "Holiday"
     Then HS I verify the Blocked days with reason "Blocked - Holiday" in Exception subtab using "<BlockedDate>"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "Other" in the Holiday tab using "<BlockedDate>"
+    Then HS I set the Blocked date and select the reason as "<BlockedDate>" in the Holiday tab using "Other"
     Then HS I verify the Blocked days with reason "Blocked - Other" in Exception subtab using "<BlockedDate>"
     Then HS I verify the diagonal HashLines present in the Blocked date "<BlockedDate>","<back-ground color>"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
     Then HS I successfully sign out
 
     Examples:
-      |BlockedDate|EndDate |back-ground color|
-      |7          |14      |rgba(0, 0, 0, 0) |
+      |StartDate|EndDate|BlockedDate|EndDate |back-ground color|
+      |14       |49     |7          |14      |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581

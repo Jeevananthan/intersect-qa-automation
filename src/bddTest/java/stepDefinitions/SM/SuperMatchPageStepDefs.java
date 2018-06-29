@@ -24,5 +24,15 @@ public class SuperMatchPageStepDefs implements En {
 
         And("^SM I enable the onboarding modals if they are disabled$", fcSuperMatch::enableOnboardingModalsIfDisabled);
 
+        And("^SM I open the Save Search popup$", fcSuperMatch::clickSaveSearchButton);
+
+        Then("^SM I verify that the Save Search button is disabled$", fcSuperMatch::verifySaveSearchButtonDisabled);
+
+        Then("^SM I verify the saved search of name \"([^\"]*)\" is displayed in the Saved Searches dropdown$", fcSuperMatch::verifySavedSearchInDropdown);
+
+        And("^SM I select \"([^\"]*)\" in the Saved Searches dropdown$", fcSuperMatch::selectOptionFromDropdown);
+
+        Then("^SM I verify that \"([^\"]*)\" is displayed as selected option in the Saved Searches dropdown$", fcSuperMatch::verifySelectedOption);
+
     }
 }
