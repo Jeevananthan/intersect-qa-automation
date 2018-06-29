@@ -107,6 +107,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    private WebElement userDropdownSingout() { return button(By.id("user-dropdown-signout"));}
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }

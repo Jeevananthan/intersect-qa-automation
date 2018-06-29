@@ -65,31 +65,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
       |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
       |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
-#      |Monday           | 2             |03          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 3             |04          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 4             |05          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 5             |06          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 6             |07          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 7             |08          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 8             |09          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 9             |10          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 10             |11          | 11             | 7             | am                |am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 11             |12          | 11             | 7             | am                | am              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 12             |06          | 11             | 7             | am                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 1             |02          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 2             |03          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 3             |04          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 4             |05          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 5             |06          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 6             |07          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 7             |08          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 8             |09          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 9             |10          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 10             |11          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 11             |12          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Monday           | 12             |06          | 11             | 7             | pm                | pm              | 3          | July 23 2017         |June 23 2018      |
-#      |Tuesday          | 5             |07          | 12             | 8             | pm                | pm              | 99         | August 15 2017       |September 23 2017 |
-
 
   @MATCH-1574
   Scenario: As a high school staff member,
@@ -267,8 +242,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
       |College Fair Name    |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
       |QA Test Fair New/Edit|35              |0900AM    |1000AM  |7                |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2018|Wednesday, Nov 15, 2018|09:00          |10:00        |
-    #    |QA Tests for Fair |December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
-    #    |QA Tests for Fairs|December 12 2017|0900AM    |1000AM  |November 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
+
 @MATCH-1464
   Scenario: As a HS Repvisit user send Mass email to college fair attendees
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
@@ -991,35 +965,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
       And HS I successfully sign out
 
-
-
-
-#  @MATCH-1469
-#  Scenario: As a HS user Manually Add a Contact to Appointment
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-#    And HS I am Navigating to Calendar Home Screen
-#    And HS I click on button Add Visit
-#    And HS I select custom time manually
-#    And HS I select a date "12" days ahead from now
-#    And HS I select Visit StartTime "9:40am" and End Time "10:00am"
-#    And HS I click on link Add School User Manually
-#    And HS I Enter Following Data to Add a School User Manually
-#      |FirstName|Amanda|
-#      |LastName |Hubs  |
-#      |E-mail|amanda@hobsons.com  |
-#      |Phone    |5137462317         |
-#      |Position |QA Tester         |
-#      |Institution|Alma College    |
-#    And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
-#    And HS I click on Add Visit button
-#    And HS I click on Agenda on Calendar
-#    And Hs I open the date picker on Agenda View
-#    And HS I select a date "12" days ahead from now from the standard date picker
-#    And HS I click on Day on Calendar
-#    And HS I click on Visit with "Alma College" from "9:40 AM" to "10:00 AM" on Day Calendar
-#    And HS I verify Representative details on Visit Details screen "amanda@hobsons.com"
-#    And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
-#    And HS I successfully sign out
 
   @MATCH-2589
   Scenario Outline: In HS RepVisits, The Visit should not be displayed on the blocked days
