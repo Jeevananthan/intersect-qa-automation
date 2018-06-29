@@ -1357,7 +1357,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyEditFairPopup(String fairName,String fairStartTime,String date){
         fairName = FairName;
-        String fairTime[] = fairStartTime.split(" ");
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("edit-college-fair"),1));
         waitUntilPageFinishLoading();
         Assert.assertTrue("Edit button is not displayed",editButtonInCollegeFair().isDisplayed());
@@ -1365,23 +1364,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         String displayedFairName = fairsNameInEditFairsPopup().getAttribute("value");
         Assert.assertTrue("Fairname is not equal",fairName.equals(displayedFairName));
-//        String displayedTime = fairsStartTimeInEditFairsPopup().getAttribute("value");
-//        Assert.assertTrue("Start time is not equal",displayedTime.equals(fairTime[0]));
         String originalDate = getSpecificDateForFairsEdit(date);
         String displayedDate = fairsDateInEditFairsPopup().getAttribute("value");
         Assert.assertTrue("Date is not equal",displayedDate.equals(originalDate));
     }
 
     public void rescheduleFairs(String newFairsStartTime){
-        driver.findElement(By.id("college-fair-start-time")).click();
-        driver.findElement(By.id("college-fair-start-time")).sendKeys(newFairsStartTime);
-        driver.findElement(By.id("college-fair-end-time")).sendKeys(Keys.PAGE_DOWN);
+        editFairsStartTimeTextBox().click();
+        editFairsStartTimeTextBox().sendKeys(newFairsStartTime);
+        editFairsEndTimeTextBox().sendKeys(Keys.PAGE_DOWN);
         waitUntilPageFinishLoading();
-        driver.findElement(By.id("college-fair-max-number-colleges")).sendKeys(Keys.PAGE_DOWN);
+        editFairsMaxNoOfCollegesTextBox().sendKeys(Keys.PAGE_DOWN);
         waitUntilPageFinishLoading();
-        driver.findElement(By.id("college-fair-email-message-to-colleges")).sendKeys(Keys.PAGE_DOWN);
+        editFairsEmailMsgTextBox().sendKeys(Keys.PAGE_DOWN);
         waitUntilPageFinishLoading();
-        button("Save").click();
+        editFairsSubmitButton().click();
         waitUntilPageFinishLoading();
     }
 
@@ -7312,8 +7309,20 @@ public void cancelRgisteredCollegeFair(String fairName){
         WebElement location=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
         return location;
     }
-    private WebElement editButtonInCollegeFair(){
-        return getDriver().findElement(By.id("edit-college-fair"));
+    private WebElement editFairsStartTimeTextBox(){
+        return getDriver().findElement(By.id("college-fair-start-time"));
+    }
+    private WebElement editFairsEndTimeTextBox(){
+        return getDriver().findElement(By.id("college-fair-end-time"));
+    }
+    private WebElement editFairsMaxNoOfCollegesTextBox(){
+        return getDriver().findElement(By.id("college-fair-max-number-colleges"));
+    }
+    private WebElement editFairsEmailMsgTextBox(){
+        return getDriver().findElement(By.id("college-fair-email-message-to-colleges"));
+    }
+    private WebElement editFairsSubmitButton(){
+        return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
     }
 }
 
