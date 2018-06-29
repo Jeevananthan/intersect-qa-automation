@@ -18,8 +18,8 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
       | People | Institutions | Groups |
     Then SP I verify that only five or less results are listed in real-time results displayed
       | User | Institutions | Groups |
-    Then SP I verify real-time search results are clickable and actionable "Match"
-    Then SP I verify real-time search layouts are displayed correctly "Match"
+    Then SP I verify real-time search results are clickable and actionable "MatchSupportUIQA4"
+    Then SP I verify real-time search layouts are displayed correctly "Automation"
       | People | Institutions | Groups |
     And SP I successfully sign out
 
