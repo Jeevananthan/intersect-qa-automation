@@ -80,9 +80,9 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         }
         if (!buttonToClick.equals("")) {
             if (buttonToClick.equalsIgnoreCase("Save")) {
-                button("Save").click();
+                saveButtonInCreateUser().click();
             } else if (buttonToClick.equalsIgnoreCase("Cancel")) {
-                button("Cancel").click();
+                CancelButtonInCreateUser().click();
             }else{
               fail("The option for button to click is not a valid one");
             }
@@ -265,6 +265,12 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
+    }
+    private WebElement saveButtonInCreateUser(){
+        return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
+    }
+    private WebElement CancelButtonInCreateUser(){
+        return getDriver().findElement(By.xpath("//button/span[text()='Cancel']"));
     }
 
 }
