@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
+import utilities.GetProperties;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class PageObjectFacadeImpl extends SeleniumBase {
 
@@ -259,6 +261,22 @@ public class PageObjectFacadeImpl extends SeleniumBase {
             e.printStackTrace();
         }
         return resultString;
+    }
+
+    /**
+     * Sets the Implicit Wait timeout for the current WebDriver to the value passed in 'seconds'
+     *
+     * @param seconds - Value to set the Driver's implicit Wait timeout to
+     */
+    protected void setImplicitWaitTimeout(Integer seconds) {
+        getDriver().manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Sets the Implicit Wait timeout for the current WebDriver to the value stored in the Env file
+     */
+    public void resetImplicitWaitTimeout() {
+        getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
     }
 
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }

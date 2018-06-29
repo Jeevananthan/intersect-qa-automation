@@ -1,7 +1,5 @@
 package pageObjects.SP.accountPages;
 
-import cucumber.api.DataTable;
-import cucumber.api.java.gl.E;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -11,9 +9,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
-import java.util.*;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 
 public class AccountPageImpl extends PageObjectFacadeImpl {
@@ -325,7 +325,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     public void setEndDateInModulePage(String... endDateArray){
         String endDate;
         if (endDateArray == null || endDateArray.length==0) {
-            endDate = "June 13, 2019";
+            endDate = "June 13, 2020";
         } else {
             endDate = endDateArray[0];
         }

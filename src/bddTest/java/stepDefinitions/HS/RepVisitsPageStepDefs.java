@@ -316,6 +316,15 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$", repVisits::navigateToNavianceSettingsPage);
 
+        Then("^HS I click on link Add School User Manually$",repVisits::addSchoolUserManually);
+        Then("^HS I Enter Folliwng Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
+        Then("^HS I click on button Add attendees$",repVisits::clickAddAttendeetovisit);
+        Then("^HS I click the Message Colleges button$",repVisits::clickMessageCollegesButton);
+        Then("^HS I Enter Message as \"([^\"]*)\"$",repVisits:: massEmailMessageForAttendees);
+        Then("^HS I click on Send Message$",repVisits::sendMessage);
+        Then("^HS I verify confirmation message$",repVisits::verifySentEmailConfirmationMessage);
+        Then("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
+
         Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$", repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
 
 //        And("^HS I validating the pagination of 25 contacts in Contacts Page", repVisits::validatingthePaginationof25Contacts);
@@ -511,8 +520,6 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits::verifyRepDetails);
 
-        And("^HS I click on link Add School User Manually$", repVisits::addRepresentativeManually);
-      
         Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
 
         Then("^HS I verify the blocked day in Exception tab using \"([^\"]*)\"$",repVisits::verifyBlockedDayInException);
@@ -522,6 +529,16 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the visit schedule popup$",repVisits::verifyVisitSchedulepopup);
 
         Then("^HS I set Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setSpecificBlockedDate);
+      
+        Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Request Notification Tab$",repVisits::verifyCityAndStateInRequestNotificationsubTab);
+
+        Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Activity Tab$",repVisits::verifyCityAndStateInActivitysubTab);
+
+        Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Request Notification Tab for Fairs$",repVisits::verifyCityAndStateInRequestNotificationsubTabforFairs);
+
+        Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Activity Tab for Fairs$",repVisits::verifyCityAndStateInActivitysubTabforFairs);
+
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
     }
 }
