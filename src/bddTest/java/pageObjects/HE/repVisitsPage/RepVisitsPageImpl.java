@@ -2595,26 +2595,29 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link(schoolName).click();
     }
 
-    public void verifyHSpopup(DataTable dataTable)
-    {
+    public void verifyHSpopup(DataTable dataTable) {
         List<String> list = dataTable.asList(String.class);
         for (String schoolDetails : list) {
             Assert.assertTrue(schoolDetails + " is not showing.",text(schoolDetails).isDisplayed());}
         driver.findElement(By.xpath("//div[@class='ui page modals dimmer transition visible active']/div/i")).click();
     }
 
-    public void verifyHSBlockedText(String school)
-    {
-        try {
-            Assert.assertTrue("No Appointments Available text is not displayed", driver.findElement(By.xpath("//a[contains(text(),'" + school + "')]/../ancestor::div[@class='ui items']/../following-sibling::td/span[contains(text(),'No Appointments Available')]")).isDisplayed());
-        }catch(Exception e) {}
-        try {
-            Assert.assertTrue("Blocked text is not displayed", driver.findElement(By.xpath("//a[contains(text(),'" + school + "')]/../ancestor::div[@class='ui items']/../following-sibling::td/h1/span[contains(text(),'Blocked')]")).isDisplayed());
-        }catch(Exception e) {}
+    public void verifyHSBlockedText(String school) {
+        List<WebElement> noAppointments = driver.findElements(By.xpath("//a[contains(text(),'" + school + "')]/../ancestor::div[@class='ui items']/../following-sibling::td/span[contains(text(),'No Appointments Available')]"));
+        List<WebElement> blockedText = driver.findElements(By.xpath("//a[contains(text(),'" + school + "')]/../ancestor::div[@class='ui items']/../following-sibling::td/h1/span[contains(text(),'Blocked')]"));
+        if(noAppointments.size()==1) {
+            Assert.assertTrue("No Appointments Available text is not displayed", noAppointments.size() == 1);
+        }else {
+            logger.info("No Appointments Available text is not displayed");
+        }
+        if(blockedText.size()==1) {
+            Assert.assertTrue("Blocked text is not displayed", blockedText.size() == 1);
+        }else {
+            logger.info("Blocked text is not displayed");
+        }
     }
 
-    public void selectHSLink(String schoolName)
-    {
+    public void selectHSLink(String schoolName) {
         link(schoolName).click();
         driver.findElement(By.xpath("//div[@class='column _3dlZYPxGjtMbv6sS-JsWeA']/a[contains(text(),'"+schoolName+"')]")).click();
     }

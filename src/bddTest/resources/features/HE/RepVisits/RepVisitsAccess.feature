@@ -214,10 +214,10 @@ Examples:
     And HE I search for "<School>" in RepVisits page
     Then HE I verify default page as show visits tab and toggle between tabs
     Then HE I verify the high school information contains the following data
-      |Int Qa High School 4|Erlanger,|
+      |Int Qa High School 4|Liberty Township, |
     Then HE I verify the Intersect Presence Subscription module is active for "<School>"
     Then HE I verify the high school information popup contains the following details
-      |Int Qa High School 4|Erlanger,|
+      |Int Qa High School 4|Liberty Township, |
     Then HE I verify No Appointments Available and blocked text for "<School>"
     Then HE I select high school's Counselor Community institution profile link for "<School>"
   #Check school with a Limited HE account

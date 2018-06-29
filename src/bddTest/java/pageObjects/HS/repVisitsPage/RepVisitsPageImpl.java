@@ -1779,12 +1779,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button("Get Started!");
     }
 
-    private WebElement save()
-    {
-        WebElement button=button("Save");
-        waitUntilElementExists(button);
-        return button;
-    }
     public void goToWelcomeWizard(){
         load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
@@ -3798,7 +3792,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).click();
                 waitUntilPageFinishLoading();
             }else if(buttonToClick.equals("Save")){
-                waitUntilElementExists(save());
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Save']")),1);
                 Assert.assertTrue("'Save' Button is not displayed", driver.findElement(By.xpath("//button/span[text()='Save']")).isDisplayed());
                 jsClick(getDriver().findElement(By.xpath("//button/span[text()='Save']")));
                 waitUntilPageFinishLoading();
