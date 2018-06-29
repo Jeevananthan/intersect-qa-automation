@@ -6,15 +6,12 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
@@ -232,6 +229,34 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The option was not selected", selectedOption().getText().equals(selectedOption));
     }
 
+    public void openTab(String tabName) {
+        tabOption(tabName).click();
+    }
+
+    public void verifyDropdownsWordingInCost(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        maximumTuitionAndFeesOption().click();
+        for(List<String> row : details) {
+            switch (row.get(0)) {
+                case "Maximum Tuition and Fees" :
+                    maximumTuitionAndFeesOption().click();
+                    Assert.assertTrue("The default text in the dropdown is not correct",
+                            defaultLabelInDropdown().getText().equals(row.get(1)));
+                    Assert.assertTrue("The label at the right side of the dropdown is incorrect",
+                            labelAtRightOfDropdown().getText().equals(row.get(2)));
+                    break;
+                case "Maximum Total Cost (Tuition, Fees, Room & Board)" :
+                    maximumTotalCostOption().click();
+                    Assert.assertTrue("The default text in the dropdown is not correct",
+                            defaultLabelInDropdown().getText().equals(row.get(1)));
+                    Assert.assertTrue("The label at the right side of the dropdown is incorrect",
+                            labelAtRightOfDropdown().getText().equals(row.get(2)));
+                    break;
+            }
+        }
+
+    }
+
     // Locators Below
 
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
@@ -269,4 +294,9 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String savedSearchesListLocator = "div.menu.transition.visible div span";
     private WebElement getSavedSearchesDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']")); }
     private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }
+    private WebElement tabOption(String optionName) { return driver.findElement(By.xpath("//li[text() = '" + optionName + "']")); }
+    private WebElement maximumTuitionAndFeesOption() { return driver.findElement(By.cssSelector("label[for=\"radio-tuition-0\"]")); }
+    private WebElement maximumTotalCostOption() { return driver.findElement(By.cssSelector("label[for=\"radio-includeRoomAndBoardKey-1\"]")); }
+    private WebElement defaultLabelInDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div.default.text")); }
+    private WebElement labelAtRightOfDropdown() { return driver.findElement(By.cssSelector("div.five.wide.column")); }
 }
