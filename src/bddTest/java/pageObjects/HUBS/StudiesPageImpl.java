@@ -4,7 +4,9 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +21,14 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
     private FCMainPageImpl fcMain = new FCMainPageImpl();
     private FCCollegesPageImpl collegesPage = new FCCollegesPageImpl();
     private HUBSMainMenuPageImpl hubsMainMenu = new HUBSMainMenuPageImpl();
+    private HUBSHeaderPageImpl header = new HUBSHeaderPageImpl();
 
     public StudiesPageImpl() {
         logger = Logger.getLogger(StudiesPageImpl.class);
     }
 
     public void verifyAllElementsDisplayed() {
+        waitUntilElementExists(degreesOfferedSection());
         assertTrue("Student Faculty Ratio is not displayed", studentFacultyRatioText().isDisplayed());
         assertTrue("Student Retention is not displayed", studentRetentionText().isDisplayed());
         assertTrue("Graduation Rate is not displayed", graduationRateText().isDisplayed());
@@ -60,17 +64,14 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
-        logger.info("Generated values: \n");
+        logger.info("\nValues in page: \n");
         for (String key : fieldValues.keySet()) {
-            logger.info(key + " : " + fieldValues.get(key));
+            logger.info(key + " : " + fieldValues.get(key) + "\n");
         }
         return fieldValues;
     }
 
     private void verifyGeneratedValues(String studentOptionLabel, HashMap<String, String> generatedValues) {
-        while (!generatedValues.get("Student/Faculty Ratio").equals(studentFacultyRatioText().getText())) {
-            getDriver().get(getDriver().getCurrentUrl());
-        }
 
         for (String key : generatedValues.keySet()) {
             switch (key) {
@@ -83,7 +84,7 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
                             generatedValues.get(key).equals(studentRetentionText().getText()));
                     break;
                 case "Graduation Rate (%)" :
-                    assertTrue("The value for " + key + " was not successfully generated",
+                    assertTrue("The value for " + key + " was not successfully generated. UI: " + graduationRateText().getText(),
                             generatedValues.get(key).equals(graduationRateText().getText()));
                     break;
                 case "Top Areas of Study" :
@@ -103,11 +104,23 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyChangesPublishedInHUBS(DataTable stringsDataTable) {
+        driver.close();
+        load(GetProperties.get("hubs.app.url"));
+        driver.manage().deleteAllCookies();
         List<String> creds = stringsDataTable.asList(String.class);
         hubsLogin.defaultLogIn(creds);
         fcMain.clickCollegesTab();
         collegesPage.searchAndOpenCollege(creds.get(2));
         hubsMainMenu.clickStudiesTab();
+        for (int i = 0; i < 15; i++) {
+            if (!generatedValues.get("Student/Faculty Ratio").equals(studentFacultyRatioText().getText().replace(",", ""))) {
+                header.clickLogOut();
+                hubsLogin.defaultLogIn(creds);
+                fcMain.clickCollegesTab();
+                collegesPage.searchAndOpenCollege(creds.get(2));
+                hubsMainMenu.clickStudiesTab();
+            }
+        }
         verifyGeneratedValues(creds.get(3), generatedValues);
     }
 
@@ -120,7 +133,7 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//div[@ng-if='vm.studentRetention']/div[contains(@class, 'ng-binding')]"));
     }
     public WebElement graduationRateText() {
-        return getDriver().findElement(By.xpath("//div[@ng-if='vm.gradRate']/div[contains(@class, 'ng-binding')]"));
+        return getDriver().findElement(By.xpath("//div[@ng-if='vm.gradRate']/div[contains(@class, 'hub-data-pod--studies ng-binding')]"));
     }
     public List<WebElement> topAreasOfStudyList() {
         return getDriver().findElements(By.xpath("//h5[contains(@class, 'studies-popular__area-of-study')]"));

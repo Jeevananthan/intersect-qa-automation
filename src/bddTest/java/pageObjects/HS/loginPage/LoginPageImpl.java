@@ -4,29 +4,64 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.Keys;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
-
 import java.util.List;
+import java.nio.file.Watchable;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
+    private void openLoginPageSupport() {
+        load(GetProperties.get("sp.app.url"));
+    }
 
     public LoginPageImpl() {
         logger = Logger.getLogger(pageObjects.HE.loginPage.LoginPageImpl.class);
     }
 
-    public void loginThroughNaviance(String account, String username, String password) {
+    public void loginNaviance(String usertype) {
+        openNavianceLoginPage();
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        logger.info("Logging into the Naviance app -" + driver.getCurrentUrl());
         String navianceWindow = driver.getWindowHandle();
         String intersectWindow = null;
+        textbox(By.name("hsid")).sendKeys(hsid);
+        textbox(By.name("username")).sendKeys(username);
+        textbox(By.name("password")).sendKeys(password);
+        logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
+        button("Sign In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
+        waitUntilPageFinishLoading();
+        link(By.cssSelector("[title='Counselor Community']")).click();
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.close();
+        driver.switchTo().window(intersectWindow);
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
+    }
+
+    public void loginThroughNaviance(String account, String username, String password) {
         openNavianceLoginPage();
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
         textbox(By.name("hsid")).sendKeys(account);
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
         waitUntilPageFinishLoading();
         link(By.cssSelector("[title='Counselor Community']")).click();
         Set<String> windows = driver.getWindowHandles();
@@ -42,7 +77,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openNonNavianceLoginPage(){
-
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
 
@@ -57,6 +96,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             button("Higher Education Staff Member").click();
         }
 
+        driver.findElement(By.cssSelector("input[class='prompt']")).clear();
         driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
         button("Search").click();
         while(button("More Institutions").isDisplayed()){
@@ -64,6 +104,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
 
         if(!institutionName.equalsIgnoreCase("Request new institution")){
+
             if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
                 logger.info("Results are displayed after the search");
                 link(institutionName).click();
@@ -92,13 +133,130 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
+        try {
+            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
 
-    private void openHSLoginPage() {
+    public void navigateToHSRegistrationPage(){
+        load(GetProperties.get("hs.registration.url"));
+        Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
+    }
+
+    public void verifyHSAddressPage(String schoolName,String navianceOrNonnaviance,String address){
+
+        Assert.assertTrue("High School name is not displayed", text(schoolName).isDisplayed());
+        Assert.assertTrue("High School address is not displayed", driver.findElement(By.xpath("//span[text()='"+address+"']")).isDisplayed());
+
+        if(navianceOrNonnaviance.equalsIgnoreCase("naviance")){
+            Assert.assertTrue("'access counselor community' text is not displayed for naviance HS", driver.findElement(By.xpath("//span[contains(text(),'Please access the Counselor Community via')]")).isDisplayed());
+            Assert.assertTrue("'naviance' link is not displayed for naviance HS", link("Naviance").isDisplayed());
+            Assert.assertTrue("'sign in ' button is displayed for naviance HS", !button("Sign In").isDisplayed());
+            Assert.assertTrue("",driver.findElement(By.xpath("//span[text()='Back to search']")).isDisplayed());
+            try{
+                if(!driver.findElement(By.xpath("//span[contains(text(),'Primary User')]")).isDisplayed())
+                {
+                    logger.info("Primary user details is not displayed");
+                }else{logger.info("Primary user details is displayed");}
+            }catch(Exception e){}
+        }
+        else{
+            Assert.assertTrue("'sign in ' button is not displayed for non-naviance HS", button("Sign In").isDisplayed());
+            Assert.assertTrue("'Already have an account? ' text is not displayed for non-naviance HS", text("Already have an account?").isDisplayed());
+            Assert.assertTrue("'please complete this form' link is not displayed for non-naviance HS", link("please complete this form.").isDisplayed());
+            Assert.assertTrue("Back to search is not displayed",link("Back to search").isDisplayed());
+            try{
+                if(!driver.findElement(By.xpath("//span[contains(text(),'Primary User')]")).isDisplayed())
+                {
+                    logger.info("Primary user details is not displayed");
+                }else{logger.info("Primary user details is displayed");}
+            }catch(Exception e){}
+
+        }
+
+    }
+
+    public void navaigateToRegistration()
+    {
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
+        link("New User?").click();
+    }
+
+    public void verifyInstitutionPage()
+    {
+        waitUntilElementExists(highSchoolButton());
+        Assert.assertTrue("High School Staff Member is not displayed",button("High School Staff Member").isDisplayed());
+        Assert.assertTrue("Higher Education Staff Member is not displayed",button("Higher Education Staff Member").isDisplayed());
+        Assert.assertTrue("Sign In button is not displayed",button("Sign In").isDisplayed());
+        Assert.assertTrue("text is not displayed",text("New User? Find Your Institution").isDisplayed());
+        Assert.assertTrue("textbox is not displayed",driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).isDisplayed());
+
+    }
+    public void searchInstitution(String school)
+    {
+        waitUntilElementExists(highSchoolButton());
+        driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).clear();
+        driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).sendKeys(school);
+        button("Search").click();
+        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
+        driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyLink(String navianceORnonNavianceLink)
+    {
+       Assert.assertTrue("Link is not displayed",link(navianceORnonNavianceLink).isDisplayed());
+        link(navianceORnonNavianceLink).click();
+        waitUntilPageFinishLoading();
+        if (navianceORnonNavianceLink.equalsIgnoreCase("please complete this form.")) {
+            Assert.assertTrue("New user request form was not displayed!", text("Request User Account").isDisplayed());
+        } else if (navianceORnonNavianceLink.equalsIgnoreCase("Naviance")) {
+            Assert.assertTrue("Error:  Naviance login page was not displayed!", textbox(By.name("hsid")).isDisplayed());
+        }
+    }
+
+    private void openHSLoginPage() {
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
+        load(GetProperties.get("hs.app.url"));
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyLogoInLoginPage()
+    {
+        openHSLoginPage();
+        String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-gray-teal.jpg";
+        String actualIntersectLogo=driver.findElement(By.cssSelector("div[class='centered row']>div>img[alt='Intersect Logo']")).getAttribute("src");
+        if(intersectLogo.equals(actualIntersectLogo))
+        {
+            logger.info("Logo is present in the Login Page");
+        }else
+        {
+            logger.info("Logo is not displayed in the Login Page");
+        }
+}
+
+    public void verifyLogoInHomePage()
+    {
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-white.png";
+        String actualIntersectLogo=driver.findElement(By.cssSelector("dt[class='header _2_tAB8btcE4Sc5e1O_XUwn']>img[alt='Intersect Logo']")).getAttribute("src");
+        if(intersectLogo.equals(actualIntersectLogo))
+        {
+            logger.info("Logo is present in the Home Page");
+        }else
+        {
+            logger.info("Logo is not displayed in the Home Page");
+        }
     }
 
     public void login(String username, String password) {
@@ -116,12 +274,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLoginScreen() {
         openHSLoginPage();
-        Assert.assertTrue("Intersect logo is not present!",driver.findElement(By.cssSelector("[src=\"https://static.intersect.hobsons.com/images/intersect-tm-by-hobsons-rgb-gray-teal.png\"]")).isDisplayed());
-        Assert.assertTrue("\"New user?\" link was not present, but should be!",link("New User?").isDisplayed());
-        Assert.assertTrue("Email textbox is not present", getDriver().findElement(By.id("username")).isDisplayed());
-        Assert.assertTrue("Password textbox is not present", getDriver().findElement(By.id("password")).isDisplayed());
-        Assert.assertTrue("Login button is not present", button("Login").isDisplayed());
-    }
+        verifyHSLoginPage();
+}
 
     public void verifyLinks(DataTable linksAndDetails) {
         openHSLoginPage();
@@ -181,12 +335,12 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Login error message is not displayed as expected!\nExpected: "+errorMessage+"\n",text(errorMessage).isDisplayed());
     }
 
-    //Log in as an HS administrator
+    //Log in as an HS user
     public void defaultLogin(String usertype) {
         openHSLoginPage();
-        String username = GetProperties.get("he."+ usertype + ".username");
-        String password = GetProperties.get("he."+ usertype + ".password");
-        logger.info("Logging into the HE app");
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        logger.info("Logging into the HS app");
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
         logger.info("Sending credentials - " + username + ":" + password);
@@ -194,6 +348,25 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(link(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
     }
+
+    public void defaultLoginForSupport() {
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
+        openLoginPageSupport();
+        String username = GetProperties.get("sp.admin.username");
+        String password = GetProperties.get("sp.admin.password");
+        waitUntilPageFinishLoading();
+        logger.info("Logging into the Support app");
+        emailUserNameTextboxForSupport().sendKeys(username);
+        nextButtonToSupport().sendKeys(Keys.ENTER);
+        passwordTextboxForSupport().sendKeys(password);
+        signInForSupport().sendKeys(Keys.ENTER);
+        yesButtonForSupport().sendKeys(Keys.ENTER);
+    }
+
 
     //Locators
 
@@ -210,10 +383,38 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("div.ui.active.loader"));
     }
 
-    public void verifyHSPage() {
-        Assert.assertTrue("Username field is not displayed", textbox(By.name("username")).isDisplayed());
-        Assert.assertTrue("Password field is not displayed", textbox(By.name("password")).isDisplayed());
-        Assert.assertTrue("Intersect logo is not displayed", driver.findElement(By.cssSelector("[src=\"https://static.intersect.hobsons.com/images/intersect-tm-by-hobsons-rgb-gray-teal.png\"]")).isDisplayed());
-        Assert.assertTrue("Login button is not displayed", button("Login").isDisplayed());
+    public void verifyHSLoginPage() {
+        Assert.assertTrue("Intersect logo is not present!",driver.findElement(By.cssSelector("[src=\"https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-gray-teal.jpg\"]")).isDisplayed());
+        Assert.assertTrue("\"New user?\" link was not present, but should be!",link("New User?").isDisplayed());
+        Assert.assertTrue("Email textbox is not present", getDriver().findElement(By.id("username")).isDisplayed());
+        Assert.assertTrue("Password textbox is not present", getDriver().findElement(By.id("password")).isDisplayed());
+        Assert.assertTrue("Login button is not present", button("Login").isDisplayed());
+    }
+
+    private WebElement highSchoolButton()
+    {
+        WebElement highSchool=button("High School Staff Member");
+        waitUntilElementExists(highSchool);
+        return highSchool;
+    }
+
+    private WebElement emailUserNameTextboxForSupport() {
+        return textbox(By.id("i0116"));
+    }
+
+    private WebElement passwordTextboxForSupport() {
+        return textbox(By.id("i0118"));
+    }
+
+    private WebElement signInForSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
+    }
+
+    private WebElement yesButtonForSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
+    }
+
+    private WebElement nextButtonToSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
     }
 }
