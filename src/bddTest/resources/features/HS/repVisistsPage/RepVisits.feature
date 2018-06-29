@@ -259,13 +259,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     | Number of Students Expected                               | 10                      |
     | Instructions for College Representatives                  | Submit request by Email |
     | Email Message to Colleges After Confirmation              | why not                 |
-  @MATCH-2294
-  Scenario: As a Non-Naviance HS, I want the RepVisit setup wizard to not have Naviance Settings options.
-            So that I can update RepVisit college fairs and visits
-    Given HS I want to login to the HS app using "purplehsautomation+HSSolidRock@gmail.com" as username and "Password!1" as password
-    Then HS I verify I can make it through the RepVisits wizard as a non-Naviance HS
-    And HS I successfully sign out
-
     And HS I Click the View Details button for the College Fair Event for "Automation Fair for Mass Email"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
@@ -1014,4 +1007,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     | April 2018     | July 2019  |   1  |
     | April 2018     | July 2019  |   14 |
     | April 2018     | July 2019  |   30 |
+
+  @MATCH-2294
+  Scenario: As a Non-Naviance HS, I want the RepVisit setup wizard to not have Naviance Settings options.
+  So that I can update RepVisit college fairs and visits
+    Given HS I want to login to the HS app using "purplehsautomation+HSSolidRock@gmail.com" as username and "Password!1" as password
+    Then HS I verify I can make it through the RepVisits wizard as a non-Naviance HS
 
