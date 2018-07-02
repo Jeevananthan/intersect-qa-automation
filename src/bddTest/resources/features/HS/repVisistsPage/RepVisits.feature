@@ -259,7 +259,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     | Number of Students Expected                               | 10                      |
     | Instructions for College Representatives                  | Submit request by Email |
     | Email Message to Colleges After Confirmation              | why not                 |
-
     And HS I Click the View Details button for the College Fair Event for "Automation Fair for Mass Email"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
@@ -1008,10 +1007,16 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     | April 2018     | July 2019  |   1  |
     | April 2018     | July 2019  |   14 |
     | April 2018     | July 2019  |   30 |
-       
-   @MATCH-2093 @MATCH-2828
-   Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab
-             so I can efficiently find the updates I am looking for within RepVisits.
+
+  @MATCH-2294
+  Scenario: As a Non-Naviance HS, I want the RepVisit setup wizard to not have Naviance Settings options.
+  So that I can update RepVisit college fairs and visits
+    Given HS I want to login to the HS app using "purplehsautomation+HSSolidRock@gmail.com" as username and "Password!1" as password
+    Then HS I verify I can make it through the RepVisits wizard as a non-Naviance HS
+    
+  @MATCH-2093 @MATCH-2828
+  Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab
+                    so I can efficiently find the updates I am looking for within RepVisits.
 #FOR VISITS
 #precondition
     Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
@@ -1135,4 +1140,5 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
  Examples:
    |activityDate |calendarST    |HEUser   |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|FairsSTime|newFairsSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|FairSTimeforReschedule|
    |14           |12:19AM       |purple   |School Manager |Alpena Community College  |14  |12:19am  |10:59pm |3        |14       |35      |10:59pm      |No, I want to manually review all incoming requests. |Standalone High School 6|12:         |12:     |Qa Fair for testng    |14  |1200AM    |0100AM  |5            |$25 |25                    |100                        |Save          |21                  |12:31am      |12:29 AM           |12:29am                        |10:59pm                      |12:00am   |12:00am      |12:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |12:00 AM              |
+
 
