@@ -8,6 +8,7 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
             centralized for me at the Admin Dashboard in the support app.
 
     Given SP I am logged in to the Admin page as an Admin user
+    And SP I un-publish all the published announcements
     When SP I add a new product announcement with title "AutomationAnnouncement" content "" audience "" and status "Published"
     #Verifying labels and tooltips
     Then SP I verify the label with text "The title field is formatted in bold and shows before the content field." is displayed
@@ -41,18 +42,5 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     Then SP I verify the toast with the message "Changes saved" is displayed
     #Unpublishing announcements
     And SP I edit the product announcement "AutomationEdited2" with title "AutomationEdited2" content "ContentEdited2" audience "" and status "Unpublished"
-    And SP I successfully sign out
-    #Other users different than admin cannot see the menu
-    When SP I am logged in to the Admin page as a Community Manager user
-    And SP I verify that Admin dashboard is not displayed
-    And SP I successfully sign out
-    When SP I am logged in to the Admin page as a Community user
-    And SP I verify that Admin dashboard is not displayed
-    And SP I successfully sign out
-    When SP I am logged in to the Admin page as a Sales Ops user
-    And SP I verify that Admin dashboard is not displayed
-    And SP I successfully sign out
-    When SP I am logged in to the Admin page as a Support user
-    And SP I verify that Admin dashboard is not displayed
     And SP I successfully sign out
 

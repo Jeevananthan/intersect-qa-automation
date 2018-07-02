@@ -9,7 +9,9 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
     public ProductAnnouncementsImpl(){}
@@ -128,7 +130,7 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
     public void verifyProductAnnouncementInList(String title, String content, String visibility, String date,
                                                 String user, String status){
         if(date.equalsIgnoreCase("today")){
-            Format formatter = new SimpleDateFormat("MMM dd");
+            Format formatter = new SimpleDateFormat("MMM d");
             date = formatter.format(new Date());
         }
         WebElement announcement = driver.findElement(By.xpath(String.format(
@@ -195,13 +197,20 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
     }
 
     /**
-     * Verifies that admin dashboard is not displayed
+     * Un publishes all the published announcements
      */
-    public void verifyAdminDashboardIsNotDisplayed(){
-        if(driver.findElements(By.id("js-main-nav-admin-menu-link")).size()>0){
-            Assert.fail("The user has access to Admin Dashboard");
-        };
-
+    public void unpublishAllAnnouncements(){
+        goToProductAnnouncements();
+        List<WebElement> publishedLabels = driver.findElements(
+                By.xpath("//div[@class='three wide column _2KojA-0mnkfX2NNlHlJw8R _3U5Yi5eIC11jRw7Fq3hyIl' and text()='Published']"));
+        List<String> announcements = new ArrayList<>();
+        for(WebElement announcement : publishedLabels){
+            announcements.add(announcement.findElement(By.xpath(
+                    "preceding-sibling::div/a[@aria-label='Edit Announcement']")).getAttribute("innerText"));
+        }
+        for(String announcement : announcements){
+            editProductAnnouncement(announcement,announcement,"","","Unpublished");
+        }
     }
 
     /**

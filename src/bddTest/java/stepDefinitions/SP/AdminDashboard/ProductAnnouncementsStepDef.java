@@ -15,6 +15,6 @@ public class ProductAnnouncementsStepDef implements En {
         Then("^SP I verify the toast with the message \"([^\"]*)\" is displayed$",productAnnouncements::verifySaveUpdateConfirmationToast );
         Then("^SP I verify the label with text \"([^\"]*)\" is displayed$",productAnnouncements::verifyLabel);
         When("^SP I edit the product announcement \"([^\"]*)\" with title \"([^\"]*)\" content \"([^\"]*)\" audience \"([^\"]*)\" and status \"([^\"]*)\"$",productAnnouncements::editProductAnnouncement );
-        Then("^SP I verify that Admin dashboard is not displayed$",productAnnouncements::verifyAdminDashboardIsNotDisplayed);
+        And("^SP I un-publish all the published announcements$",productAnnouncements::unpublishAllAnnouncements);
     }
 }
