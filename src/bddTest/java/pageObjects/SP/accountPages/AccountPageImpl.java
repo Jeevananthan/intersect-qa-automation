@@ -366,10 +366,10 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         }
         Assert.assertTrue("Administrator option is not displayed",driver.findElement(By.xpath("//span[text()='Administrator (All access)']")).isDisplayed());
         driver.findElement(By.xpath("//span[text()='Administrator (All access)']")).click();
-        Assert.assertTrue("Save is not displayed",button("Save").isDisplayed());
-        button("Save").click();
+        Assert.assertTrue("Save is not displayed",saveButtonInAddUser().isDisplayed());
+        saveButtonInAddUser().click();
         waitUntilPageFinishLoading();
-        WebElement seeAllUser =driver.findElement(By.xpath("//span[text()='See All Users']"));
+        WebElement seeAllUser = driver.findElement(By.xpath("//span[text()='See All Users']"));
         waitUntilElementExists(seeAllUser);
         Assert.assertTrue("See All Users is not displayed",seeAllUser.isDisplayed());
         seeAllUser.click();
@@ -489,6 +489,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         String Randomvalue=Integer.toString(value);
         return Randomvalue;
     }
+    private WebElement saveButtonInAddUser(){
+        return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
+    }
     private int currentYear(){
         int year = Calendar.getInstance().get(Calendar.YEAR);
         return year;
@@ -496,7 +499,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     private WebElement selectYearInInstitutionPage(){
         return getDriver().findElement(By.id("year-select"));
     }
-
 }
 
 
