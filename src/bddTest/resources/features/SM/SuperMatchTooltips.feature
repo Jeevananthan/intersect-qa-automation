@@ -7,7 +7,7 @@ Feature: SM - SuperMatchTooltips - As a HS student who is interacting with Super
     Given SM I am logged in to SuperMatch through Family Connection as user "gauriparent1" with password "password" from school "blue1combo"
     Then I clear the onboarding popups if present
 
-  @MATCH-3526 @MATCH-3525 @MATCH-3527
+  @MATCH-3526 @MATCH-3525 @MATCH-3527 @MATCH-4318 @MATCH-4320
   Scenario Outline: As a HS student accessing SuperMatch through Family Connection I need to be verify that the tooltips are displayed/closed
     Then SM I verify that the tooltips are displayed in the tab "<tabLabel>"
     Examples:
