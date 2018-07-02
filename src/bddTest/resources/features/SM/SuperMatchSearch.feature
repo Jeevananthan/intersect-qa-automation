@@ -168,4 +168,19 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select "SavedTestSearch" in the Saved Searches dropdown
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
 
+  @MATCH-3212
+  Scenario: As a HS student I want a way to clear all my fit criteria I have currently selected so I can quickly start my search over again.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I verify that the Start Over button is disabled
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify the content of the popup that is opened by the Start Over button
+    Then SM I verify that the search results remain after clicking the No, Cancel button
+    And SM I open the Start Over popup
+    Then SM I verify that the fit criteria is removed after clicking the Yes, Start Over button
+
 
