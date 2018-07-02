@@ -33,5 +33,9 @@ public class GlobalSearchStepDefs implements En {
         Then("^SP Global real-time search returns search results for HE Accounts \"([^\"]*)\"$", globalSearch::verifyHEAccountSearchResults);
         And("^SP I set HE Account Subscriptions \"([^\"]*)\"$", globalSearch::setHEAccountSubscriptions);
         Then("^SP I verify the real-time results return for global search are a partial and full match \"([^\"]*)\"$", globalSearch::verifyRealTimeSearchMatch);
+        Then("^SP I verify that Admin dashboard is displayed in Homepage$",globalSearch::verifyAdminDashboardIsDisplayed);
+        Then("^SP I verify the header is changed from \"([^\"]*)\" to \"([^\"]*)\" in the Admin dashboard page$",globalSearch::verifyHeaderInAdminDashboard);
+        Then("^SP I verify \"([^\"]*)\" stub menu is displayed in the Admin dashboard page$",globalSearch::verifyProductAnnouncementsStubMenu);
+        Then("^SP I verify that Admin dashboard is not displayed$",globalSearch::verifyAdminDashboardIsNotDisplayed);
     }
 }
