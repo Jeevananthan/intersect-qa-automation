@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -385,7 +386,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     public void verifyYearInInstitutionCalendarPage(String year,String module,String startDate,String endDate){
         waitUntilPageFinishLoading();
         WebElement endDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
-        endDateButton.click();
+        jsClick(endDateButton);
         waitUntilPageFinishLoading();
         selectYearInInstitutionPage().click();
         waitUntilPageFinishLoading();
@@ -394,12 +395,14 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//select/option[@value='"+year+"']")).click();
         WebElement selectEndDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day' and text()='"+endDate+"']"));
         jsClick(selectEndDate);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td[4]/span")));
         String displayingEndDateValue = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td[4]/span")).getText();
         String endDateValue[] = displayingEndDateValue.split(" ");
         String displayingEndDateYear = endDateValue[2];
         Assert.assertTrue("Year is not displayed",year.equals(displayingEndDateYear));
+        jsClick(endDateButton);
         WebElement startDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
-        startDateButton.click();
+        jsClick(startDateButton);
         waitUntilPageFinishLoading();
         selectYearInInstitutionPage().click();
         waitUntilPageFinishLoading();
@@ -408,24 +411,25 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//select/option[@value='"+year+"']")).click();
         WebElement selectStartDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day' and text()='"+startDate+"']"));
         jsClick(selectStartDate);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/span")));
         String displayingStartDateValue = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/span")).getText();
         String startDateValue[] = displayingStartDateValue.split(" ");
         String displayingStartDateYear = startDateValue[2];
         Assert.assertTrue("Year is not displayed",year.equals(displayingStartDateYear));
-        startDateButton.click();
+        jsClick(startDateButton);
     }
 
     public void verifySelectedDateColorInInstitutionCalendarPage(String color,String startDate,String endDate,String module){
         WebElement startDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
         startDateButton.click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+startDate+"']"),1));
         String displayingColorforStartDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+startDate+"']")).getCssValue("background-color");
         Assert.assertTrue("Given color is not displayed",color.equals(displayingColorforStartDate));
         startDateButton.click();
         waitUntilPageFinishLoading();
         WebElement endDateButton = driver.findElement(By.xpath("//td/span[text()='"+module+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
         endDateButton.click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+endDate+"']"),1));
         String displayingColorforEndDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+endDate+"']")).getCssValue("background-color");
         Assert.assertTrue("Given color is not displayed",color.equals(displayingColorforEndDate));
         endDateButton.click();

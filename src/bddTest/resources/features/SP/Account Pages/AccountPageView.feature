@@ -120,31 +120,31 @@ Feature: Hobsons Support - View HE Institution Accounts
     Then SP I set the "<CommunityModule>" module to "<Active>" in the institution page
     Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<CommunityModule>" in institution calendar page
     Then SP I verify the list of years present in the subscription modules start date and end date calendar for "<CommunityModule>"
-    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<HubsModule>","<startDate>","<endDate>"
+    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<CommunityModule>","<startDate>","<endDate>"
     Then SP I verify the "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<CommunityModule>"
 #Intersect Awareness Module
     Then SP I set the "<IntersectAwarenessModule>" module to "<Active>" in the institution page
     Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<IntersectAwarenessModule>" in institution calendar page
     Then SP I verify the list of years present in the subscription modules start date and end date calendar for "<IntersectAwarenessModule>"
-    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<HubsModule>","<startDate>","<endDate>"
+    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<IntersectAwarenessModule>","<startDate>","<endDate>"
     Then SP I verify the "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<IntersectAwarenessModule>"
 #Intersect Presence Module
     Then SP I set the "<IntersectPresenceModule>" module to "<Active>" in the institution page
     Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<IntersectPresenceModule>" in institution calendar page
     Then SP I verify the list of years present in the subscription modules start date and end date calendar for "<IntersectPresenceModule>"
-    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<HubsModule>","<startDate>","<endDate>"
+    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<IntersectPresenceModule>","<startDate>","<endDate>"
     Then SP I verify the "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<IntersectPresenceModule>"
 #Active Match Events Module
     Then SP I set the "<ActiveMatchEventsModule>" module to "<Active>" in the institution page
     Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<ActiveMatchEventsModule>" in institution calendar page
     Then SP I verify the list of years present in the subscription modules start date and end date calendar for "<ActiveMatchEventsModule>"
-    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<HubsModule>","<startDate>","<endDate>"
+    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<ActiveMatchEventsModule>","<startDate>","<endDate>"
     Then SP I verify the "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<ActiveMatchEventsModule>"
 #Active Match Plus Module
     Then SP I set the "<ActiveMatchPlusModule>" module to "<Active>" in the institution page
     Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<ActiveMatchPlusModule>" in institution calendar page
     Then SP I verify the list of years present in the subscription modules start date and end date calendar for "<ActiveMatchPlusModule>"
-    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<HubsModule>","<startDate>","<endDate>"
+    Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<ActiveMatchPlusModule>","<startDate>","<endDate>"
     Then SP I verify the "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<ActiveMatchPlusModule>"
     And SP I successfully sign out
 
