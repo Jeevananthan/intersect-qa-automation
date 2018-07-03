@@ -184,7 +184,7 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
      */
     public void editProductAnnouncement(String oldTitle, String title, String content,String audience, String status){
         goToProductAnnouncements();
-        driver.findElement(By.xpath(String.format("//a[text()='%s']",oldTitle))).click();
+        driver.findElement(By.xpath(String.format("//a[contains(text(),'%s')]",oldTitle))).click();
         waitUntil(ExpectedConditions.visibilityOf(getAddEditNewAnnouncementLabel()));
         getProductAnnouncementTitleField().clear();
         getProductAnnouncementTitleField().sendKeys(title);
@@ -210,6 +210,65 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
         for(String announcement : announcements){
             editProductAnnouncement(announcement,announcement,"","","Unpublished");
         }
+    }
+
+    /**
+     * Verifies the fields values in the Edit Announcement form
+     * @param title
+     * @param content
+     * @param audience
+     * @param status
+     */
+    public void verifyProductAnnouncementInEditMode(String title, String content, String audience, String status){
+        goToProductAnnouncements();
+        driver.findElement(By.xpath(String.format("//a[text()='%s']",title))).click();
+        Assert.assertEquals(String.format("The title field value is incorrect, expected: %s, actual: %s"
+                ,title,getAnnouncementTitleFieldValue()),title,getAnnouncementTitleFieldValue());
+        Assert.assertEquals(String.format("The content field value is incorrect, expected: %s, actual: %s"
+                ,content,getAnnouncementContentFieldValue()),content,getAnnouncementContentFieldValue());
+        Assert.assertEquals(String.format("The audience field value is incorrect, expected: %s, actual: %s"
+                ,audience,getAnnouncementAudienceFieldValues()),audience,getAnnouncementAudienceFieldValues());
+        Assert.assertEquals(String.format("The status field value is incorrect, expected: %s, actual: %s"
+                ,status,getAnnouncementStatusFieldValue()),status,getAnnouncementStatusFieldValue());
+    }
+
+    /**
+     * Gets the announcement title field value
+     * @return String
+     */
+    private String getAnnouncementTitleFieldValue(){
+        return getProductAnnouncementTitleField().getAttribute("value");
+    }
+
+    /**
+     * Gets the announcement content field value
+     * @return String
+     */
+    private String getAnnouncementContentFieldValue(){
+        return getProductAnnouncementContentField().getAttribute("value");
+    }
+
+    /**
+     * Gets the announcement audience field values
+     * @return String
+     */
+    private String getAnnouncementAudienceFieldValues(){
+        String audienceValues = "";
+        List<WebElement> audiences = getProductAnnouncementAudienceDropdown().findElements(
+                By.cssSelector("a[class='ui label']"));
+        for(WebElement audience:audiences){
+            audienceValues = audience.getAttribute("innerText")+",";
+        }
+        return audienceValues.substring(0,audienceValues.length()-1);
+    }
+
+    /**
+     * Gets the status field value
+     * @return String
+     */
+    private String getAnnouncementStatusFieldValue(){
+        return getSelectedAnnouncementStatusRadioButton().findElement(By.cssSelector("label"))
+                .getAttribute("innerText");
     }
 
     /**
@@ -299,5 +358,13 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
     private WebElement getSaveUpdateConfirmationToast(){
         return driver.findElement(By.xpath(
                 "//div[@class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']/div/span[not(@class)]"));
+    }
+
+    /**
+     * Gets the selected radio button in Announcement status field
+     * @return
+     */
+    private WebElement getSelectedAnnouncementStatusRadioButton(){
+        return driver.findElement(By.cssSelector("div[class='ui checked radio checkbox yqtg9wJj2OswMfKalbNut']"));
     }
 }

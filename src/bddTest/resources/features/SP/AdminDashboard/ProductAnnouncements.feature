@@ -17,7 +17,7 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     And SP I verify that field "Audience" has a tooltip that says "Field is required"
     And SP I verify that the error message that says "Something went wrong" "The fields highlighted below need your attention" is displayed
     #Adding a published announcement
-    When SP I add a new product announcement with title "AutomationAnnouncementWith30Ch" content "ContentTest" audience "HE,HS - Naviance,HS - Non Naviance" and status "Published"
+    When SP I add a new product announcement with title "AutomationAnnouncementWith30Ch+1" content "ContentTest" audience "HE,HS - Naviance,HS - Non Naviance" and status "Published"
     Then SP I verify the toast with the message "New announcement added" is displayed
     And SP I verify the product announcement with title "AutomationAnnouncementWith30Ch" content "ContentTest" visibility "HE, HS Naviance, HS Non Naviance" date "today" user "Match Support UI QA4" and status "Published" in the list
     #Adding a published announcement for the same users
@@ -32,6 +32,7 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     When SP I edit the product announcement "AutomationAnnouncement2" with title "AutomationEdited" content "ContentEdited" audience "" and status "Published"
     Then SP I verify that the error message that says "Something went wrong" "The fields highlighted below need your attention" is displayed
     And SP I verify that field "Status" has a tooltip that says "You can only have 1 announcement per audience published at a time. Save as unpublished to edit later."
+    And SP I verify the product announcement with title "AutomationAnnouncement2" content "ContentTest" audience "HE" and status "Unpublished" in the the edit form
     #Editing to unpublished and save announcements
     When SP I edit the product announcement "AutomationAnnouncementWith30Ch" with title "AutomationEdited" content "ContentEdited" audience "" and status "Unpublished"
     Then SP I verify the product announcement with title "AutomationEdited" content "ContentEdited" visibility "HE, HS Naviance, HS Non Naviance" date "today" user "Match Support UI QA4" and status "Unpublished" in the list

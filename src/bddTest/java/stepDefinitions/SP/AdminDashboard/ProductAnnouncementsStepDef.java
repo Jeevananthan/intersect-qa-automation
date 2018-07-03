@@ -16,5 +16,6 @@ public class ProductAnnouncementsStepDef implements En {
         Then("^SP I verify the label with text \"([^\"]*)\" is displayed$",productAnnouncements::verifyLabel);
         When("^SP I edit the product announcement \"([^\"]*)\" with title \"([^\"]*)\" content \"([^\"]*)\" audience \"([^\"]*)\" and status \"([^\"]*)\"$",productAnnouncements::editProductAnnouncement );
         And("^SP I un-publish all the published announcements$",productAnnouncements::unpublishAllAnnouncements);
+        Then("^SP I verify the product announcement with title \"([^\"]*)\" content \"([^\"]*)\" audience \"([^\"]*)\" and status \"([^\"]*)\" in the the edit form",productAnnouncements::verifyProductAnnouncementInEditMode );
     }
 }
