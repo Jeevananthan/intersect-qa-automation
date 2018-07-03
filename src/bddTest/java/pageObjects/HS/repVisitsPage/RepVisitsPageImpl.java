@@ -7,9 +7,12 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.internal.runners.statements.Fail;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,6 +20,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.Keys;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HS.loginPage.LoginPageImpl;
 
 import java.security.Key;
 import java.time.LocalDate;
@@ -1428,6 +1432,48 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Welcome to Repvisits' text is not displayed",text("Welcome to RepVisits").isDisplayed());
         Assert.assertTrue("'Get Started' button is not displayed",getStartedBtn().isDisplayed());
+    }
+
+    public void verifyRepvisitsSetupWizardNonNaviance(){
+        driver.navigate().to("https://qa-hs.intersect.hobsons.com/rep-visits/setup/welcome/");
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf( button("GET STARTED")),30);
+        button("GET STARTED").click();
+        waitUntilPageFinishLoading();
+        String url = getDriver().getCurrentUrl();
+        while (!url.equalsIgnoreCase("https://qa-hs.intersect.hobsons.com/rep-visits/setup/completed/visible")) {
+            if (!url.toLowerCase().contains("naviance")) {
+                new WebDriverWait(getDriver(),60).until(ExpectedConditions.visibilityOf(
+                        button("NEXT"))).click();
+                url = getDriver().getCurrentUrl();
+            } else
+                Assert.assertTrue("Naviance options are available in RepVisits setup wizard for a non-Naviance HS.", false);
+        }
+        button("TAKE ME TO MY VISITS").click();
+    }
+
+    public void setRepVisitWelcomeRadioOptions(String visitsAndOrFairs) {
+        String radioOption = "";
+        switch (visitsAndOrFairs) {
+            case "Visits":
+                radioOption = "VISITS";
+                break;
+            case "Fairs":
+                radioOption = "FAIRS";
+                break;
+            case "Visits and Fairs":
+                radioOption = "VISITS_AND_FAIRS";
+                break;
+            default:
+                Assert.assertTrue("Option entered is not available, the only options available are Visits, Fairs, or Visits and Fairs.", false);
+        }
+            getDriver().findElement(By.xpath("//input[@value='" + radioOption + "']")).click();
+
+    }
+
+    public void setRepVisitsHighSchoolInformationDropdown(String timezone){
+        getDriver().findElement(By.xpath("//div[@class='ui search selection dropdown']/i[@class='dropdown icon']")).click();
+        getDriver().findElement(By.xpath("//span[text()='" + timezone + "']")).click();
     }
 
     public void clickGetStartedBtn(){
