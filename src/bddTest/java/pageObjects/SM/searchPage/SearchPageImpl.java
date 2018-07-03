@@ -1104,7 +1104,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         } else if(Integer.parseInt(numberOfCharacters) == 3) {
             saveSearchPopupSearchBox().clear();
             saveSearchPopupSearchBox().sendKeys("aa");
-            saveSearchLink().click();
+            // Save Search button is no longer clickable when less than 3 characters are entered.
+            //saveSearchLink().click();
             Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
                     equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message.3.char")));
         }
