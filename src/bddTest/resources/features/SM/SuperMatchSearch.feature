@@ -35,6 +35,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
             treat those two entities as separate fit criteria so I can moved Majors and Minors around independently
             between the Must Have and Nice to Have boxes.
     Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
     Then SM I select the "Bachelor's" radio button from the Academics fit criteria
     Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
     |Accounting|
