@@ -3643,18 +3643,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }*/
 
- //locators
-    //locators
-    public void accessAddAttendeePopUp(String attendeeName) {
-        if (!attendeeName.equals("")) {
-            driver.findElement(By.xpath("//input[@placeholder='Start Typing ...']")).sendKeys(attendeeName);
-            WebElement element = driver.findElement(By.xpath("//div[contains(text(),'" + attendeeName + "')]"));
-            doubleClick(element);
-        }
-        button("Add Attendees").click();
-        waitUntilPageFinishLoading();
-    }
-
     public void verifyFairsAreClickable(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected){
         navBar.goToRepVisits();
         link("Calendar").click();
