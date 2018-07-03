@@ -2678,7 +2678,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         }
         scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
-        button("Save").click();
+        driver.findElement(By.xpath("//button[@class='ui primary right floated button']")).click();
     }
 
     /**
@@ -3626,6 +3626,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void clicklinkCollegeFair() {
             navBar.goToRepVisits();
             link("College Fairs").click();
+            waitForUITransition();
     }
     public void verifyCollgeFairBlankDashBoard(){
         Assert.assertTrue("College Fairs Header is not present",getDriver().findElement(By.cssSelector("h1")).isDisplayed());
