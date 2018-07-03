@@ -677,9 +677,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         List<String> scores = dataTable.asList(String.class);
 
-        if(firstOnboardingPopup().isDisplayed())
-            superMatchCollegeSearchHeader().click();
-
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
@@ -1376,10 +1373,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getResultTable(){ return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']")); }
 
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
-
-    private WebElement firstOnboardingPopup() {
-        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
-    }
 
     private WebElement superMatchCollegeSearchHeader() {
         return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
