@@ -547,9 +547,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenGPAInputIsValid() {
 
-        if(firstOnboardingPopup().isDisplayed())
-            superMatchCollegeSearchHeader().click();
-
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
