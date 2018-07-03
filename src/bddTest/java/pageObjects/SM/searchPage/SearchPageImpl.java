@@ -677,9 +677,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         List<String> scores = dataTable.asList(String.class);
 
-        if(firstOnboardingPopup().isDisplayed())
-            superMatchCollegeSearchHeader().click();
-
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
@@ -1107,7 +1104,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         } else if(Integer.parseInt(numberOfCharacters) == 3) {
             saveSearchPopupSearchBox().clear();
             saveSearchPopupSearchBox().sendKeys("aa");
-            saveSearchLink().click();
+            // Save Search button is no longer clickable when less than 3 characters are entered.
+            //saveSearchLink().click();
             Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
                     equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message.3.char")));
         }
@@ -1376,10 +1374,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getResultTable(){ return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']")); }
 
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
-
-    private WebElement firstOnboardingPopup() {
-        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
-    }
 
     private WebElement superMatchCollegeSearchHeader() {
         return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
