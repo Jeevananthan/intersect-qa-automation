@@ -362,7 +362,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for(int i = 0; i < itemsToSelectSize; i++)
         {
             String item = itemsToSelect.get(i).get(0);
-            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[2]")).click();
+            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])")).click();
         }
 
         //close combobox
