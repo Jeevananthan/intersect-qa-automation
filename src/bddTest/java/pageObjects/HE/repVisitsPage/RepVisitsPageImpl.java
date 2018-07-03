@@ -1545,8 +1545,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         setDate(gotoDate, "Go To Date");
         waitForUITransition();
-        if (time.length() < 5)
-            time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         waitUntilElementExists(driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']")));
         WebElement availabilityButton = driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
         Assert.assertTrue("Availability is not displayed",availabilityButton.isDisplayed());
@@ -1608,8 +1607,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifySchedulePopup(String school,String startTime,String endTime){
         waitUntilPageFinishLoading();
-        if(startTime.length() < 5)
-            startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         Assert.assertTrue("SchedulePopup is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
         Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());

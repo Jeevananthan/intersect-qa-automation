@@ -6493,9 +6493,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement editButtonInCollegeFair(){
         return getDriver().findElement(By.id("edit-college-fair"));
     }
-    private WebElement editButtonInCollegeFair(){
-        return getDriver().findElement(By.id("edit-college-fair"));
-    }
 }
 
 

@@ -204,7 +204,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
 
 Examples:
       |School                  |address                                             |college going rate|senior class size|primary POC      |stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
-      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |OHIO      |14  |10:      |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:         |10:     |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Butler     |
+      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |OHIO      |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Butler     |
 
   @MATCH-1603
   Scenario Outline: As an HE user I need to be able to view the scheduling results of my Visits search AFTER I have
@@ -238,4 +238,4 @@ Examples:
 
     Examples:
       |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime |
-      |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:        |10:    |
+      |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:25am    |10:25am|
