@@ -351,6 +351,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.sendKeys(Numberofdays);
         button("Save Changes").click();
         waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
