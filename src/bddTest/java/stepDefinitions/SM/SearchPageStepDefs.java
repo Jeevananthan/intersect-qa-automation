@@ -142,5 +142,9 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
+        Then("^SM I verify the footnote for no GPA and no other scores, with the text:$", searchPage::verifyFootnoteNoGPANoScores);
+
+        Then("^SM I verify the footnote for known GPA but unknown test scores for \"([^\"]*)\", with the text:$", searchPage::verifyFootnoteGPANoScores);
+
     }
 }

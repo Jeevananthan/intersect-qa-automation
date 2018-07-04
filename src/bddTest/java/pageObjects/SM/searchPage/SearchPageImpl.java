@@ -1073,6 +1073,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+    private void goToCollegeInSearchResults(String collegeName) {
+        while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
+            waitUntil(ExpectedConditions.elementToBeClickable(backToTopButton()));
+            backToTopButton().sendKeys(Keys.END);
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+            showMoreButton().sendKeys(Keys.RETURN);
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(showMoreSpinnerLocator), 0));
+        }
+        repVisitsPageUtility.scrollDown(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0));
+    }
+
     public void verifySaveSearchIsClosedWhenCancelIsClicked() {
         saveSearchPopupCancelLink().click();
         Assert.assertTrue("The Save Search popup was not closed when Cancel was clicked",
@@ -1187,6 +1198,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }while (searchCollege&&getResultTable().findElement(By.xpath("//button[text()='Show More']")).isDisplayed());
         if (counter>resultLimit)
             logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
+    }
+
+    public void verifyFootnoteNoGPANoScores(DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<String> textMessage = dataTable.asList(String.class);
+        List<WebElement> footnotes = driver.findElements(By.cssSelector(noGPANoScoresFootnoteLocator));
+        Assert.assertTrue("The text in the footnote for no GPA and no scores is incorrect.",
+                footnotes.get(0).getText().equals(textMessage.get(0)));
+    }
+
+    public void verifyFootnoteGPANoScores(String collegeName, DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<String> textMessage = dataTable.asList(String.class);
+        goToCollegeInSearchResults(collegeName);
+        Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.",
+                collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
     }
 
     // Locators Below
@@ -1353,6 +1380,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
+    private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
+
+    private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
+
+    private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
+
+    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../a/span"; }
+
     private WebElement saveSearchPopupCancelLink() { return driver.findElement(By.xpath(saveSearchPopupCancelLinkLocator)); }
 
     private String saveSearchPopupCancelLinkLocator = "//button[@class='ui teal basic button' and text()='Cancel']";
@@ -1388,4 +1423,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement ACTValidationMessageElement() {
         return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
+
+    private String noGPANoScoresFootnoteLocator = "div.academic-match-instructions";
+
+    private String spinnerLocator = "div.ui.active.loader";
+
+    private WebElement collegeFootnote(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/../../../../td[@class = 'sm-hidden-m-down']/div/div[@class = 'academic-match-instructions']/span")); }
+
+    private String showMoreSpinnerLocator = "button.ui.teal.basic.loading.disabled.button.supermatch-pagination-btn";
 }
