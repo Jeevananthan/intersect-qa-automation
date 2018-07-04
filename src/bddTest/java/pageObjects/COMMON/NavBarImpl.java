@@ -207,4 +207,28 @@ public class NavBarImpl extends SeleniumBase {
         }
         return null;
     }
+
+    /**
+     * Goes to the Admin Dashboard menu
+     */
+    public void goToAdminDashboard(){
+        getAdminDashboardLink().click();
+        waitUntil(ExpectedConditions.visibilityOf(getAdminDashboardLabel()));
+    }
+
+    /**
+     * Gets the Admin Dashboard link
+     * @return WebElement
+     */
+    private WebElement getAdminDashboardLink(){
+        return driver.findElement(By.id("js-main-nav-admin-menu-link"));
+    }
+
+    /**
+     * Gets the Admin Dashboard label
+     * @return WebElement
+     */
+    private WebElement getAdminDashboardLabel(){
+        return driver.findElement(By.cssSelector("h1._2uZ_hMKXaU0AzfCZMfjh1t"));
+    }
 }
