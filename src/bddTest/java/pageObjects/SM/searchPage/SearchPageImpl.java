@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
@@ -1187,6 +1188,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
     }
 
+    public void verifyBackToTopButtonFunctionality() {
+        backToTopButton().sendKeys(Keys.END);
+        backToTopButton().click();
+        waitUntilPageFinishLoading();
+        JavascriptExecutor executor = driver;
+        Long value = (Long) executor.executeScript("return window.pageYOffset;");
+        Assert.assertTrue("The Back to top button did not send the screen to the top",
+                value == 0);
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1351,6 +1362,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
+    private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
+
     private WebElement saveSearchPopupCancelLink() { return driver.findElement(By.xpath(saveSearchPopupCancelLinkLocator)); }
 
     private String saveSearchPopupCancelLinkLocator = "//button[@class='ui teal basic button' and text()='Cancel']";
@@ -1382,4 +1395,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement ACTValidationMessageElement() {
         return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
+
+    private WebElement navianceLogo() { return driver.findElement(By.cssSelector("img[alt=\"Naviance\"]")); }
 }

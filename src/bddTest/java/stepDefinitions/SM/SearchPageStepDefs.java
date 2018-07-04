@@ -142,5 +142,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
+        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
+
     }
 }
