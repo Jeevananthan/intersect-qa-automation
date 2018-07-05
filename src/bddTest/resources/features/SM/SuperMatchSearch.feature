@@ -169,4 +169,15 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select "SavedTestSearch" in the Saved Searches dropdown
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
 
+  @MATCH-4160
+  Scenario: Currently, the financial aid results column of the results table does not display a tuition value of $0 in the UI. This needs updated.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3.7  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    And SM I select the "$5,000" option from the "Maximum Tuition and Fees" dropdown in Cost
+    Then SM I verify that "Concorde Career College-Dallas" displays "$0" in the Cost column
+
 
