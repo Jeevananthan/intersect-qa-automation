@@ -243,17 +243,18 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         loginPage.defaultLoginSupport();
         goToManageGroupMembersPage();
         driver.findElement(By.className("accept-link")).click();
-        homePage.logoutSupport();
+        //homePage.logoutSupport();
         loginPage.defaultLoginHE();
         searchForGroup("**Test Automation** HE Community PRIVATE Group");
     }
 
     public void denyRequestToJoinTheGroup() {
         logger.info("Denying request to join the group.");
-        //loginPage.defaultLoginSupport();
+        loginPage.defaultLoginSupport();
         goToManageGroupMembersPage();
         driver.findElement(By.className("decline-link")).click();
-       // homePage.logoutSupport();
+        //homePage.logoutSupport();
+        loginPage.defaultLoginHE();
     }
 
     public void makeSureUserIsNotMemberOfTheGroup() {
