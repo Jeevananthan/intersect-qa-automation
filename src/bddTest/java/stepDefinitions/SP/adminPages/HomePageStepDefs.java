@@ -51,6 +51,6 @@ public class HomePageStepDefs implements En {
 
         Then("^SP I verify the created post details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\"$",userList::verifyCreatedPostDetailsInLogHistory);
 
-
+        Then("^SP I go to \"([^\"]*)\"$", homePage::goToInstitution);
     }
 }
