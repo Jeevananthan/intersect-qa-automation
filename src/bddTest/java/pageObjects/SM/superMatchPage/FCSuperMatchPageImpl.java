@@ -7,14 +7,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
@@ -167,12 +165,19 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyLegendInWhyDrawer(String position, DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         List<String> dataList = dataTable.asList(String.class);
+        waitUntilElementExists(getWhyButtonByPosition(position));
         getWhyButtonByPosition(position).sendKeys(Keys.RETURN);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         Assert.assertTrue("The 'Match' legend is not correctly displayed", matchLegend().getText().equals(dataList.get(0)));
         Assert.assertTrue("The 'Close Match' legend is not correctly displayed", closeMatchLegend().getText().equals(dataList.get(1)));
         Assert.assertTrue("The 'Data Unknown' legend is not correctly displayed", dataUnknownLegend().getText().equals(dataList.get(2)));
         Assert.assertTrue("The 'Doesn't Match' legend is not correctly displayed", doesntMatchLegend().getText().equals(dataList.get(3)));
+        Assert.assertTrue("The '# out of # Must Have criteria are a match' legend is not correctly displayed.",
+                mustHaveMatchLegend().getText().replaceAll("[0-9]+", "X").equals(dataList.get(4)));
+        Assert.assertTrue("The '# out of # Nice to Have criteria are a match' legend is not correctly displayed.",
+                niceToHaveMatchLegend().getText().replaceAll("[0-9]+", "X").equals(dataList.get(5)));
     }
 
     public void skipModals() {
@@ -240,6 +245,33 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         tabOption("Cost").click();
     }
 
+    public void openTab(String tabName) {
+        tabOption(tabName).click();
+    }
+
+    public void verifyDropdownsWordingInCost(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        maximumTuitionAndFeesOption().click();
+        for(List<String> row : details) {
+            switch (row.get(0)) {
+                case "Maximum Tuition and Fees" :
+                    maximumTuitionAndFeesOption().click();
+                    Assert.assertTrue("The default text in the dropdown is not correct",
+                            defaultLabelInDropdown().getText().equals(row.get(1)));
+                    Assert.assertTrue("The label at the right side of the dropdown is incorrect",
+                            labelAtRightOfDropdown().getText().equals(row.get(2)));
+                    break;
+                case "Maximum Total Cost (Tuition, Fees, Room & Board)" :
+                    maximumTotalCostOption().click();
+                    Assert.assertTrue("The default text in the dropdown is not correct",
+                            defaultLabelInDropdown().getText().equals(row.get(1)));
+                    Assert.assertTrue("The label at the right side of the dropdown is incorrect",
+                            labelAtRightOfDropdown().getText().equals(row.get(2)));
+                    break;
+            }
+        }
+    }
+
     // Locators Below
 
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
@@ -283,4 +315,11 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement maxCostDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div[role=\"alert\"].default.text")); }
     private WebElement maxCostOption(String option) { return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div/span[text() = '" + option + "']")); }
+    private WebElement maximumTuitionAndFeesOption() { return driver.findElement(By.cssSelector("label[for=\"radio-tuition-0\"]")); }
+    private WebElement maximumTotalCostOption() { return driver.findElement(By.cssSelector("label[for=\"radio-includeRoomAndBoardKey-1\"]")); }
+    private WebElement defaultLabelInDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div.default.text")); }
+    private WebElement labelAtRightOfDropdown() { return driver.findElement(By.cssSelector("div.five.wide.column")); }
+    private WebElement mustHaveMatchLegend() { return driver.findElement(By.cssSelector("div.column.supermatch-sidebar-criteria-list-column h3.supermatch-sidebar-criteria-list-title + div p")); }
+    private WebElement niceToHaveMatchLegend() { return driver.findElement(By.cssSelector("div.row.supermatch-sidebar-criteria-list-row div:nth-of-type(2).column p")); }
+    private String spinnerLocator = "div.ui.active.loader";
 }

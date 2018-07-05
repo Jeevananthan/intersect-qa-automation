@@ -144,5 +144,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that \"([^\"]*)\" displays \"([^\"]*)\" in the Cost column$", searchPage::verifySingleValueInCostColumn);
 
+        Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
+
     }
 }
