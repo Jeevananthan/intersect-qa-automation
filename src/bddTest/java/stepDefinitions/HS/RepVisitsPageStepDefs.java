@@ -367,7 +367,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the View Details button for the College Fair \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
-        Then("^HS I select \"([^\"]*)\" button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
+        Then("^HS I select Edit button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
 
         And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
 //        And("^HS I navigate to the college visits page$", repVisits::navigateToVisitPage);
@@ -530,5 +530,16 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set Blocked date as \"([^\"]*)\" and select the reason as \"([^\"]*)\" in the Holiday tab$",repVisits::setSpecificBlockedDate);
 
+        Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Request Notification Tab$",repVisits::verifyCityAndStateInRequestNotificationsubTab);
+
+        Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Activity Tab$",repVisits::verifyCityAndStateInActivitysubTab);
+
+        Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Request Notification Tab for Fairs$",repVisits::verifyCityAndStateInRequestNotificationsubTabforFairs);
+
+        Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Activity Tab for Fairs$",repVisits::verifyCityAndStateInActivitysubTabforFairs);
+
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        Then("^HS I verify I can make it through the RepVisits wizard as a non-Naviance HS$", repVisits::verifyRepvisitsSetupWizardNonNaviance);
     }
 }
