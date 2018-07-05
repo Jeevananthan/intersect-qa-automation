@@ -5,7 +5,10 @@ import Selenium.WebElement.TextboxImpl;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -22,7 +25,11 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void login(String username, String password) {
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
         openAdminPage();
         // Make sure our previous session ended.
         if (link(By.id("user-dropdown")).isDisplayed()) {
@@ -39,8 +46,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
         button("Next").click();
-        waitForUITransition();
-        passwordTextbox().click();
+        new WebDriverWait(driver,20).until(ExpectedConditions.elementToBeClickable(passwordTextbox())).click();
         logger.info("Using " + password + " as password");
         handleAccountTypeDialog(password);
         logger.info("Clicked the login button");
@@ -72,7 +78,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyExpectedErrorMessage(String expectedErrorMsg) {
-        String actualErrorMsg = getDriver().findElement(By.id("recover_container")).getText().replace("\n", " ");
+        String actualErrorMsg = getDriver().findElement(By.id("passwordError")).getText();
         Assert.assertEquals("Error message did not match", expectedErrorMsg, actualErrorMsg);
     }
 
@@ -108,6 +114,11 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     public void loginAsACommunityManagerUser() {
         login(GetProperties.get("sp.communityManager.username"), GetProperties.get("sp.communityManager.password"));
         adminPage.verifyUserIsLoggedIn();
+    }
+
+    public void loginAsNoAccessUser() {
+        login(GetProperties.get("sp.norole.username"), GetProperties.get("sp.norole.password"));
+        adminPage.verifyUserIsLoggedInForNoRole();
     }
 
     //Page Web Elements

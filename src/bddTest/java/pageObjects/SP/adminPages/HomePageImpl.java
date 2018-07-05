@@ -4,8 +4,11 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.GlobalSearch;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+
+import java.util.List;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 
@@ -14,6 +17,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public HomePageImpl() {
         logger = Logger.getLogger(HomePageImpl.class);
+    }
+
+    public void verifyUserIsLoggedInForNoRole() {
+        //Check the signout button is present for No Role
+        Assert.assertTrue("User did not signed in",signoutButtonForNoRole().isDisplayed());
+        logger.info("Logged in successfully");
     }
 
     public void verifyUserIsLoggedIn() {
@@ -28,34 +37,25 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void logout() {
-        link(By.id("user-dropdown")).click();
-        button(By.id("user-dropdown-signout")).click();
-        Assert.assertTrue(getDriver().getCurrentUrl().contains("login"));
-        driver.manage().deleteAllCookies();
+        try{
+            List<WebElement> signoutButton = driver.findElements(By.cssSelector("button[class='ui mini button']"));
+            if (signoutButton.size()==1){
+                signoutButtonForNoRole().click();
+                waitUntilPageFinishLoading();
+                Assert.assertTrue(getDriver().getCurrentUrl().contains("login"));
+                driver.manage().deleteAllCookies();
+            }
+        }catch(Exception e){
+            link(By.id("user-dropdown")).click();
+            driver.findElement(By.cssSelector("div[id='user-dropdown-signout']")).click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue(getDriver().getCurrentUrl().contains("login"));
+            driver.manage().deleteAllCookies();
+        }
     }
 
     public String selectTheFistInstitutionOnTheList() {
         return table("Higher Ed Account Dashboard").clickOnTheFirstElementOfAColumn("Name");
-    }
-
-    public void verifyInstitutionExist(String institutionName) {
-        navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
-            button("More Higher Ed Accounts").click();
-            waitUntilPageFinishLoading();
-        }
-
-        table(By.id("he-account-dashboard")).verifyValueIsOnTheTable(institutionName);
-    }
-
-    public void verifyInstitutionDoesNotExist(String institutionName) {
-        navBar.goToHome();
-        while (button("More Higher Ed Accounts").isDisplayed()) {
-            button("More Higher Ed Accounts").click();
-            waitUntilPageFinishLoading();
-        }
-
-        table(By.id("he-account-dashboard")).verifyValueIsNotOnTheTable(institutionName);
     }
 
     public void goToInstitution(String institutionName) {
@@ -63,11 +63,30 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         globalSearch.setSearchCategory("All");
         globalSearch.searchForHEInstitutions(institutionName);
         globalSearch.selectResult(institutionName);
+        /*while (button("More Higher Ed Accounts").isDisplayed()) {
+            button("More Higher Ed Accounts").click();
+            waitUntilPageFinishLoading();
+        }
+        table(By.id("he-account-dashboard")).findElement(By.cssSelector("[aria-label=\"" + institutionName + "\"]")).click();*/
     }
 
     public void goToUsersList(String institutionName) {
         goToInstitution(institutionName);
         link("See All Users").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(userListTable()));
+    }
+
+    public void goToCreateUser(String institutionName) {
+        goToInstitution(institutionName);
+        link("Create User").click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void navigateToCreateUser(){
+        link("Create User").click();
+        waitUntilPageFinishLoading();
+
     }
 
     public void goToLogHistory(String institutionName) {
@@ -88,7 +107,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    private WebElement userDropdownSingout() { return button(By.id("user-dropdown-signout"));}
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
+    private WebElement userListTable() {
+        return button(By.cssSelector("[class='ui table']"));
+    }
+    private WebElement signoutButtonForNoRole(){return driver.findElement(By.cssSelector("button[class='ui mini button']")); }
 }

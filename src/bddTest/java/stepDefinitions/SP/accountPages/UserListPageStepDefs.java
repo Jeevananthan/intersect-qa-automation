@@ -1,6 +1,5 @@
 package stepDefinitions.SP.accountPages;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SP.accountPages.UserListPageImpl;
 
@@ -19,6 +18,8 @@ public class UserListPageStepDefs implements En  {
         Then("^SP I verify that the user account for \"([^\"]*)\" is the primary user$",userListPage::verifyUserIsPrimary);
 
         Then("^SP I verify that the user account for \"([^\"]*)\" is not the primary user$",userListPage::verifyUserIsNotPrimary);
+
+        Then("^SP I verify that I can create a new primary user using create new user button$",userListPage::verifyCreateUserButton);
 
         Then("^SP I verify that I can edit the Primary User Details$", userListPage::verifyEditPrimaryUserDetails);
 
