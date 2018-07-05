@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.manageUsersPage.ManageUsersPageImpl;
 
@@ -25,7 +26,7 @@ public class ManageUsersPageStepDefs implements En {
 
         Then("^HE I can see the last login date for user type \"([^\"]*)\"$", manageUsersPage::verifyLastLoginData);
 
-        And("^HE I can create a user in HE app \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$",manageUsersPage::createHigherEducationUser);
+        Then("^HE I verify that I can create new users$", manageUsersPage::verifyAddNewUser);
 
     }
 
