@@ -164,12 +164,19 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyLegendInWhyDrawer(String position, DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         List<String> dataList = dataTable.asList(String.class);
+        waitUntilElementExists(getWhyButtonByPosition(position));
         getWhyButtonByPosition(position).sendKeys(Keys.RETURN);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         Assert.assertTrue("The 'Match' legend is not correctly displayed", matchLegend().getText().equals(dataList.get(0)));
         Assert.assertTrue("The 'Close Match' legend is not correctly displayed", closeMatchLegend().getText().equals(dataList.get(1)));
         Assert.assertTrue("The 'Data Unknown' legend is not correctly displayed", dataUnknownLegend().getText().equals(dataList.get(2)));
         Assert.assertTrue("The 'Doesn't Match' legend is not correctly displayed", doesntMatchLegend().getText().equals(dataList.get(3)));
+        Assert.assertTrue("The '# out of # Must Have criteria are a match' legend is not correctly displayed.",
+                mustHaveMatchLegend().getText().replaceAll("[0-9]+", "X").equals(dataList.get(4)));
+        Assert.assertTrue("The '# out of # Nice to Have criteria are a match' legend is not correctly displayed.",
+                niceToHaveMatchLegend().getText().replaceAll("[0-9]+", "X").equals(dataList.get(5)));
     }
 
     public void skipModals() {
@@ -299,4 +306,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement maximumTotalCostOption() { return driver.findElement(By.cssSelector("label[for=\"radio-includeRoomAndBoardKey-1\"]")); }
     private WebElement defaultLabelInDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div.default.text")); }
     private WebElement labelAtRightOfDropdown() { return driver.findElement(By.cssSelector("div.five.wide.column")); }
+    private WebElement mustHaveMatchLegend() { return driver.findElement(By.cssSelector("div.column.supermatch-sidebar-criteria-list-column h3.supermatch-sidebar-criteria-list-title + div p")); }
+    private WebElement niceToHaveMatchLegend() { return driver.findElement(By.cssSelector("div.row.supermatch-sidebar-criteria-list-row div:nth-of-type(2).column p")); }
+    private String spinnerLocator = "div.ui.active.loader";
 }

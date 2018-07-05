@@ -142,5 +142,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
+        Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
+
     }
 }
