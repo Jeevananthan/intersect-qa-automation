@@ -17,5 +17,11 @@ public class ProductAnnouncementsStepDef implements En {
         When("^SP I edit the product announcement \"([^\"]*)\" with title \"([^\"]*)\" content \"([^\"]*)\" audience \"([^\"]*)\" and status \"([^\"]*)\"$",productAnnouncements::editProductAnnouncement );
         And("^SP I un-publish all the published announcements$",productAnnouncements::unpublishAllAnnouncements);
         Then("^SP I verify the product announcement with title \"([^\"]*)\" content \"([^\"]*)\" audience \"([^\"]*)\" and status \"([^\"]*)\" in the the edit form",productAnnouncements::verifyProductAnnouncementInEditMode );
+        Then("^SP I verify title \"([^\"]*)\" is displayed in the Product Announcements page$",productAnnouncements::verifyTitleInProductAnnouncements);
+        Then("^SP I verify \"([^\"]*)\" characters are displayed in the Product Announcements page$",productAnnouncements::verifyCharCountsInProductAnnouncements);
+        Then("^SP I verify the visibility for the following details \"([^\"]*)\" in the Product Announcements page using \"([^\"]*)\"$",productAnnouncements::verifyVisibilityInProductAnnouncements);
+        Then("^SP I verify the date format \"([^\"]*)\" in the Product Announcements page using \"([^\"]*)\" for the user \"([^\"]*)\"$",productAnnouncements::verifyDateFormatInProductAnnouncements);
+        Then("^SP I verify the status \"([^\"]*)\" is displayed in the Product Announcements page using title \"([^\"]*)\"$",productAnnouncements::verifyStatusInProductAnnouncements);
+        Then("^SP I verify \"([^\"]*)\" button for more than 25 notifications in the Product Announcements page$",productAnnouncements::verifyShowMoreButtonInProductAnnouncements);
     }
 }

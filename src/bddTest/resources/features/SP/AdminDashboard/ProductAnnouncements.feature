@@ -45,3 +45,31 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     And SP I edit the product announcement "AutomationEdited2" with title "AutomationEdited2" content "ContentEdited2" audience "" and status "Unpublished"
     And SP I successfully sign out
 
+  @MATCH-4138
+  Scenario: As a super admin and admin role in the Support app of Intersect,
+  I want the ability to add and see current published/unpublished Intersect in-product notifications in the support app,
+  So that management is centralized for me at the Admin Dashboard in the support app.
+    Given SP I am logged in to the Admin page as an Admin user
+    And SP I un-publish all the published announcements
+    #create announcement with title and more than 140 characters
+    When SP I add a new product announcement with title "Intersect" content "ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit." audience "HE,HS - Naviance,HS - Non Naviance" and status "Published"
+    Then SP I verify the toast with the message "New announcement added" is displayed
+    Then SP I verify title "Intersect" is displayed in the Product Announcements page
+    #verify content with 140 characters
+    Then SP I verify "140" characters are displayed in the Product Announcements page
+    Then SP I verify the visibility for the following details "HE, HS Naviance, HS Non Naviance" in the Product Announcements page using "0"
+    Then SP I verify the date format "MMM d" in the Product Announcements page using "0" for the user "Match Support UI QA4"
+    And SP I verify the status "Published" is displayed in the Product Announcements page using title "Intersect"
+    #create announcement with no title and 140 characters
+    When SP I add a new product announcement with title "" content "Thisisgoingtobe140characterslimit.Thisisgoingtobe140characterslimit.Thisisgoingtobe140characterslimit.Thisisgoingto be 140 characters limit." audience "HE" and status "Unpublished"
+    Then SP I verify the toast with the message "New announcement added" is displayed
+    Then SP I verify title "Untitled" is displayed in the Product Announcements page
+    #verify content with 140 characters
+    Then SP I verify "140" characters are displayed in the Product Announcements page
+    Then SP I verify the visibility for the following details "HE" in the Product Announcements page using "0"
+    Then SP I verify the date format "MMM d" in the Product Announcements page using "0" for the user "Match Support UI QA4"
+    And SP I verify the status "Unpublished" is displayed in the Product Announcements page using title "Untitled"
+    Then SP I verify "Show More" button for more than 25 notifications in the Product Announcements page
+    And SP I un-publish all the published announcements
+    And SP I successfully sign out
+

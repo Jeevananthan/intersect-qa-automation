@@ -9,6 +9,7 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -230,6 +231,58 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
                 ,audience,getAnnouncementAudienceFieldValues()),audience,getAnnouncementAudienceFieldValues());
         Assert.assertEquals(String.format("The status field value is incorrect, expected: %s, actual: %s"
                 ,status,getAnnouncementStatusFieldValue()),status,getAnnouncementStatusFieldValue());
+    }
+
+    public void verifyTitleInProductAnnouncements(String title){
+        Assert.assertTrue("Announcement title is not displayed",driver.findElement(By.xpath("//div/a[contains(text(),'"+title+"')]")).isDisplayed());
+    }
+
+    public void verifyCharCountsInProductAnnouncements(String charCount){
+        String displayingValue = driver.findElement(By.xpath("//div[normalize-space(@class)='thirteen wide column _2YyAyZ3Fea-tgSqFGIhqfH']")).getText();
+        int length = displayingValue.length();
+        String originalValue = Integer.toString(length);
+        Assert.assertTrue("Content length is not equal to "+charCount,charCount.equals(originalValue));
+    }
+
+    public void verifyVisibilityInProductAnnouncements(String audience,String date){
+        String currentDate = getMonthAndDate(date,"MMM d");
+        Assert.assertTrue("Visibility text is not displayed",driver.findElement(By.xpath("//span[text()='Visibility: ']")).isDisplayed());
+        Assert.assertTrue("Audience are not displayed",driver.findElement(By.xpath("//div/span[text()='"+currentDate+"']/ancestor::div//div[text()='"+audience+"']")).isDisplayed());
+    }
+
+    public void verifyDateFormatInProductAnnouncements(String dateFormat,String date,String user){
+        String currentDate = getMonthAndDate(date,dateFormat);
+        Assert.assertTrue("Date format is not displayed",driver.findElement(By.xpath("//div/span[text()='"+currentDate+"']/parent::div[text()='"+user+"']")).isDisplayed());
+    }
+
+    public void verifyStatusInProductAnnouncements(String status,String title){
+        Assert.assertTrue("",driver.findElement(By.xpath("//div/a[text()='"+title+"']/parent::div/following-sibling::div[text()='"+status+"']")).isDisplayed());
+    }
+
+    public void verifyShowMoreButtonInProductAnnouncements(String showMore){
+        goToProductAnnouncements();
+        List<WebElement> showMoreButton = driver.findElements(By.xpath("//button/span[text()='"+showMore+"']"));
+        List<WebElement> announcementsSize = driver.findElements(By.xpath("//div[@class='ui grid _3E9gDLAhuHSRcSf2bDO-Q8']"));
+        Assert.assertTrue("Announcements Size is not equal to 25",announcementsSize.size()==25);
+        while(showMoreButton.size()==1) {
+            Assert.assertTrue("Show more button is not displayed",showMoreButton.size()==1);
+            driver.findElement(By.xpath("//button/span[text()='" + showMore + "']")).click();
+            showMoreButton = driver.findElements(By.xpath("//button/span[text()='"+showMore+"']"));
+            announcementsSize = driver.findElements(By.xpath("//div[@class='ui grid _3E9gDLAhuHSRcSf2bDO-Q8']"));
+            Assert.assertTrue("Announcements Size is less than 25", announcementsSize.size() > 25);
+        }
+    }
+
+    private String getMonthAndDate(String addDays,String format){
+        String DATE_FORMAT_NOW = "";
+        if(format != null)
+        DATE_FORMAT_NOW = format;
+        Calendar cal = Calendar.getInstance();
+        int days = Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     /**
