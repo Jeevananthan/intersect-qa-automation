@@ -233,26 +233,6 @@ public class GlobalSearch extends SeleniumBase {
         }
     }
 
-    public void verifyAdminDashboardIsDisplayed(){
-        Assert.assertTrue("Admin Dashboard is not displayed",adminDashBoard().isDisplayed());
-    }
-
-    public void verifyHeaderInAdminDashboard(String intersectHeader,String adminDashBoardHeader){
-        Assert.assertTrue("Intersect header is not displayed",driver.findElement(By.xpath("//div[text()='"+intersectHeader+"']")).isDisplayed());
-        adminDashBoard().click();
-        waitUntilPageFinishLoading();
-        Assert.assertTrue("Admin dashboard header is not displayed",driver.findElement(By.xpath("//div[text()='"+adminDashBoardHeader+"']")).isDisplayed());
-    }
-
-    public void verifyProductAnnouncementsStubMenu(String stubMenu){
-        Assert.assertTrue("Product Announcements stub menu is not displayed",driver.findElement(By.xpath("//a/span[text()='"+stubMenu+"']")).isDisplayed());
-    }
-
-    public void verifyAdminDashboardIsNotDisplayed(){
-        List<WebElement> adminDashboard = driver.findElements(By.id("js-main-nav-admin-menu-link"));
-        Assert.assertTrue("Admin dashboard is displayed",adminDashboard.size()==0);
-    }
-
     public void searchandSelectInGlobalSearch(String school) {
         waitUntilPageFinishLoading();
         searchForHSInstitutions(school);
@@ -820,7 +800,5 @@ public class GlobalSearch extends SeleniumBase {
         WebElement date=button("Go to date");
         return date;
     }
-    private WebElement adminDashBoard(){
-        return driver.findElement(By.id("js-main-nav-admin-menu-link"));
-    }
+
 }
