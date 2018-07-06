@@ -3365,7 +3365,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchByLocationTextBox(){
         return textbox("Search by location...");
     }
-
     private WebElement userDropDown(){
         WebElement button=driver.findElement(By.id("user-dropdown"));
         return button;
