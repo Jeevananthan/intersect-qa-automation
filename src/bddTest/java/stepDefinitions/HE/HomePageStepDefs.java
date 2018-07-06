@@ -1,9 +1,11 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.HE.eventsPage.EventsPageImpl;
 import pageObjects.HE.homePage.HomePageImpl;
+import cucumber.api.java.cs.A;
 
 public class HomePageStepDefs implements En {
 
@@ -48,7 +50,7 @@ public class HomePageStepDefs implements En {
 
         And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navBar::verifySubMenuIsNotVisible);
 
-        And("^HE I activate my community profile by providing OfficePhone as \"([^\"]*)\" and JobTitle as \"([^\"]*)\"$",
+        And("^HE I activate my community profile by providing OfficePhone as \"([^\"]*)\" JobTitle as \"([^\"]*)\" and EU citizen as \"([^\"]*)\"$",
                 homePage::fillCommunityWelcomeMandatoryFields);
 
         And("^HE I go to the Counselor Community$", navBar::goToCommunity);

@@ -7,7 +7,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-import selenium.SeleniumBase;
 
 import org.apache.log4j.Logger;
 
@@ -32,7 +31,9 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
         waitForUITransition();
         try{
+            waitUntil(ExpectedConditions.visibilityOf(collageNameLabel()));
             waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
+
         }catch(Exception e){
             logger.info("Caught Exception: " + e.getMessage());
             getDriver().switchTo().defaultContent();

@@ -88,6 +88,40 @@
             </build>
         </profile>
         <profile>
+            <id>SM-FamilyConnection</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>qaEnv</value>
+                </property>
+            </activation>
+            <properties>
+                <cucumber.options>--tags @SM --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete file="${configFilePath}"/>
+                                        <copy file="${folderFilePath}/qaEnv.properties" tofile="${configFilePath}"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>HS-QA</id>
             <activation>
                 <property>
@@ -232,7 +266,7 @@
                 </property>
             </activation>
             <properties>
-                <tags>@ProdSmokeTest</tags>
+                <cucumber.options>--tags @ProdSmokeTest</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -260,7 +294,7 @@
     </profiles>
 
     <repositories>
-        <repository>
+<!--        <repository>
             <id>qasymphony-releases</id>
             <name>Qasymphony Release Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/releases</url>
@@ -270,7 +304,7 @@
             <id>qasymphony-snapshots</id>
             <name>Qasymphony Snapshot Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/snapshots</url>
-        </repository>
+        </repository>-->
 
         <repository>
             <id>radius-crm</id>
@@ -281,7 +315,7 @@
     </repositories>
 
     <pluginRepositories>
-        <pluginRepository>
+<!--        <pluginRepository>
             <id>qasymphony-releases</id>
             <name>Qasymphony Release Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/releases</url>
@@ -291,7 +325,7 @@
             <id>qasymphony-snapshots</id>
             <name>Qasymphony Snapshot Repository</name>
             <url>https://maven.qasymphony.com/content/repositories/snapshots</url>
-        </pluginRepository>
+        </pluginRepository>-->
     </pluginRepositories>
 
     <dependencies>
@@ -462,7 +496,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>3.2.0</version>
+                <version>3.16.0</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -474,36 +508,12 @@
                             <projectName>Intersect QA Automation</projectName>
                             <outputDirectory>${project.build.directory}/reports/build-${build.number}-${project.activeProfiles[0].id}/</outputDirectory>
                             <cucumberOutput>${project.build.directory}/cucumber-json</cucumberOutput>
+                            <checkBuildResult>true</checkBuildResult>
                             <parallelTesting>true</parallelTesting>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
-            <!--
-            <plugin>
-                <groupId>com.qasymphony.qtestscenario</groupId>
-                <artifactId>qtestscenario-maven-plugin</artifactId>
-                <version>1.1.0</version>
-                <configuration>
-                    <server>https://services.qtestscenario.com</server>
-                    <apiKey>N2ZjZjYyNmMtZGUyYi00ZTJjLWE2YzgtNjFjOTY4YWZmYTdm</apiKey>
-                    <destinationDir>src/bddTest/resources/features/-UnassignedFeatures</destinationDir>
-                    <jql>issuetype = "qTest Scenario Feature" AND project = "Matching Solutions" AND status != Closed AND labels = ReadyToAutomate AND labels = match-ui-he AND labels != Automated</jql>
-                    <features>
-                        <param></param>
-                    </features>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>prepare-test</id>
-                        <goals>
-                            <goal>prepare-test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
         </plugins>
     </build>
 

@@ -5,10 +5,14 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.COMMON.HelpImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
 import utilities.GetProperties;
 
 import java.util.List;
@@ -37,17 +41,13 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
         waitUntilPageFinishLoading();
+        driver.manage().deleteAllCookies();
         Assert.assertTrue("User did not sign out",button("LOGIN").isDisplayed());
     }
 
     public void accountSettings() {
-        // This is needed to "reset" the Account Settings page if we just made changes to the account.
-        link(By.id("js-main-nav-home-menu-link")).click();
-        userDropdown().click();
-        button(By.id("user-dropdown-change-profile")).click();
-        waitUntilPageFinishLoading();
-        driver.findElement(By.xpath("//input[@id='current-password-input']")).sendKeys(Keys.PAGE_DOWN);
-        Assert.assertTrue("User was not taken to Account Settings screen",driver.findElement(By.xpath("//button/span[text()='SAVE']")).isDisplayed());
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Account Information");
     }
 
     public void updateProfile() {
@@ -128,7 +128,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessHelpPage() {
-        link(By.id("js-main-nav-help-menu-link")).click();
+        //link(By.id("js-main-nav-help-menu-link")).click();
+        HelpImpl help = new HelpImpl();
+        help.selectHelpOption("Help Center");
         String heWindow = driver.getWindowHandle();
         Set<String> windows = driver.getWindowHandles();
         for (String window : windows) {
@@ -240,11 +242,15 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
-    public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle){
+    public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle, String euCitizen){
         driver.switchTo().frame(0);
         getofficePhone().sendKeys(OfficePhone);
         getJobTitle().sendKeys(JobTitle);
+        driver.findElement(By.xpath(String.format(
+                "//label[@for='edit-field-eu-citizen-und']/following-sibling::div/div/label[text()='%s ']",
+                euCitizen))).click();
         getTermsAndConditionCheckBox().click();
+        driver.executeScript("arguments[0].click()",getCreationAndMaintenanceConsentCheckBox());
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
@@ -277,6 +283,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
 
+
+
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
@@ -290,4 +298,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
     private WebElement eventsTab() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL _1NJbR9iqg-0K_JDhsKdO1B']/span[text()='Events']")); }
     private WebElement changeProfileLabel(){return text("Change Profile");}
+
+    /**
+     * Gets the consent to creation and maintenance check box
+     * @return
+     */
+    private WebElement getCreationAndMaintenanceConsentCheckBox(){
+        return driver.findElement(By.id("edit-field-account-consent-und"));
+    }
 }
