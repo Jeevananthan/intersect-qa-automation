@@ -2606,7 +2606,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         else if (getDriver().findElements(By.xpath("//span[contains(text(), 'Cancel fair and notify colleges')]")).size() >= 1) {
             textbox(By.name("cancellationMessage")).sendKeys("College fair has been cancelled.");
             button("cancel fair and notify colleges").click();
-            button("Close").click();
+            waitForUITransition();
+            closeFairCancelConfiration().click();
         }
         else{
             Assert.assertTrue("There were no job fairs registered for this high school.", false);
@@ -2623,7 +2624,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(text(By.id("add-college"))));
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(text(By.id("add-college"))));
         button("ADD A COLLEGE FAIR").click();
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String key : data.keySet()) {
@@ -2639,8 +2639,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         }
         scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
-        waitForUITransition();
-        //button("Save").click();
+
         fairSave().click();
     }
 
@@ -2988,8 +2987,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void closeSendEmailMessageBox() {
-        waitForUITransition();
-        closeFairCancelConfiration().click();
+          closeFairCancelConfiration().click();
     }
 
 
@@ -6530,7 +6528,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr[1]/td[text()= '"+fairName+"' ]/following-sibling::td[4]/a/span")).click();
          } */
 
-    public void editCollegeFair(){
+    public void editCollegeFairs(){
         waitUntilPageFinishLoading();
         editFairButton().click();
     }
