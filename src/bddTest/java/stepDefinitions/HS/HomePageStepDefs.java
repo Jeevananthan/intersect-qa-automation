@@ -33,5 +33,10 @@ public class HomePageStepDefs implements En {
         Then("^HS I verify the URL \"([^\"]*)\" of \"([^\"]*)\" page before clicking \"([^\"]*)\" link using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in the college profile page$",homePage::verifyAdditionalInfoURLBeforeClickingBackToIntersectLink);
 
         Then("^HS I verify the URL \"([^\"]*)\" after clicking \"([^\"]*)\" link using \"([^\"]*)\",\"([^\"]*)\" in the college profile page$",homePage::verifyAdditionalInfoURLAfterClickingBackToIntersectLink);
+
+        Then("^HS I verify the navigation globe is displayed for this user$",navBar::verifyNotificationIconInHomePage);
+
+        And("^HS I click the navigation globe for viewing the recent notifications$",navBar::clickNavigationGlobeIcon);
+
     }
 }

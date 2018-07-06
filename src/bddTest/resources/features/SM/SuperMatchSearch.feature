@@ -35,6 +35,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
             treat those two entities as separate fit criteria so I can moved Majors and Minors around independently
             between the Must Have and Nice to Have boxes.
     Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
     Then SM I select the "Bachelor's" radio button from the Academics fit criteria
     Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
     |Accounting|
@@ -182,5 +183,18 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify that the search results remain after clicking the No, Cancel button
     And SM I open the Start Over popup
     Then SM I verify that the fit criteria is removed after clicking the Yes, Start Over button
+
+
+    @MATCH-3471
+    Scenario:  As a HS student I want to search for a specific college by name, so I do not have to pick fit criteria
+      in order to see that college as result.
+      Given SM I am logged in to SuperMatch through Family Connection
+      Then SM I should see at the bottom the search by college name text box with default text "Search by College Name"
+      When SM I search by college name using "Art"
+      Then SM I see a message at the top of the results box that says "Search for Art"
+      And SM I verify "10" results were displayed when searching by college name
+      When SM I search by college name using "NonExistent"
+      Then SM I see a message in the search by college name text box that says "No results found for NonExistent"
+
 
 

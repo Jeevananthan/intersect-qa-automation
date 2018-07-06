@@ -44,5 +44,9 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that the fit criteria is removed after clicking the Yes, Start Over button$", fcSuperMatch::verifyFitCriteriaRemovedAfterStartOverButton);
 
+        When("^SM I open the \"([^\"]*)\" tab$", fcSuperMatch::openTab);
+
+        Then("^SM I verify that the appropriate wording is used for dropdowns of the following options:$", fcSuperMatch::verifyDropdownsWordingInCost);
+
     }
 }
