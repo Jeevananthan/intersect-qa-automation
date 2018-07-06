@@ -143,12 +143,15 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private boolean arePostCommentsAllowed() {
         logger.info("Checking if user can add new comment to the post.");
         try {
+            setImplicitWaitTimeout(1);
             addPostComment().isDisplayed();
             logger.info("User can add new comment to the post.");
+            resetImplicitWaitTimeout();
             return true;
 
         } catch (NoSuchElementException e) {
             logger.info("User cannot add new comment to the post.");
+            resetImplicitWaitTimeout();
             return false;
         }
     }
@@ -160,7 +163,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         textbox(By.id("global-search-box-input")).sendKeys(groupname);
         logger.info("Searching for the group.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
-        link(By.id("global-search-box-item-0")).click();
+        getDriver().findElement(By.id("global-search-box-item-0")).findElement(By.className("title")).click();
         communityFrame();
         waitUntilPageFinishLoading();
 
@@ -176,13 +179,16 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void makeSureUserIsMemberOfTheGroup() {
         try {
+            setImplicitWaitTimeout(1);
             joinGroupButton();
             logger.info("User is going to join the group.");
             joinGroupButton().click();
             waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
 
         } catch (NoSuchElementException e) {
             logger.info("User already joined the group.");
+            resetImplicitWaitTimeout();
         }
     }
 

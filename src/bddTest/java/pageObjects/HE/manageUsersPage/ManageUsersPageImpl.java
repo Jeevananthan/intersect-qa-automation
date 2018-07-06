@@ -109,6 +109,13 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyAddNewUser() {
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
+        getDriver().findElement(By.cssSelector("a[href='/manageUsers/add-user']")).click();
+        Assert.assertTrue("Did not end up on Add New User page!",getDriver().getCurrentUrl().contains("/manageUsers/add-user"));
+    }
+
     private void takeUserAction(String accountName, String action) {
         AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
         accountSettings.accessUsersPage("Account Settings","Users");

@@ -35,6 +35,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
             treat those two entities as separate fit criteria so I can moved Majors and Minors around independently
             between the Must Have and Nice to Have boxes.
     Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
     Then SM I select the "Bachelor's" radio button from the Academics fit criteria
     Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
     |Accounting|
@@ -113,3 +114,72 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     |Cost             |
     |Pick what to show|
     Then SM I verify if the option selected or defaulted in column header can be changed to "Athletics"
+
+  @MATCH-3506
+  Scenario: As a HS student, I want to be able to close the Save Search popup
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify that the Save Search button is disabled
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I open the Save Search popup
+    Then SM I verify that the Save Search popup is closed when I use the Cancel action
+
+  @MATCH-3506
+  Scenario: As a HS student, I want to verify that all the text displayed in the Save Search popup is correct
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I open the Save Search popup
+    Then SM I verify that the text inside the Save Search popup is correct
+
+  @MATCH-3506
+  Scenario: As a HS student, I want to verify the error messages in the Save Search popup
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I open the Save Search popup
+    Then SM I verify the error message for more than "50" characters
+    And SM I verify the error message for less than "3" characters
+
+  @MATCH-3506 @MATCH-3508
+  Scenario: As a HS student, I want to verify that the save/load search functionality (MATCH-4703)
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I open the Save Search popup
+    And SM I save the search with the name "SavedTestSearch"
+    Then SM I verify the confirmation message
+    Then SM I verify the saved search of name "SavedTestSearch" is displayed in the Saved Searches dropdown
+    And SM I select "SavedTestSearch" in the Saved Searches dropdown
+    Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
+
+
+    @MATCH-3471
+    Scenario:  As a HS student I want to search for a specific college by name, so I do not have to pick fit criteria
+      in order to see that college as result.
+      Given SM I am logged in to SuperMatch through Family Connection
+      Then SM I should see at the bottom the search by college name text box with default text "Search by College Name"
+      When SM I search by college name using "Art"
+      Then SM I see a message at the top of the results box that says "Search for Art"
+      And SM I verify "10" results were displayed when searching by college name
+      When SM I search by college name using "NonExistent"
+      Then SM I see a message in the search by college name text box that says "No results found for NonExistent"
+
+
+

@@ -15,6 +15,7 @@ import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.support.Color;
@@ -22,6 +23,8 @@ import org.openqa.selenium.support.Color;
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private static String fs = File.separator;
+    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties",fs ,fs ,fs ,fs ,fs);
 
     public SearchPageImpl() {
         logger = Logger.getLogger(SearchPageImpl.class);
@@ -359,7 +362,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for(int i = 0; i < itemsToSelectSize; i++)
         {
             String item = itemsToSelect.get(i).get(0);
-            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[2]")).click();
+            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])")).click();
         }
 
         //close combobox
@@ -670,72 +673,63 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifySystemResponseWhenACTScoreIsValid() {
+    public void verifySystemResponseWhenACTScoreIsValid(DataTable dataTable) {
+
+        List<String> scores = dataTable.asList(String.class);
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("1");
-        Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"))
-                .getText().contains("ACT value must be a number between 1 and 36"));
+        for(String score : scores)
+        {
+            actScoreTextBox().clear();
+            actScoreTextBox().sendKeys(score);
+            Assert.assertFalse(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
+        }
+     }
 
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("18");
-        Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText()
-                .contains("ACT value must be a number between 1 and 36"));
+    public void verifySystemResponseWhenACTScoreIsInvalid(DataTable dataTable) {
 
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("36");
-        Assert.assertFalse(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText()
-                .contains("ACT value must be a number between 1 and 36"));
+        List<String> scores = dataTable.asList(String.class);
+
+        if(!admissionMenuItem().getAttribute("class").contains("active"))
+        {
+            admissionMenuItem().click();
+        }
+
+        for(String score : scores)
+        {
+            actScoreTextBox().clear();
+            actScoreTextBox().sendKeys(score);
+            Assert.assertTrue(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
+        }
 
     }
 
-    public void verifySystemResponseWhenACTScoreIsInvalid() {
+    public void verifyACTScoreDataPersists(DataTable dataTable) {
 
-
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
-            admissionMenuItem().click();
-        }
-
-        // You can no longer enter a leading zero in ACT scores, or enter decimals at all.
-        /*actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("0");
-        Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
-
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("18.1");
-        Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
-*/
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("37");
-        Assert.assertTrue(actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("ACT value must be a number between 1 and 36"));
-
-    }
-
-    public void verifyACTScoreDataPersists() {
+        List<String> scores = dataTable.asList(String.class);
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        actScoreTextBox().clear();
-        actScoreTextBox().sendKeys("6");
+        for(String score : scores) {
 
-        getFitCriteriaCloseButton().click();
+            actScoreTextBox().clear();
+            actScoreTextBox().sendKeys(score);
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
-            admissionMenuItem().click();
+            getFitCriteriaCloseButton().click();
+
+            if (!admissionMenuItem().getAttribute("class").contains("active")) {
+                admissionMenuItem().click();
+            }
+
+            Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals(score));
         }
-
-        Assert.assertTrue("ACT score data is not stored on our side", actScoreTextBox().getAttribute("value").equals("6"));
-
     }
 
     public void selectOrUnselectDiversityCheckbox(String selectOrUnselect, String option)
@@ -1076,6 +1070,58 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+    public void verifySaveSearchIsClosedWhenCancelIsClicked() {
+        saveSearchPopupCancelLink().click();
+        Assert.assertTrue("The Save Search popup was not closed when Cancel was clicked",
+                driver.findElements(By.xpath("saveSearchPopupCancelLinkLocator")).size() < 1);
+    }
+
+    public void verifySaveSearchIsClosedWithOutterClick() {
+        chooseFitCriteriaBar().click();
+        Assert.assertTrue("The Save Search popup was not closed when Cancel was clicked",
+                driver.findElements(By.xpath("saveSearchPopupCancelLinkLocator")).size() < 1);
+    }
+
+    public void verifyTextInsideSaveSearchBox() {
+        Assert.assertTrue("The text in the Save Search popup header is not correct",
+                saveSearchPopupHeader().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.header")));
+        Assert.assertTrue("The text in the section below the header in the Save Search popup is not correct",
+                saveSearchPopupGiveANameLine().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.give.name")));
+        Assert.assertTrue("The text in the Search Box in the Saved Search popup is not correct",
+                saveSearchPopupSearchBox().getAttribute("placeholder").equals(getStringFromPropFile(propertiesFilePath, "save.search.box")));
+        Assert.assertTrue("The text in the first line about special characters is not correct",
+                saveSearchPopupSpecialCharLine1().getText().contains(getStringFromPropFile(propertiesFilePath, "save.search.not.allowed.characters.1")));
+        Assert.assertTrue("The text in the second line about special characters is not correct",
+                saveSearchPopupSpecialCharLine2().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.not.allowed.characters.2")));
+    }
+
+    public void verifyErrorMessageforXCharacters(String numberOfCharacters) {
+        if(Integer.parseInt(numberOfCharacters) == 50) {
+            saveSearchPopupSearchBox().clear();
+            saveSearchPopupSearchBox().sendKeys(getStringFromPropFile(propertiesFilePath, "save.search.50.characters"));
+            Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
+                    equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message")));
+        } else if(Integer.parseInt(numberOfCharacters) == 3) {
+            saveSearchPopupSearchBox().clear();
+            saveSearchPopupSearchBox().sendKeys("aa");
+            // Save Search button is no longer clickable when less than 3 characters are entered.
+            //saveSearchLink().click();
+            Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
+                    equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message.3.char")));
+        }
+
+    }
+
+    public void saveSearchWithName(String searchName) {
+        saveSearchPopupSearchBox().sendKeys(searchName);
+        saveSearchLink().click();
+    }
+
+    public void verifyConfirmationMessage() {
+        Assert.assertTrue("The confirmation message is not displayed when a Search is saved",
+                confirmationMessage().getText().contains(getStringFromPropFile(propertiesFilePath, "save.search.confirmation.message")));
+    }
+
     /**
      * The below method is to scroll down the webpage till the specific webelement, which method is collecting in method parameter
      */
@@ -1141,13 +1187,102 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
     }
 
+    public void verifyColumnHeaders(DataTable dataTable) {
+        List<String> details = dataTable.asList(String.class);
+        for(String element : details) {
+            switch (element) {
+                case "Fit Score" :
+                    Assert.assertTrue("The header name of the Fit Score column is not correct",
+                            fitScoreColumnHeader().getText().trim().contains(element));
+                    break;
+                case "Academic Match" :
+                    Assert.assertTrue("The header name of the Academic Match column is not correct",
+                            academicMatchColumnHeader().getText().trim().contains(element.split(" ")[0]) &
+                                    academicMatchColumnHeader().getText().trim().contains(element.split(" ")[1]));
+                    break;
+                case "Admission Info" :
+                    Assert.assertTrue("The header name of the Admission Info column is not correct",
+                            admissionInfoColumnHeader().getText().trim().equals(element));
+                    break;
+                case "Cost" :
+                    Assert.assertTrue("The header name of the Cost column is not correct",
+                            costColumnHeader().getText().trim().equals(element));
+                    break;
+                case "Pick what to show" :
+                    Assert.assertTrue("The header of the Pick what to show column is not correct",
+                            pickWhatToShowColumnHeader().getText().trim().equals(element));
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Verifies the search by college name text box
+     * @param message
+     */
+    public void verifySearchByCollegeNameTextBox(String message){
+        Assert.assertTrue("The Search by college name text box is not displayed",
+                getSearchByCollegeNameTextBox().isDisplayed());
+        Assert.assertEquals(String.format("The default text of the search by college name text box is not correct, " +
+                "expected: %s, actual: %s",message,getSearchByCollegeNameTextBox().getAttribute("placeholder"))
+                ,message.trim(),getSearchByCollegeNameTextBox().getAttribute("placeholder").trim());
+        Assert.assertTrue("The magnifying icon is not displayed in the search by college name text box",
+                getSearchIcon().isDisplayed());
+    }
+
+    /**
+     * Search the given college by name
+     * @param name
+     */
+    public void searchCollegeByName(String name){
+        getSearchByCollegeNameTextBox().clear();
+        getSearchByCollegeNameTextBox().sendKeys(name);
+        waitForUITransition();
+    }
+
+    /**
+     * Verifies the given text is displayed in the search by college name results box
+     * @param text
+     */
+    public void verifyTextInSearchByCollegeNameResults(String text){
+        String actualText = getSearchByCollegeResultBoxMessage().getAttribute("innerText")
+                .replace("\"","");
+        Assert.assertEquals(String.format(
+                "The text in the search by college name text box results is not correct, expected: %s, actual: %s"
+                ,text,actualText),text,actualText);
+    }
+
+    /**
+     * Verifies that is displayed the given amount of results when searching by college name
+     * @param amount
+     */
+    public void verifyAmountOfResultsWhenSearchingByCollegeName(String amount){
+        int resultAmount = getSearchByCollegeResultList().findElements(
+                By.cssSelector("div[class='item supermatch-search-college-by-name-result']")).size();
+        String actualAmount = Integer.toString(resultAmount);
+        Assert.assertEquals(String.format("The amount of displayed results is not correct, expected: %s, actual: %s",
+                amount,actualAmount),amount,actualAmount);
+    }
+
+    /**
+     * Verifies the given text is displayed in the seach by text box when no results were found
+     * @param message
+     */
+    public void  verifySearchByCollegeNameNoResultFoundMessage(String message){
+        String actualMessage= getSearchByCollegeNameNoResultFoundMessage().getAttribute("innerText")
+                .replace("\"","");
+        Assert.assertEquals(String.format(
+                "The text in the search by college name text box results is not correct, expected: %s, actual: %s"
+                ,message,actualMessage),message,actualMessage);
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
     private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='column box box-selection'])[1]")); }
     private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='column box box-selection'])[2]")); }
     private WebElement admissionMenuItem() {
-        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Admission')]"));
+        return driver.findElement(By.xpath("//div[contains(@class,'supermatch-searchfilter-menu-container')]//li[contains(text(), 'Admission')]"));
     }
     private WebElement institutionCharacteristicsMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Institution Characteristics')]"));
@@ -1305,7 +1440,88 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
+    private WebElement saveSearchPopupCancelLink() { return driver.findElement(By.xpath(saveSearchPopupCancelLinkLocator)); }
+
+    private String saveSearchPopupCancelLinkLocator = "//button[@class='ui teal basic button' and text()='Cancel']";
+
+    private WebElement saveSearchPopupHeader() { return driver.findElement(By.cssSelector("div.header")); }
+
+    private WebElement saveSearchPopupGiveANameLine() { return driver.findElement(By.cssSelector("div.field label")); }
+
+    private WebElement saveSearchPopupSpecialCharLine1() { return driver.findElement(By.cssSelector("form.ui.form p")); }
+
+    private WebElement saveSearchPopupSpecialCharLine2() { return driver.findElement(By.cssSelector("form.ui.form p span")); }
+
+    private WebElement saveSearchPopupSearchBox() { return driver.findElement(By.cssSelector("div.field label + div input")); }
+
+    private WebElement saveSearchPopupErrorMessage() { return driver.findElement(By.cssSelector("div.ui.error.negative.visible.message div.content p")); }
+
+    private WebElement saveSearchLink() { return driver.findElement(By.xpath("//div[@class='actions']/button[@class='ui teal basic button' and text()='Save Search']")); }
+
+    private WebElement confirmationMessage() { return driver.findElement(By.cssSelector("span.supermatch-toast-title + span")); }
+
     private WebElement getResultTable(){ return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']")); }
 
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
+
+    private WebElement fitScoreColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(2)")); }
+
+    private WebElement academicMatchColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(3)")); }
+
+    private WebElement admissionInfoColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(4) div span")); }
+
+    private WebElement costColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(5) div span")); }
+
+    private WebElement pickWhatToShowColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(6) div span.csr-heading-dropdown-text")); }
+  
+    private WebElement superMatchCollegeSearchHeader() {
+        return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
+    }
+
+    private WebElement ACTValidationMessageElement() {
+        return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
+    }
+
+    /**
+     * Returns the search by college name textbox
+     * @return
+     */
+    private WebElement getSearchByCollegeNameTextBox(){
+        return driver.findElement(By.id("supermatch-search-box-input"));
+    }
+
+    /**
+     *Gets the search icon
+     * @return
+     */
+    private WebElement getSearchIcon(){
+        return driver.findElement(By.xpath(
+                "//div[@class='ui left icon input supermatch-search-box-input sm-hidden-s-down']/i[@class='search icon']"));
+    }
+
+    /**
+     * Gets the result box for the search by college text box
+     * @return
+     */
+    private WebElement getSearchByCollegeResultBoxMessage(){
+        return driver.findElement(By.xpath("//div[@class='item search-college-by-name-term']/a"));
+    }
+
+    /**
+     * Gets the college results list
+     * @return
+     */
+    private WebElement getSearchByCollegeResultList(){
+        return driver.findElement(By.id("supermatch-search-college-by-name-results"));
+    }
+
+    /**
+     * Gets the no result found message for the search by college name text box
+     * @return
+     */
+    private WebElement getSearchByCollegeNameNoResultFoundMessage(){
+        return driver.findElement(
+                By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
+    }
+  
 }

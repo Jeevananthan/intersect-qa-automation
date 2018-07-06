@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -125,7 +126,35 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
 
+        Then("^SM I verify that the Save Search popup is closed when I use the Cancel action$", searchPage::verifySaveSearchIsClosedWhenCancelIsClicked);
+
+        Then("^SM I verify that the Save Search popup is closed when I click outside the popup$", searchPage::verifySaveSearchIsClosedWithOutterClick);
+
+        Then("^SM I verify that the text inside the Save Search popup is correct$", searchPage::verifyTextInsideSaveSearchBox);
+
+        Then("^SM I verify the error message for more than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
+
+        And("^SM I save the search with the name \"([^\"]*)\"$", searchPage::saveSearchWithName);
+
+        And("^SM I verify the error message for less than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
+
+        Then("^SM I verify the confirmation message$", searchPage::verifyConfirmationMessage);
+
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
+
+        Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
+
+        Then("^SM I should see at the bottom the search by college name text box with default text \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameTextBox);
+
+        Then("^SM I search by college name using \"([^\"]*)\"$", searchPage::searchCollegeByName);
+
+        Then("^SM I see a message at the top of the results box that says \"([^\"]*)\"$", searchPage::verifyTextInSearchByCollegeNameResults);
+
+        And("^SM I verify \"([^\"]*)\" results were displayed when searching by college name$", searchPage::verifyAmountOfResultsWhenSearchingByCollegeName);
+
+        And("^SM I see a message in the search by college name text box that says \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameNoResultFoundMessage);
+
+
 
     }
 }
