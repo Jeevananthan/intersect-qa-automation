@@ -1240,8 +1240,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         goToCollegeInSearchResults(collegeName);
         boolean elementNotFound = true;
         WebElement firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
-        if(firstPinLinkCoincidence.getText().trim().contains("PINNED")) {
-            while(elementNotFound) {
+        if (firstPinLinkCoincidence.getText().trim().contains("PINNED")) {
+            while (elementNotFound) {
                 try {
                     firstPinLinkCoincidence.click();
                     elementNotFound = false;
@@ -1255,7 +1255,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             whyDrawerButton(collegeName).sendKeys(Keys.HOME);
             goToCollegeInSearchResults(collegeName);
 
-            while(elementNotFound) {
+            while (elementNotFound) {
                 firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
                 try {
                     firstPinLinkCoincidence.click();
@@ -1266,10 +1266,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 }
             }
         } else {
-            while(elementNotFound) {
+            while (elementNotFound) {
                 try {
                     firstPinLinkCoincidence.click();
-                    if(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED")) {
+                    if (driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED")) {
                         elementNotFound = false;
                     }
                 } catch (WebDriverException e) {
@@ -1279,6 +1279,66 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             }
             Assert.assertTrue("The college was not pinned. UI: " + driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText(), driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED"));
         }
+    }
+
+    /**
+     * Verifies the search by college name text box
+     * @param message
+     */
+    public void verifySearchByCollegeNameTextBox(String message){
+        Assert.assertTrue("The Search by college name text box is not displayed",
+                getSearchByCollegeNameTextBox().isDisplayed());
+        Assert.assertEquals(String.format("The default text of the search by college name text box is not correct, " +
+                "expected: %s, actual: %s",message,getSearchByCollegeNameTextBox().getAttribute("placeholder"))
+                ,message.trim(),getSearchByCollegeNameTextBox().getAttribute("placeholder").trim());
+        Assert.assertTrue("The magnifying icon is not displayed in the search by college name text box",
+                getSearchIcon().isDisplayed());
+    }
+
+    /**
+     * Search the given college by name
+     * @param name
+     */
+    public void searchCollegeByName(String name){
+        getSearchByCollegeNameTextBox().clear();
+        getSearchByCollegeNameTextBox().sendKeys(name);
+        waitForUITransition();
+    }
+
+    /**
+     * Verifies the given text is displayed in the search by college name results box
+     * @param text
+     */
+    public void verifyTextInSearchByCollegeNameResults(String text){
+        String actualText = getSearchByCollegeResultBoxMessage().getAttribute("innerText")
+                .replace("\"","");
+        Assert.assertEquals(String.format(
+                "The text in the search by college name text box results is not correct, expected: %s, actual: %s"
+                ,text,actualText),text,actualText);
+    }
+
+    /**
+     * Verifies that is displayed the given amount of results when searching by college name
+     * @param amount
+     */
+    public void verifyAmountOfResultsWhenSearchingByCollegeName(String amount){
+        int resultAmount = getSearchByCollegeResultList().findElements(
+                By.cssSelector("div[class='item supermatch-search-college-by-name-result']")).size();
+        String actualAmount = Integer.toString(resultAmount);
+        Assert.assertEquals(String.format("The amount of displayed results is not correct, expected: %s, actual: %s",
+                amount,actualAmount),amount,actualAmount);
+    }
+
+    /**
+     * Verifies the given text is displayed in the seach by text box when no results were found
+     * @param message
+     */
+    public void  verifySearchByCollegeNameNoResultFoundMessage(String message){
+        String actualMessage= getSearchByCollegeNameNoResultFoundMessage().getAttribute("innerText")
+                .replace("\"","");
+        Assert.assertEquals(String.format(
+                "The text in the search by college name text box results is not correct, expected: %s, actual: %s"
+                ,message,actualMessage),message,actualMessage);
     }
 
     // Locators Below
@@ -1502,4 +1562,46 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
 
     private WebElement whyDrawerButton(String collegeName) { return driver.findElement(By.xpath("//a[text()='" + collegeName + "']/../../../following-sibling::td/div/button")); }
+
+    /**
+     * Returns the search by college name textbox
+     * @return
+     */
+    private WebElement getSearchByCollegeNameTextBox(){
+        return driver.findElement(By.id("supermatch-search-box-input"));
+    }
+
+    /**
+     *Gets the search icon
+     * @return
+     */
+    private WebElement getSearchIcon(){
+        return driver.findElement(By.xpath(
+                "//div[@class='ui left icon input supermatch-search-box-input sm-hidden-s-down']/i[@class='search icon']"));
+    }
+
+    /**
+     * Gets the result box for the search by college text box
+     * @return
+     */
+    private WebElement getSearchByCollegeResultBoxMessage(){
+        return driver.findElement(By.xpath("//div[@class='item search-college-by-name-term']/a"));
+    }
+
+    /**
+     * Gets the college results list
+     * @return
+     */
+    private WebElement getSearchByCollegeResultList(){
+        return driver.findElement(By.id("supermatch-search-college-by-name-results"));
+    }
+
+    /**
+     * Gets the no result found message for the search by college name text box
+     * @return
+     */
+    private WebElement getSearchByCollegeNameNoResultFoundMessage(){
+        return driver.findElement(
+                By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
+    }
 }
