@@ -604,5 +604,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I click on button Add attendees for fair$",repVisits::fairAttendeeclick);
 
+        Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
+
     }
 }
