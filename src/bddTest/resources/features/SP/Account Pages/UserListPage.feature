@@ -114,3 +114,12 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     Examples:
       |First Name|Last Name  |Email                         |Verify Email                       |
       |PurpleHE  |Automation |purpleheautomation@gmail.com  |purpleheautomation@gmail.com       |
+
+
+  @MATCH-2378
+  Scenario: As a Support user I want to be able to update the primary user info for a non-Naviance HS
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "2400006"
+    And SP I select the following institution "The University of Alabama" from the results
+    Then SP I verify that I can edit the Primary User Details
+    Then SP I successfully sign out
