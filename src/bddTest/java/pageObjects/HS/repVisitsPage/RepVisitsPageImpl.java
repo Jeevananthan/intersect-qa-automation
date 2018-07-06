@@ -2776,7 +2776,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         else if (getDriver().findElements(By.xpath("//span[contains(text(), 'Cancel fair and notify colleges')]")).size() >= 1) {
             textbox(By.name("cancellationMessage")).sendKeys("College fair has been cancelled.");
             button("cancel fair and notify colleges").click();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Close']"),1));
+            waitForUITransition();
+            closeFairCancelConfiration().click();
         }
         else{
             Assert.assertTrue("There were no job fairs registered for this high school.", false);
@@ -2793,7 +2794,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(text(By.id("add-college"))));
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(text(By.id("add-college"))));
         button("ADD A COLLEGE FAIR").click();
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String key : data.keySet()) {
@@ -2809,9 +2809,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         }
         scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
-        driver.findElement(By.cssSelector("button[class='ui primary right floated button']")).click();
-//        button("Save").click();
 
+        fairSave().click();
     }
 
     /**
@@ -3217,7 +3216,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      //   button("Add Attendee").click();
         waitUntilPageFinishLoading();
     }
-  
+
     public void rescheduleVisitStartTime(){
         RescheduleStartTimeforNewVisit=StartTime;
     }
@@ -3298,7 +3297,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
         }
     }
-      
+
     public void accessSuccessMessageforAddAttendees(String buttonName) {
         waitForUITransition();
         if (buttonName.equals("No, I'm Done")) {
@@ -3333,7 +3332,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void closeSendEmailMessageBox() {
-        button("Close").click();
+          closeFairCancelConfiration().click();
     }
 
 
@@ -4868,7 +4867,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.fail("Time Slot is not displayed in the Regular weekly hours ");
         }
     }
-  
+
    public void verifyActivity(String option,String user,String university,String date,String time) {
         navBar.goToRepVisits();
         waitUntilPageFinishLoading();
@@ -5203,7 +5202,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         findMonth(calendarHeading,"End");
         return date;
     }
-  
+
     public void findMonth(String month, String startOrEndDate) {
         waitUntilPageFinishLoading();
         boolean monthStatus=false;
@@ -6054,7 +6053,7 @@ public void cancelRgisteredCollegeFair(String fairName){
             removeButton = driver.findElements(By.xpath("//span[text()='Remove']"));
         }
     }
-  
+
       public int  getColumnIdFromTableforManuallyAddVisit(String tableHeaderLocator, String fieldName)
     {
         int columnId=-1, colCount = 0;
@@ -6312,8 +6311,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         }
     }
     public void clickAddAttendeetovisit() {
-        waitForUITransition();
-        addSchoolAttendees().click();
+          addSchoolAttendees().click();
     }
 
     private WebElement addSchoolAttendees(){
@@ -7328,6 +7326,79 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement editButtonInCollegeFair(){
         return getDriver().findElement(By.id("edit-college-fair"));
+
+    }
+
+    public void savePrimaryContactForVisit(){
+        button("Save changes").click();
+    }
+
+    public void primaryContactForVisit(String phone, String email) {
+        navBar.goToRepVisits();
+        link("Availability & Settings").click();
+        link("Notifications & Primary Contact").click();
+        primaryContactPhone().clear();
+        primaryContactPhone().sendKeys(phone);
+        primaryContactOutsideCommunity().clear();
+        primaryContactOutsideCommunity().sendKeys(email);
+    }
+    /* Locator for Primary Contact*/
+    private WebElement primaryContactPhone(){
+        return  getDriver().findElement(By.cssSelector("input#notification_contacts_primary_contact_phone"));
+    }
+    private WebElement primaryContactOutsideCommunity(){
+        return  getDriver().findElement(By.cssSelector("textarea#notification_contacts_additional_emails"));
+    }
+
+    /*public void viewFairDetails(String fairName) {
+        accessSuccessMessageforFair("Close");
+        waitForUITransition();
+        getDriver().findElement(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr[1]/td[text()= '"+fairName+"' ]/following-sibling::td[4]/a/span")).click();
+         } */
+
+    public void editCollegeFairs(){
+        waitUntilPageFinishLoading();
+        editFairButton().click();
+    }
+    public void cancelCollegeFairClick()
+    {
+        cancelThisCollegeFair().click();
+
+    }
+    public  void cancelMessageForColleges(String cancelFairMessage){
+        cancelFairMessage().sendKeys(cancelFairMessage);
+
+    }
+    public void cancelFairAndNotifyColleges(){
+        cancelFairAndNotify().click();
+
+    }
+    public void fairAttendeeclick(){
+        FairAttendee().click();
+    }
+    /*public void closeSendEmailMessageBox(){
+        button("Close").click();
+
+    }*/
+    //*locators for Edit/Cancel Fair
+
+    private WebElement cancelFairMessage(){
+        return getDriver().findElement(By.cssSelector("textarea#college-fair-cancellation-message"));
+
+    }
+    private WebElement cancelFairAndNotify(){
+        return getDriver().findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ"));
+
+    }
+    private WebElement FairAttendee(){
+        return getDriver().findElement((By.xpath("//span[contains(text(),'ADD ATTENDEE')]")));
+
+    }
+    private WebElement fairSave(){
+        return  getDriver().findElement((By.xpath("//span[contains(text(),'Save')]")));
+    }
+    private WebElement closeFairCancelConfiration(){
+        return getDriver().findElement((By.xpath("//button[contains(text(),'Close')]")));
     }
     private WebElement fairsNameInEditFairsPopup(){
         return getDriver().findElement(By.id("college-fair-name"));

@@ -368,7 +368,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I select Edit button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
 
         And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
-//        And("^HS I navigate to the college visits page$", repVisits::navigateToVisitPage);
 
         Then("^HS I verify the default calendar page present after the Wizard completion$", repVisits::verifydefaultRepVisitPage);
 
@@ -536,7 +535,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Activity Tab for Fairs$",repVisits::verifyCityAndStateInActivitysubTabforFairs);
 
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
-      
+
         Then("^HS I verify I can make it through the RepVisits wizard as a non-Naviance HS$", repVisits::verifyRepvisitsSetupWizardNonNaviance);
 
         Then("^HS I set the value for Reschedule the visit$",repVisits::rescheduleVisitStartTime);
@@ -590,5 +589,22 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the \"([^\"]*)\" notification for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCancelVisitPopup);
 
         Then("^HS I select Activity in RepVisits to verify \"([^\"]*)\" notification for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" after cancelled the visit$",repVisits::verifyActivityForCanceltheVisit);
+
+        And("^HS I Save the Primary Contacts for visits for my school$",repVisits::savePrimaryContactForVisit);
+
+        And("^^HS I Set the Primary Contact for Visits for my  school with phone\"([^\"]*)\" and Email \"([^\"]*)\"$",repVisits:: primaryContactForVisit );
+
+        And("^HS I click on Edit button to navigate to Edit College Fair$",repVisits:: editCollegeFairs);
+
+        And("^HS I Click on button Cancel This College Fair$",repVisits::cancelCollegeFairClick);
+
+        And("^^HS I Enter Fair Cancellation Message for colleges \"([^\"]*)\"$",repVisits::cancelMessageForColleges);
+
+        And("^HS I click on button Cancel Fair and Notify Colleges$",repVisits::cancelFairAndNotifyColleges);
+
+        And("^HS I click on button Add attendees for fair$",repVisits::fairAttendeeclick);
+
+        Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
+
     }
 }

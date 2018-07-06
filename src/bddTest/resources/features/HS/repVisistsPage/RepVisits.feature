@@ -1024,3 +1024,36 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
    |14           |12:19AM       |purple   |School Manager |Alpena Community College  |14  |12:19am  |10:59pm |3        |14       |35      |10:59pm      |No, I want to manually review all incoming requests. |Standalone High School 6|12:         |12:     |Qa Fair for testng    |14  |1200AM    |0100AM  |5            |$25 |25                    |100                        |Save          |21                  |12:31am      |12:29 AM           |12:29am                        |10:59pm                      |12:00am   |12:00am      |12:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |12:00 AM              |
 
 
+
+
+  @MATCH-1583
+  Scenario: As an HS User I want to be able to use the Notifications and Primary Contact tab of RepVisits to Set Primay Contact
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Set the Primary Contact for Visits for my  school with phone"444-444-4444" and Email "mbhangu@hobsons.com"
+    And HS I Save the Primary Contacts for visits for my school
+    And HS I successfully sign out
+
+  @MATCH-1775
+  Scenario: As a High School Community user, I wan tto be able to cancel my college fair and notify attendees
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I create a College Fair with the following data
+      | College Fair Name                                         | Cancel This Fair        |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0800AM                  |
+      | Date                                                      | 5                       |
+      | RSVP Deadline                                             | 4                       |
+      | End Time                                                  | 0800PM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I Click the View Details button for the College Fair Event for "Cancel This Fair"
+    And HS I click on button Add attendees for fair
+    And HS I Add the following Attendee "Franky2" from the results in the Add Attendee pop-up page
+    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    And HS I click on Edit button to navigate to Edit College Fair
+    And HS I cancel the "Cancel This Fair" College Fair
+
+
