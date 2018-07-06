@@ -363,7 +363,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for(int i = 0; i < itemsToSelectSize; i++)
         {
             String item = itemsToSelect.get(i).get(0);
-            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[2]")).click();
+            getDriver().findElement(By.xpath("(//span[text()='" + item + "'])")).click();
         }
 
         //close combobox
@@ -548,9 +548,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenGPAInputIsValid() {
 
-        if(firstOnboardingPopup().isDisplayed())
-            superMatchCollegeSearchHeader().click();
-
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
@@ -680,9 +677,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void verifySystemResponseWhenACTScoreIsValid(DataTable dataTable) {
 
         List<String> scores = dataTable.asList(String.class);
-
-        if(firstOnboardingPopup().isDisplayed())
-            superMatchCollegeSearchHeader().click();
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
@@ -1222,7 +1216,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         } else if(Integer.parseInt(numberOfCharacters) == 3) {
             saveSearchPopupSearchBox().clear();
             saveSearchPopupSearchBox().sendKeys("aa");
-            saveSearchLink().click();
+            // Save Search button is no longer clickable when less than 3 characters are entered.
+            //saveSearchLink().click();
             Assert.assertTrue("The error message text is not correct", saveSearchPopupErrorMessage().getText().
                     equals(getStringFromPropFile(propertiesFilePath, "save.search.error.message.3.char")));
         }
@@ -1309,6 +1304,95 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if(pinLinkLocator(collegeName).equals("PIN TO COMPARE")) {
             pinCollege(collegeName);
         }
+    }
+
+    public void verifyColumnHeaders(DataTable dataTable) {
+        List<String> details = dataTable.asList(String.class);
+        for(String element : details) {
+            switch (element) {
+                case "Fit Score" :
+                    Assert.assertTrue("The header name of the Fit Score column is not correct",
+                            fitScoreColumnHeader().getText().trim().contains(element));
+                    break;
+                case "Academic Match" :
+                    Assert.assertTrue("The header name of the Academic Match column is not correct",
+                            academicMatchColumnHeader().getText().trim().contains(element.split(" ")[0]) &
+                                    academicMatchColumnHeader().getText().trim().contains(element.split(" ")[1]));
+                    break;
+                case "Admission Info" :
+                    Assert.assertTrue("The header name of the Admission Info column is not correct",
+                            admissionInfoColumnHeader().getText().trim().equals(element));
+                    break;
+                case "Cost" :
+                    Assert.assertTrue("The header name of the Cost column is not correct",
+                            costColumnHeader().getText().trim().equals(element));
+                    break;
+                case "Pick what to show" :
+                    Assert.assertTrue("The header of the Pick what to show column is not correct",
+                            pickWhatToShowColumnHeader().getText().trim().equals(element));
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Verifies the search by college name text box
+     * @param message
+     */
+    public void verifySearchByCollegeNameTextBox(String message){
+        Assert.assertTrue("The Search by college name text box is not displayed",
+                getSearchByCollegeNameTextBox().isDisplayed());
+        Assert.assertEquals(String.format("The default text of the search by college name text box is not correct, " +
+                "expected: %s, actual: %s",message,getSearchByCollegeNameTextBox().getAttribute("placeholder"))
+                ,message.trim(),getSearchByCollegeNameTextBox().getAttribute("placeholder").trim());
+        Assert.assertTrue("The magnifying icon is not displayed in the search by college name text box",
+                getSearchIcon().isDisplayed());
+    }
+
+    /**
+     * Search the given college by name
+     * @param name
+     */
+    public void searchCollegeByName(String name){
+        getSearchByCollegeNameTextBox().clear();
+        getSearchByCollegeNameTextBox().sendKeys(name);
+        waitForUITransition();
+    }
+
+    /**
+     * Verifies the given text is displayed in the search by college name results box
+     * @param text
+     */
+    public void verifyTextInSearchByCollegeNameResults(String text){
+        String actualText = getSearchByCollegeResultBoxMessage().getAttribute("innerText")
+                .replace("\"","");
+        Assert.assertEquals(String.format(
+                "The text in the search by college name text box results is not correct, expected: %s, actual: %s"
+                ,text,actualText),text,actualText);
+    }
+
+    /**
+     * Verifies that is displayed the given amount of results when searching by college name
+     * @param amount
+     */
+    public void verifyAmountOfResultsWhenSearchingByCollegeName(String amount){
+        int resultAmount = getSearchByCollegeResultList().findElements(
+                By.cssSelector("div[class='item supermatch-search-college-by-name-result']")).size();
+        String actualAmount = Integer.toString(resultAmount);
+        Assert.assertEquals(String.format("The amount of displayed results is not correct, expected: %s, actual: %s",
+                amount,actualAmount),amount,actualAmount);
+    }
+
+    /**
+     * Verifies the given text is displayed in the seach by text box when no results were found
+     * @param message
+     */
+    public void  verifySearchByCollegeNameNoResultFoundMessage(String message){
+        String actualMessage= getSearchByCollegeNameNoResultFoundMessage().getAttribute("innerText")
+                .replace("\"","");
+        Assert.assertEquals(String.format(
+                "The text in the search by college name text box results is not correct, expected: %s, actual: %s"
+                ,message,actualMessage),message,actualMessage);
     }
 
     // Locators Below
@@ -1529,6 +1613,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
     }
 
+    private WebElement fitScoreColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(2)")); }
+
+    private WebElement academicMatchColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(3)")); }
+
+    private WebElement admissionInfoColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(4) div span")); }
+
+    private WebElement costColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(5) div span")); }
+
+    private WebElement pickWhatToShowColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(6) div span.csr-heading-dropdown-text")); }
+  
     private WebElement superMatchCollegeSearchHeader() {
         return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
     }
@@ -1536,4 +1630,47 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement ACTValidationMessageElement() {
         return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
+
+    /**
+     * Returns the search by college name textbox
+     * @return
+     */
+    private WebElement getSearchByCollegeNameTextBox(){
+        return driver.findElement(By.id("supermatch-search-box-input"));
+    }
+
+    /**
+     *Gets the search icon
+     * @return
+     */
+    private WebElement getSearchIcon(){
+        return driver.findElement(By.xpath(
+                "//div[@class='ui left icon input supermatch-search-box-input sm-hidden-s-down']/i[@class='search icon']"));
+    }
+
+    /**
+     * Gets the result box for the search by college text box
+     * @return
+     */
+    private WebElement getSearchByCollegeResultBoxMessage(){
+        return driver.findElement(By.xpath("//div[@class='item search-college-by-name-term']/a"));
+    }
+
+    /**
+     * Gets the college results list
+     * @return
+     */
+    private WebElement getSearchByCollegeResultList(){
+        return driver.findElement(By.id("supermatch-search-college-by-name-results"));
+    }
+
+    /**
+     * Gets the no result found message for the search by college name text box
+     * @return
+     */
+    private WebElement getSearchByCollegeNameNoResultFoundMessage(){
+        return driver.findElement(
+                By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
+    }
+  
 }

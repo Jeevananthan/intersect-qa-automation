@@ -43,5 +43,13 @@ public class AccountPagesStepDefs implements En {
 
         Then("^SP I add the user account \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and set the user to be a new primary user \"([^\"]*)\"$", accountPage::addUserAccount);
 
+        Then("^SP I verify the user can able to select a \"([^\"]*)\" from the year list in calendar using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",accountPage::verifyYearInInstitutionCalendarPage);
+
+        Then("^SP I verify the \"([^\"]*)\" is present in the selected date \"([^\"]*)\",\"([^\"]*)\" in calendar of the institution page for \"([^\"]*)\"$",accountPage::verifySelectedDateColorInInstitutionCalendarPage);
+
+        Then("^SP I verify the list of years present in the subscription modules start date and end date calendar for \"([^\"]*)\"$",accountPage::verifyYearsListinStartandEndDateCalendar);
+
+        Then("^SP I verify the rolling update behaviour changed to \"([^\"]*)\" and \"([^\"]*)\" for \"([^\"]*)\" in institution calendar page$",accountPage::verifyModulesStartandEndDateCalendar);
+
     }
 }

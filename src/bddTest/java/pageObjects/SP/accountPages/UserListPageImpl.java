@@ -105,6 +105,12 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         verifyStatusIcon(userName,"primary");
     }
 
+    public void verifyEditPrimaryUserDetails(){
+        Boolean canEdit = false;
+        button(By.xpath("//span[text()='Primary User Details']/../button")).click();
+        Assert.assertTrue("The edit primary user page was not displayed", text("Update Primary User for").isDisplayed());
+    }
+
     public void verifyUserIsNotPrimary(String userName) {
         verifyStatusIcon(userName,"nonprimary");
     }
