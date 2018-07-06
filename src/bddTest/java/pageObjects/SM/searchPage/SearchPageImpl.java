@@ -1276,6 +1276,55 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 ,message,actualMessage),message,actualMessage);
     }
 
+    public void verifyOnlineLearningOpportunitiesTooltipIcon() {
+
+        if(firstOnboardingPopup().isDisplayed())
+            superMatchCollegeSearchHeader().click();
+
+        chooseFitCriteriaTab("Academics");
+
+        selectRadioButton("Certificate");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Certificate' degree type",
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
+
+        selectRadioButton("Associate");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Associate' degree type",
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
+
+        selectRadioButton("Bachelor");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Bachelor' degree type",
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
+
+        selectRadioButton("Master");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Master' degree type",
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
+
+        selectRadioButton("Doctorate");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Doctorate' degree type",
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
+
+        selectRadioButton("Graduate Certificate");
+        Assert.assertTrue("Tooltip icon is not displayed next to 'Include online learning' text for 'Graduate Certificate' degree type",
+                includeOnlineLearningOpportunitiesTooltipIcon().isDisplayed());
+
+    }
+
+    /**
+     * select any radio button only when fit criteria menu is open.
+     */
+    public void selectRadioButton(String radioButton){
+        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
+        Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
+        if (!radioButtonLocator.isSelected()) {
+            radioButtonLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
+        Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
+    }
+
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1283,6 +1332,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getNiceToHaveBox() { return driver.findElement(By.xpath("(//div[@class='column box box-selection'])[2]")); }
     private WebElement admissionMenuItem() {
         return driver.findElement(By.xpath("//div[contains(@class,'supermatch-searchfilter-menu-container')]//li[contains(text(), 'Admission')]"));
+    }
+    private WebElement academicsMenuItem() {
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Academics')]"));
     }
     private WebElement institutionCharacteristicsMenuItem() {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']//li[contains(text(), 'Institution Characteristics')]"));
@@ -1374,7 +1426,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getAverageClassSizeText(){ return driver.findElement(By.xpath("//span[text()='AVERAGE CLASS SIZE']")); }
     private WebElement getAverageClassSizeListIcon(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/i[@class='teal chevron down icon']")); }
     private WebElement getSelectedAverageClassSizeOption(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/div[1]")); }
-
+    private WebElement includeOnlineLearningOpportunitiesTooltipIcon()
+    {
+        return driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
+                "//ancestor::div[@class='column']//i[@class='teal info circle icon']"));
+    }
+    private WebElement firstOnboardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
 
     private WebElement selectMilesDropdown() {
         return driver.findElement(By.id("supermatch-location-miles-dropdown"));
@@ -1473,7 +1532,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement costColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(5) div span")); }
 
     private WebElement pickWhatToShowColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(6) div span.csr-heading-dropdown-text")); }
-  
+
     private WebElement superMatchCollegeSearchHeader() {
         return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
     }
@@ -1523,5 +1582,5 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(
                 By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
     }
-  
+
 }
