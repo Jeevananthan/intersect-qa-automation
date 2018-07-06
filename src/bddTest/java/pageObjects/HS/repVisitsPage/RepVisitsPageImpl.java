@@ -2557,7 +2557,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         }
         scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
-        button("Save").click();
+        waitForUITransition();
+        //button("Save").click();
+        fairSave().click();
     }
 
     /**
@@ -2602,7 +2604,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      * This reduces name collisions with repeated tests.
      * @param dataTable - Data Table containing all the fields for the College Fair
      */
-    public void editCollegeFair(DataTable dataTable) {
+    /*public void editCollegeFair(DataTable dataTable) {
        editFair();
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String key : data.keySet()) {
@@ -2624,7 +2626,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
         button("Save").click();
         button("Close").click();
-    }
+    }*/
 
     /**
      * Verify Edit a college fair with a random number appended to the end of the supplied name.
@@ -2693,10 +2695,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return fixDate;
     }
 
-    /**
-     * Format the date from "Fri, June 7 2013" to "Fri, Jun 07 2013"
-     * @param dateFormat, date to formmatter
-     */
+
+      /*Format the date from "Fri, June 7 2013" to "Fri, Jun 07 2013"
+     @param dateFormat, date to formmatter */
+
     public String formatterDate(String dateToFormat)
     {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
@@ -2899,8 +2901,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void closeSendEmailMessageBox() {
-        button("Close").click();
+        waitForUITransition();
+        closeFairCancelConfiration().click();
     }
+
 
 
     public void accessCollegeFairDetailsPage(String buttonToClick) {
@@ -5418,8 +5422,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void clickAddAttendeetovisit() {
-        waitForUITransition();
-        addSchoolAttendees().click();
+          addSchoolAttendees().click();
     }
 
     private WebElement addSchoolAttendees(){
@@ -6440,10 +6443,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         cancelFairAndNotify().click();
 
     }
-    public void closeSendEmailMessageBox(){
+    public void fairAttendeeclick(){
+        FairAttendee().click();
+    }
+    /*public void closeSendEmailMessageBox(){
         button("Close").click();
 
-    }
+    }*/
     //*locators for Edit/Cancel Fair
 
     private WebElement cancelFairMessage(){
@@ -6453,6 +6459,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement cancelFairAndNotify(){
         return getDriver().findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ"));
 
+    }
+    private WebElement FairAttendee(){
+        return getDriver().findElement((By.xpath("//span[contains(text(),'ADD ATTENDEE')]")));
+
+    }
+    private WebElement fairSave(){
+        return  getDriver().findElement((By.xpath("//span[contains(text(),'Save')]")));
+    }
+    private WebElement closeFairCancelConfiration(){
+        return getDriver().findElement((By.xpath("//button[contains(text(),'Close')]")));
     }
 }
 

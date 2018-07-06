@@ -280,7 +280,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I create a College Fair with the following data$", repVisits::createCollegeFair);
 
         Then("^HS I create a dynamic College Fair with the following data$", repVisits::createDynamicCollegeFair);
-
         Then("^HS I edit a dynamic College Fair with the following data$", repVisits::editCollegeFair);
 
         Then("^HS I verify edit a dynamic College Fair with the following data$", repVisits::verifyDataCollegeFair);
@@ -323,7 +322,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I Enter Message as \"([^\"]*)\"$",repVisits:: massEmailMessageForAttendees);
         Then("^HS I click on Send Message$",repVisits::sendMessage);
         Then("^HS I verify confirmation message$",repVisits::verifySentEmailConfirmationMessage);
-        Then("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
+       // Then("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
 
         Then("^HS I verify the UI of the Naviance Settings Page in setup wizard$", repVisits::verifyUIofNavianceSettingsPageinSetupWizard);
 
@@ -370,7 +369,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I select \"([^\"]*)\" button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
 
         And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
-//        And("^HS I navigate to the college visits page$", repVisits::navigateToVisitPage);
 
         Then("^HS I verify the default calendar page present after the Wizard completion$", repVisits::verifydefaultRepVisitPage);
 
@@ -538,6 +536,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^^HS I Enter Fair Cancellation Message for colleges \"([^\"]*)\"$",repVisits::cancelMessageForColleges);
         And("^HS I click on button Cancel Fair and Notify Colleges$",repVisits::cancelFairAndNotifyColleges);
         And("^HS I Click on close button$",repVisits::closeSendEmailMessageBox);
+        And("^HS I click on button Add attendees for fair$",repVisits::fairAttendeeclick);
 
 
     }

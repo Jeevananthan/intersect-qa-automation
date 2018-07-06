@@ -1090,9 +1090,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
     And HS I Click the View Details button for the College Fair Event for "Cancel This Fair"
+    And HS I click on button Add attendees for fair
+    And HS I Add the following Attendee "Franky2" from the results in the Add Attendee pop-up page
+    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     And HS I click on Edit button to navigate to Edit College Fair
-    And HS I Click on button Cancel This College Fair
     And HS I cancel the "Cancel This Fair" College Fair
-    And HS I Click on close button
-    And HS I successfully sign out
+
 
