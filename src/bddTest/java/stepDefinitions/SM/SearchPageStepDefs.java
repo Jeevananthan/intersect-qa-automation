@@ -144,5 +144,9 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
 
+        And("^SM I pin \"([^\"]*)\" if it is not pinned already$", searchPage::pinCollegeIfNotPinnedAlready);
+
+        And("^SM I open the Pinned Schools Compare screen$", searchPage::openPinnedCompareSchools);
+
     }
 }

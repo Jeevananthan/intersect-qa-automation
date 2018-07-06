@@ -3,13 +3,10 @@ package pageObjects.SM.searchPage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.JavascriptExecutor;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
@@ -1216,6 +1213,74 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void openPinnedCompareSchools() {
+        pinnedFooterOption().click();
+        comparePinnedCollegesLink().click();
+    }
+
+    public void pinCollegeIfNotPinnedAlready(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        if(pinLinkLocator(collegeName).equals("PIN TO COMPARE")) {
+            pinCollege(collegeName);
+        }
+    }
+
+    private void goToCollegeInSearchResults(String collegeName) {
+        while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
+            waitUntil(ExpectedConditions.elementToBeClickable(backToTopButton()));
+            backToTopButton().sendKeys(Keys.END);
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+            showMoreButton().sendKeys(Keys.RETURN);
+            waitUntilPageFinishLoading();
+        }
+        repVisitsPageUtility.scrollDown(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0));
+    }
+
+    public void pinCollege(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        boolean elementNotFound = true;
+        WebElement firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
+        if(firstPinLinkCoincidence.getText().trim().contains("PINNED")) {
+            while(elementNotFound) {
+                try {
+                    firstPinLinkCoincidence.click();
+                    elementNotFound = false;
+                } catch (WebDriverException e) {
+                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    elementNotFound = true;
+                }
+            }
+
+            elementNotFound = true;
+            whyDrawerButton(collegeName).sendKeys(Keys.HOME);
+            goToCollegeInSearchResults(collegeName);
+
+            while(elementNotFound) {
+                firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
+                try {
+                    firstPinLinkCoincidence.click();
+                    elementNotFound = false;
+                } catch (WebDriverException e) {
+                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_DOWN);
+                    elementNotFound = true;
+                }
+            }
+        } else {
+            while(elementNotFound) {
+                try {
+                    firstPinLinkCoincidence.click();
+                    if(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED")) {
+                        elementNotFound = false;
+                    }
+                } catch (WebDriverException e) {
+                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    elementNotFound = true;
+                }
+            }
+            Assert.assertTrue("The college was not pinned. UI: " + driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText(), driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED"));
+        }
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1421,5 +1486,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement ACTValidationMessageElement() {
         return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
-  
+
+    private WebElement pinnedFooterOption() { return driver.findElement(By.cssSelector("div#pinCount + span")); }
+
+    private WebElement comparePinnedCollegesLink() { return driver.findElement(By.cssSelector("div#supermatch-pinned-compare-colleges-link span")); }
+
+    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../a/span"; }
+
+    private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
+
+    private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
+
+    private String spinnerLocator = "button[disabled]";
+
+    private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
+
+    private WebElement whyDrawerButton(String collegeName) { return driver.findElement(By.xpath("//a[text()='" + collegeName + "']/../../../following-sibling::td/div/button")); }
 }
