@@ -58,6 +58,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return table("Higher Ed Account Dashboard").clickOnTheFirstElementOfAColumn("Name");
     }
 
+    public void addPost(String msg)
+    {
+        driver.switchTo().frame("_2ROBZ2Dk5vz-sbMhTR-LJ");
+        driver.findElement(By.xpath("//textarea[@class='form-textarea']")).sendKeys(msg);
+        driver.findElement(By.xpath("//input[@id='edit-save']")).click();
+        driver.switchTo().defaultContent();
+    }
+
     public void goToInstitution(String institutionName) {
         navBar.goToHome();
         globalSearch.setSearchCategory("All");

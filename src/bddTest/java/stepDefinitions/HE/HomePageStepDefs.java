@@ -68,5 +68,8 @@ public class HomePageStepDefs implements En {
 
         And("^HE I open the Events section$", navBar::goToEvents);
 
+        Then("^HE I verify the navigation globe is displayed for this user$",navBar::verifyNotificationIconInHomePage);
+
+        And("^HE I click the navigation globe for viewing the recent notifications$",navBar::clickNavigationGlobeIcon);
     }
 }

@@ -398,6 +398,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpublishEventOfGeneratedName() {
+        waitUntil(ExpectedConditions.visibilityOf(menuButtonForEvent(eventName)));
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
     }
