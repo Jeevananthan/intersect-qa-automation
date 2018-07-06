@@ -1052,9 +1052,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void selectHighInternationalPopulationCheckbox(String checkboxName){
+    public void selectDiversityCheckbox(String checkboxName){
         selectCheckBox(checkboxName, "Diversity");
-        //closeButtonForFitCriteria().click();
+        closeButtonForFitCriteria().click();
     }
 
     private void selectFitCriteria(String fitCriteria){
