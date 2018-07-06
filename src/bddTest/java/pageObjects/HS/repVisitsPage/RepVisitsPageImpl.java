@@ -6497,7 +6497,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement linkToAddRepresentativeManually(){
         return getDriver().findElement(By.cssSelector("div._1rww_NFFW9w2qLO-JBkqf"));
-
     }
     private WebElement editButtonInCollegeFair(){
         return getDriver().findElement(By.id("edit-college-fair"));
