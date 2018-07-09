@@ -126,7 +126,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I search for school "Int Qa High School 4" in RepVisits page using "Erlanger, KY" and verify that "<Date>" is blocked
+    Then HE I search for school "Int Qa High School 4" in RepVisits page using "Liberty Township, OH" and verify that "<Date>" is blocked
     Examples:
       |Holiday               | Date                | StartDate  | EndDate     |
       |LABOR_DAY             | September 04 2018   |July 23 2018|July 14 2019 |
@@ -157,9 +157,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |StartDate            |EndDate      |
-      |July 16 2018         |July 14 2019 |
+      |July 19 2018         |July 14 2019 |
       |August 15 2018       |June 11 2019 |
-      |July 16 2018         |July 14 2019 |
+      |July 19 2018         |July 14 2019 |
 
   @MATCH-1578 @MATCH-2124
   Scenario: As a HS RepVisits user I want to be able to use the Availability and Settings tab of RepVisits to Set Visit Scheduling
@@ -259,10 +259,9 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     | Number of Students Expected                               | 10                      |
     | Instructions for College Representatives                  | Submit request by Email |
     | Email Message to Colleges After Confirmation              | why not                 |
-
     And HS I Click the View Details button for the College Fair Event for "Automation Fair for Mass Email"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
-    And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
+    And HS I Add the following Attendee "purple HEadmin" from the results in the Add Attendee pop-up page
     And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then  HS I click the Message Colleges button
     Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
@@ -346,7 +345,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I successfully sign out
     Examples:
       |BlockedDate          |Reason       |StartDate  | EndDate   |
-      |23                   |No School    |23         | 23        |
+      |13                   |No School    |13         | 13        |
 
   @MATCH-1756
   Scenario:As an HS Community member,I need to view a calendar of my appointments
@@ -462,52 +461,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days
     Then HS I successfully sign out
 
-  @MATCH-2094 @MATCH-2124
-  Scenario Outline: As an HE user I want to see RepVisit notifications organized intuitively within my Notifications
-  page REQUESTS subtab so I can efficiently find the updates I am looking for within RepVisits.
-    # FOR VISITS
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-
-    Then HS I set the date using "<StartDate>" and "<EndDate>"
-    And HS I verify the update button appears and I click update button
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
-    And HS I successfully sign out
-
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
-    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-    Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
-    Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
-    And HE I verify the Notifications & Tasks using "<School>","<StartDate>","<heStartTime>"
-    Then HE I click the View full details option in the Request subTab using "<School>","<StartDate>","<heStartTime>"
-    Then HE I successfully sign out
-
-    #FOR FAIRS
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
-    And HS I successfully sign out
-
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    #TC may fail on the next step due to MATCH-3877
-    Then HE I register for the "<College Fair Name>" college fair at "<School>"
-    Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
-    Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
-    And HE I verify the Notifications & Tasks using "<School>","<Date>","<fairTime>" for fairs
-    Then HE I click the View full details option in the Request subTab using "<School>","<Date>","<fairTime>" for fairs
-    Then HE I successfully sign out
-
-    Examples:
-      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School              |heStartTime |heTime  |College Fair Name         |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |fairTime|
-      |35  |10:      |11:25pm |3        |35       |49      |11:25pm      |No, I want to manually review all incoming requests. |Int Qa High School 4|10:         |10:     |QA4 Fairs for testing     |35  |0900AM    |1000AM  |28           |$25 |25                    |100                        | Save          |9:00am  |
 
   @MATCH-1947
   Scenario Outline: As a HS RepVisits user I want to be able to use the rep-visits setup page to set the Messaging options
@@ -577,68 +530,8 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 
     Examples:
-      |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                     |Contact                                                    |Notes|Status   |Action|cancellationMessage             |buttonToClickNo,go back|buttonToClickYes, cancel visit|StatusCanceled  |ActionCanceled |
-      |QA Fair Cancel Fair Attendee|3               |2               |0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|3                |                                     |The University of Alabama|PurpleHE Automation,QA,purpleheautomation@gmail.com        |     |Attending|yes   |QA Test for canceling Attendees |No, go back            |Yes, cancel visit             |Canceled        |               |
-
-  @MATCH-1762 @MATCH-2124
-  Scenario Outline: As an HE Community member,
-  I need to be able to view appointment details in my calendar of my appointments
-  so that I can easily get address/contact/additional info on the scheduled visit.
-
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    Then HS I set the date using "<StartDate>" and "<EndDate>"
-    And HS I verify the update button appears and I click update button
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
-    And HS I successfully sign out
-
-#premium
-    Given HE I want to login to the HE app using "purpleheautomation+HEadmin@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
-    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-
-    And HE I select calendar in RepVisits
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
-    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
-    Then HE I remove the appointment from the calendar
-    Then HE I successfully sign out
-
-#community
-    Given HE I want to login to the HE app using "purpleheautomation+community@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
-    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
-    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
-    Then HE I successfully sign out
-
-#freemium
-    Given HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>" in freemium
-    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
-    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>" for freemium
-    Then HE I successfully sign out
-
-#Remove the time slot in Regular Weekly Hours Tab
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    And HS I successfully sign out
-
-    Examples:
-      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School              |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo|user      |eMail                        |
-      |7   |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Int Qa High School 4|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|6840 LAKOTA LN Liberty Township, OH 45044|1234567890 |IAM Purple|naviance-email@mock.com|
+      |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                     |Contact                               |Notes|Status   |Action|cancellationMessage             |buttonToClickNo,go back|buttonToClickYes, cancel visit|StatusCanceled  |ActionCanceled |
+      |QA Fair Cancel Fair Attendee|3               |2               |0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|3                |                                     |PurpleHE Automation      |PurpleHE Automation undefined         |     |Attending|yes   |QA Test for canceling Attendees |No, go back            |Yes, cancel visit             |Canceled        |               |
 
 
   @MATCH-2444
@@ -648,7 +541,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purplehsautomations@gmail.com" as username and "Password!1" as password
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
     Then HE I verify the calendar page using "<School>","<heCT>","<Date>" for Fairs
@@ -660,7 +553,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
     Examples:
       |School for Notification|School        |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
-      |Homeconnection (WA)    |Homeconnection|purpleheautomation@gmail.com    |QAs Fairs tests       |4   |1000AM    |1100AM  |2            |$25 |25                    |100                        | Save          |10AM   |10:00am         |
+      |Homeconnection (WA)    |Homeconnection|purpleheautomation@gmail.com    |QAs Fairs tests       |4   |900AM    |1100AM  |2            |$25 |25                    |100                        | Save          |9AM   |9:00am.         |
 
   @MATCH-3462
   Scenario: As a RepVisits HS user that is interested in opting in to connect events with Naviance, I want the copy on
@@ -687,18 +580,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-2381 @test
   Scenario: As a HS RepVisits user verify note to let users know their contact info will be visible
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-    And HS I Navigate to College Fairs tab of the Repvisits Page
-    And HS I Click button Add a College Fair to Add a fair
-    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
-    And HS I click on close icon on Add Edit College Fair pop-up
-    And HS I click View Details against fair
-    And HS I click on Edit button to edit fair
-    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
-    And HS I successfully sign out
-
-  @MATCH-2381 @test
-  Scenario: As a Non Naviance HS RepVisits user verify note to let users know their contact info will be visible
-    Given HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "Control!23" as password
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I Click button Add a College Fair to Add a fair
     And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
@@ -740,7 +621,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 
@@ -927,6 +807,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+ 
     Then HS I add the appointment based on pre-determined time slots using "<StartDate>","<StartTime>","<Attendees>","<visitLocation>"
 
   #Manually adding a contact to an appointment:
@@ -995,7 +876,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Examples:
        |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School              |
        |14         |21     |10:25 am |11:25 pm |PurpleHE Publishing|USA          |Holiday|Int Qa High School 4|
-
+       
   @MATCH-3257 @MATCH-3603
   Scenario Outline: As a HS admin user,I want the ability to specify my school's "regular weekly hours"
                     for the upcoming school year (e.g. 2018-2019), so that I can begin allowing reps to start
@@ -1008,3 +889,171 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     | April 2018     | July 2019  |   1  |
     | April 2018     | July 2019  |   14 |
     | April 2018     | July 2019  |   30 |
+
+  @MATCH-2294
+  Scenario: As a Non-Naviance HS, I want the RepVisit setup wizard to not have Naviance Settings options.
+  So that I can update RepVisit college fairs and visits
+    Given HS I want to login to the HS app using "purplehsautomation+HSSolidRock@gmail.com" as username and "Password!1" as password
+    Then HS I verify I can make it through the RepVisits wizard as a non-Naviance HS
+    
+  @MATCH-2093 @MATCH-2828
+  Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab
+                    so I can efficiently find the updates I am looking for within RepVisits.
+#FOR VISITS
+#precondition
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+#FOR CONFIRM
+    Then HS I set the date using "<StartDateforNewVisit>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<RescheduleAvailabilityStartTime>","<RescheduleAvailabilityEndTime>" and "<NumVisits>"
+    Then HS I set the value for Reschedule the visit
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation+HEAlpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    Then HE I successfully sign out
+
+    Given HE I want to login to the HE app using "purplehsautomations+alpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
+    Then HS I verify the Notification "<HEUser>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I select "Confirm" option for the Notification using "<HEUser>","<heStartTime>","<institution>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "confirmed" notification for "<HSuser>","<institution>","<activityDate>","<heStartTime>"
+
+#FOR DECLINE
+    Then HS I verify the Notification "<HEUser>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I select "Decline" option for the Notification using "<HEUser>","<heStartTime>","<institution>"
+    Then HS I verify the Decline Pop-up in the Notification Tab "<HEUser>","<institution>","<heStartTime>","<StartDate>"
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<HEUser>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<heStartTime>"
+
+#FOR RESCHEDULE
+    Then HS I reschedule the visit for the following data "<institution>","<RescheduleStartTime>","<Date>"
+    Then HS I verify reschedule pop-up for the following data "<HEUser>","<institution>","<RescheduleStartTime>","<Date>"
+#VERIFY RESCHEDULE PAGE FOR MATCH-2828
+    Then HS I verify the "Rescheduled visits aren't automatically confirmed" in reschedule page
+    Then HS I verify the university "<institution>" in reschedule page
+    Then HS I verify the date "<Date>" in reschedule page
+    Then HS I verify the time "<RescheduleStartTime>" in reschedule page
+
+    Then HS I reschedule a visit for the following details "<newVisitSTime>","<reason>","<StartDateforNewVisit>"
+#VERIFY ACTIVITY
+     And HS I select Activity in RepVisits to verify "rescheduled" notification for "<HSuser>","<institution>","<StartDateforNewVisit>","<RescheduleAvailabilityStartTime>" after Rescheduled the visit
+
+#FOR CANCEL
+    And HS I verify the calendar page in RepVisits using "<institution>","<StartTime>","<StartDateforNewVisit>" for cancel the Visit
+    Then HS I verify "Cancel This Visit" notification for "<HEUser>" using "<calendarST>","<institution>","<StartDateforNewVisit>","<StartTime>"
+    Then HS I select cancel the Visit
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<StartDateforNewVisit>","<heStartTime>" after cancelled the visit
+
+#FOR MANUALLY CREATE A NEW VISIT APPOINTMENT
+    Then HS I manually add the contact to an appointment using "<StartDate>","<StartTime>","<FName>","<LName>","<EMail>","<Phone>","<Position>","<institution>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "scheduled" notification for "<HSuser>","<institution>","<activityDate>","<newVisitSTime>"
+
+#Remove the time slot in Regular Weekly Hours Tab and Calendar
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I verify the calendar page using "<institution>","<StartTime>","<Date>" for cancel the Visit
+    Then HS I verify the "Cancel This Visit" notification for "<HEUser>" using "<calendarST>","<institution>","<activityDate>","<StartTime>"
+    Then HS I select cancel the Visit
+
+#FOR FAIRS
+#FOR CONFIRM
+    Then HS I set the following data to On the College Fair page "<newFairName>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation+HEAlpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+
+    Given HE I want to login to the HE app using "purplehsautomations+alpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
+    Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Confirm" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "confirmed" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
+
+#FOR DECLINE
+    Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Decline" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
+    Then HS I verify the Decline Pop-up in the Notification Tab "<HEUser>","<institution>","<FairsSTime>","<Date>" for Fairs
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<HEUser>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
+
+#FOR RESCHEDULE
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the edit fair popup "<College Fair Name>","<FairSTimeforReschedule>","<Date>"
+    And HS I reschedule the fair using "<newFairsSTime>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "rescheduled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
+
+#FOR CANCEL
+     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
+    Then HS I verify the message "You currently have no notifications" is displayed in the ACTIVITY subtab
+    Then HS I verify the Paginate the ACTIVITY subtab via 25 entries with a "Show More" action to display the next 25 entries
+    And HS I successfully sign out
+
+ Examples:
+   |activityDate |calendarST    |HEUser   |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|FairsSTime|newFairsSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|FairSTimeforReschedule|
+   |14           |12:19AM       |purple   |School Manager |Alpena Community College  |14  |12:19am  |10:59pm |3        |14       |35      |10:59pm      |No, I want to manually review all incoming requests. |Standalone High School 6|12:         |12:     |Qa Fair for testng    |14  |1200AM    |0100AM  |5            |$25 |25                    |100                        |Save          |21                  |12:31am      |12:29 AM           |12:29am                        |10:59pm                      |12:00am   |12:00am      |12:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |12:00 AM              |
+
+
+
+
+  @MATCH-1583
+  Scenario: As an HS User I want to be able to use the Notifications and Primary Contact tab of RepVisits to Set Primay Contact
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Set the Primary Contact for Visits for my  school with phone"444-444-4444" and Email "mbhangu@hobsons.com"
+    And HS I Save the Primary Contacts for visits for my school
+    And HS I successfully sign out
+
+  @MATCH-1775
+  Scenario: As a High School Community user, I wan tto be able to cancel my college fair and notify attendees
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I create a College Fair with the following data
+      | College Fair Name                                         | Cancel This Fair        |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0800AM                  |
+      | Date                                                      | 5                       |
+      | RSVP Deadline                                             | 4                       |
+      | End Time                                                  | 0800PM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I Click the View Details button for the College Fair Event for "Cancel This Fair"
+    And HS I click on button Add attendees for fair
+    And HS I Add the following Attendee "Franky2" from the results in the Add Attendee pop-up page
+    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    And HS I click on Edit button to navigate to Edit College Fair
+    And HS I cancel the "Cancel This Fair" College Fair
+
+

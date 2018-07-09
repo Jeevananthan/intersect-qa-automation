@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.EmailNotifications;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
@@ -236,7 +237,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the Non-admins cannot reach the page directly by URL$",repVisits::verifyNavigationInNonAdminByURl);
 
-        Then("^HE I verify the School details in Travel plan \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifySchoolDetailsInTravelPlan);
+        Then("^HE I verify the School details in Travel plan \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifySchoolDetailsInTravelPlan);
 
         Then("^HE I verify the instructional text in Travel Plan and verify the link to navigate to the Recommendations page$",repVisits::verifyLinkInTravelPlanPage);
 
@@ -367,7 +368,19 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the International Schools list view does not load for freemium users in search and schedule page$",repVisits::verifyInternationalSchoolsListIsNotDisplayedforFreemium);
 
         Then("^HE I get the URL of the current page$",repVisits::getCurrentPageURL);
+      
+        And("^HE I verify the city and state \"([^\"]*)\" are present in the underneath of School Name \"([^\"]*)\" in the Request Notification Tab$",repVisits::verifyCityAndStateInRequestNotificationsubTab);
 
+        And("^HE I verify the city and state \"([^\"]*)\" are present in the underneath of School Name \"([^\"]*)\" in the Activity Tab$",repVisits::verifyCityAndStateInActivitysubTab);
+
+        And("^HE I verify the city and state \"([^\"]*)\" are present in the underneath of School Name \"([^\"]*)\" in the Request Notification Tab for Fairs$",repVisits::verifyCityAndStateInRequestNotificationsubTabforFairs);
+
+        And("^HE I verify the city and state \"([^\"]*)\" are present in the underneath of School Name \"([^\"]*)\" in the Activity Tab for Fairs$",repVisits::verifyCityAndStateInActivitysubTabforFairs);
+      
+        Then("^HE I verify the results count by \"([^\"]*)\" using \"([^\"]*)\" in search results page$",repVisits::verifyResultsCountInSchedulePage);
+
+        And("^HE I verify the data for the following fair$",repVisits::verifyCollegeFairOnList);
+      
         Then("^HE I verify \"([^\"]*)\" stub menu is present in the Account settings page for Premium$",repVisits::verifyYourNotificationTabforPremium);
 
         Then("^HE I verify \"([^\"]*)\" stub menu is not present in the Account settings page for Freemium$",repVisits::verifyYourNotificationTabforfreemium);
