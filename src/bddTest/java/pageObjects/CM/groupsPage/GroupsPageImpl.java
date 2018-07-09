@@ -236,17 +236,10 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void goToManageGroupMembersPage() {
         logger.info("Going to the Manage Group Members Page.");
-//        link(By.id("js-main-nav-counselor-community-menu-link")).click();
-//        iframeEnter();
-//        //Next one line we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
-//        link(By.cssSelector("a[href='/profile']")).click();
-//        iframeExit();
-//        link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        driver.navigate().to("https://qa-support.intersect.hobsons.com/counselor-community/groups");
-
+        navBar.goToCommunity();
         communityFrame();
+        link("Groups").click();
         waitUntilPageFinishLoading();
-//        link(By.cssSelector("a[href='/groups']")).click();
         link(By.linkText("**Test Automation** HE Community PRIVATE Group")).click();
         waitUntilPageFinishLoading();
         jsClick(driver.findElement(By.className("manage-group-members-link")).findElement(By.tagName("a")));
