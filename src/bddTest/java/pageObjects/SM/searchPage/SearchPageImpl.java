@@ -567,17 +567,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySystemResponseWhenGPAInputIsInvalid(DataTable dataTable) {
 
-        List<List<String>> data = dataTable.raw();
+        List<String> scores = dataTable.asList(String.class);
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        for(int i = 0; i < data.size(); i++)
+        for(String score : scores)
         {
             gpaTextBox().clear();
-            gpaTextBox().sendKeys(data.get(i).get(0));
+            gpaTextBox().sendKeys(score);
             Assert.assertTrue(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
         }
     }
