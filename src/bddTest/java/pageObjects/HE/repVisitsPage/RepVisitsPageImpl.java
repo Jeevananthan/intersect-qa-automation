@@ -515,6 +515,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void registerFair(String fairName) {
+        if (fairName.equals("PreviouslySetFair")) {
+            fairName = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
+        }
         clickRegistrationButton(fairName);
         submitRequestButton().click();
     }
