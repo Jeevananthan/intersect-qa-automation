@@ -1054,7 +1054,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void selectDiversityCheckbox(String checkboxName){
         selectCheckBox(checkboxName, "Diversity");
-        closeButtonForFitCriteria().click();
     }
 
     private void selectFitCriteria(String fitCriteria){
