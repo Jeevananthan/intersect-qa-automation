@@ -151,7 +151,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
     And HE I register to the "TestFair" fair from Search and Schedule screen
     Then HE I should see a red upper bar with the text: "Sorry, this fair is no longer available. Please select another fair:"
 
-  @MATCH-1825
+  @MATCH-1825 @MATCH-1750
   Scenario: As an HE user I want to be able to access the College Fair Details
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     When HS I Navigate to College Fairs tab of the Repvisits Page
@@ -164,11 +164,23 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
       | Max students  | 5          |
       | Instructions  | Test instruction |
       | Auto Approvals | Yes       |
-    And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" from the RepVisits search result
     And HE I open the fairs tab
+    And HE I verify the data for the following fair
+      | College Fair Name   | TestFair--x                                 |
+      | High School name    | Int Qa High School 4                        |
+      #| Date                | 10                                          |
+      | Start time          | 7:04am                                      |
+      | Contact phone       | 360-555-1212                                |
+      | Contact email       | naviance-email@mock.com                     |
+      | Address             | 6840 LAKOTA LN                              |
+      | City                | Liberty Township                            |
+      | State               | Ohio                                        |
+      #| Number of students  | 5                                           |
+      | Cost                | 123                                         |
+      | Instructions        | Test instruction                            |
     Then HE I register to the "TestFair--x" fair from Search and Schedule screen
     When HE I open the Calendar tab in RepVisits
     And HE I open the new fair details in the generated date
@@ -193,6 +205,31 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
     And HS I cancel the fair of name "TestFair--x" with the reason "test"
     And HS I successfully sign out
 
+  @MATCH-2309
+  Scenario: As a HE user with the community role, I am able to submit a fair request
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "Password!1"
+    And HS I create a dynamic College Fair with the following data
+      | College Fair Name                                         | Fair-2309               |
+      | Automatically Confirm Incoming Requestions From Colleges? | yes                     |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0610AM                  |
+      | Date                                                      | 2                       |
+      | RSVP Deadline                                             | 1                       |
+      | End Time                                                  | 0810AM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I successfully sign out
+    When HE I am logged in to Intersect HE as user type "community"
+    And HE I search for "Int Qa High School 4" in RepVisits
+    And HE I select "Int Qa High School 4" from the RepVisits search result
+    And HE I open the fairs tab
+    Then HE I register to the "PreviouslySetFair" fair from Search and Schedule screen
+    Then HE I verify that the message for registered fairs with auto approval is displayed
+    When HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "Password!1"
+    And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
+    And HS I successfully sign out
 
 
 

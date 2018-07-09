@@ -55,7 +55,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.name("password")).sendKeys(password);
         button("Login").click();
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("/colleges"))).click();
-        new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(button("Find your fit"))).click();
+        //Search Tools
+        new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(button("Find Your Fit"))).click();
+        //SuperMatch™ College Search Next
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("SuperMatch Next"))).click();
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
     }

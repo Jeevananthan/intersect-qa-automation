@@ -33,22 +33,27 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
       | 10              |
     Then SM I see validation message "Select gender to finish adding this criteria"
 
-  @MATCH-3375
-  Scenario: As a HS student, I want to filter colleges I am searching for by International Students within the Diversity
-  category so I can see relevant colleges that match my International Students requirements.
+  @MATCH-3375 @MATCH-3371 @MATCH-3817
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by International Students within the Diversity
+            category so I can see relevant colleges that match my International Students requirements.
     Given SM I am logged in to SuperMatch through Family Connection
-    Then SM I select the "High International Population" checkbox from the Diversity fit criteria
-    And SM I verify that the Must Have box contains "High International Population"
-    Then SM I unselect the "High International Population" checkbox from the "Diversity" fit criteria
-    Then SM I verify "High International Population" checkbox in Diversity fit criteria
-    And SM I verify that the Must Have box does not contain "High International Population"
-    Then SM I select the "High International Population" checkbox from the Diversity fit criteria
-    And SM I move "High International Population" from the Must Have box to the Nice to Have box
-    Then SM I unselect the "High International Population" checkbox from the "Diversity" fit criteria
-    And SM I verify that the Must Have box does not contain "High International Population"
-    And SM I verify that Nice to Have box does not contain "High International Population"
-    Then SM I select the "High International Population" checkbox from the Diversity fit criteria
-    And SM I verify that the Must Have box contains "High International Population"
+    Then SM I select the "<diversityOption>" checkbox from the "Diversity" fit criteria
+    And SM I verify that the Must Have box contains "<diversityOption>"
+    Then SM I unselect the "<diversityOption>" checkbox from the "Diversity" fit criteria
+    And SM I verify that the Must Have box does not contain "<diversityOption>"
+    Then SM I select the "<diversityOption>" checkbox from the "Diversity" fit criteria
+    And SM I move "<diversityOption>" from the Must Have box to the Nice to Have box
+    Then SM I unselect the "<diversityOption>" checkbox from the "Diversity" fit criteria
+    And SM I verify that the Must Have box does not contain "<diversityOption>"
+    And SM I verify that Nice to Have box does not contain "<diversityOption>"
+    Then SM I select the "<diversityOption>" checkbox from the "Diversity" fit criteria
+    And SM I verify that the Must Have box contains "<diversityOption>"
+    Examples:
+    |diversityOption                  |
+    |High International Population    |
+    |Historically Black Institutions  |
+    |Tribal Colleges and Universities |
+    |Hispanic Serving Institutions    |
 
   @MATCH-3439
   Scenario Outline: As a HS student reviewing results in SuperMatch, I want to be able to see Diversity details
