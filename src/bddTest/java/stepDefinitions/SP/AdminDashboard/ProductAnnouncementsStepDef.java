@@ -22,10 +22,6 @@ public class ProductAnnouncementsStepDef implements En {
         Then("^SP I verify \"([^\"]*)\" stub menu is displayed in the Admin dashboard page$",productAnnouncements::verifyProductAnnouncementsStubMenu);
         Then("^SP I verify that Admin dashboard is not displayed$",productAnnouncements::verifyAdminDashboardIsNotDisplayed);
         Then("^SP I verify title \"([^\"]*)\" is displayed in the Product Announcements page$",productAnnouncements::verifyTitleInProductAnnouncements);
-        Then("^SP I verify \"([^\"]*)\" characters are displayed in the Product Announcements page$",productAnnouncements::verifyCharCountsInProductAnnouncements);
-        Then("^SP I verify the visibility for the following details \"([^\"]*)\" in the Product Announcements page using \"([^\"]*)\"$",productAnnouncements::verifyVisibilityInProductAnnouncements);
-        Then("^SP I verify the date format \"([^\"]*)\" in the Product Announcements page using \"([^\"]*)\" for the user \"([^\"]*)\"$",productAnnouncements::verifyDateFormatInProductAnnouncements);
-        Then("^SP I verify the status \"([^\"]*)\" is displayed in the Product Announcements page using title \"([^\"]*)\"$",productAnnouncements::verifyStatusInProductAnnouncements);
         Then("^SP I verify \"([^\"]*)\" button for more than 25 notifications in the Product Announcements page$",productAnnouncements::verifyShowMoreButtonInProductAnnouncements);
     }
 }
