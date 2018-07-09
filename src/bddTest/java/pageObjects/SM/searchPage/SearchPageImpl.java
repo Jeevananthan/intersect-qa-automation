@@ -1278,8 +1278,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyOnlineLearningOpportunitiesTooltipIcon() {
 
-        if(firstOnboardingPopup().isDisplayed())
-            superMatchCollegeSearchHeader().click();
+        try {
+            setImplicitWaitTimeout(1);
+            if(firstOnboardingPopup().isDisplayed())
+                superMatchCollegeSearchHeader().click();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            resetImplicitWaitTimeout();
+        }
 
         chooseFitCriteriaTab("Academics");
 
