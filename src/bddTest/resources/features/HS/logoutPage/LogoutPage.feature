@@ -9,6 +9,6 @@ Feature: As a HS user I need to logout from Intersect
 
   @QASmokeTest
   Scenario: As a Naviance HS user, I want to verify that the HS logout page is displayed after logging out from Community
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I successfully sign out
     Then HS I verify that the HS login page is displayed
