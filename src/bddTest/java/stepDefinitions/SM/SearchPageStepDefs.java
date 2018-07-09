@@ -155,5 +155,14 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
 
+        And("^SM I verify the text displayed in the % Male vs. Female Fit Criteria$", searchPage::verifyTextDisplayedInMaleVsFemaleFitCriteria);
+
+        And("^SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown$", searchPage::verifyPlaceholdersInSelectPercentAndSelectGenderDropdown);
+
+        And("^SM I verify the options displayed in the Select % dropdown$", searchPage::verifyOptionsInSelectPercentDropdown);
+
+        And("^SM I verify the options displayed in the Select Gender dropdown$", searchPage::verifyOptionsInSelectGenderDropdown);
+
+
     }
 }

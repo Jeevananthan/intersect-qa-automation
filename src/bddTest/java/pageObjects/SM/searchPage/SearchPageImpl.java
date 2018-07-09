@@ -18,6 +18,8 @@ import pageObjects.SM.surveyPage.SurveyPageImpl;
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import org.openqa.selenium.support.Color;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
@@ -1324,6 +1326,79 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
     }
 
+    public void verifyTextDisplayedInMaleVsFemaleFitCriteria() {
+        chooseFitCriteriaTab("Diversity");
+
+        Assert.assertTrue("'% Male Vs. Female' section header is not displayed",
+                maleVsFemaleSectionHeader().isDisplayed());
+        Assert.assertTrue("'At least' text is not displayed",
+                maleVsFemaleSectionWrapper().getText().contains("At least"));
+        Assert.assertTrue("'are' text is not displayed",
+                maleVsFemaleSectionWrapper().getText().contains("are"));
+
+        closeFitCriteria().click();
+    }
+
+    public void verifyPlaceholdersInSelectPercentAndSelectGenderDropdown(DataTable dataTable)
+    {
+        chooseFitCriteriaTab("Diversity");
+
+        List<List<String>> data = dataTable.raw();
+        String selectPercentPlaceholder = data.get(0).get(0);
+        String selectGenderPlaceholder = data.get(1).get(0);
+        Assert.assertTrue("The default text displayed for male vs. female percent dropdown is not correct",
+                maleVsFemalePercentDropdownDefaultOption().getText().equals(selectPercentPlaceholder));
+        Assert.assertTrue("The default text displayed for male vs. female gender dropdown is not correct",
+                maleVsFemaleGenderDropdownDefaultOption().getText().equals(selectGenderPlaceholder));
+
+        closeFitCriteria().click();
+    }
+
+    public void verifyOptionsInSelectPercentDropdown(DataTable dataTable)
+    {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Diversity");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        maleVsFemalePercentDropdownChevron().click();
+
+        List<String> maleFemalePercentOptionsActual = maleVsFemalePercentDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = maleFemalePercentOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Male Vs. Female 'Select %' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+    }
+
+    public void verifyOptionsInSelectGenderDropdown(DataTable dataTable)
+    {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Diversity");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        maleVsFemaleGenderDropdownChevron().click();
+
+        List<String> maleFemaleGenderOptionsActual = maleVsFemaleGenderDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = maleFemaleGenderOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Male Vs. Female 'Select gender' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+    }
 
     // Locators Below
 
@@ -1582,5 +1657,38 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(
                 By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
     }
+
+    private WebElement maleVsFemaleSectionHeader() {
+        return getDriver().findElement(By.xpath("//div[@class='ui tiny header']/span[text()='% Male Vs. Female']"));
+    }
+
+    private WebElement maleVsFemaleSectionWrapper() {
+        return getDriver().findElement(By.xpath("(//div[@class='supermatch-religious-affiliation-wrapper'])[2]"));
+    }
+
+    private WebElement maleVsFemalePercentDropdownDefaultOption() {
+        return getDriver().findElement(By.xpath("//div[@id='male-female-percent-dropdown']/div[@class='default text']"));
+    }
+
+    private WebElement maleVsFemaleGenderDropdownDefaultOption() {
+        return getDriver().findElement(By.xpath("//div[@id='male-female-gender-dropdown']/div[@class='default text']"));
+    }
+
+    private WebElement maleVsFemalePercentDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='male-female-percent-dropdown']/i"));
+    }
+
+    private List<WebElement> maleVsFemalePercentDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='male-female-percent-dropdown']//span"));
+    }
+
+    private WebElement maleVsFemaleGenderDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='male-female-gender-dropdown']/i"));
+    }
+
+    private List<WebElement> maleVsFemaleGenderDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='male-female-gender-dropdown']//span"));
+    }
+
 
 }
