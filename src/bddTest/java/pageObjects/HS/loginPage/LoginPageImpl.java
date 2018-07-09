@@ -53,12 +53,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
     }
 
-    public void loginThroughNaviance(String account, String username, String password) {
+    public void loginThroughNaviance(String usertype) {
         openNavianceLoginPage();
         String navianceWindow = driver.getWindowHandle();
         String intersectWindow = null;
-        textbox(By.name("hsid")).sendKeys(account);
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        textbox(By.name("hsid")).sendKeys(hsid);
+        String username = GetProperties.get("hs."+ usertype + ".username");
         textbox(By.name("username")).sendKeys(username);
+        String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
         waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));

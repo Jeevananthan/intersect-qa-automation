@@ -29,7 +29,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
       #Scenario is failing and need to be fixed
 #  Scenario: As an HS user, I want to be able to add/remove time slots
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    When HS I open the Exceptions page
 #    And HS I select a date "10" days ahead from now
 #    And HS I add a new time slot with the following data:
@@ -43,7 +43,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 
 #  Scenario: As an HS User, I want to be able to clear a day
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    When HS I open the Exceptions page
 #    And HS I select a date "11" days ahead from now
 #    And HS I add a new time slot with the following data:
@@ -57,7 +57,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   #  @MATCH-1469
 #  Scenario: As a HS user Manually Add a Contact to Appointment
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    And HS I am Navigating to Calendar Home Screen
 #    And HS I click on button Add Visit
 #    And HS I select custom time manually
@@ -86,7 +86,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #  Scenario Outline: As an HE user I want to see RepVisit notifications organized intuitively within my Notifications
 #  page REQUESTS subtab so I can efficiently find the updates I am looking for within RepVisits.
 #    # FOR VISITS
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
 #    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
 #    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
@@ -111,7 +111,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #    Then HE I successfully sign out
 #
 #    #FOR FAIRS
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
 #    And HS I successfully sign out
 #
@@ -134,7 +134,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #  I need to be able to view appointment details in my calendar of my appointments
 #  so that I can easily get address/contact/additional info on the scheduled visit.
 #
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
 #    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
 #    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
@@ -179,7 +179,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #    Then HE I successfully sign out
 #
 ##Remove the time slot in Regular Weekly Hours Tab
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
 #    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
 #    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
