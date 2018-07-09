@@ -248,3 +248,15 @@ Examples:
     Examples:
       |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime |
       |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:25am    |10:25am|
+
+  @MATCH-4224
+  Scenario: As an RepVisits HE admin premium/paid Presence subscription user, I want to understand why I can't submit the "Re-assign Appointments" modal form,
+            so that I can correct my entries as necessary and successfully submit.
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the error Message "Please select a Staff Member" is displaying when "Select staff member" is not selected for "Automation, PurpleHE"
+    Then HE I verify the error Message "Please select a New Assignee" is displaying when "Select new assignee" is not selected for "Automation, PurpleHE"
+    Then HE I verify the error Message "Please select at least one appointment" is displaying when "No appointments" is not selected for "Automation, PurpleHE"
+    Then HE I verify the error Message "doesn't have any appointments scheduled." is displaying when "Select staff member, no associated visits or fairs" is not selected for "Fresh, PurpleHE"
+    Then HE I verify the error Message "Please select a Staff Member" is disappearing when the error message "doesn't have any appointments scheduled." is displayed for "Fresh, PurpleHE"
+    And HE I successfully sign out

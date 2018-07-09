@@ -3035,6 +3035,56 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyErrorMessageInReAssignAppointments(String errorMessage,String option,String staff){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntilPageFinishLoading();
+        reAssignAppointments().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Reassign  Appointments']"),1),5);
+        if(option.equals("Select staff member")||option.equals("Select new assignee")){
+            reAssignAppointmentsButton().click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1),5);
+            Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
+        }else if(option.equals("No appointments")){
+            selectStaffMemberDropdown().click();
+            jsClick(driver.findElement(By.xpath("//div[text()='"+staff+"']")));
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//label[@for='selectAllCheckBox']"),1),5);
+            reAssignAppointmentsButton().click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1),5);
+            Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
+        }else if(option.equals("Select staff member, no associated visits or fairs")){
+            selectStaffMemberDropdown().click();
+            jsClick(driver.findElement(By.xpath("//div[text()='"+staff+"']")));
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span"),1),5);
+            String actualMessage = driver.findElement(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span")).getText();
+            Assert.assertTrue("Error message is not displayed",actualMessage.equals(errorMessage));
+        }else {
+            logger.info("Invalid option");
+        }
+        goBackButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a/span[text()='Calendar']"),1),5);
+    }
+
+    public void verifyDisappearingErrorMessageInReAssignAppointments(String disappearingErrorMessage,String errorMessage,String staff){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntilPageFinishLoading();
+        reAssignAppointments().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Reassign  Appointments']"),1),5);
+        reAssignAppointmentsButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+disappearingErrorMessage+"']"),1),5);
+        Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//div/span[text()='"+disappearingErrorMessage+"']")).isDisplayed());
+        selectStaffMemberDropdown().click();
+        driver.findElement(By.xpath("//div[text()='"+staff+"']")).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span"),1),5);
+        String actualMessage = driver.findElement(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span")).getText();
+        Assert.assertTrue("Error message is not displayed",actualMessage.equals(errorMessage));
+        goBackButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a/span[text()='Calendar']"),1),5);
+    }
+
     private void selectMoreResultsInSearchAndSchedule(){
         while(getMoreResultsButton().isDisplayed()){
             getMoreResultsButton().click();
@@ -3490,6 +3540,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement resultCountInSearchResultsPage(){
         return getDriver().findElement(By.xpath("//p[@class='WWSRdogYvrcJkqEg52pv3']//span"));
+    }
+    private WebElement reAssignAppointments(){
+        return link("Re-assign appointments");
+    }
+    private WebElement reAssignAppointmentsButton(){
+        return driver.findElement(By.xpath("//button[text()='Reassign  Appointments']"));
+    }
+    private WebElement selectStaffMemberDropdown(){
+        return driver.findElement(By.xpath("//div[text()='Select staff member']"));
+    }
+    private WebElement goBackButton(){
+        return button("GO BACK");
     }
 }
 
