@@ -210,6 +210,15 @@ Examples:
   Scenario Outline: As an HE user I need to be able to view the scheduling results of my Visits search AFTER I have
                     selected an individual high school from the intermediate results list OR my original search matched
                     one specific high school so I can optimize my high school visit and fair travel schedule.
+  #precondition
+    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    And HS I successfully sign out
+
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify default page as show visits tab and toggle between tabs

@@ -45,6 +45,31 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     And SP I edit the product announcement "AutomationEdited2" with title "AutomationEdited2" content "ContentEdited2" audience "" and status "Unpublished"
     And SP I successfully sign out
 
+  @MATCH-3904
+  Scenario: As a super admin and admin role in the Support app of Intersect,
+  I want the ability to have a location within the support app that allows me to create Intersect in-product notifications,
+  So that when there are any important notifications (e.g. maintenance, product survey's, release notifications, etc.) related to the Intersect product line,
+  I have the ability to directly notify users within the application and manage such from the Support app.
+#Verify admin dashboard is displayed
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I verify that Admin dashboard is displayed in Homepage
+    Then SP I verify the header is changed from "Intersect" to "Admin Dashboard" in the Admin dashboard page
+    Then SP I verify "Product Announcements" stub menu is displayed in the Admin dashboard page
+    And SP I successfully sign out
+#Verify admin dashboard is not displayed
+    When SP I am logged in to the Admin page as a Community Manager user
+    And SP I verify that Admin dashboard is not displayed
+    And SP I successfully sign out
+    When SP I am logged in to the Admin page as a Community user
+    And SP I verify that Admin dashboard is not displayed
+    And SP I successfully sign out
+    When SP I am logged in to the Admin page as a Sales Ops user
+    And SP I verify that Admin dashboard is not displayed
+    And SP I successfully sign out
+    When SP I am logged in to the Admin page as a Support user
+    And SP I verify that Admin dashboard is not displayed
+    And SP I successfully sign out
+    
   @MATCH-4138
   Scenario: As a super admin and admin role in the Support app of Intersect,
   I want the ability to add and see current published/unpublished Intersect in-product notifications in the support app,
@@ -72,4 +97,3 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     Then SP I verify "Show More" button for more than 25 notifications in the Product Announcements page
     And SP I un-publish all the published announcements
     And SP I successfully sign out
-

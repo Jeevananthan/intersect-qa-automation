@@ -151,7 +151,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
     And HE I register to the "TestFair" fair from Search and Schedule screen
     Then HE I should see a red upper bar with the text: "Sorry, this fair is no longer available. Please select another fair:"
 
-  @MATCH-1825
+  @MATCH-1825 @MATCH-1750
   Scenario: As an HE user I want to be able to access the College Fair Details
     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
     When HS I Navigate to College Fairs tab of the Repvisits Page
@@ -164,11 +164,23 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
       | Max students  | 5          |
       | Instructions  | Test instruction |
       | Auto Approvals | Yes       |
-    And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" from the RepVisits search result
     And HE I open the fairs tab
+    And HE I verify the data for the following fair
+      | College Fair Name   | TestFair--x                                 |
+      | High School name    | Int Qa High School 4                        |
+      #| Date                | 10                                          |
+      | Start time          | 7:04am                                      |
+      | Contact phone       | 360-555-1212                                |
+      | Contact email       | naviance-email@mock.com                     |
+      | Address             | 6840 LAKOTA LN                              |
+      | City                | Liberty Township                            |
+      | State               | Ohio                                        |
+      #| Number of students  | 5                                           |
+      | Cost                | 123                                         |
+      | Instructions        | Test instruction                            |
     Then HE I register to the "TestFair--x" fair from Search and Schedule screen
     When HE I open the Calendar tab in RepVisits
     And HE I open the new fair details in the generated date

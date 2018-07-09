@@ -233,7 +233,25 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
                 ,status,getAnnouncementStatusFieldValue()),status,getAnnouncementStatusFieldValue());
     }
 
-    public void verifyTitleInProductAnnouncements(String title){
+    public void verifyAdminDashboardIsDisplayed(){
+        Assert.assertTrue("Admin Dashboard is not displayed",adminDashBoard().isDisplayed());
+    }
+
+    public void verifyHeaderInAdminDashboard(String intersectHeader,String adminDashBoardHeader){
+        Assert.assertTrue("Intersect header is not displayed",driver.findElement(By.xpath("//div[text()='"+intersectHeader+"']")).isDisplayed());
+        goToProductAnnouncements();
+        Assert.assertTrue("Admin dashboard header is not displayed",driver.findElement(By.xpath("//div[text()='"+adminDashBoardHeader+"']")).isDisplayed());
+    }
+
+    public void verifyProductAnnouncementsStubMenu(String stubMenu){
+        Assert.assertTrue("Product Announcements stub menu is not displayed",driver.findElement(By.xpath("//a/span[text()='"+stubMenu+"']")).isDisplayed());
+    }
+
+    public void verifyAdminDashboardIsNotDisplayed(){
+        List<WebElement> adminDashboard = driver.findElements(By.id("js-main-nav-admin-menu-link"));
+        Assert.assertTrue("Admin dashboard is displayed",adminDashboard.size()==0);
+    }
+      public void verifyTitleInProductAnnouncements(String title){
         Assert.assertTrue("Announcement title is not displayed",driver.findElement(By.xpath("//div/a[contains(text(),'"+title+"')]")).isDisplayed());
     }
 
@@ -284,7 +302,6 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
-
     /**
      * Gets the announcement title field value
      * @return String
@@ -419,5 +436,8 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
      */
     private WebElement getSelectedAnnouncementStatusRadioButton(){
         return driver.findElement(By.cssSelector("div[class='ui checked radio checkbox yqtg9wJj2OswMfKalbNut']"));
+    }
+    private WebElement adminDashBoard(){
+        return driver.findElement(By.id("js-main-nav-admin-menu-link"));
     }
 }

@@ -17,6 +17,10 @@ public class ProductAnnouncementsStepDef implements En {
         When("^SP I edit the product announcement \"([^\"]*)\" with title \"([^\"]*)\" content \"([^\"]*)\" audience \"([^\"]*)\" and status \"([^\"]*)\"$",productAnnouncements::editProductAnnouncement );
         And("^SP I un-publish all the published announcements$",productAnnouncements::unpublishAllAnnouncements);
         Then("^SP I verify the product announcement with title \"([^\"]*)\" content \"([^\"]*)\" audience \"([^\"]*)\" and status \"([^\"]*)\" in the the edit form",productAnnouncements::verifyProductAnnouncementInEditMode );
+        Then("^SP I verify that Admin dashboard is displayed in Homepage$",productAnnouncements::verifyAdminDashboardIsDisplayed);
+        Then("^SP I verify the header is changed from \"([^\"]*)\" to \"([^\"]*)\" in the Admin dashboard page$",productAnnouncements::verifyHeaderInAdminDashboard);
+        Then("^SP I verify \"([^\"]*)\" stub menu is displayed in the Admin dashboard page$",productAnnouncements::verifyProductAnnouncementsStubMenu);
+        Then("^SP I verify that Admin dashboard is not displayed$",productAnnouncements::verifyAdminDashboardIsNotDisplayed);
         Then("^SP I verify title \"([^\"]*)\" is displayed in the Product Announcements page$",productAnnouncements::verifyTitleInProductAnnouncements);
         Then("^SP I verify \"([^\"]*)\" characters are displayed in the Product Announcements page$",productAnnouncements::verifyCharCountsInProductAnnouncements);
         Then("^SP I verify the visibility for the following details \"([^\"]*)\" in the Product Announcements page using \"([^\"]*)\"$",productAnnouncements::verifyVisibilityInProductAnnouncements);
