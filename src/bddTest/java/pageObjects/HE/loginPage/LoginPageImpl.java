@@ -524,7 +524,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String TimeValue = getTimeValue[2];
         Assert.assertTrue("School is not equal",SchoolName.equals(School));
         Assert.assertTrue("Date is not equal",CurrentDate.equals(DateValue));
-        Assert.assertTrue("Time is not equal",Time.equals(TimeValue));
+        Assert.assertTrue("Time is not equal",Time.contains(TimeValue));
     }
 
     public String getSpecificDate(String addDays) {
