@@ -275,6 +275,27 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void blockAccount(String username, String password) {
+        openHSLoginPage();
+        logger.info("Login into the HS app");
+        textbox(By.name("username")).sendKeys(username);
+        logger.info("Using " + username + " as username");
+        textbox(By.name("password")).sendKeys(password);
+        logger.info("Using " + password + " as password");
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        logger.info("Clicked the login button");
+//        waitUntilElementExists(link(By.id("user-dropdown")));
+        waitUntilPageFinishLoading();
+    }
+
     public void verifyLoginScreen() {
         openHSLoginPage();
         verifyHSLoginPage();
