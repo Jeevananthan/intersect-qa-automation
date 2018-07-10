@@ -3060,6 +3060,46 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Your Notification tab is displayed",yourNotificationTab.size()==0);
     }
 
+    public void verifyYourNotificationTab(DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        yourNotification().click();
+        List<String> text = dataTable.asList(String.class);
+        for(String displayingValue:text){
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+            Assert.assertTrue("Given text is not displayed",driver.findElement(By.xpath("//span[text()='"+displayingValue+"']")).isDisplayed());
+        }
+    }
+
+    public void verifyAlertToggleBoxisDefaultChecked(){
+        if (checkBoxInYourNotification().isEnabled())
+        Assert.assertTrue("Checkbox is not enabled",checkBoxInYourNotification().isEnabled());
+    }
+
+    public void verifySuccessMessageInYourNotification(String successMessage){
+        if (checkBoxInYourNotification().isEnabled())
+            checkBoxInYourNotification().click();
+            saveButtonInYourNotification().click();
+            Assert.assertTrue("Success message is not displayed", driver.findElement(By.xpath("//span[text()='" + successMessage + "']")).isDisplayed());
+    }
+
+    public void verifySavedChangesInYourNotification(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        yourNotification().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+        if(!checkBoxInYourNotification().isEnabled()){
+        Assert.assertTrue("Checkbox is enabled",!checkBoxInYourNotification().isEnabled());
+        checkBoxInYourNotification().click();
+        saveButtonInYourNotification().click();}
+    }
+
     private void selectMoreResultsInSearchAndSchedule(){
         while(getMoreResultsButton().isDisplayed()){
             getMoreResultsButton().click();
@@ -3515,6 +3555,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement resultCountInSearchResultsPage(){
         return getDriver().findElement(By.xpath("//p[@class='WWSRdogYvrcJkqEg52pv3']//span"));
+    }
+    private WebElement checkBoxInYourNotification(){
+        return getDriver().findElement(By.id("opt_out_availability_emails"));
+    }
+    private WebElement saveButtonInYourNotification(){
+        return driver.findElement(By.xpath("//button/span[text()='Save']"));
+    }
+    private WebElement yourNotification(){
+        return driver.findElement(By.xpath("//a/span[text()='Your Notifications']"));
     }
 }
 

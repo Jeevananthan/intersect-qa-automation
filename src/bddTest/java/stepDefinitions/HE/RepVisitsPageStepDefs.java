@@ -381,9 +381,16 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the data for the following fair$",repVisits::verifyCollegeFairOnList);
       
-        Then("^HE I verify \"([^\"]*)\" stub menu is present in the Account settings page for Premium$",repVisits::verifyYourNotificationTabforPremium);
+        Then("^HE I verify \"([^\"]*)\" stub menu is present in Account settings page for Premium$",repVisits::verifyYourNotificationTabforPremium);
 
-        Then("^HE I verify \"([^\"]*)\" stub menu is not present in the Account settings page for Freemium$",repVisits::verifyYourNotificationTabforfreemium);
+        Then("^HE I verify \"([^\"]*)\" stub menu is not present in Account settings page for Freemium$",repVisits::verifyYourNotificationTabforfreemium);
 
+        Then("^HE I verify the following details are present in Your Notifications subtab$",repVisits::verifyYourNotificationTab);
+
+        Then("^HE I verify Alert me when high schools become available in RepVisits toggle box is default checked in Your Notifications subtab$",repVisits::verifyAlertToggleBoxisDefaultChecked);
+
+        Then("^HE I verify the success message \"([^\"]*)\" after click Save button$",repVisits::verifySuccessMessageInYourNotification);
+
+        Then("^HE I verify the saved changes after navigate away from Your Notifications subtab$",repVisits::verifySavedChangesInYourNotification);
     }
 }

@@ -606,5 +606,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
+        Then("^HS I verify \"([^\"]*)\" stub menu is not present in Account settings page for \"([^\"]*)\"$",repVisits::verifyYourNotificationTab);
+
     }
 }
