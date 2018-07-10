@@ -37,5 +37,6 @@ public class SuperMatchPageStepDefs implements En {
         Then("^SM I create fifteen different save search from Resources tab$", fcSuperMatch::createFifteenSaveSearch);
 
         And("^SM I validate the error message \"([^\"]*)\"$", fcSuperMatch::verifySaveSearchMessage);
+
     }
 }
