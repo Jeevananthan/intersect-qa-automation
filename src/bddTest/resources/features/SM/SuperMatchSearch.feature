@@ -168,4 +168,18 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select "SavedTestSearch" in the Saved Searches dropdown
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
 
+    @MATCH-4406
+    Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly
+              return to the results to continue my college research.
+      Given SM I am logged in to SuperMatch through Family Connection
+      And I clear the onboarding popups if present
+      Then SM I create fifteen different save search from Resources tab
+      When I select the following data from the Admission Fit Criteria
+        | Acceptance Rate | 25% or Lower |
+      And SM I open the Save Search popup
+      And SM I save the search with the name "Search16"
+      And SM I validate the error message "Your have reached your maximum of 15 saved searches. Remove a saved search to add a new one"
+
+
+
 

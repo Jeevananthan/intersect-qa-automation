@@ -232,6 +232,41 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The option was not selected", selectedOption().getText().equals(selectedOption));
     }
 
+    public void createFifteenSaveSearch(){
+
+        String resourcesOptions[] = {"Learning Differences Support","Academic/Career Counseling","Counseling Services",
+                "Tutoring Services","Remedial Services","ESL/ELL Services","Physical Accessibility",
+                "Services for the Blind or Visually Impaired","Services for the Deaf and Hard of Hearing",
+                "Asperger's/Autism Support","Day Care Services"};
+        int counter = 1;
+        if (getSaveSearchDisableMenu().isDisplayed()){
+            for (String res: resourcesOptions) {
+                searchPage.setResourcesCriteria(res);
+                clickSaveSearchButton();
+                searchPage.saveSearchWithName("Search" + counter);
+                searchPage.verifyConfirmationMessage();
+                verifySavedSearchInDropdown("Search" + counter);
+                counter++;
+                searchPage.unsetResourcesCriteria(res);
+            }
+            searchPage.setResourcesCriteria("Learning Differences Support");
+            String resourcesOptionTwo[] = {"Academic/Career Counseling", "Counseling Services", "Tutoring Services", "Remedial Services"};
+            for (String resTwo : resourcesOptionTwo) {
+                searchPage.setResourcesCriteria(resTwo);
+                clickSaveSearchButton();
+                searchPage.saveSearchWithName("Search" + counter);
+                searchPage.verifyConfirmationMessage();
+                verifySavedSearchInDropdown("Search" + counter);
+                counter++;
+            }
+        }
+    }
+
+    public void verifySaveSearchMessage(String ExpMessage){
+        String ActMessage = driver.findElement(By.xpath("//body")).getText();
+        Assert.assertTrue("Error message for adding the 16th save search is not displaying.", ActMessage.contains(ExpMessage));
+    }
+
     // Locators Below
 
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
@@ -269,4 +304,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String savedSearchesListLocator = "div.menu.transition.visible div span";
     private WebElement getSavedSearchesDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']")); }
     private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }
+    private WebElement getSaveSearchDisableMenu(){ return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
 }
