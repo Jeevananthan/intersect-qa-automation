@@ -3,7 +3,7 @@ Feature: SM - SuperMatch - Compare Pinned Schools
 
   @MATCH-3450
   Scenario: As a HS student that is comparing my pinned schools, I want to expand and collapse buckets of data about my
-  pinned colleges so I can control how much data is showing on my screen at a time.
+  pinned colleges so I can control how much data is showing on my screen at a time. (MATCH-4787)
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     When I select the following data from the Admission Fit Criteria
@@ -13,7 +13,7 @@ Feature: SM - SuperMatch - Compare Pinned Schools
       | Acceptance Rate | 25% or Lower |
     And SM I pin "Colorado College" if it is not pinned already
     And SM I open the Pinned Schools Compare screen
-    Then SM I verify that "9" drawers are displayed
+    Then SM I verify that "10" drawers are displayed
     Then SM I verify that all drawers are expanded by default
     Then SM I verify that the "expanded" drawer in position "1" display an arrow facing "down"
     And SM I collapse all the drawers using the Collapse All button

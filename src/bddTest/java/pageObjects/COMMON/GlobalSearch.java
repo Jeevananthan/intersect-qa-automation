@@ -799,4 +799,5 @@ public class GlobalSearch extends SeleniumBase {
         WebElement date=button("Go to date");
         return date;
     }
+
 }

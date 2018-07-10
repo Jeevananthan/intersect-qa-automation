@@ -38,7 +38,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
             driver.manage().deleteAllCookies();
             openAdminPage();
         }
-        WebElement userAnotherAccount = button(By.className("use_another_account"));
+        WebElement userAnotherAccount = button(By.id("otherTileText"));
         if (userAnotherAccount.isDisplayed()) {
             userAnotherAccount.click();
         }

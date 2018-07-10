@@ -39,6 +39,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDrawerArrowDirection(String expandedOrCollapsed, String drawerPosition, String arrowDirection) {
+        waitUntilPageFinishLoading();
         List<WebElement> drawersArrowsList = driver.findElements(By.cssSelector(drawersArrowsLocator));
         Assert.assertTrue("The arrow for " + expandedOrCollapsed + " drawer is not facing " + arrowDirection,
                 drawersArrowsList.get(Integer.parseInt(drawerPosition)).getAttribute("class").contains(arrowDirection));
@@ -76,6 +77,6 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     // Locators Below
 
     private String drawersListLocator = "thead.toggle-enabled";
-    private String drawersArrowsLocator = "div.ui.segment.supermatch-compare-content table.ui.definition.fixed.unstackable.five.column.table.supermatch-expandable-table i:not(.circle)";
+    private String drawersArrowsLocator = "div.ui.segment.supermatch-compare-content table.ui.definition.fixed.unstackable.three.column.table.supermatch-expandable-table i:not(.circle)";
     private WebElement collapseExpandAllButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button[role='button']:not(.icon)")); }
 }
