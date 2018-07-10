@@ -178,7 +178,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
         | Acceptance Rate | 25% or Lower |
       And SM I open the Save Search popup
       And SM I save the search with the name "Search16"
-      And SM I validate the error message "Your have reached your maximum of 15 saved searches. Remove a saved search to add a new one"
+      And SM I validate the error message "You have reached your maximum of 15 saved searches. Remove a saved search to add a new one"
 
 
 
