@@ -9,6 +9,7 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -249,6 +250,20 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
     public void verifyAdminDashboardIsNotDisplayed(){
         List<WebElement> adminDashboard = driver.findElements(By.id("js-main-nav-admin-menu-link"));
         Assert.assertTrue("Admin dashboard is displayed",adminDashboard.size()==0);
+    }
+
+    public void verifyShowMoreButtonInProductAnnouncements(String showMore){
+        goToProductAnnouncements();
+        List<WebElement> showMoreButton = driver.findElements(By.xpath("//button/span[text()='"+showMore+"']"));
+        List<WebElement> announcementsSize = driver.findElements(By.xpath("//div[@class='ui grid _3E9gDLAhuHSRcSf2bDO-Q8']"));
+        Assert.assertTrue("Announcements Size is not equal to 25",announcementsSize.size()==25);
+        while(showMoreButton.size()==1) {
+            Assert.assertTrue("Show more button is not displayed",showMoreButton.size()==1);
+            driver.findElement(By.xpath("//button/span[text()='" + showMore + "']")).click();
+            showMoreButton = driver.findElements(By.xpath("//button/span[text()='"+showMore+"']"));
+            announcementsSize = driver.findElements(By.xpath("//div[@class='ui grid _3E9gDLAhuHSRcSf2bDO-Q8']"));
+            Assert.assertTrue("Announcements Size is less than 25", announcementsSize.size() > 25);
+        }
     }
 
     /**
