@@ -79,13 +79,11 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     #create announcement with title
     When SP I add a new product announcement with title "Intersect" content "ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit." audience "HE,HS - Naviance,HS - Non Naviance" and status "Published"
     Then SP I verify the toast with the message "New announcement added" is displayed
-    Then SP I verify title "Intersect" is displayed in the Product Announcements page
     #verify content with 140 characters
     Then SP I verify the product announcement with title "Intersect" content "ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.Thisisgoing..." visibility "HE, HS Naviance, HS Non Naviance" date "today" user "Match Support UI QA4" and status "Published" in the list
     #create announcement with no title
     When SP I add a new product announcement with title "" content "Thisisgoingtobe140characterslimit.Thisisgoingtobe140characterslimit.Thisisgoingtobe140characterslimit.Thisisgoingto be 140 characters limit." audience "HE" and status "Unpublished"
     Then SP I verify the toast with the message "New announcement added" is displayed
-    Then SP I verify title "Untitled" is displayed in the Product Announcements page
     #verify content with 140 characters
     Then SP I verify the product announcement with title "Untitled" content "Thisisgoingtobe140characterslimit.Thisisgoingtobe140characterslimit.Thisisgoingtobe140characterslimit.Thisisgoingto be 140 characters limit." visibility "HE" date "today" user "Match Support UI QA4" and status "Unpublished" in the list
     Then SP I verify "Show More" button for more than 25 notifications in the Product Announcements page

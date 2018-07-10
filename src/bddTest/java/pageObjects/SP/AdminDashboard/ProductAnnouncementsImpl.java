@@ -251,9 +251,6 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
         List<WebElement> adminDashboard = driver.findElements(By.id("js-main-nav-admin-menu-link"));
         Assert.assertTrue("Admin dashboard is displayed",adminDashboard.size()==0);
     }
-      public void verifyTitleInProductAnnouncements(String title){
-        Assert.assertTrue("Announcement title is not displayed",driver.findElement(By.xpath("//div/a[contains(text(),'"+title+"')]")).isDisplayed());
-    }
 
     public void verifyShowMoreButtonInProductAnnouncements(String showMore){
         goToProductAnnouncements();
