@@ -1128,6 +1128,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             while(elementNotFound) {
                 try {
                     firstPinLinkCoincidence.click();
+                    waitUntilPageFinishLoading();
                     elementNotFound = false;
                 } catch (WebDriverException e) {
                     whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
@@ -1143,6 +1144,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
                 try {
                     firstPinLinkCoincidence.click();
+                    waitUntilPageFinishLoading();
                     elementNotFound = false;
                 } catch (WebDriverException e) {
                     whyDrawerButton(collegeName).sendKeys(Keys.ARROW_DOWN);
@@ -1665,10 +1667,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
 
     private String spinnerLocator = "button[disabled]";
-
-    private WebElement firstOnboardingPopup() {
-        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
-    }
 
     private WebElement fitScoreColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(2)")); }
 

@@ -79,6 +79,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     public void unpinSchool(String collegeName) {
         if(pinLink(collegeName).getText().contains("PINNED")) {
             pinLink(collegeName).click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(pinLinkLocator(collegeName)), 0));
             waitUntilPageFinishLoading();
         }
     }
@@ -90,5 +91,6 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private WebElement maleSportsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Athletics Levels Available\"] + td ul li:nth-of-type(1)")); }
     private WebElement femaleSportsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Athletics Levels Available\"] + td ul li:nth-of-type(2)")); }
     private WebElement clubsAndOrganizationsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Student Life Clubs & Organizations\"] + td a")); }
-    private WebElement pinLink(String collegeName) { return driver.findElement(By.xpath("//p[@class='collegename' and text() = '" + collegeName + "']/../p/a/span[@class = 'supermatch-toggle-icon']")); }
+    private WebElement pinLink(String collegeName) { return driver.findElement(By.xpath(pinLinkLocator(collegeName))); }
+    private String pinLinkLocator(String collegeName) { return "//p[@class='collegename' and text() = '" + collegeName + "']/../p/a/span[@class = 'supermatch-toggle-icon supermatch-college-button-selected']"; }
 }
