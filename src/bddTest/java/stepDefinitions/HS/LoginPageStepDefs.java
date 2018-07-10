@@ -11,7 +11,7 @@ public class LoginPageStepDefs implements En {
         LoginPageImpl loginPage = new LoginPageImpl();
         HomePageImpl homePage = new HomePageImpl();
 
-        Given("^HS I am logged in to Intersect HS through Naviance with account \"([^\"]*)\" and username \"([^\"]*)\" and password \"([^\"]*)\"$", loginPage::loginThroughNaviance);
+        Given("^HS I am logged in to Intersect HS through Naviance with user type \"([^\"]*)\"$", loginPage::loginThroughNaviance);
 
         Given ("^HS I am logged in to Intersect HS through Naviance with account \"([^\"]*)\"$",loginPage::loginNaviance);
 
