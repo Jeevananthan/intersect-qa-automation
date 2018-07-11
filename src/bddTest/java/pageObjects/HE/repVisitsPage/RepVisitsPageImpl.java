@@ -3044,29 +3044,39 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getCalendarBtn().click();
         waitUntilPageFinishLoading();
         reAssignAppointments().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Reassign  Appointments']"),1),5);
-        if(option.equals("Select staff member")||option.equals("Select new assignee")){
-            reAssignAppointmentsButton().click();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1),5);
-            Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
-        }else if(option.equals("No appointments")){
-            selectStaffMemberDropdown().click();
-            jsClick(driver.findElement(By.xpath("//div[text()='"+staff+"']")));
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//label[@for='selectAllCheckBox']"),1),5);
-            reAssignAppointmentsButton().click();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1),5);
-            Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
-        }else if(option.equals("Select staff member, no associated visits or fairs")){
-            selectStaffMemberDropdown().click();
-            jsClick(driver.findElement(By.xpath("//div[text()='"+staff+"']")));
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span"),1),5);
-            String actualMessage = driver.findElement(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span")).getText();
-            Assert.assertTrue("Error message is not displayed",actualMessage.equals(errorMessage));
-        }else {
-            logger.info("Invalid option");
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Reassign  Appointments']"),1));
+        switch (option){
+            case "Select staff member":
+                reAssignAppointmentsButton().click();
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1));
+                Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
+                break;
+            case "Select new assignee":
+                reAssignAppointmentsButton().click();
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1));
+                Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
+                break;
+            case "No appointments":
+                selectStaffMemberDropdown().click();
+                jsClick(driver.findElement(By.xpath("//div[text()='"+staff+"']")));
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//label[@for='selectAllCheckBox']"),1));
+                reAssignAppointmentsButton().click();
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1));
+                Assert.assertTrue("Error message is not displayed",driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
+                break;
+            case "Select staff member, no associated visits or fairs":
+                selectStaffMemberDropdown().click();
+                jsClick(driver.findElement(By.xpath("//div[text()='"+staff+"']")));
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span"),1));
+                String actualMessage = driver.findElement(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span")).getText();
+                Assert.assertTrue("Error message is not displayed",actualMessage.equals(errorMessage));
+                break;
+            default:
+                Assert.fail("Invalid option");
+                break;
         }
         goBackButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a/span[text()='Calendar']"),1),5);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a/span[text()='Calendar']"),1));
     }
 
     public void verifyDisappearingErrorMessageInReAssignAppointments(String disappearingErrorMessage,String errorMessage,String staff){
