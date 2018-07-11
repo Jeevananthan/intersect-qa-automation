@@ -1054,7 +1054,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void selectDiversityCheckbox(String checkboxName){
         selectCheckBox(checkboxName, "Diversity");
-        closeButtonForFitCriteria().click();
     }
 
     private void selectFitCriteria(String fitCriteria){
@@ -1278,8 +1277,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyOnlineLearningOpportunitiesTooltipIcon() {
 
-        if(firstOnboardingPopup().isDisplayed())
-            superMatchCollegeSearchHeader().click();
+        try {
+            setImplicitWaitTimeout(1);
+            if(firstOnboardingPopup().isDisplayed())
+                superMatchCollegeSearchHeader().click();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            resetImplicitWaitTimeout();
+        }
 
         chooseFitCriteriaTab("Academics");
 
