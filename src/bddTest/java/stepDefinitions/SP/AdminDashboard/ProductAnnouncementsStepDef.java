@@ -21,5 +21,6 @@ public class ProductAnnouncementsStepDef implements En {
         Then("^SP I verify the header is changed from \"([^\"]*)\" to \"([^\"]*)\" in the Admin dashboard page$",productAnnouncements::verifyHeaderInAdminDashboard);
         Then("^SP I verify \"([^\"]*)\" stub menu is displayed in the Admin dashboard page$",productAnnouncements::verifyProductAnnouncementsStubMenu);
         Then("^SP I verify that Admin dashboard is not displayed$",productAnnouncements::verifyAdminDashboardIsNotDisplayed);
+        Then("^SP I verify \"([^\"]*)\" button for more than 25 notifications in the Product Announcements page$",productAnnouncements::verifyShowMoreButtonInProductAnnouncements);
     }
 }

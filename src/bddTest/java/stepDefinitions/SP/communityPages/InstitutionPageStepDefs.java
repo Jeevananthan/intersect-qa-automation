@@ -10,7 +10,6 @@ public class InstitutionPageStepDefs implements En {
     public InstitutionPageStepDefs() {
 
         Then("^SP I verify Hubs view mode for \"([^\"]*)\"$", collProfile::goToHubsPage);
-
     }
 
 }

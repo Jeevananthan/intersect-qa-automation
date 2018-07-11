@@ -18,7 +18,7 @@ Feature: As a HS user, I want to be able to use the Global search to help me fin
       | People | Institutions | Groups |
     Then HS I verify that only five or less results are listed in real-time results displayed
       | People | Institutions | Groups |
-    Then HS I verify real-time search results are clickable and actionable "admin"
+    Then HS I verify real-time search results are clickable and actionable "admin administrator"
     Then HS I verify real-time search layouts are displayed correctly "admin"
       | People | Institutions | Groups |
     And HS I successfully sign out
