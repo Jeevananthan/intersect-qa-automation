@@ -387,10 +387,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the following details are present in Your Notifications subtab$",repVisits::verifyYourNotificationTab);
 
-        Then("^HE I verify Alert me when high schools become available in RepVisits toggle box is default checked in Your Notifications subtab$",repVisits::verifyAlertToggleBoxisDefaultChecked);
-
         Then("^HE I verify the success message \"([^\"]*)\" after click Save button$",repVisits::verifySuccessMessageInYourNotification);
 
         Then("^HE I verify the saved changes after navigate away from Your Notifications subtab$",repVisits::verifySavedChangesInYourNotification);
+
+        Then("^HE I set the value Alert me when high schools become available in RepVisits to selected$",repVisits::selectAlertBoxInYourNotification);
     }
 }

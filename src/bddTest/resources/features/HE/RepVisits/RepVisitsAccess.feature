@@ -253,11 +253,12 @@ Examples:
   Scenario Outline: As an HE Freemium user I can not be able to view Your Notifications stub menu in Account settings page
     Given HE I am logged in to Intersect HE as user type "<hePremiumUser>"
     Then HE I verify "<yourNotifications>" stub menu is present in Account settings page for Premium
+    Then HE I set the value Alert me when high schools become available in RepVisits to selected
     Then HE I verify the following details are present in Your Notifications subtab
       |Your Notifications|REPVISITS|Alert me when high schools become available in RepVisits|
-    Then HE I verify Alert me when high schools become available in RepVisits toggle box is default checked in Your Notifications subtab
     Then HE I verify the success message "Your notifications settings were updated." after click Save button
     Then HE I verify the saved changes after navigate away from Your Notifications subtab
+   Then HE I set the value Alert me when high schools become available in RepVisits to selected
     Then HE I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "<heFreemiumUser>"

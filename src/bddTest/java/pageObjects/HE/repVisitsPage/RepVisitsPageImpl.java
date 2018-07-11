@@ -3074,16 +3074,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyAlertToggleBoxisDefaultChecked(){
-        if (checkBoxInYourNotification().isEnabled())
-        Assert.assertTrue("Checkbox is not enabled",checkBoxInYourNotification().isEnabled());
-    }
-
     public void verifySuccessMessageInYourNotification(String successMessage){
-        if (checkBoxInYourNotification().isEnabled())
-            checkBoxInYourNotification().click();
-            saveButtonInYourNotification().click();
-            Assert.assertTrue("Success message is not displayed", driver.findElement(By.xpath("//span[text()='" + successMessage + "']")).isDisplayed());
+        checkBoxInYourNotification().click();
+        saveButtonInYourNotification().click();
+        Assert.assertTrue("Success message is not displayed", driver.findElement(By.xpath("//span[text()='" + successMessage + "']")).isDisplayed());
     }
 
     public void verifySavedChangesInYourNotification(){
@@ -3094,10 +3088,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         yourNotification().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
-        if(!checkBoxInYourNotification().isEnabled()){
-        Assert.assertTrue("Checkbox is enabled",!checkBoxInYourNotification().isEnabled());
+        Assert.assertTrue("Checkbox is enabled",!checkBoxInYourNotification().isSelected());
         checkBoxInYourNotification().click();
-        saveButtonInYourNotification().click();}
+        saveButtonInYourNotification().click();
+    }
+
+    public void selectAlertBoxInYourNotification(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        yourNotification().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+        if(!checkBoxInYourNotification().isSelected())
+            checkBoxInYourNotification().click();
+            saveButtonInYourNotification().click();
     }
 
     private void selectMoreResultsInSearchAndSchedule(){
