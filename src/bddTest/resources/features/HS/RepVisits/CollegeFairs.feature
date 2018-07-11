@@ -104,9 +104,9 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
             So that I can be sure the right staff members are informed.
     #BLUE4HS has an issue with duplicated Primary contacts, so using standalone 1 instead.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    Then HS I verify configuration and staff notifications for "School Manager" and "Nidhu Thomas"
+    Then HS I verify configuration and staff notifications for "District Manager" and "NidhuHS User"
     Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
     Then HS I add the following attendees to the College Fair
-      |undefined|
-    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "undefined"
+      |Andrew Lane|
+    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "Andrew Lane"
     Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
