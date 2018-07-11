@@ -2757,6 +2757,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyNavianceSettingsPage(DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettingsButton().click();
+        waitUntilPageFinishLoading();
+        navianceSettings().click();
+        List<String> list = dataTable.asList(String.class);
+        for(String text:list) {
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='" + text + "']"), 1));
+            Assert.assertTrue("Given data is not displayed", driver.findElement(By.xpath("//span[text()='" + text + "']")).isDisplayed());
+        }
+    }
+
     private WebElement getCollegeFairsPrimaryContactPhoneNumberField() {
         return driver.findElement(By.id("notification_fairs_phone_number"));
     }

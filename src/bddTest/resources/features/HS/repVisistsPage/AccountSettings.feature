@@ -29,3 +29,14 @@ Feature:  As an HS user, I want to be able to access the features of the Account
     |usertype                                  |password  |user      |
     |purpleheautomation+administrator@gmail.com|Password!1|ADMIN     |
     |purpleheautomation+member@gmail.com       |Password#1|NON-ADMIN |
+
+  @MATCH-3715
+   Scenario: As a HS admin user of RepVisits that is syncing appointments (visits and college fairs) with Naviance,
+                     I want the header and lead in copy on the Naviance Settings wizard page (pre-sync)
+                     and on the RepVisits>Availability & Settings>Naviance Settings page "Naviance College Visits Default Settings" section to clearly indicate
+                     how those values will be applied to visits when syncing and thereafter should I change them
+                     So that I know exactly what to expect as to how those are applied to my visits.
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I verify the following details are displaying in Naviance Settings page
+      |Naviance Sync Settings|Default Visit Details for College Visits|You can set default values to save time in scheduling future visits, but you can also edit details for individual visits when needed.|The following default visit details will be applied to visits scheduled moving forward.|
+    And HS I successfully sign out

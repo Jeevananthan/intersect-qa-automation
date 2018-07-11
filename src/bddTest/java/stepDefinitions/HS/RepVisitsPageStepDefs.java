@@ -606,5 +606,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
+        Then("^HS I verify the following details are displaying in Naviance Settings page$",repVisits::verifyNavianceSettingsPage);
+
     }
 }
