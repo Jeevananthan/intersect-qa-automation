@@ -1081,9 +1081,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         waitUntilPageFinishLoading();
                         try {
                             showMoreButton().click();
+                            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
                         } catch(WebDriverException e) {
                             whyDrawerButton(collegeName).sendKeys(Keys.END);
                             showMoreButton().click();
+                            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
                         }
                         waitUntilPageFinishLoading();
                     }
