@@ -125,6 +125,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
 
+        Then("^SM I verify the College Profile page for \"([^\"]*)\" in the following sections:$", searchPage::verifyCollegeProfile);
+
+        And("^SM I open the Pinned Schools Compare screen$", searchPage::openPinnedCompareSchools);
+
         Then("^SM I verify that the Save Search popup is closed when I use the Cancel action$", searchPage::verifySaveSearchIsClosedWhenCancelIsClicked);
 
         Then("^SM I verify that the Save Search popup is closed when I click outside the popup$", searchPage::verifySaveSearchIsClosedWithOutterClick);
@@ -141,6 +145,8 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
+        And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
+
         Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
 
         Then("^SM I should see at the bottom the search by college name text box with default text \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameTextBox);
@@ -154,6 +160,5 @@ public class SearchPageStepDefs implements En {
         And("^SM I see a message in the search by college name text box that says \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameNoResultFoundMessage);
 
         And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
-
     }
 }
