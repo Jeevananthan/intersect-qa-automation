@@ -555,6 +555,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void clickDisabledDate(String date) {
+        driver.findElement(By.cssSelector("div[class='DayPicker-Body']")).findElement(By.xpath("//div[contains(@class,'DayPicker-Day DayPicker-Day--disabled') and @aria-disabled='true' and text()='"+date+"']")).click();
+    }
+
     public void verifyContentsOfRegularWeeklyHours() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -1024,15 +1028,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } else if(startOrEndDate.contains("End")) {
             button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).click();
             findMonth(calendarHeading, startOrEndDate);
-        }else if(startOrEndDate.contains("other")){
+        } else if(startOrEndDate.contains("FirstDate")) {
+            driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]")).click();
+            findMonth(calendarHeading, startOrEndDate);
+        } else if(startOrEndDate.contains("LastDate")) {
+            driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][2]")).click();
+            findMonth(calendarHeading, startOrEndDate);
+        } else if(startOrEndDate.equals("DisabledDate")) {
+            driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]")).click();
+            findMonth(calendarHeading, startOrEndDate);
+        } else if(startOrEndDate.contains("other")) {
             button(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
-            findMonth(calendarHeading);}
-        else {
-            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).click();
+            findMonth(calendarHeading);
+        } else {
+            button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
             findMonth(calendarHeading);
         }
-        clickOnDay(parts[1]);
-        waitUntilPageFinishLoading();}
+        if(parts[1].startsWith("0")) {
+            parts[1]=parts[1].replace("0","");
+        }else if(startOrEndDate.equals("DisabledDate")) {
+            clickDisabledDate(parts[1]);
+        }else {
+            clickOnDay(parts[1]);
+            waitUntilPageFinishLoading();
+        }
+    }
 
     public void setDateFixed(String inputDate, String startOrEndDate){
 
@@ -2784,6 +2804,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("There were no job fairs registered for this high school.", false);
         }
         Assert.assertFalse("College fair was not canceled.", getDriver().findElements(By.xpath("//span[contains(text(), 'Upcoming Events')]/../../following-sibling::table/tbody/tr/td[contains(text(), '"+fairName+"')]")).size() >= 1);
+    }
+
+    public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
+        navBar.goToRepVisits();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.linkText("Calendar"),1));
+        calendar().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        jsClick(agendaButton());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        String EndDate = getSpecificDateForCalendar(endDate);
+        setDate(EndDate, "LastDate");
+        String StartDate = getSpecificDateForCalendar(startDate);
+        setDate(StartDate, "FirstDate");
+    }
+
+    public void verifyDisabledDateIsClickableInEndDate(String disabledDate){
+        String DisabledDate = getSpecificDateForCalendar(disabledDate);
+        setDate(DisabledDate, "DisabledDate");
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        String date = getStartDateInAgenda().getText();
+        String displayingDate = getDisplayingDateInCalendarAgenda(disabledDate);
+        Assert.assertTrue("Selected date is not displayed",date.equals(displayingDate));
     }
 
     public void createCollegeFair(DataTable dataTable) {
@@ -5231,14 +5273,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public Boolean compareDate(String month, String startOrEndDate)  {
 
         String dateCaption = null;
-        DateFormat format = new SimpleDateFormat("MMM yyyy");
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
         if (startOrEndDate.contains("Start")) {
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-        }else if(startOrEndDate.contains("End")){
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
-        else {
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
+            dateCaption = driver.findElement(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).getText();
+        } else if(startOrEndDate.contains("end")){
+            dateCaption = button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).getText();
+        }else if(startOrEndDate.contains("FirstDate")){
+            dateCaption = driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]")).getText();
+        } else if(startOrEndDate.contains("LastDate")){
+            dateCaption = driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][2]")).getText();
+        }else if(startOrEndDate.contains("DisabledDate")){
+            dateCaption = driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]")).getText();
+        } else{
+            dateCaption = button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).getText();
+        }
+
 
         //Logic to compare dates before? or not
         Date first = null;
@@ -5258,6 +5308,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  before;
 
     }
+
     public String selectCurrentDate(String addDays)
     {
         String DATE_FORMAT_NOW = "MM/dd/yy";
@@ -6313,6 +6364,24 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     public void clickAddAttendeetovisit() {
           addSchoolAttendees().click();
+    }
+    public String getSpecificDateForCalendar(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days = Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+    public String getDisplayingDateInCalendarAgenda(String addDays) {
+        String DATE_FORMAT_NOW = "MM/dd/yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days = Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     private WebElement addSchoolAttendees(){
@@ -7449,6 +7518,12 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement editFairsSubmitButton(){
         return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
+    }
+    private WebElement agendaButton(){
+        return driver.findElement(By.xpath("//button[@title='Agenda']"));
+    }
+    private WebElement getStartDateInAgenda(){
+        return driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]/b/span"));
     }
 }
 

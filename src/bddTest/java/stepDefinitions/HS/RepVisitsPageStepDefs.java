@@ -606,5 +606,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
+        Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
+
+        Then("^HS I verify the disabled date \"([^\"]*)\" is clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsClickableInEndDate);
     }
 }

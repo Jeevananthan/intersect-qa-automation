@@ -381,5 +381,9 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the data for the following fair$",repVisits::verifyCollegeFairOnList);
 
+        Then("^HE I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
+
+        Then("^HE I verify the disabled date \"([^\"]*)\" is clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsClickableInCalendarAgenda);
+
     }
 }
