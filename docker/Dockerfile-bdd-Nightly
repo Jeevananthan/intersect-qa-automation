@@ -1,3 +1,7 @@
 FROM hobsonspipe/centos-java8:latest
 
+RUN mkdir /app
+
+COPY . /app
+
 CMD ["/bin/bash", "/app/docker/run-tests-Nightly.sh"]
