@@ -6,7 +6,6 @@ RUN yum -y install maven \
 
 WORKDIR /app
 COPY pom.xml /app
-COPY .m2/ /app/.m2
 
 COPY . /app
 
