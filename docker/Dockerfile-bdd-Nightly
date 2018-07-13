@@ -1,6 +1,12 @@
 FROM hobsonspipe/centos-java8:latest
 
-RUN mkdir /app
+RUN yum -y install maven \
+    && yum clean all \
+    && mkdir /app
+
+WORKDIR /app
+COPY pom.xml /app
+COPY .m2/ /app/.m2
 
 COPY . /app
 
