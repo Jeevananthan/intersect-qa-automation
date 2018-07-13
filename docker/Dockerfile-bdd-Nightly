@@ -1,0 +1,3 @@
+FROM hobsonspipe/centos-java8:latest
+
+CMD ["/bin/bash", "/app/docker/run-tests-Nightly.sh"]
