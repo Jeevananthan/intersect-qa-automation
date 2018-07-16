@@ -606,5 +606,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
+        Then("^HS I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
+
+        Then("^HS I verify the user cannot access Agenda view$",repVisits::verifyUserCannotAccessAgendaView);
+
     }
 }

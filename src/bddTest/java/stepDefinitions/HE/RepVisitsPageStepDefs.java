@@ -381,5 +381,13 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the data for the following fair$",repVisits::verifyCollegeFairOnList);
 
+        Then("^HE I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
+
+        Then("^HE I verify the message \"([^\"]*)\" is displaying in the \"([^\"]*)\" page$",repVisits::verifyAgendaPageForFreemium);
+
+        Then("^HE I verify \"([^\"]*)\" button is displaying in the \"([^\"]*)\" page$",repVisits::verifyUpgradeButtonInAgendaPage);
+
+        Then("^HE I verify the upgrade model page after clicking the UPGRADE button in Agenda view$",repVisits::verifyUpgradeModelPage);
+
     }
 }

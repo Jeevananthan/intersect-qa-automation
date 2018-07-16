@@ -3038,6 +3038,46 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void accessAgendaView(String agenda){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
+        jsClick(agendaButton());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        Assert.assertTrue("Agenda page is not displayed in the calendar",getStartDateInAgenda().isDisplayed());
+    }
+
+    public void verifyAgendaPageForFreemium(String message,String agenda){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
+        jsClick(agendaButton());
+        Assert.assertTrue("Message is not displayed",driver.findElement(By.xpath("//span[text()='"+message+"']")).isDisplayed());
+    }
+
+    public void verifyUpgradeButtonInAgendaPage(String upgradeButton,String agenda){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
+        jsClick(agendaButton());
+        Assert.assertTrue("Upgrade button is not displayed",button(upgradeButton).isDisplayed());
+    }
+
+    public void verifyUpgradeModelPage(){
+        upgradeButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Request Information']"),1));
+        Assert.assertTrue("Request information button is not displayed",requestInformationButton().isDisplayed());
+        Assert.assertTrue("Upgrade message is not displayed",upgradeMessage().isDisplayed());
+        closeButtonInAgendaUpgradePage().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='UPGRADE']"),1));
+    }
+
     private void selectMoreResultsInSearchAndSchedule(){
         while(getMoreResultsButton().isDisplayed()){
             getMoreResultsButton().click();
@@ -3493,6 +3533,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement resultCountInSearchResultsPage(){
         return getDriver().findElement(By.xpath("//p[@class='WWSRdogYvrcJkqEg52pv3']//span"));
+    }
+    private WebElement agendaButton(){
+        return driver.findElement(By.xpath("//button[@title='Agenda']"));
+    }
+    private WebElement getStartDateInAgenda(){
+        return driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]/b/span"));
+    }
+    private WebElement requestInformationButton(){
+        return getDriver().findElement(By.xpath("//span[text()='Request Information']"));
+    }
+    private WebElement upgradeMessage(){
+        return getDriver().findElement(By.xpath("//span[text()='Unlock powerful features']"));
+    }
+    private WebElement closeButtonInAgendaUpgradePage(){
+        return getDriver().findElement(By.xpath("//div/i[@class='close icon']"));
     }
 }
 
