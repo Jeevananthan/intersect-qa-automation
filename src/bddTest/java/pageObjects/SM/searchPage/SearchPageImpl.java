@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -1302,6 +1303,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
     }
 
+    public void verifyBackToTopButtonFunctionality() {
+        backToTopButton().sendKeys(Keys.END);
+        backToTopButton().sendKeys(Keys.RETURN);
+        waitUntilPageFinishLoading();
+        JavascriptExecutor executor = driver;
+        Long value = (Long) executor.executeScript("return window.pageYOffset;");
+        Assert.assertTrue("The Back to top button did not send the screen to the top",
+                value == 0);
+    }
+
     public void verifyColumnHeaders(DataTable dataTable) {
         List<String> details = dataTable.asList(String.class);
         for(String element : details) {
@@ -1620,6 +1631,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
+    private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
+
     private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
 
     private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
@@ -1688,6 +1701,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
 
+    private WebElement navianceLogo() { return driver.findElement(By.cssSelector("img[alt=\"Naviance\"]")); }
+
     /**
      * Returns the search by college name textbox
      * @return
@@ -1729,5 +1744,5 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(
                 By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
     }
-
+  
 }

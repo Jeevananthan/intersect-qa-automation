@@ -145,6 +145,8 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
+        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
+       
         And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
 
         Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
@@ -160,5 +162,6 @@ public class SearchPageStepDefs implements En {
         And("^SM I see a message in the search by college name text box that says \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameNoResultFoundMessage);
 
         And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
+
     }
 }
