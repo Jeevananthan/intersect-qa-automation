@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -106,9 +105,9 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from the Diversity$",searchPage::selectOrUnselectDiversityCheckbox);
 
-        Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
+        Then("^SM I select the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
-        And("^SM I verify \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::verifyAdmissionFitCriteriaCheckbox);
+        And("^SM I verify the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::verifyAdmissionFitCriteriaCheckbox);
 
         Then("^SM I click on Institution Characteristics fit criteria$", searchPage::getInstitutionCharacteristicsFC);
 
@@ -120,11 +119,15 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify if the option selected or defaulted in column header can be changed to \"([^\"]*)\"$", searchPage::verifyIfOptionDefaultedInColumnHeaderCanBeChanged);
 
-        Then("^SM I select the \"([^\"]*)\" checkbox from the Diversity fit criteria$", searchPage::selectHighInternationalPopulationCheckbox);
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Diversity fit criteria$", searchPage::selectDiversityCheckbox);
 
         Then("^SM I verify \"([^\"]*)\" checkbox in Diversity fit criteria$", searchPage::verifyHighInternationalPopulationCheckbox);
 
         Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
+
+        Then("^SM I verify the College Profile page for \"([^\"]*)\" in the following sections:$", searchPage::verifyCollegeProfile);
+
+        And("^SM I open the Pinned Schools Compare screen$", searchPage::openPinnedCompareSchools);
 
         Then("^SM I verify that the Save Search popup is closed when I use the Cancel action$", searchPage::verifySaveSearchIsClosedWhenCancelIsClicked);
 
@@ -143,6 +146,8 @@ public class SearchPageStepDefs implements En {
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
         Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
+       
+        And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
 
         Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
 
@@ -155,6 +160,8 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify \"([^\"]*)\" results were displayed when searching by college name$", searchPage::verifyAmountOfResultsWhenSearchingByCollegeName);
 
         And("^SM I see a message in the search by college name text box that says \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameNoResultFoundMessage);
+
+        And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
 
     }
 }
