@@ -9,7 +9,7 @@ WORKDIR /app
 
 COPY . /app
 
-ENV APIKey
+ENV APIKey=blankkey
 
 RUN chmod +x /app/docker/run-tests-Nightly.sh
 
