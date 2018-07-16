@@ -149,6 +149,29 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
 
 
+    @MATCH-4406
+    Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly
+              return to the results to continue my college research.
+      Given SM I am logged in to SuperMatch through Family Connection
+      And I clear the onboarding popups if present
+      Then SM I create fifteen different save search from Resources tab
+      When I select the following data from the Admission Fit Criteria
+        | Acceptance Rate | 25% or Lower |
+      And SM I open the Save Search popup
+      And SM I save the search with the name "Search16"
+      And SM I validate the error message "You have reached your maximum of 15 saved searches. Remove a saved search to add a new one"
+
+
+  @MATCH-3628
+  Scenario: As a HS student reviewing results from my search, I want to have an action available to jump back to the top of the SuperMatch page
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify that screen jumps to the top of the page after clicking the Back to top button
+
+
   @MATCH-3471
   Scenario: As a HS student I want to search for a specific college by name, so I do not have to pick fit criteria
             in order to see that college as result.
@@ -166,3 +189,25 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
             dropdown so students can understand how we return search results that include this fit criteria.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify that tooltip icon is added to the include online learning opportunities fit criteria
+
+  @MATCH-3767
+  Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % MALE VS. FEMALE
+  in Diversity dropdown
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the text displayed in the % Male vs. Female Fit Criteria
+    Then SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown
+      |Select %     |
+      |Select gender|
+    Then SM I verify the options displayed in the Select % dropdown
+      |Select %|
+      |10%     |
+      |20%     |
+      |30%     |
+      |40%     |
+      |50%     |
+      |60%     |
+      |70%     |
+    Then SM I verify the options displayed in the Select Gender dropdown
+      |Select gender|
+      |Male         |
+      |Female       |
