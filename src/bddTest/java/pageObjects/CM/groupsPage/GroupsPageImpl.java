@@ -194,15 +194,16 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void makeSureUserIsMemberOfThePrivateGroup() {
         try {
+            setImplicitWaitTimeout(1);
             requestToJoinGroupButton();
             logger.info("User is going to join the group.");
             requestToJoinGroupButton().click();
             homePage.logoutHEDefault();
-
             waitUntilPageFinishLoading();
             approveRequestToJoinTheGroup();
-
+            resetImplicitWaitTimeout();
         } catch (NoSuchElementException e) {
+            resetImplicitWaitTimeout();
             logger.info("User already joined the group.");
         }
     }
@@ -219,9 +220,16 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void sendRequestToJoinTheGroup() {
-        logger.info("Clicking on button to join the group.");
-        requestToJoinGroupButton().click();
-        waitUntilPageFinishLoading();
+        try {
+            setImplicitWaitTimeout(1);
+            logger.info("Clicking on button to join the group.");
+            requestToJoinGroupButton().click();
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (NoSuchElementException e) {
+            logger.info("User has already applied to join the group.");
+            resetImplicitWaitTimeout();
+        }
     }
 
     public void goToManageGroupMembersPage() {
@@ -240,14 +248,14 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         loginPage.defaultLoginSupport();
         goToManageGroupMembersPage();
         driver.findElement(By.className("accept-link")).click();
-        homePage.logoutSupport();
-        loginPage.defaultLoginHE();
-        searchForGroup("**Test Automation** HE Community PRIVATE Group");
+      //  homePage.logoutSupport();
+      //  loginPage.defaultLoginHE();
+      //  searchForGroup("**Test Automation** HE Community PRIVATE Group");
     }
 
     public void denyRequestToJoinTheGroup() {
         logger.info("Denying request to join the group.");
-        //loginPage.defaultLoginSupport();
+        loginPage.defaultLoginSupport();
         goToManageGroupMembersPage();
         driver.findElement(By.className("decline-link")).click();
         //homePage.logoutSupport();
@@ -255,24 +263,30 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void makeSureUserIsNotMemberOfTheGroup() {
         try {
+            setImplicitWaitTimeout(1);
             leaveGroupButton();
             logger.info("User is going to leave the group.");
             leaveGroupButton().click();
             waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
 
         } catch (NoSuchElementException e) {
+            resetImplicitWaitTimeout();
             logger.info("User is not a member of the group.");
         }
     }
 
     public void checkIfUserIsMemberOfTheGroup() {
         logger.info("Checking if user is a member of the group.");
+        setImplicitWaitTimeout(1);
         try {
             leaveGroupButton();
             waitUntilPageFinishLoading();
-
+            resetImplicitWaitTimeout();
         } catch (NoSuchElementException e) {
+            getDriver().findElement(By.cssSelector("a[class^='active-trail']"));
             logger.info("User is not a member of the group.");
+            resetImplicitWaitTimeout();
         }
     }
 
