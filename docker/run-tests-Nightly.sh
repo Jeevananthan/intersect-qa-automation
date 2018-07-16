@@ -6,7 +6,7 @@ echo "$APIKey"
 
 echo $APIKey
 
-ENV
+env
 
 echo "Calling BDD Tests for SuperMatch"
 curl -H 'Authorization: '"$APIKey"'' https://turbo.hesos.net/v1/apps/26/buildjobs/5635/now/
