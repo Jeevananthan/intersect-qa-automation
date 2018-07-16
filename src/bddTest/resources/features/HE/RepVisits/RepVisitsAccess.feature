@@ -258,18 +258,25 @@ Examples:
       |Your Notifications|REPVISITS|Alert me when high schools become available in RepVisits|
     Then HE I verify the success message "Your notifications settings were updated." after click Save button
     Then HE I verify the saved changes after navigate away from Your Notifications subtab
-   Then HE I set the value Alert me when high schools become available in RepVisits to selected
+    Then HE I set the value Alert me when high schools become available in RepVisits to selected
     Then HE I successfully sign out
+
+   #precondition
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "<university>" from the institution dashboard
+    And SP I set the "<module>" module to "<activeOrInactive>" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "<heFreemiumUser>"
     Then HE I verify "<yourNotifications>" stub menu is not present in Account settings page for Freemium
     Then HE I successfully sign out
 
     Examples:
-      |hePremiumUser|heFreemiumUser    |yourNotifications |
-      |administrator|limited           |Your Notifications|
-      |publishing   |limitedPublishing |Your Notifications|
-      |community    |limitedCommunity  |Your Notifications|
+      |hePremiumUser|heFreemiumUser    |yourNotifications |university                                |module                          |activeOrInactive|
+      |administrator|limited           |Your Notifications|Bowling Green State University-Main Campus|Intersect Presence Subscription |inactive        |
+      |publishing   |limitedPublishing |Your Notifications|Bowling Green State University-Main Campus|Intersect Presence Subscription |inactive        |
+      |community    |limitedCommunity  |Your Notifications|Bowling Green State University-Main Campus|Intersect Presence Subscription |inactive        |
 
   @MATCH-4260 @MATCH-3730
   Scenario Outline: As an HS user I can not be able to view Your Notifications stub menu in Account settings page
