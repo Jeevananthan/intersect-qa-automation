@@ -268,10 +268,10 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifySaveSearchMessage(String ExpMessage){
+    public void verifySaveSearchMessage(String ExpMessage) {
         String ActMessage = driver.findElement(By.xpath("//body")).getText();
         Assert.assertTrue("Error message for adding the 16th save search is not displaying.", ActMessage.contains(ExpMessage));
-
+    }
     public void openTab(String tabName) {
         tabOption(tabName).click();
     }
