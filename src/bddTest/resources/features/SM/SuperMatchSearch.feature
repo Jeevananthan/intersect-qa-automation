@@ -148,6 +148,15 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select "SavedTestSearch" in the Saved Searches dropdown
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
 
+  @MATCH-3628
+  Scenario: As a HS student reviewing results from my search, I want to have an action available to jump back to the top of the SuperMatch page
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify that screen jumps to the top of the page after clicking the Back to top button
+
 
   @MATCH-3471
   Scenario: As a HS student I want to search for a specific college by name, so I do not have to pick fit criteria
