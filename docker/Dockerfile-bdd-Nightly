@@ -1,0 +1,12 @@
+FROM hobsonspipe/centos-java8:latest
+
+RUN yum -y install maven \
+    && yum clean all \
+    && mkdir /app
+
+WORKDIR /app
+COPY pom.xml /app
+
+COPY . /app
+
+CMD ["/bin/bash", "/app/docker/run-tests-Nightly.sh"]
