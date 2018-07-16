@@ -9,4 +9,6 @@ WORKDIR /app
 
 COPY . /app
 
+RUN chmod +x /app/docker/run-tests-Nightly.sh
+
 CMD ["/bin/bash", "/app/docker/run-tests-Nightly.sh"]
