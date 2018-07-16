@@ -1231,6 +1231,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void saveSearchWithName(String searchName) {
+        saveSearchPopupSearchBox().clear();
         saveSearchPopupSearchBox().sendKeys(searchName);
         saveSearchLink().click();
     }
