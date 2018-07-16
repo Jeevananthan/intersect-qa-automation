@@ -6366,7 +6366,7 @@ public void cancelRgisteredCollegeFair(String fairName){
           addSchoolAttendees().click();
     }
     public String getSpecificDateForCalendar(String addDays) {
-        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        String DATE_FORMAT_NOW = "MMMM d yyyy";
         Calendar cal = Calendar.getInstance();
         int days = Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
@@ -6375,7 +6375,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return currentDate;
     }
     public String getDisplayingDateInCalendarAgenda(String addDays) {
-        String DATE_FORMAT_NOW = "MM/dd/yyyy";
+        String DATE_FORMAT_NOW = "MM/d/yyyy";
         Calendar cal = Calendar.getInstance();
         int days = Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
