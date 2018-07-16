@@ -46,18 +46,18 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
   details requirements
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I skip the onboarding modals
-    Then SM I select the "<AdmissionCheckbox>" checkbox from "Admission" fit criteria
-    And SM I verify "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
+    Then SM I select the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
+    And SM I verify the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I verify that the Must Have box contains "<AdmissionCheckbox>"
     Then SM I unselect the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I verify that the Must Have box does not contain "<AdmissionCheckbox>"
-    Then SM I select the "<AdmissionCheckbox>" checkbox from "Admission" fit criteria
+    Then SM I select the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I move "<AdmissionCheckbox>" from the Must Have box to the Nice to Have box
     Then SM I verify that the Nice to Have box contains "<AdmissionCheckbox>"
     Then SM I unselect the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I verify that the Must Have box does not contain "<AdmissionCheckbox>"
     And SM I verify that Nice to Have box does not contain "<AdmissionCheckbox>"
-    Then SM I select the "<AdmissionCheckbox>" checkbox from "Admission" fit criteria
+    Then SM I select the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I verify that the Must Have box contains "<AdmissionCheckbox>"
     Examples: Each of the available options for the Admission
       | AdmissionCheckbox    |

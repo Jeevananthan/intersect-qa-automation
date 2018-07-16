@@ -1,14 +1,13 @@
 package pageObjects.SP.communityPages;
 
 import junit.framework.AssertionFailedError;
-import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import org.apache.log4j.Logger;
+
 
 public class InstitutionPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
@@ -41,8 +40,7 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         }
         getDriver().switchTo().defaultContent();
     }
-
-        //locator
+    //locator
         private WebElement collageNameLabel() {
             return getDriver().findElement(By.cssSelector("h1.masthead__name"));
         }

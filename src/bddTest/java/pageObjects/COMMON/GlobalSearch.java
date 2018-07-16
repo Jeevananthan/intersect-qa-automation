@@ -10,7 +10,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import selenium.SeleniumBase;
 
 import java.text.SimpleDateFormat;
@@ -438,7 +437,7 @@ public class GlobalSearch extends SeleniumBase {
         selectResult(searchRequest);
         waitUntilPageFinishLoading();
         String url = driver.getCurrentUrl();
-        Assert.assertEquals("Real-time search option was not clickable/actionable","https://qa-support.intersect.hobsons.com/counselor-community/profile/5537",url);
+        Assert.assertEquals("Real-time search option was not clickable/actionable","https://qa-hs.intersect.hobsons.com/community/profile/1",url);
     }
 
     public void VerifyUserSearchDefaultPage(){
@@ -800,4 +799,5 @@ public class GlobalSearch extends SeleniumBase {
         WebElement date=button("Go to date");
         return date;
     }
+
 }

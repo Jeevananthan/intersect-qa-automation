@@ -5,7 +5,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1779 @MATCH-1735 @NotInQA
   Scenario: As a HS RepVisits user I need to be able to navigate to a page for availability settings
   So that I can manage my college visits within the times that I am typically available.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the following tabs exist on the RepVisits page
       |Overview |Calendar |Availability & Settings |College Fairs |Contacts |Notifications & Tasks |
     And HS I verify the Availability & Settings tab of the RepVisits page
@@ -13,7 +13,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1579 @MATCH-2124
   Scenario: As a HS RepVisits user I can able to Scheduling the visits in the Availability Settings page
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "5" visits per day
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
@@ -30,7 +30,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1586 @MATCH-1945 @MATCH-2124
   Scenario: As an HS User I want to be able to use the Availability and Settings tab of RepVisits to Set Time Zone
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HHS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I verify the Availability & Settings tab of the RepVisits page
     And HS I set the RepVisits Availability & Settings time zone to "US/Central"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
@@ -44,7 +44,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario: As a high school counselor using Naviance and RepVisits,
   I want to integrate my RepVisits account with Naviance college visits
   So that I do not have to manually enter appointments.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Naviance Settings section of the Availability & Settings tab of the RepVisits page
     Then HS I verify the success message after save the changes
 #Comming soon message is removed
@@ -55,7 +55,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario Outline: As a high school staff member,
   I want to be able to view the weekly recurring time slots that my school is available for visits
   so that colleges can manage those availabilities.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
@@ -70,13 +70,13 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario: As a high school staff member,
   I want to be able to view the weekly recurring time slots that my school is available for visits
   so that colleges can manage those availabilities.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits
     And HS I successfully sign out
 
   @MATCH-1962
   Scenario: As a HIGH School User, I want to verify College Fair Blank DashBoard
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs2" and username "school-user" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I verify the College Fair Blank DashBoard Message
     And HS I successfully sign out
@@ -84,7 +84,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1595 @MATCH-2124
   Scenario: As a HS RepVisits user I can able to access the Visit Confirmation in the Availability Settings page
   So that i can able to fix the appointment for the High school
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
@@ -103,7 +103,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario Outline: As a high school staff member ,
   I want to be able to define the weekly recurring appointment times that my school is available
   so that colleges can schedule appointments to visit during those times.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set a date using "<StartDate>" and "<EndDate>"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
@@ -120,7 +120,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario Outline: As a high school community member,
   I want to be able to automatically block off U.S. Holidays
   so that I do not have to manually block each holiday.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set a date using "<StartDate>" and "<EndDate>"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
@@ -149,7 +149,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1577 @MATCH-2124
   Scenario Outline: As a high school community member, I want to be able to indicate the date ranges for which I am
   available for college visits, so that colleges know when to visit my high school.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I verify the "<StartDate>" and "<EndDate>" date was set in the calendar
@@ -164,7 +164,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1578 @MATCH-2124
   Scenario: As a HS RepVisits user I want to be able to use the Availability and Settings tab of RepVisits to Set Visit Scheduling
   I want to able to set the scheduling new visits in advance and set the cancelling or rescheduling visits in advance
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "56"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
@@ -186,7 +186,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1585 @MATCH-2124
   Scenario: As a high school community member, I want to publish or hide my college visit availability,
   so that I can control when colleges can only schedule college visits.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
@@ -200,7 +200,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1944
   Scenario: As a new RepVisits user,I want a setup wizard with an introduction that describes what the system does
   so that I can be encouraged to set up my RepVisits account.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I am verifying the welcome milestone in setup wizard
     And HS I click the Get Started button in the welcome milestone page
     And HS I navigate to college fairs,visits through availability option
@@ -209,7 +209,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1945
   Scenario: As a new RepVisits user,I want the setup wizard to confirm my school's timezone
   So that I can be sure my appointments will be scheduled at the right time.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I verify the repvisit setup wizard displayed for high school information
     Then HS I check the time zone is selected as "America/Mexico_City" and change it to "America/New_York"
     And HS I navigate to college fairs,visits through availability option
@@ -217,7 +217,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1580
   Scenario: As a HS Repvisit user Set Repvist availability Messages Instructions for HE on scheduling page
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then  HS I verify the Availability & Settings tab of the RepVisits page
     And HS I verify the UI of the Messaging Options Page
     And HS I set the Special Instructions Text as "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allowed are 250 . This text contains more than 250 characters";
@@ -231,7 +231,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1776
   Scenario Outline: As a HS RepVisits user I want to able to create a new fair in the college fair
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     Then HS I verify the Success Message for the College Fair "<College Fair Name>"
     Then HS I Click on the "Close" button in the success page of the college fair
@@ -245,7 +245,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 @MATCH-1464
   Scenario: As a HS Repvisit user send Mass email to college fair attendees
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I create a College Fair with the following data
     | College Fair Name                                         | Automation Fair for Mass Email  |
@@ -271,7 +271,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1462
   Scenario: As a HS Repvisit user manually add college fair attendees
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I create a College Fair with the following data
       | College Fair Name                                         | Automation Fair Add Attendee      |
@@ -294,7 +294,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
    @MATCH-1462
    Scenario: As a HS Repvisit user manually add college fair attendees and save it
-     Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
      And HS I Navigate to College Fairs tab of the Repvisits Page
      And HS I create a College Fair with the following data
        | College Fair Name                                         | Automation Fair Add Manual Attendee       |
@@ -326,7 +326,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1496
   Scenario: As an HS user I want the Intersect left navigation bar to be better organized and labeled.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the left navigation bar and section breadcrumbs are as follows
       | Awareness | Counselor Community |
     Then HS I verify the left navigation bar and section breadcrumbs are as follows
@@ -335,7 +335,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1576
   Scenario Outline: As a HS RepVisits user, I want to be able to Block specific days and date ranges in the Holidays tab of the Availability and Settings page
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the Blocked date as "<BlockedDate>" and select the reason as "<Reason>" in the Holiday tab
     Then HS I go to the Counselor Community
     Then HS I verify the "<StartDate>" and "<EndDate>" date with "<Reason>" was present in the Holidays tab in the Availability & Settings page in RepVisits
@@ -350,28 +350,28 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1756
   Scenario:As an HS Community member,I need to view a calendar of my appointments
   so that I can easily see what my day/week/month schedule looks like.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I verify the calendar view in RepVisits
     And HS I successfully sign out
 
   @MATCH-1949
   Scenario: As a new RepVisits user,I want the setup wizard to help me configure my calendars
   so that I can see all my calendar information in one place.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I verify the Calendar Sync Milestone in the setup wizard of repvisits
     And HS I successfully sign out
 
   @MATCH-1948
   Scenario: As a new RepVisits user,I want the setup wizard to help me configure my school's contacts.
   so that I can be sure internal notifications will be routed to the people who need the information.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
     And HS I successfully sign out
 
   @MATCH-1946
   Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
   so that I can be sure my RepVisits account is properly set up.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to welcome wizard of the repvisits
     And HS I navigate to "Availability" wizard in repvisits
     Then HS I add the time slot in "Monday" with start time as "05:00AM" and end time as "02:00PM" and "5" vistis
@@ -390,7 +390,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-2171 @MATCH-2124
   Scenario Outline: when we initially created the first and last days for availability, they were not developed to persist.
   Instead they're changed / set each time that availability is set. This ticket is to persist the first and last dates
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
 #    And HS I verify the update button appears and I click update button
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
@@ -406,7 +406,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario: As a new RepVisits user,
   I want the setup wizard to guide me through final steps in the new user experience
   so that I can decide on my appointments' visibility and then continue into the system.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     #FAIRS
     Then HS I select the "Fairs" option on the welcome page in the RepVisits setup wizard
     Then HS I select the "Only Me" option for Visit Availability on the 'One Last Step' page
@@ -429,7 +429,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-2391
   Scenario: As a RepVisits user,I cannot able to add the visits for the past days
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS verify pills are not available for the past dates in schedule new visit page
     Then HS verify the past dates are disabled in the select custom date section
     Then HS verify pills are not available for the past dates in Re-schedule visit page
@@ -440,7 +440,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1584
   Scenario Outline: As a high school user, when I confirm an appointment I need to email colleges with specific details
   about visiting my high school  so that they are prepared to visit my high school.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the RepVisits Confirmation message to "<Message>"
     And HS I verify the messaging updated confirmation toast message
     And HS I verify the RepVisits Confirmation message is set to "<Message>"
@@ -464,7 +464,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1947
   Scenario Outline: As a HS RepVisits user I want to be able to use the rep-visits setup page to set the Messaging options
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Messaging Options Page in the repvists setup wizard "<verify Confirmation Message>","<verify Special Instruction for RepVisits>"
     Then HS I enter the messages in the Message Option page for Repvists Setup wizard "<Confirmation Message_Next>","<Special Instruction for RepVisits_Next>","<Button to Click_Next>"
     Then HS I verify the Primary Contact for Visits page and then click the "Back" button
@@ -480,7 +480,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario: As a RepVisits High School user who works in multiple schools,
   I want to be able to enter a primary contact number for my school,
   So that Colleges trying to schedule visits have the correct contact number for me.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I go to the Availability & Settings
     Then HS I verify the Primary Contact Phone Number is required in Availability & Settings
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
@@ -494,7 +494,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1881 @MATCH-1872
   Scenario: As an HS user I need be able to search through my RepVisits Contacts
   so I can quickly find the contact I am looking to view.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I validating the pagination of 25 contacts in Contacts Page
     And HS I verify the contacts list is sorted or not
     And HS I verify empty contacts page in Contacts
@@ -511,7 +511,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     @MATCH-1631 @MATCH-1463
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
   so I can keep track of who is attending.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
     Then HS I verify the Fair Details Page "PreviouslySetFair","<VerifyDate>","<instructionsforCollegeRepresentatives>"
@@ -559,7 +559,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario: As a RepVisits HS user that is interested in opting in to connect events with Naviance, I want the copy on
             the screen to clearly provide me with information on my ability to opt in/out of the publish connection,
             so that I know what the implications are for connecting and whether I can disconnect the sync.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I navigate to the Naviance Settings page through the setup Wizard
     And HS I verify the UI of the Naviance Settings Page in setup wizard
     And HS I successfully sign out
@@ -568,7 +568,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario Outline: As a High School RepVisits User who is viewing my exceptions (/rep-visits/settings/availability/exceptions)
                     I want to see availability pills during times when appointments are scheduled
                     So that I can edit remaining availabilities.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify in exceptions the appointments color and status for "<AppointmentStatus>" with color "<Color>"
     Then HS I successfully sign out
     Examples:
@@ -579,7 +579,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-2381 @test
   Scenario: As a HS RepVisits user verify note to let users know their contact info will be visible
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I Click button Add a College Fair to Add a fair
     And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
@@ -599,7 +599,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
 #CREATE VISITS AND FAIRS
 #precondition
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
@@ -621,7 +621,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 
@@ -633,7 +632,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I delete the downloaded Appointments Cvs file "RepVisitsEvents.csv"
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Export button is Enabled in Calendar page
     Then HS I export the appointments for the following details "<StartDate>","<EndDate>"
     Then HS I verify the downloaded Appointments csv file "RepVisitsEvents.csv" contains following details
@@ -650,7 +649,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools who have made their RepVisits availability publicly available
                     so HE users are not presented with high schools in the search results that don't use RepVisits.
 #Pre-condition
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
@@ -681,7 +680,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     And HS I successfully sign out
@@ -699,7 +698,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
 #Post-Condition
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     And HS I successfully sign out
@@ -712,7 +711,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   Scenario: As a HS user, I want to be taken to the Calendar page (month view) after my school's RepVisits' wizard has been completed
             so I don't see the Overview page as my first experience with RepVisits.
    #Naviance
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I navigate to the college visits page
     Then HS I verify the default calendar page present after the Wizard completion
     And HS I successfully sign out
@@ -727,7 +726,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   I want to be able to edit fairs in the summary drawer
   So that calendar appointments all have a consistent interface
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     Then HS I Click on the "Close" button in the success page of the college fair
     And HS I verify the fairs are clickable "<College Fair Name>","<VerifyDateEdit>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>"
@@ -747,7 +746,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-2692
   Scenario: As a high school staff member, I want to be able to toggle blocking of specific availabilities in RepVisits,
   so that I can effectively close a time slot for further visits and re-open it later, if I choose.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set a date using "0" and "90"
     And HS I add new time slot with "Friday", "2", "3", "15", "15", "AM", "AM" and "2"
     And HS I schedule a new visit with day "Fri" time "2:15am" representative name "Test Person name" representative last name "Test Last N" representative institution "RepresentativeTest" location "Cbba" NumberOfStudents "7" registrationWillClose "7 days"
@@ -782,7 +781,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   @MATCH-1765
   Scenario Outline: As a high school user, I want to be able to manually add appointments including custom contact info/custom time slots,
   so that I can create appointments that are custom to my high school's needs.
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs7" and username "school-user" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
   #verify AddVisit Button is Disabled in Calendar page
     Then HS I select the "Fairs" option on the welcome page in the RepVisits setup wizard
     Then HS I navigate to the calendar page to verify AddVisit Button is "Disabled"
@@ -808,6 +807,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+ 
     Then HS I add the appointment based on pre-determined time slots using "<StartDate>","<StartTime>","<Attendees>","<visitLocation>"
 
   #Manually adding a contact to an appointment:
@@ -828,7 +828,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-2061
       Scenario: : This scenario is to verify Internal Notes
-      Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+      Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
       And HS I am Navigating to Calendar Home Screen
       And HS I click on button Add Visit
       And HS I select custom time manually
@@ -849,7 +849,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-2589
   Scenario Outline: In HS RepVisits, The Visit should not be displayed on the blocked days
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I Remove the created blocked days
     Then HS I set a date using "<BlockedDate>" and "<EndDate>"
     Then HS I set Blocked date as "<Reason>" and select the reason as "<BlockedDate>" in the Holiday tab
@@ -869,19 +869,19 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     Then HE I select Visits to verify the appointment is not present using "<BlockedDate>" and "<StartTime>" in the RepvisitsAvailability
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
     And HS I successfully sign out
 
     Examples:
        |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School              |
        |14         |21     |10:25 am |11:25 pm |PurpleHE Publishing|USA          |Holiday|Int Qa High School 4|
-
+       
   @MATCH-3257 @MATCH-3603
   Scenario Outline: As a HS admin user,I want the ability to specify my school's "regular weekly hours"
                     for the upcoming school year (e.g. 2018-2019), so that I can begin allowing reps to start
                     scheduling visits accordingly for the new school year.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify that availability dates are from "<StartDate>" to "<EndDate>" for visits the days "<days>" in the calendar
 
     Examples:
@@ -895,4 +895,165 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
   So that I can update RepVisit college fairs and visits
     Given HS I want to login to the HS app using "purplehsautomation+HSSolidRock@gmail.com" as username and "Password!1" as password
     Then HS I verify I can make it through the RepVisits wizard as a non-Naviance HS
+    
+  @MATCH-2093 @MATCH-2828
+  Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab
+                    so I can efficiently find the updates I am looking for within RepVisits.
+#FOR VISITS
+#precondition
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+#FOR CONFIRM
+    Then HS I set the date using "<StartDateforNewVisit>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<RescheduleAvailabilityStartTime>","<RescheduleAvailabilityEndTime>" and "<NumVisits>"
+    Then HS I set the value for Reschedule the visit
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation+HEAlpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    Then HE I successfully sign out
+
+    Given HE I want to login to the HE app using "purplehsautomations+alpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify the Notification "<HEUser>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I select "Confirm" option for the Notification using "<HEUser>","<heStartTime>","<institution>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "confirmed" notification for "<HSuser>","<institution>","<activityDate>","<heStartTime>"
+
+#FOR DECLINE
+    Then HS I verify the Notification "<HEUser>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I select "Decline" option for the Notification using "<HEUser>","<heStartTime>","<institution>"
+    Then HS I verify the Decline Pop-up in the Notification Tab "<HEUser>","<institution>","<heStartTime>","<StartDate>"
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<HEUser>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<heStartTime>"
+
+#FOR RESCHEDULE
+    Then HS I reschedule the visit for the following data "<institution>","<RescheduleStartTime>","<Date>"
+    Then HS I verify reschedule pop-up for the following data "<HEUser>","<institution>","<RescheduleStartTime>","<Date>"
+#VERIFY RESCHEDULE PAGE FOR MATCH-2828
+    Then HS I verify the "Rescheduled visits aren't automatically confirmed" in reschedule page
+    Then HS I verify the university "<institution>" in reschedule page
+    Then HS I verify the date "<Date>" in reschedule page
+    Then HS I verify the time "<RescheduleStartTime>" in reschedule page
+
+    Then HS I reschedule a visit for the following details "<newVisitSTime>","<reason>","<StartDateforNewVisit>"
+#VERIFY ACTIVITY
+     And HS I select Activity in RepVisits to verify "rescheduled" notification for "<HSuser>","<institution>","<StartDateforNewVisit>","<RescheduleAvailabilityStartTime>" after Rescheduled the visit
+
+#FOR CANCEL
+    And HS I verify the calendar page in RepVisits using "<institution>","<StartTime>","<StartDateforNewVisit>" for cancel the Visit
+    Then HS I verify "Cancel This Visit" notification for "<HEUser>" using "<calendarST>","<institution>","<StartDateforNewVisit>","<StartTime>"
+    Then HS I select cancel the Visit
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<StartDateforNewVisit>","<heStartTime>" after cancelled the visit
+
+#FOR MANUALLY CREATE A NEW VISIT APPOINTMENT
+    Then HS I manually add the contact to an appointment using "<StartDate>","<StartTime>","<FName>","<LName>","<EMail>","<Phone>","<Position>","<institution>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "scheduled" notification for "<HSuser>","<institution>","<activityDate>","<newVisitSTime>"
+
+#Remove the time slot in Regular Weekly Hours Tab and Calendar
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I verify the calendar page using "<institution>","<StartTime>","<Date>" for cancel the Visit
+    Then HS I verify the "Cancel This Visit" notification for "<HEUser>" using "<calendarST>","<institution>","<activityDate>","<StartTime>"
+    Then HS I select cancel the Visit
+
+#FOR FAIRS
+#FOR CONFIRM
+    Then HS I set the following data to On the College Fair page "<newFairName>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation+HEAlpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+
+    Given HE I want to login to the HE app using "purplehsautomations+alpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Confirm" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "confirmed" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
+
+#FOR DECLINE
+    Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Decline" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
+    Then HS I verify the Decline Pop-up in the Notification Tab "<HEUser>","<institution>","<FairsSTime>","<Date>" for Fairs
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<HEUser>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
+
+#FOR RESCHEDULE
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the edit fair popup "<College Fair Name>","<FairSTimeforReschedule>","<Date>"
+    And HS I reschedule the fair using "<newFairsSTime>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "rescheduled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
+
+#FOR CANCEL
+     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
+    Then HS I verify the message "You currently have no notifications" is displayed in the ACTIVITY subtab
+    Then HS I verify the Paginate the ACTIVITY subtab via 25 entries with a "Show More" action to display the next 25 entries
+    And HS I successfully sign out
+
+ Examples:
+   |activityDate |calendarST    |HEUser   |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|FairsSTime|newFairsSTime|AcitivityFairTime|newFairName|reason|FName    |LName |EMail                           |Phone       |Position|FairSTimeforReschedule|
+   |14           |12:19AM       |purple   |School Manager |Alpena Community College  |14  |12:19am  |10:59pm |3        |14       |35      |10:59pm      |No, I want to manually review all incoming requests. |Standalone High School 6|12:         |12:     |Qa Fair for testng    |14  |1200AM    |0100AM  |5            |$25 |25                    |100                        |Save          |21                  |12:31am      |12:29 AM           |12:29am                        |10:59pm                      |12:00am   |12:00am      |12:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |12:00 AM              |
+
+
+
+
+  @MATCH-1583
+  Scenario: As an HS User I want to be able to use the Notifications and Primary Contact tab of RepVisits to Set Primay Contact
+    Given HHS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I Set the Primary Contact for Visits for my  school with phone"444-444-4444" and Email "mbhangu@hobsons.com"
+    And HS I Save the Primary Contacts for visits for my school
+    And HS I successfully sign out
+
+  @MATCH-1775
+  Scenario: As a High School Community user, I wan tto be able to cancel my college fair and notify attendees
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I create a College Fair with the following data
+      | College Fair Name                                         | Cancel This Fair        |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0800AM                  |
+      | Date                                                      | 5                       |
+      | RSVP Deadline                                             | 4                       |
+      | End Time                                                  | 0800PM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I Click the View Details button for the College Fair Event for "Cancel This Fair"
+    And HS I click on button Add attendees for fair
+    And HS I Add the following Attendee "Franky2" from the results in the Add Attendee pop-up page
+    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    And HS I click on Edit button to navigate to Edit College Fair
+    And HS I cancel the "Cancel This Fair" College Fair
+
 
