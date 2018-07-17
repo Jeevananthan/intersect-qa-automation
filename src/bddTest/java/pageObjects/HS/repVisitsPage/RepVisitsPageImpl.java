@@ -5185,6 +5185,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    public void verifyNotificationInRequestTab(String option,String user,String institution,String time){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Notifications & Tasks']"),1));
+        notificationAndTasks().click();
+        time = StartTime;
+        if(option.equals("Decline")) {
+            List<WebElement> declineButton = driver.findElements(By.xpath("//div[contains(text(),'" + user + "')]/parent::div/parent::div/following-sibling::div/div/div/strong[contains(text(),'" + institution + "')]/parent::div/following-sibling::div/span[contains(text(),'" + time + "')]/../../following-sibling::div/button/span[text()='Decline']"));
+            Assert.assertTrue("Decline button is displayed with visit details", declineButton.size() == 0);
+        }else if(option.equals("Confirm")) {
+            List<WebElement> confirmButton = driver.findElements(By.xpath("//div[contains(text(),'" + user + "')]/parent::div/parent::div/following-sibling::div/div/div/strong[contains(text(),'" + institution + "')]/parent::div/following-sibling::div/span[contains(text(),'" + time + "')]/../../following-sibling::div/button/span[text()='Confirm']"));
+            Assert.assertTrue("Confirm button is displayed with visit details", confirmButton.size() == 0);
+        }
+    }
+
     private void setDefaultDateforStartAndEndDate(){
         waitUntilPageFinishLoading();
         navBar.goToRepVisits();
