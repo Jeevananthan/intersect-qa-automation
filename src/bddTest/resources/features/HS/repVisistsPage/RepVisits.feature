@@ -1028,7 +1028,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1583
   Scenario: As an HS User I want to be able to use the Notifications and Primary Contact tab of RepVisits to Set Primay Contact
-    Given HHS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I Set the Primary Contact for Visits for my  school with phone"444-444-4444" and Email "mbhangu@hobsons.com"
     And HS I Save the Primary Contacts for visits for my school
     And HS I successfully sign out
@@ -1055,5 +1055,65 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     And HS I click on Edit button to navigate to Edit College Fair
     And HS I cancel the "Cancel This Fair" College Fair
+
+  @MATCH-2565
+  Scenario Outline: As a Repvisits admin users, I want to view the all requests should be available for all Admin user until one of the user approves/denies the request.
+#precondition
+    Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purplehsautomations+alpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    Then HE I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation+HEAlpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    Then HE I successfully sign out
+#verify notification is displayed
+#verify Notification in other admin user
+    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I successfully sign out
+#verify Notification in admin user
+    Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
+    Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+#FOR CONFIRM
+    Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
+#verify notification is not displayed
+    Then HS I verify the Notification is not displayed after "Confirm" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
+#FOR DECLINE
+    Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I select "Decline" option for the Notification using "<user>","<heStartTime>","<institution>"
+    Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<heStartTime>","<StartDate>"
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
+#verify notification is not displayed
+    Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
+#verify Notification is not displayed in other admin user
+#FOR CONFIRM
+    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Then HS I verify the Notification is not displayed after "Confirm" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
+#FOR DECLINE
+    Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
+    And HS I successfully sign out
+
+    Examples:
+      |Date  |Day|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime |Option                                              |School            |heStartTime|heTime |user  |institution             |
+      |7     |7  |10:56am  |12:11pm|3        |7        |49     |12:11pm   |No, I want to manually review all incoming requests.|Homeconnection    |10:56am    |10:56am|purple|Alpena Community College|
 
 
