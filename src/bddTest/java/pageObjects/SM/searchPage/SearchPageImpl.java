@@ -1533,6 +1533,59 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void iPinColleges(String numberOfCollegesToPin)
+    {
+        int numOfCollegesToPin = Integer.parseInt(numberOfCollegesToPin);
+
+        while(numOfCollegesToPin != 0)
+        {
+            try
+            {
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", pinToCompareElement(), resultsTableHeader());
+                pinToCompareElement().click();
+                numOfCollegesToPin--;
+            }
+            catch(Exception ex)
+            {
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", showMoreButton(), resultsTableHeader());
+                showMoreButton().click();
+            }
+        }
+    }
+
+
+    public void verifyPinnedCollegesClearedWhenYesClearButtonIsClicked()
+    {
+        boolean isPinnedListCleared = true;
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        if(clearPinnedListOption().getAttribute("aria-disabled").equals("false")) {
+            clearPinnedListOption().click();
+            yesClearMyListButton().click();
+        } else {
+            //close the PINNED dropdown
+            pinnedDropdown().click();
+        }
+
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
+            wait.until(ExpectedConditions.textToBePresentInElement(pinCount(), "0"));
+        } catch (Exception ex)
+        {
+            isPinnedListCleared = false;
+        }
+
+        Assert.assertTrue("The pinned list is not cleared", isPinnedListCleared);
+
+    }
+
+    public void verifyErrorMessageDisplayedOnPinning26thCollege() {
+
+        Assert.assertTrue("'Only allowed to pin 25 schools' error message is not displayed", maxTwentyFivePinnedSchoolsAllowedErrorMessage().isDisplayed());
+
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1849,6 +1902,42 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private List<WebElement> maleVsFemaleGenderDropdownOptions() {
         return getDriver().findElements(By.xpath("//div[@id='male-female-gender-dropdown']//span"));
+    }
+
+    private WebElement pinnedDropdown() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'supermatch-pinned-dropdown')]"));
+    }
+
+    private WebElement pinToCompareElement() {
+        return getDriver().findElement(By.xpath("(//span[text()='PIN TO COMPARE'])"));
+    }
+
+    private WebElement resultsTableHeader() {
+        return getDriver().findElement(By.xpath("//tr[@class='search-results-header-row']"));
+    }
+
+    private WebElement clearPinnedListOption() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Clear Pinned List')]//ancestor::div[1]"));
+    }
+
+    private WebElement clearPinnedListModal() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'visible active supermatch-modal')]"));
+    }
+
+    private WebElement yesClearMyListButton() {
+        return clearPinnedListModal().findElement(By.xpath(".//button[text()='YES, CLEAR MY LIST']"));
+    }
+
+    private WebElement noDontClearMyListButton() {
+        return clearPinnedListModal().findElement(By.xpath(".//button[text()='NO, CANCEL']"));
+    }
+
+    private WebElement pinCount() {
+        return getDriver().findElement(By.id("pinCount"));
+    }
+
+    private WebElement maxTwentyFivePinnedSchoolsAllowedErrorMessage() {
+        return getDriver().findElement(By.xpath("//span[text()='You have reached your maximum of 25 pinned schools. Remove a pinned school to add a new one.']"));
     }
 
 }
