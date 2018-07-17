@@ -26,7 +26,7 @@ Feature: Hobsons Support - View Institution Log History
   Scenario Outline: As a Support App I need to add log entries to HE Accounts View Log History page when Support users are using the Login As feature
                     so the appropriate information is available for auditing.
   #precondition
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option1>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -64,7 +64,7 @@ Feature: Hobsons Support - View Institution Log History
     And SP I successfully sign out
 
   #postcondition
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs6" and username "school-user" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option2>"

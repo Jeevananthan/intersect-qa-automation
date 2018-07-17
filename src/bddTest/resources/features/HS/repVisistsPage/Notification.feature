@@ -7,7 +7,7 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
                     so I can more easily identify the institution the notification entry is updating me about.
 #Naviance
 #precondition
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -41,7 +41,7 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<School>" in the Request Notification Tab for Fairs
     Then HE I successfully sign out
 #Verify the City and State displayed in the HS Request and Activity Notification Tab for Visits
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
@@ -59,7 +59,7 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<schoolForHE>" in the Activity Tab
     And HE I successfully sign out
 #Verify the City and State displayed in the HS Request and Activity Notification Tab for Fairs
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab for Fairs
     And HS I select "Confirm" option for the Notification using "<user>","<fairStartTime>","<institution>" for Fairs
@@ -76,7 +76,7 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<schoolForHE>" in the Activity Tab for Fairs
     And HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"

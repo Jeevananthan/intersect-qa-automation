@@ -83,27 +83,6 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify clicking outside of the box will also close the box
     And SM I check both Select Criteria To Start buttons take the user to the Location dropdown
 
-
-  @MATCH-3371
-  Scenario Outline: As a HS student, I want to filter colleges I am searching for by Diversity checkboxes within the Diversity
-  category so I can see relevant colleges that match my Diversity checkboxes requirements.
-    Given SM I am logged in to SuperMatch through Family Connection
-    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I verify that the Must Have box contains "<DiversityCheckboxOption>"
-    Then SM I "unselect" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I verify that the Must Have box does not contain "<DiversityCheckboxOption>"
-    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I move "<DiversityCheckboxOption>" from the Must Have box to the Nice to Have box
-    Then SM I "unselect" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I verify that the Must Have box does not contain "<DiversityCheckboxOption>"
-    And SM I verify that Nice to Have box does not contain "<DiversityCheckboxOption>"
-    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I verify that the Must Have box contains "<DiversityCheckboxOption>"
-    Examples: Each of the available options for the Student Life fit criteria
-    |DiversityCheckboxOption         |
-    |Historically Black Institutions |
-    |Tribal Colleges and Universities|
-
   @MATCH-3432 @MATCH-4317
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to select what details I see on each
             college in my search results so the information I care most about is visible to review.
@@ -170,16 +149,65 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
 
 
-    @MATCH-3471
-    Scenario:  As a HS student I want to search for a specific college by name, so I do not have to pick fit criteria
-      in order to see that college as result.
+    @MATCH-4406
+    Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly
+              return to the results to continue my college research.
       Given SM I am logged in to SuperMatch through Family Connection
-      Then SM I should see at the bottom the search by college name text box with default text "Search by College Name"
-      When SM I search by college name using "Art"
-      Then SM I see a message at the top of the results box that says "Search for Art"
-      And SM I verify "10" results were displayed when searching by college name
-      When SM I search by college name using "NonExistent"
-      Then SM I see a message in the search by college name text box that says "No results found for NonExistent"
+      And I clear the onboarding popups if present
+      Then SM I create fifteen different save search from Resources tab
+      When I select the following data from the Admission Fit Criteria
+        | Acceptance Rate | 25% or Lower |
+      And SM I open the Save Search popup
+      And SM I save the search with the name "Search16"
+      And SM I validate the error message "You have reached your maximum of 15 saved searches. Remove a saved search to add a new one"
 
 
+  @MATCH-3628
+  Scenario: As a HS student reviewing results from my search, I want to have an action available to jump back to the top of the SuperMatch page
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify that screen jumps to the top of the page after clicking the Back to top button
 
+
+  @MATCH-3471
+  Scenario: As a HS student I want to search for a specific college by name, so I do not have to pick fit criteria
+            in order to see that college as result.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I should see at the bottom the search by college name text box with default text "Search by College Name"
+    When SM I search by college name using "Art"
+    Then SM I see a message at the top of the results box that says "Search for Art"
+    And SM I verify "10" results were displayed when searching by college name
+    When SM I search by college name using "NonExistent"
+    Then SM I see a message in the search by college name text box that says "No results found for NonExistent"
+
+  @MATCH-3933
+  Scenario: Based on the generic data available for online learning opportunities in CMS per college, we need to add a
+            tooltip next to the 'Include online learning opportunities' fit criteria in the Academic fit category
+            dropdown so students can understand how we return search results that include this fit criteria.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify that tooltip icon is added to the include online learning opportunities fit criteria
+
+  @MATCH-3767
+  Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % MALE VS. FEMALE
+  in Diversity dropdown
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the text displayed in the % Male vs. Female Fit Criteria
+    Then SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown
+      |Select %     |
+      |Select gender|
+    Then SM I verify the options displayed in the Select % dropdown
+      |Select %|
+      |10%     |
+      |20%     |
+      |30%     |
+      |40%     |
+      |50%     |
+      |60%     |
+      |70%     |
+    Then SM I verify the options displayed in the Select Gender dropdown
+      |Select gender|
+      |Male         |
+      |Female       |
