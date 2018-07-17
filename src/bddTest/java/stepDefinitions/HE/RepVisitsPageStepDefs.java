@@ -383,7 +383,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
-        Then("^HE I verify the disabled date \"([^\"]*)\" is clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsClickableInCalendarAgenda);
+        Then("^HE I verify the disabled date \"([^\"]*)\" is not clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsNotClickableInEndDate);
 
     }
 }

@@ -1029,13 +1029,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).click();
             findMonth(calendarHeading, startOrEndDate);
         } else if(startOrEndDate.contains("FirstDate")) {
-            driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]")).click();
+            driver.findElement(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/preceding-sibling::button")).click();
             findMonth(calendarHeading, startOrEndDate);
-        } else if(startOrEndDate.contains("LastDate")) {
-            driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][2]")).click();
-            findMonth(calendarHeading, startOrEndDate);
-        } else if(startOrEndDate.equals("DisabledDate")) {
-            driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]")).click();
+        } else if(startOrEndDate.contains("LastDate")||startOrEndDate.equals("DisabledDate")) {
+            driver.findElement(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/following-sibling::button")).click();
             findMonth(calendarHeading, startOrEndDate);
         } else if(startOrEndDate.contains("other")) {
             button(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
@@ -2812,20 +2809,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         calendar().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
         jsClick(agendaButton());
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/preceding-sibling::button"),1));
         String EndDate = getSpecificDateForCalendar(endDate);
         setDate(EndDate, "LastDate");
         String StartDate = getSpecificDateForCalendar(startDate);
         setDate(StartDate, "FirstDate");
     }
 
-    public void verifyDisabledDateIsClickableInEndDate(String disabledDate){
+    public void verifyDisabledDateIsNotClickableInEndDate(String disabledDate){
         String DisabledDate = getSpecificDateForCalendar(disabledDate);
         setDate(DisabledDate, "DisabledDate");
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/preceding-sibling::button"),1));
+    //verify the dates are not equal
         String date = getStartDateInAgenda().getText();
         String displayingDate = getDisplayingDateInCalendarAgenda(disabledDate);
-        Assert.assertTrue("Selected date is not displayed",date.equals(displayingDate));
+        Assert.assertTrue("Selected date is not displayed",!date.equals(displayingDate));
+        navBar.goToCommunity();
+        waitUntilPageFinishLoading();
     }
 
     public void createCollegeFair(DataTable dataTable) {
@@ -5280,11 +5280,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } else if(startOrEndDate.contains("end")){
             dateCaption = button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).getText();
         }else if(startOrEndDate.contains("FirstDate")){
-            dateCaption = driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]")).getText();
-        } else if(startOrEndDate.contains("LastDate")){
-            dateCaption = driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][2]")).getText();
-        }else if(startOrEndDate.contains("DisabledDate")){
-            dateCaption = driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]")).getText();
+            dateCaption = driver.findElement(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/preceding-sibling::button")).getText();
+        } else if(startOrEndDate.contains("LastDate")||startOrEndDate.equals("DisabledDate")){
+            dateCaption = driver.findElement(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/following-sibling::button")).getText();
         } else{
             dateCaption = button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).getText();
         }

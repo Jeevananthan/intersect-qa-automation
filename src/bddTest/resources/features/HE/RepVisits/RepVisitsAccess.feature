@@ -256,14 +256,14 @@ Examples:
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the date using "<StartDate>" and "<EndDate>" in calendar "Agenda" view
-    Then HS I verify the disabled date "<disabledDate>" is clickable in calendar Agenda view
+    Then HS I verify the disabled date "<disabledDate>" is not clickable in calendar Agenda view
     And HS I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I set the date using "<StartDate>" and "<EndDate>" in calendar "Agenda" view
-    Then HE I verify the disabled date "<disabledDate>" is clickable in calendar Agenda view
+    Then HE I verify the disabled date "<disabledDate>" is not clickable in calendar Agenda view
     And HE I successfully sign out
 
     Examples:
        |StartDate|EndDate|disabledDate|
-       |7        |14     |16          |
+       |7        |14     |5           |
