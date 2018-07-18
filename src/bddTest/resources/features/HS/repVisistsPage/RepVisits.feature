@@ -1028,7 +1028,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 
   @MATCH-1583
   Scenario: As an HS User I want to be able to use the Notifications and Primary Contact tab of RepVisits to Set Primay Contact
-    Given HHS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I Set the Primary Contact for Visits for my  school with phone"444-444-4444" and Email "mbhangu@hobsons.com"
     And HS I Save the Primary Contacts for visits for my school
     And HS I successfully sign out
@@ -1055,5 +1055,3 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     And HS I click on Edit button to navigate to Edit College Fair
     And HS I cancel the "Cancel This Fair" College Fair
-
-
