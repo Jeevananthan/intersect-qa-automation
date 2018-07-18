@@ -175,28 +175,32 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
 
 
   @MATCH-1598
-Scenario Outline: As a HS RepVisits user I want to be able to access the College Fair overview page
-Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
-Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
-Then HS I Click on the "Close" button in the success page of the college fair
-Then HS I verify the data for the fair present on the College Fair Overview page "PreviouslySetFair","<date>","<CollegesRegistered>","<RSVPBy>","<Time>","<ViewDetails>"
+  Scenario Outline: As a HS RepVisits user I want to be able to access the College Fair overview page
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
+    Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    Then HS I verify the data for the fair present on the College Fair Overview page "PreviouslySetFair","<date>","<CollegesRegistered>","<RSVPBy>","<Time>","<ViewDetails>"
 
-Examples:
-|CollegeFairName      |Date            |StartTime|EndTime|RSVPDate        |Cost  |MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|date        |CollegesRegistered   |RSVPBy	    |Time             |ViewDetails|
-|QA Test Fair Overview|3               |1012AM   |1112AM |2               |$25   |25                 |100                     |Save         |3           |0 of 25 spots filled |2             |10:12am - 11:12am|Yes        |
+  Examples:
+    |CollegeFairName      |Date            |StartTime|EndTime|RSVPDate        |Cost  |MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|date        |CollegesRegistered   |RSVPBy	    |Time             |ViewDetails|
+    |QA Test Fair Overview|3               |1012AM   |1112AM |2               |$25   |25                 |100                     |Save         |3           |0 of 25 spots filled |2             |10:12am - 11:12am|Yes        |
 
-
-
-
-@MATCH-1937
-Scenario: As a high school RepVisits user, I want to be able to specify who is notified of changes to college fairs,
-So that I can be sure the right staff members are informed.
+  @MATCH-1937
+  Scenario: As a high school RepVisits user, I want to be able to specify who is notified of changes to college fairs,
+            So that I can be sure the right staff members are informed.
     #BLUE4HS has an issue with duplicated Primary contacts, so using standalone 1 instead.
-Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-Then HS I verify configuration and staff notifications for "District Manager" and "NidhuHS User"
-Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
-Then HS I add the following attendees to the College Fair
-|Andrew Lane|
-Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "Andrew Lane"
-Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify configuration and staff notifications for "District Manager" and "NidhuHS User"
+    Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
+    Then HS I add the following attendees to the College Fair
+      |Andrew Lane|
+    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "Andrew Lane"
+    Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
+
+  @MATCH-2382
+  Scenario: As a HS user, I should see a green confirmation message when I save College Fair settings
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I go to the College Fair Settings page
+    Then HS I click on the Save Settings button in College Fairs tab
+    Then HS I verify that a banner appears letting me know that College Fair settings were saved
