@@ -216,7 +216,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     // TODO - Some of this is not working yet
                     case "Search Type":
                         if (criteria.get(key).contains("distance"))
-                           searchByDistance().click();
+                            searchByDistance().click();
                         else
                             radioButton("searchByStateOrRegion").select();
                         break;
@@ -386,7 +386,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             getDriver().findElement(By.xpath("(//div[@role='combobox'])[2]//a[text()='" + item +"']/i[@class='delete icon']")).click();
         }
 
-          getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
 
@@ -1084,7 +1084,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         waitUntilPageFinishLoading();
                         try {
                             showMoreButton().click();
-                            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
                         } catch(WebDriverException e) {
                             whyDrawerButton(collegeName).sendKeys(Keys.END);
                             showMoreButton().click();
@@ -1310,6 +1309,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         goToCollegeInSearchResults(collegeName);
         Assert.assertTrue("The value of " + singleValue + " is not displayed in the Cost column",
                 singleCostValue(collegeName).getText().equals(singleValue));
+    }
+
+    public void pinCollegeIfNotPinnedAlready(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        if (pinLinkLocator(collegeName).equals("PIN TO COMPARE")) {
+            pinCollege(collegeName);
+        }
     }
 
     public void verifyBackToTopButtonFunctionality() {
@@ -1544,6 +1550,61 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         yesStartOverLink().click();
     }
 
+    public void iPinColleges(String numberOfCollegesToPin)
+    {
+        int numOfCollegesToPin = Integer.parseInt(numberOfCollegesToPin);
+        WebElement pinToCompareElement;
+
+        while(numOfCollegesToPin != 0)
+        {
+            try
+            {
+                pinToCompareElement = pinToCompareElement();
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", pinToCompareElement, resultsTableHeader());
+                pinToCompareElement.click();
+                waitForUITransition();
+                numOfCollegesToPin--;
+            }
+            catch(Exception ex)
+            {
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", showMoreButton(), resultsTableHeader());
+                showMoreButton().click();
+            }
+        }
+    }
+
+
+    public void verifyPinnedCollegesClearedWhenYesClearButtonIsClicked()
+    {
+        boolean isPinnedListCleared = true;
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        if(clearPinnedListOption().getAttribute("aria-disabled").equals("false")) {
+            clearPinnedListOption().click();
+            yesClearMyListButton().click();
+        } else {
+            //close the PINNED dropdown
+            pinnedDropdown().click();
+        }
+
+        try {
+            waitUntil(ExpectedConditions.textToBePresentInElement(pinCount(), "0"));
+        } catch (Exception ex)
+        {
+            isPinnedListCleared = false;
+        }
+
+        Assert.assertTrue("The pinned list is not cleared", isPinnedListCleared);
+
+    }
+
+    public void verifyErrorMessageDisplayedOnPinning26thCollege() {
+
+        Assert.assertTrue("'Only allowed to pin 25 schools' error message is not displayed", maxTwentyFivePinnedSchoolsAllowedErrorMessage().isDisplayed());
+
+    }
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1650,9 +1711,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
                 "//ancestor::div[@class='column']//i[@class='teal info circle icon']"));
     }
-    private WebElement firstOnboardingPopup() {
-        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
-    }
 
     private WebElement selectMilesDropdown() {
         return driver.findElement(By.id("supermatch-location-miles-dropdown"));
@@ -1720,8 +1778,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
 
-    private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
-
     private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
 
     public WebElement profilePageCollegeName() { return driver.findElement(By.cssSelector("h1.masthead__name.ng-binding")); }
@@ -1733,6 +1789,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement whyDrawerCloseButton() { return  driver.findElement(By.cssSelector("button.ui.teal.basic.button.asLink-btn")); }
 
     private WebElement whyDrawerAcademicMatchLink() { return driver.findElement(By.cssSelector("div.column em a.result-row-decription-label")); }
+
+    private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
 
     private WebElement pinnedFooterOption() { return driver.findElement(By.cssSelector("div#pinCount + span")); }
 
@@ -1761,6 +1819,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getResultTable(){ return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']")); }
 
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
+
+    private WebElement firstOnboardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
 
     private WebElement fitScoreColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(2)")); }
 
@@ -1869,4 +1931,40 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement yesStartOverLink() { return driver.findElement(By.cssSelector("div.actions button:not([default=''])")); }
 
     private WebElement noCancelLink() { return driver.findElement(By.cssSelector("div.actions button[default='']")); }
+
+    private WebElement pinnedDropdown() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'supermatch-pinned-dropdown')]"));
+    }
+
+    private WebElement pinToCompareElement() {
+        return getDriver().findElement(By.xpath("(//span[text()='PIN TO COMPARE'])"));
+    }
+
+    private WebElement resultsTableHeader() {
+        return getDriver().findElement(By.xpath("//tr[@class='search-results-header-row']"));
+    }
+
+    private WebElement clearPinnedListOption() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Clear Pinned List')]//ancestor::div[1]"));
+    }
+
+    private WebElement clearPinnedListModal() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'visible active supermatch-modal')]"));
+    }
+
+    private WebElement yesClearMyListButton() {
+        return clearPinnedListModal().findElement(By.xpath(".//button[text()='YES, CLEAR MY LIST']"));
+    }
+
+    private WebElement noDontClearMyListButton() {
+        return clearPinnedListModal().findElement(By.xpath(".//button[text()='NO, CANCEL']"));
+    }
+
+    private WebElement pinCount() {
+        return getDriver().findElement(By.id("pinCount"));
+    }
+
+    private WebElement maxTwentyFivePinnedSchoolsAllowedErrorMessage() {
+        return getDriver().findElement(By.xpath("//span[text()='You have reached your maximum of 25 pinned schools. Remove a pinned school to add a new one.']"));
+    }
 }

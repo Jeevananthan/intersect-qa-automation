@@ -223,3 +223,14 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Select gender|
       |Male         |
       |Female       |
+
+
+  @MATCH-4350
+  Scenario: As a HS student, if I pin the 26th school from the Why? drawer, an error message should be displayed
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I clear pinned schools list
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "26" colleges
+    Then SM I verify the error message displayed on pinning the 26th college
+
