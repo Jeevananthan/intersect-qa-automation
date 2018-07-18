@@ -62,10 +62,10 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab for Fairs
-    And HS I select "Confirm" option for the Notification using "<user>","<fairStartTime>","<institution>" for Fairs
+    And HS I select "Confirm" option for the Notification using "<user>","<Date>","<fairStartTime>","<institution>" for Fairs
 
     Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
-    And HS I select "Decline" option for the Notification using "<user>","<fairStartTime>","<institution>" for Fairs
+    And HS I select "Decline" option for the Notification using "<user>","<Date>","<fairStartTime>","<institution>" for Fairs
     Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<fairStartTime>","<Date>" for Fairs
     Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
 
