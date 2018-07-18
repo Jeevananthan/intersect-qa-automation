@@ -381,5 +381,17 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the data for the following fair$",repVisits::verifyCollegeFairOnList);
 
+        Then("^HE I verify the Recommendation tab of the RepVisits page$", repVisits::verifyRecommendatiosPage);
+
+        Then("^HE I search \"([^\"]*)\" in Recommendation tab of the RepVisits page",repVisits::searchforRecommendationsPage);
+
+        Then("^HE I verify the Details of Recommendation result for \"([^\"]*)\"$",repVisits::verifyDetailsofRecommendation);
+
+        Then("^HE I click the View Availability for \"([^\"]*)\" and verify the close button$",repVisits::verifyViewAvailabilityCloseButton);
+
+        Then("^HE I verify the details of Recommendation result for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyRecommendationResult);
+
+        Then("^HE I verify \"([^\"]*)\" for \"([^\"]*)\"$",repVisits::verifyAvailability);
+
     }
 }

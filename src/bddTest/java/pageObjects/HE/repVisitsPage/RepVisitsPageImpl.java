@@ -3038,6 +3038,102 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyRecommendatiosPage(){
+        navBar.goToRepVisits();
+        getRecommendationsBtn().click();
+    }
+
+    public void searchforRecommendationsPage(String County) {
+        navBar.goToRepVisits();
+        getRecommendationsBtn().click();
+        getRecommendationsSearchbox().sendKeys(County);
+    }
+
+    public void verifyDetailsofRecommendation(String schoolName,DataTable dataTable){
+        WebElement label = driver.findElement(By.xpath("//a[contains(text(),'"+schoolName+"')]//ancestor::tr"));
+        List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
+        for (Map<String,String> school : entities){
+            for (String key : school.keySet()) {
+                switch (key) {
+                    case "High School Name":
+                        label = driver.findElement(By.xpath("//a[contains(text(),'"+ key + "')]//ancestor::tr"));
+                        String header = driver.findElement(By.xpath("//a[contains(text(),'"+key+"')]//ancestor::tr//td[@class='_1uwakdynj-8Qwxsrr6Pi4E']//span")).getText();
+                        Assert.assertTrue("High School name was not found in header.", header.contains(school.get(key)));
+                        break;
+                    case "Recommendation Score":
+                        String recommendation_score = label.findElement(By.xpath("//td[@class='_1uwakdynj-8Qwxsrr6Pi4E']//span")).getText();
+                        Assert.assertTrue("Recommendation Score was not found in header.",recommendation_score.contains(school.get(key)));
+                        break;
+                    case "High School Type":
+                        String school_type = label.findElement(By.xpath("//td[@class='one wide']//div[@class='_1az38UH6Zn-lk--8jTDv2w']")).getText();
+                        Assert.assertTrue("High School Type was not found in header.",school_type.contains(school.get(key)));
+                        break;
+                    case "College Going Rate":
+                        String college_rate = label.findElement(By.xpath("//td[@class='three wide']//div[@class='_1az38UH6Zn-lk--8jTDv2w']")).getText();
+                        Assert.assertTrue("College Going Rate was not found in header.",college_rate.contains(school.get(key)));
+                        break;
+                    case "Senior Class Size":
+                        String class_size = label.findElement(By.xpath("//td[@class='_1uwakdynj-8Qwxsrr6Pi4E']//span")).getText();
+                        Assert.assertTrue("Senior Class Size was not found in header.",class_size.contains(school.get(key)));
+                        break;
+                }
+            }
+        }
+        label.findElement(By.id("Add to travel plan")).click();
+        Assert.assertTrue("travel plan is not added",text("Added to Travel Plan").isDisplayed());
+        label.findElement(By.className("ui button _27YJVs7aqQ7XcUocgNzRRH")).click();
+        Assert.assertTrue("View Availabilty is not displayed",text("View Availability").isDisplayed());
+    }
+
+    public void verifyRecommendationResult(String school,String score,String type,String rate,String size,String County) {
+        if(!driver.findElement(By.xpath("//span[text()='"+score+"']")).isDisplayed()){
+            while(button("More Results").isDisplayed())
+            {
+                button("More Results").click();
+                waitUntilPageFinishLoading();
+            }}else{
+            Assert.assertTrue("county is not displayed",driver.findElement(By.xpath("//table[@class='ui very basic table']//tr//td/div[contains(text(),'"+County+"')]")).isDisplayed());
+            Assert.assertTrue("Recommendation score is not displayed",driver.findElement(By.xpath("//span[text()='"+score+"']")).isDisplayed());
+            Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
+            Assert.assertTrue("type is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div[text()='"+type+"']")).isDisplayed());
+            Assert.assertTrue("rate is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div[text()='"+rate+"']")).isDisplayed());
+            Assert.assertTrue("size is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div[text()='"+size+"']")).isDisplayed());
+        }
+    }
+
+    public void verifyAvailability(String option,String school) {
+        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='Lakota West High School']")).isDisplayed());
+        if(option.equals("Add To Travel Plan")) {
+                List<WebElement> addToTravelPlan = driver.findElements(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='Add To Travel Plan']"));
+                if(addToTravelPlan.size()==1) {
+                    driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='Add To Travel Plan']")).click();
+                }else {
+                    Assert.assertTrue("School is not added with Travel plan",addToTravelPlan.size()==0);
+                }
+        }else if(option.equals("This school isnt using RepVisits yet")) {
+            List<WebElement> repVistsAccess = driver.findElements(By.xpath("//a[text()='"+school+"']//../following-sibling::td/div/span[text()='This school isnt using RepVisits yet']"));
+            if(repVistsAccess.size()==1)
+                Assert.assertTrue("'This school isnt using RepVisits yet' text is not displayed", driver.findElement(By.xpath("//a[text()='"+school+"']//../following-sibling::td/div/span[text()='This school isnt using RepVisits yet']")).isDisplayed());
+        }else if(option.equals("View Availability")) {
+            List<WebElement> viewAvailability = driver.findElements(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='View Availability']"));
+            if(viewAvailability.size()==1){
+                driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='View Availability']")).click();
+                driver.findElement(By.xpath("//div[@class='ui padded grid _3emfXzaryr93-lK5HisTL2']/div/div/i[@class='close large circular fitted link icon']")).click();
+                navBar.goToRepVisits();
+                waitUntilPageFinishLoading();
+            }else{
+                    logger.info("View Availability is not displayed");
+                }
+        }
+    }
+
+    public void verifyViewAvailabilityCloseButton(String school){
+        driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='View Availability']")).click();
+        Assert.assertTrue("Repvisits Availability popup is not displayed",viewAvailabilityPopUp().isDisplayed());
+        closeButtonRepvisistsAvailability().click();
+        Assert.assertTrue("View Availability button is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='View Availability']")).isDisplayed());
+    }
+
     private void selectMoreResultsInSearchAndSchedule(){
         while(getMoreResultsButton().isDisplayed()){
             getMoreResultsButton().click();
@@ -3493,6 +3589,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement resultCountInSearchResultsPage(){
         return getDriver().findElement(By.xpath("//p[@class='WWSRdogYvrcJkqEg52pv3']//span"));
+    }
+    private WebElement viewAvailabilityPopUp(){
+        return driver.findElement(By.xpath("//aside[@class='ui overlay right very wide visible sidebar _4OZUXsPPiZy6Cfo7xMfVx']"));
+    }
+    private WebElement closeButtonRepvisistsAvailability(){
+        return driver.findElement(By.xpath("//div[@class='ui padded grid _3emfXzaryr93-lK5HisTL2']/div/div/i[@class='close large circular fitted link icon']"));
+    }
+    private WebElement getRecommendationsSearchbox(){
+        return  textbox("Search by location...");
     }
 }
 
