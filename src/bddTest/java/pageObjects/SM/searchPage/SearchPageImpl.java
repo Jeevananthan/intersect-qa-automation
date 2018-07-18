@@ -1536,13 +1536,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void iPinColleges(String numberOfCollegesToPin)
     {
         int numOfCollegesToPin = Integer.parseInt(numberOfCollegesToPin);
+        WebElement pinToCompareElement;
 
         while(numOfCollegesToPin != 0)
         {
             try
             {
-                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", pinToCompareElement(), resultsTableHeader());
-                pinToCompareElement().click();
+                pinToCompareElement = pinToCompareElement();
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", pinToCompareElement, resultsTableHeader());
+                pinToCompareElement.click();
+                waitForUITransition();
                 numOfCollegesToPin--;
             }
             catch(Exception ex)
@@ -1569,8 +1572,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
 
         try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), 20);
-            wait.until(ExpectedConditions.textToBePresentInElement(pinCount(), "0"));
+            waitUntil(ExpectedConditions.textToBePresentInElement(pinCount(), "0"));
         } catch (Exception ex)
         {
             isPinnedListCleared = false;

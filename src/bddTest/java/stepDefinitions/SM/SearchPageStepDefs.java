@@ -173,7 +173,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I pin \"([^\"]*)\" colleges$", searchPage::iPinColleges);
 
-        And("^SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the confirmation modal$", searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
+        And("^SM I clear pinned schools list$", searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
 
         And("^SM I verify the error message displayed on pinning the 26th college$", searchPage::verifyErrorMessageDisplayedOnPinning26thCollege);
 
