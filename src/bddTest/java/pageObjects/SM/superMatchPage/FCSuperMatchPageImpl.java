@@ -240,9 +240,48 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     public void selectOptionInDropdown(String maxCost, String costOption) {
         tabOption("Cost").click();
         costOption(costOption).click();
+        waitUntil(ExpectedConditions.elementToBeClickable(maxCostDropdown()));
         maxCostDropdown().click();
         maxCostOption(maxCost).click();
         tabOption("Cost").click();
+        //The following 2 lines are a workaround for MATCH-4830
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        driver.get(driver.getCurrentUrl());
+    }
+
+    public void createFifteenSaveSearch(){
+
+        String resourcesOptions[] = {"Learning Differences Support","Academic/Career Counseling","Counseling Services",
+                "Tutoring Services","Remedial Services","ESL/ELL Services","Physical Accessibility",
+                "Services for the Blind or Visually Impaired","Services for the Deaf and Hard of Hearing",
+                "Asperger's/Autism Support","Day Care Services"};
+        int counter = 1;
+        if (getSaveSearchDisableMenu().isDisplayed()){
+            for (String res: resourcesOptions) {
+                searchPage.setResourcesCriteria(res);
+                clickSaveSearchButton();
+                searchPage.saveSearchWithName("Search" + counter);
+                searchPage.verifyConfirmationMessage();
+                verifySavedSearchInDropdown("Search" + counter);
+                counter++;
+                searchPage.unsetResourcesCriteria(res);
+            }
+            searchPage.setResourcesCriteria("Learning Differences Support");
+            String resourcesOptionTwo[] = {"Academic/Career Counseling", "Counseling Services", "Tutoring Services", "Remedial Services"};
+            for (String resTwo : resourcesOptionTwo) {
+                searchPage.setResourcesCriteria(resTwo);
+                clickSaveSearchButton();
+                searchPage.saveSearchWithName("Search" + counter);
+                searchPage.verifyConfirmationMessage();
+                verifySavedSearchInDropdown("Search" + counter);
+                counter++;
+            }
+        }
+    }
+
+    public void verifySaveSearchMessage(String ExpMessage) {
+        String ActMessage = driver.findElement(By.xpath("//body")).getText();
+        Assert.assertTrue("Error message for adding the 16th save search is not displaying.", ActMessage.contains(ExpMessage));
     }
 
     public void openTab(String tabName) {
@@ -309,11 +348,13 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String savedSearchesListLocator = "div.menu.transition.visible div span";
     private WebElement getSavedSearchesDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']")); }
     private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }
+
+    private WebElement getSaveSearchDisableMenu(){ return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
     private WebElement tabOption(String optionName) { return driver.findElement(By.xpath("//li[text() = '" + optionName + "']")); }
     private WebElement costOption(String optionName) {
         return driver.findElement(By.xpath("//label[text() = '" + optionName + "']"));
     }
-    private WebElement maxCostDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div[role=\"alert\"].default.text")); }
+    private WebElement maxCostDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div[role=\"alert\"]")); }
     private WebElement maxCostOption(String option) { return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div/span[text() = '" + option + "']")); }
     private WebElement maximumTuitionAndFeesOption() { return driver.findElement(By.cssSelector("label[for=\"radio-tuition-0\"]")); }
     private WebElement maximumTotalCostOption() { return driver.findElement(By.cssSelector("label[for=\"radio-includeRoomAndBoardKey-1\"]")); }
@@ -322,4 +363,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement mustHaveMatchLegend() { return driver.findElement(By.cssSelector("div.column.supermatch-sidebar-criteria-list-column h3.supermatch-sidebar-criteria-list-title + div p")); }
     private WebElement niceToHaveMatchLegend() { return driver.findElement(By.cssSelector("div.row.supermatch-sidebar-criteria-list-row div:nth-of-type(2).column p")); }
     private String spinnerLocator = "div.ui.active.loader";
+
 }

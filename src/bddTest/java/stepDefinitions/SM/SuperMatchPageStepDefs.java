@@ -36,9 +36,14 @@ public class SuperMatchPageStepDefs implements En {
 
         And("^SM I select the \"([^\"]*)\" option from the \"([^\"]*)\" dropdown in Cost$", fcSuperMatch::selectOptionInDropdown);
 
+        Then("^SM I create fifteen different save search from Resources tab$", fcSuperMatch::createFifteenSaveSearch);
+
+        And("^SM I validate the error message \"([^\"]*)\"$", fcSuperMatch::verifySaveSearchMessage);
+
         When("^SM I open the \"([^\"]*)\" tab$", fcSuperMatch::openTab);
 
         Then("^SM I verify that the appropriate wording is used for dropdowns of the following options:$", fcSuperMatch::verifyDropdownsWordingInCost);
+
 
     }
 }

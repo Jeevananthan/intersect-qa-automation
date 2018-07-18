@@ -152,12 +152,36 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: Currently, the financial aid results column of the results table does not display a tuition value of $0 in the UI. This needs updated.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
+    And SM I start the search over
     When I select the following data from the Admission Fit Criteria
-      | GPA (4.0 scale) | 3.7  |
+      | GPA (4.0 scale) | 3  |
       | SAT Composite   | 1000 |
       | ACT Composite   | 26   |
     And SM I select the "$5,000" option from the "Maximum Tuition and Fees" dropdown in Cost
-    Then SM I verify that "Concorde Career College-Dallas" displays "$0" in the Cost column
+    Then SM I verify that "SABER College" displays "$0" in the Cost column
+
+
+    @MATCH-4406
+    Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly
+              return to the results to continue my college research.
+      Given SM I am logged in to SuperMatch through Family Connection
+      And I clear the onboarding popups if present
+      Then SM I create fifteen different save search from Resources tab
+      When I select the following data from the Admission Fit Criteria
+        | Acceptance Rate | 25% or Lower |
+      And SM I open the Save Search popup
+      And SM I save the search with the name "Search16"
+      And SM I validate the error message "You have reached your maximum of 15 saved searches. Remove a saved search to add a new one"
+
+
+  @MATCH-3628
+  Scenario: As a HS student reviewing results from my search, I want to have an action available to jump back to the top of the SuperMatch page
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify that screen jumps to the top of the page after clicking the Back to top button
 
 
   @MATCH-3471
@@ -177,3 +201,25 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
             dropdown so students can understand how we return search results that include this fit criteria.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify that tooltip icon is added to the include online learning opportunities fit criteria
+
+  @MATCH-3767
+  Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % MALE VS. FEMALE
+  in Diversity dropdown
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the text displayed in the % Male vs. Female Fit Criteria
+    Then SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown
+      |Select %     |
+      |Select gender|
+    Then SM I verify the options displayed in the Select % dropdown
+      |Select %|
+      |10%     |
+      |20%     |
+      |30%     |
+      |40%     |
+      |50%     |
+      |60%     |
+      |70%     |
+    Then SM I verify the options displayed in the Select Gender dropdown
+      |Select gender|
+      |Male         |
+      |Female       |

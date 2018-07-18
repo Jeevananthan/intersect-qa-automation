@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -125,6 +126,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
 
+        Then("^SM I verify the College Profile page for \"([^\"]*)\" in the following sections:$", searchPage::verifyCollegeProfile);
+
+        And("^SM I open the Pinned Schools Compare screen$", searchPage::openPinnedCompareSchools);
+
         Then("^SM I verify that the Save Search popup is closed when I use the Cancel action$", searchPage::verifySaveSearchIsClosedWhenCancelIsClicked);
 
         Then("^SM I verify that the Save Search popup is closed when I click outside the popup$", searchPage::verifySaveSearchIsClosedWithOutterClick);
@@ -143,6 +148,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that \"([^\"]*)\" displays \"([^\"]*)\" in the Cost column$", searchPage::verifySingleValueInCostColumn);
 
+        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
+       
+        And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
+
         Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
 
         Then("^SM I should see at the bottom the search by college name text box with default text \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameTextBox);
@@ -156,6 +165,17 @@ public class SearchPageStepDefs implements En {
         And("^SM I see a message in the search by college name text box that says \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameNoResultFoundMessage);
 
         And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
+
+        And("^SM I verify the text displayed in the % Male vs. Female Fit Criteria$", searchPage::verifyTextDisplayedInMaleVsFemaleFitCriteria);
+
+        And("^SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown$", searchPage::verifyPlaceholdersInSelectPercentAndSelectGenderDropdown);
+
+        And("^SM I verify the options displayed in the Select % dropdown$", searchPage::verifyOptionsInSelectPercentDropdown);
+
+        And("^SM I verify the options displayed in the Select Gender dropdown$", searchPage::verifyOptionsInSelectGenderDropdown);
+
+        And("^SM I start the search over$", searchPage::startSearchOver);
+
 
     }
 }

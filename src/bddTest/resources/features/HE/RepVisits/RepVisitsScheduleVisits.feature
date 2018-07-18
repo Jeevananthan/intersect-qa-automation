@@ -26,7 +26,7 @@ Feature: HE- RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be a
 
   @MATCH-2169 @MATCH-2309
   Scenario Outline: HE Users - RepVisits - Availability Pills Updates
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "Password!1"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set a date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     When HS I add new time slot with "Monday", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
@@ -43,7 +43,7 @@ Feature: HE- RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be a
     And HE I verify the schedule pop_up for "<SchoolName>" using "<heTime>" and "<hsEndTime>"
     And HE verify the Pills got disappear for "<heStartTime>","<SchoolName>"
     And HE I successfully sign out
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "Password!1"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I remove the time slot with day "Mon" and time "<heStartTime>"
     And HS I remove the time slot with day "Tue" and time "<heStartTime>"
     And HS I remove the time slot with day "Wed" and time "<heStartTime>"
