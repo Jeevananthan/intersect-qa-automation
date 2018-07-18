@@ -1,0 +1,60 @@
+@SM
+Feature: SM - Feature - As a HS student, I need to be able to search for colleges based on the 'Academics' fit criteria
+
+  @MATCH-3554
+  Scenario: As a HS student I want to see dynamically display the Institution Type for Certificate option
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When SM I select the "Certificate" radio button from the Academics fit criteria
+    When SM I click "Academics" filter criteria tab
+    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" is not checked
+
+  @MATCH-3554
+  Scenario: As a HS student I want to see dynamically display the Institution Type checkbox is not checked for Certificate option
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When SM I select the "Certificate" radio button from the Academics fit criteria
+    When SM I click "Academics" filter criteria tab
+    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" is not checked
+
+  @MATCH-3554
+  Scenario: As a HS student I want to be able to check/uncheck the Institution Type box for Certificate option
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When SM I select the "Certificate" radio button from the Academics fit criteria
+    When SM I click "Academics" filter criteria tab
+    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" can be checked|unchecked
+
+  @MATCH-3554
+  Scenario: As a HS student I want to see dynamically display the Institution Type for Associate's option
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When SM I select the "Associate's" radio button from the Academics fit criteria
+    When SM I click "Academics" filter criteria tab
+    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" is not checked
+
+  @MATCH-3554
+  Scenario: As a HS student I want to see dynamically display the Institution Type checkbox is not checked for Associate's option
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When SM I select the "Associate's" radio button from the Academics fit criteria
+    When SM I click "Academics" filter criteria tab
+    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" is not checked
+
+  @MATCH-3554
+  Scenario: As a HS student I want to be able to check/uncheck the Institution Type box for Associate's option
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When SM I select the "Associate's" radio button from the Academics fit criteria
+    When SM I click "Academics" filter criteria tab
+    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" can be checked|unchecked
+
+  @MATCH-3554
+  Scenario: As a HS student I want to sure filter pill for Associate's always appears in Must to have box
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When SM I select the "Associate's" radio button from the Academics fit criteria
+    And SM I move "Associate's [Any]" from the Must Have box to the Nice to Have box
+    And SM I remove the "Associate's [Any]" fit criteria from the Must Have box or Nice to Have box
+    When SM I select the "Associate's" radio button from the Academics fit criteria
+    Then SM I verify that the Must Have box contains "Associate's [Any]"

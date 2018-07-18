@@ -198,5 +198,12 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I clear all pills from Must have  and Nice to have boxes$", searchPage::clearAllPillsFromMustHaveAndNiceToHaveBox);
 
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is displayed$", searchPage::verifyCheckboxIsDisplayed);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is not checked$", searchPage::verifyCheckboxIsNotChecked);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" can be checked|unchecked$", searchPage::verifyCheckboxCanBeCheckedAndUnchecked);
+
     }
 }

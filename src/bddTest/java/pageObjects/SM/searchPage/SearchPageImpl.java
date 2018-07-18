@@ -1667,6 +1667,43 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
 
 
+    public void verifyCheckboxIsDisplayed(String checkboxText) {
+
+        Assert.assertTrue("CheckBox" + checkboxText + " is not displayed", getCheckBoxLabelByText(checkboxText).isDisplayed());
+
+    }
+
+    public void verifyCheckboxIsNotChecked(String checkboxText) {
+
+       Assert.assertFalse("CheckBox" + checkboxText + " is checked", getCheckBoxLabelByText(checkboxText).isSelected());
+
+    }
+
+    public void verifyCheckboxCanBeCheckedAndUnchecked(String checkboxText) {
+
+        boolean check = getCheckBoxLabelByText(checkboxText).isSelected();
+        if (check == true) {
+            getCheckBoxElementByText(checkboxText).click();
+            verifyCheckboxIsNotChecked(checkboxText);
+        } else {
+            getCheckBoxElementByText(checkboxText).click();
+            Assert.assertTrue("CheckBox" + checkboxText + " is not checked", getCheckBoxLabelByText(checkboxText).isSelected());
+
+        }
+
+        check = getCheckBoxLabelByText(checkboxText).isSelected();
+        if (check == false) {
+            getCheckBoxElementByText(checkboxText).click();
+            Assert.assertTrue("CheckBox" + checkboxText + " is not checked", getCheckBoxLabelByText(checkboxText).isSelected());
+        } else {
+            getCheckBoxElementByText(checkboxText).click();
+            verifyCheckboxIsNotChecked(checkboxText);
+
+        }
+
+    }
+
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -2062,6 +2099,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement familyIncomeDropdown()
     {
         return getDriver().findElement((By.xpath("//div[@id='cost-family-income-dropdown']")));
+    }
+
+    private WebElement getCheckBoxLabelByText(String checkboxText) {
+        return driver.findElement(By.xpath("//label[text()='" + checkboxText + "']/../input"));
+    }
+
+    private WebElement getCheckBoxElementByText(String checkboxText) {
+        return driver.findElement(By.xpath("//label[text()='" + checkboxText + "']/.."));
     }
 
 }
