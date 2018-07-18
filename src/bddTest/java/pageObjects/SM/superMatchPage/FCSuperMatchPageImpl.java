@@ -358,13 +358,11 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
     public void checkDeleteIconInSaveSearch(String saveSearchName){
         savedSearchesDropdown().click();
-        waitForUITransition();
         Assert.assertTrue("For "+saveSearchName+" Save Search, delete icon is not displaying.",saveSearchDeleteIcon(saveSearchName).isDisplayed());
     }
 
     public void verifySaveSearchDeleteConfirmationPopup(String saveSearchName){
         saveSearchDeleteIcon(saveSearchName).click();
-        waitForUITransition();
         String headerText = saveSearchDeletePopupHeaderText().getText();
         Assert.assertTrue("Header text reads 'Are you sure you want to delete: "+saveSearchName+" is not displaying.", headerText.contains("Are you sure you want to delete: "+saveSearchName+"?"));
         Assert.assertTrue("This will permanently remove this search. message is not displaying.", text("This will permanently remove this search.").isDisplayed());
@@ -375,24 +373,21 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyClickOutsideClosePopup(String saveSearchName){
         savedSearchesDropdown().click();
-        waitForUITransition();
         saveSearchDeleteIcon(saveSearchName).click();
-        waitForUITransition();
         new Actions(driver).moveToElement(savedSearchesDropdown()).click().perform();
     }
 
     public void deleteSaveSearch(String saveSearchName){
         savedSearchesDropdown().click();
-        waitForUITransition();
         saveSearchDeleteIcon(saveSearchName).click();
-        waitForUITransition();
         button("YES, DELETE").click();
         waitForUITransition();
-        Assert.assertTrue(saveSearchName+ "save search is not deleted.", driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']")).isDisplayed());
+        Assert.assertTrue(saveSearchName+ "save search is not deleted.", getDisableChosseOneDropdown().isDisplayed());
     }
 
     // Locators Below
 
+    private WebElement getDisableChosseOneDropdown(){return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
     private WebElement saveSearchDeletePopupHeaderText(){return driver.findElement(By.xpath("//div[@class='header']"));}
     private WebElement saveSearchDeleteIcon(String saveSearchName) { return driver.findElement(By.xpath("//span[text()='"+saveSearchName+"']/../i[//i[@class='trash large icon right floated']]"));}
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
