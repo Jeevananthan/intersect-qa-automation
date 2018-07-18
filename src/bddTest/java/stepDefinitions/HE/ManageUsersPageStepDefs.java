@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.manageUsersPage.ManageUsersPageImpl;
 
@@ -24,6 +25,8 @@ public class ManageUsersPageStepDefs implements En {
         Then("^HE I receive the \"Matching Account has been Updated\" email below$",manageUsersPage::verifyEmailChangedNotification);
 
         Then("^HE I can see the last login date for user type \"([^\"]*)\"$", manageUsersPage::verifyLastLoginData);
+
+        Then("^HE I verify that I can create new users$", manageUsersPage::verifyAddNewUser);
 
     }
 
