@@ -561,6 +561,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         {
             gpaTextBox().clear();
             gpaTextBox().sendKeys(score);
+            // This field has a 2 second timeout before validation, so we need to wait for that.
+            waitForUITransition();
             Assert.assertFalse(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
         }
     }
@@ -578,6 +580,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         {
             gpaTextBox().clear();
             gpaTextBox().sendKeys(score);
+            // This field has a 2 second timeout before validation, so we need to wait for that.
+            waitForUITransition();
             Assert.assertTrue(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
         }
     }
@@ -591,14 +595,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("400");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1000");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1600");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
     }
@@ -612,14 +622,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("100");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("399");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1601");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
     }
