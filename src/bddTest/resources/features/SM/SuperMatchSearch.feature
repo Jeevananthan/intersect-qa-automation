@@ -161,6 +161,16 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       And SM I save the search with the name "Search16"
       And SM I validate the error message "You have reached your maximum of 15 saved searches. Remove a saved search to add a new one"
 
+  @MATCH-3511
+  Scenario: As a HS student, I want to delete my saved searches so that list can contain only the saved
+  searches I need presently
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I create a save search "Search1" by selecting "Learning Differences Support" from Resources tab
+    Then SM I check the delete icon in save search "Search1"
+    Then SM After clicking "Search1" delete icon I check the confirmation popup message
+    And SM I check clicking outside will close the "Search1" popup message
+    And SM I delete the save search "Search1" and verify it
 
   @MATCH-3628
   Scenario: As a HS student reviewing results from my search, I want to have an action available to jump back to the top of the SuperMatch page
