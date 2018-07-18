@@ -248,8 +248,8 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         loginPage.defaultLoginSupport();
         goToManageGroupMembersPage();
         driver.findElement(By.className("accept-link")).click();
-      //  homePage.logoutSupport();
-      //  loginPage.defaultLoginHE();
+      //  homePage.logoutSupport()
+        // loginPage.defaultLoginHE();
       //  searchForGroup("**Test Automation** HE Community PRIVATE Group");
     }
 
