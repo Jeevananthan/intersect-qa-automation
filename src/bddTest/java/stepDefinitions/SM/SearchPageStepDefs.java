@@ -145,9 +145,11 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
-        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
-       
         And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
+
+        And("^SM I pin \"([^\"]*)\" if it is not pinned already$", searchPage::pinCollegeIfNotPinnedAlready);
+
+        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
 
         Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
 
@@ -176,7 +178,6 @@ public class SearchPageStepDefs implements En {
         And("^SM I clear pinned schools list$", searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
 
         And("^SM I verify the error message displayed on pinning the 26th college$", searchPage::verifyErrorMessageDisplayedOnPinning26thCollege);
-
 
     }
 }

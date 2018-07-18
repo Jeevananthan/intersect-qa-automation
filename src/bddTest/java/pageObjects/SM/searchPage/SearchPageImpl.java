@@ -216,7 +216,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     // TODO - Some of this is not working yet
                     case "Search Type":
                         if (criteria.get(key).contains("distance"))
-                           searchByDistance().click();
+                            searchByDistance().click();
                         else
                             radioButton("searchByStateOrRegion").select();
                         break;
@@ -386,7 +386,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             getDriver().findElement(By.xpath("(//div[@role='combobox'])[2]//a[text()='" + item +"']/i[@class='delete icon']")).click();
         }
 
-          getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
 
@@ -1084,7 +1084,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         waitUntilPageFinishLoading();
                         try {
                             showMoreButton().click();
-                            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
                         } catch(WebDriverException e) {
                             whyDrawerButton(collegeName).sendKeys(Keys.END);
                             showMoreButton().click();
@@ -1304,6 +1303,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }while (searchCollege&&getResultTable().findElement(By.xpath("//button[text()='Show More']")).isDisplayed());
         if (counter>resultLimit)
             logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
+    }
+
+    public void pinCollegeIfNotPinnedAlready(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        if (pinLinkLocator(collegeName).equals("PIN TO COMPARE")) {
+            pinCollege(collegeName);
+        }
     }
 
     public void verifyBackToTopButtonFunctionality() {
@@ -1694,9 +1700,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
                 "//ancestor::div[@class='column']//i[@class='teal info circle icon']"));
     }
-    private WebElement firstOnboardingPopup() {
-        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
-    }
 
     private WebElement selectMilesDropdown() {
         return driver.findElement(By.id("supermatch-location-miles-dropdown"));
@@ -1762,8 +1765,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
-    private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
-
     private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
 
     private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
@@ -1779,6 +1780,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement whyDrawerAcademicMatchLink() { return driver.findElement(By.cssSelector("div.column em a.result-row-decription-label")); }
 
     private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
+
+    private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
 
     private WebElement pinnedFooterOption() { return driver.findElement(By.cssSelector("div#pinCount + span")); }
 
@@ -1811,6 +1814,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
 
     private String spinnerLocator = "button[disabled]";
+
+    private WebElement firstOnboardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
 
     private WebElement fitScoreColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(2)")); }
 
