@@ -1055,3 +1055,10 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
     And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     And HS I click on Edit button to navigate to Edit College Fair
     And HS I cancel the "Cancel This Fair" College Fair
+
+  @MATCH-2382
+  Scenario: As a HS user, I should see a green confirmation message when I save College Fair settings
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I go to the College Fair Settings page
+    Then HS I click on the Save Settings button in College Fairs tab
+    Then HS I verify that a banner appears letting me know that College Fair settings were saved
