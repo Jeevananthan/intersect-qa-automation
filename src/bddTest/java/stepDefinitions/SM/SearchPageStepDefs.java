@@ -172,5 +172,12 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify the options displayed in the Select % dropdown$", searchPage::verifyOptionsInSelectPercentDropdown);
 
         And("^SM I verify the options displayed in the Select Gender dropdown$", searchPage::verifyOptionsInSelectGenderDropdown);
+
+        And("^SM I pin \"([^\"]*)\" colleges$", searchPage::iPinColleges);
+
+        And("^SM I clear pinned schools list$", searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
+
+        And("^SM I verify the error message displayed on pinning the 26th college$", searchPage::verifyErrorMessageDisplayedOnPinning26thCollege);
+
     }
 }
