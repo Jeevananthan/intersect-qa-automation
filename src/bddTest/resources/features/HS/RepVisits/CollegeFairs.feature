@@ -5,7 +5,7 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
 #  @MATCH-1617 @MATCH-1997
 #  Scenario: As a high school community user, I want to be able to accept or deny a college that requests to attend my fair.
 #            So that I can ensure the colleges attending are a good match for my students. 
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    Then HS I create a College Fair with the following data
 #      | College Fair Name                                         | Fair QA Test#03         |
 #      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
@@ -29,7 +29,7 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
 #    And HE I successfully sign out
 #
 #    # Log back into the HS app to accept and decline the attendance requests from above
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    Then HS I make sure the "Confirm" button works properly for college fair attendee requests for "Fair QA Test#03"
 #    Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
 #    Then HS I cancel the "Fair QA Test#03" College Fair
@@ -37,7 +37,7 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
 
   @MATCH-1598
   Scenario Outline: As a HS RepVisits user I want to be able to access the College Fair overview page
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
     Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
     Then HS I Click on the "Close" button in the success page of the college fair
@@ -51,7 +51,7 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
   @HS @MATCH-2728
   Scenario: Clickable fair summaries open in a drawer but are not editable. This ticket adds an "edit" link,
   and once that's clicked the tray opens fields for data entry and adds a "save" button.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I create a dynamic College Fair with the following data
       | College Fair Name                                         | MATCH-2082 Fair         |
       | Automatically Confirm Incoming Requestions From Colleges? | no                      |
@@ -69,7 +69,7 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify that the previously created fair appears for "Int QA High School 4"
   # Log into HS app and unpublish the previous College Fair
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
     #And HS I click on Edit button to edit fair
     Then HS I edit a dynamic College Fair with the following data
@@ -103,10 +103,10 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
   Scenario: As a high school RepVisits user, I want to be able to specify who is notified of changes to college fairs,
             So that I can be sure the right staff members are informed.
     #BLUE4HS has an issue with duplicated Primary contacts, so using standalone 1 instead.
-    Given HS I am logged in to Intersect HS through Naviance with account "stndalonehs1" and username "school-user" and password "password"
-    Then HS I verify configuration and staff notifications for "School Manager" and "Nidhu Thomas"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify configuration and staff notifications for "District Manager" and "NidhuHS User"
     Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
     Then HS I add the following attendees to the College Fair
-      |undefined|
-    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "undefined"
+      |Andrew Lane|
+    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "Andrew Lane"
     Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email

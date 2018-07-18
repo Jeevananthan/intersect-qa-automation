@@ -54,34 +54,34 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
         searchPage.chooseFitCriteriaTab(tabName);
         switch (tabName.split(":")[0]) {
-            case "Location" : verifyTooltipsInTab("location.tooltips.titles.list");
+            case "Location" : verifyTooltips("location.tooltips.titles.list");
                 break;
             case "Academics" :
                 bachelorsOption().click();
-                verifyTooltipsInTab("academics.tooltips.titles.list");
-                verifyTooltipsInTab("academics.degree.type.labels.list");
-                verifyTooltipsInTab("academics.degree.type.text.list");
+                verifyTooltips("academics.tooltips.titles.list");
+                verifyTooltips("academics.degree.type.labels.list");
+                verifyTooltips("academics.degree.type.text.list");
                 break;
             case "Admission" :
-                verifyTooltipsInTab("admission.tooltips.titles.list");
-                verifyTooltipsInTab("admission.tooltips.text.list");
+                verifyTooltips("admission.tooltips.titles.list");
+                verifyTooltips("admission.tooltips.text.list");
                 break;
-            case "Diversity" : verifyTooltipsInTab("diversity.tooltips.titles.list");
+            case "Diversity" : verifyTooltips("diversity.tooltips.titles.list");
                 break;
-            case "Institution Characteristics" : verifyTooltipsInTab("institution.characteristics.titles.list");
+            case "Institution Characteristics" : verifyTooltips("institution.characteristics.titles.list");
                 break;
-            case "Cost" : verifyTooltipsInTab("cost.tooltips.titles.list");
+            case "Cost" : verifyTooltips("cost.tooltips.titles.list");
                 break;
-            case "Student Life" : verifyTooltipsInTab("student.life.tooltips.titles.list");
+            case "Student Life" : verifyTooltips("student.life.tooltips.titles.list");
                 break;
-            case "Athletics" : verifyTooltipsInTab("athletics.tooltips.titles.list", tabName.split(":")[1]);
+            case "Athletics" : verifyTooltips("athletics.tooltips.titles.list", tabName.split(":")[1]);
                 break;
-            case "Resources" : verifyTooltipsInTab("resources.tooltips.titles.list");
+            case "Resources" : verifyTooltips("resources.tooltips.titles.list");
                 break;
         }
     }
 
-    private void verifyTooltipsInTab(String propertiesEntry, String... sportOption) {
+    private void verifyTooltips(String propertiesEntry, String... sportOption) {
         switch(propertiesEntry) {
             case "resources.tooltips.text.list" :
                 List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
@@ -124,7 +124,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 for(int i = 0; i < labels.size(); i++) {
                     Assert.assertTrue("The label is not displayed in Degree Type", labels.get(i).getText().
                             equals(getListFromPropFile(propertiesFilePath, ";",
-                            propertiesEntry).get(i)));
+                                    propertiesEntry).get(i)));
                 }
                 tooltipList.get(0).click();
                 break;
@@ -196,7 +196,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 break;
             case "Academic Match" : verifyTooltipsInSearchHeader(academicMatchTooltipButton(), "academic.match.title", "academic.match.text");
                 break;
-            case "Scores" : verifyTooltipsInTab("scores.tooltips.titles");
+            case "Scores" : verifyTooltips("scores.tooltips.titles");
                 break;
         }
     }
@@ -284,6 +284,41 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The option was not selected", selectedOption().getText().equals(selectedOption));
     }
 
+
+    public void createFifteenSaveSearch(){
+
+        String resourcesOptions[] = {"Learning Differences Support","Academic/Career Counseling","Counseling Services",
+                "Tutoring Services","Remedial Services","ESL/ELL Services","Physical Accessibility",
+                "Services for the Blind or Visually Impaired","Services for the Deaf and Hard of Hearing",
+                "Asperger's/Autism Support","Day Care Services"};
+        int counter = 1;
+        if (getSaveSearchDisableMenu().isDisplayed()){
+            for (String res: resourcesOptions) {
+                searchPage.setResourcesCriteria(res);
+                clickSaveSearchButton();
+                searchPage.saveSearchWithName("Search" + counter);
+                searchPage.verifyConfirmationMessage();
+                verifySavedSearchInDropdown("Search" + counter);
+                counter++;
+                searchPage.unsetResourcesCriteria(res);
+            }
+            searchPage.setResourcesCriteria("Learning Differences Support");
+            String resourcesOptionTwo[] = {"Academic/Career Counseling", "Counseling Services", "Tutoring Services", "Remedial Services"};
+            for (String resTwo : resourcesOptionTwo) {
+                searchPage.setResourcesCriteria(resTwo);
+                clickSaveSearchButton();
+                searchPage.saveSearchWithName("Search" + counter);
+                searchPage.verifyConfirmationMessage();
+                verifySavedSearchInDropdown("Search" + counter);
+                counter++;
+            }
+        }
+    }
+
+    public void verifySaveSearchMessage(String ExpMessage) {
+        String ActMessage = driver.findElement(By.xpath("//body")).getText();
+        Assert.assertTrue("Error message for adding the 16th save search is not displaying.", ActMessage.contains(ExpMessage));
+    }
     public void openTab(String tabName) {
         tabOption(tabName).click();
     }
@@ -309,6 +344,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
+
 
     }
 
@@ -351,6 +387,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }
     private WebElement gpaTextBlock() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.content div")); }
     private WebElement admissionTooltipText() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.content")); }
+    private WebElement getSaveSearchDisableMenu(){ return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
     private WebElement tabOption(String optionName) { return driver.findElement(By.xpath("//li[text() = '" + optionName + "']")); }
     private WebElement maximumTuitionAndFeesOption() { return driver.findElement(By.cssSelector("label[for=\"radio-tuition-0\"]")); }
     private WebElement maximumTotalCostOption() { return driver.findElement(By.cssSelector("label[for=\"radio-includeRoomAndBoardKey-1\"]")); }
@@ -359,4 +396,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement mustHaveMatchLegend() { return driver.findElement(By.cssSelector("div.column.supermatch-sidebar-criteria-list-column h3.supermatch-sidebar-criteria-list-title + div p")); }
     private WebElement niceToHaveMatchLegend() { return driver.findElement(By.cssSelector("div.row.supermatch-sidebar-criteria-list-row div:nth-of-type(2).column p")); }
     private String spinnerLocator = "div.ui.active.loader";
+
 }

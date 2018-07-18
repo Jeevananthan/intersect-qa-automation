@@ -34,3 +34,22 @@ Feature: SM - SuperMatchTooltips - As a HS student who is interacting with Super
     | Fit Score    |
     | Academic Match |
     | Scores  |
+
+  @MATCH-4294
+  Scenario Outline: As a HS student accessing SuperMatch through Family Connection I need to be verify that the tooltips are displayed/closed (3rd part)
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I pin "Colorado College" if it is not pinned already
+    And SM I open the Pinned Schools Compare screen
+    Then SM I verify that the tooltips are displayed in the Schools Compare screen "<sectionLabel>"
+    Examples:
+    | sectionLabel |
+    | Academic Match |
+    | Admission Info |
+    | Institution Characteristics |
+    | Diversity                   |
+
+
