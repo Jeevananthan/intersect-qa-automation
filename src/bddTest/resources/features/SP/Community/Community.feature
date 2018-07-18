@@ -8,3 +8,4 @@ Feature: As a Support User, I want to be able to access HUBS View Mode
     And SP I select "Bowling Green State University-Main Campus" from the global search results
     Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
     And SP I successfully sign out
+

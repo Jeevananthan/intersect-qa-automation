@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.EmailNotifications;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
@@ -376,7 +377,9 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the city and state \"([^\"]*)\" are present in the underneath of School Name \"([^\"]*)\" in the Activity Tab for Fairs$",repVisits::verifyCityAndStateInActivitysubTabforFairs);
       
-       Then("^HE I verify the results count by \"([^\"]*)\" using \"([^\"]*)\" in search results page$",repVisits::verifyResultsCountInSchedulePage);
+        Then("^HE I verify the results count by \"([^\"]*)\" using \"([^\"]*)\" in search results page$",repVisits::verifyResultsCountInSchedulePage);
+
+        And("^HE I verify the data for the following fair$",repVisits::verifyCollegeFairOnList);
 
     }
 }
