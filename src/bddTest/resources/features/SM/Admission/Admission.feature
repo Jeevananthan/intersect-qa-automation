@@ -6,6 +6,7 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
             category so I can see relevant colleges that accept students similar to me based on my GPA in my search
             results.
     Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I skip the onboarding modals
     Then SM I verify the system response when the GPA entered by the user is valid
       |0.1|
       |2  |
@@ -23,9 +24,16 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
             category so I can see relevant colleges that accept students similar to me based on my ACT Scores in my
             search results.
     Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I skip the onboarding modals
     Then SM I verify the system response when the ACT score entered by the user is valid
+     |1 |
+     |18|
+     |36|
     Then SM I verify the system response when the ACT score entered by the user is invalid
+     |0|
+     |37|
     Then SM I verify that entered ACT score data persists
+     |35|
     Then SM I verify that the Must Have box does not contain "ACT"
 
   @MATCH-3381
@@ -33,6 +41,7 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
   category so I can see relevant colleges that accept students similar to me based on my SAT Scores in my search
   results.
     Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I skip the onboarding modals
     Then SM I verify the system response when the SAT score entered by the user is valid
     Then SM I verify the system response when the SAT score entered by the user is invalid
     Then SM I verify that SAT score persists when changing fit criteria
@@ -43,18 +52,19 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
   within the Admission category so I can see relevant colleges that match my miscellaneous admission
   details requirements
     Given SM I am logged in to SuperMatch through Family Connection
-    Then SM I select the "<AdmissionCheckbox>" checkbox from "Admission" fit criteria
-    And SM I verify "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
+    Then SM I skip the onboarding modals
+    Then SM I select the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
+    And SM I verify the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I verify that the Must Have box contains "<AdmissionCheckbox>"
     Then SM I unselect the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I verify that the Must Have box does not contain "<AdmissionCheckbox>"
-    Then SM I select the "<AdmissionCheckbox>" checkbox from "Admission" fit criteria
+    Then SM I select the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I move "<AdmissionCheckbox>" from the Must Have box to the Nice to Have box
     Then SM I verify that the Nice to Have box contains "<AdmissionCheckbox>"
     Then SM I unselect the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I verify that the Must Have box does not contain "<AdmissionCheckbox>"
     And SM I verify that Nice to Have box does not contain "<AdmissionCheckbox>"
-    Then SM I select the "<AdmissionCheckbox>" checkbox from "Admission" fit criteria
+    Then SM I select the "<AdmissionCheckbox>" checkbox from the "Admission" fit criteria
     And SM I verify that the Must Have box contains "<AdmissionCheckbox>"
     Examples: Each of the available options for the Admission
       | AdmissionCheckbox    |
