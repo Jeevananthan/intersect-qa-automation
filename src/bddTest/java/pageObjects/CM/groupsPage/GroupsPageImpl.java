@@ -239,7 +239,8 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         communityFrame();
         link("Groups").click();
         waitUntilPageFinishLoading();
-        link(By.linkText("**Test Automation** HE Community PRIVATE Group")).click();
+        // This may cause other features to fail since it is linking PUBLIC group and not PRIVATE
+        link(By.linkText("**Test Automation** HE Community PUBLIC Group")).click();
         driver.findElement(By.className("manage-group-members-link")).click();
     }
 
@@ -488,6 +489,12 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private WebElement addGroupButton() {
         return driver.findElement(By.cssSelector("[href='/groups/add']"));
     }
+
+    /*
+    private WebElement groupNameField() {
+        return driver.findElement(By.xpath("//*[@id=\"edit-group\"]"));
+    }
+    */
 
     private WebElement groupNameField() {
         return driver.findElement(By.id("edit-group-title"));
