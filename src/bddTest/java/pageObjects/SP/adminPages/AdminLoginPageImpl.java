@@ -86,8 +86,8 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("sp.app.url"));
     }
 
-    public void loginAsASuperAdminUser() {
-        login(GetProperties.get("sp.superAdmin.username"), GetProperties.get("sp.superAdmin.password"));
+    public void loginAsAViewOnlyUser() {
+        login(GetProperties.get("sp.viewOnly.username"), GetProperties.get("sp.viewOnly.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 
