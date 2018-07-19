@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -145,6 +146,8 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
+        And("^SM I start the search over$", searchPage::startSearchOver);
+
         And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
 
         Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
@@ -162,5 +165,7 @@ public class SearchPageStepDefs implements En {
         And("^SM I see a message in the search by college name text box that says \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameNoResultFoundMessage);
 
         And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
+
+        And("^SM I reload the page$", searchPage::reloadPage);
     }
 }

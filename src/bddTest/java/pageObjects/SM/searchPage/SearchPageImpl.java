@@ -1447,9 +1447,21 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pinCollegeIfNotPinnedAlready(String collegeName) {
         goToCollegeInSearchResults(collegeName);
-        if(pinLinkLocator(collegeName).equals("PIN TO COMPARE")) {
+        if(driver.findElement(By.xpath(pinLinkLocator(collegeName))).getText().contains("PIN TO COMPARE")) {
             pinCollege(collegeName);
+            waitUntilPageFinishLoading();
         }
+    }
+
+    public void startSearchOver() {
+        if(driver.findElements(By.cssSelector(startOverButtonLocator)).size() > 0) {
+            startOverButton().click();
+            yesStartOverLink().click();
+        }
+    }
+
+    public void reloadPage() {
+        driver.get(driver.getCurrentUrl());
     }
 
     // Locators Below
@@ -1735,5 +1747,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(
                 By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
     }
+
+    private WebElement startOverButton() { return driver.findElement(By.cssSelector(startOverButtonLocator)); }
+
+    private String startOverButtonLocator = "button.ui.teal.basic.button.supermatch-start-over-button";
+
+    private WebElement yesStartOverLink() { return driver.findElement(By.cssSelector("div.actions button:not([default=''])")); }
 
 }

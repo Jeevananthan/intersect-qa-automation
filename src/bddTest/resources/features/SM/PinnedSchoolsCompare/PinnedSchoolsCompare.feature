@@ -6,11 +6,14 @@ Feature: SM - SuperMatch - Compare Pinned Schools
   pinned colleges so I can control how much data is showing on my screen at a time. (MATCH-4787)
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
+    And SM I start the search over
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
+    #The following step is needed to avoid
+    And SM I reload the page
     And SM I pin "Colorado College" if it is not pinned already
     And SM I open the Pinned Schools Compare screen
     Then SM I verify that "10" drawers are displayed
