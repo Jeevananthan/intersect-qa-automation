@@ -6101,6 +6101,14 @@ public void cancelRgisteredCollegeFair(String fairName){
         return columnId;
     }
 
+    public void clickSaveSettingsButtonInCollegeFairsTab() {
+        button("SAVE SETTINGS").click();
+    }
+
+    public void verifySettingsSavedBannerIsDislayedInCollegeFairsTab() {
+        assertEquals("The 'Settings Saved' banner is not displayed", successBanner().getText(), "Great! You've updated College Fair settings.");
+    }
+
 
     /*locators for Messaging Options Page*/
 
@@ -7466,6 +7474,11 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement editFairsSubmitButton(){
         return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
     }
+    private WebElement successBanner() {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='aIt5aCQ6cGJhCVYB9NA02']")));
+        return getDriver().findElement(By.xpath("//div[@class='aIt5aCQ6cGJhCVYB9NA02']"));
+    }
+
 }
 
 

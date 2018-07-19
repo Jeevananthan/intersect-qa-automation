@@ -549,47 +549,45 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
     }
 
-    public void verifySystemResponseWhenGPAInputIsValid() {
+    public void verifySystemResponseWhenGPAInputIsValid(DataTable dataTable) {
+
+        List<String> scores = dataTable.asList(String.class);
+
+        if(firstOnboardingPopup().isDisplayed())
+           superMatchCollegeSearchHeader().click();
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("0.1");
-        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("2");
-        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("4");
-        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
+        for(String score : scores)
+        {
+            gpaTextBox().clear();
+            gpaTextBox().sendKeys(score);
+            // This field has a 2 second timeout before validation, so we need to wait for that.
+            waitForUITransition();
+            Assert.assertFalse(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
+        }
     }
 
-    public void verifySystemResponseWhenGPAInputIsInvalid() {
+    public void verifySystemResponseWhenGPAInputIsInvalid(DataTable dataTable) {
 
+        List<String> scores = dataTable.asList(String.class);
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("0");
-        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("4.1");
-        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("5");
-        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
+        for(String score : scores)
+        {
+            gpaTextBox().clear();
+            gpaTextBox().sendKeys(score);
+            // This field has a 2 second timeout before validation, so we need to wait for that.
+            waitForUITransition();
+            Assert.assertTrue(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
+        }
     }
 
     public void verifySystemResponseWhenSATScoreInputIsValid() {
@@ -601,14 +599,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("400");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1000");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1600");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
     }
@@ -622,14 +626,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("100");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("399");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1601");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
     }
@@ -656,15 +666,19 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyGPADataPersists() {
+    public void verifyGPADataPersists(DataTable dataTable) {
+
+        List<List<String>> data = dataTable.raw();
+        String dataToPersist = data.get(0).get(0);
 
         if(!admissionMenuItem().getAttribute("class").contains("active"))
         {
             admissionMenuItem().click();
         }
 
+
         gpaTextBox().clear();
-        gpaTextBox().sendKeys("3");
+        gpaTextBox().sendKeys(dataToPersist);
 
         getFitCriteriaCloseButton().click();
 
@@ -673,7 +687,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             admissionMenuItem().click();
         }
 
-        Assert.assertTrue("GPA data is not stored on our side", gpaTextBox().getAttribute("value").equals("3"));
+        Assert.assertTrue("GPA data is not stored on our side", gpaTextBox().getAttribute("value").equals(dataToPersist));
 
     }
 
@@ -1978,5 +1992,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement maxTwentyFivePinnedSchoolsAllowedErrorMessage() {
         return getDriver().findElement(By.xpath("//span[text()='You have reached your maximum of 25 pinned schools. Remove a pinned school to add a new one.']"));
+    }
+
+    private WebElement GPAValidationMessageElement() {
+        return gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
 }
