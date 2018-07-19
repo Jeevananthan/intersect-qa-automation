@@ -56,7 +56,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         userDropdown().click();
         Assert.assertTrue("Account Settings option is not displayed",selectOptionfromDropdownList(option).isDisplayed());
         selectOptionfromDropdownList(option).click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOf(selectOptionInAccountSettings(value)));
         Assert.assertTrue(String.format("%s option is not displayed",value),selectOptionInAccountSettings(value).isDisplayed());
         selectOptionInAccountSettings(value).click();
         waitForUITransition();

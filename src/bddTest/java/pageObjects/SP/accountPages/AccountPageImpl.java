@@ -226,7 +226,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
        if(!ActualStatus.getText().equalsIgnoreCase(status)){
            ActualStatus.click();
            WebElement selectstatusDrp = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
-           waitForUITransition();
+           waitUntil(ExpectedConditions.visibilityOf(selectstatusDrp));
            driver.executeScript("arguments[0].click();",selectstatusDrp);
 
            if(!status.equalsIgnoreCase("inactive")) {
