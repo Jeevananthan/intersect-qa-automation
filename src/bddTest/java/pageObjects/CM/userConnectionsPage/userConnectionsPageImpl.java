@@ -113,12 +113,8 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
         //link(By.id("global-search-box-item-0")).click();
         waitUntilPageFinishLoading();
-        //link(By.cssSelector("img[src='https://qa.community.hobsons.com/sites/default/files/lion-cartoon-roaring.jpg']")).click();
-        //Unable to locate lion cartoon picture.
         link(By.xpath("//*[@id=\"global-search-box-item-0\"]/i")).click();
-
-        //link(By.xpath("//img[contains(@src, 'lion-cartoon-roaring')]")).click();
-        //link(By.xpath("//div[contains(text(), '"+user+"')]")).click();
+        //link(By.id("global-search-box-item-0")).click();
         waitUntilPageFinishLoading();
     }
 
@@ -428,7 +424,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void clickMessageLink() {
         logger.info("Clicking on Message link.");
-//        iframeEnter();
+        //iframeEnter();
         waitUntilPageFinishLoading();
         messageLink().click();
     }
