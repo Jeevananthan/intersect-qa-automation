@@ -794,7 +794,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickUpgradeButton(){
-        driver.findElement(By.cssSelector("button[class='ui button _3A-KkdzsiqhORmN0RiEGSO']")).click();
+        getUpgradeButton().click();
         waitUntilPageFinishLoading();
     }
     public void searchSchoolinRepVisits(String school)
@@ -3493,6 +3493,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement resultCountInSearchResultsPage(){
         return getDriver().findElement(By.xpath("//p[@class='WWSRdogYvrcJkqEg52pv3']//span"));
+    }
+
+    /**
+     * Gets the upgrade button
+     * @return webelement
+     */
+    private WebElement getUpgradeButton(){
+        return driver.findElement(By.cssSelector("button[class='ui button _3A-KkdzsiqhORmN0RiEGSO']"));
     }
 }
 

@@ -79,7 +79,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.cssSelector("input[value='"+entity.get(field).toLowerCase()+"']")).click();
             }
         }
-        driver.findElement(By.xpath("//span[text()='SAVE']")).click();
+        getSaveButton().click();
     }
 
 
@@ -157,5 +157,13 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
+
+    /**
+     * Gets the save button
+     * @return webelement
+     */
+    private WebElement getSaveButton(){
+        return   driver.findElement(By.xpath("//span[text()='SAVE']"));
+    }
 
 }
