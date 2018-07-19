@@ -179,5 +179,9 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the error message displayed on pinning the 26th college$", searchPage::verifyErrorMessageDisplayedOnPinning26thCollege);
 
+        And("^SM I select the following data in the Cost Fit Criteria$", searchPage::setCostCriteria);
+
+        And("^SM I verify the following data in the Cost Fit Criteria$", searchPage::verifyDataInCostCriteria);
+
     }
 }

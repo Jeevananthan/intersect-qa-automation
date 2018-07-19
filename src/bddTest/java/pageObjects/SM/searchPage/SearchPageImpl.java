@@ -1608,6 +1608,66 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void setCostCriteria(DataTable dataTable)
+    {
+        Map<String, String> map = dataTable.asMap(String.class, String.class);
+        chooseFitCriteriaTab("Cost");
+        for (String key : map.keySet()) {
+            switch (key) {
+                case "Radio":
+                    selectRadioButton(map.get(key));
+                    break;
+                case "Maximum Cost":
+                    selectOptionInMaximumCostDropdown(map.get(key));
+                    break;
+                case "Home State":
+                    selectOptionInHomeStateDropdown(map.get(key));
+                    break;
+                case "Family Income":
+                    selectOptionInFamilyIncomeDropdown(map.get(key));
+                    break;
+            }
+        }
+
+        closeButtonForFitCriteria().click();
+    }
+
+    public void verifyDataInCostCriteria(DataTable dataTable)
+    {
+        Map<String, String> map = dataTable.asMap(String.class, String.class);
+        chooseFitCriteriaTab("Cost");
+        for (String key : map.keySet()) {
+            switch (key) {
+                case "Family Income":
+                    Assert.assertTrue("The option selected in Family Income dropdown is not correct",
+                            familyIncomeDropdown().findElement(By.xpath("./div[contains(@class,'text')]")).getText().equals(map.get(key)));
+                    break;
+            }
+        }
+
+        closeButtonForFitCriteria().click();
+    }
+
+    public void selectOptionInMaximumCostDropdown(String option)
+    {
+        maximumCostDropdown().findElement(By.xpath("./i")).click();
+        maximumCostDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+    public void selectOptionInHomeStateDropdown(String option)
+    {
+        homeStateDropdown().findElement(By.xpath(".//div[contains(@class, 'text')]")).click();
+        homeStateDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+    public void selectOptionInFamilyIncomeDropdown(String option)
+    {
+        familyIncomeDropdown().findElement(By.xpath("./div[contains(@class,'text')]")).click();
+        familyIncomeDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+
+
     // Locators Below
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
@@ -1966,4 +2026,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement GPAValidationMessageElement() {
         return gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
+
+    private WebElement maximumCostDropdown()
+    {
+        return getDriver().findElement(By.xpath("//div[@id='cost-maximum']"));
+    }
+
+    private WebElement homeStateDropdown()
+    {
+        return getDriver().findElement((By.xpath("//div[contains(@class, 'supermatch-menu-cost-homestate')]")));
+    }
+
+    private WebElement familyIncomeDropdown()
+    {
+        return getDriver().findElement((By.xpath("//div[@id='cost-family-income-dropdown']")));
+    }
+
 }
