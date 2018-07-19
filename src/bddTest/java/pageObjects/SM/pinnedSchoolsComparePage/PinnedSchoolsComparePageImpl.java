@@ -79,7 +79,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickCollapseExpandButton() {
-        collapseExpandAllButton().click();
+        collapseExpandAllButton().sendKeys(Keys.RETURN);
     }
 
     // Locators Below
