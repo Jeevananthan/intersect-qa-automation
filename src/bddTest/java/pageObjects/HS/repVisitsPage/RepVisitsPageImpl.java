@@ -7272,9 +7272,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     {
         return  getDriver().findElement(By.cssSelector("div._3DhFv-KjwgxmXKcCAgKD8c"));
     }
-    private WebElement linkToAddRepresentativeManually(){
-        return getDriver().findElement(By.cssSelector("div._1rww_NFFW9w2qLO-JBkqf"));
-    }
+
       private String getRescheduleVisitStartTimeInCalendar(){
         String[] time=RescheduleStartTimeforNewVisit.split("am");
         String startTime=time[0]+"AM";
