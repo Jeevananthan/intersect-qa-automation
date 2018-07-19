@@ -2915,6 +2915,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void unpublishCollegeFair() {
         waitUntilElementExists(getUnpublishButton());
+        waitForUITransition();
         getUnpublishButton().click();
         waitUntilElementExists(close());
         close().click();

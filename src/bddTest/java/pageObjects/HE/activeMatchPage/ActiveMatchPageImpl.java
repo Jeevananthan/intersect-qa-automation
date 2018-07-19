@@ -147,6 +147,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
 
         public void verifyActiveMatchConnectionsDropdownMenu(String option,DataTable dataTable){
         exportConnectionsDropdown().click();
+        waitForUITransition();
         List<String> list = dataTable.asList(String.class);
         for(String value:list){
             moveToElement(driver.findElement(By.xpath("//div/span[text()='"+option+"']/parent::div/following-sibling::div/span[text()='"+value+"']")));

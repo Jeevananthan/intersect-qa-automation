@@ -32,6 +32,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
                 waitUntilPageFinishLoading();
                 break;
             case "Save":
+                waitUntil(ExpectedConditions.visibilityOf(saveChanges()));
                 saveChanges().click();
                 waitUntilPageFinishLoading();
                 break;
@@ -55,7 +56,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         userDropdown().click();
         Assert.assertTrue("Account Settings option is not displayed",selectOptionfromDropdownList(option).isDisplayed());
         selectOptionfromDropdownList(option).click();
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         Assert.assertTrue(String.format("%s option is not displayed",value),selectOptionInAccountSettings(value).isDisplayed());
         selectOptionInAccountSettings(value).click();
         waitForUITransition();
@@ -99,7 +100,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         return textbox("Confirm Password");
     }
 
-    private WebElement saveChanges() { return button("SAVE"); }
+    private WebElement saveChanges() { return driver.findElement(By.xpath("//span[text()='SAVE']")); }
 
     private WebElement cancelButton() { return button("CANCEL"); }
 

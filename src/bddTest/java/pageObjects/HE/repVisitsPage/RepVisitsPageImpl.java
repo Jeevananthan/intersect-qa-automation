@@ -794,7 +794,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickUpgradeButton(){
-        driver.findElement(By.xpath("//div[@class='seven wide column _2I5Wf1vjM_1kmY7BHT_G9k']//div/button/span[text()='UPGRADE']")).click();
+        driver.findElement(By.cssSelector("button[class='ui button _3A-KkdzsiqhORmN0RiEGSO']")).click();
         waitUntilPageFinishLoading();
     }
     public void searchSchoolinRepVisits(String school)
@@ -3482,7 +3482,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return dropdown;
     }
     private WebElement upgradePopupCloseButtonInSearchAndScheduleDropdown(){
-        return getDriver().findElement(By.xpath("//i[@class='close icon']"));
+        return getDriver().findElement(By.xpath("//div[@role='dialog']/i[@class='close icon']"));
     }
     private WebElement noResultsMessageInSearchAndSchedule() {
         return getDriver().findElement(By.xpath("//span[text()='No results found.']"));

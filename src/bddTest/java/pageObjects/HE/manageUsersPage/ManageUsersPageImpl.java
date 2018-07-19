@@ -79,7 +79,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.cssSelector("input[value='"+entity.get(field).toLowerCase()+"']")).click();
             }
         }
-        button("SAVE").click();
+        driver.findElement(By.xpath("//span[text()='SAVE']")).click();
     }
 
 
