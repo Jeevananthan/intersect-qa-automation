@@ -204,3 +204,49 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
     Then HS I go to the College Fair Settings page
     Then HS I click on the Save Settings button in College Fairs tab
     Then HS I verify that a banner appears letting me know that College Fair settings were saved
+
+  @MATCH-2202
+  Scenario Outline: As a HS RepVisits user who has canceled an HE attendee at a college fair
+  I want to be able to re-add that attendee to the fair
+  So that I can optimize fair attendance.
+#create fair
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+#add attendee
+    Then HS I add the following attendees to the College Fair
+      |<Attendee>|
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+#cancel attendee
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I Click the "Cancel" button for the attendee "<Attendee>"
+    Then HS I set the following data in the confirm cancel pop-up "<cancellationMessage>","<buttonToClickYes, cancel visit>"
+    And HS I successfully sign out
+#register the fair from the cancelled attendee
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+#decline attendee
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
+    Then HS I select "DECLINE" option for "<College Fair Name>"
+    Then HS I verify the DECLINE pop-up for "<institution>","<cancellationMessage>" in Fairs
+    And HS I successfully sign out
+#register the fair from the declined attendee
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+#confirm attendee
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
+    Then HS I select "CONFIRM" option for "<College Fair Name>"
+#cancel the college Fair
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+    And HS I successfully sign out
+    Examples:
+      |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School              |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
+      |qa Fairs for cancel28 decline     |24   |0800AM    |1000AM  |7                |$25 |25                    |100                        |Save         |Int Qa High School 4|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
