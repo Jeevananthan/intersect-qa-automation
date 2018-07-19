@@ -12,7 +12,7 @@ Feature: SM - SuperMatch - Compare Pinned Schools
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
-    #The following step is needed to avoid
+    #The following step is needed to avoid MATCH-4830
     And SM I reload the page
     And SM I pin "Colorado College" if it is not pinned already
     And SM I open the Pinned Schools Compare screen
