@@ -606,5 +606,11 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
+        Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
+
+        And("^HS I click on the Save Settings button in College Fairs tab$",repVisits::clickSaveSettingsButtonInCollegeFairsTab);
+
+        And("^HS I verify that a banner appears letting me know that College Fair settings were saved$",repVisits::verifySettingsSavedBannerIsDislayedInCollegeFairsTab);
+
     }
 }

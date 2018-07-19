@@ -150,9 +150,11 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
 
-        Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
-
         And("^SM I pin \"([^\"]*)\" if it is not pinned already$", searchPage::pinCollegeIfNotPinnedAlready);
+
+        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
+
+        Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
 
         Then("^SM I should see at the bottom the search by college name text box with default text \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameTextBox);
 
@@ -167,5 +169,19 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
 
         And("^SM I reload the page$", searchPage::reloadPage);
+
+        And("^SM I verify the text displayed in the % Male vs. Female Fit Criteria$", searchPage::verifyTextDisplayedInMaleVsFemaleFitCriteria);
+
+        And("^SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown$", searchPage::verifyPlaceholdersInSelectPercentAndSelectGenderDropdown);
+
+        And("^SM I verify the options displayed in the Select % dropdown$", searchPage::verifyOptionsInSelectPercentDropdown);
+
+        And("^SM I verify the options displayed in the Select Gender dropdown$", searchPage::verifyOptionsInSelectGenderDropdown);
+
+        And("^SM I pin \"([^\"]*)\" colleges$", searchPage::iPinColleges);
+
+        And("^SM I clear pinned schools list$", searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
+
+        And("^SM I verify the error message displayed on pinning the 26th college$", searchPage::verifyErrorMessageDisplayedOnPinning26thCollege);
     }
 }
