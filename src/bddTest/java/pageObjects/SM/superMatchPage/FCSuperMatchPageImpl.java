@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
@@ -358,8 +359,49 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void createOneSaveSearch(String saveSearchName, String resourceFitCriteriaOption){
+        searchPage.setResourcesCriteria(resourceFitCriteriaOption);
+        clickSaveSearchButton();
+        searchPage.saveSearchWithName(saveSearchName);
+        searchPage.verifyConfirmationMessage();
+        verifySavedSearchInDropdown(saveSearchName);
+        searchPage.unsetResourcesCriteria(resourceFitCriteriaOption);
+    }
+
+    public void checkDeleteIconInSaveSearch(String saveSearchName){
+        savedSearchesDropdown().click();
+        Assert.assertTrue("For "+saveSearchName+" Save Search, delete icon is not displaying.",saveSearchDeleteIcon(saveSearchName).isDisplayed());
+    }
+
+    public void verifySaveSearchDeleteConfirmationPopup(String saveSearchName){
+        saveSearchDeleteIcon(saveSearchName).click();
+        String headerText = saveSearchDeletePopupHeaderText().getText();
+        Assert.assertTrue("Header text reads 'Are you sure you want to delete: "+saveSearchName+" is not displaying.", headerText.contains("Are you sure you want to delete: "+saveSearchName+"?"));
+        Assert.assertTrue("This will permanently remove this search. message is not displaying.", text("This will permanently remove this search.").isDisplayed());
+        Assert.assertTrue("'YES, DELETE button is not displaying.", button("YES, DELETE").isDisplayed());
+        Assert.assertTrue("''NO, CANCEL button is not displaying.", button("NO, CANCEL").isDisplayed());
+        button("NO, CANCEL").click();
+    }
+
+    public void verifyClickOutsideClosePopup(String saveSearchName){
+        savedSearchesDropdown().click();
+        saveSearchDeleteIcon(saveSearchName).click();
+        new Actions(driver).moveToElement(savedSearchesDropdown()).click().perform();
+    }
+
+    public void deleteSaveSearch(String saveSearchName){
+        savedSearchesDropdown().click();
+        saveSearchDeleteIcon(saveSearchName).click();
+        button("YES, DELETE").click();
+        waitForUITransition();
+        Assert.assertTrue(saveSearchName+ "save search is not deleted.", getDisableChosseOneDropdown().isDisplayed());
+    }
+
     // Locators Below
 
+    private WebElement getDisableChosseOneDropdown(){return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
+    private WebElement saveSearchDeletePopupHeaderText(){return driver.findElement(By.xpath("//div[@class='header']"));}
+    private WebElement saveSearchDeleteIcon(String saveSearchName) { return driver.findElement(By.xpath("//span[text()='"+saveSearchName+"']/../i[//i[@class='trash large icon right floated']]"));}
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
     private WebElement superMatchBannerLink() { return driver.findElement(By.cssSelector("div#reBannerContent strong a")); }
     private String superMatchBannerMessage = "Check it out!  We've been working on an updated SuperMatch experience  Click here to try it out";
