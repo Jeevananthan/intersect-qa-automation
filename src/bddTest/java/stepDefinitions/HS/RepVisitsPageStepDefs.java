@@ -612,5 +612,11 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify that a banner appears letting me know that College Fair settings were saved$",repVisits::verifySettingsSavedBannerIsDislayedInCollegeFairsTab);
 
+        And("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in Agenda view$", repVisits::setStartDateAndEndDateInAgendaView);
+
+        And("^HS I verify that \"([^\"]*)\" visits are displayed in Agenda view$", repVisits::verifyNumberOfVisitsDisplayedInAgendaView);
+
+        And("^HS I verify that it should not be possible to select an End date \"([^\"]*)\" which is less than the Start date \"([^\"]*)\" in Agenda view$", repVisits::verifyUserCannotSelectEndDateWhichIsLessThanStartDateInAgendaView);
+
     }
 }
