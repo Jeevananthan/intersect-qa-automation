@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -145,6 +146,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
+        Then("^SM I verify the footnote for no GPA and no other scores, with the text:$", searchPage::verifyFootnoteNoGPANoScores);
+
+        Then("^SM I verify the footnote for known GPA but unknown test scores for \"([^\"]*)\", with the text:$", searchPage::verifyFootnoteGPANoScores);
+
         And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
 
         And("^SM I pin \"([^\"]*)\" if it is not pinned already$", searchPage::pinCollegeIfNotPinnedAlready);
@@ -165,6 +170,8 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
 
+        And("^SM I reload the page$", searchPage::reloadPage);
+
         And("^SM I verify the text displayed in the % Male vs. Female Fit Criteria$", searchPage::verifyTextDisplayedInMaleVsFemaleFitCriteria);
 
         And("^SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown$", searchPage::verifyPlaceholdersInSelectPercentAndSelectGenderDropdown);
@@ -182,6 +189,10 @@ public class SearchPageStepDefs implements En {
         And("^SM I select the following data in the Cost Fit Criteria$", searchPage::setCostCriteria);
 
         And("^SM I verify the following data in the Cost Fit Criteria$", searchPage::verifyDataInCostCriteria);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
+
+        And("^SM I start the search over$", searchPage::startSearchOver);
 
     }
 }
