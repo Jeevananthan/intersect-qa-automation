@@ -152,12 +152,15 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: As a HS student I want a way to clear all my fit criteria I have currently selected so I can quickly start my search over again.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
+    And SM I start the search over
     Then SM I verify that the Start Over button is disabled
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
+    #The following step is needed to avoid MATCH-4830
+    And SM I reload the page
     Then SM I verify the content of the popup that is opened by the Start Over button
     Then SM I verify that the search results remain after clicking the No, Cancel button
     And SM I open the Start Over popup
