@@ -1335,13 +1335,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
     }
 
-    public void pinCollegeIfNotPinnedAlready(String collegeName) {
-        goToCollegeInSearchResults(collegeName);
-        if (pinLinkLocator(collegeName).equals("PIN TO COMPARE")) {
-            pinCollege(collegeName);
-        }
-    }
-
     public void verifyBackToTopButtonFunctionality() {
         backToTopButton().sendKeys(Keys.END);
         backToTopButton().sendKeys(Keys.RETURN);
@@ -1586,11 +1579,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         closeFitCriteria().click();
 
-    }
-
-    public void startSearchOver() {
-        startOverButton().click();
-        yesStartOverLink().click();
     }
 
     public void iPinColleges(String numberOfCollegesToPin)
@@ -2001,11 +1989,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
     }
 
-    private WebElement startOverButton() { return driver.findElement(By.cssSelector(startOverButtonLocator)); }
-
     private String startOverButtonLocator = "button.ui.teal.basic.button.supermatch-start-over-button:not(.disabled)";
-
-    private WebElement yesStartOverLink() { return driver.findElement(By.cssSelector("div.actions button:not([default=''])")); }
 
     private WebElement maleVsFemaleSectionHeader() {
         return getDriver().findElement(By.xpath("//div[@class='ui tiny header']/span[text()='% Male Vs. Female']"));
