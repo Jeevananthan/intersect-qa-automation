@@ -706,7 +706,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             actScoreTextBox().sendKeys(score);
             Assert.assertFalse(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
         }
-     }
+    }
 
     public void verifySystemResponseWhenACTScoreIsInvalid(DataTable dataTable) {
 
@@ -1389,7 +1389,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The Search by college name text box is not displayed",
                 getSearchByCollegeNameTextBox().isDisplayed());
         Assert.assertEquals(String.format("The default text of the search by college name text box is not correct, " +
-                "expected: %s, actual: %s",message,getSearchByCollegeNameTextBox().getAttribute("placeholder"))
+                        "expected: %s, actual: %s",message,getSearchByCollegeNameTextBox().getAttribute("placeholder"))
                 ,message.trim(),getSearchByCollegeNameTextBox().getAttribute("placeholder").trim());
         Assert.assertTrue("The magnifying icon is not displayed in the search by college name text box",
                 getSearchIcon().isDisplayed());
@@ -1493,6 +1493,25 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
         onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
         Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
+    }
+
+    public void pinCollegeIfNotPinnedAlready(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        if(driver.findElement(By.xpath(pinLinkLocator(collegeName))).getText().contains("PIN TO COMPARE")) {
+            pinCollege(collegeName);
+            waitUntilPageFinishLoading();
+        }
+    }
+
+    public void startSearchOver() {
+        if(driver.findElements(By.cssSelector(startOverButtonLocator)).size() > 0) {
+            startOverButton().click();
+            yesStartOverLink().click();
+        }
+    }
+
+    public void reloadPage() {
+        driver.get(driver.getCurrentUrl());
     }
 
     public void verifyTextDisplayedInMaleVsFemaleFitCriteria() {
@@ -1921,6 +1940,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(
                 By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
     }
+
+    private WebElement startOverButton() { return driver.findElement(By.cssSelector(startOverButtonLocator)); }
+
+    private String startOverButtonLocator = "button.ui.teal.basic.button.supermatch-start-over-button:not(.disabled)";
+
+    private WebElement yesStartOverLink() { return driver.findElement(By.cssSelector("div.actions button:not([default=''])")); }
 
     private WebElement maleVsFemaleSectionHeader() {
         return getDriver().findElement(By.xpath("//div[@class='ui tiny header']/span[text()='% Male Vs. Female']"));

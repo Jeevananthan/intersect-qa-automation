@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -169,6 +170,8 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
 
+        And("^SM I reload the page$", searchPage::reloadPage);
+
         And("^SM I verify the text displayed in the % Male vs. Female Fit Criteria$", searchPage::verifyTextDisplayedInMaleVsFemaleFitCriteria);
 
         And("^SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown$", searchPage::verifyPlaceholdersInSelectPercentAndSelectGenderDropdown);
@@ -186,5 +189,6 @@ public class SearchPageStepDefs implements En {
         Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
         And("^SM I start the search over$", searchPage::startSearchOver);
+
     }
 }
