@@ -278,6 +278,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectOptionFromDropdown(String optionName) {
+        openSavedSearchesDropdown();
         getSavedSearchesDropdownOption(optionName).click();
     }
 
@@ -292,9 +293,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         maxCostDropdown().click();
         maxCostOption(maxCost).click();
         tabOption("Cost").click();
-        //The following 2 lines are a workaround for MATCH-4830
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
-        driver.get(driver.getCurrentUrl());
     }
 
     public void createFifteenSaveSearch(){
@@ -397,6 +395,14 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(saveSearchName+ "save search is not deleted.", getDisableChosseOneDropdown().isDisplayed());
     }
 
+    public void openSavedSearchesDropdown()
+    {
+        waitUntil(ExpectedConditions.attributeToBe(savedSearchesDropdown1(), "aria-disabled", "false"));
+
+        if(savedSearchesDropdown1().getAttribute("aria-expanded").equals("false"))
+            savedSearchesDropdown1().click();
+    }
+
     // Locators Below
 
     private WebElement getDisableChosseOneDropdown(){return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
@@ -434,6 +440,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String tooltipTextBlocksLocator = "div[id*='supermatch-tooltip-'] li";
     private WebElement saveSearchButton() { return driver.findElement(By.cssSelector("div.supermatch-save-search button.ui.teal.basic.button")); }
     private WebElement savedSearchesDropdown() { return driver.findElement(By.cssSelector("div.supermatch-saved-searches div div.text")); }
+    private WebElement savedSearchesDropdown1() {return driver.findElement(By.xpath("//div[@class='supermatch-saved-searches']/div[@role='listbox']"));}
     private String savedSearchesListLocator = "div.menu.transition.visible div span";
     private WebElement getSavedSearchesDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']")); }
     private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }

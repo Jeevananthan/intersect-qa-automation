@@ -156,7 +156,12 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
               so that I can easily view all the high school I may want to visit on one screen.
 #Pre-Conditions
-    Given HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
+    Given SP I am logged in to the Admin page as an Admin user
+      When SP I search for "2400006"
+      And SP I select "The University of Alabama" from the global search results
+      Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+      And SP I successfully sign out
+    And HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
