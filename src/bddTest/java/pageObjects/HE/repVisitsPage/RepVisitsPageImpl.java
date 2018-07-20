@@ -3118,7 +3118,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             //Verify Select all is possible to do
             driver.findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
-//            driver.findElement(By.xpath("(//input[@type='checkbox'])[4]")).click();
             //Un selecting  action
             driver.findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
             //Selecting one item and verifying the counter increased
