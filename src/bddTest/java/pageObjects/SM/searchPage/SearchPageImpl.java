@@ -1327,7 +1327,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
     }
 
-
     public void verifyBackToTopButtonFunctionality() {
         backToTopButton().sendKeys(Keys.END);
         backToTopButton().sendKeys(Keys.RETURN);
