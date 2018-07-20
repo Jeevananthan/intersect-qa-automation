@@ -201,7 +201,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
       When HE I open the Events list
       When HE I copy the URL for Evets List screen
       And HE I successfully sign out
-      Give HE I am logged in to Intersect HE as user type 'Administrator' For Elmira College
+      Given HE I am logged in to Intersect HE as user type 'Administrator' For Elmira College
       When HE I open the Events List
       When HE I paste the URL on the screen
       And HE User received message "Access Restricted. This page can only be accessed by the institution who created the event"
