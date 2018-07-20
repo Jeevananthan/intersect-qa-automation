@@ -3053,7 +3053,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         while (link("View More Upcoming Events").isDisplayed()){
             link("View More Upcoming Events").click();
-            waitForUITransition();
+            waitUntilPageFinishLoading();
         }
         driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+FairName+"']/parent::tr/td/a[span='View Details']")).click();
 
