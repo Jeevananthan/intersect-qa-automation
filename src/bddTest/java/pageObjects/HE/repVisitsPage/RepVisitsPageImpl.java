@@ -3048,12 +3048,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
         navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
+//        waitUntilPageFinishLoading();
         link("College Fairs").click();
         waitUntilPageFinishLoading();
         while (link("View More Upcoming Events").isDisplayed()){
             link("View More Upcoming Events").click();
-            waitUntilPageFinishLoading();
+//            waitUntilPageFinishLoading();
         }
         driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+FairName+"']/parent::tr/td/a[span='View Details']")).click();
 
@@ -3061,17 +3061,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void goToReassignAppointment(){
         navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
         link("Calendar").click();
-        waitUntilPageFinishLoading();
         link("Re-assign appointments").click();
-        waitUntilPageFinishLoading();
     }
 
     public void reassignAppointmentsVerification(String option){
 
         if (option.contains("Community, PurpleHE"))
         {
+            waitUntilPageFinishLoading();
+            waitUntilElementExists( staffForReassign());
             staffForReassign().click();
             //Verify item of the Staff Member
             Assert.assertTrue("Item was not displayed!", driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
@@ -3085,6 +3084,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         else {
 
+            waitUntilPageFinishLoading();
             waitUntilElementExists(staffForReassign());
             staffForReassign().click();
             //Verify item of the Staff Member
@@ -3112,10 +3112,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 //Verify "Showing" word in the UI
                 Assert.assertTrue("Showing was not displayed", driver.findElement(By.xpath("//p[contains(text(), 'Showing')]")).isDisplayed());
             }
+
+            waitUntilPageFinishLoading();
+            waitUntilElementExists( staffForReassign());
             staffForReassign().click();
             //Select the item
             driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
-            waitUntilPageFinishLoading();
             //Verify Select all is possible to do
             driver.findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
             //Un selecting  action
@@ -3131,6 +3133,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     //Locators
     private WebElement staffForReassign(){
+        waitUntilPageFinishLoading();
         return  driver.findElement(By.cssSelector("div[role='alert']"));
     }
 
