@@ -148,6 +148,40 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select "SavedTestSearch" in the Saved Searches dropdown
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
 
+  @MATCH-4276
+  Scenario: As a HS student, I want to see specific footnotes when SuperMatch does not know my GPA and does not know my test scores
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify the footnote for no GPA and no other scores, with the text:
+      | To determine if you're an academic match for this institution, enter your GPA and/or standardized test scores. |
+
+  @MATCH-4276
+  Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my GPA, but not my test scores
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify the footnote for known GPA but unknown test scores for "Pomona College", with the text:
+    | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
+
+   @MATCH-4276
+   Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my test scores, but not my GPA
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I start the search over
+     When I select the following data from the Admission Fit Criteria
+       | SAT Composite   | 1500 |
+       | ACT Composite   | 30   |
+       | Acceptance Rate | 76% or more |
+     And SM I select the "Coed" checkbox from "Diversity" fit criteria
+     Then SM I verify the footnote for known GPA but unknown test scores for "Utica College", with the text:
+       | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
+
 
     @MATCH-4406
     Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly
@@ -231,4 +265,19 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
     Then SM I pin "26" colleges
     Then SM I verify the error message displayed on pinning the 26th college
+
+  @MATCH-4727
+  Scenario: Load saved search which includes the NET family income
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the following data in the Cost Fit Criteria
+      |Radio           |Maximum Total Cost (Tuition, Fees, Room & Board)|
+      |Maximum Cost    |$10,000                                         |
+      |Home State      |Ohio                                            |
+      |Family Income   |$75,001 - $110,000                              |
+    Then SM I open the Save Search popup
+    Then SM I save the search with the name "SS123"
+    Then SM I remove the "Cost < $10000" fit criteria from the Must Have box or Nice to Have box
+    Then SM I select "SS123" in the Saved Searches dropdown
+    Then SM I verify the following data in the Cost Fit Criteria
+      |Family Income|$75,001 - $110,000|
 

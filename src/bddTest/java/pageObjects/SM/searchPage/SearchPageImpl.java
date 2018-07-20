@@ -706,7 +706,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             actScoreTextBox().sendKeys(score);
             Assert.assertFalse(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
         }
-     }
+    }
 
     public void verifySystemResponseWhenACTScoreIsInvalid(DataTable dataTable) {
 
@@ -1191,7 +1191,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             backToTopButton().sendKeys(Keys.END);
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
             showMoreButton().sendKeys(Keys.RETURN);
-            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(showMoreSpinnerLocator), 0));
         }
         repVisitsPageUtility.scrollDown(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0));
     }
@@ -1319,11 +1319,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
     }
 
-    public void pinCollegeIfNotPinnedAlready(String collegeName) {
+    public void verifyFootnoteNoGPANoScores(DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<String> textMessage = dataTable.asList(String.class);
+        List<WebElement> footnotes = driver.findElements(By.cssSelector(noGPANoScoresFootnoteLocator));
+        Assert.assertTrue("The text in the footnote for no GPA and no scores is incorrect.",
+                footnotes.get(0).getText().equals(textMessage.get(0)));
+    }
+
+    public void verifyFootnoteGPANoScores(String collegeName, DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<String> textMessage = dataTable.asList(String.class);
         goToCollegeInSearchResults(collegeName);
-        if (pinLinkLocator(collegeName).equals("PIN TO COMPARE")) {
-            pinCollege(collegeName);
-        }
+        Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.",
+                collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
     }
 
     public void verifyBackToTopButtonFunctionality() {
@@ -1373,7 +1382,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The Search by college name text box is not displayed",
                 getSearchByCollegeNameTextBox().isDisplayed());
         Assert.assertEquals(String.format("The default text of the search by college name text box is not correct, " +
-                "expected: %s, actual: %s",message,getSearchByCollegeNameTextBox().getAttribute("placeholder"))
+                        "expected: %s, actual: %s",message,getSearchByCollegeNameTextBox().getAttribute("placeholder"))
                 ,message.trim(),getSearchByCollegeNameTextBox().getAttribute("placeholder").trim());
         Assert.assertTrue("The magnifying icon is not displayed in the search by college name text box",
                 getSearchIcon().isDisplayed());
@@ -1477,6 +1486,25 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
         onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
         Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
+    }
+
+    public void pinCollegeIfNotPinnedAlready(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        if(driver.findElement(By.xpath(pinLinkLocator(collegeName))).getText().contains("PIN TO COMPARE")) {
+            pinCollege(collegeName);
+            waitUntilPageFinishLoading();
+        }
+    }
+
+    public void startSearchOver() {
+        if(driver.findElements(By.cssSelector(startOverButtonLocator)).size() > 0) {
+            startOverButton().click();
+            yesStartOverLink().click();
+        }
+    }
+
+    public void reloadPage() {
+        driver.get(driver.getCurrentUrl());
     }
 
     public void verifyTextDisplayedInMaleVsFemaleFitCriteria() {
@@ -1607,6 +1635,66 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Only allowed to pin 25 schools' error message is not displayed", maxTwentyFivePinnedSchoolsAllowedErrorMessage().isDisplayed());
 
     }
+
+    public void setCostCriteria(DataTable dataTable)
+    {
+        Map<String, String> map = dataTable.asMap(String.class, String.class);
+        chooseFitCriteriaTab("Cost");
+        for (String key : map.keySet()) {
+            switch (key) {
+                case "Radio":
+                    selectRadioButton(map.get(key));
+                    break;
+                case "Maximum Cost":
+                    selectOptionInMaximumCostDropdown(map.get(key));
+                    break;
+                case "Home State":
+                    selectOptionInHomeStateDropdown(map.get(key));
+                    break;
+                case "Family Income":
+                    selectOptionInFamilyIncomeDropdown(map.get(key));
+                    break;
+            }
+        }
+
+        closeButtonForFitCriteria().click();
+    }
+
+    public void verifyDataInCostCriteria(DataTable dataTable)
+    {
+        Map<String, String> map = dataTable.asMap(String.class, String.class);
+        chooseFitCriteriaTab("Cost");
+        for (String key : map.keySet()) {
+            switch (key) {
+                case "Family Income":
+                    Assert.assertTrue("The option selected in Family Income dropdown is not correct",
+                            familyIncomeDropdown().findElement(By.xpath("./div[contains(@class,'text')]")).getText().equals(map.get(key)));
+                    break;
+            }
+        }
+
+        closeButtonForFitCriteria().click();
+    }
+
+    public void selectOptionInMaximumCostDropdown(String option)
+    {
+        maximumCostDropdown().findElement(By.xpath("./i")).click();
+        maximumCostDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+    public void selectOptionInHomeStateDropdown(String option)
+    {
+        homeStateDropdown().findElement(By.xpath(".//div[contains(@class, 'text')]")).click();
+        homeStateDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+    public void selectOptionInFamilyIncomeDropdown(String option)
+    {
+        familyIncomeDropdown().findElement(By.xpath("./div[contains(@class,'text')]")).click();
+        familyIncomeDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+
 
     // Locators Below
 
@@ -1779,9 +1867,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
-    private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
-
     private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
+
+    private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
 
     public WebElement profilePageCollegeName() { return driver.findElement(By.cssSelector("h1.masthead__name.ng-binding")); }
 
@@ -1827,8 +1915,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
 
-    private String spinnerLocator = "button[disabled]";
-
     private WebElement firstOnboardingPopup() {
         return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
     }
@@ -1850,6 +1936,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement ACTValidationMessageElement() {
         return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
+
+    private String noGPANoScoresFootnoteLocator = "div.academic-match-instructions";
+
+    private String spinnerLocator = "div.ui.active.loader";
+
+    private WebElement collegeFootnote(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/../../../../td[@class = 'sm-hidden-m-down csr-data-points']/div/div/span")); }
+
+    private String showMoreSpinnerLocator = "button.ui.teal.basic.loading.disabled.button.supermatch-pagination-btn";
 
     private WebElement navianceLogo() { return driver.findElement(By.cssSelector("img[alt=\"Naviance\"]")); }
 
@@ -1895,6 +1989,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
     }
 
+    private String startOverButtonLocator = "button.ui.teal.basic.button.supermatch-start-over-button:not(.disabled)";
+
     private WebElement maleVsFemaleSectionHeader() {
         return getDriver().findElement(By.xpath("//div[@class='ui tiny header']/span[text()='% Male Vs. Female']"));
     }
@@ -1926,6 +2022,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> maleVsFemaleGenderDropdownOptions() {
         return getDriver().findElements(By.xpath("//div[@id='male-female-gender-dropdown']//span"));
     }
+
+    private WebElement startOverButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button.supermatch-start-over-button")); }
+
+    private WebElement yesStartOverLink() { return driver.findElement(By.cssSelector("div.actions button:not([default=''])")); }
 
     private WebElement pinnedDropdown() {
         return getDriver().findElement(By.xpath("//div[contains(@class, 'supermatch-pinned-dropdown')]"));
@@ -1966,4 +2066,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement GPAValidationMessageElement() {
         return gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
+
+    private WebElement maximumCostDropdown()
+    {
+        return getDriver().findElement(By.xpath("//div[@id='cost-maximum']"));
+    }
+
+    private WebElement homeStateDropdown()
+    {
+        return getDriver().findElement((By.xpath("//div[contains(@class, 'supermatch-menu-cost-homestate')]")));
+    }
+
+    private WebElement familyIncomeDropdown()
+    {
+        return getDriver().findElement((By.xpath("//div[@id='cost-family-income-dropdown']")));
+    }
+
 }
