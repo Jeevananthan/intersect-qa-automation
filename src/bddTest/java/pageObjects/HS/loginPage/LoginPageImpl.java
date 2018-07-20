@@ -136,12 +136,14 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
+
+        driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
         try {
-            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+            driver.executeScript( GetProperties.get("naviance.app.url"));
         } catch (NoSuchSessionException nsse) {
             load("http://www.google.com");
+            System.out.println("Page: " + GetProperties.get("naviance.app.url") + " did not load within 40 seconds!");
         }
-        load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
 
