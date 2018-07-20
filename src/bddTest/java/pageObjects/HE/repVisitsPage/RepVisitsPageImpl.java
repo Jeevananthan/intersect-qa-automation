@@ -515,6 +515,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void registerFair(String fairName) {
+        if (fairName.equals("PreviouslySetFair")) {
+            fairName = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
+        }
         clickRegistrationButton(fairName);
         submitRequestButton().click();
     }
@@ -538,6 +541,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void clickFairsTab() {
         fairsTab().click();
+        waitUntilPageFinishLoading();
     }
 
     public void openFairsInChckRepVisitsAv() {
@@ -790,7 +794,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickUpgradeButton(){
-        driver.findElement(By.xpath("//div[@class='seven wide column _2I5Wf1vjM_1kmY7BHT_G9k']//div/button/span[text()='UPGRADE']")).click();
+        getUpgradeButton().click();
         waitUntilPageFinishLoading();
     }
     public void searchSchoolinRepVisits(String school)
@@ -3020,6 +3024,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Verifies the data for a given fair from the College Fair list
+     * @param dataTable - Contains the data to be verified in the College Fair List
+     */
+    public void verifyCollegeFairOnList(DataTable dataTable) {
+        Map<String,String> items = dataTable.asMap(String.class,String.class);
+        String fairName = items.get("College Fair Name");
+        WebElement firstResultName = getDriver().findElements(By.xpath("//span[text()='" + fairName + "']")).get(0);
+        WebElement resultFair = getParent(getParent(getParent(firstResultName)));
+        for (String key : items.keySet()){
+            Assert.assertTrue("Expected to find \""+ items.get(key) +"\" in Fair entry, but it was not found.",resultFair.findElement(By.xpath("//*[text()[contains(.,'"+ items.get(key) +"')]]")).isDisplayed());
+        }
+    }
+
     private void selectMoreResultsInSearchAndSchedule(){
         while(getMoreResultsButton().isDisplayed()){
             getMoreResultsButton().click();
@@ -3365,7 +3383,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchByLocationTextBox(){
         return textbox("Search by location...");
     }
-
     private WebElement userDropDown(){
         WebElement button=driver.findElement(By.id("user-dropdown"));
         return button;
@@ -3465,7 +3482,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return dropdown;
     }
     private WebElement upgradePopupCloseButtonInSearchAndScheduleDropdown(){
-        return getDriver().findElement(By.xpath("//i[@class='close icon']"));
+        return getDriver().findElement(By.xpath("//div[@role='dialog']/i[@class='close icon']"));
     }
     private WebElement noResultsMessageInSearchAndSchedule() {
         return getDriver().findElement(By.xpath("//span[text()='No results found.']"));
@@ -3476,6 +3493,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement resultCountInSearchResultsPage(){
         return getDriver().findElement(By.xpath("//p[@class='WWSRdogYvrcJkqEg52pv3']//span"));
+    }
+
+    /**
+     * Gets the upgrade button
+     * @return webelement
+     */
+    private WebElement getUpgradeButton(){
+        return driver.findElement(By.cssSelector("button[class='ui button _3A-KkdzsiqhORmN0RiEGSO']"));
     }
 }
 

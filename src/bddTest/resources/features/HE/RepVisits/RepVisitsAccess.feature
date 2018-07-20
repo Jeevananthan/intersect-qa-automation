@@ -156,7 +156,12 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
               so that I can easily view all the high school I may want to visit on one screen.
 #Pre-Conditions
-    Given HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
+    Given SP I am logged in to the Admin page as an Admin user
+      When SP I search for "2400006"
+      And SP I select "The University of Alabama" from the global search results
+      Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+      And SP I successfully sign out
+    And HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -210,6 +215,15 @@ Examples:
   Scenario Outline: As an HE user I need to be able to view the scheduling results of my Visits search AFTER I have
                     selected an individual high school from the intermediate results list OR my original search matched
                     one specific high school so I can optimize my high school visit and fair travel schedule.
+  #precondition
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    And HS I successfully sign out
+
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify default page as show visits tab and toggle between tabs
@@ -225,7 +239,7 @@ Examples:
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the Intersect Presence Subscription module is Inactive for "<School>"
   #Log in to HS and set an appointment slot
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"

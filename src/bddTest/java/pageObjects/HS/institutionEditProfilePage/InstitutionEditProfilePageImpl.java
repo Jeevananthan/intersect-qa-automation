@@ -124,7 +124,8 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void noInstitutionProfileEditButton(){
-        Assert.assertFalse("Institution profile has and edit button option.", link("edit").isDisplayed());
+        Assert.assertFalse("Institution profile has and edit button option.", driver.findElement(By.cssSelector("[class='edit-institution-link']")).isDisplayed());
+
     }
 
     public void verifyDataSaved(DataTable dataTable) {
@@ -256,7 +257,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         return opt.getAttribute("innerText");
     }
     private WebElement saveChanges() {
-        return button("SAVE");
+        return driver.findElement(By.xpath("//button[@class='ui primary button']"));
     }
     private WebElement cancelButton() {
         return button("CANCEL");

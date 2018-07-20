@@ -83,27 +83,6 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify clicking outside of the box will also close the box
     And SM I check both Select Criteria To Start buttons take the user to the Location dropdown
 
-
-  @MATCH-3371
-  Scenario Outline: As a HS student, I want to filter colleges I am searching for by Diversity checkboxes within the Diversity
-  category so I can see relevant colleges that match my Diversity checkboxes requirements.
-    Given SM I am logged in to SuperMatch through Family Connection
-    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I verify that the Must Have box contains "<DiversityCheckboxOption>"
-    Then SM I "unselect" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I verify that the Must Have box does not contain "<DiversityCheckboxOption>"
-    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I move "<DiversityCheckboxOption>" from the Must Have box to the Nice to Have box
-    Then SM I "unselect" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I verify that the Must Have box does not contain "<DiversityCheckboxOption>"
-    And SM I verify that Nice to Have box does not contain "<DiversityCheckboxOption>"
-    Then SM I "select" the "<DiversityCheckboxOption>" checkbox from the Diversity
-    And SM I verify that the Must Have box contains "<DiversityCheckboxOption>"
-    Examples: Each of the available options for the Student Life fit criteria
-    |DiversityCheckboxOption         |
-    |Historically Black Institutions |
-    |Tribal Colleges and Universities|
-
   @MATCH-3432 @MATCH-4317
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to select what details I see on each
             college in my search results so the information I care most about is visible to review.
@@ -184,17 +163,136 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I open the Start Over popup
     Then SM I verify that the fit criteria is removed after clicking the Yes, Start Over button
 
+  @MATCH-4276
+  Scenario: As a HS student, I want to see specific footnotes when SuperMatch does not know my GPA and does not know my test scores
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify the footnote for no GPA and no other scores, with the text:
+      | To determine if you're an academic match for this institution, enter your GPA and/or standardized test scores. |
 
-    @MATCH-3471
-    Scenario:  As a HS student I want to search for a specific college by name, so I do not have to pick fit criteria
-      in order to see that college as result.
+  @MATCH-4276
+  Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my GPA, but not my test scores
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify the footnote for known GPA but unknown test scores for "Pomona College", with the text:
+    | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
+
+   @MATCH-4276
+   Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my test scores, but not my GPA
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I start the search over
+     When I select the following data from the Admission Fit Criteria
+       | SAT Composite   | 1500 |
+       | ACT Composite   | 30   |
+       | Acceptance Rate | 76% or more |
+     And SM I select the "Coed" checkbox from "Diversity" fit criteria
+     Then SM I verify the footnote for known GPA but unknown test scores for "Utica College", with the text:
+       | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
+
+
+    @MATCH-4406
+    Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly
+              return to the results to continue my college research.
       Given SM I am logged in to SuperMatch through Family Connection
-      Then SM I should see at the bottom the search by college name text box with default text "Search by College Name"
-      When SM I search by college name using "Art"
-      Then SM I see a message at the top of the results box that says "Search for Art"
-      And SM I verify "10" results were displayed when searching by college name
-      When SM I search by college name using "NonExistent"
-      Then SM I see a message in the search by college name text box that says "No results found for NonExistent"
+      And I clear the onboarding popups if present
+      Then SM I create fifteen different save search from Resources tab
+      When I select the following data from the Admission Fit Criteria
+        | Acceptance Rate | 25% or Lower |
+      And SM I open the Save Search popup
+      And SM I save the search with the name "Search16"
+      And SM I validate the error message "You have reached your maximum of 15 saved searches. Remove a saved search to add a new one"
+
+  @MATCH-3511
+  Scenario: As a HS student, I want to delete my saved searches so that list can contain only the saved
+  searches I need presently
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I create a save search "Search1" by selecting "Learning Differences Support" from Resources tab
+    Then SM I check the delete icon in save search "Search1"
+    Then SM After clicking "Search1" delete icon I check the confirmation popup message
+    And SM I check clicking outside will close the "Search1" popup message
+    And SM I delete the save search "Search1" and verify it
+
+  @MATCH-3628
+  Scenario: As a HS student reviewing results from my search, I want to have an action available to jump back to the top of the SuperMatch page
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | Acceptance Rate | 25% or Lower |
+    Then SM I verify that screen jumps to the top of the page after clicking the Back to top button
 
 
+  @MATCH-3471
+  Scenario: As a HS student I want to search for a specific college by name, so I do not have to pick fit criteria
+            in order to see that college as result.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I should see at the bottom the search by college name text box with default text "Search by College Name"
+    When SM I search by college name using "Art"
+    Then SM I see a message at the top of the results box that says "Search for Art"
+    And SM I verify "10" results were displayed when searching by college name
+    When SM I search by college name using "NonExistent"
+    Then SM I see a message in the search by college name text box that says "No results found for NonExistent"
+
+  @MATCH-3933
+  Scenario: Based on the generic data available for online learning opportunities in CMS per college, we need to add a
+            tooltip next to the 'Include online learning opportunities' fit criteria in the Academic fit category
+            dropdown so students can understand how we return search results that include this fit criteria.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify that tooltip icon is added to the include online learning opportunities fit criteria
+
+  @MATCH-3767
+  Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % MALE VS. FEMALE
+  in Diversity dropdown
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the text displayed in the % Male vs. Female Fit Criteria
+    Then SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown
+      |Select %     |
+      |Select gender|
+    Then SM I verify the options displayed in the Select % dropdown
+      |Select %|
+      |10%     |
+      |20%     |
+      |30%     |
+      |40%     |
+      |50%     |
+      |60%     |
+      |70%     |
+    Then SM I verify the options displayed in the Select Gender dropdown
+      |Select gender|
+      |Male         |
+      |Female       |
+
+
+  @MATCH-4350
+  Scenario: As a HS student, if I pin the 26th school from the Why? drawer, an error message should be displayed
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I clear pinned schools list
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "26" colleges
+    Then SM I verify the error message displayed on pinning the 26th college
+
+  @MATCH-4727
+  Scenario: Load saved search which includes the NET family income
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the following data in the Cost Fit Criteria
+      |Radio           |Maximum Total Cost (Tuition, Fees, Room & Board)|
+      |Maximum Cost    |$10,000                                         |
+      |Home State      |Ohio                                            |
+      |Family Income   |$75,001 - $110,000                              |
+    Then SM I open the Save Search popup
+    Then SM I save the search with the name "SS123"
+    Then SM I remove the "Cost < $10000" fit criteria from the Must Have box or Nice to Have box
+    Then SM I select "SS123" in the Saved Searches dropdown
+    Then SM I verify the following data in the Cost Fit Criteria
+      |Family Income|$75,001 - $110,000|
 

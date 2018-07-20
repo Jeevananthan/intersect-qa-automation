@@ -125,7 +125,7 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     And HE I click the navigation globe for viewing the recent notifications
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the navigation globe is displayed for this user
     And HS I click the navigation globe for viewing the recent notifications
     Then HS I successfully sign out
