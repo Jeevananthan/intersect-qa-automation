@@ -195,7 +195,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     Then HE I verify that the Attendees tab in the event of name "ExpiredEventForAutomation" is opened by clicking the attendee status bar/students area
     And HE I successfully sign out
 
-    @MATCH-4101@manual
+    @MATCH-4101 @manual
   Scenario: As a HE User, I want to make sure no other user from different school can access my Events
       Given HE I am logged in to Intersect HE as user type "administrator"
       When HE I open the Events list
