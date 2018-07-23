@@ -150,7 +150,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3212
   Scenario: As a HS student I want a way to clear all my fit criteria I have currently selected so I can quickly start my search over again.
-    Given SM I am logged in to SuperMatch through Family Connection
+    #Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user "gauriparent1" with password "password" from school "blue1combo"
     And I clear the onboarding popups if present
     And SM I start the search over
     Then SM I verify that the Start Over button is disabled
@@ -165,6 +166,20 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify that the search results remain after clicking the No, Cancel button
     And SM I open the Start Over popup
     Then SM I verify that the fit criteria is removed after clicking the Yes, Start Over button
+
+  @MATCH-4160
+  Scenario: Currently, the financial aid results column of the results table does not display a tuition value of $0 in the UI. This needs updated.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    And SM I select the "$5,000" option from the "Maximum Tuition and Fees" dropdown in Cost
+    #The following step is needed to avoid MATCH-4830
+    And SM I reload the page
+    Then SM I verify that "SABER College" displays "$0" in the Cost column
 
   @MATCH-4276
   Scenario: As a HS student, I want to see specific footnotes when SuperMatch does not know my GPA and does not know my test scores
@@ -199,7 +214,6 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
      And SM I select the "Coed" checkbox from "Diversity" fit criteria
      Then SM I verify the footnote for known GPA but unknown test scores for "Utica College", with the text:
        | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
-
 
     @MATCH-4406
     Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly

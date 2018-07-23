@@ -292,6 +292,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyStartOverPopupContent() {
+        waitUntilPageFinishLoading();
         enabledStartOverButton().click();
         Assert.assertTrue("The title in the Start Over popup is incorrect", startOverPopupTitle().getText().
                 equals(getStringFromPropFile(startOverPopupPropertiesFilePath, "start.over.popup.title")));
@@ -317,6 +318,15 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         startOverYesButton().click();
         Assert.assertTrue("The results are not removed after clicking the 'TYes, start over' button",
                 noResultsYetHeader().isDisplayed());
+    }
+
+    public void selectOptionInDropdown(String maxCost, String costOption) {
+        tabOption("Cost").click();
+        costOption(costOption).click();
+        waitUntil(ExpectedConditions.elementToBeClickable(maxCostDropdown()));
+        maxCostDropdown().click();
+        maxCostOption(maxCost).click();
+        tabOption("Cost").click();
     }
 
     public void createFifteenSaveSearch(){
@@ -480,6 +490,11 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement admissionTooltipText() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.content")); }
     private WebElement getSaveSearchDisableMenu(){ return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
     private WebElement tabOption(String optionName) { return driver.findElement(By.xpath("//li[text() = '" + optionName + "']")); }
+    private WebElement costOption(String optionName) {
+        return driver.findElement(By.xpath("//label[text() = '" + optionName + "']"));
+    }
+    private WebElement maxCostDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div[role=\"alert\"]")); }
+    private WebElement maxCostOption(String option) { return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div/span[text() = '" + option + "']")); }
     private WebElement maximumTuitionAndFeesOption() { return driver.findElement(By.cssSelector("label[for=\"radio-tuition-0\"]")); }
     private WebElement maximumTotalCostOption() { return driver.findElement(By.cssSelector("label[for=\"radio-includeRoomAndBoardKey-1\"]")); }
     private WebElement defaultLabelInDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div.default.text")); }

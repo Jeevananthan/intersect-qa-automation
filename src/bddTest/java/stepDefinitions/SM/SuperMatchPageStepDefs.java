@@ -44,6 +44,8 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that the fit criteria is removed after clicking the Yes, Start Over button$", fcSuperMatch::verifyFitCriteriaRemovedAfterStartOverButton);
 
+        And("^SM I select the \"([^\"]*)\" option from the \"([^\"]*)\" dropdown in Cost$", fcSuperMatch::selectOptionInDropdown);
+
         Then("^SM I create fifteen different save search from Resources tab$", fcSuperMatch::createFifteenSaveSearch);
 
         And("^SM I validate the error message \"([^\"]*)\"$", fcSuperMatch::verifySaveSearchMessage);
