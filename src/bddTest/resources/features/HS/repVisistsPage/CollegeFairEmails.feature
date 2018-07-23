@@ -47,7 +47,7 @@ Feature: As an HE and HS user of RepVisits I want to receive email notifications
     And HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I request an appointment with "Int Qa High School 4" for College Fair "Email Scenario 2"
     And HE I successfully sign out
-    Then HE I verify that the Email Notification Message says: "(.*)You are all set! Int Qa High School 4 in LIBERTY TOWNSHIP, Ohio has added you to their list of college fair registrants for the event on(.*) from 8:00am to 8:00pm.(.*)"
+    Then HE I verify that the Email Notification Message says: "(.*)You are all set! Int Qa High School 4 in Liberty Township, Ohio has added you to their list of college fair registrants for the event on(.*) from 8:00am to 8:00pm.(.*)"
       |Subject                                                        |To                            |Messages |
       |College fair request confirmed for Int Qa High School 4 (OH)   |purpleheautomation@gmail.com  |1        |
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
