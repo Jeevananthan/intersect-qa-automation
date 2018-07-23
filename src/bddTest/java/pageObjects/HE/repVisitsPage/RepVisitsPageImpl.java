@@ -3076,7 +3076,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 Assert.fail("Invalid option");
                 break;
         }
-        goBackButton().click();
+        buttonGoBack().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a/span[text()='Calendar']"),1));
     }
 
@@ -3095,7 +3095,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span"),1),5);
         String actualMessage = driver.findElement(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span")).getText();
         Assert.assertTrue("Error message is not displayed",actualMessage.equals(errorMessage));
-        goBackButton().click();
+        buttonGoBack().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a/span[text()='Calendar']"),1),5);
     }
 
@@ -3662,11 +3662,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement buttonShowMore(){
         return button("SHOW MORE");
     }
-
     private WebElement buttonGoBack(){
         return  button("GO BACK");
     }
-      private WebElement reAssignAppointments(){
+    private WebElement reAssignAppointments(){
         return link("Re-assign appointments");
     }
     private WebElement reAssignAppointmentsButton(){
