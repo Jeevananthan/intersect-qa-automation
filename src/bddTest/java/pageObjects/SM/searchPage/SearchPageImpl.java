@@ -619,15 +619,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("100");
-        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+        waitUntil(ExpectedConditions.textToBe(By.cssSelector(".supermatch-error-text"),"SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("399");
-        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+        waitUntil(ExpectedConditions.textToBe(By.cssSelector(".supermatch-error-text"),"SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1601");
-        Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
+        waitUntil(ExpectedConditions.textToBe(By.cssSelector(".supermatch-error-text"), "SAT value must be a number between 400 and 1600"));
 
     }
 
