@@ -40,8 +40,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         driver.switchTo().defaultContent();
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
-        waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(loginButtonLocator), 1));
         Assert.assertTrue("User did not sign out",button("LOGIN").isDisplayed());
     }
 
@@ -306,4 +306,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getCreationAndMaintenanceConsentCheckBox(){
         return driver.findElement(By.id("edit-field-account-consent-und"));
     }
+
+    private String loginButtonLocator = "button.ui.primary.button";
 }

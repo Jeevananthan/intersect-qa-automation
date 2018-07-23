@@ -612,5 +612,16 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the disabled date \"([^\"]*)\" is not clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsNotClickableInEndDate);
 
+        And("^HS I click on the Save Settings button in College Fairs tab$",repVisits::clickSaveSettingsButtonInCollegeFairsTab);
+
+        And("^HS I verify that a banner appears letting me know that College Fair settings were saved$",repVisits::verifySettingsSavedBannerIsDislayedInCollegeFairsTab);
+
+        Then("^HS I Click the \"([^\"]*)\" button for the attendee \"([^\"]*)\"$",repVisits::accessListoffairAttendees);
+
+        Then("^HS I verify the \"([^\"]*)\",\"([^\"]*)\" buttons are present in the Fairs tab$",repVisits::verifyButtonsInFairs);
+
+        Then("^HS I select \"([^\"]*)\" option for \"([^\"]*)\"$",repVisits::selectOptionInFairs);
+
+        Then("^HS I verify the DECLINE pop-up for \"([^\"]*)\",\"([^\"]*)\" in Fairs$",repVisits::verifyDeclinePopupInFairs);
     }
 }
