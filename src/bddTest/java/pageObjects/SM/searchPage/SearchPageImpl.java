@@ -803,10 +803,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             openFitCriteria(fitCriteriaName);
         WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
         WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
-        Assert.assertTrue(checkBox + " checkbox by default is not selected.", !checkboxLocator.isSelected());
-        if (!checkboxLocator.isSelected()) {
+//        Assert.assertTrue(checkBox + " checkbox by default is not selected.", !checkboxLocator.isSelected());
+        if (!onlyCheckbox.isSelected()) {
             checkboxLocator.click();
-            waitUntilPageFinishLoading();
         }
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
         getFitCriteriaCloseButton().click();
@@ -1262,51 +1261,25 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkDiversityColumnInResult(String genderConcentration){
-        int resultLimit = 25,counter=1;
-        boolean searchCollege = true;
-        //WebElement resultTable = getResultTable();
-        scrollDown(admissionInfoResultTableIcon());
-        getResultTable().findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")).click();
+
+        scrollDown(getResultTable());
+        driver.findElement(By.cssSelector(".csr-heading-dropdown-text")).click();
         scrollDown(driver.findElement(By.xpath("//span[contains(text(), 'Diversity')]")));
         getResultTable().findElement(By.xpath("//span[contains(text(), 'Diversity')]")).click();
 
-        do {
-            if (counter!=1&&(counter==26||counter==51||counter==151)){
-                scrollDownAtTheEnd();
-                getResultTable().findElement(By.xpath("//button[text()='Show More']")).click();
-                waitForUITransition();
-                switch (counter){
-                    case 26:
-                        resultLimit=50;
-                        break;
-                    case 51:
-                        resultLimit=150;
-                        break;
-                    case 151:
-                        resultLimit=250;
-                        break;
-                    default:
-                        logger.info("Counter value is = "+counter+" is not proper.");
-                }
-            }
-            for (;counter<=resultLimit;counter++) {
-                if (getResultTable().findElements(By.xpath(".//tbody/tr["+counter+"]/td[4]/div/p")).size() >= 5) {
-                    String columnData = getResultTable().findElement(By.xpath(".//tbody/tr["+counter+"]/td[4]")).getText();
-                    if(columnData.contains(genderConcentration)&&columnData.contains("% Male/Female")
-                            &&columnData.contains("Out of State")&&columnData.contains("International")
-                            &&columnData.contains("Minorities")){
+                    List<WebElement> columnData = getResultTable().findElements(By.xpath(".//tbody//td[4]"));
+                    List<String>actualData = new ArrayList<>();
+                    for(WebElement data: columnData){
+                        actualData.add(data.getText());
+                    }
+                    if(actualData.contains(genderConcentration)&&actualData.contains("% Male/Female")
+                            &&actualData.contains("Out of State")&&actualData.contains("International")
+                            &&actualData.contains("Minorities")){
                         logger.info("Diversity Results Column contains the following status : "+genderConcentration+", " +
                                 "% Male/Female, Out of State, International and Minorities");
-                        searchCollege = false;
-                        System.out.println("Counter value = "+counter+", resultLimit = "+resultLimit);
-                        break;
-                    }
+
                 }
             }
-        }while (searchCollege&&getResultTable().findElement(By.xpath("//button[text()='Show More']")).isDisplayed());
-        if (counter>resultLimit)
-            logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
-    }
 
     private void goToCollegeInSearchResults(String collegeName) {
         while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
