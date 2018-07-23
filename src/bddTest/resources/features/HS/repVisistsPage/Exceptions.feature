@@ -31,7 +31,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
 
 
-  @MATCH-2682
+  @MATCH-2682 @MATCH-2689
   Scenario Outline: As a high school staff member, I want to be able to edit my regular hours in RepVisits,
   so that I can easily change the number of colleges I will allow during a certain time slot.
 #precondition
