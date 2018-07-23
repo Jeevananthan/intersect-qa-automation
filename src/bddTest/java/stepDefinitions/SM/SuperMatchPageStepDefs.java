@@ -34,6 +34,8 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that \"([^\"]*)\" is displayed as selected option in the Saved Searches dropdown$", fcSuperMatch::verifySelectedOption);
 
+        And("^SM I select the \"([^\"]*)\" option from the \"([^\"]*)\" dropdown in Cost$", fcSuperMatch::selectOptionInDropdown);
+
         Then("^SM I create fifteen different save search from Resources tab$", fcSuperMatch::createFifteenSaveSearch);
 
         And("^SM I validate the error message \"([^\"]*)\"$", fcSuperMatch::verifySaveSearchMessage);
