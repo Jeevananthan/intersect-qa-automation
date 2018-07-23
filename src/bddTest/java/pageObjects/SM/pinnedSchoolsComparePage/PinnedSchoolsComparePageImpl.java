@@ -248,6 +248,10 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clickExportButton() {
+        exportButton().click();
+    }
+
     private WebElement number4YearMajorsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Academics # of 4 Year Majors\"] + td a")); }
     private WebElement majorsHeaderInStudiesTab() { return driver.findElement(By.cssSelector("h3.ng-binding")); }
     private WebElement varsitySportsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Athletics Levels Available\"] + td > a")); }
@@ -257,4 +261,5 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private WebElement clubsAndOrganizationsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Student Life Clubs & Organizations\"] + td a")); }
     private WebElement pinLink(String collegeName) { return driver.findElement(By.xpath(pinLinkLocator(collegeName))); }
     private String pinLinkLocator(String collegeName) { return "//p[@class='collegename' and text() = '" + collegeName + "']/../p/a/span[@class = 'supermatch-toggle-icon supermatch-college-button-selected']"; }
+    private WebElement exportButton() { return driver.findElement(By.cssSelector("a.ui.teal.basic.button")); }
 }
