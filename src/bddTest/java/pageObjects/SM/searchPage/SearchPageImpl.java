@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -17,6 +18,8 @@ import pageObjects.SM.surveyPage.SurveyPageImpl;
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import org.openqa.selenium.support.Color;
 import utilities.HUBSEditMode.Navigation;
 
@@ -24,17 +27,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
     private static String fs = File.separator;
-    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties",fs ,fs ,fs ,fs ,fs);
+    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties", fs, fs, fs, fs, fs);
 
     public SearchPageImpl() {
         logger = Logger.getLogger(SearchPageImpl.class);
     }
+
     public SurveyPageImpl survey = new SurveyPageImpl();
     private RepVisitsPageImpl repVisitsPageUtility = new RepVisitsPageImpl();
     private Navigation navigation = new Navigation();
 
-    /** The below line of code for just a declaration for the object which we can use in scroll down purpose */
-    JavascriptExecutor js = (JavascriptExecutor)driver;
+    /**
+     * The below line of code for just a declaration for the object which we can use in scroll down purpose
+     */
+    JavascriptExecutor js = (JavascriptExecutor) driver;
 
     public void verifyDarkBlueHeaderIsPresent() {
         Assert.assertTrue("The dark blue header is not displayed correctly",
@@ -143,8 +149,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void verifyDarkBlueFooter()
-    {
+    public void verifyDarkBlueFooter() {
         Assert.assertTrue("College Search footer is not displayed", superMatchFooter().isDisplayed());
 
         Assert.assertTrue("College Search footer is not dark blue", superMatchFooter()
@@ -168,9 +173,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyWidthsOfThreeBoxes() {
-        Assert.assertEquals(25.0, round((firstBox().getSize().getWidth()/(double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
-        Assert.assertEquals(37.5, round((secondBox().getSize().getWidth()/(double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
-        Assert.assertEquals(37.5, round((thirdBox().getSize().getWidth()/(double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
+        Assert.assertEquals(25.0, round((firstBox().getSize().getWidth() / (double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
+        Assert.assertEquals(37.5, round((secondBox().getSize().getWidth() / (double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
+        Assert.assertEquals(37.5, round((thirdBox().getSize().getWidth() / (double) threeBoxContainer().getSize().getWidth()) * 100, 1), 1);
     }
 
     private WebElement threeBoxContainer() {
@@ -193,7 +198,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='ui equal width grid box-container']/div[contains(@class, 'column')])[3]")));
     }
 
-    private static double round (double value, int precision) {
+    private static double round(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }
@@ -201,8 +206,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Accepts a DataTable that describes the location fit criteria to be selected, and selects them from the dialog
+     *
      * @param dataTable - Valid sections:  Search Type, State or Province, Quick Selection: US Regions & Others, Campus Surroundings
-     *                    Values for each section should be comma separated and in the format the page displays.  e.x.:  Mid-Atlantic, Northeast
+     *                  Values for each section should be comma separated and in the format the page displays.  e.x.:  Mid-Atlantic, Northeast
      */
     public void setLocationCriteria(DataTable dataTable) {
         List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
@@ -213,7 +219,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     // TODO - Some of this is not working yet
                     case "Search Type":
                         if (criteria.get(key).contains("distance"))
-                           searchByDistance().click();
+                            searchByDistance().click();
                         else
                             radioButton("searchByStateOrRegion").select();
                         break;
@@ -288,14 +294,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Accepts a String with the name of the option in the Resources fit criteria list to activate.
+     *
      * @param option String with the name of the option to enable.  e.x.: Counseling Services, Day Care Services, etc.
      */
     public void setResourcesCriteria(String option) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
         if (option.equals("Asperger's/Autism Support"))
-            option="Autism Support";
-        WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
-        WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
+            option = "Autism Support";
+        WebElement label = driver.findElement(By.xpath("//label[contains(text(), '" + option + "')]"));
+        WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '" + option + "')]/../input"));
         if (!checkbox.isSelected()) {
             label.click();
             waitUntilPageFinishLoading();
@@ -306,7 +313,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void selectRadioButtonInAcademicsFitCriteria(String option) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'"+ option.split("'")[0] + "')]"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'" + option.split("'")[0] + "')]"))).click();
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
@@ -321,8 +328,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         List<List<String>> itemsToSelect = items.raw();
         int itemsToSelectSize = itemsToSelect.size();
 
-        for(int i = 0; i < itemsToSelectSize; i++)
-        {
+        for (int i = 0; i < itemsToSelectSize; i++) {
             String item = itemsToSelect.get(i).get(0);
             getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[1]")).click();
 
@@ -339,10 +345,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         List<List<String>> itemsToUnselect = items.raw();
         int itemsToUnselectSize = itemsToUnselect.size();
 
-        for(int i = 0; i < itemsToUnselectSize; i++)
-        {
+        for (int i = 0; i < itemsToUnselectSize; i++) {
             String item = itemsToUnselect.get(i).get(0);
-            getDriver().findElement(By.xpath("(//div[@role='combobox'])[1]//a[text()='" + item +"']/i[@class='delete icon']")).click();
+            getDriver().findElement(By.xpath("(//div[@role='combobox'])[1]//a[text()='" + item + "']/i[@class='delete icon']")).click();
         }
 
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
@@ -360,8 +365,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         List<List<String>> itemsToSelect = items.raw();
         int itemsToSelectSize = itemsToSelect.size();
 
-        for(int i = 0; i < itemsToSelectSize; i++)
-        {
+        for (int i = 0; i < itemsToSelectSize; i++) {
             String item = itemsToSelect.get(i).get(0);
             getDriver().findElement(By.xpath("(//span[text()='" + item + "'])")).click();
         }
@@ -377,27 +381,27 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         List<List<String>> itemsToUnselect = items.raw();
         int itemsToUnselectSize = itemsToUnselect.size();
 
-        for(int i = 0; i < itemsToUnselectSize; i++)
-        {
+        for (int i = 0; i < itemsToUnselectSize; i++) {
             String item = itemsToUnselect.get(i).get(0);
-            getDriver().findElement(By.xpath("(//div[@role='combobox'])[2]//a[text()='" + item +"']/i[@class='delete icon']")).click();
+            getDriver().findElement(By.xpath("(//div[@role='combobox'])[2]//a[text()='" + item + "']/i[@class='delete icon']")).click();
         }
 
-          getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
 
 
     /**
      * Accepts a String with the name of the option in the Resources fit criteria list to deactivate.
+     *
      * @param option String with the name of the option to disable.  e.x.: Counseling Services, Day Care Services, etc.
      */
     public void unsetResourcesCriteria(String option) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
         if (option.equals("Asperger's/Autism Support"))
-            option="Autism Support";
-        waitUntilElementExists(getDriver().findElement(By.xpath("//label[contains(text(), '"+option+"')]")));
-        WebElement label = getDriver().findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
-        WebElement checkbox = getDriver().findElement(By.xpath("//label[contains(text(), '"+option+"')]/../input"));
+            option = "Autism Support";
+        waitUntilElementExists(getDriver().findElement(By.xpath("//label[contains(text(), '" + option + "')]")));
+        WebElement label = getDriver().findElement(By.xpath("//label[contains(text(), '" + option + "')]"));
+        WebElement checkbox = getDriver().findElement(By.xpath("//label[contains(text(), '" + option + "')]/../input"));
         if (checkbox.isSelected()) {
             label.click();
             waitUntilPageFinishLoading();
@@ -408,7 +412,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     /**
      * Accepts a String with the name of the option in the Resources fit criteria to verify, and whether it should
      * be checked or unchecked.
-     * @param option String with the name of the option to verify.  e.x.: Counseling Services, Day Care Services, etc.
+     *
+     * @param option             String with the name of the option to verify.  e.x.: Counseling Services, Day Care Services, etc.
      * @param checkedOrUnchecked String containing "checked" or "unchecked"
      */
     public void verifyResourcesCriteria(String option, String checkedOrUnchecked) {
@@ -418,7 +423,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if (checkedOrUnchecked.equalsIgnoreCase("checked")) {
             Assert.assertTrue("Expected '" + option + "' to be selected, but it was not.", checkbox.isSelected());
         } else if (checkedOrUnchecked.equalsIgnoreCase("unchecked")) {
-            Assert.assertFalse("Expected '" + option + "' to be unselected, but it was not.",checkbox.isSelected());
+            Assert.assertFalse("Expected '" + option + "' to be unselected, but it was not.", checkbox.isSelected());
         } else {
             Assert.fail("Expected value shuould be 'checked' or 'unchecked'. '" + checkedOrUnchecked + "' is not a valid value.");
         }
@@ -427,20 +432,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Verifies that the "Must Have" box contains the passed item.
+     *
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void verifyMustHaveBoxContains(String item) {
-        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.",getMustHaveBox().getText().contains(item));
+        Assert.assertTrue("'Must Have' box should contain " + item + ", but it does not.", getMustHaveBox().getText().contains(item));
     }
 
     /**
      * Verifies that the "Must Have" box does not contain the passed item.
+     *
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void verifyMustHaveBoxDoesNotContain(String item) {
         try {
             driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-            Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.",!getMustHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+            Assert.assertTrue("'Must Have' box should not contain " + item + ", but it does.", !getMustHaveBox().findElement(By.xpath("./div/button[contains(text(),'" + item + "')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -450,20 +457,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Verifies that the "Nice to Have" box contains the passed item.
+     *
      * @param item String containing the value to look for in the "Nice to Have" box.
      */
     public void verifyNiceToHaveBoxContains(String item) {
-        Assert.assertTrue("'Nice to Have' box should contain " + item + ", but it does not.",getNiceToHaveBox().getText().contains(item));
+        Assert.assertTrue("'Nice to Have' box should contain " + item + ", but it does not.", getNiceToHaveBox().getText().contains(item));
     }
 
     /**
      * Verifies that the "Nice to Have" box does not contain the passed item.
+     *
      * @param item String containing the value to look for in the "Nice to Have" box.
      */
     public void verifyNiceToHaveBoxDoesNotContain(String item) {
         try {
             driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-            Assert.assertTrue("'Nice to Have' box should not contain " + item + ", but it does.",!getNiceToHaveBox().findElement(By.xpath("./div/button[contains(text(),'"+ item +"')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
+            Assert.assertTrue("'Nice to Have' box should not contain " + item + ", but it does.", !getNiceToHaveBox().findElement(By.xpath("./div/button[contains(text(),'" + item + "')]")).isDisplayed());//.getText().contains(item.toUpperCase()));
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         } catch (org.openqa.selenium.NoSuchElementException nsee) {
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -473,6 +482,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Moves the passed item from the "Must Have" box to the "Nice to Have" box.
+     *
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void moveToNiceToHave(String item) {
@@ -483,6 +493,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Moves the passed item from the "Nice to Have" box to the "Must Have" box.
+     *
      * @param item String containing the value to look for in the "Nice to Have" box.
      */
     public void moveToMustHave(String item) {
@@ -491,6 +502,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Removes the passed item from the "Must Have" or "Nice to Have" box.
+     *
      * @param item String containing the value to look for in the "Must HAae" or "Nice to Have" boxes.
      */
     public void removeFitCriteria(String item) {
@@ -546,95 +558,98 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         verifyMustHaveBoxDoesNotContain("Student Body Size [1]");
     }
 
-    public void verifySystemResponseWhenGPAInputIsValid() {
+    public void verifySystemResponseWhenGPAInputIsValid(DataTable dataTable) {
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        List<String> scores = dataTable.asList(String.class);
+
+        if (firstOnboardingPopup().isDisplayed())
+            superMatchCollegeSearchHeader().click();
+
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("0.1");
-        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("2");
-        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("4");
-        Assert.assertFalse(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
+        for (String score : scores) {
+            gpaTextBox().clear();
+            gpaTextBox().sendKeys(score);
+            // This field has a 2 second timeout before validation, so we need to wait for that.
+            waitForUITransition();
+            Assert.assertFalse(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
+        }
     }
 
-    public void verifySystemResponseWhenGPAInputIsInvalid() {
+    public void verifySystemResponseWhenGPAInputIsInvalid(DataTable dataTable) {
 
+        List<String> scores = dataTable.asList(String.class);
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("0");
-        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("4.1");
-        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
-        gpaTextBox().clear();
-        gpaTextBox().sendKeys("5");
-        Assert.assertTrue(gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("GPA value must be a number between 0.1 and 4"));
-
+        for (String score : scores) {
+            gpaTextBox().clear();
+            gpaTextBox().sendKeys(score);
+            // This field has a 2 second timeout before validation, so we need to wait for that.
+            waitForUITransition();
+            Assert.assertTrue(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
+        }
     }
 
     public void verifySystemResponseWhenSATScoreInputIsValid() {
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("400");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1000");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1600");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertFalse(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
     }
 
     public void verifySystemResponseWhenSATScoreInputIsInvalid() {
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("100");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("399");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
         satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1601");
+        // This field has a 2 second timeout before validation, so we need to wait for that.
+        waitForUITransition();
         Assert.assertTrue(satScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]")).getText().contains("SAT value must be a number between 400 and 1600"));
 
     }
 
     public void verifyIfSATScoreDataIsStoredOnOurSide() {
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
@@ -642,8 +657,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         satScoreTextBox().sendKeys("827");
         resourcesMenuItem().click();
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
         Assert.assertTrue("SAT score data is not persisting", satScoreTextBox().getAttribute("value").equals("827"));
@@ -653,24 +667,26 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyGPADataPersists() {
+    public void verifyGPADataPersists(DataTable dataTable) {
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        List<List<String>> data = dataTable.raw();
+        String dataToPersist = data.get(0).get(0);
+
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
+
         gpaTextBox().clear();
-        gpaTextBox().sendKeys("3");
+        gpaTextBox().sendKeys(dataToPersist);
 
         getFitCriteriaCloseButton().click();
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
-        Assert.assertTrue("GPA data is not stored on our side", gpaTextBox().getAttribute("value").equals("3"));
+        Assert.assertTrue("GPA data is not stored on our side", gpaTextBox().getAttribute("value").equals(dataToPersist));
 
     }
 
@@ -678,30 +694,26 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         List<String> scores = dataTable.asList(String.class);
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
-        for(String score : scores)
-        {
+        for (String score : scores) {
             actScoreTextBox().clear();
             actScoreTextBox().sendKeys(score);
             Assert.assertFalse(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
         }
-     }
+    }
 
     public void verifySystemResponseWhenACTScoreIsInvalid(DataTable dataTable) {
 
         List<String> scores = dataTable.asList(String.class);
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
-        for(String score : scores)
-        {
+        for (String score : scores) {
             actScoreTextBox().clear();
             actScoreTextBox().sendKeys(score);
             Assert.assertTrue(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
@@ -713,12 +725,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         List<String> scores = dataTable.asList(String.class);
 
-        if(!admissionMenuItem().getAttribute("class").contains("active"))
-        {
+        if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
         }
 
-        for(String score : scores) {
+        for (String score : scores) {
 
             actScoreTextBox().clear();
             actScoreTextBox().sendKeys(score);
@@ -733,13 +744,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void selectOrUnselectDiversityCheckbox(String selectOrUnselect, String option)
-    {
-        switch (selectOrUnselect.toUpperCase())
-        {
-            case "SELECT": selectCheckBox(option, "Diversity");
+    public void selectOrUnselectDiversityCheckbox(String selectOrUnselect, String option) {
+        switch (selectOrUnselect.toUpperCase()) {
+            case "SELECT":
+                selectCheckBox(option, "Diversity");
                 break;
-            case "UNSELECT": unselectCheckbox(option, "Diversity");
+            case "UNSELECT":
+                unselectCheckbox(option, "Diversity");
                 break;
         }
 
@@ -748,7 +759,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void verifySurvey(String buttonLabel) {
         button(buttonLabel).click();
         String winHandleBefore = driver.getWindowHandle();
-        for(String winHandle : driver.getWindowHandles()){
+        for (String winHandle : driver.getWindowHandles()) {
             driver.switchTo().window(winHandle);
         }
         Assert.assertTrue("The survey is not displayed", survey.surveySubtitle().isDisplayed());
@@ -769,7 +780,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
-     *
      * @param validationMessage
      */
     public void checkValidationMessageIsVisible(String validationMessage) {
@@ -777,60 +787,61 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.className("supermatch-error-text")).getText().equals(validationMessage));
     }
 
-    public void verifyMeets100ofNeedCheckbox(String checkBox){
+    public void verifyMeets100ofNeedCheckbox(String checkBox) {
         chooseFitCriteriaTab("Cost");
-        String path = "//label[contains(text(), '"+checkBox+"')]";
+        String path = "//label[contains(text(), '" + checkBox + "')]";
         Assert.assertTrue("Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path)).getText().equals("Meets 100% of Need"));
-        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path+"/../../button[@aria-label='undefined help']")).isDisplayed());
+        Assert.assertTrue("Tooltip for Meets 100% of Need fit criteria is not displaying.", driver.findElement(By.xpath(path + "/../../button[@aria-label='undefined help']")).isDisplayed());
         getFitCriteriaCloseButton().click();
     }
 
     /**
      * select any selected checkbox only when fit criteria menu is open.
      */
-    public void selectCheckBox(String checkBox, String fitCriteriaName){
-        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+    public void selectCheckBox(String checkBox, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
             openFitCriteria(fitCriteriaName);
-        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
-        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
-        Assert.assertTrue(checkBox+" checkbox by default is not selected.", !checkboxLocator.isSelected());
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        Assert.assertTrue(checkBox + " checkbox by default is not selected.", !checkboxLocator.isSelected());
         if (!checkboxLocator.isSelected()) {
             checkboxLocator.click();
             waitUntilPageFinishLoading();
         }
-        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+        Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
         getFitCriteriaCloseButton().click();
     }
+
     /**
      * unselect any selected checkbox only when fit criteria menu is open.
      */
     public void unselectCheckbox(String checkBox, String fitCriteriaName) {
-        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+        if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
             openFitCriteria(fitCriteriaName);
-        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]"));
-        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '"+checkBox+"')]/../input"));
-        Assert.assertTrue(checkBox+" checkbox is not selected.", onlyCheckbox.isSelected());
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
         if (onlyCheckbox.isSelected()) {
             checkboxLocator.click();
             waitUntilPageFinishLoading();
         }
-        Assert.assertTrue(checkBox+" checkbox is selected.", !onlyCheckbox.isSelected());
+        Assert.assertTrue(checkBox + " checkbox is selected.", !onlyCheckbox.isSelected());
         getFitCriteriaCloseButton().click();
     }
 
-    private void openFitCriteria(String fitCriteria){
-        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).sendKeys(Keys.RETURN);
+    private void openFitCriteria(String fitCriteria) {
+        driver.findElement(By.xpath("//li[contains(text(), '" + fitCriteria + "')]")).sendKeys(Keys.RETURN);
     }
 
-    public void selectMeest100ofNeedCheckbox(String checkboxName){
+    public void selectMeest100ofNeedCheckbox(String checkboxName) {
         selectCheckBox(checkboxName, "Cost");
     }
 
-    public void selectStudentSuccessFitCriteriaCheckbox(String checkboxName){
+    public void selectStudentSuccessFitCriteriaCheckbox(String checkboxName) {
         selectCheckBox(checkboxName, "Institution Characteristics");
     }
 
-    public void unselectStudentSuccessFitCriteriaCheckbox(String checkboxName){
+    public void unselectStudentSuccessFitCriteriaCheckbox(String checkboxName) {
         unselectCheckbox(checkboxName, "Institution Characteristics");
     }
 
@@ -869,34 +880,40 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
-    /**The below method is to check all the fit criteria is clickable and as per the fit criteria menu option is showing */
+    /**
+     * The below method is to check all the fit criteria is clickable and as per the fit criteria menu option is showing
+     */
     public void verifyEachFitCriteria() {
         int counter = getFitCriteriaBar().findElements(By.xpath(".//li")).size();
-        for (int i=1;i<counter;i++){
+        for (int i = 1; i < counter; i++) {
             List<WebElement> listFitCriterias = getFitCriteriaBar().findElements(By.xpath(".//li"));
             Assert.assertTrue("Font color is not correct.", Color.fromString(listFitCriterias.get(i).getCssValue("color")).asHex().equals("#00838c"));
             listFitCriterias.get(i).click();
             Assert.assertTrue("Fit criteria menu is not displaying.", closeFitCriteria().isDisplayed());
             Assert.assertTrue("Close action is not available to close the box", closeFitCriteria().isDisplayed());
             closeFitCriteria().click();
-            Assert.assertTrue("Close action is not available to close the box", getDriver().findElements(By.xpath("//i[@class='close icon']")).size()==0);
+            Assert.assertTrue("Close action is not available to close the box", getDriver().findElements(By.xpath("//i[@class='close icon']")).size() == 0);
         }
     }
 
-    /**The below method is to check while clicking outside the fit criteria, menu box is closing. */
-    public void checkOutsideClick(){
+    /**
+     * The below method is to check while clicking outside the fit criteria, menu box is closing.
+     */
+    public void checkOutsideClick() {
         int counter = getFitCriteriaBar().findElements(By.xpath(".//li")).size();
-        for (int i=1;i<counter;i++) {
+        for (int i = 1; i < counter; i++) {
             List<WebElement> listFitCriterias = getFitCriteriaBar().findElements(By.xpath(".//li"));
             listFitCriterias.get(i).click();
             Assert.assertTrue("Close action is not available to close the box", closeFitCriteria().isDisplayed());
             ChooseFitCriteriaText().click();
-            Assert.assertTrue("Close action is not available to close the box", getDriver().findElements(By.xpath("//i[@class='close icon']")).size()==0);
+            Assert.assertTrue("Close action is not available to close the box", getDriver().findElements(By.xpath("//i[@class='close icon']")).size() == 0);
         }
     }
 
-    /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
-    public void checkSelectCriteriaToStartButtonsRedirectsLocation(){
+    /**
+     * The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria
+     */
+    public void checkSelectCriteriaToStartButtonsRedirectsLocation() {
         Assert.assertTrue("First Select Criteria To Start button is not displaying.", firstSelectCriteriaToStartButton().isDisplayed());
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstSelectCriteriaToStartButton());
         firstSelectCriteriaToStartButton().click();
@@ -908,41 +925,41 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("After clicking on Select Criteria to Start button Location fit criteria is not opening.", locationFitCriteria().isDisplayed());
     }
 
-    public void verifyAdmissionFitCriteriaCheckbox(String checkboxName, String fitCriteriaName){
-        String path = "//label[contains(text(),'"+checkboxName+"')]";
-        if (!(driver.findElements(By.xpath("//h1[text()='"+fitCriteriaName+"']")).size()>0))
+    public void verifyAdmissionFitCriteriaCheckbox(String checkboxName, String fitCriteriaName) {
+        String path = "//label[contains(text(),'" + checkboxName + "')]";
+        if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
             openFitCriteria(fitCriteriaName);
-        Assert.assertTrue(checkboxName+" label is not displaying.", driver.findElement(By.xpath(path)).isDisplayed());
-        Assert.assertTrue(checkboxName+" checkbox tooltip is not showing.", driver.findElement(By.xpath(path+"/../../button/i")).isDisplayed());
+        Assert.assertTrue(checkboxName + " label is not displaying.", driver.findElement(By.xpath(path)).isDisplayed());
+        Assert.assertTrue(checkboxName + " checkbox tooltip is not showing.", driver.findElement(By.xpath(path + "/../../button/i")).isDisplayed());
         openFitCriteria("Admission");
     }
 
-    public void getInstitutionCharacteristicsFC(){
+    public void getInstitutionCharacteristicsFC() {
         institutionCharacteristicsMenuItem().click();
         Assert.assertTrue("Institution Characteristics fit criteria is not clicked.", getDriver().findElement(By.xpath("//h1[text()='Institution Characteristics']")).isDisplayed());
     }
 
-    public void verifyAverageClassSizeList(){
-        int j=0;
+    public void verifyAverageClassSizeList() {
+        int j = 0;
         String tempString;
         String path = "//div[@id='class-size-selection-option-";
         Assert.assertTrue("AVERAGE CLASS SIZE text is not displaying", getAverageClassSizeText().isDisplayed());
         getAverageClassSizeListIcon().click();
         waitForUITransition();
-        String expectedOptions[] =  {"Select","10", "20", "30", "40", "50", "100"};
+        String expectedOptions[] = {"Select", "10", "20", "30", "40", "50", "100"};
         ArrayList<WebElement> actualOptions = new ArrayList<>();
         actualOptions.add(driver.findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")));
-        for (int i=1;i<5;i++){
-            actualOptions.add(driver.findElement(By.xpath(path+expectedOptions[i]+"']/span")));
+        for (int i = 1; i < 5; i++) {
+            actualOptions.add(driver.findElement(By.xpath(path + expectedOptions[i] + "']/span")));
         }
         Iterator<WebElement> ite = actualOptions.iterator();
-        while (ite.hasNext()){
+        while (ite.hasNext()) {
             WebElement temp = ite.next();
             tempString = temp.getText();
-            Assert.assertTrue("AVERAGE CLASS SIZE expected option "+expectedOptions[j]+" is not matching with the actual option"+tempString, expectedOptions[j].equals(tempString));
+            Assert.assertTrue("AVERAGE CLASS SIZE expected option " + expectedOptions[j] + " is not matching with the actual option" + tempString, expectedOptions[j].equals(tempString));
             temp.click();
             waitForUITransition();
-            switch (tempString){
+            switch (tempString) {
                 case "Select":
                     logger.info("For Select option don't do anything...");
                     Assert.assertTrue("AVERAGE CLASS SIZE option Select is not selected.", getSelectedAverageClassSizeOption().getText().equals("Select"));
@@ -995,7 +1012,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyMAndNSyncWithAverageClassSizeFilter(){
+    public void verifyMAndNSyncWithAverageClassSizeFilter() {
         text("Institution Characteristics").click();
         getMustHaveBox().findElement(By.xpath(".//div/button[3]")).click();
         waitForUITransition();
@@ -1020,7 +1037,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.id("class-size-selection-option-30")).click();
         getFitCriteriaCloseButton().click();
         getDriver().findElement(By.className("csr-heading-dropdown-text")).click();
-        WebElement resultsColumHeader =  getParent(getDriver().findElement(By.className("csr-heading-dropdown-text")));
+        WebElement resultsColumHeader = getParent(getDriver().findElement(By.className("csr-heading-dropdown-text")));
         // This tends to go off screen when running on the grid, so just force click it.  We're not testing the functionality, just the text after this is set.
         jsClick(resultsColumHeader.findElement(By.xpath(".//span[text()='Institution Characteristics']")));
         Assert.assertTrue("Could not find \"Average Class Size\" label under Institution Characteristics!", getDriver().findElement(By.xpath("//span[@class='institution-char-label'][text()='Average Class Size']")).isDisplayed());
@@ -1033,11 +1050,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         List<WebElement> headerTitles = headerTable.findElements(By.xpath(".//span[@class='csr-heading-dropdown-text']"));
 
         List<String> actualHeaders = new LinkedList<>();
-        for (WebElement we : headerTitles){
+        for (WebElement we : headerTitles) {
             actualHeaders.add(we.getText());
         }
-        for (String header : expectedHeaders){
-            Assert.assertTrue(header + " was not found in the default results list headers!",actualHeaders.contains(header));
+        for (String header : expectedHeaders) {
+            Assert.assertTrue(header + " was not found in the default results list headers!", actualHeaders.contains(header));
         }
     }
 
@@ -1053,36 +1070,35 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void selectDiversityCheckbox(String checkboxName){
+    public void selectDiversityCheckbox(String checkboxName) {
         selectCheckBox(checkboxName, "Diversity");
     }
 
-    private void selectFitCriteria(String fitCriteria){
-        driver.findElement(By.xpath("//li[contains(text(), '"+fitCriteria+"')]")).click();
+    private void selectFitCriteria(String fitCriteria) {
+        driver.findElement(By.xpath("//li[contains(text(), '" + fitCriteria + "')]")).click();
     }
 
-    public void verifyHighInternationalPopulationCheckbox(String checkBox){
+    public void verifyHighInternationalPopulationCheckbox(String checkBox) {
         openFitCriteria("Diversity");
-        String path = "//label[contains(text(), '"+checkBox+"')]";
+        String path = "//label[contains(text(), '" + checkBox + "')]";
         Assert.assertTrue("International Students Label is not displaying.", driver.findElement(By.xpath("//span[contains(text(),'International Students')]")).isDisplayed());
-        Assert.assertTrue(checkBox+" is by default is selected.", !driver.findElement(By.xpath(path+"/../input")).isSelected());
-        Assert.assertTrue(checkBox+" is not displaying.", driver.findElement(By.xpath(path)).getText().equals("High International Population"));
+        Assert.assertTrue(checkBox + " is by default is selected.", !driver.findElement(By.xpath(path + "/../input")).isSelected());
+        Assert.assertTrue(checkBox + " is not displaying.", driver.findElement(By.xpath(path)).getText().equals("High International Population"));
         getFitCriteriaCloseButton().click();
     }
 
     public void verifyCollegeProfile(String collegeName, DataTable dataTable) {
         List<String> details = dataTable.asList(String.class);
-        for(String element : details) {
-            switch(element) {
+        for (String element : details) {
+            switch (element) {
                 case "Search results":
-                    while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
+                    while (driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
                         waitUntilPageFinishLoading();
                         backToTopButton().sendKeys(Keys.END);
                         waitUntilPageFinishLoading();
                         try {
                             showMoreButton().click();
-                            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
-                        } catch(WebDriverException e) {
+                        } catch (WebDriverException e) {
                             whyDrawerButton(collegeName).sendKeys(Keys.END);
                             showMoreButton().click();
                             waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
@@ -1126,8 +1142,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         goToCollegeInSearchResults(collegeName);
         boolean elementNotFound = true;
         WebElement firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
-        if(firstPinLinkCoincidence.getText().trim().contains("PINNED")) {
-            while(elementNotFound) {
+        if (firstPinLinkCoincidence.getText().trim().contains("PINNED")) {
+            while (elementNotFound) {
                 try {
                     firstPinLinkCoincidence.click();
                     waitUntilPageFinishLoading();
@@ -1142,7 +1158,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             whyDrawerButton(collegeName).sendKeys(Keys.HOME);
             goToCollegeInSearchResults(collegeName);
 
-            while(elementNotFound) {
+            while (elementNotFound) {
                 firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
                 try {
                     firstPinLinkCoincidence.click();
@@ -1154,10 +1170,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 }
             }
         } else {
-            while(elementNotFound) {
+            while (elementNotFound) {
                 try {
                     firstPinLinkCoincidence.click();
-                    if(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED")) {
+                    if (driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED")) {
                         elementNotFound = false;
                     }
                 } catch (WebDriverException e) {
@@ -1167,17 +1183,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             }
             Assert.assertTrue("The college was not pinned. UI: " + driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText(), driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0).getText().equals("PINNED"));
         }
-    }
-
-    private void goToCollegeInSearchResults(String collegeName) {
-        while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
-            waitUntil(ExpectedConditions.elementToBeClickable(backToTopButton()));
-            backToTopButton().sendKeys(Keys.END);
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
-            showMoreButton().sendKeys(Keys.RETURN);
-            waitUntilPageFinishLoading();
-        }
-        repVisitsPageUtility.scrollDown(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0));
     }
 
     public void openPinnedCompareSchools() {
@@ -1228,6 +1233,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void saveSearchWithName(String searchName) {
+        saveSearchPopupSearchBox().clear();
         saveSearchPopupSearchBox().sendKeys(searchName);
         saveSearchLink().click();
     }
@@ -1302,6 +1308,49 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             logger.info("There is no college available with all the fields : "+genderConcentration+", % Male/Female, Out of State, International and Minorities");
     }
 
+    private void goToCollegeInSearchResults(String collegeName) {
+        while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(showMoreSpinnerLocator), 0));
+            waitUntil(ExpectedConditions.elementToBeClickable(backToTopButton()));
+            backToTopButton().sendKeys(Keys.END);
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(showMoreSpinnerLocator), 0));
+            showMoreButton().sendKeys(Keys.RETURN);
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(showMoreSpinnerLocator), 0));
+        }
+        repVisitsPageUtility.scrollDown(driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0));
+    }
+
+    public void verifySingleValueInCostColumn(String collegeName, String singleValue) {
+        goToCollegeInSearchResults(collegeName);
+        Assert.assertTrue("The value of " + singleValue + " is not displayed in the Cost column",
+                singleCostValue(collegeName).getText().equals(singleValue));
+    }
+
+    public void verifyFootnoteNoGPANoScores(DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<String> textMessage = dataTable.asList(String.class);
+        List<WebElement> footnotes = driver.findElements(By.cssSelector(noGPANoScoresFootnoteLocator));
+        Assert.assertTrue("The text in the footnote for no GPA and no scores is incorrect.",
+                footnotes.get(0).getText().equals(textMessage.get(0)));
+    }
+
+    public void verifyFootnoteGPANoScores(String collegeName, DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<String> textMessage = dataTable.asList(String.class);
+        Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.",
+                collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
+    }
+
+    public void verifyBackToTopButtonFunctionality() {
+        backToTopButton().sendKeys(Keys.END);
+        backToTopButton().sendKeys(Keys.RETURN);
+        waitUntilPageFinishLoading();
+        JavascriptExecutor executor = driver;
+        Long value = (Long) executor.executeScript("return window.pageYOffset;");
+        Assert.assertTrue("The Back to top button did not send the screen to the top",
+                value == 0);
+    }
+
     public void verifyColumnHeaders(DataTable dataTable) {
         List<String> details = dataTable.asList(String.class);
         for(String element : details) {
@@ -1339,7 +1388,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The Search by college name text box is not displayed",
                 getSearchByCollegeNameTextBox().isDisplayed());
         Assert.assertEquals(String.format("The default text of the search by college name text box is not correct, " +
-                "expected: %s, actual: %s",message,getSearchByCollegeNameTextBox().getAttribute("placeholder"))
+                        "expected: %s, actual: %s",message,getSearchByCollegeNameTextBox().getAttribute("placeholder"))
                 ,message.trim(),getSearchByCollegeNameTextBox().getAttribute("placeholder").trim());
         Assert.assertTrue("The magnifying icon is not displayed in the search by college name text box",
                 getSearchIcon().isDisplayed());
@@ -1444,6 +1493,213 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
         Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
     }
+
+    public void pinCollegeIfNotPinnedAlready(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        if(driver.findElement(By.xpath(pinLinkLocator(collegeName))).getText().contains("PIN TO COMPARE")) {
+            pinCollege(collegeName);
+            waitUntilPageFinishLoading();
+        }
+    }
+
+    public void startSearchOver() {
+        if(driver.findElements(By.cssSelector(startOverButtonLocator)).size() > 0) {
+            startOverButton().click();
+            yesStartOverLink().click();
+        }
+    }
+
+    public void reloadPage() {
+        driver.get(driver.getCurrentUrl());
+    }
+
+    public void verifyTextDisplayedInMaleVsFemaleFitCriteria() {
+        chooseFitCriteriaTab("Diversity");
+
+        Assert.assertTrue("'% Male Vs. Female' section header is not displayed",
+                maleVsFemaleSectionHeader().isDisplayed());
+        Assert.assertTrue("'At least' text is not displayed",
+                maleVsFemaleSectionWrapper().getText().contains("At least"));
+        Assert.assertTrue("'are' text is not displayed",
+                maleVsFemaleSectionWrapper().getText().contains("are"));
+
+        closeFitCriteria().click();
+    }
+
+    public void verifyPlaceholdersInSelectPercentAndSelectGenderDropdown(DataTable dataTable)
+    {
+        chooseFitCriteriaTab("Diversity");
+
+        List<List<String>> data = dataTable.raw();
+        String selectPercentPlaceholder = data.get(0).get(0);
+        String selectGenderPlaceholder = data.get(1).get(0);
+        Assert.assertTrue("The default text displayed for male vs. female percent dropdown is not correct",
+                maleVsFemalePercentDropdownDefaultOption().getText().equals(selectPercentPlaceholder));
+        Assert.assertTrue("The default text displayed for male vs. female gender dropdown is not correct",
+                maleVsFemaleGenderDropdownDefaultOption().getText().equals(selectGenderPlaceholder));
+
+        closeFitCriteria().click();
+    }
+
+    public void verifyOptionsInSelectPercentDropdown(DataTable dataTable)
+    {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Diversity");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        maleVsFemalePercentDropdownChevron().click();
+
+        List<String> maleFemalePercentOptionsActual = maleVsFemalePercentDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = maleFemalePercentOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Male Vs. Female 'Select %' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+    }
+
+    public void verifyOptionsInSelectGenderDropdown(DataTable dataTable)
+    {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Diversity");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        maleVsFemaleGenderDropdownChevron().click();
+
+        List<String> maleFemaleGenderOptionsActual = maleVsFemaleGenderDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = maleFemaleGenderOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Male Vs. Female 'Select gender' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+    }
+
+    public void iPinColleges(String numberOfCollegesToPin)
+    {
+        int numOfCollegesToPin = Integer.parseInt(numberOfCollegesToPin);
+        WebElement pinToCompareElement;
+
+        while(numOfCollegesToPin != 0)
+        {
+            try
+            {
+                pinToCompareElement = pinToCompareElement();
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", pinToCompareElement, resultsTableHeader());
+                pinToCompareElement.click();
+                waitForUITransition();
+                numOfCollegesToPin--;
+            }
+            catch(Exception ex)
+            {
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", showMoreButton(), resultsTableHeader());
+                showMoreButton().click();
+            }
+        }
+    }
+
+
+    public void verifyPinnedCollegesClearedWhenYesClearButtonIsClicked()
+    {
+        boolean isPinnedListCleared = true;
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        if(clearPinnedListOption().getAttribute("aria-disabled").equals("false")) {
+            clearPinnedListOption().click();
+            yesClearMyListButton().click();
+        } else {
+            //close the PINNED dropdown
+            pinnedDropdown().click();
+        }
+
+        try {
+            waitUntil(ExpectedConditions.textToBePresentInElement(pinCount(), "0"));
+        } catch (Exception ex)
+        {
+            isPinnedListCleared = false;
+        }
+
+        Assert.assertTrue("The pinned list is not cleared", isPinnedListCleared);
+
+    }
+
+    public void verifyErrorMessageDisplayedOnPinning26thCollege() {
+
+        Assert.assertTrue("'Only allowed to pin 25 schools' error message is not displayed", maxTwentyFivePinnedSchoolsAllowedErrorMessage().isDisplayed());
+
+    }
+
+    public void setCostCriteria(DataTable dataTable)
+    {
+        Map<String, String> map = dataTable.asMap(String.class, String.class);
+        chooseFitCriteriaTab("Cost");
+        for (String key : map.keySet()) {
+            switch (key) {
+                case "Radio":
+                    selectRadioButton(map.get(key));
+                    break;
+                case "Maximum Cost":
+                    selectOptionInMaximumCostDropdown(map.get(key));
+                    break;
+                case "Home State":
+                    selectOptionInHomeStateDropdown(map.get(key));
+                    break;
+                case "Family Income":
+                    selectOptionInFamilyIncomeDropdown(map.get(key));
+                    break;
+            }
+        }
+
+        closeButtonForFitCriteria().click();
+    }
+
+    public void verifyDataInCostCriteria(DataTable dataTable)
+    {
+        Map<String, String> map = dataTable.asMap(String.class, String.class);
+        chooseFitCriteriaTab("Cost");
+        for (String key : map.keySet()) {
+            switch (key) {
+                case "Family Income":
+                    Assert.assertTrue("The option selected in Family Income dropdown is not correct",
+                            familyIncomeDropdown().findElement(By.xpath("./div[contains(@class,'text')]")).getText().equals(map.get(key)));
+                    break;
+            }
+        }
+
+        closeButtonForFitCriteria().click();
+    }
+
+    public void selectOptionInMaximumCostDropdown(String option)
+    {
+        maximumCostDropdown().findElement(By.xpath("./i")).click();
+        maximumCostDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+    public void selectOptionInHomeStateDropdown(String option)
+    {
+        homeStateDropdown().findElement(By.xpath(".//div[contains(@class, 'text')]")).click();
+        homeStateDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+    public void selectOptionInFamilyIncomeDropdown(String option)
+    {
+        familyIncomeDropdown().findElement(By.xpath("./div[contains(@class,'text')]")).click();
+        familyIncomeDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
 
 
     // Locators Below
@@ -1552,9 +1808,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//label[text()='Include online learning opportunities']" +
                 "//ancestor::div[@class='column']//i[@class='teal info circle icon']"));
     }
-    private WebElement firstOnboardingPopup() {
-        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
-    }
 
     private WebElement selectMilesDropdown() {
         return driver.findElement(By.id("supermatch-location-miles-dropdown"));
@@ -1620,9 +1873,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
-    private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
-
     private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
+
+    private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
 
     public WebElement profilePageCollegeName() { return driver.findElement(By.cssSelector("h1.masthead__name.ng-binding")); }
 
@@ -1634,15 +1887,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement whyDrawerAcademicMatchLink() { return driver.findElement(By.cssSelector("div.column em a.result-row-decription-label")); }
 
-    private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
-
     private WebElement backToTopButton() { return driver.findElement(By.cssSelector("button[aria-roledescription=\"Back to top\"]")); }
 
     private WebElement pinnedFooterOption() { return driver.findElement(By.cssSelector("div#pinCount + span")); }
 
     private WebElement comparePinnedCollegesLink() { return driver.findElement(By.cssSelector("div#supermatch-pinned-compare-colleges-link span")); }
-
-    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../a/span"; }
 
     private WebElement saveSearchPopupCancelLink() { return driver.findElement(By.xpath(saveSearchPopupCancelLinkLocator)); }
 
@@ -1668,7 +1917,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement admissionInfoResultTableIcon(){ return driver.findElement(By.xpath("//span[contains(text(), 'Admission Info')]/../i")); }
 
-    private String spinnerLocator = "button[disabled]";
+    private WebElement firstOnboardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
 
     private WebElement fitScoreColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(2)")); }
 
@@ -1687,6 +1938,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement ACTValidationMessageElement() {
         return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
+
+    private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
+
+    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../a/span"; }
+
+    private WebElement singleCostValue(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/../../../../td[@class = 'sm-hidden-xl-down csr-data-points']/div/p/span[@class = 'cost-text']")); }
+
+    private String noGPANoScoresFootnoteLocator = "div.academic-match-instructions";
+
+    private String spinnerLocator = "div.ui.active.loader";
+
+    private WebElement collegeFootnote(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/../../../../td[@class = 'sm-hidden-m-down csr-data-points']/div/div/span")); }
+
+    private String showMoreSpinnerLocator = "button.ui.teal.basic.loading.disabled.button.supermatch-pagination-btn";
+
+    private WebElement navianceLogo() { return driver.findElement(By.cssSelector("img[alt=\"Naviance\"]")); }
 
     /**
      * Returns the search by college name textbox
@@ -1728,6 +1995,101 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchByCollegeNameNoResultFoundMessage(){
         return driver.findElement(
                 By.xpath("//div[@id='supermatch-search-college-by-name-results']/div[@role='listitem']"));
+    }
+
+    private String startOverButtonLocator = "button.ui.teal.basic.button.supermatch-start-over-button:not(.disabled)";
+
+    private WebElement maleVsFemaleSectionHeader() {
+        return getDriver().findElement(By.xpath("//div[@class='ui tiny header']/span[text()='% Male Vs. Female']"));
+    }
+
+    private WebElement maleVsFemaleSectionWrapper() {
+        return getDriver().findElement(By.xpath("(//div[@class='supermatch-religious-affiliation-wrapper'])[2]"));
+    }
+
+    private WebElement maleVsFemalePercentDropdownDefaultOption() {
+        return getDriver().findElement(By.xpath("//div[@id='male-female-percent-dropdown']/div[@class='default text']"));
+    }
+
+    private WebElement maleVsFemaleGenderDropdownDefaultOption() {
+        return getDriver().findElement(By.xpath("//div[@id='male-female-gender-dropdown']/div[@class='default text']"));
+    }
+
+    private WebElement maleVsFemalePercentDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='male-female-percent-dropdown']/i"));
+    }
+
+    private List<WebElement> maleVsFemalePercentDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='male-female-percent-dropdown']//span"));
+    }
+
+    private WebElement maleVsFemaleGenderDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='male-female-gender-dropdown']/i"));
+    }
+
+    private List<WebElement> maleVsFemaleGenderDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='male-female-gender-dropdown']//span"));
+    }
+
+    private WebElement startOverButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button.supermatch-start-over-button")); }
+
+    private WebElement yesStartOverLink() { return driver.findElement(By.cssSelector("div.actions button:not([default=''])")); }
+
+    private WebElement noCancelLink() { return driver.findElement(By.cssSelector("div.actions button[default='']")); }
+
+    private WebElement pinnedDropdown() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'supermatch-pinned-dropdown')]"));
+    }
+
+    private WebElement pinToCompareElement() {
+        return getDriver().findElement(By.xpath("(//span[text()='PIN TO COMPARE'])"));
+    }
+
+    private WebElement resultsTableHeader() {
+        return getDriver().findElement(By.xpath("//tr[@class='search-results-header-row']"));
+    }
+
+    private WebElement clearPinnedListOption() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Clear Pinned List')]//ancestor::div[1]"));
+    }
+
+    private WebElement clearPinnedListModal() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'visible active supermatch-modal')]"));
+    }
+
+    private WebElement yesClearMyListButton() {
+        return clearPinnedListModal().findElement(By.xpath(".//button[text()='YES, CLEAR MY LIST']"));
+    }
+
+    private WebElement noDontClearMyListButton() {
+        return clearPinnedListModal().findElement(By.xpath(".//button[text()='NO, CANCEL']"));
+    }
+
+    private WebElement pinCount() {
+        return getDriver().findElement(By.id("pinCount"));
+    }
+
+    private WebElement maxTwentyFivePinnedSchoolsAllowedErrorMessage() {
+        return getDriver().findElement(By.xpath("//span[text()='You have reached your maximum of 25 pinned schools. Remove a pinned school to add a new one.']"));
+    }
+
+    private WebElement GPAValidationMessageElement() {
+        return gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
+    }
+
+    private WebElement maximumCostDropdown()
+    {
+        return getDriver().findElement(By.xpath("//div[@id='cost-maximum']"));
+    }
+
+    private WebElement homeStateDropdown()
+    {
+        return getDriver().findElement((By.xpath("//div[contains(@class, 'supermatch-menu-cost-homestate')]")));
+    }
+
+    private WebElement familyIncomeDropdown()
+    {
+        return getDriver().findElement((By.xpath("//div[@id='cost-family-income-dropdown']")));
     }
 
 }
