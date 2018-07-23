@@ -34,6 +34,7 @@ import utilities.GetProperties;
 
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.fail;
+import static pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -3085,6 +3086,101 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
+        navBar.goToRepVisits();
+//        waitUntilPageFinishLoading();
+        link("College Fairs").click();
+        waitUntilPageFinishLoading();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
+//            waitUntilPageFinishLoading();
+        }
+        driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+FairName+"']/parent::tr/td/a[span='View Details']")).click();
+
+    }
+
+    public void goToReassignAppointment(){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        link("Re-assign appointments").click();
+    }
+
+    public void reassignAppointmentsVerification(String option){
+
+        if (option.contains("Community, PurpleHE"))
+        {
+            waitUntilPageFinishLoading();
+            waitUntilElementExists( staffForReassign());
+            staffForReassign().click();
+            //Verify item of the Staff Member
+            Assert.assertTrue("Item was not displayed!", driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
+            //Select the item
+            driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
+            waitUntilPageFinishLoading();
+            waitUntilElementExists(driver.findElement(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")));
+            //Verify item of the Staff Member
+            Assert.assertTrue("No message was displayed for the appointment", driver.findElement(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")).isDisplayed());
+            buttonGoBack().click();
+        }
+        else {
+
+            waitUntilPageFinishLoading();
+            waitUntilElementExists(staffForReassign());
+            staffForReassign().click();
+            //Verify item of the Staff Member
+            Assert.assertTrue("Item was not displayed!", driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
+            //Select the item
+            driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
+            waitUntilPageFinishLoading();
+            waitUntilElementExists(driver.findElement(By.xpath("//label[contains(text(), 'Select all')]")));
+            //Capturing the counter
+            String items= driver.findElement(By.xpath("//label[contains(text(), 'Select all')]")).getText();
+            String[] parts = items.split(" ");
+            String count = parts[2];
+            String countNumber = count.replaceAll("[^a-zA-Z0-9\\\\s+]", "");
+            int counter = Integer.parseInt(countNumber);
+            //Verify that agenda is displayed below to Select staff label area
+            waitUntilElementExists(agendaIsDisplayed());
+            Assert.assertTrue("The Agenda was not displayed!", agendaIsDisplayed().isDisplayed());
+            //Verify "Showing all of" appointments
+            Assert.assertTrue("Showing all was not displayed", driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]")).isDisplayed());
+            //Verify "Select all" count
+            Assert.assertTrue("Select all count was not displayed", driver.findElement(By.xpath("//label[contains(text(), 'Select all (" + counter +")')]")).isDisplayed());
+            //Verify "SHOW MORE" button
+            if (counter > 25) {
+                Assert.assertTrue("Button SHOW MORE was not displayed", buttonShowMore().isDisplayed());
+                //Verify "Showing" word in the UI
+                Assert.assertTrue("Showing was not displayed", driver.findElement(By.xpath("//p[contains(text(), 'Showing')]")).isDisplayed());
+            }
+
+            waitUntilPageFinishLoading();
+            waitUntilElementExists( staffForReassign());
+            staffForReassign().click();
+            //Select the item
+            driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
+            //Verify Select all is possible to do
+            driver.findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
+            //Un selecting  action
+            driver.findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
+            //Selecting one item and verifying the counter increased
+            driver.findElement(By.xpath("(//input[@type='checkbox'])[last()-1]")).click();
+            //Un selecting  action
+            Assert.assertTrue("No changed the number of items in the button",  driver.findElement(By.xpath("//button[contains(text(), 'Reassign 1 Appointments')]")).isDisplayed());
+        }
+    }
+
+
+
+    //Locators
+    private WebElement staffForReassign(){
+        waitUntilPageFinishLoading();
+        return  driver.findElement(By.cssSelector("div[role='alert']"));
+    }
+
+    private WebElement agendaIsDisplayed(){
+        return driver.findElement(By.cssSelector("div[class='_2gJHeLgeouIqly4xt-Bv2C']"));
+    }
+
     private WebElement accountSettings(String accountSettings)
     {
         WebElement label= driver.findElement(By.xpath("//span[text()='"+accountSettings+"']"));
@@ -3541,7 +3637,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getUpgradeButton(){
         return driver.findElement(By.cssSelector("button[class='ui button _3A-KkdzsiqhORmN0RiEGSO']"));
     }
-      private WebElement agendaButton(){
+    private WebElement buttonShowMore(){
+        return button("SHOW MORE");
+    }
+
+    private WebElement buttonGoBack(){
+        return  button("GO BACK");
+    }
+        private WebElement agendaButton(){
         return driver.findElement(By.xpath("//button[@title='Agenda']"));
     }
     private WebElement getStartDateInAgenda(){

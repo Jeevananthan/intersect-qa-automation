@@ -381,6 +381,12 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I verify the data for the following fair$",repVisits::verifyCollegeFairOnList);
 
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
+
+        Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
+
         Then("^HE I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
 
         Then("^HE I verify the message \"([^\"]*)\" is displaying in the \"([^\"]*)\" page$",repVisits::verifyAgendaPageForFreemium);
