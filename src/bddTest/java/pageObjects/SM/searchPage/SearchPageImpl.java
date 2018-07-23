@@ -716,7 +716,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (String score : scores) {
             actScoreTextBox().clear();
             actScoreTextBox().sendKeys(score);
-            Assert.assertTrue(ACTValidationMessageElement().getText().contains("ACT value must be a number between 1 and 36"));
+            waitUntil(ExpectedConditions.textToBe(By.cssSelector(".supermatch-error-text"),"ACT value must be a number between 1 and 36"));
         }
 
     }
