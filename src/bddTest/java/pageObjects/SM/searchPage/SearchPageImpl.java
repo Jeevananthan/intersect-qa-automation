@@ -562,8 +562,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         List<String> scores = dataTable.asList(String.class);
 
-        if (firstOnboardingPopup().isDisplayed())
-            superMatchCollegeSearchHeader().click();
 
         if (!admissionMenuItem().getAttribute("class").contains("active")) {
             admissionMenuItem().click();
@@ -572,8 +570,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (String score : scores) {
             gpaTextBox().clear();
             gpaTextBox().sendKeys(score);
-            // This field has a 2 second timeout before validation, so we need to wait for that.
-            waitForUITransition();
             Assert.assertFalse(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
         }
     }
@@ -589,9 +585,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (String score : scores) {
             gpaTextBox().clear();
             gpaTextBox().sendKeys(score);
-            // This field has a 2 second timeout before validation, so we need to wait for that.
-            waitForUITransition();
-            Assert.assertTrue(GPAValidationMessageElement().getText().contains("GPA value must be a number between 0.1 and 4"));
+            waitUntil(ExpectedConditions.textToBe(By.cssSelector(".supermatch-error-text"),"GPA value must be a number between 0.1 and 4"));
         }
     }
 
