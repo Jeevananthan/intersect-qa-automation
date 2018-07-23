@@ -146,6 +146,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
+        Then("^SM I verify that \"([^\"]*)\" displays \"([^\"]*)\" in the Cost column$", searchPage::verifySingleValueInCostColumn);
+
+        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
+
         Then("^SM I verify the footnote for no GPA and no other scores, with the text:$", searchPage::verifyFootnoteNoGPANoScores);
 
         Then("^SM I verify the footnote for known GPA but unknown test scores for \"([^\"]*)\", with the text:$", searchPage::verifyFootnoteGPANoScores);
@@ -153,8 +157,6 @@ public class SearchPageStepDefs implements En {
         And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
 
         And("^SM I pin \"([^\"]*)\" if it is not pinned already$", searchPage::pinCollegeIfNotPinnedAlready);
-
-        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
 
         Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
 
@@ -180,6 +182,8 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the options displayed in the Select Gender dropdown$", searchPage::verifyOptionsInSelectGenderDropdown);
 
+        And("^SM I start the search over$", searchPage::startSearchOver);
+
         And("^SM I pin \"([^\"]*)\" colleges$", searchPage::iPinColleges);
 
         And("^SM I clear pinned schools list$", searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
@@ -191,8 +195,5 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify the following data in the Cost Fit Criteria$", searchPage::verifyDataInCostCriteria);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
-
-        And("^SM I start the search over$", searchPage::startSearchOver);
-
     }
 }
