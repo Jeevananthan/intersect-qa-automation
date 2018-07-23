@@ -3129,7 +3129,54 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Vrifies if the given button is displayed for the travel plan schools
+     * @param buttonText
+     * @param status
+     * @param appointmentsLabel
+     */
+    public void verifyViewButtonForTravelPlanSchools(String buttonText, String status, String appointmentsLabel){
+        navigateToRepVisitsSection("Travel Plan");
+        List<WebElement> schoolRow = driver.findElements(By.xpath(String.format(
+                "//span[text()='%s']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']",appointmentsLabel)));
+        for(WebElement school:schoolRow){
+            if(status.equalsIgnoreCase("is displayed")){
+                Assert.assertTrue(String.format("The %s button is not displayed for an school with %s",
+                        buttonText,appointmentsLabel),school.findElement(By.xpath(String.format(
+                        "descendant::span[text()='%s']",buttonText))).isDisplayed());
 
+            } else{
+                if(status.equalsIgnoreCase("is not displayed")){
+                    Assert.assertTrue(String.format("The %s button is displayed for an school with %s",
+                            buttonText,appointmentsLabel),school.findElements(By.xpath(String.format(
+                            "descendant::span[text()='%s']",buttonText))).size()==0);
+                } else{
+                    Assert.fail("The status of the button is not correct");
+                }
+            }
+        }
+    }
+
+    /**
+     * Verifies the appointments in travel plan page
+     * @param type
+     */
+    public void verifySchoolAppointmentsInTravelPlan(String type){
+        List<WebElement> appointmentLabels = null;
+        switch (type.toLowerCase()){
+            case "past":
+                appointmentLabels = getPastAppointmentsLabelsInTravelPlan();
+                break;
+            case "upcoming":
+                appointmentLabels = getUpcomingAppointmentsLabelsInTravelPlan();
+        }
+        for(WebElement appointmentLabel : appointmentLabels){
+            List<WebElement> appointments = appointmentLabel.findElements(
+                    By.xpath("//ancestor::div[@role='listitem']/following-sibling::div[@role='listitem']/div"));
+            Assert.assertTrue("There is not any appoiment for past/upcoming appointments",
+                    appointmentLabels.size()>0);
+        }
+    }
 
     //Locators
     private WebElement staffForReassign(){
@@ -3605,6 +3652,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement buttonGoBack(){
         return  button("GO BACK");
+    }
+
+    /**
+     * Gets the past appointments label in travel plan page
+     * @return webelement
+     */
+    private List<WebElement> getPastAppointmentsLabelsInTravelPlan(){
+        return driver.findElements(By.xpath("//span[contains(text(),'Past Appointments')]"));
+    }
+
+    /**
+     * Gets the upcoming appointments label in travel plan page
+     * @return webelement
+     */
+    private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
+        return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
     }
 }
 

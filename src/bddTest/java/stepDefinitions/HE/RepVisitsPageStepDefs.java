@@ -387,6 +387,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
 
+        And("^HE I verify the \"([^\"]*)\" button \"([^\"]*)\" for schools with \"([^\"]*)\"$",repVisits::verifyViewButtonForTravelPlanSchools);
+
+        And("^HE I verify the \"([^\"]*)\" appointments for schools in travel plan$",repVisits::verifySchoolAppointmentsInTravelPlan);
 
     }
 }
