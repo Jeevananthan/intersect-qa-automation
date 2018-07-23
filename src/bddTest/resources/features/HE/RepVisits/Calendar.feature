@@ -8,6 +8,6 @@ Feature: HE - RepVisits - Calendar - As an HE user I want to use the RepVisits C
   user to another user.
     Given HE I want to login to the HE app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
     When HS I go to re assign appointments
-    Then HS I verify UI components with the option "Viscarra, Mauricio" in the drop down action
+    Then HS I verify UI components with the option "Publishing, PurpleHE" in the drop down action
     Then HS I verify UI components with the option "Community, PurpleHE" in the drop down action
     And HE I successfully sign out
