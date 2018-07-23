@@ -294,3 +294,25 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify the following data in the Cost Fit Criteria
       |Family Income|$75,001 - $110,000|
 
+  @MATCH-3589
+  Scenario: Verify the checkboxes in the College Type fit criteria
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify that "Public" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Private" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I unselect the "Public" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that "Public" checkbox is "unselected" in "Institution Characteristics" fit criteria
+    Then SM I select the "Public" checkbox from "Institution Characteristics" fit criteria
+    Then SM I verify that "Public" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I unselect the "Private" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that "Private" checkbox is "unselected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "unselected" in "Institution Characteristics" fit criteria
+    Then SM I select the "Private" checkbox from "Institution Characteristics" fit criteria
+    Then SM I verify that "Private" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I unselect the "Show only non-profit" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that "Private" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "unselected" in "Institution Characteristics" fit criteria
+    Then SM I select the "Show only non-profit" checkbox from "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
+

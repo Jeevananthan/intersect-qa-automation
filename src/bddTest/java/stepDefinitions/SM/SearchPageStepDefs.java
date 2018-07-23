@@ -195,5 +195,7 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify the following data in the Cost Fit Criteria$", searchPage::verifyDataInCostCriteria);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
+
+        And("SM I verify that \"([^\"]*)\" checkbox is \"([^\"]*)\" in \"([^\"]*)\" fit criteria", searchPage::verifyCheckboxState);
     }
 }
