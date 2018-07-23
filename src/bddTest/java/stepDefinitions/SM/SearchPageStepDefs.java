@@ -198,5 +198,13 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I clear all pills from Must have  and Nice to have boxes$", searchPage::clearAllPillsFromMustHaveAndNiceToHaveBox);
 
+        And("^SM I press button \"([^\"]*)\"$", searchPage::pressButton);
+
+        And("^SM I pick \"([^\"]*)\" from the dropdown \"([^\"]*)\"$", searchPage::pickFromDropdown);
+
+        And("^SM I press Why button for the first college in results with score (\\d+)%$", searchPage::pressWhyForCollegeWithScore);
+
+        And("^SM I press Why button for \"([^\"]*)\" college$", searchPage::pressWhyButtonForCollege);
+
     }
 }
