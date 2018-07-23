@@ -150,8 +150,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3212
   Scenario: As a HS student I want a way to clear all my fit criteria I have currently selected so I can quickly start my search over again.
-    #Given SM I am logged in to SuperMatch through Family Connection
-    Given SM I am logged in to SuperMatch through Family Connection as user "gauriparent1" with password "password" from school "blue1combo"
+    Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I start the search over
     Then SM I verify that the Start Over button is disabled
