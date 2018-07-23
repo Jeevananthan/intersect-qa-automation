@@ -534,7 +534,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the city and state \"([^\"]*)\" are present in the underneath of Institiution Name \"([^\"]*)\" in the Activity Tab for Fairs$",repVisits::verifyCityAndStateInActivitysubTabforFairs);
 
-        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+//        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
         Then("^HS I verify I can make it through the RepVisits wizard as a non-Naviance HS$", repVisits::verifyRepvisitsSetupWizardNonNaviance);
 
@@ -606,5 +606,18 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
+        Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
+
+        And("^HS I click on the Save Settings button in College Fairs tab$",repVisits::clickSaveSettingsButtonInCollegeFairsTab);
+
+        And("^HS I verify that a banner appears letting me know that College Fair settings were saved$",repVisits::verifySettingsSavedBannerIsDislayedInCollegeFairsTab);
+
+        Then("^HS I Click the \"([^\"]*)\" button for the attendee \"([^\"]*)\"$",repVisits::accessListoffairAttendees);
+
+        Then("^HS I verify the \"([^\"]*)\",\"([^\"]*)\" buttons are present in the Fairs tab$",repVisits::verifyButtonsInFairs);
+
+        Then("^HS I select \"([^\"]*)\" option for \"([^\"]*)\"$",repVisits::selectOptionInFairs);
+
+        Then("^HS I verify the DECLINE pop-up for \"([^\"]*)\",\"([^\"]*)\" in Fairs$",repVisits::verifyDeclinePopupInFairs);
     }
 }

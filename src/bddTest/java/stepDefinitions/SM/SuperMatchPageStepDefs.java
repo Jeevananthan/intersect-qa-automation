@@ -34,6 +34,8 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that \"([^\"]*)\" is displayed as selected option in the Saved Searches dropdown$", fcSuperMatch::verifySelectedOption);
 
+        And("^SM I select the \"([^\"]*)\" option from the \"([^\"]*)\" dropdown in Cost$", fcSuperMatch::selectOptionInDropdown);
+
         Then("^SM I create fifteen different save search from Resources tab$", fcSuperMatch::createFifteenSaveSearch);
 
         And("^SM I validate the error message \"([^\"]*)\"$", fcSuperMatch::verifySaveSearchMessage);
@@ -42,6 +44,15 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that the appropriate wording is used for dropdowns of the following options:$", fcSuperMatch::verifyDropdownsWordingInCost);
 
+        Then("^SM I create a save search \"([^\"]*)\" by selecting \"([^\"]*)\" from Resources tab$", fcSuperMatch::createOneSaveSearch);
+
+        Then("^SM I check the delete icon in save search \"([^\"]*)\"$", fcSuperMatch::checkDeleteIconInSaveSearch);
+
+        Then("^SM After clicking \"([^\"]*)\" delete icon I check the confirmation popup message$", fcSuperMatch::verifySaveSearchDeleteConfirmationPopup);
+
+        And("^SM I check clicking outside will close the \"([^\"]*)\" popup message$",fcSuperMatch::verifyClickOutsideClosePopup);
+
+        And("^SM I delete the save search \"([^\"]*)\" and verify it$",fcSuperMatch::deleteSaveSearch);
 
     }
 }
