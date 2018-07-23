@@ -606,9 +606,22 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
+        Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
+
+        And("^HS I click on the Save Settings button in College Fairs tab$",repVisits::clickSaveSettingsButtonInCollegeFairsTab);
+
+        And("^HS I verify that a banner appears letting me know that College Fair settings were saved$",repVisits::verifySettingsSavedBannerIsDislayedInCollegeFairsTab);
+
+        Then("^HS I Click the \"([^\"]*)\" button for the attendee \"([^\"]*)\"$",repVisits::accessListoffairAttendees);
+
+        Then("^HS I verify the \"([^\"]*)\",\"([^\"]*)\" buttons are present in the Fairs tab$",repVisits::verifyButtonsInFairs);
+
+        Then("^HS I select \"([^\"]*)\" option for \"([^\"]*)\"$",repVisits::selectOptionInFairs);
+
+        Then("^HS I verify the DECLINE pop-up for \"([^\"]*)\",\"([^\"]*)\" in Fairs$",repVisits::verifyDeclinePopupInFairs);
+      
         Then("^HS I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
 
         Then("^HS I verify the user cannot access Agenda view$",repVisits::verifyUserCannotAccessAgendaView);
-
     }
 }
