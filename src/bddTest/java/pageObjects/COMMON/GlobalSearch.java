@@ -432,12 +432,13 @@ public class GlobalSearch extends SeleniumBase {
     public void verifySearchDropBoxResultsActionable(String searchRequest){
         waitUntilPageFinishLoading();
         logger.info("Verifying search dropdown results are clickable/actionable.");
+        String searchPageURL = driver.getCurrentUrl();
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
         selectResult(searchRequest);
         waitUntilPageFinishLoading();
-        String url = driver.getCurrentUrl();
-        Assert.assertEquals("Real-time search option was not clickable/actionable","https://qa-hs.intersect.hobsons.com/community/profile/1",url);
+        String searchResultsURL = driver.getCurrentUrl();
+        Assert.assertNotEquals("Real-time search option was not clickable/actionable",searchPageURL,searchResultsURL);
     }
 
     public void VerifyUserSearchDefaultPage(){
