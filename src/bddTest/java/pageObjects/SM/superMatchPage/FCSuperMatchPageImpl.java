@@ -20,6 +20,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSMTooltipsContent%sSMTooltipsContent.properties",fs ,fs ,fs ,fs ,fs);
+    private static String startOverPopupPropertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sStartOverPopupContent%sStartOverPopupContent.properties",fs ,fs ,fs ,fs ,fs);
 
     public FCSuperMatchPageImpl() {
         logger = Logger.getLogger(FCSuperMatchPageImpl.class);
@@ -286,6 +287,39 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The option was not selected", selectedOption().getText().equals(selectedOption));
     }
 
+    public void verifyStartOverButtonDisabled() {
+        Assert.assertTrue("The Start Over button is not disabled", disabledStartOverButton().isDisplayed());
+    }
+
+    public void verifyStartOverPopupContent() {
+        waitUntilPageFinishLoading();
+        enabledStartOverButton().click();
+        Assert.assertTrue("The title in the Start Over popup is incorrect", startOverPopupTitle().getText().
+                equals(getStringFromPropFile(startOverPopupPropertiesFilePath, "start.over.popup.title")));
+        Assert.assertTrue("The text body in the Start Over popup is incorrect", startOverTextBody().getText().
+                equals(getStringFromPropFile(startOverPopupPropertiesFilePath, "start.over.popup.text.body")));
+        Assert.assertTrue("The text in the 'Yes' button is incorrect", startOverYesButton().getText().
+                equals(getStringFromPropFile(startOverPopupPropertiesFilePath, "start.over.popup.yes.button")));
+        Assert.assertTrue("The text in the 'No' button is incorrect", startOverNoButton().getText().
+                equals(getStringFromPropFile(startOverPopupPropertiesFilePath, "start.over.popup.no.button")));
+    }
+
+    public void verifyResultsAfterCancelButton() {
+        startOverNoButton().click();
+        Assert.assertTrue("The results are not displayed after clicking 'No, Cancel', in the Start Over popup",
+                yourResultsHeader().isDisplayed());
+    }
+
+    public void clickStartOverButton() {
+        enabledStartOverButton().click();
+    }
+
+    public void verifyFitCriteriaRemovedAfterStartOverButton() {
+        startOverYesButton().click();
+        Assert.assertTrue("The results are not removed after clicking the 'TYes, start over' button",
+                noResultsYetHeader().isDisplayed());
+    }
+
     public void selectOptionInDropdown(String maxCost, String costOption) {
         tabOption("Cost").click();
         costOption(costOption).click();
@@ -444,6 +478,14 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String savedSearchesListLocator = "div.menu.transition.visible div span";
     private WebElement getSavedSearchesDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']")); }
     private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }
+    private WebElement disabledStartOverButton() { return driver.findElement(By.cssSelector("div.supermatch-save-search-buttons button.supermatch-start-over-button[disabled]")); }
+    private WebElement enabledStartOverButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button.supermatch-start-over-button")); }
+    private WebElement startOverPopupTitle() { return driver.findElement(By.cssSelector("div.header")); }
+    private WebElement startOverTextBody() { return driver.findElement(By.cssSelector("div.header + div.content")); }
+    private WebElement startOverYesButton() { return driver.findElement(By.cssSelector("div.header + div.content + div button:nth-of-type(1)")); }
+    private WebElement startOverNoButton() { return driver.findElement(By.cssSelector("div.header + div.content + div button:nth-of-type(2)")); }
+    private WebElement yourResultsHeader() { return driver.findElement(By.cssSelector("span.csr-your-results-header")); }
+    private WebElement noResultsYetHeader() { return driver.findElement(By.cssSelector("h3.heading")); }
     private WebElement gpaTextBlock() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.content div")); }
     private WebElement admissionTooltipText() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.content")); }
     private WebElement getSaveSearchDisableMenu(){ return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
@@ -460,5 +502,4 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement mustHaveMatchLegend() { return driver.findElement(By.cssSelector("div.column.supermatch-sidebar-criteria-list-column h3.supermatch-sidebar-criteria-list-title + div p")); }
     private WebElement niceToHaveMatchLegend() { return driver.findElement(By.cssSelector("div.row.supermatch-sidebar-criteria-list-row div:nth-of-type(2).column p")); }
     private String spinnerLocator = "div.ui.active.loader";
-
 }
