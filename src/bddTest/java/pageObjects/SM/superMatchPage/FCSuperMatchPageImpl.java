@@ -264,8 +264,10 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySaveSearchButtonDisabled() {
-        System.out.println("Control: " + saveSearchButton().getAttribute("tabindex").equals("-1"));
-        Assert.assertTrue("The Save Search button is enabled when it shouldn't", saveSearchButton().getAttribute("tabindex").equals("-1"));
+        if (!(searchPage.getAllPillsCloseIcon().size()>0)) {
+            System.out.println("Control: " + saveSearchButton().getAttribute("tabindex").equals("-1"));
+            Assert.assertTrue("The Save Search button is enabled when it shouldn't", saveSearchButton().getAttribute("tabindex").equals("-1"));
+        }
     }
 
     public void verifySavedSearchInDropdown(String savedSearch) {
@@ -329,33 +331,49 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         tabOption("Cost").click();
     }
 
-    public void createFifteenSaveSearch(){
+    public void createTotalFifteenSaveSearch(){
+        String chooseOne = getChooseOneWebElement().getAttribute("aria-disabled");
+        int totalSaveSearchExist=0;
+        if (chooseOne.equals("true")) {
+            createSpecificSaveSearch(totalSaveSearchExist);
+        }else {
+            getChooseOneWebElement().click();
+            totalSaveSearchExist = allSaveSearchOptions().size()-1;
+            createSpecificSaveSearch(totalSaveSearchExist);
+        }
+    }
 
+    public void createSpecificSaveSearch(int totalSaveSearchExist){
         String resourcesOptions[] = {"Learning Differences Support","Academic/Career Counseling","Counseling Services",
                 "Tutoring Services","Remedial Services","ESL/ELL Services","Physical Accessibility",
                 "Services for the Blind or Visually Impaired","Services for the Deaf and Hard of Hearing",
                 "Asperger's/Autism Support","Day Care Services"};
         int counter = 1;
-        if (getSaveSearchDisableMenu().isDisplayed()){
-            for (String res: resourcesOptions) {
-                searchPage.setResourcesCriteria(res);
-                clickSaveSearchButton();
-                searchPage.saveSearchWithName("Search" + counter);
-                searchPage.verifyConfirmationMessage();
-                verifySavedSearchInDropdown("Search" + counter);
-                counter++;
-                searchPage.unsetResourcesCriteria(res);
-            }
-            searchPage.setResourcesCriteria("Learning Differences Support");
-            String resourcesOptionTwo[] = {"Academic/Career Counseling", "Counseling Services", "Tutoring Services", "Remedial Services"};
-            for (String resTwo : resourcesOptionTwo) {
-                searchPage.setResourcesCriteria(resTwo);
-                clickSaveSearchButton();
-                searchPage.saveSearchWithName("Search" + counter);
-                searchPage.verifyConfirmationMessage();
-                verifySavedSearchInDropdown("Search" + counter);
-                counter++;
-            }
+        int saveSearchNeedToCreate = 15-totalSaveSearchExist;
+        for (String res: resourcesOptions) {
+            if (saveSearchNeedToCreate==0)
+                break;
+            searchPage.setResourcesCriteria(res);
+            clickSaveSearchButton();
+            searchPage.saveSearchWithName("Search" + counter);
+            searchPage.verifyConfirmationMessage();
+            verifySavedSearchInDropdown("Search" + counter);
+            counter++;
+            searchPage.unsetResourcesCriteria(res);
+            saveSearchNeedToCreate--;
+        }
+        searchPage.setResourcesCriteria("Learning Differences Support");
+        String resourcesOptionTwo[] = {"Academic/Career Counseling", "Counseling Services", "Tutoring Services", "Remedial Services"};
+        for (String resTwo : resourcesOptionTwo) {
+            if (saveSearchNeedToCreate==0)
+                break;
+            searchPage.setResourcesCriteria(resTwo);
+            clickSaveSearchButton();
+            searchPage.saveSearchWithName("Search" + counter);
+            searchPage.verifyConfirmationMessage();
+            verifySavedSearchInDropdown("Search" + counter);
+            counter++;
+            saveSearchNeedToCreate--;
         }
     }
 
@@ -502,4 +520,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement mustHaveMatchLegend() { return driver.findElement(By.cssSelector("div.column.supermatch-sidebar-criteria-list-column h3.supermatch-sidebar-criteria-list-title + div p")); }
     private WebElement niceToHaveMatchLegend() { return driver.findElement(By.cssSelector("div.row.supermatch-sidebar-criteria-list-row div:nth-of-type(2).column p")); }
     private String spinnerLocator = "div.ui.active.loader";
+    private WebElement getChooseOneWebElement(){ return driver.findElement(By.xpath("//b[contains(text(),'Saved Searches')]/../div"));}
+    private List<WebElement> allSaveSearchOptions(){ return driver.findElements(By.xpath("//div[@class='menu transition visible']/div[@role='option']"));}
 }
