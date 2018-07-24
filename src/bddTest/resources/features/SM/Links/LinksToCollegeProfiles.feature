@@ -11,7 +11,7 @@ Feature: SM - LinksToCollegeProfiles - As a SuperMatch tool, I need to update th
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
-    Then SM I verify the College Profile page for "Reading Hospital School of Health Sciences" in the following sections:
+    Then SM I verify the College Profile page for "Bowdoin College" in the following sections:
       | Search results         |
       | Why? drawer            |
       | Academic Match section |

@@ -5,8 +5,12 @@ RUN yum -y install maven \
     && mkdir /app
 
 WORKDIR /app
-COPY pom.xml /app
+#COPY pom.xml /app
 
 COPY . /app
+
+ENV APIKey=blankkey
+
+RUN chmod +x /app/docker/run-tests-Nightly.sh
 
 CMD ["/bin/bash", "/app/docker/run-tests-Nightly.sh"]
