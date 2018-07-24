@@ -16,6 +16,8 @@ Feature: Community User - View Private Group Aggregate Feed Content
     Given HE I am logged in to Intersect HE as user type "administrator"
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     And I am sure that user is a member of the private group
+    # Community does not behave well when switching between apps and then searching, so you have to search twice.
+    And I search for "**Test Automation** HE Community PRIVATE Group" group
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     Then I check if I can see post with text "**Test Automation** HE Community PRIVATE Group post."
 

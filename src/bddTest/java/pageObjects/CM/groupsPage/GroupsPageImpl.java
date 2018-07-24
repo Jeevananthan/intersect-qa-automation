@@ -22,9 +22,9 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
 
 
-
-    public GroupsPageImpl()  {
-        logger = Logger.getLogger(GroupsPageImpl.class);}
+    public GroupsPageImpl() {
+        logger = Logger.getLogger(GroupsPageImpl.class);
+    }
 
     LoginPageImpl loginPage = new LoginPageImpl();
     HomePageImpl homePage = new HomePageImpl();
@@ -32,7 +32,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
 
     // Deprecated - use communityFrame from PageObjectFacadeImpl instead.
-    public void iframeEnter()  {
+    public void iframeEnter() {
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
         waitForUITransition();
         logger.info("Entered Community iFrame.");
@@ -97,7 +97,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void deleteCreatedGroup(String grouptodelete) {
         WebElement group = driver.findElement(By.partialLinkText(grouptodelete));
         String grouplink = group.getAttribute("href");
-        String groupid = grouplink.substring(grouplink.lastIndexOf("/")+1);
+        String groupid = grouplink.substring(grouplink.lastIndexOf("/") + 1);
         logger.info(">>>>>>DELETING GROUP WITH ID: " + groupid);
         driver.navigate().to("https://qa-support.intersect.hobsons.com/counselor-community/cp-test/remove-user-group/" + groupid);
         logger.info("The group is deleted.");
@@ -156,7 +156,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void searchForGroup(String groupname){
+    public void searchForGroup(String groupname) {
         waitUntilPageFinishLoading();
         iframeExit();
         textbox(By.id("global-search-box-input")).clear();
@@ -195,18 +195,20 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void makeSureUserIsMemberOfThePrivateGroup() {
         try {
             setImplicitWaitTimeout(1);
-            requestToJoinGroupButton();
             logger.info("User is going to join the group.");
             requestToJoinGroupButton().click();
             homePage.logoutHEDefault();
             waitUntilPageFinishLoading();
             approveRequestToJoinTheGroup();
+            waitUntilPageFinishLoading();
+            loginPage.defaultLoginHE();
             resetImplicitWaitTimeout();
         } catch (NoSuchElementException e) {
             resetImplicitWaitTimeout();
             logger.info("User already joined the group.");
         }
     }
+
 
     public void makeSureUserIsMemberOfThePublicGroup() {
         try {
