@@ -6101,6 +6101,38 @@ public void cancelRgisteredCollegeFair(String fairName){
         return columnId;
     }
 
+    public void clickSaveSettingsButtonInCollegeFairsTab() {
+        button("SAVE SETTINGS").click();
+    }
+
+    public void verifySettingsSavedBannerIsDislayedInCollegeFairsTab() {
+        assertEquals("The 'Settings Saved' banner is not displayed", successBanner().getText(), "Great! You've updated College Fair settings.");
+    }
+    public void verifyButtonsInFairs(String decline,String confirm) {
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Decline button is not displayed",button(decline).isDisplayed());
+        Assert.assertTrue("Confirm button is not displayed",button(confirm).isDisplayed());
+    }
+
+    public void selectOptionInFairs(String option,String fair) {
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Fair name is not displayed",driver.findElement(By.xpath("//div/h1[text()='"+FairName+"']")).isDisplayed());
+        Assert.assertTrue(option+" button is not displayed",button(option).isDisplayed());
+        button(option).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyDeclinePopupInFairs(String institution,String msg) {
+        Assert.assertTrue("Institution is not displayed",driver.findElement(By.xpath("//strong[text()='"+institution+"']")).isDisplayed());
+        Assert.assertTrue("Textbox is not displayed",declineMsgTextBox().isDisplayed());
+        declineMsgTextBox().sendKeys(msg);
+        Assert.assertTrue("Decline button is not displayed",declineButton().isDisplayed());
+        declineButton().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Close button is not displayed",close().isDisplayed());
+        close().click();
+        waitUntilPageFinishLoading();
+    }
 
     /*locators for Messaging Options Page*/
 
@@ -6499,8 +6531,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return button;
     }
 
-    private WebElement close ()
-    {
+    private WebElement close () {
         WebElement button = button("Close");
         return button;
     }
@@ -7465,6 +7496,18 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement editFairsSubmitButton(){
         return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
+    }
+    private WebElement successBanner() {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='aIt5aCQ6cGJhCVYB9NA02']")));
+        return getDriver().findElement(By.xpath("//div[@class='aIt5aCQ6cGJhCVYB9NA02']"));
+    }
+    private WebElement declineMsgTextBox() {
+        WebElement textbox=driver.findElement(By.id("attendee-decline-message"));
+        return  textbox;
+    }
+    private WebElement declineButton() {
+        WebElement button=button("Yes, decline visit");
+        return  button;
     }
 }
 

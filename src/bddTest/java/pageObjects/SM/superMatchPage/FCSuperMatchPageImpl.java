@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
@@ -277,6 +278,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectOptionFromDropdown(String optionName) {
+        openSavedSearchesDropdown();
         getSavedSearchesDropdownOption(optionName).click();
     }
 
@@ -284,6 +286,14 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The option was not selected", selectedOption().getText().equals(selectedOption));
     }
 
+    public void selectOptionInDropdown(String maxCost, String costOption) {
+        tabOption("Cost").click();
+        costOption(costOption).click();
+        waitUntil(ExpectedConditions.elementToBeClickable(maxCostDropdown()));
+        maxCostDropdown().click();
+        maxCostOption(maxCost).click();
+        tabOption("Cost").click();
+    }
 
     public void createFifteenSaveSearch(){
 
@@ -319,6 +329,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         String ActMessage = driver.findElement(By.xpath("//body")).getText();
         Assert.assertTrue("Error message for adding the 16th save search is not displaying.", ActMessage.contains(ExpMessage));
     }
+
     public void openTab(String tabName) {
         tabOption(tabName).click();
     }
@@ -344,12 +355,59 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
+    }
 
+    public void createOneSaveSearch(String saveSearchName, String resourceFitCriteriaOption){
+        searchPage.setResourcesCriteria(resourceFitCriteriaOption);
+        clickSaveSearchButton();
+        searchPage.saveSearchWithName(saveSearchName);
+        searchPage.verifyConfirmationMessage();
+        verifySavedSearchInDropdown(saveSearchName);
+        searchPage.unsetResourcesCriteria(resourceFitCriteriaOption);
+    }
 
+    public void checkDeleteIconInSaveSearch(String saveSearchName){
+        savedSearchesDropdown().click();
+        Assert.assertTrue("For "+saveSearchName+" Save Search, delete icon is not displaying.",saveSearchDeleteIcon(saveSearchName).isDisplayed());
+    }
+
+    public void verifySaveSearchDeleteConfirmationPopup(String saveSearchName){
+        saveSearchDeleteIcon(saveSearchName).click();
+        String headerText = saveSearchDeletePopupHeaderText().getText();
+        Assert.assertTrue("Header text reads 'Are you sure you want to delete: "+saveSearchName+" is not displaying.", headerText.contains("Are you sure you want to delete: "+saveSearchName+"?"));
+        Assert.assertTrue("This will permanently remove this search. message is not displaying.", text("This will permanently remove this search.").isDisplayed());
+        Assert.assertTrue("'YES, DELETE button is not displaying.", button("YES, DELETE").isDisplayed());
+        Assert.assertTrue("''NO, CANCEL button is not displaying.", button("NO, CANCEL").isDisplayed());
+        button("NO, CANCEL").click();
+    }
+
+    public void verifyClickOutsideClosePopup(String saveSearchName){
+        savedSearchesDropdown().click();
+        saveSearchDeleteIcon(saveSearchName).click();
+        new Actions(driver).moveToElement(savedSearchesDropdown()).click().perform();
+    }
+
+    public void deleteSaveSearch(String saveSearchName){
+        savedSearchesDropdown().click();
+        saveSearchDeleteIcon(saveSearchName).click();
+        button("YES, DELETE").click();
+        waitForUITransition();
+        Assert.assertTrue(saveSearchName+ "save search is not deleted.", getDisableChosseOneDropdown().isDisplayed());
+    }
+
+    public void openSavedSearchesDropdown()
+    {
+        waitUntil(ExpectedConditions.attributeToBe(savedSearchesDropdown1(), "aria-disabled", "false"));
+
+        if(savedSearchesDropdown1().getAttribute("aria-expanded").equals("false"))
+            savedSearchesDropdown1().click();
     }
 
     // Locators Below
 
+    private WebElement getDisableChosseOneDropdown(){return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
+    private WebElement saveSearchDeletePopupHeaderText(){return driver.findElement(By.xpath("//div[@class='header']"));}
+    private WebElement saveSearchDeleteIcon(String saveSearchName) { return driver.findElement(By.xpath("//span[text()='"+saveSearchName+"']/../i[//i[@class='trash large icon right floated']]"));}
     private WebElement superMatchBanner() { return driver.findElement(By.cssSelector("div#reBannerContent")); }
     private WebElement superMatchBannerLink() { return driver.findElement(By.cssSelector("div#reBannerContent strong a")); }
     private String superMatchBannerMessage = "Check it out!  We've been working on an updated SuperMatch experience  Click here to try it out";
@@ -382,6 +440,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String tooltipTextBlocksLocator = "div[id*='supermatch-tooltip-'] li";
     private WebElement saveSearchButton() { return driver.findElement(By.cssSelector("div.supermatch-save-search button.ui.teal.basic.button")); }
     private WebElement savedSearchesDropdown() { return driver.findElement(By.cssSelector("div.supermatch-saved-searches div div.text")); }
+    private WebElement savedSearchesDropdown1() {return driver.findElement(By.xpath("//div[@class='supermatch-saved-searches']/div[@role='listbox']"));}
     private String savedSearchesListLocator = "div.menu.transition.visible div span";
     private WebElement getSavedSearchesDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='" + optionName + "']")); }
     private WebElement selectedOption() { return driver.findElement(By.cssSelector("div.ui.pointing.dropdown div.text")); }
@@ -389,6 +448,11 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement admissionTooltipText() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.content")); }
     private WebElement getSaveSearchDisableMenu(){ return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
     private WebElement tabOption(String optionName) { return driver.findElement(By.xpath("//li[text() = '" + optionName + "']")); }
+    private WebElement costOption(String optionName) {
+        return driver.findElement(By.xpath("//label[text() = '" + optionName + "']"));
+    }
+    private WebElement maxCostDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div[role=\"alert\"]")); }
+    private WebElement maxCostOption(String option) { return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div/span[text() = '" + option + "']")); }
     private WebElement maximumTuitionAndFeesOption() { return driver.findElement(By.cssSelector("label[for=\"radio-tuition-0\"]")); }
     private WebElement maximumTotalCostOption() { return driver.findElement(By.cssSelector("label[for=\"radio-includeRoomAndBoardKey-1\"]")); }
     private WebElement defaultLabelInDropdown() { return driver.findElement(By.cssSelector("div#cost-maximum div.default.text")); }

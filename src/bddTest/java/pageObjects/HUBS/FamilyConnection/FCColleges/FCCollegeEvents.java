@@ -157,6 +157,7 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         List<WebElement> listOfEventNames;
         List<String> listOfEventNamesStrings = new ArrayList<>();
         waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(FCCollegeEventsPage.nextArrowsList)));
         WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
         listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
         for (WebElement eventNameElement : listOfEventNames) {
