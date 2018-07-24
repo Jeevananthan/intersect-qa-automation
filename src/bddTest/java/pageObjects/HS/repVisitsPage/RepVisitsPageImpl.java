@@ -6141,6 +6141,25 @@ public void cancelRgisteredCollegeFair(String fairName){
         close().click();
         waitUntilPageFinishLoading();
     }
+  
+      public void accessAgendaView(String agenda){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
+        jsClick(agendaButton());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        Assert.assertTrue("Agenda page is not displayed in the calendar",getStartDateInAgenda().isDisplayed());
+    }
+
+    public void verifyUserCannotAccessAgendaView(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        List<WebElement> calendar = driver.findElements(By.linkText("Calendar"));
+        Assert.assertTrue("Calendar is displayed",calendar.size()==0);
+        Assert.assertTrue("Negative message is not displayed",negativeMessageInRepvisits().isDisplayed());
+    }
 
     /*locators for Messaging Options Page*/
 
@@ -7514,6 +7533,15 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement declineButton() {
         WebElement button=button("Yes, decline visit");
         return  button;
+    }
+      private WebElement agendaButton(){
+        return driver.findElement(By.xpath("//button[@title='Agenda']"));
+    }
+    private WebElement getStartDateInAgenda(){
+        return driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]/b/span"));
+    }
+    private WebElement negativeMessageInRepvisits(){
+        return getDriver().findElement(By.xpath("//div[@class='ui negative message']"));
     }
 }
 
