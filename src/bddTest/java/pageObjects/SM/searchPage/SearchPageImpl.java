@@ -906,9 +906,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    /**
-     * The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria
-     */
+    /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
+
     public void checkSelectCriteriaToStartButtonsRedirectsLocation() {
         if (getAllPillsCloseIcon().size() > 0) {
             clearAllPillsFromMustHaveAndNiceToHaveBox();

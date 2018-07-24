@@ -17,8 +17,8 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToHubsPage(String collegeName){
         waitUntilPageFinishLoading();
         communityFrame();
-        WebElement additionalLink = link("Additional info");
-        waitUntil(ExpectedConditions.visibilityOf(additionalLink));
+        WebElement additionalLink = driver.findElement(By.xpath(("//li/a[text()='Additional info']")));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//li/a[text()='Additional info']"),1));
         additionalLink.click();
         waitUntilPageFinishLoading();
         WebElement viewNavianceCollegeProfile = link("VIEW NAVIANCE COLLEGE PROFILE");
