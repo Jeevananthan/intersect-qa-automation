@@ -29,6 +29,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties", fs, fs, fs, fs, fs);
 
+    WebDriverWait wait = new WebDriverWait(driver, 10);
     public SearchPageImpl() {
         logger = Logger.getLogger(SearchPageImpl.class);
     }
@@ -55,8 +56,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyChooseFitCriteriaBar() {
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='supermatch-searchfilter-menu-container']")));
         List<WebElement> liElements = chooseFitCriteriaBar().findElements(By.xpath(".//li"));
-
         Assert.assertTrue("'Choose Fit Criteria' text is not present", liElements.get(0).getText().contains("Choose Fit Criteria"));
         Assert.assertTrue("'Location' menu item is not present", liElements.get(1).getText().contains("Location"));
         Assert.assertTrue("'Academics' menu item is not present", liElements.get(2).getText().contains("Academics"));
@@ -70,7 +71,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySelectCriteriaButtonAndInstructionalText() {
-
+        if (getAllPillsCloseIcon().size()>=0){
+            clearAllPillsFromMustHaveAndNiceToHaveBox();
+        }
         Assert.assertTrue("'Select Criteria to Start' button is not displayed", selectCriteriaButton1().isDisplayed());
         Assert.assertTrue("Instructional text is not displayed", selectCriteriaInstructionalText().getText()
                 .equals("To refine your results, use the arrows to move your criteria into the \"Must Have\" and \"Nice to Have\" boxes."));
@@ -298,7 +301,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param option String with the name of the option to enable.  e.x.: Counseling Services, Day Care Services, etc.
      */
     public void setResourcesCriteria(String option) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[contains(text(),'Resources')]"))).click();
         if (option.equals("Asperger's/Autism Support"))
             option = "Autism Support";
         WebElement label = driver.findElement(By.xpath("//label[contains(text(), '" + option + "')]"));
@@ -893,10 +897,21 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    /**
-     * The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria
-     */
+    public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
+        List<WebElement> allPills = getAllPillsCloseIcon();
+        for (WebElement singlePill :
+                allPills) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
+            wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
+        }
+    }
+
+    /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
+
     public void checkSelectCriteriaToStartButtonsRedirectsLocation() {
+        if (getAllPillsCloseIcon().size() > 0) {
+            clearAllPillsFromMustHaveAndNiceToHaveBox();
+        }
         Assert.assertTrue("First Select Criteria To Start button is not displaying.", firstSelectCriteriaToStartButton().isDisplayed());
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstSelectCriteriaToStartButton());
         firstSelectCriteriaToStartButton().click();
@@ -928,21 +943,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         String path = "//div[@id='class-size-selection-option-";
         Assert.assertTrue("AVERAGE CLASS SIZE text is not displaying", getAverageClassSizeText().isDisplayed());
         getAverageClassSizeListIcon().click();
-        waitForUITransition();
-        String expectedOptions[] = {"Select", "10", "20", "30", "40", "50", "100"};
-        ArrayList<WebElement> actualOptions = new ArrayList<>();
-        actualOptions.add(driver.findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")));
-        for (int i = 1; i < 5; i++) {
-            actualOptions.add(driver.findElement(By.xpath(path + expectedOptions[i] + "']/span")));
+        String expectedOptions[] =  {"close","10", "20", "30", "40", "50", "100"};
+        ArrayList<String> actualOptions = new ArrayList<>();
+        actualOptions.add(driver.findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")).getText());
+        for (int i=1;i<5;i++){
+            actualOptions.add(driver.findElement(By.xpath(path+expectedOptions[i]+"']/span")).getText());
         }
-        Iterator<WebElement> ite = actualOptions.iterator();
-        while (ite.hasNext()) {
-            WebElement temp = ite.next();
-            tempString = temp.getText();
-            Assert.assertTrue("AVERAGE CLASS SIZE expected option " + expectedOptions[j] + " is not matching with the actual option" + tempString, expectedOptions[j].equals(tempString));
-            temp.click();
-            waitForUITransition();
-            switch (tempString) {
+        Iterator<String> ite = actualOptions.iterator();
+        while (ite.hasNext()){
+                tempString = ite.next();
+                if(tempString.equals("Select")){
+                    driver.findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")).click();
+                }
+                else {
+                    driver.findElement(By.xpath(path + expectedOptions[j] + "']/span")).click();
+                }
+            switch (tempString){
                 case "Select":
                     logger.info("For Select option don't do anything...");
                     Assert.assertTrue("AVERAGE CLASS SIZE option Select is not selected.", getSelectedAverageClassSizeOption().getText().equals("Select"));
@@ -950,14 +966,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "10":
                     logger.info("AVERAGE CLASS SIZE option 10 is selected");
-                    waitForUITransition();
                     Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not selected.", getSelectedAverageClassSizeOption().getText().equals("10"));
                     Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 10"));
                     getAverageClassSizeListIcon().click();
                     break;
                 case "20":
                     logger.info("AVERAGE CLASS SIZE option 20 is selected");
-                    waitForUITransition();
                     Assert.assertTrue("AVERAGE CLASS SIZE option 20 is not selected.", getSelectedAverageClassSizeOption().getText().equals("20"));
                     Assert.assertTrue("AVERAGE CLASS SIZE option 20 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 20"));
                     getAverageClassSizeListIcon().click();
@@ -971,21 +985,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "40":
                     logger.info("AVERAGE CLASS SIZE option 40 is selected");
-                    waitForUITransition();
                     Assert.assertTrue("AVERAGE CLASS SIZE option 40 is not selected.", getSelectedAverageClassSizeOption().getText().equals("40"));
                     Assert.assertTrue("AVERAGE CLASS SIZE option 40 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 40"));
                     getAverageClassSizeListIcon().click();
                     break;
                 case "50":
                     logger.info("AVERAGE CLASS SIZE option 40 is selected");
-                    waitForUITransition();
                     Assert.assertTrue("AVERAGE CLASS SIZE option 50 is not selected.", getSelectedAverageClassSizeOption().getText().equals("50"));
                     Assert.assertTrue("AVERAGE CLASS SIZE option 50 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 50"));
                     getAverageClassSizeListIcon().click();
                     break;
                 case "100":
                     logger.info("AVERAGE CLASS SIZE option 40 is selected");
-                    waitForUITransition();
                     Assert.assertTrue("AVERAGE CLASS SIZE option 100 is not selected.", getSelectedAverageClassSizeOption().getText().equals("100"));
                     Assert.assertTrue("AVERAGE CLASS SIZE option 100 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 100"));
                     getAverageClassSizeListIcon().click();
@@ -998,17 +1009,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void verifyMAndNSyncWithAverageClassSizeFilter() {
         text("Institution Characteristics").click();
         getMustHaveBox().findElement(By.xpath(".//div/button[3]")).click();
-        waitForUITransition();
         getNiceToHaveBox().findElement(By.xpath(".//div/button[2]")).click();
         getAverageClassSizeListIcon().click();
-        waitForUITransition();
         getDriver().findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")).click();
-        waitForUITransition();
         Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("Class size < 40"));
         Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Must Have box.", !getMustHaveBox().getText().contains("Class size < 40"));
         getAverageClassSizeListIcon().click();
         getDriver().findElement(By.xpath("//div[@id='class-size-selection-option-10']/span")).click();
-        waitForUITransition();
         Assert.assertTrue("AVERAGE CLASS SIZE option 10 is not added to Must Have box.", getMustHaveBox().getText().contains("Class size < 10"));
         Assert.assertTrue("AVERAGE CLASS SIZE option 10 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("Class size < 10"));
         getFitCriteriaCloseButton().click();
@@ -1297,6 +1304,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.",
                 collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
     }
+
 
     public void verifyBackToTopButtonFunctionality() {
         backToTopButton().sendKeys(Keys.END);
@@ -1734,7 +1742,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-custom-header')]"));
     }
     private WebElement chooseFitCriteriaBar() {
-        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container offscreen-right']"));
+        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
     }
     private WebElement selectCriteriaButton1() {
         return driver.findElement(By.xpath("(//button[text()='Select Criteria To Start'])[2]"));
@@ -1758,7 +1767,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//button[contains(text(),' Close')]"));
     }
     private WebElement getAverageClassSizeText(){ return driver.findElement(By.xpath("//span[text()='AVERAGE CLASS SIZE']")); }
-    private WebElement getAverageClassSizeListIcon(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/i[@class='teal chevron down icon']")); }
+    private WebElement getAverageClassSizeListIcon(){ return driver.findElement(By.id("classsize-dropdown")); }
     private WebElement getSelectedAverageClassSizeOption(){ return driver.findElement(By.xpath("//div[@id='classsize-dropdown']/div[1]")); }
     private WebElement includeOnlineLearningOpportunitiesTooltipIcon()
     {
@@ -1811,7 +1820,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getFitCriteriaBar() {
-        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']/ul"));
+        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container offscreen-right']/ul"));
+        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']/ul"));
+        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']/ul"));
+        return driver.findElement(By.xpath("//span[contains(text(),'Choose Fit Criteria')]/../../.."));
     }
 
     private WebElement firstSelectCriteriaToStartButton() {
@@ -2034,6 +2046,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
 
+    public List<WebElement> getAllPillsCloseIcon() {
+        return driver.findElements(By.xpath("//i[@class='x icon'][@aria-hidden='true']"));
+    }
     private WebElement maximumCostDropdown()
     {
         return getDriver().findElement(By.xpath("//div[@id='cost-maximum']"));
