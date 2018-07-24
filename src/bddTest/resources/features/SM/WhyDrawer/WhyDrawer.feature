@@ -26,7 +26,6 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
   I want to see the actual athletics data for the college so I can clearly see what matched
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
-    And SM I remove the "Athletics" fit criteria from the Must Have box or Nice to Have box
     And SM I clear pinned schools list
     When SM I click "Athletics" filter criteria tab
     And SM I press button "ADD SPORT"
@@ -38,16 +37,53 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
     And  I check if I can see "Archery" on the page
 
   Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
-  I want to see the actual athletics data for the college so I can clearly see what doesn't match
+  I want to see the actual athletics data for the college so I can clearly see what matched (multiple sports)
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
-    And SM I remove
     And SM I clear pinned schools list
-    And SM I select the "<string>" checkbox from "Location" fit criteria
     When SM I click "Athletics" filter criteria tab
     And SM I press button "ADD SPORT"
     And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
     And SM I press button "ADD"
-    And SM I press Why button for "The New England Conservatory of Music" college
+    And SM I press button "ADD SPORT"
+    And SM I pick "Badminton" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I press button "ADD SPORT"
+    And SM I pick "Aerobics" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I press Why button for the first college in results with score 100%
+    Then I check if I can see "Athletics [3]" on the page
+    And  I check if I can see "The following athletics are offered:" on the page
+
+
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual athletics data for the college so I can clearly see what doesn't match
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear pinned schools list
+    And SM I select the "Central" checkbox from "Location" fit criteria
+    And SM I unselect the "Privat" checkbox from the "Institution Characteristics" fit criteria
+    And SM I unselect the "4-year" checkbox from the "Institution Characteristics" fit criteria
+    When SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I press Why button for "Metropolitan Community College - Kansas City" college
     Then I check if I can see "Athletics [1]" on the page
     And  I check if I can see "Doesn't offer any of your athletics selection(s)" on the page
+
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual athletics data for the college so I can clearly see that there is no information about matching
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear pinned schools list
+    And SM I select the "Central" checkbox from "Location" fit criteria
+    And SM I unselect the "Privat" checkbox from the "Institution Characteristics" fit criteria
+    And SM I unselect the "4-year" checkbox from the "Institution Characteristics" fit criteria
+    When SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I press Why button for "Rolla Technical Institute/Center" college
+    Then I check if I can see "Athletics [1]" on the page
+    And  I check if I can see "Data unknown" on the page

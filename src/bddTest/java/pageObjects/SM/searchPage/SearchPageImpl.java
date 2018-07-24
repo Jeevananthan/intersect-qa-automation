@@ -1681,8 +1681,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void pressWhyButtonForCollege(String collegeName) {
-        driver.findElement(By.xpath("//*[text()='" + collegeName
-                + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']")).click();
+        waitUntilPageFinishLoading();
+        WebElement whyButtonForCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
+                + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
+        WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
+                + "']/../../../../following-sibling::tr"));
+        scrollDown(nextCollege);
+        whyButtonForCollege.click();
     }
 
 
