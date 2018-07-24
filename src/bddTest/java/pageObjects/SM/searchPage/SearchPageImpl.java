@@ -29,6 +29,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties",fs ,fs ,fs ,fs ,fs);
 
+    WebDriverWait wait = new WebDriverWait(driver, 10);
     public SearchPageImpl() {
         logger = Logger.getLogger(SearchPageImpl.class);
     }
@@ -52,8 +53,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyChooseFitCriteriaBar() {
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='supermatch-searchfilter-menu-container']")));
         List<WebElement> liElements = chooseFitCriteriaBar().findElements(By.xpath(".//li"));
-
         Assert.assertTrue("'Choose Fit Criteria' text is not present", liElements.get(0).getText().contains("Choose Fit Criteria"));
         Assert.assertTrue("'Location' menu item is not present", liElements.get(1).getText().contains("Location"));
         Assert.assertTrue("'Academics' menu item is not present", liElements.get(2).getText().contains("Academics"));
@@ -67,7 +68,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySelectCriteriaButtonAndInstructionalText() {
-
+        if (getAllPillsCloseIcon().size()>=0){
+            clearAllPillsFromMustHaveAndNiceToHaveBox();
+        }
         Assert.assertTrue("'Select Criteria to Start' button is not displayed", selectCriteriaButton1().isDisplayed());
         Assert.assertTrue("Instructional text is not displayed", selectCriteriaInstructionalText().getText()
                 .equals("To refine your results, use the arrows to move your criteria into the \"Must Have\" and \"Nice to Have\" boxes."));
@@ -294,7 +297,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param option String with the name of the option to enable.  e.x.: Counseling Services, Day Care Services, etc.
      */
     public void setResourcesCriteria(String option) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[contains(text(),'Resources')]"))).click();
         if (option.equals("Asperger's/Autism Support"))
             option="Autism Support";
         WebElement label = driver.findElement(By.xpath("//label[contains(text(), '"+option+"')]"));
@@ -912,8 +916,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
+        List<WebElement> allPills = getAllPillsCloseIcon();
+        for (WebElement singlePill :
+                allPills) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
+            wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
+        }
+    }
+
     /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
     public void checkSelectCriteriaToStartButtonsRedirectsLocation(){
+        if (getAllPillsCloseIcon().size()>0){
+            clearAllPillsFromMustHaveAndNiceToHaveBox();
+        }
         Assert.assertTrue("First Select Criteria To Start button is not displaying.", firstSelectCriteriaToStartButton().isDisplayed());
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstSelectCriteriaToStartButton());
         firstSelectCriteriaToStartButton().click();
@@ -1683,7 +1699,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-custom-header')]"));
     }
     private WebElement chooseFitCriteriaBar() {
-        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container offscreen-right']"));
+        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
     }
     private WebElement selectCriteriaButton1() {
         return driver.findElement(By.xpath("(//button[text()='Select Criteria To Start'])[2]"));
@@ -1760,7 +1777,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getFitCriteriaBar() {
-        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']/ul"));
+        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container offscreen-right']/ul"));
+        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']/ul"));
+        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']/ul"));
+        return driver.findElement(By.xpath("//span[contains(text(),'Choose Fit Criteria')]/../../.."));
     }
 
     private WebElement firstSelectCriteriaToStartButton() {
@@ -1966,4 +1986,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement GPAValidationMessageElement() {
         return gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
+
+    public List<WebElement> getAllPillsCloseIcon(){
+        return driver.findElements(By.xpath("//i[@class='x icon'][@aria-hidden='true']"));
+    }
+
 }
