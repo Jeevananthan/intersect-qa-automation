@@ -21,7 +21,7 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
     | X out of X Must Have criteria are a match |
     | X out of X Nice to Have criteria are a match |
 
-
+@MATCH-4249
   Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual athletics data for the college so I can clearly see what matched
     Given SM I am logged in to SuperMatch through Family Connection
@@ -36,6 +36,7 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
     And  I check if I can see "The following athletics are offered:" on the page
     And  I check if I can see "Archery" on the page
 
+  @MATCH-4249
   Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual athletics data for the college so I can clearly see what matched (multiple sports)
     Given SM I am logged in to SuperMatch through Family Connection
@@ -55,7 +56,7 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
     Then I check if I can see "Athletics [3]" on the page
     And  I check if I can see "The following athletics are offered:" on the page
 
-
+  @MATCH-4249
   Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual athletics data for the college so I can clearly see what doesn't match
     Given SM I am logged in to SuperMatch through Family Connection
@@ -72,8 +73,9 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
     Then I check if I can see "Athletics [1]" on the page
     And  I check if I can see "Doesn't offer any of your athletics selection(s)" on the page
 
+  @MATCH-4249
   Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
-  I want to see the actual athletics data for the college so I can clearly see that there is no information about matching
+  I want to see the actual athletics data for the college so I can clearly see that there is no information about sports
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
     And SM I clear pinned schools list
