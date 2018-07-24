@@ -907,15 +907,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
-    public void checkSelectCriteriaToStartButtonsRedirectsLocation(){
-        if (getAllPillsCloseIcon().size()>0){
+    public void checkSelectCriteriaToStartButtonsRedirectsLocation() {
+        if (getAllPillsCloseIcon().size() > 0) {
             clearAllPillsFromMustHaveAndNiceToHaveBox();
         }
-    /**
-     * The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria
-     */
-    public void checkSelectCriteriaToStartButtonsRedirectsLocation() {
-
         Assert.assertTrue("First Select Criteria To Start button is not displaying.", firstSelectCriteriaToStartButton().isDisplayed());
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstSelectCriteriaToStartButton());
         firstSelectCriteriaToStartButton().click();
@@ -2057,9 +2052,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return gpaTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
     }
 
-    public List<WebElement> getAllPillsCloseIcon(){
+    public List<WebElement> getAllPillsCloseIcon() {
         return driver.findElements(By.xpath("//i[@class='x icon'][@aria-hidden='true']"));
-
+    }
     private WebElement maximumCostDropdown()
     {
         return getDriver().findElement(By.xpath("//div[@id='cost-maximum']"));
