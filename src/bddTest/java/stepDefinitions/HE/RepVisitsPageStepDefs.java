@@ -406,5 +406,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the upgrade model page after clicking the UPGRADE button in Agenda view$",repVisits::verifyUpgradeModelPage);
 
         Then("^HE I set the value Alert me when high schools become available in RepVisits to selected$",repVisits::selectAlertBoxInYourNotification);
+      
+        Then("^HE I verify the error Message \"([^\"]*)\" is displaying when \"([^\"]*)\" is not selected for \"([^\"]*)\"$",repVisits::verifyErrorMessageInReAssignAppointments);
+
+        Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
     }
 }
