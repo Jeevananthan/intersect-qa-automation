@@ -619,5 +619,11 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I select \"([^\"]*)\" option for \"([^\"]*)\"$",repVisits::selectOptionInFairs);
 
         Then("^HS I verify the DECLINE pop-up for \"([^\"]*)\",\"([^\"]*)\" in Fairs$",repVisits::verifyDeclinePopupInFairs);
+      
+        Then("^HS I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
+
+        Then("^HS I verify the user cannot access Agenda view$",repVisits::verifyUserCannotAccessAgendaView);
+      
+        Then("^HS I verify \"([^\"]*)\" stub menu is not present in Account settings page for \"([^\"]*)\"$",repVisits::verifyYourNotificationTab);
     }
 }
