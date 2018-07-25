@@ -7,7 +7,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and save a new event with the following details:
-    | Event Name | TestEvent7777 |
+    | Event Name | TestEvent8888 |
     | Event Start | 12-21-2018;10:00AM |
     | Timezone    | Eastern Time (i.e. America/New_York) |
     | Description | Test              |
@@ -19,10 +19,10 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | EVENT LOCATION BY POSITION  | 1 |
     | EVENT PRIMARY CONTACT BY POSITION | 1 |
     | EVENT AUDIENCE BY POSITION       | 1 |
-    Then HE I should see the event of name "TestEvent7777" present in the unpublished events list as Draft event
+    Then HE I should see the event of name "TestEvent8888" present in the unpublished events list as Draft event
 
-    When HE I edit the event of name "TestEvent7777" with the following details:
-    | Event Name | TestEvent7777Edited |
+    When HE I edit the event of name "TestEvent8888" with the following details:
+    | Event Name | TestEvent8888Edited |
     | Event Start | 12-23-2018;11:00AM |
     | Timezone    | Atlantic Time (i.e. America/Puerto_Rico) |
     | Description | TestEdited         |
@@ -33,14 +33,14 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | EVENT AUDIENCE BY POSITION       | 2 |
     And HE I take note of the data in the Event
     And HE I save the draft
-    Then HE The event of name "TestEvent7777Edited" should be updated
+    Then HE The event of name "TestEvent8888Edited" should be updated
 
     When HE I publish the current event
-    Then HE I should see the event of name "TestEvent7777Edited" present in the events list as a published event
+    Then HE I should see the event of name "TestEvent8888Edited" present in the events list as a published event
 
-    When HE I unpublish the event of name "TestEvent7777Edited"
-    And HE I delete the event of name "TestEvent7777Edited"
-    Then HE The deleted event of name "TestEvent7777Edited" should not be displayed in the unpublished events list
+    When HE I unpublish the event of name "TestEvent8888Edited"
+    And HE I delete the event of name "TestEvent8888Edited"
+    Then HE The deleted event of name "TestEvent8888Edited" should not be displayed in the unpublished events list
     And HE I successfully sign out
 
   @MATCH-2913 @MATCH-2902
