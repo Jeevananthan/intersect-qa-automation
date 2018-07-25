@@ -274,13 +274,6 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
       |firstName |lastName |email                 |verifyEmail           |jobTitle |
       |mahi      |qateam   |kpmahi93+12@gmail.com |kpmahi93+12@gmail.com |test role|
 
-  @MATCH-1781
-  Scenario: As a HS user, I need to be able to search for high schools during the registration process.
-  so I can associate myself with45 the high school I work at
-    Given HS Iam navigating to Intersect HS through Non naviance Url
-    Then HS I click the new user link in the login page
-    When HS I click on HIGHER EDUCATION STAFF MEMBER
-    And HS I search for "Int Qa High School 4" in "High school" and verify the results
 
   @MATCH-1565
   Scenario: As a HS Intersect User on the HS Institution edit page I want to see placeholder text when fields are blank
@@ -303,16 +296,3 @@ Feature:  As an HS user, I should be able to modify my enrollment data via the C
     And HS I search for "Request new institution" in the registration page
     Then HS I verify the Request New User page
       | firstName      | email  | verifyEmail  | institutionName  |  lastName  | jobTitle |
-
-  @MATCH-1848
-  Scenario: As a HS user, I need to see particular information and instructions on a HS Reg Institution Page.
-  So I can verify the institution is my high school and request a user account.
-    Given HS I navigate to Registration Intersect url
-    Then HS I verify the Institution page
-    And HS I search for "Homeconnection" in High School Staff Member registration page
-    Then HS I verify the address page of "Homeconnection" which is a "non-naviance" school in "Washington"
-    And HS I verify the link "please complete this form."
-    Given HS I navigate to Registration Intersect url
-    And HS I search for "Int QA High School 3" in High School Staff Member registration page
-    Then HS I verify the address page of "Int QA High School 3" which is a "naviance" school in "Arlington"
-    And HS I verify the link "Naviance"

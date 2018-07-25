@@ -34,6 +34,7 @@ import utilities.GetProperties;
 
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.fail;
+import static pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -794,7 +795,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickUpgradeButton(){
-        driver.findElement(By.xpath("//div[@class='seven wide column _2I5Wf1vjM_1kmY7BHT_G9k']//div/button/span[text()='UPGRADE']")).click();
+        getUpgradeButton().click();
         waitUntilPageFinishLoading();
     }
     public void searchSchoolinRepVisits(String school)
@@ -3037,12 +3038,215 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Expected to find \""+ items.get(key) +"\" in Fair entry, but it was not found.",resultFair.findElement(By.xpath("//*[text()[contains(.,'"+ items.get(key) +"')]]")).isDisplayed());
         }
     }
+  
+    public void verifyYourNotificationTabforPremium(String yourNotification){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        List<WebElement> yourNotificationTab = driver.findElements(By.xpath("//a/span[text()='"+yourNotification+"']"));
+        Assert.assertTrue("Your Notification tab is not displayed",yourNotificationTab.size()==1);
+    }
+
+    public void verifyYourNotificationTabforfreemium(String yourNotification){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        List<WebElement> yourNotificationTab = driver.findElements(By.xpath("//a/span[text()='"+yourNotification+"']"));
+        Assert.assertTrue("Your Notification tab is displayed",yourNotificationTab.size()==0);
+    }
+
+    public void verifyYourNotificationTab(DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        yourNotification().click();
+        List<String> text = dataTable.asList(String.class);
+        for(String displayingValue:text){
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+            Assert.assertTrue("Given text is not displayed",driver.findElement(By.xpath("//span[text()='"+displayingValue+"']")).isDisplayed());
+        }
+    }
+
+    public void verifySuccessMessageInYourNotification(String successMessage){
+        checkBoxInYourNotification().click();
+        saveButtonInYourNotification().click();
+        Assert.assertTrue("Success message is not displayed", driver.findElement(By.xpath("//span[text()='" + successMessage + "']")).isDisplayed());
+    }
+
+    public void verifySavedChangesInYourNotification(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        yourNotification().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+        Assert.assertTrue("Checkbox is enabled",!checkBoxInYourNotification().isSelected());
+        checkBoxInYourNotification().click();
+        saveButtonInYourNotification().click();
+    }
+
+    public void selectAlertBoxInYourNotification(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        yourNotification().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+        if(!checkBoxInYourNotification().isSelected())
+            checkBoxInYourNotification().click();
+            saveButtonInYourNotification().click();
+    }
+
+    public void accessAgendaView(String agenda){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
+        jsClick(agendaButton());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        Assert.assertTrue("Agenda page is not displayed in the calendar",getStartDateInAgenda().isDisplayed());
+    }
+
+    public void verifyAgendaPageForFreemium(String message,String agenda){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
+        jsClick(agendaButton());
+        Assert.assertTrue("Message is not displayed",driver.findElement(By.xpath("//span[text()='"+message+"']")).isDisplayed());
+    }
+
+    public void verifyUpgradeButtonInAgendaPage(String upgradeButton,String agenda){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
+        jsClick(agendaButton());
+        Assert.assertTrue("Upgrade button is not displayed",button(upgradeButton).isDisplayed());
+    }
+
+    public void verifyUpgradeModelPage(){
+        upgradeButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Request Information']"),1));
+        Assert.assertTrue("Request information button is not displayed",requestInformationButton().isDisplayed());
+        Assert.assertTrue("Upgrade message is not displayed",upgradeMessage().isDisplayed());
+        closeButtonInAgendaUpgradePage().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='UPGRADE']"),1));
+    }
 
     private void selectMoreResultsInSearchAndSchedule(){
         while(getMoreResultsButton().isDisplayed()){
             getMoreResultsButton().click();
             waitUntilPageFinishLoading();
         }
+    }
+
+    public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
+        navBar.goToRepVisits();
+//        waitUntilPageFinishLoading();
+        link("College Fairs").click();
+        waitUntilPageFinishLoading();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
+//            waitUntilPageFinishLoading();
+        }
+        driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+FairName+"']/parent::tr/td/a[span='View Details']")).click();
+
+    }
+
+    public void goToReassignAppointment(){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        link("Re-assign appointments").click();
+    }
+
+    public void reassignAppointmentsVerification(String option){
+
+        if (option.contains("Community, PurpleHE"))
+        {
+            waitUntilPageFinishLoading();
+            waitUntilElementExists( staffForReassign());
+            staffForReassign().click();
+            //Verify item of the Staff Member
+            Assert.assertTrue("Item was not displayed!", driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
+            //Select the item
+            driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
+            waitUntilPageFinishLoading();
+            waitUntilElementExists(driver.findElement(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")));
+            //Verify item of the Staff Member
+            Assert.assertTrue("No message was displayed for the appointment", driver.findElement(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")).isDisplayed());
+            buttonGoBack().click();
+        }
+        else {
+
+            waitUntilPageFinishLoading();
+            waitUntilElementExists(staffForReassign());
+            staffForReassign().click();
+            //Verify item of the Staff Member
+            Assert.assertTrue("Item was not displayed!", driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
+            //Select the item
+            driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
+            waitUntilPageFinishLoading();
+            waitUntilElementExists(driver.findElement(By.xpath("//label[contains(text(), 'Select all')]")));
+            //Capturing the counter
+            String items= driver.findElement(By.xpath("//label[contains(text(), 'Select all')]")).getText();
+            String[] parts = items.split(" ");
+            String count = parts[2];
+            String countNumber = count.replaceAll("[^a-zA-Z0-9\\\\s+]", "");
+            int counter = Integer.parseInt(countNumber);
+            //Verify that agenda is displayed below to Select staff label area
+            waitUntilElementExists(agendaIsDisplayed());
+            Assert.assertTrue("The Agenda was not displayed!", agendaIsDisplayed().isDisplayed());
+            //Verify "Showing all of" appointments
+            Assert.assertTrue("Showing all was not displayed", driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]")).isDisplayed());
+            //Verify "Select all" count
+            Assert.assertTrue("Select all count was not displayed", driver.findElement(By.xpath("//label[contains(text(), 'Select all (" + counter +")')]")).isDisplayed());
+            //Verify "SHOW MORE" button
+            if (counter > 25) {
+                Assert.assertTrue("Button SHOW MORE was not displayed", buttonShowMore().isDisplayed());
+                //Verify "Showing" word in the UI
+                Assert.assertTrue("Showing was not displayed", driver.findElement(By.xpath("//p[contains(text(), 'Showing')]")).isDisplayed());
+            }
+
+            waitUntilPageFinishLoading();
+            waitUntilElementExists( staffForReassign());
+            staffForReassign().click();
+            //Select the item
+            driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
+            //Verify Select all is possible to do
+            driver.findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
+            //Un selecting  action
+            driver.findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
+            //Selecting one item and verifying the counter increased
+            driver.findElement(By.xpath("(//input[@type='checkbox'])[last()-1]")).click();
+            //Un selecting  action
+            Assert.assertTrue("No changed the number of items in the button",  driver.findElement(By.xpath("//button[contains(text(), 'Reassign 1 Appointments')]")).isDisplayed());
+        }
+    }
+
+
+
+    //Locators
+    private WebElement staffForReassign(){
+        waitUntilPageFinishLoading();
+        return  driver.findElement(By.cssSelector("div[role='alert']"));
+    }
+
+    private WebElement agendaIsDisplayed(){
+        return driver.findElement(By.cssSelector("div[class='_2gJHeLgeouIqly4xt-Bv2C']"));
     }
 
     private WebElement accountSettings(String accountSettings)
@@ -3482,7 +3686,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return dropdown;
     }
     private WebElement upgradePopupCloseButtonInSearchAndScheduleDropdown(){
-        return getDriver().findElement(By.xpath("//i[@class='close icon']"));
+        return getDriver().findElement(By.xpath("//div[@role='dialog']/i[@class='close icon']"));
     }
     private WebElement noResultsMessageInSearchAndSchedule() {
         return getDriver().findElement(By.xpath("//span[text()='No results found.']"));
@@ -3493,6 +3697,44 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement resultCountInSearchResultsPage(){
         return getDriver().findElement(By.xpath("//p[@class='WWSRdogYvrcJkqEg52pv3']//span"));
+    }
+    /**
+     * Gets the upgrade button
+     * @return webelement
+     */
+    private WebElement getUpgradeButton(){
+        return driver.findElement(By.cssSelector("button[class='ui button _3A-KkdzsiqhORmN0RiEGSO']"));
+    }
+    private WebElement buttonShowMore(){
+        return button("SHOW MORE");
+    }
+
+    private WebElement buttonGoBack(){
+        return  button("GO BACK");
+    }
+    private WebElement agendaButton(){
+        return driver.findElement(By.xpath("//button[@title='Agenda']"));
+    }
+    private WebElement getStartDateInAgenda(){
+        return driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]/b/span"));
+    }
+    private WebElement requestInformationButton(){
+        return getDriver().findElement(By.xpath("//span[text()='Request Information']"));
+    }
+    private WebElement upgradeMessage(){
+        return getDriver().findElement(By.xpath("//span[text()='Unlock powerful features']"));
+    }
+    private WebElement closeButtonInAgendaUpgradePage(){
+        return getDriver().findElement(By.xpath("//div/i[@class='close icon']"));
+    }
+      private WebElement checkBoxInYourNotification(){
+        return getDriver().findElement(By.id("opt_out_availability_emails"));
+    }
+    private WebElement saveButtonInYourNotification(){
+        return driver.findElement(By.xpath("//button/span[text()='Save']"));
+    }
+    private WebElement yourNotification(){
+        return driver.findElement(By.xpath("//a/span[text()='Your Notifications']"));
     }
 }
 

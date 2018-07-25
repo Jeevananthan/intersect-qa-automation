@@ -380,6 +380,31 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the results count by \"([^\"]*)\" using \"([^\"]*)\" in search results page$",repVisits::verifyResultsCountInSchedulePage);
 
         And("^HE I verify the data for the following fair$",repVisits::verifyCollegeFairOnList);
+      
+        Then("^HE I verify \"([^\"]*)\" stub menu is present in Account settings page for Premium$",repVisits::verifyYourNotificationTabforPremium);
 
+        Then("^HE I verify \"([^\"]*)\" stub menu is not present in Account settings page for Freemium$",repVisits::verifyYourNotificationTabforfreemium);
+
+        Then("^HE I verify the following details are present in Your Notifications subtab$",repVisits::verifyYourNotificationTab);
+
+        Then("^HE I verify the success message \"([^\"]*)\" after click Save button$",repVisits::verifySuccessMessageInYourNotification);
+
+        Then("^HE I verify the saved changes after navigate away from Your Notifications subtab$",repVisits::verifySavedChangesInYourNotification);
+
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
+
+        Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
+
+        Then("^HE I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
+
+        Then("^HE I verify the message \"([^\"]*)\" is displaying in the \"([^\"]*)\" page$",repVisits::verifyAgendaPageForFreemium);
+
+        Then("^HE I verify \"([^\"]*)\" button is displaying in the \"([^\"]*)\" page$",repVisits::verifyUpgradeButtonInAgendaPage);
+
+        Then("^HE I verify the upgrade model page after clicking the UPGRADE button in Agenda view$",repVisits::verifyUpgradeModelPage);
+
+        Then("^HE I set the value Alert me when high schools become available in RepVisits to selected$",repVisits::selectAlertBoxInYourNotification);
     }
 }

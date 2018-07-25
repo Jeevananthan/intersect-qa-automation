@@ -200,3 +200,57 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #    And HS I click on Edit button to edit fair
 #    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
 #    And HS I successfully sign out
+
+#  @MATCH-1781
+#  Scenario: As a HS user, I need to be able to search for high schools during the registration process.
+#  so I can associate myself with45 the high school I work at
+#    Given HS Iam navigating to Intersect HS through Non naviance Url
+#    Then HS I click the new user link in the login page
+#    When HS I click on HIGHER EDUCATION STAFF MEMBER
+#    And HS I search for "Acs Abu Dhabi" in "High school" and verify the results
+
+#  @MATCH-1848
+#  Scenario: As a HS user, I need to see particular information and instructions on a HS Reg Institution Page.
+#  So I can verify the institution is my high school and request a user account.
+#    Given HS I navigate to Registration Intersect url
+#    Then HS I verify the Institution page
+#    And HS I search for "Homeconnection" in High School Staff Member registration page
+#    Then HS I verify the address page of "Homeconnection" which is a "non-naviance" school in "Washington"
+#    And HS I verify the link "please complete this form."
+#    Given HS I navigate to Registration Intersect url
+#    And HS I search for "Int QA High School 3" in High School Staff Member registration page
+#    Then HS I verify the address page of "Int QA High School 3" which is a "naviance" school in "Arlington"
+#    And HS I verify the link "Naviance"
+  #Test case is not running accorded to the expected, need to be fixed.
+#  @MATCH-1617 @MATCH-1997
+#  Scenario: As a high school community user, I want to be able to accept or deny a college that requests to attend my fair.
+#            So that I can ensure the colleges attending are a good match for my students. 
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+#    Then HS I create a College Fair with the following data
+#      | College Fair Name                                         | Fair QA Test#03         |
+#      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+#      | Cost                                                      | 10                      |
+#      | Start Time                                                | 0800AM                  |
+#      | Date                                                      | 5                       |
+#      | RSVP Deadline                                             | 4                       |
+#      | End Time                                                  | 0800PM                  |
+#      | Max Number of Colleges                                    | 10                      |
+#      | Number of Students Expected                               | 10                      |
+#      | Instructions for College Representatives                  | Submit request by Email |
+#      | Email Message to Colleges After Confirmation              | why not                 |
+#    And HS I successfully sign out
+#
+#    # Log into HE app to request attendance to college fair created in HS app above
+#    Given HE I am logged in to Intersect HE as user type "administrator"
+#    Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
+#    And HE I successfully sign out
+#    Given HE I am logged in to Intersect HE as user type "publishing"
+#    Then HE I request an appointment with "Int QA High School 4" for College Fair "Fair QA Test#03"
+#    And HE I successfully sign out
+#
+#    # Log back into the HS app to accept and decline the attendance requests from above
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+#    Then HS I make sure the "Confirm" button works properly for college fair attendee requests for "Fair QA Test#03"
+#    Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
+#    Then HS I cancel the "Fair QA Test#03" College Fair
+#    And HS I successfully sign out

@@ -136,12 +136,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
+
         try {
-            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        } catch (NoSuchSessionException nsse) {
+            driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+            driver.executeScript( GetProperties.get("naviance.app.url"));
+        } catch (Exception e) {
+            getDriver().close();
             load("http://www.google.com");
+            System.out.println("Page: " + GetProperties.get("naviance.app.url") + " did not load within 40 seconds!");
         }
-        load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
 
@@ -272,6 +275,27 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         button("Login").click();
         logger.info("Clicked the login button");
         waitUntilElementExists(link(By.id("user-dropdown")));
+        waitUntilPageFinishLoading();
+    }
+
+    public void blockAccount(String username, String password) {
+        openHSLoginPage();
+        logger.info("Login into the HS app");
+        textbox(By.name("username")).sendKeys(username);
+        logger.info("Using " + username + " as username");
+        textbox(By.name("password")).sendKeys(password);
+        logger.info("Using " + password + " as password");
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        logger.info("Clicked the login button");
+//        waitUntilElementExists(link(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
     }
 

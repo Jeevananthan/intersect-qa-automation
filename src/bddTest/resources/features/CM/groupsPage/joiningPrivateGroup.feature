@@ -3,8 +3,6 @@ Feature: Community User - Joining Private Groups
   As a Community user I am unable to join Private groups without an invitation from the group owner/manager so the
   group can remain accessible to only the appropriate users.
 
-
-
   @MATCH-686
   Scenario: As a Community user I am presented with a 'Request to Join' action when viewing a private group's page.
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -29,7 +27,6 @@ Feature: Community User - Joining Private Groups
     Then I open Notifications list
     And I check if user has new notification
     Then I deny request to join the group
-
 
 
 
