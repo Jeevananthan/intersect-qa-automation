@@ -10,7 +10,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3246 @MATCH-3471
   Scenario: As a HS student accessing College Search through Family Connection I need to be presented with an
-            'empty state' page (no filters selected yet) so I can perform a search when ready.
+            empty state page no filters selected yet so I can perform a search when ready.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify if dark blue header is present
     Then SM I verify if Your Fit Criteria text is present
@@ -85,13 +85,13 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3432 @MATCH-4317
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to select what details I see on each
-            college in my search results so the information I care most about is visible to review.
+  college in my search results so the information I care most about is visible to review.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
     Then SM I verify the default column headers displayed in the results table
-    |Admission Info   |
-    |Cost             |
-    |Pick what to show|
+      | Highlights        |
+      | Cost              |
+      | Pick what to show |
     Then SM I verify if the option selected or defaulted in column header can be changed to "Athletics"
 
   @MATCH-3506
@@ -148,6 +148,24 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select "SavedTestSearch" in the Saved Searches dropdown
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
 
+  @MATCH-3212
+  Scenario: As a HS student I want a way to clear all my fit criteria I have currently selected so I can quickly start my search over again.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    Then SM I verify that the Start Over button is disabled
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 400 |
+      | ACT Composite   | 3   |
+      | Acceptance Rate | 25% or Lower |
+    #The following step is needed to avoid MATCH-4830
+    And SM I reload the page
+    Then SM I verify the content of the popup that is opened by the Start Over button
+    Then SM I verify that the search results remain after clicking the No, Cancel button
+    And SM I open the Start Over popup
+    Then SM I verify that the fit criteria is removed after clicking the Yes, Start Over button
+
   @MATCH-4160
   Scenario: Currently, the financial aid results column of the results table does not display a tuition value of $0 in the UI. This needs updated.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -201,7 +219,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
               return to the results to continue my college research.
       Given SM I am logged in to SuperMatch through Family Connection
       And I clear the onboarding popups if present
-      Then SM I create fifteen different save search from Resources tab
+      Then SM I create till fifteen different save search from Resources tab
       When I select the following data from the Admission Fit Criteria
         | Acceptance Rate | 25% or Lower |
       And SM I open the Save Search popup

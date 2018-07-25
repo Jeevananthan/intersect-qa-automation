@@ -251,9 +251,55 @@ Examples:
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
     Examples:
-      |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime |
-      |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:25am    |10:25am|
+     |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime |
+     |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:25am    |10:25am|
+ 
+ @MATCH-4260 @MATCH-3730
+  Scenario Outline: As an HE Freemium user I can not be able to view Your Notifications stub menu in Account settings page
+    Given HE I am logged in to Intersect HE as user type "<hePremiumUser>"
+    Then HE I verify "<yourNotifications>" stub menu is present in Account settings page for Premium
+    Then HE I set the value Alert me when high schools become available in RepVisits to selected
+    Then HE I verify the following details are present in Your Notifications subtab
+      |Your Notifications|REPVISITS|Alert me when high schools become available in RepVisits|
+    Then HE I verify the success message "Your notifications settings were updated." after click Save button
+    Then HE I verify the saved changes after navigate away from Your Notifications subtab
+    Then HE I set the value Alert me when high schools become available in RepVisits to selected
+    Then HE I successfully sign out
 
+   #precondition
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "<university>" from the institution dashboard
+    And SP I set the "<module>" module to "<activeOrInactive>" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "<heFreemiumUser>"
+    Then HE I verify "<yourNotifications>" stub menu is not present in Account settings page for Freemium
+    Then HE I successfully sign out
+
+    Examples:
+      |hePremiumUser|heFreemiumUser    |yourNotifications |university                                |module                          |activeOrInactive|
+      |administrator|limited           |Your Notifications|Bowling Green State University-Main Campus|Intersect Presence Subscription |inactive        |
+      |publishing   |limitedPublishing |Your Notifications|Bowling Green State University-Main Campus|Intersect Presence Subscription |inactive        |
+      |community    |limitedCommunity  |Your Notifications|Bowling Green State University-Main Campus|Intersect Presence Subscription |inactive        |
+
+  @MATCH-4260 @MATCH-3730
+  Scenario Outline: As an HS user I can not be able to view Your Notifications stub menu in Account settings page
+#Naviance
+    Given HS I am logged in to Intersect HS through Naviance with user type "<navianceUser>"
+    Then HS I verify "<yourNotifications>" stub menu is not present in Account settings page for "Naviance"
+    And HS I successfully sign out
+
+  #Non-Naviance
+    Given HS I am logged in to Intersect HS as user type "<non-NavianceUser>"
+    Then HS I verify "<yourNotifications>" stub menu is not present in Account settings page for "non-Naviance"
+    And HS I successfully sign out
+
+    Examples:
+      |non-NavianceUser |navianceUser  |yourNotifications |
+      |administrator    |navianceAdmin |Your Notifications|
+      |member           |navianceMember|Your Notifications|
+      
   @MATCH-4224
   Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user, I want to understand why I can't submit the "Re-assign Appointments" modal form,
                     so that I can correct my entries as necessary and successfully submit.
