@@ -3038,6 +3038,74 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Expected to find \""+ items.get(key) +"\" in Fair entry, but it was not found.",resultFair.findElement(By.xpath("//*[text()[contains(.,'"+ items.get(key) +"')]]")).isDisplayed());
         }
     }
+  
+    public void verifyYourNotificationTabforPremium(String yourNotification){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        List<WebElement> yourNotificationTab = driver.findElements(By.xpath("//a/span[text()='"+yourNotification+"']"));
+        Assert.assertTrue("Your Notification tab is not displayed",yourNotificationTab.size()==1);
+    }
+
+    public void verifyYourNotificationTabforfreemium(String yourNotification){
+        waitUntilPageFinishLoading();
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        List<WebElement> yourNotificationTab = driver.findElements(By.xpath("//a/span[text()='"+yourNotification+"']"));
+        Assert.assertTrue("Your Notification tab is displayed",yourNotificationTab.size()==0);
+    }
+
+    public void verifyYourNotificationTab(DataTable dataTable){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        yourNotification().click();
+        List<String> text = dataTable.asList(String.class);
+        for(String displayingValue:text){
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+            Assert.assertTrue("Given text is not displayed",driver.findElement(By.xpath("//span[text()='"+displayingValue+"']")).isDisplayed());
+        }
+    }
+
+    public void verifySuccessMessageInYourNotification(String successMessage){
+        checkBoxInYourNotification().click();
+        saveButtonInYourNotification().click();
+        Assert.assertTrue("Success message is not displayed", driver.findElement(By.xpath("//span[text()='" + successMessage + "']")).isDisplayed());
+    }
+
+    public void verifySavedChangesInYourNotification(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        yourNotification().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+        Assert.assertTrue("Checkbox is enabled",!checkBoxInYourNotification().isSelected());
+        checkBoxInYourNotification().click();
+        saveButtonInYourNotification().click();
+    }
+
+    public void selectAlertBoxInYourNotification(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        userDropDown().click();
+        accountSettings().click();
+        waitUntilPageFinishLoading();
+        yourNotification().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+        if(!checkBoxInYourNotification().isSelected())
+            checkBoxInYourNotification().click();
+            saveButtonInYourNotification().click();
+    }
 
     public void accessAgendaView(String agenda){
         navBar.goToRepVisits();
@@ -3644,7 +3712,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement buttonGoBack(){
         return  button("GO BACK");
     }
-        private WebElement agendaButton(){
+    private WebElement agendaButton(){
         return driver.findElement(By.xpath("//button[@title='Agenda']"));
     }
     private WebElement getStartDateInAgenda(){
@@ -3658,6 +3726,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement closeButtonInAgendaUpgradePage(){
         return getDriver().findElement(By.xpath("//div/i[@class='close icon']"));
+    }
+      private WebElement checkBoxInYourNotification(){
+        return getDriver().findElement(By.id("opt_out_availability_emails"));
+    }
+    private WebElement saveButtonInYourNotification(){
+        return driver.findElement(By.xpath("//button/span[text()='Save']"));
+    }
+    private WebElement yourNotification(){
+        return driver.findElement(By.xpath("//a/span[text()='Your Notifications']"));
     }
 }
 
