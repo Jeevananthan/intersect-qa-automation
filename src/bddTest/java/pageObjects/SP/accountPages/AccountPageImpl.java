@@ -219,44 +219,37 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
 
     public void setModuleStatusAsActiveOrInActive(String moduleName, String status){
+        WebElement actualStatus = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div[@role='alert']"));
+        if(!actualStatus.getText().equalsIgnoreCase(status)){
+            actualStatus.click();
+            WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
+            driver.executeScript("arguments[0].click();",dropDownItem);
+            if(!status.equalsIgnoreCase("inactive")) {
+                WebElement StartDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+                WebElement EndDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
 
-        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
 
-       WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
-       if(!ActualStatus.getText().equalsIgnoreCase(status)){
-           ActualStatus.click();
-           WebElement selectstatusDrp = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
-           waitUntil(ExpectedConditions.visibilityOf(selectstatusDrp));
-           driver.executeScript("arguments[0].click();",selectstatusDrp);
-
-           if(!status.equalsIgnoreCase("inactive")) {
-               WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
-               WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
-
-               StartDateButton.click();
-               setStartDateInModulePage();
-               StartDateButton.click();
-               EndDateButton.click();
-               setEndDateInModulePage();
-               EndDateButton.click();
-           }
-           clicksaveChangesButton();
-       }
+                StartDateButton.click();
+                setStartDateInModulePage();
+                StartDateButton.click();
+                EndDateButton.click();
+                setEndDateInModulePage();
+                EndDateButton.click();
+            }
+            clicksaveChangesButton();
+        }
     }
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status, String startDateDelta, String endDateDelta){
-
-        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
-
-        WebElement actualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
+        WebElement actualStatus = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div[@role='alert']"));
         if(!actualStatus.getText().equalsIgnoreCase(status)){
             actualStatus.click();
             WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
             driver.executeScript("arguments[0].click();",dropDownItem);
             Actions actions = new Actions(getDriver());
             if(!status.equalsIgnoreCase("inactive")) {
-                WebElement StartDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(0);
-                WebElement EndDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(1);
+                WebElement StartDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+                WebElement EndDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
 
                 StartDateButton.click();
                 setStartDate(startDateDelta);
