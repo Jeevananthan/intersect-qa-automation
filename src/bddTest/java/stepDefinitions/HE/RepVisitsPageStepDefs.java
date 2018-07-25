@@ -397,6 +397,14 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
 
+        Then("^HE I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
+
+        Then("^HE I verify the message \"([^\"]*)\" is displaying in the \"([^\"]*)\" page$",repVisits::verifyAgendaPageForFreemium);
+
+        Then("^HE I verify \"([^\"]*)\" button is displaying in the \"([^\"]*)\" page$",repVisits::verifyUpgradeButtonInAgendaPage);
+
+        Then("^HE I verify the upgrade model page after clicking the UPGRADE button in Agenda view$",repVisits::verifyUpgradeModelPage);
+
         Then("^HE I set the value Alert me when high schools become available in RepVisits to selected$",repVisits::selectAlertBoxInYourNotification);
     }
 }
