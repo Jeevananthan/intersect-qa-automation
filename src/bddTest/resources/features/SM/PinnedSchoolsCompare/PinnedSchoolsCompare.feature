@@ -29,8 +29,7 @@ Feature: SM - SuperMatch - Compare Pinned Schools
   @MATCH-3523
   Scenario: As a HS student that is comparing my pinned schools, I want to export those schools and their data so I can
   view this information outside of SuperMatch.
-    #Given SM I am logged in to SuperMatch through Family Connection
-    Given SM I am logged in to SuperMatch through Family Connection as user "gauriparent1" with password "password" from school "blue1combo"
+    Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I start the search over
     When I select the following data from the Admission Fit Criteria
