@@ -1692,7 +1692,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCheckboxIsDisplayed(String checkboxText) {
 
-        Assert.assertTrue("CheckBox" + checkboxText + " is not displayed", getCheckBoxLabelByText(checkboxText).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOf(getCheckBoxElementByText(checkboxText)));
 
     }
 

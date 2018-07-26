@@ -10,7 +10,7 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
   Scenario: As a HS student I want to see dynamically display the Institution Type for Certificate option
     When SM I select the "Certificate" radio button from the Academics fit criteria
     When SM I click "Academics" filter criteria tab
-    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" is not checked
+    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" is displayed
 
   @MATCH-3554
   Scenario: As a HS student I want to see dynamically display the Institution Type checkbox is not checked for Certificate option
@@ -28,7 +28,7 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
   Scenario: As a HS student I want to see dynamically display the Institution Type for Associate's option
     When SM I select the "Associate's" radio button from the Academics fit criteria
     When SM I click "Academics" filter criteria tab
-    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" is not checked
+    Then SM I verify that checkBox with text "Search for institutions that have ALL of my selected programs" is displayed
 
   @MATCH-3554
   Scenario: As a HS student I want to see dynamically display the Institution Type checkbox is not checked for Associate's option
