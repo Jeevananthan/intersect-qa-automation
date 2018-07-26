@@ -205,5 +205,19 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that checkBox with text \"([^\"]*)\" can be checked|unchecked$", searchPage::verifyCheckboxCanBeCheckedAndUnchecked);
 
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is displayed$", searchPage::verifyCheckboxIsDisplayed);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is not checked$", searchPage::verifyCheckboxIsNotChecked);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" can be checked|unchecked$", searchPage::verifyCheckboxCanBeCheckedAndUnchecked);
+
+        And("^SM I press button \"([^\"]*)\"$", searchPage::pressButton);
+
+        And("^SM I pick \"([^\"]*)\" from the dropdown \"([^\"]*)\"$", searchPage::pickFromDropdown);
+
+        And("^SM I press Why button for the first college in results with score (\\d+)%$", searchPage::pressWhyForCollegeWithScore);
+
+        And("^SM I press Why button for \"([^\"]*)\" college$", searchPage::pressWhyButtonForCollege);
+
     }
 }
