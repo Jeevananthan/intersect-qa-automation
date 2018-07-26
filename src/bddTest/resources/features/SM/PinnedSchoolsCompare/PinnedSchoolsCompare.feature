@@ -31,6 +31,7 @@ Feature: SM - SuperMatch - Compare Pinned Schools
   view this information outside of SuperMatch.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
+    And SM I clear pinned schools list
     And SM I start the search over
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
