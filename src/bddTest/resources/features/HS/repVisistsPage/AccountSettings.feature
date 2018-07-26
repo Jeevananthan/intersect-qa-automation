@@ -37,6 +37,13 @@ Feature:  As an HS user, I want to be able to access the features of the Account
                      how those values will be applied to visits when syncing and thereafter should I change them
                      So that I know exactly what to expect as to how those are applied to my visits.
     Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I complete the set up wizard that not yet completed by selecting "All RepVisits Users" option on the 'One Last Step' page
+    Then HS I go to welcome wizard of the repvisits
+    And HS I navigate to "Naviance Settings" wizard in repvisits page
+    Then HS I verify the following details are displaying in Naviance Settings page
+      |Naviance Sync Settings|Default Visit Details for College Visits|You can set default values to save time in scheduling future visits, but you can also edit details for individual visits when needed.|The following default visit details will be applied to visits scheduled moving forward.|
+    Then HS I complete the set up wizard page by selecting "All RepVisits Users" option on the 'One Last Step' page
+    Then HS I navigate to naviance settings page
     Then HS I verify the following details are displaying in Naviance Settings page
       |Naviance Sync Settings|Default Visit Details for College Visits|You can set default values to save time in scheduling future visits, but you can also edit details for individual visits when needed.|The following default visit details will be applied to visits scheduled moving forward.|
     And HS I successfully sign out
