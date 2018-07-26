@@ -196,6 +196,8 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
+        And("SM I verify that \"([^\"]*)\" checkbox is \"([^\"]*)\" in \"([^\"]*)\" fit criteria", searchPage::verifyCheckboxState);
+      
         Then("^SM I clear all pills from Must have  and Nice to have boxes$", searchPage::clearAllPillsFromMustHaveAndNiceToHaveBox);
 
         And("^SM I press button \"([^\"]*)\"$", searchPage::pressButton);

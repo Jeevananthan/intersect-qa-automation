@@ -816,6 +816,23 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+
+    public void verifyCheckboxState(String checkBox, String expectedState, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
+            openFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        switch(expectedState.toUpperCase())
+        {
+            case "UNSELECTED":Assert.assertTrue(checkBox + " checkbox is selected.", !onlyCheckbox.isSelected());
+                              break;
+            case "SELECTED": Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
+                             break;
+        }
+        getFitCriteriaCloseButton().click();
+    }
+
+
     private void openFitCriteria(String fitCriteria) {
         driver.findElement(By.xpath("//li[contains(text(), '" + fitCriteria + "')]")).sendKeys(Keys.RETURN);
     }
