@@ -6390,6 +6390,33 @@ public void cancelRgisteredCollegeFair(String fairName){
           addSchoolAttendees().click();
     }
 
+    public void verifyYourNotificationTab(String yourNotification,String user){
+        switch (user){
+            case "Naviance":
+                waitUntilPageFinishLoading();
+                navBar.goToRepVisits();
+                waitUntilPageFinishLoading();
+                userDropdown().click();
+                List<WebElement> accountSettings = driver.findElements(By.xpath("//span[text()='Account Settings']"));
+                Assert.assertTrue("Account Settings is displayed",accountSettings.size()==0);
+                userDropdown().click();
+                break;
+            case "non-Naviance":
+                waitUntilPageFinishLoading();
+                navBar.goToRepVisits();
+                waitUntilPageFinishLoading();
+                userDropdown().click();
+                accountSettings().click();
+                waitUntilPageFinishLoading();
+                List<WebElement> yourNotificationTab = driver.findElements(By.xpath("//a/span[text()='"+yourNotification+"']"));
+                Assert.assertTrue("Your Notification tab is displayed",yourNotificationTab.size()==0);
+                break;
+            default:
+                Assert.fail("Invalid user");
+                break;
+        }
+    }
+
     private WebElement addSchoolAttendees(){
         return getDriver().findElement(By.cssSelector("button.ui.primary.right.floated.button:not(.small):not(.basic)"));
     }
@@ -7534,7 +7561,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         WebElement button=button("Yes, decline visit");
         return  button;
     }
-      private WebElement agendaButton(){
+    private WebElement agendaButton(){
         return driver.findElement(By.xpath("//button[@title='Agenda']"));
     }
     private WebElement getStartDateInAgenda(){
@@ -7542,6 +7569,10 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement negativeMessageInRepvisits(){
         return getDriver().findElement(By.xpath("//div[@class='ui negative message']"));
+    }
+    private WebElement accountSettings(){
+        WebElement link=driver.findElement(By.xpath("//span[text()='Account Settings']"));
+        return link;
     }
 }
 

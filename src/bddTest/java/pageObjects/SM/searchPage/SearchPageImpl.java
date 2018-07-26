@@ -1666,6 +1666,30 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
 
+    public void pressButton(String text){
+        waitUntil(ExpectedConditions.elementToBeClickable(button(text)));
+        button(text).click();
+    }
+
+    public void pickFromDropdown(String choice, String dropdown){
+        driver.findElement(By.className(dropdown)).click();
+        driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();
+    }
+
+    public void pressWhyForCollegeWithScore(Integer score) {
+        driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../button")).click();
+    }
+
+    public void pressWhyButtonForCollege(String collegeName) {
+        waitUntilPageFinishLoading();
+        WebElement whyButtonForCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
+                + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
+        WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
+                + "']/../../../../following-sibling::tr"));
+        scrollDown(nextCollege);
+        whyButtonForCollege.click();
+    }
+
 
     public void verifyCheckboxIsDisplayed(String checkboxText) {
 
