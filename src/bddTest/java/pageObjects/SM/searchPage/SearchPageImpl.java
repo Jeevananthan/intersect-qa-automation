@@ -816,6 +816,23 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+
+    public void verifyCheckboxState(String checkBox, String expectedState, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
+            openFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        switch(expectedState.toUpperCase())
+        {
+            case "UNSELECTED":Assert.assertTrue(checkBox + " checkbox is selected.", !onlyCheckbox.isSelected());
+                              break;
+            case "SELECTED": Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
+                             break;
+        }
+        getFitCriteriaCloseButton().click();
+    }
+
+
     private void openFitCriteria(String fitCriteria) {
         driver.findElement(By.xpath("//li[contains(text(), '" + fitCriteria + "')]")).sendKeys(Keys.RETURN);
     }
@@ -1665,6 +1682,30 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         familyIncomeDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
     }
 
+
+    public void pressButton(String text){
+        waitUntil(ExpectedConditions.elementToBeClickable(button(text)));
+        button(text).click();
+    }
+
+    public void pickFromDropdown(String choice, String dropdown){
+        driver.findElement(By.className(dropdown)).click();
+        driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();
+    }
+
+    public void pressWhyForCollegeWithScore(Integer score) {
+        driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../button")).click();
+    }
+
+    public void pressWhyButtonForCollege(String collegeName) {
+        waitUntilPageFinishLoading();
+        WebElement whyButtonForCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
+                + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
+        WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
+                + "']/../../../../following-sibling::tr"));
+        scrollDown(nextCollege);
+        whyButtonForCollege.click();
+    }
 
 
     // Locators Below
