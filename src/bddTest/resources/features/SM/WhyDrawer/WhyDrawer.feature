@@ -81,3 +81,42 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
     And SM I press Why button for "Rolla Technical Institute/Center" college
     Then I check if I can see "Athletics [1]" on the page
     And  I check if I can see "Data unknown" on the page
+#
+  @MATCH-4248
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual student life for the college so I can clearly see what matched
+    When SM I click "Student Life" filter criteria tab
+    And SM I pick "Business" from the dropdown "sm-filter-search-dropdown"
+    And SM I press Why button for the first college in results with score 100%
+    Then I check if I can see "Organizations and Clubs [1]" on the page
+    And  I check if I can see "The following organizations and clubs are offered:" on the page
+    And  I check if I can see "Business" on the page
+
+  @MATCH-4248
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual student life for the college so I can clearly see what desn't match
+    When SM I click "Location" filter criteria tab
+    And SM I pick "Minnesota" from the dropdown "div-state-or-region-search"
+    And SM I select the "Suburb near Small City" checkbox from "Location" fit criteria
+    And SM I unselect the "Public" checkbox from the "Institution Characteristics" fit criteria
+    And SM I unselect the "2-year or less (Community Colleges and Vocational/Technical schools)" checkbox from the "Institution Characteristics" fit criteria
+    When SM I click "Diversity" filter criteria tab
+    And SM I pick "Christ and Missionary Alliance Church" from the dropdown "sm-filter-search-dropdown"
+    When SM I click "Student Life" filter criteria tab
+    And SM I pick "Gay and Lesbian" from the dropdown "sm-filter-search-dropdown"
+    And SM I press Why button for "Crown College" college
+    Then I check if I can see "Organizations and Clubs [1]" on the page
+    And  I check if I can see "Doesn't offer any of your organizations and clubs selection(s)." on the page
+
+  @MATCH-4248
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual student life data for the college so I can clearly see what matched (multiple sports)
+    When SM I click "Student Life" filter criteria tab
+    And SM I pick "Business" from the dropdown "sm-filter-search-dropdown"
+    And SM I pick "Choir" from the dropdown "sm-filter-search-dropdown"
+    And SM I pick "Gay and Lesbian" from the dropdown "sm-filter-search-dropdown"
+    And SM I press Why button for the first college in results with score 100%
+    Then I check if I can see "Organizations and Clubs [3]" on the page
+    And  I check if I can see "The following organizations and clubs are offered:" on the page
+
+#    To add one more scenario w\o data a college with appropriate data is needed. TODO
