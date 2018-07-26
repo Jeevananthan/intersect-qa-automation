@@ -3297,6 +3297,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Verifies the status of the re-assign link, it could be visible or not visible
+     * @param status
+     */
+    public void verifyReAssignLinkStatus(String status){
+        navBar.goToRepVisits();
+        link("Calendar").click();
+        List<WebElement> reAssignLink = driver.findElements(By.xpath("//span[text()='Re-assign appointments']"));
+        switch (status.toLowerCase()){
+            case "visible":
+                Assert.assertTrue("The Re-assign link is not displayed",reAssignLink.size()==1);
+                break;
+            case "not visible":
+                Assert.assertTrue("The Re-assign link is displayed",reAssignLink.size()==0);
+                break;
+                default:
+                    Assert.fail("The status of the Re-assign link to be verified is not correct");
+                    break;
+        }
+    }
 
 
     //Locators
