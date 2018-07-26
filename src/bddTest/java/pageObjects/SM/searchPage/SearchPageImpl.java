@@ -1694,6 +1694,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void pressWhyForCollegeWithScore(Integer score) {
+        scrollDown(driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../../../following-sibling::tr")));
         driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../button")).click();
     }
 
