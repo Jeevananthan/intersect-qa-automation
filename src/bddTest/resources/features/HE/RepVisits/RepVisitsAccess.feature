@@ -333,3 +333,22 @@ Examples:
   Examples:
   |School               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |Date|
   |Int Qa High School 4 |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |14  |
+  
+  @MATCH-3631
+  Scenario Outline: As a HE and HS user in RVs viewing my calendar in Agenda view,
+             I want the dates that are grayed out (i.e. past dates) to not be selectable,
+             so that I don't accidentally select a date earlier than the start date and potentially get confused as to why no data is showing.
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set the date using "<StartDate>" and "<EndDate>" in calendar "Agenda" view
+    Then HS I verify the disabled date "<disabledDate>" is not clickable in calendar Agenda view
+    And HS I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I set the date using "<StartDate>" and "<EndDate>" in calendar "Agenda" view
+    Then HE I verify the disabled date "<disabledDate>" is not clickable in calendar Agenda view
+    And HE I successfully sign out
+
+    Examples:
+       |StartDate|EndDate|disabledDate|
+       |7        |14     |5           |

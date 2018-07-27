@@ -396,6 +396,8 @@ public class RepVisitsPageStepDefs implements En {
         When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
 
         Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
+      
+        Then("^HE I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
         Then("^HE I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
 
@@ -408,7 +410,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I set the value Alert me when high schools become available in RepVisits to selected$",repVisits::selectAlertBoxInYourNotification);
       
         Then("^HE I verify the error Message \"([^\"]*)\" is displaying when \"([^\"]*)\" is not selected for \"([^\"]*)\"$",repVisits::verifyErrorMessageInReAssignAppointments);
-
+      
+        Then("^HE I verify the disabled date \"([^\"]*)\" is not clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsNotClickableInEndDate);
+      
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
     }
 }
