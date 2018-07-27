@@ -2779,6 +2779,88 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyNavianceSettingsPage(DataTable dataTable){
+        List<String> list = dataTable.asList(String.class);
+        for(String text:list) {
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='" + text + "']"), 1));
+            Assert.assertTrue("Given data is not displayed", driver.findElement(By.xpath("//span[text()='" + text + "']")).isDisplayed());
+        }
+    }
+
+    public void navigateToNavianceSettingsInAvailabilitySettingsPage(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettingsButton().click();
+        waitUntilPageFinishLoading();
+        navianceSettings().click();
+    }
+
+    public void navigateToRepvisitWizardPage(String wizardName){
+        while(driver.findElements(By.xpath("//div[@class='active step' and @name ='"+wizardName+"']")).size()==0){
+            button("Next").click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+            }
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+        button("Next").click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+        button("Next").click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void goToCalendarInWizardLastStepPage(String visitAvailability){
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size() == 0) {
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+            button("Next").click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+        }
+        Assert.assertTrue("Complete page is not displayed", text("Visit Availability").isDisplayed());
+        if (!visitAvailability.equals("")) {
+            if (visitAvailability.equalsIgnoreCase("All RepVisits Users")) {
+                driver.findElement(By.xpath("//label[text()='All RepVisits Users']/input[@type='radio']")).click();
+            } else if (visitAvailability.equalsIgnoreCase("Only Me")) {
+                driver.findElement(By.xpath("//label[text()='Only Me']/input[@type='radio']")).click();
+            } else {
+                Assert.fail("The given option for the visitAvailability is not a valid one");
+            }
+        }
+        button("Next").click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Take me to my visits']"),1));
+        button("Take me to my visits").click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Today']"),1));
+    }
+
+    public void completeSetupWizard(String visitAvailability){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        link("Availability & Settings").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        List<WebElement> availabilityAndSettings = driver.findElements(By.xpath("//a/span[text()='Regular Weekly Hours']"));
+        if (availabilityAndSettings.size()==0){
+            while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size() == 0) {
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+                button("Next").click();
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+            }
+            Assert.assertTrue("Complete page is not displayed", text("Visit Availability").isDisplayed());
+            if (!visitAvailability.equals("")) {
+                if (visitAvailability.equalsIgnoreCase("All RepVisits Users")) {
+                    driver.findElement(By.xpath("//label[text()='All RepVisits Users']/input[@type='radio']")).click();
+                } else if (visitAvailability.equalsIgnoreCase("Only Me")) {
+                    driver.findElement(By.xpath("//label[text()='Only Me']/input[@type='radio']")).click();
+                } else {
+                    Assert.fail("The given option for the visitAvailability is not a valid one");
+                }
+            }
+            button("Next").click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Take me to my visits']"),1));
+            button("Take me to my visits").click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Today']"),1));
+        }else {
+            logger.info("Calendar page is displayed");
+        }
+    }
+
     private WebElement getCollegeFairsPrimaryContactPhoneNumberField() {
         return driver.findElement(By.id("notification_fairs_phone_number"));
     }
