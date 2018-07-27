@@ -334,7 +334,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     private boolean checkItemVisible(String item) {
         try {
-            driver.findElement(By.xpath("//*[contains(text(), '" + item + "')]"));
+            driver.findElement(By.xpath("//*[contains(text(), \"" + item + "\")]"));
             return true;
         } catch (NoSuchElementException ex)  {
             return false;
