@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
@@ -74,9 +75,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         String currentURL = additionalInfoURL+institutionID+info;
         link(backToIntersect).click();
         String additionalInfoCurrentURL = driver.getCurrentUrl();
+        waitUntilPageFinishLoading();
+        new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe((additionalInfoCurrentURL)));
         Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
         waitUntilPageFinishLoading();
-        waitForUITransition();
         driver.switchTo().defaultContent();
     }
 
