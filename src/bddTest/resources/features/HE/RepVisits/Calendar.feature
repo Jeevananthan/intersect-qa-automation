@@ -73,6 +73,12 @@ Feature: HE - RepVisits - Calendar - As an HE user I want to use the RepVisits C
      #Limited
      Given HE I am logged in to Intersect HE as user type "limited"
      Then HE I verify that Re-assign link is "not visible"
+     #Limited publishing
+     Given HE I am logged in to Intersect HE as user type "limitedPublishing"
+     Then HE I verify that Re-assign link is "not visible"
+     #Limited community
+     Given HE I am logged in to Intersect HE as user type "limitedCommunity"
+     Then HE I verify that Re-assign link is "not visible"
      #HS User
      Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
      Then HE I verify that Re-assign link is "not visible"
