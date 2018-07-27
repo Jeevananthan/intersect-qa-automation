@@ -399,9 +399,13 @@ public class RepVisitsPageStepDefs implements En {
       
         Then("^HE I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
+        And("^HE I verify the \"([^\"]*)\" button \"([^\"]*)\" for schools with \"([^\"]*)\"$",repVisits::verifyViewButtonForTravelPlanSchools);
+
         Then("^HE I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
 
         Then("^HE I verify the message \"([^\"]*)\" is displaying in the \"([^\"]*)\" page$",repVisits::verifyAgendaPageForFreemium);
+
+        And("^HE I verify the \"([^\"]*)\" appointments for schools in travel plan$",repVisits::verifySchoolAppointmentsInTravelPlan);
 
         Then("^HE I verify \"([^\"]*)\" button is displaying in the \"([^\"]*)\" page$",repVisits::verifyUpgradeButtonInAgendaPage);
 
@@ -414,5 +418,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the disabled date \"([^\"]*)\" is not clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsNotClickableInEndDate);
       
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
+
     }
 }
