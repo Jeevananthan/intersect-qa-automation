@@ -1744,6 +1744,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void scrollToMiddleOfMainPage() {
+        waitUntil(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//tr")));
+        ((JavascriptExecutor)driver).executeScript("var scrollHeight = document.body.scrollHeight; " +
+                "window.scrollTo(0, scrollHeight/2); ");
+    }
+
+    public void verifyScrollBarIsPositionedAtTheTopOfPinnedSchoolsComparePage() {
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr")));
+        Long scrollPosition = (Long) ((JavascriptExecutor)driver).executeScript("return window.pageYOffset; ");
+        Assert.assertEquals("Scroll bar is not positioned at the top of the page", new Long(0), scrollPosition);
+    }
+
 
     // Locators Below
 
