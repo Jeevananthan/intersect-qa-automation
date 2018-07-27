@@ -11,3 +11,4 @@ Feature: As a HS student accessing SuperMatch for the first time, I want to be o
     | Customize What You See |
     | Pin & Favorite Schools |
     | Compare Pinned Schools |
+    | Search for a Specific School |
