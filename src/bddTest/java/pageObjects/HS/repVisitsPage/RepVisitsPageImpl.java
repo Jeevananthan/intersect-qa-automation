@@ -7038,7 +7038,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement editButton () {
         return getDriver().findElement(By.cssSelector("button#edit-college-fair.ui.basic.primary.right.floated.button._2WIBPMrHDvfagooC6zkFpq"));
     }
-    private WebElement getSearchBox() { return textbox("Search for a school...");}
+    private WebElement getSearchBox() { return textbox("Search by school name or location...");}
     private WebElement trashIconInException(){
         WebElement trash = driver.findElement(By.xpath("//span/i[@class='trash outline icon _6S_VIt7XKOpy-Mn7y_CJu']"));
         return trash;
