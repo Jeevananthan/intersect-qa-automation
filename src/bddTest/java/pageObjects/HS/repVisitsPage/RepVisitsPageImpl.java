@@ -555,6 +555,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void clickDisabledDate(String date) {
+        driver.findElement(By.cssSelector("div[class='DayPicker-Body']")).findElement(By.xpath("//div[contains(@class,'DayPicker-Day DayPicker-Day--disabled') and @aria-disabled='true' and text()='"+date+"']")).click();
+    }
+
     public void verifyContentsOfRegularWeeklyHours() {
         navBar.goToRepVisits();
         link("Availability & Settings").click();
@@ -1024,15 +1028,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } else if(startOrEndDate.contains("End")) {
             button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).click();
             findMonth(calendarHeading, startOrEndDate);
-        }else if(startOrEndDate.contains("other")){
+        } else if(startOrEndDate.contains("FirstDate")) {
+            driver.findElement(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/preceding-sibling::button")).click();
+            findMonth(calendarHeading, startOrEndDate);
+        } else if(startOrEndDate.contains("LastDate")||startOrEndDate.equals("DisabledDate")) {
+            driver.findElement(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/following-sibling::button")).click();
+            findMonth(calendarHeading, startOrEndDate);
+        } else if(startOrEndDate.contains("other")) {
             button(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
-            findMonth(calendarHeading);}
-        else {
-            button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(3)")).click();
+            findMonth(calendarHeading);
+        } else {
+            button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();
             findMonth(calendarHeading);
         }
-        clickOnDay(parts[1]);
-        waitUntilPageFinishLoading();}
+        if(parts[1].startsWith("0")) {
+            parts[1]=parts[1].replace("0","");
+        }else if(startOrEndDate.equals("DisabledDate")) {
+            clickDisabledDate(parts[1]);
+        }else {
+            clickOnDay(parts[1]);
+            waitUntilPageFinishLoading();
+        }
+    }
 
     public void setDateFixed(String inputDate, String startOrEndDate){
 
@@ -1226,9 +1243,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         if (fairName.equalsIgnoreCase("PreviouslySetFair"))
             fairName = FairName;
-        while (getDriver().findElements(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td" +
-                "[text()='" + fairName + "']/following-sibling::td[4]/a/span")).size() < 1) {
-            viewMoreUpcomingEventsLink().click();
+//        while (getDriver().findElements(By.xpath("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td" +
+//                "[text()='" + fairName + "']/following-sibling::td[4]/a/span")).size() < 1) {
+//            viewMoreUpcomingEventsLink().click();
+//        }
+        waitUntilPageFinishLoading();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
+             waitUntilPageFinishLoading();
         }
         fairElementDetails(fairName).click();
         editFairButton().click();
@@ -2769,7 +2791,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("College Fairs").click();
         button(By.xpath("//a[@aria-label='"+fairName+"']")).click();
         button(By.xpath("//button[@id='edit-college-fair']")).click();
-        button("Cancel This College Fair").click();
+//        button("Cancel This College Fair").click();
+        driver.findElement(By.cssSelector("button[class='ui red basic button _1cCLCZWTdTFaaExQxVjUzr _2Mxz8MGcxLQjyp9ht7UTNz']")).click();
         if (getDriver().findElements(By.xpath("//span[contains(text(), 'Yes, Cancel this fair')]")).size() >= 1) {
             button("yes, cancel this fair").click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Close']"),1));
@@ -2784,6 +2807,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("There were no job fairs registered for this high school.", false);
         }
         Assert.assertFalse("College fair was not canceled.", getDriver().findElements(By.xpath("//span[contains(text(), 'Upcoming Events')]/../../following-sibling::table/tbody/tr/td[contains(text(), '"+fairName+"')]")).size() >= 1);
+    }
+
+    public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
+        navBar.goToRepVisits();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.linkText("Calendar"),1));
+        calendar().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        jsClick(agendaButton());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/preceding-sibling::button"),1));
+        String EndDate = getSpecificDateForCalendar(endDate);
+        setDate(EndDate, "LastDate");
+        String StartDate = getSpecificDateForCalendar(startDate);
+        setDate(StartDate, "FirstDate");
+    }
+
+    public void verifyDisabledDateIsNotClickableInEndDate(String disabledDate){
+        String DisabledDate = getSpecificDateForCalendar(disabledDate);
+        setDate(DisabledDate, "DisabledDate");
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/preceding-sibling::button"),1));
+    //verify the dates are not equal
+        String date = getStartDateInAgenda().getText();
+        String displayingDate = getDisplayingDateInCalendarAgenda(disabledDate);
+        Assert.assertTrue("Selected date is not displayed",!date.equals(displayingDate));
+        navBar.goToCommunity();
+        waitUntilPageFinishLoading();
     }
 
     public void createCollegeFair(DataTable dataTable) {
@@ -3885,6 +3933,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         int columnId=-1, colCount = 0;
         String presentField=null;
 
+        waitUntilElementExists(driver.findElement(By.xpath(tableHeaderLocator)));
         WebElement webEleTableHeader=driver.findElement(By.xpath(tableHeaderLocator));
         List<WebElement> webEleRows=webEleTableHeader.findElements(By.tagName("tr"));
         logger.info("webEleRows ="+webEleRows.size());
@@ -3980,8 +4029,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         moveToElement(attendeeTextBox());
         attendeeTextBox().sendKeys(Keys.PAGE_DOWN);
         attendeeTextBox().sendKeys(attendee);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/div[text()='"+attendee+"']"),1));
-        waitUntilElementExists(driver.findElement(By.xpath("//div/div[text()='"+attendee+"']")));
+//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/div[text()='"+attendee+"']"),1));
+//        waitUntilElementExists(driver.findElement(By.xpath("//div/div[text()='"+attendee+"']")));
         Assert.assertTrue("Attendee name is not displayed in the dropdown",driver.findElement(By.xpath("//div/div[text()='"+attendee+"']")).isDisplayed());
         selectAttendeeOrInstitution(attendee).click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("calendar-search-reps"),1));
@@ -4047,7 +4096,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         manualEndTime().sendKeys(endTime);
         addAttendee().sendKeys(attendee);
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/div[text()='"+attendee+"']"),1));
+//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/div[text()='"+attendee+"']"),1));
         Assert.assertTrue("Attendee name is not displayed in the dropdown",driver.findElement(By.xpath("//div/div[text()='"+attendee+"']")).isDisplayed());
         attendee(attendee).click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("calendar-search-reps"),1));
@@ -4699,19 +4748,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUIofNavianceSettingsPageinSetupWizard() {
-       Assert.assertTrue("'Connecting Naviance and RepVisits' Title is not displayed",getDriver().findElement(By.xpath("//span[text()='Connecting Naviance and RepVisits']")).isDisplayed());
-       Assert.assertTrue("Text under the Title 'Connecting Naviance and RepVisits' is not displayed",getDriver().findElement(By.xpath("//span[text()='By Connecting RepVisits and Naviance, all of your Naviance College Visits will be managed within RepVisits unless you choose to opt-out of the integration in the future.']")).isDisplayed());
-       Assert.assertTrue("'How the RepVisits-Naviance Connection Works:' Title is not displayed",getDriver().findElement(By.xpath("//span[text()='How It Works']")).isDisplayed());
-       Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection Works:' is not displayed",getDriver().findElement(By.xpath("//span[text()='Appointments scheduled via RepVisits can be published to Naviance College Visits (so students can see them and sign up).']")).isDisplayed());
-       Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection Works:' is not displayed",getDriver().findElement(By.xpath("//span[text()='If a visit is rescheduled or cancelled in RepVisits, it will automatically update in Naviance College Visits and Family Connection.']")).isDisplayed());
-       Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection Works:' is not displayed",getDriver().findElement(By.xpath("//span[text()='You will be able to view your visits and student registrations directly in Naviance (staff view). However, you will need to use RepVisits to create, edit, or cancel visits.']")).isDisplayed());
-       Assert.assertTrue("'How the RepVisits-Naviance Connection is Set Up:' Title is not displayed",getDriver().findElement(By.xpath("//span[text()='Set Up']")).isDisplayed());
-       Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection is Set Up:' is not displayed",getDriver().findElement(By.xpath("//span[text()='Publishing Options: You will be able to specify whether RepVisits should be published to Naviance College Visits automatically or manually on a visit-by-visit basis.']")).isDisplayed());
-       Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection is Set Up:' is not displayed",getDriver().findElement(By.xpath("//span[text()='Visit Settings: You will be able to create default settings for Naviance College Visits (location, notes, registration deadline, maximum number of students) within RepVisits. You will also be able to adjust these settings on a visit-by-visit basis.']")).isDisplayed());
-       Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection is Set Up:' is not displayed",getDriver().findElement(By.xpath("//span[normalize-space(text())='Importing from Naviance: Your current College Visits in Naviance will be imported into RepVisits. We will automatically match these to any existing visits in RepVisits for the same colleges on the same day. You will have a chance to review and validate these matches before the Naviance and RepVisits entries are linked.']")).isDisplayed());
-       Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection is Set Up:' is not displayed",getDriver().findElement(By.xpath("//span[text()='Opt-In/Opt-Out: Once you choose to connect RepVisits and Naviance, you will have the option to disconnect the sync by returning to Naviance Settings.']")).isDisplayed());
-       Assert.assertTrue("Radio button with the label 'Yes, I would like to connect Naviance and RepVisits' is not displayed",getDriver().findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/input[@type='radio']")).isDisplayed());
-       Assert.assertTrue("Radio button with the label 'No, I would like to use RepVisits without the Naviance integration' is not displayed",getDriver().findElement(By.xpath("//label[text()='No, I would like to use RepVisits without the Naviance integration']/input[@type='radio']")).isDisplayed());
+        Assert.assertTrue("'Connecting Naviance and RepVisits' Title is not displayed",getDriver().findElement(By.xpath("//span[text()='Connecting Naviance and RepVisits']")).isDisplayed());
+        Assert.assertTrue("Text under the Title 'Connecting Naviance and RepVisits' is not displayed",getDriver().findElement(By.xpath("//span[text()='By Connecting RepVisits and Naviance, all of your Naviance College Visits will be managed within RepVisits unless you choose to opt-out of the integration in the future.']")).isDisplayed());
+        Assert.assertTrue("'How the RepVisits-Naviance Connection Works:' Title is not displayed",getDriver().findElement(By.xpath("//span[text()='How It Works']")).isDisplayed());
+        Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection Works:' is not displayed",getDriver().findElement(By.xpath("//span[text()='Appointments scheduled via RepVisits can be published to Naviance College Visits (so students can see them and sign up).']")).isDisplayed());
+        Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection Works:' is not displayed",getDriver().findElement(By.xpath("//span[text()='If a visit is rescheduled or cancelled in RepVisits, it will automatically update in Naviance College Visits and Naviance Student.']")).isDisplayed());
+        Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection Works:' is not displayed",getDriver().findElement(By.xpath("//span[text()='You will be able to view your visits and student registrations directly in Naviance (staff view). However, you will need to use RepVisits to create, edit, or cancel visits.']")).isDisplayed());
+        Assert.assertTrue("'How the RepVisits-Naviance Connection is Set Up:' Title is not displayed",getDriver().findElement(By.xpath("//span[text()='Set Up']")).isDisplayed());
+        Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection is Set Up:' is not displayed",getDriver().findElement(By.xpath("//span[text()='Publishing Options: You will be able to specify whether RepVisits should be published to Naviance College Visits automatically or manually on a visit-by-visit basis.']")).isDisplayed());
+        Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection is Set Up:' is not displayed",getDriver().findElement(By.xpath("//span[text()='Visit Settings: You will be able to create default settings for Naviance College Visits (location, notes, registration deadline, maximum number of students) within RepVisits. You will also be able to adjust these settings on a visit-by-visit basis.']")).isDisplayed());
+        Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection is Set Up:' is not displayed",getDriver().findElement(By.xpath("//span[normalize-space(text())='Importing from Naviance: Your current College Visits in Naviance will be imported into RepVisits. We will automatically match these to any existing visits in RepVisits for the same colleges on the same day. You will have a chance to review and validate these matches before the Naviance and RepVisits entries are linked.']")).isDisplayed());
+        Assert.assertTrue("Text under the title 'How the RepVisits-Naviance Connection is Set Up:' is not displayed",getDriver().findElement(By.xpath("//span[text()='Opt-In/Opt-Out: Once you choose to connect RepVisits and Naviance, you will have the option to disconnect the sync by returning to Naviance Settings.']")).isDisplayed());
+        Assert.assertTrue("Radio button with the label 'Yes, I would like to connect Naviance and RepVisits' is not displayed",getDriver().findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/input[@type='radio']")).isDisplayed());
+        Assert.assertTrue("Radio button with the label 'No, I would like to use RepVisits without the Naviance integration' is not displayed",getDriver().findElement(By.xpath("//label[text()='No, I would like to use RepVisits without the Naviance integration']/input[@type='radio']")).isDisplayed());
     }
 
     public String selectdate(String addDays){
@@ -4805,7 +4854,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public  void editSlot(String noOfVisits) {
         driver.findElement(By.xpath("//input[@type='number']")).clear();
         driver.findElement(By.xpath("//input[@type='number']")).sendKeys(noOfVisits);
-        button("Save").click();
+//        button("Save").click();
+        driver.findElement(By.cssSelector("button[class='ui primary button kirHVQYTJ7-jMrlwR-VTA']")).click();
         Assert.assertTrue("confirmation message is not displayed",driver.findElement(By.cssSelector("div>span[class='LkKQEXqh0w8bxd1kyg0Mq']")).isDisplayed());
     }
     public void verifyPillsInManuallyAddedAppointmentsPage(String date,String time){
@@ -5247,14 +5297,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public Boolean compareDate(String month, String startOrEndDate)  {
 
         String dateCaption = null;
-        DateFormat format = new SimpleDateFormat("MMM yyyy");
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
         if (startOrEndDate.contains("Start")) {
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
-        }else if(startOrEndDate.contains("End")){
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
-        else {
-            dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();}
+            dateCaption = driver.findElement(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).getText();
+        } else if(startOrEndDate.contains("end")){
+            dateCaption = button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).getText();
+        }else if(startOrEndDate.contains("FirstDate")){
+            dateCaption = driver.findElement(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/preceding-sibling::button")).getText();
+        } else if(startOrEndDate.contains("LastDate")||startOrEndDate.equals("DisabledDate")){
+            dateCaption = driver.findElement(By.xpath("//div[@class='_20rE_mlucRFZ--zviGCI2N']/b/following-sibling::button")).getText();
+        } else{
+            dateCaption = button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).getText();
+        }
+
 
         //Logic to compare dates before? or not
         Date first = null;
@@ -5274,6 +5330,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  before;
 
     }
+
     public String selectCurrentDate(String addDays)
     {
         String DATE_FORMAT_NOW = "MM/dd/yy";
@@ -6133,6 +6190,25 @@ public void cancelRgisteredCollegeFair(String fairName){
         close().click();
         waitUntilPageFinishLoading();
     }
+  
+      public void accessAgendaView(String agenda){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
+        Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
+        jsClick(agendaButton());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        Assert.assertTrue("Agenda page is not displayed in the calendar",getStartDateInAgenda().isDisplayed());
+    }
+
+    public void verifyUserCannotAccessAgendaView(){
+        navBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        List<WebElement> calendar = driver.findElements(By.linkText("Calendar"));
+        Assert.assertTrue("Calendar is displayed",calendar.size()==0);
+        Assert.assertTrue("Negative message is not displayed",negativeMessageInRepvisits().isDisplayed());
+    }
 
     /*locators for Messaging Options Page*/
 
@@ -6361,6 +6437,51 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     public void clickAddAttendeetovisit() {
           addSchoolAttendees().click();
+    }
+    public String getSpecificDateForCalendar(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM d yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days = Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+    public String getDisplayingDateInCalendarAgenda(String addDays) {
+        String DATE_FORMAT_NOW = "MM/d/yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days = Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public void verifyYourNotificationTab(String yourNotification,String user){
+        switch (user){
+            case "Naviance":
+                waitUntilPageFinishLoading();
+                navBar.goToRepVisits();
+                waitUntilPageFinishLoading();
+                userDropdown().click();
+                List<WebElement> accountSettings = driver.findElements(By.xpath("//span[text()='Account Settings']"));
+                Assert.assertTrue("Account Settings is displayed",accountSettings.size()==0);
+                userDropdown().click();
+                break;
+            case "non-Naviance":
+                waitUntilPageFinishLoading();
+                navBar.goToRepVisits();
+                waitUntilPageFinishLoading();
+                userDropdown().click();
+                accountSettings().click();
+                waitUntilPageFinishLoading();
+                List<WebElement> yourNotificationTab = driver.findElements(By.xpath("//a/span[text()='"+yourNotification+"']"));
+                Assert.assertTrue("Your Notification tab is displayed",yourNotificationTab.size()==0);
+                break;
+            default:
+                Assert.fail("Invalid user");
+                break;
+        }
     }
 
     private WebElement addSchoolAttendees(){
@@ -7506,6 +7627,19 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement declineButton() {
         WebElement button=button("Yes, decline visit");
         return  button;
+    }
+    private WebElement agendaButton(){
+        return driver.findElement(By.xpath("//button[@title='Agenda']"));
+    }
+    private WebElement getStartDateInAgenda(){
+        return driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]/b/span"));
+    }
+    private WebElement negativeMessageInRepvisits(){
+        return getDriver().findElement(By.xpath("//div[@class='ui negative message']"));
+    }
+    private WebElement accountSettings(){
+        WebElement link=driver.findElement(By.xpath("//span[text()='Account Settings']"));
+        return link;
     }
 }
 
