@@ -194,21 +194,32 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void makeSureUserIsMemberOfThePrivateGroup() {
         try {
-            setImplicitWaitTimeout(1);
-            logger.info("User is going to join the group.");
-            requestToJoinGroupButton().click();
+            if (driver.findElement(By.xpath("//*[@id=\"follow-10671\"]/a")).isDisplayed()) {
+                logger.info("User is going to request to join private group.");
+                requestToJoinGroupButton().click();
+            }
             homePage.logoutHEDefault();
-            waitUntilPageFinishLoading();
             approveRequestToJoinTheGroup();
             waitUntilPageFinishLoading();
             loginPage.defaultLoginHE();
-            resetImplicitWaitTimeout();
-        } catch (NoSuchElementException e) {
-            resetImplicitWaitTimeout();
+        } catch (NoSuchElementException e){
+            logger.info("User already joined the group.");
+            }
+        try {
+            if (driver.findElement(By.xpath("//*[@id=\"unfollow-10671\"]/a")).isDisplayed()) {
+                logger.info("Canceling Pending request.");
+                cancelPendingRequest().click();
+            }
+            logger.info("Requesting to join private group.");
+            requestToJoinGroupButton().click();
+            homePage.logoutHEDefault();
+            approveRequestToJoinTheGroup();
+            waitUntilPageFinishLoading();
+            loginPage.defaultLoginHE();
+        } catch (NoSuchElementException e){
             logger.info("User already joined the group.");
         }
     }
-
 
     public void makeSureUserIsMemberOfThePublicGroup() {
         try {
@@ -250,7 +261,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         loginPage.defaultLoginSupport();
         goToManageGroupMembersPage();
         driver.findElement(By.className("accept-link")).click();
-      //  homePage.logoutSupport()
+        //homePage.logoutSupport();
         // loginPage.defaultLoginHE();
       //  searchForGroup("**Test Automation** HE Community PRIVATE Group");
     }
@@ -511,7 +522,9 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement leaveGroupButton() {return driver.findElement(By.cssSelector("a[title='Leave Group']"));}
 
-    private WebElement requestToJoinGroupButton() {return driver.findElement(By.cssSelector("a[title='Request to join']"));}
+    private WebElement requestToJoinGroupButton() {return driver.findElement(By.cssSelector("a[href].use-ajax.follow.request-to-join.ajax-processed.reply-processed"));}
+
+    private WebElement cancelPendingRequest() {return driver.findElement(By.cssSelector("a[href].use-ajax.unfollow.pending.ajax-processed.reply-processed"));}
 
     private WebElement newPostField() {return driver.findElement(By.id("edit-body"));}
 
