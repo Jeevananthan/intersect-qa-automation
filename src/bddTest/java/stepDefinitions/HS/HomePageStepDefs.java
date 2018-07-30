@@ -26,9 +26,9 @@ public class HomePageStepDefs implements En {
 
         And ("^HS I verify the page Title is showing as \"([^\"]*)\" and \"([^\"]*)\"$",homePage::verifyTitleHS);
 
-        And ("^HS I go to the Rep Visits$",navBar::goToRepVisits);
+        And ("^HS I go to the Rep Visits$",navigationBar::goToRepVisits);
 
-        Then("^HS I verify the left navigation bar and section breadcrumbs are as follows$",navBar::verifyLeftNavAndBreadcrumbs);
+        Then("^HS I verify the left navigation bar and section breadcrumbs are as follows$",navigationBar::verifyLeftNavAndBreadcrumbs);
 
         Then ("^HS I verify the Request New User page$",loginPage::validateFieldsInRequestUserForm);
 
@@ -36,9 +36,9 @@ public class HomePageStepDefs implements En {
 
         Then("^HS I verify the URL \"([^\"]*)\" after clicking \"([^\"]*)\" link using \"([^\"]*)\",\"([^\"]*)\" in the college profile page$",homePage::verifyAdditionalInfoURLAfterClickingBackToIntersectLink);
 
-        Then("^HS I verify the navigation globe is displayed for this user$",navBar::verifyNotificationIconInHomePage);
+        Then("^HS I verify the navigation globe is displayed for this user$",navigationBar::verifyNotificationIconInHomePage);
 
-        And("^HS I click the navigation globe for viewing the recent notifications$",navBar::clickNavigationGlobeIcon);
+        And("^HS I click the navigation globe for viewing the recent notifications$",navigationBar::clickNavigationGlobeIcon);
 
     }
 }

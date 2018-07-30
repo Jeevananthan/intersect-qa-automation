@@ -1,12 +1,18 @@
 package pageObjects.COMMON;
 
+import cucumber.api.DataTable;
+import junit.framework.AssertionFailedError;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
+
+import java.util.List;
+import java.util.Map;
 
 
 public class NavigationBarImpl extends SeleniumBase {
@@ -245,5 +251,96 @@ public class NavigationBarImpl extends SeleniumBase {
         selectUserOption("Sign Out");
         waitUntilPageFinishLoading();
     }
+
+    //The below method is to verify the Breadcrumbs along with corresponding heading.
+    public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
+        Map<String, String> map = dataTable.asMap(String.class, String.class);
+        for (Map.Entry pair : map.entrySet()){
+            String heading = pair.getKey().toString();
+            String[] content = pair.getValue().toString().split(",");
+            WebElement headerWebElement;
+            //Checking heading
+            try{
+                headerWebElement= new WebDriverWait(getDriver(),10).
+                        until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(
+                                "//nav[contains(@class,'hidden-mobile hidden-tablet')]/div/dl//dt/span[text()='%s']"
+                                ,heading))));
+            } catch (Exception e){throw new AssertionFailedError(String.format("The header: %s is not visible",
+                    heading));}
+            //Checking sub menues
+            for (String subMenu : content) {
+                subMenu = subMenu.trim();
+                try{
+                    WebElement subMenuElement = (new WebDriverWait(getDriver(),10)).until
+                            (ExpectedConditions.elementToBeClickable(headerWebElement.findElement(By.xpath(String.format(
+                                    "parent::dt/parent::dl/dt/a/span[text()='%s']",subMenu)))));
+                    subMenuElement.click();
+                    waitUntilPageFinishLoading();
+                } catch (Exception e){throw new AssertionFailedError(String.format("The submenu: %s is not visible"
+                        ,subMenu));}
+                String actualHeadingBreadcrumText = getHeadingBreadcrumbs().getText().toLowerCase();
+                String actualSubmenuBreadcrumText = getSubMenuBreadcrumbs().getText().toLowerCase();
+                Assert.assertEquals(String.format("The Heading breadcrum text is incorrect, actual: %s, expected %s"
+                        ,actualHeadingBreadcrumText,heading.toLowerCase()),heading.toLowerCase(),actualHeadingBreadcrumText);
+                Assert.assertEquals(String.format("The Submenu breadcrum text is incorrect, actual: %s, expected %s"
+                        ,actualSubmenuBreadcrumText,subMenu.toLowerCase()),subMenu.toLowerCase(),actualSubmenuBreadcrumText);
+
+            }
+        }
+    }
+
+    public WebElement getHeadingBreadcrumbs(){
+        List<WebElement> items = driver.findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
+        for (WebElement item : items) {
+            if (item.getText().length() > 0)
+                return item;
+        }
+        return null;
+    }
+
+    public WebElement getSubMenuBreadcrumbs() {
+        List<WebElement> items = driver.findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
+        for (WebElement item : items) {
+            if (item.getText().length() > 0)
+                return item;
+        }
+        return null;
+    }
+
+    public void verifyNotificationIconInHomePage(){
+        String notificationCount;
+        Assert.assertTrue("Notification Icon is not visible",notificationIcon().isDisplayed());
+        try{if(driver.findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).isDisplayed())
+        {
+            notificationCount=driver.findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).getText();
+            if(notificationCount.equals(""))
+            {
+                System.out.println("There is no notification");
+            }else
+            {
+                System.out.println(notificationCount+"noticications are displayed");
+            }
+        }else
+        {
+            System.out.println("There is no notification");
+        }}catch(Exception e){}
+    }
+
+    public void clickNavigationGlobeIcon(){
+        notificationIcon().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("GlobeIcon is not displayed",verifyGlobeIcon().isDisplayed());
+    }
+
+    private WebElement verifyGlobeIcon(){
+        WebElement element=driver.findElement(By.xpath("//div[@id='notifications']//div[@class='menu transition visible']"));
+        waitUntilElementExists(element);
+        return  element;
+    }
+
+    //Getters
+    private WebElement notificationIcon()
+    {WebElement element=driver.findElement(By.xpath("//div[@id='notifications']"));
+        return  element;}
 
 }
