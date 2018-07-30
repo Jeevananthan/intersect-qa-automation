@@ -44,9 +44,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void goToUserConnectionsPage() {
         logger.info("Going to user connections page.");
-//        link(By.id("js-main-nav-counselor-community-menu-link")).click();
         iframeExit();
-        //link(By.partialLinkText("Counselor Community")).click();
         navBar.goToCommunity();
         communityFrame();
         link(By.cssSelector("a[href='/connections']")).click();
