@@ -75,7 +75,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
         driver.close();
         driver.switchTo().window(intersectWindow);
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         waitUntilElementExists(driver.findElement(By.id("app")));
     }
 
