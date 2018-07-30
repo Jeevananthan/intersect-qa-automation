@@ -9,7 +9,6 @@ public class ActiveMatchPageStepDefs implements En {
 
         ActiveMatchPageImpl activeMatchPage = new ActiveMatchPageImpl();
 
-        Then("^HE The Active Match page is displayed$", activeMatchPage::verifyTitleIsPresent);
         Then("^HE I verify the ActiveMatch page$", activeMatchPage::verfyActiveMatchPage);
 
         Then("^HE I verify the Headers are present in the Active Match Connections$",activeMatchPage::verifyActiveMatchConnectionsHeaders);

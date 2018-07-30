@@ -21,12 +21,14 @@ public class PageObjectFacadeImpl extends SeleniumBase {
 
     private Logger logger;
     public NavBarImpl navBar;
+    public  NavigationBarImpl navigationBar;
     public GlobalSearch globalSearch;
 
     protected PageObjectFacadeImpl() {
         logger = Logger.getLogger(PageObjectFacadeImpl.class);
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
+        navigationBar = new NavigationBarImpl();
     }
 
     /**
