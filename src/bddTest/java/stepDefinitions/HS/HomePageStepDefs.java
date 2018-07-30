@@ -2,6 +2,7 @@ package stepDefinitions.HS;
 
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
+import pageObjects.COMMON.NavigationBarImpl;
 import pageObjects.HE.loginPage.LoginPageImpl;
 import pageObjects.HS.homePage.HomePageImpl;
 
@@ -11,7 +12,8 @@ public class HomePageStepDefs implements En {
 
         HomePageImpl homePage = new HomePageImpl();
         LoginPageImpl loginPage = new LoginPageImpl();
-        NavBarImpl navBar = new NavBarImpl();
+//        NavBarImpl navBar = new NavBarImpl();
+        NavigationBarImpl navigationBar = new NavigationBarImpl();
 
         And("^HS I successfully sign out$", homePage::logout );
 
