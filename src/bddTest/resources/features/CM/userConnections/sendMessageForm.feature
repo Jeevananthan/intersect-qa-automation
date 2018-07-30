@@ -3,7 +3,6 @@ Feature: Community User - Send Message Form
   As a Community User after I take the 'Message' action on another Community user I want to be presented with
   a form that allows me to compose my message so the other Community user can receive it.
 
-
   Scenario: As a Community User after I take the 'Message' action on another Community user I want to be presented with a form.
     Given HE I am logged in to Intersect HE as user type "administrator"
     And I am connected to HS user

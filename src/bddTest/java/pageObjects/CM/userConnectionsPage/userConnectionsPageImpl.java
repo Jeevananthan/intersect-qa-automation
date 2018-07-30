@@ -135,7 +135,24 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         iframeExit();
         searchForUser("PurpleHS User");
         communityFrame();
+        // Connects to user for the first time.
         try {
+            logger.info("Connecting with User.");
+            connectToUserButton().click();
+            sendInvitationToUserButton().click();
+            waitUntilPageFinishLoading();
+            acceptConnectionRequestByHSUser();
+            waitUntilPageFinishLoading();
+        } catch (NoSuchElementException ex) {
+            logger.info("The PurpleHS user is already a connection.");
+        }
+        // Connects to user if invite is pending.
+        try {
+            if(driver.findElement(By.xpath("//*[@id=\"cp-ur-17417\"]/a")).isDisplayed()) {
+                logger.info("Invitation already sent.");
+                acceptConnectionRequestByHSUser();
+            }
+            logger.info("Connecting with User.");
             connectToUserButton().click();
             sendInvitationToUserButton().click();
             waitUntilPageFinishLoading();
@@ -152,7 +169,15 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         searchForUser(user);
         communityFrame();
         try {
-            clickDisconnectBtn();
+            String buttonText = connectToUserButton().findElement(By.className("cp-ur-link-wrapper")).findElement(By.tagName("a")).getText();
+            if (buttonText.equals("Invited")) {
+                acceptConnectionRequestByHSUser();
+                searchForUser(user);
+                communityFrame();
+                clickDisconnectBtn();
+            } else {
+                clickDisconnectBtn();
+            }
         } catch (NoSuchElementException ex) {
             logger.info("The user is not a connection.");
             driver.findElement(By.className("close")).click();
