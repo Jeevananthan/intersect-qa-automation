@@ -334,3 +334,15 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I select the "Show only non-profit" checkbox from "Institution Characteristics" fit criteria
     Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
 
+  @MATCH-4682
+  Scenario: The Compare seems to load and focus itself in the same general area you were on the main page of SuperMatch.
+  Verify that this doesn't happen.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "2" colleges
+    Then SM I scroll to the middle of the main page
+    And SM I open the Pinned Schools Compare screen
+    Then SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page
+
+

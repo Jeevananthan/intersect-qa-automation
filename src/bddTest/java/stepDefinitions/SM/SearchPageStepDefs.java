@@ -215,5 +215,10 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I press Why button for \"([^\"]*)\" college$", searchPage::pressWhyButtonForCollege);
 
+        Then("^SM I scroll to the middle of the main page$", searchPage::scrollToMiddleOfMainPage);
+
+        Then("^SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page$", searchPage::verifyScrollBarIsPositionedAtTheTopOfPinnedSchoolsComparePage);
+
+
     }
 }
