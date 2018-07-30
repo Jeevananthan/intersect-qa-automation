@@ -1461,6 +1461,63 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyCLEARPINNEDLISTOptionIsClickable()
+    {
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        Assert.assertTrue("'CLEAR PINNED LIST' option is not enabled/clickable", clearPinnedListOption().isEnabled());
+
+        //close the PINNED dropdown
+        pinnedDropdown().click();
+    }
+
+    public void verifyCLEARPINNEDLISTConfirmationModal()
+    {
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        clearPinnedListOption().click();
+
+        Assert.assertTrue("'CLEAR PINNED LIST' modal is not displayed", clearPinnedListModal().isDisplayed());
+        Assert.assertTrue("'Are you sure you want to clear your pinned list?' text is not displayed in the modal",
+                clearPinnedListModal().getText().contains("Are you sure you want to clear your pinned list?"));
+        Assert.assertTrue("'Clearing your pinned colleges is permanent and cannot be undone.' text is not displayed in the modal",
+                clearPinnedListModal().getText().contains("Clearing your pinned colleges is permanent and cannot be undone."));
+        Assert.assertTrue("'YES, CLEAR MY LIST' button is not displayed in the modal", yesClearMyListButton().isDisplayed());
+        Assert.assertTrue("'NO, CANCEL' button is not displayed in the modal", noDontClearMyListButton().isDisplayed());
+
+        noDontClearMyListButton().click();
+    }
+
+    public void verifyPinnedCollegesNotClearedWhenNOCANCELbuttonIsClicked()
+    {
+        int numberOfPinnedColleges = Integer.parseInt(pinCount().getText());
+
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        clearPinnedListOption().click();
+
+        noDontClearMyListButton().click();
+
+        Assert.assertTrue("Colleges were cleared when 'No, Cancel' button is clicked", numberOfPinnedColleges == Integer.parseInt(pinCount().getText()));
+
+    }
+
+    public void verifyCLEARPINNEDLISTIsDisabled()
+    {
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        Assert.assertFalse("'CLEAR PINNED LIST' option is enabled/clickable", clearPinnedListOption().isEnabled());
+
+        //close the PINNED dropdown
+        pinnedDropdown().click();
+    }
+
+
+
     /**
      * select any radio button only when fit criteria menu is open.
      */

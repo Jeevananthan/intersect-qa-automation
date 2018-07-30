@@ -345,4 +345,15 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I open the Pinned Schools Compare screen
     Then SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page
 
+  @MATCH-3522
+  Scenario: As a HS student using SuperMatch I want to clear all of my currently pinned schools so I can quickly wipe
+  that list and start over.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "1" colleges
+    Then SM I verify that CLEAR PINNED LIST option is clickable
+    Then SM I verify the CLEAR PINNED LIST confirmation modal
+    Then SM I verify that the pinned colleges are not cleared when the NO CANCEL button is clicked in the modal
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I verify that the CLEAR PINNED LIST option is disabled
 
