@@ -1,5 +1,7 @@
 package pageObjects.COMMON;
 
+import cucumber.api.DataTable;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -8,8 +10,11 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
 
+import java.util.List;
+
 
 public class NavigationBarImpl extends SeleniumBase {
+    private Logger logger;
     //Navigation controls
     @FindBy(xpath = "//i[@class='sort tiny icon _1oGgpE4PWdo7s3TzYBzNk']|" +
             "//span[contains(@class,'hidden-m')]/i[@class='sort tiny icon _3N6bahErAyB0Hx1zmV_fkt']")
@@ -70,6 +75,8 @@ public class NavigationBarImpl extends SeleniumBase {
     private WebElement userDropdown;
 
     public NavigationBarImpl(){
+
+        logger = Logger.getLogger(NavBarImpl.class);
         PageFactory.initElements(driver, this);
     }
 
@@ -244,6 +251,50 @@ public class NavigationBarImpl extends SeleniumBase {
         goToHome();
         selectUserOption("Sign Out");
         waitUntilPageFinishLoading();
+    }
+
+    /**
+     * Verifies the breadcrumbs with its respective header
+     * @param dataTable
+     */
+    public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
+        navigationDropDown.click();
+        List<List<String>> data = dataTable.raw();
+        for(List<String> row : data){
+            WebElement menu = driver.findElement(By.xpath(String.format(
+                    "//dt[@class='header _1ojTdlgPNhtH4N-__uiqvu']/span[text()='%s']", row.get(0).trim())));
+            String[] subMenusText = row.get(1).split(",");
+            Assert.assertTrue(String.format("The menu: %s is not displayed",row.get(0).trim()),menu.isDisplayed());
+            for(String subMenuText : subMenusText){
+                WebElement subMenu = menu.findElement(By.xpath(String.format(
+                        "ancestor::dl[@class='ui huge inverted vertical _3oMJTHrebN5xpDMwkfhCJw menu']/dt/a/span[text()='%s']"
+                        ,subMenuText.trim())));
+                Assert.assertTrue(String.format("The submenu: %s is not displayed",subMenuText.trim()),subMenu.isDisplayed());
+            }
+        }
+        navigationDropDown.click();
+    }
+
+    /**
+     * Verifies the notifications in the header
+     */
+    public void verifyNotificationIconInHomePage(){
+        String notificationCount;
+        Assert.assertTrue("Notification Icon is not visible",notificationsDropdown.isDisplayed());
+        try{if(driver.findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).isDisplayed())
+        {
+            notificationCount=driver.findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).getText();
+            if(notificationCount.equals(""))
+            {
+                logger.info("There is no notification");
+            }else
+            {
+                logger.info(notificationCount+"noticications are displayed");
+            }
+        }else
+        {
+            logger.info("There is no notification");
+        }}catch(Exception e){}
     }
 
 }
