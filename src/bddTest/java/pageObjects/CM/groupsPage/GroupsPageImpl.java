@@ -239,8 +239,17 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         communityFrame();
         link("Groups").click();
         waitUntilPageFinishLoading();
-        // This may cause other features to fail since it is linking PUBLIC group and not PRIVATE
-        link(By.linkText("**Test Automation** HE Community PUBLIC Group")).click();
+        link(By.linkText("**Test Automation** HE Community PRIVATE Group")).click();
+        driver.findElement(By.className("manage-group-members-link")).click();
+    }
+
+    public void goToSpecificManageGroupMembersPage(String group) {
+        logger.info("Going to the Manage Group Members Page for group " + group);
+        navBar.goToCommunity();
+        communityFrame();
+        link("Groups").click();
+        waitUntilPageFinishLoading();
+        link(By.linkText(group)).click();
         driver.findElement(By.className("manage-group-members-link")).click();
     }
 
@@ -358,7 +367,10 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void checkIfUserIsRemoved() {
         logger.info("Checking if user is removed from the group.");
-        Assert.assertFalse("The user is not removed from the group.", checkItemVisible("PurpleHE Automation"));
+        setImplicitWaitTimeout(1);
+        boolean removed = checkItemVisible("PurpleHE Automation");
+        resetImplicitWaitTimeout();
+        Assert.assertFalse("The user is not removed from the group.", removed);
     }
 
     public void findLeaveGroupBtn() {

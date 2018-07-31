@@ -9,7 +9,7 @@ Feature: Community Admin - Manually Remove User from Group
     And I am sure that user is a member of the group
     And HE I successfully sign out
     Then SP I am logged in to the Admin page as an Admin user
-    And I navigate to Manage Group Members page
+    And I navigate to Manage Group Members page for the "**Test Automation** HE Community PUBLIC Group" group
     And I remove the user from the group
     Then I check if the user is removed
     And SP I successfully sign out
