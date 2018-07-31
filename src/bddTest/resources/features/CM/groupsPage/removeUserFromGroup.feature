@@ -11,4 +11,3 @@ Feature: Community Admin - Manually Remove User from Group
     Then I approve request to join the group
     And I remove the user from the group
     Then I check if the user is removed
-    And SP I successfully sign out

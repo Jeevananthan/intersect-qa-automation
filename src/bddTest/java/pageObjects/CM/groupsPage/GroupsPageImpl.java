@@ -166,7 +166,6 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.id("global-search-box-item-0")).findElement(By.className("title")).click();
         communityFrame();
         waitUntilPageFinishLoading();
-
     }
 
     public void enterTextInSearchBox(String text) {
@@ -522,7 +521,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement leaveGroupButton() {return driver.findElement(By.cssSelector("a[title='Leave Group']"));}
 
-    private WebElement requestToJoinGroupButton() {return driver.findElement(By.cssSelector("a[href].use-ajax.follow.request-to-join.ajax-processed.reply-processed"));}
+    private WebElement requestToJoinGroupButton() {return driver.findElement(By.cssSelector("a[title='Request to join']"));}
 
     private WebElement cancelPendingRequest() {return driver.findElement(By.cssSelector("a[href].use-ajax.unfollow.pending.ajax-processed.reply-processed"));}
 

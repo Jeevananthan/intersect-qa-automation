@@ -34,4 +34,3 @@ Feature: Community User - Approve/Reject Request to Join Private Group
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     Then I check if user is not a member of the group
-    And HE I successfully sign out
