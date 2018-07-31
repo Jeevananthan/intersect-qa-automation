@@ -1889,8 +1889,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-custom-header')]"));
     }
     private WebElement chooseFitCriteriaBar() {
-        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container offscreen-right']"));
-        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
+        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container offscreen-right']"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='supermatch-searchfilter-menu-container']")));
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
     }
     private WebElement selectCriteriaButton1() {
         return driver.findElement(By.xpath("(//button[text()='Select Criteria To Start'])[2]"));
