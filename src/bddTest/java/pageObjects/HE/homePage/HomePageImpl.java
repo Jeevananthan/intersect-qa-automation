@@ -52,7 +52,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void updateProfile() {
         // This line should not be needed.  Current flow is broken.
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
         userDropdown().click();
         button(By.id("user-dropdown-update-profile")).click();
         ensureWeAreOnUpdateProfilePage();
@@ -112,7 +112,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityUpgradeMessage() {
-        navBar.goToHome();
+        navigationBar.goToHome();
         try {
             Assert.assertTrue(driver.findElement(By.id("upgrade-message")).isDisplayed());
             Assert.assertTrue("Expected message for the new widget was not found!"
@@ -258,7 +258,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRepVisitsLandingPage(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitForUITransition();
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
@@ -270,8 +270,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickEvents() {
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-events-menu-link span"), 1));
-        eventsButton().click();
+        navigationBar.goToEvents();
     }
 
     public void openEventList() {
