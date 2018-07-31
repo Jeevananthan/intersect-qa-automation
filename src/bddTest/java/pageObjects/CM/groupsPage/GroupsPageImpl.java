@@ -255,6 +255,16 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.className("manage-group-members-link")).click();
     }
 
+    public void goToSpecificManageGroupMembersPage(String group) {
+        logger.info("Going to the Manage Group Members Page for group " + group);
+        navBar.goToCommunity();
+        communityFrame();
+        link("Groups").click();
+        waitUntilPageFinishLoading();
+        link(By.linkText(group)).click();
+        driver.findElement(By.className("manage-group-members-link")).click();
+    }
+
     public void approveRequestToJoinTheGroup() {
         logger.info("Approving request to join the group.");
         loginPage.defaultLoginSupport();
@@ -369,7 +379,10 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void checkIfUserIsRemoved() {
         logger.info("Checking if user is removed from the group.");
-        Assert.assertFalse("The user is not removed from the group.", checkItemVisible("PurpleHE Automation"));
+        setImplicitWaitTimeout(1);
+        boolean removed = checkItemVisible("PurpleHE Automation");
+        resetImplicitWaitTimeout();
+        Assert.assertFalse("The user is not removed from the group.", removed);
     }
 
     public void findLeaveGroupBtn() {
@@ -500,6 +513,12 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private WebElement addGroupButton() {
         return driver.findElement(By.cssSelector("[href='/groups/add']"));
     }
+
+    /*
+    private WebElement groupNameField() {
+        return driver.findElement(By.xpath("//*[@id=\"edit-group\"]"));
+    }
+    */
 
     private WebElement groupNameField() {
         return driver.findElement(By.id("edit-group-title"));
