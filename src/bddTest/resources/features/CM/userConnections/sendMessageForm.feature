@@ -8,7 +8,8 @@ Feature: Community User - Send Message Form
     And I am connected to HS user
     Then I search for "PurpleHS User" and open profile page of this user
     And I click on connect button
-    # Clicks on button, there's a wait time, no action, then searches for PurpleHS User again, and conducts the step below.
     And I click on Message link
     Then I check if new message form elements are present
+    Then I search for "PurpleHS User" and open profile page of this user
+    And I click disconnect button
     And HE I successfully sign out
