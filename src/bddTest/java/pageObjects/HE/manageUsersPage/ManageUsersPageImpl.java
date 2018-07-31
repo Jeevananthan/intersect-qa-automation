@@ -79,7 +79,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.cssSelector("input[value='"+entity.get(field).toLowerCase()+"']")).click();
             }
         }
-        button("SAVE").click();
+        getSaveButton().click();
     }
 
 
@@ -107,6 +107,13 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
                Assert.assertTrue("Expected to find " + entity.get(key) + "in row for " + entity.get("Email") + ", but it was not found.",row.getText().contains(entity.get(key)));
            }
         }
+    }
+
+    public void verifyAddNewUser() {
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
+        getDriver().findElement(By.cssSelector("a[href='/manageUsers/add-user']")).click();
+        Assert.assertTrue("Did not end up on Add New User page!",getDriver().getCurrentUrl().contains("/manageUsers/add-user"));
     }
 
     private void takeUserAction(String accountName, String action) {
@@ -150,5 +157,13 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
+
+    /**
+     * Gets the save button
+     * @return webelement
+     */
+    private WebElement getSaveButton(){
+        return   driver.findElement(By.xpath("//span[text()='SAVE']"));
+    }
 
 }

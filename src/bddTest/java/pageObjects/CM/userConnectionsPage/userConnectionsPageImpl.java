@@ -111,13 +111,14 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         textbox(By.id("global-search-box-input")).sendKeys(user);
         logger.info("Searching for user.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
-//        link(By.id("global-search-box-item-0")).click();
+        //link(By.id("global-search-box-item-0")).click();
+        waitUntilPageFinishLoading();
         //link(By.cssSelector("img[src='https://qa.community.hobsons.com/sites/default/files/lion-cartoon-roaring.jpg']")).click();
-        link(By.xpath("//*[@id=\"global-search-box-item-0\"]/div")).click();
-        //link.(By.cssSelector("#global-search-box-item-0")).click();
-        //Lion cartoon image not found. Using default icon locator.
-        //link(By.xpath("//*[@id=\"global-search-box-results\"]")).click();
-//        link(By.xpath("//div[contains(text(), '"+user+"')]")).click();
+        //Unable to locate lion cartoon picture.
+        link(By.xpath("//*[@id=\"global-search-box-item-0\"]/i")).click();
+
+        //link(By.xpath("//img[contains(@src, 'lion-cartoon-roaring')]")).click();
+        //link(By.xpath("//div[contains(text(), '"+user+"')]")).click();
         waitUntilPageFinishLoading();
     }
 

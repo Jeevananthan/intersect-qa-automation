@@ -25,12 +25,43 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(pageObjects.HE.loginPage.LoginPageImpl.class);
     }
 
-    public void loginThroughNaviance(String account, String username, String password) {
+    public void loginNaviance(String usertype) {
+        openNavianceLoginPage();
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        logger.info("Logging into the Naviance app -" + driver.getCurrentUrl());
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
+        textbox(By.name("hsid")).sendKeys(hsid);
+        textbox(By.name("username")).sendKeys(username);
+        textbox(By.name("password")).sendKeys(password);
+        logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
+        button("Sign In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
+        waitUntilPageFinishLoading();
+        link(By.cssSelector("[title='Counselor Community']")).click();
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.close();
+        driver.switchTo().window(intersectWindow);
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
+    }
+
+    public void loginThroughNaviance(String usertype) {
         openNavianceLoginPage();
         String navianceWindow = driver.getWindowHandle();
         String intersectWindow = null;
-        textbox(By.name("hsid")).sendKeys(account);
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        textbox(By.name("hsid")).sendKeys(hsid);
+        String username = GetProperties.get("hs."+ usertype + ".username");
         textbox(By.name("username")).sendKeys(username);
+        String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
         waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
@@ -76,6 +107,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
 
         if(!institutionName.equalsIgnoreCase("Request new institution")){
+
             if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
                 logger.info("Results are displayed after the search");
                 link(institutionName).click();
@@ -104,12 +136,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
+
         try {
-            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        } catch (NoSuchSessionException nsse) {
+            driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+            driver.executeScript( GetProperties.get("naviance.app.url"));
+        } catch (Exception e) {
+            getDriver().close();
             load("http://www.google.com");
+            System.out.println("Page: " + GetProperties.get("naviance.app.url") + " did not load within 40 seconds!");
         }
-        load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
 
@@ -239,6 +274,28 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + password + " as password");
         button("Login").click();
         logger.info("Clicked the login button");
+        waitUntilElementExists(link(By.id("user-dropdown")));
+        waitUntilPageFinishLoading();
+    }
+
+    public void blockAccount(String username, String password) {
+        openHSLoginPage();
+        logger.info("Login into the HS app");
+        textbox(By.name("username")).sendKeys(username);
+        logger.info("Using " + username + " as username");
+        textbox(By.name("password")).sendKeys(password);
+        logger.info("Using " + password + " as password");
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        logger.info("Clicked the login button");
+//        waitUntilElementExists(link(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
     }
 

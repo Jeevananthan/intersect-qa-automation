@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.GlobalSearch;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.List;
+
 public class HomePageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -15,6 +17,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public HomePageImpl() {
         logger = Logger.getLogger(HomePageImpl.class);
+    }
+
+    public void verifyUserIsLoggedInForNoRole() {
+        //Check the signout button is present for No Role
+        Assert.assertTrue("User did not signed in",signoutButtonForNoRole().isDisplayed());
+        logger.info("Logged in successfully");
     }
 
     public void verifyUserIsLoggedIn() {
@@ -29,15 +37,33 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void logout() {
-        link(By.id("user-dropdown")).click();
-        driver.findElement(By.cssSelector("div[id='user-dropdown-signout']")).click();
-        waitUntilPageFinishLoading();
-        Assert.assertTrue(getDriver().getCurrentUrl().contains("login"));
-        driver.manage().deleteAllCookies();
+        try{
+            List<WebElement> signoutButton = driver.findElements(By.cssSelector("button[class='ui mini button']"));
+            if (signoutButton.size()==1){
+                signoutButtonForNoRole().click();
+                waitUntilPageFinishLoading();
+                Assert.assertTrue(getDriver().getCurrentUrl().contains("login"));
+                driver.manage().deleteAllCookies();
+            }
+        }catch(Exception e){
+            link(By.id("user-dropdown")).click();
+            driver.findElement(By.cssSelector("div[id='user-dropdown-signout']")).click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue(getDriver().getCurrentUrl().contains("login"));
+            driver.manage().deleteAllCookies();
+        }
     }
 
     public String selectTheFistInstitutionOnTheList() {
         return table("Higher Ed Account Dashboard").clickOnTheFirstElementOfAColumn("Name");
+    }
+
+    public void addPost(String msg)
+    {
+        driver.switchTo().frame("_2ROBZ2Dk5vz-sbMhTR-LJ");
+        driver.findElement(By.xpath("//textarea[@class='form-textarea']")).sendKeys(msg);
+        driver.findElement(By.xpath("//input[@id='edit-save']")).click();
+        driver.switchTo().defaultContent();
     }
 
     public void goToInstitution(String institutionName) {
@@ -89,10 +115,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    private WebElement userDropdownSingout() { return button(By.id("user-dropdown-signout"));}
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
     private WebElement userListTable() {
         return button(By.cssSelector("[class='ui table']"));
     }
+    private WebElement signoutButtonForNoRole(){return driver.findElement(By.cssSelector("button[class='ui mini button']")); }
 }

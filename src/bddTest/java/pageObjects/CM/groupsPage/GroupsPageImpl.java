@@ -22,9 +22,9 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
 
 
-
-    public GroupsPageImpl()  {
-        logger = Logger.getLogger(GroupsPageImpl.class);}
+    public GroupsPageImpl() {
+        logger = Logger.getLogger(GroupsPageImpl.class);
+    }
 
     LoginPageImpl loginPage = new LoginPageImpl();
     HomePageImpl homePage = new HomePageImpl();
@@ -32,7 +32,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
 
     // Deprecated - use communityFrame from PageObjectFacadeImpl instead.
-    public void iframeEnter()  {
+    public void iframeEnter() {
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
         waitForUITransition();
         logger.info("Entered Community iFrame.");
@@ -97,7 +97,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void deleteCreatedGroup(String grouptodelete) {
         WebElement group = driver.findElement(By.partialLinkText(grouptodelete));
         String grouplink = group.getAttribute("href");
-        String groupid = grouplink.substring(grouplink.lastIndexOf("/")+1);
+        String groupid = grouplink.substring(grouplink.lastIndexOf("/") + 1);
         logger.info(">>>>>>DELETING GROUP WITH ID: " + groupid);
         driver.navigate().to("https://qa-support.intersect.hobsons.com/counselor-community/cp-test/remove-user-group/" + groupid);
         logger.info("The group is deleted.");
@@ -143,28 +143,27 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private boolean arePostCommentsAllowed() {
         logger.info("Checking if user can add new comment to the post.");
         try {
+            setImplicitWaitTimeout(1);
             addPostComment().isDisplayed();
             logger.info("User can add new comment to the post.");
+            resetImplicitWaitTimeout();
             return true;
 
         } catch (NoSuchElementException e) {
             logger.info("User cannot add new comment to the post.");
+            resetImplicitWaitTimeout();
             return false;
         }
     }
 
-    public void searchForGroup(String groupname){
+    public void searchForGroup(String groupname) {
         waitUntilPageFinishLoading();
         iframeExit();
         textbox(By.id("global-search-box-input")).clear();
         textbox(By.id("global-search-box-input")).sendKeys(groupname);
         logger.info("Searching for the group.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
-        //waitUntilPageFinishLoading();
-        //waitForUITransition();
-        link(By.xpath("//*[@id=\"global-search-box-item-0\"]")).click();
-        //globalSearchItem().click();
-        //driver.findElement(By.xpath("//*[@id=\"global-search-box-item-0\"]")).click();
+        getDriver().findElement(By.id("global-search-box-item-0")).findElement(By.className("title")).click();
         communityFrame();
         waitUntilPageFinishLoading();
     }
@@ -179,27 +178,44 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void makeSureUserIsMemberOfTheGroup() {
         try {
+            setImplicitWaitTimeout(1);
             joinGroupButton();
             logger.info("User is going to join the group.");
             joinGroupButton().click();
             waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
 
         } catch (NoSuchElementException e) {
             logger.info("User already joined the group.");
+            resetImplicitWaitTimeout();
         }
     }
 
     public void makeSureUserIsMemberOfThePrivateGroup() {
         try {
-            requestToJoinGroupButton();
-            logger.info("User is going to join the group.");
+            if (driver.findElement(By.xpath("//*[@id=\"follow-10671\"]/a")).isDisplayed()) {
+                logger.info("User is going to request to join private group.");
+                requestToJoinGroupButton().click();
+            }
+            homePage.logoutHEDefault();
+            approveRequestToJoinTheGroup();
+            waitUntilPageFinishLoading();
+            loginPage.defaultLoginHE();
+        } catch (NoSuchElementException e){
+            logger.info("User already joined the group.");
+            }
+        try {
+            if (driver.findElement(By.xpath("//*[@id=\"unfollow-10671\"]/a")).isDisplayed()) {
+                logger.info("Canceling Pending request.");
+                cancelPendingRequest().click();
+            }
+            logger.info("Requesting to join private group.");
             requestToJoinGroupButton().click();
             homePage.logoutHEDefault();
-
-            waitUntilPageFinishLoading();
             approveRequestToJoinTheGroup();
-
-        } catch (NoSuchElementException e) {
+            waitUntilPageFinishLoading();
+            loginPage.defaultLoginHE();
+        } catch (NoSuchElementException e){
             logger.info("User already joined the group.");
         }
     }
@@ -216,24 +232,25 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void sendRequestToJoinTheGroup() {
-        logger.info("Clicking on button to join the group.");
-        requestToJoinGroupButton().click();
-        waitUntilPageFinishLoading();
+        try {
+            setImplicitWaitTimeout(1);
+            logger.info("Clicking on button to join the group.");
+            requestToJoinGroupButton().click();
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (NoSuchElementException e) {
+            logger.info("User has already applied to join the group.");
+            resetImplicitWaitTimeout();
+        }
     }
 
     public void goToManageGroupMembersPage() {
         logger.info("Going to the Manage Group Members Page.");
-//        link(By.id("js-main-nav-counselor-community-menu-link")).click();
-//        iframeEnter();
-//        //Next one line we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
-//        link(By.cssSelector("a[href='/profile']")).click();
-//        iframeExit();
-//        link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        driver.navigate().to("https://qa-support.intersect.hobsons.com/counselor-community/groups");
-
+        // Implementing Brian's fix from @MATCH-654
+        navBar.goToCommunity();
         communityFrame();
+        link("Groups").click();
         waitUntilPageFinishLoading();
-//        link(By.cssSelector("a[href='/groups']")).click();
         link(By.linkText("**Test Automation** HE Community PRIVATE Group")).click();
         driver.findElement(By.className("manage-group-members-link")).click();
     }
@@ -244,8 +261,8 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         goToManageGroupMembersPage();
         driver.findElement(By.className("accept-link")).click();
         //homePage.logoutSupport();
-        loginPage.defaultLoginHE();
-        searchForGroup("**Test Automation** HE Community PRIVATE Group");
+        // loginPage.defaultLoginHE();
+      //  searchForGroup("**Test Automation** HE Community PRIVATE Group");
     }
 
     public void denyRequestToJoinTheGroup() {
@@ -254,29 +271,34 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         goToManageGroupMembersPage();
         driver.findElement(By.className("decline-link")).click();
         //homePage.logoutSupport();
-        loginPage.defaultLoginHE();
     }
 
     public void makeSureUserIsNotMemberOfTheGroup() {
         try {
+            setImplicitWaitTimeout(1);
             leaveGroupButton();
             logger.info("User is going to leave the group.");
             leaveGroupButton().click();
             waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
 
         } catch (NoSuchElementException e) {
+            resetImplicitWaitTimeout();
             logger.info("User is not a member of the group.");
         }
     }
 
     public void checkIfUserIsMemberOfTheGroup() {
         logger.info("Checking if user is a member of the group.");
+        setImplicitWaitTimeout(1);
         try {
             leaveGroupButton();
             waitUntilPageFinishLoading();
-
+            resetImplicitWaitTimeout();
         } catch (NoSuchElementException e) {
+            getDriver().findElement(By.cssSelector("a[class^='active-trail']"));
             logger.info("User is not a member of the group.");
+            resetImplicitWaitTimeout();
         }
     }
 
@@ -310,7 +332,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     private boolean checkItemVisible(String item) {
         try {
-            driver.findElement(By.xpath("//*[contains(text(), '" +item+ "')]"));
+            driver.findElement(By.xpath("//*[contains(text(), \"" + item + "\")]"));
             return true;
         } catch (NoSuchElementException ex)  {
             return false;
@@ -342,7 +364,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void removeUserFromTheGroup() {
         logger.info("Removing user from the group.");
-        getDriver().findElement(By.id("active-members")).findElement(By.className("remove-link")).click();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[@class='remove-link']")).click();
     }
 
     public void checkIfUserIsRemoved() {
@@ -371,7 +393,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void checkIfThereArePostsFromPublicGroup() {
         logger.info("Checking if posts from PUBLIC group are visible.");
-        Assert.assertFalse("There are no posts from PUBLIC group.", checkItemVisible("**Test Automation** HE Community PUBLIC Group post."));
+        Assert.assertTrue("There are no posts from PUBLIC group.", checkItemVisible("**Test Automation** HE Community PUBLIC Group post."));
         iframeExit();
     }
 
@@ -499,8 +521,9 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement leaveGroupButton() {return driver.findElement(By.cssSelector("a[title='Leave Group']"));}
 
-    //private WebElement requestToJoinGroupButton() {return driver.findElement(By.cssSelector("#follow-10671 > a"));}
     private WebElement requestToJoinGroupButton() {return driver.findElement(By.cssSelector("a[title='Request to join']"));}
+
+    private WebElement cancelPendingRequest() {return driver.findElement(By.cssSelector("a[href].use-ajax.unfollow.pending.ajax-processed.reply-processed"));}
 
     private WebElement newPostField() {return driver.findElement(By.id("edit-body"));}
 
@@ -514,5 +537,4 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateBtn() {return driver.findElement(By.id("edit-update"));}
     private WebElement searchIcon() {return driver.findElement(By.cssSelector("i[class='search link icon']"));}
     private WebElement groupsTabUnderSearch() {return driver.findElement(By.id("searchResultsTabgroups"));}
-    //private WebElement globalSearchItem() { return driver.findElement(By.xpath("//*[@id=\"global-search-box-item-0\"]"));}
 }

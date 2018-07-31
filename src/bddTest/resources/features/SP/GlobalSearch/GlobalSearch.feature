@@ -18,8 +18,8 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
       | People | Institutions | Groups |
     Then SP I verify that only five or less results are listed in real-time results displayed
       | User | Institutions | Groups |
-    Then SP I verify real-time search results are clickable and actionable "Match"
-    Then SP I verify real-time search layouts are displayed correctly "Match"
+    Then SP I verify real-time search results are clickable and actionable "MatchSupportUIQA4"
+    Then SP I verify real-time search layouts are displayed correctly "Automation"
       | People | Institutions | Groups |
     And SP I successfully sign out
 
@@ -83,10 +83,9 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
       | College Type                  | Standard (4 Year)          |
       | School Type                   | Public                     |
       | Degree                        | 4                          |
-      | City                          | Jonesboro                  |
-      #Search Institution by state is not working ATM --- MATCH-2219 created 6/26/17
-      #| State                         | Arkansas                   |
-      | Postal Code                   | 72401                      |
+      | City                          | State University           |
+      | State                         | Arkansas                   |
+      | Postal Code                   | 72467                      |
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "High School"
       | Keyword                       | Southern                   |
       | Institution Type              | High School                |

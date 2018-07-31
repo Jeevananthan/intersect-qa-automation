@@ -5,18 +5,18 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   Scenario Outline: As an HS user, I want to be able to add precondition
   I want to be able to view the weekly recurring time slots that my school is available for visits
   so that colleges can manage those availabilities.
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set a date using "<StartDate>" and "<EndDate>"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     Examples:
       | StartDate          |EndDate         |
-      | July 29 2018       |July 14 2019    |
+      | 23      |79    |
 
   @MATCH-2989
   Scenario Outline: When entering an appointment that starts between 12:00 pm and 12:59 pm and ends at 1:00 pm or later,
   the appointment should not be blocked by the "Start time must be before end time" error.
   #visit
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set my RepVisits availability to the current school year
   #Start Time:12:xx pm, EndTime:01:00pm
     Then HS I add the new time slot with "21","12:00pm","01:00pm" and "3"
@@ -30,39 +30,12 @@ Feature: As a high school user, I need to be able to add or delete appointment w
       |QA Fair NotificationsTest|21    |1200PM    |0100PM  |17           |$25 |25                    |100                        |Save         |21   |12:00pm  |01:00pm |3        |21       |35     |12:00pm      |
 
 
-    #Scenario is failing and need to be fixed
-#  Scenario: As an HS user, I want to be able to add/remove time slots
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-#    When HS I open the Exceptions page
-#    And HS I select a date "10" days ahead from now
-#    And HS I add a new time slot with the following data:
-#      | Start time | 07:03 am |
-#      | End time   | 08:00 am |
-#      | Visits     | 3        |
-#    Then HS I verify that the time slot was added in a generated date, with the start time "7:03am"
-#    And HS I delete the time slot in a generated date, with start time "7:03am"
-#    And HS I verify that the time slot was removed from the generated date, with the start time "7:03am"
-#    And HS I successfully sign out
 
-
-#  Scenario: As an HS User, I want to be able to clear a day
-#    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
-#    When HS I open the Exceptions page
-#    And HS I select a date "11" days ahead from now
-#    And HS I add a new time slot with the following data:
-#      | Start time | 07:04 am |
-#      | End time   | 08:00 am |
-#      | Max Visits | 3        |
-#    And HS I select a date "11" days ahead from now
-#    Then HS I clear the day
-#    And HS I verify that the time slot was removed from the generated date, with the start time "7:04am"
-#    And HS I successfully sign out
-
-  @MATCH-2682
+  @MATCH-2682 @MATCH-2689
   Scenario Outline: As a high school staff member, I want to be able to edit my regular hours in RepVisits,
   so that I can easily change the number of colleges I will allow during a certain time slot.
 #precondition
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -83,7 +56,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HE I successfully sign out
 
 #verify the Exception tab(before changing the NumofVisits : NumVisits-2)
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to the Exception tab to verify the visits using "Appointment scheduled","<heStartTime>","<StartDate>",""
 
 #verify & edit regular weekly hours(changing NumofVisits from 2 to 1)
@@ -102,7 +75,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HE I successfully sign out
 
 #edit regular weekly hours(changing NumofVisits from 1 to 2)
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours to "2"
 
@@ -118,7 +91,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HE I successfully sign out
 
 #Remove the time slot in Regular Weekly Hours Tab
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     And HS I successfully sign out
@@ -131,7 +104,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   Scenario Outline:As a high school user, I need to be able to view my Unscheduled availability
   so that I can visually see the status of each appointment window.
 #precondition
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
@@ -160,39 +133,39 @@ Feature: As a high school user, I need to be able to add or delete appointment w
   Scenario Outline:As a high school user, I need to be able to view my Blocked Days availability
   so that I can visually see the status of each appointment window.
 #Blocked Days
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I clear the time slot for the particular day "<BlockedDate>" in Regular Weekly Hours Tab
-    Then HS I set the date using "<BlockedDate>" and "<EndDate>"
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I Remove the created blocked days
-    Then HS I set the Blocked date and select the reason as "School Event" in the Holiday tab using "<BlockedDate>"
+    Then HS I set the Blocked date and select the reason as "<BlockedDate>" in the Holiday tab using "School Event"
     Then HS I verify the Blocked days with reason "Blocked - School Event" in Exception subtab using "<BlockedDate>"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "No School" in the Holiday tab using "<BlockedDate>"
+    Then HS I set the Blocked date and select the reason as "<BlockedDate>" in the Holiday tab using "No School"
     Then HS I verify the Blocked days with reason "Blocked - No School" in Exception subtab using "<BlockedDate>"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "Holiday" in the Holiday tab using "<BlockedDate>"
+    Then HS I set the Blocked date and select the reason as "<BlockedDate>" in the Holiday tab using "Holiday"
     Then HS I verify the Blocked days with reason "Blocked - Holiday" in Exception subtab using "<BlockedDate>"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
-    Then HS I set the Blocked date and select the reason as "Other" in the Holiday tab using "<BlockedDate>"
+    Then HS I set the Blocked date and select the reason as "<BlockedDate>" in the Holiday tab using "Other"
     Then HS I verify the Blocked days with reason "Blocked - Other" in Exception subtab using "<BlockedDate>"
     Then HS I verify the diagonal HashLines present in the Blocked date "<BlockedDate>","<back-ground color>"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
     Then HS I successfully sign out
 
     Examples:
-      |BlockedDate|EndDate |back-ground color|
-      |7          |14      |rgba(0, 0, 0, 0) |
+      |StartDate|EndDate|BlockedDate|EndDate |back-ground color|
+      |1       |49     |7          |14      |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Max Appointments availability
   so that I can visually see the status of each appointment window.
 #Max Appointments Met Day
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
@@ -206,7 +179,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     And HE I verify the schedule pop_up for "<School>" using "<MaxstartTime>" and "<MaxEndTime>"
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "1" visits per day
     Then HS I go to the Exception tab to verify the visits using "Max visits met","<MaxhestartTime>","<StartDate>",""
     Then HS I verify the diagonal HashLines present in the Max Appointments Met date "<StartDate>","<back-ground color>"
@@ -216,14 +189,14 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |Day|StartDate|EndDate |School              |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|
-      |28 |28       |49      |Int Qa High School 4|4           |11:         |12:           |12:59pm   |rgba(0, 0, 0, 0) |
+      |28 |28       |49      |Int Qa High School 4|2           |12:am         |12:am           |12:59pm   |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Partially Scheduled availability
   so that I can visually see the status of each appointment window.
  #Partially Scheduled Day
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
@@ -243,7 +216,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     And HE I verify the schedule pop_up for "<School>" using "<PartiallystartTime>" and "<PartiallyEndTime>"
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "5" visits per day
     Then HS I verify the Partially scheduled Appointments With Message "2 Appointments scheduled" in Exception subtab using "<StartDate>"
     Then HS I verify the light blue background color present in the Partially Scheduled availability using "<PartiallystartTime>","<StartDate>","<back-ground color>" in Exception Tab
@@ -253,14 +226,14 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |Day|StartDate|EndDate |School              |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     |
-      |28 |28       |49      |Int Qa High School 4|5                 |10:               |12:                 |12:59pm          |rgba(255, 255, 255, 1)|
+      |28 |28       |49      |Int Qa High School 4|5                 |10:am               |12:am                 |12:59pm          |rgba(255, 255, 255, 1)|
 
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Fully Booked availability
   so that I can visually see the status of each appointment window.
  #Fully Booked Day
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I clear the time slot for the particular day "<FullyBookedStartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<FullyBookedStartDate>" and "<FullyBookedEndDate>"
     And HS I verify the update button appears and I click update button
@@ -280,7 +253,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     And HE I verify the schedule pop_up for "<School>" using "<FullystartTime>" and "<FullyEndTime>"
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with account "blue4hs" and username "iam.purple" and password "password"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to the Exception tab to verify the visits using "Fully booked","<FullyhestartTime>","<FullyBookedStartDate>",""
     Then HS I verify the diagonal HashLines present in the Fully booked date "<FullyBookedStartDate>","<back-ground color>"
     Then HS I remove the Time Slot created with "<FullyBookedStartDate>","<FullystartTime>" in Regular Weekly Hours Tab
@@ -288,5 +261,5 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |Day |School              |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color|
-      |21  |Int Qa High School 4|2             |11:           |12:             |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) |
+      |21  |Int Qa High School 4|2             |11:am           |12:am             |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) |
 

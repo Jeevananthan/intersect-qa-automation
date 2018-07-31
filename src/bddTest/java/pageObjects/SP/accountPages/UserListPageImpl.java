@@ -80,9 +80,9 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         }
         if (!buttonToClick.equals("")) {
             if (buttonToClick.equalsIgnoreCase("Save")) {
-                button("Save").click();
+                saveButtonInCreateUser().click();
             } else if (buttonToClick.equalsIgnoreCase("Cancel")) {
-                button("Cancel").click();
+                CancelButtonInCreateUser().click();
             }else{
               fail("The option for button to click is not a valid one");
             }
@@ -103,6 +103,12 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
 
     public void verifyUserIsPrimary(String userName) {
         verifyStatusIcon(userName,"primary");
+    }
+
+    public void verifyEditPrimaryUserDetails(){
+        Boolean canEdit = false;
+        button(By.xpath("//span[text()='Primary User Details']/../button")).click();
+        Assert.assertTrue("The edit primary user page was not displayed", text("Update Primary User for").isDisplayed());
     }
 
     public void verifyUserIsNotPrimary(String userName) {
@@ -168,7 +174,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         String visitDate = getSpecificDateForVisit(date);
         String currentDate = getDate("0");
-        String value = supportUserName+" logged in as "+user+" RSVP'd RepVisitsDay "+visitDate+"";
+        String value =supportUserName+" logged in as "+ user+" RSVP'd RepVisitsDay "+visitDate+"";
         String originalDate = "";
         String originalValue = "";
         int rowData = 1;
@@ -265,6 +271,12 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
+    }
+    private WebElement saveButtonInCreateUser(){
+        return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
+    }
+    private WebElement CancelButtonInCreateUser(){
+        return getDriver().findElement(By.xpath("//button/span[text()='Cancel']"));
     }
 
 }

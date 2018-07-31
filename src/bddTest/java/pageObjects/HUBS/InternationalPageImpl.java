@@ -116,7 +116,7 @@ public class InternationalPageImpl extends PageObjectFacadeImpl {
                             getIntApplication(sections.get(3).get(1).toUpperCase()).getText().equals(generatedValues.get(key)));
                     break;
                 case "Test Scores" :
-                    assertTrue("The value for " + key + " was not successfully generated",
+                    assertTrue("The value for " + key + " was not successfully generated. UI: " + getIntTestScoresTableValue(sections.get(4).get(1).split(";")[0], sections.get(4).get(1).split(";")[1]).getText() + ". Data: " + generatedValues.get(key),
                             getIntTestScoresTableValue(sections.get(4).get(1).split(";")[0], sections.get(4).get(1).split(";")[1]).getText().equals(generatedValues.get(key)));
                     break;
                 case "Qualifications" :

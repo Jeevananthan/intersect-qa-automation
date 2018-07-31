@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.EmailNotifications;
 import pageObjects.HE.repVisitsPage.RepVisitsPageImpl;
@@ -236,7 +237,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the Non-admins cannot reach the page directly by URL$",repVisits::verifyNavigationInNonAdminByURl);
 
-        Then("^HE I verify the School details in Travel plan \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifySchoolDetailsInTravelPlan);
+        Then("^HE I verify the School details in Travel plan \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifySchoolDetailsInTravelPlan);
 
         Then("^HE I verify the instructional text in Travel Plan and verify the link to navigate to the Recommendations page$",repVisits::verifyLinkInTravelPlanPage);
 
@@ -289,6 +290,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify that the previously created fair appears for \"([^\"]*)\"$",repVisits::verifyCollegeFairVisible);
 
         Then("^HE I verify that the previously created fair does not appear for \"([^\"]*)\"$",repVisits::verifyCollegeFairNotVisible);
+      
+        Then("^HE I select Visits to verify the appointment is not present for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyBlockedAvailability);
 
         When("^HE I open the Calendar tab in RepVisits$", repVisits::openCalendar);
 
@@ -349,5 +352,72 @@ public class RepVisitsPageStepDefs implements En {
         And("^HE I verify \"([^\"]*)\" is displayed in the search results$",repVisits::verifyLabelInSearchResult);
       
         And("^HE I verify \"([^\"]*)\" is displayed in the search tooltip$",repVisits::verifySearchToolTip);
+
+        Then("^HE I click the link \"([^\"]*)\" in search and schedule page$",repVisits::selectLinkInsearchAndSchedule);
+
+        Then("^HE I verify the Header \"([^\"]*)\" is displayed in search results Page$",repVisits::verifyTextInSearchResultPage);
+
+        Then("^HE I verify the Header name is changed to \"([^\"]*)\" in search result Page$",repVisits::verifyTextInSearchResultPage);
+
+        Then("^HE I verify the school is displayed in schedule page after click the school link using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchoolInSchedulePage);
+
+        Then("^HE I verify the button \"([^\"]*)\" is displaying for more than 25 results$",repVisits::verifyMoreResultButtonInSearchAndSchedulePage);
+
+        Then("^HE I verify \"([^\"]*)\" results is not displayed in search and schedule page after move out from International Schools results view$",repVisits::verifySearchAndSchedulePageAfterMovedOut);
+
+        Then("^HE I verify the International Schools list view does not load for freemium users in search and schedule page$",repVisits::verifyInternationalSchoolsListIsNotDisplayedforFreemium);
+
+        Then("^HE I get the URL of the current page$",repVisits::getCurrentPageURL);
+      
+        And("^HE I verify the city and state \"([^\"]*)\" are present in the underneath of School Name \"([^\"]*)\" in the Request Notification Tab$",repVisits::verifyCityAndStateInRequestNotificationsubTab);
+
+        And("^HE I verify the city and state \"([^\"]*)\" are present in the underneath of School Name \"([^\"]*)\" in the Activity Tab$",repVisits::verifyCityAndStateInActivitysubTab);
+
+        And("^HE I verify the city and state \"([^\"]*)\" are present in the underneath of School Name \"([^\"]*)\" in the Request Notification Tab for Fairs$",repVisits::verifyCityAndStateInRequestNotificationsubTabforFairs);
+
+        And("^HE I verify the city and state \"([^\"]*)\" are present in the underneath of School Name \"([^\"]*)\" in the Activity Tab for Fairs$",repVisits::verifyCityAndStateInActivitysubTabforFairs);
+      
+        Then("^HE I verify the results count by \"([^\"]*)\" using \"([^\"]*)\" in search results page$",repVisits::verifyResultsCountInSchedulePage);
+
+        And("^HE I verify the data for the following fair$",repVisits::verifyCollegeFairOnList);
+      
+        Then("^HE I verify \"([^\"]*)\" stub menu is present in Account settings page for Premium$",repVisits::verifyYourNotificationTabforPremium);
+
+        Then("^HE I verify \"([^\"]*)\" stub menu is not present in Account settings page for Freemium$",repVisits::verifyYourNotificationTabforfreemium);
+
+        Then("^HE I verify the following details are present in Your Notifications subtab$",repVisits::verifyYourNotificationTab);
+
+        Then("^HE I verify the success message \"([^\"]*)\" after click Save button$",repVisits::verifySuccessMessageInYourNotification);
+
+        Then("^HE I verify the saved changes after navigate away from Your Notifications subtab$",repVisits::verifySavedChangesInYourNotification);
+
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
+
+        Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
+      
+        Then("^HE I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
+
+        And("^HE I verify the \"([^\"]*)\" button \"([^\"]*)\" for schools with \"([^\"]*)\"$",repVisits::verifyViewButtonForTravelPlanSchools);
+
+        Then("^HE I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
+
+        Then("^HE I verify the message \"([^\"]*)\" is displaying in the \"([^\"]*)\" page$",repVisits::verifyAgendaPageForFreemium);
+
+        And("^HE I verify the \"([^\"]*)\" appointments for schools in travel plan$",repVisits::verifySchoolAppointmentsInTravelPlan);
+
+        Then("^HE I verify \"([^\"]*)\" button is displaying in the \"([^\"]*)\" page$",repVisits::verifyUpgradeButtonInAgendaPage);
+
+        Then("^HE I verify the upgrade model page after clicking the UPGRADE button in Agenda view$",repVisits::verifyUpgradeModelPage);
+
+        Then("^HE I set the value Alert me when high schools become available in RepVisits to selected$",repVisits::selectAlertBoxInYourNotification);
+      
+        Then("^HE I verify the error Message \"([^\"]*)\" is displaying when \"([^\"]*)\" is not selected for \"([^\"]*)\"$",repVisits::verifyErrorMessageInReAssignAppointments);
+      
+        Then("^HE I verify the disabled date \"([^\"]*)\" is not clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsNotClickableInEndDate);
+      
+        Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
+
     }
 }
