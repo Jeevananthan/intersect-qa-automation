@@ -2020,11 +2020,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void goToWelcomeWizard(){
         load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
-        button("Get Started!").click();
+       driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
     }
     public void navigateToRepvisitWizard(String wizardName){
         while(driver.findElements(By.xpath("//div[@class='active step' and @name ='"+wizardName+"']")).size()==0){
-            button("Next").click();
+            driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
         }
     }
 
@@ -2832,7 +2832,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void completeSetupWizard(String visitAvailability){
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Availability & Settings").click();
+        waitUntilElementExists(driver.findElement(By.partialLinkText("Availability & Settings")));
+        driver.findElement(By.partialLinkText("Availability & Settings")).click();
         waitUntilPageFinishLoading();
         waitForUITransition();
         List<WebElement> availabilityAndSettings = driver.findElements(By.xpath("//a/span[text()='Regular Weekly Hours']"));
@@ -4305,7 +4306,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement autoApprovalNoRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-no")); }
     private WebElement saveButton() { return getDriver().findElement(By.xpath("//span[text()='Save']")); }
     private WebElement cancelFairNoAutoApprovals() { return driver.findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ span")); }
-    private WebElement availabilityAndSettingsButton() { return getDriver().findElement(By.xpath("//span[text()='Availability & Settings']")); }
+    private WebElement availabilityAndSettingsButton() { return getDriver().findElement(By.partialLinkText("Availability & Settings")); }
     private WebElement innerExceptionsButton() { return getDriver().findElement(By.cssSelector("ul.ui.pointing.secondary.fourth.menu li:nth-of-type(3) a")); }
     private WebElement chooseADateButton() { return getDriver().findElement(By.cssSelector("button.ui.small.button i")); }
     private WebElement newTimeSlotStartTime() { return getDriver().findElement(By.cssSelector("input[title=\"start time\"]")); }

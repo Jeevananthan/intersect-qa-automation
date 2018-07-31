@@ -50,7 +50,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(intersectWindow);
         waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
+//        waitUntilElementExists(getDriver().findElement(By.cssSelector("a[id='js-main-sidebar-nav-home-menu-link']")));
+
     }
 
     public void loginThroughNaviance(String usertype) {
