@@ -6,7 +6,6 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user wit
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the "ActiveMatch" nav link is displaying for this user
     And HE I open the Active Match section
-    Then HE The Active Match page is displayed
     And HE I successfully sign out
 
   @MATCH-3010

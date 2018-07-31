@@ -115,12 +115,8 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
         //link(By.id("global-search-box-item-0")).click();
         waitUntilPageFinishLoading();
-        //link(By.cssSelector("img[src='https://qa.community.hobsons.com/sites/default/files/lion-cartoon-roaring.jpg']")).click();
-        //Unable to locate lion cartoon picture.
         link(By.xpath("//*[@id=\"global-search-box-item-0\"]/i")).click();
-
-        //link(By.xpath("//img[contains(@src, 'lion-cartoon-roaring')]")).click();
-        //link(By.xpath("//div[contains(text(), '"+user+"')]")).click();
+        //link(By.id("global-search-box-item-0")).click();
         waitUntilPageFinishLoading();
     }
 
@@ -141,8 +137,25 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         iframeExit();
         searchForUser("PurpleHS User");
         communityFrame();
+        // Connects to user for the first time.
         try {
             setImplicitWaitTimeout(1);
+            logger.info("Connecting with User.");
+            connectToUserButton().click();
+            sendInvitationToUserButton().click();
+            waitUntilPageFinishLoading();
+            acceptConnectionRequestByHSUser();
+            waitUntilPageFinishLoading();
+        } catch (NoSuchElementException ex) {
+            logger.info("The PurpleHS user is already a connection.");
+        }
+        // Connects to user if invite is pending.
+        try {
+            if(driver.findElement(By.xpath("//*[@id=\"cp-ur-17417\"]/a")).isDisplayed()) {
+                logger.info("Invitation already sent.");
+                acceptConnectionRequestByHSUser();
+            }
+            logger.info("Connecting with User.");
             connectToUserButton().click();
             sendInvitationToUserButton().click();
             waitUntilPageFinishLoading();
@@ -162,7 +175,15 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         communityFrame();
         try {
             setImplicitWaitTimeout(1);
-            clickDisconnectBtn();
+            String buttonText = connectToUserButton().findElement(By.className("cp-ur-link-wrapper")).findElement(By.tagName("a")).getText();
+            if (buttonText.equals("Invited")) {
+                acceptConnectionRequestByHSUser();
+                searchForUser(user);
+                communityFrame();
+                clickDisconnectBtn();
+            } else {
+                clickDisconnectBtn();
+            }
             resetImplicitWaitTimeout();
         } catch (NoSuchElementException ex) {
             logger.info("The user is not a connection.");
@@ -436,7 +457,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void clickMessageLink() {
         logger.info("Clicking on Message link.");
-//        iframeEnter();
+        //iframeEnter();
         waitUntilPageFinishLoading();
         messageLink().click();
     }

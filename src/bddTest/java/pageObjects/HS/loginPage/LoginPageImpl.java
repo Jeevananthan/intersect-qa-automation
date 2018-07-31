@@ -75,8 +75,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
         driver.close();
         driver.switchTo().window(intersectWindow);
-        waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
+        waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.id("app")));
     }
 
     public void openNonNavianceLoginPage(){
@@ -252,7 +252,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLogoInHomePage()
     {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-white.png";
         String actualIntersectLogo=driver.findElement(By.cssSelector("dt[class='header _2_tAB8btcE4Sc5e1O_XUwn']>img[alt='Intersect Logo']")).getAttribute("src");
