@@ -13,6 +13,7 @@ import selenium.SeleniumBase;
 import java.util.List;
 
 
+
 public class NavigationBarImpl extends SeleniumBase {
     private Logger logger;
     //Navigation controls

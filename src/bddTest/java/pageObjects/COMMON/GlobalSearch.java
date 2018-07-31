@@ -765,7 +765,7 @@ public class GlobalSearch extends SeleniumBase {
         return getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']"));
     }
     private WebElement navHome(){
-        return getDriver().findElement(By.id("js-main-nav-home-menu-link"));
+        return getDriver().findElement(By.id("app"));
     }
     private void jsClick(WebElement element) {
         driver.executeScript("arguments[0].click();",element);
