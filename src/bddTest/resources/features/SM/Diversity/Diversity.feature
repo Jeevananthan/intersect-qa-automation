@@ -66,7 +66,5 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
       | Coed                |
       | Women               |
       | Men                 |
-    #In above @MATCH-3439, under Examples section, we are not passing Women's college & Men's College because the special
-    # character ' is creating problem while writing xpath.
 
 

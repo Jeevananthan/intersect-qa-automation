@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
@@ -35,7 +36,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToCounselorCommunity(){
         //link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
     }
 
     public void verifyTitleHS(String generalCategoryName,String pageName){
@@ -53,7 +54,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         additionalLink.click();
         waitForUITransition();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("College is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+college+"']")).isDisplayed());
+        Assert.assertTrue("College is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+college+"" +" test'" +"]")).isDisplayed());
         String currentURL = additionalInfoURL+SCID+info;
         String additionalInfoCurrentURL = driver.getCurrentUrl();
         Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
@@ -74,9 +75,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         String currentURL = additionalInfoURL+institutionID+info;
         link(backToIntersect).click();
         String additionalInfoCurrentURL = driver.getCurrentUrl();
+        waitUntilPageFinishLoading();
+        new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe((additionalInfoCurrentURL)));
         Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
         waitUntilPageFinishLoading();
-        waitForUITransition();
         driver.switchTo().defaultContent();
     }
 

@@ -175,28 +175,78 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
 
 
   @MATCH-1598
-Scenario Outline: As a HS RepVisits user I want to be able to access the College Fair overview page
-Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
-Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
-Then HS I Click on the "Close" button in the success page of the college fair
-Then HS I verify the data for the fair present on the College Fair Overview page "PreviouslySetFair","<date>","<CollegesRegistered>","<RSVPBy>","<Time>","<ViewDetails>"
+  Scenario Outline: As a HS RepVisits user I want to be able to access the College Fair overview page
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
+    Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    Then HS I verify the data for the fair present on the College Fair Overview page "PreviouslySetFair","<date>","<CollegesRegistered>","<RSVPBy>","<Time>","<ViewDetails>"
 
-Examples:
-|CollegeFairName      |Date            |StartTime|EndTime|RSVPDate        |Cost  |MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|date        |CollegesRegistered   |RSVPBy	    |Time             |ViewDetails|
-|QA Test Fair Overview|3               |1012AM   |1112AM |2               |$25   |25                 |100                     |Save         |3           |0 of 25 spots filled |2             |10:12am - 11:12am|Yes        |
+  Examples:
+    |CollegeFairName      |Date            |StartTime|EndTime|RSVPDate        |Cost  |MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|date        |CollegesRegistered   |RSVPBy	    |Time             |ViewDetails|
+    |QA Test Fair Overview|3               |1012AM   |1112AM |2               |$25   |25                 |100                     |Save         |3           |0 of 25 spots filled |2             |10:12am - 11:12am|Yes        |
 
-
-
-
-@MATCH-1937
-Scenario: As a high school RepVisits user, I want to be able to specify who is notified of changes to college fairs,
-So that I can be sure the right staff members are informed.
+  @MATCH-1937
+  Scenario: As a high school RepVisits user, I want to be able to specify who is notified of changes to college fairs,
+            So that I can be sure the right staff members are informed.
     #BLUE4HS has an issue with duplicated Primary contacts, so using standalone 1 instead.
-Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-Then HS I verify configuration and staff notifications for "District Manager" and "NidhuHS User"
-Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
-Then HS I add the following attendees to the College Fair
-|Andrew Lane|
-Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "Andrew Lane"
-Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify configuration and staff notifications for "District Manager" and "NidhuHS User"
+    Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
+    Then HS I add the following attendees to the College Fair
+      |Andrew Lane|
+    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "Andrew Lane"
+    Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
+
+  @MATCH-2382
+  Scenario: As a HS user, I should see a green confirmation message when I save College Fair settings
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I go to the College Fair Settings page
+    Then HS I click on the Save Settings button in College Fairs tab
+    Then HS I verify that a banner appears letting me know that College Fair settings were saved
+
+  @MATCH-2202
+  Scenario Outline: As a HS RepVisits user who has canceled an HE attendee at a college fair
+  I want to be able to re-add that attendee to the fair
+  So that I can optimize fair attendance.
+#create fair
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+#add attendee
+    Then HS I add the following attendees to the College Fair
+      |<Attendee>|
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+#cancel attendee
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I Click the "Cancel" button for the attendee "<Attendee>"
+    Then HS I set the following data in the confirm cancel pop-up "<cancellationMessage>","<buttonToClickYes, cancel visit>"
+    And HS I successfully sign out
+#register the fair from the cancelled attendee
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+#decline attendee
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
+    Then HS I select "DECLINE" option for "<College Fair Name>"
+    Then HS I verify the DECLINE pop-up for "<institution>","<cancellationMessage>" in Fairs
+    And HS I successfully sign out
+#register the fair from the declined attendee
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+#confirm attendee
+    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
+    Then HS I select "CONFIRM" option for "<College Fair Name>"
+#cancel the college Fair
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+    And HS I successfully sign out
+    Examples:
+      |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School              |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
+      |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Int Qa High School 4|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |

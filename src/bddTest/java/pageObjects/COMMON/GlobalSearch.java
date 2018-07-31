@@ -765,7 +765,7 @@ public class GlobalSearch extends SeleniumBase {
         return getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']"));
     }
     private WebElement navHome(){
-        return getDriver().findElement(By.id("js-main-nav-home-menu-link"));
+        return getDriver().findElement(By.id("app"));
     }
     private void jsClick(WebElement element) {
         driver.executeScript("arguments[0].click();",element);
@@ -782,7 +782,7 @@ public class GlobalSearch extends SeleniumBase {
         driver.findElement(By.xpath("//div[@class='ui icon input']/i")).click();
     }
     private void clickAdvancedSearchLink(){
-        driver.findElement(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']/a")).click();
+        driver.findElement(By.xpath("//a[@class='_2waFWfxII0j7r2BeR0CvAP _2XBqbkhND-fSTGCdDlrVjR']")).click();
     }
     private WebElement RepvisitsAvailabilityButton()
     {
