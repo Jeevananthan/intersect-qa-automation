@@ -10,7 +10,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     Examples:
       | StartDate          |EndDate         |
-      | July 29 2018       |July 14 2019    |
+      | 23      |79    |
 
   @MATCH-2989
   Scenario Outline: When entering an appointment that starts between 12:00 pm and 12:59 pm and ends at 1:00 pm or later,
@@ -31,7 +31,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
 
 
-  @MATCH-2682
+  @MATCH-2682 @MATCH-2689
   Scenario Outline: As a high school staff member, I want to be able to edit my regular hours in RepVisits,
   so that I can easily change the number of colleges I will allow during a certain time slot.
 #precondition
@@ -158,7 +158,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |StartDate|EndDate|BlockedDate|EndDate |back-ground color|
-      |14       |49     |7          |14      |rgba(0, 0, 0, 0) |
+      |1       |49     |7          |14      |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581
@@ -189,7 +189,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |Day|StartDate|EndDate |School              |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|
-      |28 |28       |49      |Int Qa High School 4|4           |11:         |12:           |12:59pm   |rgba(0, 0, 0, 0) |
+      |28 |28       |49      |Int Qa High School 4|2           |12:am         |12:am           |12:59pm   |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581
@@ -226,7 +226,7 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |Day|StartDate|EndDate |School              |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     |
-      |28 |28       |49      |Int Qa High School 4|5                 |10:               |12:                 |12:59pm          |rgba(255, 255, 255, 1)|
+      |28 |28       |49      |Int Qa High School 4|5                 |10:am               |12:am                 |12:59pm          |rgba(255, 255, 255, 1)|
 
 
   @MATCH-1581
@@ -261,5 +261,5 @@ Feature: As a high school user, I need to be able to add or delete appointment w
 
     Examples:
       |Day |School              |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color|
-      |21  |Int Qa High School 4|2             |11:           |12:             |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) |
+      |21  |Int Qa High School 4|2             |11:am           |12:am             |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) |
 

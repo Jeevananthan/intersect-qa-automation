@@ -20,5 +20,5 @@ Feature: As a HS user, I want to be able to access HUBS Edit Mode
 
     Examples:
       |SCID |institution              |institutionID|beforeClickingBackToIntersectLink                          |afterClickingBackToIntersectLink                             |
-      |636  |The University of Alabama|2400006      |https://qa-hs.intersect.hobsons.com/community/institution/ |https://qa-hs.intersect.hobsons.com/community/institution-id/|
-#      |705  |Alpena Community College |3300669      |https://qa-hs.intersect.hobsons.com/community/institution/ |https://qa-hs.intersect.hobsons.com/community/institution-id/|
+      |636  |The University of Alabama|636      |https://qa-hs.intersect.hobsons.com/community/institution/ |https://qa-hs.intersect.hobsons.com/community/institution/|
+#      |705  |Alpena Community College |3300669      |https://qa-hs.intersect.hobsons.com/community/institution/ |https://qa-hs.intersect.hobsons.com/community/institution-id/|institution-id/|

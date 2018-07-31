@@ -156,7 +156,12 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
               so that I can easily view all the high school I may want to visit on one screen.
 #Pre-Conditions
-    Given HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
+    Given SP I am logged in to the Admin page as an Admin user
+      When SP I search for "2400006"
+      And SP I select "The University of Alabama" from the global search results
+      Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+      And SP I successfully sign out
+    And HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -246,5 +251,104 @@ Examples:
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
     Examples:
-      |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime |
-      |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:25am    |10:25am|
+     |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime |
+     |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:25am    |10:25am|
+ 
+ @MATCH-4260 @MATCH-3730
+  Scenario Outline: As an HE Freemium user I can not be able to view Your Notifications stub menu in Account settings page
+    Given HE I am logged in to Intersect HE as user type "<hePremiumUser>"
+    Then HE I verify "<yourNotifications>" stub menu is present in Account settings page for Premium
+    Then HE I set the value Alert me when high schools become available in RepVisits to selected
+    Then HE I verify the following details are present in Your Notifications subtab
+      |Your Notifications|REPVISITS|Alert me when high schools become available in RepVisits|
+    Then HE I verify the success message "Your notifications settings were updated." after click Save button
+    Then HE I verify the saved changes after navigate away from Your Notifications subtab
+    Then HE I set the value Alert me when high schools become available in RepVisits to selected
+    Then HE I successfully sign out
+
+   #precondition
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "<university>" from the institution dashboard
+    And SP I set the "<module>" module to "<activeOrInactive>" in the institution page
+    And SP I Click the Save Changes button
+    Then SP I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "<heFreemiumUser>"
+    Then HE I verify "<yourNotifications>" stub menu is not present in Account settings page for Freemium
+    Then HE I successfully sign out
+
+    Examples:
+      |hePremiumUser|heFreemiumUser    |yourNotifications |university                                |module                          |activeOrInactive|
+      |administrator|limited           |Your Notifications|Bowling Green State University-Main Campus|Intersect Presence Subscription |inactive        |
+      |publishing   |limitedPublishing |Your Notifications|Bowling Green State University-Main Campus|Intersect Presence Subscription |inactive        |
+      |community    |limitedCommunity  |Your Notifications|Bowling Green State University-Main Campus|Intersect Presence Subscription |inactive        |
+
+  @MATCH-4260 @MATCH-3730
+  Scenario Outline: As an HS user I can not be able to view Your Notifications stub menu in Account settings page
+#Naviance
+    Given HS I am logged in to Intersect HS through Naviance with user type "<navianceUser>"
+    Then HS I verify "<yourNotifications>" stub menu is not present in Account settings page for "Naviance"
+    And HS I successfully sign out
+
+  #Non-Naviance
+    Given HS I am logged in to Intersect HS as user type "<non-NavianceUser>"
+    Then HS I verify "<yourNotifications>" stub menu is not present in Account settings page for "non-Naviance"
+    And HS I successfully sign out
+
+    Examples:
+      |non-NavianceUser |navianceUser  |yourNotifications |
+      |administrator    |navianceAdmin |Your Notifications|
+      |member           |navianceMember|Your Notifications|
+      
+  @MATCH-4224
+  Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user, I want to understand why I can't submit the "Re-assign Appointments" modal form,
+                    so that I can correct my entries as necessary and successfully submit.
+#Pre-Conditions
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+#Create a Visit
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
+#Register a Visit
+    Given HE I want to login to the HE app using "purpleheautomation+4224@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    And HE I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the error Message "Please select a Staff Member" is displaying when "Select staff member" is not selected for "4224, Automation"
+    Then HE I verify the error Message "Please select a New Assignee" is displaying when "Select new assignee" is not selected for "4224, Automation"
+    Then HE I verify the error Message "Please select at least one appointment" is displaying when "No appointments" is not selected for "4224, Automation"
+    Then HE I verify the error Message "doesn't have any appointments scheduled." is displaying when "Select staff member, no associated visits or fairs" is not selected for "Fresh, PurpleHE"
+    Then HE I verify the error Message "Please select a Staff Member" is disappearing when the error message "doesn't have any appointments scheduled." is displayed for "Fresh, PurpleHE"
+    And HE I successfully sign out
+
+  Examples:
+  |School               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |Date|
+  |Int Qa High School 4 |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |14  |
+  
+  @MATCH-3631
+  Scenario Outline: As a HE and HS user in RVs viewing my calendar in Agenda view,
+             I want the dates that are grayed out (i.e. past dates) to not be selectable,
+             so that I don't accidentally select a date earlier than the start date and potentially get confused as to why no data is showing.
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set the date using "<StartDate>" and "<EndDate>" in calendar "Agenda" view
+    Then HS I verify the disabled date "<disabledDate>" is not clickable in calendar Agenda view
+    And HS I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I set the date using "<StartDate>" and "<EndDate>" in calendar "Agenda" view
+    Then HE I verify the disabled date "<disabledDate>" is not clickable in calendar Agenda view
+    And HE I successfully sign out
+
+    Examples:
+       |StartDate|EndDate|disabledDate|
+       |7        |14     |5           |

@@ -17,8 +17,8 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToHubsPage(String collegeName){
         waitUntilPageFinishLoading();
         communityFrame();
-        WebElement additionalLink = link("Additional info");
-        waitUntil(ExpectedConditions.visibilityOf(additionalLink));
+        WebElement additionalLink = driver.findElement(By.xpath(("//li/a[text()='Additional info']")));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//li/a[text()='Additional info']"),1));
         additionalLink.click();
         waitUntilPageFinishLoading();
         WebElement viewNavianceCollegeProfile = link("VIEW NAVIANCE COLLEGE PROFILE");
@@ -30,9 +30,8 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
         waitForUITransition();
         try{
-            waitUntil(ExpectedConditions.visibilityOf(collageNameLabel()));
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("h1.masthead__name"), 1));
             waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
-
         }catch(Exception e){
             logger.info("Caught Exception: " + e.getMessage());
             getDriver().switchTo().defaultContent();
