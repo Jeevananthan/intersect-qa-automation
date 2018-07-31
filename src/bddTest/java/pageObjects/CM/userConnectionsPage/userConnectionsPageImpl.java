@@ -44,9 +44,8 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void goToUserConnectionsPage() {
         logger.info("Going to user connections page.");
-//        link(By.id("js-main-nav-counselor-community-menu-link")).click();
         iframeExit();
-        link(By.partialLinkText("Counselor Community")).click();
+        navigationBar.goToCommunity();
         communityFrame();
         link(By.cssSelector("a[href='/connections']")).click();
     }
@@ -88,11 +87,14 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     public void checkIfNotFollowingLebanonHighSchool() {
         logger.info("Checking if I'm not following Lebanon High School.");
         try {
+            setImplicitWaitTimeout(1);
             driver.findElement(By.xpath("//*[contains(text(), 'LEBANON HIGH SCHOOL')]"));
             driver.findElement(By.id("unfollow-10226")).click();
             waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
 
         } catch (NoSuchElementException ex) {
+            resetImplicitWaitTimeout();
             logger.info("Not following Lebanon High School.");
         }
 //        Assert.assertFalse("The user is following HS user's institution.", checkItemVisible("LEBANON HIGH SCHOOL"));
@@ -101,7 +103,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void checkIfFollowingLebanonHighSchool() {
         logger.info("Checking if I'm not following Lebanon High School.");
-        Assert.assertTrue("The user is following HS user's institution.", checkItemVisible("LEBANON HIGH SCHOOL"));
+        Assert.assertTrue("The user is following HS user's institution.", checkItemVisible("Lebanon High School"));
     }
 
 
@@ -137,6 +139,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         communityFrame();
         // Connects to user for the first time.
         try {
+            setImplicitWaitTimeout(1);
             logger.info("Connecting with User.");
             connectToUserButton().click();
             sendInvitationToUserButton().click();
@@ -158,7 +161,9 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             acceptConnectionRequestByHSUser();
             waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
         } catch (NoSuchElementException ex) {
+            resetImplicitWaitTimeout();
             logger.info("The PurpleHS user is already a connection.");
         }
     }
@@ -169,6 +174,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         searchForUser(user);
         communityFrame();
         try {
+            setImplicitWaitTimeout(1);
             String buttonText = connectToUserButton().findElement(By.className("cp-ur-link-wrapper")).findElement(By.tagName("a")).getText();
             if (buttonText.equals("Invited")) {
                 acceptConnectionRequestByHSUser();
@@ -178,10 +184,12 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
             } else {
                 clickDisconnectBtn();
             }
+            resetImplicitWaitTimeout();
         } catch (NoSuchElementException ex) {
             logger.info("The user is not a connection.");
             driver.findElement(By.className("close")).click();
             waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
         }
     }
 
