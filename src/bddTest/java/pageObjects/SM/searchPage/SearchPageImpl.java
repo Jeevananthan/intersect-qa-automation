@@ -859,6 +859,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setAdmissionCriteria(DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         waitUntilElementExists(ChooseFitCriteriaText());
         List<List<String>> entities = dataTable.asLists(String.class);
         chooseFitCriteriaTab("Admission");
@@ -869,7 +870,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     gpaTextBox().sendKeys(criteria.get(1));
                     break;
                 case "SAT Composite":
-                    satScoreTextBox().clear();
+                    satScoreTextBox().sendKeys(Keys.CONTROL + "a");
+                    satScoreTextBox().sendKeys(Keys.DELETE);
                     satScoreTextBox().sendKeys(criteria.get(1));
                     break;
                 case "ACT Composite":
@@ -882,6 +884,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             }
         }
         getFitCriteriaCloseButton().click();
+        waitUntilPageFinishLoading();
     }
 
     /**
@@ -1478,6 +1481,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pinCollegeIfNotPinnedAlready(String collegeName) {
         goToCollegeInSearchResults(collegeName);
+        String control = driver.findElement(By.xpath(pinLinkLocator(collegeName))).getText();
         if(driver.findElement(By.xpath(pinLinkLocator(collegeName))).getText().contains("PIN TO COMPARE")) {
             pinCollege(collegeName);
             waitUntilPageFinishLoading();
@@ -1492,6 +1496,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void reloadPage() {
+        //We need the fixed waiter because the spinner might keep loading forever (MATCH-4830), so we need to establish
+        //the desired fit criteria and reload after some fixed time.
+        waitForUITransition();
         driver.get(driver.getCurrentUrl());
     }
 
@@ -1918,7 +1925,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement ChooseFitCriteriaText(){ return getDriver().findElement(By.xpath("//span[text()='Choose Fit Criteria']")); }
 
-    private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
+    public WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
     private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
 
@@ -1988,7 +1995,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
 
-    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../a/span"; }
+    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../div/a[@class = 'supermatch-college-action-pin-to-compare']"; }
 
     private WebElement singleCostValue(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/../../../../td[@class = 'sm-hidden-xl-down csr-data-points']/div/p/span[@class = 'cost-text']")); }
 
