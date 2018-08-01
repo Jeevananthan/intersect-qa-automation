@@ -151,6 +151,63 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyZipCodeValidationMessage(DataTable dataTable) {
+        String locationSearchType, selectMiles, zipCode, verifyErrorMessageIsDisplayed, verifyErrorMessageIsNotDisplayed
+                , verifyPillIsDisplayedInMustHaveBox, verifyPillIsNotDisplayedInMustHaveBox;
+
+        if(firstOnBoardingPopup().isDisplayed())
+            superMatchCollegeSearchHeader().click();
+
+        openFitCriteria("Location");
+
+        List<List<String>> rows = dataTable.asLists(String.class);
+
+        for(int index = 1; index < rows.size(); index++)
+        {
+            locationSearchType = rows.get(index).get(0);
+            if(locationSearchType != null && locationSearchType.trim().length() != 0)
+                selectRadioButton(locationSearchType);
+
+            selectMiles = rows.get(index).get(1);
+            if(selectMiles != null && selectMiles.trim().length() != 0)
+                selectOptionFromSelectMilesListBox(selectMiles);
+
+            zipCode = rows.get(index).get(2);
+            if(zipCode != null && zipCode.trim().length() != 0) {
+                zipCodeTextBox().clear();
+                zipCodeTextBox().sendKeys(zipCode);
+            }
+
+            verifyErrorMessageIsDisplayed = rows.get(index).get(3);
+            if(verifyErrorMessageIsDisplayed != null && verifyErrorMessageIsDisplayed.trim().length() != 0) {
+                Assert.assertFalse(zipcodeErrorMessageElement().getText().contains(verifyErrorMessageIsDisplayed));
+
+                waitForUITransition();
+                waitForUITransition();
+
+                Assert.assertTrue(zipcodeErrorMessageElement().getText().contains(verifyErrorMessageIsDisplayed));
+            }
+
+            verifyPillIsDisplayedInMustHaveBox = rows.get(index).get(4);
+            if(verifyPillIsDisplayedInMustHaveBox != null && verifyPillIsDisplayedInMustHaveBox.trim().length() != 0) {
+                waitForUITransition();
+                verifyMustHaveBoxContains(verifyPillIsDisplayedInMustHaveBox);
+            }
+
+            verifyPillIsNotDisplayedInMustHaveBox = rows.get(index).get(5);
+            if(verifyPillIsNotDisplayedInMustHaveBox != null && verifyPillIsNotDisplayedInMustHaveBox.trim().length() != 0) {
+                verifyMustHaveBoxDoesNotContain(verifyPillIsNotDisplayedInMustHaveBox);
+            }
+
+        }
+    }
+
+    public void selectOptionFromSelectMilesListBox(String optionText) {
+        WebElement listBoxPlaceholder = driver.findElement(By.xpath("//div[@id='supermatch-location-miles-dropdown']/div[@role='alert']"));
+        listBoxPlaceholder.click();
+        WebElement optionToSelect = driver.findElement(By.xpath("//div[@id='supermatch-location-miles-dropdown']//span[text()='"+ optionText + "']"));
+        optionToSelect.click();
+    }
 
     public void verifyDarkBlueFooter() {
         Assert.assertTrue("College Search footer is not displayed", superMatchFooter().isDisplayed());
@@ -320,6 +377,21 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'" + option.split("'")[0] + "')]"))).click();
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
+
+    /**
+     * select any radio button only when fit criteria menu is open.
+     */
+    public void selectRadioButton(String radioButton){
+        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
+        Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
+        if (!radioButtonLocator.isSelected()) {
+            radioButtonLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
+    }
+
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
@@ -1960,6 +2032,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement costFitCriteria(){
         return driver.findElement(By.xpath("//li[contains(text(), 'Cost')]"));
+    }
+    private WebElement zipCodeTextBox() {
+        return driver.findElement(By.xpath("//input[@placeholder='Zip Code']"));
+    }
+    private WebElement firstOnBoardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
+    private WebElement superMatchCollegeSearchHeader() {
+        return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
+    }
+    private WebElement zipcodeErrorMessageElement() {
+        return driver.findElement(By.xpath("//div[@class='div-distance']"));
     }
 
     private WebElement getAcceptanceRateCheckbox(String checkboxLabel) {

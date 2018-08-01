@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -197,9 +196,8 @@ public class SearchPageStepDefs implements En {
         Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
         And("SM I verify that \"([^\"]*)\" checkbox is \"([^\"]*)\" in \"([^\"]*)\" fit criteria", searchPage::verifyCheckboxState);
-      
-        Then("^SM I clear all pills from Must have  and Nice to have boxes$", searchPage::clearAllPillsFromMustHaveAndNiceToHaveBox);
 
+        Then("^SM I clear all pills from Must have  and Nice to have boxes$", searchPage::clearAllPillsFromMustHaveAndNiceToHaveBox);
 
         And("^SM I verify that checkBox with text \"([^\"]*)\" is displayed$", searchPage::verifyCheckboxIsDisplayed);
 
@@ -229,6 +227,6 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that the CLEAR PINNED LIST option is disabled$", searchPage::verifyCLEARPINNEDLISTIsDisabled);
 
-
+        Then("^SM I verify if the validation message displayed for Zip Code field is user friendly$", searchPage::verifyZipCodeValidationMessage);
     }
 }

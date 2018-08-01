@@ -357,3 +357,13 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
     Then SM I verify that the CLEAR PINNED LIST option is disabled
 
+  @MATCH-4133
+  Scenario: Verify the validation message displayed in the Zip Code field
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify if the validation message displayed for Zip Code field is user friendly
+    |Location Search Type|Select Miles    |Zip Code|Verify Error Message Displayed |Verify Pill Displayed In Must Have Box|Verify Pill Not Displayed In Must Have Box|
+    |Search by distance  |Within 500 miles|        |                               |                                      |Within 500 miles                          |
+    |Search by distance  |Select Miles    |90001   |                               |                                      |90001                                     |
+    |Search by distance  |Within 25 miles |90001   |                               |Within 25 miles of 90001              |                                          |
+    |Search by distance  |Within 25 miles |9000    |Enter a valid, 5 digit zip code|                                      |                                          |
+    |Search by distance  |Within 25 miles |90001   |                               |                                      |                                          |
