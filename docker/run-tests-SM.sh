@@ -5,4 +5,4 @@ echo "Profile: SM-QA"
 echo "Browser: GridDriver"
 
 mvn -version
-mvn install -P SM-QA -Dbrowser=GridDriver
+mvn -DSuperMatchEnv=Standalone -P SM-QA -Dbrowser=GridDriver install

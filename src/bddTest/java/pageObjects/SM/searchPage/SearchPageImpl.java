@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
+import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.io.File;
@@ -155,8 +156,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         String locationSearchType, selectMiles, zipCode, verifyErrorMessageIsDisplayed, verifyErrorMessageIsNotDisplayed
                 , verifyPillIsDisplayedInMustHaveBox, verifyPillIsNotDisplayedInMustHaveBox;
 
-        if(firstOnBoardingPopup().isDisplayed())
-            superMatchCollegeSearchHeader().click();
+        FCSuperMatchPageImpl.skipModals();
 
         openFitCriteria("Location");
 
@@ -1588,23 +1588,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         pinnedDropdown().click();
     }
 
-
-
-    /**
-     * select any radio button only when fit criteria menu is open.
-     */
-    public void selectRadioButton(String radioButton){
-        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
-        WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
-        Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
-        if (!radioButtonLocator.isSelected()) {
-            radioButtonLocator.click();
-            waitUntilPageFinishLoading();
-        }
-        onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
-        Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
-    }
-
     public void pinCollegeIfNotPinnedAlready(String collegeName) {
         goToCollegeInSearchResults(collegeName);
         if(driver.findElement(By.xpath(pinLinkLocator(collegeName))).getText().contains("PIN TO COMPARE")) {
@@ -2130,10 +2113,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement costColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(5) div span")); }
 
     private WebElement pickWhatToShowColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(6) div span.csr-heading-dropdown-text")); }
-
-    private WebElement superMatchCollegeSearchHeader() {
-        return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
-    }
 
     private WebElement ACTValidationMessageElement() {
         return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));
