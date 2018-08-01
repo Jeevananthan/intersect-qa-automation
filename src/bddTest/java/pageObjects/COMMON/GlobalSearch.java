@@ -20,12 +20,14 @@ import java.util.Map;
 public class GlobalSearch extends SeleniumBase {
 
     private Logger logger;
-
+    private NavigationBarImpl navigationBar;
     public GlobalSearch() {
         logger = Logger.getLogger(GlobalSearch.class);
+        navigationBar = new NavigationBarImpl();
     }
 
     public void search(String searchTerms, String category) {
+
         setSearchCategory(category);
         doSearch(searchTerms);
     }
@@ -782,7 +784,7 @@ public class GlobalSearch extends SeleniumBase {
         driver.findElement(By.xpath("//div[@class='ui icon input']/i")).click();
     }
     private void clickAdvancedSearchLink(){
-        driver.findElement(By.xpath("//a[@class='_2waFWfxII0j7r2BeR0CvAP _2XBqbkhND-fSTGCdDlrVjR']")).click();
+        navigationBar.clickAdvancedSearchLink();
     }
     private WebElement RepvisitsAvailabilityButton()
     {
