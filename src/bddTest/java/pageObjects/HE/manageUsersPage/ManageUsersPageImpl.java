@@ -79,7 +79,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.cssSelector("input[value='"+entity.get(field).toLowerCase()+"']")).click();
             }
         }
-        button("SAVE").click();
+        getSaveButton().click();
     }
 
 
@@ -109,6 +109,13 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyAddNewUser() {
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
+        getDriver().findElement(By.cssSelector("a[href='/manageUsers/add-user']")).click();
+        Assert.assertTrue("Did not end up on Add New User page!",getDriver().getCurrentUrl().contains("/manageUsers/add-user"));
+    }
+
     private void takeUserAction(String accountName, String action) {
         AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
         accountSettings.accessUsersPage("Account Settings","Users");
@@ -119,8 +126,10 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEmailChangedNotification(DataTable data) {
+        waitForUITransition();
         GetProperties.setGmailAPIWait(60);     //Time unit is in seconds
         try {
+            waitForUITransition();
             List<Email> emails = getGmailApi().getMessages(data);
 
             for (Email email : emails) {
@@ -148,5 +157,13 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
+
+    /**
+     * Gets the save button
+     * @return webelement
+     */
+    private WebElement getSaveButton(){
+        return   driver.findElement(By.xpath("//span[text()='SAVE']"));
+    }
 
 }

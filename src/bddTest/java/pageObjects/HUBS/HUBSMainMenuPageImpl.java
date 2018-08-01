@@ -38,8 +38,12 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
         internationalTab().click();
     }
 
-    //Locators
+    public void clickAdmissionsTab() {
+        waitUntil(ExpectedConditions.elementToBeClickable(admissionsTab()));
+        admissionsTab().click();
+    }
 
+    //Locators
     private WebElement studiesTab() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'Studies')]"));
     }
@@ -52,4 +56,7 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
 
     private WebElement costsTab() { return getDriver().findElement(By.xpath("//span[contains(text(), 'Costs')]")); }
 
+    private WebElement admissionsTab() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Admissions')]"));
+    }
 }

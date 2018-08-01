@@ -43,6 +43,7 @@ public class NavBarImpl extends SeleniumBase {
     }
 
     public void goToRepVisits() {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-rep-visits-menu-link"), 1));
         if (!isLinkActive(getRepVisitsBtn())) {
             getRepVisitsBtn().click();
             getRepVisitsBtn().click();
@@ -96,6 +97,44 @@ public class NavBarImpl extends SeleniumBase {
         }
     }
 
+    public void addPost(String msg)
+    {
+        Assert.assertTrue("Counselor Community is not displayed",getCommunityBtn().isDisplayed());
+        getCommunityBtn().click();
+        WebElement element=driver.findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
+        driver.switchTo().frame(element);
+        driver.findElement(By.xpath("//textarea[@class='form-textarea']")).sendKeys(msg);
+        driver.findElement(By.xpath("//input[@id='edit-save']")).click();
+        driver.switchTo().defaultContent();
+    }
+
+    public void verifyNotificationIconInHomePage(){
+        String notificationCount;
+        Assert.assertTrue("Notification Icon is not visible",notificationIcon().isDisplayed());
+        try{if(driver.findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).isDisplayed())
+        {
+            notificationCount=driver.findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).getText();
+            if(notificationCount.equals(""))
+            {
+                logger.info("There is no notification");
+            }else
+            {
+                logger.info(notificationCount+"noticications are displayed");
+            }
+        }else
+        {
+            logger.info("There is no notification");
+        }}catch(Exception e){}
+    }
+
+
+    public void clickNavigationGlobeIcon(){
+        notificationIcon().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("GlobeIcon is not displayed",verifyGlobeIcon().isDisplayed());
+    }
+
+
     public void verifySubMenuIsNotVisible(String tabName) {
         switch (tabName) {
             case "Home":
@@ -130,7 +169,7 @@ public class NavBarImpl extends SeleniumBase {
             try{
                 headerWebElement= new WebDriverWait(getDriver(),10).
                         until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(
-                                "//nav[@class='hidden-mobile hidden-tablet _3sM-wM6bB02P6669gxCsoP']/div/dl/dt/span[text()='%s']"
+                                "//nav[contains(@class,'hidden-mobile hidden-tablet')]/div/dl//dt/span[text()='%s']"
                                 ,heading))));
             } catch (Exception e){throw new AssertionFailedError(String.format("The header: %s is not visible",
                     heading));}
@@ -140,13 +179,13 @@ public class NavBarImpl extends SeleniumBase {
                 try{
                     WebElement subMenuElement = (new WebDriverWait(getDriver(),10)).until
                             (ExpectedConditions.elementToBeClickable(headerWebElement.findElement(By.xpath(String.format(
-                                    "parent::dt/parent::dl//span[text()='%s']",subMenu)))));
+                                    "parent::dt/parent::dl/dt/a/span[text()='%s']",subMenu)))));
                     subMenuElement.click();
                     waitUntilPageFinishLoading();
                 } catch (Exception e){throw new AssertionFailedError(String.format("The submenu: %s is not visible"
                         ,subMenu));}
                 String actualHeadingBreadcrumText = getHeadingBreadcrumbs().getText().toLowerCase();
-                String actualSubmenuBreadcrumText = getSubMeunBreadcrumbs().getText().toLowerCase();
+                String actualSubmenuBreadcrumText = getSubMenuBreadcrumbs().getText().toLowerCase();
                 Assert.assertEquals(String.format("The Heading breadcrum text is incorrect, actual: %s, expected %s"
                         ,actualHeadingBreadcrumText,heading.toLowerCase()),heading.toLowerCase(),actualHeadingBreadcrumText);
                 Assert.assertEquals(String.format("The Submenu breadcrum text is incorrect, actual: %s, expected %s"
@@ -163,6 +202,14 @@ public class NavBarImpl extends SeleniumBase {
     }
 
     //Getters
+    private WebElement notificationIcon()
+    {WebElement element=driver.findElement(By.xpath("//div[@id='notifications']"));
+    return  element;}
+    private WebElement verifyGlobeIcon(){
+        WebElement element=driver.findElement(By.xpath("//div[@id='notifications']//div[@class='menu transition visible']"));
+        waitUntilElementExists(element);
+        return  element;
+    }
     private WebElement getHomeBtn() {
         return link(By.id("js-main-nav-home-menu-link"));
     }
@@ -198,12 +245,36 @@ public class NavBarImpl extends SeleniumBase {
         return null;
     }
 
-    public WebElement getSubMeunBreadcrumbs() {
+    public WebElement getSubMenuBreadcrumbs() {
         List<WebElement> items = driver.findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
         for (WebElement item : items) {
             if (item.getText().length() > 0)
                 return item;
         }
         return null;
+    }
+
+    /**
+     * Goes to the Admin Dashboard menu
+     */
+    public void goToAdminDashboard(){
+        getAdminDashboardLink().click();
+        waitUntil(ExpectedConditions.visibilityOf(getAdminDashboardLabel()));
+    }
+
+    /**
+     * Gets the Admin Dashboard link
+     * @return WebElement
+     */
+    private WebElement getAdminDashboardLink(){
+        return driver.findElement(By.id("js-main-nav-admin-menu-link"));
+    }
+
+    /**
+     * Gets the Admin Dashboard label
+     * @return WebElement
+     */
+    private WebElement getAdminDashboardLabel(){
+        return driver.findElement(By.cssSelector("h1._2uZ_hMKXaU0AzfCZMfjh1t"));
     }
 }

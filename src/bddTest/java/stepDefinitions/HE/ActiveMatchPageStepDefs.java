@@ -9,8 +9,6 @@ public class ActiveMatchPageStepDefs implements En {
 
         ActiveMatchPageImpl activeMatchPage = new ActiveMatchPageImpl();
 
-        Then("^HE The Active Match page is displayed$", activeMatchPage::verifyTitleIsPresent);
-
         Then("^HE I verify the ActiveMatch page$", activeMatchPage::verfyActiveMatchPage);
 
         Then("^HE I verify the Headers are present in the Active Match Connections$",activeMatchPage::verifyActiveMatchConnectionsHeaders);
@@ -22,5 +20,13 @@ public class ActiveMatchPageStepDefs implements En {
         Then("^HE I verify the Default drop-down Menu selection to remain \"([^\"]*)\" after all connections are modified$",activeMatchPage::verifyDefaultdropdownMenuSelection);
 
         Then("^HE I verify the following details are present under the header of \"([^\"]*)\" in the ActiveMatch export connections dropdown Menu$",activeMatchPage::verifyActiveMatchConnectionsDropdownMenu);
+
+        Then("^HE I navigate to the ActiveMatch Tab$", activeMatchPage::navigateToActiveMatch);
+
+        When("^HE I export the ActiveMatchConnections for the current year$",activeMatchPage::downloadActiveMatchConnectionsForCurrentYear);
+
+        Then("^HE I verify the downloaded ActiveMatch Cvs file \"([^\"]*)\" contains the following headers",activeMatchPage::verifyDownloadedActiveMatchConnectionsHeaders);
+
+        Then("^HE I delete the downloaded ActiveMatch Cvs file \"([^\"]*)\"",activeMatchPage::deleteDownloadedActiveMatchConnectionsFile);
     }
 }

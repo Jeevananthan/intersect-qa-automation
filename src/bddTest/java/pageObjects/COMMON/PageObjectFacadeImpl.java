@@ -1,23 +1,34 @@
 package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
+import utilities.GetProperties;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class PageObjectFacadeImpl extends SeleniumBase {
 
     private Logger logger;
     public NavBarImpl navBar;
+    public  NavigationBarImpl navigationBar;
     public GlobalSearch globalSearch;
 
     protected PageObjectFacadeImpl() {
         logger = Logger.getLogger(PageObjectFacadeImpl.class);
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
+        navigationBar = new NavigationBarImpl();
     }
 
     /**
@@ -195,7 +206,81 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
         return sdf.format(cal.getTime());
     }
-  
+
+    /**
+     * Waits until a given path exists.
+     * @param path
+     */
+    public void waitUntilFileExists(String path){
+        ExpectedCondition<Boolean> expectation = webDriver -> Files.exists(Paths.get(path));
+        try{
+            waitUntil(expectation);
+        }
+        catch (Exception e){
+            throw  new AssertionError(String.format("There was a problem waiting for the file: %s, error: %s",
+                    path, e.toString()));
+        }
+    }
+
+    /**
+     * Returns a list of String based on a list in a properties file
+     *
+     * @param propertiesFilePath - String representing the path to the properties files to be used
+     * @param separator - Separation character
+     * @param propertiesEntry - String that corresponds to the appropriate list in the properties file
+     * @return List<String> - List of String containing the data in the entry of the properties file
+     */
+    public List<String> getListFromPropFile(String propertiesFilePath, String separator, String propertiesEntry) {
+        Properties properties = new Properties();
+        InputStream input = null;
+        List<String> resultList = new ArrayList<>();
+        try {
+            input = new FileInputStream(propertiesFilePath);
+            properties.load(input);
+            resultList = Arrays.asList(properties.getProperty(propertiesEntry).split(separator));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    /**
+     * Returns a String corresponding to the entry in a properties file
+     *
+     * @param propertiesFilePath - String representing the path to the properties file to be used
+     * @param propertiesEntry - String that corresponds to the appropriate list in the properties file
+     * @return String - String containing the data in the entry of the properties file
+     */
+    public String getStringFromPropFile(String propertiesFilePath, String propertiesEntry) {
+        Properties properties = new Properties();
+        InputStream input = null;
+        String resultString = "";
+        try {
+            input = new FileInputStream(propertiesFilePath);
+            properties.load(input);
+            resultString = properties.getProperty(propertiesEntry);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultString;
+    }
+
+    /**
+     * Sets the Implicit Wait timeout for the current WebDriver to the value passed in 'seconds'
+     *
+     * @param seconds - Value to set the Driver's implicit Wait timeout to
+     */
+    protected void setImplicitWaitTimeout(Integer seconds) {
+        getDriver().manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Sets the Implicit Wait timeout for the current WebDriver to the value stored in the Env file
+     */
+    public void resetImplicitWaitTimeout() {
+        getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
+    }
+
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }

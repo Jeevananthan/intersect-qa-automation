@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -38,7 +40,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         driver.switchTo().defaultContent();
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
-        waitUntilPageFinishLoading();
+        driver.manage().deleteAllCookies();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(loginButtonLocator), 1));
         Assert.assertTrue("User did not sign out",button("LOGIN").isDisplayed());
     }
 
@@ -49,7 +52,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void updateProfile() {
         // This line should not be needed.  Current flow is broken.
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
         userDropdown().click();
         button(By.id("user-dropdown-update-profile")).click();
         ensureWeAreOnUpdateProfilePage();
@@ -109,7 +112,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityUpgradeMessage() {
-        navBar.goToHome();
+        navigationBar.goToHome();
         try {
             Assert.assertTrue(driver.findElement(By.id("upgrade-message")).isDisplayed());
             Assert.assertTrue("Expected message for the new widget was not found!"
@@ -221,7 +224,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityActivationForRepVisits(){
-        getRepVisitsBtn().click();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
         waitForUITransition();
@@ -239,19 +242,23 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
-    public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle){
+    public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle, String euCitizen){
         driver.switchTo().frame(0);
         getofficePhone().sendKeys(OfficePhone);
         getJobTitle().sendKeys(JobTitle);
+        driver.findElement(By.xpath(String.format(
+                "//label[@for='edit-field-eu-citizen-und']/following-sibling::div/div/label[text()='%s ']",
+                euCitizen))).click();
         getTermsAndConditionCheckBox().click();
+        driver.executeScript("arguments[0].click()",getCreationAndMaintenanceConsentCheckBox());
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
-        getRepVisitsBtn().click();
+        navigationBar.goToRepVisits();
     }
 
     public void verifyRepVisitsLandingPage(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitForUITransition();
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
@@ -263,8 +270,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickEvents() {
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-events-menu-link span"), 1));
-        eventsButton().click();
+        navigationBar.goToEvents();
     }
 
     public void openEventList() {
@@ -287,8 +293,18 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getofficePhone() { return driver.findElement(By.id("edit-field-office-phone-und-0-value"));}
     private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
-    private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
+    private WebElement getSearchAndScheduleHeading(){ return text("Search"); }
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
     private WebElement eventsTab() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL _1NJbR9iqg-0K_JDhsKdO1B']/span[text()='Events']")); }
     private WebElement changeProfileLabel(){return text("Change Profile");}
+
+    /**
+     * Gets the consent to creation and maintenance check box
+     * @return
+     */
+    private WebElement getCreationAndMaintenanceConsentCheckBox(){
+        return driver.findElement(By.id("edit-field-account-consent-und"));
+    }
+
+    private String loginButtonLocator = "button.ui.primary.button";
 }

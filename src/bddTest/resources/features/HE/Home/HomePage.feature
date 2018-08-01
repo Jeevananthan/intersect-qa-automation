@@ -46,7 +46,7 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     # Testcase
     Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
     When HE I verify that I am redirected to the Community activate profile page when accessing RepVisits
-    And HE I activate my community profile by providing OfficePhone as "1234567892" and JobTitle as "Counselor"
+    And HE I activate my community profile by providing OfficePhone as "1234567892" JobTitle as "Counselor" and EU citizen as "Yes"
     And HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits
     And HE I clear the account to get the community welcome page again
     Then HE I successfully sign out
@@ -112,3 +112,20 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
       And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
       And SP I Click the Save Changes button
       Then SP I successfully sign out
+
+  @MATCH-1365
+  Scenario: As an HE, HS, or Hobsons user,I need to be presented with the notifications globe from Community in the Intersect banner
+  so I can still see when I have notifications from Community.
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I add post in the Homepage "test1921"
+    And SP I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the navigation globe is displayed for this user
+    And HE I click the navigation globe for viewing the recent notifications
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify the navigation globe is displayed for this user
+    And HS I click the navigation globe for viewing the recent notifications
+    Then HS I successfully sign out

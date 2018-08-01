@@ -11,6 +11,8 @@ public class SearchPageStepDefs implements En {
 
         Then("^I select the following data from the Location Fit Criteria$",searchPage::setLocationCriteria);
 
+        Then("^I select the following data from the Diversity Fit Criteria$",searchPage::setDiversityCriteria);
+
         Then("^SM I select the \"([^\"]*)\" checkbox from the Resources fit criteria$",searchPage::setResourcesCriteria);
 
         Then("^SM I verify that the \"([^\"]*)\" checkbox from the Resources fit criteria is \"([^\"]*)\"$",searchPage::verifyResourcesCriteria);
@@ -41,15 +43,15 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that entered GPA data persists$", searchPage::verifyGPADataPersists);
 
-        And("^SM I verify that GPA doesn't become a fit criteria in the Must Have box$", searchPage::verifyGPACriteriaNotInMustHaveBox);
+        Then("^SM I verify the system response when the GPA entered by the user is valid$",searchPage::verifySystemResponseWhenGPAInputIsValid);
+
+        Then("^SM I verify the system response when the GPA entered by the user is invalid$",searchPage::verifySystemResponseWhenGPAInputIsInvalid);
 
         And("^SM I verify the system response when the ACT score entered by the user is valid$", searchPage::verifySystemResponseWhenACTScoreIsValid);
 
         And("^SM I verify the system response when the ACT score entered by the user is invalid$", searchPage::verifySystemResponseWhenACTScoreIsInvalid);
 
         And("^SM I verify that entered ACT score data persists$", searchPage::verifyACTScoreDataPersists);
-
-        And("^SM I verify that ACT score doesn't become a fit criteria in the Must Have box$", searchPage::verifyACTScoreCriteriaNotInMustHaveBox);
 
         And("^SM I verify if dark blue header is present$", searchPage::verifyDarkBlueHeaderIsPresent);
 
@@ -65,8 +67,6 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the dark blue footer$", searchPage::verifyDarkBlueFooter);
 
-        Then("^SM I verify that a survey is opened after clicking the \"([^\"]*)\" button$", searchPage::verifySurvey);
-
         Then("^SM I select the \"([^\"]*)\" radio button from the Academics fit criteria",searchPage::selectRadioButtonInAcademicsFitCriteria);
 
         Then("^SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type$", searchPage::selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType);
@@ -76,6 +76,10 @@ public class SearchPageStepDefs implements En {
         Then("^SM I unselect the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type$", searchPage::unselectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType);
 
         Then("^SM I unselect the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type$", searchPage::unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType);
+
+        Then ("SM I click \"([^\"]*)\" filter criteria tab", searchPage::chooseFitCriteriaTab);
+
+        Then("^SM I see validation message \"([^\"]*)\"$", (searchPage::checkValidationMessageIsVisible));
 
         Then("^SM I verify \"([^\"]*)\" checkbox in Cost fit criteria$", searchPage::verifyMeets100ofNeedCheckbox);
 
@@ -90,6 +94,138 @@ public class SearchPageStepDefs implements En {
         Then("^SM I unselect the \"([^\"]*)\" checkbox from the Institution Characteristics fit criteria$", searchPage::unselectStudentSuccessFitCriteriaCheckbox);
 
         Then("^SM I verify the widths of the three boxes$", searchPage::verifyWidthsOfThreeBoxes);
+
+        And("^I select the following data from the Admission Fit Criteria$", searchPage::setAdmissionCriteria);
+
+        Then("^SM I verify each fit category in the Choose Fit Criteria header bar is clickable and match the color$", searchPage::verifyEachFitCriteria);
+
+        Then("^SM I verify clicking outside of the box will also close the box$", searchPage::checkOutsideClick);
+
+        And("^SM I check both Select Criteria To Start buttons take the user to the Location dropdown$", searchPage::checkSelectCriteriaToStartButtonsRedirectsLocation);
+
+        Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from the Diversity$",searchPage::selectOrUnselectDiversityCheckbox);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
+
+        And("^SM I verify the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::verifyAdmissionFitCriteriaCheckbox);
+
+        Then("^SM I click on Institution Characteristics fit criteria$", searchPage::getInstitutionCharacteristicsFC);
+
+        Then("^SM I check the selection and deselection and Must Have box functionality for Average Class Size drop down list$",
+                searchPage::verifyAverageClassSizeList);
+        Then("^SM I check when Average Class Size filter is selected, moved to Nice To Have, unselected, and then selected again it should be defaulted back to the Must Have box$",
+                searchPage::verifyMAndNSyncWithAverageClassSizeFilter);
+        And("^SM I verify the default column headers displayed in the results table$", searchPage::verifyDefaultColumnHeadersInResultsTable);
+
+        And("^SM I verify if the option selected or defaulted in column header can be changed to \"([^\"]*)\"$", searchPage::verifyIfOptionDefaultedInColumnHeaderCanBeChanged);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Diversity fit criteria$", searchPage::selectDiversityCheckbox);
+
+        Then("^SM I verify \"([^\"]*)\" checkbox in Diversity fit criteria$", searchPage::verifyHighInternationalPopulationCheckbox);
+
+        Then("^SM I verify the Average Class Size text under Institution Characteristics in the results list is correct$", searchPage::verifyAverageClassSizeTextInResults);
+
+        Then("^SM I verify the College Profile page for \"([^\"]*)\" in the following sections:$", searchPage::verifyCollegeProfile);
+
+        And("^SM I open the Pinned Schools Compare screen$", searchPage::openPinnedCompareSchools);
+
+        Then("^SM I verify that the Save Search popup is closed when I use the Cancel action$", searchPage::verifySaveSearchIsClosedWhenCancelIsClicked);
+
+        Then("^SM I verify that the Save Search popup is closed when I click outside the popup$", searchPage::verifySaveSearchIsClosedWithOutterClick);
+
+        Then("^SM I verify that the text inside the Save Search popup is correct$", searchPage::verifyTextInsideSaveSearchBox);
+
+        Then("^SM I verify the error message for more than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
+
+        And("^SM I save the search with the name \"([^\"]*)\"$", searchPage::saveSearchWithName);
+
+        And("^SM I verify the error message for less than \"([^\"]*)\" characters$", searchPage::verifyErrorMessageforXCharacters);
+
+        Then("^SM I verify the confirmation message$", searchPage::verifyConfirmationMessage);
+
+        Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
+
+        Then("^SM I verify that \"([^\"]*)\" displays \"([^\"]*)\" in the Cost column$", searchPage::verifySingleValueInCostColumn);
+
+        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
+
+        Then("^SM I verify the footnote for no GPA and no other scores, with the text:$", searchPage::verifyFootnoteNoGPANoScores);
+
+        Then("^SM I verify the footnote for known GPA but unknown test scores for \"([^\"]*)\", with the text:$", searchPage::verifyFootnoteGPANoScores);
+
+        And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
+
+        And("^SM I pin \"([^\"]*)\" if it is not pinned already$", searchPage::pinCollegeIfNotPinnedAlready);
+
+        Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
+
+        Then("^SM I should see at the bottom the search by college name text box with default text \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameTextBox);
+
+        Then("^SM I search by college name using \"([^\"]*)\"$", searchPage::searchCollegeByName);
+
+        Then("^SM I see a message at the top of the results box that says \"([^\"]*)\"$", searchPage::verifyTextInSearchByCollegeNameResults);
+
+        And("^SM I verify \"([^\"]*)\" results were displayed when searching by college name$", searchPage::verifyAmountOfResultsWhenSearchingByCollegeName);
+
+        And("^SM I see a message in the search by college name text box that says \"([^\"]*)\"$", searchPage::verifySearchByCollegeNameNoResultFoundMessage);
+
+        And("^SM I verify that tooltip icon is added to the include online learning opportunities fit criteria$", searchPage::verifyOnlineLearningOpportunitiesTooltipIcon);
+
+        And("^SM I reload the page$", searchPage::reloadPage);
+
+        And("^SM I verify the text displayed in the % Male vs. Female Fit Criteria$", searchPage::verifyTextDisplayedInMaleVsFemaleFitCriteria);
+
+        And("^SM I verify the placeholders displayed in the Select % dropdown and Select gender dropdown$", searchPage::verifyPlaceholdersInSelectPercentAndSelectGenderDropdown);
+
+        And("^SM I verify the options displayed in the Select % dropdown$", searchPage::verifyOptionsInSelectPercentDropdown);
+
+        And("^SM I verify the options displayed in the Select Gender dropdown$", searchPage::verifyOptionsInSelectGenderDropdown);
+
+        And("^SM I start the search over$", searchPage::startSearchOver);
+
+        And("^SM I pin \"([^\"]*)\" colleges$", searchPage::iPinColleges);
+
+        And("^SM I clear pinned schools list$", searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
+
+        And("^SM I verify the error message displayed on pinning the 26th college$", searchPage::verifyErrorMessageDisplayedOnPinning26thCollege);
+
+        And("^SM I select the following data in the Cost Fit Criteria$", searchPage::setCostCriteria);
+
+        And("^SM I verify the following data in the Cost Fit Criteria$", searchPage::verifyDataInCostCriteria);
+
+        Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
+
+        And("SM I verify that \"([^\"]*)\" checkbox is \"([^\"]*)\" in \"([^\"]*)\" fit criteria", searchPage::verifyCheckboxState);
+
+        Then("^SM I clear all pills from Must have  and Nice to have boxes$", searchPage::clearAllPillsFromMustHaveAndNiceToHaveBox);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is displayed$", searchPage::verifyCheckboxIsDisplayed);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is not checked$", searchPage::verifyCheckboxIsNotChecked);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" can be checked|unchecked$", searchPage::verifyCheckboxCanBeCheckedAndUnchecked);
+
+        And("^SM I press button \"([^\"]*)\"$", searchPage::pressButton);
+
+        And("^SM I pick \"([^\"]*)\" from the dropdown \"([^\"]*)\"$", searchPage::pickFromDropdown);
+
+        And("^SM I press Why button for the first college in results with score (\\d+)%$", searchPage::pressWhyForCollegeWithScore);
+
+        And("^SM I press Why button for \"([^\"]*)\" college$", searchPage::pressWhyButtonForCollege);
+
+        Then("^SM I scroll to the middle of the main page$", searchPage::scrollToMiddleOfMainPage);
+
+        Then("^SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page$", searchPage::verifyScrollBarIsPositionedAtTheTopOfPinnedSchoolsComparePage);
+
+        And("^SM I verify that CLEAR PINNED LIST option is clickable$", searchPage::verifyCLEARPINNEDLISTOptionIsClickable);
+
+        And("^SM I verify the CLEAR PINNED LIST confirmation modal$", searchPage::verifyCLEARPINNEDLISTConfirmationModal);
+
+        And("^SM I verify that the pinned colleges are not cleared when the NO CANCEL button is clicked in the modal$", searchPage::verifyPinnedCollegesNotClearedWhenNOCANCELbuttonIsClicked);
+
+        And("^SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal$",searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
+
+        And("^SM I verify that the CLEAR PINNED LIST option is disabled$", searchPage::verifyCLEARPINNEDLISTIsDisabled);
 
         Then("^SM I verify if the validation message displayed for Zip Code field is user friendly$", searchPage::verifyZipCodeValidationMessage);
     }

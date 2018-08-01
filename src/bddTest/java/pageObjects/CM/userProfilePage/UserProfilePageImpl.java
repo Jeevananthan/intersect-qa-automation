@@ -193,6 +193,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickOnEditProfileButton() {
+        waitUntil(ExpectedConditions.visibilityOf(editProfileBtn()));
         editProfileBtn().click();
     }
 

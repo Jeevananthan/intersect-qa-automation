@@ -17,19 +17,28 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
+    private void openLoginPageSupport() {
+        load(GetProperties.get("sp.app.url"));
+    }
 
     public LoginPageImpl() {
         logger = Logger.getLogger(pageObjects.HE.loginPage.LoginPageImpl.class);
     }
 
-    public void loginThroughNaviance(String account, String username, String password) {
+    public void loginNaviance(String usertype) {
         openNavianceLoginPage();
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        logger.info("Logging into the Naviance app -" + driver.getCurrentUrl());
         String navianceWindow = driver.getWindowHandle();
         String intersectWindow = null;
-        textbox(By.name("hsid")).sendKeys(account);
+        textbox(By.name("hsid")).sendKeys(hsid);
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
+        logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
         button("Sign In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
         waitUntilPageFinishLoading();
         link(By.cssSelector("[title='Counselor Community']")).click();
         Set<String> windows = driver.getWindowHandles();
@@ -41,7 +50,34 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(intersectWindow);
         waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
+//        waitUntilElementExists(getDriver().findElement(By.cssSelector("a[id='js-main-sidebar-nav-home-menu-link']")));
+
+    }
+
+    public void loginThroughNaviance(String usertype) {
+        openNavianceLoginPage();
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        textbox(By.name("hsid")).sendKeys(hsid);
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        textbox(By.name("username")).sendKeys(username);
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        textbox(By.name("password")).sendKeys(password);
+        button("Sign In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
+        waitUntilPageFinishLoading();
+        link(By.cssSelector("[title='Counselor Community']")).click();
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.close();
+        driver.switchTo().window(intersectWindow);
+        waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.id("app")));
     }
 
     public void openNonNavianceLoginPage(){
@@ -72,6 +108,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
 
         if(!institutionName.equalsIgnoreCase("Request new institution")){
+
             if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
                 logger.info("Results are displayed after the search");
                 link(institutionName).click();
@@ -100,12 +137,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
+
         try {
-            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        } catch (NoSuchSessionException nsse) {
+            driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+            driver.executeScript( GetProperties.get("naviance.app.url"));
+        } catch (Exception e) {
+            getDriver().close();
             load("http://www.google.com");
+            System.out.println("Page: " + GetProperties.get("naviance.app.url") + " did not load within 40 seconds!");
         }
-        load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
 
@@ -213,7 +253,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLogoInHomePage()
     {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-white.png";
         String actualIntersectLogo=driver.findElement(By.cssSelector("dt[class='header _2_tAB8btcE4Sc5e1O_XUwn']>img[alt='Intersect Logo']")).getAttribute("src");
@@ -235,6 +275,28 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + password + " as password");
         button("Login").click();
         logger.info("Clicked the login button");
+        waitUntilElementExists(link(By.id("user-dropdown")));
+        waitUntilPageFinishLoading();
+    }
+
+    public void blockAccount(String username, String password) {
+        openHSLoginPage();
+        logger.info("Login into the HS app");
+        textbox(By.name("username")).sendKeys(username);
+        logger.info("Using " + username + " as username");
+        textbox(By.name("password")).sendKeys(password);
+        logger.info("Using " + password + " as password");
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        waitForUITransition();
+        button("Login").click();
+        logger.info("Clicked the login button");
+//        waitUntilElementExists(link(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
     }
 
@@ -315,6 +377,25 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void defaultLoginForSupport() {
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        }
+        openLoginPageSupport();
+        String username = GetProperties.get("sp.admin.username");
+        String password = GetProperties.get("sp.admin.password");
+        waitUntilPageFinishLoading();
+        logger.info("Logging into the Support app");
+        emailUserNameTextboxForSupport().sendKeys(username);
+        nextButtonToSupport().sendKeys(Keys.ENTER);
+        passwordTextboxForSupport().sendKeys(password);
+        signInForSupport().sendKeys(Keys.ENTER);
+        yesButtonForSupport().sendKeys(Keys.ENTER);
+    }
+
+
     //Locators
 
     private WebElement emptyEmailErrorMessage() {
@@ -343,5 +424,25 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         WebElement highSchool=button("High School Staff Member");
         waitUntilElementExists(highSchool);
         return highSchool;
+    }
+
+    private WebElement emailUserNameTextboxForSupport() {
+        return textbox(By.id("i0116"));
+    }
+
+    private WebElement passwordTextboxForSupport() {
+        return textbox(By.id("i0118"));
+    }
+
+    private WebElement signInForSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
+    }
+
+    private WebElement yesButtonForSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
+    }
+
+    private WebElement nextButtonToSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
     }
 }

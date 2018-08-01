@@ -125,10 +125,10 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
       | College Type                  | Standard (4 Year)          |
       | School Type                   | Public                     |
       | Degree                        | 4                          |
-      | City                          | Jonesboro                  |
+      | City                          | State University           |
       #Search Institution by state is not working ATM --- MATCH-2219 created 6/26/17
       #| State                         | Arkansas                   |
-      | Postal Code                   | 72401                      |
+      | Postal Code                   | 72467                      |
 
     Then HE I verify I can perform an advanced search utilizing any combination of fields for "High School"
       | Keyword                       | Southern                   |
@@ -145,9 +145,17 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
 
   @MATCH-1400
   Scenario: As a HE user I want to preform a global and advanced search for groups that do not return HS results.
-  So I can ensure only HS groups are returned.
+            So I can ensure only HS groups are returned.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify real-time search results do not return any results for HS groups "New Test HS Group"
     Then HE I verify advanced search results do not return any results for HS groups "New Test HS Group"
       | Groups |
+    And HE I successfully sign out
+
+  @MATCH-1054
+  Scenario: As an Intersect user I want the global search box to return results based on a full match.
+            So the results returned to me are as accurate and relevant as possible.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the real-time results return for global search are a partial and full match "Adrian College"
+      | People | Institutions |
     And HE I successfully sign out

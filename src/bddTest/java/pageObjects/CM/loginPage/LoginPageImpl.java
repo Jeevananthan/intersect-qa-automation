@@ -2,10 +2,8 @@ package pageObjects.CM.loginPage;
 
 import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptExecutor;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchSessionException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -27,6 +25,12 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private void openLoginPageSupport() {
         load(GetProperties.get("sp.app.url"));
+        // If a previous test fails, we'll still have an open session.  Log out first.
+        if (button(By.id("user-dropdown")).isDisplayed()) {
+            button(By.id("user-dropdown")).click();
+            button(By.id("user-dropdown-signout")).click();
+            waitUntil(ExpectedConditions.visibilityOf(emailUserNameTextboxForSupport()));
+        }
     }
 
     public void loginHE(String username, String password) {
@@ -102,15 +106,12 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String password = GetProperties.get("sp.admin.password");
         waitUntilPageFinishLoading();
         logger.info("Logging into the Support app");
-        textbox("Email or phone").sendKeys(username);
-        passwordTextbox().click();
-        handleAccountTypeDialog();
-        logger.info("Sending credentials - " + username + ":" + password);
-        //button("Sign in").click();
-//        logger.info("Accessing Community from Support App");
-//        link(By.id("js-main-nav-community-menu-link")).click();
-//        waitUntilPageFinishLoading();
-//        getDriver().switchTo().frame(driver.findElement(By.tagName("iframe")));
+        emailUserNameTextboxForSupport().sendKeys(username);
+        nextButtonToSupport().sendKeys(Keys.ENTER);
+        passwordTextboxForSupport().sendKeys(password);
+        signInForSupport().sendKeys(Keys.ENTER);
+        yesButtonForSupport().sendKeys(Keys.ENTER);
+        waitUntilPageFinishLoading();
     }
 
     public void loginAsMatchSupportUIQA3() {
@@ -151,6 +152,26 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private WebElement loginButton() {
         return button("Login");
+    }
+
+    private WebElement emailUserNameTextboxForSupport() {
+        return textbox(By.id("i0116"));
+    }
+
+    private WebElement passwordTextboxForSupport() {
+        return textbox(By.id("i0118"));
+    }
+
+    private WebElement signInForSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
+    }
+
+    private WebElement yesButtonForSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
+    }
+
+    private WebElement nextButtonToSupport() {
+        return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
     }
 
 }

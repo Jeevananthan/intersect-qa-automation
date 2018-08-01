@@ -15,6 +15,7 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
   Scenario: As a Hobsons admin user, I can change the primary user of a premium institution.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "The University of Alabama" from the institution dashboard
+    And SP I "activate" the user account for "purpleheautomation+AssignasPrimary@gmail.com"
     And SP I set the user "purpleheautomation+AssignasPrimary@gmail.com" to be the new primary user
     Then SP I verify that the user account for "purpleheautomation+AssignasPrimary@gmail.com" is the primary user
     And SP I set the user "purpleheautomation@gmail.com" to be the new primary user
@@ -24,7 +25,7 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
 
   @MATCH-1126
   Scenario: As a Hobsons support user, if I inactivate the primary account for a freemium institution,
-  I can create a new primary user
+            I can create a new primary user
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I "inactivate" the user account for "purpleheautomation+12103@gmail.com"
@@ -61,16 +62,16 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
 
 
 
-  @MATCH-1416 @NotInQA
-  Scenario: As an Support system I want HE user accounts that have been inactivated to also have their
-            corresponding Community user accounts inactivated.
-    Given SP I am logged in to the Admin page as an Admin user
-    Then SP I go to the users list for "The University of Alabama" from the institution dashboard
-    And SP I "inactivate" the user account for "yadav.arun24+qa1416@gmail.com"
-    And SP I search for "Arun Match1416" in "People"
-    Then SP I verify there are no search results returned
-    And SP I "activate" the user account for "yadav.arun24+qa1416@gmail.com"
-    Then SP I successfully sign out
+#  @MATCH-1416 @NotInQA
+#  Scenario: As an Support system I want HE user accounts that have been inactivated to also have their
+#            corresponding Community user accounts inactivated.
+#    Given SP I am logged in to the Admin page as an Admin user
+#    Then SP I go to the users list for "The University of Alabama" from the institution dashboard
+#    And SP I "inactivate" the user account for "yadav.arun24+qa1416@gmail.com"
+#    And SP I search for "Arun Match1416" in "People"
+#    Then SP I verify there are no search results returned
+#    And SP I "activate" the user account for "yadav.arun24+qa1416@gmail.com"
+#    Then SP I successfully sign out
 
   @MATCH-1683
   Scenario: As a Administrator and Support User, I want to unlock a HE user account which has been locked.
@@ -97,7 +98,8 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
 
   @MATCH-1793
   Scenario Outline: As a Support user with the Administrator or Support role I need to be able to create a non primary HE or HS user
-  that does not yet have a primary user established so the primary user slot can remain available for a more appropriate staff member at that institution.
+                    that does not yet have a primary user established so the primary user slot can remain available for a more appropriate
+                    staff member at that institution.
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I verify that I can create a new primary user
@@ -112,3 +114,12 @@ Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
     Examples:
       |First Name|Last Name  |Email                         |Verify Email                       |
       |PurpleHE  |Automation |purpleheautomation@gmail.com  |purpleheautomation@gmail.com       |
+
+
+  @MATCH-2378
+  Scenario: As a Support user I want to be able to update the primary user info for a non-Naviance HS
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "2400006"
+    And SP I select the following institution "The University of Alabama" from the results
+    Then SP I verify that I can edit the Primary User Details
+    Then SP I successfully sign out

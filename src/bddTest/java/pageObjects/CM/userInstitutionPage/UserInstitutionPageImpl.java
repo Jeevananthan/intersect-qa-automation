@@ -170,11 +170,13 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         communityFrame();
         try {
+            setImplicitWaitTimeout(1);
             unfollowBtn();
             unfollowBtn().click();
             waitUntilPageFinishLoading();
-
+            resetImplicitWaitTimeout();
         } catch (NoSuchElementException ex)  {
+            resetImplicitWaitTimeout();
             logger.info("User already not following the institution.");
         }
     }
