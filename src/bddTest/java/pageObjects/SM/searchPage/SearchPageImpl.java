@@ -2109,7 +2109,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement saveSearchPopupErrorMessage() { return driver.findElement(By.cssSelector("div.ui.error.negative.visible.message div.content p")); }
 
-    private WebElement saveSearchLink() { return driver.findElement(By.xpath("//div[@class='actions']/button[@class='ui teal basic button' and text()='Save Search']")); }
+    private WebElement saveSearchLink() { return driver.findElement(By.xpath("//button[@class='ui teal basic button supermatch-save-search-modal-save' and text()='Save Search']")); }
 
     private WebElement confirmationMessage() { return driver.findElement(By.cssSelector("span.supermatch-toast-title + span")); }
 
