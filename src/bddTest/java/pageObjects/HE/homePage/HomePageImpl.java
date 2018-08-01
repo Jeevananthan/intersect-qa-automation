@@ -224,7 +224,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityActivationForRepVisits(){
-        getRepVisitsBtn().click();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
         waitForUITransition();
@@ -254,7 +254,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
-        getRepVisitsBtn().click();
+        navigationBar.goToRepVisits();
     }
 
     public void verifyRepVisitsLandingPage(){
@@ -293,7 +293,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getofficePhone() { return driver.findElement(By.id("edit-field-office-phone-und-0-value"));}
     private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
-    private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
+    private WebElement getSearchAndScheduleHeading(){ return text("Search"); }
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
     private WebElement eventsTab() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL _1NJbR9iqg-0K_JDhsKdO1B']/span[text()='Events']")); }
     private WebElement changeProfileLabel(){return text("Change Profile");}
