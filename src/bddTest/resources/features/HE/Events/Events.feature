@@ -194,3 +194,14 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And HE I open the "Expired" tab in Events
     Then HE I verify that the Attendees tab in the event of name "ExpiredEventForAutomation" is opened by clicking the attendee status bar/students area
     And HE I successfully sign out
+
+    @MATCH-4101 @manual
+  Scenario: As a HE User, I want to make sure no other user from different school can access my Events
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      When HE I open the Events list
+      When HE I copy the URL for Evets List screen
+      And HE I successfully sign out
+      Given HE I am logged in to Intersect HE as user type 'Administrator' For Elmira College
+      When HE I open the Events List
+      When HE I paste the URL on the screen
+      And HE User received message "Access Restricted. This page can only be accessed by the institution who created the event"

@@ -36,7 +36,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToCounselorCommunity(){
         //link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
     }
 
     public void verifyTitleHS(String generalCategoryName,String pageName){
@@ -54,7 +54,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         additionalLink.click();
         waitForUITransition();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("College is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+college+"']")).isDisplayed());
+        Assert.assertTrue("College is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+college+"" +" test'" +"]")).isDisplayed());
         String currentURL = additionalInfoURL+SCID+info;
         String additionalInfoCurrentURL = driver.getCurrentUrl();
         Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));

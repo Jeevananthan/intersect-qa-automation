@@ -259,9 +259,13 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 niceToHaveMatchLegend().getText().replaceAll("[0-9]+", "X").equals(dataList.get(5)));
     }
 
-    public void skipModals() {
+    public void skipModalPopups() {
+        skipModals();
+    }
+
+    public static void skipModals() {
         if (driver.findElements(By.cssSelector(onboardingHeaderLocator)).size() > 0) {
-            chooseFitCriteria().click();
+            superMatchCollegeSearchHeader().click();
         }
     }
 
@@ -515,7 +519,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         return tooltip.findElement(By.cssSelector("div.content"));
     }
     private WebElement onboardingModalTitle() { return driver.findElement(By.cssSelector(onboardingHeaderLocator)); }
-    private String onboardingHeaderLocator = "div.header";
+    private static String onboardingHeaderLocator = "div.header";
     private WebElement chooseFitCriteria() { return driver.findElement(By.cssSelector("span.sm-hidden-l-down")); }
     private WebElement matchLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-match")); }
     private WebElement closeMatchLegend() { return driver.findElement(By.cssSelector("div.nine.wide.column.supermatch-sidebar-criteria-legend-icon")); }
@@ -559,4 +563,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement getChooseOneWebElement(){ return driver.findElement(By.xpath("//b[contains(text(),'Saved Searches')]/../div"));}
     private List<WebElement> allSaveSearchOptions(){ return driver.findElements(By.xpath("//div[@class='menu transition visible']/div[@role='option']"));}
     private String gpaTooltipIconInResultsLocator = "td.you-column button.supermatch-tooltip-trigger";
+    private static WebElement superMatchCollegeSearchHeader() { return driver.findElement(By.xpath("//h1[text()='SuperMatch College Search']")); }
 }

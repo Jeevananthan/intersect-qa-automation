@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
+import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.io.File;
@@ -151,6 +152,62 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyZipCodeValidationMessage(DataTable dataTable) {
+        String locationSearchType, selectMiles, zipCode, verifyErrorMessageIsDisplayed, verifyErrorMessageIsNotDisplayed
+                , verifyPillIsDisplayedInMustHaveBox, verifyPillIsNotDisplayedInMustHaveBox;
+
+        FCSuperMatchPageImpl.skipModals();
+
+        openFitCriteria("Location");
+
+        List<List<String>> rows = dataTable.asLists(String.class);
+
+        for(int index = 1; index < rows.size(); index++)
+        {
+            locationSearchType = rows.get(index).get(0);
+            if(locationSearchType != null && locationSearchType.trim().length() != 0)
+                selectRadioButton(locationSearchType);
+
+            selectMiles = rows.get(index).get(1);
+            if(selectMiles != null && selectMiles.trim().length() != 0)
+                selectOptionFromSelectMilesListBox(selectMiles);
+
+            zipCode = rows.get(index).get(2);
+            if(zipCode != null && zipCode.trim().length() != 0) {
+                zipCodeTextBox().clear();
+                zipCodeTextBox().sendKeys(zipCode);
+            }
+
+            verifyErrorMessageIsDisplayed = rows.get(index).get(3);
+            if(verifyErrorMessageIsDisplayed != null && verifyErrorMessageIsDisplayed.trim().length() != 0) {
+                Assert.assertFalse(zipcodeErrorMessageElement().getText().contains(verifyErrorMessageIsDisplayed));
+
+                waitForUITransition();
+                waitForUITransition();
+
+                Assert.assertTrue(zipcodeErrorMessageElement().getText().contains(verifyErrorMessageIsDisplayed));
+            }
+
+            verifyPillIsDisplayedInMustHaveBox = rows.get(index).get(4);
+            if(verifyPillIsDisplayedInMustHaveBox != null && verifyPillIsDisplayedInMustHaveBox.trim().length() != 0) {
+                waitForUITransition();
+                verifyMustHaveBoxContains(verifyPillIsDisplayedInMustHaveBox);
+            }
+
+            verifyPillIsNotDisplayedInMustHaveBox = rows.get(index).get(5);
+            if(verifyPillIsNotDisplayedInMustHaveBox != null && verifyPillIsNotDisplayedInMustHaveBox.trim().length() != 0) {
+                verifyMustHaveBoxDoesNotContain(verifyPillIsNotDisplayedInMustHaveBox);
+            }
+
+        }
+    }
+
+    public void selectOptionFromSelectMilesListBox(String optionText) {
+        WebElement listBoxPlaceholder = driver.findElement(By.xpath("//div[@id='supermatch-location-miles-dropdown']/div[@role='alert']"));
+        listBoxPlaceholder.click();
+        WebElement optionToSelect = driver.findElement(By.xpath("//div[@id='supermatch-location-miles-dropdown']//span[text()='"+ optionText + "']"));
+        optionToSelect.click();
+    }
 
     public void verifyDarkBlueFooter() {
         Assert.assertTrue("College Search footer is not displayed", superMatchFooter().isDisplayed());
@@ -320,6 +377,21 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'" + option.split("'")[0] + "')]"))).click();
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
     }
+
+    /**
+     * select any radio button only when fit criteria menu is open.
+     */
+    public void selectRadioButton(String radioButton){
+        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
+        Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
+        if (!radioButtonLocator.isSelected()) {
+            radioButtonLocator.click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
+    }
+
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
@@ -1464,19 +1536,59 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    /**
-     * select any radio button only when fit criteria menu is open.
-     */
-    public void selectRadioButton(String radioButton){
-        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
-        WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
-        Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
-        if (!radioButtonLocator.isSelected()) {
-            radioButtonLocator.click();
-            waitUntilPageFinishLoading();
-        }
-        onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
-        Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
+    public void verifyCLEARPINNEDLISTOptionIsClickable()
+    {
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        Assert.assertTrue("'CLEAR PINNED LIST' option is not enabled/clickable", clearPinnedListOption().isEnabled());
+
+        //close the PINNED dropdown
+        pinnedDropdown().click();
+    }
+
+    public void verifyCLEARPINNEDLISTConfirmationModal()
+    {
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        clearPinnedListOption().click();
+
+        Assert.assertTrue("'CLEAR PINNED LIST' modal is not displayed", clearPinnedListModal().isDisplayed());
+        Assert.assertTrue("'Are you sure you want to clear your pinned list?' text is not displayed in the modal",
+                clearPinnedListModal().getText().contains("Are you sure you want to clear your pinned list?"));
+        Assert.assertTrue("'Clearing your pinned colleges is permanent and cannot be undone.' text is not displayed in the modal",
+                clearPinnedListModal().getText().contains("Clearing your pinned colleges is permanent and cannot be undone."));
+        Assert.assertTrue("'YES, CLEAR MY LIST' button is not displayed in the modal", yesClearMyListButton().isDisplayed());
+        Assert.assertTrue("'NO, CANCEL' button is not displayed in the modal", noDontClearMyListButton().isDisplayed());
+
+        noDontClearMyListButton().click();
+    }
+
+    public void verifyPinnedCollegesNotClearedWhenNOCANCELbuttonIsClicked()
+    {
+        int numberOfPinnedColleges = Integer.parseInt(pinCount().getText());
+
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        clearPinnedListOption().click();
+
+        noDontClearMyListButton().click();
+
+        Assert.assertTrue("Colleges were cleared when 'No, Cancel' button is clicked", numberOfPinnedColleges == Integer.parseInt(pinCount().getText()));
+
+    }
+
+    public void verifyCLEARPINNEDLISTIsDisabled()
+    {
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        Assert.assertFalse("'CLEAR PINNED LIST' option is enabled/clickable", clearPinnedListOption().isEnabled());
+
+        //close the PINNED dropdown
+        pinnedDropdown().click();
     }
 
     public void pinCollegeIfNotPinnedAlready(String collegeName) {
@@ -1751,6 +1863,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void scrollToMiddleOfMainPage() {
+        waitUntil(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//tr")));
+        ((JavascriptExecutor)driver).executeScript("var scrollHeight = document.body.scrollHeight; " +
+                "window.scrollTo(0, scrollHeight/2); ");
+    }
+
+    public void verifyScrollBarIsPositionedAtTheTopOfPinnedSchoolsComparePage() {
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr")));
+        Long scrollPosition = (Long) ((JavascriptExecutor)driver).executeScript("return window.pageYOffset; ");
+        Assert.assertEquals("Scroll bar is not positioned at the top of the page", new Long(0), scrollPosition);
+    }
+
 
     // Locators Below
 
@@ -1899,6 +2023,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement costFitCriteria(){
         return driver.findElement(By.xpath("//li[contains(text(), 'Cost')]"));
     }
+    private WebElement zipCodeTextBox() {
+        return driver.findElement(By.xpath("//input[@placeholder='Zip Code']"));
+    }
+    private WebElement firstOnBoardingPopup() {
+        return getDriver().findElement(By.xpath("//*[contains(@class, 'supermatch-onboarding-popup')]"));
+    }
+    private WebElement superMatchCollegeSearchHeader() {
+        return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
+    }
+    private WebElement zipcodeErrorMessageElement() {
+        return driver.findElement(By.xpath("//div[@class='div-distance']"));
+    }
 
     private WebElement getAcceptanceRateCheckbox(String checkboxLabel) {
         return driver.findElement(By.xpath("//label[text()='" + checkboxLabel + "']"));
@@ -1963,7 +2099,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement saveSearchPopupErrorMessage() { return driver.findElement(By.cssSelector("div.ui.error.negative.visible.message div.content p")); }
 
-    private WebElement saveSearchLink() { return driver.findElement(By.xpath("//div[@class='actions']/button[@class='ui teal basic button' and text()='Save Search']")); }
+    private WebElement saveSearchLink() { return driver.findElement(By.xpath("//button[@class='ui teal basic button supermatch-save-search-modal-save' and text()='Save Search']")); }
 
     private WebElement confirmationMessage() { return driver.findElement(By.cssSelector("span.supermatch-toast-title + span")); }
 
@@ -1984,10 +2120,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement costColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(5) div span")); }
 
     private WebElement pickWhatToShowColumnHeader() { return driver.findElement(By.cssSelector("table.ui.unstackable.table.csr-results-table.csr-header-table tr th:nth-of-type(6) div span.csr-heading-dropdown-text")); }
-
-    private WebElement superMatchCollegeSearchHeader() {
-        return getDriver().findElement(By.xpath("//h1[text()='SuperMatch College Search']"));
-    }
 
     private WebElement ACTValidationMessageElement() {
         return actScoreTextBox().findElement(By.xpath(".//ancestor::div[contains(@class, 'sixteen column grid')]"));

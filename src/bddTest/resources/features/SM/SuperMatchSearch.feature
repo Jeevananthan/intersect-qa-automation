@@ -334,3 +334,36 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I select the "Show only non-profit" checkbox from "Institution Characteristics" fit criteria
     Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
 
+  @MATCH-4682
+  Scenario: The Compare seems to load and focus itself in the same general area you were on the main page of SuperMatch.
+  Verify that this doesn't happen.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "2" colleges
+    Then SM I scroll to the middle of the main page
+    And SM I open the Pinned Schools Compare screen
+    Then SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page
+
+  @MATCH-3522
+  Scenario: As a HS student using SuperMatch I want to clear all of my currently pinned schools so I can quickly wipe
+  that list and start over.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "1" colleges
+    Then SM I verify that CLEAR PINNED LIST option is clickable
+    Then SM I verify the CLEAR PINNED LIST confirmation modal
+    Then SM I verify that the pinned colleges are not cleared when the NO CANCEL button is clicked in the modal
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I verify that the CLEAR PINNED LIST option is disabled
+
+  @MATCH-4133
+  Scenario: Verify the validation message displayed in the Zip Code field
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify if the validation message displayed for Zip Code field is user friendly
+    |Location Search Type|Select Miles    |Zip Code|Verify Error Message Displayed |Verify Pill Displayed In Must Have Box|Verify Pill Not Displayed In Must Have Box|
+    |Search by distance  |Within 500 miles|        |                               |                                      |Within 500 miles                          |
+    |Search by distance  |Select Miles    |90001   |                               |                                      |90001                                     |
+    |Search by distance  |Within 25 miles |90001   |                               |Within 25 miles of 90001              |                                          |
+    |Search by distance  |Within 25 miles |9000    |Enter a valid, 5 digit zip code|                                      |                                          |
+    |Search by distance  |Within 25 miles |90001   |                               |                                      |                                          |
