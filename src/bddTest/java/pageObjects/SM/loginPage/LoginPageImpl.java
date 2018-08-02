@@ -21,19 +21,20 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Checks the System property SuperMatchEnv and then logs in to the appropriate system
-     * If SuperMatchEnv = FamilyConnection, use that, otherwise, use standalone.
+     * If SuperMatchEnv = Standalone, use that, otherwise, use Naviance Student.
      */
     public void defaultLoginThroughFamilyConnection() {
-           // Check if we're testing the embedded version of SM, or the standalone
+        // Check if we're testing the embedded version of SM, or the standalone
         try {
-            if (System.getProperty("SuperMatchEnv").equals("FamilyConnection")) {
+            if (System.getProperty("SuperMatchEnv").equals("Standalone")) {
+                navigateToSuperMatch();
+            } else {
                 loginThroughFamilyConnection(GetProperties.get("fc.default.username"), GetProperties.get("fc.default.password"), GetProperties.get("fc.default.hsid"));
                 getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
-            } else {
-                navigateToSuperMatch();
             }
         } catch (NullPointerException npe) {
-            navigateToSuperMatch();
+            loginThroughFamilyConnection(GetProperties.get("fc.default.username"), GetProperties.get("fc.default.password"), GetProperties.get("fc.default.hsid"));
+            getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
         }
     }
 
@@ -58,7 +59,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         //Search Tools
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(button("Find Your Fit"))).click();
         //SuperMatch™ College Search Next
-        new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("SuperMatch Next"))).click();
+        new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("SuperMatch®"))).click();
         new WebDriverWait(getDriver(),40).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
     }
 

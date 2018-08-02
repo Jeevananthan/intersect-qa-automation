@@ -14,7 +14,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void openHUBSEditorMode() {
-        navBar.goToCollegeProfile();
+        navigationBar.goToCollegeProfile();
         getStartedButton().click();
         waitUntilPageFinishLoading();
         driver.switchTo().frame(driver.findElement(By.tagName("iframe")));

@@ -32,9 +32,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void goToUserInstitutionPage() {
         logger.info("Going to user profile page.");
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        communityFrame();
-        link(By.cssSelector("a[href='/institution']")).click();
+        navigationBar.goToCommunity();
     }
 
     public void goToHSUserInstitutionPage() {
@@ -78,9 +76,6 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void goToInstitutionPageById(String instiId) {
         logger.info("Going to institution page with id "+instiId+"");
-        iframeExit();
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
-        waitUntilPageFinishLoading();
         driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/"+instiId+"");
         communityFrame();
     }
@@ -170,11 +165,13 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         communityFrame();
         try {
+            setImplicitWaitTimeout(1);
             unfollowBtn();
             unfollowBtn().click();
             waitUntilPageFinishLoading();
-
+            resetImplicitWaitTimeout();
         } catch (NoSuchElementException ex)  {
+            resetImplicitWaitTimeout();
             logger.info("User already not following the institution.");
         }
     }

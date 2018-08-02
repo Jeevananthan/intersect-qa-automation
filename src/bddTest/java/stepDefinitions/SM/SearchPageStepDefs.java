@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -146,6 +145,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I check Diversity column in result colleges for \"([^\"]*)\"$", searchPage::checkDiversityColumnInResult);
 
+        Then("^SM I verify that \"([^\"]*)\" displays \"([^\"]*)\" in the Cost column$", searchPage::verifySingleValueInCostColumn);
+
+        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
+
         Then("^SM I verify the footnote for no GPA and no other scores, with the text:$", searchPage::verifyFootnoteNoGPANoScores);
 
         Then("^SM I verify the footnote for known GPA but unknown test scores for \"([^\"]*)\", with the text:$", searchPage::verifyFootnoteGPANoScores);
@@ -153,8 +156,6 @@ public class SearchPageStepDefs implements En {
         And("^SM I pin \"([^\"]*)\"$", searchPage::pinCollege);
 
         And("^SM I pin \"([^\"]*)\" if it is not pinned already$", searchPage::pinCollegeIfNotPinnedAlready);
-
-        Then("^SM I verify that screen jumps to the top of the page after clicking the Back to top button$", searchPage::verifyBackToTopButtonFunctionality);
 
         Then("^SM I verify that the column headers in the results table are the following:$", searchPage::verifyColumnHeaders);
 
@@ -180,6 +181,8 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the options displayed in the Select Gender dropdown$", searchPage::verifyOptionsInSelectGenderDropdown);
 
+        And("^SM I start the search over$", searchPage::startSearchOver);
+
         And("^SM I pin \"([^\"]*)\" colleges$", searchPage::iPinColleges);
 
         And("^SM I clear pinned schools list$", searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
@@ -192,7 +195,38 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
-        And("^SM I start the search over$", searchPage::startSearchOver);
+        And("SM I verify that \"([^\"]*)\" checkbox is \"([^\"]*)\" in \"([^\"]*)\" fit criteria", searchPage::verifyCheckboxState);
 
+        Then("^SM I clear all pills from Must have  and Nice to have boxes$", searchPage::clearAllPillsFromMustHaveAndNiceToHaveBox);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is displayed$", searchPage::verifyCheckboxIsDisplayed);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is not checked$", searchPage::verifyCheckboxIsNotChecked);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" can be checked|unchecked$", searchPage::verifyCheckboxCanBeCheckedAndUnchecked);
+
+        And("^SM I press button \"([^\"]*)\"$", searchPage::pressButton);
+
+        And("^SM I pick \"([^\"]*)\" from the dropdown \"([^\"]*)\"$", searchPage::pickFromDropdown);
+
+        And("^SM I press Why button for the first college in results with score (\\d+)%$", searchPage::pressWhyForCollegeWithScore);
+
+        And("^SM I press Why button for \"([^\"]*)\" college$", searchPage::pressWhyButtonForCollege);
+
+        Then("^SM I scroll to the middle of the main page$", searchPage::scrollToMiddleOfMainPage);
+
+        Then("^SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page$", searchPage::verifyScrollBarIsPositionedAtTheTopOfPinnedSchoolsComparePage);
+
+        And("^SM I verify that CLEAR PINNED LIST option is clickable$", searchPage::verifyCLEARPINNEDLISTOptionIsClickable);
+
+        And("^SM I verify the CLEAR PINNED LIST confirmation modal$", searchPage::verifyCLEARPINNEDLISTConfirmationModal);
+
+        And("^SM I verify that the pinned colleges are not cleared when the NO CANCEL button is clicked in the modal$", searchPage::verifyPinnedCollegesNotClearedWhenNOCANCELbuttonIsClicked);
+
+        And("^SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal$",searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
+
+        And("^SM I verify that the CLEAR PINNED LIST option is disabled$", searchPage::verifyCLEARPINNEDLISTIsDisabled);
+
+        Then("^SM I verify if the validation message displayed for Zip Code field is user friendly$", searchPage::verifyZipCodeValidationMessage);
     }
 }
