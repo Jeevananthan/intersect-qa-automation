@@ -22,6 +22,7 @@ Feature: Hobsons Support - View Institution Log History
     Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I successfully sign out
 
+@MATCH-3007
   Scenario: As a Hobsons Super Admin user I can view an Institution's Log History
     Given SP I am logged in to the Admin page as a Super Admin user
     Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard

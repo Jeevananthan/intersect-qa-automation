@@ -51,6 +51,7 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
   So that when there are any important notifications (e.g. maintenance, product survey's, release notifications, etc.) related to the Intersect product line,
   I have the ability to directly notify users within the application and manage such from the Support app.
 #Verify admin dashboard is displayed
+# MATCH-3007
     Given SP I am logged in to the Admin page as a Super Admin user
     Then SP I verify that Admin dashboard is displayed in Homepage
     Then SP I verify the header is changed from "Intersect" to "Admin Dashboard" in the Admin dashboard page
