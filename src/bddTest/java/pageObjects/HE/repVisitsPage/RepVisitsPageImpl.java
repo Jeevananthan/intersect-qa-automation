@@ -47,7 +47,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkRepVisitsSubTabs(DataTable dataTable){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
             Assert.assertTrue(repVisitsSubItem + " is not showing.",link(repVisitsSubItem).isDisplayed());
@@ -90,7 +90,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectFairForHE(String highSchool, String fairTitle){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         link("Search and Schedule").click();
         //text("Search for a school...").sendKeys(highSchool);
         getSearchBox().sendKeys(highSchool);
@@ -137,7 +137,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCalendarPageforFairs(String school,String time,String date) {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -183,7 +183,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyExportButtonInCalendar(){
         waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Calendar").click();
         waitUntilPageFinishLoading();
@@ -192,7 +192,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyExportButtonisEnabledInCalendar(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Calendar").click();
         waitForUITransition();
@@ -332,7 +332,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySearchAndSchedulePage() {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getSearchAndScheduleBtn().click();
         WebElement dateBar = driver.findElement(By.className("_2Y4XoXCJpDOFoe0UYkEn-I"));
         // These calendar controls have been moved to only appear after a search, this is covered by MATCH-2133.
@@ -344,7 +344,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void searchforHighSchool(String schoolName) {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getSearchAndScheduleBtn().click();
         getSearchBox().sendKeys(schoolName);
         getSearchButton().click();
@@ -360,14 +360,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEmptyContactPage(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getContactsBtn().click();
         Assert.assertTrue("Contact Header is not displayed",text("").isDisplayed());
         Assert.assertTrue("Instruction text is not displayed",text("").isDisplayed());
 
     }
     public void verifyFullContactPage(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getContactsBtn().click();
         Assert.assertTrue("Contact Header is not displayed",driver.findElement(By.xpath("//h1[@class='ui header _2GIsNevIB_s082IZwcYen3']")).isDisplayed());
         Assert.assertTrue("Instruction text is not displayed",driver.findElement(By.xpath("//div[@class='sub header _240ldPuujUDvP5vNIGw15H']")).isDisplayed());
@@ -376,7 +376,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("RepVisits contact are not displayed",size>0);
     }
     public void verifyContactDetails(DataTable dataTable){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getContactsBtn().click();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
@@ -402,7 +402,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void sortingContacts()
     {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getContactsBtn().click();
         driver.findElement(By.xpath("//input[@name='contacts-search']")).clear();
         ArrayList<String> original=new ArrayList<>();
@@ -423,7 +423,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void validatingthePaginationof25Contacts()
     {
         int count;
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getContactsBtn().click();
         waitUntil(ExpectedConditions.visibilityOf(button("EXPORT CONTACTS")));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")));
@@ -440,7 +440,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void searchforContact(String institutionName){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getContactsBtn().click();
         getSearchBoxforContact().sendKeys(institutionName);
         waitForUITransition();
@@ -450,7 +450,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void partialsearchforContact(String institutionName){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getContactsBtn().click();
         getSearchBoxforContact().sendKeys(institutionName);
         waitUntilPageFinishLoading();
@@ -478,7 +478,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyOverviewPage(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getOverviewBtn().click();
         waitUntilElementExists(getComingSoonMessageInOverviewPage());
         Assert.assertTrue("Coming Soon message is not displaying",
@@ -500,7 +500,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void navigatetoRepVisits()
     {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         link("Availability & Settings").click();
     }
 
@@ -655,7 +655,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void openInstitutionByURLPartID(String URLPartID) {
         waitUntilPageFinishLoading();
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
         getDriver().get(GetProperties.get("he.app.url") + "counselor-community/institution-hs-id/" + URLPartID);
         waitUntilPageFinishLoading();
     }
@@ -800,7 +800,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void searchSchoolinRepVisits(String school)
     {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getSearchBox().sendKeys(school);
         waitUntilElementExists(search());
         getSearchButton().click();
@@ -877,7 +877,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyUpgradeMessageInRecommendationspage()
       {
-          navBar.goToRepVisits();
+          navigationBar.goToRepVisits();
           waitUntilElementExists(getRecommendationsBtn());
           getRecommendationsBtn().click();
           waitUntilPageFinishLoading();
@@ -889,7 +889,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
    public void verifyUpgradeMessageInContactspage()
    {
-       navBar.goToRepVisits();
+       navigationBar.goToRepVisits();
        waitUntilElementExists(getContactsBtn());
        getContactsBtn().click();
        waitUntilPageFinishLoading();
@@ -990,7 +990,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilElementExists(getTravelPlanBtn());
         getTravelPlanBtn().click();
         waitUntilPageFinishLoading();
@@ -1001,7 +1001,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifySeeDetailsLinkInRepVisits(){
 
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getTravelPlanBtn().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         Assert.assertTrue("'See Details' text is not displayed",text("See details").isDisplayed());
@@ -1015,7 +1015,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void searchforPartialdata(String institutionName,String partial)
     {
-    navBar.goToRepVisits();
+    navigationBar.goToRepVisits();
     getContactsBtn().click();
     getSearchBoxforContact().clear();
     getSearchBoxforContact().sendKeys(partial);
@@ -1024,7 +1024,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyUpgradeMessageInContactsInRepVisits(){
 
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getContactsBtn().click();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
@@ -1033,7 +1033,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyUpgradeMessageInRecommendationsInRepVisits(){
 
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getRecommendationsBtn().click();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
@@ -1041,7 +1041,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCalendarViewOnRepVisits() {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         link("Calendar").click();
 
         //Verify Small Calendar
@@ -1106,7 +1106,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToRepVisitsSection(String pageName) {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         if (pageName.equalsIgnoreCase("visit feedback")) {
             getVisitsFeedbackBtn().click();
         } else {
@@ -1116,7 +1116,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUserDropdownforHE(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropdown().click();
         Assert.assertTrue("'Account settings' option is not displayed",getAccoutSettingsBtn().isDisplayed());
@@ -1129,7 +1129,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyNavigationUserDropdownforHE()  {
         getAccoutSettingsBtn().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Settings is not displayed", navBar.getSubMenuBreadcrumbs().getText().contains("Settings"));
         // Temporary fix for the 'Your Profile' option, sometimes it does not navigate to the respective page, the issue exists only in automation
         for(int i=0;i<2;i++){
             try{
@@ -1159,7 +1158,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Institution Profile' is not displayed",institutionProfilePage().isDisplayed());
         driver.switchTo().defaultContent();
         waitUntilPageFinishLoading();
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
         waitUntilPageFinishLoading();
     }
 
@@ -1174,7 +1173,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 Assert.fail("The given option" + option + " is a invalid one");
             }
         }
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
     }
 
@@ -1202,13 +1201,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().window(navianceWindow);
         waitUntilPageFinishLoading();
         waitUntilElementExists(getRepVisitsBtn());
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
     }
 
     public void verifytSearchHeadingInSearchAndScheduleTab(){
         waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -1294,7 +1293,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void navaigateToAccountSettings(String accountSettings)
     {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropdown().click();
         waitUntilElementExists(accountSettings(accountSettings));
@@ -1365,7 +1364,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void searchSchoolbyLocation(String school,String location){
         waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -1514,7 +1513,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void searchSchool(String school){
         waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -1625,7 +1624,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitRequestButton().click();
         waitUntilPageFinishLoading();
         waitUntilElementExists(goToDate());
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
     }
@@ -1648,7 +1647,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
         submitButton().click();
         waitForUITransition();
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitForUITransition();
         waitUntilPageFinishLoading();
     }
@@ -1663,7 +1662,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyNotificationforFairs(String school,String date,String time) {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         link("Notifications").click();
         waitUntilElementExists(requestsubtab());
         Assert.assertTrue("Requests is not displayed",requestsubtab().isDisplayed());
@@ -1732,7 +1731,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifynoNotificationMessage(String message) {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         link("Notifications").click();
         waitUntilElementExists(requestsubtab());
         try{
@@ -1943,9 +1942,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFairDetailsInTravelPlan(String school,String date){
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
         waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Travel Plan").click();
         waitUntilPageFinishLoading();
@@ -2137,7 +2136,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Travel Plan is not locked",text("Unlock Travel Plan").isDisplayed());
     }
      public void navigateToInstitutionNotificationPage(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropDown().click();
         accountSettings().click();
@@ -2185,7 +2184,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyNotificationTabinNonAdmin(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropDown().click();
         accountSettings().click();
@@ -2327,13 +2326,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectCalendar() {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getCalendarBtn().click();
         waitUntilPageFinishLoading();
     }
     public void verifyCalendarPage(String school,String time,String date) {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -2486,7 +2485,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      * @param schoolName - Name of the school to look for the fair under.
      */
     public void verifyCollegeFairVisible(String schoolName) {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
         getSearchBox().sendKeys(schoolName);
@@ -2503,7 +2502,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      * @param schoolName - Name of the school to look for the fair under.
      */
     public void verifyCollegeFairNotVisible(String schoolName) {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
         getSearchBox().sendKeys(schoolName);
@@ -2523,7 +2522,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openCalendar() {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getCalendarBtn().click();
         waitForUITransition();
     }
@@ -2664,7 +2663,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
   
     public void verifyCityAndStateInRequestNotificationsubTab(String cityAndState,String school){
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Notifications").click();
         waitUntilPageFinishLoading();
@@ -2677,7 +2676,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCityAndStateInActivitysubTab(String cityAndState,String school){
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Notifications").click();
         waitForUITransition();
@@ -2690,7 +2689,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCityAndStateInRequestNotificationsubTabforFairs(String cityAndState,String school){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Notifications").click();
         waitForUITransition();
@@ -2701,7 +2700,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCityAndStateInActivitysubTabforFairs(String cityAndState,String school){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         link("Notifications").click();
         waitForUITransition();
@@ -2715,7 +2714,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDropdownInSearchAndSchedulePage(String dropdown){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -2732,7 +2731,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyBackgroundColorforFreemiumorPremium(String color,DataTable dataTable){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -2750,7 +2749,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDefaultOptionInSearchByDropdown(String defaultOption,DataTable dataTable){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -2770,7 +2769,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUpgradeNotificationPage(String upgrade,DataTable dataTable){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -2787,7 +2786,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySearchByOptionAfterSelectFields(DataTable dataTable){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -2801,7 +2800,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyTextInSearchAndScheduleTextBox(String text){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -2809,7 +2808,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectFieldswillnotSubmitSearch(String defaultOption,String school,DataTable dataTable){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         waitUntilPageFinishLoading();
@@ -2839,7 +2838,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      * @param parameter to find the schools
      */
     public void searchBySchool(String criteria, String parameter){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         link("Search and Schedule").click();
         selectSearchCriteria(criteria);
         searchTextBox().click();
@@ -3065,7 +3064,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
   
     public void verifyYourNotificationTabforPremium(String yourNotification){
         waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropDown().click();
         accountSettings().click();
@@ -3076,7 +3075,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyYourNotificationTabforfreemium(String yourNotification){
         waitUntilPageFinishLoading();
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropDown().click();
         accountSettings().click();
@@ -3086,7 +3085,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyYourNotificationTab(DataTable dataTable){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropDown().click();
         accountSettings().click();
@@ -3106,7 +3105,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySavedChangesInYourNotification(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropDown().click();
         accountSettings().click();
@@ -3119,7 +3118,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectAlertBoxInYourNotification(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         userDropDown().click();
         accountSettings().click();
@@ -3132,7 +3131,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessAgendaView(String agenda){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getCalendarBtn().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
@@ -3143,7 +3142,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyAgendaPageForFreemium(String message,String agenda){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getCalendarBtn().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
@@ -3153,7 +3152,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUpgradeButtonInAgendaPage(String upgradeButton,String agenda){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getCalendarBtn().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
@@ -3172,7 +3171,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyErrorMessageInReAssignAppointments(String errorMessage,String option,String staff){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getCalendarBtn().click();
         waitUntilPageFinishLoading();
@@ -3213,7 +3212,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDisappearingErrorMessageInReAssignAppointments(String disappearingErrorMessage,String errorMessage,String staff){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         getCalendarBtn().click();
         waitUntilPageFinishLoading();
@@ -3232,7 +3231,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.linkText("Calendar"),1));
         calendar().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
@@ -3252,7 +3251,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String date = getStartDateInAgenda().getText();
         String displayingDate = getDisplayingDateInCalendarAgenda(disabledDate);
         Assert.assertTrue("Selected date is not displayed",!date.equals(displayingDate));
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
         waitUntilPageFinishLoading();
     }
 
@@ -3283,7 +3282,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
 //        waitUntilPageFinishLoading();
         link("College Fairs").click();
         waitUntilPageFinishLoading();
@@ -3296,7 +3295,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void goToReassignAppointment(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         link("Calendar").click();
         link("Re-assign appointments").click();
     }
@@ -3447,7 +3446,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return link("See details »");
     }
     private WebElement getSearchAndScheduleBtn() {
-        return link("Search and Schedule");
+        return driver.findElement(By.cssSelector("button[class='ui icon button _3pWea2IV4hoAzTQ12mEux-']"));
     }
     private WebElement getCalendarBtn() {
         return link("Calendar");

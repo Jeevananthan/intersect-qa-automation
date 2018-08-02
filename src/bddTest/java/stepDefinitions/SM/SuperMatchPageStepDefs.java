@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 
@@ -18,7 +17,7 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that the appropriate legend is displayed in the Why Drawer in position \"([^\"]*)\", according to the following data:$", fcSuperMatch::verifyLegendInWhyDrawer);
 
-        And("^SM I skip the onboarding modals$", fcSuperMatch::skipModals);
+        And("^SM I skip the onboarding modals$", fcSuperMatch::skipModalPopups);
 
         Then("^SM I verify that the onboarding modal is displayed for the following sections$", fcSuperMatch::verifyOnboardingModals);
 

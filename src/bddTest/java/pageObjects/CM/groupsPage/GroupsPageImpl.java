@@ -11,17 +11,20 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
 import pageObjects.CM.userProfilePage.UserProfilePageImpl;
-import java.util.List;
+
 import java.util.Objects;
 
+/**
+ * Created by bojan on 6/5/17.
+ */
 public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
 
 
-
-    public GroupsPageImpl()  {
-        logger = Logger.getLogger(GroupsPageImpl.class);}
+    public GroupsPageImpl() {
+        logger = Logger.getLogger(GroupsPageImpl.class);
+    }
 
     LoginPageImpl loginPage = new LoginPageImpl();
     HomePageImpl homePage = new HomePageImpl();
@@ -29,7 +32,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
 
     // Deprecated - use communityFrame from PageObjectFacadeImpl instead.
-    public void iframeEnter()  {
+    public void iframeEnter() {
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
         waitForUITransition();
         logger.info("Entered Community iFrame.");
@@ -94,7 +97,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void deleteCreatedGroup(String grouptodelete) {
         WebElement group = driver.findElement(By.partialLinkText(grouptodelete));
         String grouplink = group.getAttribute("href");
-        String groupid = grouplink.substring(grouplink.lastIndexOf("/")+1);
+        String groupid = grouplink.substring(grouplink.lastIndexOf("/") + 1);
         logger.info(">>>>>>DELETING GROUP WITH ID: " + groupid);
         driver.navigate().to("https://qa-support.intersect.hobsons.com/counselor-community/cp-test/remove-user-group/" + groupid);
         logger.info("The group is deleted.");
@@ -153,7 +156,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void searchForGroup(String groupname){
+    public void searchForGroup(String groupname) {
         waitUntilPageFinishLoading();
         iframeExit();
         textbox(By.id("global-search-box-input")).clear();
@@ -163,7 +166,6 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.id("global-search-box-item-0")).findElement(By.className("title")).click();
         communityFrame();
         waitUntilPageFinishLoading();
-
     }
 
     public void enterTextInSearchBox(String text) {
@@ -184,32 +186,36 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
             resetImplicitWaitTimeout();
 
         } catch (NoSuchElementException e) {
-            try {
-                setImplicitWaitTimeout(1);
-                requestToJoinGroupButton();
-                logger.info("User is requesting to join the group.");
-                requestToJoinGroupButton().click();
-                waitUntilPageFinishLoading();
-                resetImplicitWaitTimeout();
-            } catch (NoSuchElementException e2) {
-                logger.info("User already joined the group.");
-                resetImplicitWaitTimeout();
-            }
+            logger.info("User already joined the group.");
+            resetImplicitWaitTimeout();
         }
     }
 
     public void makeSureUserIsMemberOfThePrivateGroup() {
         try {
-            setImplicitWaitTimeout(1);
-            requestToJoinGroupButton();
-            logger.info("User is going to join the group.");
+            if (driver.findElement(By.xpath("//*[@id=\"follow-10671\"]/a")).isDisplayed()) {
+                logger.info("User is going to request to join private group.");
+                requestToJoinGroupButton().click();
+            }
+            homePage.logoutHEDefault();
+            approveRequestToJoinTheGroup();
+            waitUntilPageFinishLoading();
+            loginPage.defaultLoginHE();
+        } catch (NoSuchElementException e){
+            logger.info("User already joined the group.");
+            }
+        try {
+            if (driver.findElement(By.xpath("//*[@id=\"unfollow-10671\"]/a")).isDisplayed()) {
+                logger.info("Canceling Pending request.");
+                cancelPendingRequest().click();
+            }
+            logger.info("Requesting to join private group.");
             requestToJoinGroupButton().click();
             homePage.logoutHEDefault();
-            waitUntilPageFinishLoading();
             approveRequestToJoinTheGroup();
-            resetImplicitWaitTimeout();
-        } catch (NoSuchElementException e) {
-            resetImplicitWaitTimeout();
+            waitUntilPageFinishLoading();
+            loginPage.defaultLoginHE();
+        } catch (NoSuchElementException e){
             logger.info("User already joined the group.");
         }
     }
@@ -240,31 +246,33 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void goToManageGroupMembersPage() {
         logger.info("Going to the Manage Group Members Page.");
+        // Implementing Brian's fix from @MATCH-654
         navBar.goToCommunity();
         communityFrame();
         link("Groups").click();
         waitUntilPageFinishLoading();
         link(By.linkText("**Test Automation** HE Community PRIVATE Group")).click();
+        driver.findElement(By.className("manage-group-members-link")).click();
+    }
+
+    public void goToSpecificManageGroupMembersPage(String group) {
+        logger.info("Going to the Manage Group Members Page for group " + group);
+        navBar.goToCommunity();
+        communityFrame();
+        link("Groups").click();
         waitUntilPageFinishLoading();
-        jsClick(driver.findElement(By.className("manage-group-members-link")).findElement(By.tagName("a")));
-        waitUntilPageFinishLoading();
+        link(By.linkText(group)).click();
+        driver.findElement(By.className("manage-group-members-link")).click();
     }
 
     public void approveRequestToJoinTheGroup() {
         logger.info("Approving request to join the group.");
-       // loginPage.defaultLoginSupport();
+        loginPage.defaultLoginSupport();
         goToManageGroupMembersPage();
-        try {
-            setImplicitWaitTimeout(1);
-            driver.findElement(By.className("accept-link")).click();
-            waitUntilPageFinishLoading();
-            resetImplicitWaitTimeout();
-        } catch (Exception e){
-            logger.info("There were no pending join requests for this Group");
-        }
-       // homePage.logoutSupport();
-       // loginPage.defaultLoginHE();
-       // searchForGroup("**Test Automation** HE Community PRIVATE Group");
+        driver.findElement(By.className("accept-link")).click();
+        //homePage.logoutSupport();
+        // loginPage.defaultLoginHE();
+      //  searchForGroup("**Test Automation** HE Community PRIVATE Group");
     }
 
     public void denyRequestToJoinTheGroup() {
@@ -366,22 +374,15 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void removeUserFromTheGroup() {
         logger.info("Removing user from the group.");
-        List<WebElement> rows = getDriver().findElement(By.id("active-members")).findElements(By.tagName("tr"));
-        for (WebElement row : rows) {
-            setImplicitWaitTimeout(1);
-            try {
-                if (row.findElement(By.xpath(".//div[contains(text(),'PurpleHE Automation')]")).isDisplayed()) {
-                    row.findElement(By.className("remove-link")).click();
-                    break;
-                }
-            } catch (NoSuchElementException e) {}
-        }
-        //driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[@class='remove-link']")).click();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[@class='remove-link']")).click();
     }
 
     public void checkIfUserIsRemoved() {
         logger.info("Checking if user is removed from the group.");
-        Assert.assertFalse("The user is not removed from the group.", checkItemVisible("PurpleHE Automation"));
+        setImplicitWaitTimeout(1);
+        boolean removed = checkItemVisible("PurpleHE Automation");
+        resetImplicitWaitTimeout();
+        Assert.assertFalse("The user is not removed from the group.", removed);
     }
 
     public void findLeaveGroupBtn() {
@@ -513,6 +514,12 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("[href='/groups/add']"));
     }
 
+    /*
+    private WebElement groupNameField() {
+        return driver.findElement(By.xpath("//*[@id=\"edit-group\"]"));
+    }
+    */
+
     private WebElement groupNameField() {
         return driver.findElement(By.id("edit-group-title"));
     }
@@ -534,6 +541,8 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private WebElement leaveGroupButton() {return driver.findElement(By.cssSelector("a[title='Leave Group']"));}
 
     private WebElement requestToJoinGroupButton() {return driver.findElement(By.cssSelector("a[title='Request to join']"));}
+
+    private WebElement cancelPendingRequest() {return driver.findElement(By.cssSelector("a[href].use-ajax.unfollow.pending.ajax-processed.reply-processed"));}
 
     private WebElement newPostField() {return driver.findElement(By.id("edit-body"));}
 
