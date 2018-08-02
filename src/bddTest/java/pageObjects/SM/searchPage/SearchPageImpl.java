@@ -1593,7 +1593,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pinCollegeIfNotPinnedAlready(String collegeName) {
         goToCollegeInSearchResults(collegeName);
-        String control = driver.findElement(By.xpath(pinLinkLocator(collegeName))).getText();
         if(driver.findElement(By.xpath(pinLinkLocator(collegeName))).getText().contains("PIN TO COMPARE")) {
             pinCollege(collegeName);
             waitUntilPageFinishLoading();

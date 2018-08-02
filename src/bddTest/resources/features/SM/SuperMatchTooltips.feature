@@ -41,6 +41,7 @@ Feature: SM - SuperMatchTooltips - As a HS student who is interacting with Super
 
   @MATCH-4294
   Scenario Outline: As a HS student accessing SuperMatch through Family Connection I need to be verify that the tooltips are displayed/closed (3rd part)
+    Given SM I start the search over
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | SAT Composite   | 400 |
