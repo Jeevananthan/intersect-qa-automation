@@ -50,7 +50,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(intersectWindow);
         waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
+//        waitUntilElementExists(getDriver().findElement(By.cssSelector("a[id='js-main-sidebar-nav-home-menu-link']")));
+
     }
 
     public void loginThroughNaviance(String usertype) {
@@ -75,8 +76,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
         driver.close();
         driver.switchTo().window(intersectWindow);
-        waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.id("js-main-nav-home-menu-link")));
+        waitForUITransition();
+        waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.id("app")));
     }
 
     public void openNonNavianceLoginPage(){
@@ -136,12 +138,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openNavianceLoginPage() {
+
         try {
-            driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        } catch (NoSuchSessionException nsse) {
+            driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+            driver.executeScript( GetProperties.get("naviance.app.url"));
+        } catch (Exception e) {
+            getDriver().close();
             load("http://www.google.com");
+            System.out.println("Page: " + GetProperties.get("naviance.app.url") + " did not load within 40 seconds!");
         }
-        load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
     }
 
@@ -249,7 +254,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLogoInHomePage()
     {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-white.png";
         String actualIntersectLogo=driver.findElement(By.cssSelector("dt[class='header _2_tAB8btcE4Sc5e1O_XUwn']>img[alt='Intersect Logo']")).getAttribute("src");

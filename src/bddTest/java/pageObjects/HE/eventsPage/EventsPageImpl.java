@@ -535,7 +535,12 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("No error message is displayed when a community user access AM Connections by URL", notAuthorizedErrorMessage().getText().equals(expectedNotAuthorizedErrorText));
     }
 
+    /*public void statusDraft(){
+        Assert.assertTrue("Status of the Event is set to Draft under Unpublished tab",unpublishedStatus().getText().status(statusDraft));
+    }*/
+
     //locators
+//    private WebElement statusDraft(){return  driver.findElement(By.cssSelector(""))};
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
     private WebElement eventStartCalendarButton() { return driver.findElement(By.cssSelector("div.seven.wide.column button[title='Event Date']")); }
@@ -621,6 +626,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement cancelledEventMessage(String eventName) {
         return driver.findElement(By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']"));
     }
+
     private String cancellationMessage = "Event cancelled by hosts";
     private String pastDateErrorMessagesListLocator = "div.ui.red.pointing.basic.label span";
     private String pastDateErrorMessageString = "Event Start date and time must not be in the past";

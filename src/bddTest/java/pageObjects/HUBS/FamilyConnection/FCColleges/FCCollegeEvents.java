@@ -1,5 +1,6 @@
 package pageObjects.HUBS.FamilyConnection.FCColleges;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.eventsPage.EventsPageImpl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,9 @@ import static org.junit.Assert.assertTrue;
  * Created by mbhangu on 12/13/2016.
  */
 public class FCCollegeEvents extends PageObjectFacadeImpl {
+    private static String fs = File.separator;
+    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sEventMessages%sEventMessages.properties",fs ,fs ,fs ,fs ,fs);
+
 
     public void verifyCollegeEventsDetails() {
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
@@ -147,6 +152,17 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         FCCollegeEventsPage.hostedByTextBox.sendKeys(collegeName);
         waitForUITransition();
     }
+    public void clickCollegeEventsDetails(){
+        FCCollegeEventsPage.clickEventInformationlink().click();
+    }
+
+    public void verifyInformationAndWelcomeMessage(){
+        String tooltipcontent = FCCollegeEventsPage.EventToolTipMessage().getText();
+        List<String> eventsListfromProperties = getListFromPropFile(propertiesFilePath, ";","event.information.message");
+        for(String element : eventsListfromProperties ){
+            Assert.assertTrue("Events Information Text is  Incorrect",tooltipcontent.contains(element));
+        }
+    }
 
     public void signUpToEvent() {
         PageFactory.initElements(driver,FCCollegeEventsPage.class);
@@ -157,6 +173,7 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         List<WebElement> listOfEventNames;
         List<String> listOfEventNamesStrings = new ArrayList<>();
         waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(FCCollegeEventsPage.nextArrowsList)));
         WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
         listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
         for (WebElement eventNameElement : listOfEventNames) {

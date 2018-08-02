@@ -2,6 +2,14 @@
 Feature: Hobsons Support - View HE Institution Accounts
          As a Hobsons staff user I need to view individual institutional accounts.
 
+  @MATCH-1670
+  Scenario: As a Support Users I can access Hubs view mode
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "Bowling Green State University-Main Campus" in "Institutions"
+    And SP I select the following institution "Bowling Green State University-Main Campus" from the results
+    Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
+    And SP I successfully sign out
+
   @MATCH-264
   Scenario: As a Hobsons Sales Ops user I can view an institutional account
     Given SP I am logged in to the Admin page as a Sales Ops user
@@ -62,14 +70,6 @@ Feature: Hobsons Support - View HE Institution Accounts
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "Docufide Institute of Technology (not a real school)" from the institution dashboard
     Then SP I should see Additional Contact Details on Institutional Account Page
-    And SP I successfully sign out
-
-  @MATCH-1670
-  Scenario: As a Support User I can access Hubs view mode
-    Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "Bowling Green State University-Main Campus" in "Institutions"
-    And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-    Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
     And SP I successfully sign out
 
   @MATCH-1895  @MATCH-1496
@@ -161,7 +161,13 @@ Feature: Hobsons Support - View HE Institution Accounts
   |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |ActiveMatchEventsModule   |ActiveMatchPlusModule|startDate|endDate|Active|year|color              |
   |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|Legacy: ActiveMatch Events|ActiveMatch Plus     |15       |20     |active|2030|rgba(210, 0, 97, 1)|
 
-
+  @MATCH-1670
+  Scenario: As a Support User I can access Hubs view mode
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "Bowling Green State University-Main Campus" in "Institutions"
+    And SP I select the following institution "Bowling Green State University-Main Campus" from the results
+    Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
+    And SP I successfully sign out
 
 
 
