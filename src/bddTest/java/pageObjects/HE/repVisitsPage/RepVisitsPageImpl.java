@@ -3446,7 +3446,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return link("See details »");
     }
     private WebElement getSearchAndScheduleBtn() {
-        return link("Search and Schedule");
+        return driver.findElement(By.cssSelector("button[class='ui icon button _3pWea2IV4hoAzTQ12mEux-']"));
     }
     private WebElement getCalendarBtn() {
         return link("Calendar");

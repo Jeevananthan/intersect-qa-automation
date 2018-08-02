@@ -83,7 +83,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement userDropdown() {
-        return button(By.id("user-dropdown"));
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        return driver.findElement(By.cssSelector("div[id='user-dropdown']"));
     }
 
     private WebElement collageNameLabel() {
