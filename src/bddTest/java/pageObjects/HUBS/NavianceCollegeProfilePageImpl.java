@@ -2,9 +2,7 @@ package pageObjects.HUBS;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,7 +21,12 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     public void openHUBSEditorMode() {
         navigationBar.goToCollegeProfile();
         verifyVieworEditYourCollegeProfileinNaviance();
-        getStartedButton().click();
+        try {
+            getStartedButton().click();
+        } catch(WebDriverException e) {
+            navigationBar.navianceCollegeProfileMenuLink.sendKeys(Keys.ESCAPE);
+            getStartedButton().click();
+        }
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
         verifyInstitutionalProfilePage();

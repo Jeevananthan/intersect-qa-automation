@@ -28,7 +28,7 @@ public class NavigationBarImpl extends SeleniumBase {
     private WebElement counselorCommunityMenuLink;
 
     @FindBy(id="js-main-nav-naviance-college-profile-menu-link")
-    private WebElement navianceCollegeProfileMenuLink;
+    public WebElement navianceCollegeProfileMenuLink;
 
     @FindBy(id="js-main-nav-graphiql-menu-link")
     private WebElement graphiqlMenuLink;
