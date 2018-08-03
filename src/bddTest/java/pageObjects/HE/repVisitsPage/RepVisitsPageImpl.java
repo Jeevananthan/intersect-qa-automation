@@ -50,7 +50,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navigationBar.goToRepVisits();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
-            Assert.assertTrue(repVisitsSubItem + " is not showing.",link(repVisitsSubItem).isDisplayed());
+            Assert.assertTrue(repVisitsSubItem + " is not showing.",link(repVisitsSubItem)!=null);
         }
     }
     public void checkHighSchoolJobFairAvailability(String highSchool, String fairName){
