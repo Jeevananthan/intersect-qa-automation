@@ -2120,7 +2120,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
 
-    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../a/span"; }
+    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../div/a/span"; }
 
     private WebElement singleCostValue(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/../../../../td[@class = 'sm-hidden-xl-down csr-data-points']/div/p/span[@class = 'cost-text']")); }
 
