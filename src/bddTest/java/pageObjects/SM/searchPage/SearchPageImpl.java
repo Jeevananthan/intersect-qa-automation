@@ -17,6 +17,8 @@ import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -1872,8 +1874,39 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals("Scroll bar is not positioned at the top of the page", new Long(0), scrollPosition);
     }
 
+    /**
+     * Picks a date in the calendars of 'DatePicker' type.
+     *
+     * @param date - Calendar object with the desired date
+     */
+    public void pickDateInDatePickerSM(Calendar date) {
+
+        String dateString = getDay(date);
+        if (Character.valueOf(dateString.charAt(0)).equals('0')) {
+            dateString = dateString.substring(1);
+        }
+            while (!datePickerMonthYearText().getText().equals(getMonth(date))) {
+                datePickerNextMonthButton().click();
+
+        }
+        waitForUITransition();
+        driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
+                "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
+                "DayPicker-Day--today'][text()='" + dateString + "']")).click();
+    }
+
+    public void clickClearCalendarIcon() {
+
+        clearCalendarIconButton().click();
+    }
+
 
     // Locators Below
+
+    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
+
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
     private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='column box box-selection'])[1]")); }
