@@ -3275,12 +3275,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRecommendatiosPage(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getRecommendationsBtn().click();
     }
 
     public void searchforRecommendationsPage(String County) {
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         getRecommendationsBtn().click();
         getRecommendationsSearchbox().sendKeys(County);
     }
