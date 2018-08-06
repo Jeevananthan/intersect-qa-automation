@@ -323,8 +323,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
         Assert.assertTrue("The deleted event is still present in the list",
-                driver.findElements(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']" +
-                        "/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']")).size() == 0);
+                driver.findElements(By.xpath(eventsListLocator(eventName))).size() == 0);
     }
 
     public void unpublishEvent(String eventName) {
@@ -338,6 +337,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
         unpublishYesButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(eventName)), 0));
     }
 
     public void createAndSaveEventWithUniqueName(DataTable eventData) {
@@ -356,6 +356,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         menuButtonForEvent(eventName).click();
         menuButtonForEventsCancel().click();
         cancelYesButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(eventName)), 0));
     }
 
     public void clickCreateEvent() {
@@ -534,7 +535,12 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("No error message is displayed when a community user access AM Connections by URL", notAuthorizedErrorMessage().getText().equals(expectedNotAuthorizedErrorText));
     }
 
+    /*public void statusDraft(){
+        Assert.assertTrue("Status of the Event is set to Draft under Unpublished tab",unpublishedStatus().getText().status(statusDraft));
+    }*/
+
     //locators
+//    private WebElement statusDraft(){return  driver.findElement(By.cssSelector(""))};
     private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
     private WebElement eventStartCalendarButton() { return driver.findElement(By.cssSelector("div.seven.wide.column button[title='Event Date']")); }
@@ -601,7 +607,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement unpublishYesButton() {
         return driver.findElement(By.cssSelector("button[data-status='UNPUBLISHED']"));
     }
-    private WebElement eventsTabFromEditEventScreen() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL']/span[text()='Events']")); }
+    private WebElement eventsTabFromEditEventScreen() { return driver.findElement(By.cssSelector("a[href $='published']")); }
     private WebElement locationNameError() {
         return driver.findElement(By.cssSelector("div.dimmable div._1TudguVf2jObtmqUQKvIAk div[role='tooltip'] span"));
     }
@@ -620,6 +626,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement cancelledEventMessage(String eventName) {
         return driver.findElement(By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']"));
     }
+
     private String cancellationMessage = "Event cancelled by hosts";
     private String pastDateErrorMessagesListLocator = "div.ui.red.pointing.basic.label span";
     private String pastDateErrorMessageString = "Event Start date and time must not be in the past";
@@ -635,4 +642,5 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private String noAttendeesMessageString = "There are no attendees currently registered for this event.";
     private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
     private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
+    private String eventsListLocator(String eventName) { return "//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']"; }
 }

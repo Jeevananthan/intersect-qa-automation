@@ -7,7 +7,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and save a new event with the following details:
-    | Event Name | TestEvent7777 |
+    | Event Name | TestEvent8888 |
     | Event Start | 12-21-2018;10:00AM |
     | Timezone    | Eastern Time (i.e. America/New_York) |
     | Description | Test              |
@@ -19,10 +19,12 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | EVENT LOCATION BY POSITION  | 1 |
     | EVENT PRIMARY CONTACT BY POSITION | 1 |
     | EVENT AUDIENCE BY POSITION       | 1 |
-    Then HE I should see the event of name "TestEvent7777" present in the unpublished events list as Draft event
+    Then HE I should see the event of name "TestEvent8888" present in the unpublished events list as Draft event
+    Then HE I verify status "Draft" under Unpublished tab
 
-    When HE I edit the event of name "TestEvent7777" with the following details:
-    | Event Name | TestEvent7777Edited |
+
+    When HE I edit the event of name "TestEvent8888" with the following details:
+    | Event Name | TestEvent8888Edited |
     | Event Start | 12-23-2018;11:00AM |
     | Timezone    | Atlantic Time (i.e. America/Puerto_Rico) |
     | Description | TestEdited         |
@@ -33,14 +35,14 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | EVENT AUDIENCE BY POSITION       | 2 |
     And HE I take note of the data in the Event
     And HE I save the draft
-    Then HE The event of name "TestEvent7777Edited" should be updated
+    Then HE The event of name "TestEvent8888Edited" should be updated
 
     When HE I publish the current event
-    Then HE I should see the event of name "TestEvent7777Edited" present in the events list as a published event
+    Then HE I should see the event of name "TestEvent8888Edited" present in the events list as a published event
 
-    When HE I unpublish the event of name "TestEvent7777Edited"
-    And HE I delete the event of name "TestEvent7777Edited"
-    Then HE The deleted event of name "TestEvent7777Edited" should not be displayed in the unpublished events list
+    When HE I unpublish the event of name "TestEvent8888Edited"
+    And HE I delete the event of name "TestEvent8888Edited"
+    Then HE The deleted event of name "TestEvent8888Edited" should not be displayed in the unpublished events list
     And HE I successfully sign out
 
   @MATCH-2913 @MATCH-2902
@@ -194,3 +196,31 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And HE I open the "Expired" tab in Events
     Then HE I verify that the Attendees tab in the event of name "ExpiredEventForAutomation" is opened by clicking the attendee status bar/students area
     And HE I successfully sign out
+
+    @MATCH-4101 @manual
+  Scenario: As a HE User, I want to make sure no other user from different school can access my Events
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      When HE I open the Events list
+      When HE I copy the URL for Evets List screen
+      And HE I successfully sign out
+      Given HE I am logged in to Intersect HE as user type 'Administrator' For Elmira College
+      When HE I open the Events List
+      When HE I paste the URL on the screen
+      And HE User received message "Access Restricted. This page can only be accessed by the institution who created the event"
+
+
+    @MATCH-2928
+
+  Scenario: As a HE User, I want to verify Event Status for my Event
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      When HE I open the Events list
+
+  @MATCH-4361
+  Scenario: As a Naviance Student , I want to verify College Events Mesages on events screen
+    Given  I log in to Family Connection with the following user details:
+      | rtsa       | benhubs | Hobsons!23  |
+    And I Navigate to old Colleges tab
+    And I open link Upcoming college events
+    And I click on icon next to College Events Header
+    And I verify Events Information and Welcome message
+

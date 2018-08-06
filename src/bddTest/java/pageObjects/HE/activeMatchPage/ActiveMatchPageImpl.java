@@ -28,13 +28,8 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(ActiveMatchPageImpl.class);
     }
 
-    public void verifyTitleIsPresent() {
-        waitUntilPageFinishLoading();
-        Assert.assertTrue("The Active Match page is not correctly displayed", activeMatchTitle().isDisplayed());
-    }
-
     public void navigateToActiveMatch() {
-        navBar.goToActiveMatch();
+        navigationBar.goToActiveMatch();
         waitUntilPageFinishLoading();
     }
 
@@ -129,18 +124,18 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDefaultdropdownMenuSelection(String defaultMenuSelection,DataTable dataTable){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        navBar.goToActiveMatch();
+        navigationBar.goToActiveMatch();
         waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
         for (String option : value) {
             exportConnectionsDropdown().click();
             driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
             waitUntilPageFinishLoading();
-            navBar.goToRepVisits();
+            navigationBar.goToRepVisits();
             waitUntilPageFinishLoading();
-            navBar.goToActiveMatch();
+            navigationBar.goToActiveMatch();
             waitUntilPageFinishLoading();
             Assert.assertTrue("Since Last Export is not present as a default dropdown menu selection",driver.findElement(By.xpath("//div[@class='ui button dropdown gyhR4eL0bZuX-AtA9-Cgy']/div[text()='"+defaultMenuSelection+"']")).isDisplayed());
         }}
@@ -151,11 +146,8 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         for(String value:list){
             moveToElement(driver.findElement(By.xpath("//div/span[text()='"+option+"']/parent::div/following-sibling::div/span[text()='"+value+"']")));
             Assert.assertTrue(value+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']/parent::div/following-sibling::div/span[text()='"+value+"']")).isDisplayed());
-        }navBar.goToActiveMatch();
+        }navigationBar.goToActiveMatch();
         }
-
-    //locators
-    private WebElement activeMatchTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
 
     /**
      * Gets the ActiveMatch download connections

@@ -21,7 +21,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void openHUBSEditorMode() {
-        navBar.goToCollegeProfile();
+        navigationBar.goToCollegeProfile();
         verifyVieworEditYourCollegeProfileinNaviance();
         getStartedButton().click();
         waitUntilPageFinishLoading();

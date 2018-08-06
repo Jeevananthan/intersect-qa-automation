@@ -36,6 +36,7 @@ public class GroupsPageStepDefs implements En {
         And("^I deny request to join the group$", groupsPage::denyRequestToJoinTheGroup);
         Then("^I check if user is not a member of the group$", groupsPage::checkIfUserIsNotMemberOfTheGroup);
         And("^I navigate to Manage Group Members page$", groupsPage::goToManageGroupMembersPage);
+        And("^I navigate to Manage Group Members page for the \"([^\"]*)\" group", groupsPage::goToSpecificManageGroupMembersPage);
         And("^I remove the user from the group$", groupsPage::removeUserFromTheGroup);
         Then("^I check if the user is removed$", groupsPage::checkIfUserIsRemoved);
         Then("^I see 'Leave' action on the page$", groupsPage::findLeaveGroupBtn);
@@ -53,7 +54,7 @@ public class GroupsPageStepDefs implements En {
         Then("^I change name of the group with name \"([^\"]*)\"$", groupsPage::editGroupName);
         Then("^I check if the group name is changed to \"([^\"]*)\"$", groupsPage::checkGroupName);
         Then("^I check if I see \"([^\"]*)\" button$", groupsPage::checkIfBtnIsDisplayedByCssSelector);
-        Then("^I check if the massage is displayed \"([^\"]*)\"$", groupsPage::checkMessageDisplayed);
+        Then("^I check if the message is displayed \"([^\"]*)\"$", groupsPage::checkMessageDisplayed);
         Then("^I check if I cannot see post with text \"([^\"]*)\"$", groupsPage::checkPostNotDisplayedWithText);
         Then("^I check if I can see post with text \"([^\"]*)\"$", groupsPage::checkPostDisplayedWithText);
         And("^I click on 'Join Group' button$", groupsPage::clickJoinGroupButton);
