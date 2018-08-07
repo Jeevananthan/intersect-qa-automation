@@ -457,7 +457,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         try {
             getTab(tabName).click();
         } catch(WebDriverException e) {
-            mainEventsTitle().sendKeys(Keys.ESCAPE);
+            mainEventsTitle().click();
+            waitUntilPageFinishLoading();
             getTab(tabName).click();
         }
         waitForUITransition();

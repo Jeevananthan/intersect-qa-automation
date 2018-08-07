@@ -60,12 +60,8 @@ Feature: HE - Events - As a HE Intersect user with AM Events, I need the ability
     And HE I open the Create Event screen
     And HE I open the Create Filter dialog from the Event Audience field
     When HE I create a new filter based on the following details:
-      | Gender | Male |
       #Location is expressed in 'miles;zip'. Example: 50 miles outside of the postal code 12345: 50;12345
       | Location | 50 miles;12345 |
-      | Race and Ethnicity | White |
-      | Grade Level        | Freshman |
-      | GPA                | A     |
       | Filter Name        | FilterTestYY498 |
     Then HE I verify that the filter of name "FilterTestYY498" is displayed by default in the Event Audience field
     And HE I open the "Filters" tab in the Events section
