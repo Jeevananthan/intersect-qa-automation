@@ -81,7 +81,7 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     When SM I click "Admission" filter criteria tab
-    Then I check if I can see "Application Deadline is on/after:" on the page
+    Then I check if I can see "Regular Application Deadline" on the page
     Then SM I press button "Select date"
     And SM I pick the date "11/13/2018" from the date picker
     Then SM I verify that the Must Have box contains "Application Deadline is on/after Nov 13"
@@ -92,7 +92,7 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     When SM I click "Admission" filter criteria tab
-    Then I check if I can see "Application Deadline is on/after:" on the page
+    Then I check if I can see "Regular Application Deadline" on the page
     Then SM I press button "Select date"
     And SM I pick the date "01/13/2018" from the date picker
     Then SM I click clear calendar icon
@@ -109,13 +109,13 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     When SM I click "Admission" filter criteria tab
-    Then I check if I can see "Application Deadline is on/after:" on the page
+    Then I check if I can see "Regular Application Deadline" on the page
     Then SM I press button "Select date"
     And SM I pick the date "01/13/2018" from the date picker
     Then SM I move "Application Deadline is on/after Jan 13" from the Must Have box to the Nice to Have box
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I click "Admission" filter criteria tab
-    And I check if I can see "Application Deadline is on/after:" on the page
+    And I check if I can see "Regular Application Deadline" on the page
     And SM I press button "Select date"
     And SM I pick the date "01/13/2018" from the date picker
     Then SM I verify that the Must Have box contains "Application Deadline is on/after Jan 13"
