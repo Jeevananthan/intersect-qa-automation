@@ -1189,7 +1189,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     }
                     whyDrawerButton(collegeName).sendKeys(Keys.SPACE);
 
-                    searchResultsCollegeNameLink(collegeName).click();
+                    searchResultsCollegeNameLink(collegeName).sendKeys(Keys.RETURN);
                     verifyProfilePage(collegeName);
                     break;
                 case "Why? drawer":

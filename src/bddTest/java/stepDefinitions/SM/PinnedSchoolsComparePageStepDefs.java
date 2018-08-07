@@ -26,5 +26,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I collapse all the drawers using the Collapse All button$", pinnedSchoolsComparePage::clickCollapseExpandButton);
 
+        And("^SM I export the data in the Pinned Schools Compare screen$", pinnedSchoolsComparePage::clickExportButton);
+
     }
 }
