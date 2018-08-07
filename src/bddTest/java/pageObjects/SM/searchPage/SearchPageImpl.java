@@ -1154,7 +1154,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         selectCheckBox(checkboxName, "Diversity");
     }
 
-    private void selectFitCriteria(String fitCriteria) {
+    public void selectFitCriteria(String fitCriteria) {
         driver.findElement(By.xpath("//li[contains(text(), '" + fitCriteria + "')]")).click();
     }
 
