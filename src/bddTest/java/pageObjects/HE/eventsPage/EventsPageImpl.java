@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -453,7 +454,13 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void openTab(String tabName) {
         waitForUITransition();
-        getTab(tabName).click();
+        try {
+            getTab(tabName).click();
+        } catch(WebDriverException e) {
+            mainEventsTitle().click();
+            waitUntilPageFinishLoading();
+            getTab(tabName).click();
+        }
         waitForUITransition();
     }
 
@@ -643,4 +650,5 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
     private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
     private String eventsListLocator(String eventName) { return "//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']"; }
+    private WebElement mainEventsTitle() { return driver.findElement(By.cssSelector("a div div.hidden-mobile")); }
 }

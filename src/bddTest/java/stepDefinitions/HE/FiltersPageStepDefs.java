@@ -16,7 +16,7 @@ public class FiltersPageStepDefs implements En {
 
         And("^HE I save the filter leaving all the fields blank$", filtersPage::clickSaveFilter);
 
-        Then("^HE I verify the error messages for the required fields$", filtersPage::verifyReqDataErrorMessages);
+        Then("^HE I verify the error messages for the required fields:$", filtersPage::verifyReqDataErrorMessages);
 
         And("^HE I open the Create Filter screen$", filtersPage::clickCreateFilter);
 
