@@ -74,3 +74,48 @@ Feature: SM - Admission - As a HS student, I need to be able to search for colle
       | Common App Member    |
       | Coalition App Member |
       | No Application Fee   |
+
+  @MATCH-3385
+  Scenario: As a HS student, I want to  see `Application deadline on/after:`  and be able to pick date
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    When SM I click "Admission" filter criteria tab
+    Then I check if I can see "Regular Application Deadline" on the page
+    Then SM I press button "Select date"
+    And SM I pick the date "11/13/2018" from the date picker
+    Then SM I verify that the Must Have box contains "Application Deadline is on/after Nov 13"
+
+  @MATCH-3385
+  Scenario: As a HS student, I want to  pick\wipe\reselect `Application deadline on/after:`
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    When SM I click "Admission" filter criteria tab
+    Then I check if I can see "Regular Application Deadline" on the page
+    Then SM I press button "Select date"
+    And SM I pick the date "01/13/2018" from the date picker
+    Then SM I click clear calendar icon
+    Then I check if I can see "Select date" on the page
+    Then SM I press button "Select date"
+    And SM I pick the date "03/13/2018" from the date picker
+    Then SM I verify that the Must Have box contains "Application Deadline is on/after Mar 13"
+
+
+  @MATCH-3385
+  Scenario: As a HS student, I want to  pick `Application deadline on/after:` move it to Nice to have box, remove and select
+  again and see in Must to have box
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    When SM I click "Admission" filter criteria tab
+    Then I check if I can see "Regular Application Deadline" on the page
+    Then SM I press button "Select date"
+    And SM I pick the date "01/13/2018" from the date picker
+    Then SM I move "Application Deadline is on/after Jan 13" from the Must Have box to the Nice to Have box
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Admission" filter criteria tab
+    And I check if I can see "Regular Application Deadline" on the page
+    And SM I press button "Select date"
+    And SM I pick the date "01/13/2018" from the date picker
+    Then SM I verify that the Must Have box contains "Application Deadline is on/after Jan 13"
