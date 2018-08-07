@@ -941,7 +941,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     gpaTextBox().sendKeys(criteria.get(1));
                     break;
                 case "SAT Composite":
-                    satScoreTextBox().clear();
+                    satScoreTextBox().sendKeys(Keys.CONTROL + "a");
+                    satScoreTextBox().sendKeys(Keys.DELETE);
                     satScoreTextBox().sendKeys(criteria.get(1));
                     break;
                 case "ACT Composite":
@@ -1186,7 +1187,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     }
                     whyDrawerButton(collegeName).sendKeys(Keys.SPACE);
 
-                    searchResultsCollegeNameLink(collegeName).click();
+                    searchResultsCollegeNameLink(collegeName).sendKeys(Keys.RETURN);
                     verifyProfilePage(collegeName);
                     break;
                 case "Why? drawer":

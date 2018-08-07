@@ -98,5 +98,17 @@ public class FCCollegeEventsPage {
 
     @FindBy(how = How.CSS, using = "div[aria-hidden=\"false\"] span.fc-tooltip__close.fc-tooltip__close--event-message")
     public static WebElement welcomeTooltipCloseButton;
+
+    public static WebElement clickEventInformationlink()
+    {
+        return driver.findElement(By.cssSelector(".fc-icon.fc-icon--header.fc-icon--size-2x"));
+        //@FindBy(how = How.CSS, using = ".fc-icon.fc-icon--header.fc-icon--size-2x") ;
+    }
+    public static WebElement EventToolTipMessage(){
+        return  driver.findElement(By.cssSelector("div.fc-tooltip.fc-tooltip--right.fc-tooltip--event-message"));
+
+    }
 }
+
+
 
