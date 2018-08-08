@@ -17,8 +17,9 @@ import java.util.List;
 public class NavigationBarImpl extends SeleniumBase {
     private Logger logger;
     //Navigation controls
-    @FindBy(xpath = "//i[@class='sort tiny icon _1oGgpE4PWdo7s3TzYBzNk']|" +
-            "//span[contains(@class,'hidden-m')]/i[@class='sort tiny icon _3N6bahErAyB0Hx1zmV_fkt']")
+    //@FindBy(xpath = "//i[@class='sort tiny icon _1oGgpE4PWdo7s3TzYBzNk']|" +
+    //        "//span[contains(@class,'hidden-m')]/i[@class='sort tiny icon _3N6bahErAyB0Hx1zmV_fkt']")
+    @FindBy(xpath = "//a[@name='mainmenu']")
     private WebElement navigationDropDown;
 
     @FindBy(id="js-main-nav-home-menu-link")

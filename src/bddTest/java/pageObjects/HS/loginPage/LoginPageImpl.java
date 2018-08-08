@@ -141,7 +141,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
         try {
             driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-            driver.executeScript( GetProperties.get("naviance.app.url"));
+            //driver.executeScript( GetProperties.get("naviance.app.url"));
+            load(GetProperties.get("naviance.app.url"));
         } catch (Exception e) {
             getDriver().close();
             load("http://www.google.com");
