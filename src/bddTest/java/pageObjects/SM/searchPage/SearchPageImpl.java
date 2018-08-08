@@ -933,6 +933,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setAdmissionCriteria(DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         waitUntilElementExists(ChooseFitCriteriaText());
         List<List<String>> entities = dataTable.asLists(String.class);
         chooseFitCriteriaTab("Admission");
@@ -957,6 +958,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             }
         }
         getFitCriteriaCloseButton().click();
+        waitUntilPageFinishLoading();
     }
 
     /**
@@ -2091,7 +2093,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement ChooseFitCriteriaText(){ return getDriver().findElement(By.xpath("//span[text()='Choose Fit Criteria']")); }
 
-    private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
+    public WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
     private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
 
