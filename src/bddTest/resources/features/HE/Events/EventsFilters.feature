@@ -41,15 +41,16 @@ Feature: HE - Events - As a HE Intersect user with AM Events, I need the ability
     And HE I delete the filter of name "FilterTestxx937"
     And HE I successfully sign out
 
-  @MATCH-2895
+  @MATCH-2895 @MATCH-3509
   Scenario: As a HE User, verify Create Filter Page Validations
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events section
     And HE I open the "Filters" tab in the Events section
     And HE I open the page for filter creation
     And HE I save the filter leaving all the fields blank
-    Then HE I verify the error messages for the required fields
-    And HE I successfully sign out
+    Then HE I verify the error messages for the required fields:
+    | Location | Location and Postal Code are required |
+    | Filter Name | Filter Name is required            |
 
   @MATCH-3512
   Scenario: When a user creates a filter from the Create/Edit Event screen, the newly created Filter/Contact/Location

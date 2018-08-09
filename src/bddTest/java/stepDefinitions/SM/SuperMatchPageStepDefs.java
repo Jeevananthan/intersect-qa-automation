@@ -65,5 +65,7 @@ public class SuperMatchPageStepDefs implements En {
 
         And("^SM I delete the save search \"([^\"]*)\" and verify it$",fcSuperMatch::deleteSaveSearch);
 
+        Then("^SM I verify that no tooltip icon is displayed for GPA in the results table$", fcSuperMatch::verifyNoGPATooltipIcon);
+
     }
 }

@@ -77,7 +77,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navigationBar.goToRepVisits();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
-            Assert.assertTrue(repVisitsSubItem + " is not showing.", link(repVisitsSubItem).isDisplayed());
+            Assert.assertTrue(repVisitsSubItem + " is not showing.", link(repVisitsSubItem)!=null);
         }
     }
 
@@ -6668,7 +6668,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return  text;
     }
     private WebElement availabilityAndSettings() {
-        return driver.findElement(By.partialLinkText("Availability & Settings"));
+        return driver.findElement(By.xpath("//span[text()='Availability & Settings']"));
     }
 
     private WebElement collegeFairs() {

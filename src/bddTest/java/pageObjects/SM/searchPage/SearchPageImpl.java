@@ -17,6 +17,8 @@ import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -931,6 +933,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setAdmissionCriteria(DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         waitUntilElementExists(ChooseFitCriteriaText());
         List<List<String>> entities = dataTable.asLists(String.class);
         chooseFitCriteriaTab("Admission");
@@ -955,6 +958,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             }
         }
         getFitCriteriaCloseButton().click();
+        waitUntilPageFinishLoading();
     }
 
     /**
@@ -1154,7 +1158,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         selectCheckBox(checkboxName, "Diversity");
     }
 
-    private void selectFitCriteria(String fitCriteria) {
+    public void selectFitCriteria(String fitCriteria) {
         driver.findElement(By.xpath("//li[contains(text(), '" + fitCriteria + "')]")).click();
     }
 
@@ -1872,8 +1876,39 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals("Scroll bar is not positioned at the top of the page", new Long(0), scrollPosition);
     }
 
+    /**
+     * Picks a date in the calendars of 'DatePicker' type.
+     *
+     * @param date - Calendar object with the desired date
+     */
+    public void pickDateInDatePickerSM(Calendar date) {
+
+        String dateString = getDay(date);
+        if (Character.valueOf(dateString.charAt(0)).equals('0')) {
+            dateString = dateString.substring(1);
+        }
+            while (!datePickerMonthYearText().getText().equals(getMonth(date))) {
+                datePickerNextMonthButton().click();
+
+        }
+        waitForUITransition();
+        driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
+                "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
+                "DayPicker-Day--today'][text()='" + dateString + "']")).click();
+    }
+
+    public void clickClearCalendarIcon() {
+
+        clearCalendarIconButton().click();
+    }
+
 
     // Locators Below
+
+    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
+
 
     private WebElement getFitCriteriaCloseButton() { return driver.findElement(By.xpath("//button[contains(text(), 'Close')]")); }
     private WebElement getMustHaveBox() { return driver.findElement(By.xpath("(//div[@class='column box box-selection'])[1]")); }
@@ -2058,7 +2093,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement ChooseFitCriteriaText(){ return getDriver().findElement(By.xpath("//span[text()='Choose Fit Criteria']")); }
 
-    private WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
+    public WebElement firstWhyButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr[1]/td/div/button")); }
 
     private String getResultsCollegeNameLink(String collegeName) { return "//a[text()='" + collegeName + "']"; }
 
@@ -2124,7 +2159,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
 
-    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../div/a/span"; }
+    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../div/a[@class = 'supermatch-college-action-pin-to-compare']"; }
 
     private WebElement singleCostValue(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/../../../../td[@class = 'sm-hidden-xl-down csr-data-points']/div/p/span[@class = 'cost-text']")); }
 
