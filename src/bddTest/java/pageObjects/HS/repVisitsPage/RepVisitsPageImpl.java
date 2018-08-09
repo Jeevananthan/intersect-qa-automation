@@ -6668,7 +6668,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return  text;
     }
     private WebElement availabilityAndSettings() {
-        return driver.findElement(By.partialLinkText("Availability & Settings"));
+        return driver.findElement(By.xpath("//span[text()='Availability & Settings']"));
     }
 
     private WebElement collegeFairs() {
