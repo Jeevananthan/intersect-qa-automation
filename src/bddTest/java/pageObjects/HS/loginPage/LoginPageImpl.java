@@ -83,9 +83,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
         driver.close();
         driver.switchTo().window(intersectWindow);
-        waitForUITransition();
-        waitForUITransition();
-        waitUntilElementExists(driver.findElement(By.id("app")));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("app"),1));
     }
 
     public void openNonNavianceLoginPage(){

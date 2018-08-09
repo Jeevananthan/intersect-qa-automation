@@ -1647,9 +1647,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
         submitButton().click();
         waitForUITransition();
-        navigationBar.goToRepVisits();
-        waitForUITransition();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']"),1));
     }
 
     public void verifyNotification(String school,String date,String time) {
@@ -2452,6 +2450,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    public String getSpecificDateforReAssignAppointments(String addDays) {
+        String DATE_FORMAT_NOW = "EEEE, d MMMM yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
     public void setDateforCalendarPage(String date,String fromOrTo){
         String[] parts = date.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
@@ -3230,6 +3238,38 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a/span[text()='Calendar']"),1),5);
     }
 
+    public void selectUserFromUserListDropdown(String user,String dropdown){
+        if(dropdown.equals("Select staff member")){
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='Select staff member']"),1));
+            selectStaffMemberButton().click();
+            driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")).click();
+            waitUntilPageFinishLoading();
+        }else if (dropdown.equals("Select new assignee")){
+            jsClick(newAssigneeButton());
+            driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")).click();
+            waitUntilPageFinishLoading();
+        }else {
+            logger.info("Invalid option");
+        }
+    }
+
+    public void selectFairsToReAssign(String date,String school){
+        String fairsDate = getSpecificDateforCalendar(date);
+        driver.findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::div/span[text()='College Fair']/ancestor::div/following-sibling::div[@class='twelve wide column']/div/div//div[text()='"+school+"']/ancestor::div/div/div/input[@type='checkbox']")).click();
+    }
+
+    public void clickReAssignAppointmentsButton(String appointmentsCount){
+        int count = Integer.parseInt(appointmentsCount);
+        if(count>0){
+        driver.findElement(By.xpath("//button[text()='Reassign "+count+" Appointments']")).click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        }else {
+            reAssignAppointmentsButton().click();
+            waitForUITransition();
+        }
+    }
+
     public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
         navigationBar.goToRepVisits();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.linkText("Calendar"),1));
@@ -3933,6 +3973,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
+    }
+    private WebElement newAssigneeButton(){
+        return driver.findElement(By.xpath("//div[text()='Select new assignee']"));
+    }
+    private WebElement selectStaffMemberButton(){
+        return driver.findElement(By.xpath("//div[text()='Select staff member']"));
     }
 }
 

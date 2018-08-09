@@ -393,7 +393,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
-        When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
+        When("^HE I go to re assign appointments$", repVisits::goToReassignAppointment);
 
         Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
       
@@ -419,5 +419,10 @@ public class RepVisitsPageStepDefs implements En {
       
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
 
+        Then("^HE I select the user \"([^\"]*)\" from \"([^\"]*)\" dropdown$",repVisits::selectUserFromUserListDropdown);
+
+        Then("^HE I select the fair to reassign using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFairsToReAssign);
+
+        Then("^HE I click Reassign Appointments button \"([^\"]*)\"$",repVisits::clickReAssignAppointmentsButton);
     }
 }
