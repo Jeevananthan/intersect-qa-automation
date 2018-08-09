@@ -23,6 +23,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     public void openHUBSEditorMode() {
         navigationBar.goToCollegeProfile();
         verifyVieworEditYourCollegeProfileinNaviance();
+        welcomeTitle().click();
         getStartedButton().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
@@ -58,5 +59,6 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         return button("Get Started");
     }
     private WebElement welcomeText1() { return driver.findElement(By.cssSelector("div.ui.centered.stackable.two.column.grid div.row:nth-of-type(2) div.column:nth-of-type(1) p:nth-of-type(1)")); }
+    private WebElement welcomeTitle() { return driver.findElement(By.cssSelector("a div div[class *= 'hidden-mobile']")); }
 
 }
