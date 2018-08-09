@@ -129,3 +129,15 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     Then HS I verify the navigation globe is displayed for this user
     And HS I click the navigation globe for viewing the recent notifications
     Then HS I successfully sign out
+
+  @MATCH-4657
+  Scenario: As an HE Admin user in Intersect, I need to see the Naviance College Profile subscription module so that I can manage my college profile effectively.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify that the text in the button for "Naviance College Profile" is "UPDATE"
+    Then HE I verify that "Introduction College Profile" is opened from the "Naviance College Profile" module
+
+  @MATCH-4657
+  Scenario: As an HE Publishing user in Intersect, I need to see the Naviance College Profile subscription module so that I can manage my college profile effectively.
+    Given HE I am logged in to Intersect HE as user type "publishing"
+    Then HE I verify that the text in the button for "Naviance College Profile" is "UPDATE"
+    Then HE I verify that "Introduction College Profile" is opened from the "Naviance College Profile" module
