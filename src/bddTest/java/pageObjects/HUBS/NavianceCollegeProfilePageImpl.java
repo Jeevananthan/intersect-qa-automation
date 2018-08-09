@@ -23,6 +23,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     public void openHUBSEditorMode() {
         navigationBar.goToCollegeProfile();
         verifyVieworEditYourCollegeProfileinNaviance();
+        welcomeTitle().click();
         getStartedButton().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
