@@ -542,6 +542,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("No error message is displayed when a community user access AM Connections by URL", notAuthorizedErrorMessage().getText().equals(expectedNotAuthorizedErrorText));
     }
 
+    public void verifyDefaultFilter(String filterName) {
+        Assert.assertTrue("The created filter is not displayed by default in the Event Audience field",
+                eventAudienceTextBox().getAttribute("value").equals(filterName));
+    }
+
     /*public void statusDraft(){
         Assert.assertTrue("Status of the Event is set to Draft under Unpublished tab",unpublishedStatus().getText().status(statusDraft));
     }*/
@@ -650,5 +655,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
     private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
     private String eventsListLocator(String eventName) { return "//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']"; }
+    private WebElement eventAudienceTextBox() { return driver.findElement(By.cssSelector("input[name = 'filters-dropdown']")); }
     private WebElement mainEventsTitle() { return driver.findElement(By.cssSelector("a div div.hidden-mobile")); }
 }

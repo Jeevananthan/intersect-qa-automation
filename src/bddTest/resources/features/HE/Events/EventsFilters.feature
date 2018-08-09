@@ -51,3 +51,19 @@ Feature: HE - Events - As a HE Intersect user with AM Events, I need the ability
     Then HE I verify the error messages for the required fields:
     | Location | Location and Postal Code are required |
     | Filter Name | Filter Name is required            |
+
+  @MATCH-3512
+  Scenario: When a user creates a filter from the Create/Edit Event screen, the newly created Filter/Contact/Location
+  should be selected by default in the Event
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I open the Events section
+    And HE I open the "Events" tab in the Events section
+    And HE I open the Create Event screen
+    And HE I open the Create Filter dialog from the Event Audience field
+    When HE I create a new filter based on the following details:
+      #Location is expressed in 'miles;zip'. Example: 50 miles outside of the postal code 12345: 50;12345
+      | Location | 50 miles;12345 |
+      | Filter Name        | FilterTestYY498 |
+    Then HE I verify that the filter of name "FilterTestYY498" is displayed by default in the Event Audience field
+    And HE I open the "Filters" tab in the Events section
+    And HE I delete the filter of name "FilterTestYY498"
