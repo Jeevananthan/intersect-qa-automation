@@ -89,7 +89,7 @@ public class NavigationBarImpl extends SeleniumBase {
         homeMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Home menu was not selected",
-                selectedNavigationMenu.getAttribute("innerText").contains("Home"));
+                selectedNavigationMenu.getText().contains("Welcome"));
     }
 
     public void goToCommunity() {
