@@ -59,6 +59,6 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         return button("Get Started");
     }
     private WebElement welcomeText1() { return driver.findElement(By.cssSelector("div.ui.centered.stackable.two.column.grid div.row:nth-of-type(2) div.column:nth-of-type(1) p:nth-of-type(1)")); }
-    private WebElement welcomeTitle() { return driver.findElement(By.cssSelector("a div div[class *= 'hidden-mobile']")); }
+    public WebElement welcomeTitle() { return driver.findElement(By.cssSelector("a div div[class *= 'hidden-mobile']")); }
 
 }
