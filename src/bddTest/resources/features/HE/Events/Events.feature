@@ -224,3 +224,10 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And I click on icon next to College Events Header
     And I verify Events Information and Welcome message
 
+  @MATCH-3242
+  Scenario: View Event Screen, Event name should be a clickable link.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events section
+    And HE I open the "Events" tab in the Events section
+    Then HE I verify that the events' names are clickable and they open the Edit Event screen
+
