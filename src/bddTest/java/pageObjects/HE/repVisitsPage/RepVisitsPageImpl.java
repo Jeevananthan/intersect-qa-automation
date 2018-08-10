@@ -1200,7 +1200,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(navianceWindow);
         waitUntilPageFinishLoading();
-        waitUntilElementExists(getRepVisitsBtn());
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
     }
@@ -3513,7 +3512,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return Logo;
     }
     private WebElement notificationIconInHelpCentre() {
-        WebElement notificationIcon=driver.findElement(By.id("notifications"));
+        WebElement notificationIcon=driver.findElement(By.id("notificationsNav"));
         return notificationIcon;
     }
     private WebElement helpCentre()  {
