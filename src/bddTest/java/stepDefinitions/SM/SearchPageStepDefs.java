@@ -233,5 +233,7 @@ public class SearchPageStepDefs implements En {
 
         Then ("^SM I click clear calendar icon$", searchPage::clickClearCalendarIcon);
 
+        And("^SM I clean GPA/SAT/ACT scores$", searchPage::clearGPASATACTScores);
+
     }
 }

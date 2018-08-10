@@ -1819,6 +1819,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pressWhyButtonForCollege(String collegeName) {
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         WebElement whyButtonForCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
                 + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
         WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
@@ -1900,6 +1901,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         clearCalendarIconButton().click();
     }
+
+    public void clearGPASATACTScores() {
+
+        gpaTextBox().clear();
+        satScoreTextBox().clear();
+        actScoreTextBox().clear();
+    }
+
 
 
     // Locators Below
