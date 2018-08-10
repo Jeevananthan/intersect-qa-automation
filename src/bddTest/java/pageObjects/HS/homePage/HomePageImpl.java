@@ -36,7 +36,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToCounselorCommunity(){
         //link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
     }
 
     public void verifyTitleHS(String generalCategoryName,String pageName){
@@ -83,7 +83,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement userDropdown() {
-        return button(By.id("user-dropdown"));
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        return driver.findElement(By.cssSelector("div[id='user-dropdown']"));
     }
 
     private WebElement collageNameLabel() {

@@ -20,6 +20,8 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | EVENT PRIMARY CONTACT BY POSITION | 1 |
     | EVENT AUDIENCE BY POSITION       | 1 |
     Then HE I should see the event of name "TestEvent8888" present in the unpublished events list as Draft event
+    Then HE I verify status "Draft" under Unpublished tab
+
 
     When HE I edit the event of name "TestEvent8888" with the following details:
     | Event Name | TestEvent8888Edited |
@@ -194,3 +196,38 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And HE I open the "Expired" tab in Events
     Then HE I verify that the Attendees tab in the event of name "ExpiredEventForAutomation" is opened by clicking the attendee status bar/students area
     And HE I successfully sign out
+
+    @MATCH-4101 @manual @ignore
+  Scenario: As a HE User, I want to make sure no other user from different school can access my Events
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      When HE I open the Events list
+      When HE I copy the URL for Evets List screen
+      And HE I successfully sign out
+      Given HE I am logged in to Intersect HE as user type 'Administrator' For Elmira College
+      When HE I open the Events List
+      When HE I paste the URL on the screen
+      And HE User received message "Access Restricted. This page can only be accessed by the institution who created the event"
+
+
+    @MATCH-2928
+
+  Scenario: As a HE User, I want to verify Event Status for my Event
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      When HE I open the Events list
+
+  @MATCH-4361
+  Scenario: As a Naviance Student , I want to verify College Events Mesages on events screen
+    Given  I log in to Family Connection with the following user details:
+      | rtsa       | benhubs | Hobsons!23  |
+    And I Navigate to old Colleges tab
+    And I open link Upcoming college events
+    And I click on icon next to College Events Header
+    And I verify Events Information and Welcome message
+
+  @MATCH-3242
+  Scenario: View Event Screen, Event name should be a clickable link.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events section
+    And HE I open the "Events" tab in the Events section
+    Then HE I verify that the events' names are clickable and they open the Edit Event screen
+

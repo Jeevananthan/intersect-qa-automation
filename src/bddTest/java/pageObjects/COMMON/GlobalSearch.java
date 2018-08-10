@@ -20,12 +20,14 @@ import java.util.Map;
 public class GlobalSearch extends SeleniumBase {
 
     private Logger logger;
-
+    private NavigationBarImpl navigationBar;
     public GlobalSearch() {
         logger = Logger.getLogger(GlobalSearch.class);
+        navigationBar = new NavigationBarImpl();
     }
 
     public void search(String searchTerms, String category) {
+
         setSearchCategory(category);
         doSearch(searchTerms);
     }
@@ -432,12 +434,13 @@ public class GlobalSearch extends SeleniumBase {
     public void verifySearchDropBoxResultsActionable(String searchRequest){
         waitUntilPageFinishLoading();
         logger.info("Verifying search dropdown results are clickable/actionable.");
+        String searchPageURL = driver.getCurrentUrl();
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
         selectResult(searchRequest);
         waitUntilPageFinishLoading();
-        String url = driver.getCurrentUrl();
-        Assert.assertEquals("Real-time search option was not clickable/actionable","https://qa-hs.intersect.hobsons.com/community/profile/1",url);
+        String searchResultsURL = driver.getCurrentUrl();
+        Assert.assertNotEquals("Real-time search option was not clickable/actionable",searchPageURL,searchResultsURL);
     }
 
     public void VerifyUserSearchDefaultPage(){
@@ -765,7 +768,7 @@ public class GlobalSearch extends SeleniumBase {
         return getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']"));
     }
     private WebElement navHome(){
-        return getDriver().findElement(By.id("js-main-nav-home-menu-link"));
+        return getDriver().findElement(By.id("app"));
     }
     private void jsClick(WebElement element) {
         driver.executeScript("arguments[0].click();",element);
@@ -782,7 +785,7 @@ public class GlobalSearch extends SeleniumBase {
         driver.findElement(By.xpath("//div[@class='ui icon input']/i")).click();
     }
     private void clickAdvancedSearchLink(){
-        driver.findElement(By.xpath("//div[@class='_102AwZzmP9JnZ9-ca_Y6cu']/a")).click();
+        navigationBar.clickAdvancedSearchLink();
     }
     private WebElement RepvisitsAvailabilityButton()
     {

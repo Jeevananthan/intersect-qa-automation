@@ -84,6 +84,8 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     private void verifyTooltips(String propertiesEntry, String... sportOption) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<WebElement> gpaTooltipsIconsInResults;
         switch(propertiesEntry) {
             case "resources.tooltips.text.list" :
                 List<WebElement> tooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
@@ -102,8 +104,8 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 List<WebElement> athleticsTooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
                 for (int i = 0; i < athleticsTooltipsList.size(); i++) {
                     athleticsTooltipsList.get(i).click();
-                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(),
-                            tooltipTitle().getText().equals(getListFromPropFile(propertiesFilePath, ";",
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + searchHeaderTooltipTitle().getText(),
+                            searchHeaderTooltipTitle().getText().equals(getListFromPropFile(propertiesFilePath, ";",
                                     propertiesEntry).get(i)));
                     athleticsTooltipsList.get(i).click();
                 }
@@ -113,8 +115,8 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 List<WebElement> scoresTooltipsList = driver.findElements(By.cssSelector(tooltipsInWhyDrawerLocator));
                 for (int i = 0; i < scoresTooltipsList.size(); i++) {
                     scoresTooltipsList.get(i).click();
-                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(),
-                            tooltipTitle().getText().equals(getListFromPropFile(propertiesFilePath, ";",
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + searchHeaderTooltipTitle().getText(),
+                            searchHeaderTooltipTitle().getText().equals(getListFromPropFile(propertiesFilePath, ";",
                                     propertiesEntry).get(i)));
                     scoresTooltipsList.get(i).click();
                 }
@@ -145,7 +147,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 List<WebElement> academicsTitleTooltipList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
                 for(int i = 0; i < 2; i++) {
                     academicsTitleTooltipList.get(i).click();
-                    Assert.assertTrue("The title is not displayed in Degree Type", tooltipTitle().getText().
+                    Assert.assertTrue("The title is not displayed in Degree Type", searchHeaderTooltipTitle().getText().
                             equals(getListFromPropFile(propertiesFilePath, ";",
                                     propertiesEntry).get(i)));
                     academicsTitleTooltipList.get(i).click();
@@ -155,7 +157,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 List<WebElement> admissionTooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
                 for (int i = 0; i < admissionTooltipsList.size(); i++) {
                     admissionTooltipsList.get(i).click();
-                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(), tooltipTitle().getText().
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + searchHeaderTooltipTitle().getText(), searchHeaderTooltipTitle().getText().
                             equals(getListFromPropFile(propertiesFilePath, ";",
                                     propertiesEntry).get(i)));
                     admissionTooltipsList.get(i).click();
@@ -166,24 +168,47 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 for (int i = 0; i < admissionTooltipsListForText.size(); i++) {
                     if(i == 0) {
                         admissionTooltipsListForText.get(i).click();
-                        Assert.assertTrue("The tooltip title is incorrect.", gpaTextBlock().getText().
+                        Assert.assertTrue("The tooltip title is incorrect. UI:" + searchHeaderTooltipText().getText(), searchHeaderTooltipText().getText().
                                 contains(getListFromPropFile(propertiesFilePath, ";",
                                         propertiesEntry).get(i)));
                         admissionTooltipsListForText.get(i).click();
                     } else {
                         admissionTooltipsListForText.get(i).click();
-                        Assert.assertTrue("The tooltip title is incorrect.", admissionTooltipText().getText().
+                        Assert.assertTrue("The tooltip title is incorrect.", searchHeaderTooltipText().getText().
                                 equals(getListFromPropFile(propertiesFilePath, ";",
                                         propertiesEntry).get(i)));
                         admissionTooltipsListForText.get(i).click();
                     }
                 }
                 break;
+            case "gpa.results.table.title" :
+                waitUntil(ExpectedConditions.elementToBeClickable(searchPage.firstWhyButton()));
+                gpaTooltipsIconsInResults = driver.findElements(By.cssSelector(gpaTooltipIconInResultsLocator));
+                gpaTooltipsIconsInResults.get(0).sendKeys(Keys.RETURN);
+                Assert.assertTrue("The tooltip title is incorrect.", searchHeaderTooltipTitle().getText().equals(getStringFromPropFile(propertiesFilePath, propertiesEntry)));
+                gpaTooltipsIconsInResults.get(0).sendKeys(Keys.RETURN);
+                break;
+            case "gpa.results.table.content" :
+                gpaTooltipsIconsInResults = driver.findElements(By.cssSelector(gpaTooltipIconInResultsLocator));
+                gpaTooltipsIconsInResults.get(0).click();
+                Assert.assertTrue("The tooltip text is incorrect.", searchHeaderTooltipText().getText().contains(getStringFromPropFile(propertiesFilePath, propertiesEntry)));
+                gpaTooltipsIconsInResults.get(0).click();
+                break;
+            case "diversity.tooltips.titles.list" :
+                List<WebElement> diversityTooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
+                for (int i = 0; i < diversityTooltipsList.size(); i++) {
+                    diversityTooltipsList.get(i).click();
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + searchHeaderTooltipTitle().getText(), searchHeaderTooltipTitle().getText().
+                            equals(getListFromPropFile(propertiesFilePath, ";",
+                                    propertiesEntry).get(i)));
+                    diversityTooltipsList.get(i).click();
+                }
+                break;
             default:
                 List<WebElement> genericTooltipsList = driver.findElements(By.cssSelector(tooltipsInTabListLocator));
                 for (int i = 0; i < genericTooltipsList.size(); i++) {
                     genericTooltipsList.get(i).click();
-                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + tooltipTitle().getText(), tooltipTitle().getText().
+                    Assert.assertTrue("The tooltip title is incorrect. Value in UI: " + searchHeaderTooltipTitle().getText(), searchHeaderTooltipTitle().getText().
                             equals(getListFromPropFile(propertiesFilePath, ";",
                                     propertiesEntry).get(i)));
                     genericTooltipsList.get(i).click();
@@ -198,12 +223,17 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 break;
             case "Academic Match" : verifyTooltipsInSearchHeader(academicMatchTooltipButton(), "academic.match.title", "academic.match.text");
                 break;
+            case "GPA" :
+                verifyTooltips("gpa.results.table.title");
+                verifyTooltips("gpa.results.table.content");
+                break;
             case "Scores" : verifyTooltips("scores.tooltips.titles");
                 break;
         }
     }
 
     private void verifyTooltipsInSearchHeader(WebElement button, String titleEntry, String textEntry) {
+        waitUntilPageFinishLoading();
         button.sendKeys(Keys.RETURN);
         Assert.assertTrue("The title of the tooltip is incorrect\n\nExpected: " + getStringFromPropFile(propertiesFilePath,
                 titleEntry) + "\n\nActual: " + searchHeaderTooltipTitle().getText(), getStringFromPropFile(propertiesFilePath,
@@ -229,9 +259,13 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 niceToHaveMatchLegend().getText().replaceAll("[0-9]+", "X").equals(dataList.get(5)));
     }
 
-    public void skipModals() {
+    public void skipModalPopups() {
+        skipModals();
+    }
+
+    public static void skipModals() {
         if (driver.findElements(By.cssSelector(onboardingHeaderLocator)).size() > 0) {
-            chooseFitCriteria().click();
+            superMatchCollegeSearchHeader().click();
         }
     }
 
@@ -455,6 +489,12 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
             savedSearchesDropdown1().click();
     }
 
+    public void verifyNoGPATooltipIcon() {
+        waitUntil(ExpectedConditions.elementToBeClickable(getWhyButtonByPosition("1")));
+        Assert.assertTrue("The tooltip icon for GPA in the results table is displayed when it should not",
+                driver.findElements(By.cssSelector(gpaTooltipIconInResultsLocator)).size() == 0);
+    }
+
     // Locators Below
 
     private WebElement getDisableChosseOneDropdown(){return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
@@ -473,13 +513,13 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement fitScoreTooltipButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table csr-header-table']/thead/tr/th[@class='one wide']/button"));}
     private WebElement academicMatchTooltipButton() { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table csr-header-table']/thead/tr/th[@class='two wide']/button"));}
     private WebElement getWhyButtonByPosition(String position) { return driver.findElement(By.xpath("//table[@class='ui unstackable table csr-results-table']/tbody/tr["+ Integer.parseInt(position) +"]/td/div/button")); }
-    private WebElement searchHeaderTooltipTitle() { return driver.findElement(By.cssSelector("div.header")); }
+    private WebElement searchHeaderTooltipTitle() { return driver.findElement(By.cssSelector("div[id *= 'supermatch-tooltip'] div.header")); }
     private WebElement searchHeaderTooltipText() {
         WebElement tooltip = getDriver().findElement(By.xpath("//div[@role='tooltip']"));
         return tooltip.findElement(By.cssSelector("div.content"));
     }
     private WebElement onboardingModalTitle() { return driver.findElement(By.cssSelector(onboardingHeaderLocator)); }
-    private String onboardingHeaderLocator = "div.header";
+    private static String onboardingHeaderLocator = "div.header";
     private WebElement chooseFitCriteria() { return driver.findElement(By.cssSelector("span.sm-hidden-l-down")); }
     private WebElement matchLegend() { return driver.findElement(By.cssSelector("div.seven.wide.column.supermatch-sidebar-criteria-legend-match")); }
     private WebElement closeMatchLegend() { return driver.findElement(By.cssSelector("div.nine.wide.column.supermatch-sidebar-criteria-legend-icon")); }
@@ -522,4 +562,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String spinnerLocator = "div.ui.active.loader";
     private WebElement getChooseOneWebElement(){ return driver.findElement(By.xpath("//b[contains(text(),'Saved Searches')]/../div"));}
     private List<WebElement> allSaveSearchOptions(){ return driver.findElements(By.xpath("//div[@class='menu transition visible']/div[@role='option']"));}
+    private String gpaTooltipIconInResultsLocator = "td.you-column button.supermatch-tooltip-trigger";
+    private static WebElement superMatchCollegeSearchHeader() { return driver.findElement(By.xpath("//h1[text()='SuperMatch College Search']")); }
 }

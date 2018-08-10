@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.HelpImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
+import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import utilities.GetProperties;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public HomePageImpl() {
         logger = Logger.getLogger(HomePageImpl.class);
     }
+
+    private NavianceCollegeProfilePageImpl navianceCollegeProfilePage = new NavianceCollegeProfilePageImpl();
 
     public void verifyUserIsLoggedIn() {
         //Check if user element is present
@@ -52,7 +55,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void updateProfile() {
         // This line should not be needed.  Current flow is broken.
-        navBar.goToCommunity();
+        navigationBar.goToCommunity();
         userDropdown().click();
         button(By.id("user-dropdown-update-profile")).click();
         ensureWeAreOnUpdateProfilePage();
@@ -112,7 +115,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityUpgradeMessage() {
-        navBar.goToHome();
+        navigationBar.goToHome();
         try {
             Assert.assertTrue(driver.findElement(By.id("upgrade-message")).isDisplayed());
             Assert.assertTrue("Expected message for the new widget was not found!"
@@ -224,7 +227,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityActivationForRepVisits(){
-        getRepVisitsBtn().click();
+        navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
         waitForUITransition();
@@ -254,11 +257,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button("Save").click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
-        getRepVisitsBtn().click();
+        navigationBar.goToRepVisits();
     }
 
     public void verifyRepVisitsLandingPage(){
-        navBar.goToRepVisits();
+        navigationBar.goToRepVisits();
         waitForUITransition();
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
@@ -270,8 +273,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickEvents() {
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("a#js-main-nav-am-events-menu-link span"), 1));
-        eventsButton().click();
+        navigationBar.goToEvents();
     }
 
     public void openEventList() {
@@ -282,8 +284,17 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         eventsTab().click();
     }
 
+    public void verifyTextInButtonFromModule(String moduleName, String buttonText) {
+        Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
+    }
 
-
+    public void verifyScreenIsOpenFromModule(String expectedPage, String moduleName) {
+        moduleButton(moduleName).click();
+        switch (expectedPage) {
+            case "Introduction College Profile" :
+                Assert.assertTrue("The page " + expectedPage + " is not displayed", navianceCollegeProfilePage.getStartedButton().isDisplayed());
+        }
+    }
 
     //locators
     private WebElement userDropdown() {
@@ -294,7 +305,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getofficePhone() { return driver.findElement(By.id("edit-field-office-phone-und-0-value"));}
     private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
-    private WebElement getSearchAndScheduleHeading(){ return text("Search and Schedule"); }
+    private WebElement getSearchAndScheduleHeading(){ return text("Search"); }
     private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
     private WebElement eventsTab() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL _1NJbR9iqg-0K_JDhsKdO1B']/span[text()='Events']")); }
     private WebElement changeProfileLabel(){return text("Change Profile");}
@@ -308,4 +319,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     private String loginButtonLocator = "button.ui.primary.button";
+
+    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
 }
