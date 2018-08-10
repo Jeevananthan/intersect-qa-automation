@@ -6697,7 +6697,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return  text;
     }
     private WebElement availabilityAndSettings() {
-        return driver.findElement(By.xpath("//span[text()='Availability & Settings']"));
+        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Availability & Settings']"));
     }
 
     private WebElement collegeFairs() {
@@ -7177,7 +7177,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return attendee;
     }
     private WebElement eventLocation() {
-        WebElement location=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
+        WebElement location=driver.findElement(By.id("eventLocation"));
         return location;
     }
     private WebElement addVisitButtonInVisitSchedulePopup() {
