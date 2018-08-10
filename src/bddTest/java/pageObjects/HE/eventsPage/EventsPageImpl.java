@@ -5,11 +5,13 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.homePage.HomePageImpl;
 import pageObjects.HUBS.FamilyConnection.FCColleges.FCCollegeEventsPage;
+import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import utilities.GetProperties;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +27,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public static String eventName = "";
     private HomePageImpl homePage = new HomePageImpl();
     public static Calendar generatedTime;
+    private NavianceCollegeProfilePageImpl navianceCollegeProfilePage = new NavianceCollegeProfilePageImpl();
 
     public EventsPageImpl() {
         logger = Logger.getLogger(EventsPageImpl.class);
@@ -453,7 +456,13 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void openTab(String tabName) {
         waitForUITransition();
-        getTab(tabName).click();
+        try {
+            getTab(tabName).click();
+        } catch(WebDriverException e) {
+            mainEventsTitle().click();
+            waitUntilPageFinishLoading();
+            getTab(tabName).click();
+        }
         waitForUITransition();
     }
 
@@ -533,6 +542,17 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         driver.get(connectionsUrl);
         waitUntilPageFinishLoading();
         Assert.assertTrue("No error message is displayed when a community user access AM Connections by URL", notAuthorizedErrorMessage().getText().equals(expectedNotAuthorizedErrorText));
+    }
+
+    public void verifyDefaultFilter(String filterName) {
+        Assert.assertTrue("The created filter is not displayed by default in the Event Audience field",
+                eventAudienceTextBox().getAttribute("value").equals(filterName));
+    }
+
+    public void verifyEventsNamesClickable() {
+        eventLinkByPosition(1).click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("The Edit Events screen was not opened", eventNameField().isDisplayed());
     }
 
     /*public void statusDraft(){
@@ -643,4 +663,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
     private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
     private String eventsListLocator(String eventName) { return "//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']"; }
+    private WebElement eventAudienceTextBox() { return driver.findElement(By.cssSelector("input[name = 'filters-dropdown']")); }
+    private WebElement mainEventsTitle() { return driver.findElement(By.cssSelector("a div div.hidden-mobile")); }
+    private WebElement eventLinkByPosition(int position) { return driver.findElement(By.cssSelector("div[class *= 'ui stackable middle aligned grid'] div[class *= 'row']:nth-of-type(" + position + ") a:not(.ui)")); }
 }
