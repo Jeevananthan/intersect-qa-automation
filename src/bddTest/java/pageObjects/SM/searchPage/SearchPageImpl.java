@@ -870,6 +870,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             checkboxLocator.click();
         }
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
+//        getFitCriteriaCloseButton().click();
     }
 
     /**
@@ -1716,6 +1717,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     {
         boolean isPinnedListCleared = true;
         //open the PINNED dropdown
+        waitUntilPageFinishLoading();
         pinnedDropdown().click();
 
         if(clearPinnedListOption().getAttribute("aria-disabled").equals("false")) {
@@ -1812,7 +1814,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.className(dropdown)).click();
         }
         catch (Exception e){
-            driver.findElement(By.cssSelector(dropdown)).click();
+            try {
+                driver.findElement(By.cssSelector(dropdown)).click();
+            }
+            catch (Exception exp){
+                driver.findElement(By.id(dropdown)).click();
+            }
         }
         driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();
     }
@@ -1905,6 +1912,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         clearCalendarIconButton().click();
     }
+
+    public void clearGPASATACTScores() {
+
+        gpaTextBox().clear();
+        satScoreTextBox().clear();
+        actScoreTextBox().clear();
+    }
+
 
 
     // Locators Below

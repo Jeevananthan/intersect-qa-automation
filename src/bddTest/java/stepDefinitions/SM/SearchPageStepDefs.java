@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -232,6 +233,8 @@ public class SearchPageStepDefs implements En {
         Then("^SM I pick the date \"([^\"]*)\" from the date picker$", searchPage::pickDateInDatePickerSM);
 
         Then ("^SM I click clear calendar icon$", searchPage::clickClearCalendarIcon);
+
+        And("^SM I clean GPA/SAT/ACT scores$", searchPage::clearGPASATACTScores);
 
     }
 }
