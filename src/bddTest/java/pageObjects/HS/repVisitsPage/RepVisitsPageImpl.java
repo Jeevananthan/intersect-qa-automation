@@ -356,6 +356,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
+        waitForUITransition();
+        waitForUITransition();
     }
 
     public void setPreventCollegesCancellingorRescheduling(String DaysInAdvance){
@@ -372,6 +374,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save Changes").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
+        waitForUITransition();
+        waitForUITransition();
     }
 
     public void setAcceptInVisitSchedulingToFullyBooked(String accept){
@@ -399,6 +403,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save Changes").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
+        waitForUITransition();
+        waitForUITransition();
     }
 
     public void setVisitsConfirmations(String option){
@@ -417,6 +423,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save Changes").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
+        waitForUITransition();
+        waitForUITransition();
     }
 
     public void accessVisitAvailability(String visitAvailability){
@@ -657,6 +665,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDateFixed(startDate, "Start");
         waitUntilElementExists(text("UPDATE DATE"));
         text("UPDATE DATE").click();
+        waitForUITransition();
+        waitForUITransition();
     }
 
     public void setAvailabilityToFullSchoolYear() {
@@ -4548,6 +4558,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addTimeSlotSubmit().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
+        waitForUITransition();
         List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
         List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
         if(displayingPopup.size()==1){
@@ -5323,6 +5334,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             }
         }
         clickUpdateButtonInRepVisits();
+        waitForUITransition();
+        waitForUITransition();
     }
 
     private boolean verifyDateIsEnabledOrDisabled(String date){
@@ -6668,7 +6681,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return  text;
     }
     private WebElement availabilityAndSettings() {
-        return driver.findElement(By.xpath("//span[text()='Availability & Settings']"));
+        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Availability & Settings']"));
     }
 
     private WebElement collegeFairs() {
@@ -6692,7 +6705,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement availabilitySettings() {
-        return driver.findElement(By.partialLinkText("Availability Settings"));
+        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Availability Settings']"));
     }
 
     private WebElement notificationAndPrimaryContact() {
@@ -6834,7 +6847,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement availability ()
     {
-        WebElement availability = driver.findElement(By.partialLinkText("Availability"));
+        WebElement availability = driver.findElement(By.xpath("//span[text()='Availability']"));
         return availability;
     }
     private WebElement regularWeeklyHours ()

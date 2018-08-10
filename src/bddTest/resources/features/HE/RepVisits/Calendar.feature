@@ -59,18 +59,31 @@ Feature: HE - RepVisits - Calendar - As an HE user I want to use the RepVisits C
       |navianceAdmin  |navianceMember  |administrator      |member              |
 
   @MATCH-4622 @MATCH-4550
-  Scenario Outline : As a HE admin trying to transfer appointments from one HE user to another at my institution,
+  Scenario Outline: As a HE admin trying to transfer appointments from one HE user to another at my institution,
                      I want to be reminded that the system does not validate whether there's a conflict of day/time for the appointments being moved with the target new assignees calendars,
                      So that I can decide if I want to continue with the transfer or hold off on it in case I still need to confirm.
+   #pre-condition
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purpleheautomation+4550@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    And HE I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "<user>"
-    When HE I go to re assign appointments
-    And HE I verify the the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the user "Community, PurpleHE","Publishing, PurpleHE"
-    Then HE I verify the the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the user "Community, PurpleHE","Fresh, PurpleHE" with no appointments in Select new assignee
-    And HE I verify the users are displaying including "Automation, PurpleHE" in re assign appointments dropdown using "Community, PurpleHE"
-    Then HE I verify the user "Community, PurpleHE" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
+    And HE I verify the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the users "4550, PurpleHE","Automation, PurpleHE"
+    Then HE I verify the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the users "4550, PurpleHE","Fresh, PurpleHE" with no appointments in Select new assignee
+    And HE I verify the users are displaying including "4550, PurpleHE" in re assign appointments dropdown using "Community, PurpleHE"
+    Then HE I verify the user "4550, PurpleHE" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
     And HE I successfully sign out
 
     Examples:
-    |user         |alertMessage                                                                                                               |
-    |administrator|RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|
+    |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School               |heStartTime   |heTime   |Day|Date|StartDate|EndDate|
+    |administrator|RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Int Qa High School 4 |12:34am       |12:34am  |14 |14  |14       |35     |

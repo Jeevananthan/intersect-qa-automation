@@ -419,9 +419,9 @@ public class RepVisitsPageStepDefs implements En {
       
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
 
-        And("^HE I verify the the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the user \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyBlueNotAlert);
+        And("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyBlueNotAlert);
 
-        Then("^HE I verify the the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the user \"([^\"]*)\",\"([^\"]*)\" with no appointments in Select new assignee$",repVisits::verifyBlueNotAlert);
+        Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" with no appointments in Select new assignee$",repVisits::verifyBlueNotAlert);
 
         And("^HE I verify the users are displaying including \"([^\"]*)\" in re assign appointments dropdown using \"([^\"]*)\"$",repVisits::verifyUsersInReAssignAppointments);
 
