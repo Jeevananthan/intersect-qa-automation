@@ -686,6 +686,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(StartDate, "Start");
     }
 
+    public void setStartDateAndEndDateInAgendaView(String numberOfDaysFromNowTillStartDate, String numberOfDaysFromNowTillEndDate) {
+        agendaViewStartDatePicker().click();
+        setSpecificDateforManuallyCreatingVisit(numberOfDaysFromNowTillStartDate);
+        agendaViewEndDatePicker().click();
+        setSpecificDateforManuallyCreatingVisit(numberOfDaysFromNowTillEndDate);
+    }
+
+    public void verifyNumberOfVisitsDisplayedInAgendaView(String numberOfVisits) {
+        Assert.assertEquals("The number of visits to be displayed in Agenda view is " + numberOfVisits
+        + " but instead is " + listOfEventsDisplayedInAgendaView().size(), listOfEventsDisplayedInAgendaView().size(), Integer.parseInt(numberOfVisits));
+    }
+
+    public void verifyUserCannotSelectEndDateWhichIsLessThanStartDateInAgendaView(String numberOfDaysFromNowTillEndDate,
+                                                                                  String numberOfDaysFromNowTillStartDate)
+    {
+        if(Integer.parseInt(numberOfDaysFromNowTillEndDate) < Integer.parseInt(numberOfDaysFromNowTillStartDate))
+        {
+            try {
+                setStartDateAndEndDateInAgendaView(numberOfDaysFromNowTillStartDate, numberOfDaysFromNowTillEndDate);
+            } catch(AssertionError e) {
+                   Assert.assertEquals("User is allowed to select an end date which is less than start date", e.getMessage(), "The Date selected is out of RANGE.");
+            }
+        }
+        else
+        {
+             Assert.assertTrue("End date is not less than Start date", false);
+        }
+    }
+
     /**
      *  Verify the date Availability in the specific range dates
      * @startDate The start date
@@ -6286,7 +6315,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         close().click();
         waitUntilPageFinishLoading();
     }
-  
+
       public void accessAgendaView(String agenda){
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
@@ -7154,7 +7183,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return attendee;
     }
     private WebElement eventLocation() {
-        WebElement location=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
+        WebElement location=driver.findElement(By.id("eventLocation"));
         return location;
     }
     private WebElement addVisitButtonInVisitSchedulePopup() {
@@ -7773,6 +7802,21 @@ public void cancelRgisteredCollegeFair(String fairName){
         WebElement link=driver.findElement(By.xpath("//span[text()='Account Settings']"));
         return link;
     }
+    private WebElement agendaViewStartDatePicker() {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//i[contains(@class, 'grey calendar outline link')])[1]")));
+        return getDriver().findElement(By.xpath("(//i[contains(@class, 'grey calendar outline link')])[1]"));
+    }
+
+    private WebElement agendaViewEndDatePicker() {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//i[contains(@class, 'grey calendar outline link')])[1]")));
+        return getDriver().findElement(By.xpath("(//i[contains(@class, 'grey calendar outline link')])[2]"));
+    }
+
+    private List<WebElement> listOfEventsDisplayedInAgendaView() {
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//td[@class='rbc-agenda-event-cell']")));
+        return driver.findElements(By.xpath("//td[@class='rbc-agenda-event-cell']"));
+    }
+
 }
 
 
