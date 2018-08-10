@@ -7,7 +7,7 @@ Feature: HE - RepVisits - Calendar - As an HE user I want to use the RepVisits C
   so that I can support appropriate appointment transfer as necessary at a single appointment level or in bulk from one
   user to another user.
     Given HE I want to login to the HE app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
-    When HS I go to re assign appointments
+    When HE I go to re assign appointments
     Then HS I verify UI components with the option "Publishing, PurpleHE" in the drop down action
     Then HS I verify UI components with the option "Community, PurpleHE" in the drop down action
     And HE I successfully sign out
@@ -57,3 +57,20 @@ Feature: HE - RepVisits - Calendar - As an HE user I want to use the RepVisits C
     Examples:
       |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
       |navianceAdmin  |navianceMember  |administrator      |member              |
+
+  @MATCH-4622 @MATCH-4550
+  Scenario Outline : As a HE admin trying to transfer appointments from one HE user to another at my institution,
+                     I want to be reminded that the system does not validate whether there's a conflict of day/time for the appointments being moved with the target new assignees calendars,
+                     So that I can decide if I want to continue with the transfer or hold off on it in case I still need to confirm.
+
+    Given HE I am logged in to Intersect HE as user type "<user>"
+    When HE I go to re assign appointments
+    And HE I verify the the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the user "Community, PurpleHE","Publishing, PurpleHE"
+    Then HE I verify the the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the user "Community, PurpleHE","Fresh, PurpleHE" with no appointments in Select new assignee
+    And HE I verify the users are displaying including "Automation, PurpleHE" in re assign appointments dropdown using "Community, PurpleHE"
+    Then HE I verify the user "Community, PurpleHE" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
+    And HE I successfully sign out
+
+    Examples:
+    |user         |alertMessage                                                                                                               |
+    |administrator|RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|

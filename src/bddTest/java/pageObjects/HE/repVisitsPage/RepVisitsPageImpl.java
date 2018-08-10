@@ -3230,6 +3230,49 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a/span[text()='Calendar']"),1),5);
     }
 
+    public void verifyBlueNotAlert(String alertMessage,String user,String newAssignee){
+        jsClick(selectStaffMemberDropdown());
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")).click();
+        jsClick(newAssigneeButton());
+        driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']")).click();
+        Assert.assertTrue("Alert message is not displayed",driver.findElement(By.xpath("//span[text()='"+alertMessage+"']")).isDisplayed());
+    }
+
+    public void verifyUsersInReAssignAppointments(String currentUser,String selectUser){
+        goToReassignAppointment();
+        jsClick(selectStaffMemberDropdown());
+        waitUntilPageFinishLoading();
+        //verify Select new assignee dropdown is disabled
+        Assert.assertTrue("Select new assignee dropdown is enabled",driver.findElement(By.xpath("//div[@class='ui disabled selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC' and @aria-disabled='true']")).isDisplayed());
+        List<WebElement> userList = driver.findElements(By.xpath("//div[@class='menu transition visible']/div"));
+        List<WebElement> user = driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));
+        Assert.assertTrue("User is not displayed",user.size()>0);
+        Assert.assertTrue("Users are not displayed",userList.size()>0);
+        driver.findElement(By.xpath("//div[contains(text(), '" + selectUser + "')]")).click();
+        jsClick(newAssigneeButton());
+        waitUntilPageFinishLoading();
+        user = driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));
+        userList = driver.findElements(By.xpath("//div[@class='menu transition visible']/div"));
+        Assert.assertTrue("User is not displayed",user.size()>0);
+        Assert.assertTrue("Users are not displayed",userList.size()>0);
+        newAssigneeButton().click();
+        waitUntilPageFinishLoading();
+        buttonGoBack().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyUserIsExcludedInSelectNewAssignee(String user){
+        goToReassignAppointment();
+        jsClick(selectStaffMemberDropdown());
+        driver.findElement(By.xpath("//div[contains(text(), '" + user + "')]")).click();
+        waitUntilPageFinishLoading();
+        jsClick(newAssigneeButton());
+        waitUntilPageFinishLoading();
+        WebElement excludedUser = driver.findElement(By.xpath("//div[text()= '" + user + "']"));
+        Assert.assertTrue("Selected user is displayed",!excludedUser.isDisplayed());
+    }
+
     public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
         navigationBar.goToRepVisits();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.linkText("Calendar"),1));
@@ -3298,6 +3341,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navigationBar.goToRepVisits();
         link("Calendar").click();
         link("Re-assign appointments").click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='Select staff member']"),1));
     }
 
     public void reassignAppointmentsVerification(String option){
@@ -3933,6 +3977,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
+    }
+    private WebElement newAssigneeButton(){
+        return driver.findElement(By.xpath("//div[text()='Select new assignee']"));
     }
 }
 

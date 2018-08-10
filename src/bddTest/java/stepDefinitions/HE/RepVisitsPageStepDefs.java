@@ -393,7 +393,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
-        When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
+        When("^HE I go to re assign appointments$", repVisits::goToReassignAppointment);
 
         Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
       
@@ -419,5 +419,12 @@ public class RepVisitsPageStepDefs implements En {
       
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
 
+        And("^HE I verify the the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the user \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyBlueNotAlert);
+
+        Then("^HE I verify the the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the user \"([^\"]*)\",\"([^\"]*)\" with no appointments in Select new assignee$",repVisits::verifyBlueNotAlert);
+
+        And("^HE I verify the users are displaying including \"([^\"]*)\" in re assign appointments dropdown using \"([^\"]*)\"$",repVisits::verifyUsersInReAssignAppointments);
+
+        Then("^HE I verify the user \"([^\"]*)\" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown$",repVisits::verifyUserIsExcludedInSelectNewAssignee);
     }
 }
