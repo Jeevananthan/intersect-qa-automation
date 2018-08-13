@@ -207,7 +207,7 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     Then HE I verify that the Attendees tab in the event of name "ExpiredEventForAutomation" is opened by clicking the attendee status bar/students area
     And HE I successfully sign out
 
-    @MATCH-4101 @manual
+    @MATCH-4101 @manual @ignore
   Scenario: As a HE User, I want to make sure no other user from different school can access my Events
       Given HE I am logged in to Intersect HE as user type "administrator"
       When HE I open the Events list
@@ -218,13 +218,6 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
       When HE I paste the URL on the screen
       And HE User received message "Access Restricted. This page can only be accessed by the institution who created the event"
 
-
-    @MATCH-2928
-
-  Scenario: As a HE User, I want to verify Event Status for my Event
-      Given HE I am logged in to Intersect HE as user type "administrator"
-      When HE I open the Events list
-
   @MATCH-4361
   Scenario: As a Naviance Student , I want to verify College Events Mesages on events screen
     Given  I log in to Family Connection with the following user details:
@@ -233,4 +226,11 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     And I open link Upcoming college events
     And I click on icon next to College Events Header
     And I verify Events Information and Welcome message
+
+  @MATCH-3242
+  Scenario: View Event Screen, Event name should be a clickable link.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events section
+    And HE I open the "Events" tab in the Events section
+    Then HE I verify that the events' names are clickable and they open the Edit Event screen
 

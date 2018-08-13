@@ -59,7 +59,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyChooseFitCriteriaBar() {
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='supermatch-searchfilter-menu-container']")));
         List<WebElement> liElements = chooseFitCriteriaBar().findElements(By.xpath(".//li"));
         Assert.assertTrue("'Choose Fit Criteria' text is not present", liElements.get(0).getText().contains("Choose Fit Criteria"));
         Assert.assertTrue("'Location' menu item is not present", liElements.get(1).getText().contains("Location"));
@@ -1820,6 +1819,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pressWhyButtonForCollege(String collegeName) {
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         WebElement whyButtonForCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
                 + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
         WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
@@ -1902,6 +1902,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         clearCalendarIconButton().click();
     }
 
+    public void clearGPASATACTScores() {
+
+        gpaTextBox().clear();
+        satScoreTextBox().clear();
+        actScoreTextBox().clear();
+    }
+
+
 
     // Locators Below
 
@@ -1983,8 +1991,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-custom-header')]"));
     }
     private WebElement chooseFitCriteriaBar() {
-        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container offscreen-right']"));
-        //return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='supermatch-searchfilter-menu-container']")));
+        return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
     }
     private WebElement selectCriteriaButton1() {
         return driver.findElement(By.xpath("(//button[text()='Select Criteria To Start'])[2]"));

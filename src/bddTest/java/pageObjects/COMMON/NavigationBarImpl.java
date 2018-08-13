@@ -89,14 +89,14 @@ public class NavigationBarImpl extends SeleniumBase {
         homeMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Home menu was not selected",
-                selectedNavigationMenu.getText().contains("Welcome"));
+                selectedNavigationMenu.getText().contains("Home"));
     }
 
     public void goToCommunity() {
         waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
         navigationDropDown.click();
-        waitUntil(ExpectedConditions.visibilityOf(counselorCommunityMenuLink));
-        counselorCommunityMenuLink.click();
+        waitUntil(ExpectedConditions.visibilityOf(homeMenuLink));
+        homeMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Counselor Community menu was not selected",
                 selectedNavigationMenu.getAttribute("innerText").contains("Counselor Community"));
