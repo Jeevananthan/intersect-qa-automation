@@ -2202,7 +2202,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
    }
 
     private WebElement getRepVisitsBtn() {
-        return link(By.id("js-main-nav-rep-visits-menu-link"));
+        return link(By.id("js-main-sidebar-nav-home-menu-link"));
     }
     public void verifyAccountsettings(String leftSubMenuInaccountSettings) {
         String subMenu[] = leftSubMenuInaccountSettings.split(",");
@@ -3479,7 +3479,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  goToDate;
     }
     private WebElement getOverviewBtn() {
-        return link("Overview");
+        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Overview']"));
     }
     private WebElement travelPlanSeeDetailsLink() {
         return link("See details »");
