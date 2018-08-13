@@ -206,8 +206,4 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
     Then SM I press Why button for "Delaware State University" college
     Then I check if I can see "Out of State Students ≥ 50%" on the page
     Then I check if I can see "63% are out-of-state students" on the page
-    Then SM I press Why button for "Gadsden State Community College" college
-    Then I check if I can see "Out of State Students ≥ 50%" on the page
-    Then I check if I can see "1% are out-of-state students" on the page
-
   #TODO: add a scenario for Overall Diversity' once MATCH-4939 and MATCH-4938 are fixed
