@@ -38,20 +38,27 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("password")).sendKeys(password);
         logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
         button("Sign In").click();
-        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
-        waitUntilPageFinishLoading();
-        link(By.cssSelector("[title='Counselor Community']")).click();
-        Set<String> windows = driver.getWindowHandles();
-        for (String thisWindow : windows) {
-            if (!thisWindow.equals(navianceWindow)){
-                intersectWindow = thisWindow;
-            }
-        }
-        driver.close();
-        driver.switchTo().window(intersectWindow);
-        waitUntilPageFinishLoading();
-//        waitUntilElementExists(getDriver().findElement(By.cssSelector("a[id='js-main-sidebar-nav-home-menu-link']")));
 
+        if (username.contains("molly"))
+        {
+            waitUntilElementExists(driver.findElement(By.xpath("//a[@class='ns-top-nav__secondary-link js-community-link']")));
+            waitUntilPageFinishLoading();
+            driver.findElement(By.xpath("//a[@class='ns-top-nav__secondary-link js-community-link']")).click();
+            waitUntilPageFinishLoading();
+        } else {
+            waitUntilElementExists(driver.findElement(By.xpath("//a[@title='Counselor Community']")));
+            waitUntilPageFinishLoading();
+            driver.findElement(By.xpath("//a[@title='Counselor Community']")).click();
+            Set<String> windows = driver.getWindowHandles();
+            for (String thisWindow : windows) {
+                if (!thisWindow.equals(navianceWindow)){
+                    intersectWindow = thisWindow;
+                }
+            }
+            driver.close();
+            driver.switchTo().window(intersectWindow);
+            waitUntilPageFinishLoading();
+        }
     }
 
     public void loginThroughNaviance(String usertype) {
@@ -141,7 +148,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
         try {
             driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-            driver.executeScript( GetProperties.get("naviance.app.url"));
+            //driver.executeScript( GetProperties.get("naviance.app.url"));
+            load(GetProperties.get("naviance.app.url"));
         } catch (Exception e) {
             getDriver().close();
             load("http://www.google.com");

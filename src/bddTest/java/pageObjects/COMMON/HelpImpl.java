@@ -35,7 +35,11 @@ public class HelpImpl extends PageObjectFacadeImpl {
                 url = driver.getCurrentUrl();
                 driver.switchTo().window(windows.get(0));
                 waitForUITransition();
+                waitForUITransition();
+                driver.switchTo().window(windows.get(1));
+                url = driver.getCurrentUrl();
                 Assert.assertEquals("The Help link is not secure or is not the correct web address.","https://helpsite.hobsons.com/RepVisits/Content/Getting%20Started%20HS.htm", url);
+                driver.switchTo().window(windows.get(0));
                 break;
             case "HE Users":
                 driver.switchTo().window(windows.get(1));

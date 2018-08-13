@@ -150,7 +150,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
                 for(int i = 0; i < admissionInfoTooltipIcons.size(); i++) {
                     admissionInfoTooltipIcons.get(i).sendKeys(Keys.RETURN);
                     Assert.assertTrue("The text for the tooltip in Admission Info is incorrect",
-                            tooltipText().getText().trim().equals(getListFromPropFile(propertiesFilePath, ";", propertiesEntry).get(i)));
+                            academicMatchTextContent().getText().trim().equals(getListFromPropFile(propertiesFilePath, ";", propertiesEntry).get(i)));
                     admissionInfoTooltipIcons.get(i).sendKeys(Keys.RETURN);
                 }
                 break;
@@ -165,9 +165,9 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
             case "compare.schools.institution.characteristics.text" :
                 for(int i = 0; i < institutionCharacteristicsIcons.size(); i++) {
                     institutionCharacteristicsIcons.get(i).sendKeys(Keys.RETURN);
-                    Assert.assertTrue("The text of the tooltip in Institution Characteristics is incorrect. UI: " + tooltipText().getText() + " Data: "
+                    Assert.assertTrue("The text of the tooltip in Institution Characteristics is incorrect. UI: " + academicMatchTextContent().getText() + " Data: "
                             + getListFromPropFile(propertiesFilePath, ";", propertiesEntry).get(i),
-                            tooltipText().getText().trim().replace("“", "'").replace("”", "'").equals(getListFromPropFile(propertiesFilePath, ";", propertiesEntry).get(i)));
+                            academicMatchTextContent().getText().trim().replace("“", "'").replace("”", "'").equals(getListFromPropFile(propertiesFilePath, ";", propertiesEntry).get(i)));
                     institutionCharacteristicsIcons.get(i).sendKeys(Keys.RETURN);
                 }
                 break;
@@ -187,7 +187,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private String admissionInfoTooltipIconsLocator = "//th[text() = 'Admission Info']/../../../tbody/tr/td/div/div/button";
     private String institutionCharacteristicsLocator = "//th[text() = 'Institution Characteristics']/../../../tbody/tr/td/div/div/button";
     private String diversityTooltipIconsLocator = "//th[text() = 'Diversity']/../../../tbody/tr/td/div/div/button";
-    private WebElement tooltipTitle() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.header")); }
+    private WebElement tooltipTitle() { return driver.findElement(By.cssSelector("div[id *= 'supermatch-tooltip-'] div.header")); }
     private WebElement tooltipText() { return driver.findElement(By.cssSelector("div[class$='very wide inverted popup transition visible'] div.content")); }
     private String academicMatchLabelsLocator = "div[id *= 'supermatch-tooltip-'] div.content b";
     private WebElement academicMatchTextContent() { return driver.findElement(By.cssSelector("div[id *= 'supermatch-tooltip-'] div.content")); }
@@ -248,6 +248,10 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clickExportButton() {
+        exportButton().click();
+    }
+
     private WebElement number4YearMajorsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Academics # of 4 Year Majors\"] + td a")); }
     private WebElement majorsHeaderInStudiesTab() { return driver.findElement(By.cssSelector("h3.ng-binding")); }
     private WebElement varsitySportsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Athletics Levels Available\"] + td > a")); }
@@ -257,4 +261,5 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private WebElement clubsAndOrganizationsLink() { return driver.findElement(By.cssSelector("td[aria-label=\"Student Life Clubs & Organizations\"] + td a")); }
     private WebElement pinLink(String collegeName) { return driver.findElement(By.xpath(pinLinkLocator(collegeName))); }
     private String pinLinkLocator(String collegeName) { return "//p[@class='collegename' and text() = '" + collegeName + "']/../p/a/span[@class = 'supermatch-toggle-icon supermatch-college-button-selected']"; }
+    private WebElement exportButton() { return driver.findElement(By.cssSelector("a.ui.teal.basic.button")); }
 }

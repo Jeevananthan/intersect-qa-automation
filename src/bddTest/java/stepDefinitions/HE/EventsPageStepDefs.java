@@ -89,6 +89,14 @@ public class EventsPageStepDefs implements En {
         And("^HE I open the \"([^\"]*)\" tab in Events$", eventsPage::openEventsTab);
 
         Then("^HE I verify that that the user does not have access to the connections page by URL$", eventsPage::verifyNoAccessToConnections);
+
+        Then("^HE I verify status \"([^\"]*)\" for the event of name \"([^\"]*)\"$", eventsPage::verifyEventStatus);
+
+        Then("^HE I verify status \"([^\"]*)\" for the event of generated name$", eventsPage::verifyEventWithGenNameStatus);
+
+        Then("^HE I verify that the filter of name \"([^\"]*)\" is displayed by default in the Event Audience field$", eventsPage::verifyDefaultFilter);
+
+        Then("^HE I verify that the events' names are clickable and they open the Edit Event screen$", eventsPage::verifyEventsNamesClickable);
         //Then("^HE I verify status \"([^\"]*)\" under Unpublished tab$",eventsPage:: statusDraft);
 
     }

@@ -253,7 +253,7 @@ Examples:
     Examples:
      |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime |
      |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:25am    |10:25am|
- 
+
  @MATCH-4260 @MATCH-3730
   Scenario Outline: As an HE Freemium user I can not be able to view Your Notifications stub menu in Account settings page
     Given HE I am logged in to Intersect HE as user type "<hePremiumUser>"
@@ -299,7 +299,7 @@ Examples:
       |non-NavianceUser |navianceUser  |yourNotifications |
       |administrator    |navianceAdmin |Your Notifications|
       |member           |navianceMember|Your Notifications|
-      
+
   @MATCH-4224
   Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user, I want to understand why I can't submit the "Re-assign Appointments" modal form,
                     so that I can correct my entries as necessary and successfully submit.
@@ -333,7 +333,7 @@ Examples:
   Examples:
   |School               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |Date|
   |Int Qa High School 4 |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |14  |
-  
+
   @MATCH-3631
   Scenario Outline: As a HE and HS user in RVs viewing my calendar in Agenda view,
              I want the dates that are grayed out (i.e. past dates) to not be selectable,
@@ -352,3 +352,17 @@ Examples:
     Examples:
        |StartDate|EndDate|disabledDate|
        |7        |14     |5           |
+
+  @MATCH-2746
+  Scenario Outline: As a HE user, I should see an Agenda view in calendar
+    Given HS I am logged in to Intersect HS as user type "default"
+    Then HS I navigate to the "Calendar" page in RepVisits
+    Then HS I schedule a new visit for "<Date>","<newVisitSTime>","<newVisitETime>","<Attendees>","<visitLocation>"
+    And HS I click on Agenda on Calendar
+    Then HS I select Start date "<Date>" and End date "<Date>" in Agenda view
+    Then HS I verify that "1" visits are displayed in Agenda view
+    Then HS I verify that it should not be possible to select an End date "4" which is less than the Start date "5" in Agenda view
+
+    Examples:
+      |Date|newVisitSTime|newVisitETime|Attendees           |visitLocation|
+      |14  |11:02am      |10:58pm      |PurpleHE Automation |Cbba         |

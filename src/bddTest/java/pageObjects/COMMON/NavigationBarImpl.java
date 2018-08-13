@@ -17,8 +17,9 @@ import java.util.List;
 public class NavigationBarImpl extends SeleniumBase {
     private Logger logger;
     //Navigation controls
-    @FindBy(xpath = "//i[@class='sort tiny icon _1oGgpE4PWdo7s3TzYBzNk']|" +
-            "//span[contains(@class,'hidden-m')]/i[@class='sort tiny icon _3N6bahErAyB0Hx1zmV_fkt']")
+    //@FindBy(xpath = "//i[@class='sort tiny icon _1oGgpE4PWdo7s3TzYBzNk']|" +
+    //        "//span[contains(@class,'hidden-m')]/i[@class='sort tiny icon _3N6bahErAyB0Hx1zmV_fkt']")
+    @FindBy(xpath = "//a[@name='mainmenu']")
     private WebElement navigationDropDown;
 
     @FindBy(id="js-main-nav-home-menu-link")
@@ -88,14 +89,14 @@ public class NavigationBarImpl extends SeleniumBase {
         homeMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Home menu was not selected",
-                selectedNavigationMenu.getAttribute("innerText").contains("Home"));
+                selectedNavigationMenu.getText().contains("Home"));
     }
 
     public void goToCommunity() {
         waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
         navigationDropDown.click();
-        waitUntil(ExpectedConditions.visibilityOf(counselorCommunityMenuLink));
-        counselorCommunityMenuLink.click();
+        waitUntil(ExpectedConditions.visibilityOf(homeMenuLink));
+        homeMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Counselor Community menu was not selected",
                 selectedNavigationMenu.getAttribute("innerText").contains("Counselor Community"));

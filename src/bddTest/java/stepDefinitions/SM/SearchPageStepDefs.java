@@ -228,5 +228,12 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify that the CLEAR PINNED LIST option is disabled$", searchPage::verifyCLEARPINNEDLISTIsDisabled);
 
         Then("^SM I verify if the validation message displayed for Zip Code field is user friendly$", searchPage::verifyZipCodeValidationMessage);
+
+        Then("^SM I pick the date \"([^\"]*)\" from the date picker$", searchPage::pickDateInDatePickerSM);
+
+        Then ("^SM I click clear calendar icon$", searchPage::clickClearCalendarIcon);
+
+        And("^SM I clean GPA/SAT/ACT scores$", searchPage::clearGPASATACTScores);
+
     }
 }
