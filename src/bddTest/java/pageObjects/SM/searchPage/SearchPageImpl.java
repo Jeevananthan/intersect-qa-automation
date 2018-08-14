@@ -873,6 +873,21 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * select any selected checkbox/radiobutton and do not close the window
+     */
+    public void selectCheckBoxNotClosingTab(String checkBox, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
+            openFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        if (!onlyCheckbox.isSelected()) {
+            checkboxLocator.click();
+        }
+        Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
+
+    }
+
+    /**
      * unselect any selected checkbox only when fit criteria menu is open.
      */
     public void unselectCheckbox(String checkBox, String fitCriteriaName) {
@@ -889,6 +904,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+    public void sendTextToZipCOdeField(String text) {
+
+        zipCodeTextBox().sendKeys(text);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+    }
 
     public void verifyCheckboxState(String checkBox, String expectedState, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
@@ -1808,7 +1828,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void pickFromDropdown(String choice, String dropdown){
-        driver.findElement(By.className(dropdown)).click();
+
+        try {
+            driver.findElement(By.className(dropdown)).click();
+        }
+        catch (Exception e){
+            try {
+                driver.findElement(By.id(dropdown)).click();
+            }
+            catch (Exception exp){
+                driver.findElement(By.cssSelector(dropdown)).click();
+            }
+        }
         driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();
     }
 
