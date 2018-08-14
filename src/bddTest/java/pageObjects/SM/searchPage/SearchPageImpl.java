@@ -870,7 +870,21 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             checkboxLocator.click();
         }
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
-//        getFitCriteriaCloseButton().click();
+        getFitCriteriaCloseButton().click();
+    }
+
+    /**
+     * select any selected checkbox/radiobutton and do not close the window
+     */
+    public void selectCheckBoxNotClosingTab(String checkBox, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
+            openFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        if (!onlyCheckbox.isSelected()) {
+            checkboxLocator.click();
+        }
+        Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
     }
 
     /**

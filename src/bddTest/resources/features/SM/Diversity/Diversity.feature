@@ -80,10 +80,9 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
     And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
     And SM I pin "Bennett College" if it is not pinned already
     And SM I clear all pills from Must have  and Nice to have boxes
-    When SM I select the "Specific Representation" checkbox from "Diversity" fit criteria
+    When SM I select the "Specific Representation" from the "Diversity" fit criteria not closing the tab
     Then SM I pick "50%" from the dropdown "supermatch-diversity-dropdown"
     Then SM I pick "Native Hawaiian or other Pacific Islander" from the dropdown "race"
-    And HS I Click on close button
     Then SM I press Why button for "Bennett College" college
     Then I check if I can see "0% are Native Hawaiian or other Pacific Islander students" on the page
     Then SM I press Why button for "Pacific Islands University" college
@@ -146,9 +145,8 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
     And SM I clean GPA/SAT/ACT scores
     And SM I select the "Small City" checkbox from "Location" fit criteria
     And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
-    And HS I Click on close button
     And SM I pin "Bennett College" if it is not pinned already
-    And SM I select the "High International Population" checkbox from "Diversity" fit criteria
+    When SM I select the "High International Population" from the "Diversity" fit criteria not closing the tab
     And HS I Click on close button
     Then SM I press Why button for "Bennett College" college
     Then I check if I can see "High International Population" on the page
