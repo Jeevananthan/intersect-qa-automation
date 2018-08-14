@@ -3157,11 +3157,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
         Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
         jsClick(agendaButton());
-        Assert.assertTrue("Upgrade button is not displayed",button(upgradeButton).isDisplayed());
+        Assert.assertTrue("Upgrade button is not displayed",getUpgradeButton().isDisplayed());
     }
 
     public void verifyUpgradeModelPage(){
-        upgradeButton().click();
+        getUpgradeButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Request Information']"),1));
         Assert.assertTrue("Request information button is not displayed",requestInformationButton().isDisplayed());
         Assert.assertTrue("Upgrade message is not displayed",upgradeMessage().isDisplayed());
@@ -3933,6 +3933,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
     }
+
 }
 
 

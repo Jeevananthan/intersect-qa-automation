@@ -67,7 +67,7 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="helpNav-dropdown")
     private WebElement helpDropdown;
 
-    @FindBy(css = "i[class='globe big icon _2Mks8yaXgkTI1rvaRYv4jn _2wmRB8Z7aYw_Hx80n2l5nS']")
+    @FindBy(css = "i[class='globe big icon WwLybVz7icbheav6VG-r5']")
     private WebElement notificationsDropdown;
 
     @FindBy(css = "div[class='menu transition visible']")
