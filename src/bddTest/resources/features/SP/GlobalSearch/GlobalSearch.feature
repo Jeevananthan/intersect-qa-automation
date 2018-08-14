@@ -83,7 +83,7 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
       | College Type                  | Standard (4 Year)          |
       | School Type                   | Public                     |
       | Degree                        | 4                          |
-      | City                          | State University           |
+      | City                          | Jonesboro                  |
       | State                         | Arkansas                   |
       | Postal Code                   | 72467                      |
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "High School"

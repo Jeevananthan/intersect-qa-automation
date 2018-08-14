@@ -29,7 +29,7 @@ public class NavigationBarImpl extends SeleniumBase {
     private WebElement counselorCommunityMenuLink;
 
     @FindBy(id="js-main-nav-naviance-college-profile-menu-link")
-    private WebElement navianceCollegeProfileMenuLink;
+    public WebElement navianceCollegeProfileMenuLink;
 
     @FindBy(id="js-main-nav-graphiql-menu-link")
     private WebElement graphiqlMenuLink;
@@ -89,7 +89,7 @@ public class NavigationBarImpl extends SeleniumBase {
         homeMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Home menu was not selected",
-                selectedNavigationMenu.getText().contains("Welcome"));
+                selectedNavigationMenu.getText().contains("Home"));
     }
 
     public void goToCommunity() {
@@ -98,7 +98,7 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntil(ExpectedConditions.visibilityOf(counselorCommunityMenuLink));
         counselorCommunityMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
-        Assert.assertTrue("The Counselor Community menu was not selected",
+        Assert.assertTrue("The Counselor Community menu was not selected: ",
                 selectedNavigationMenu.getAttribute("innerText").contains("Counselor Community"));
     }
 

@@ -1110,7 +1110,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (pageName.equalsIgnoreCase("visit feedback")) {
             getVisitsFeedbackBtn().click();
         } else {
-            link(pageName).click();
+            driver.findElement(By.partialLinkText(pageName)).click();
         }
         waitUntilPageFinishLoading();
     }
@@ -1200,7 +1200,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(navianceWindow);
         waitUntilPageFinishLoading();
-        waitUntilElementExists(getRepVisitsBtn());
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
     }
@@ -2203,7 +2202,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
    }
 
     private WebElement getRepVisitsBtn() {
-        return link(By.id("js-main-nav-rep-visits-menu-link"));
+        return link(By.id("js-main-sidebar-nav-home-menu-link"));
     }
     public void verifyAccountsettings(String leftSubMenuInaccountSettings) {
         String subMenu[] = leftSubMenuInaccountSettings.split(",");
@@ -3487,7 +3486,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  goToDate;
     }
     private WebElement getOverviewBtn() {
-        return link("Overview");
+        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Overview']"));
     }
     private WebElement travelPlanSeeDetailsLink() {
         return link("See details »");
@@ -3560,7 +3559,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return Logo;
     }
     private WebElement notificationIconInHelpCentre() {
-        WebElement notificationIcon=driver.findElement(By.id("notifications"));
+        WebElement notificationIcon=driver.findElement(By.id("notificationsNav"));
         return notificationIcon;
     }
     private WebElement helpCentre()  {

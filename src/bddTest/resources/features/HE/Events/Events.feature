@@ -2,12 +2,12 @@
 Feature: HE - Active Match Events - As an HE Intersect User, I need the ability to create/edit/save/publish/delete events in AM Events so that I
   can attract Naviance students to attend my events.
 
-  @MATCH-2913 @MATCH-3219 @MATCH-2902
+  @MATCH-2913 @MATCH-3219 @MATCH-2902 @MATCH-2928
   Scenario: An Event can be created/edited/saved/published/deleted
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and save a new event with the following details:
-    | Event Name | TestEvent8888 |
+    | Event Name | TestEvent9999 |
     | Event Start | 12-21-2018;10:00AM |
     | Timezone    | Eastern Time (i.e. America/New_York) |
     | Description | Test              |
@@ -19,12 +19,11 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | EVENT LOCATION BY POSITION  | 1 |
     | EVENT PRIMARY CONTACT BY POSITION | 1 |
     | EVENT AUDIENCE BY POSITION       | 1 |
-    Then HE I should see the event of name "TestEvent8888" present in the unpublished events list as Draft event
-    Then HE I verify status "Draft" under Unpublished tab
+    Then HE I should see the event of name "TestEvent9999" present in the unpublished events list as Draft event
+    Then HE I verify status "Draft" for the event of name "TestEvent9999"
 
-
-    When HE I edit the event of name "TestEvent8888" with the following details:
-    | Event Name | TestEvent8888Edited |
+    When HE I edit the event of name "TestEvent9999" with the following details:
+    | Event Name | TestEvent9999Edited |
     | Event Start | 12-23-2018;11:00AM |
     | Timezone    | Atlantic Time (i.e. America/Puerto_Rico) |
     | Description | TestEdited         |
@@ -35,17 +34,18 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
     | EVENT AUDIENCE BY POSITION       | 2 |
     And HE I take note of the data in the Event
     And HE I save the draft
-    Then HE The event of name "TestEvent8888Edited" should be updated
+    Then HE The event of name "TestEvent9999Edited" should be updated
 
     When HE I publish the current event
-    Then HE I should see the event of name "TestEvent8888Edited" present in the events list as a published event
+    Then HE I verify status "Published" for the event of name "TestEvent9999Edited"
+    Then HE I should see the event of name "TestEvent9999Edited" present in the events list as a published event
 
-    When HE I unpublish the event of name "TestEvent8888Edited"
-    And HE I delete the event of name "TestEvent8888Edited"
-    Then HE The deleted event of name "TestEvent8888Edited" should not be displayed in the unpublished events list
+    When HE I unpublish the event of name "TestEvent9999Edited"
+    And HE I delete the event of name "TestEvent9999Edited"
+    Then HE The deleted event of name "TestEvent9999Edited" should not be displayed in the unpublished events list
     And HE I successfully sign out
 
-  @MATCH-2913 @MATCH-2902
+  @MATCH-2913 @MATCH-2902 @MATCH-2928
   Scenario: An event can be cancelled
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
@@ -60,7 +60,17 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     When HE I cancel the created event
+    And HE I open the "Cancelled" tab in the Events section
+    Then HE I verify status "Cancelled" for the event of generated name
     Then HE The cancelled event should be displayed in the canceled events list
+
+  @MATCH-2928
+  Scenario: As a HE Intersect user, I need the ability to track the current event status so that I can understand more
+  about the current state of my AM Events.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I open the "Expired" tab in the Events section
+    Then HE I verify status "Expired" for the event of name "ExpiredEventForAutomation"
 
   @MATCH-2913
   Scenario: As a HE User, verify Create Event Page Validations
@@ -207,13 +217,6 @@ Feature: HE - Active Match Events - As an HE Intersect User, I need the ability 
       When HE I open the Events List
       When HE I paste the URL on the screen
       And HE User received message "Access Restricted. This page can only be accessed by the institution who created the event"
-
-
-    @MATCH-2928
-
-  Scenario: As a HE User, I want to verify Event Status for my Event
-      Given HE I am logged in to Intersect HE as user type "administrator"
-      When HE I open the Events list
 
   @MATCH-4361
   Scenario: As a Naviance Student , I want to verify College Events Mesages on events screen
