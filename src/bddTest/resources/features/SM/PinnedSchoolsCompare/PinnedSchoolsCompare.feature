@@ -66,3 +66,4 @@ Feature: SM - SuperMatch - Compare Pinned Schools
       And SM I pin "Smith College" if it is not pinned already
       Then SM I open the Pinned Schools Compare screen
       Then SM I verify that in the "Cost" criteria table "Meets 100% of need" criteria for the 1 college is "Unknown"
+      Then SM I verify that in the "Cost" criteria table "Meets 100% of need" criteria for the 2 college is "Yes"
