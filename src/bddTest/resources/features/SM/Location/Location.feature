@@ -41,7 +41,6 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
     And SM I pin "Bennett College" if it is not pinned already
     And SM I pin "Florida Agricultural and Mechanical University" if it is not pinned already
     When SM I click "Location" filter criteria tab
-#    Then SM I select the "Search by distance" from the "Location" fit criteria not closing the tab
     Then SM I pick "Alabama" from the dropdown "div-state-or-region-search"
     Then HS I Click on close button
     Then SM I press Why button for "Florida Agricultural and Mechanical University" college
