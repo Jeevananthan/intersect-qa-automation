@@ -120,10 +120,10 @@ Feature: SM - Institution Characteristics - As a HS student, I need to be able t
     Then SM I select the "<Include>" checkbox from the "Institution Characteristics" fit criteria
     And SM I clear all pills from Must have  and Nice to have boxes
     Then SM I select the "Large (13,001 to 20,000 students)" checkbox from the "Institution Characteristics" fit criteria
-    Then SM I press Why button for "Bennett College" college
+    Then SM I press Why button for "Florida Agricultural and Mechanical University" college
     Then I check if I can see "Student Body Size [1]" on the page
     Then I check if I can see "<text>" on the page
-    Then SM I press Why button for "Florida Agricultural and Mechanical University" college
+    Then SM I press Why button for "Bennett College" college
     Then I check if I can see "Student Body Size [1]" on the page
     Then I check if I can see "<text>" on the page
     Then SM I press Why button for the first college in results with score 100%
