@@ -236,6 +236,19 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         exportButton().click();
     }
 
+    private String getDataForSpecificFilter(String fitTab, String criteriaName, int collegPosition) {
+
+        return driver.findElement(By.xpath("//table[caption='" + fitTab + "']//div[text()='" +
+                criteriaName + "']/../../td[" + (collegPosition+1) + "]/span")).getText();
+
+    }
+
+    public void verifyTextDataForCriteria(String fitTab, String criteriaName, Integer collegePosition, String expectedText){
+
+       String actualText =  getDataForSpecificFilter(fitTab, criteriaName,collegePosition);
+       Assert.assertEquals(actualText, expectedText);
+    }
+
     // Locators Below
 
     private String drawersListLocator = "thead.toggle-enabled";
