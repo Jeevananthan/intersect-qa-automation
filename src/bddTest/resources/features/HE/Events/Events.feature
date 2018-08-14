@@ -2,7 +2,7 @@
 Feature: HE - Active Match Events - As an HE Intersect User, I need the ability to create/edit/save/publish/delete events in AM Events so that I
   can attract Naviance students to attend my events.
 
-  @MATCH-2913 @MATCH-3219 @MATCH-2902 @MATCH-2928
+  @MATCH-2913 @MATCH-3219 @MATCH-2902 @MATCH-2928 @MATCH-2893
   Scenario: An Event can be created/edited/saved/published/deleted
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
