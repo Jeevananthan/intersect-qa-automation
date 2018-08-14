@@ -339,7 +339,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         try {
             getEventsTab("Published").click();
         } catch(WebDriverException e) {
-            navianceCollegeProfilePage.welcomeTitle().click();
+            //navianceCollegeProfilePage.welcomeTitle().click();
+            navigationBar.goToHome();
             getEventsTab("Published").click();
         }
         menuButtonForEvent(eventName).click();
@@ -575,7 +576,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     //locators
 //    private WebElement statusDraft(){return  driver.findElement(By.cssSelector(""))};
-    private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
+    private WebElement eventsTitle() { return driver.findElement(By.xpath("//span[text()='Events']")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
     private WebElement eventStartCalendarButton() { return driver.findElement(By.cssSelector("div.seven.wide.column button[title='Event Date']")); }
     private WebElement eventStartTimeField() { return driver.findElement(By.cssSelector("input#startTime")); }

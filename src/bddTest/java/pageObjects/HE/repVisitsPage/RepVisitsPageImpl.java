@@ -1110,7 +1110,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (pageName.equalsIgnoreCase("visit feedback")) {
             getVisitsFeedbackBtn().click();
         } else {
-            link(pageName).click();
+            driver.findElement(By.partialLinkText(pageName)).click();
         }
         waitUntilPageFinishLoading();
     }
