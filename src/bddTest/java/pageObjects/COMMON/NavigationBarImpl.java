@@ -29,7 +29,7 @@ public class NavigationBarImpl extends SeleniumBase {
     private WebElement counselorCommunityMenuLink;
 
     @FindBy(id="js-main-nav-naviance-college-profile-menu-link")
-    private WebElement navianceCollegeProfileMenuLink;
+    public WebElement navianceCollegeProfileMenuLink;
 
     @FindBy(id="js-main-nav-graphiql-menu-link")
     private WebElement graphiqlMenuLink;
@@ -67,7 +67,7 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="helpNav-dropdown")
     private WebElement helpDropdown;
 
-    @FindBy(css = "i[class='globe big icon _2Mks8yaXgkTI1rvaRYv4jn _2wmRB8Z7aYw_Hx80n2l5nS']")
+    @FindBy(css = "i[class='globe big icon WwLybVz7icbheav6VG-r5']")
     private WebElement notificationsDropdown;
 
     @FindBy(css = "div[class='menu transition visible']")
@@ -89,16 +89,16 @@ public class NavigationBarImpl extends SeleniumBase {
         homeMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Home menu was not selected",
-                selectedNavigationMenu.getText().contains("Welcome"));
+                selectedNavigationMenu.getText().contains("Home"));
     }
 
     public void goToCommunity() {
         waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
         navigationDropDown.click();
-        waitUntil(ExpectedConditions.visibilityOf(homeMenuLink));
-        homeMenuLink.click();
+        waitUntil(ExpectedConditions.visibilityOf(counselorCommunityMenuLink));
+        counselorCommunityMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
-        Assert.assertTrue("The Counselor Community menu was not selected",
+        Assert.assertTrue("The Counselor Community menu was not selected: ",
                 selectedNavigationMenu.getAttribute("innerText").contains("Counselor Community"));
     }
 
