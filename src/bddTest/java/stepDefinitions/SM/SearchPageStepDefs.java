@@ -108,8 +108,6 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
-        Then("^SM I select the \"([^\"]*)\" from the \"([^\"]*)\" fit criteria not closing the tab$", searchPage::selectCheckBoxNotClosingTab);
-
         And("^SM I verify the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::verifyAdmissionFitCriteriaCheckbox);
 
         Then("^SM I select the \"([^\"]*)\" from the \"([^\"]*)\" fit criteria not closing the tab$", searchPage::selectCheckBoxNotClosingTab);
