@@ -104,7 +104,7 @@ public class NavigationBarImpl extends SeleniumBase {
     public void goToCommunity() {
         waitForElementSetMaxTimeout();
         waitUntilElementExists(navigationDropDown);
-        navigationDropDown.sendKeys(Keys.ENTER);
+        navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOf(counselorCommunityMenuLink));
         counselorCommunityMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
