@@ -1,8 +1,10 @@
 package pageObjects.HE.filtersPage;
 
+import com.sun.scenario.effect.impl.prism.PrImage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.omg.CORBA.PRIVATE_MEMBER;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,6 +19,27 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
 
     public FiltersPageImpl() {
         logger = Logger.getLogger(FiltersPageImpl.class);
+    }
+
+    public  void summaryFilter(DataTable summaryFilterData){
+        List<List<String>> filterData = summaryFilterData.asLists(String.class);
+        for (List<String> filterDataElement : filterData) {
+            switch (filterDataElement.get(0)) {
+                case "Gender" : genderCheckBox(filterDataElement.get(1)).click();
+                    break;
+                case "Location" :
+                    locationMilesDropdown().click();
+                    getDropdownOption(filterDataElement.get(1).split(";")[0]).click();
+                    locationPostalCodeField().sendKeys(filterDataElement.get(1).split(";")[1]);
+                    break;
+                case "Filter Name" :
+                    break;
+
+    }}}
+
+    public void recommendedCount(){
+        Assert.assertTrue(" Filter Summary count is Zero",Integer.parseInt(countNotZero().getText())>0);
+
     }
 
     public void createFilter(DataTable newFilterData) {
@@ -123,4 +146,5 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement numberOfAssignedEvents(String filterName) { return driver.findElement(By.xpath("//strong[text()='" + filterName + "']/../../div/span/span[@role='button']")); }
     private WebElement locationErrorMessage() { return driver.findElement(By.cssSelector("input#postalCode + div span")); }
     private WebElement filterNameErrorMessage() { return driver.findElement(By.cssSelector("input#name + div span")); }
+    private WebElement countNotZero(){return  driver.findElement(By.cssSelector("div._1v0QZJyY25uE_4FnAGv9hk"));}
 }

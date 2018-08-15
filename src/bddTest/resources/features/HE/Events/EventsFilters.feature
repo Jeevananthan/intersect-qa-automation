@@ -67,3 +67,16 @@ Feature: HE - Events - As a HE Intersect user with AM Events, I need the ability
     Then HE I verify that the filter of name "FilterTestYY498" is displayed by default in the Event Audience field
     And HE I open the "Filters" tab in the Events section
     And HE I delete the filter of name "FilterTestYY498"
+
+  @MATCH-2898
+  Scenario: Calculate potential matches for Filter is greater than zero
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I open the Events section
+    And HE I open the "Filters" tab in the Events section
+    And HE I open the Create Filter screen
+    When HE I enter data to create a new filter based on the following details:
+      | Gender | Female |
+      #Location is expressed in 'miles;zip'. Example: 50 miles outside of the postal code 12345: 250;45040
+      | Location | 250 miles;45040|
+      | Filter Name        | FilterMATCH-2898 |
+    And HE I verify Filter Summary value is greater than zero

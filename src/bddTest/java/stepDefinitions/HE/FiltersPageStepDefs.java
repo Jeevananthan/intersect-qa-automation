@@ -25,5 +25,7 @@ public class FiltersPageStepDefs implements En {
         And("^HE I edit the Event Filter's name \"([^\"]*)\" to \"([^\"]*)\"$", filtersPage::renameFilter);
 
         And("^HE I verify that the filter of name \"([^\"]*)\" is assigned to \"([^\"]*)\" events$", filtersPage::verifyNumberOfAssignedEvents);
+        When("^HE I enter data to create a new filter based on the following details:$", filtersPage::summaryFilter);
+        And("^HE I verify Filter Summary value is greater than zero$",filtersPage:: recommendedCount);
     }
 }
