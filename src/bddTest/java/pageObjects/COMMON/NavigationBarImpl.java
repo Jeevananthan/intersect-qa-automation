@@ -4,14 +4,20 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 
 public class NavigationBarImpl extends SeleniumBase {
@@ -22,8 +28,11 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(xpath = "//a[@name='mainmenu']")
     private WebElement navigationDropDown;
 
-    @FindBy(id="js-main-nav-home-menu-link")
+    @FindBy(name="js-main-nav-home-menu-link")
     private  WebElement homeMenuLink;
+
+    @FindBy(id="js-main-nav-home-menu-link")
+    private  WebElement homeMenuLinkInHs;
 
     @FindBy(id="js-main-nav-counselor-community-menu-link")
     private WebElement counselorCommunityMenuLink;
@@ -83,20 +92,33 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToHome() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
-        navigationDropDown.click();
+        waitForElementSetMaxTimeout();
+        waitUntilElementExists(navigationDropDown);
+        navigationDropDown.sendKeys(Keys.ENTER);
         waitUntil(ExpectedConditions.visibilityOf(homeMenuLink));
-        homeMenuLink.click();
-        waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
+        homeMenuLink.sendKeys(Keys.ENTER);
+        waitUntilElementExists(selectedNavigationMenu);
         Assert.assertTrue("The Home menu was not selected",
                 selectedNavigationMenu.getText().contains("Home"));
     }
 
     public void goToCommunity() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
-        navigationDropDown.click();
+        waitForElementSetMaxTimeout();
+        waitUntilElementExists(navigationDropDown);
+        navigationDropDown.sendKeys(Keys.ENTER);
         waitUntil(ExpectedConditions.visibilityOf(counselorCommunityMenuLink));
         counselorCommunityMenuLink.click();
+        waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
+        Assert.assertTrue("The Counselor Community menu was not selected: ",
+                selectedNavigationMenu.getAttribute("innerText").contains("Counselor Community"));
+    }
+
+    public void goToCommunityInHS() {
+        waitForElementSetMaxTimeout();
+        waitUntilElementExists(navigationDropDown);
+        navigationDropDown.sendKeys(Keys.ENTER);
+        waitUntil(ExpectedConditions.visibilityOf(homeMenuLinkInHs));
+        homeMenuLinkInHs.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Counselor Community menu was not selected: ",
                 selectedNavigationMenu.getAttribute("innerText").contains("Counselor Community"));
@@ -113,10 +135,13 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToRepVisits() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
-        navigationDropDown.click();
-        waitUntil(ExpectedConditions.visibilityOf(repVisitsMenuLink));
-        repVisitsMenuLink.click();
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        FluentWait<WebDriver> wait = new WebDriverWait(driver, 5);
+        wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
+        waitUntilElementExists(navigationDropDown);
+        navigationDropDown.sendKeys(Keys.ENTER);
+        waitUntilElementExists(repVisitsMenuLink);
+        repVisitsMenuLink.sendKeys(Keys.ENTER);
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
 //        Assert.assertTrue("The RepVisits menu was not selected",
 //                selectedNavigationMenu.getAttribute("innerText").contains("RepVisits"));
@@ -301,4 +326,9 @@ public class NavigationBarImpl extends SeleniumBase {
         }}catch(Exception e){}
     }
 
+    //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
+    //Read more information here: https://imalittletester.com/2016/05/11/selenium-how-to-wait-for-an-element-to-be-displayed-not-displayed/
+    private void waitForElementSetMaxTimeout() {
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+    }
 }

@@ -37,7 +37,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToCounselorCommunity(){
         //link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
-        navigationBar.goToCommunity();
+        navigationBar.goToCommunityInHS();
     }
 
     public void verifyTitleHS(String generalCategoryName,String pageName){

@@ -2774,7 +2774,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyNavigationUserDropdownforNonNaviance(){
         //Since the code is already implemented for HE, calling the method of HE RepVisitsPageImpl class.
-        repVisitsPageHEObj.verifyNavigationUserDropdownforHE();
+        repVisitsPageHEObj.verifyNavigationUserDropdownforHS();
      }
 
     public void verifyUserAdminorNot(String option){
@@ -6663,7 +6663,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return frame;
     }
     private WebElement userProfilePage() {
-        WebElement profile=driver.findElement(By.xpath("//a[@class='active' and text()='Profile']"));
+        WebElement profile=driver.findElement(By.xpath("//a[text()='Profile']"));
         return  profile;
     }
     private WebElement institutionProfilePage() {
