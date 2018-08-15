@@ -28,7 +28,7 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(xpath = "//a[@name='mainmenu']")
     private WebElement navigationDropDown;
 
-    @FindBy(name="js-main-nav-home-menu-link")
+    @FindBy(id="js-main-nav-home-menu-link")
     private  WebElement homeMenuLink;
 
     @FindBy(id="js-main-nav-home-menu-link")
@@ -92,11 +92,10 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToHome() {
-        waitForElementSetMaxTimeout();
         waitUntilElementExists(navigationDropDown);
-        navigationDropDown.sendKeys(Keys.ENTER);
+        navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOf(homeMenuLink));
-        homeMenuLink.sendKeys(Keys.ENTER);
+        homeMenuLink.click();
         waitUntilElementExists(selectedNavigationMenu);
         Assert.assertTrue("The Home menu was not selected",
                 selectedNavigationMenu.getText().contains("Home"));
