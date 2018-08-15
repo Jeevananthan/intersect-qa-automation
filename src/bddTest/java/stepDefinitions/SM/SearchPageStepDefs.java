@@ -112,6 +112,8 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::verifyAdmissionFitCriteriaCheckbox);
 
+        Then("^SM I select the \"([^\"]*)\" from the \"([^\"]*)\" fit criteria not closing the tab$", searchPage::selectCheckBoxNotClosingTab);
+
         Then("^SM I click on Institution Characteristics fit criteria$", searchPage::getInstitutionCharacteristicsFC);
 
         Then("^SM I check the selection and deselection and Must Have box functionality for Average Class Size drop down list$",

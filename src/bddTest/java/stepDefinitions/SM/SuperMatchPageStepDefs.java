@@ -67,5 +67,7 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that no tooltip icon is displayed for GPA in the results table$", fcSuperMatch::verifyNoGPATooltipIcon);
 
+        Then("^I verify that there is not text \"([^\"]*)\" on the page$", fcSuperMatch::verifyThereIsNoTextOnThePage);
+
     }
 }
