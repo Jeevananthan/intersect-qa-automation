@@ -334,7 +334,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I select the "Show only non-profit" checkbox from "Institution Characteristics" fit criteria
     Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
 
-  @MATCH-4682
+  @MATCH-4682 @MATCH-4415
   Scenario: The Compare seems to load and focus itself in the same general area you were on the main page of SuperMatch.
   Verify that this doesn't happen.
     Given SM I am logged in to SuperMatch through Family Connection
