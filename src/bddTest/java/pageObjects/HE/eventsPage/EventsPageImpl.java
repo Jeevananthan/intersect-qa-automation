@@ -200,7 +200,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public void selectFilterByName(String filterName) {
         clearSelectionField(audienceField());
         openSelectionFieldMenu(audienceField());
-        driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")).click();
+        driver.findElement(By.xpath("//table[contains(@class,'ui unstackable very basic left aligned table _2NlS0bmSsF9TMGlRj-exrG')]/tbody/tr/td/div[text()='" + filterName + "']")).click();
     }
 
 
