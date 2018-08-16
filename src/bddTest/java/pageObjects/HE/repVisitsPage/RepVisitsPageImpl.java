@@ -3295,7 +3295,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void goToReassignAppointment(){
         navigationBar.goToRepVisits();
         link("Calendar").click();
+        waitUntil(ExpectedConditions.visibilityOf(link("Re-assign appointments")));
         link("Re-assign appointments").click();
+        waitUntil(ExpectedConditions.visibilityOf(getReassignAppointmentsLabel()));
     }
 
     public void reassignAppointmentsVerification(String option){
@@ -3303,7 +3305,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (option.contains("Community, PurpleHE"))
         {
             waitUntilPageFinishLoading();
-            waitUntilElementExists( staffForReassign());
+            waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
             staffForReassign().click();
             //Verify item of the Staff Member
             Assert.assertTrue("Item was not displayed!", driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
@@ -3318,7 +3320,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         else {
 
             waitUntilPageFinishLoading();
-            waitUntilElementExists(staffForReassign());
+            waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
             staffForReassign().click();
             //Verify item of the Staff Member
             Assert.assertTrue("Item was not displayed!", driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
@@ -3930,6 +3932,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
     }
 
+    /**
+     * Gets the re assign appointments label
+     * @return WebElement
+     */
+    private WebElement getReassignAppointmentsLabel(){
+        return  driver.findElement(By.xpath("//div[@class='_1gOm2VKVcyiA-N5sbcuEvj header']/span[text()='Re-assign Appointments']"));
+    }
 }
 
 
