@@ -1274,7 +1274,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         elementNotFound = false;
                     }
                 } catch (WebDriverException e) {
+                    waitUntilPageFinishLoading();
                     whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    waitUntilPageFinishLoading();
                     elementNotFound = true;
                 }
             }
