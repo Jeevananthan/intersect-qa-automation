@@ -317,7 +317,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void postMessageInHomePage(String message){
         waitUntilPageFinishLoading();
-        driver.findElement(By.id("js-main-nav-counselor-community-menu-link")).click();
+        navigationBar.goToCommunity();
         waitUntilPageFinishLoading();
         WebElement element=driver.findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
         driver.switchTo().frame(element);
