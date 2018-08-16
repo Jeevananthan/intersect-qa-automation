@@ -32,12 +32,10 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
                     getDropdownOption(filterDataElement.get(1).split(";")[0]).click();
                     locationPostalCodeField().sendKeys(filterDataElement.get(1).split(";")[1]);
                     break;
-                case "Filter Name" :
-                    break;
-
-    }}}
+            }}}
 
     public void recommendedCount(){
+        waitUntilPageFinishLoading();
         Assert.assertTrue(" Filter Summary count is Zero",Integer.parseInt(countNotZero().getText())>0);
 
     }

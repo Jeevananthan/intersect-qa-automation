@@ -78,5 +78,4 @@ Feature: HE - Events - As a HE Intersect user with AM Events, I need the ability
       | Gender | Female |
       #Location is expressed in 'miles;zip'. Example: 50 miles outside of the postal code 12345: 250;45040
       | Location | 250 miles;45040|
-      | Filter Name        | FilterMATCH-2898 |
     And HE I verify Filter Summary value is greater than zero
