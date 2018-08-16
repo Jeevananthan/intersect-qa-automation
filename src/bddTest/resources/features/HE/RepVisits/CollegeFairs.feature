@@ -60,7 +60,20 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
 
   @MATCH-1771
   Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled
-
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I create a College Fair with the following data
+      | College Fair Name                                         | Fair-1771               |
+      | Automatically Confirm Incoming Requestions From Colleges? | yes                     |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0600AM                  |
+      | Date                                                      | 2                       |
+      | RSVP Deadline                                             | 1                       |
+      | End Time                                                  | 0800AM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I successfully sign out
     When HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" from the RepVisits search result
