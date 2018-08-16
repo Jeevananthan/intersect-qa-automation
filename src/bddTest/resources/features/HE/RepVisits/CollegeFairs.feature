@@ -6,7 +6,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
             the HE user with a fair request confirmation popup
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I create a College Fair with the following data
-      | College Fair Name                                         | Fair-1771               |
+      | College Fair Name                                         | Fair-MATCH1771          |
       | Automatically Confirm Incoming Requestions From Colleges? | no                      |
       | Cost                                                      | 10                      |
       | Start Time                                                | 1800AM                  |
@@ -21,12 +21,12 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
     When HE I am logged in to Intersect HE as user type "administrator"
     And HE I open the institution of ID "04d3b77e-18f5-43cd-a585-101268b1178b"
     And HE I open the Fairs tab in Check RepVisits Availability sidebar
-    Then HE I should be able to open the registration popup for the fair "Fair-1771" in Check RepVisits Availability sidebar
+    Then HE I should be able to open the registration popup for the fair "Fair-MATCH1771" in Check RepVisits Availability sidebar
     Then HE I verify that the fair request confirmation popup contains all the required fields, including high school name "Int Qa High School 4"
     And HE I close the fair request popup
     And HE I successfully sign out
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    And HS I cancel the fair of name "Fair-1771" with the reason "test"
+    And HS I cancel the fair of name "Fair-MATCH1771" with the reason "test"
     And HS I successfully sign out
 
   @MATCH-1771
@@ -34,7 +34,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
             the user with a fair request confirmation popup when clicked
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I create a College Fair with the following data
-      | College Fair Name                                         | Fair-1771               |
+      | College Fair Name                                         | Fair-MATCH1771               |
       | Automatically Confirm Incoming Requestions From Colleges? | yes                     |
       | Cost                                                      | 10                      |
       | Start Time                                                | 1800AM                  |
@@ -50,41 +50,28 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
     And HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" from the RepVisits search result
     And HE I open the fairs tab
-    Then HE I should be able to open the registration popup for the fair "Fair-1771" in Search and Schedule
+    Then HE I should be able to open the registration popup for the fair "Fair-MATCH1771" in Search and Schedule
     Then HE I verify that the fair request confirmation popup contains all the required fields, including high school name "Int Qa High School 4"
     And HE I close the fair request popup
     And HE I successfully sign out
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    And HS I cancel the fair of name "Fair-1771" with the reason "test"
+    And HS I cancel the fair of name "Fair-MATCH1771" with the reason "test"
     And HS I successfully sign out
 
   @MATCH-1771
   Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    And HS I create a College Fair with the following data
-      | College Fair Name                                         | Fair-1771               |
-      | Automatically Confirm Incoming Requestions From Colleges? | yes                     |
-      | Cost                                                      | 10                      |
-      | Start Time                                                | 0600AM                  |
-      | Date                                                      | 2                       |
-      | RSVP Deadline                                             | 1                       |
-      | End Time                                                  | 0800AM                  |
-      | Max Number of Colleges                                    | 10                      |
-      | Number of Students Expected                               | 10                      |
-      | Instructions for College Representatives                  | Submit request by Email |
-      | Email Message to Colleges After Confirmation              | why not                 |
-    And HS I successfully sign out
+
     When HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" from the RepVisits search result
     And HE I open the fairs tab
-    Then HE I register to the "Fair-1771" fair from Search and Schedule screen
+    Then HE I register to the "Fair-MATCH1771" fair from Search and Schedule screen
     Then HE I verify that the message for registered fairs with auto approval is displayed
-    Then HE I verify that the registered fair "Fair-1771" is displayed in the calendar for the date "In 2 days" and time "6:00AM"
+    Then HE I verify that the registered fair "Fair-MATCH1771" is displayed in the calendar for the date "In 2 days" and time "6:00AM"
     Then HE I verify that the registered fair is displayed for "Int Qa High School 4" in the Search and Schedule quickview in the date "In 2 days" and time "6:00AM"
     And HE I successfully sign out
     When HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    And HS I cancel the fair of name "Fair-1771" with the reason "test"
+    And HS I cancel the fair of name "Fair-MATCH1771" with the reason "test"
     And HS I successfully sign out
 
   # The following scenario is failing because of MATCH-3704.
