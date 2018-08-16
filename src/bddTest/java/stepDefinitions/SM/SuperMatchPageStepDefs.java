@@ -69,5 +69,7 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^I verify that there is not text \"([^\"]*)\" on the page$", fcSuperMatch::verifyThereIsNoTextOnThePage);
 
+        And("^SM I delete all the saved searches$", fcSuperMatch::deleteAllSavedSearches);
+
     }
 }
