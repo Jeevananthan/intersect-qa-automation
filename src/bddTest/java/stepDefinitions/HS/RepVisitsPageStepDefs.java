@@ -607,7 +607,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
         Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
-      
+
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
         Then("^HS I verify the disabled date \"([^\"]*)\" is not clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsNotClickableInEndDate);
@@ -623,13 +623,13 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I select \"([^\"]*)\" option for \"([^\"]*)\"$",repVisits::selectOptionInFairs);
 
         Then("^HS I verify the DECLINE pop-up for \"([^\"]*)\",\"([^\"]*)\" in Fairs$",repVisits::verifyDeclinePopupInFairs);
-      
+
         Then("^HS I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
 
         Then("^HS I verify the user cannot access Agenda view$",repVisits::verifyUserCannotAccessAgendaView);
-      
+
         Then("^HS I verify \"([^\"]*)\" stub menu is not present in Account settings page for \"([^\"]*)\"$",repVisits::verifyYourNotificationTab);
-      
+
         Then("^HS I verify the following details are displaying in Naviance Settings page$",repVisits::verifyNavianceSettingsPage);
 
         Then("^HS I navigate to naviance settings page$",repVisits::navigateToNavianceSettingsInAvailabilitySettingsPage);
@@ -639,5 +639,12 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I complete the set up wizard page by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::goToCalendarInWizardLastStepPage);
 
         Then("^HS I complete the set up wizard that not yet completed by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::completeSetupWizard);
+
+        And("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in Agenda view$", repVisits::setStartDateAndEndDateInAgendaView);
+
+        And("^HS I verify that \"([^\"]*)\" visits are displayed in Agenda view$", repVisits::verifyNumberOfVisitsDisplayedInAgendaView);
+
+        And("^HS I verify that it should not be possible to select an End date \"([^\"]*)\" which is less than the Start date \"([^\"]*)\" in Agenda view$", repVisits::verifyUserCannotSelectEndDateWhichIsLessThanStartDateInAgendaView);
+
     }
 }

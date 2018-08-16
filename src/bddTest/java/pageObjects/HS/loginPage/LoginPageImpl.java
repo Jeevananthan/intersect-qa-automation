@@ -3,17 +3,20 @@ package pageObjects.HS.loginPage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchSessionException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
+
+import java.sql.Driver;
 import java.util.List;
 import java.nio.file.Watchable;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
@@ -38,20 +41,27 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("password")).sendKeys(password);
         logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
         button("Sign In").click();
-        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
-        waitUntilPageFinishLoading();
-        link(By.cssSelector("[title='Counselor Community']")).click();
-        Set<String> windows = driver.getWindowHandles();
-        for (String thisWindow : windows) {
-            if (!thisWindow.equals(navianceWindow)){
-                intersectWindow = thisWindow;
-            }
-        }
-        driver.close();
-        driver.switchTo().window(intersectWindow);
-        waitUntilPageFinishLoading();
-//        waitUntilElementExists(getDriver().findElement(By.cssSelector("a[id='js-main-sidebar-nav-home-menu-link']")));
 
+        if (username.contains("molly"))
+        {
+            waitUntilElementExists(driver.findElement(By.xpath("//a[@class='ns-top-nav__secondary-link js-community-link']")));
+            waitUntilPageFinishLoading();
+            driver.findElement(By.xpath("//a[@class='ns-top-nav__secondary-link js-community-link']")).click();
+            waitUntilPageFinishLoading();
+        } else {
+            waitUntilElementExists(driver.findElement(By.xpath("//a[@title='Counselor Community']")));
+            waitUntilPageFinishLoading();
+            driver.findElement(By.xpath("//a[@title='Counselor Community']")).click();
+            Set<String> windows = driver.getWindowHandles();
+            for (String thisWindow : windows) {
+                if (!thisWindow.equals(navianceWindow)){
+                    intersectWindow = thisWindow;
+                }
+            }
+            driver.close();
+            driver.switchTo().window(intersectWindow);
+            waitUntilPageFinishLoading();
+        }
     }
 
     public void loginThroughNaviance(String usertype) {
@@ -65,20 +75,22 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
-        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
+        waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
         waitUntilPageFinishLoading();
-        link(By.cssSelector("[title='Counselor Community']")).click();
+        link(By.xpath("//li/a[@title='Counselor Community']")).click();
         Set<String> windows = driver.getWindowHandles();
-        for (String thisWindow : windows) {
-            if (!thisWindow.equals(navianceWindow)){
-                intersectWindow = thisWindow;
+        if(windows.size()>1){
+            for (String thisWindow : windows) {
+                if (!thisWindow.equals(navianceWindow)){
+                    intersectWindow = thisWindow;
+                }
             }
+            driver.close();
+            driver.switchTo().window(intersectWindow);
         }
-        driver.close();
-        driver.switchTo().window(intersectWindow);
-        waitForUITransition();
-        waitForUITransition();
-        waitUntilElementExists(driver.findElement(By.id("app")));
+        //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
+        //Read more information here: https://stackoverflow.com/questions/6992993/selenium-c-sharp-webdriver-wait-until-element-is-present
+        new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("app")));
     }
 
     public void openNonNavianceLoginPage(){
@@ -141,7 +153,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
         try {
             driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-            driver.executeScript( GetProperties.get("naviance.app.url"));
+            //driver.executeScript( GetProperties.get("naviance.app.url"));
+            load(GetProperties.get("naviance.app.url"));
         } catch (Exception e) {
             getDriver().close();
             load("http://www.google.com");

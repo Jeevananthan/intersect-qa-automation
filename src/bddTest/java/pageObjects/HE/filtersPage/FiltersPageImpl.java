@@ -64,8 +64,20 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         saveFilterButton().click();
     }
 
-    public void verifyReqDataErrorMessages() {
-        /*code to verify error messages for missing data in the fields*/
+    public void verifyReqDataErrorMessages(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        for( List<String> row : details) {
+            switch (row.get(0)) {
+                case "Location" :
+                    Assert.assertTrue("The error message for Location is not correct",
+                            locationErrorMessage().getText().equals(row.get(1)));
+                    break;
+                case "Filter Name" :
+                    Assert.assertTrue("The error message for Filter Name is not correct",
+                            filterNameErrorMessage().getText().equals(row.get(1)));
+                    break;
+            }
+        }
     }
 
     public void deleteFilter(String filterName) {
@@ -109,4 +121,6 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private String deleteFilterDialogTitle = "Are you sure you want to delete this filter?";
     private WebElement deleteFilterDialogHeader() { return driver.findElement(By.cssSelector("div.ui.header span")); }
     private WebElement numberOfAssignedEvents(String filterName) { return driver.findElement(By.xpath("//strong[text()='" + filterName + "']/../../div/span/span[@role='button']")); }
+    private WebElement locationErrorMessage() { return driver.findElement(By.cssSelector("input#postalCode + div span")); }
+    private WebElement filterNameErrorMessage() { return driver.findElement(By.cssSelector("input#name + div span")); }
 }
