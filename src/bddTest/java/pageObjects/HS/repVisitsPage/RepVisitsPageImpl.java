@@ -1275,7 +1275,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void cancelFair(String fairName, String cancelationReason) {
         navigationBar.goToRepVisits();
-        collegeFairsButton().click();
+        collegeFairs().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
         if (fairName.equalsIgnoreCase("PreviouslySetFair"))
@@ -1285,7 +1285,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 //            viewMoreUpcomingEventsLink().click();
 //        }
         waitUntilPageFinishLoading();
-        while (viewMoreUpcomingEventsLink().isDisplayed()){
+        while (driver.findElements(By.xpath("//span[text()='View More Upcoming Events']/..")).size()>0){
             viewMoreUpcomingEventsLink().click();
              waitUntilPageFinishLoading();
         }
@@ -1306,7 +1306,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void createFair(DataTable details) {
         List<List<String>> fairDetails = details.asLists(String.class);
         navigationBar.goToRepVisits();
-        collegeFairsButton().click();
+        collegeFairs().click();
         addFairButton().click();
         fairNameTextBox().sendKeys(fairDetails.get(0).get(1));
         waitUntilPageFinishLoading();
@@ -4325,7 +4325,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
-    private WebElement collegeFairsButton() { return getDriver().findElement(By.xpath("//span[text()='College Fairs']")); }
     private WebElement viewMoreUpcomingEventsLink() { return getDriver().findElement(By.xpath("//span[text()='View More Upcoming Events']/..")); }
     private WebElement viewMorePastEventsLink() { return getDriver().findElement(By.xpath("//span[text()='View More Past Events']/..")); }
     private WebElement fairElementDetails(String fairName) { return getDriver().findElement(By.xpath
@@ -7119,8 +7118,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement calendar ()
     {
-        overview().click();
-        WebElement navbar = driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Calendar']"));
+        WebElement navbar = driver.findElement(By.xpath("//a[@class='menu-link qxSNjKWAyYiOIN9yZHE_d']/span[text()='Calendar']"));
         return navbar;
     }
 
