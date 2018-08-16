@@ -578,6 +578,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //String dayTableText = getDriver().findElement(By.cssSelector("table[class='ui basic table']")).getText();
         String dayTableText = getDriver().findElement(By.cssSelector("div[class='_10Tg7oamBO_AGbl5OgX9ba']")).getText();
         String displayStartEndForVisitsText = "Start and End Dates For Visits";
+        waitUntilElementExists( getDriver().findElement(By.cssSelector("div[class='_10Tg7oamBO_AGbl5OgX9ba']")));
         Assert.assertTrue(dayTableText + " Text is not displayed",
                 startEndDatesForVisitsText.contains("MON TUE WED THU FRI"));
         Assert.assertTrue(displayStartEndForVisitsText + " Text is not displayed",
@@ -1197,6 +1198,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         waitUntilPageFinishLoading();
         WebElement EntertimeZone = getDriver().findElement(By.cssSelector(".search[class=\"search\"] + div"));
+        waitUntilElementExists(EntertimeZone);
         EntertimeZone.click();
         getDriver().findElement(By.xpath("//span[text()='"+ timeZone +"']")).click();
     }
@@ -2029,6 +2031,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         collegeFairs().click();
         Assert.assertTrue("College Fairs is not displayed", driver.findElement(By.xpath("//a[@class='menu-link qxSNjKWAyYiOIN9yZHE_d']/span[text()='College Fairs']")).isDisplayed());
 //        driver.findElement(By.cssSelector("a[href='rep-visits/collegefairs/settings']>span")).click();
+        waitForUITransition();
+        waitUntilElementExists(collegeFairsSettings());
         collegeFairsSettings().click();
         waitUntilPageFinishLoading();
     }
@@ -7053,7 +7057,8 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @return webelement
      */
     private WebElement getCancelThisVisitButon () {
-        return button("Cancel This Visit");
+        return  driver.findElement(By.xpath("//span[text()='Cancel This Visit']"));
+
     }
 
     /**
