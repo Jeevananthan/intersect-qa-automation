@@ -2063,6 +2063,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void goToWelcomeWizard(){
         load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
+        waitUntilElementExists(driver.findElement(By.cssSelector("button[class='ui primary button']")));
        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
     }
     public void navigateToRepvisitWizard(String wizardName){
