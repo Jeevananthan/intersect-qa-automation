@@ -3346,14 +3346,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 Assert.assertTrue("'This school isnt using RepVisits yet' text is not displayed", driver.findElement(By.xpath("//a[text()='"+school+"']//../following-sibling::td/div/span[text()='This school isnt using RepVisits yet']")).isDisplayed());
         }else if(option.equals("View Availability")) {
             List<WebElement> viewAvailability = driver.findElements(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='View Availability']"));
-            if(viewAvailability.size()==1){
-                driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='View Availability']")).click();
-                driver.findElement(By.xpath("//div[@class='ui padded grid _3emfXzaryr93-lK5HisTL2']/div/div/i[@class='close large circular fitted link icon']")).click();
-                navBar.goToRepVisits();
-                waitUntilPageFinishLoading();
-            }else{
-                    logger.info("View Availability is not displayed");
-                }
+            Assert.assertTrue("View Availability button is not displayed",viewAvailability.size()==1);
         }
     }
 
@@ -3361,7 +3354,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='View Availability']")).click();
         Assert.assertTrue("Repvisits Availability popup is not displayed",viewAvailabilityPopUp().isDisplayed());
         closeButtonRepvisistsAvailability().click();
-        Assert.assertTrue("View Availability button is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='View Availability']")).isDisplayed());
     }
 
     private void selectMoreResultsInSearchAndSchedule(){
@@ -3547,7 +3539,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getContactsBtn() {
         return driver.findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Contacts']"));
     }
-    private WebElement getRecommendationsBtn() {return link("Recommendations");}
+    private WebElement getRecommendationsBtn() {return driver.findElement(By.xpath("//ul[@class='ui huge pointing secondary stackable hidden-mobile hidden-tablet _3k81ACwPvWfJIsP_32h5Yh menu']/li//span[text()='Recommendations']"));}
     private WebElement getNotificationsBtn() {
         return link("Notifications");
     }
