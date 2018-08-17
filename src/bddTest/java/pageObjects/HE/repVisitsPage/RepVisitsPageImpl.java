@@ -3229,6 +3229,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         jsClick(driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")));
         jsClick(newAssigneeButton());
         jsClick(driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']")));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='"+alertMessage+"']"),1));
         Assert.assertTrue("Alert message is not displayed",driver.findElement(By.xpath("//span[text()='"+alertMessage+"']")).isDisplayed());
         buttonGoBack().click();
         waitUntilPageFinishLoading();

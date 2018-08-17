@@ -75,7 +75,6 @@ Feature: HE - RepVisits - Calendar - As an HE user I want to use the RepVisits C
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-    And HE I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "<user>"
     And HE I verify the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the users "4550, PurpleHE","Automation, PurpleHE"
