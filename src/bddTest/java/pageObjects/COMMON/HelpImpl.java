@@ -55,7 +55,8 @@ public class HelpImpl extends PageObjectFacadeImpl {
                 getHelpLink().click();
                 windows = new ArrayList<>(driver.getWindowHandles());
                 driver.switchTo().window(windows.get(1));
-                waitForUITransition();
+                waitUntilPageFinishLoading();
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div[class='navigation-wrapper']"), 1));
                 url = driver.getCurrentUrl();
                 driver.close();
                 driver.switchTo().window(windows.get(0));

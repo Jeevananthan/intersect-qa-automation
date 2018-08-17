@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -108,6 +109,8 @@ public class SearchPageStepDefs implements En {
         Then("^SM I select the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
         And("^SM I verify the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::verifyAdmissionFitCriteriaCheckbox);
+
+        Then("^SM I select the \"([^\"]*)\" from the \"([^\"]*)\" fit criteria not closing the tab$", searchPage::selectCheckBoxNotClosingTab);
 
         Then("^SM I click on Institution Characteristics fit criteria$", searchPage::getInstitutionCharacteristicsFC);
 
