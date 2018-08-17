@@ -198,6 +198,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | Acceptance Rate | 25% or Lower |
+    And SM I reload the page
     Then SM I verify the footnote for known GPA but unknown test scores for "Pomona College", with the text:
     | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
 
