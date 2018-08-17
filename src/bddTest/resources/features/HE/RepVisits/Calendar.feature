@@ -70,7 +70,6 @@ Feature: HE - RepVisits - Calendar - As an HE user I want to use the RepVisits C
     Given HE I want to login to the HE app using "purpleheautomation+4902@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
-    And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
@@ -83,7 +82,6 @@ Feature: HE - RepVisits - Calendar - As an HE user I want to use the RepVisits C
     Then HE I select the fair to reassign using "<Date>","<School>"
     Then HE I select the user "Community, PurpleHE" from "Select new assignee" dropdown
     Then HE I click Reassign Appointments button "<appointmentsCount>"
-    And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
