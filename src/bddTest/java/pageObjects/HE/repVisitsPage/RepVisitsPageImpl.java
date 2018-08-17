@@ -480,7 +480,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCheckRepVisitsAvailabilityButton(){
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(0));
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOf(getCheckRepVisitsAvailabilityButton()));
         Assert.assertTrue("Check RepVisits Availability Button is not present", getCheckRepVisitsAvailabilityButton().isDisplayed());
         waitUntil(ExpectedConditions.visibilityOf(getCheckRepVisitsAvailabilityButton()));
         JavascriptExecutor executor = getDriver();
@@ -494,7 +494,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void navigatetoRepVisits()
     {
         navigationBar.goToRepVisits();
-        link("Availability & Settings").click();
+        navigateToRepVisitsSection("Availability & Settings");
     }
 
     public void selectAllRepVisitsUser(String option){
@@ -870,12 +870,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyUpgradeMessageInRecommendationspage()
       {
-          navigationBar.goToRepVisits();
-          waitUntilElementExists(getRecommendationsBtn());
-          getRecommendationsBtn().click();
+          navigateToRepVisitsSection("Recommendations");
           waitUntilPageFinishLoading();
           Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
-          Assert.assertTrue("'UPGRADE' button is not displayed",button("UPGRADE").isDisplayed());
+          Assert.assertTrue("'UPGRADE' button is not displayed",getUpgradeButton().isDisplayed());
           Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
       }
 
@@ -887,7 +885,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
        getContactsBtn().click();
        waitUntilPageFinishLoading();
        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
-       Assert.assertTrue("'UPGRADE' button is not displayed",button("UPGRADE").isDisplayed());
+       Assert.assertTrue(getUpgradeButton().isDisplayed());
        Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.xpath("//img[@alt='locked']")).isDisplayed());
    }
     public void verifySearchResultOfSearchAndSchedule(DataTable dataTable){
@@ -983,12 +981,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
-        navigationBar.goToRepVisits();
-        waitUntilElementExists(getTravelPlanBtn());
-        getTravelPlanBtn().click();
+        navigateToRepVisitsSection("Travel Plan");
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
-        Assert.assertTrue("'UPGRADE' text is not displayed",text("UPGRADE").isDisplayed());
+        Assert.assertTrue("'UPGRADE' button is not displayed",getUpgradeButton().isDisplayed());
         Assert.assertTrue("'Lock' Icon is not displayed",driver.findElement(By.cssSelector(" img[alt='locked']")).isDisplayed());
     }
 
@@ -3297,7 +3293,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Calendar").click();
         waitUntil(ExpectedConditions.visibilityOf(link("Re-assign appointments")));
         link("Re-assign appointments").click();
-        waitUntil(ExpectedConditions.visibilityOf(getReassignAppointmentsLabel()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("" +
+                "//div[@class='_1gOm2VKVcyiA-N5sbcuEvj header']/span[text()='Re-assign Appointments']")));
     }
 
     public void reassignAppointmentsVerification(String option){
@@ -3930,14 +3927,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
-    }
-
-    /**
-     * Gets the re assign appointments label
-     * @return WebElement
-     */
-    private WebElement getReassignAppointmentsLabel(){
-        return  driver.findElement(By.xpath("//div[@class='_1gOm2VKVcyiA-N5sbcuEvj header']/span[text()='Re-assign Appointments']"));
     }
 }
 
