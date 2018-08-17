@@ -289,7 +289,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + password + " as password");
         button("Login").click();
         logger.info("Clicked the login button");
-        waitUntilElementExists(link(By.id("user-dropdown")));
+        //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
+        //Read more information here: https://stackoverflow.com/questions/6992993/selenium-c-sharp-webdriver-wait-until-element-is-present
+        new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
     }
 
