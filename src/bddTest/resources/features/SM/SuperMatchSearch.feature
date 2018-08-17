@@ -211,7 +211,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
        | ACT Composite   | 30   |
        | Acceptance Rate | 76% or more |
      And SM I select the "Coed" checkbox from "Diversity" fit criteria
-     Then SM I verify the footnote for known GPA but unknown test scores for "Utica College", with the text:
+     Then SM I verify the footnote for known GPA but unknown test scores for "Westminster College", with the text:
        | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
 
     @MATCH-4406

@@ -1409,6 +1409,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyFootnoteGPANoScores(String collegeName, DataTable dataTable) {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        goToCollegeInSearchResults(collegeName);
         List<String> textMessage = dataTable.asList(String.class);
         Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.",
                 collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
