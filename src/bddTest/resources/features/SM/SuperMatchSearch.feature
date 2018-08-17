@@ -367,3 +367,19 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     |Search by distance  |Within 25 miles |90001   |                               |Within 25 miles of 90001              |                                          |
     |Search by distance  |Within 25 miles |9000    |Enter a valid, 5 digit zip code|                                      |                                          |
     |Search by distance  |Within 25 miles |90001   |                               |                                      |                                          |
+
+  @MATCH-4654
+  Scenario: As a HS student using SuperMatch I want to see colleges interested in me so I can make more connections with colleges I am interested in
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then I check if I can see "Interested In You" on the page
+    Then SM I press button "Interested In You"
+    Then I check if I can see "Colleges Looking For Students Like You" on the page
+
+  @MATCH-4654
+  Scenario Outline: As a HS student using SuperMatch I cannot see colleges interested in me because there are 0 or I have no permissions
+    Given SM I am logged in to SuperMatch through Family Connection as user "<user>" with password "<pass>" from school "<school>"
+    Then I verify that there is not text "Interested In You" on the page
+    Examples:
+      | user         | pass     | school     |
+      | talka10grade | password | blue1combo |
+      | uat_user6    | password | blue1combo |

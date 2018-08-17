@@ -336,7 +336,13 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
         }
         homePage.openEventList();
-        getEventsTab("Published").click();
+        try {
+            getEventsTab("Published").click();
+        } catch(WebDriverException e) {
+            //navianceCollegeProfilePage.welcomeTitle().click();
+            navigationBar.goToHome();
+            getEventsTab("Published").click();
+        }
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
         unpublishYesButton().click();
@@ -544,6 +550,15 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("No error message is displayed when a community user access AM Connections by URL", notAuthorizedErrorMessage().getText().equals(expectedNotAuthorizedErrorText));
     }
 
+    public void verifyEventStatus(String status, String eventName) {
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("The Event status is incorrect. UI: " + eventStatus(eventName).getText(), eventStatus(eventName).getText().equals(status));
+    }
+
+    public void verifyEventWithGenNameStatus(String status) {
+        verifyEventStatus(status, eventName);
+    }
+
     public void verifyDefaultFilter(String filterName) {
         Assert.assertTrue("The created filter is not displayed by default in the Event Audience field",
                 eventAudienceTextBox().getAttribute("value").equals(filterName));
@@ -561,7 +576,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     //locators
 //    private WebElement statusDraft(){return  driver.findElement(By.cssSelector(""))};
-    private WebElement eventsTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
+    private WebElement eventsTitle() { return driver.findElement(By.xpath("//span[text()='Events']")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
     private WebElement eventStartCalendarButton() { return driver.findElement(By.cssSelector("div.seven.wide.column button[title='Event Date']")); }
     private WebElement eventStartTimeField() { return driver.findElement(By.cssSelector("input#startTime")); }
@@ -663,6 +678,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
     private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
     private String eventsListLocator(String eventName) { return "//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']"; }
+    private WebElement eventStatus(String eventName) { return driver.findElement(By.xpath("//div[@class = 'ui middle aligned grid']/a[text() = '" + eventName + "']/../../../div[contains(@class, 'two wide column')]/div")); }
     private WebElement eventAudienceTextBox() { return driver.findElement(By.cssSelector("input[name = 'filters-dropdown']")); }
     private WebElement mainEventsTitle() { return driver.findElement(By.cssSelector("a div div.hidden-mobile")); }
     private WebElement eventLinkByPosition(int position) { return driver.findElement(By.cssSelector("div[class *= 'ui stackable middle aligned grid'] div[class *= 'row']:nth-of-type(" + position + ") a:not(.ui)")); }

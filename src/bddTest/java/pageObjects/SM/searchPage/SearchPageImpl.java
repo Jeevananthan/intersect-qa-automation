@@ -862,14 +862,28 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void selectCheckBox(String checkBox, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
             openFitCriteria(fitCriteriaName);
-        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
-        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), \"" + checkBox + "\")]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), \"" + checkBox + "\")]/../input"));
 //        Assert.assertTrue(checkBox + " checkbox by default is not selected.", !checkboxLocator.isSelected());
         if (!onlyCheckbox.isSelected()) {
             checkboxLocator.click();
         }
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
         getFitCriteriaCloseButton().click();
+    }
+
+    /**
+     * select any selected checkbox/radiobutton and do not close the window
+     */
+    public void selectCheckBoxNotClosingTab(String checkBox, String fitCriteriaName) {
+        if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
+            openFitCriteria(fitCriteriaName);
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        if (!onlyCheckbox.isSelected()) {
+            checkboxLocator.click();
+        }
+        Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
     }
 
     /**
@@ -1716,6 +1730,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     {
         boolean isPinnedListCleared = true;
         //open the PINNED dropdown
+        waitUntilPageFinishLoading();
         pinnedDropdown().click();
 
         if(clearPinnedListOption().getAttribute("aria-disabled").equals("false")) {
@@ -1808,7 +1823,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void pickFromDropdown(String choice, String dropdown){
-        driver.findElement(By.className(dropdown)).click();
+        try {
+            driver.findElement(By.className(dropdown)).click();
+        }
+        catch (Exception e){
+            try {
+                driver.findElement(By.id(dropdown)).click();
+            }
+            catch (Exception exp){
+                driver.findElement(By.cssSelector(dropdown)).click();
+            }
+        }
         driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();
     }
 

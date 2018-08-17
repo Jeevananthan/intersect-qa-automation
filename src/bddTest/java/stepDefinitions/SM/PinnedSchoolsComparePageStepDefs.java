@@ -28,5 +28,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I export the data in the Pinned Schools Compare screen$", pinnedSchoolsComparePage::clickExportButton);
 
+        And("^SM I verify that in the \"([^\"]*)\" criteria table \"([^\"]*)\" criteria for the (\\d+) college is \"([^\"]*)\"$", pinnedSchoolsComparePage::verifyTextDataForCriteria);
+
     }
 }
