@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 
@@ -26,8 +27,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void logout() {
         driver.switchTo().defaultContent();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.elementToBeClickable(userDropdown()));
         userDropdown().click();
         button(By.cssSelector("i.sign.out.icon + span.text")).click();
         waitUntilPageFinishLoading();
@@ -89,7 +89,20 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("div[id='user-dropdown']"));
     }
 
+        public void verifyTextInButtonFromModule(String moduleName, String buttonText) {
+            Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
+        }
+
+        public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
+            moduleButton(moduleName).click();
+            waitUntilPageFinishLoading();
+            String expectedURL = GetProperties.get("hs.app.url") + expectedUrl;
+            String actualURL = driver.getCurrentUrl();
+            Assert.assertEquals(actualURL, expectedURL);
+        }
+
     private WebElement collageNameLabel() {
         return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }
+    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
 }
