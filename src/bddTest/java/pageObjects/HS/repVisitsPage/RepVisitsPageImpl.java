@@ -326,7 +326,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
+//        addTimeSlot().click();
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='availability']")));
         if(driver.findElements(By.xpath("//div[@class='ui small modal transition visible active']")).size()>0){
             selectOptionInReviewPreviouslyDeletedTimeSlotsModal
                     ("Add time slot to regular hours, and create for the dates above");
@@ -630,6 +632,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilityAndSettings().click();
         messageOptions().click();
         waitUntilPageFinishLoading();
+        waitUntilElementExists(updateMessagingButton());
 
         Assert.assertTrue("Confirmation Message header is not showing", text("Confirmation Message").isDisplayed());
         Assert.assertTrue("Special Instruction for RepVisits header is not showing", text("Special Instruction for RepVisits").isDisplayed());
@@ -2061,9 +2064,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void goToWelcomeWizard(){
+        waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
         load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.cssSelector("button[class='ui primary button']")));
+        waitUntilElementExists( driver.findElement(By.cssSelector("button[class='ui primary button']")));
        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
     }
     public void navigateToRepvisitWizard(String wizardName){
@@ -7841,6 +7846,10 @@ public void cancelRgisteredCollegeFair(String fairName){
     private List<WebElement> listOfEventsDisplayedInAgendaView() {
         waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//td[@class='rbc-agenda-event-cell']")));
         return driver.findElements(By.xpath("//td[@class='rbc-agenda-event-cell']"));
+    }
+
+    private WebElement updateMessagingButton() {
+        return driver.findElement(By.xpath("//button[@class='ui primary button']"));
     }
 
 }
