@@ -1,14 +1,11 @@
 package pageObjects.HE.filtersPage;
 
-import com.sun.scenario.effect.impl.prism.PrImage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
