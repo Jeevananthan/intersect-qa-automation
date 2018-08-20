@@ -2234,6 +2234,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         for (String passwordCriteria : list) {
             Assert.assertTrue(passwordCriteria + " is not showing.",text(passwordCriteria).isDisplayed());
         }
+        waitUntil(ExpectedConditions.visibilityOf(firstNameTextbox()));
+        waitUntil(ExpectedConditions.visibilityOf(lastNameTextbox()));
+        waitUntil(ExpectedConditions.visibilityOf(emailTextBox()));
         String firstname=firstNameTextbox().getAttribute("value");
         Assert.assertTrue("FirstName is not displayed",firstname.equals(firstName));
         String lastname=lastNameTextbox().getAttribute("value");
