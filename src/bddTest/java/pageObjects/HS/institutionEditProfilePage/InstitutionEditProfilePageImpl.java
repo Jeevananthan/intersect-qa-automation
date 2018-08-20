@@ -118,7 +118,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
 
     public void navigateToInstitutionProfile() {
         waitUntilPageFinishLoading();
-        navigationBar.goToCommunity();
+        navigationBar.goToCommunityInHS();
         waitForUITransition();
         communityFrame();
         driver.findElement(By.xpath("//a[text()='Institution']")).click();
