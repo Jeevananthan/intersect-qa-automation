@@ -241,7 +241,7 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I go to the Naviance Settings to select the option "Manually choose which visits to publish. (If any)"
 #create Visit for Reschedule
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     Then HS I set the value for Reschedule the visit
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
@@ -249,9 +249,8 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 #create new visit
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
     Then HS I add the new time slot with "<Day>","<StartTimefornewVisit>","<EndTime>" and "<NumVisits>"
-    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
 #schedule Visit
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
@@ -279,11 +278,11 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
 #verify settings(select Manually choose which visits to publish)
     And HS I go to the Naviance Settings to select the option "Manually choose which visits to publish. (If any)"
 #create Visit for Reschedule
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     Then HS I set the value for Reschedule the visit
 #create new visit
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
     Then HS I add the new time slot with "<Day>","<StartTimefornewVisit>","<EndTime>" and "<NumVisits>"
 #schedule Visit
     Then HE I am logged in to Intersect HE as user type "administrator"

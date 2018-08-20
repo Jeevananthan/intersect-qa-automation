@@ -690,6 +690,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         int SDate = Integer.parseInt(startDate);
         String StartDate = getSpecificDate(SDate,"MMMM d yyyy");
         setDate(StartDate, "Start");
+        clickUpdateButtonInRepVisits();
     }
 
     public void setStartDateAndEndDateInAgendaView(String numberOfDaysFromNowTillStartDate, String numberOfDaysFromNowTillEndDate) {
