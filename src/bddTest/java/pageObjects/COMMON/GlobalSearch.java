@@ -156,7 +156,7 @@ public class GlobalSearch extends SeleniumBase {
                 institutionsReturned = true;
                 List<WebElement> options = category.findElements(By.className("result"));
                 for (WebElement option : options) {
-                    if (option.findElement(By.className("title")).getText().toLowerCase().equals(optionToSelect.toLowerCase())) {
+                    if (option.findElement(By.className("title")).getText().toLowerCase().contains(optionToSelect.toLowerCase())) {
                         option.click();
                         institutionClickedOn = true;
                         waitUntilPageFinishLoading();

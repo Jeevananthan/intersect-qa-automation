@@ -1828,10 +1828,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
         catch (Exception e){
             try {
-                driver.findElement(By.cssSelector(dropdown)).click();
+                driver.findElement(By.id(dropdown)).click();
             }
             catch (Exception exp){
-                driver.findElement(By.id(dropdown)).click();
+                driver.findElement(By.cssSelector(dropdown)).click();
             }
         }
         driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();

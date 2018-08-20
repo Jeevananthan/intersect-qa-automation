@@ -75,17 +75,19 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
-        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
+        waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
         waitUntilPageFinishLoading();
-        link(By.cssSelector("[title='Counselor Community']")).click();
+        link(By.xpath("//li/a[@title='Counselor Community']")).click();
         Set<String> windows = driver.getWindowHandles();
-        for (String thisWindow : windows) {
-            if (!thisWindow.equals(navianceWindow)){
-                intersectWindow = thisWindow;
+        if(windows.size()>1){
+            for (String thisWindow : windows) {
+                if (!thisWindow.equals(navianceWindow)){
+                    intersectWindow = thisWindow;
+                }
             }
+            driver.close();
+            driver.switchTo().window(intersectWindow);
         }
-        driver.close();
-        driver.switchTo().window(intersectWindow);
         //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
         //Read more information here: https://stackoverflow.com/questions/6992993/selenium-c-sharp-webdriver-wait-until-element-is-present
         new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("app")));
@@ -287,7 +289,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + password + " as password");
         button("Login").click();
         logger.info("Clicked the login button");
-        waitUntilElementExists(link(By.id("user-dropdown")));
+        //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
+        //Read more information here: https://stackoverflow.com/questions/6992993/selenium-c-sharp-webdriver-wait-until-element-is-present
+        new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("user-dropdown")));
         waitUntilPageFinishLoading();
     }
 
