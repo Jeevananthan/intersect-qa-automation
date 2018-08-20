@@ -503,6 +503,19 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(), '"+text+"'")));
     }
 
+    public void deleteAllSavedSearches() {
+        if (driver.findElements(By.cssSelector(disabledSavedSearchesButtonLocator)).size() == 0) {
+            savedSearchesDropdown().click();
+            List<WebElement> deleteIconList = driver.findElements(By.cssSelector(savedSearchesListLocator + " + i"));
+            savedSearchesDropdown().click();
+            for (WebElement deleteIcon : deleteIconList) {
+                savedSearchesDropdown().click();
+                deleteIcon.click();
+                yesDeleteButton().click();
+            }
+        }
+    }
+
     // Locators Below
 
     private WebElement getDisableChosseOneDropdown(){return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
@@ -572,4 +585,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> allSaveSearchOptions(){ return driver.findElements(By.xpath("//div[@class='menu transition visible']/div[@role='option']"));}
     private String gpaTooltipIconInResultsLocator = "td.you-column button.supermatch-tooltip-trigger";
     private static WebElement superMatchCollegeSearchHeader() { return driver.findElement(By.xpath("//h1[text()='SuperMatch College Search']")); }
+    private WebElement yesDeleteButton() { return driver.findElement(By.cssSelector("div.actions button.ui.teal.basic.button:nth-of-type(1)")); }
+    private String disabledSavedSearchesButtonLocator = "div[aria-disabled='true']";
 }
