@@ -85,7 +85,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             logger.info("Login failed. Invalid user or password.");
         }else {
             waitUntilElementExists(link(By.id("user-dropdown")));
-            waitForUITransition();
         }
     }
 
