@@ -62,8 +62,42 @@ Feature: HE - Events - As a HE Intersect user with AM Events, I need the ability
     And HE I open the Create Filter dialog from the Event Audience field
     When HE I create a new filter based on the following details:
       #Location is expressed in 'miles;zip'. Example: 50 miles outside of the postal code 12345: 50;12345
-      | Location | 50 miles;12345 |
-      | Filter Name        | FilterTestYY498 |
+  | Location | 50 miles;12345 |
+  | Filter Name        | FilterTestYY498 |
     Then HE I verify that the filter of name "FilterTestYY498" is displayed by default in the Event Audience field
     And HE I open the "Filters" tab in the Events section
     And HE I delete the filter of name "FilterTestYY498"
+
+  @MATCH-3338
+  Scenario: As  a user click on Filter and view and verify which events are assigned to particular filter
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events section
+    And HE I open the "Filters" tab in the Events section
+    And HE I open the Create Filter screen
+    When HE I create a new filter based on the following details:
+      | Gender | Male |
+      | Location | 50 miles;12345 |
+      | Race and Ethnicity | White |
+      | Grade Level        | Freshman |
+      | GPA                | B     |
+      | Filter Name        | FilterMATCH3338  |
+    When HE I open the Events section
+    And HE I open the "Events" tab in the Events section
+    When HE I create and publish a new event "90" minutes ahead from now with the following details:
+      | Event Name |  EventForFilterMATCH3338  |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | Test              |
+      | Max Attendees | 30 |
+      | EVENT LOCATION BY POSITION | 1  |
+      | EVENT PRIMARY CONTACT BY POSITION | 1  |
+      | EVENT AUDIENCE        | FilterMATCH3338 |
+    When HE I open the Events section
+    And HE I open the "Filters" tab in the Events section
+    Then HE I verify that the filter of name "FilterMATCH3338" is assigned to "1" events
+    And HE I verify that the name of the Event is "EventForFilterMATCH3338" is assigned to filter "FilterMATCH3338"
+    And HE I delete the filter of name "FilterMATCH3338"
+    And HE I open the "Events" tab in the Events section
+    And HE I unpublish the event of name "EventForFilterMATCH3338"
+    And HE I delete the event of name "EventForFilterMATCH3338"
+
+
