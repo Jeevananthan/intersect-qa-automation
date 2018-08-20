@@ -100,4 +100,14 @@ Feature: HE - Events - As a HE Intersect user with AM Events, I need the ability
     And HE I unpublish the event of name "EventForFilterMATCH3338"
     And HE I delete the event of name "EventForFilterMATCH3338"
 
-
+  @MATCH-2898
+  Scenario: Calculate potential matches for Filter is greater than zero
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I open the Events section
+    And HE I open the "Filters" tab in the Events section
+    And HE I open the Create Filter screen
+    When HE I enter data to create a new filter based on the following details:
+      | Gender | Female |
+      #Location is expressed in 'miles;zip'. Example: 50 miles outside of the postal code 12345: 250;45040
+      | Location | 250 miles;45040|
+    And HE I verify Filter Summary value is greater than zero
