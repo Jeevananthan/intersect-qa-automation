@@ -2238,8 +2238,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyPasswordFields(String AccountInformationPage,String firstName,String lastName,String eMail,DataTable dataTable) {
         String details[] = AccountInformationPage.split(",");
         for(int i=0;i<details.length-1;i++) {
-            Assert.assertTrue(details[i] + " is not showing.", text(details[i]).isDisplayed());}
+            Assert.assertTrue(details[i] + " is not showing.",
+                    driver.findElement(By.xpath("//span[text()='"+details[i]+"']")).isDisplayed());}
         currentPasswordInput().sendKeys(Keys.PAGE_DOWN);
+
         List<String> list = dataTable.asList(String.class);
         for (String passwordCriteria : list) {
             Assert.assertTrue(passwordCriteria + " is not showing.",text(passwordCriteria).isDisplayed());
@@ -2348,6 +2350,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifySuccessMessageinAccountSettingsPage(String message){
         String SuccessMessage = driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
         Assert.assertTrue("Success message is not displayed",message.equals(SuccessMessage));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/sp")));
     }
 
     public void selectCalendar() {
@@ -3789,7 +3792,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private WebElement emailTextBox(){
-        WebElement text=driver.findElement(By.id("am_notification_contacts_additional_emails"));
+        WebElement text=driver.findElement(By.id("user-form-email"));
         return text;
     }
 
