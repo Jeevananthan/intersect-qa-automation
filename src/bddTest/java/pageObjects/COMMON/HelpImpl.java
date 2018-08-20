@@ -35,7 +35,11 @@ public class HelpImpl extends PageObjectFacadeImpl {
                 url = driver.getCurrentUrl();
                 driver.switchTo().window(windows.get(0));
                 waitForUITransition();
+                waitForUITransition();
+                driver.switchTo().window(windows.get(1));
+                url = driver.getCurrentUrl();
                 Assert.assertEquals("The Help link is not secure or is not the correct web address.","https://helpsite.hobsons.com/RepVisits/Content/Getting%20Started%20HS.htm", url);
+                driver.switchTo().window(windows.get(0));
                 break;
             case "HE Users":
                 driver.switchTo().window(windows.get(1));
@@ -49,13 +53,14 @@ public class HelpImpl extends PageObjectFacadeImpl {
                 break;
             case "SP Users":
                 getHelpLink().click();
+                waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
                 windows = new ArrayList<>(driver.getWindowHandles());
                 driver.switchTo().window(windows.get(1));
-                waitForUITransition();
+                waitUntilPageFinishLoading();
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div[class='navigation-wrapper']"), 1));
                 url = driver.getCurrentUrl();
                 driver.close();
                 driver.switchTo().window(windows.get(0));
-                waitForUITransition();
                 Assert.assertEquals("The Help link is not secure or is not the correct web address.", "https://helpsite.hobsons.com/Intersect/Content/Getting%20Started%20HE.htm", url);
                 break;
         }

@@ -6,12 +6,15 @@ Feature: SM - LinksToCollegeProfiles - As a SuperMatch tool, I need to update th
   Scenario: As a HS student I want to see the college's profile page after clicking the proper links
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
+    And SM I start the search over
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
-    Then SM I verify the College Profile page for "Bowdoin College" in the following sections:
+    #The following step is needed to avoid MATCH-4830
+    And SM I reload the page
+    Then SM I verify the College Profile page for "Bates College" in the following sections:
       | Search results         |
       | Why? drawer            |
       | Academic Match section |
@@ -20,11 +23,14 @@ Feature: SM - LinksToCollegeProfiles - As a SuperMatch tool, I need to update th
   Scenario:  As a HS student I want to see the college's profile Housing Information section after clicking the proper links
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
+    And SM I start the search over
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
+    #The following step is needed to avoid MATCH-4830
+    And SM I reload the page
     And SM I pin "Pomona College"
     And SM I open the Pinned Schools Compare screen
     Then SM I verify that the appropriate section in the college's profile is displayed after clicking the following links:

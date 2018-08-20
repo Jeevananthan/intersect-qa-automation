@@ -64,8 +64,20 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         saveFilterButton().click();
     }
 
-    public void verifyReqDataErrorMessages() {
-        /*code to verify error messages for missing data in the fields*/
+    public void verifyReqDataErrorMessages(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        for( List<String> row : details) {
+            switch (row.get(0)) {
+                case "Location" :
+                    Assert.assertTrue("The error message for Location is not correct",
+                            locationErrorMessage().getText().equals(row.get(1)));
+                    break;
+                case "Filter Name" :
+                    Assert.assertTrue("The error message for Filter Name is not correct",
+                            filterNameErrorMessage().getText().equals(row.get(1)));
+                    break;
+            }
+        }
     }
 
     public void deleteFilter(String filterName) {
@@ -88,6 +100,11 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The displayed number does not match the number of events the filter " + filterName + " is assigned to",
                 numberOfAssignedEvents(filterName).getText().equals(numberOfAssignedEvents));
     }
+    public void verifyAssignedEventName(String eventName, String filterName){
+        driver.navigate().refresh();
+        numberOfAssignedEvents(filterName).click();
+        Assert.assertTrue("The assigned event name do not match", eventsAssignedToFilter().getText().contains(eventName));
+    }
 
     //locators
     private WebElement genderCheckBox(String option) { return driver.findElement(By.cssSelector("input[value=\"" + option.toUpperCase() + "\"]")); }
@@ -109,4 +126,10 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private String deleteFilterDialogTitle = "Are you sure you want to delete this filter?";
     private WebElement deleteFilterDialogHeader() { return driver.findElement(By.cssSelector("div.ui.header span")); }
     private WebElement numberOfAssignedEvents(String filterName) { return driver.findElement(By.xpath("//strong[text()='" + filterName + "']/../../div/span/span[@role='button']")); }
+    private WebElement locationErrorMessage() { return driver.findElement(By.cssSelector("input#postalCode + div span")); }
+    private WebElement filterNameErrorMessage() { return driver.findElement(By.cssSelector("input#name + div span")); }
+  //  private WebElement eventsAssignedToFilter(String eventName) { return driver.findElement(By.xpath("//strong[text()='" + eventName + "']/../../div/span/span[@role='listitem']")); }
+    private WebElement eventsAssignedToFilter(){return driver.findElement(By.cssSelector(".ui.relaxed.list.NSL7sBgr5GF9KrxVqCXR8 a"));}
+
+
 }

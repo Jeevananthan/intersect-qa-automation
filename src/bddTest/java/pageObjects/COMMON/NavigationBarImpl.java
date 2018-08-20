@@ -4,31 +4,41 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 
 public class NavigationBarImpl extends SeleniumBase {
     private Logger logger;
     //Navigation controls
-    @FindBy(xpath = "//i[@class='sort tiny icon _1oGgpE4PWdo7s3TzYBzNk']|" +
-            "//span[contains(@class,'hidden-m')]/i[@class='sort tiny icon _3N6bahErAyB0Hx1zmV_fkt']")
+    //@FindBy(xpath = "//i[@class='sort tiny icon _1oGgpE4PWdo7s3TzYBzNk']|" +
+    //        "//span[contains(@class,'hidden-m')]/i[@class='sort tiny icon _3N6bahErAyB0Hx1zmV_fkt']")
+    @FindBy(xpath = "//a[@name='mainmenu']")
     private WebElement navigationDropDown;
 
     @FindBy(id="js-main-nav-home-menu-link")
     private  WebElement homeMenuLink;
 
+    @FindBy(id="js-main-nav-home-menu-link")
+    private  WebElement homeMenuLinkInHs;
+
     @FindBy(id="js-main-nav-counselor-community-menu-link")
     private WebElement counselorCommunityMenuLink;
 
     @FindBy(id="js-main-nav-naviance-college-profile-menu-link")
-    private WebElement navianceCollegeProfileMenuLink;
+    public WebElement navianceCollegeProfileMenuLink;
 
     @FindBy(id="js-main-nav-graphiql-menu-link")
     private WebElement graphiqlMenuLink;
@@ -66,7 +76,7 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="helpNav-dropdown")
     private WebElement helpDropdown;
 
-    @FindBy(css = "i[class='globe big icon _2Mks8yaXgkTI1rvaRYv4jn _2wmRB8Z7aYw_Hx80n2l5nS']")
+    @FindBy(css = "i[class='globe big icon WwLybVz7icbheav6VG-r5']")
     private WebElement notificationsDropdown;
 
     @FindBy(css = "div[class='menu transition visible']")
@@ -82,22 +92,34 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToHome() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
+        waitUntilElementExists(navigationDropDown);
         navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOf(homeMenuLink));
         homeMenuLink.click();
-        waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
+        waitUntilElementExists(selectedNavigationMenu);
         Assert.assertTrue("The Home menu was not selected",
-                selectedNavigationMenu.getAttribute("innerText").contains("Home"));
+                selectedNavigationMenu.getText().contains("Home"));
     }
 
     public void goToCommunity() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
+        waitForElementSetMaxTimeout();
+        waitUntilElementExists(navigationDropDown);
         navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOf(counselorCommunityMenuLink));
         counselorCommunityMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
-        Assert.assertTrue("The Counselor Community menu was not selected",
+        Assert.assertTrue("The Counselor Community menu was not selected: ",
+                selectedNavigationMenu.getAttribute("innerText").contains("Counselor Community"));
+    }
+
+    public void goToCommunityInHS() {
+        waitForElementSetMaxTimeout();
+        waitUntilElementExists(navigationDropDown);
+        navigationDropDown.sendKeys(Keys.ENTER);
+        waitUntil(ExpectedConditions.visibilityOf(homeMenuLinkInHs));
+        homeMenuLinkInHs.click();
+        waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
+        Assert.assertTrue("The Counselor Community menu was not selected: ",
                 selectedNavigationMenu.getAttribute("innerText").contains("Counselor Community"));
     }
 
@@ -112,10 +134,13 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToRepVisits() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
-        navigationDropDown.click();
-        waitUntil(ExpectedConditions.visibilityOf(repVisitsMenuLink));
-        repVisitsMenuLink.click();
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        FluentWait<WebDriver> wait = new WebDriverWait(driver, 5);
+        wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
+        waitUntilElementExists(navigationDropDown);
+        navigationDropDown.sendKeys(Keys.ENTER);
+        waitUntilElementExists(repVisitsMenuLink);
+        repVisitsMenuLink.sendKeys(Keys.ENTER);
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
 //        Assert.assertTrue("The RepVisits menu was not selected",
 //                selectedNavigationMenu.getAttribute("innerText").contains("RepVisits"));
@@ -300,4 +325,9 @@ public class NavigationBarImpl extends SeleniumBase {
         }}catch(Exception e){}
     }
 
+    //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
+    //Read more information here: https://imalittletester.com/2016/05/11/selenium-how-to-wait-for-an-element-to-be-displayed-not-displayed/
+    private void waitForElementSetMaxTimeout() {
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+    }
 }

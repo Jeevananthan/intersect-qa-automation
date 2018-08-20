@@ -1,6 +1,7 @@
 package stepDefinitions.HUBS;
 
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HUBS.StudentLifeEditPageImpl;
 import pageObjects.HUBS.StudentLifePageImpl;
@@ -24,6 +25,7 @@ public class StudentLifeStepDefs implements En{
         And("^HUBS I edit all the fields in Student Life based on the gathered values, with the following details:$", (DataTable stringsDataTable) -> {
             studentLifeEditPage.editAllFieldsBasedOnGatheredValues(stringsDataTable, originalValues);
         });
+
     }
 
 }
