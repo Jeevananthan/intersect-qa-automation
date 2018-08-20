@@ -684,9 +684,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
-        String EndDate = getSpecificDate(endDate);
+        int EDate = Integer.parseInt(endDate);
+        String EndDate = getSpecificDate(EDate,"MMMM d yyyy");
         setDate(EndDate, "End");
-        String StartDate = getSpecificDate(startDate);
+        int SDate = Integer.parseInt(startDate);
+        String StartDate = getSpecificDate(SDate,"MMMM d yyyy");
         setDate(StartDate, "Start");
     }
 
