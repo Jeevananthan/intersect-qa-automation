@@ -903,6 +903,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+    public void sendTextToZipCOdeField(String text) {
+
+        zipCodeTextBox().sendKeys(text);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+    }
 
     public void verifyCheckboxState(String checkBox, String expectedState, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
@@ -1828,10 +1833,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
         catch (Exception e){
             try {
-                driver.findElement(By.cssSelector(dropdown)).click();
+                driver.findElement(By.id(dropdown)).click();
             }
             catch (Exception exp){
-                driver.findElement(By.id(dropdown)).click();
+                driver.findElement(By.cssSelector(dropdown)).click();
             }
         }
         driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();
