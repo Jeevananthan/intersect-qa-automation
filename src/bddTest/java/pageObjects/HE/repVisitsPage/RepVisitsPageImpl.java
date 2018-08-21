@@ -1792,6 +1792,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(parts[1].startsWith("0")) {
             parts[1]=parts[1].replace("0","");
+            clickOnDay(parts[1]);
         }else if(startOrEndDate.equals("DisabledDate")) {
             clickDisabledDate(parts[1]);
         }else {
