@@ -103,7 +103,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
 
   @MATCH-2485
   Scenario: Issue: For HE users viewing their travel plan, the "see details" link for college fairs
-  opens the HS in the visits view.
+  opens the HS in the visits view.ass
     Given SP I am logged in to the Admin page as an Admin user
     When SP I search for "2400006"
     And SP I select "The University of Alabama" from the global search results
@@ -138,19 +138,14 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
   @MATCH-2238
   Scenario: Verify Overview page when HE user DOES NOT have Intersect subscription activated
     Given SP I am logged in to the Admin page as an Admin user
-    Then SP I select "The University of Alabama" from the institution dashboard
+    Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button
     Then SP I successfully sign out
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I navigate to the "Overview" page in RepVisits
     Then HE I verify the Repvisits Overview Upgrade Subscription page
     Then HE I successfully sign out
-    Given SP I am logged in to the Admin page as an Admin user
-    Then SP I select "The University of Alabama" from the institution dashboard
-    And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
-    And SP I Click the Save Changes button
-    Then SP I successfully sign out
     
     @MATCH-1604
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
