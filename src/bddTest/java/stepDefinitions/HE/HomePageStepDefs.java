@@ -73,5 +73,9 @@ public class HomePageStepDefs implements En {
         Then("^HE I verify the navigation globe is displayed for this user$",navigationBar::verifyNotificationIconInHomePage);
 
         And("^HE I click the navigation globe for viewing the recent notifications$",navigationBar::clickNotificationsDropdown);
+
+        Then("^HE I verify that the text in the button for \"([^\"]*)\" is \"([^\"]*)\"$", homePage::verifyTextInButtonFromModule);
+
+        Then("^HE I verify that \"([^\"]*)\" is opened from the \"([^\"]*)\" module$", homePage::verifyScreenIsOpenFromModule);
     }
 }

@@ -67,4 +67,141 @@ Feature: SM - Feature - As a HS student, I need to be able to search for college
       | Women               |
       | Men                 |
 
+  @MATCH-4242
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual Specific Representation for the college so I can clearly see
+  what matched/did not match/partially matched my search/fit criteria requirements
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Admission" filter criteria tab
+    And SM I clean GPA/SAT/ACT scores
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Bennett College" if it is not pinned already
+    And SM I clear all pills from Must have  and Nice to have boxes
+    When SM I select the "Specific Representation" from the "Diversity" fit criteria not closing the tab
+    Then SM I pick "50%" from the dropdown "supermatch-diversity-dropdown"
+    Then SM I pick "Native Hawaiian or other Pacific Islander" from the dropdown "race"
+    Then SM I press Why button for "Bennett College" college
+    Then I check if I can see "0% are Native Hawaiian or other Pacific Islander students" on the page
+    Then SM I press Why button for "Pacific Islands University" college
+    Then I check if I can see "At least 50% Native Hawaiian or other Pacific Islander" on the page
+    Then I check if I can see "83% are Native Hawaiian or other Pacific Islander students" on the page
+    Then SM I press Why button for "University of Guam" college
+    Then I check if I can see "48% are Native Hawaiian or other Pacific Islander students" on the page
 
+  @MATCH-4242
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual Religious Affiliation for the college so I can clearly see
+  what matched/did not match/partially matched my search/fit criteria requirements
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Admission" filter criteria tab
+    And SM I clean GPA/SAT/ACT scores
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Bennett College" if it is not pinned already
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I click "Diversity" filter criteria tab
+    Then SM I pick "Roman Catholic" from the dropdown ".sm-filter-search-dropdown.multiple"
+    And HS I Click on close button
+    Then SM I press Why button for "Bennett College" college
+    Then I check if I can see "Religious Affiliation" on the page
+    Then SM I press Why button for the first college in results with score 100%
+    Then I check if I can see "Religious Affiliation" on the page
+
+
+  @MATCH-4242
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual Religious Affiliation for the college so I can clearly see
+  what matched/did not match matched my search/fit criteria requirements
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I click "Admission" filter criteria tab
+    And SM I clean GPA/SAT/ACT scores
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Bennett College" if it is not pinned already
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I select the "Men's College" checkbox from "Diversity" fit criteria
+    Then SM I press Why button for "Bennett College" college
+    Then I check if I can see "Gender Concentration" on the page
+    Then SM I press Why button for the first college in results with score 100%
+    Then I check if I can see "Gender Concentration " on the page
+
+  @MATCH-4242
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual International Students for the college so I can clearly see
+  what matched/did not match/partially matched my search/fit criteria requirements
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I click "Admission" filter criteria tab
+    And SM I clean GPA/SAT/ACT scores
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Bennett College" if it is not pinned already
+    When SM I select the "High International Population" from the "Diversity" fit criteria not closing the tab
+    And HS I Click on close button
+    Then SM I press Why button for "Bennett College" college
+    Then I check if I can see "High International Population" on the page
+    Then I check if I can see "1% are international students" on the page
+    Then SM I press Why button for "Oakwood University" college
+    Then I check if I can see "High International Population" on the page
+    Then I check if I can see "5% are international students" on the page
+
+
+  @MATCH-4242
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual %Make vs. Female for the college so I can clearly see
+  what matched/did not match/partially matched my search/fit criteria requirements
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I click "Admission" filter criteria tab
+    And SM I clean GPA/SAT/ACT scores
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Bennett College" if it is not pinned already
+    Then SM I remove the "Historically Black Institutions" fit criteria from the Must Have box or Nice to Have box
+    Then SM I click "Diversity" filter criteria tab
+    And SM I pick "70%" from the dropdown "male-female-percent-dropdown"
+    And SM I pick "Male" from the dropdown "male-female-gender-dropdown"
+    And HS I Click on close button
+    Then SM I press Why button for "Bennett College" college
+    Then I check if I can see "At least 70% are Male" on the page
+    Then I check if I can see "1% are male students" on the page
+    Then SM I press Why button for "Florida Institute of Technology" college
+    Then I check if I can see "At least 70% are Male" on the page
+    Then I check if I can see "71% are male students" on the page
+
+  @MATCH-4242
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual out of States Students for the college so I can clearly see
+  what matched/did not match/partially matched my search/fit criteria requirements
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I click "Admission" filter criteria tab
+    And SM I clean GPA/SAT/ACT scores
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Bennett College" if it is not pinned already
+    And SM I unselect the "Privat" checkbox from the "Institution Characteristics" fit criteria
+    And SM I unselect the "4-year" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I click "Diversity" filter criteria tab
+    And SM I pick "50%" from the dropdown "OutOfStateStudents-dropdown"
+    Then SM I press Why button for "Bennett College" college
+    Then I check if I can see "Out of State Students ≥ 50%" on the page
+    Then I check if I can see "42% are out-of-state students" on the page
+    Then SM I press Why button for "Delaware State University" college
+    Then I check if I can see "Out of State Students ≥ 50%" on the page
+    Then I check if I can see "63% are out-of-state students" on the page
+  #TODO: add a scenario for Overall Diversity' once MATCH-4939 and MATCH-4938 are fixed

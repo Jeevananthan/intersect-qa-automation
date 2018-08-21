@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.HelpImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
+import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import utilities.GetProperties;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public HomePageImpl() {
         logger = Logger.getLogger(HomePageImpl.class);
     }
+
+    private NavianceCollegeProfilePageImpl navianceCollegeProfilePage = new NavianceCollegeProfilePageImpl();
 
     public void verifyUserIsLoggedIn() {
         //Check if user element is present
@@ -281,8 +284,16 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         eventsTab().click();
     }
 
+    public void verifyTextInButtonFromModule(String moduleName, String buttonText) {
+        Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
+    }
 
-
+    public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
+        moduleButton(moduleName).click();
+        String expectedURL = GetProperties.get("he.app.url") + expectedUrl;
+        String actualURL = driver.getCurrentUrl();
+        Assert.assertEquals(actualURL, expectedURL);
+    }
 
     //locators
     private WebElement userDropdown() {
@@ -307,4 +318,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     private String loginButtonLocator = "button.ui.primary.button";
+
+    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
 }
