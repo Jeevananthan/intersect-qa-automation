@@ -108,6 +108,13 @@ public class FCCollegeEventsPage {
         return  driver.findElement(By.cssSelector("div.fc-tooltip.fc-tooltip--right.fc-tooltip--event-message"));
 
     }
+    public static WebElement signupForEvent(String eventName){
+        return driver.findElement((By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']")));
+    }
+    public  static WebElement registerEvent(){
+        return  driver.findElement(By.cssSelector("button.fc-button.fc-button--primary"));
+
+    }
 }
 
 

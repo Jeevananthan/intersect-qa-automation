@@ -518,12 +518,46 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         attendeeStatusBarStudent(eventName).click();
         verifyNoAttendeesMessage();
+
+
+    }
+
+    public void VerifyAttendeeData(DataTable attendeeData) {
+        driver.navigate().refresh();
+        driver.navigate().refresh();
+
+        waitUntilPageFinishLoading();
+
+        List<List<String>> attendeeDataDetails = attendeeData.asLists(String.class);
+        getTab("ATTENDEES").click();
+        VerifyDataForAttendees(attendeeDataDetails);
+         }
+
+    private void VerifyDataForAttendees(List<List<String>> data){
+            for (List<String> row : data) {
+            switch (row.get(0)) {
+                case "AttendeeFirstName":
+                    Assert.assertTrue("Attendee First Name is missinng",attendeeDataFirstName(row.get(1)).getText().contains(row.get(1)));
+                    break;
+                case "AttendeeLastName":
+                    Assert.assertTrue("Attendee Last Name is missinng",attendeeDataLastName(row.get(1)).getText().contains(row.get(1)));
+                    break;
+                case "AttendeeEmail":
+                    Assert.assertTrue("Attendee Email is missinng",attendeeDataEmail(row.get(1)).getText().contains(row.get(1)));
+                    break;
+                case "AttendeeStatus":
+                    Assert.assertTrue("Attendee Registered Status is missinng",attendeeDataStatus(row.get(1)).getText().contains(row.get(1)));
+                    break;
+                    }
+        }
+
     }
 
     private void verifyNoAttendeesMessage() {
         Assert.assertTrue("The message for no attendees in the event is not displayed", noAttendeesMessage().
                 getText().equals(noAttendeesMessageString));
     }
+
 
     public void verifyAttendeesFromEditMenu(String eventName) {
         menuButtonForEvent(eventName).click();
@@ -682,4 +716,10 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement eventAudienceTextBox() { return driver.findElement(By.cssSelector("input[name = 'filters-dropdown']")); }
     private WebElement mainEventsTitle() { return driver.findElement(By.cssSelector("a div div.hidden-mobile")); }
     private WebElement eventLinkByPosition(int position) { return driver.findElement(By.cssSelector("div[class *= 'ui stackable middle aligned grid'] div[class *= 'row']:nth-of-type(" + position + ") a:not(.ui)")); }
+    private WebElement attendeeDataFirstName(String firstName){return  driver.findElement(By.xpath("//Div[text()='" + firstName + "']"));}
+   // private WebElement attendeeDataFirstName(String firstName){return driver.findElement(By.cssSelector("div._3xgrllu8DG-OcR4kpSPd3A"));}
+    private WebElement attendeeDataLastName(String lastName){return  driver.findElement(By.xpath("//Div[text()='" + lastName + "']"));}
+    private WebElement attendeeDataEmail(String Email){return driver.findElement(By.xpath("//Div[text()='" + Email + "']"));}
+    private WebElement attendeeDataStatus(String Status){return driver.findElement(By.xpath("//Div[text()='" + Status + "']"));}
+
 }
