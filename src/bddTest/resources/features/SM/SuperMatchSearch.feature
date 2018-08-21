@@ -178,7 +178,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select the "$5,000" option from the "Maximum Tuition and Fees" dropdown in Cost
     #The following step is needed to avoid MATCH-4830
     And SM I reload the page
-    Then SM I verify that "SABER College" displays "$0" in the Cost column
+    Then SM I verify that "Sistema Universitario Ana G Mendez" displays "$0" in the Cost column
 
   @MATCH-4276
   Scenario: As a HS student, I want to see specific footnotes when SuperMatch does not know my GPA and does not know my test scores
