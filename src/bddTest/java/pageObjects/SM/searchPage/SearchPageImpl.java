@@ -1275,7 +1275,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     }
                 } catch (WebDriverException e) {
                     waitUntilPageFinishLoading();
-                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    if (e.getMessage().contains("supermatch-footer")) {
+                        whyDrawerButton(collegeName).sendKeys(Keys.ARROW_DOWN);
+                    } else {
+                        whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    }
                     waitUntilPageFinishLoading();
                     elementNotFound = true;
                 }
@@ -1285,6 +1289,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openPinnedCompareSchools() {
+        waitUntilPageFinishLoading();
         pinnedFooterOption().click();
         comparePinnedCollegesLink().click();
     }
