@@ -1558,7 +1558,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String gotoDate;
         String visitDate;
         if (startDate.length() < 3) {
-            gotoDate = getSpecificDate(startDate);
+            int date = Integer.parseInt(startDate);
+            gotoDate = getSpecificDate(date,"MMMM d yyyy");
             visitDate = getMonthandDate(startDate);
         }
         else {
@@ -1628,6 +1629,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    public String getSpecificDate(int addDays, String format) {
+        String DATE_FORMAT_NOW = "MMMM d, yyyy";
+
+        if(format != null)
+            DATE_FORMAT_NOW = format;
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
     public void verifySchedulePopup(String school,String startTime,String endTime){
         waitUntilPageFinishLoading();
         startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
@@ -1635,11 +1649,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
         Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
         visitRequestButton().click();
-        waitUntilPageFinishLoading();
-        waitUntilElementExists(goToDate());
-        navigationBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Go To Date']"),1));
     }
 
 
@@ -2448,7 +2458,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void removeAppointmentfromCalendar(){
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Cancel This Visit']"),1));
         Assert.assertTrue("Cancel This Visit is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).isDisplayed());
         driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).click();
         waitForUITransition();
