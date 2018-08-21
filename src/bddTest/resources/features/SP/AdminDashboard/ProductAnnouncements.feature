@@ -45,11 +45,11 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     And SP I edit the product announcement "AutomationEdited2" with title "AutomationEdited2" content "ContentEdited2" audience "" and status "Unpublished"
     And SP I successfully sign out
 
-  @MATCH-3904
+  @MATCH-3904 @MATCH-3007
   Scenario: As a super admin and admin role in the Support app of Intersect,
-  I want the ability to have a location within the support app that allows me to create Intersect in-product notifications,
-  So that when there are any important notifications (e.g. maintenance, product survey's, release notifications, etc.) related to the Intersect product line,
-  I have the ability to directly notify users within the application and manage such from the Support app.
+            I want the ability to have a location within the support app that allows me to create Intersect in-product notifications,
+            So that when there are any important notifications (e.g. maintenance, product survey's, release notifications, etc.) related to the Intersect product line,
+            I have the ability to directly notify users within the application and manage such from the Support app.
 #Verify admin dashboard is displayed
 # MATCH-3007
     Given SP I am logged in to the Admin page as a Super Admin user
@@ -77,9 +77,9 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     And SP I successfully sign out
     
   @MATCH-4138
-  Scenario: As a super admin and admin role in the Support app of Intersect,
-  I want the ability to add and see current published/unpublished Intersect in-product notifications in the support app,
-  So that management is centralized for me at the Admin Dashboard in the support app.
+  Scenario: As a super admin and admin role in the Support app of Intersect
+            I want the ability to add and see current published/unpublished Intersect in-product notifications in the support app,
+            So that management is centralized for me at the Admin Dashboard in the support app.
     Given SP I am logged in to the Admin page as an Admin user
     And SP I un-publish all the published announcements
     #create announcement with title
