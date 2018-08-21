@@ -288,12 +288,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
     }
 
-    public void verifyScreenIsOpenFromModule(String expectedPage, String moduleName) {
+    public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
         moduleButton(moduleName).click();
-        switch (expectedPage) {
-            case "Introduction College Profile" :
-                Assert.assertTrue("The page " + expectedPage + " is not displayed", navianceCollegeProfilePage.getStartedButton().isDisplayed());
-        }
+        String expectedURL = GetProperties.get("he.app.url") + expectedUrl;
+        String actualURL = driver.getCurrentUrl();
+        Assert.assertEquals(actualURL, expectedURL);
     }
 
     //locators

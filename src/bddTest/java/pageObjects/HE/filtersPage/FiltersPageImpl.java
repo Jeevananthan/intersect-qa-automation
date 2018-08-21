@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.List;
@@ -17,6 +16,25 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
 
     public FiltersPageImpl() {
         logger = Logger.getLogger(FiltersPageImpl.class);
+    }
+
+    public  void summaryFilter(DataTable summaryFilterData){
+        List<List<String>> filterData = summaryFilterData.asLists(String.class);
+        for (List<String> filterDataElement : filterData) {
+            switch (filterDataElement.get(0)) {
+                case "Gender" : genderCheckBox(filterDataElement.get(1)).click();
+                    break;
+                case "Location" :
+                    locationMilesDropdown().click();
+                    getDropdownOption(filterDataElement.get(1).split(";")[0]).click();
+                    locationPostalCodeField().sendKeys(filterDataElement.get(1).split(";")[1]);
+                    break;
+            }}}
+
+    public void recommendedCount(){
+        waitUntilPageFinishLoading();
+        Assert.assertTrue(" Filter Summary count is Zero",Integer.parseInt(countNotZero().getText())>0);
+
     }
 
     public void createFilter(DataTable newFilterData) {
@@ -100,6 +118,11 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The displayed number does not match the number of events the filter " + filterName + " is assigned to",
                 numberOfAssignedEvents(filterName).getText().equals(numberOfAssignedEvents));
     }
+    public void verifyAssignedEventName(String eventName, String filterName){
+        driver.navigate().refresh();
+        numberOfAssignedEvents(filterName).click();
+        Assert.assertTrue("The assigned event name do not match", eventsAssignedToFilter().getText().contains(eventName));
+    }
 
     //locators
     private WebElement genderCheckBox(String option) { return driver.findElement(By.cssSelector("input[value=\"" + option.toUpperCase() + "\"]")); }
@@ -123,4 +146,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement numberOfAssignedEvents(String filterName) { return driver.findElement(By.xpath("//strong[text()='" + filterName + "']/../../div/span/span[@role='button']")); }
     private WebElement locationErrorMessage() { return driver.findElement(By.cssSelector("input#postalCode + div span")); }
     private WebElement filterNameErrorMessage() { return driver.findElement(By.cssSelector("input#name + div span")); }
+  //  private WebElement eventsAssignedToFilter(String eventName) { return driver.findElement(By.xpath("//strong[text()='" + eventName + "']/../../div/span/span[@role='listitem']")); }
+    private WebElement eventsAssignedToFilter(){return driver.findElement(By.cssSelector(".ui.relaxed.list.NSL7sBgr5GF9KrxVqCXR8 a"));}
+    private WebElement countNotZero(){return  driver.findElement(By.cssSelector("div._1v0QZJyY25uE_4FnAGv9hk"));}
 }

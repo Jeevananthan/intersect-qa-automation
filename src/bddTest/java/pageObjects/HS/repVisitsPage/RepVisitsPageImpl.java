@@ -5,24 +5,18 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.junit.internal.runners.statements.Fail;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.Keys;
 import pageObjects.COMMON.PageObjectFacadeImpl;
-import pageObjects.HS.loginPage.LoginPageImpl;
 
-import java.security.Key;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -31,26 +25,22 @@ import java.text.DateFormat;
 import utilities.GetProperties;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import java.util.Calendar;
+
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.Map;
 
 import static junit.framework.TestCase.fail;
-import static junit.framework.TestCase.fail;
 import static org.junit.Assert.*;
 
 import utilities.File.CsvFileUtility;
 
 import utilities.File.FileManager;
-import cucumber.api.java.cs.A;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -326,7 +316,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
+//        addTimeSlot().click();
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='availability']")));
         if(driver.findElements(By.xpath("//div[@class='ui small modal transition visible active']")).size()>0){
             selectOptionInReviewPreviouslyDeletedTimeSlotsModal
                     ("Add time slot to regular hours, and create for the dates above");
@@ -630,6 +622,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilityAndSettings().click();
         messageOptions().click();
         waitUntilPageFinishLoading();
+        waitUntilElementExists(updateMessagingButton());
 
         Assert.assertTrue("Confirmation Message header is not showing", text("Confirmation Message").isDisplayed());
         Assert.assertTrue("Special Instruction for RepVisits header is not showing", text("Special Instruction for RepVisits").isDisplayed());
@@ -681,9 +674,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
-        String EndDate = getSpecificDate(endDate);
+        int EDate = Integer.parseInt(endDate);
+        String EndDate = getSpecificDate(EDate,"MMMM d yyyy");
         setDate(EndDate, "End");
-        String StartDate = getSpecificDate(startDate);
+        int SDate = Integer.parseInt(startDate);
+        String StartDate = getSpecificDate(SDate,"MMMM d yyyy");
         setDate(StartDate, "Start");
     }
 
@@ -2061,8 +2056,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void goToWelcomeWizard(){
+        waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
         load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
+        waitUntilElementExists( driver.findElement(By.cssSelector("button[class='ui primary button']")));
        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
     }
     public void navigateToRepvisitWizard(String wizardName){
@@ -2964,8 +2962,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         logger.info("Creating a Job Fair under RepVisits.");
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
+        waitUntilElementExists(collegeFairs());
         collegeFairs().click();
-        availabilityAndSettings();
         waitUntilPageFinishLoading();
 
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -5170,10 +5168,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public boolean findUpcommingEvents(String collegeFairName, String rsvpDeadLine) {
         String eventsData;
         String eventsRsvp;
+        Boolean verifyElement = false;
         String rsvpConverted = dateConverter(rsvpDeadLine);
-        while (viewMoreUpcomingEventsLink().isDisplayed()) {
-            viewMoreUpcomingEventsLink().click();
-            waitUntilPageFinishLoading();
+        try {
+              verifyElement = driver.findElement(By.xpath("//*[contains(text(), 'View More Upcoming Events']/..')]")).isDisplayed();
+        }catch(NoSuchElementException e){
+             verifyElement  = false;
+        }
+
+        if(verifyElement)
+        {
+            while (viewMoreUpcomingEventsLink().isDisplayed()) {
+                viewMoreUpcomingEventsLink().click();
+                waitUntilPageFinishLoading();
+            }
         }
         List<WebElement> upcomingEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(1)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
         int listSize = upcomingEvents.size();
@@ -5183,7 +5191,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             if (events.getText().contains(collegeFairName)){
                 for (WebElement eventRsvp : upcomingEvents.subList(count + 2, listSize)) {
                     eventsRsvp = eventRsvp.getText();
-                    if (eventRsvp.getText().contains(rsvpConverted))
+                    if (eventRsvp.getText().contains(rsvpDeadLine))
                         return true;
 
                 }
@@ -5216,22 +5224,32 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         collegeFairs().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        while (viewMoreUpcomingEventsLink().isDisplayed()) {
-            viewMoreUpcomingEventsLink().click();
-            waitUntilPageFinishLoading();
-            waitForUITransition();
+        boolean verifyElement = false;
+
+        try {
+            verifyElement = driver.findElement(By.xpath("//*[contains(text(), 'View More Upcoming Events']/..')]")).isDisplayed();
+        }catch(NoSuchElementException e){
+            verifyElement  = false;
         }
 
-        List<WebElement> pastEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(1)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
-        int listSize = pastEvents.size();
+        if(verifyElement) {
+            while (viewMoreUpcomingEventsLink().isDisplayed()) {
+                viewMoreUpcomingEventsLink().click();
+                waitUntilPageFinishLoading();
+                waitForUITransition();
+            }
+        }
+        List<WebElement> upcommingEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(1)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td"));
+        int listSize = upcommingEvents.size();
         int count = 0;
-        for (WebElement events : pastEvents) {
+        for (WebElement events : upcommingEvents) {
             if (events.getText().contains(FairName)){
-                for (WebElement eventRsvp : pastEvents.subList(count + 4, listSize)) {
+                for (WebElement eventRsvp : upcommingEvents.subList(count + 5, listSize)) {
                     waitUntilPageFinishLoading();
 
                     //Click on View Details link
-                    eventRsvp.click();
+                    viewDetailLink().click();
+//                    eventRsvp.click(); changed because Span was added to the HTML code.
                     clickOnEditFair();
                     cancelCollegeFair(FairName);
                     clickOnClose();
@@ -5266,16 +5284,36 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public Boolean findPastEvents(String collegeFairName) {
         String eventsData;
         String eventsRsvp;
-        while (viewMorePastEventsLink().isDisplayed()) {
-            viewMorePastEventsLink().click();
-            waitUntilPageFinishLoading();
+        boolean verifyElement = false;
+
+
+        boolean verifyLink = false;
+
+        try {
+            verifyLink = driver.findElement(By.xpath("//*[contains(text(), 'View More Past Events']/..')]")).isDisplayed();
+        }catch(NoSuchElementException e){
+            verifyLink  = false;
+        }
+
+        if(verifyLink) {
+            while (viewMorePastEventsLink().isDisplayed()) {
+
+                viewMorePastEventsLink().click();
+                waitUntilPageFinishLoading();
+
+                try {
+                    viewMorePastEventsLink().isDisplayed();
+                } catch (NoSuchElementException e) {
+                    break;
+                }
+            }
         }
         List<WebElement> pastEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(2)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
         int listSize = pastEvents.size();
         int count = 0;
         for (WebElement events : pastEvents) {
             eventsData = events.getText();
-            if (events.getText().contains(collegeFairName)){
+            if (events.getText().contains(FairName)){
                 for (WebElement eventRsvp : pastEvents.subList(count + 2, listSize)) {
                     eventsRsvp = eventRsvp.getText();
                     if (eventRsvp.getText().contains("Canceled"))
@@ -7840,6 +7878,14 @@ public void cancelRgisteredCollegeFair(String fairName){
     private List<WebElement> listOfEventsDisplayedInAgendaView() {
         waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//td[@class='rbc-agenda-event-cell']")));
         return driver.findElements(By.xpath("//td[@class='rbc-agenda-event-cell']"));
+    }
+
+    private WebElement updateMessagingButton() {
+        return driver.findElement(By.xpath("//button[@class='ui primary button']"));
+    }
+
+    private WebElement viewDetailLink() {
+        return driver.findElement(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(1)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td:nth-child(6)>a>span"));
     }
 
 }
