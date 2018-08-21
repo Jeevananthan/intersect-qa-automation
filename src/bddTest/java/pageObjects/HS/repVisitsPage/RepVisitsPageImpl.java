@@ -1406,7 +1406,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         collegeFairs().click();
         waitUntilPageFinishLoading();
-        while (viewMoreUpcomingEventsLink().isDisplayed()){
+        while (driver.findElements(By.xpath("//span[text()='View More Upcoming Events']/..")).size()>0){
             viewMoreUpcomingEventsLink().click();
             waitUntilPageFinishLoading();
         }

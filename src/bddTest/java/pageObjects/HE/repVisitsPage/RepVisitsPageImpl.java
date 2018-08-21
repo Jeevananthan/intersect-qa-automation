@@ -1791,6 +1791,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(parts[1].startsWith("0")) {
             parts[1]=parts[1].replace("0","");
+            clickOnDay(parts[1]);
         }else if(startOrEndDate.equals("DisabledDate")) {
             clickDisabledDate(parts[1]);
         }else {
@@ -1904,9 +1905,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         try{
             Assert.assertTrue("Instruction is not displayed",driver.findElement(By.xpath("//span[text()='The Travel Plan lists high schools you plan to visit or will be visiting. You can add additional schools by selecting \"Add to my travel plan\" from the ']")).isDisplayed());
-            Assert.assertTrue("Recommendations link is not displayed",link("Recommendations").isDisplayed());
-            link("Recommendations").click();
-            waitUntilPageFinishLoading();
+            Assert.assertTrue("Recommendations link is not displayed",driver.findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Recommendations']")).isDisplayed());
+            navigateToRepVisitsSection("Recommendations");
             Assert.assertTrue("Navigated to Recommendations Page",driver.findElement(By.xpath("//div/h1/span[text()='Recommendations']")).isDisplayed());
         }catch(Exception e){
             throw new AssertionFailedError("The label for the 'Recommendation' is not displayed in the 'Travel Plan' tab");
@@ -1914,9 +1914,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifysortingStatesInTravelPlan(){
-        link("Travel Plan").click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        navigateToRepVisitsSection("Travel Plan");
         List<WebElement> elements = driver.findElements(By.xpath("//div[@class='ui stackable grid f4StyMpAtcTrzK5AccX8f']/div[1]/div/span"));
         List<String> original = new ArrayList<>();
         for(WebElement element:elements){
@@ -1955,13 +1953,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFairDetailsInTravelPlan(String school,String date){
-        navigationBar.goToCommunity();
-        waitUntilPageFinishLoading();
-        navigationBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        link("Travel Plan").click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        navigateToRepVisitsSection("Travel Plan");
         String fairDate = getSpecificDateforTravelPlan(date);
         WebElement fairDetails = driver.findElement(By.xpath("//div[text()='"+school+"']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']//div[@class='content _1SfpP2fklL5GVWMyfqjq4q']//button/span/span[text()='College Fair,']/parent::span/following-sibling::span[text()='"+fairDate+"']"));
         Assert.assertTrue("FairDetails is not displayed",fairDetails.isDisplayed());
@@ -3208,7 +3200,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 break;
         }
         buttonGoBack().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a/span[text()='Calendar']"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum _3GCGVUzheyMFBFnbzJUu6J']/span[text()='Calendar']"),1));
     }
 
     public void verifyDisappearingErrorMessageInReAssignAppointments(String disappearingErrorMessage,String errorMessage,String staff){
