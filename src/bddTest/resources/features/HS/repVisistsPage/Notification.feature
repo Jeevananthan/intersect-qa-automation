@@ -273,6 +273,10 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
     Then HS I verify the Notification is "not displaying" in the Naviance Sync Tab for the following details "<University>","<heTime>","<Date>"
 #Remove the time slot in Regular Weekly Hours Tab
     Then HS I remove the Time Slot created with "<StartDate>","<heStartTime>" in Regular Weekly Hours Tab
+#Remove the appointment from Calendar
+    And HS I select calendar in RepVisits
+    Then HS I verify the calendar page using "<University>","<heCalendarTime>","<Date>","ReScheduled"
+    Then HS I remove the appointment from the calendar
 
 #Rescheduling an appointment that has not been pushed to Naviance
 #verify settings(select Manually choose which visits to publish)
@@ -300,6 +304,10 @@ Feature: As an HS user, I want to be able to access the features of RepVisits-No
     Then HS I verify the Rescheduled Notification is "displaying" in the Naviance Sync Tab for an appointment that has not been pushed to Naviance using "<University>","<StartTimefornewVisit>","<Date>"
 #Remove the time slot in Regular Weekly Hours Tab
     Then HS I remove the Time Slot created with "<StartDate>","<StartTimefornewVisit>" in Regular Weekly Hours Tab
+#Remove the appointment from Calendar
+    And HS I select calendar in RepVisits
+    Then HS I verify the calendar page using "<University>","<heCalendarTime>","<Date>","ReScheduled"
+    Then HS I remove the appointment from the calendar
 
     Examples:
       |StartTime|EndTime |NumVisits|Option                            |hsEndTime|School                   |University                |heStartTime   |heTime   |Day|Date|StartDate|EndDate|StartTimefornewVisit|User     |reason   |heTimefornewVisit|heCalendarTime|

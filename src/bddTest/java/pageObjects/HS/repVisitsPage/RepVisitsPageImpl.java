@@ -783,6 +783,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void selectCalendar() {
+        navigationBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntilPageFinishLoading();
+    }
+
     public void verifyAvaliabilityDates(String startDate, String endDate, String day) {
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
@@ -5172,8 +5179,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("date and time is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='rescheduled']/parent::div[text()='a Visit']/../../following-sibling::div/div/div/b[text()='"+institution+"']/../following-sibling::div/span[contains(text(),'"+day+", "+date+" at "+time+"')]")).isDisplayed());
     }
 
-    public void verifyCalendarPage(String university,String time,String date) {
-        String startTime=getVisitStartTimeInCalendar();
+    public void verifyCalendarPage(String university,String time,String date,String option) {
+        String startTime = "";
+        if(option.equals("Scheduled")) {
+             startTime = getVisitStartTimeInCalendar();
+        }else if(option.equals("ReScheduled")){
+             startTime = getRescheduledVisitStartTimeInCalendar();
+        }
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
@@ -5197,6 +5209,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("time is not displayed", driver.findElement(By.xpath("//span[text()='" + university + "']/preceding-sibling::span[text()='" + startTime + "']")).isDisplayed());
         driver.findElement(By.xpath("//span[text()='" + university + "']/preceding-sibling::span[text()='" + startTime + "']")).click();
         waitUntilPageFinishLoading();
+    }
+
+    public void removeAppointmentfromCalendar(){
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Cancel This Visit']"),1));
+        Assert.assertTrue("Cancel This Visit is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).isDisplayed());
+        driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("repVisit-cancelation-message"),1));
+        driver.findElement(By.id("repVisit-cancelation-message")).click();
+        driver.findElement(By.id("repVisit-cancelation-message")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.id("repVisit-cancelation-message")).sendKeys("by QA");
+        button("Yes, Cancel Visit").click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
     public void verifyCancelOrReSchedule(String option,String user,String time,String institution,String date,String startTime) {
@@ -7750,6 +7775,11 @@ public void cancelRgisteredCollegeFair(String fairName){
         String startTime=time[0]+" "+"AM";
         return startTime;
     }
+    private String getRescheduledVisitStartTimeInCalendar(){
+        String[] time=RescheduleStartTimeforNewVisit.split("am");
+        String startTime=time[0]+"AM";
+        return startTime;
+    }
     private WebElement editButtonInCollegeFair(){
         return getDriver().findElement(By.id("edit-college-fair"));
 
@@ -7936,6 +7966,9 @@ public void cancelRgisteredCollegeFair(String fairName){
         if(hour[0].equals("12"))
             startTime = "00"+":"+hour[1];
         return startTime;
+    }
+    private WebElement getCalendarBtn() {
+        return link("Calendar");
     }
 }
 
