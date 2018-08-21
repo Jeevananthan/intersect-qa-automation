@@ -383,3 +383,13 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | user         | pass     | school     |
       | talka10grade | password | blue1combo |
       | uat_user6    | password | blue1combo |
+
+  @MATCH-4745
+  Scenario: Verify warning or error message is displayed when the saved search name is blank
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I open the Save Search popup
+    Then SM I save the search with the name ""
+    Then SM I verify that "Name must be at least 3 characters." message is displayed in Save Search popup
+

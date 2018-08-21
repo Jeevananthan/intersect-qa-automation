@@ -240,5 +240,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I send text \"([^\"]*)\" to the Zip Code field$", searchPage::sendTextToZipCOdeField);
 
+        Then("^SM I verify that \"([^\"]*)\" message is displayed in Save Search popup$", searchPage::verifyMessageInSaveSearchPopup);
+
     }
 }
