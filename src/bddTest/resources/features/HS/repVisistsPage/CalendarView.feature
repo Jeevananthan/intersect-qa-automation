@@ -194,7 +194,7 @@ Feature:  As an HS user, I want to be able to access the features of the Calenda
       |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|
       |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |
 
-  @MATCH-2061
+  @MATCH-2061 @MATCH3954
   Scenario: : This scenario is to verify Internal Notes
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I am Navigating to Calendar Home Screen

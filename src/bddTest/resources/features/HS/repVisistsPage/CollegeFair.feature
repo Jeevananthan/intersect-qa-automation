@@ -194,8 +194,8 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
     Then HS I verify configuration and staff notifications for "District Manager" and "NidhuHS User"
     Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
     Then HS I add the following attendees to the College Fair
-      |Andrew Lane|
-    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "Andrew Lane"
+      |Jeeva C|
+    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "Jeeva C"
     Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
 
   @MATCH-2382
