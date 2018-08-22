@@ -302,7 +302,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @ProdSmokeTest</cucumber.options>
+                <cucumber.options>--tags @ParallelTest --tags ~@ignore</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -318,7 +318,7 @@
                                 <configuration>
                                     <target>
                                         <delete file="${configFilePath}"/>
-                                        <copy file="${folderFilePath}/prodEnv.properties" tofile="${configFilePath}"/>
+                                        <copy file="${folderFilePath}/qaEnv.properties" tofile="${configFilePath}"/>
                                     </target>
                                 </configuration>
                             </execution>
@@ -487,14 +487,13 @@
                             <goal>test</goal>
                         </goals>
                         <configuration>
-                           <!-- <forkCount>2.0C</forkCount>
-                            <parallel>all</parallel>
-                            <useUnlimitedThreads>true</useUnlimitedThreads>-->
+                            <forkCount>2</forkCount>
+                            <parallel>classes</parallel>
                             <useSystemClassLoader>false</useSystemClassLoader>
                             <perCoreThreadCount>false</perCoreThreadCount>
-                            <threadCount>20</threadCount>
+                            <threadCount>1</threadCount>
                             <reuseForks>true</reuseForks>
-                            <useUnlimitedThreads>true</useUnlimitedThreads>
+                            <useUnlimitedThreads>false</useUnlimitedThreads>
                             <includes>
                                 <include>**/*IT.class</include>
                             </includes>
@@ -506,7 +505,7 @@
             <plugin>
                 <groupId>com.github.temyers</groupId>
                 <artifactId>cucumber-jvm-parallel-plugin</artifactId>
-                <version>1.3.0</version>
+                <version>5.0.0</version>
                 <executions>
                     <execution>
                         <id>generateRunners</id>
@@ -523,7 +522,12 @@
                             <strict>true</strict>
                             <monochrome>true</monochrome>
                             <tags>"${tags}"</tags>
-                            <filterFeaturesByTags>true</filterFeaturesByTags>
+                            <useTestNG>false</useTestNG>
+                            <!-- The naming scheme to use for the generated test classes.  One of ['simple', 'feature-title', 'pattern'] -->
+                            <namingScheme>simple</namingScheme>
+                            <!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per scenario.  FEATURE generates a runner per feature. -->
+                            <parallelScheme>FEATURE</parallelScheme>
+                            <!--<filterFeaturesByTags>true</filterFeaturesByTags>-->
                         </configuration>
                     </execution>
                 </executions>
