@@ -514,7 +514,9 @@
                             <goal>generateRunners</goal>
                         </goals>
                         <configuration>
-                            <glue>stepDefinitions</glue>
+                            <glue>
+                                <package>stepDefinitions</package>
+                            </glue>
                             <outputDirectory>${project.build.directory}/generated-test-sources/cucumber</outputDirectory>
                             <featuresDirectory>src/bddTest/resources/features</featuresDirectory>
                             <cucumberOutputDir>${project.build.directory}/cucumber-json</cucumberOutputDir>
