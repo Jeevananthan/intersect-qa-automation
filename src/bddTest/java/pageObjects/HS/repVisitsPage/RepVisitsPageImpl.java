@@ -372,8 +372,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
-        waitForUITransition();
-        waitForUITransition();
     }
 
     public void setPreventCollegesCancellingorRescheduling(String DaysInAdvance){
@@ -390,8 +388,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save Changes").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
-        waitForUITransition();
-        waitForUITransition();
     }
 
     public void setAcceptInVisitSchedulingToFullyBooked(String accept){
@@ -419,8 +415,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save Changes").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
-        waitForUITransition();
-        waitForUITransition();
     }
 
     public void setVisitsConfirmations(String option){
@@ -439,8 +433,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         button("Save Changes").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
-        waitForUITransition();
-        waitForUITransition();
     }
 
     public void accessVisitAvailability(String visitAvailability){
@@ -677,8 +669,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDateFixed(startDate, "Start");
         waitUntilElementExists(text("UPDATE DATE"));
         text("UPDATE DATE").click();
-        waitForUITransition();
-        waitForUITransition();
     }
 
     public void setAvailabilityToFullSchoolYear() {
@@ -5516,8 +5506,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             }
         }
         clickUpdateButtonInRepVisits();
-        waitForUITransition();
-        waitForUITransition();
     }
 
     private boolean verifyDateIsEnabledOrDisabled(String date){

@@ -3255,8 +3255,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         jsClick(selectStaffMemberDropdown());
         waitUntilPageFinishLoading();
         //verify Select new assignee dropdown is disabled
-        Assert.assertTrue("Select new assignee dropdown is enabled",driver.findElement(By.xpath("//div[@class='ui disabled selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC' and @aria-disabled='true']")).isDisplayed());
-        List<WebElement> userList = driver.findElements(By.xpath("//div[@class='menu transition visible']/div"));
+        Assert.assertTrue("Select new assignee dropdown is enabled",disabledNewAssigneeDropdown().isDisplayed());
+        List<WebElement> userList = getUsers();
         List<WebElement> user = driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));
         Assert.assertTrue("User is not displayed",user.size()>0);
         Assert.assertTrue("Users are not displayed",userList.size()>0);
@@ -3264,7 +3264,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         jsClick(newAssigneeButton());
         waitUntilPageFinishLoading();
         user = driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));
-        userList = driver.findElements(By.xpath("//div[@class='menu transition visible']/div"));
+        userList = getUsers();
         Assert.assertTrue("User is not displayed",user.size()>0);
         Assert.assertTrue("Users are not displayed",userList.size()>0);
         newAssigneeButton().click();
@@ -3998,6 +3998,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement newAssigneeButton(){
         return driver.findElement(By.xpath("//div[text()='Select new assignee']"));
+    }
+    private WebElement disabledNewAssigneeDropdown(){
+        return driver.findElement(By.xpath("//div[@class='ui disabled selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC' and @aria-disabled='true']"));
+    }
+    public List<WebElement> getUsers() {
+       return driver.findElements(By.xpath("//div[@class='menu transition visible']/div"));
     }
 }
 
