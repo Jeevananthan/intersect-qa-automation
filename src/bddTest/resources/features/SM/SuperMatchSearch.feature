@@ -137,11 +137,13 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I delete all the saved searches
+    And SM I start the search over
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
+    And SM I reload the page
     And SM I open the Save Search popup
     And SM I save the search with the name "SavedTestSearch"
     Then SM I verify the confirmation message

@@ -586,5 +586,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String gpaTooltipIconInResultsLocator = "td.you-column button.supermatch-tooltip-trigger";
     private static WebElement superMatchCollegeSearchHeader() { return driver.findElement(By.xpath("//h1[text()='SuperMatch College Search']")); }
     private WebElement yesDeleteButton() { return driver.findElement(By.cssSelector("div.actions button.ui.teal.basic.button:nth-of-type(1)")); }
-    private String disabledSavedSearchesButtonLocator = "div[aria-disabled='true']";
+    private String disabledSavedSearchesButtonLocator = "div[aria-disabled='true'].ui.disabled.scrolling.pointing.dropdown";
 }
