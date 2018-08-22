@@ -4,6 +4,7 @@ import cucumber.api.java8.En;
 import pageObjects.HUBS.HEMPreviewPageImpl;
 import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import pageObjects.HUBS.StudiesPageImpl;
+import pageObjects.SP.communityPages.InstitutionPageImpl;
 
 public class HUBSEditModeStepDefs implements En{
 
@@ -17,6 +18,8 @@ public class HUBSEditModeStepDefs implements En{
         And("^HUBS I open the \"([^\"]*)\" tab in the preview$", hemPreviewPage::clickMenuButton);
 
         Then("^HUBS All the elements of the studies tab should be displayed$", studiesPage::verifyAllElementsDisplayed);
+
+        And("^HE I access the INSTITUTION page$",navianceCollegeProfilePage::navigateToInstitutionProfile);
 
     }
 

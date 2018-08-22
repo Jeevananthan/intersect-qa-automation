@@ -40,5 +40,9 @@ public class HomePageStepDefs implements En {
 
         And("^HS I click the navigation globe for viewing the recent notifications$",navigationBar::clickNotificationsDropdown);
 
+        Then("^HS I verify that the text in the button for \"([^\"]*)\" is \"([^\"]*)\"$", homePage::verifyTextInButtonFromModule);
+
+        Then("^HS I verify that \"([^\"]*)\" is opened from the \"([^\"]*)\" module$", homePage::verifyScreenIsOpenFromModule);
+
     }
 }
