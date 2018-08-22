@@ -300,46 +300,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void addNewTimeSlot(String day, String startTime, String endTime, String numVisits) {
+    public void addNewTimeSlot(String day, String hourStartTime, String hourEndTime, String minuteStartTime, String minuteEndTime, String meridianStartTime, String meridianEndTime, String numVisits) {
         navigationBar.goToRepVisits();
-        WebElement element = availabilityAndSettings();
-        waitUntilElementExists(element);
         availabilityAndSettings().click();
-        waitUntilPageFinishLoading();
         availability().click();
-        waitUntilPageFinishLoading();
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
-        startOrEndDate().sendKeys(Keys.PAGE_DOWN);
-        addTimeSlot().click();
-        List<WebElement> slot= driver.findElements(By.cssSelector("button[class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
-        if(slot.size()>0){
-            availabilityButton().sendKeys(Keys.PAGE_DOWN);
-        }
-        availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
-        waitForUITransition();
+        driver.findElement(By.xpath("//button[@class='ui button _1RspRuP-VqMAKdEts1TBAC']")).sendKeys(Keys.PAGE_DOWN);
+        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
+        Actions action = new Actions(getDriver());
+        action.sendKeys(Keys.PAGE_DOWN).sendKeys(Keys.PAGE_DOWN).build().perform();
         waitUntilElementExists(selectDay());
-        String visitDay = day(day);
-        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", visitDay);
-        StartTime = startTime(startTime);
-        logger.info("Start Time = " + StartTime);
-        addStartTime().sendKeys(StartTime);
-        addEndTime().sendKeys(endTime);
-        logger.info("End Time = " + endTime);
+        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
+        inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
+        inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
-        addTimeSlotSubmit().click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
-        List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
-        List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
-        if(displayingPopup.size()==1){
-            driver.findElement(By.id("ignore-time-slots")).click();
-            button("Add regular hours").click();
-            waitUntilPageFinishLoading();
-            waitForUITransition();
-        }else if(duplicateTimeSlot.size()==1){
-            addnewTimeSlot(day, startTime, endTime, numVisits);
+//        addTimeSlot().click();
+        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='availability']")));
+        if(driver.findElements(By.xpath("//div[@class='ui small modal transition visible active']")).size()>0){
+            selectOptionInReviewPreviouslyDeletedTimeSlotsModal
+                    ("Add time slot to regular hours, and create for the dates above");
         }
     }
 
@@ -609,18 +591,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
     }
 
-    public void inputStartTime(String startTime)
+
+    public void inputStartTime(String hour, String minute, String meridian)
     {
         WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='startTime']"));
-        String inputStart = startTime;
-        inputStartTime.sendKeys(inputStart);    }
+        inputStartTime.click();
+        inputStartTime.sendKeys(hour + ":");
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
 
-    public void inputEndTime(String endTime)
+    }
+
+    public void inputEndTime(String hour, String minute, String meridian)
     {
-        WebElement inputEndTime = driver.findElement(By.cssSelector("input[name='endTime']"));
-        String inputEnd = endTime;
-
-        inputEndTime.sendKeys(inputEnd);
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='endTime']"));
+        inputStartTime.click();
+        inputStartTime.sendKeys(hour + ":");
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
+        inputStartTime.sendKeys(Keys.TAB);
     }
 
     public void visitsNumber(String numVisits) {
@@ -1951,10 +1940,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessCollegeFairOverviewPage(String fairName) {
         navigationBar.goToRepVisits();
         collegeFairs().click();
-        while (viewMoreUpcomingEventsLink().isDisplayed()) {
-            viewMoreUpcomingEventsLink().click();
-            WebElement element=viewMoreUpcomingEventsLink();
-//            waitUntilElementExists(element);
+        Boolean verifyElement = false;
+        try {
+            verifyElement = driver.findElement(By.xpath("//*[contains(text(), 'View More Upcoming Events']/..')]")).isDisplayed();
+        }catch(NoSuchElementException e){
+            verifyElement  = false;
+        }
+
+        if(verifyElement)
+        {
+            while (viewMoreUpcomingEventsLink().isDisplayed()) {
+                viewMoreUpcomingEventsLink().click();
+                WebElement element=viewMoreUpcomingEventsLink();
+    //            waitUntilElementExists(element);
+            }
         }
         // If we're using a previously set Dynamic fair name, look for that instead.
         if (fairName.equalsIgnoreCase("PreviouslySetFair"))
@@ -7347,7 +7346,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return attendee;
     }
     private WebElement eventLocation() {
-        WebElement location=driver.findElement(By.id("eventLocation"));
+        WebElement location=driver.findElement(By.name("locationWithinSchool"));
         return location;
     }
     private WebElement addVisitButtonInVisitSchedulePopup() {

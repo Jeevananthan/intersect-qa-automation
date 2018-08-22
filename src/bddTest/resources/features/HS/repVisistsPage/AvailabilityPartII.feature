@@ -103,7 +103,6 @@ Feature:  As an HS user, I want to be able to access the features of the Availab
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    And HS I verify the update button appears and I click update button
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     And HS I successfully sign out
