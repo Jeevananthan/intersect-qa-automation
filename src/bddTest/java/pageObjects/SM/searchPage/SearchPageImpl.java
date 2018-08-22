@@ -903,6 +903,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+    public void sendTextToZipCOdeField(String text) {
+
+        zipCodeTextBox().sendKeys(text);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+    }
 
     public void verifyCheckboxState(String checkBox, String expectedState, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))

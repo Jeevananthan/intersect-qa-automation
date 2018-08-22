@@ -238,5 +238,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I clean GPA/SAT/ACT scores$", searchPage::clearGPASATACTScores);
 
+        Then("^SM I send text \"([^\"]*)\" to the Zip Code field$", searchPage::sendTextToZipCOdeField);
+
     }
 }
