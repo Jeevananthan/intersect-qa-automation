@@ -35,7 +35,6 @@ Feature: Hobsons Support - View Institution Log History
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
   #visit
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    And HS I verify the update button appears and I click update button
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
   #Fairs
