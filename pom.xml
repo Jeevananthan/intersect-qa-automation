@@ -523,7 +523,9 @@
                             <format>json</format>
                             <strict>true</strict>
                             <monochrome>true</monochrome>
-                            <tags>"${tags}"</tags>
+                            <tags>
+                                <tag>"${tags}"</tag>
+                            </tags>
                             <useTestNG>false</useTestNG>
                             <!-- The naming scheme to use for the generated test classes.  One of ['simple', 'feature-title', 'pattern'] -->
                             <namingScheme>simple</namingScheme>
