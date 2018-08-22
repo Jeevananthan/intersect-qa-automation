@@ -276,8 +276,8 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUserUpdateInLogHistory(String user,String option) {
-        driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")).click();
-        driver.findElement(By.xpath("//span [text()='"+option+"']")).click();
+        timeDropdown().click();
+        timeDropdownOption(option).click();
         waitUntilPageFinishLoading();
         List<WebElement> profileUpdateEntries = getFirstNameValueFromJsonInLogHistory(user);
         Assert.assertTrue("The user account was not successfully updated. UI: " + profileUpdateEntries.get(0).getText() + " Data: " + AccountSettingsPageImpl.generatedFirstName, profileUpdateEntries.get(0).getText().replace("\"", "").equals(AccountSettingsPageImpl.generatedFirstName));
@@ -294,4 +294,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
             By.xpath("//td[text() = '" + userName + "' and text() = 'updated']/../td[3]/div/div/span[text() = " +
                     "'firstName:']/following-sibling::span[1]")); }
 
+    private WebElement timeDropdown() { return driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")); }
+
+    private WebElement timeDropdownOption(String option) { return driver.findElement(By.xpath("//span [text()='"+option+"']")); }
 }
