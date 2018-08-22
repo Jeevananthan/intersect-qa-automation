@@ -10,11 +10,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    public static String generatedFirstName;
+    public static String oldValueFirstName;
 
     public AccountSettingsPageImpl() {
         logger = Logger.getLogger(AccountSettingsPageImpl.class);
@@ -88,6 +92,27 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         jsClick(driver.findElement(By.xpath("//div/span[text()='"+option+"']")));
     }
 
+    public void addStringToCurrentFirstName() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss");
+        oldValueFirstName = firstNameField().getAttribute("value");
+        firstNameField().clear();
+        generatedFirstName = oldValueFirstName + dateFormat.format(date);
+        firstNameField().sendKeys(generatedFirstName);
+        Assert.assertTrue("The value was not correctly set", firstNameField().getAttribute("value").equals(generatedFirstName));
+    }
+
+    public void clickSaveChanges() {
+        saveChanges().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void setFirstNameToOriginalValue() {
+        firstNameField().clear();
+        firstNameField().sendKeys(oldValueFirstName);
+    }
+
+    //Locators
     private WebElement currentPasswordBox() {
         return textbox("Current Password");
     }
@@ -97,7 +122,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement confirmPasswordBox() {
-        return textbox("Confirm Password");
+        return textbox("Confirm New Password");
     }
 
     private WebElement saveChanges() { return driver.findElement(By.xpath("//span[text()='SAVE']")); }
@@ -117,5 +142,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     WebElement option=driver.findElement(By.xpath("//span[text()='"+value+"']"));
     return option;
     }
+
+    private WebElement firstNameField() { return driver.findElement(By.cssSelector("input#user-form-first-name")); }
 
 }
