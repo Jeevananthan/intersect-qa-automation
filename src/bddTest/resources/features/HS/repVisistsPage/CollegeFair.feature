@@ -250,3 +250,25 @@ Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use
     Examples:
       |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School              |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
       |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Int Qa High School 4|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
+
+  @MATCH-2080 @MATCH-2217
+  Scenario: As a HS RepVisits user,
+  I need to be able to access all college fairs from the dashboard
+  So i know what's upcoming and can see previous fairs' data.
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I create a dynamic College Fair with the following data
+      | College Fair Name                                         | MATCH-2080 Fair         |
+      | Automatically Confirm Incoming Requestions From Colleges? | no                      |
+      | Cost                                                      | 10                      |
+      | Start Time                                                | 0810AM                  |
+      | Date                                                      | 3                       |
+      | RSVP Deadline                                             | 2                       |
+      | End Time                                                  | 0820AM                  |
+      | Max Number of Colleges                                    | 10                      |
+      | Number of Students Expected                               | 10                      |
+      | Instructions for College Representatives                  | Submit request by Email |
+      | Email Message to Colleges After Confirmation              | why not                 |
+    And HS I verify the Dashboard Upcoming events for "MATCH-2080 Fair " and "2"
+    Then HS I cancel new event created for "MATCH-2080 Fair"
+    And HS I verify the Canceled events for "MATCH-2080 Fair"
+    And HS I successfully sign out

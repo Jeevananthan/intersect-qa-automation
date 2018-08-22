@@ -146,7 +146,7 @@ Feature:  As an HS user, I want to be able to access the features of the Availab
 
     Examples:
       |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         |
-      |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |14  |Int Qa High School |
+      |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |15  |Int Qa High School |
 
 
   @MATCH-1583

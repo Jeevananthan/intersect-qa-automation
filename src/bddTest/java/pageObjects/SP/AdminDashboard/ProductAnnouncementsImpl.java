@@ -387,6 +387,8 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement getSaveUpdateConfirmationToast(){
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(
+                "//div[@class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']/div/span[not(@class)]"),1));
         return driver.findElement(By.xpath(
                 "//div[@class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']/div/span[not(@class)]"));
     }

@@ -32,7 +32,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Time Slot time were added with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyTimeSlotAdded);
 
-        Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addNewTimeSlot);
+        Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addnewTimeSlot);
 
         Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
 
@@ -52,7 +52,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the RepVisits Visits Confirmations option to \"([^\"]*)\"$", repVisits::setVisitsConfirmations);
 
-        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
+        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
 
         Then("^HS I set my RepVisits availability to the current school year$", repVisits::setAvailabilityToFullSchoolYear);
 
@@ -646,5 +646,18 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify that it should not be possible to select an End date \"([^\"]*)\" which is less than the Start date \"([^\"]*)\" in Agenda view$", repVisits::verifyUserCannotSelectEndDateWhichIsLessThanStartDateInAgendaView);
 
+        Then("^HS I go to the Naviance Settings to select the option \"([^\"]*)\"$",repVisits::selectOptionforManuallyorAutomatically);
+
+        Then("^HS I verify the Notification is \"([^\"]*)\" in the Naviance Sync Tab for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNavianceSyncTab);
+
+        Then("^HS I verify the Rescheduled Notification is \"([^\"]*)\" in the Naviance Sync Tab for an appointment that has not been pushed to Naviance using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyRescheduledNotificationInNavianceSyncTab);
+
+        Then("^HS I select calendar in RepVisits$",repVisits::selectCalendar);
+
+        Then("^HS I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCalendarPage);
+
+        Then("^HS I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
+
+        Then("^HS I verify HE user's name be an active hyperlink to the HS user's Community profile in visit feedback subtab$", repVisits::verifyHEUsersNameLink);
     }
 }
