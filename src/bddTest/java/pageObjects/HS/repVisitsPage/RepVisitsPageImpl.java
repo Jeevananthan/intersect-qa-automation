@@ -6482,7 +6482,52 @@ public void cancelRgisteredCollegeFair(String fairName){
         Assert.assertTrue("Negative message is not displayed",negativeMessageInRepvisits().isDisplayed());
     }
 
-    /*locators for Messaging Options Page*/
+    public void verifyHEUsersNameLink(){
+        navigationBar.goToRepVisits();
+        //link("Notifications & Tasks").click();
+        notificationsAndTasks().click();
+        waitUntilPageFinishLoading();
+        link("Visit Feedback").click();
+        waitUntilPageFinishLoading();
+        link("PENDING").click();
+        waitUntilPageFinishLoading();
+        if(text("No visits to submit feedback, yet").isDisplayed()){
+            logger.info("There is no data present to show under Visit Feedback-->Pending subtab, so verifying default text !!!");
+            Assert.assertTrue("No visits to submit feedback, yet text is not displaying", text("No visits to submit feedback, yet").isDisplayed());
+            Assert.assertTrue("Previous visits that are available to provide feedback on will... is not displaying", text("Previous visits that are available to provide feedback on will appear here. Providing feedback helps colleges improve the way they connect with students and high schools.").isDisplayed());
+        }else {
+            if (getUserNameHE().isEnabled()){
+                String userNameColorHE = getUserNameHE().getCssValue("color");
+                Assert.assertTrue("HE user name is not showing teal in color.", userNameColorHE.contains("rgba(30, 120, 122, 1)"));
+                getUserNameHE().click();
+                waitUntilPageFinishLoading();
+                String getURLHE = driver.getCurrentUrl();
+                Assert.assertTrue("User link is not working.", getURLHE.contains("/community/profile/"));
+            }
+        }
+
+        link("SUBMITTED").click();
+        if(text("No visit feedback has been submitted.").isDisplayed()){
+            logger.info("There is no data present to show under Visit Feedback-->Submitted subtab, so verifying default text !!!");
+            Assert.assertTrue("No visit feedback has been submitted. text is not displaying", text("No visit feedback has been submitted.").isDisplayed());
+        }else {
+            WebElement userNameHS = driver.findElement(By.xpath("//span[contains(text(), 'provided feedback about a visit.')]/../a"));
+            if (userNameHS.isEnabled()){
+                String userNameColorHS = userNameHS.getCssValue("color");
+                Assert.assertTrue("HE user name is not showing teal in color.", userNameColorHS.contains("rgba(30, 120, 122, 1)"));
+                userNameHS.click();
+                waitUntilPageFinishLoading();
+                String getURLHS = driver.getCurrentUrl();
+                Assert.assertTrue("User link is not working.", getURLHS.contains("/community/profile/"));
+            }
+        }
+    }
+
+    /*locators*/
+
+    private WebElement getUserNameHE() {
+        return driver.findElement(By.xpath("//span[contains(text(), 'has asked for feedback on their recent visit.')]/..//a"));
+    }
 
     private WebElement primaryContact() {
         return getDriver().findElement(By.cssSelector("div[name='primaryContact'"));

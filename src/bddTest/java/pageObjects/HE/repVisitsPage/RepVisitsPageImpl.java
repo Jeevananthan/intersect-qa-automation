@@ -38,7 +38,7 @@ import static pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
-    private Logger logger;
+    protected Logger logger;
     public static String formattedDate;
     public static String currentURL;
 
@@ -3468,7 +3468,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getSearchBox() { return textbox("Search for a school...");}
-    private WebElement getVisitsFeedbackBtn() {return link("Visit Feedback"); }
+    protected WebElement getVisitsFeedbackBtn() {return getDriver().findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Visit Feedback']")); }
     private WebElement getSearchAndScheduleSearchBox(){ return textbox("Search for a school..."); }
     //private WebElement getSearchBox() { return textbox("Enter a school name or location");}
     private WebElement getSearchBoxforContact() { return driver.findElement(By.name("contacts-search"));}

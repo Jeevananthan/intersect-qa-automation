@@ -657,5 +657,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCalendarPage);
 
         Then("^HS I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
+
+        Then("^HS I verify HE user's name be an active hyperlink to the HS user's Community profile in visit feedback subtab$", repVisits::verifyHEUsersNameLink);
     }
 }
