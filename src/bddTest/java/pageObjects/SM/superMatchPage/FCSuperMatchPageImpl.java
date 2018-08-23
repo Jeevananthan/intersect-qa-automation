@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -451,25 +452,32 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         if (saveSearchCount >= 15) {
             logger.info("We already have 15 save search, to check the delete save search functionality, we need to delete one of the save search....");
         } else {
-            Random rand = new Random();
-            int randomNumber = rand.nextInt(1000);
-            saveSearchName = "Search" + Integer.toString(randomNumber);
-            searchPage.setResourcesCriteria(resourceFitCriteriaOption);
-            clickSaveSearchButton();
-            searchPage.saveSearchWithName(saveSearchName);
-            searchPage.verifyConfirmationMessage();
-            verifySavedSearchInDropdown(saveSearchName);
-            searchPage.unsetResourcesCriteria(resourceFitCriteriaOption);
+            createSaveSearch(resourceFitCriteriaOption);
         }
     }
 
+    private void createSaveSearch(String resourceFitCriteriaOption){
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(1000);
+        saveSearchName = "Search" + Integer.toString(randomNumber);
+        searchPage.setResourcesCriteria(resourceFitCriteriaOption);
+        clickSaveSearchButton();
+        searchPage.saveSearchWithName(saveSearchName);
+        searchPage.verifyConfirmationMessage();
+        verifySavedSearchInDropdown(saveSearchName);
+        searchPage.unsetResourcesCriteria(resourceFitCriteriaOption);
+    }
+
     public void checkSaveSearch(String fitCriteriaOption){
-        savedSearchesDropdown().click();
+        try {
+            savedSearchesDropdown().click();
+        }catch (WebDriverException ex){
+            createSaveSearch(fitCriteriaOption);
+            savedSearchesDropdown().click();
+        }
         int saveSearchCount = allSaveSearchOptions().size();
         if (saveSearchCount>0){
             saveSearchName = getChooseOneWebElement().findElement(By.xpath("./div[2]/div[2]/span")).getText();
-        } else {
-            createOneSaveSearch(fitCriteriaOption);
         }
     }
 
