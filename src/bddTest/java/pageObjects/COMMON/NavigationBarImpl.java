@@ -94,7 +94,7 @@ public class NavigationBarImpl extends SeleniumBase {
     public void goToHome() {
         waitUntilElementExists(navigationDropDown);
         navigationDropDown.click();
-        waitUntil(ExpectedConditions.visibilityOf(homeMenuLink));
+        waitUntilPageFinishLoading();
         homeMenuLink.click();
         waitUntilElementExists(selectedNavigationMenu);
         Assert.assertTrue("The Home menu was not selected",
@@ -149,7 +149,7 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToEvents() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
+        waitUntilPageFinishLoading();
         navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOf(eventsMenuLink));
         eventsMenuLink.click();

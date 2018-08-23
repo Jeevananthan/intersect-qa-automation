@@ -571,6 +571,19 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The Edit Events screen was not opened", eventNameField().isDisplayed());
     }
 
+    public void openEventOfGeneratedName() {
+        waitUntilPageFinishLoading();
+        menuButtonForEvent(eventName).click();
+        menuButtonForEventsAttendees().click();
+    }
+
+    public void openTabInEditEvent(String tabName) {
+        getOptionFromMenuButtonForEvents(tabName).click();
+        waitUntilPageFinishLoading();
+        driver.get(driver.getCurrentUrl());
+        waitUntilPageFinishLoading();
+    }
+
     /*public void statusDraft(){
         Assert.assertTrue("Status of the Event is set to Draft under Unpublished tab",unpublishedStatus().getText().status(statusDraft));
     }*/
