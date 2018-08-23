@@ -1,6 +1,5 @@
 @HE @Events
-Feature: HE - EventsAccess - As a HE Intersect Administrator/Publishing user with Intersect Presence or Legacy ActiveMatch Events subscriptions,
-  I should be able to access the ActiveMatch Events product
+Feature: HE - Events - EventsAccess - As a HE Administrator/Publishing user with active Presence or Legacy ActiveMatch Events subscriptions, I can access the Events module
 
   @MATCH-2918
   Scenario: As a HE User with Administrator role with active Presence & Events subscription, I can access Events module ( Open issue with logout MATCH-3109)

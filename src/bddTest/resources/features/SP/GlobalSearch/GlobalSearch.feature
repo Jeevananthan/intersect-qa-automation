@@ -1,5 +1,5 @@
 @SP
-Feature: SP - Global Search - Global Search - As a support user, I want to be able to use the Global search to help me find records.
+Feature: SP - GlobalSearch - GlobalSearch - Verify ability to search for Institutions, People, Groups using Global search and Advanced search
 
   @MATCH-1069
   Scenario: As a support user, I need to be able to access Advanced Search for community entities.

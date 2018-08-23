@@ -1,5 +1,5 @@
 @SP
-Feature: Hobsons Support - View Institution Log History
+Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
          As a Hobsons Staff Administrator or Support user I need to be able to view and filter by date an audit log of all other Hobsons Staff
          activity per institutional account in the admin page for system security, auditing, and troubleshooting.
 
@@ -19,6 +19,12 @@ Feature: Hobsons Support - View Institution Log History
 
   Scenario: As a Hobsons Admin user I can view an Institution's Log History
     Given SP I am logged in to the Admin page as an Admin user
+    Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard
+    And SP I successfully sign out
+
+@MATCH-3007
+  Scenario: As a Hobsons Super Admin user I can view an Institution's Log History
+    Given SP I am logged in to the Admin page as a Super Admin user
     Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I successfully sign out
 
