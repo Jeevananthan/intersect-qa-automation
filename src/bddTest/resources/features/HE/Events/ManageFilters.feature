@@ -1,6 +1,5 @@
 @HE @Events @EventsFilters
-Feature: HE - Events - As a HE Intersect user with AM Events, I need the ability to create a filter so that I can have
-  my event be recommended to targeted students.
+Feature: HE - Events - ManageFilters - As a HE Events user, I can create filters to recommend my event to targeted students
 
   @MATCH-2895
   Scenario: As a HE Intersect user, I can create a filter in AM Events from the Create Filter Screen
@@ -69,7 +68,7 @@ Feature: HE - Events - As a HE Intersect user with AM Events, I need the ability
     And HE I delete the filter of name "FilterTestYY498"
 
   @MATCH-3338
-  Scenario: As  a user click on Filter and view and verify which events are assigned to particular filter
+  Scenario: As a user, view a filter to verify which events are assigned to particular filter
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events section
     And HE I open the "Filters" tab in the Events section

@@ -1,5 +1,5 @@
 @HE @EventFilters
-Feature: HE - Events - As a Premium HE Intersect user, I need the ability to view my AM Events filters so I can manage my filters quickly and easily.
+Feature: HE - Events - ViewFilters - As a HE Events user, I can manage event filters
 
   @MATCH-2903
   Scenario: A list of all the AM Events filters is displayed
