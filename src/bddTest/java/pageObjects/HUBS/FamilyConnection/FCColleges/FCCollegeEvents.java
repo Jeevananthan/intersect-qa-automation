@@ -121,12 +121,12 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         FCCollegeEventsPage.oldCollegesTab.click();
     }
 
-    public void clickViewUpdatebutton() {
+   /* public void clickViewUpdatebutton() {
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
         FCCollegeEventsPage.clickUpdateButton.click();
 
 
-    }
+    }*/
 
     public void selectYesCancelRegistration() {
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
@@ -210,5 +210,10 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
     public void registerForEvent(){
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
         FCCollegeEventsPage.registerEvent().click();
+    }
+    public void ViewUpdateEvent(String updateEvent){
+        PageFactory.initElements(driver, FCCollegeEventsPage.class);
+        FCCollegeEventsPage.clickUpdateButton(updateEvent).click();
+
     }
 }

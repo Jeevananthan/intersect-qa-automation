@@ -330,6 +330,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpublishEvent(String eventName) {
+        waitUntilPageFinishLoading();
         waitForUITransition();
         if (driver.findElements(By.cssSelector("input#name")).size() == 1) {
             eventsTabFromEditEventScreen().click();
@@ -523,6 +524,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void VerifyAttendeeData(DataTable attendeeData) {
+        driver.navigate().refresh();
+        driver.navigate().refresh();
+        driver.navigate().refresh();
         driver.navigate().refresh();
         driver.navigate().refresh();
 
