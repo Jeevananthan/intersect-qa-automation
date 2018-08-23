@@ -1,8 +1,7 @@
-Feature: As an HE and HS user of RepVisits I want to receive email notifications when certain activities happen that
-  relate to me or my school, so I can be made aware of things happening even when I am not logged into RepVisits
+Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of RepVisits I want to receive email notifications when there is new activity on the fairs.
 
   @MATCH-1792
-  Scenario: HE User submits Visit Request - HS needs to approve
+  Scenario: Verify Fair request confirmation email sent to HE user when approval is set to manual
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     When HS I create a College Fair with the following data
       | College Fair Name                                         | Email Scenario 1        |
@@ -17,7 +16,7 @@ Feature: As an HE and HS user of RepVisits I want to receive email notifications
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
     And HS I successfully sign out
-    And HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I request an appointment with "Int Qa High School 4" for College Fair "Email Scenario 1"
     And HE I successfully sign out
     Then HE I verify that the Email Notification Message says: "(.*)Your request to attend a college fair at Int Qa High School 4 in(.*)at 8:00am has been submitted. You will be notified by email once the high school has confirmed your request(.*)"
@@ -29,7 +28,7 @@ Feature: As an HE and HS user of RepVisits I want to receive email notifications
 
 
   @MATCH-1792
-  Scenario: HE User submits Visit Request - auto approved
+  Scenario: Verify Fair request confirmation email sent to HE user when approval is set to auto-approval
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     When HS I create a College Fair with the following data
       | College Fair Name                                         | Email Scenario 2        |
@@ -44,7 +43,7 @@ Feature: As an HE and HS user of RepVisits I want to receive email notifications
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
     And HS I successfully sign out
-    And HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I request an appointment with "Int Qa High School 4" for College Fair "Email Scenario 2"
     And HE I successfully sign out
     Then HE I verify that the Email Notification Message says: "(.*)You are all set! Int Qa High School 4 in Liberty Township, Ohio has added you to their list of college fair registrants for the event on(.*) from 8:00am to 8:00pm.(.*)"
@@ -55,7 +54,7 @@ Feature: As an HE and HS user of RepVisits I want to receive email notifications
     And HS I successfully sign out
 
   @MATCH-1792
-  Scenario: HE User Submits Visit Request and HS users receive the notification
+  Scenario: Verify Fair request email sent to HS user when approval is set to manual
     Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
     When HS I create a College Fair with the following data
       | College Fair Name                                         | Email Scenario 3        |
@@ -70,7 +69,7 @@ Feature: As an HE and HS user of RepVisits I want to receive email notifications
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
     And HS I successfully sign out
-    And HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I request an appointment with "Homeconnection" for College Fair "Email Scenario 3"
     And HE I successfully sign out
     Then HE I verify that the Email Notification Message says: "(.*)The University of Alabama (AL) just registered for the Homeconnection college fair on(.*)The contact information for the representative who will be attending is below:(.*)"

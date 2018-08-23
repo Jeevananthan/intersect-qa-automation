@@ -1,5 +1,5 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Notifications Details features.
+Feature: HS - RepVisits - NotificationDetails - As an HS user, I should be able to view details on my notifications
 
   @MATCH-2093 @MATCH-2828
   Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab
