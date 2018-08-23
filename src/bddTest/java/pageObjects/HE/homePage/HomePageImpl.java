@@ -254,7 +254,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                 euCitizen))).click();
         getTermsAndConditionCheckBox().click();
         driver.executeScript("arguments[0].click()",getCreationAndMaintenanceConsentCheckBox());
-        button("Save").click();
+        saveButton().click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
         navigationBar.goToRepVisits();
@@ -262,7 +262,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyRepVisitsLandingPage(){
         navigationBar.goToRepVisits();
-        waitForUITransition();
+        waitUntilElementExists(getSearchAndScheduleHeading());
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
 
@@ -295,6 +295,111 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals(actualURL, expectedURL);
     }
 
+    public void verifyRequiredPageforNewUser(DataTable dataTable){
+        List<String> list = dataTable.asList(String.class);
+        for(String tab:list){
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@name='mainmenu']"),1));
+            navigationDropDown().sendKeys(Keys.ENTER);
+            switch (tab){
+                case "Counselor Community":
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-counselor-community-menu-link"),1));
+                    counselorCommunityMenuLink().click();
+                    iframeEnter();
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='welcome-text']"),1));
+                    Assert.assertTrue("Counselor Community profile form is not displayed",ccProfileForm().isDisplayed());
+                    iframeExit();
+                    break;
+                case "RepVisits":
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-rep-visits-menu-link"),1));
+                    repVisitsMenuLink().click();
+                    iframeEnter();
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='welcome-text']"),1));
+                    Assert.assertTrue("Counselor Community profile form is not displayed",ccProfileForm().isDisplayed());
+                    iframeExit();
+                    break;
+                case "Events":
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-am-events-menu-link"),1));
+                    eventsMenuLink().click();
+                    iframeEnter();
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='welcome-text']"),1));
+                    Assert.assertTrue("Counselor Community profile form is not displayed",ccProfileForm().isDisplayed());
+                    iframeExit();
+                    break;
+                case "ActiveMatch":
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-am-plus-menu-link"),1));
+                    activeMatchMenuLink().click();
+                    iframeEnter();
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='welcome-text']"),1));
+                    Assert.assertTrue("Counselor Community profile form is not displayed",ccProfileForm().isDisplayed());
+                    iframeExit();
+                    break;
+                default:
+                    Assert.fail("Invalid option");
+            }
+        }
+    }
+
+    public void verifyRequiredFieldsInCCProfileForm(DataTable dataTable){
+        navigationDropDown().sendKeys(Keys.ENTER);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-counselor-community-menu-link"),1));
+        counselorCommunityMenuLink().click();
+        iframeEnter();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("edit-submit"),1));
+        saveButtonInCommunity().click();
+        waitUntilPageFinishLoading();
+        List<String> list = dataTable.asList(String.class);
+        for(String fields:list){
+            Assert.assertTrue(fields+" is not displayed",text(fields).isDisplayed());
+        }
+        iframeExit();
+    }
+
+    public void verifyingTabNavigation(DataTable dataTable){
+        List<String> list = dataTable.asList(String.class);
+        for(String tab:list){
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@name='mainmenu']"),1));
+            navigationDropDown().sendKeys(Keys.ENTER);
+            switch (tab) {
+                case "Counselor Community":
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-counselor-community-menu-link"),1));
+                    counselorCommunityMenuLink().click();
+                    iframeEnter();
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//li/a[text()='Home']"),1));
+                    Assert.assertTrue("Counselor Community profile form is not displayed",homeTabInCommunity().isDisplayed());
+                    iframeExit();
+                    break;
+                case "RepVisits":
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-rep-visits-menu-link"),1));
+                    repVisitsMenuLink().click();
+                    waitUntilElementExists(getSearchAndScheduleHeading());
+                    Assert.assertTrue("Search and schedule tab is not displayed",getSearchAndScheduleHeading().isDisplayed());
+                    break;
+                case "Events":
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-am-events-menu-link"),1));
+                    eventsMenuLink().click();
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"),1));
+                    Assert.assertTrue("Event button is not displayed",eventButton().isDisplayed());
+                    break;
+                case "ActiveMatch":
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-am-plus-menu-link"),1));
+                    activeMatchMenuLink().click();
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Connections']"),1));
+                    Assert.assertTrue("Connection button is not displayed",connectionsText().isDisplayed());
+                    break;
+                default:
+                    Assert.fail("Invalid option");
+            }}
+    }
+
+    public void iframeExit() {
+        driver.switchTo().defaultContent();
+    }
+
+    public void iframeEnter()  {
+        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
+    }
+
+
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
@@ -320,4 +425,37 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private String loginButtonLocator = "button.ui.primary.button";
 
     private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
+    private WebElement ccProfileForm(){
+        return driver.findElement(By.xpath("//div/h1[text()='Welcome to the Counselor Community!']"));
+    }
+    private WebElement navigationDropDown(){
+        return driver.findElement(By.xpath("//a[@name='mainmenu']"));
+    }
+    private WebElement counselorCommunityMenuLink(){
+        return driver.findElement(By.id("js-main-nav-counselor-community-menu-link"));
+    }
+    private WebElement repVisitsMenuLink(){
+        return driver.findElement(By.id("js-main-nav-rep-visits-menu-link"));
+    }
+    private WebElement eventsMenuLink(){
+        return driver.findElement(By.id("js-main-nav-am-events-menu-link"));
+    }
+    private WebElement activeMatchMenuLink(){
+        return driver.findElement(By.id("js-main-nav-am-plus-menu-link"));
+    }
+    private WebElement saveButtonInCommunity(){
+        return driver.findElement(By.id("edit-submit"));
+    }
+    private WebElement homeTabInCommunity(){
+        return driver.findElement(By.xpath("//li/a[text()='Home']"));
+    }
+    private WebElement eventButton(){
+        return driver.findElement(By.xpath("//span[text()='CREATE EVENT']"));
+    }
+    private WebElement connectionsText(){
+        return driver.findElement(By.xpath("//span[text()='Connections']"));
+    }
+    private WebElement saveButton(){
+        return button("Save");
+    }
 }

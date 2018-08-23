@@ -77,5 +77,11 @@ public class HomePageStepDefs implements En {
         Then("^HE I verify that the text in the button for \"([^\"]*)\" is \"([^\"]*)\"$", homePage::verifyTextInButtonFromModule);
 
         Then("^HE I verify that \"([^\"]*)\" is opened from the \"([^\"]*)\" module$", homePage::verifyScreenIsOpenFromModule);
+
+        Then("^HE I verify the new user required to complete the Counselor Community profile form before they can access the following fields$",homePage::verifyRequiredPageforNewUser);
+
+        Then("^HE I verify the following fields are required fields in the Counselor Community profile form$",homePage::verifyRequiredFieldsInCCProfileForm);
+
+        Then("^HE I verify the user can access the following fields$",homePage::verifyingTabNavigation);
     }
 }
