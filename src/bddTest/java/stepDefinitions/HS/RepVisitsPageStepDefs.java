@@ -661,5 +661,17 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
 
         Then("^HS I verify HE user's name be an active hyperlink to the HS user's Community profile in visit feedback subtab$", repVisits::verifyHEUsersNameLink);
+
+        Then("^HS I verify visit feedback tab and its subtabs$",repVisits::verifyVisitFeedbackForHSUser);
+
+        Then("^HS I verify the visit feedback tab showing after Naviance Sync tab$", repVisits::verifyVisitFeedbackTagSequenceForNavianceHS);
+
+        Then("^HS I verify the visit feedback tab showing after Activity tab$", repVisits::verifyVisitFeedbackTagSequenceForNonHS);
+
+        And("^HS I verify the Pending subtab under Visit Feedback$", repVisits::verifyPendingSubtab);
+
+        And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
+
+        And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
     }
 }
