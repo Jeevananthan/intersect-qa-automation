@@ -495,6 +495,14 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 driver.findElements(By.cssSelector(gpaTooltipIconInResultsLocator)).size() == 0);
     }
 
+    /**
+     * Verifies there is no text (String text)  on the Page
+     */
+    public void verifyThereIsNoTextOnThePage(String text) {
+
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(), '"+text+"'")));
+    }
+
     // Locators Below
 
     private WebElement getDisableChosseOneDropdown(){return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
