@@ -1,5 +1,5 @@
 @HS @MATCH-1811
-Feature: As a HS user I need to logout from Intersect
+Feature: HS - LoginLogout - LogoutPage - As an HS user, I can logout to end my session
 
   @QASmokeTest
   Scenario: As an non Naviance HS user, I want to verify that the HS login page is displayed after logging out from Community

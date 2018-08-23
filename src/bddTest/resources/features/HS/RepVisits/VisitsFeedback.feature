@@ -1,5 +1,5 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Visit Feedback features.
+Feature:  HS - RepVisits - VisitsFeedback - As an HS user, I should be able to provide feedback on the visit to HE user
 
   @MATCH-3101
   Scenario: As a HS Repvisits user, I should be able to see the text '#HE User# has asked for feedback on their recent visit.' in every entry present in

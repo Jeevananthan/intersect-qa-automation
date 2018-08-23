@@ -1,5 +1,5 @@
 @HE @ActiveMatch
-Feature: HE - ActiveMatch - ActiveMatchConnections - As a HE Admin user with access, I can view and download my connections
+Feature: HE - ActiveMatch - ActiveMatchConnections - As an HE Admin user with access, I can view and download my connections
 
 @MATCH-3016
 Scenario:  As an HE intersect user, I need the ability to view my student connections from AM so I can see who has made a connection

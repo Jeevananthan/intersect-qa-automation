@@ -1,5 +1,5 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Blocked Days Features.
+Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days for visit availability
 
 
   @MATCH-2589

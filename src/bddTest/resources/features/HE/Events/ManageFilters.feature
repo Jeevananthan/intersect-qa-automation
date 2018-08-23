@@ -1,5 +1,5 @@
 @HE @Events @EventsFilters
-Feature: HE - Events - ManageFilters - As a HE Events user, I can create filters to recommend my event to targeted students
+Feature: HE - Events - ManageFilters - As an HE Events user, I can create filters to recommend my event to targeted students
 
   @MATCH-2895
   Scenario: As a HE Intersect user, I can create a filter in AM Events from the Create Filter Screen

@@ -1,5 +1,5 @@
 @HS
-Feature: HS - RepVisits - CollegeFairs - As an HS user, I want to be able to use the RepVisits College Fair features
+Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manange my College Fairs availability and appointments
 
   @MATCH-1962
   Scenario: As a HIGH School User, I want to verify College Fair Blank DashBoard

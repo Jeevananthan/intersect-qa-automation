@@ -1,5 +1,5 @@
 @HS @MATCH-1784
-Feature: As a HS user I need to login to Intersect
+Feature: HS - LoginLogout - LoginPage - As an HS user I can login with appropriate access
 
   @QASmokeTest
   Scenario: As an non Naviance HS user, I want to verify the content of the HS Login Page
