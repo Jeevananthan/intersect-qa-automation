@@ -302,7 +302,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @ParallelTest --tags ~@ignore</cucumber.options>
+                <cucumber.options>--tags @ParallelTest --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
@@ -475,7 +475,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
+                <version>2.22.0</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
