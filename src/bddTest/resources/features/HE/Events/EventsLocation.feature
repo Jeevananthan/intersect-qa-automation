@@ -1,6 +1,5 @@
 @HE @EventsLocation @MATCH-2914
-Feature: HE - Active Match Events - As a HE Intersect user with AM Events, I need the ability to create, edit, and
-  delete a location so that I can associate it to an Event.
+Feature: HE - Events - EventsLocation - As a HE Events user, I can manage event locations
 
   @MATCH-2914
   Scenario: A location can be created/edited/saved/deleted
