@@ -1,9 +1,9 @@
 @SP
-Feature: Hobsons Support - View HE Institution Accounts
+Feature: SP - Account Pages - AccountPageView - Manage Institution account and subscriptions
          As a Hobsons staff user I need to view individual institutional accounts.
 
   @MATCH-1670
-  Scenario: As a Support Users I can access Hubs view mode
+  Scenario: As a Support User I can access Hubs view mode
     Given SP I am logged in to the Admin page as an Admin user
     When SP I search for "Bowling Green State University-Main Campus" in "Institutions"
     And SP I select the following institution "Bowling Green State University-Main Campus" from the results
@@ -161,13 +161,7 @@ Feature: Hobsons Support - View HE Institution Accounts
   |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |ActiveMatchEventsModule   |ActiveMatchPlusModule|startDate|endDate|Active|year|color              |
   |Bowling Green State University-Main Campus|Legacy: Hub page management|Legacy: Community|Intersect Awareness Subscription|Intersect Presence Subscription|Legacy: ActiveMatch Events|ActiveMatch Plus     |15       |20     |active|2030|rgba(210, 0, 97, 1)|
 
-  @MATCH-1670
-  Scenario: As a Support User I can access Hubs view mode
-    Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "Bowling Green State University-Main Campus" in "Institutions"
-    And SP I select the following institution "Bowling Green State University-Main Campus" from the results
-    Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
-    And SP I successfully sign out
+
 
 
 

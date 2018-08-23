@@ -1,5 +1,5 @@
 @SP
-Feature: As a Support User, I want to be able to access HUBS View Mode
+Feature: SP - Community - Community - Verify access to Community and HUBS view mode
 
   @MATCH-1907
   Scenario: Support user cannot access Hubs View mode
