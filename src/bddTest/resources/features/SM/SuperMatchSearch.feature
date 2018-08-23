@@ -200,7 +200,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | Acceptance Rate | 25% or Lower |
     And SM I reload the page
     Then SM I verify the footnote for known GPA but unknown test scores for "Pomona College", with the text:
-    | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
+    | To determine if you're an academic match for this institution, enter your GPA and/or standardized test scores. |
 
    @MATCH-4276
    Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my test scores, but not my GPA
