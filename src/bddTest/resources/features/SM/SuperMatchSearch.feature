@@ -383,3 +383,11 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | user         | pass     | school     |
       | talka10grade | password | blue1combo |
       | uat_user6    | password | blue1combo |
+
+  @MATCH-4348
+  Scenario: Verify that on double clicking the PIN TO COMPARE link, the second click is bounced off
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I double click on PIN TO COMPARE link and check if the second click bounces off
