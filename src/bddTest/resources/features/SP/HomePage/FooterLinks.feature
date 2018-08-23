@@ -1,5 +1,5 @@
 @HS
-Feature: As a SP user, I want to be able to access Footer Links
+Feature: SP - HomePage - FooterLinks - Ability to access Privacy Policy and Terms of Use
 
   @MATCH-1430
   Scenario: As an Intersect system, I need to have a Privacy Policy page, a Terms of Use page

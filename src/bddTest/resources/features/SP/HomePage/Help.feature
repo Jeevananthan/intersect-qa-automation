@@ -1,5 +1,5 @@
 @SP
-Feature: As a HE user, I want to be able to access secure help link
+Feature: SP - HomePage - Help - Ability to access Help content
 
   @MATCH-2057 @MATCH-2195
   Scenario: As a SP user, I want to access to secure help links to learn about my features.
