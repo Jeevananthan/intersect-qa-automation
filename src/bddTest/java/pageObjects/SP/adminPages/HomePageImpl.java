@@ -99,6 +99,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToLogHistory(String institutionName) {
         goToInstitution(institutionName);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.linkText("View Log History"),1));
         link("View Log History").click();
         Assert.assertTrue(textbox("Search...").isDisplayed());
     }

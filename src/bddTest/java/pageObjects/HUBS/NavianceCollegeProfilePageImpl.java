@@ -56,6 +56,14 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         Assert.assertTrue("Text 'This College Profile Page is using mock student data to replicate a student experience.' is not displayed",driver.findElement(By.xpath("//div/span[text()='This College Profile Page is using mock student data to replicate a student experience.']")).isDisplayed());
         Assert.assertTrue("Button 'Publish' is not displayed",button("Publish").isDisplayed());
     }
+
+    public void navigateToInstitutionProfile(){
+        waitUntilPageFinishLoading();
+        navigationBar.goToCommunity();
+        waitForUITransition();
+        communityFrame();
+        driver.findElement(By.xpath("//a[text()='Institution']")).click();
+    }
     //Locators
     public WebElement getStartedButton() {
         return button("Get Started");
