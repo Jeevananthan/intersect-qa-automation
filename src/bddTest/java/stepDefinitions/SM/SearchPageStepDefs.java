@@ -110,6 +110,8 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::verifyAdmissionFitCriteriaCheckbox);
 
+        Then("^SM I select the \"([^\"]*)\" from the \"([^\"]*)\" fit criteria not closing the tab$", searchPage::selectCheckBoxNotClosingTab);
+
         Then("^SM I click on Institution Characteristics fit criteria$", searchPage::getInstitutionCharacteristicsFC);
 
         Then("^SM I check the selection and deselection and Must Have box functionality for Average Class Size drop down list$",
@@ -196,7 +198,15 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I select the \"([^\"]*)\" checkbox from \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
+        And("SM I verify that \"([^\"]*)\" checkbox is \"([^\"]*)\" in \"([^\"]*)\" fit criteria", searchPage::verifyCheckboxState);
+
         Then("^SM I clear all pills from Must have  and Nice to have boxes$", searchPage::clearAllPillsFromMustHaveAndNiceToHaveBox);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is displayed$", searchPage::verifyCheckboxIsDisplayed);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" is not checked$", searchPage::verifyCheckboxIsNotChecked);
+
+        And("^SM I verify that checkBox with text \"([^\"]*)\" can be checked|unchecked$", searchPage::verifyCheckboxCanBeCheckedAndUnchecked);
 
         And("^SM I press button \"([^\"]*)\"$", searchPage::pressButton);
 
@@ -205,6 +215,30 @@ public class SearchPageStepDefs implements En {
         And("^SM I press Why button for the first college in results with score (\\d+)%$", searchPage::pressWhyForCollegeWithScore);
 
         And("^SM I press Why button for \"([^\"]*)\" college$", searchPage::pressWhyButtonForCollege);
+
+        Then("^SM I scroll to the middle of the main page$", searchPage::scrollToMiddleOfMainPage);
+
+        Then("^SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page$", searchPage::verifyScrollBarIsPositionedAtTheTopOfPinnedSchoolsComparePage);
+
+        And("^SM I verify that CLEAR PINNED LIST option is clickable$", searchPage::verifyCLEARPINNEDLISTOptionIsClickable);
+
+        And("^SM I verify the CLEAR PINNED LIST confirmation modal$", searchPage::verifyCLEARPINNEDLISTConfirmationModal);
+
+        And("^SM I verify that the pinned colleges are not cleared when the NO CANCEL button is clicked in the modal$", searchPage::verifyPinnedCollegesNotClearedWhenNOCANCELbuttonIsClicked);
+
+        And("^SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal$",searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
+
+        And("^SM I verify that the CLEAR PINNED LIST option is disabled$", searchPage::verifyCLEARPINNEDLISTIsDisabled);
+
+        Then("^SM I verify if the validation message displayed for Zip Code field is user friendly$", searchPage::verifyZipCodeValidationMessage);
+
+        Then("^SM I pick the date \"([^\"]*)\" from the date picker$", searchPage::pickDateInDatePickerSM);
+
+        Then ("^SM I click clear calendar icon$", searchPage::clickClearCalendarIcon);
+
+        And("^SM I clean GPA/SAT/ACT scores$", searchPage::clearGPASATACTScores);
+
+        Then("^SM I send text \"([^\"]*)\" to the Zip Code field$", searchPage::sendTextToZipCOdeField);
 
     }
 }

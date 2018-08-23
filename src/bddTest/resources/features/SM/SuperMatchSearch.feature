@@ -178,7 +178,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select the "$5,000" option from the "Maximum Tuition and Fees" dropdown in Cost
     #The following step is needed to avoid MATCH-4830
     And SM I reload the page
-    Then SM I verify that "SABER College" displays "$0" in the Cost column
+    Then SM I verify that "Sistema Universitario Ana G Mendez" displays "$0" in the Cost column
 
   @MATCH-4276
   Scenario: As a HS student, I want to see specific footnotes when SuperMatch does not know my GPA and does not know my test scores
@@ -230,12 +230,10 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: As a HS student, I want to delete my saved searches so that list can contain only the saved
   searches I need presently
     Given SM I am logged in to SuperMatch through Family Connection
-    And I clear the onboarding popups if present
-    Then SM I create a save search "Search1" by selecting "Learning Differences Support" from Resources tab
-    Then SM I check the delete icon in save search "Search1"
-    Then SM After clicking "Search1" delete icon I check the confirmation popup message
-    And SM I check clicking outside will close the "Search1" popup message
-    And SM I delete the save search "Search1" and verify it
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I check if any save search is present if not then create a save search for "Learning Differences Support"
+    Then SM I verify delete confirmation popup message
+    And SM I delete the save search and verify it
 
   @MATCH-3628
   Scenario: As a HS student reviewing results from my search, I want to have an action available to jump back to the top of the SuperMatch page
@@ -312,3 +310,74 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify the following data in the Cost Fit Criteria
       |Family Income|$75,001 - $110,000|
 
+  @MATCH-3589
+  Scenario: Verify the checkboxes in the College Type fit criteria
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify that "Public" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Private" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I unselect the "Public" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that "Public" checkbox is "unselected" in "Institution Characteristics" fit criteria
+    Then SM I select the "Public" checkbox from "Institution Characteristics" fit criteria
+    Then SM I verify that "Public" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I unselect the "Private" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that "Private" checkbox is "unselected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "unselected" in "Institution Characteristics" fit criteria
+    Then SM I select the "Private" checkbox from "Institution Characteristics" fit criteria
+    Then SM I verify that "Private" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I unselect the "Show only non-profit" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that "Private" checkbox is "selected" in "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "unselected" in "Institution Characteristics" fit criteria
+    Then SM I select the "Show only non-profit" checkbox from "Institution Characteristics" fit criteria
+    Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
+
+  @MATCH-4682
+  Scenario: The Compare seems to load and focus itself in the same general area you were on the main page of SuperMatch.
+  Verify that this doesn't happen.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "2" colleges
+    Then SM I scroll to the middle of the main page
+    And SM I open the Pinned Schools Compare screen
+    Then SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page
+
+  @MATCH-3522
+  Scenario: As a HS student using SuperMatch I want to clear all of my currently pinned schools so I can quickly wipe
+  that list and start over.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "1" colleges
+    Then SM I verify that CLEAR PINNED LIST option is clickable
+    Then SM I verify the CLEAR PINNED LIST confirmation modal
+    Then SM I verify that the pinned colleges are not cleared when the NO CANCEL button is clicked in the modal
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I verify that the CLEAR PINNED LIST option is disabled
+
+  @MATCH-4133
+  Scenario: Verify the validation message displayed in the Zip Code field
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify if the validation message displayed for Zip Code field is user friendly
+    |Location Search Type|Select Miles    |Zip Code|Verify Error Message Displayed |Verify Pill Displayed In Must Have Box|Verify Pill Not Displayed In Must Have Box|
+    |Search by distance  |Within 500 miles|        |                               |                                      |Within 500 miles                          |
+    |Search by distance  |Select Miles    |90001   |                               |                                      |90001                                     |
+    |Search by distance  |Within 25 miles |90001   |                               |Within 25 miles of 90001              |                                          |
+    |Search by distance  |Within 25 miles |9000    |Enter a valid, 5 digit zip code|                                      |                                          |
+    |Search by distance  |Within 25 miles |90001   |                               |                                      |                                          |
+
+  @MATCH-4654
+  Scenario: As a HS student using SuperMatch I want to see colleges interested in me so I can make more connections with colleges I am interested in
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then I check if I can see "Interested In You" on the page
+    Then SM I press button "Interested In You"
+    Then I check if I can see "Colleges Looking For Students Like You" on the page
+
+  @MATCH-4654
+  Scenario Outline: As a HS student using SuperMatch I cannot see colleges interested in me because there are 0 or I have no permissions
+    Given SM I am logged in to SuperMatch through Family Connection as user "<user>" with password "<pass>" from school "<school>"
+    Then I verify that there is not text "Interested In You" on the page
+    Examples:
+      | user         | pass     | school     |
+      | talka10grade | password | blue1combo |
+      | uat_user6    | password | blue1combo |

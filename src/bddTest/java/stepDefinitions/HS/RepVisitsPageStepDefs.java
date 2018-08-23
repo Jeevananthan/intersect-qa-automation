@@ -34,6 +34,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addNewTimeSlot);
 
+        Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addnewTimeSlot);
+
         Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
 
         Then("^HS I verify the \"([^\"]*)\" and \"([^\"]*)\" date was set in the calendar$", repVisits::verifyStartAndEndDates);
@@ -608,6 +610,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
 
+        Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
+
+        Then("^HS I verify the disabled date \"([^\"]*)\" is not clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsNotClickableInEndDate);
+
         And("^HS I click on the Save Settings button in College Fairs tab$",repVisits::clickSaveSettingsButtonInCollegeFairsTab);
 
         And("^HS I verify that a banner appears letting me know that College Fair settings were saved$",repVisits::verifySettingsSavedBannerIsDislayedInCollegeFairsTab);
@@ -619,11 +625,41 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I select \"([^\"]*)\" option for \"([^\"]*)\"$",repVisits::selectOptionInFairs);
 
         Then("^HS I verify the DECLINE pop-up for \"([^\"]*)\",\"([^\"]*)\" in Fairs$",repVisits::verifyDeclinePopupInFairs);
-      
+
         Then("^HS I verify the user can access \"([^\"]*)\" view$",repVisits::accessAgendaView);
 
         Then("^HS I verify the user cannot access Agenda view$",repVisits::verifyUserCannotAccessAgendaView);
-      
+
         Then("^HS I verify \"([^\"]*)\" stub menu is not present in Account settings page for \"([^\"]*)\"$",repVisits::verifyYourNotificationTab);
+
+        Then("^HS I verify the following details are displaying in Naviance Settings page$",repVisits::verifyNavianceSettingsPage);
+
+        Then("^HS I navigate to naviance settings page$",repVisits::navigateToNavianceSettingsInAvailabilitySettingsPage);
+
+        And("^HS I navigate to \"([^\"]*)\" wizard in repvisits page$", repVisits::navigateToRepvisitWizardPage);
+
+        Then("^HS I complete the set up wizard page by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::goToCalendarInWizardLastStepPage);
+
+        Then("^HS I complete the set up wizard that not yet completed by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::completeSetupWizard);
+
+        And("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in Agenda view$", repVisits::setStartDateAndEndDateInAgendaView);
+
+        And("^HS I verify that \"([^\"]*)\" visits are displayed in Agenda view$", repVisits::verifyNumberOfVisitsDisplayedInAgendaView);
+
+        And("^HS I verify that it should not be possible to select an End date \"([^\"]*)\" which is less than the Start date \"([^\"]*)\" in Agenda view$", repVisits::verifyUserCannotSelectEndDateWhichIsLessThanStartDateInAgendaView);
+
+        Then("^HS I go to the Naviance Settings to select the option \"([^\"]*)\"$",repVisits::selectOptionforManuallyorAutomatically);
+
+        Then("^HS I verify the Notification is \"([^\"]*)\" in the Naviance Sync Tab for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNavianceSyncTab);
+
+        Then("^HS I verify the Rescheduled Notification is \"([^\"]*)\" in the Naviance Sync Tab for an appointment that has not been pushed to Naviance using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyRescheduledNotificationInNavianceSyncTab);
+
+        Then("^HS I select calendar in RepVisits$",repVisits::selectCalendar);
+
+        Then("^HS I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCalendarPage);
+
+        Then("^HS I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
+
+        Then("^HS I verify HE user's name be an active hyperlink to the HS user's Community profile in visit feedback subtab$", repVisits::verifyHEUsersNameLink);
     }
 }
