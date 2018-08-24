@@ -160,3 +160,26 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
       | administrator | Counselor Community      | PARTICIPATE | counselor-community/            |
       | publishing    | Counselor Community      | PARTICIPATE | counselor-community/            |
       | community     | Counselor Community      | PARTICIPATE | counselor-community/            |
+
+  @MATCH-1430
+  Scenario: As a HE user, I should be able to access Privacy Policy and Terms of Use pages
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify "Terms of Service" is present in the footer
+    Then HE I verify "Privacy Policy" is present in the footer
+    Then HE I navigate to each page and verify the unique URL is present in the "Terms of Service" page
+    Then HE I navigate to each page and verify the unique URL is present in the "Privacy Policy" page
+    And HE I successfully sign out
+
+  @MATCH-2057 @MATCH-2195
+  Scenario: As a HE user, I want to access to secure help links to learn about my features.
+  So non-clients cannot access our help content and learn about our product.
+    Given HE I want to login to the HE app using "purpleheautomation+HEAlmaCollege@gmail.com" as username and "Password!1" as password
+    Then HE I verify that the help content is secure and matches the correct URL for "HE Users"
+    And HE I successfully sign out
+
+  @MATCH-1430
+  Scenario: As a HE user, I can access Community Guidelines page
+  to read and understand how they are supposed to used the system and how the system uses their information.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to each page and verify the unique URL is present in the "Counselor Community Guidelines" page in Help Center
+    Then HE I successfully sign out

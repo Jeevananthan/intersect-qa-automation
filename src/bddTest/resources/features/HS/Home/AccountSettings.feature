@@ -1,5 +1,5 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Account Settings page.
+Feature: HS - Home - AccountSettings - As an HS user, I can manage my account settings
 
   @MATCH-3060 @MATCH-3061
   Scenario Outline: As a HS Naviance RepVisits user,I want one page to go to to manage all my settings
