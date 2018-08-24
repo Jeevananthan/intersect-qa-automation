@@ -1765,6 +1765,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifySecondClickBouncesOffForPinToCompare()
+    {
+        WebElement pinToCompareElement = pinToCompareElement();
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", pinToCompareElement, resultsTableHeader());
+
+        Actions action = new Actions(driver);
+        action.doubleClick(pinToCompareElement).perform();
+
+        int pinnedCollegeCountAfterDoubleClick = Integer.parseInt(pinCount().getText());
+
+        Assert.assertTrue("The second click on PIN TO COMPARE link is not bounced off",pinnedCollegeCountAfterDoubleClick == 1);
+
+    }
+
     public void verifyErrorMessageDisplayedOnPinning26thCollege() {
 
         Assert.assertTrue("'Only allowed to pin 25 schools' error message is not displayed", maxTwentyFivePinnedSchoolsAllowedErrorMessage().isDisplayed());
