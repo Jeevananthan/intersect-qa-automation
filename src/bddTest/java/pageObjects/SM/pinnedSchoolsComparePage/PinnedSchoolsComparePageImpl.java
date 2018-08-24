@@ -12,6 +12,7 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.io.File;
 
+import pageObjects.SM.searchPage.SearchPageImpl;
 import utilities.HUBSEditMode.Navigation;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSMTooltipsContent%sSMTooltipsContent.properties", fs, fs, fs, fs, fs);
 
     private Navigation navigation = new Navigation();
+    private SearchPageImpl searchPage = new SearchPageImpl();
 
     public PinnedSchoolsComparePageImpl() {
         logger = Logger.getLogger(PinnedSchoolsComparePageImpl.class);
@@ -225,6 +227,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpinSchool(String collegeName) {
+        searchPage.scrollDown(exportButton());
         if (pinLink(collegeName).getText().contains("PINNED")) {
             pinLink(collegeName).click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(pinLinkLocator(collegeName)), 0));
@@ -313,7 +316,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     private String pinLinkLocator(String collegeName) {
-        return "//p[@class='collegename' and text() = '" + collegeName + "']/../p/a/span[@class = 'supermatch-toggle-icon supermatch-college-button-selected']";
+        return "//p[@class='collegename' and text() = '" + collegeName + "']/../div/p/a/span[@class = 'supermatch-toggle-icon supermatch-college-button-selected']";
     }
 
     private WebElement exportButton() {

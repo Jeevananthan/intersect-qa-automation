@@ -300,46 +300,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void addNewTimeSlot(String day, String startTime, String endTime, String numVisits) {
+    public void addNewTimeSlot(String day, String hourStartTime, String hourEndTime, String minuteStartTime, String minuteEndTime, String meridianStartTime, String meridianEndTime, String numVisits) {
         navigationBar.goToRepVisits();
-        WebElement element = availabilityAndSettings();
-        waitUntilElementExists(element);
         availabilityAndSettings().click();
-        waitUntilPageFinishLoading();
         availability().click();
-        waitUntilPageFinishLoading();
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
-        startOrEndDate().sendKeys(Keys.PAGE_DOWN);
-        addTimeSlot().click();
-        List<WebElement> slot= driver.findElements(By.cssSelector("button[class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
-        if(slot.size()>0){
-            availabilityButton().sendKeys(Keys.PAGE_DOWN);
-        }
-        availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
-        waitForUITransition();
+        driver.findElement(By.xpath("//button[@class='ui button _1RspRuP-VqMAKdEts1TBAC']")).sendKeys(Keys.PAGE_DOWN);
+        button(By.cssSelector("button[class='ui primary button _3uyuuaqFiFahXZJ-zOb0-w']")).click();
+        Actions action = new Actions(getDriver());
+        action.sendKeys(Keys.PAGE_DOWN).sendKeys(Keys.PAGE_DOWN).build().perform();
         waitUntilElementExists(selectDay());
-        String visitDay = day(day);
-        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", visitDay);
-        StartTime = startTime(startTime);
-        logger.info("Start Time = " + StartTime);
-        addStartTime().sendKeys(StartTime);
-        addEndTime().sendKeys(endTime);
-        logger.info("End Time = " + endTime);
+        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", day);
+        inputStartTime(hourStartTime, minuteStartTime, meridianStartTime);
+        inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
-        addTimeSlotSubmit().click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
-        List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
-        List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
-        if(displayingPopup.size()==1){
-            driver.findElement(By.id("ignore-time-slots")).click();
-            button("Add regular hours").click();
-            waitUntilPageFinishLoading();
-            waitForUITransition();
-        }else if(duplicateTimeSlot.size()==1){
-            addnewTimeSlot(day, startTime, endTime, numVisits);
+//        addTimeSlot().click();
+        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='availability']")));
+        if(driver.findElements(By.xpath("//div[@class='ui small modal transition visible active']")).size()>0){
+            selectOptionInReviewPreviouslyDeletedTimeSlotsModal
+                    ("Add time slot to regular hours, and create for the dates above");
         }
     }
 
@@ -609,18 +591,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
     }
 
-    public void inputStartTime(String startTime)
+
+    public void inputStartTime(String hour, String minute, String meridian)
     {
         WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='startTime']"));
-        String inputStart = startTime;
-        inputStartTime.sendKeys(inputStart);    }
+        inputStartTime.click();
+        inputStartTime.sendKeys(hour + ":");
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
 
-    public void inputEndTime(String endTime)
+    }
+
+    public void inputEndTime(String hour, String minute, String meridian)
     {
-        WebElement inputEndTime = driver.findElement(By.cssSelector("input[name='endTime']"));
-        String inputEnd = endTime;
-
-        inputEndTime.sendKeys(inputEnd);
+        WebElement inputStartTime = driver.findElement(By.cssSelector("input[name='endTime']"));
+        inputStartTime.click();
+        inputStartTime.sendKeys(hour + ":");
+        inputStartTime.sendKeys(minute);
+        inputStartTime.sendKeys(meridian);
+        inputStartTime.sendKeys(Keys.TAB);
     }
 
     public void visitsNumber(String numVisits) {
@@ -1951,10 +1940,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessCollegeFairOverviewPage(String fairName) {
         navigationBar.goToRepVisits();
         collegeFairs().click();
-        while (viewMoreUpcomingEventsLink().isDisplayed()) {
-            viewMoreUpcomingEventsLink().click();
-            WebElement element=viewMoreUpcomingEventsLink();
-//            waitUntilElementExists(element);
+        Boolean verifyElement = false;
+        try {
+            verifyElement = driver.findElement(By.xpath("//*[contains(text(), 'View More Upcoming Events']/..')]")).isDisplayed();
+        }catch(NoSuchElementException e){
+            verifyElement  = false;
+        }
+
+        if(verifyElement)
+        {
+            while (viewMoreUpcomingEventsLink().isDisplayed()) {
+                viewMoreUpcomingEventsLink().click();
+                WebElement element=viewMoreUpcomingEventsLink();
+    //            waitUntilElementExists(element);
+            }
         }
         // If we're using a previously set Dynamic fair name, look for that instead.
         if (fairName.equalsIgnoreCase("PreviouslySetFair"))
@@ -6482,7 +6481,52 @@ public void cancelRgisteredCollegeFair(String fairName){
         Assert.assertTrue("Negative message is not displayed",negativeMessageInRepvisits().isDisplayed());
     }
 
-    /*locators for Messaging Options Page*/
+    public void verifyHEUsersNameLink(){
+        navigationBar.goToRepVisits();
+        //link("Notifications & Tasks").click();
+        notificationsAndTasks().click();
+        waitUntilPageFinishLoading();
+        link("Visit Feedback").click();
+        waitUntilPageFinishLoading();
+        link("PENDING").click();
+        waitUntilPageFinishLoading();
+        if(text("No visits to submit feedback, yet").isDisplayed()){
+            logger.info("There is no data present to show under Visit Feedback-->Pending subtab, so verifying default text !!!");
+            Assert.assertTrue("No visits to submit feedback, yet text is not displaying", text("No visits to submit feedback, yet").isDisplayed());
+            Assert.assertTrue("Previous visits that are available to provide feedback on will... is not displaying", text("Previous visits that are available to provide feedback on will appear here. Providing feedback helps colleges improve the way they connect with students and high schools.").isDisplayed());
+        }else {
+            if (getUserNameHE().isEnabled()){
+                String userNameColorHE = getUserNameHE().getCssValue("color");
+                Assert.assertTrue("HE user name is not showing teal in color.", userNameColorHE.contains("rgba(30, 120, 122, 1)"));
+                getUserNameHE().click();
+                waitUntilPageFinishLoading();
+                String getURLHE = driver.getCurrentUrl();
+                Assert.assertTrue("User link is not working.", getURLHE.contains("/community/profile/"));
+            }
+        }
+
+        link("SUBMITTED").click();
+        if(text("No visit feedback has been submitted.").isDisplayed()){
+            logger.info("There is no data present to show under Visit Feedback-->Submitted subtab, so verifying default text !!!");
+            Assert.assertTrue("No visit feedback has been submitted. text is not displaying", text("No visit feedback has been submitted.").isDisplayed());
+        }else {
+            WebElement userNameHS = driver.findElement(By.xpath("//span[contains(text(), 'provided feedback about a visit.')]/../a"));
+            if (userNameHS.isEnabled()){
+                String userNameColorHS = userNameHS.getCssValue("color");
+                Assert.assertTrue("HE user name is not showing teal in color.", userNameColorHS.contains("rgba(30, 120, 122, 1)"));
+                userNameHS.click();
+                waitUntilPageFinishLoading();
+                String getURLHS = driver.getCurrentUrl();
+                Assert.assertTrue("User link is not working.", getURLHS.contains("/community/profile/"));
+            }
+        }
+    }
+
+    /*locators*/
+
+    private WebElement getUserNameHE() {
+        return driver.findElement(By.xpath("//span[contains(text(), 'has asked for feedback on their recent visit.')]/..//a"));
+    }
 
     private WebElement primaryContact() {
         return getDriver().findElement(By.cssSelector("div[name='primaryContact'"));
@@ -6755,6 +6799,232 @@ public void cancelRgisteredCollegeFair(String fairName){
                 Assert.fail("Invalid user");
                 break;
         }
+    }
+
+    //The below method is to check the functionality of Visit Feedback-->Pending & Submitted subtab like when there is data present in both subtabs & when both are empty accordingly.
+    public void verifyVisitFeedbackForHSUser() {
+        navigationBar.goToRepVisits();
+        notificationsAndTasks().click();
+        //link("Notifications & Tasks").click();
+        waitUntilPageFinishLoading();
+        visitFeedback().click();
+        waitUntilPageFinishLoading();
+
+        Assert.assertTrue("Pending subtab is not displaying.", link("PENDING").isDisplayed());
+        Assert.assertTrue("Submitted subtab is not displaying.", link("SUBMITTED").isDisplayed());
+        Assert.assertTrue("Visit Feedback text is not displaying.", getDriver().findElement(By.xpath("//div[@class='ui header']/span[text()='Visit Feedback']")).isDisplayed());
+        Assert.assertTrue("The following institutions have asked for feedback on their visit. text is not displaying.", text("The following institutions have asked for feedback on their visit.").isDisplayed());
+        Assert.assertTrue("Take the HS user to the 'Pending' sub tab by default is clicked not working", driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='Pending']")).isDisplayed());
+    }
+
+    //The below method will verify the left panel tag sequence for Naviance HS Users
+    public void verifyVisitFeedbackTagSequenceForNavianceHS(){
+        navigationBar.goToRepVisits();
+        notificationsAndTasks().click();
+        //link("Notifications & Tasks").click();
+        waitUntilPageFinishLoading();
+        visitFeedback().click();
+        waitUntilPageFinishLoading();
+
+        WebElement leftPanel = text(By.xpath("//ul[@class='ui vertical third menu']"));
+        List<WebElement> leftPanelItems = leftPanel.findElements(By.tagName("a"));
+        String expLeftPanelItems[] = { "Requests", "Activity", "Naviance Sync", "Visit Feedback"};
+        int i=0;
+        for (WebElement element : leftPanelItems) {
+            String elementText = element.getText();
+            Assert.assertTrue("RepVisits --> Notification & Tasks, left panel items are not in proper sequence.", elementText.equalsIgnoreCase(expLeftPanelItems[i]));
+            i++;
+        }
+    }
+
+    //The below method will verify the left panel tag sequence for Non-Naviance HS Users
+    public void verifyVisitFeedbackTagSequenceForNonHS(){
+        navigationBar.goToRepVisits();
+        notificationsAndTasks().click();
+        //link("Notifications & Tasks").click();
+        waitUntilPageFinishLoading();
+        visitFeedback().click();
+        waitUntilPageFinishLoading();
+
+        WebElement leftPanel = text(By.xpath("//ul[@class='ui vertical third menu']"));
+        List<WebElement> leftPanelItems = leftPanel.findElements(By.tagName("a"));
+        String expLeftPanelItems[] = { "Requests", "Activity", "Visit Feedback"};
+        int i=0;
+        for (WebElement element : leftPanelItems) {
+            String elementText = element.getText();
+            Assert.assertTrue("RepVisits --> Notification & Tasks, left panel items are not in proper sequence.", elementText.equalsIgnoreCase(expLeftPanelItems[i]));
+            i++;
+        }
+    }
+
+    // Validates the "Pending" tab for RepVisits Feedback.  Expects to already be on the feedback page.
+    public void verifyPendingSubtab() {
+        link("PENDING").click();
+        waitUntilPageFinishLoading();
+        if (text("No visits to submit feedback, yet").isDisplayed()) {
+            logger.info("There is no data present to show under Visit Feedback-->Pending subtab, so verifying default text !!!");
+            Assert.assertTrue("No visits to submit feedback, yet text is not displaying", text("No visits to submit feedback, yet").isDisplayed());
+            Assert.assertTrue("Previous visits that are available to provide feedback on will... is not displaying", text("Previous visits that are available to provide feedback on will appear here. Providing feedback helps colleges improve the way they connect with students and high schools.").isDisplayed());
+        } else {
+            logger.info("Visit feedback data is present under Visit Feedback-->Pending subtab !!!");
+            WebElement userInfoAndTimeBar = driver.findElement(By.xpath("//div[@class='row _35sP911yWhTVQLgBQ_uz0a']"));
+            Assert.assertTrue("Date is not displaying in HE side.", userInfoAndTimeBar.findElement(By.xpath(".//div[@class='gmxHq4ccK-TdfOAyiXiky _2Ye8Ial27PcdAQzLSnk_Lu']")).isDisplayed());
+            Assert.assertTrue("HE name is not displaying with text has asked for feedback on their recent visit.", getUserNameHE().isDisplayed());
+            Assert.assertTrue("Institution information and time is not displaying.", driver.findElements(By.xpath("//div[@class='_2Ye8Ial27PcdAQzLSnk_Lu']")).size() > 1);
+            Assert.assertTrue("How was the visit? text is not displaying", text("How was the visit?").isDisplayed());
+            Assert.assertTrue("I don't want to submit feedback on this visit text is not displaying", text("I don't want to submit feedback on this visit").isDisplayed());
+            checkStarRatingValidation();
+        }
+    }
+
+    private void checkStarRatingValidation(){
+        link("PENDING").click();
+        waitUntilPageFinishLoading();
+        if(text("How was the visit?").isDisplayed()){
+            if (driver.findElements(By.xpath("//div[@class='_3eL2jveDiva_TtJk49-Jdt']")).size()==25){
+                Assert.assertTrue("Display up to 25 visits to rate at a time, and then display 'View More' pagination is not working.", button("Show More").isDisplayed());
+            }
+
+            String fullVisitsText = driver.findElement(By.xpath("//div[@class='availability']")).getText();
+            Assert.assertTrue("Fair detail is displaying.", !fullVisitsText.contains("Fair"));
+
+            WebElement visitOne = driver.findElement(By.xpath("(//div[@class='_3eL2jveDiva_TtJk49-Jdt'])[1]"));
+            visitOne.findElement(By.xpath("//span[contains(text(),'want to submit feedback on this visit')]")).click();
+            Assert.assertTrue("Institute avator is not displaying.", visitOne.findElement(By.tagName("img")).isDisplayed());
+            Assert.assertTrue("Are you sure you do not want to submit feedback on this visit? text is not displaying.", text("Are you sure you do not want to submit feedback on this visit?").isDisplayed());
+            Assert.assertTrue("CONFIRM button is not displaying.", button("CONFIRM").isDisplayed());
+            Assert.assertTrue("Cancel button is not displaying.", button("Cancel").isDisplayed());
+
+            button("Cancel").click();
+            Assert.assertTrue("I don't want to submit feedback on this visit text is not displaying", visitOne.findElement(By.xpath("//span[contains(text(),'want to submit feedback on this visit')]")).isDisplayed());
+
+            Assert.assertTrue("Empty One Star is not displaying.", visitOne.findElement(By.xpath(".//i[@aria-posinset='1'][@aria-checked='false']")).isDisplayed());
+            Assert.assertTrue("Empty Two Star is not displaying.", visitOne.findElement(By.xpath(".//i[@aria-posinset='2'][@aria-checked='false']")).isDisplayed());
+            Assert.assertTrue("Empty Third Star is not displaying.", visitOne.findElement(By.xpath(".//i[@aria-posinset='3'][@aria-checked='false']")).isDisplayed());
+            Assert.assertTrue("Empty Fourth Star is not displaying.", visitOne.findElement(By.xpath(".//i[@aria-posinset='4'][@aria-checked='false']")).isDisplayed());
+            Assert.assertTrue("Empty Fifth Star is not displaying.", visitOne.findElement(By.xpath(".//i[@aria-posinset='5'][@aria-checked='false']")).isDisplayed());
+
+            visitOne.findElement(By.xpath(".//i[@aria-posinset='5']")).click();
+            Assert.assertTrue("What was great about the visit? text is not displaying.", text("What was great about the visit?").isDisplayed());
+            String fullVisitText = visitOne.getText();
+            visitOne.findElement(By.xpath(".//i[@aria-posinset='4']")).click();
+
+            Assert.assertTrue("What could be improved? * text is not displaying", text("What could be improved?").isDisplayed());
+            Assert.assertTrue("How was the visit? text is not displaying", visitOne.findElement(By.xpath("//span[text()='How was the visit?']")).isDisplayed());
+            Assert.assertTrue("Professionalism is not displaying", button("Professionalism").isDisplayed());
+            Assert.assertTrue("Knowledge is not displaying", button("Knowledge").isDisplayed());
+            Assert.assertTrue("Materials is not displaying", button("Materials").isDisplayed());
+            Assert.assertTrue("Other is not displaying", button("Other").isDisplayed());
+            Assert.assertTrue("Add a comment is not displaying", text("Add a comment").isDisplayed());
+            Assert.assertTrue("Optional Comments place holder text is not displaying.", driver.findElement(By.xpath("//div[@class='field _38acLFlWVzR-FmmFmaZg_G']/textarea")).getAttribute("placeholder").equalsIgnoreCase("Optional Comments"));
+
+            Assert.assertTrue("500 characters left text is not displaying.", text("500 characters left").isDisplayed());
+            driver.findElement(By.xpath("//div[@class='field _38acLFlWVzR-FmmFmaZg_G']/textarea")).sendKeys("test");
+            Assert.assertTrue("While writing comment characters are not decreasing.", text("496 characters left").isDisplayed());
+
+            Assert.assertTrue("Submit feedback anonymously text is not displaying.", text("Submit feedback anonymously").isDisplayed());
+            Assert.assertTrue("Submit feedback anonymously checkbox is checked.", !driver.findElement(By.id("is-anonymous-checkbox")).isSelected());
+            Assert.assertTrue("Your name will be included with your feedback unless you choose to submit it anonymously. text is not displaying.", text("Your name will be included with your feedback unless you choose to submit it anonymously.").isDisplayed());
+            Assert.assertTrue("CANCEL button is not displaying.", button("CANCEL").isDisplayed());
+            Assert.assertTrue("SEND FEEDBACK button is not disabled", !button("SEND FEEDBACK").isEnabled());
+
+            button("CANCEL").click();
+            fullVisitText = visitOne.getText();
+            Assert.assertTrue("What could be improved? text is still displaying.", !fullVisitText.contains("What could be improved?"));
+            visitOne.findElement(By.xpath(".//i[@aria-posinset='4']")).click();
+            fullVisitText = visitOne.getText();
+
+            button("Professionalism").click();
+
+            Assert.assertTrue("SEND FEEDBACK button is disabled", button("SEND FEEDBACK").isEnabled());
+            button("SEND FEEDBACK").click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue("Feedback sent! text is not displaying", text("Feedback sent!").isDisplayed());
+
+            fullVisitText = visitOne.getText();
+            Assert.assertTrue("What could be improved? * text is displaying", !fullVisitText.contains("What could be improved?"));
+            Assert.assertTrue("How was the visit? text is displaying", !fullVisitText.contains("How was the visit?"));
+            Assert.assertTrue("Add a comment is displaying", !fullVisitText.contains("Add a comment"));
+            driver.navigate().refresh();
+
+            //visitOne = driver.findElement(By.xpath("(//div[@class='_3eL2jveDiva_TtJk49-Jdt'])[1]"));
+            //fullVisitText = visitOne.getText();
+            Assert.assertTrue("Feedback sent! text is still displaying", !text("Feedback sent!").isDisplayed());
+
+        }
+    }
+
+    public void submitAnonymouslyFeedback(){
+        link("PENDING").click();
+        if(text("How was the visit?").isDisplayed()){
+            WebElement visitPending1 = driver.findElement(By.xpath("(//div[@class='_3eL2jveDiva_TtJk49-Jdt'])[1]"));
+            visitPending1.findElement(By.xpath(".//i[@aria-posinset='2']")).click();
+            button("Professionalism").click();
+            text(By.id("is-anonymous-checkbox")).click();
+            Assert.assertTrue("SEND FEEDBACK button is disabled", button("SEND FEEDBACK").isEnabled());
+            button("SEND FEEDBACK").click();
+            waitUntilPageFinishLoading();
+            Assert.assertTrue("Feedback sent! text is not displaying", text("Feedback sent!").isDisplayed());
+            verifyLockIconForAnonymouslyFeedback();
+        }
+    }
+
+    private void verifyLockIconForAnonymouslyFeedback(){
+        link("SUBMITTED").click();
+        WebElement firstSubmittedVisit = text(By.xpath("(//div[@class='_2EkuXNSXnDSal55Gx0CRix'])[1]"));
+        Assert.assertTrue("Lock icon is not displaying for Anonymously Feedback in Submitted tab.", firstSubmittedVisit.findElement(By.xpath("//i[@class='lock icon']")).isDisplayed());
+    }
+
+    public void verifySubmittedSubtab() {
+        link("SUBMITTED").click();
+        if (text("No visit feedback has been submitted.").isDisplayed()) {
+            logger.info("There is no data present to show under Visit Feedback-->Submitted subtab, so verifying default text !!!");
+            Assert.assertTrue("No visit feedback has been submitted. text is not displaying", text("No visit feedback has been submitted.").isDisplayed());
+        } else {
+            logger.info("Visit feedback data is present under Visit Feedback-->Submitted subtab !!!");
+            boolean fiveStar = false, lessThenFiveStar = false;
+            Assert.assertTrue("Your Visit Feedback text is not displaying", text("Your Visit Feedback").isDisplayed());
+            WebElement HSUserInfoBar = driver.findElement(By.xpath("//div[@class='row _35sP911yWhTVQLgBQ_uz0a']"));
+            Assert.assertTrue("Time duration information bar is not displaying.", HSUserInfoBar.findElement(By.xpath(".//div[@class='gmxHq4ccK-TdfOAyiXiky _2Ye8Ial27PcdAQzLSnk_Lu']")).isDisplayed());
+            Assert.assertTrue("HS user name is not displaying.", getUserNameHS().isDisplayed());
+            Assert.assertTrue("Institution information with time is not displaying.", driver.findElements(By.xpath("//div[@class='_2Ye8Ial27PcdAQzLSnk_Lu']")).size() > 1);
+
+            if (driver.findElements(By.xpath("//div[@class='_2EkuXNSXnDSal55Gx0CRix']")).size() == 25) {
+                Assert.assertTrue("Display up to 25 visits at a time, and then display 'View More' pagination is not working.", button("Show More").isDisplayed());
+            }
+
+            //if (text(By.xpath("//i[@aria-posinset='5'][@aria-checked='true']")).isDisplayed()){
+            if (driver.findElements(By.xpath("//i[@aria-posinset='5'][@aria-checked='true']")).size()>0) {
+                WebElement fiveStarVisit = driver.findElement(By.xpath("//i[@aria-posinset='5'][@aria-checked='true']/../../.."));
+                Assert.assertTrue("What Was Great text is not displaying.", fiveStarVisit.findElement(By.xpath(".//span[text()='What Was Great']")).isDisplayed());
+                Assert.assertTrue("What Was Great text, options are not displaying.", fiveStarVisit.findElement(By.xpath("//span[text()='Professionalism']")).isDisplayed() || fiveStarVisit.findElement(By.xpath("//span[text()='Knowledge']")).isDisplayed() || fiveStarVisit.findElement(By.xpath("//span[text()='Materials']")).isDisplayed() || fiveStarVisit.findElement(By.xpath("//span[text()='Other']")).isDisplayed());
+                fiveStar = true;
+            }
+
+            if (driver.findElements(By.xpath("//span[contains(text(), 'What Could Be Improved')]")).size()>0) {
+                WebElement NotFiveStarVisit = driver.findElement(By.xpath(".//span[contains(text(), 'What Could Be Improved')]/../.."));
+                Assert.assertTrue("What Could Be Improved text is not displaying.", NotFiveStarVisit.findElement(By.xpath(".//span[text()='What Could Be Improved']")).isDisplayed());
+                Assert.assertTrue("What Could Be Improved text, options are not displaying.", NotFiveStarVisit.findElement(By.xpath("//span[text()='Professionalism']")).isDisplayed() || NotFiveStarVisit.findElement(By.xpath("//span[text()='Knowledge']")).isDisplayed() || NotFiveStarVisit.findElement(By.xpath("//span[text()='Materials']")).isDisplayed() || NotFiveStarVisit.findElement(By.xpath("//span[text()='Other']")).isDisplayed());
+                lessThenFiveStar = true;
+            }
+            WebElement visit = driver.findElement(By.xpath("//div[@class='_2EkuXNSXnDSal55Gx0CRix']"));
+            Assert.assertTrue("Options(it can be all or any 1,2 or 3) ie Professionalism, Knowledge, Materials, Others is not displaying.", driver.findElement(By.xpath("//span[@class='_36RjaM33LbOxryL43lH6Ds']")).isDisplayed());
+            Assert.assertTrue("Comment section is not displaying.", visit.findElement(By.xpath("//span[text()='Comments']")).isDisplayed());
+            Assert.assertTrue("Submitted by option verification is not proper.", visit.findElement(By.xpath("//span[contains(text(), \"This feedback was submitted with the author's name and your high school information.\")]")).isDisplayed() || visit.findElement(By.xpath("//span[text()='This feedback was shared anonymously.']")).isDisplayed());
+            Assert.assertTrue("HE institution avator is not displaying.", visit.findElement(By.tagName("img")).isDisplayed());
+            if (fiveStar && lessThenFiveStar)
+                logger.info("Visit with five star and less than five star are validated");
+            else if (fiveStar)
+                logger.info("Only Visit with five star is validated, since we don't have any visit less than five start in submitted subtab.");
+            else if (lessThenFiveStar)
+                logger.info("Only Visit with less than five star is validated, since we don't have any visit with five star in submitted subtab.");
+        }
+    }
+
+    // Locators
+
+    private WebElement getUserNameHS() {
+        return driver.findElement(By.xpath("//span[contains(text(), 'provided feedback about a visit.')]/..//a"));
     }
 
     private WebElement addSchoolAttendees(){
@@ -7281,6 +7551,12 @@ public void cancelRgisteredCollegeFair(String fairName){
         return navbar;
     }
 
+    private WebElement visitFeedback()
+    {
+        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Visit Feedback']"));
+    }
+
+
     private WebElement dateButtonInAddvisitButtonPopup () {
         WebElement button = driver.findElement(By.xpath("//button/span/span[text()='Go to date']"));
         return button;
@@ -7347,7 +7623,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return attendee;
     }
     private WebElement eventLocation() {
-        WebElement location=driver.findElement(By.id("eventLocation"));
+        WebElement location=driver.findElement(By.name("locationWithinSchool"));
         return location;
     }
     private WebElement addVisitButtonInVisitSchedulePopup() {

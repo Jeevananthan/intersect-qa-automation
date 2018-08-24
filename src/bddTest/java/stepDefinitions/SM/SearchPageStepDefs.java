@@ -240,5 +240,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I send text \"([^\"]*)\" to the Zip Code field$", searchPage::sendTextToZipCOdeField);
 
+        Then("^SM I double click on PIN TO COMPARE link and check if the second click bounces off$", searchPage::verifySecondClickBouncesOffForPinToCompare);
+
     }
 }

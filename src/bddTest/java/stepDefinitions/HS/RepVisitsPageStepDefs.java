@@ -32,6 +32,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Time Slot time were added with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyTimeSlotAdded);
 
+        Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addNewTimeSlot);
+
         Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addnewTimeSlot);
 
         Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
@@ -52,7 +54,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the RepVisits Visits Confirmations option to \"([^\"]*)\"$", repVisits::setVisitsConfirmations);
 
-        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
+        Then("^HS I set a date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartAndEndDates);
 
         Then("^HS I set my RepVisits availability to the current school year$", repVisits::setAvailabilityToFullSchoolYear);
 
@@ -657,5 +659,19 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCalendarPage);
 
         Then("^HS I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
+
+        Then("^HS I verify HE user's name be an active hyperlink to the HS user's Community profile in visit feedback subtab$", repVisits::verifyHEUsersNameLink);
+
+        Then("^HS I verify visit feedback tab and its subtabs$",repVisits::verifyVisitFeedbackForHSUser);
+
+        Then("^HS I verify the visit feedback tab showing after Naviance Sync tab$", repVisits::verifyVisitFeedbackTagSequenceForNavianceHS);
+
+        Then("^HS I verify the visit feedback tab showing after Activity tab$", repVisits::verifyVisitFeedbackTagSequenceForNonHS);
+
+        And("^HS I verify the Pending subtab under Visit Feedback$", repVisits::verifyPendingSubtab);
+
+        And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
+
+        And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
     }
 }

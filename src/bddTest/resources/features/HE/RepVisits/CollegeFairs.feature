@@ -1,5 +1,5 @@
 @HE
-Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisits College Fairs features.
+Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign up for College fairs and manage my fair appointments
 
   @MATCH-1771
   Scenario: As a HE user, on the "Community availability sidebar", each college fair has a Register button that presents

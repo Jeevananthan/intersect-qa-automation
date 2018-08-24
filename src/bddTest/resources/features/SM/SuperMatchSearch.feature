@@ -198,8 +198,9 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | Acceptance Rate | 25% or Lower |
+    And SM I reload the page
     Then SM I verify the footnote for known GPA but unknown test scores for "Pomona College", with the text:
-    | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
+    | To determine if you're an academic match for this institution, enter your GPA and/or standardized test scores. |
 
    @MATCH-4276
    Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my test scores, but not my GPA
@@ -211,7 +212,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
        | ACT Composite   | 30   |
        | Acceptance Rate | 76% or more |
      And SM I select the "Coed" checkbox from "Diversity" fit criteria
-     Then SM I verify the footnote for known GPA but unknown test scores for "Utica College", with the text:
+     Then SM I verify the footnote for known GPA but unknown test scores for "Westminster College", with the text:
        | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
 
     @MATCH-4406
@@ -230,12 +231,10 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: As a HS student, I want to delete my saved searches so that list can contain only the saved
   searches I need presently
     Given SM I am logged in to SuperMatch through Family Connection
-    And I clear the onboarding popups if present
-    Then SM I create a save search "Search1" by selecting "Learning Differences Support" from Resources tab
-    Then SM I check the delete icon in save search "Search1"
-    Then SM After clicking "Search1" delete icon I check the confirmation popup message
-    And SM I check clicking outside will close the "Search1" popup message
-    And SM I delete the save search "Search1" and verify it
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I check if any save search is present if not then create a save search for "Learning Differences Support"
+    Then SM I verify delete confirmation popup message
+    And SM I delete the save search and verify it
 
   @MATCH-3628
   Scenario: As a HS student reviewing results from my search, I want to have an action available to jump back to the top of the SuperMatch page
@@ -383,3 +382,11 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | user         | pass     | school     |
       | talka10grade | password | blue1combo |
       | uat_user6    | password | blue1combo |
+
+  @MATCH-4348
+  Scenario: Verify that on double clicking the PIN TO COMPARE link, the second click is bounced off
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I double click on PIN TO COMPARE link and check if the second click bounces off
