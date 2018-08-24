@@ -13,5 +13,11 @@ public class FCSuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that a banner with a message about the new SuperMatch is displayed$", fcSuperMatch::verifySuperMatchBanner);
 
+        Then("^SM I check the delete icon in save search$", fcSuperMatch::checkDeleteIconInSaveSearch);
+
+        Then("^SM I verify delete confirmation popup message$", fcSuperMatch::verifySaveSearchDeleteConfirmationPopup);
+
+        And("^SM I delete the save search and verify it$",fcSuperMatch::deleteSaveSearch);
+
     }
 }

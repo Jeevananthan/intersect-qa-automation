@@ -24,6 +24,7 @@ Feature: SM - LinksToCollegeProfiles - As a SuperMatch tool, I need to update th
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I start the search over
+    And SM I clear pinned schools list
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | SAT Composite   | 400 |
