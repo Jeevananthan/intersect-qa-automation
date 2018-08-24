@@ -126,7 +126,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
             navigationDropDown().sendKeys(Keys.ENTER);
             switch (tab){
                 case "Counselor Community":
-                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-counselor-community-menu-link"),1));
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-home-menu-link"),1));
                     counselorCommunityMenuLink().click();
                     iframeEnter();
                     waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='welcome-text']"),1));
@@ -149,7 +149,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyRequiredFieldsInCCProfileForm(DataTable dataTable){
         navigationDropDown().sendKeys(Keys.ENTER);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-counselor-community-menu-link"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-home-menu-link"),1));
         counselorCommunityMenuLink().click();
         iframeEnter();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("edit-submit"),1));
@@ -169,7 +169,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
             navigationDropDown().sendKeys(Keys.ENTER);
             switch (tab) {
                 case "Counselor Community":
-                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-counselor-community-menu-link"),1));
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-home-menu-link"),1));
                     counselorCommunityMenuLink().click();
                     iframeEnter();
                     waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//li/a[text()='Home']"),1));
@@ -219,7 +219,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//a[@name='mainmenu']"));
     }
     private WebElement counselorCommunityMenuLink(){
-        return driver.findElement(By.id("js-main-nav-counselor-community-menu-link"));
+        return driver.findElement(By.id("js-main-nav-home-menu-link"));
     }
     private WebElement repVisitsMenuLink(){
         return driver.findElement(By.id("js-main-nav-rep-visits-menu-link"));
