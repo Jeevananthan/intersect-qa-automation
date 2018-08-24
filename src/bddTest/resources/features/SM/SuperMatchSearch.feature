@@ -400,8 +400,13 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I open the Save Search popup
     Then SM I save the search with the name ""
     Then SM I verify that "Name must be at least 3 characters." message is displayed in Save Search popup
+    Then SM I cancel the Save Search popup
     #Verify that duplicate names are not allowed
+    Then SM I delete the saved search named "duplicatename"
+    Then SM I open the Save Search popup
     Then SM I save the search with the name "duplicatename"
     Then SM I open the Save Search popup
     Then SM I save the search with the name "duplicatename"
     Then SM I verify that "You've already named a search duplicatename. Please choose a unique name." message is displayed in Save Search popup
+    Then SM I cancel the Save Search popup
+    Then SM I delete the saved search named "duplicatename"

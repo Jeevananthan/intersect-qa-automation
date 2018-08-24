@@ -507,9 +507,31 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
     public void deleteSaveSearch() {
         savedSearchesDropdown().click();
-        saveSearchDeleteIcon(saveSearchName).click();
-        button("YES, DELETE").click();
+        try {
+            saveSearchDeleteIcon(saveSearchName).click();
+            button("YES, DELETE").click();
+        } catch (Exception e) {
+            logger.info("Could not find saved search with name: " + saveSearchName);
+        }
         savedSearchesDropdown().click();
+    }
+
+    public void deleteSavedSearchByName(String savedSearch) {
+        savedSearchesDropdown().click();
+        try {
+            setImplicitWaitTimeout(2);
+            saveSearchDeleteIcon(savedSearch).click();
+            button("YES, DELETE").click();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            logger.info("Could not find saved search with name: " + savedSearch);
+            resetImplicitWaitTimeout();
+        }
+        savedSearchesDropdown().click();
+    }
+
+    public void cancelSaveSearchPopup() {
+        button("Cancel").click();
     }
 
     public void openSavedSearchesDropdown()
