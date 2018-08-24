@@ -390,3 +390,23 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
     Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
     Then SM I double click on PIN TO COMPARE link and check if the second click bounces off
+
+  @MATCH-4745
+  Scenario: Verify warning or error message is displayed when the saved search name is blank.
+            Also verify the error message when the save search name is a duplicate.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I open the Save Search popup
+    Then SM I save the search with the name ""
+    Then SM I verify that "Name must be at least 3 characters." message is displayed in Save Search popup
+    Then SM I cancel the Save Search popup
+    #Verify that duplicate names are not allowed
+    Then SM I delete the saved search named "duplicatename"
+    Then SM I open the Save Search popup
+    Then SM I save the search with the name "duplicatename"
+    Then SM I open the Save Search popup
+    Then SM I save the search with the name "duplicatename"
+    Then SM I verify that "You've already named a search duplicatename. Please choose a unique name." message is displayed in Save Search popup
+    Then SM I cancel the Save Search popup
+    Then SM I delete the saved search named "duplicatename"
