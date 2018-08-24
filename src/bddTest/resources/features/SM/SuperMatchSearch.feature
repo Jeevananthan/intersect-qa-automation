@@ -198,8 +198,9 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | Acceptance Rate | 25% or Lower |
+    And SM I reload the page
     Then SM I verify the footnote for known GPA but unknown test scores for "Pomona College", with the text:
-    | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
+    | To determine if you're an academic match for this institution, enter your GPA and/or standardized test scores. |
 
    @MATCH-4276
    Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my test scores, but not my GPA
@@ -211,7 +212,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
        | ACT Composite   | 30   |
        | Acceptance Rate | 76% or more |
      And SM I select the "Coed" checkbox from "Diversity" fit criteria
-     Then SM I verify the footnote for known GPA but unknown test scores for "Utica College", with the text:
+     Then SM I verify the footnote for known GPA but unknown test scores for "Westminster College", with the text:
        | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
 
     @MATCH-4406
@@ -381,3 +382,11 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | user         | pass     | school     |
       | talka10grade | password | blue1combo |
       | uat_user6    | password | blue1combo |
+
+  @MATCH-4348
+  Scenario: Verify that on double clicking the PIN TO COMPARE link, the second click is bounced off
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I double click on PIN TO COMPARE link and check if the second click bounces off

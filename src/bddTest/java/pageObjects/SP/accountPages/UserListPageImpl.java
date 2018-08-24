@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class UserListPageImpl extends PageObjectFacadeImpl {
 
@@ -283,7 +284,23 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The user account was not successfully updated. UI: " + profileUpdateEntries.get(0).getText() + " Data: " + AccountSettingsPageImpl.generatedFirstName, profileUpdateEntries.get(0).getText().replace("\"", "").equals(AccountSettingsPageImpl.generatedFirstName));
     }
 
+    public void loginAs(String user) {
+        takeUserAction(user, "Login As");
+        String originalWindow = driver.getWindowHandle();
+        String newWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for(String thisWindow : windows){
+            if(!thisWindow.equals(originalWindow)){
+                newWindow = thisWindow;
+            }
+        }
+        driver.close();
+        driver.switchTo().window(newWindow);
+        waitUntilPageFinishLoading();
+    }
+
     //Locators
+    
     private WebElement saveButtonInCreateUser(){
         return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
     }
