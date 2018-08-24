@@ -1,4 +1,4 @@
-@HS
+@HS @ignore
 Feature:  As an HS user, I want to be able to access the features of the RepVisits module.
 
 
