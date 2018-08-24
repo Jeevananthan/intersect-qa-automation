@@ -6035,6 +6035,38 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     /**
+     * Refactored remove time slot without Global variable that introduce an issue
+     *
+     * @param date,  the day of the slot time to be deleted: MON, TUE, WED, THU, FRI
+     * @param time, the time of the slot time to be deleted: 8:25PM
+     */
+    public void removeTimeSlotsRefactoredForHS(String date, String time) {
+        time = time.toUpperCase();
+        navigationBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        int Date = Integer.parseInt(date);
+        String Day = getSpecificDate(Date,"EEE").toUpperCase();
+        int columnID = getColumnIdFromTable( "//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']/thead",Day );
+        int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody", columnID, time);
+
+        if(columnID>= 0 && rowID>= 0) {
+            columnID = columnID + 1;
+            rowID = rowID + 1;
+            //Remove Time slot
+            WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+            jsClick(removeIcon);
+            waitUntilPageFinishLoading();
+            driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+            waitUntilPageFinishLoading();
+        }else{
+            Assert.fail("The Time Slot "+time+"is not displayed in the Regular weekly hours ");
+        }
+    }
+
+    /**
      * Adds atendees to a college fair that was just created.
      * Prerequisite:  User has the "Close or Add Attendees" drawer open after saving a new college fair.
      * @param dataTable Data Table containing all the names for the attendees to be added.
@@ -6047,6 +6079,88 @@ public void cancelRgisteredCollegeFair(String fairName){
             getDriver().findElement(By.xpath("//div[text()[contains(.,'" + name + "')]]")).click();
         }
         getDriver().findElement(By.xpath("//button/span[text()='Add Attendees']")).click();
+    }
+
+    /**
+     * Click on "Disconnect RepVisits from Naviance" button.
+     */
+    public void disconnectFromNavianceButton(){
+        disconnectButton().click();
+    }
+
+    /**
+     * Verify Disconnect button from RV from Naviance.
+     */
+    public void verifyCancelDisconnectFromNavianceButton(){
+        waitUntilElementExists(cancelIndisconnectRVfromNaviancePopup());
+        Assert.assertTrue("Cancel from Disconnect RepVisits from Naviance is displayed",cancelIndisconnectRVfromNaviancePopup().isDisplayed());
+        cancelIndisconnectRVfromNaviancePopup().click();
+        Assert.assertTrue("The button Cancel closes the modal and maintains the connection between RepVisits and Naviance for the user",disconnectButton().isDisplayed());
+    }
+
+    /**
+     * Verify Yes, Disconnect button from RV from Naviance.
+     * @param date - Date to do the Visit or Appointment
+     * @param startTime - Set Start Time of the new Visit or Appointment
+     * @param endTime - Set End Time of the new Visit or Appointment
+     * @param numVisits - Set Number of Visits
+     * @param attendee - Attendee to use un the new Visit or Appointment
+     * @param location - The location in the new Visit or Appointment
+     */
+    public void verifyYesDisconnectFromNavianceButton(String date, String startTime, String endTime, String numVisits, String attendee, String location){
+        waitUntilElementExists(yeslIndisconnectRVfromNaviancePopup());
+        Assert.assertTrue("Yes from Disconnect RepVisits from Naviance is displayed",yeslIndisconnectRVfromNaviancePopup().isDisplayed());
+        yeslIndisconnectRVfromNaviancePopup().click();
+        /*The ability to add/edit/delete events directly in Naviance is re-enabled and is present in the UI for the user in Naviance*/
+        load(GetProperties.get("naviance.visits.url"));
+        driver.navigate().refresh();
+        waitUntilElementExists(driver.findElement(By.linkText("add new visit")));
+        Assert.assertTrue("The ability to add new visit was not activated",driver.getPageSource().contains("add new visit"));
+        Assert.assertTrue("The ability to view was not activated",driver.getPageSource().contains("view"));
+        Assert.assertTrue("The ability to edit was not activated",driver.getPageSource().contains("edit"));
+        Assert.assertTrue("The ability to cancel was not activated",driver.getPageSource().contains("cancel"));
+        driver.navigate().back();
+        /*The RepVisits>Availability & Settings>Naviance Settings page is restored to the "opt in/out" to connect page */
+        /*Also MATCH-3462 verify the UI*/
+        waitUntilElementExists(optInYesRadioButton());
+        Assert.assertTrue("Opt In was not activated ",optInYesRadioButton().isDisplayed());
+        Assert.assertTrue("Opt In was not activated ",optInNoRadioButton().isDisplayed());
+        /*Events can be added/edited/cancelled separately in both Naviance and RepVisits*/
+        addNewTimeSlotAndAddVisit(date, startTime, endTime, numVisits, attendee, location   );
+        navigationBar.goToRepVisits();
+        calendar().click();
+
+        //Verification in RV side
+        Assert.assertTrue("College was not found in RV ",driver.getPageSource().contains("Bowling Green State University"));
+
+        //Verification in Naviance side
+        load(GetProperties.get("naviance.visits.url"));
+        driver.navigate().refresh();
+        waitUntilElementExists(driver.findElement(By.linkText("add new visit")));
+        Assert.assertFalse("Representative was found in Naviance",driver.getPageSource().contains("PurpleHE Automation"));
+        Assert.assertFalse("Location was found in Naviance",driver.getPageSource().contains("Cbba"));
+        driver.navigate().back();
+
+        navigateToNavianceSettingsInAvailabilitySettingsPage();
+
+        /*After Disconnecting the publish sync, user can resync*/
+        optInYesRadioButton().click();
+        waitUntilElementExists(nextButton());
+        nextButton().click();
+        waitUntilElementExists(nextButton());
+        nextButton().click();
+        waitUntilElementExists(nextButton());
+        nextButton().click();
+        waitUntilElementExists(nextButton());
+        nextButton().click();
+
+        //Verification in Naviance side
+        load(GetProperties.get("naviance.visits.url"));
+        driver.navigate().refresh();
+        waitUntilElementExists(driver.findElement(By.linkText("view")));
+        Assert.assertTrue("Representative was found in Naviance",driver.getPageSource().contains("PurpleHE Automation"));
+        Assert.assertFalse("Time was found in Naviance",driver.getPageSource().contains("6:30am"));
+        driver.navigate().back();
     }
 
     public void verifyTimeslotInException(String date, String time)
@@ -6274,6 +6388,122 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     public void verifyTrashIconInExcepionTab(){
         Assert.assertTrue("Trash icon is not displayed",trashIconInException().isDisplayed());
+    }
+
+    /**
+     * Add new time slot and add new visit
+     * @param date - Date to do the Visit or Appointment
+     * @param startTime - Set Start Time of the new Visit or Appointment
+     *@param endTime - Set End Time of the new Visit or Appointment
+     *@param numVisits - Set Number of Visits
+     *@param attendee - Attendee to use un the new Visit or Appointment
+     *@param location - The location in the new Visit or Appointment
+     */
+    public void addNewTimeSlotAndAddVisit(String date, String startTime, String endTime, String numVisits, String attendee, String location){
+        setStartandEndDates("0", "99");
+        addnewTimeSlotRefactoredForHS(date,startTime,endTime, numVisits);
+        setStartandEndDates("0", "99");
+        addNewVisit(date, startTime, attendee, location);
+    }
+
+    /**
+     * Add new Visit from calendar without global variable that cause issue in the Start time value.
+     *  @param date - Date to do the Visit or Appointment
+     *  @param startTime - Set Start Time of the new Visit or Appointment
+     *  @param attendee - Attendee to use un the new Visit or Appointment
+     *  @param location - The location in the new Visit or Appointment
+     */
+    public void addNewVisit(String date, String startTime, String attendee, String location){
+        addVisitsRefactoredForHS(date,startTime,attendee,location);
+    }
+
+    /**
+     * Add new Visit from calendar without global variable that cause issue in the Start time value.
+     *  @param date - Date to do the Visit or Appointment
+     *  @param startTime - Set Start Time of the new Visit or Appointment
+     *  @param attendee - Attendee to use un the new Visit or Appointment
+     *  @param location - The location in the new Visit or Appointment
+     */
+    public void addVisitsRefactoredForHS(String date,String startTime,String attendee,String location) {
+        navigationBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(addVisitButton());
+        addVisitButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span/span[text()='Go to date']"),1));
+        doubleClick(goToDateButton());
+        setSpecificDateforManuallyCreatingVisit(date);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//td/button[text()='"+startTime+"']"),1));
+        WebElement button = driver.findElement(By.xpath("//td/button[text()='"+startTime+"']"));
+        moveToElement(button);
+        driver.findElement(By.xpath("//td/button[text()='"+startTime+"']")).click();
+        moveToElement(attendeeTextBox());
+        attendeeTextBox().sendKeys(Keys.PAGE_DOWN);
+        attendeeTextBox().sendKeys(attendee);
+        Assert.assertTrue("Attendee name is not displayed in the dropdown",driver.findElement(By.xpath("//div/div[text()='"+attendee+"']")).isDisplayed());
+        selectAttendeeOrInstitution(attendee).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("calendar-search-reps"),1));
+        eventLocationTextboxInSchedulePopup().clear();
+        eventLocationTextboxInSchedulePopup().sendKeys(location);
+        waitForUITransition();
+        eventLocationTextboxInSchedulePopup().sendKeys(Keys.PAGE_DOWN);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//form[@id='add-calendar-appointment']//button[@class='ui teal right floated button']"),1));
+        moveToElement(addVisitButtonInVisitSchedulePopup());
+        Assert.assertTrue("AddVisit button is not Enabled",addVisitButtonInVisitSchedulePopup().isEnabled());
+        addVisitButtonInVisitSchedulePopup().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+    }
+
+    /**
+     * Add new time slot without using the Global variable that cause issue in the Start time value creation.
+     * @param day - Date to do the Visit or Appointment
+     * @param startTime - Set Start Time of the new Visit or Appointment
+     * @param endTime - Set End Time of the new Visit or Appointment
+     * @param numVisits - Set Number of Visits
+     */
+    public void addnewTimeSlotRefactoredForHS(String day, String startTime, String endTime, String numVisits) {
+        navigationBar.goToRepVisits();
+        WebElement element = availabilityAndSettings();
+        waitUntilElementExists(element);
+        availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
+        availability().click();
+        waitUntilPageFinishLoading();
+        regularWeeklyHours().click();
+        waitUntilPageFinishLoading();
+        startOrEndDate().sendKeys(Keys.PAGE_DOWN);
+        addTimeSlot().click();
+        List<WebElement> slot= driver.findElements(By.cssSelector("button[class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
+        if(slot.size()>0){
+            availabilityButton().sendKeys(Keys.PAGE_DOWN);
+        }
+        availabilityEndtimeTextbox().sendKeys(Keys.PAGE_DOWN);
+        waitForUITransition();
+        waitUntilElementExists(selectDay());
+        String visitDay = day(day);
+        selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", visitDay);
+        StartTime = startTime(startTime);
+        logger.info("Start Time = " + startTime);
+        addStartTime().sendKeys(startTime);
+        addEndTime().sendKeys(endTime);
+        logger.info("End Time = " + endTime);
+        visitsNumber(numVisits);
+        waitUntilElementExists(submit());
+        addTimeSlotSubmit().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
+        List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
+        if(displayingPopup.size()==1){
+            driver.findElement(By.id("ignore-time-slots")).click();
+            button("Add regular hours").click();
+            waitUntilPageFinishLoading();
+            waitForUITransition();
+        }else if(duplicateTimeSlot.size()==1){
+            addnewTimeSlot(day, startTime, endTime, numVisits);
+        }
     }
 
     public void verifyAvailabilityslotColorInException(String Date,String time){
@@ -7363,7 +7593,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return button;
     }
     private WebElement eventLocationTextboxInSchedulePopup() {
-        WebElement text=driver.findElement(By.xpath("//input[@aria-label='Event Location']"));
+        WebElement text=driver.findElement(By.xpath("//input[@id='eventLocation']"));
         return text;
     }
     private WebElement addVisitManually() {
@@ -8060,7 +8290,31 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement getCalendarBtn() {
         return link("Calendar");
     }
-  
+
+    private WebElement disconnectButton() {
+        return driver.findElement(By.xpath("//span[text()='Disconnect RepVisits from Naviance']"));
+    }
+
+    private WebElement cancelIndisconnectRVfromNaviancePopup() {
+        return driver.findElement(By.cssSelector("button[class='ui teal basic button']"));
+    }
+
+    private WebElement yeslIndisconnectRVfromNaviancePopup() {
+        return driver.findElement(By.cssSelector("button[class='ui primary button']"));
+    }
+
+    private WebElement optInYesRadioButton() {
+        return driver.findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/input[@type='radio']"));
+    }
+
+    private WebElement optInNoRadioButton() {
+        return driver.findElement(By.xpath("//label[text()='No, I would like to use RepVisits without the Naviance integration']/input[@type='radio']"));
+    }
+
+    private WebElement nextButton() {
+        return driver.findElement(By.xpath("//button[@class='ui primary button']"));
+    }
+
 }
 
 
