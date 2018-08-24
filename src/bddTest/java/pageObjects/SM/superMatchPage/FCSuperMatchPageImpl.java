@@ -297,7 +297,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
     public void clickSaveSearchButton() {
         chooseFitCriteria().click();
-        saveSearchButton().click();
+        saveSearchButton().sendKeys(Keys.RETURN);
     }
 
     public void verifySaveSearchButtonDisabled() {
@@ -517,17 +517,17 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteSavedSearchByName(String savedSearch) {
-        savedSearchesDropdown().click();
         try {
+            savedSearchesDropdown().click();
             setImplicitWaitTimeout(2);
             saveSearchDeleteIcon(savedSearch).click();
             button("YES, DELETE").click();
             resetImplicitWaitTimeout();
+            savedSearchesDropdown().click();
         } catch (Exception e) {
             logger.info("Could not find saved search with name: " + savedSearch);
             resetImplicitWaitTimeout();
         }
-        savedSearchesDropdown().click();
     }
 
     public void cancelSaveSearchPopup() {
