@@ -421,7 +421,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I select the user \"([^\"]*)\" from \"([^\"]*)\" dropdown$",repVisits::selectUserFromUserListDropdown);
 
-        Then("^HE I select the fair to reassign using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFairsToReAssign);
+        Then("^HE I select the fair to reassign using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFairsToReAssign);
 
         Then("^HE I click Reassign Appointments button \"([^\"]*)\"$",repVisits::clickReAssignAppointmentsButton);
     }

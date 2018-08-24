@@ -3256,24 +3256,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")).click();
             waitUntilPageFinishLoading();
         }else {
-            logger.info("Invalid option");
+            Assert.fail("Invalid option");
         }
     }
 
-    public void selectFairsToReAssign(String date,String school){
+    public void selectFairsToReAssign(String date,String school,String noOfStudents){
         String fairsDate = getSpecificDateforCalendar(date);
-        driver.findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::div/span[text()='College Fair']/ancestor::div/following-sibling::div[@class='twelve wide column']/div/div//div[text()='"+school+"']/ancestor::div/div/div/input[@type='checkbox']")).click();
+        WebElement appointmentCheckbox = driver.findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
+                "div/span[text()='College Fair']/ancestor::div/following-sibling::div[@class='twelve wide column']" +
+                "/div/div//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/span[text()='Number of Expected Students']" +
+                "/following-sibling::div[text()='"+noOfStudents+"']/ancestor::div/div/div/input[@type='checkbox']"));
+        appointmentCheckbox.click();
     }
 
     public void clickReAssignAppointmentsButton(String appointmentsCount){
         int count = Integer.parseInt(appointmentsCount);
         if(count>0){
-        driver.findElement(By.xpath("//button[text()='Reassign "+count+" Appointments']")).click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+            driver.findElement(By.xpath("//button[text()='Reassign "+count+" Appointments']")).click();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='content']>span")));
+            waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[class='content']>span")));
         }else {
             reAssignAppointmentsButton().click();
-            waitForUITransition();
         }
     }
 

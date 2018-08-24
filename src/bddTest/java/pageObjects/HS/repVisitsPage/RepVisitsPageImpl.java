@@ -1468,7 +1468,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
-        waitForUITransition();
         collegeFairs().click();
         waitUntilPageFinishLoading();
         while (link("View More Upcoming Events").isDisplayed()){
