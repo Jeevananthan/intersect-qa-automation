@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,6 +15,7 @@ import pageObjects.SM.searchPage.SearchPageImpl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
@@ -27,6 +29,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
     private NewSuperMatchPageImpl newSuperMatch = new NewSuperMatchPageImpl();
     private SearchPageImpl searchPage = new SearchPageImpl();
+    static String saveSearchName;
 
     public void verifySuperMatchBanner() {
         driver.switchTo().frame("supermatch");
@@ -443,7 +446,20 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void createOneSaveSearch(String saveSearchName, String resourceFitCriteriaOption){
+    public void createOneSaveSearch(String resourceFitCriteriaOption) {
+        savedSearchesDropdown().click();
+        int saveSearchCount = allSaveSearchOptions().size();
+        if (saveSearchCount >= 15) {
+            logger.info("We already have 15 save search, to check the delete save search functionality, we need to delete one of the save search....");
+        } else {
+            createSaveSearch(resourceFitCriteriaOption);
+        }
+    }
+
+    private void createSaveSearch(String resourceFitCriteriaOption){
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(1000);
+        saveSearchName = "Search" + Integer.toString(randomNumber);
         searchPage.setResourcesCriteria(resourceFitCriteriaOption);
         clickSaveSearchButton();
         searchPage.saveSearchWithName(saveSearchName);
@@ -452,15 +468,31 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         searchPage.unsetResourcesCriteria(resourceFitCriteriaOption);
     }
 
-    public void checkDeleteIconInSaveSearch(String saveSearchName){
-        savedSearchesDropdown().click();
-        Assert.assertTrue("For "+saveSearchName+" Save Search, delete icon is not displaying.",saveSearchDeleteIcon(saveSearchName).isDisplayed());
+    public void checkSaveSearch(String fitCriteriaOption){
+        try {
+            savedSearchesDropdown().click();
+        }catch (WebDriverException ex){
+            createSaveSearch(fitCriteriaOption);
+            savedSearchesDropdown().click();
+        }
+        int saveSearchCount = allSaveSearchOptions().size();
+        if (saveSearchCount>0){
+            saveSearchName = getChooseOneWebElement().findElement(By.xpath("./div[2]/div[2]/span")).getText();
+        }
     }
 
-    public void verifySaveSearchDeleteConfirmationPopup(String saveSearchName){
+    public void checkDeleteIconInSaveSearch() {
+        int saveSearchCount = allSaveSearchOptions().size();
+        if (saveSearchCount >= 15) {
+            saveSearchName = allSaveSearchOptions().get(1).getText();
+        }
+        Assert.assertTrue("For " + saveSearchName + " Save Search, delete icon is not displaying.", saveSearchDeleteIcon(saveSearchName).isDisplayed());
+    }
+
+    public void verifySaveSearchDeleteConfirmationPopup() {
         saveSearchDeleteIcon(saveSearchName).click();
         String headerText = saveSearchDeletePopupHeaderText().getText();
-        Assert.assertTrue("Header text reads 'Are you sure you want to delete: "+saveSearchName+" is not displaying.", headerText.contains("Are you sure you want to delete: "+saveSearchName+"?"));
+        Assert.assertTrue("Header text reads 'Are you sure you want to delete: " + saveSearchName + " is not displaying.", headerText.contains("Are you sure you want to delete: " + saveSearchName + "?"));
         Assert.assertTrue("This will permanently remove this search. message is not displaying.", text("This will permanently remove this search.").isDisplayed());
         Assert.assertTrue("'YES, DELETE button is not displaying.", button("YES, DELETE").isDisplayed());
         Assert.assertTrue("''NO, CANCEL button is not displaying.", button("NO, CANCEL").isDisplayed());
@@ -473,12 +505,11 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         new Actions(driver).moveToElement(savedSearchesDropdown()).click().perform();
     }
 
-    public void deleteSaveSearch(String saveSearchName){
+    public void deleteSaveSearch() {
         savedSearchesDropdown().click();
         saveSearchDeleteIcon(saveSearchName).click();
         button("YES, DELETE").click();
-        waitForUITransition();
-        Assert.assertTrue(saveSearchName+ "save search is not deleted.", getDisableChosseOneDropdown().isDisplayed());
+        savedSearchesDropdown().click();
     }
 
     public void openSavedSearchesDropdown()

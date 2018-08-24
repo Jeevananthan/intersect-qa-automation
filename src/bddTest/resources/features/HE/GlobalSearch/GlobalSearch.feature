@@ -1,5 +1,5 @@
 @HE
-Feature: HE - Global Search - As a HE user, I want to be able to use the Global search to help me find records.
+Feature: HE - GlobalSearch - As an HE user, I want to be able to use the Global search to help me find records.
 
   @MATCH-1069
   Scenario: As a HE user, I need to be able to access Advanced Search for community entities.
@@ -125,7 +125,7 @@ Feature: HE - Global Search - As a HE user, I want to be able to use the Global 
       | College Type                  | Standard (4 Year)          |
       | School Type                   | Public                     |
       | Degree                        | 4                          |
-      | City                          | State University           |
+      | City                          | Jonesboro                  |
       #Search Institution by state is not working ATM --- MATCH-2219 created 6/26/17
       #| State                         | Arkansas                   |
       | Postal Code                   | 72467                      |

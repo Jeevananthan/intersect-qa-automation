@@ -178,7 +178,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select the "$5,000" option from the "Maximum Tuition and Fees" dropdown in Cost
     #The following step is needed to avoid MATCH-4830
     And SM I reload the page
-    Then SM I verify that "SABER College" displays "$0" in the Cost column
+    Then SM I verify that "Sistema Universitario Ana G Mendez" displays "$0" in the Cost column
 
   @MATCH-4276
   Scenario: As a HS student, I want to see specific footnotes when SuperMatch does not know my GPA and does not know my test scores
@@ -230,12 +230,10 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: As a HS student, I want to delete my saved searches so that list can contain only the saved
   searches I need presently
     Given SM I am logged in to SuperMatch through Family Connection
-    And I clear the onboarding popups if present
-    Then SM I create a save search "Search1" by selecting "Learning Differences Support" from Resources tab
-    Then SM I check the delete icon in save search "Search1"
-    Then SM After clicking "Search1" delete icon I check the confirmation popup message
-    And SM I check clicking outside will close the "Search1" popup message
-    And SM I delete the save search "Search1" and verify it
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I check if any save search is present if not then create a save search for "Learning Differences Support"
+    Then SM I verify delete confirmation popup message
+    And SM I delete the save search and verify it
 
   @MATCH-3628
   Scenario: As a HS student reviewing results from my search, I want to have an action available to jump back to the top of the SuperMatch page

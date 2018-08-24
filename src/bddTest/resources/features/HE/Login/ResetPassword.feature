@@ -1,6 +1,5 @@
 @HE
-Feature: HE - Login - ResetPassword - As an HE Admissions User I need the ability to trigger a Reset Password email to myself
-  when I am unable to remember my login credentials or have locked my account so I can regain access to the system
+Feature: HE - Login - ResetPassword - As an HE User I should be able to reset my password if I no longer remember my login credentials or locked my account
 
   @MATCH-182
   Scenario: As an HE Admissions user I can take a "Reset Password" action from the Purple login screen

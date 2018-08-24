@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
+
 import static org.junit.Assert.fail;
 
 import java.text.SimpleDateFormat;
@@ -272,11 +274,27 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
+
+    public void verifyUserUpdateInLogHistory(String user,String option) {
+        timeDropdown().click();
+        timeDropdownOption(option).click();
+        waitUntilPageFinishLoading();
+        List<WebElement> profileUpdateEntries = getFirstNameValueFromJsonInLogHistory(user);
+        Assert.assertTrue("The user account was not successfully updated. UI: " + profileUpdateEntries.get(0).getText() + " Data: " + AccountSettingsPageImpl.generatedFirstName, profileUpdateEntries.get(0).getText().replace("\"", "").equals(AccountSettingsPageImpl.generatedFirstName));
+    }
+
+    //Locators
     private WebElement saveButtonInCreateUser(){
         return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
     }
     private WebElement CancelButtonInCreateUser(){
         return getDriver().findElement(By.xpath("//button/span[text()='Cancel']"));
     }
+    private List<WebElement> getFirstNameValueFromJsonInLogHistory(String userName) { return driver.findElements(
+            By.xpath("//td[text() = '" + userName + "' and text() = 'updated']/../td[3]/div/div/span[text() = " +
+                    "'firstName:']/following-sibling::span[1]")); }
 
+    private WebElement timeDropdown() { return driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")); }
+
+    private WebElement timeDropdownOption(String option) { return driver.findElement(By.xpath("//span [text()='"+option+"']")); }
 }

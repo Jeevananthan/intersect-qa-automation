@@ -130,14 +130,48 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     And HS I click the navigation globe for viewing the recent notifications
     Then HS I successfully sign out
 
-  @MATCH-4657
-  Scenario: As an HE Admin user in Intersect, I need to see the Naviance College Profile subscription module so that I can manage my college profile effectively.
-    Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify that the text in the button for "Naviance College Profile" is "UPDATE"
-    Then HE I verify that "Introduction College Profile" is opened from the "Naviance College Profile" module
+  @MATCH-4657 @MATCH-4660 @MATCH-4661 @MATCH-4662 @MATCH-4664 @MATCH-4658
+  Scenario Outline: As an HE user in Intersect, I need to see the Intersect Connection subscription module
+  so that I can access the configure my Intersect Connection settings and access my connections effectively.
+    Given HE I am logged in to Intersect HE as user type "<user>"
+    Then HE I verify that the text in the button for "<module>" is "<button>"
+    Then HE I verify that "<pageURL>" is opened from the "<module>" module
+    Examples:
+      | user          | module                   | button      | pageURL                         |
+      | administrator | Naviance College Profile | UPDATE      | naviance-college-profile/edit   |
+      | publishing    | Naviance College Profile | UPDATE      | naviance-college-profile/edit   |
+      | administrator | Connection               | MANAGE      | am-plus/view-connections        |
+      | administrator | RepVisits                | SCHEDULE    | rep-visits/search               |
+      | publishing    | RepVisits                | SCHEDULE    | rep-visits/search               |
+      | community     | RepVisits                | SCHEDULE    | rep-visits/search               |
+      | administrator | Events                   | PUBLISH     | am-events/view-events/published |
+      | publishing    | Events                   | PUBLISH     | am-events/view-events/published |
+      | administrator | Account Settings         | CONFIGURE   | settings/change-profile         |
+      | publishing    | Account Settings         | CONFIGURE   | settings/change-profile         |
+      | community     | Account Settings         | CONFIGURE   | settings/change-profile         |
+      | administrator | Counselor Community      | PARTICIPATE | counselor-community/            |
+      | publishing    | Counselor Community      | PARTICIPATE | counselor-community/            |
+      | community     | Counselor Community      | PARTICIPATE | counselor-community/            |
 
-  @MATCH-4657
-  Scenario: As an HE Publishing user in Intersect, I need to see the Naviance College Profile subscription module so that I can manage my college profile effectively.
-    Given HE I am logged in to Intersect HE as user type "publishing"
-    Then HE I verify that the text in the button for "Naviance College Profile" is "UPDATE"
-    Then HE I verify that "Introduction College Profile" is opened from the "Naviance College Profile" module
+  @MATCH-1430
+  Scenario: As a HE user, I should be able to access Privacy Policy and Terms of Use pages
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify "Terms of Service" is present in the footer
+    Then HE I verify "Privacy Policy" is present in the footer
+    Then HE I navigate to each page and verify the unique URL is present in the "Terms of Service" page
+    Then HE I navigate to each page and verify the unique URL is present in the "Privacy Policy" page
+    And HE I successfully sign out
+
+  @MATCH-2057 @MATCH-2195
+  Scenario: As a HE user, I want to access to secure help links to learn about my features.
+  So non-clients cannot access our help content and learn about our product.
+    Given HE I want to login to the HE app using "purpleheautomation+HEAlmaCollege@gmail.com" as username and "Password!1" as password
+    Then HE I verify that the help content is secure and matches the correct URL for "HE Users"
+    And HE I successfully sign out
+
+  @MATCH-1430
+  Scenario: As a HE user, I can access Community Guidelines page
+  to read and understand how they are supposed to used the system and how the system uses their information.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to each page and verify the unique URL is present in the "Counselor Community Guidelines" page in Help Center
+    Then HE I successfully sign out
