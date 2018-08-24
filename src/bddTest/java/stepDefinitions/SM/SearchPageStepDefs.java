@@ -242,5 +242,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I double click on PIN TO COMPARE link and check if the second click bounces off$", searchPage::verifySecondClickBouncesOffForPinToCompare);
 
+        Then("^SM I verify that \"([^\"]*)\" message is displayed in Save Search popup$", searchPage::verifyMessageInSaveSearchPopup);
+
     }
 }

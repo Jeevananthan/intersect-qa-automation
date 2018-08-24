@@ -909,6 +909,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
     }
 
+    public void verifyMessageInSaveSearchPopup(String messageText) {
+        Assert.assertTrue("'" + messageText + "' message is not displayed", saveSearchPopupMessage().getText().equals(messageText));
+    }
+
     public void verifyCheckboxState(String checkBox, String expectedState, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
             openFitCriteria(fitCriteriaName);
@@ -2379,6 +2383,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement getCheckBoxElementByText(String checkboxText) {
         return driver.findElement(By.xpath("//label[text()='" + checkboxText + "']/.."));
+    }
+
+    private WebElement saveSearchPopupMessage() {
+        return driver.findElement(By.xpath("//p[contains(@class, 'supermatch-save-search-modal-message')]"));
     }
 
 }
