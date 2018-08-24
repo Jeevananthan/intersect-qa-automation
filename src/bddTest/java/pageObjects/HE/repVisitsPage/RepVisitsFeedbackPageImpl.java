@@ -470,6 +470,31 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
                 .getText().contains(Integer.toString(percentageOfThumbsDownOtherTags)));
     }
 
+    public void verifyHSUsersNameLink(){
+        navigationBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        getVisitsFeedbackBtn().click();
+        waitUntilPageFinishLoading();
+        if (text("Insights into your team's reputation will appear here").isDisplayed())
+            logger.info("No visit feedback is submitted for this user from HS side....");
+        else {
+            WebElement HEUserLeftPanel = driver.findElement(By.xpath("//ul[@class='ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu']"));
+            HEUserLeftPanel.findElement(By.xpath(".//i[@class='star disabled icon azDd81vj4qd4ERFjicrCo']")).click();
+            WebElement sectionOne = driver.findElement(By.xpath("(//div[@class='ui vertical segment rating-segment'])[2]"));
+            List<WebElement> links = sectionOne.findElements(By.tagName("a"));
+            WebElement HSUserLink = links.get(0);
+            String userNameColorHS = HSUserLink.getCssValue("color");
+            Assert.assertTrue("HE user name is not showing teal in color.", userNameColorHS.contains("rgba(30, 120, 122, 1)"));
+            HSUserLink.click();
+            waitUntilPageFinishLoading();
+            String fullURL = driver.getCurrentUrl();
+            if (fullURL.contains("/counselor-community/profile/")){
+                Assert.assertTrue("HS user name is not a active hyperlink for Community.", fullURL.contains("/counselor-community/profile/"));
+            }
+
+        }
+    }
+
     private ArrayList sortByLastName(ArrayList<String> al) {
         Collections.sort(al, new Comparator<String>() {
             @Override

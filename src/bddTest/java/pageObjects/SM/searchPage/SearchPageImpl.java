@@ -909,6 +909,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
     }
 
+    public void verifyMessageInSaveSearchPopup(String messageText) {
+        Assert.assertTrue("'" + messageText + "' message is not displayed", saveSearchPopupMessage().getText().equals(messageText));
+    }
+
     public void verifyCheckboxState(String checkBox, String expectedState, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
             openFitCriteria(fitCriteriaName);
@@ -1279,7 +1283,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         elementNotFound = false;
                     }
                 } catch (WebDriverException e) {
-                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    waitUntilPageFinishLoading();
+                    if (e.getMessage().contains("supermatch-footer")) {
+                        whyDrawerButton(collegeName).sendKeys(Keys.ARROW_DOWN);
+                    } else {
+                        whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    }
+                    waitUntilPageFinishLoading();
                     elementNotFound = true;
                 }
             }
@@ -1288,6 +1298,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openPinnedCompareSchools() {
+        waitUntilPageFinishLoading();
         pinnedFooterOption().click();
         comparePinnedCollegesLink().click();
     }
@@ -1412,6 +1423,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyFootnoteGPANoScores(String collegeName, DataTable dataTable) {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        goToCollegeInSearchResults(collegeName);
         List<String> textMessage = dataTable.asList(String.class);
         Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.",
                 collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
@@ -1754,6 +1766,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
 
         Assert.assertTrue("The pinned list is not cleared", isPinnedListCleared);
+
+    }
+
+    public void verifySecondClickBouncesOffForPinToCompare()
+    {
+        WebElement pinToCompareElement = pinToCompareElement();
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", pinToCompareElement, resultsTableHeader());
+
+        Actions action = new Actions(driver);
+        action.doubleClick(pinToCompareElement).perform();
+
+        int pinnedCollegeCountAfterDoubleClick = Integer.parseInt(pinCount().getText());
+
+        Assert.assertTrue("The second click on PIN TO COMPARE link is not bounced off",pinnedCollegeCountAfterDoubleClick == 1);
 
     }
 
@@ -2357,6 +2383,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement getCheckBoxElementByText(String checkboxText) {
         return driver.findElement(By.xpath("//label[text()='" + checkboxText + "']/.."));
+    }
+
+    private WebElement saveSearchPopupMessage() {
+        return driver.findElement(By.xpath("//p[contains(@class, 'supermatch-save-search-modal-message')]"));
     }
 
 }
