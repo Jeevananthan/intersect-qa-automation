@@ -1,5 +1,5 @@
 @SP
-Feature: SuperAdmin Role for ActiveMatch
+Feature: SP - Events - SuperAdmin Role for ActiveMatch
 
   @MATCH-3518
   Scenario: As a Hobsons Support user ghosting in to an HE admin user account, I shouldn't have access to a client's
