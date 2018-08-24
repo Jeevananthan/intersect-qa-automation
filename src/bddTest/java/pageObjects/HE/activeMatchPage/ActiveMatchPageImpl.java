@@ -149,6 +149,16 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         }navigationBar.goToActiveMatch();
         }
 
+    public void verifyErrorMessageInConnections(DataTable dataTable) {
+        String errorMessage = dataTable.asList(String.class).get(0);
+        Assert.assertTrue("The error message is not correct", connectionsErrorMessage().getText().equals(errorMessage));
+    }
+
+    public void verifyDownloadButtonDisabled() {
+        Assert.assertTrue("The Download button is enabled", disabledDownloadButton().isDisplayed());
+    }
+
+    //Locators
     /**
      * Gets the ActiveMatch download connections
      * @return WebElement
@@ -191,4 +201,9 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     private void moveToElement(WebElement element){
         Actions builder = new Actions(driver);
         builder.moveToElement(element ).build().perform();
-    }}
+    }
+
+    private WebElement connectionsErrorMessage() { return driver.findElement(By.cssSelector("th div[class *= 'ui header'] span")); }
+
+    private WebElement disabledDownloadButton() { return driver.findElement(By.cssSelector("button[disabled]")); }
+}
