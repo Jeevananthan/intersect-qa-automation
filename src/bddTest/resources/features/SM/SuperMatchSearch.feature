@@ -144,13 +144,14 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
     And SM I reload the page
+    Then SM I delete the saved search named "SavedTestSearch"
     And SM I open the Save Search popup
     And SM I save the search with the name "SavedTestSearch"
     Then SM I verify the confirmation message
     Then SM I verify the saved search of name "SavedTestSearch" is displayed in the Saved Searches dropdown
     And SM I select "SavedTestSearch" in the Saved Searches dropdown
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
-    And SM I delete the save search "SavedTestSearch" and verify it
+    Then SM I delete the saved search named "SavedTestSearch"
 
   @MATCH-3212
   Scenario: As a HS student I want a way to clear all my fit criteria I have currently selected so I can quickly start my search over again.

@@ -1643,6 +1643,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         //the desired fit criteria and reload after some fixed time.
         waitForUITransition();
         driver.get(driver.getCurrentUrl());
+        waitUntilPageFinishLoading();
     }
 
     public void verifyTextDisplayedInMaleVsFemaleFitCriteria() {
