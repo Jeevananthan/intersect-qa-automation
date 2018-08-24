@@ -55,5 +55,7 @@ public class HomePageStepDefs implements En {
 
         Then("^SP I add post in the Homepage \"([^\"]*)\"$",navBar::addPost);
 
+        Then("^SP I verify the user update details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\"$", userList::verifyUserUpdateInLogHistory);
+
     }
 }

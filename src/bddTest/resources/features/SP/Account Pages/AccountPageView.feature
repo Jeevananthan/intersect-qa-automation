@@ -1,9 +1,9 @@
 @SP
-Feature: Hobsons Support - View HE Institution Accounts
+Feature: SP - Account Pages - AccountPageView - Manage Institution account and subscriptions
          As a Hobsons staff user I need to view individual institutional accounts.
 
   @MATCH-1670
-  Scenario: As a Support Users I can access Hubs view mode
+  Scenario: As a Support User I can access Hubs view mode
     Given SP I am logged in to the Admin page as an Admin user
     When SP I search for "Bowling Green State University-Main Campus" in "Institutions"
     And SP I select the following institution "Bowling Green State University-Main Campus" from the results
@@ -18,11 +18,20 @@ Feature: Hobsons Support - View HE Institution Accounts
     Then SP I do not have access to "Community" sub menu in left navigation
     And SP I successfully sign out
 
+  @MATCH-3007
+  Scenario: As a Hobsons Super Admin user I can view an institutional account
+    Given SP I am logged in to the Admin page as a Super Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    Then SP I am able to view the individual account page
+    Then SP I do have access to "Community" sub menu in left navigation
+    And SP I successfully sign out
+
   @MATCH-264
   Scenario: As a Hobsons Admin user I can view an institutional account
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
+    Then SP I do have access to "Community" sub menu in left navigation
     And SP I successfully sign out
 
   @MATCH-264

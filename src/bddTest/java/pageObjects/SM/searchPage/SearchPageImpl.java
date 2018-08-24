@@ -1283,7 +1283,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         elementNotFound = false;
                     }
                 } catch (WebDriverException e) {
-                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    waitUntilPageFinishLoading();
+                    if (e.getMessage().contains("supermatch-footer")) {
+                        whyDrawerButton(collegeName).sendKeys(Keys.ARROW_DOWN);
+                    } else {
+                        whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    }
+                    waitUntilPageFinishLoading();
                     elementNotFound = true;
                 }
             }
@@ -1292,6 +1298,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openPinnedCompareSchools() {
+        waitUntilPageFinishLoading();
         pinnedFooterOption().click();
         comparePinnedCollegesLink().click();
     }
@@ -1416,6 +1423,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyFootnoteGPANoScores(String collegeName, DataTable dataTable) {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        goToCollegeInSearchResults(collegeName);
         List<String> textMessage = dataTable.asList(String.class);
         Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.",
                 collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
@@ -1758,6 +1766,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
 
         Assert.assertTrue("The pinned list is not cleared", isPinnedListCleared);
+
+    }
+
+    public void verifySecondClickBouncesOffForPinToCompare()
+    {
+        WebElement pinToCompareElement = pinToCompareElement();
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true); window.scrollBy(0, -arguments[1].offsetHeight);", pinToCompareElement, resultsTableHeader());
+
+        Actions action = new Actions(driver);
+        action.doubleClick(pinToCompareElement).perform();
+
+        int pinnedCollegeCountAfterDoubleClick = Integer.parseInt(pinCount().getText());
+
+        Assert.assertTrue("The second click on PIN TO COMPARE link is not bounced off",pinnedCollegeCountAfterDoubleClick == 1);
 
     }
 

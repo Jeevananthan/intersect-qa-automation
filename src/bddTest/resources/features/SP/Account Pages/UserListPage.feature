@@ -1,5 +1,5 @@
 @SP
-Feature: As a Hobsons staff user, I need to be able to manage HE user accounts.
+Feature: SP - Account Pages - UserListPage - Manage User accounts
 
   @MATCH-129
   Scenario: As a Hobsons admin user, I can inactivate and activate HE user accounts.

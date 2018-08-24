@@ -34,6 +34,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addNewTimeSlot);
 
+        Then("^HS I add new time slot with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addnewTimeSlot);
+
         Then("^HS I verify the Regular Weekly Hours section of the Availability subtab of the Availability & Settings tab in RepVisits$", repVisits::verifyContentsOfRegularWeeklyHours);
 
         Then("^HS I verify the \"([^\"]*)\" and \"([^\"]*)\" date was set in the calendar$", repVisits::verifyStartAndEndDates);
@@ -444,7 +446,15 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I cancel a visit with time \"([^\"]*)\" college \"([^\"]*)\" and note \"([^\"]*)\"$",repVisits::cancelVisit);
 
+        Then("HS I remove the Time Slot recently created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsRefactoredForHS);
+
         Then("^HS I add the following attendees to the College Fair$", repVisits::addAttendees);
+
+        Then("^HS I click on Disconnect RepVisits from Naviance button$",repVisits::disconnectFromNavianceButton);
+
+        Then("^HS I verify the Cancel on the disconnect confirmation popup$",repVisits::verifyCancelDisconnectFromNavianceButton);
+
+        Then("^HS I verify the Yes on the disconnect confirmation popup with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyYesDisconnectFromNavianceButton);
 
         Then("^HS I verify configuration and staff notifications for \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyStaffNotifications);
 
@@ -646,5 +656,30 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify that it should not be possible to select an End date \"([^\"]*)\" which is less than the Start date \"([^\"]*)\" in Agenda view$", repVisits::verifyUserCannotSelectEndDateWhichIsLessThanStartDateInAgendaView);
 
+        Then("^HS I go to the Naviance Settings to select the option \"([^\"]*)\"$",repVisits::selectOptionforManuallyorAutomatically);
+
+        Then("^HS I verify the Notification is \"([^\"]*)\" in the Naviance Sync Tab for the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNavianceSyncTab);
+
+        Then("^HS I verify the Rescheduled Notification is \"([^\"]*)\" in the Naviance Sync Tab for an appointment that has not been pushed to Naviance using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyRescheduledNotificationInNavianceSyncTab);
+
+        Then("^HS I select calendar in RepVisits$",repVisits::selectCalendar);
+
+        Then("^HS I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCalendarPage);
+
+        Then("^HS I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
+
+        Then("^HS I verify HE user's name be an active hyperlink to the HS user's Community profile in visit feedback subtab$", repVisits::verifyHEUsersNameLink);
+
+        Then("^HS I verify visit feedback tab and its subtabs$",repVisits::verifyVisitFeedbackForHSUser);
+
+        Then("^HS I verify the visit feedback tab showing after Naviance Sync tab$", repVisits::verifyVisitFeedbackTagSequenceForNavianceHS);
+
+        Then("^HS I verify the visit feedback tab showing after Activity tab$", repVisits::verifyVisitFeedbackTagSequenceForNonHS);
+
+        And("^HS I verify the Pending subtab under Visit Feedback$", repVisits::verifyPendingSubtab);
+
+        And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
+
+        And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
     }
 }
