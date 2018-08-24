@@ -1899,7 +1899,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr")));
         Long scrollPosition = (Long) ((JavascriptExecutor)driver).executeScript("return window.pageYOffset; ");
         Assert.assertEquals("Scroll bar is not positioned at the top of the page", new Long(0), scrollPosition);
-        Assert.assertTrue("Compare Pinned Colleges heading is not displayig.", getComparePageHeading().isDisplayed());
     }
 
     /**
@@ -2353,10 +2352,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement getCheckBoxElementByText(String checkboxText) {
         return driver.findElement(By.xpath("//label[text()='" + checkboxText + "']/.."));
-    }
-
-    private WebElement getComparePageHeading(){
-        return driver.findElement(By.xpath("//h2[contains(text(), 'Compare Pinned Colleges')]"));
     }
 
 }
