@@ -446,7 +446,15 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I cancel a visit with time \"([^\"]*)\" college \"([^\"]*)\" and note \"([^\"]*)\"$",repVisits::cancelVisit);
 
+        Then("HS I remove the Time Slot recently created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsRefactoredForHS);
+
         Then("^HS I add the following attendees to the College Fair$", repVisits::addAttendees);
+
+        Then("^HS I click on Disconnect RepVisits from Naviance button$",repVisits::disconnectFromNavianceButton);
+
+        Then("^HS I verify the Cancel on the disconnect confirmation popup$",repVisits::verifyCancelDisconnectFromNavianceButton);
+
+        Then("^HS I verify the Yes on the disconnect confirmation popup with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyYesDisconnectFromNavianceButton);
 
         Then("^HS I verify configuration and staff notifications for \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyStaffNotifications);
 
