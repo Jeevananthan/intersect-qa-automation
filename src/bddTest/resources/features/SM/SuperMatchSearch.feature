@@ -344,6 +344,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I scroll to the middle of the main page
     And SM I open the Pinned Schools Compare screen
     Then SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page
+    Then I check if I can see "Compare Pinned Colleges" on the page
 
   @MATCH-3522
   Scenario: As a HS student using SuperMatch I want to clear all of my currently pinned schools so I can quickly wipe
