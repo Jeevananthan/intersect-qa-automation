@@ -928,6 +928,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
     }
 
+    public void verifyRadioButtonsDisplayedInCostFitCriteria()
+    {
+        Assert.assertTrue("'Maximum Tuition and Fees' radio button is not displayed", maximumTuitionAndFeesLabel().isDisplayed());
+        Assert.assertTrue("'Maximum Total Cost' radio button is not displayed", maximumTotalCostLabel().isDisplayed());
+        closeFitCriteria().click();
+    }
 
     private void openFitCriteria(String fitCriteria) {
         driver.findElement(By.xpath("//li[contains(text(), '" + fitCriteria + "')]")).sendKeys(Keys.RETURN);
@@ -1824,6 +1830,19 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     Assert.assertTrue("The option selected in Family Income dropdown is not correct",
                             familyIncomeDropdown().findElement(By.xpath("./div[contains(@class,'text')]")).getText().equals(map.get(key)));
                     break;
+                case "Radio": if(map.get(key).equals("Maximum Tuition and Fees"))
+                              {
+                                 Assert.assertTrue("'Maximum Tuition and Fees' radio button is not selected", maximumTuitionAndFeesRadioButton().isSelected());
+                              }
+                              else if(map.get(key).equals("Maximum Total Cost (Tuition, Fees, Room & Board)"))
+                              {
+                                  Assert.assertTrue("'Maximum Total Cost (Tuition, Fees, Room & Board)' radio button is not selected", maximumTotalCostRadioButton().isSelected());
+                              }
+                              else
+                              {
+                                  Assert.assertTrue("The parameter passed is invalid", false);
+                              }
+                    break;
             }
         }
 
@@ -1836,6 +1855,40 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         maximumCostDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
     }
 
+    public List<String> getAllOptionsInMaximumCostDropdown()
+    {
+        List<String> optionsInMaximumCostDropdown = new ArrayList<String>();
+
+        maximumCostDropdown().findElement(By.xpath("./i")).click();
+        List<WebElement> optionElements = maximumCostDropdown().findElements(By.xpath(".//span"));
+
+        for(WebElement optionElement : optionElements)
+        {
+            optionsInMaximumCostDropdown.add(optionElement.getText());
+        }
+
+        maximumCostDropdown().findElement(By.xpath("./i")).click();
+
+        return optionsInMaximumCostDropdown;
+    }
+
+    public List<String> getAllOptionsInFamilyIncomeDropdown()
+    {
+        List<String> optionsInFamilyIncomeDropdown = new ArrayList<String>();
+
+        familyIncomeDropdown().findElement(By.xpath("./i")).click();
+        List<WebElement> optionElements = familyIncomeDropdown().findElements(By.xpath(".//span"));
+
+        for(WebElement optionElement : optionElements)
+        {
+            optionsInFamilyIncomeDropdown.add(optionElement.getText());
+        }
+
+        familyIncomeDropdown().findElement(By.xpath("./i")).click();
+
+        return optionsInFamilyIncomeDropdown;
+    }
+
     public void selectOptionInHomeStateDropdown(String option)
     {
         homeStateDropdown().findElement(By.xpath(".//div[contains(@class, 'text')]")).click();
@@ -1846,6 +1899,70 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     {
         familyIncomeDropdown().findElement(By.xpath("./div[contains(@class,'text')]")).click();
         familyIncomeDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+    public void verifyOptionsDisplayedInMaximumCostDropdown(DataTable dataTable) {
+
+        chooseFitCriteriaTab("Cost");
+
+        List<String> expectedOptionsInMaximumCostDropdown = dataTable.asList(String.class);
+        List<String> actualOptionsInMaximumCostDropdown = getAllOptionsInMaximumCostDropdown();
+
+        if(expectedOptionsInMaximumCostDropdown.size()==actualOptionsInMaximumCostDropdown.size())
+        {
+            int listSize = expectedOptionsInMaximumCostDropdown.size();
+
+            for (int i = 0; i < listSize; i++)
+            {
+                Assert.assertTrue(expectedOptionsInMaximumCostDropdown.get(i) + " is not displayed correctly " +
+                        "in Maximum Cost dropdown", expectedOptionsInMaximumCostDropdown.get(i).equals(actualOptionsInMaximumCostDropdown.get(i)));
+            }
+        }
+        else
+        {
+            Assert.assertTrue("The options displayed in Maximum Cost dropdown is incorrect", false);
+        }
+
+        closeFitCriteria().click();
+
+    }
+
+    public void verifyOptionsDisplayedInFamilyIncomeDropdown(DataTable dataTable)
+    {
+        chooseFitCriteriaTab("Cost");
+        selectRadioButton("Maximum Total Cost (Tuition, Fees, Room & Board)");
+
+        List<String> expectedOptionsInFamilyIncomeDropdown = dataTable.asList(String.class);
+        List<String> actualOptionsInFamilyIncomeDropdown = getAllOptionsInFamilyIncomeDropdown();
+
+        if(expectedOptionsInFamilyIncomeDropdown.size()==actualOptionsInFamilyIncomeDropdown.size())
+        {
+            int listSize = expectedOptionsInFamilyIncomeDropdown.size();
+
+            for (int i = 0; i < listSize; i++)
+            {
+                Assert.assertTrue(expectedOptionsInFamilyIncomeDropdown.get(i) + " is not displayed correctly " +
+                        "in Maximum Cost dropdown", expectedOptionsInFamilyIncomeDropdown.get(i).equals(actualOptionsInFamilyIncomeDropdown.get(i)));
+            }
+        }
+        else
+        {
+            Assert.assertTrue("The options displayed in Family Income dropdown is incorrect", false);
+        }
+
+        closeFitCriteria().click();
+
+    }
+
+    public void verifyHomeStateDropdownInCostCriteria()
+    {
+        chooseFitCriteriaTab("Cost");
+
+        //Verify the placeholder text
+        Assert.assertTrue("Placeholder text in Home State dropdown is not correct",
+                homeStateDropdown().findElement(By.xpath(".//div[@class='default text']")).getText().equals("Type Your Home State..."));
+
+        closeFitCriteria().click();
     }
 
 
@@ -2388,6 +2505,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement saveSearchPopupMessage() {
         return driver.findElement(By.xpath("//p[contains(@class, 'supermatch-save-search-modal-message')]"));
+    }
+
+    private WebElement maximumTuitionAndFeesLabel() {
+        return driver.findElement(By.xpath("//label[contains(text(), 'Maximum Tuition and Fees')]"));
+    }
+
+    private WebElement maximumTuitionAndFeesRadioButton() {
+        return driver.findElement(By.xpath("//label[contains(text(), 'Maximum Tuition and Fees')]/../input"));
+    }
+
+    private WebElement maximumTotalCostLabel() {
+        return driver.findElement(By.xpath("//label[contains(text(), 'Maximum Total Cost (Tuition, Fees, Room & Board)')]"));
+    }
+
+    private WebElement maximumTotalCostRadioButton() {
+        return driver.findElement(By.xpath("//label[contains(text(), 'Maximum Total Cost (Tuition, Fees, Room & Board)')]/../input"));
     }
 
 }

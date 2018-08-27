@@ -416,3 +416,49 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify that "You've already named a search duplicatename. Please choose a unique name." message is displayed in Save Search popup
     Then SM I cancel the Save Search popup
     Then SM I delete the saved search named "duplicatename"
+
+  @MATCH-3279
+  Scenario:As a HS student, I want to filter colleges I am searching for by cost details within the Cost category so I
+  can see relevant colleges that match my cost details requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I click "Cost" filter criteria tab
+    And SM I verify the radio buttons displayed in the Cost fit criteria
+    Then SM I verify the following data in the Cost Fit Criteria
+      |Radio|Maximum Tuition and Fees|
+    And SM I verify that the below options are displayed in Maximum Cost dropdown
+      |Select Max|
+      |$5,000    |
+      |$10,000   |
+      |$15,000   |
+      |$20,000   |
+      |$25,000   |
+      |$30,000   |
+      |$35,000   |
+      |$40,000   |
+      |$45,000   |
+      |$50,000   |
+      |$55,000   |
+      |$60,000   |
+    And SM I verify the Home State dropdown in Cost fit criteria
+    And SM I verify that the below options are displayed in Family Income dropdown
+      |Select Family Income|
+      |$0 - $30,000        |
+      |$30,001 - $48,000   |
+      |$48,001 - $75,000   |
+      |$75,001 - $110,000  |
+      |$110,001+           |
+    Then SM I select the following data in the Cost Fit Criteria
+      |Radio           |Maximum Tuition and Fees                        |
+      |Maximum Cost    |$5,000                                          |
+      |Home State      |Ohio                                            |
+    And SM I verify that the Must Have box contains "Cost < $5000"
+    And SM I move "Cost < $5000" from the Must Have box to the Nice to Have box
+    Then SM I verify that the Nice to Have box contains "Cost < $5000"
+    Then SM I select the following data in the Cost Fit Criteria
+      |Radio           |Maximum Tuition and Fees                        |
+      |Maximum Cost    |Select Max                                      |
+    Then SM I select the following data in the Cost Fit Criteria
+      |Radio           |Maximum Tuition and Fees                        |
+      |Maximum Cost    |$5,000                                          |
+    Then SM I verify that the Must Have box contains "Cost < $5000"
