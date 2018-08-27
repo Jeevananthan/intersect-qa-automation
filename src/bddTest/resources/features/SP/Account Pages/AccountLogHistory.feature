@@ -92,7 +92,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
 
     Given SP I am logged in to the Admin page as an Admin user
     When SP I go to the Log History for "The University of Alabama" from the institution dashboard
-    Then SP I verify the user update details are present in the Log History page using "PurpleHE Automation","Today"
+    Then SP I verify the user update details are present in the Log History page using "PurpleHE","Today"
 
     #Set the user name back to the original value
     When HE I am logged in to Intersect HE as user type "administrator"
