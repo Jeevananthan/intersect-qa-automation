@@ -29,16 +29,8 @@ public class ActiveMatchPageStepDefs implements En {
 
         Then("^HE I delete the downloaded ActiveMatch Cvs file \"([^\"]*)\"",activeMatchPage::deleteDownloadedActiveMatchConnectionsFile);
       
-        Then("^HE The Active Match page is displayed$", activeMatchPage::verifyTitleIsPresent);
-
-        Then("^HE I navigate to the ActiveMatch Tab$", activeMatchPage::navigateToActiveMatch);
-
-        Then("^HE I verify the ActiveMatch page$", activeMatchPage::verfyActiveMatchPage);
-      
         Then("^HE I verify the Header after selecting \"([^\"]*)\" for the following selection in the ActiveMatch export connections$",activeMatchPage::verifySelectedHeader);
 
         Then("^HE I verify the Header \"([^\"]*)\"$",activeMatchPage::verifyHeader);
-
-        Then("^HE I verify the Default drop-down Menu selection to remain \"([^\"]*)\" after all connections are modified$",activeMatchPage::verifyDefaultdropdownMenuSelection);
     }
 }

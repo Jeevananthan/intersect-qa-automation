@@ -116,12 +116,6 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verfyActiveMatchPage(){
-        Assert.assertTrue("Connection link is not displayed",connectionTab().isDisplayed());
-        Assert.assertTrue("Dropdown button is not displayed",exportConnectionsDropdown().isDisplayed());
-        Assert.assertTrue("Download button is not displayed",downloadButton().isDisplayed());
-    }
-
     public void verifyDropdownMenuHeader(DataTable dataTable){
         List<String> value=dataTable.asList(String.class);
         exportConnectionsDropdown().click();
@@ -163,16 +157,8 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         }navigationBar.goToActiveMatch();
       }
 
-    public void verifyDropdownMenuHeader(DataTable dataTable){
-        List<String> value=dataTable.asList(String.class);
-        exportConnectionsDropdown().click();
-        for(String option:value){
-            Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']")).isDisplayed());
-        }
-    }
-
     public void verifySelectedHeader(String Option,DataTable dataTable){
-        navBar.goToActiveMatch();
+        navigationBar.goToActiveMatch();
         waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
             for (String option : value) {
@@ -189,23 +175,6 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Since Last Export option is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']")).isDisplayed());
         Assert.assertTrue("Last exported connection details are not displayed",driver.findElement(By.xpath("//div/span[contains(text(),'connections since last export on')]")).isDisplayed());
     }
-
-    public void verifyDefaultdropdownMenuSelection(String defaultMenuSelection,DataTable dataTable){
-        navBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        navBar.goToActiveMatch();
-        waitUntilPageFinishLoading();
-        List<String> value=dataTable.asList(String.class);
-        for (String option : value) {
-            exportConnectionsDropdown().click();
-            driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
-            waitUntilPageFinishLoading();
-            navBar.goToRepVisits();
-            waitUntilPageFinishLoading();
-            navBar.goToActiveMatch();
-            waitUntilPageFinishLoading();
-        Assert.assertTrue("Since Last Export is not present as a default dropdown menu selection",driver.findElement(By.xpath("//div[@class='ui button dropdown gyhR4eL0bZuX-AtA9-Cgy']/div[text()='"+defaultMenuSelection+"']")).isDisplayed());
-        }}
 
     /**
      * Gets the ActiveMatch download connections
@@ -250,9 +219,5 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     private void moveToElement(WebElement element){
         Actions builder = new Actions(driver);
         builder.moveToElement(element ).build().perform();
-    }
-    private WebElement connectionTab(){
-       WebElement Tab=driver.findElement(By.linkText("Connections"));
-       return Tab;
     }
 }

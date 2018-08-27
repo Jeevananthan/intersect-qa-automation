@@ -49,7 +49,3 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active 
     And HE I verify the Default drop-down Menu selection to remain "Since Last Export" after all connections are modified
       |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
     And HE I successfully sign out
-
-
-
-
