@@ -1,9 +1,9 @@
-@HUBS @HUBS-918 @HUBSCosts
+@HUBS @HUBS-918 @HUBSCosts @HUBS-944
 Feature: As a community user viewing College Hubs, I want to be able to view Hubs Cost Tab content so I can understand
   what Hubs offers students.
 
   Background:
-    Given HE I want to login to the HE app using "jorgetesthobsons@gmail.com" as username and "Hobsons2016!" as password
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "Costs" tab in the preview
 
@@ -19,6 +19,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Average Amount of Aid | Grant          | 1111  |
     And HE I successfully sign out
 
+  @HUBS-1080
   Scenario: Changes done in HEM are successfully published to HUBS
     When HUBS I open "Costs" in the edit menu
     And HUBS I take note of the values from the following fields in Costs:
@@ -30,10 +31,14 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | % Receiving Aid       | Pell Grant        |
       | Average Amount of Aid | Grant             |
       | Publish Reason        | test              |
-    And HUBS I approve the changes in CMS with the user email "jorgetesthobsons@gmail.com" and the following details:
-      | admin | hbcmsxx | Adelphi University | Published | Undergraduate Financial Aid |
-    Then HUBS I should be able to verify the changes for costs published in HUBS, with username "benhubs", password "Hobsons!23" and college "Adelphi", in the following sections
+    And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
+      | admin | hbcmsxx | The University of Alabama | Published | Undergraduate Financial Aid |
+    And HUBS I successfully sign out from CMS
+    Then HUBS I should be able to verify the changes for costs published in HUBS, with username "benhubs", password "Hobsons!23" and college "The University of Alabama", in the following sections
       | Average Net Prices    | $48,001 - $75,000 |
       | % Receiving Aid       | Pell Grant        |
       | Average Amount of Aid | Grant             |
+    #Sometimes, the Average Net Prices take a lot of time to be updated. So, the next
+    #setting is the number of times to reload the HUBS page to verify the value.
+      | Number of tries       | 10                |
     And HUBS I successfully sign out

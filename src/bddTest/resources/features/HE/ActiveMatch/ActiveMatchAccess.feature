@@ -1,12 +1,11 @@
 @HE @ActiveMatch
-Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user with an ActiveMatch product, I need the ability to access the ActiveMatch+ product in Intersect.
+Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active ActiveMatch subscription, I can access the ActiveMatch product
 
   @MATCH-3010
   Scenario: Active Match section is displayed for Admin users in Intersect HE (MATCH-3109)
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the "ActiveMatch" nav link is displaying for this user
     And HE I open the Active Match section
-    Then HE The Active Match page is displayed
     And HE I successfully sign out
 
   @MATCH-3010
@@ -50,7 +49,6 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user wit
     And HE I verify the Default drop-down Menu selection to remain "Since Last Export" after all connections are modified
       |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
     And HE I successfully sign out
-
 
 
 

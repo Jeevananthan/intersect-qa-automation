@@ -1,5 +1,5 @@
 @SP
-Feature: SP - Global Search - GlobalSearchSCIDSearch -Hobsons Staff - Search for Institutional Accounts via SCID
+Feature: SP - GlobalSearch - GlobalSearchSCIDSearch - Ability to search for Institutional Accounts by SCID
   As a Hobsons staff member I need to search for institutional accounts by their full SCID in the Purple Admin
   page so I know I am provisioning (for the first time) the correct account.
 

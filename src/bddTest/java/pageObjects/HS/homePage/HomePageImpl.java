@@ -1,10 +1,14 @@
 package pageObjects.HS.homePage;
 
+import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 
@@ -23,7 +27,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void logout() {
         driver.switchTo().defaultContent();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(userDropdown()));
         userDropdown().click();
         button(By.cssSelector("i.sign.out.icon + span.text")).click();
         waitUntilPageFinishLoading();
@@ -33,7 +37,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToCounselorCommunity(){
         //link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
-        navBar.goToCommunity();
+        navigationBar.goToCommunityInHS();
     }
 
     public void verifyTitleHS(String generalCategoryName,String pageName){
@@ -43,7 +47,62 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Page Name is not displayed in the title name ",driver.findElement(By.xpath("//div[text()='"+pageName+"']")).isDisplayed());
     }
 
-    private WebElement userDropdown() {
-        return button(By.id("user-dropdown"));
+    public void verifyAdditionalInfoURLBeforeClickingBackToIntersectLink(String additionalInfoURL,String additionalInfo,String backToIntersect,String SCID,String college,String info){
+        waitUntilPageFinishLoading();
+        communityFrame();
+        WebElement additionalLink = link(additionalInfo);
+        waitUntil(ExpectedConditions.visibilityOf(additionalLink));
+        additionalLink.click();
+        waitForUITransition();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("College is not displayed",driver.findElement(By.xpath("//div/h2[text()='"+college+"']")).isDisplayed());
+        String currentURL = additionalInfoURL+SCID+info;
+        String additionalInfoCurrentURL = driver.getCurrentUrl();
+        Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
+        WebElement viewNavianceCollegeProfile = link("VIEW NAVIANCE COLLEGE PROFILE");
+        waitUntil(ExpectedConditions.visibilityOf(viewNavianceCollegeProfile));
+        viewNavianceCollegeProfile.click();
+        waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Back to Intersect link is not displayed",link(backToIntersect).isDisplayed());
     }
+
+    public void verifyAdditionalInfoURLAfterClickingBackToIntersectLink(String additionalInfoURL,String backToIntersect,String institutionID,String info){
+        String currentURL = additionalInfoURL+institutionID+info;
+        link(backToIntersect).click();
+        String additionalInfoCurrentURL = driver.getCurrentUrl();
+        waitUntilPageFinishLoading();
+        new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe((additionalInfoCurrentURL)));
+        Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+    }
+
+    private WebElement userDropdown() {
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        return driver.findElement(By.cssSelector("div[id='user-dropdown']"));
+    }
+
+        public void verifyTextInButtonFromModule(String moduleName, String buttonText) {
+            Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
+        }
+
+        public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
+            moduleButton(moduleName).click();
+            waitUntilPageFinishLoading();
+            String expectedURL = GetProperties.get("hs.app.url") + expectedUrl;
+            String actualURL = driver.getCurrentUrl();
+            Assert.assertEquals(actualURL, expectedURL);
+        }
+
+    private WebElement collageNameLabel() {
+        return getDriver().findElement(By.cssSelector("h1.masthead__name"));
+    }
+    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
 }

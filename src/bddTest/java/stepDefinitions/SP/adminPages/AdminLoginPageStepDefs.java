@@ -13,7 +13,7 @@ public class AdminLoginPageStepDefs extends SeleniumLibrary implements En {
 
         Then("^SP I am unable to login and I see the following error message \"([^\"]*)\"$", loginPage::verifyExpectedErrorMessage);
 
-        Given("^SP I am logged in to the Admin page as a View Only user$", loginPage::loginAsAViewOnlyUser);
+        Given("^SP I am logged in to the Admin page as a Super Admin user$", loginPage::loginAsASuperAdminUser);
 
         Given("^SP I am logged in to the Admin page as a Sales Ops user$", loginPage::loginAsASalesOpsUser);
 

@@ -1,5 +1,5 @@
 @SP
-Feature: SP - Global Search - Global Search - As a support user, I want to be able to use the Global search to help me find records.
+Feature: SP - GlobalSearch - GlobalSearch - Verify ability to search for Institutions, People, Groups using Global search and Advanced search
 
   @MATCH-1069
   Scenario: As a support user, I need to be able to access Advanced Search for community entities.
@@ -18,8 +18,8 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
       | People | Institutions | Groups |
     Then SP I verify that only five or less results are listed in real-time results displayed
       | User | Institutions | Groups |
-    Then SP I verify real-time search results are clickable and actionable "Match"
-    Then SP I verify real-time search layouts are displayed correctly "Match"
+    Then SP I verify real-time search results are clickable and actionable "MatchSupportUIQA4"
+    Then SP I verify real-time search layouts are displayed correctly "Automation"
       | People | Institutions | Groups |
     And SP I successfully sign out
 
@@ -42,28 +42,28 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
 
   @MATCH-932 @MATCH-934 @MATCH-1076 @MATCH-1077 @MATCH-1078 @MATCH-1723
   Scenario: As a Community user I want to perform an advanced search for other Community users using any combination of the fields below.
-  So I can more accurately find the users I want to network with in the Community.
+            So I can more accurately find the users I want to network with in the Community.
     Given SP I am logged in to the Admin page as a Support user
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "People"
-      | Keyword                                | Admin          |
-      | First Name                             | Admin          |
-      | Last Name                              | Administrator  |
-      | Email                                  | admin@fake.com |
-      | Alma Mater                             | UNC Capel Hill |
-      | Institution                            | Hobsons        |
-      | Institution Type                       | All            |
-      | Position                               | Manager        |
-      | Institution State                      | Ohio           |
-      | Zipcode                                | 45241          |
-      | State Served                           | Alabama        |
-      | County Served                          | Autauga        |
-      | Advises Students on Admissions Process | No             |
-      | Schedules College Visits               | No             |
+      | Keyword                                | Admin                                |
+      | First Name                             | Admin                                |
+      | Last Name                              | Administrator                        |
+      | Email                                  | purpleheautomation+Hobsons@gmail.com |
+      | Alma Mater                             | UNC Capel Hill                       |
+      | Institution                            | Hobsons                              |
+      | Institution Type                       | All                                  |
+      | Position                               | Manager                              |
+      | Institution State                      | Ohio                                 |
+      | Zipcode                                | 45241                                |
+      | State Served                           | Alabama                              |
+      | County Served                          | Autauga                              |
+      | Advises Students on Admissions Process | No                                   |
+      | Schedules College Visits               | No                                   |
     And SP I successfully sign out
 
   @MATCH-933 @MATCH-1103 @MATCH-1105 @MATCH-1107
   Scenario: As a Community user I want to perform an advanced search for groups using any combination of the fields below.
-  So I can more accurately find the groups I want to join with in the Community.
+            So I can more accurately find the groups I want to join with in the Community.
     Given SP I am logged in to the Admin page as a Support user
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "Groups"
       | Keyword     | Hobsons                                    |
@@ -84,9 +84,8 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
       | School Type                   | Public                     |
       | Degree                        | 4                          |
       | City                          | Jonesboro                  |
-      #Search Institution by state is not working ATM --- MATCH-2219 created 6/26/17
-      #| State                         | Arkansas                   |
-      | Postal Code                   | 72401                      |
+      | State                         | Arkansas                   |
+      | Postal Code                   | 72467                      |
     Then SP I verify I can perform an advanced search utilizing any combination of fields for "High School"
       | Keyword                       | Southern                   |
       | Institution Type              | High School                |
@@ -98,4 +97,14 @@ Feature: SP - Global Search - Global Search - As a support user, I want to be ab
       | Charter School                | Unknown                    |
       | Title I Eligible              | No                         |
       | College Going Rate            | 59-100                     |
+    And SP I successfully sign out
+
+  @MATCH-1054
+  Scenario: As an Intersect user I want the global search box to return results based on a full match.
+            So the results returned to me are as accurate and relevant as possible.
+    Given SP I am logged in to the Admin page as a Support user
+    # Only partials are being texted, commented out code to test full Match, MATCH-2231 submitted or HE Accounts full match search
+    Then SP I verify the real-time results return for global search are a partial and full match "Adrian College"
+      #| HE Accounts | People | Institutions |
+      | People |
     And SP I successfully sign out

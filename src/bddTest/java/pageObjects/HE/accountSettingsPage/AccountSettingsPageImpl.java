@@ -10,11 +10,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    public static String generatedFirstName;
+    public static String oldValueFirstName;
 
     public AccountSettingsPageImpl() {
         logger = Logger.getLogger(AccountSettingsPageImpl.class);
@@ -28,10 +32,11 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         }
         switch (action) {
             case "Home":
-                navBar.goToHome();
+                navigationBar.goToHome();
                 waitUntilPageFinishLoading();
                 break;
             case "Save":
+                waitUntil(ExpectedConditions.visibilityOf(saveChanges()));
                 saveChanges().click();
                 waitUntilPageFinishLoading();
                 break;
@@ -55,17 +60,25 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         userDropdown().click();
         Assert.assertTrue("Account Settings option is not displayed",selectOptionfromDropdownList(option).isDisplayed());
         selectOptionfromDropdownList(option).click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(selectOptionInAccountSettings(value)));
         Assert.assertTrue(String.format("%s option is not displayed",value),selectOptionInAccountSettings(value).isDisplayed());
         selectOptionInAccountSettings(value).click();
         waitForUITransition();
         // Temporary fix because an error is displayed due to amount of data to be processed
-        for(int i=0; i<5;i++){
+        for(int i=0; i<20;i++){
             try{
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
                         xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
-                driver.navigate().refresh();
+                //driver.navigate().refresh();
+                navigationBar.goToHome();
                 waitUntilPageFinishLoading();
+                userDropdown().click();
+                Assert.assertTrue("Account Settings option is not displayed",selectOptionfromDropdownList(option).isDisplayed());
+                selectOptionfromDropdownList(option).click();
+                waitUntilPageFinishLoading();
+                Assert.assertTrue(String.format("%s option is not displayed",value),selectOptionInAccountSettings(value).isDisplayed());
+                selectOptionInAccountSettings(value).click();
+                waitForUITransition();
             } catch (Exception e){
                 break;
             }
@@ -79,6 +92,27 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         jsClick(driver.findElement(By.xpath("//div/span[text()='"+option+"']")));
     }
 
+    public void addStringToCurrentFirstName() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss");
+        oldValueFirstName = firstNameField().getAttribute("value");
+        firstNameField().clear();
+        generatedFirstName = oldValueFirstName + dateFormat.format(date);
+        firstNameField().sendKeys(generatedFirstName);
+        Assert.assertTrue("The value was not correctly set", firstNameField().getAttribute("value").equals(generatedFirstName));
+    }
+
+    public void clickSaveChanges() {
+        saveChanges().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void setFirstNameToOriginalValue() {
+        firstNameField().clear();
+        firstNameField().sendKeys(oldValueFirstName);
+    }
+
+    //Locators
     private WebElement currentPasswordBox() {
         return textbox("Current Password");
     }
@@ -88,10 +122,10 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement confirmPasswordBox() {
-        return textbox("Confirm Password");
+        return textbox("Confirm New Password");
     }
 
-    private WebElement saveChanges() { return button("SAVE"); }
+    private WebElement saveChanges() { return driver.findElement(By.xpath("//span[text()='SAVE']")); }
 
     private WebElement cancelButton() { return button("CANCEL"); }
 
@@ -108,5 +142,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     WebElement option=driver.findElement(By.xpath("//span[text()='"+value+"']"));
     return option;
     }
+
+    private WebElement firstNameField() { return driver.findElement(By.cssSelector("input#user-form-first-name")); }
 
 }

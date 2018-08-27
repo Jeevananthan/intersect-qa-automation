@@ -1,5 +1,5 @@
 @HE
-Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage users at my institution
+Feature: HE - Settings - ManageUsers - As an HE admin user, I should be able to manage users at my institution
 
   @MATCH-1100 @MATCH-1258
   Scenario: As an HE administrator, I am able to deactivate and reactivate other users' accounts in my institution.
@@ -73,3 +73,8 @@ Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage u
     Then HE I verify there are no search results returned
     And HE I activate the user account for "purpleheautomation+recruiter@gmail.com"
     Then HE I successfully sign out
+    
+  @MATCH-1844
+  Scenario: As a freemium HE administrator user, I need to be able to create additional users
+    Given HE I am logged in to Intersect HE as user type "limited"
+    Then HE I verify that I can create new users

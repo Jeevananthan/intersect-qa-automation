@@ -1,9 +1,9 @@
 @HUBS @HUBS-915 @HUBSStudies
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs Tab content so I can
+Feature: As a community user viewing College Hubs, I want to be able to view Studies Tab content so I can
   understand what Hubs offers students.
 
   Background:
-    Given HE I want to login to the HE app using "jorgetesthobsons@gmail.com" as username and "Hobsons2016!" as password
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "Studies" tab in the preview
 
@@ -21,6 +21,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Study Options        |Study Abroad Credit;disabled |
     And HE I successfully sign out
 
+  @HUBS-1043
   Scenario: Changes done in HEM are successfully published to HUBS
     When HUBS I open "Studies" in the edit menu
     And HUBS I take note of the values from the following fields:
@@ -34,10 +35,11 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Study Options      | Study Abroad Credit |
       | Publish Reason     | test                |
     And HE I successfully sign out
-    And HUBS I approve the changes in CMS with the user email "jorgetesthobsons@gmail.com" and the following details:
-      | admin | hbcmsxx | Adelphi University |
+    And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
+      | admin | hbcmsxx | The University of Alabama |
+    And HUBS I successfully sign out from CMS
     Then HUBS I should be able to verify the changes published in HUBS, with the following credentials:
     #  The fourth parameter is the Study Option that will be evaluated.
-    | benhubs | Hobsons!23 | Adelphi | Study Abroad Credit |
+    | benhubs | Hobsons!23 | The University of Alabama | Study Abroad Credit |
     And HUBS I successfully sign out
 

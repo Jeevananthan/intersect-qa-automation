@@ -22,6 +22,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
     }
 
     public void editInstitutionProfile() {
+        waitUntilElementExists(link("edit"));
         if (link("edit").isDisplayed()){
             link("edit").click();
             waitUntilPageFinishLoading();
@@ -117,13 +118,15 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
 
     public void navigateToInstitutionProfile() {
         waitUntilPageFinishLoading();
-        communityFrame();
+        navigationBar.goToCommunityInHS();
         waitForUITransition();
-        link("institution").click();
+        communityFrame();
+        driver.findElement(By.xpath("//a[text()='Institution']")).click();
     }
 
     public void noInstitutionProfileEditButton(){
-        Assert.assertFalse("Institution profile has and edit button option.", link("edit").isDisplayed());
+        Assert.assertTrue("Institution profile has and edit button option.", driver.findElement(By.cssSelector("[class='edit-institution-link']")).isDisplayed());
+
     }
 
     public void verifyDataSaved(DataTable dataTable) {
@@ -187,6 +190,8 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
 
     public void verifyHeaderExist(String header){
         logger.info("Verifying that the " + header + " header is visible.");
+        waitUntilPageFinishLoading();
+        waitForUITransition();
         Assert.assertTrue("Institution header " + header + " was not found.", getParent(driver.findElement(By.xpath("//span[contains(text(),'" + header + "')]"))).getTagName().contains("h"));
     }
 
@@ -254,7 +259,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         return opt.getAttribute("innerText");
     }
     private WebElement saveChanges() {
-        return button("SAVE");
+        return driver.findElement(By.xpath("//button[@class='ui primary button']"));
     }
     private WebElement cancelButton() {
         return button("CANCEL");
