@@ -134,7 +134,7 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     And HS I click the navigation globe for viewing the recent notifications
     Then HS I successfully sign out
 
-  @MATCH-4657 @MATCH-4660 @MATCH-4661 @MATCH-4662 @MATCH-4664 @MATCH-4658  @MATCH-1266
+  @MATCH-4657 @MATCH-4660 @MATCH-4661 @MATCH-4662 @MATCH-4664 @MATCH-4658  @MATCH-1266 @MATCH-2906
   Scenario Outline: As an HE user in Intersect, I need to see the Intersect Connection subscription module
   so that I can access the configure my Intersect Connection settings and access my connections effectively.
     Given HE I am logged in to Intersect HE as user type "<user>"
@@ -157,6 +157,8 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
       | publishing    | Counselor Community      | PARTICIPATE | counselor-community/            |
       | community     | Counselor Community      | PARTICIPATE | counselor-community/            |
       | limited       | Counselor Community      | PARTICIPATE | counselor-community/            |
+      | administrator | Advanced Awareness        | CONFIGURE   | advanced-awareness/             |
+      | publishing    | Advanced Awareness        | CONFIGURE   | advanced-awareness/             |
 
   @MATCH-1430
   Scenario: As a HE user, I should be able to access Privacy Policy and Terms of Use pages
