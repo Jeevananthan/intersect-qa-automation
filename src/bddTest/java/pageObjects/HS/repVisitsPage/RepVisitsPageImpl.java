@@ -2912,21 +2912,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToRepvisitWizardPage(String wizardName){
+        waitUntilElementExists(driver.findElement(By.xpath("//span[text()='Next']")));
         while(driver.findElements(By.xpath("//div[@class='active step' and @name ='"+wizardName+"']")).size()==0){
-            button("Next").click();
+            nextButton().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
             }
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
-        button("Next").click();
+        nextButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
-        button("Next").click();
+        nextButton().click();
         waitUntilPageFinishLoading();
     }
 
     public void goToCalendarInWizardLastStepPage(String visitAvailability){
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size() == 0) {
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
-            button("Next").click();
+            nextButton().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
         }
         Assert.assertTrue("Complete page is not displayed", text("Visit Availability").isDisplayed());
@@ -2939,9 +2940,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 Assert.fail("The given option for the visitAvailability is not a valid one");
             }
         }
-        button("Next").click();
+        nextButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Take me to my visits']"),1));
-        button("Take me to my visits").click();
+       takeMeButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Today']"),1));
     }
 
@@ -8545,6 +8546,10 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement nextButton() {
         return driver.findElement(By.xpath("//button[@class='ui primary button']"));
+    }
+
+    private WebElement takeMeButton() {
+        return driver.findElement(By.xpath("//button[@class='ui secondary button']"));
     }
 
 }

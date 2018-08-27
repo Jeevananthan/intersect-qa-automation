@@ -30,7 +30,7 @@ Feature: HS - Community - As an HS user, I can view HE institution data
     Then SP I am logged in to Support for Intersect
     Then SP I search for "Alabama" in Support
     Then SP I click in "See All Users" link
-    And  SP I "Re-invite" to "purpleheautomation+Match2652@gmail.com"
-    Then HE I verify that the Email Notification Message says: "(.*)https://counselorcommunity.com(.*)purpleheautomation(.*)Match2652@gmail.com(.*)Hobsons Support(.*)counselorcommunity@purpledev.hobsonspobox.net(.*)"
+    And  SP I "Re-invite" to "purpleheautomation+marketing543210@gmail.com"
+    Then HE I verify that the Email Notification Message says: "(.*)Intersect by Hobsons(.*)purpleheautomation(.*)marketing543210@gmail.com(.*)Hobsons Support(.*)support@purpledev.hobsonspobox.net(.*)"
       |Subject                                                        |To                            |Messages |
-      |Your Intersect Invitation | purpleheautomation+Match2652@gmail.com|1        |
+      |Your Intersect Invitation | purpleheautomation+marketing543210@gmail.com|1        |
