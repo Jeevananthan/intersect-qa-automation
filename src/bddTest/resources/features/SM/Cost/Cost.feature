@@ -25,3 +25,4 @@ Feature: SM - Cost - As a HS student, I need to be able to search for colleges b
     Then SM I verify that the appropriate wording is used for dropdowns of the following options:
     | Maximum Tuition and Fees                         | Select Max | per year |
     | Maximum Total Cost (Tuition, Fees, Room & Board) | Select Max | per year |
+    

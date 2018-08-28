@@ -1,5 +1,5 @@
 @SP
-Feature: Hobsons Support - View Institution Log History
+Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
          As a Hobsons Staff Administrator or Support user I need to be able to view and filter by date an audit log of all other Hobsons Staff
          activity per institutional account in the admin page for system security, auditing, and troubleshooting.
 
@@ -19,6 +19,12 @@ Feature: Hobsons Support - View Institution Log History
 
   Scenario: As a Hobsons Admin user I can view an Institution's Log History
     Given SP I am logged in to the Admin page as an Admin user
+    Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard
+    And SP I successfully sign out
+
+@MATCH-3007
+  Scenario: As a Hobsons Super Admin user I can view an Institution's Log History
+    Given SP I am logged in to the Admin page as a Super Admin user
     Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I successfully sign out
 
@@ -76,3 +82,22 @@ Feature: Hobsons Support - View Institution Log History
     Examples:
       |user                                   |supportUser         |profileName |institution              |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime |Option1                                              |Option2                           |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |
       |purpleheautomation+LogHistory@gmail.com|Match Support UI QA4|purple he   |Alpena Community College |7   |11:20am  |12:25pm |3        |7        |42      |12:25pm   |No, I want to manually review all incoming requests. |Yes, accept all incoming requests.|Standalone High School 6|11:         |11:     |QAs Fairs tests       |7   |0900AM    |1000AM  |5            |$25 |25                    |100                        | Save          |
+
+  @MATCH-4305
+  Scenario: We should add a message into the audit log history whenever we update a user in community.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I access the Account Settings page
+    And HE I add a random sufix to the First Name value
+    And HE I save the changes
+
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I go to the Log History for "The University of Alabama" from the institution dashboard
+    Then SP I verify the user update details are present in the Log History page using "PurpleHE","Today"
+
+    #Set the user name back to the original value
+    When HE I am logged in to Intersect HE as user type "administrator"
+    And HE I access the Account Settings page
+    And HE I set the First Name field to the original value
+    And HE I save the changes
+
+

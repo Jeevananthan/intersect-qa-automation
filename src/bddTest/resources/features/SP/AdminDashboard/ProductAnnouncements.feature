@@ -1,6 +1,5 @@
 @SP
-Feature: As a super admin and admin role in the Support app of Intersect, I want the ability to manage Intersect
-  In-product notifications in the support app.
+Feature: SP - AdminDashboard - ProductAnnouncements - As a super admin and admin  I want the ability to manage Intersect In-product notifications in the support app.
 
   @MATCH-3905 @MATCH-3908
   Scenario: As a super admin and admin role in the Support app of Intersect, I want the ability to add/edit and see
@@ -35,23 +34,29 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     And SP I verify the product announcement with title "AutomationAnnouncement2" content "ContentTest" audience "HE" and status "Unpublished" in the the edit form
     #Editing to unpublished and save announcements
     When SP I edit the product announcement "AutomationAnnouncementWith30Ch" with title "AutomationEdited" content "ContentEdited" audience "" and status "Unpublished"
-    Then SP I verify the product announcement with title "AutomationEdited" content "ContentEdited" visibility "HE, HS Naviance, HS Non Naviance" date "today" user "Match Support UI QA4" and status "Unpublished" in the list
     Then SP I verify the toast with the message "Changes saved" is displayed
+    Then SP I verify the product announcement with title "AutomationEdited" content "ContentEdited" visibility "HE, HS Naviance, HS Non Naviance" date "today" user "Match Support UI QA4" and status "Unpublished" in the list
     #Editing to published and save announcements
     When SP I edit the product announcement "AutomationAnnouncement2" with title "AutomationEdited2" content "ContentEdited2" audience "HS - Naviance" and status "Published"
-    Then SP I verify the product announcement with title "AutomationEdited2" content "ContentEdited2" visibility "HE, HS Naviance" date "today" user "Match Support UI QA4" and status "Published" in the list
     Then SP I verify the toast with the message "Changes saved" is displayed
+    Then SP I verify the product announcement with title "AutomationEdited2" content "ContentEdited2" visibility "HE, HS Naviance" date "today" user "Match Support UI QA4" and status "Published" in the list
     #Unpublishing announcements
     And SP I edit the product announcement "AutomationEdited2" with title "AutomationEdited2" content "ContentEdited2" audience "" and status "Unpublished"
     And SP I successfully sign out
 
-  @MATCH-3904
+  @MATCH-3904 @MATCH-3007
   Scenario: As a super admin and admin role in the Support app of Intersect,
-  I want the ability to have a location within the support app that allows me to create Intersect in-product notifications,
-  So that when there are any important notifications (e.g. maintenance, product survey's, release notifications, etc.) related to the Intersect product line,
-  I have the ability to directly notify users within the application and manage such from the Support app.
+            I want the ability to have a location within the support app that allows me to create Intersect in-product notifications,
+            So that when there are any important notifications (e.g. maintenance, product survey's, release notifications, etc.) related to the Intersect product line,
+            I have the ability to directly notify users within the application and manage such from the Support app.
 #Verify admin dashboard is displayed
-    Given SP I am logged in to the Admin page as an Admin user
+# MATCH-3007
+    Given SP I am logged in to the Admin page as a Super Admin user
+    Then SP I verify that Admin dashboard is displayed in Homepage
+    Then SP I verify the header is changed from "Intersect" to "Admin Dashboard" in the Admin dashboard page
+    Then SP I verify "Product Announcements" stub menu is displayed in the Admin dashboard page
+    And SP I successfully sign out
+    When SP I am logged in to the Admin page as an Admin user
     Then SP I verify that Admin dashboard is displayed in Homepage
     Then SP I verify the header is changed from "Intersect" to "Admin Dashboard" in the Admin dashboard page
     Then SP I verify "Product Announcements" stub menu is displayed in the Admin dashboard page
@@ -71,9 +76,9 @@ Feature: As a super admin and admin role in the Support app of Intersect, I want
     And SP I successfully sign out
     
   @MATCH-4138
-  Scenario: As a super admin and admin role in the Support app of Intersect,
-  I want the ability to add and see current published/unpublished Intersect in-product notifications in the support app,
-  So that management is centralized for me at the Admin Dashboard in the support app.
+  Scenario: As a super admin and admin role in the Support app of Intersect
+            I want the ability to add and see current published/unpublished Intersect in-product notifications in the support app,
+            So that management is centralized for me at the Admin Dashboard in the support app.
     Given SP I am logged in to the Admin page as an Admin user
     And SP I un-publish all the published announcements
     #create announcement with title
