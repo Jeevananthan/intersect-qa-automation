@@ -462,3 +462,17 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Radio           |Maximum Tuition and Fees                        |
       |Maximum Cost    |$5,000                                          |
     Then SM I verify that the Must Have box contains "Cost < $5000"
+
+  @MATCH-3445
+  Scenario: As a HS student using the SuperMatch tool I want to compare my pinned schools side by side so it is easier
+  to identify similarities and differences between the schools I have pinned
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I verify that COMPARE PINNED COLLEGES is not clickable
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "1" colleges
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify the header text in Compare Pinned Colleges page
+    And SM I click on the Back button in Compare Pinned Colleges page
+    And SM I verify that the Must Have box contains "Learning Differences Support"

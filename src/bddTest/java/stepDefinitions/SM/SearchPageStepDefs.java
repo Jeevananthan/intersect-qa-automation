@@ -252,5 +252,11 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that the below options are displayed in Family Income dropdown$", searchPage::verifyOptionsDisplayedInFamilyIncomeDropdown);
 
+        Then("^SM I verify that COMPARE PINNED COLLEGES is not clickable$", searchPage::verifyComparePinnedCollegesOptionIsNotClickable);
+
+        Then("^SM I verify the header text in Compare Pinned Colleges page$", searchPage::verifyHeaderTextinComparePinnedCollegesPage);
+
+        Then("^SM I click on the Back button in Compare Pinned Colleges page$", searchPage::clickOnBackButtonInComparePinnedCollegesPage);
+
     }
 }
