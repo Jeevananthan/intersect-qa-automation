@@ -2911,18 +2911,33 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navianceSettings().click();
     }
 
-    public void navigateToRepvisitWizardPage(String wizardName){
+    public void navigateToNavianceSync(String wizardName){
         waitUntilElementExists(driver.findElement(By.xpath("//span[text()='Next']")));
         while(driver.findElements(By.xpath("//div[@class='active step' and @name ='"+wizardName+"']")).size()==0){
             nextButton().click();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
-            }
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+            waitUntilElementExists(nextButton());
+        }
+
+        waitUntilElementExists(nextButton());
         nextButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+        waitUntilElementExists(nextButton());
         nextButton().click();
         waitUntilPageFinishLoading();
     }
+
+//    public void navigateToRepvisitWizardPage(String wizardName){
+//        waitUntilElementExists(driver.findElement(By.xpath("//span[text()='Next']")));
+//        while(driver.findElements(By.xpath("//div[@class='active step' and @name ='"+wizardName+"']")).size()==0){
+//            nextButton().click();
+//            waitUntilElementExists(nextButton());
+//            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+//            }
+//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+//        nextButton().click();
+//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+//        nextButton().click();
+//        waitUntilPageFinishLoading();
+//    }
 
     public void goToCalendarInWizardLastStepPage(String visitAvailability){
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size() == 0) {
@@ -2957,7 +2972,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (availabilityAndSettings.size()==0){
             while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size() == 0) {
                 waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
-                button("Next").click();
+                nextButton().click();
                 waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
             }
             Assert.assertTrue("Complete page is not displayed", text("Visit Availability").isDisplayed());
@@ -2970,9 +2985,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     Assert.fail("The given option for the visitAvailability is not a valid one");
                 }
             }
-            button("Next").click();
+            nextButton().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Take me to my visits']"),1));
-            button("Take me to my visits").click();
+            takeMeButton().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Today']"),1));
         }else {
             logger.info("Calendar page is displayed");
