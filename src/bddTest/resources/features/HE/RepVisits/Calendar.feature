@@ -78,12 +78,13 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
-    And HE I verify the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the users "Automation, PurpleHE","Community, PurpleHE"
-    Then HE I verify the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the users "Automation, PurpleHE","Fresh, PurpleHE" with no appointments in Select new assignee
-    And HE I verify the users are displaying including "Automation, PurpleHE" in re assign appointments dropdown using "Community, PurpleHE"
-    Then HE I verify the user "Automation, PurpleHE" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I verify the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the users "Publishing, PurpleHE","Community, PurpleHE"
+    Then HE I verify the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the users "Publishing, PurpleHE","Fresh, PurpleHE" with no appointments in Select new assignee
+    And HE I verify the users are displaying including "Publishing, PurpleHE" in re assign appointments dropdown using "Community, PurpleHE"
+    Then HE I verify the user "Publishing, PurpleHE" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
     And HE I successfully sign out
 
     Examples:
     |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|
-    |administrator|RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |14 |14  |14       |35     |
+    |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |14 |14  |14       |35     |
