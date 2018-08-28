@@ -1737,6 +1737,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement Actions = getParent(getParent(login)).findElement(By.cssSelector("[aria-label='Actions']"));
         Actions.click();
 
+        waitUntilElementExists(driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+action+"']")));
         WebElement selectsReInviteDropDown = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+action+"']"));
         driver.executeScript("arguments[0].click();",selectsReInviteDropDown);
         yesButton().click();

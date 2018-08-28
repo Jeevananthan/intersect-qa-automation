@@ -23,6 +23,8 @@ public class UserListPageStepDefs implements En  {
 
         Then("^SP I verify that I can edit the Primary User Details$", userListPage::verifyEditPrimaryUserDetails);
 
+        And("^SP I Login as the user \"([^\"]*)\"$", userListPage::loginAs);
+
     }
 
 }

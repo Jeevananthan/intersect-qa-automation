@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -20,8 +21,15 @@ public class EditEventPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(EditEventPageImpl.class);
     }
 
-    public void verifyExportAction(String fileName, DataTable dataTable) {
-        waitUntil(ExpectedConditions.visibilityOf(exportAttendeesButton()));
+    public void verifyExportAction(String tries, String fileName, DataTable dataTable) {
+        for (int i = 0; i < Integer.parseInt(tries); i++) {
+            try {
+                waitUntilPageFinishLoading();
+                exportAttendeesButton().isDisplayed();
+            } catch (NoSuchElementException e) {
+                driver.get(driver.getCurrentUrl());
+            }
+        }
         exportAttendeesButton().click();
 
         List<String> expectedHeaderValues= dataTable.asList(String.class);

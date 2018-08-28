@@ -1,5 +1,5 @@
 @HE @Events
-Feature: HE - Events - ManageEvents - As a HE Events user, I can manage and publish events to Naviance Student
+Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and publish events to Naviance Student
 
   @MATCH-2913 @MATCH-3219 @MATCH-2902 @MATCH-2928 @MATCH-2893
   Scenario: Verify an event can be created/edited/saved/published/deleted

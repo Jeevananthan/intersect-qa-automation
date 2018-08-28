@@ -104,7 +104,11 @@ public class EventsPageStepDefs implements En {
 
         And("^HE I open the \"([^\"]*)\" tab in the Edit Event screen$", eventsPage::openTabInEditEvent);
 
-        Then("^HE I verify that the Export Attendees button exports a document of name \"([^\"]*)\" with the following headers:$", editEventPage::verifyExportAction);
+        Then("^HE I verify in \"([^\"]*)\" tries that the Export Attendees button exports a document of name \"([^\"]*)\" with the following headers:$", editEventPage::verifyExportAction);
+
+        Then("^HE I verify that the following error message is displayed when the Attendees section for the generated event is open:$", eventsPage::verifyAttendeesErrorMessage);
+
+        And("^HE I create and save a new event \"([^\"]*)\" minutes ahead from now with a unique name and the following details:$", eventsPage::createAndSaveEventWithGenDateAndName);
         //Then("^HE I verify status \"([^\"]*)\" under Unpublished tab$",eventsPage:: statusDraft);
 
     }
