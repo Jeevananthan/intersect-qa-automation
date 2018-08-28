@@ -219,7 +219,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
 
     public void setModuleStatusAsActiveOrInActive(String moduleName, String status){
-        WebElement actualStatus = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div[@role='alert']"));
+         WebElement actualStatus = getLocatorforSubscription(moduleName);
+
+        // WebElement actualStatus = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div[@role='alert']"));
         if(!actualStatus.getText().equalsIgnoreCase(status)){
             actualStatus.click();
             WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
@@ -238,6 +240,21 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
             }
             clicksaveChangesButton();
         }
+    }
+
+    public WebElement getLocatorforSubscription(String moduleName){
+        WebElement result = null;
+        List <WebElement>  listOfSubscriptions  = driver.findElements(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div[@role='alert']"));
+
+        if (listOfSubscriptions.size()== 0)
+        {
+            result = driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/../../../td/div[@class= 'ui floating inline dropdown']"));
+        }
+        else {
+             result = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div[@role='alert']"));
+
+        }
+            return  result;
     }
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status, String startDateDelta, String endDateDelta){
