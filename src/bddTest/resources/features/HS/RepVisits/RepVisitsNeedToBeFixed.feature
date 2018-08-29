@@ -254,3 +254,25 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #    Then HS I make sure the "Decline" button works properly for college fair attendee requests for "Fair QA Test#03"
 #    Then HS I cancel the "Fair QA Test#03" College Fair
 #    And HS I successfully sign out
+
+#  @MATCH-4450
+#  Scenario Outline: As a HS user with access to RepVisits, I can access Agenda view of my visits
+#    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceAdmin>"
+#    Then HS I verify the user can access "Agenda" view
+#    And HS I successfully sign out
+#
+#    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceMember>"
+#    Then HS I verify the user cannot access Agenda view
+#    And HS I successfully sign out
+#
+#    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceAdmin>"
+#    Then HS I verify the user can access "Agenda" view
+#    And HS I successfully sign out
+#
+#    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceMember>"
+#    Then HS I verify the user cannot access Agenda view
+#    And HS I successfully sign out
+#
+#    Examples:
+#      |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
+#      |navianceAdmin  |navianceMember  |administrator      |member              |

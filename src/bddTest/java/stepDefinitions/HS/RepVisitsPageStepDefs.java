@@ -644,7 +644,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I navigate to naviance settings page$",repVisits::navigateToNavianceSettingsInAvailabilitySettingsPage);
 
-        And("^HS I navigate to \"([^\"]*)\" wizard in repvisits page$", repVisits::navigateToRepvisitWizardPage);
+        And("^HS I navigate to \"([^\"]*)\" wizard in repvisits page$", repVisits::navigateToNavianceSync);
 
         Then("^HS I complete the set up wizard page by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::goToCalendarInWizardLastStepPage);
 
