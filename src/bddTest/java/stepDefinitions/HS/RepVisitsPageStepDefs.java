@@ -446,7 +446,15 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I cancel a visit with time \"([^\"]*)\" college \"([^\"]*)\" and note \"([^\"]*)\"$",repVisits::cancelVisit);
 
+        Then("HS I remove the Time Slot recently created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsRefactoredForHS);
+
         Then("^HS I add the following attendees to the College Fair$", repVisits::addAttendees);
+
+        Then("^HS I click on Disconnect RepVisits from Naviance button$",repVisits::disconnectFromNavianceButton);
+
+        Then("^HS I verify the Cancel on the disconnect confirmation popup$",repVisits::verifyCancelDisconnectFromNavianceButton);
+
+        Then("^HS I verify the Yes on the disconnect confirmation popup with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyYesDisconnectFromNavianceButton);
 
         Then("^HS I verify configuration and staff notifications for \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyStaffNotifications);
 
@@ -636,7 +644,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I navigate to naviance settings page$",repVisits::navigateToNavianceSettingsInAvailabilitySettingsPage);
 
-        And("^HS I navigate to \"([^\"]*)\" wizard in repvisits page$", repVisits::navigateToRepvisitWizardPage);
+        And("^HS I navigate to \"([^\"]*)\" wizard in repvisits page$", repVisits::navigateToNavianceSync);
 
         Then("^HS I complete the set up wizard page by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::goToCalendarInWizardLastStepPage);
 
@@ -661,5 +669,17 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I remove the appointment from the calendar$",repVisits::removeAppointmentfromCalendar);
 
         Then("^HS I verify HE user's name be an active hyperlink to the HS user's Community profile in visit feedback subtab$", repVisits::verifyHEUsersNameLink);
+
+        Then("^HS I verify visit feedback tab and its subtabs$",repVisits::verifyVisitFeedbackForHSUser);
+
+        Then("^HS I verify the visit feedback tab showing after Naviance Sync tab$", repVisits::verifyVisitFeedbackTagSequenceForNavianceHS);
+
+        Then("^HS I verify the visit feedback tab showing after Activity tab$", repVisits::verifyVisitFeedbackTagSequenceForNonHS);
+
+        And("^HS I verify the Pending subtab under Visit Feedback$", repVisits::verifyPendingSubtab);
+
+        And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
+
+        And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
     }
 }

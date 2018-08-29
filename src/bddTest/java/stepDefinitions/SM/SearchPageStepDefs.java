@@ -240,5 +240,17 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I send text \"([^\"]*)\" to the Zip Code field$", searchPage::sendTextToZipCOdeField);
 
+        Then("^SM I double click on PIN TO COMPARE link and check if the second click bounces off$", searchPage::verifySecondClickBouncesOffForPinToCompare);
+
+        Then("^SM I verify that \"([^\"]*)\" message is displayed in Save Search popup$", searchPage::verifyMessageInSaveSearchPopup);
+
+        Then("^SM I verify the radio buttons displayed in the Cost fit criteria$", searchPage::verifyRadioButtonsDisplayedInCostFitCriteria);
+
+        Then("^SM I verify that the below options are displayed in Maximum Cost dropdown$", searchPage::verifyOptionsDisplayedInMaximumCostDropdown);
+
+        Then("^SM I verify the Home State dropdown in Cost fit criteria$", searchPage::verifyHomeStateDropdownInCostCriteria);
+
+        Then("^SM I verify that the below options are displayed in Family Income dropdown$", searchPage::verifyOptionsDisplayedInFamilyIncomeDropdown);
+
     }
 }

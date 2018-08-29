@@ -13,6 +13,8 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
 import java.util.List;
+import java.util.Calendar;
+import java.util.Set;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 
@@ -93,19 +95,106 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("div[id='user-dropdown']"));
     }
 
-        public void verifyTextInButtonFromModule(String moduleName, String buttonText) {
-            Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
-        }
+    public void verifyTextInButtonFromModule(String moduleName, String buttonText) {
+        Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
+    }
 
-        public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
-            moduleButton(moduleName).click();
-            waitUntilPageFinishLoading();
-            String expectedURL = GetProperties.get("hs.app.url") + expectedUrl;
-            String actualURL = driver.getCurrentUrl();
-            Assert.assertEquals(actualURL, expectedURL);
-        }
+    public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
+        moduleButton(moduleName).click();
+        waitUntilPageFinishLoading();
+        String expectedURL = GetProperties.get("hs.app.url") + expectedUrl;
+        String actualURL = driver.getCurrentUrl();
+        Assert.assertEquals(actualURL, expectedURL);
+    }
 
-    public void clearCommunityProfile(){
+    public void verifyYearInLoginPage(){
+        String currentYear = getCurrentYear();
+        driver.manage().deleteAllCookies();
+        load(GetProperties.get("hs.app.url"));
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
+    }
+
+    public void verifyYearInNavianceLoginPage(){
+        String currentYear = getCurrentYear();
+        driver.manage().deleteAllCookies();
+        load(GetProperties.get("naviance.app.url"));
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//ul/li[text()='Copyright © "+currentYear+", Hobsons Inc.']")).isDisplayed());
+    }
+
+
+    public void verifyYearInRegistrationPage(){
+        String currentYear = getCurrentYear();
+        load(GetProperties.get("hs.registration.url"));
+        Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
+    }
+
+    public void verifyYearInHomePage(){
+        String currentYear = getCurrentYear();
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
+    }
+
+    public void verifyHelpCentre() {
+        Assert.assertTrue("notifications icon is not displayed",notificationIconInHelpCentre().isDisplayed());
+        Assert.assertTrue("helpNav-dropdown icon is not displayed",helpNavDropdown().isDisplayed());
+        helpNavDropdown().click();
+        Assert.assertTrue("Help Center is not displayed",helpCentre().isDisplayed());
+        Assert.assertTrue("Contact Support is not displayed",contactSupport().isDisplayed());
+        helpCentre().click();
+        waitUntilPageFinishLoading();
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.switchTo().window(intersectWindow);
+        waitUntilPageFinishLoading();
+        String currentYear = getCurrentYear();
+        Assert.assertTrue("hobsons logo is not displayed",logo().isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//span[text()='Copyright © "+currentYear+" ']/parent::span/following-sibling::span[text()='Hobsons']")).isDisplayed());
+        driver.close();
+        driver.switchTo().window(navianceWindow);
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyYearInNaviancePage(String account, String username, String password){
+        String currentYear = getCurrentYear();
+        textbox(By.name("hsid")).sendKeys(account);
+        textbox(By.name("username")).sendKeys(username);
+        textbox(By.name("password")).sendKeys(password);
+        button("Sign In").click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//td[contains(text(),'Copyright © "+currentYear+", Hobsons Inc.')]")).isDisplayed());
+    }
+    public void verifyYearInRepVisitsPage(){
+        String currentYear = getCurrentYear();
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
+        link(By.cssSelector("[title='Counselor Community']")).click();
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.close();
+        driver.switchTo().window(intersectWindow);
+        waitUntilPageFinishLoading();
+        new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("app")));
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
+    }
+    public String getCurrentYear(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        String currentYear=Integer.toString(year);
+        return currentYear;
+    }
+  
+      public void clearCommunityProfile(){
         load(GetProperties.get("hs.community.clear"));
         waitUntilPageFinishLoading();
     }
@@ -214,7 +303,27 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }
     private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
-    private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
+    private WebElement notificationIconInHelpCentre() {
+        WebElement notificationIcon=driver.findElement(By.id("notificationsNav"));
+        return notificationIcon;
+    }
+    private WebElement helpCentre()    {
+        WebElement helpCentre=driver.findElement(By.xpath("//span[text()='Help Center']"));
+        return  helpCentre;
+    }
+    private WebElement helpNavDropdown() {
+        WebElement help=driver.findElement(By.id("helpNav-dropdown"));
+        return  help;
+    }
+    private WebElement contactSupport()  {
+        WebElement contactSupport= text("Contact Support");
+        return  contactSupport;
+    }
+    private  WebElement logo() {
+        WebElement Logo=driver.findElement(By.xpath("//div/a[@class='logo']"));
+        return Logo;
+    }
+      private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
     private WebElement navigationDropDown(){
         return driver.findElement(By.xpath("//a[@name='mainmenu']"));
     }

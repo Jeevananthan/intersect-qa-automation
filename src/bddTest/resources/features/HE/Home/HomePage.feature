@@ -6,35 +6,37 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify I have access the Intersect Help page
 
-  @MATCH-1549 @QASmokeTest
-  Scenario: As a HE Freemium Community user, I should see the Upgrade to Premium message on the Home page
-    Given HE I am logged in to Intersect HE as user type "limited"
-    Then HE I verify the upgrade message on the Community widget
+#  @MATCH-1549 @QASmokeTest
+#   covered by MATCH-4660-MATCH-4664
+#  Scenario: As a HE Freemium Community user, I should see the Upgrade to Premium message on the Home page
+#    Given HE I am logged in to Intersect HE as user type "limited"
+#    Then HE I verify the upgrade message on the Community widget
 
-  @MATCH-1266
-  Scenario: As an HE user I want a home page that familiarizes me with the Intersect product and its features.
-            so I am clear on what I can do within the app.
-    Given SP I am logged in to the Admin page as a Support user
-    When SP I search for "2400006" in "HE Accounts"
-    And SP I select "The University of Alabama" from the global search results
-    And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
-    And SP I Click the Save Changes button
-    Then SP I successfully sign out
-    Given HE I am logged in to Intersect HE as user type "administrator"
-    Then I verify that the "The Hobsons Counselor Community" widget is displayed
-    Then I verify that the "Manage and update your institution's profile" widget is displayed
-    Then I verify that the "Configure your Account" widget is displayed
-    And HE I successfully sign out
-    When HE I am logged in to Intersect HE as user type "publishing"
-    Then I verify that the "The Hobsons Counselor Community" widget is displayed
-    Then I verify that the "Manage and update your institution's profile" widget is displayed
-    Then I verify that the "Configure your Account" widget is not displayed
-    And HE I successfully sign out
-    When HE I am logged in to Intersect HE as user type "community"
-    Then I verify that the "The Hobsons Counselor Community" widget is displayed
-    Then I verify that the "Manage and update your institution's profile" widget is not displayed
-    Then I verify that the "Configure your Account" widget is not displayed
-    And HE I successfully sign out
+#  @MATCH-1266
+#  @skip covered by MATCH-4657 - MATCH-4664
+#  Scenario: As an HE user I want a home page that familiarizes me with the Intersect product and its features.
+#            so I am clear on what I can do within the app.
+#    Given SP I am logged in to the Admin page as a Support user
+#    When SP I search for "2400006" in "HE Accounts"
+#    And SP I select "The University of Alabama" from the global search results
+#    And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
+#    And SP I Click the Save Changes button
+#    Then SP I successfully sign out
+#    Given HE I am logged in to Intersect HE as user type "administrator"
+#    Then I verify that the "The Hobsons Counselor Community" widget is displayed
+#    Then I verify that the "Manage and update your institution's profile" widget is displayed
+#    Then I verify that the "Configure your Account" widget is displayed
+#    And HE I successfully sign out
+#    When HE I am logged in to Intersect HE as user type "publishing"
+#    Then I verify that the "The Hobsons Counselor Community" widget is displayed
+#    Then I verify that the "Manage and update your institution's profile" widget is displayed
+#    Then I verify that the "Configure your Account" widget is not displayed
+#    And HE I successfully sign out
+#    When HE I am logged in to Intersect HE as user type "community"
+#    Then I verify that the "The Hobsons Counselor Community" widget is displayed
+#    Then I verify that the "Manage and update your institution's profile" widget is not displayed
+#    Then I verify that the "Configure your Account" widget is not displayed
+#    And HE I successfully sign out
 
   @MATCH-1799 @MATCH-4609
   Scenario: As a Hobsons staff wanting to ensure data security compliance for Intersect users,
@@ -85,41 +87,43 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     And HE I verify the "Naviance college profile" nav link is not displaying for this user
     And HE I verify the "Users" nav link is not displaying for this user
     Then HE I successfully sign out
-
-  @MATCH-1548
-  Scenario: As an HE Freemium user, I want to be able to access 'Experience the full benefits of the Counselor Community' page.
-    Given HE I am logged in to Intersect HE as user type "limited"
-    Then HE I click on Learn More button on Upgrade message on the Community Widget
-    Then HE I verify the benefits of the Counselor Community popup and the details of the following freemium user
-    |First Name |Last Name      |Work Email Address                  |School / Institution Name|
-    |PurpleHE   |Limited        |purpleheautomation+limited@gmail.com|Bowling Green State University-Main Campus|
-    And HE I click on Request Information button Counselor Community popup
-    Then HE I verify the Confirmation message for Request Information
-
-  @MATCH-1387
-  Scenario: As a HE Publishing user with only 'Legacy HUBS' subscription active in Support app, I should have limited access to Community and no access to User Management
-      Given SP I am logged in to the Admin page as an Admin user
-      Then SP I select "Alma College" from the institution dashboard
-      And SP I set the "Legacy: Hub page management" module to "active" in the institution page
-      And SP I set the "Legacy: Community" module to "inactive" in the institution page
-      And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
-      And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
-      And SP I Click the Save Changes button
-      Then SP I successfully sign out
-
-      Given HE I want to login to the HE app using "purpleheautomation+123@gmail.com" as username and "Password!1" as password
-      Then HE I verify the upgrade message on the Community widget
-      And HE I verify the "Users" nav link is not displaying for this user
-      Then HE I successfully sign out
-
-      Given SP I am logged in to the Admin page as an Admin user
-      Then SP I select "Alma College" from the institution dashboard
-      And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
-      And SP I set the "Legacy: Community" module to "inactive" in the institution page
-      And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
-      And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
-      And SP I Click the Save Changes button
-      Then SP I successfully sign out
+#
+#  @MATCH-1548 @skip
+##  to be covered by MATCH-4631
+#  Scenario: As an HE Freemium user, I want to be able to access 'Experience the full benefits of the Counselor Community' page.
+#    Given HE I am logged in to Intersect HE as user type "limited"
+#    Then HE I click on Learn More button on Upgrade message on the Community Widget
+#    Then HE I verify the benefits of the Counselor Community popup and the details of the following freemium user
+#    |First Name |Last Name      |Work Email Address                  |School / Institution Name|
+#    |PurpleHE   |Limited        |purpleheautomation+limited@gmail.com|Bowling Green State University-Main Campus|
+#    And HE I click on Request Information button Counselor Community popup
+#    Then HE I verify the Confirmation message for Request Information
+#
+#  @MATCH-1387 @skip
+    ##  to be covered by MATCH-4631 and MATCH-4919
+#  Scenario: As a HE Publishing user with only 'Legacy HUBS' subscription active in Support app, I should have limited access to Community and no access to User Management
+#      Given SP I am logged in to the Admin page as an Admin user
+#      Then SP I select "Alma College" from the institution dashboard
+#      And SP I set the "Legacy: Hub page management" module to "active" in the institution page
+#      And SP I set the "Legacy: Community" module to "inactive" in the institution page
+#      And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
+#      And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+#      And SP I Click the Save Changes button
+#      Then SP I successfully sign out
+#
+#      Given HE I want to login to the HE app using "purpleheautomation+123@gmail.com" as username and "Password!1" as password
+#      Then HE I verify the upgrade message on the Community widget
+#      And HE I verify the "Users" nav link is not displaying for this user
+#      Then HE I successfully sign out
+#
+#      Given SP I am logged in to the Admin page as an Admin user
+#      Then SP I select "Alma College" from the institution dashboard
+#      And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
+#      And SP I set the "Legacy: Community" module to "inactive" in the institution page
+#      And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
+#      And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+#      And SP I Click the Save Changes button
+#      Then SP I successfully sign out
 
   @MATCH-1365
   Scenario: As an HE, HS, or Hobsons user,I need to be presented with the notifications globe from Community in the Intersect banner
@@ -138,7 +142,7 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     And HS I click the navigation globe for viewing the recent notifications
     Then HS I successfully sign out
 
-  @MATCH-4657 @MATCH-4660 @MATCH-4661 @MATCH-4662 @MATCH-4664 @MATCH-4658
+  @MATCH-4657 @MATCH-4660 @MATCH-4661 @MATCH-4662 @MATCH-4664 @MATCH-4658  @MATCH-1266
   Scenario Outline: As an HE user in Intersect, I need to see the Intersect Connection subscription module
   so that I can access the configure my Intersect Connection settings and access my connections effectively.
     Given HE I am logged in to Intersect HE as user type "<user>"
@@ -160,6 +164,7 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
       | administrator | Counselor Community      | PARTICIPATE | counselor-community/            |
       | publishing    | Counselor Community      | PARTICIPATE | counselor-community/            |
       | community     | Counselor Community      | PARTICIPATE | counselor-community/            |
+      | limited       | Counselor Community      | PARTICIPATE | counselor-community/            |
 
   @MATCH-1430
   Scenario: As a HE user, I should be able to access Privacy Policy and Terms of Use pages
@@ -182,4 +187,14 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
   to read and understand how they are supposed to used the system and how the system uses their information.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to each page and verify the unique URL is present in the "Counselor Community Guidelines" page in Help Center
+    Then HE I successfully sign out
+
+  @MATCH-3563
+  Scenario:As a HE, I verify the Copyright information
+    Given HE I verify the current year is displayed at the bottom of the window in the login page
+    Then  HE I verify the current year is displayed at the bottom of the window in the Registration page
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the current year is displayed at the bottom of the window in the Home Page
+    And HE I verify the items are present in the help center dropdown
     Then HE I successfully sign out
