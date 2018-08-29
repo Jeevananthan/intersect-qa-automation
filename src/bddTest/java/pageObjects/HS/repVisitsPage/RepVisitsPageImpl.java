@@ -3608,11 +3608,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessSuccessMessageforAddAttendees(String buttonName) {
-        waitForUITransition();
         if (buttonName.equals("No, I'm Done")) {
-            driver.findElement(By.cssSelector("button[class='ui basic primary button']")).click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("button[class='ui basic primary button']"),1));
+            iamDoneButton().click();
         } else if (buttonName.equals("Yes, Add More")) {
-            driver.findElement(By.cssSelector("button[id='next-action']")).click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("button[id='next-action']"),1));
+            addMoreButton().click();
         } else {
             Assert.fail("The given option is not a valid one");
         }
@@ -4753,7 +4754,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         button(By.id("add-college")).click();
         FairName = randomizeFairName(collegeFairName);
-        //FairName = collegeFairName;
 
         if(!collegeFairName.equals("")) {
             Assert.assertTrue("College Fair TextBox is not displayed",textbox(By.id("college-fair-name")).isDisplayed());
@@ -5692,7 +5692,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 public void cancelRgisteredCollegeFair(String fairName){
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("edit-college-fair"),1));
         Assert.assertTrue("Edit button is not displayed",editButtonInCollegeFair().isDisplayed());
-         editButtonInCollegeFair().click();
+        editButtonInCollegeFair().click();
         waitUntilPageFinishLoading();
         String displayedFairName = driver.findElement(By.id("college-fair-name")).getAttribute("value");
         Assert.assertTrue("FairName is displayed",displayedFairName.equals(FairName));
@@ -8611,6 +8611,13 @@ public void cancelRgisteredCollegeFair(String fairName){
         return driver.findElement(By.xpath("//button[@class='ui secondary button']"));
     }
 
+    private WebElement iamDoneButton(){
+        return driver.findElement(By.cssSelector("button[class='ui basic primary button']"));
+    }
+
+    private WebElement addMoreButton(){
+        return driver.findElement(By.cssSelector("button[class='ui basic primary button']"));
+    }
 }
 
 

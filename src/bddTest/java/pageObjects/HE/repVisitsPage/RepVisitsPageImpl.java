@@ -1669,7 +1669,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
         submitButton().click();
-        waitForUITransition();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']"),1));
     }
 
