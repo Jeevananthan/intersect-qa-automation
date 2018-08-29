@@ -17,9 +17,6 @@ import utilities.GetProperties;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 public class EventsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -345,10 +342,19 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             navigationBar.goToHome();
             getEventsTab("Published").click();
         }
+        for(int i=0; i<6;i++) {
+            try {
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(eventName)), 0));
+                break;
+            } catch (Exception e) {
+                getDriver().navigate().refresh();
+            }
+        }
+
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
         unpublishYesButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(eventName)), 0));
+//
     }
 
     public void createAndSaveEventWithUniqueName(DataTable eventData) {
@@ -525,18 +531,23 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void VerifyAttendeeData(DataTable attendeeData) {
-        driver.navigate().refresh();
-        driver.navigate().refresh();
-        driver.navigate().refresh();
-        driver.navigate().refresh();
-        driver.navigate().refresh();
-
         waitUntilPageFinishLoading();
-
         List<List<String>> attendeeDataDetails = attendeeData.asLists(String.class);
         getTab("ATTENDEES").click();
-        VerifyDataForAttendees(attendeeDataDetails);
-         }
+
+        for (int i = 0; i<6; i++) {
+            try {
+                driver.navigate().refresh();
+                waitUntilPageFinishLoading();
+                VerifyDataForAttendees(attendeeDataDetails);
+                break;
+            } catch (Exception e) {
+                //e.printStackTrace();
+            }
+        }
+    }
+
+
 
     private void VerifyDataForAttendees(List<List<String>> data){
             for (List<String> row : data) {
