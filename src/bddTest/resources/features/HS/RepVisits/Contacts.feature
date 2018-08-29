@@ -1,9 +1,8 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Search features.
+Feature: HS - RepVisits - Contacts - As an HS user, I should be able to view my HE contacts
 
   @MATCH-1881 @MATCH-1872
-  Scenario: As an HS user I need be able to search through my RepVisits Contacts
-  so I can quickly find the contact I am looking to view.
+  Scenario: As an HS user I need be able to search through my RepVisits Contacts so I can quickly find my contact
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I validating the pagination of 25 contacts in Contacts Page
     And HS I verify the contacts list is sorted or not

@@ -1,5 +1,5 @@
 @HE @EventsLocation @MATCH-2914
-Feature: HE - Events - EventsLocation - As a HE Events user, I can manage event locations
+Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event locations
 
   @MATCH-2914
   Scenario: A location can be created/edited/saved/deleted

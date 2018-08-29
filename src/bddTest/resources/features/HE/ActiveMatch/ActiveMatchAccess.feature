@@ -1,5 +1,5 @@
 @HE @ActiveMatch
-Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Admin user with active ActiveMatch subscription, I can access the ActiveMatch product
+Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active ActiveMatch subscription, I can access the ActiveMatch product
 
   @MATCH-3010
   Scenario: Active Match section is displayed for Admin users in Intersect HE (MATCH-3109)

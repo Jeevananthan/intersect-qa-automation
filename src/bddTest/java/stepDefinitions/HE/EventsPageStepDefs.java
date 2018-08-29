@@ -97,6 +97,8 @@ public class EventsPageStepDefs implements En {
         Then("^HE I verify that the filter of name \"([^\"]*)\" is displayed by default in the Event Audience field$", eventsPage::verifyDefaultFilter);
 
         Then("^HE I verify that the events' names are clickable and they open the Edit Event screen$", eventsPage::verifyEventsNamesClickable);
+
+        Then("^HE I verify that the following error message is displayed when the Attendees section for the generated event is open:$", eventsPage::verifyAttendeesErrorMessage);
         And("^HE I verify Attendee Data Details on Edit Events attendee screen$",eventsPage::VerifyAttendeeData);
 
         //Then("^HE I verify status \"([^\"]*)\" under Unpublished tab$",eventsPage:: statusDraft);

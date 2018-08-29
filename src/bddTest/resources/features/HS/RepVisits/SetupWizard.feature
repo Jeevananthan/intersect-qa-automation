@@ -1,5 +1,5 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Setup Wizard features.
+Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set up Visit availability using the setup wizard
 
   @MATCH-1944
   Scenario: As a new RepVisits user,I want a setup wizard with an introduction that describes what the system does
@@ -117,3 +117,11 @@ Feature:  As an HS user, I want to be able to access the features of the Setup W
     Given HS I want to login to the HS app using "purplehsautomation+HSSolidRock@gmail.com" as username and "Password!1" as password
     Then HS I verify I can make it through the RepVisits wizard as a non-Naviance HS
 
+  @MATCH-3462
+  Scenario: As a RepVisits HS user that is interested in opting in to connect events with Naviance, I want the copy on
+  the screen to clearly provide me with information on my ability to opt in/out of the publish connection,
+  so that I know what the implications are for connecting and whether I can disconnect the sync.
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I navigate to the Naviance Settings page through the setup Wizard
+    And HS I verify the UI of the Naviance Settings Page in setup wizard
+    And HS I successfully sign out
