@@ -33,3 +33,4 @@ Feature: HE - EventsAccess - As a HE Intersect Administrator/Publishing user wit
     | Status          |
     And HE I open the Events list
     And HE I cancel the created event
+    And HE I delete the downloaded ActiveMatch Cvs file "am-event-attendees.csv"
