@@ -57,5 +57,12 @@ public class HomePageStepDefs implements En {
 
         Then("^SP I verify the user update details are present in the Log History page using \"([^\"]*)\",\"([^\"]*)\"$", userList::verifyUserUpdateInLogHistory);
 
+        Then("^HE I verify the current year is displayed at the bottom of the window in the login page$",homePage::verifyYearInLoginPage);
+
+        Then("^HE I verify the current year is displayed at the bottom of the window in the Registration page$",homePage::verifyYearInRegistrationPage);
+
+        Then("^HE I verify the current year is displayed at the bottom of the window in the Home Page$",homePage::verifyYearInHomePage);
+
+        And("^HE I verify the items are present in the help center dropdown$",homePage::verifyHelpCentre);
     }
 }
