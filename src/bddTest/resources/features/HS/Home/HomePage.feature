@@ -78,10 +78,10 @@ Feature: HS - Home - HomePage - As an HS user, I want to be able to access the f
     Then HS I verify the current year is displayed at the bottom of the window in the RepVisits Page
     And HS I successfully sign out
     
-      @MATCH-1799 @MATCH-4609
+  @MATCH-1799 @MATCH-4609
   Scenario: As a Hobsons staff wanting to ensure data security compliance for Intersect users,
-  I want to ensure that all users coming through intersect including all subscription levels and HS user is required to complete the Counselor Community profile page,
-  So that I can ensure that all users coming into Intersect have consented to terms, account creation, and specified whether they're an EU citizen.
+            I want to ensure that all users coming through intersect including all subscription levels and HS user is required to complete the Counselor Community profile page,
+            So that I can ensure that all users coming into Intersect have consented to terms, account creation, and specified whether they're an EU citizen.
 #Non-Naviance
 #Cleanup steps
     Given HS I want to login to the HS app using "purpleheautomation+HSCCProfile@gmail.com" as username and "Password!1" as password
