@@ -1,12 +1,13 @@
 package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
-import org.junit.Assert;
+import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
+import stepDefinitions.GlobalSteps;
 import utilities.GetProperties;
 
 import java.io.FileInputStream;
@@ -279,6 +280,16 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      */
     public void resetImplicitWaitTimeout() {
         getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
+    }
+
+    /**
+     * Returns a SoftAssertions object to check things that you care about, but don't want to stop test
+     *      execution over if the assertion fails.
+     *
+     * @return The static SoftAssertions object from GlobalSteps to be checked on Scenario teardown.
+     */
+    public SoftAssertions softly() {
+        return GlobalSteps.softly;
     }
 
     private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }

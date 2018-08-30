@@ -180,3 +180,13 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to each page and verify the unique URL is present in the "Counselor Community Guidelines" page in Help Center
     Then HE I successfully sign out
+
+  @MATCH-3563
+  Scenario:As a HE, I verify the Copyright information
+    Given HE I verify the current year is displayed at the bottom of the window in the login page
+    Then  HE I verify the current year is displayed at the bottom of the window in the Registration page
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the current year is displayed at the bottom of the window in the Home Page
+    And HE I verify the items are present in the help center dropdown
+    Then HE I successfully sign out

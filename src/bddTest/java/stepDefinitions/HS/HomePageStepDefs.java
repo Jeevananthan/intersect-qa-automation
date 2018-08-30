@@ -28,7 +28,7 @@ public class HomePageStepDefs implements En {
 
         And ("^HS I go to the Rep Visits$",navigationBar::goToRepVisits);
 
-        Then("^HS I verify the left navigation bar and section breadcrumbs are as follows$",navigationBar::verifyLeftNavAndBreadcrumbs);
+        Then("^HS I verify the left navigation bar and section breadcrumbs are as follows$",navigationBar::verifyLeftNavAndBreadcrumbsForHS);
 
         Then ("^HS I verify the Request New User page$",loginPage::validateFieldsInRequestUserForm);
 
@@ -44,5 +44,18 @@ public class HomePageStepDefs implements En {
 
         Then("^HS I verify that \"([^\"]*)\" is opened from the \"([^\"]*)\" module$", homePage::verifyScreenIsOpenFromModule);
 
+        Then("^HS I verify the current year is displayed at the bottom of the window in the login page$",homePage::verifyYearInLoginPage);
+
+        Then("^HS I verify the current year is displayed at the bottom of the window in the Registration page$",homePage::verifyYearInRegistrationPage);
+
+        Then("^HS I verify the current year is displayed at the bottom of the window in the Home Page$",homePage::verifyYearInHomePage);
+
+        And("^HS I verify the items are present in the help center dropdown$",homePage::verifyHelpCentre);
+
+        Then("^HS I verify the current year is displayed at the bottom of the window in the Naviance page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",homePage::verifyYearInNaviancePage);
+
+        Then("^HS I verify the current year is displayed at the bottom of the window in the RepVisits Page$",homePage::verifyYearInRepVisitsPage);
+
+        Then("^HS I verify the current year is displayed at the bottom of the window in the login page for Naviance$",homePage::verifyYearInNavianceLoginPage);
     }
 }
