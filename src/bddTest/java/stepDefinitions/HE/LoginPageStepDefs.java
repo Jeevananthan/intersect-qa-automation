@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.loginPage.LoginPageImpl;
 
@@ -39,9 +40,8 @@ public class LoginPageStepDefs implements En {
         And("^HE I search for \"([^\"]*)\" in \"([^\"]*)\" register page$",loginPage::searchForHEInstitutionWithInvalidData);
 
         Then("^HE I verify captcha in request user page$",loginPage::verifyCaptcha);
-
-
-
+        And("^HE I click on update button on Component Naviance College Profile$",loginPage:: updateNavianceCollegeProfile);
+        And("^HE I verify user is redirected to Counselor Community Welcome page$", loginPage:: counselorCommunityWelcomePge);
 
 
     }
