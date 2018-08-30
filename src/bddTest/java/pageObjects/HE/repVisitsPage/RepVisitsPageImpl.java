@@ -3313,7 +3313,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void reassignAppointmentsVerification(String option){
 
-        if (option.contains("Community, PurpleHE"))
+        if (option.contains("Coordinator, PurpleHE"))
         {
             waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
@@ -3323,7 +3323,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             //Select the item
             driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
             waitUntilPageFinishLoading();
-            waitUntilElementExists(driver.findElement(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")));
             //Verify item of the Staff Member
             Assert.assertTrue("No message was displayed for the appointment", driver.findElement(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")).isDisplayed());
             buttonGoBack().click();
@@ -3338,7 +3338,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             //Select the item
             driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
             waitUntilPageFinishLoading();
-            waitUntilElementExists(driver.findElement(By.xpath("//label[contains(text(), 'Select all')]")));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(), 'Select all')]")));
             //Capturing the counter
             String items= driver.findElement(By.xpath("//label[contains(text(), 'Select all')]")).getText();
             String[] parts = items.split(" ");
