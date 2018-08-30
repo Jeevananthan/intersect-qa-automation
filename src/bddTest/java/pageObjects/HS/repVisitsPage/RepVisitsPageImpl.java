@@ -1686,7 +1686,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickUpdateButtonInRepVisits(){
-        if(updateBtn().isDisplayed()){
+        if(driver.findElements(By.xpath("//button[@class='ui primary button _3M36944K6FppJHU9VD7kZy']")).size()>0){
+            waitUntil(ExpectedConditions.visibilityOf(updateBtn()));
             updateBtn().click();
         }
     }
@@ -7781,6 +7782,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement overview()
     {
+        waitUntil(ExpectedConditions.visibilityOf(notificationsAndTasks()));
         notificationsAndTasks().click();
         WebElement navbar = driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Overview']"));
         return navbar;
