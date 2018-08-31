@@ -1,4 +1,4 @@
-@HS
+@SP
 Feature: SP - HomePage - FooterLinks - Ability to access Privacy Policy and Terms of Use
 
   @MATCH-1430
