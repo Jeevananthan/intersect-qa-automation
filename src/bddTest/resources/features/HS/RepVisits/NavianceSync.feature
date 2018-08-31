@@ -1,5 +1,5 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Sync Opt in features.
+Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to access the features of the Sync Opt in features.
 
 @MATCH-3237
 Scenario: As an RepVisits HS user that had previously connected my RepVisits with my Naviance account to publish

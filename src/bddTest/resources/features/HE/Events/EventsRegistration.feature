@@ -1,5 +1,5 @@
 @HE @Events
-Feature: HE - Events - As an HE Events user, I can view and download my event attendees
+Feature: HE - Events EventsRegistration - As an HE Events user, I can view and download my event attendees
 
   @MATCH-3312
   Scenario: Verify access to the Attendees list by clicking on the "attendee status bar / students" area of Published Events

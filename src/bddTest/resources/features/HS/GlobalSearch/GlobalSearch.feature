@@ -1,5 +1,5 @@
 @HS
-Feature: HS - GlobalSearch - As an HS user, I can use Global search to help me find records
+Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global search to help me find records
 
   @MATCH-1069
   Scenario: As a HS user, I need to be able to access Advanced Search for community entities.

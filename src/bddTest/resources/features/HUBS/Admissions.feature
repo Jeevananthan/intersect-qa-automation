@@ -1,5 +1,5 @@
 @HUBS
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs Admissions Tab content so I can understand
+Feature: HUBS - Admissions - As a community user viewing College Hubs, I want to be able to view Hubs Admissions Tab content so I can understand
   what Hubs offers students.
 
   Background:
