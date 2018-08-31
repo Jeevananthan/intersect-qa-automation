@@ -149,7 +149,7 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToEvents() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
+        waitUntilPageFinishLoading();
         navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOf(eventsMenuLink));
         eventsMenuLink.click();
