@@ -19,6 +19,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I search for \"([^\"]*)\" in RepVisits$", repVisits::searchforHighSchool);
 
+        Then("^HE I request an appointment with \"([^\"]*)\" for Visits with \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::selectVisitForHE);
+
         Then("^HE I select \"([^\"]*)\" in \"([^\"]*)\" from the RepVisits intermediate search results$", repVisits::selectHighSchoolFromIntermediateSearchResults);
 
         Then("^HE I view the map plugin on RepVisits Search & Schedule subtab$", repVisits::viewMapPlugin);
