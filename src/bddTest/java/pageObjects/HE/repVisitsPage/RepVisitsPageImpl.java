@@ -3251,6 +3251,58 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(StartDate, "FirstDate");
     }
 
+    /**
+     * Select Visit in HE
+     * @param highSchool high School to select
+     * @param date select date to add Visit
+     * @param time the time for the visit selected
+     */
+    public void selectVisitForHE(String highSchool, String date, String time){
+        navigationBar.goToRepVisits();
+        getSearchBox().sendKeys(highSchool);
+        getSearchButton().click();
+        waitUntilElementExists(findHESchool(highSchool));
+        findHESchool(highSchool).click();
+        clickOnButton("Visits").click();
+        waitUntilElementExists(goToDate());
+        String gotoDate = getSpecificDate(date);
+        setDate(gotoDate, "Go To Date");
+        String dateSelected = getMonthandDate(date);
+        List<WebElement> slot = driver.findElements(By.xpath("//span[text()='"+dateSelected+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
+        if(slot.size()==0) {
+            logger.info("Slot is not displayed");
+        }
+        findHEButton(time).click();
+        findHEButton("Yes, Request this time").click();
+    }
+
+    /**
+     * Find the Button to perform action over there.
+     * @param button name of the Button to click
+     * @return webelement
+     */
+    private WebElement findHEButton(String button){
+        return  driver.findElement(By.xpath("//button[contains(text(),'"+button+"')]"));
+    }
+
+    /**
+     * Gets the Button to perform action over there.
+     * @param button name of the Button to click
+     * @return webelement
+     */
+    private WebElement clickOnButton(String button){
+        return  driver.findElement(By.xpath("//span[contains(text(),'"+button+"')]"));
+    }
+
+    /**
+     * Gets the High School found.
+     * @param highSchool the School name
+     * @return webelement
+     */
+    private WebElement findHESchool(String highSchool){
+        return driver.findElement(By.xpath("//a[contains(text(),'"+highSchool+"')]"));
+    }
+
     public void verifyDisabledDateIsNotClickableInEndDate(String disabledDate){
         String DisabledDate = getSpecificDateForCalendar(disabledDate);
         setDate(DisabledDate, "DisabledDate");
