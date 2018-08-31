@@ -252,5 +252,6 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that the below options are displayed in Family Income dropdown$", searchPage::verifyOptionsDisplayedInFamilyIncomeDropdown);
 
+        Then("^SM I verify the text displayed in the On-campus housing section$", searchPage::verifyTextDisplayedInOnCampusHousingSection);
     }
 }

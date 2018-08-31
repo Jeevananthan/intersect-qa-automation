@@ -462,3 +462,17 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Radio           |Maximum Tuition and Fees                        |
       |Maximum Cost    |$5,000                                          |
     Then SM I verify that the Must Have box contains "Cost < $5000"
+
+  @MATCH-4017
+  Scenario: As a HS student I want to search for colleges that offer housing in general OR specify the percentage of
+  student living on campus so I can perform the appropriate search based on my housing/students on campus needs.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I start the search over
+    Then SM I verify the text displayed in the On-campus housing section
+    Then SM I select the "On-Campus Housing" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box contains "On-campus Housing"
+    And SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "33%" from the dropdown "on-campus-housing-dropdown"
+    And SM I verify that the Must Have box contains "On-campus Housing > 33%"
+    And SM I pick "66%" from the dropdown "on-campus-housing-dropdown"
+    And SM I verify that the Must Have box contains "On-campus Housing > 66%"

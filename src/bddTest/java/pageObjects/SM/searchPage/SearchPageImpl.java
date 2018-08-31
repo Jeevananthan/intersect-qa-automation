@@ -1965,6 +1965,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         closeFitCriteria().click();
     }
 
+    public void verifyTextDisplayedInOnCampusHousingSection() {
+        chooseFitCriteriaTab("Institution Characteristics");
+
+        Assert.assertTrue("Heading is not displayed correctly in the 'Housing' section", housingHeading().isDisplayed());
+        Assert.assertTrue("'Students living on campus' sentence is not displayed properly",
+                housingHeading().findElement(By.xpath(".//ancestor::div[3]")).getText().contains("At least")
+                &&housingHeading().findElement(By.xpath(".//ancestor::div[3]")).getText().contains("of students living on campus"));
+
+        closeFitCriteria().click();
+    }
 
     public void pressButton(String text){
         waitUntil(ExpectedConditions.elementToBeClickable(button(text)));
@@ -2523,4 +2533,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//label[contains(text(), 'Maximum Total Cost (Tuition, Fees, Room & Board)')]/../input"));
     }
 
+    private WebElement housingHeading() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-menu-institution-characteristics-heading' and text()='Housing']"));
+    }
 }
