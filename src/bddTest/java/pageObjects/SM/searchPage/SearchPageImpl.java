@@ -1979,9 +1979,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void pressButton(String text){
-        waitUntil(ExpectedConditions.elementToBeClickable(button(text)));
-        button(text).click();
+    public void pressButton(String text) {
+        try {
+            waitUntil(ExpectedConditions.elementToBeClickable(button(text)));
+            button(text).click();
+        } catch (Exception e) {
+            driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
+        }
     }
 
     public void pickFromDropdown(String choice, String dropdown){
@@ -2086,7 +2090,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if (Character.valueOf(dateString.charAt(0)).equals('0')) {
             dateString = dateString.substring(1);
         }
-            while (!datePickerMonthYearText().getText().equals(getMonth(date))) {
+            while (driver.findElement(By.xpath("//"))getMonth(date)) {
+            if(datePickerMonthYearText().getText().equals(getMonth(date))){
+                break;
+            }
                 datePickerNextMonthButton().click();
 
         }
@@ -2169,7 +2176,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     // Locators Below
 
-    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
 
