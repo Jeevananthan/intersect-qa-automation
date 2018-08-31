@@ -1954,6 +1954,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyTextInComparePinnedCollegesPage() {
+        Assert.assertTrue("'In depth Comparision' header text is not displayed correctly", indepthComparisionHeader().isDisplayed());
+        Assert.assertTrue("SuperMatch Compare pagination text is not displayed correctly",
+                superMatchComparePaginationText().getText().equals("Viewing 1 - 1 of 1"));
+    }
+
+    public void verifyPaginationButtonsInComparePinnedCollegesPage() {
+        Assert.assertTrue("Left chevron pagination button is not displayed", leftPaginationButtonInComparePinnedCollegesPage().isDisplayed());
+        Assert.assertTrue("Right chevron pagination button is not displayed", rightPaginationButtonInComparePinnedCollegesPage().isDisplayed());
+    }
+
     public void verifyHomeStateDropdownInCostCriteria()
     {
         chooseFitCriteriaTab("Cost");
@@ -2521,6 +2532,22 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement maximumTotalCostRadioButton() {
         return driver.findElement(By.xpath("//label[contains(text(), 'Maximum Total Cost (Tuition, Fees, Room & Board)')]/../input"));
+    }
+
+    private WebElement indepthComparisionHeader() {
+        return driver.findElement(By.xpath("//div/h1[text()='An in-depth comparison of your pinned schools']"));
+    }
+
+    private WebElement superMatchComparePaginationText() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-txt']"));
+    }
+
+    private WebElement leftPaginationButtonInComparePinnedCollegesPage() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-btn']//i[contains(@class, 'chevron left')]"));
+    }
+
+    private WebElement rightPaginationButtonInComparePinnedCollegesPage() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-btn']//i[contains(@class, 'chevron right')]"));
     }
 
 }
