@@ -310,8 +310,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 HEWindow = thisWindow;
             }
         }
+        driver.close();
         driver.switchTo().window(HEWindow);
-        String originalMessage = driver.findElement(By.xpath("//div[@class='_1iOWqkacLvWSlz2RWS4WYl']/span")).getText();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")));
+        String originalMessage = driver.findElement(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")).getText();
         Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
     }
 

@@ -81,6 +81,22 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         table(By.id("he-account-dashboard")).findElement(By.cssSelector("[aria-label=\"" + institutionName + "\"]")).click();*/
     }
 
+    public void goToAccount(String accountType, String accountName) {
+        navBar.goToHome();
+        globalSearch.setSearchCategory("All");
+        switch (accountType.toLowerCase()){
+            case "he":
+                globalSearch.searchForHEInstitutions(accountName);
+                break;
+            case "hs":
+                globalSearch.searchHSAccounts(accountName);
+                break;
+                default: Assert.fail("The Account type to search is incorrect");
+                    break;
+        }
+        globalSearch.selectResult(accountName);
+    }
+
     public void verifyYearInLoginPage(){
         String currentYear = getCurrentYear();
         driver.manage().deleteAllCookies();
@@ -132,6 +148,13 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToUsersList(String institutionName) {
         goToInstitution(institutionName);
+        link("See All Users").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(userListTable()));
+    }
+
+    public void goToAccountUsersList(String accountType, String accountName) {
+        goToAccount(accountType, accountName);
         link("See All Users").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOf(userListTable()));

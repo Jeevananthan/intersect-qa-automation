@@ -93,6 +93,9 @@ public class GlobalSearch extends SeleniumBase {
             case "Groups":
                 getSearchSwitcher().findElement(By.className("comments")).click();
                 break;
+            case "HS Accounts":
+                getSearchSwitcher().findElement(By.xpath("//i[@class='university icon']/following-sibling::span[text()='HS Accounts']")).click();
+                break;
             default:
                 Assert.fail(searchCategory + " is not a valid search category.  Valid categories: All, HE Accounts, College Core, Institutions, Users, People, Groups");
         }
@@ -242,6 +245,12 @@ public class GlobalSearch extends SeleniumBase {
 
     public void searchForHSInstitutions(String searchTerm) {
         setSearchCategory("Institutions");
+        searchTerm = "\""+searchTerm+"\"";
+        doSearch(searchTerm);
+    }
+
+    public void searchHSAccounts(String searchTerm){
+        setSearchCategory("HS Accounts");
         searchTerm = "\""+searchTerm+"\"";
         doSearch(searchTerm);
     }
