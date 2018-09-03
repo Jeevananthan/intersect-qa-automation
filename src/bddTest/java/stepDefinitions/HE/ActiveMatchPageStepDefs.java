@@ -28,5 +28,9 @@ public class ActiveMatchPageStepDefs implements En {
         Then("^HE I verify the downloaded ActiveMatch Cvs file \"([^\"]*)\" contains the following headers",activeMatchPage::verifyDownloadedActiveMatchConnectionsHeaders);
 
         Then("^HE I delete the downloaded ActiveMatch Cvs file \"([^\"]*)\"",activeMatchPage::deleteDownloadedActiveMatchConnectionsFile);
+      
+        Then("^HE I verify the Header after selecting \"([^\"]*)\" for the following selection in the ActiveMatch export connections$",activeMatchPage::verifySelectedHeader);
+
+        Then("^HE I verify the Header \"([^\"]*)\"$",activeMatchPage::verifyHeader);
     }
 }
