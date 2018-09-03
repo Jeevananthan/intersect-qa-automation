@@ -3477,6 +3477,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Verifies if the share claendar link is displayed
+     */
+    public void verifyShareCalendarsLinkIsDisplayed(){
+        navigateToRepVisitsSection("Calendar");
+        Assert.assertTrue("The share clanedars link is nor displayed", getShareCalendarsLink().isDisplayed());
+    }
+
+    /**
+     * Verifies if share your calendar modal is displayed
+     */
+    public void verifyShareYourCalendarModalIsDisplayed(){
+        navigateToRepVisitsSection("Calendar");
+        getShareCalendarsLink().click();
+        waitUntil(ExpectedConditions.visibilityOf(getShareYourCalendarLabel()));
+        Assert.assertTrue("Share your calendar modal was not displayed", getShareYourCalendarLabel()
+                .isDisplayed());
+        getCloseShareYourCalendarButton().click();
+    }
+
     //Locators
     private WebElement staffForReassign(){
         waitUntilPageFinishLoading();
@@ -4008,6 +4028,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
+    }
+
+    /**
+     * Gets the share calendars link
+     * @return
+     */
+    private WebElement getShareCalendarsLink(){
+        return link("Share calendars");
+    }
+
+    /**
+     * Gets the share your calendar label
+     * @return
+     */
+    private WebElement getShareYourCalendarLabel(){
+        return driver.findElement(By.xpath("//div[@class='ui small modal transition visible " +
+                "active _56z_iePncfEtW1YuLtMg4']/div/span[text()='Share Your Calendar']"));
+    }
+
+    /**
+     * Gets the close button to close the share your calendar modal
+     * @return
+     */
+    public WebElement getCloseShareYourCalendarButton(){
+        return driver.findElement(By.cssSelector("div>i[class='close icon']"));
     }
 }
 
