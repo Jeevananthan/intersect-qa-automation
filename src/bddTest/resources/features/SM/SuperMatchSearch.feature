@@ -462,3 +462,19 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Radio           |Maximum Tuition and Fees                        |
       |Maximum Cost    |$5,000                                          |
     Then SM I verify that the Must Have box contains "Cost < $5000"
+
+  @MATCH-3449
+  Scenario: As a HS student that is viewing my pinned schools, I want to see each college's fit score and academic match
+  so I can use these details when comparing all my pinned colleges.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    Then SM I clear pinned schools list
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 1200 |
+      | ACT Composite   | 36   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I pin "Harvard University" if it is not pinned already
+    Then SM I open the Pinned Schools Compare screen
+    Then SM I verify that in the "" criteria table "Academic Match" criteria for the 1 college is "match"
