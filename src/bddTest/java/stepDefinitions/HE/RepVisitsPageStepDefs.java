@@ -421,5 +421,8 @@ public class RepVisitsPageStepDefs implements En {
       
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
 
+        Then("^HE I verify the following sub-tabs are displaying in the notification tab for premium user$",repVisits::verifySubtabsforPremium);
+
+        Then("^HE I verify the following sub-tabs are displaying and \"([^\"]*)\" is not displaying in the notification tab for limited user$",repVisits::verifySubtabsforLimited);
     }
 }

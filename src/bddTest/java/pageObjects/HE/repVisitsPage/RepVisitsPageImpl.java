@@ -3238,6 +3238,38 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum _3GCGVUzheyMFBFnbzJUu6J']/span[text()='Calendar']"),1),5);
     }
 
+    public void verifySubtabsforPremium(DataTable dataTable){
+        List<String> tabs = dataTable.asList(String.class);
+        navigationBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        notification().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='menu-link active']/span[text()='Requests']"),1));
+        for(String subtab:tabs){
+            if(subtab.equals("Requests")){
+                Assert.assertTrue("Requests subtab is not displayed",driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='"+subtab+"']")).isDisplayed());
+            }else {
+                Assert.assertTrue(subtab + " sub tab is not displayed", driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='" + subtab + "']")).isDisplayed());
+            }
+        }
+    }
+
+    public void verifySubtabsforLimited(String highSchoolsNowAvailable,DataTable dataTable){
+        List<String> tabs = dataTable.asList(String.class);
+        navigationBar.goToRepVisits();
+        waitUntilPageFinishLoading();
+        notification().click();
+        List<WebElement> highSchoolAvailable = driver.findElements(By.xpath("//a[@class='menu-link']/span[text()='"+highSchoolsNowAvailable+"']"));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='menu-link active']/span[text()='Requests']"),1));
+        for(String subtab:tabs){
+            if(subtab.equals("Requests")){
+                Assert.assertTrue("Requests subtab is not displayed",driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='"+subtab+"']")).isDisplayed());
+            }else {
+                Assert.assertTrue(subtab + " sub tab is not displayed", driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='" + subtab + "']")).isDisplayed());
+            }
+        }
+        Assert.assertTrue("'High school now available' sub tab is displaying",highSchoolAvailable.size()==0);
+    }
+
     public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
         navigationBar.goToRepVisits();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.linkText("Calendar"),1));
@@ -3999,6 +4031,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
+    }
+    private WebElement notification(){
+        return driver.findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Notifications']"));
     }
 }
 

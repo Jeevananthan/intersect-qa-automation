@@ -701,5 +701,10 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
 
         And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
+
+        Then("^HS I verify the following sub-tabs are displaying in the notification tab for naviance user$",repVisits::verifySubtabsforNaviance);
+
+        Then("^HS I verify the following sub-tabs are displaying and \"([^\"]*)\" is not displaying in the notification tab for non-naviance user$",repVisits::verifySubtabsforNonNaviance);
+
     }
 }
