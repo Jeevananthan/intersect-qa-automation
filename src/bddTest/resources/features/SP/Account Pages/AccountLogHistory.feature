@@ -49,7 +49,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
 
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "<institution>" from the institution dashboard
-    And SP I "FLogin As" the user account for "<user>"
+    And SP I "Login As" the user account for "<user>"
 
     Then HE I verify the "You're currently logged in as <profileName> from <institution>. Changes you make will reflect in their account." message in the homepage
     Then HE I post a "TestQA" Message in the homepage
