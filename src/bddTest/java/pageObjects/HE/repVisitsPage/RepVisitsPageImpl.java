@@ -2174,6 +2174,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Naviance ActiveMatch is not displayed",navianceActiveMatchText().isDisplayed());
         Assert.assertTrue("Email Textbox is not displayed",emailTextBox().isDisplayed());
         Assert.assertTrue("Save button is not displayed",saveButton().isDisplayed());
+        Assert.assertTrue("Add people to counselor community label is not displayed", addPeopleOutsideCounselorCommunityLabel().isDisplayed());
     }
 
     public void validateEmailInInstitutionNotificationPage(String Email,String InvalidEmail,String ValidEmail){
@@ -3855,6 +3856,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private boolean isButtonDisabledInSearchandScheduleTab(WebElement link){
         return link.getAttribute("class").contains("lM1ka_IX-p7Hiuh9URqAJ");
+    }
+
+    /**
+     * Gets the add people outside counselor community label
+     * @return
+     */
+    private WebElement addPeopleOutsideCounselorCommunityLabel(){
+        return driver.findElement(By.xpath("//label[text()='Add people outside of the Counselor Community.']"));
     }
 
     /**
