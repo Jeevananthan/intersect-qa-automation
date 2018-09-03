@@ -207,3 +207,11 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
     And HS I successfully sign out
 
+  @MATCH-4472
+  Scenario: As an RepVisits RepVisits HS admin user,I want the ability to more easily access the
+  "Share calendars" link from the Calendars>Your Calendars section of RV, so that I don't miss seeing that as a
+  feature of RV and can actually leverage that functionality.
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HE I verify that Share Calendars Link is displayed in Calendar page
+    Then HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link
+    And HS I successfully sign out
