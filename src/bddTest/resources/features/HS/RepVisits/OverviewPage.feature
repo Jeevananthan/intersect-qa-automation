@@ -1,5 +1,5 @@
 @HS
-Feature: HS - RepVisits - Overview - As an HS user, I should be able to see an overview of my upcoming visit and fair appointments
+Feature: HS - RepVisits - OverviewPage - As an HS user, I should be able to see an overview of my upcoming visit and fair appointments
 
   @MATCH-2833
   Scenario: As an HS RepVisits user I want to see a message on the RepVisits Overview page that informs me I have no

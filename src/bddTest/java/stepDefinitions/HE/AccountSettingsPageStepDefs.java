@@ -18,10 +18,10 @@ public class AccountSettingsPageStepDefs implements En {
 
         Then("^HE I select the \"([^\"]*)\" options from the actions dropdown for the HE primary account \"([^\"]*)\"$",accountSettingsPage::selectOption);
 
-        And("^HE I add a random sufix to the First Name value$", accountSettingsPage::addStringToCurrentFirstName);
+        And("^HE I add a random suffix to the First Name value$", accountSettingsPage::addStringToCurrentFirstName);
 
         And("^HE I save the changes$", accountSettingsPage::clickSaveChanges);
 
-        And("^HE I set the First Name field to the original value$", accountSettingsPage::setFirstNameToOriginalValue);
+        And("^HE I set the First Name field to the original value \"([^\"]*)\"$", accountSettingsPage::setFirstNameToOriginalValue);
     }
 }

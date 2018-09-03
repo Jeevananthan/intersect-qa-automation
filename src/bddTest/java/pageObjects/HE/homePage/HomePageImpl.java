@@ -277,6 +277,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void openEventList() {
+        waitUntilPageFinishLoading();
         clickEvents();
     }
 

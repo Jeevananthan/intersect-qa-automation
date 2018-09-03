@@ -62,7 +62,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
   Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I create a College Fair with the following data
-      | College Fair Name                                         | Fair-1771               |
+      | College Fair Name                                         | Fair-MATCH1771          |
       | Automatically Confirm Incoming Requestions From Colleges? | yes                     |
       | Cost                                                      | 10                      |
       | Start Time                                                | 0600AM                  |

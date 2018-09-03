@@ -1,5 +1,5 @@
 @SM
-Feature: SM - Feature - As a HS student, I need to be able to search for colleges based on the 'Locale' fit criteria
+Feature: SM - Location - Location - As a HS student, I need to be able to search for colleges based on the 'Locale' fit criteria
 
   @MATCH-3848
   Scenario: As a HS student I want to see validation message when only the 'Select Miles' input has been answered, but not the postal code input

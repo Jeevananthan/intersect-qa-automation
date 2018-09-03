@@ -28,4 +28,11 @@ Feature: HE - Login - LoginPage - As an HE user with appropriate access, I shoul
     Then HE I select "Higher Education Staff Member" and verify that the appropriate text is displayed
     Then HE I select "High School Staff Member" and verify that the appropriate text is displayed
 
+  @MATCH-5013
+
+  Scenario: Redirect user to "Complete Community Profile Page" when profile is not complete
+    Given  HE I want to login to the HE app using "purpleheautomation+Match5103@gmail.com" as username and "Password!1" as password
+    And HE I click on update button on Component Naviance College Profile
+    And HE I verify user is redirected to Counselor Community Welcome page
+
 

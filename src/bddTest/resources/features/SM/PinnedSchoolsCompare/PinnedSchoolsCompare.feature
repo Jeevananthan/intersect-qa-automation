@@ -1,5 +1,5 @@
 @SM
-Feature: SM - SuperMatch - Compare Pinned Schools
+Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned Schools
 
   @MATCH-3450
   Scenario: As a HS student that is comparing my pinned schools, I want to expand and collapse buckets of data about my

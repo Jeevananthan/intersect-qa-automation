@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - RepVisitsOverview - As an HE user, I should be able to see an overview of my upcoming visit and fair appointments
+Feature: HE - RepVisits - RepVisitsOverview - As an HE user, I should be able to see an overview of my upcoming visit and fair appointments
 
   @MATCH-2241
   Scenario: As an HE RepVisits user I want to see a message on the RepVisits Overview page that informs me I have no

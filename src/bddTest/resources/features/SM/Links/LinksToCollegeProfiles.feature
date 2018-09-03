@@ -1,6 +1,7 @@
 @SM
-Feature: SM - LinksToCollegeProfiles - As a SuperMatch tool, I need to update the embedded version of the UI to link to
-  the colleges' profile pages in all the areas we had to skip this requirement when using the standalone version.
+Feature: SM - LinksToCollegeProfiles - LinksToCollegeProfiles - As a SuperMatch tool, I need to update the embedded version
+         of the UI to link to the colleges' profile pages in all the areas we had to skip this requirement when using
+         the standalone version.
 
   @MATCH-4331
   Scenario: As a HS student I want to see the college's profile page after clicking the proper links

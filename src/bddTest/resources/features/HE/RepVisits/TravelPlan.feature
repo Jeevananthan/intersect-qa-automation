@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - TravelPlan - As an HE user, I can utilize the Travel plan to plan my visits
+Feature: HE - RepVisits - TravelPlan - As an HE user, I can utilize the Travel plan to plan my visits
 
 @MATCH-3573
 Scenario: As a HE premium user, I want the ability to remove any institution I add to my Travel Plan in RepVisits

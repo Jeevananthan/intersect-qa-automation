@@ -40,3 +40,13 @@ Feature: As a Freemium or Legacy Hubs HE user I want to see an additional Commun
 #  |Community Premium   |not visible   |Legacy: Community                    |active |
 #  |Awareness Premium   |not visible    |Intersect Awareness Subscription   |active |
 #  |Presence Premium    |not visible    |Intersect Presence Subscription    |active |
+
+
+  @MATCH-4894
+  Scenario: As a Community user looking to make a post, I want to see instructions and details on exactly where I should
+  be creating my post so it doesn't end up in the wrong place.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then I navigate to Counselor Community page
+    Then I verify the instruction text in the post box
+    Then I go to user profile page
+    Then I verify the instruction text in the post box
