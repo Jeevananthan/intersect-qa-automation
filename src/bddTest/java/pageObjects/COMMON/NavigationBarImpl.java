@@ -143,10 +143,6 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntilElementExists(repVisitsMenuLink);
         repVisitsMenuLink.sendKeys(Keys.ENTER);
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
-//        Assert.assertTrue("The RepVisits menu was not selected",
-//                selectedNavigationMenu.getAttribute("innerText").contains("RepVisits"));
-//        Assert.assertTrue("The RepVisits menu was not selected",
-//                selectedNavigationMenu.getAttribute("innerText").contains("RepVisits"));
     }
 
     public void goToEvents() {

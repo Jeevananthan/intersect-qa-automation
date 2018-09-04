@@ -7545,9 +7545,6 @@ public void cancelRgisteredCollegeFair(String fairName){
                 case "Representative" :
                     findRepresentativeTextBox().sendKeys(row.get(1));
                     waitUntilPageFinishLoading();
-//                    findRepresentativeTextBox().click();
-//                    waitUntilPageFinishLoading();
-//                    findRepresentativeTextBox().sendKeys(Keys.SPACE);
                     waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.ui.active.visible.category.focus.fluid.loading.search"), 0));
                     representativeOption(row.get(1)).click();
                     break;
@@ -7557,14 +7554,6 @@ public void cancelRgisteredCollegeFair(String fairName){
         findRepresentativeTextBox().sendKeys(Keys.PAGE_DOWN);
         scheduleVisitAddVisitButton().click();
     }
-//
-//    public void expandShowMoreDaysAheadFromNow(String daysFromNow) {
-//        Calendar date = getDeltaDate(Integer.parseInt(daysFromNow));
-//        waitUntilPageFinishLoading();
-//        if (driver.findElements(By.xpath(showMoreLinkLocator(getDay(date)))).size() > 0) {
-//            driver.findElement(By.xpath(showMoreLinkLocator(getDay(date)))).click();
-//        }
-//    }
 
     // Locators
 
