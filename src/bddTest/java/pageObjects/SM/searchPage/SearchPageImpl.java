@@ -2078,9 +2078,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void clearGPASATACTScores() {
 
-        gpaTextBox().clear();
-        satScoreTextBox().clear();
-        actScoreTextBox().clear();
+        gpaTextBox().sendKeys("0");
+        satScoreTextBox().sendKeys("1");
+        actScoreTextBox().sendKeys("0");
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".triangle.supermatch-error-icon"),2));
     }
 
 
