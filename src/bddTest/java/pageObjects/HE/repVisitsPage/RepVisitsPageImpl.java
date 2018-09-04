@@ -298,9 +298,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyLoginMessageInHomPage(String message){
-        waitForUITransition();
-        waitForUITransition();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
         waitUntilPageFinishLoading();
         String supportWindow = driver.getWindowHandle();
         String HEWindow = null;
@@ -313,7 +311,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(HEWindow);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")));
-        String originalMessage = driver.findElement(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")).getText();
+        String originalMessage = getLoginMessageInHomePage().getText();
         Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
     }
 
@@ -3949,6 +3947,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
+    }
+
+    /**
+     * Gets the login message in homer page
+     * @return
+     */
+    private WebElement getLoginMessageInHomePage(){
+        return driver.findElement(By.xpath(
+                "//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span"));
     }
 }
 

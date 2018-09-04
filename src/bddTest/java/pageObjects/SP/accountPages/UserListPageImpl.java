@@ -32,7 +32,6 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         } else {
             Assert.fail("Valid user actions are \"activate\",\"inactivate\",\"unlock\",\"re-invite\" and \"Login As\".");
         }
-//        button("YES").click();
         try {
             driver.wait(2000);
         } catch (Exception e) {}
