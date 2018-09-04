@@ -1534,23 +1534,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         searchTextBox().sendKeys(school);
         waitUntil(ExpectedConditions.visibilityOf(search()),10);
         searchButton().click();
-        waitForUITransition();
-        //waitUntil(ExpectedConditions.visibilityOf(schoolName),10);
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/a[contains(text(),'"+school+"')]")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/a[contains(text(),'"+school+"')]")),10);
         WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
-
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         schoolName.click();
         waitUntilPageFinishLoading();
-        waitForUITransition();
     }
 
 
     public void visitsSchedule(String school,String startDate,String time){
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Visits']")),10);
         visit().click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
         WebElement schoolInVisits = driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
         waitUntil(ExpectedConditions.visibilityOf(schoolInVisits),10);
         Assert.assertTrue("school is not displayed",schoolInVisits.isDisplayed());
@@ -1568,9 +1562,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             visitDate = getShortMonth(dateParts[0]) + " " + dateParts[1];
         }
         setDate(gotoDate, "Go To Date");
-        waitForUITransition();
         time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        waitUntilElementExists(driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated((By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"))),10);
         WebElement availabilityButton = driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
         Assert.assertTrue("Availability is not displayed",availabilityButton.isDisplayed());
         availabilityButton.click();
@@ -1649,7 +1642,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
         Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
         visitRequestButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Go To Date']"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Go To Date']")),10);
     }
 
 
@@ -3238,17 +3231,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum _3GCGVUzheyMFBFnbzJUu6J']/span[text()='Calendar']"),1),5);
     }
 
-    public void verifyBlueNotAlert(String alertMessage,String user,String newAssignee){
+    public void verifyBlueNoteAlert(String alertMessage,String user,String newAssignee){
         goToReassignAppointment();
         jsClick(selectStaffMemberDropdown());
         waitUntilPageFinishLoading();
         jsClick(driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")));
         jsClick(newAssigneeButton());
         jsClick(driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']")));
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='"+alertMessage+"']"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='"+alertMessage+"']")),10);
         Assert.assertTrue("Alert message is not displayed",driver.findElement(By.xpath("//span[text()='"+alertMessage+"']")).isDisplayed());
         buttonGoBack().click();
         waitUntilPageFinishLoading();
+    }
+
+    public void verifyBlueNoteAlertForNoAppointments(String alertMessage,String user,String newAssignee){
+        verifyBlueNoteAlert(alertMessage,user,newAssignee);
     }
 
     public void verifyUsersInReAssignAppointments(String currentUser,String selectUser){
