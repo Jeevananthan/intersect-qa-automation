@@ -3,10 +3,7 @@ package pageObjects.SM.superMatchPage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -569,8 +566,47 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Verifies the text of a link in the "More" link inside the SuperMatch footer, as well as the location the user is sent to,
+     * @param link Name of the link to navigate to in the "More" menu in the SM footer.
+     */
+    public void verifyFooterLink(String link) {
+        // Check if the More menu is already open, and if not, click it to open.
+        try {
+            setImplicitWaitTimeout(1);
+            getDriver().findElement(By.xpath("//div[@class='supermatch-footer-popup']"));
+            resetImplicitWaitTimeout();
+        } catch (NoSuchElementException nsee) {
+            jsClick(footerMoreButton());
+            resetImplicitWaitTimeout();
+        }
+        waitUntilPageFinishLoading();
+        switch(link) {
+            case "Upcoming Visits":
+                footerUpcomingVisitsLink().click();
+                waitUntilPageFinishLoading();
+                switchToNewestWindow();
+                softly().assertThat(getDriver().getCurrentUrl().contains("/colleges/visits"));
+                getDriver().close();
+                switchToParentWindow();
+                break;
+            case "Events":
+                footerEventsAppLink().click();
+                waitUntilPageFinishLoading();
+                switchToNewestWindow();
+                waitUntilPageFinishLoading();
+                softly().assertThat(getDriver().getCurrentUrl().contains("college-events"));
+                getDriver().close();
+                switchToParentWindow();
+                break;
+        }
+    }
+
     // Locators Below
 
+    private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//span[@class='supermatch-footer-item-text'][text()='More']"));}
+    private WebElement footerUpcomingVisitsLink() {return getDriver().findElement(By.xpath("//a/span[text()='Upcoming Visits']"));}
+    private WebElement footerEventsAppLink() {return getDriver().findElement(By.xpath("//a/span[text()='Events']"));}
     private WebElement getDisableChosseOneDropdown(){return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
     private WebElement saveSearchDeletePopupHeaderText(){return driver.findElement(By.xpath("//div[@class='header']"));}
     private WebElement saveSearchDeleteIcon(String saveSearchName) { return driver.findElement(By.xpath("//span[text()='"+saveSearchName+"']/../i[//i[@class='trash large icon right floated']]"));}

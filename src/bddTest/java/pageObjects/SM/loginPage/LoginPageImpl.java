@@ -64,6 +64,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Logs in to SuperMatch through Naviance Student as the specified user type.
+     * @param user - User type to login as - from fc.[usertype].username, password, etc. in Env config.
+     */
+    public void loginThroughFamilyConnectionByType(String user) {
+        loginThroughFamilyConnection(GetProperties.get("fc."+user+".username"), GetProperties.get("fc."+user+".password"), GetProperties.get("fc."+user+".hsid"));
+        getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
+    }
+
+    /**
      * Naviagates to the public-facing SuperMatch URL that has no login screen
      */
     public void navigateToSuperMatch() {
