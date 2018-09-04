@@ -30,7 +30,7 @@ Feature: HS - LoginLogout - LoginPage - As an HS user I can login with appropria
     Then SP I go to the users list for "THE FULTON SCHOOL" with NCES_ID "A0771765" from the institution dashboard using the search
     And SP I "unlock" the user account for "hobsonstest15@mailinator.com"
     And SP I successfully sign out
-    And HS I want to login to the HS app using "hobsonstest15@mailinator.com" as username and "s a non Naviance HS user, I want to verify the locking rules in the HS login page" as password
+    And HS I want to login to the HS app using "hobsonstest15@mailinator.com" as username and "boGusPassw0rd@" as password
     And HS I successfully sign out
 
  @MATCH-2062
