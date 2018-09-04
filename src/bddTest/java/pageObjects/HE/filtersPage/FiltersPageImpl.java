@@ -124,6 +124,22 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The assigned event name do not match", eventsAssignedToFilter().getText().contains(eventName));
     }
 
+    public void verifyFiltersOrder(String baseName, String filterOption) {
+        sortByDropdown().click();
+        sortByDropdownOption(filterOption).click();
+        List<WebElement> recommendedToElements = getRecommendedCountFromFiltersWithBaseName(baseName);
+        for (int i = 0; i < recommendedToElements.size(); i++) {
+            if((i + 1) < recommendedToElements.size()) {
+                Assert.assertTrue("The filters are not displayed in the correct order",
+                        Integer.parseInt(recommendedToElements.get(i).getText()) > Integer.parseInt(recommendedToElements.get(i + 1).getText()));
+            }
+        }
+    }
+
+    public List<WebElement> getRecommendedCountFromFiltersWithBaseName(String baseName) {
+        return driver.findElements(By.xpath(recommendedCountListLocator(baseName)));
+    }
+
     //locators
     private WebElement genderCheckBox(String option) { return driver.findElement(By.cssSelector("input[value=\"" + option.toUpperCase() + "\"]")); }
     private WebElement locationMilesDropdown() { return driver.findElement(By.cssSelector("div[name=\"distanceValue\"]")); }
@@ -149,4 +165,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
   //  private WebElement eventsAssignedToFilter(String eventName) { return driver.findElement(By.xpath("//strong[text()='" + eventName + "']/../../div/span/span[@role='listitem']")); }
     private WebElement eventsAssignedToFilter(){return driver.findElement(By.cssSelector(".ui.relaxed.list.NSL7sBgr5GF9KrxVqCXR8 a"));}
     private WebElement countNotZero(){return  driver.findElement(By.cssSelector("div._1v0QZJyY25uE_4FnAGv9hk"));}
+    private WebElement sortByDropdown() { return driver.findElement(By.cssSelector("div[class *= 'ui button floating labeled dropdown icon'] div.text")); }
+    private WebElement sortByDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[contains(@class, 'menu transition visible')]/div[contains(@class, 'item')]/span[text() = '" + optionName + "']")); }
+    private String recommendedCountListLocator(String eventBaseName) { return "//div[contains(@class, 'dimmable')]/div/strong[contains(text(), '" + eventBaseName + "')]/../../div[5]/span[2]"; }
 }

@@ -463,6 +463,19 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Maximum Cost    |$5,000                                          |
     Then SM I verify that the Must Have box contains "Cost < $5000"
 
+   @MATCH-4897
+   Scenario: When student performs Start Over action, the GPA and test scores data should revert to what is stored in
+   naviance student profile
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I start the search over
+     When I select the following data from the Admission Fit Criteria
+       | GPA (4.0 scale) | 3  |
+       | SAT Composite   | 1000 |
+       | ACT Composite   | 26   |
+     Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+     Then SM I verify if the GPA and test scores revert to those stored in naviance student profile when Start Over action is performed
+
   @MATCH-3449
   Scenario: As a HS student that is viewing my pinned schools, I want to see each college's fit score and academic match
   so I can use these details when comparing all my pinned colleges.
