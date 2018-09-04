@@ -3381,13 +3381,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyReAssignLinkStatus(String status){
         navigationBar.goToRepVisits();
         link("Calendar").click();
-        List<WebElement> reAssignLink = driver.findElements(By.xpath("//span[text()='Re-assign appointments']"));
         switch (status.toLowerCase()){
             case "visible":
-                Assert.assertTrue("The Re-assign link is not displayed",reAssignLink.size()==1);
+                Assert.assertTrue("The Re-assign link is not displayed",getReAssignLink().size()==1);
                 break;
             case "not visible":
-                Assert.assertTrue("The Re-assign link is displayed",reAssignLink.size()==0);
+                Assert.assertTrue("The Re-assign link is displayed",getReAssignLink().size()==0);
                 break;
                 default:
                     Assert.fail("The status of the Re-assign link to be verified is not correct");
@@ -3966,6 +3965,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
+    }
+
+    /**
+     * Get the re assign link
+     * @return
+     */
+    private List<WebElement> getReAssignLink(){
+        return driver.findElements(By.xpath("//span[text()='Re-assign appointments']"));
     }
 }
 

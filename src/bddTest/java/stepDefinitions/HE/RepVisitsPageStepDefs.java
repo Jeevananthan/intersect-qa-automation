@@ -419,8 +419,6 @@ public class RepVisitsPageStepDefs implements En {
       
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
 
-
         Then("^HE I verify that Re-assign link is \"([^\"]*)\"$",repVisits::verifyReAssignLinkStatus);
-
     }
 }
