@@ -252,5 +252,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that the below options are displayed in Family Income dropdown$", searchPage::verifyOptionsDisplayedInFamilyIncomeDropdown);
 
+        Then("^I check there are (\\d+) icons \"([^\"]*)\" are displayed$", searchPage::checkNumberOfElementsDisplayed);
+
     }
 }
