@@ -1,5 +1,5 @@
 @HE
-Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisits College Fairs features.
+Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign up for College fairs and manage my fair appointments
 
   @MATCH-1771
   Scenario: As a HE user, on the "Community availability sidebar", each college fair has a Register button that presents
@@ -62,7 +62,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user I want to use the RepVisi
   Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I create a College Fair with the following data
-      | College Fair Name                                         | Fair-1771               |
+      | College Fair Name                                         | Fair-MATCH1771          |
       | Automatically Confirm Incoming Requestions From Colleges? | yes                     |
       | Cost                                                      | 10                      |
       | Start Time                                                | 0600AM                  |

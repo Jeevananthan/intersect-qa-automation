@@ -1,6 +1,5 @@
 @HE
-Feature: HE- RepVisits - RepVisitsTravelPlan - As an HE user, I want to be able to access the Travel plan in order to see
-  the list of schools I am interested
+Feature: HE - RepVisits - TravelPlan - As an HE user, I can utilize the Travel plan to plan my visits
 
 @MATCH-3573
 Scenario: As a HE premium user, I want the ability to remove any institution I add to my Travel Plan in RepVisits

@@ -1,5 +1,5 @@
 @HE @EventFilters
-Feature: HE - Events - ViewFilters - As a HE Events user, I can manage event filters
+Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event filters
 
   @MATCH-2903
   Scenario: A list of all the AM Events filters is displayed

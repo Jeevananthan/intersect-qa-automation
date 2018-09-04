@@ -1,5 +1,5 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Availability features.
+Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set up my Visit availability
 
   @MATCH-1779 @MATCH-1735 @NotInQA
   Scenario: As a HS RepVisits user I need to be able to navigate to a page for availability settings
@@ -42,7 +42,7 @@ Feature:  As an HS user, I want to be able to access the features of the Availab
     And HS I successfully sign out
 
 
-  @MATCH-1574 @MATCH-1802 @MATCH-2124
+  @MATCH-1574 @MATCH-1802 @MATCH-2124 @MATCH-4262
   Scenario Outline: As a high school staff member,
   I want to be able to view the weekly recurring time slots that my school is available for visits
   so that colleges can manage those availabilities.
@@ -55,6 +55,7 @@ Feature:  As an HS user, I want to be able to access the features of the Availab
 
     Examples:
       |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
+      |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
       |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
 
   @MATCH-1574

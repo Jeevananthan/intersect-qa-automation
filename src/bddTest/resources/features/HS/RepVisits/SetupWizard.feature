@@ -1,5 +1,5 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Setup Wizard features.
+Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set up Visit availability using the setup wizard
 
   @MATCH-1944
   Scenario: As a new RepVisits user,I want a setup wizard with an introduction that describes what the system does
@@ -8,25 +8,25 @@ Feature:  As an HS user, I want to be able to access the features of the Setup W
     Then HS I am verifying the welcome milestone in setup wizard
     And HS I click the Get Started button in the welcome milestone page
     And HS I navigate to college fairs,visits through availability option
-    And HS I successfully sign out
+#    And HS I successfully sign out
 
 
   @MATCH-1945
   Scenario: As a new RepVisits user,I want the setup wizard to confirm my school's timezone
   So that I can be sure my appointments will be scheduled at the right time.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I verify the repvisit setup wizard displayed for high school information
     Then HS I check the time zone is selected as "America/Mexico_City" and change it to "America/New_York"
     And HS I navigate to college fairs,visits through availability option
-    And HS I successfully sign out
+#    And HS I successfully sign out
 
 
   @MATCH-1949
   Scenario: As a new RepVisits user,I want the setup wizard to help me configure my calendars
   so that I can see all my calendar information in one place.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I verify the Calendar Sync Milestone in the setup wizard of repvisits
-    And HS I successfully sign out
+#    And HS I successfully sign out
 
 
   @MATCH-1948
@@ -117,3 +117,11 @@ Feature:  As an HS user, I want to be able to access the features of the Setup W
     Given HS I want to login to the HS app using "purplehsautomation+HSSolidRock@gmail.com" as username and "Password!1" as password
     Then HS I verify I can make it through the RepVisits wizard as a non-Naviance HS
 
+  @MATCH-3462
+  Scenario: As a RepVisits HS user that is interested in opting in to connect events with Naviance, I want the copy on
+  the screen to clearly provide me with information on my ability to opt in/out of the publish connection,
+  so that I know what the implications are for connecting and whether I can disconnect the sync.
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I navigate to the Naviance Settings page through the setup Wizard
+    And HS I verify the UI of the Naviance Settings Page in setup wizard
+    And HS I successfully sign out

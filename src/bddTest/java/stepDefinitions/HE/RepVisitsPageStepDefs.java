@@ -19,6 +19,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I search for \"([^\"]*)\" in RepVisits$", repVisits::searchforHighSchool);
 
+        Then("^HE I request an appointment with \"([^\"]*)\" for Visits with \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::selectVisitForHE);
+
         Then("^HE I select \"([^\"]*)\" in \"([^\"]*)\" from the RepVisits intermediate search results$", repVisits::selectHighSchoolFromIntermediateSearchResults);
 
         Then("^HE I view the map plugin on RepVisits Search & Schedule subtab$", repVisits::viewMapPlugin);
@@ -418,6 +420,10 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the disabled date \"([^\"]*)\" is not clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsNotClickableInEndDate);
       
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
+
+        Then("^HE I verify that Share Calendars Link is displayed in Calendar page$",repVisits::verifyShareCalendarsLinkIsDisplayed);
+
+        Then("^HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link$",repVisits::verifyShareYourCalendarModalIsDisplayed);
 
         Then("^HE I verify that Re-assign link is \"([^\"]*)\"$",repVisits::verifyReAssignLinkStatus);
     }

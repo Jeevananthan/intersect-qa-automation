@@ -1,6 +1,6 @@
 @SM
-Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdown section to be more intuitive for the
-  HS student, we want to add a legend that provides an explanation of what each icon in the fit score breakdown means.
+Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score breakdown section to be more intuitive for the
+         HS student, we want to add a legend that provides an explanation of what each icon in the fit score breakdown means.
 
   Background:
     Given SM I am logged in to SuperMatch through Family Connection

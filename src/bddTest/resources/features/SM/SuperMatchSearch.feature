@@ -1,6 +1,6 @@
 @SM
-Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
-  certain fit criteria
+Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search
+         college based on certain fit criteria
 
   @MATCH-3592
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with an Student Body
@@ -136,17 +136,22 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: As a HS student, I want to verify that the save/load search functionality (MATCH-4703)
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
+    And SM I delete all the saved searches
+    And SM I start the search over
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
+    And SM I reload the page
+    Then SM I delete the saved search named "SavedTestSearch"
     And SM I open the Save Search popup
     And SM I save the search with the name "SavedTestSearch"
     Then SM I verify the confirmation message
     Then SM I verify the saved search of name "SavedTestSearch" is displayed in the Saved Searches dropdown
     And SM I select "SavedTestSearch" in the Saved Searches dropdown
     Then SM I verify that "SavedTestSearch" is displayed as selected option in the Saved Searches dropdown
+    Then SM I delete the saved search named "SavedTestSearch"
 
   @MATCH-3212
   Scenario: As a HS student I want a way to clear all my fit criteria I have currently selected so I can quickly start my search over again.
@@ -198,8 +203,9 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | Acceptance Rate | 25% or Lower |
+    And SM I reload the page
     Then SM I verify the footnote for known GPA but unknown test scores for "Pomona College", with the text:
-    | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
+    | To determine if you're an academic match for this institution, enter your GPA and/or standardized test scores. |
 
    @MATCH-4276
    Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my test scores, but not my GPA
@@ -211,7 +217,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
        | ACT Composite   | 30   |
        | Acceptance Rate | 76% or more |
      And SM I select the "Coed" checkbox from "Diversity" fit criteria
-     Then SM I verify the footnote for known GPA but unknown test scores for "Utica College", with the text:
+     Then SM I verify the footnote for known GPA but unknown test scores for "Westminster College", with the text:
        | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
 
     @MATCH-4406
@@ -332,7 +338,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I select the "Show only non-profit" checkbox from "Institution Characteristics" fit criteria
     Then SM I verify that "Show only non-profit" checkbox is "selected" in "Institution Characteristics" fit criteria
 
-  @MATCH-4682
+  @MATCH-4682 @MATCH-4415
   Scenario: The Compare seems to load and focus itself in the same general area you were on the main page of SuperMatch.
   Verify that this doesn't happen.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -342,6 +348,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I scroll to the middle of the main page
     And SM I open the Pinned Schools Compare screen
     Then SM I verify scrollbar is positioned at the top of the Pinned Schools Compare page
+    Then I check if I can see "Compare Pinned Colleges" on the page
 
   @MATCH-3522
   Scenario: As a HS student using SuperMatch I want to clear all of my currently pinned schools so I can quickly wipe
@@ -381,3 +388,77 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | user         | pass     | school     |
       | talka10grade | password | blue1combo |
       | uat_user6    | password | blue1combo |
+
+  @MATCH-4348
+  Scenario: Verify that on double clicking the PIN TO COMPARE link, the second click is bounced off
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I double click on PIN TO COMPARE link and check if the second click bounces off
+
+  @MATCH-4745
+  Scenario: Verify warning or error message is displayed when the saved search name is blank.
+            Also verify the error message when the save search name is a duplicate.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I open the Save Search popup
+    Then SM I save the search with the name ""
+    Then SM I verify that "Name must be at least 3 characters." message is displayed in Save Search popup
+    Then SM I cancel the Save Search popup
+    #Verify that duplicate names are not allowed
+    Then SM I delete the saved search named "duplicatename"
+    Then SM I open the Save Search popup
+    Then SM I save the search with the name "duplicatename"
+    Then SM I open the Save Search popup
+    Then SM I save the search with the name "duplicatename"
+    Then SM I verify that "You've already named a search duplicatename. Please choose a unique name." message is displayed in Save Search popup
+    Then SM I cancel the Save Search popup
+    Then SM I delete the saved search named "duplicatename"
+
+  @MATCH-3279
+  Scenario:As a HS student, I want to filter colleges I am searching for by cost details within the Cost category so I
+  can see relevant colleges that match my cost details requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I click "Cost" filter criteria tab
+    And SM I verify the radio buttons displayed in the Cost fit criteria
+    Then SM I verify the following data in the Cost Fit Criteria
+      |Radio|Maximum Tuition and Fees|
+    And SM I verify that the below options are displayed in Maximum Cost dropdown
+      |Select Max|
+      |$5,000    |
+      |$10,000   |
+      |$15,000   |
+      |$20,000   |
+      |$25,000   |
+      |$30,000   |
+      |$35,000   |
+      |$40,000   |
+      |$45,000   |
+      |$50,000   |
+      |$55,000   |
+      |$60,000   |
+    And SM I verify the Home State dropdown in Cost fit criteria
+    And SM I verify that the below options are displayed in Family Income dropdown
+      |Select Family Income|
+      |$0 - $30,000        |
+      |$30,001 - $48,000   |
+      |$48,001 - $75,000   |
+      |$75,001 - $110,000  |
+      |$110,001+           |
+    Then SM I select the following data in the Cost Fit Criteria
+      |Radio           |Maximum Tuition and Fees                        |
+      |Maximum Cost    |$5,000                                          |
+      |Home State      |Ohio                                            |
+    And SM I verify that the Must Have box contains "Cost < $5000"
+    And SM I move "Cost < $5000" from the Must Have box to the Nice to Have box
+    Then SM I verify that the Nice to Have box contains "Cost < $5000"
+    Then SM I select the following data in the Cost Fit Criteria
+      |Radio           |Maximum Tuition and Fees                        |
+      |Maximum Cost    |Select Max                                      |
+    Then SM I select the following data in the Cost Fit Criteria
+      |Radio           |Maximum Tuition and Fees                        |
+      |Maximum Cost    |$5,000                                          |
+    Then SM I verify that the Must Have box contains "Cost < $5000"

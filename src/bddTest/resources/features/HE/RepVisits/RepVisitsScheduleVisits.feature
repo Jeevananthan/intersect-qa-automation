@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be able to search and schedule visits with HS
+Feature: HE - RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be able to search and schedule visits with high schools
 
   @MATCH-1602 @MATCH-1958 @MATCH-1729
   Scenario: As an HE user I want to be able to use the Search and Schedule tab of RepVisits to browse HS availability.

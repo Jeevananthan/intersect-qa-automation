@@ -1,5 +1,5 @@
 @HS
-Feature:  As an HS user, I want to be able to access the features of the Availability Features.
+Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able to setup my visit configurations
 
   @MATCH-1580
   Scenario: As a HS Repvisit user Set Repvist availability Messages Instructions for HE on scheduling page

@@ -24,7 +24,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
     public static HashMap<String, String> editedData = new HashMap<>();
-    public static String eventName = "";
+    public static String eventName;
     private HomePageImpl homePage = new HomePageImpl();
     public static Calendar generatedTime;
     private NavianceCollegeProfilePageImpl navianceCollegeProfilePage = new NavianceCollegeProfilePageImpl();
@@ -571,6 +571,37 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The Edit Events screen was not opened", eventNameField().isDisplayed());
     }
 
+    public void openEventOfGeneratedName() {
+        waitUntilPageFinishLoading();
+        menuButtonForEvent(eventName).click();
+        menuButtonForEventsAttendees().click();
+    }
+
+    public void openTabInEditEvent(String tabName) {
+        getOptionFromMenuButtonForEvents(tabName).click();
+        waitUntilPageFinishLoading();
+        driver.get(driver.getCurrentUrl());
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyAttendeesErrorMessage(DataTable dataTable) {
+        List<String> details = dataTable.asList(String.class);
+        attendeeStatusBarStudent(eventName).click();
+        Assert.assertTrue("The error message is not correct", attendeesErrorMessage().getText().equals(details.get(0)));
+    }
+
+    public void createAndSaveEventWithGenDateAndName(String xDaysFromNow, DataTable dataTable) {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss");
+        List<List<String>> eventDetails = dataTable.asLists(String.class);
+        waitUntilPageFinishLoading();
+        fillEventStartDateTimeFields(xDaysFromNow);
+        fillCreateEventForm(eventDetails);
+        eventNameField().sendKeys(dateFormat.format(date));
+        eventName = eventNameField().getAttribute("value");
+        publishNowButton().sendKeys(Keys.RETURN);
+    }
+
     /*public void statusDraft(){
         Assert.assertTrue("Status of the Event is set to Draft under Unpublished tab",unpublishedStatus().getText().status(statusDraft));
     }*/
@@ -683,4 +714,5 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement eventAudienceTextBox() { return driver.findElement(By.cssSelector("input[name = 'filters-dropdown']")); }
     private WebElement mainEventsTitle() { return driver.findElement(By.cssSelector("a div div.hidden-mobile")); }
     private WebElement eventLinkByPosition(int position) { return driver.findElement(By.cssSelector("div[class *= 'ui stackable middle aligned grid'] div[class *= 'row']:nth-of-type(" + position + ") a:not(.ui)")); }
+    private WebElement attendeesErrorMessage() { return driver.findElement(By.cssSelector("table[class *= 'ui very basic table'] div.ui.header span")); }
 }

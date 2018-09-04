@@ -1,5 +1,5 @@
 @HE @ActiveMatch
-Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Admin user with active ActiveMatch subscription, I can access the ActiveMatch product
+Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active ActiveMatch subscription, I can access the ActiveMatch product
 
   @MATCH-3010
   Scenario: Active Match section is displayed for Admin users in Intersect HE (MATCH-3109)
@@ -32,4 +32,20 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Admin user with active A
     Then HE I verify the "ActiveMatch" nav link is not displaying for this user
     And HE I successfully sign out
 
-
+  @MATCH-3519
+  Scenario: As an Active Match user,
+  I want additional drop-down menu options to filter my Connections to include additional date ranges, easier access to the default view on various devices, and a cl
+  so that I don't miss any new or modified connections associated with my institution and so that I have greater flexibility to view additional date ranges that are smaller than a full school year but potentially greater than the "Since Last Export" options.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the ActiveMatch Tab
+    And HE I verify the ActiveMatch page
+    And HE I verify the following details are present under the new header of "Historical" in the ActiveMatch export connections dropdown Menu
+    |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
+    And HE I verify the following headers are present in the ActiveMatch export connections dropdown Menu in the following order
+    |Since Last Export|Historical|By School Year|
+    And HE I verify the Header after selecting "Historical" for the following selection in the ActiveMatch export connections
+    |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
+    And HE I verify the Header "Since Last Export"
+    And HE I verify the Default drop-down Menu selection to remain "Since Last Export" after all connections are modified
+      |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
+    And HE I successfully sign out

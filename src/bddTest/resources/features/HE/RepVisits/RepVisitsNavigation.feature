@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - Navigation - As an HE user, I want to navigate the submenus in RepVisits
+Feature: HE - RepVisits - RepVisitsNavigation - As an HE user, I should be able to access the submenus
   @MATCH-3869
   Scenario: As a HE user with active presence subscription I want to navigate the submenus in RepVisits and see
   the Presence RepVisits branding in the header

@@ -1,5 +1,5 @@
 @SM
-Feature: SM - Cost - As a HS student, I need to be able to search for colleges based on the 'Admission' fit criteria
+Feature: SM - Cost - Cost - As a HS student, I need to be able to search for colleges based on the 'Admission' fit criteria
 
   @MATCH-3391
   Scenario: As a HS student, I want to filter colleges I am searching for by 'Meets 100% of Need' within the Cost
@@ -25,3 +25,4 @@ Feature: SM - Cost - As a HS student, I need to be able to search for colleges b
     Then SM I verify that the appropriate wording is used for dropdowns of the following options:
     | Maximum Tuition and Fees                         | Select Max | per year |
     | Maximum Total Cost (Tuition, Fees, Room & Board) | Select Max | per year |
+    
