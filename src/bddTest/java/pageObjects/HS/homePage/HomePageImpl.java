@@ -97,6 +97,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         }
 
         public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
+            waitUntilElementExists(moduleButton(moduleName));
             moduleButton(moduleName).click();
             waitUntilPageFinishLoading();
             String expectedURL = GetProperties.get("hs.app.url") + expectedUrl;

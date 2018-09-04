@@ -333,7 +333,6 @@ public class NavigationBarImpl extends SeleniumBase {
      * @param dataTable
      */
     public void verifyLeftNavAndBreadcrumbsForHS(DataTable dataTable){
-        waitUntilElementExists(driver.findElement(By.cssSelector("div[class='_3xvPKh2BtfX3PytW8GQpO3']")));
         waitUntilPageFinishLoading();
         navigationDropDown.click();
         List<List<String>> data = dataTable.raw();
@@ -350,7 +349,6 @@ public class NavigationBarImpl extends SeleniumBase {
             }
         }
         driver.navigate().refresh();
-        waitUntilElementExists(driver.findElement(By.cssSelector("div[class='_3xvPKh2BtfX3PytW8GQpO3']")));
     }
 
     //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
