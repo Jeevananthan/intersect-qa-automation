@@ -195,36 +195,23 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     And HS I select custom time manually
     And HS I select a date "3" days ahead from now
     And HS I select Visit StartTime "9:40am" and End Time "10:00am"
-    And HS I select representative from drop down "Franky2 Auburn"
+    And HS I select representative from drop down "Franky2"
     And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
     And HS I click on Add Visit button
     And HS I click on Agenda on Calendar
     And Hs I open the date picker on Agenda View
     And HS I select a date "3" days ahead from now from the standard date picker
     And HS I click on Day on Calendar
-    And HS I click on Visit with "Auburn University" from "9:40 AM" to "10:00 AM" on Day Calendar
+    And HS I click on Visit with "Franky2" from "9:40 AM" to "10:00 AM" on Day Calendar
     And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
     And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
     And HS I successfully sign out
 
-  @MATCH-4450
-  Scenario Outline: As a HS user with access to RepVisits, I can access Agenda view of my visits
-    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceAdmin>"
-    Then HS I verify the user can access "Agenda" view
+  @MATCH-4472
+  Scenario: As an RepVisits RepVisits HS admin user,I want the ability to more easily access the
+  "Share calendars" link from the Calendars>Your Calendars section of RV, so that I don't miss seeing that as a
+  feature of RV and can actually leverage that functionality.
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HE I verify that Share Calendars Link is displayed in Calendar page
+    Then HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link
     And HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceMember>"
-    Then HS I verify the user cannot access Agenda view
-    And HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceAdmin>"
-    Then HS I verify the user can access "Agenda" view
-    And HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceMember>"
-    Then HS I verify the user cannot access Agenda view
-    And HS I successfully sign out
-
-    Examples:
-      |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
-      |navianceAdmin  |navianceMember  |administrator      |member              |

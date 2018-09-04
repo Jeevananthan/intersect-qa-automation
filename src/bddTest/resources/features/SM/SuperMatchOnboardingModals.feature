@@ -1,5 +1,6 @@
 @SM @MATCH-3419
-Feature: As a HS student accessing SuperMatch for the first time, I want to be onboarded so I can learn how to use the SuperMatch tool and its features.
+Feature: SM - SuperMatchOnboardingModals - As a HS student accessing SuperMatch for the first time, I want to be onboarded
+         so I can learn how to use the SuperMatch tool and its features.
 
   @MATCH-3419 @MATCH-3420 @MATCH-3421 @MATCH-3422 @MATCH-3423 @MATCH-3528 @MATCH-4327
   Scenario: As a HS student accessing SuperMatch for the first time, I want to be onboarded so I can learn how to use the SuperMatch tool and its features.

@@ -267,8 +267,8 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   so that I can effectively close a time slot for further visits and re-open it later, if I choose.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set a date using "0" and "99"
-    Then HS I add the new time slot with "9","5:33am","05:30pm" and "2"
-    Then HS I add the new time slot with "9","6:06am","03:30pm" and "2"
+    Then HS I add the new time slot with "8","5:33am","05:30pm" and "2"
+    Then HS I add the new time slot with "8","6:06am","03:30pm" and "2"
     Then HS I set a date using "0" and "99"
     And HS I schedule a new visit with day "Fri" time "5:33am" representative name "Test Person name" representative last name "Test Last N" representative institution "RepresentativeTest" location "Cbba" NumberOfStudents "7" registrationWillClose "7 days"
     Then HS I verify that Block this time slot button is displayed for time slot with day "Fri" and time "5:33am"

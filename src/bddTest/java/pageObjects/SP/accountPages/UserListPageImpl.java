@@ -280,8 +280,22 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         timeDropdown().click();
         timeDropdownOption(option).click();
         waitUntilPageFinishLoading();
-        List<WebElement> profileUpdateEntries = getFirstNameValueFromJsonInLogHistory(user);
-        Assert.assertTrue("The user account was not successfully updated. UI: " + profileUpdateEntries.get(0).getText() + " Data: " + AccountSettingsPageImpl.generatedFirstName, profileUpdateEntries.get(0).getText().replace("\"", "").equals(AccountSettingsPageImpl.generatedFirstName));
+        String date = getSpecificDate(0,"M/dd/yyyy");
+        String firstNameValue = AccountSettingsPageImpl.generatedFirstName;
+        Assert.assertTrue("The user account was not successfully updated.",driver.findElement(By.xpath("//td/span[text()='"+date+"']/../following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td//div/span[text()='firstName:']/following-sibling::span[text()='\""+firstNameValue+"\"']")).isDisplayed());
+    }
+
+    public String getSpecificDate(int addDays, String format) {
+        String DATE_FORMAT_NOW = "MMMM d, yyyy";
+
+        if(format != null)
+            DATE_FORMAT_NOW = format;
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, addDays);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
     }
 
     public void loginAs(String user) {
@@ -307,10 +321,6 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     private WebElement CancelButtonInCreateUser(){
         return getDriver().findElement(By.xpath("//button/span[text()='Cancel']"));
     }
-    private List<WebElement> getFirstNameValueFromJsonInLogHistory(String userName) { return driver.findElements(
-            By.xpath("//td[text() = '" + userName + "' and text() = 'updated']/../td[3]/div/div/span[text() = " +
-                    "'firstName:']/following-sibling::span[1]")); }
-
     private WebElement timeDropdown() { return driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")); }
 
     private WebElement timeDropdownOption(String option) { return driver.findElement(By.xpath("//span [text()='"+option+"']")); }

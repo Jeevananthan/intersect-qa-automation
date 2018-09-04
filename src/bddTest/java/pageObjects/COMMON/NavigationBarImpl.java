@@ -149,7 +149,7 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToEvents() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
+        waitUntilPageFinishLoading();
         navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOf(eventsMenuLink));
         eventsMenuLink.click();
@@ -286,16 +286,18 @@ public class NavigationBarImpl extends SeleniumBase {
      * @param dataTable
      */
     public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[class='_3xvPKh2BtfX3PytW8GQpO3']")));
+        waitUntilPageFinishLoading();
         navigationDropDown.click();
         List<List<String>> data = dataTable.raw();
         for(List<String> row : data){
             WebElement menu = driver.findElement(By.xpath(String.format(
-                    "//dt[@class='header _1ojTdlgPNhtH4N-__uiqvu']/span[text()='%s']", row.get(0).trim())));
+                    "//dt[@class='header _3zoxpD-z3dk4-NIOb73TRl']/span[text()='%s']", row.get(0).trim())));
             String[] subMenusText = row.get(1).split(",");
             Assert.assertTrue(String.format("The menu: %s is not displayed",row.get(0).trim()),menu.isDisplayed());
             for(String subMenuText : subMenusText){
                 WebElement subMenu = menu.findElement(By.xpath(String.format(
-                        "ancestor::dl[@class='ui huge inverted vertical _3oMJTHrebN5xpDMwkfhCJw menu']/dt/a/span[text()='%s']"
+                        "ancestor::dl[@class='_2PQVKVsDhRwSQYR3V28Dnw _28hxQ33nAx_7ae3SZ4XGnj']/dt/a/span[text()='%s']"
                         ,subMenuText.trim())));
                 Assert.assertTrue(String.format("The submenu: %s is not displayed",subMenuText.trim()),subMenu.isDisplayed());
             }
@@ -323,6 +325,29 @@ public class NavigationBarImpl extends SeleniumBase {
         {
             logger.info("There is no notification");
         }}catch(Exception e){}
+    }
+
+    /**
+     * Verifies the breadcrumbs with its respective header
+     * @param dataTable
+     */
+    public void verifyLeftNavAndBreadcrumbsForHS(DataTable dataTable){
+        waitUntilPageFinishLoading();
+        navigationDropDown.click();
+        List<List<String>> data = dataTable.raw();
+        for(List<String> row : data){
+            WebElement menu = driver.findElement(By.xpath(String.format(
+                    "//dt[@class='header _3zoxpD-z3dk4-NIOb73TRl _384bOUKpp0wQluMQzJZp0P']/span[text()='%s']", row.get(0).trim())));
+            String[] subMenusText = row.get(1).split(",");
+            Assert.assertTrue(String.format("The menu: %s is not displayed",row.get(0).trim()),menu.isDisplayed());
+            for(String subMenuText : subMenusText){
+                WebElement subMenu = menu.findElement(By.xpath(String.format(
+                        "parent::dt/parent::dl/dt/a/span[text()='%s']"
+                        ,subMenuText.trim())));
+                Assert.assertTrue(String.format("The submenu: %s is not displayed",subMenuText.trim()),subMenu.isDisplayed());
+            }
+        }
+        driver.navigate().refresh();
     }
 
     //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
