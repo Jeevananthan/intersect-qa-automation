@@ -138,6 +138,7 @@ public class NavigationBarImpl extends SeleniumBase {
         FluentWait<WebDriver> wait = new WebDriverWait(driver, 5);
         wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
         waitUntilElementExists(navigationDropDown);
+        waitUntilPageFinishLoading();
         navigationDropDown.sendKeys(Keys.ENTER);
         waitUntilElementExists(repVisitsMenuLink);
         repVisitsMenuLink.sendKeys(Keys.ENTER);

@@ -56,6 +56,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public static String generatedDate;
     public static String generatedDateDayOfWeek;
     public static String time;
+    public static String formattedDate;
 
     //Creating RepVisitsPageImpl class object of for HE.
     pageObjects.HE.repVisitsPage.RepVisitsPageImpl repVisitsPageHEObj = new pageObjects.HE.repVisitsPage.RepVisitsPageImpl();
@@ -3226,7 +3227,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Format the date from "Fri, June 7 2013" to "Fri, Jun 07 2013"
-     * @param dateFormat, date to formmatter
+     * @param dateToFormat, date to formmatter
      */
     public String formatterDate(String dateToFormat)
     {
@@ -3480,7 +3481,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
- //locators
+    public void verifyInputValidationsForStuRegDeadline() {
+        studentRegistrationDeadlineField().sendKeys("1000");
+        hoursDaysDropdown().click();
+        hoursDaysOption("hours").click();
+        Assert.assertTrue("The value greater than 255 was not turned into 255", studentRegistrationDeadlineField().getAttribute("value").equals("255"));
+    }
+
     //locators
     public void accessAddAttendeePopUp(String attendeeName) {
         if (!attendeeName.equals("")) {
@@ -6176,7 +6183,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     /**
      * VReschedule Visits for HS
      * @param university - University to reschedule
-     * @param timne - Time to reschedule
+     * @param time - Time to reschedule
      * @param date - Date to reschedule
      */
     public void reschedulevisitForHS(String university,String time,String date) {
@@ -6989,6 +6996,31 @@ public void cancelRgisteredCollegeFair(String fairName){
         }
     }
 
+    public void openFairDetailsWithGeneratedDate() {
+        formattedDate = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.generatedDate + ","
+                + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.generatedDateDayOfWeek + ","
+                + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.time.replaceFirst(" ", "");
+        openVisit(formattedDate);
+    }
+
+    public void openVisit(String date) {
+        waitUntilPageFinishLoading();
+        driver.get(driver.getCurrentUrl());
+        waitUntilPageFinishLoading();
+        if (driver.findElements(By.xpath(showMoreLinkLocator(date.split(",")[1].split(" ")[1]))).size() > 0) {
+            driver.findElement(By.xpath(showMoreLinkLocator(date.split(",")[1].split(" ")[1]))).sendKeys(Keys.RETURN);
+            eventInOverlay(date.split(",")[2].replaceFirst("0", "")).click();
+        } else {
+            eventInCell(date.split(",")[1].split(" ")[1], date.split(",")[2].replaceFirst("0", "")).click();
+        }
+
+    }
+
+    public void cancelOpenVisit() {
+        getCancelThisVisitButon().click();
+        selectCancel();
+    }
+
     /*locators*/
 
     private WebElement getUserNameHE() {
@@ -7487,6 +7519,52 @@ public void cancelRgisteredCollegeFair(String fairName){
                 logger.info("Only Visit with less than five star is validated, since we don't have any visit with five star in submitted subtab.");
         }
     }
+
+    public void clickAddVisit() {
+        waitUntil(ExpectedConditions.elementToBeClickable(addVisitButton()));
+        addVisitButton().click();
+    }
+
+    public void createVisit(String daysAheadFromNow, DataTable dataTable) {
+        customTimeLink().click();
+        Calendar calendarDate = getDeltaDate(Integer.parseInt(daysAheadFromNow));
+        generatedDateDayOfWeek = getDayOfWeek(calendarDate) + " " + getDay(calendarDate);
+        selectDateButton().click();
+        pickDateInDatePicker(calendarDate);
+        List<List<String>> details = dataTable.asLists(String.class);
+
+        for(List<String> row : details) {
+            switch(row.get(0)) {
+                case "Start Time" :
+                    manualstartTime().sendKeys(row.get(1));
+                    time = row.get(1).toUpperCase();
+                    break;
+                case "End Time" :
+                    manualEndTime().sendKeys(row.get(1));
+                    break;
+                case "Representative" :
+                    findRepresentativeTextBox().sendKeys(row.get(1));
+                    waitUntilPageFinishLoading();
+//                    findRepresentativeTextBox().click();
+//                    waitUntilPageFinishLoading();
+//                    findRepresentativeTextBox().sendKeys(Keys.SPACE);
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.ui.active.visible.category.focus.fluid.loading.search"), 0));
+                    representativeOption(row.get(1)).click();
+                    break;
+            }
+        }
+        generatedDate = dateButtonText().getText().split(",")[1].trim().split(" ")[0];
+        findRepresentativeTextBox().sendKeys(Keys.PAGE_DOWN);
+        scheduleVisitAddVisitButton().click();
+    }
+//
+//    public void expandShowMoreDaysAheadFromNow(String daysFromNow) {
+//        Calendar date = getDeltaDate(Integer.parseInt(daysFromNow));
+//        waitUntilPageFinishLoading();
+//        if (driver.findElements(By.xpath(showMoreLinkLocator(getDay(date)))).size() > 0) {
+//            driver.findElement(By.xpath(showMoreLinkLocator(getDay(date)))).click();
+//        }
+//    }
 
     // Locators
 
@@ -8804,10 +8882,37 @@ public void cancelRgisteredCollegeFair(String fairName){
         return  request;
     }
 
+    private WebElement customTimeLink() {
+        return driver.findElement(By.xpath("//span[text() = 'Want a custom time? Add it manually']"));
+    }
+
+    private WebElement dateButtonText() { return driver.findElement(By.cssSelector("button.ui.small.fluid.button span span")); }
+
+    private WebElement findRepresentativeTextBox() {
+        return driver.findElement(By.cssSelector("input#calendar-search-reps"));
+    }
+
+    private WebElement representativeOption(String representativeName) {
+        return driver.findElement(By.xpath("//div[@class = 'title' and contains(text(), '" + representativeName + "')]"));
+    }
+
+    private WebElement scheduleVisitAddVisitButton() {
+        return driver.findElement(By.cssSelector("button[type='submit'].floated"));
+    }
+
+    public String showMoreLinkLocator(String dayNumber) { return "//div[@class='rbc-date-cell']/a[text()='" + dayNumber + "']/../../../../div[@class = 'rbc-row-content']/div/div/a[@class = 'rbc-show-more']"; }
+
+    private WebElement eventInOverlay(String time) {
+        return driver.findElement(By.xpath("//div[@class = 'rbc-overlay']/div/div/div/span[@class = 'rbc-event-time' and text() = '" + time + "']"));
+    }
+
+    private WebElement eventInCell(String dayNumber, String time) {
+        return driver.findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='" + dayNumber +"']/../../../../div[@class = 'rbc-row-content']/div/div/div/div/div/span[text() = '" + time.replaceFirst("0", "") + "']"));
+    }
+
+    private WebElement studentRegistrationDeadlineField() { return driver.findElement(By.cssSelector("input#rsvpNumber")); }
+
+    private WebElement hoursDaysDropdown() { return driver.findElement(By.cssSelector("div#rsvpKind")); }
+
+    private WebElement hoursDaysOption(String option) { return driver.findElement(By.xpath("//div[@role='option']/span[text() = '" + option + "']")); }
 }
-
-
-
-
-
-
