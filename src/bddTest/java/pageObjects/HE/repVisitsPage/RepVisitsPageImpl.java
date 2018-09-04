@@ -297,24 +297,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyLoginMessageInHomPage(String message){
-        waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
-        waitUntilPageFinishLoading();
-        String supportWindow = driver.getWindowHandle();
-        String HEWindow = null;
-        Set<String> windows = driver.getWindowHandles();
-        for(String thisWindow : windows){
-            if(!thisWindow.equals(supportWindow)){
-                HEWindow = thisWindow;
-            }
-        }
-        driver.close();
-        driver.switchTo().window(HEWindow);
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")));
-        String originalMessage = getLoginMessageInHomePage().getText();
-        Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
-    }
-
     public void postMessageInHomePage(String message){
         waitUntilPageFinishLoading();
         navigationBar.goToCommunity();
@@ -4055,14 +4037,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("div>i[class='close icon']"));
     }
 
-    /**
-     * Gets the login message in homer page
-     * @return
-     */
-    private WebElement getLoginMessageInHomePage(){
-        return driver.findElement(By.xpath(
-                "//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span"));
-    }
 }
 
 

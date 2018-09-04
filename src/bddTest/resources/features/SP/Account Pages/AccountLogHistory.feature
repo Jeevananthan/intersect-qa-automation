@@ -28,7 +28,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I successfully sign out
 
-  @MATCH-1682 @MATCH-2124
+  @MATCH-1682 @MATCH-2124 @MATCH-5014
   Scenario Outline: As a Support App I need to add log entries to HE Accounts View Log History page when Support users are using the Login As feature
                     so the appropriate information is available for auditing.
   #precondition
@@ -50,8 +50,8 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "<institution>" from the institution dashboard
     And SP I "Login As" the user account for "<user>"
-
-    Then HE I verify the "You're currently logged in as <profileName> from <institution>. Changes you make will reflect in their account." message in the homepage
+#verify impersonator banner in HE
+    Then SP I verify the "You're currently logged in as <profileName> from <institution>. Changes you make will reflect in their account." message in the homepage
     Then HE I post a "TestQA" Message in the homepage
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"

@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
 
@@ -312,6 +313,24 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyLoginMessageInHomPage(String message){
+        waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
+        waitUntilPageFinishLoading();
+        String supportWindow = driver.getWindowHandle();
+        String HEWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for(String thisWindow : windows){
+            if(!thisWindow.equals(supportWindow)){
+                HEWindow = thisWindow;
+            }
+        }
+        driver.close();
+        driver.switchTo().window(HEWindow);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")));
+        String originalMessage = getLoginMessageInHomePage().getText();
+        Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
+    }
+
     //Locators
     
     private WebElement saveButtonInCreateUser(){
@@ -323,4 +342,12 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     private WebElement timeDropdown() { return driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")); }
 
     private WebElement timeDropdownOption(String option) { return driver.findElement(By.xpath("//span [text()='"+option+"']")); }
+    /**
+     * Gets the login message in home page
+     * @return
+     */
+    private WebElement getLoginMessageInHomePage(){
+        return driver.findElement(By.xpath(
+                "//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span"));
+    }
 }

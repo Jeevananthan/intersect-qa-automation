@@ -129,4 +129,4 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     When SP I am logged in to the Admin page as a Support user
     And SP I go to the users list for "HS" user, institution "Int Qa High School 4" from the institution dashboard
     And SP I "Login As" the user account for "hobsons.rrt+other16@gmail.com"
-    Then HE I verify the "You're currently logged in as IAM Purple from Int Qa High School 4. Changes you make will reflect in their account." message in the homepage
+    Then SP I verify the "You're currently logged in as IAM Purple from Int Qa High School 4. Changes you make will reflect in their account." message in the homepage
