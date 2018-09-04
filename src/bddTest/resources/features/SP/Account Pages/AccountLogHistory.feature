@@ -1,7 +1,7 @@
 @SP
 Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
-         As a Hobsons Staff Administrator or Support user I need to be able to view and filter by date an audit log of all other Hobsons Staff
-         activity per institutional account in the admin page for system security, auditing, and troubleshooting.
+         As a Hobsons Staff Administrator or Support user I need to be able to view and filter by date an audit log of all other
+         Hobsons Staff activity per institutional account in the admin page for system security, auditing, and troubleshooting.
 
   Scenario: As a Hobsons Sales Ops user I cannot view an Institution's Log History
     Given SP I am logged in to the Admin page as a Sales Ops user

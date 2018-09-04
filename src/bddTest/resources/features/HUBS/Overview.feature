@@ -1,5 +1,5 @@
 @HUBS @HUBS-913
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs Overview Tab content so I can
+Feature: HUBS - Overview - As a community user viewing College Hubs, I want to be able to view Hubs Overview Tab content so I can
   understand what Hubs offers students.
 
   Background:

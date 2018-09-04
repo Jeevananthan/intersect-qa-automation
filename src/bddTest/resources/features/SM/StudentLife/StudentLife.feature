@@ -1,5 +1,5 @@
 @SM
-Feature: SM - Feature - As a HS student, I need to be able to search for colleges based on the 'Student Life' fit criteria
+Feature: SM - StudentLife - StudentLife - As a HS student, I need to be able to search for colleges based on the 'Student Life' fit criteria
 
   @MATCH-4192
   Scenario Outline: As a HS student I want to see the functionality of Greek Life under Student Life fit-criteria

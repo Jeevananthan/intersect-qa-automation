@@ -1,5 +1,5 @@
 @SM
-Feature: SM - Feature - As a HS student, I need to be able to search for colleges based on the 'Diversity' fit criteria
+Feature: SM - Diversity - Diversity - As a HS student, I need to be able to search for colleges based on the 'Diversity' fit criteria
 
   @MATCH-3848
   Scenario: As a HS student I want to see validation message when only the specific percentage was set

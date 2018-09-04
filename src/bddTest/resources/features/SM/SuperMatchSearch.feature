@@ -1,6 +1,6 @@
 @SM
-Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
-  certain fit criteria
+Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search
+         college based on certain fit criteria
 
   @MATCH-3592
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with an Student Body

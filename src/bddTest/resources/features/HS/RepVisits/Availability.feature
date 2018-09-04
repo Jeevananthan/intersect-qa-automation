@@ -42,7 +42,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
     And HS I successfully sign out
 
 
-  @MATCH-1574 @MATCH-1802 @MATCH-2124
+  @MATCH-1574 @MATCH-1802 @MATCH-2124 @MATCH-4262
   Scenario Outline: As a high school staff member,
   I want to be able to view the weekly recurring time slots that my school is available for visits
   so that colleges can manage those availabilities.
@@ -55,6 +55,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
 
     Examples:
       |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
+      |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
       |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
 
   @MATCH-1574

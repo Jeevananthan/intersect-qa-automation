@@ -1,4 +1,6 @@
-Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of RepVisits I want to receive email notifications when there is new activity on the fairs.
+@HS
+Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of RepVisits I want to receive email notifications
+         when there is new activity on the fairs.
 
   @MATCH-1792
   Scenario: Verify Fair request confirmation email sent to HE user when approval is set to manual

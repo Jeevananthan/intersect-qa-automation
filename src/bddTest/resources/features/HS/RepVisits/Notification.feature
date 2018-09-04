@@ -1,5 +1,5 @@
 @HS
-Feature: HS - RepVisits - Notifications - As an HS user, I should be able to see notifications when there are new appointment requests or changes to existing appointments
+Feature: HS - RepVisits - Notification - As an HS user, I should be able to see notifications when there are new appointment requests or changes to existing appointments
 
   @MATCH-2168
   Scenario Outline: As a Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page,
