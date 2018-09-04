@@ -2113,15 +2113,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         openFitCriteria("Admission");
 
-        Assert.assertTrue(gpaTextBox().getAttribute("value").equals(gpaInNavianceStudentProfile));
-        Assert.assertTrue(satScoreTextBox().getAttribute("value").equals(satScoreInNavianceStudentProfile));
-        Assert.assertTrue(actScoreTextBox().getAttribute("value").equals(actScoreInNavianceStudentProfile));
-
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Assert.assertTrue("'GPA' is not according to naviance student profile", gpaTextBox().getAttribute("value").equals(gpaInNavianceStudentProfile));
+        Assert.assertTrue("'SAT' score is not according to naviance student profile",satScoreTextBox().getAttribute("value").equals(satScoreInNavianceStudentProfile));
+        Assert.assertTrue("'ACT' score is not according to naviance student profile", actScoreTextBox().getAttribute("value").equals(actScoreInNavianceStudentProfile));
     }
 
 
