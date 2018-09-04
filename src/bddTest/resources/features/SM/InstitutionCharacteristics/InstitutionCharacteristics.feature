@@ -1,5 +1,6 @@
 @SM
-Feature: SM - Institution Characteristics - As a HS student, I need to be able to search for colleges based on the 'Institution Characteristics' fit criteria
+Feature: SM - Institution Characteristics - Institution Characteristics - As a HS student, I need to be able to search
+         for colleges based on the 'Institution Characteristics' fit criteria
 
   @MATCH-3342 @MATCH-3747
     Scenario Outline: As a HS student, I want to filter colleges I am searching for by Student Success fit criteria so

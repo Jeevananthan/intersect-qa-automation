@@ -2167,6 +2167,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Naviance ActiveMatch is not displayed",navianceActiveMatchText().isDisplayed());
         Assert.assertTrue("Email Textbox is not displayed",emailTextBox().isDisplayed());
         Assert.assertTrue("Save button is not displayed",saveButton().isDisplayed());
+        Assert.assertTrue("Add people to counselor community label is not displayed", addPeopleOutsideCounselorCommunityLabel().isDisplayed());
     }
 
     public void validateEmailInInstitutionNotificationPage(String Email,String InvalidEmail,String ValidEmail){
@@ -3297,6 +3298,58 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(StartDate, "FirstDate");
     }
 
+    /**
+     * Select Visit in HE
+     * @param highSchool high School to select
+     * @param date select date to add Visit
+     * @param time the time for the visit selected
+     */
+    public void selectVisitForHE(String highSchool, String date, String time){
+        navigationBar.goToRepVisits();
+        getSearchBox().sendKeys(highSchool);
+        getSearchButton().click();
+        waitUntilElementExists(findHESchool(highSchool));
+        findHESchool(highSchool).click();
+        clickOnButton("Visits").click();
+        waitUntilElementExists(goToDate());
+        String gotoDate = getSpecificDate(date);
+        setDate(gotoDate, "Go To Date");
+        String dateSelected = getMonthandDate(date);
+        List<WebElement> slot = driver.findElements(By.xpath("//span[text()='"+dateSelected+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
+        if(slot.size()==0) {
+            logger.info("Slot is not displayed");
+        }
+        findHEButton(time).click();
+        findHEButton("Yes, Request this time").click();
+    }
+
+    /**
+     * Find the Button to perform action over there.
+     * @param button name of the Button to click
+     * @return webelement
+     */
+    private WebElement findHEButton(String button){
+        return  driver.findElement(By.xpath("//button[contains(text(),'"+button+"')]"));
+    }
+
+    /**
+     * Gets the Button to perform action over there.
+     * @param button name of the Button to click
+     * @return webelement
+     */
+    private WebElement clickOnButton(String button){
+        return  driver.findElement(By.xpath("//span[contains(text(),'"+button+"')]"));
+    }
+
+    /**
+     * Gets the High School found.
+     * @param highSchool the School name
+     * @return webelement
+     */
+    private WebElement findHESchool(String highSchool){
+        return driver.findElement(By.xpath("//a[contains(text(),'"+highSchool+"')]"));
+    }
+
     public void verifyDisabledDateIsNotClickableInEndDate(String disabledDate){
         String DisabledDate = getSpecificDateForCalendar(disabledDate);
         setDate(DisabledDate, "DisabledDate");
@@ -3468,6 +3521,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("There is not any appoiment for past/upcoming appointments",
                     appointmentLabels.size()>0);
         }
+    }
+
+    /**
+     * Verifies if the share claendar link is displayed
+     */
+    public void verifyShareCalendarsLinkIsDisplayed(){
+        navigateToRepVisitsSection("Calendar");
+        Assert.assertTrue("The share clanedars link is nor displayed", getShareCalendarsLink().isDisplayed());
+    }
+
+    /**
+     * Verifies if share your calendar modal is displayed
+     */
+    public void verifyShareYourCalendarModalIsDisplayed(){
+        navigateToRepVisitsSection("Calendar");
+        getShareCalendarsLink().click();
+        waitUntil(ExpectedConditions.visibilityOf(getShareYourCalendarLabel()));
+        Assert.assertTrue("Share your calendar modal was not displayed", getShareYourCalendarLabel()
+                .isDisplayed());
+        getCloseShareYourCalendarButton().click();
     }
 
     //Locators
@@ -3852,6 +3925,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Gets the add people outside counselor community label
+     * @return
+     */
+    private WebElement addPeopleOutsideCounselorCommunityLabel(){
+        return driver.findElement(By.xpath("//label[text()='Add people outside of the Counselor Community.']"));
+    }
+
+    /**
      * Gets the web element container of the RepVisits branding header
      * @return Webelement
      */
@@ -3993,6 +4074,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
+    }
+
+    /**
+     * Gets the share calendars link
+     * @return
+     */
+    private WebElement getShareCalendarsLink(){
+        return link("Share calendars");
+    }
+
+    /**
+     * Gets the share your calendar label
+     * @return
+     */
+    private WebElement getShareYourCalendarLabel(){
+        return driver.findElement(By.xpath("//div[@class='ui small modal transition visible " +
+                "active _56z_iePncfEtW1YuLtMg4']/div/span[text()='Share Your Calendar']"));
+    }
+
+    /**
+     * Gets the close button to close the share your calendar modal
+     * @return
+     */
+    public WebElement getCloseShareYourCalendarButton(){
+        return driver.findElement(By.cssSelector("div>i[class='close icon']"));
     }
     private WebElement newAssigneeButton(){
         return driver.findElement(By.xpath("//div[text()='Select new assignee']"));

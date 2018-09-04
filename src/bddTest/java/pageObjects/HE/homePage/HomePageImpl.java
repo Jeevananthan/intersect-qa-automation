@@ -277,6 +277,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void openEventList() {
+        waitUntilPageFinishLoading();
         clickEvents();
     }
 
@@ -289,6 +290,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
+        waitUntilElementExists(moduleButton(moduleName));
         moduleButton(moduleName).click();
         String expectedURL = GetProperties.get("he.app.url") + expectedUrl;
         String actualURL = driver.getCurrentUrl();

@@ -35,7 +35,16 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       |publishing   |limitedPublishing|
       |community    |limitedCommunity |
 
-  @MATCH-4450
+    @MATCH-4146
+    Scenario: As an RepVisits HE premium/paid Presence subscription user,I want the ability to more easily access the
+        "Share calendars" link from the Calendars>Your Calendars section of RV, so that I don't miss seeing that as a
+        feature of RV and can actually leverage that functionality.
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      Then HE I verify that Share Calendars Link is displayed in Calendar page
+      Then HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link
+      And HE I successfully sign out
+
+ @MATCH-4450
   Scenario Outline: As Hobsons product manager managing value adds to getting HS users to upgrade to RV Presence premium subscription,
   I want the RV>Calendar, Agenda view to be premium level access on the HS side while remaining accessible for HE users,
   So that further value can be provided to upgrade to an RV Presence premium subscription.
