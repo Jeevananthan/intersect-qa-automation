@@ -2083,6 +2083,41 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         actScoreTextBox().clear();
     }
 
+    public void onStartOverVerifyIfGPAAndTestScoresRevertToValuesStoredInNavianceStudentProfile() {
+        aboutMeLink().click();
+        aboutMeHomeLink().click();
+        aboutMeAccountLink().click();
+        String gpaInNavianceStudentProfile = gpaInNavianceStudentProfile().getText();
+
+        aboutMeLink().click();
+        aboutMeHomeLink().click();
+        aboutMeTestScoresLink().click();
+        String satScoreInNavianceStudentProfile = satScoreInNavianceStudentProfile().getText();
+        String actScoreInNavianceStudentProfile = actScoreInNavianceStudentProfile().getText();
+
+        if(gpaInNavianceStudentProfile.equals("N/A"))
+            gpaInNavianceStudentProfile = "";
+
+        if(satScoreInNavianceStudentProfile.equals("0"))
+            satScoreInNavianceStudentProfile = "";
+
+        if(actScoreInNavianceStudentProfile.equals("0"))
+            actScoreInNavianceStudentProfile = "";
+
+        collegesLink().click();
+        findYourFitButton().click();
+        superMatchLink().click();
+        new WebDriverWait(getDriver(),40).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
+
+        startSearchOver();
+
+        openFitCriteria("Admission");
+
+        Assert.assertTrue("'GPA' is not according to naviance student profile", gpaTextBox().getAttribute("value").equals(gpaInNavianceStudentProfile));
+        Assert.assertTrue("'SAT' score is not according to naviance student profile",satScoreTextBox().getAttribute("value").equals(satScoreInNavianceStudentProfile));
+        Assert.assertTrue("'ACT' score is not according to naviance student profile", actScoreTextBox().getAttribute("value").equals(actScoreInNavianceStudentProfile));
+    }
+
 
     public void checkNumberOfElementsDisplayed(Integer number, String locator){
 
@@ -2530,4 +2565,43 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//label[contains(text(), 'Maximum Total Cost (Tuition, Fees, Room & Board)')]/../input"));
     }
 
+    private WebElement aboutMeLink() {
+        return driver.findElement(By.xpath("//a[@href='/about-me']"));
+    }
+
+    private WebElement aboutMeHomeLink() {
+        return driver.findElement(By.xpath("(//a[@href='/about-me'])[2]"));
+    }
+
+    private WebElement aboutMeAccountLink() {
+        return driver.findElement(By.xpath("//a[@href='/about-me/profile/general' and text()='Account']"));
+    }
+
+    private WebElement aboutMeTestScoresLink() {
+        return driver.findElement(By.xpath("//a[@href='/about-me/test-scores' and text()='Test Scores']"));
+    }
+
+    private WebElement gpaInNavianceStudentProfile() {
+        return driver.findElement(By.xpath("//div[text()='GPA']/following-sibling::div[1]"));
+    }
+
+    private WebElement satScoreInNavianceStudentProfile() {
+        return driver.findElement(By.xpath("//dt[text()='Highest combined SAT (1600 scale)']/following-sibling::dd[1]"));
+    }
+
+    private WebElement actScoreInNavianceStudentProfile() {
+        return driver.findElement(By.xpath("//dt[text()='Highest ACT']/following-sibling::dd[1]"));
+    }
+
+    private WebElement collegesLink() {
+        return driver.findElement(By.xpath("//a[@href='/colleges']"));
+    }
+
+    private WebElement findYourFitButton() {
+        return driver.findElement(By.xpath("//button[contains(text(), 'Find Your Fit')]"));
+    }
+
+    private WebElement superMatchLink() {
+        return driver.findElement(By.xpath("//a[contains(text(), 'SuperMatch')]"));
+    }
 }

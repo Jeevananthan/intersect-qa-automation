@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -254,5 +253,6 @@ public class SearchPageStepDefs implements En {
 
         Then("^I check there are (\\d+) icons \"([^\"]*)\" are displayed$", searchPage::checkNumberOfElementsDisplayed);
 
+        Then("^SM I verify if the GPA and test scores revert to those stored in naviance student profile when Start Over action is performed$", searchPage::onStartOverVerifyIfGPAAndTestScoresRevertToValuesStoredInNavianceStudentProfile);
     }
 }
