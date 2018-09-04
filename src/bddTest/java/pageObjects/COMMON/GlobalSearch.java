@@ -145,7 +145,7 @@ public class GlobalSearch extends SeleniumBase {
 
     public void selectResult(String optionToSelect) {
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-results")));
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='global-search-box-results']")));
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
@@ -256,9 +256,7 @@ public class GlobalSearch extends SeleniumBase {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
         WebElement frameClass=driver.findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
         driver.switchTo().frame(frameClass);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
+        waitUntilElementExists(driver.findElement(By.xpath("//div/a[text()='Check RepVisits Availability']")));
         waitUntilElementExists(RepvisitsAvailabilityButton());
         Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvailabilityButton().isDisplayed());
         RepvisitsAvailabilityButton().click();
