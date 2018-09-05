@@ -164,7 +164,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     Then HE I verify that the events' names are clickable and they open the Edit Event screen
 
   @MATCH-2897
-    # Note test case will fail  at unpublish step as we have open issue for the same MATCH-5019
   Scenario: Verify Attendee details on the Edit Event screen - Registered and Cancelled Status for Attendees
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
