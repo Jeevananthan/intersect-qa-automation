@@ -3023,11 +3023,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         List<WebElement> fairName = driver.findElements(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[contains(text(),'"+fair+"')]/parent::tr/td/a[span='View Details']"));
         if(fairName.size()>0) {
             driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[contains(text(),'"+fair+"')]/parent::tr/td/a[span='View Details']")).click();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("edit-college-fair"), 1));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-college-fair")));
             Assert.assertTrue("Edit button is not displayed", editButtonInCollegeFair().isDisplayed());
             editButtonInCollegeFair().click();
             waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("college-fair-start-time"),1));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("college-fair-start-time")));
             driver.findElement(By.id("college-fair-start-time")).sendKeys(Keys.PAGE_DOWN);
             driver.findElement(By.id("college-fair-max-number-colleges")).sendKeys(Keys.PAGE_DOWN);
             driver.findElement(By.id("college-fair-email-message-to-colleges")).sendKeys(Keys.PAGE_DOWN);
@@ -3045,7 +3045,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     button("Yes, Cancel this fair").click();
                 }
                 waitUntilPageFinishLoading();
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Close']"), 1));
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Close']")));
                 driver.findElement(By.xpath("//button[text()='Close']")).click();
                 waitUntilPageFinishLoading();
             }
@@ -3625,10 +3625,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void accessSuccessMessageforAddAttendees(String buttonName) {
         if (buttonName.equals("No, I'm Done")) {
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("button[class='ui basic primary button']"),1));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class='ui basic primary button']")));
             iamDoneButton().click();
         } else if (buttonName.equals("Yes, Add More")) {
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("button[id='next-action']"),1));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[id='next-action']")));
             addMoreButton().click();
         } else {
             Assert.fail("The given option is not a valid one");
@@ -5706,7 +5706,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 public void cancelRgisteredCollegeFair(String fairName){
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("edit-college-fair"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-college-fair")));
         Assert.assertTrue("Edit button is not displayed",editButtonInCollegeFair().isDisplayed());
         editButtonInCollegeFair().click();
         waitUntilPageFinishLoading();
@@ -5727,7 +5727,7 @@ public void cancelRgisteredCollegeFair(String fairName){
             button("Yes, Cancel this fair").click();
         }
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Close']"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Close']")));
         driver.findElement(By.xpath("//button[text()='Close']")).click();
         waitUntilPageFinishLoading();
     }

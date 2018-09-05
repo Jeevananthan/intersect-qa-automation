@@ -132,4 +132,3 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Examples:
       |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |reAssignedAttendee |appointmentsCount|
       |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 6|PurpleHE Publishing   |PurpleHE Community |1                |
-

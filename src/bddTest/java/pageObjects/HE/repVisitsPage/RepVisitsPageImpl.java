@@ -1514,17 +1514,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         searchTextBox().clear();
         searchTextBox().sendKeys(school);
-        waitUntil(ExpectedConditions.visibilityOf(search()),10);
+        waitUntil(ExpectedConditions.visibilityOf(search()));
         searchButton().click();
-        waitForUITransition();
-        //waitUntil(ExpectedConditions.visibilityOf(schoolName),10);
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/a[contains(text(),'"+school+"')]")));
-        WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
-
+        WebElement schoolName = driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        waitUntil(ExpectedConditions.visibilityOf(schoolName));
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         schoolName.click();
         waitUntilPageFinishLoading();
-        waitForUITransition();
     }
 
 
@@ -1651,7 +1647,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
         submitButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")));
     }
 
     public void verifyNotification(String school,String date,String time) {
@@ -3230,7 +3226,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectUserFromUserListDropdown(String user,String dropdown){
         if(dropdown.equals("Select staff member")){
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='Select staff member']"),1));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[text()='Select staff member']")));
             selectStaffMemberButton().click();
             driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")).click();
             waitUntilPageFinishLoading();
@@ -3244,6 +3240,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectFairsToReAssign(String date,String school,String noOfStudents){
+        while(showMoreButtonInReassignAppointments().isDisplayed()){
+            showMoreButtonInReassignAppointments().click();
+            waitUntilPageFinishLoading();
+        }
         String fairsDate = getSpecificDateforCalendar(date);
         WebElement appointmentCheckbox = driver.findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
                 "div/span[text()='College Fair']/ancestor::div/following-sibling::div[@class='twelve wide column']" +
@@ -4110,6 +4110,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement selectStaffMemberButton(){
         return driver.findElement(By.xpath("//div[text()='Select staff member']"));
+    }
+    private WebElement showMoreButtonInReassignAppointments(){
+        return button("Show More");
     }
 }
 
