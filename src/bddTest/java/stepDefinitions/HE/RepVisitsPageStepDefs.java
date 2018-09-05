@@ -393,9 +393,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
-        When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
+        When("^HE I go to re assign appointments$", repVisits::goToReassignAppointment);
 
-        Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
+        Then("^HE I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
       
         Then("^HE I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
@@ -423,5 +423,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link$",repVisits::verifyShareYourCalendarModalIsDisplayed);
 
+        Then("^HE I verify that Re-assign link is \"([^\"]*)\"$",repVisits::verifyReAssignLinkStatus);
     }
 }

@@ -3411,6 +3411,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Verifies the status of the re-assign link, it could be visible or not visible
+     * @param status
+     */
+    public void verifyReAssignLinkStatus(String status){
+        navigationBar.goToRepVisits();
+        link("Calendar").click();
+        switch (status.toLowerCase()){
+            case "visible":
+                Assert.assertTrue("The Re-assign link is not displayed",getReAssignLink().size()==1);
+                break;
+            case "not visible":
+                Assert.assertTrue("The Re-assign link is displayed",getReAssignLink().size()==0);
+                break;
+                default:
+                    Assert.fail("The status of the Re-assign link to be verified is not correct");
+                    break;
+        }
+    }
+    /**
      * Vrifies if the given button is displayed for the travel plan schools
      * @param buttonText
      * @param status
@@ -4037,6 +4056,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("div>i[class='close icon']"));
     }
 
+    /**
+     * Get the re assign link
+     * @return
+     */
+    private List<WebElement> getReAssignLink(){
+        return driver.findElements(By.xpath("//span[text()='Re-assign appointments']"));
+    }
 }
 
 
