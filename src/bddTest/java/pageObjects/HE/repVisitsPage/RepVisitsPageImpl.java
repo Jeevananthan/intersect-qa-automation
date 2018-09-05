@@ -3223,7 +3223,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         jsClick(newAssigneeButton());
         WebElement userInSelectNewAssignee = driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']"));
         jsClick(userInSelectNewAssignee);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='"+alertMessage+"']"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='"+alertMessage+"']")));
         Assert.assertTrue("Alert message is not displayed",driver.findElement(By.xpath("//span[text()='"+alertMessage+"']")).isDisplayed());
         buttonGoBack().click();
         waitUntilPageFinishLoading();
