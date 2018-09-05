@@ -297,24 +297,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyLoginMessageInHomPage(String message){
-        waitForUITransition();
-        waitForUITransition();
-        waitForUITransition();
-        waitUntilPageFinishLoading();
-        String supportWindow = driver.getWindowHandle();
-        String HEWindow = null;
-        Set<String> windows = driver.getWindowHandles();
-        for(String thisWindow : windows){
-            if(!thisWindow.equals(supportWindow)){
-                HEWindow = thisWindow;
-            }
-        }
-        driver.switchTo().window(HEWindow);
-        String originalMessage = driver.findElement(By.xpath("//div[@class='_1iOWqkacLvWSlz2RWS4WYl']/span")).getText();
-        Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
-    }
-
     public void postMessageInHomePage(String message){
         waitUntilPageFinishLoading();
         navigationBar.goToCommunity();
@@ -4054,6 +4036,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public WebElement getCloseShareYourCalendarButton(){
         return driver.findElement(By.cssSelector("div>i[class='close icon']"));
     }
+
 }
 
 
