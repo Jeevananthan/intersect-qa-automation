@@ -127,28 +127,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
       |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                     |Contact                               |Notes|Status   |Action|cancellationMessage             |buttonToClickNo,go back|buttonToClickYes, cancel visit|StatusCanceled  |ActionCanceled |
       |QA Fair Cancel Fair Attendee|3               |2               |0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|3                |                                     |PurpleHE Automation      |PurpleHE Automation undefined         |     |Attending|yes   |QA Test for canceling Attendees |No, go back            |Yes, cancel visit             |Canceled        |               |
 
-  @MATCH-2444
-  Scenario Outline: Verify that email is sent to HS users after cancelling a fair as an HE user
-    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
-    Then HS I add the email "<EMail>" in the primary contact in Notifications & Primary Contact page
-    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
-    And HS I successfully sign out
-
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    Then HE I register for the "<College Fair Name>" college fair at "<School>"
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>" for Fairs
-    Then HE I remove the Fair appointment from the calendar
-    And HE I successfully sign out
-    Then HE I verify the Email Notification Message for "<School>" using "<Date>","<EmailTimeForFair>"
-      |Subject                                                             |To       |Messages |
-      |College fair registration cancelled for <School for Notification>   |<EMail>  |1        |
-
-    Examples:
-      |School for Notification|School        |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
-      |Homeconnection (WA)    |Homeconnection|purpleheautomation@gmail.com    |QAs Fairs tests       |4   |900AM    |1100AM  |2            |$25 |25                    |100                        | Save          |9AM   |9:00am.         |
-
-
   @MATCH-1775
   Scenario: As a High School Community user, I wan tto be able to cancel my college fair and notify attendees
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
