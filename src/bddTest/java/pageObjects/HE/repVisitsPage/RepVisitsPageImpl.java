@@ -1514,10 +1514,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         searchTextBox().clear();
         searchTextBox().sendKeys(school);
-        waitUntil(ExpectedConditions.visibilityOf(search()),10);
+        waitUntil(ExpectedConditions.visibilityOf(search()));
         searchButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/a[contains(text(),'"+school+"')]")),10);
-        WebElement schoolName=driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        WebElement schoolName = driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        waitUntil(ExpectedConditions.visibilityOf(schoolName));
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         schoolName.click();
         waitUntilPageFinishLoading();
@@ -1525,12 +1525,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void visitsSchedule(String school,String startDate,String time){
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Visits']")),10);
+        waitUntil(ExpectedConditions.visibilityOf(visit()));
         visit().click();
         WebElement schoolInVisits = driver.findElement(By.xpath("//div/a[text()='"+school+"']"));
-        waitUntil(ExpectedConditions.visibilityOf(schoolInVisits),10);
+        waitUntil(ExpectedConditions.visibilityOf(schoolInVisits));
         Assert.assertTrue("school is not displayed",schoolInVisits.isDisplayed());
-        waitUntil(ExpectedConditions.visibilityOf(goToDate()),10);
+        waitUntil(ExpectedConditions.visibilityOf(goToDate()));
         String gotoDate;
         String visitDate;
         if (startDate.length() < 3) {
@@ -1545,8 +1545,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         setDate(gotoDate, "Go To Date");
         time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        waitUntil(ExpectedConditions.visibilityOfElementLocated((By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"))),10);
         WebElement availabilityButton = driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
+        waitUntil(ExpectedConditions.visibilityOf(availabilityButton));
         Assert.assertTrue("Availability is not displayed",availabilityButton.isDisplayed());
         availabilityButton.click();
         waitUntilPageFinishLoading();
@@ -1624,7 +1624,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
         Assert.assertTrue("time is not displayed",driver.findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
         visitRequestButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Go To Date']")),10);
+        waitUntil(ExpectedConditions.visibilityOf(goToDate()));
     }
 
 
@@ -3218,17 +3218,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         goToReassignAppointment();
         jsClick(selectStaffMemberDropdown());
         waitUntilPageFinishLoading();
-        jsClick(driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")));
+        WebElement userInSelectStaffMember = driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']"));
+        jsClick(userInSelectStaffMember);
         jsClick(newAssigneeButton());
-        jsClick(driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']")));
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='"+alertMessage+"']")),10);
+        WebElement userInSelectNewAssignee = driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']"));
+        jsClick(userInSelectNewAssignee);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='"+alertMessage+"']"),1));
         Assert.assertTrue("Alert message is not displayed",driver.findElement(By.xpath("//span[text()='"+alertMessage+"']")).isDisplayed());
         buttonGoBack().click();
         waitUntilPageFinishLoading();
-    }
-
-    public void verifyBlueNoteAlertForNoAppointments(String alertMessage,String user,String newAssignee){
-        verifyBlueNoteAlert(alertMessage,user,newAssignee);
     }
 
     public void verifyUsersInReAssignAppointments(String currentUser,String selectUser){
@@ -3241,7 +3239,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         List<WebElement> user = driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));
         Assert.assertTrue("User is not displayed",user.size()>0);
         Assert.assertTrue("Users are not displayed",userList.size()>0);
-        jsClick(driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+selectUser+"']")));
+        WebElement userInSelectStaffMember = driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+selectUser+"']"));
+        jsClick(userInSelectStaffMember);
         jsClick(newAssigneeButton());
         waitUntilPageFinishLoading();
         user = driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));
@@ -3257,7 +3256,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyUserIsExcludedInSelectNewAssignee(String user){
         goToReassignAppointment();
         jsClick(selectStaffMemberDropdown());
-        jsClick(driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")));
+        WebElement userInSelectStaffMember = driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']"));
+        jsClick(userInSelectStaffMember);
         waitUntilPageFinishLoading();
         jsClick(newAssigneeButton());
         waitUntilPageFinishLoading();
