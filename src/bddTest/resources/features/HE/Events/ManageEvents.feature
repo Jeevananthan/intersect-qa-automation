@@ -168,7 +168,7 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and publish a new event "60" minutes ahead from now with the following details:
-      | Event Name  | EventForMATCH2897P |
+      | Event Name  | EventForMATCH2897M |
       | Timezone    | Eastern Time (i.e. America/New_York) |
       | Description | Test |
       | Max Attendees | 30 |
@@ -179,12 +179,12 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     And I Navigate to old Colleges tab
     And I open link Upcoming college events
     And I look for the host "The University of Alabama"
-    Then I sign up for the event "EventForMATCH2897P"
+    Then I sign up for the event "EventForMATCH2897M"
     Then I register for the event
     And HUBS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
-    And HE I open the event of name "EventForMATCH2897P"
+    And HE I open the event of name "EventForMATCH2897M"
     And HE I verify Attendee Data Details on Edit Events attendee screen
       | AttendeeFirstName | Amanda |
       | AttendeeLastName | Hubs |
@@ -195,20 +195,21 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     And I Navigate to old Colleges tab
     And I open link Upcoming college events
     And I look for the host "The University of Alabama"
-    Then I click on View/Update button on event name "EventForMATCH2897P"
+    Then I click on View/Update button on event name "EventForMATCH2897M"
     Then I Cancel for the Event I signed up for
     And HUBS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
-    And HE I open the event of name "EventForMATCH2897P"
+    And HE I open the event of name "EventForMATCH2897M"
     And HE I verify Attendee Data Details on Edit Events attendee screen
       | AttendeeFirstName | Amanda |
       | AttendeeLastName | Hubs |
       | AttendeeEmail | amandahubs@dev.naviance.com |
       | AttendeeStatus | Cancelled                 |
     And HE I open the Events list
-    And HE I unpublish the event of name "EventForMATCH2897P"
+    And HE I unpublish the event of name "EventForMATCH2897M"
     And HE I open the "Unpublished" tab in Events
-    And HE I delete the event of name "EventForMATCH2897P"
+    And HE I delete the event of name "EventForMATCH2897M"
     And HE I successfully sign out
+    # This test case will run only once successfully because of the reported issue MATCH-5019. Once MATCH-5019 is fixed , it will work properly. To re-run manualay edit Event Name
 
