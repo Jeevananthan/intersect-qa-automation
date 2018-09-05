@@ -176,6 +176,16 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Last exported connection details are not displayed",driver.findElement(By.xpath("//div/span[contains(text(),'connections since last export on')]")).isDisplayed());
     }
 
+    public void verifyErrorMessageInConnections(DataTable dataTable) {
+        String errorMessage = dataTable.asList(String.class).get(0);
+        Assert.assertTrue("The error message is not correct", connectionsErrorMessage().getText().equals(errorMessage));
+    }
+
+    public void verifyDownloadButtonDisabled() {
+        Assert.assertTrue("The Download button is enabled", disabledDownloadButton().isDisplayed());
+    }
+
+    //Locators
     /**
      * Gets the ActiveMatch download connections
      * @return WebElement
@@ -220,4 +230,8 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         Actions builder = new Actions(driver);
         builder.moveToElement(element ).build().perform();
     }
+
+    private WebElement connectionsErrorMessage() { return driver.findElement(By.cssSelector("th div[class *= 'ui header'] span")); }
+
+    private WebElement disabledDownloadButton() { return driver.findElement(By.cssSelector("button[disabled]")); }
 }
