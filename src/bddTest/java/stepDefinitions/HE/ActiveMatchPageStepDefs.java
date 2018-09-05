@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.activeMatchPage.ActiveMatchPageImpl;
 
@@ -28,6 +29,10 @@ public class ActiveMatchPageStepDefs implements En {
         Then("^HE I verify the downloaded ActiveMatch Cvs file \"([^\"]*)\" contains the following headers",activeMatchPage::verifyDownloadedActiveMatchConnectionsHeaders);
 
         Then("^HE I delete the downloaded ActiveMatch Cvs file \"([^\"]*)\"",activeMatchPage::deleteDownloadedActiveMatchConnectionsFile);
+
+        Then("^HE I verify the following message in the Connections screen:$", activeMatchPage::verifyErrorMessageInConnections);
+
+        Then("^HE I verify that the Download button is disabled$", activeMatchPage::verifyDownloadButtonDisabled);
       
         Then("^HE I verify the Header after selecting \"([^\"]*)\" for the following selection in the ActiveMatch export connections$",activeMatchPage::verifySelectedHeader);
 

@@ -5,8 +5,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
   Scenario: As an RepVisits HE admin premium/paid Presence subscription user, I should be able to view visit/fair appointments that I can reassign
     Given HE I want to login to the HE app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
     When HE I go to re assign appointments
-    Then HS I verify UI components with the option "Publishing, PurpleHE" in the drop down action
-    Then HS I verify UI components with the option "Coordinator, PurpleHE" in the drop down action
+    Then HE I verify UI components with the option "Publishing, PurpleHE" in the drop down action
+    Then HE I verify UI components with the option "Coordinator, PurpleHE" in the drop down action
     And HE I successfully sign out
     
   @MATCH-4450
@@ -44,7 +44,32 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       Then HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link
       And HE I successfully sign out
 
- @MATCH-4450
+   @MATCH-4798
+   Scenario: Limit access to the "Re-assign appointments" link to JUST HE admins associated with an HE
+   institution that has an active Presence subscription
+     #Administrator
+     Given HE I am logged in to Intersect HE as user type "administrator"
+     Then HE I verify that Re-assign link is "visible"
+     #Community
+     Given HE I am logged in to Intersect HE as user type "publishing"
+     Then HE I verify that Re-assign link is "not visible"
+     #Publishing
+     Given HE I am logged in to Intersect HE as user type "community"
+     Then HE I verify that Re-assign link is "not visible"
+     #Limited
+     Given HE I am logged in to Intersect HE as user type "limited"
+     Then HE I verify that Re-assign link is "not visible"
+     #Limited publishing
+     Given HE I am logged in to Intersect HE as user type "limitedPublishing"
+     Then HE I verify that Re-assign link is "not visible"
+     #Limited community
+     Given HE I am logged in to Intersect HE as user type "limitedCommunity"
+     Then HE I verify that Re-assign link is "not visible"
+     #HS User
+     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+     Then HE I verify that Re-assign link is "not visible"
+     
+  @MATCH-4450
   Scenario Outline: As Hobsons product manager managing value adds to getting HS users to upgrade to RV Presence premium subscription,
   I want the RV>Calendar, Agenda view to be premium level access on the HS side while remaining accessible for HE users,
   So that further value can be provided to upgrade to an RV Presence premium subscription.
@@ -101,3 +126,4 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Examples:
     |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|
     |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |14 |14  |14       |35     |
+

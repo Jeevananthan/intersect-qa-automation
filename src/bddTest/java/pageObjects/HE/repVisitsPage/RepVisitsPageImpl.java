@@ -188,7 +188,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Calendar").click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        Assert.assertTrue("Export button is Enabled in Calendar page",driver.findElement(By.xpath("//button[@class='ui teal basic button _1I0GHfcjpniiDr2MOWxpxw']")).isDisplayed());
+        Assert.assertTrue("Export button is Enabled in Calendar page",driver.findElement(By.xpath("//button[@class='ui teal basic disabled button _1I0GHfcjpniiDr2MOWxpxw _3Rc-fBQEQJr4FpMhLBYL0m']")).isDisplayed());
     }
 
     public void verifyExportButtonisEnabledInCalendar(){
@@ -295,24 +295,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(supportWindow);
         waitUntilPageFinishLoading();
-    }
-
-    public void verifyLoginMessageInHomPage(String message){
-        waitForUITransition();
-        waitForUITransition();
-        waitForUITransition();
-        waitUntilPageFinishLoading();
-        String supportWindow = driver.getWindowHandle();
-        String HEWindow = null;
-        Set<String> windows = driver.getWindowHandles();
-        for(String thisWindow : windows){
-            if(!thisWindow.equals(supportWindow)){
-                HEWindow = thisWindow;
-            }
-        }
-        driver.switchTo().window(HEWindow);
-        String originalMessage = driver.findElement(By.xpath("//div[@class='_1iOWqkacLvWSlz2RWS4WYl']/span")).getText();
-        Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
     }
 
     public void postMessageInHomePage(String message){
@@ -3475,6 +3457,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Verifies the status of the re-assign link, it could be visible or not visible
+     * @param status
+     */
+    public void verifyReAssignLinkStatus(String status){
+        navigationBar.goToRepVisits();
+        link("Calendar").click();
+        switch (status.toLowerCase()){
+            case "visible":
+                Assert.assertTrue("The Re-assign link is not displayed",getReAssignLink().size()==1);
+                break;
+            case "not visible":
+                Assert.assertTrue("The Re-assign link is displayed",getReAssignLink().size()==0);
+                break;
+                default:
+                    Assert.fail("The status of the Re-assign link to be verified is not correct");
+                    break;
+        }
+    }
+    /**
      * Vrifies if the given button is displayed for the travel plan schools
      * @param buttonText
      * @param status
@@ -4100,7 +4101,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public WebElement getCloseShareYourCalendarButton(){
         return driver.findElement(By.cssSelector("div>i[class='close icon']"));
     }
-    private WebElement newAssigneeButton(){
+
+    /**
+     * Get the re assign link
+     * @return
+     */
+    private List<WebElement> getReAssignLink(){
+        return driver.findElements(By.xpath("//span[text()='Re-assign appointments']"));
+    }
+      private WebElement newAssigneeButton(){
         return driver.findElement(By.xpath("//div[text()='Select new assignee']"));
     }
     private WebElement disabledNewAssigneeDropdown(){
