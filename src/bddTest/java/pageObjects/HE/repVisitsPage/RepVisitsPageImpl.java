@@ -188,7 +188,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Calendar").click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        Assert.assertTrue("Export button is Enabled in Calendar page",driver.findElement(By.xpath("//button[@class='ui teal basic button _1I0GHfcjpniiDr2MOWxpxw']")).isDisplayed());
+        Assert.assertTrue("Export button is Enabled in Calendar page",driver.findElement(By.xpath("//button[@class='ui teal basic disabled button _1I0GHfcjpniiDr2MOWxpxw _3Rc-fBQEQJr4FpMhLBYL0m']")).isDisplayed());
     }
 
     public void verifyExportButtonisEnabledInCalendar(){
@@ -295,24 +295,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(supportWindow);
         waitUntilPageFinishLoading();
-    }
-
-    public void verifyLoginMessageInHomPage(String message){
-        waitForUITransition();
-        waitForUITransition();
-        waitForUITransition();
-        waitUntilPageFinishLoading();
-        String supportWindow = driver.getWindowHandle();
-        String HEWindow = null;
-        Set<String> windows = driver.getWindowHandles();
-        for(String thisWindow : windows){
-            if(!thisWindow.equals(supportWindow)){
-                HEWindow = thisWindow;
-            }
-        }
-        driver.switchTo().window(HEWindow);
-        String originalMessage = driver.findElement(By.xpath("//div[@class='_1iOWqkacLvWSlz2RWS4WYl']/span")).getText();
-        Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
     }
 
     public void postMessageInHomePage(String message){

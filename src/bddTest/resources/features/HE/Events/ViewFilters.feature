@@ -94,3 +94,10 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
     And HE I unpublish the event of name "AsignedEvent17863"
     And HE I delete the event of name "AsignedEvent17863"
     And HE I successfully sign out
+
+  @MATCH-3499
+  Scenario: Sort by Recommended To should sort items in ascending or descending order
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events section
+    And HE I open the "Filters" tab in the Events section
+    Then HE I verify that the filters with base names "AutomationFilter" are ordered by "Recommended to"

@@ -277,8 +277,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I switch to the Support App$",repVisits::switchToSupportApp);
 
-        And("^HE I verify the \"([^\"]*)\" message in the homepage$",repVisits::verifyLoginMessageInHomPage);
-
         Then("^HE I post a \"([^\"]*)\" Message in the homepage$",repVisits::postMessageInHomePage);
 
         Then("HE I verify the title \"([^\"]*)\" in RepVisits branding header",repVisits::verifyRepVisitsBrandingHeader);

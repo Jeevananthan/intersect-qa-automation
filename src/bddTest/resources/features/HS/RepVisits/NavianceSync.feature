@@ -5,7 +5,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
 Scenario: As an RepVisits HS user that had previously connected my RepVisits with my Naviance account to publish
 events into Naviance, I want the ability to opt out/disconnect my RepVisits events from publishing to Naviance,
 so that I can manage events separately in Naviance and RepVisits.
-Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
 Then HS I navigate to naviance settings page
 And HS I click on Disconnect RepVisits from Naviance button
 And HS I verify the Cancel on the disconnect confirmation popup
@@ -22,7 +22,7 @@ And HS I successfully sign out
   and a College Rep reschedules a visit after the HS previously confirmed the visit (resulting in it previously syncing to Naviance)
   They will not get synced back into Naviance with the updated date/time..
     #Setup environment
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
     Then HS I navigate to naviance settings page
     And HS I add new Time Slot as precondition with "10","5:31am","7:40am" and "2"
     And HS I add new Time Slot as precondition with "10","5:51am","7:40am" and "2"
@@ -32,11 +32,11 @@ And HS I successfully sign out
 
     #Request and verifications
     Given HE I am logged in to Intersect HE as user type "administrator"
-    And HE I search for "Int QA High School 4" in "Institutions"
-    And HE I select "Int QA High School 4" from the results
-    And HE I request an appointment with "Int Qa High School 4" for Visits with "10" and "5:31am"
+    And HE I search for "Standalone High School 10" in "Institutions"
+    And HE I select "Standalone High School 10" from the results
+    And HE I request an appointment with "Standalone High School 10" for Visits with "10" and "5:31am"
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
     And HS I confirm Request with "PurpleHE","The University of Alabama","5:31am"
     And HS I verify the visit in Naviance with "PurpleHE Automation","The University of Alabama","5:31 AM	"
 
@@ -48,7 +48,7 @@ And HS I successfully sign out
 
     #Cancel visit and verifications
     And HS I cancel a visit with time "5:51AM" college "The University of Alabama" and note "Cancel"
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
     And HS I verify the cancel in Naviance with "PurpleHE Automation","The University of Alabama","5:51 AM"
 
     #Clean environment
