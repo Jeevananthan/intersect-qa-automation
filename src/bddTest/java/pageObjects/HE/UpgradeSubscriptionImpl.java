@@ -60,7 +60,7 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
 
     public void requestInformationToUpgrade(){
         requestInformation().click();
-        Assert.assertTrue("Request Information Confirmation Message in not displayed",confirmationMessage().isDisplayed());
+        Assert.assertTrue("Request Information Confirmation Message in not displayed",requestConfirmationMessage().isDisplayed());
 
     }
 
@@ -146,8 +146,8 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
     private WebElement requestInformation(){
         return driver.findElement(By.xpath("//span[text()='Request Information']"));
     }
-    private WebElement confirmationMessage(){
-        return driver.findElement(By.cssSelector("div.ui.header._2iU_kAoLYKRnwM92xjXySz._1IBzPr8YZn_Xve1ZVgjwdB"));
+    private WebElement requestConfirmationMessage(){
+        return driver.findElement((By.xpath("//span[contains(text(), 'be reaching out to you soon.')]")));
     }
 
 }
