@@ -240,9 +240,13 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     private String getDataForSpecificFilter(String fitTab, String criteriaName, int collegPosition) {
-
-        return driver.findElement(By.xpath("//table[caption='" + fitTab + "']//div[text()='" +
-                criteriaName + "']/../../td[" + (collegPosition+1) + "]/span")).getText();
+        if(fitTab.trim().length() != 0) {
+            return driver.findElement(By.xpath("//table[caption='" + fitTab + "']//div[text()='" +
+                    criteriaName + "']/../../td[" + (collegPosition + 1) + "]/span")).getText();
+        } else {
+            return driver.findElement(By.xpath("//table//div[text()='" +
+                    criteriaName + "']/../../td[" + (collegPosition + 1) + "]")).getText();
+        }
 
     }
 
