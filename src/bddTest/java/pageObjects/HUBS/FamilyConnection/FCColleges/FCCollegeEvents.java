@@ -198,8 +198,8 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
             FCCollegeEventsPage.getSignUpButton(EventsPageImpl.eventName).click();
             clickSignUpButton();
+            waitUntil(ExpectedConditions.visibilityOf(FCCollegeEventsPage.registeredEventSaveChangesButton()));
         }
-        waitForUITransition();
     }
 
     public void signUpForEvent(String eventForAttendee) {

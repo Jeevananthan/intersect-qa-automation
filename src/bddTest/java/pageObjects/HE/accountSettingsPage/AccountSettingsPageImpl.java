@@ -104,12 +104,12 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
 
     public void clickSaveChanges() {
         saveChanges().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']"),1));
     }
 
-    public void setFirstNameToOriginalValue() {
+    public void setFirstNameToOriginalValue(String firstName) {
         firstNameField().clear();
-        firstNameField().sendKeys(oldValueFirstName);
+        firstNameField().sendKeys(firstName);
     }
 
     //Locators

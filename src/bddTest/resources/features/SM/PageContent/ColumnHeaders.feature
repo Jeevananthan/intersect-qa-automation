@@ -1,6 +1,6 @@
 @SM
-Feature: SM - As a HS student who is interacting with SuperMatch, I want to see the proper names for the column headers
-  in the results table
+Feature: SM - PageContent - ColumnHeaders - As a HS student who is interacting with SuperMatch, I want to see the proper
+         names for the column headers in the results table
 
 #  This scenario doesn't cover those checks are required for MATCH-4317
 #

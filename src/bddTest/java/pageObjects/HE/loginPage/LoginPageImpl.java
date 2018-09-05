@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class LoginPageImpl extends PageObjectFacadeImpl {
@@ -542,6 +543,16 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
     }
+    public void updateNavianceCollegeProfile(){
+        updatebutton().click();
+
+    }
+    public void counselorCommunityWelcomePge(){
+
+        communityFrame();
+
+        assertTrue("Counselor Community Welcome Message is not displayed", driver.findElement(By.xpath("//h1[text()='Welcome to the Counselor Community!']")).isDisplayed());
+    }
 
     private WebElement usernameTextbox() {
         return textbox("E-mail Address");
@@ -556,4 +567,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
-}
+    private WebElement updatebutton() { return driver.findElement(By.xpath("//a[text()='Update']"));}
+
+
+    }
+

@@ -3,7 +3,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
 
   @MATCH-1962
   Scenario: As a HIGH School User, I want to verify College Fair Blank DashBoard
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I verify the College Fair Blank DashBoard Message
     And HS I successfully sign out

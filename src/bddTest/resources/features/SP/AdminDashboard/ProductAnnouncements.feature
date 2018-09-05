@@ -1,5 +1,6 @@
 @SP
-Feature: SP - AdminDashboard - ProductAnnouncements - As a super admin and admin  I want the ability to manage Intersect In-product notifications in the support app.
+Feature: SP - AdminDashboard - ProductAnnouncements - As a super admin and admin  I want the ability to manage Intersect
+         In-product notifications in the support app.
 
   @MATCH-3905 @MATCH-3908
   Scenario: As a super admin and admin role in the Support app of Intersect, I want the ability to add/edit and see

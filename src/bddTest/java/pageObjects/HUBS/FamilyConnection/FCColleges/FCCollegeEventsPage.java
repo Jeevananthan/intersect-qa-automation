@@ -119,6 +119,8 @@ public class FCCollegeEventsPage {
     public static WebElement clickUpdateButton (String updateEvent){
         return driver.findElement((By.xpath("//h3[text()='" + updateEvent + "']/../../../div[@class='event-summary__status-column']")));
     }
+
+    public static WebElement registeredEventSaveChangesButton() { return driver.findElement(By.cssSelector("button[ng-disabled='!vm.cancellationAffirmed']")); }
 }
 
 

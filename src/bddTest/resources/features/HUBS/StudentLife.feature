@@ -1,5 +1,5 @@
 @HUBS @HUBSStudentLife @HUBS-942
-Feature: As a community user viewing College Hubs, I want to be able to view Student Life Tab content so I can
+Feature: HUBS - StudentLife - As a community user viewing College Hubs, I want to be able to view Student Life Tab content so I can
   understand what Hubs offers students.
 
   Background:

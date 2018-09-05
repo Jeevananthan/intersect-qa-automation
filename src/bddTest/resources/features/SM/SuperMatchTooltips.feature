@@ -1,6 +1,6 @@
 @SM
 Feature: SM - SuperMatchTooltips - As a HS student who is interacting with SuperMatch, I want to see tooltips so I can
-  learn how to use the tool and what certain feature are/mean.
+         learn how to use the tool and what certain feature are/mean.
 
   Background:
     Given SM I am logged in to SuperMatch through Family Connection
