@@ -586,7 +586,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 footerUpcomingVisitsLink().click();
                 waitUntilPageFinishLoading();
                 switchToNewestWindow();
-                softly().assertThat(getDriver().getCurrentUrl().contains("/colleges/visits"));
+                softly().assertThat(getDriver().getCurrentUrl()).contains("/colleges/visits");
                 getDriver().close();
                 switchToParentWindow();
                 break;
@@ -595,7 +595,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 waitUntilPageFinishLoading();
                 switchToNewestWindow();
                 waitUntilPageFinishLoading();
-                softly().assertThat(getDriver().getCurrentUrl().contains("college-events"));
+                softly().assertThat(getDriver().getCurrentUrl()).contains("college-events");
                 getDriver().close();
                 switchToParentWindow();
                 break;
