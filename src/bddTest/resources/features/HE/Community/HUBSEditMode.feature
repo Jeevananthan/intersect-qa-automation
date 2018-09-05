@@ -1,5 +1,5 @@
 @HUBS @HEM @HE
-Feature: HE- Community - HUBSEditMode - As an HE User, I want to be able to edit HE Institution Data
+Feature: HE - Community - HUBSEditMode - As an HE User, I want to be able to edit HE Institution Data
 
     @MATCH-1044
     Scenario: As a HE user with admin role or publishing role I can access the HUBS edit mode page in HE app.

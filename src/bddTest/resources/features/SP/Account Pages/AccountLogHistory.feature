@@ -1,7 +1,7 @@
 @SP
 Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
-         As a Hobsons Staff Administrator or Support user I need to be able to view and filter by date an audit log of all other Hobsons Staff
-         activity per institutional account in the admin page for system security, auditing, and troubleshooting.
+         As a Hobsons Staff Administrator or Support user I need to be able to view and filter by date an audit log of all other
+         Hobsons Staff activity per institutional account in the admin page for system security, auditing, and troubleshooting.
 
   Scenario: As a Hobsons Sales Ops user I cannot view an Institution's Log History
     Given SP I am logged in to the Admin page as a Sales Ops user
@@ -28,7 +28,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I successfully sign out
 
-  @MATCH-1682 @MATCH-2124
+  @MATCH-1682 @MATCH-2124 @MATCH-5014
   Scenario Outline: As a Support App I need to add log entries to HE Accounts View Log History page when Support users are using the Login As feature
                     so the appropriate information is available for auditing.
   #precondition
@@ -50,8 +50,8 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "<institution>" from the institution dashboard
     And SP I "Login As" the user account for "<user>"
-
-    Then HE I verify the "You're currently logged in as <profileName> from <institution>. Changes you make will reflect in their account." message in the homepage
+#verify impersonator banner in HE
+    Then SP I verify the "You're currently logged in as <profileName> from <institution>. Changes you make will reflect in their account." message in the homepage
     Then HE I post a "TestQA" Message in the homepage
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
@@ -87,7 +87,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
   Scenario: We should add a message into the audit log history whenever we update a user in community.
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I access the Account Settings page
-    And HE I add a random sufix to the First Name value
+    And HE I add a random suffix to the First Name value
     And HE I save the changes
 
     Given SP I am logged in to the Admin page as an Admin user
@@ -97,7 +97,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     #Set the user name back to the original value
     When HE I am logged in to Intersect HE as user type "administrator"
     And HE I access the Account Settings page
-    And HE I set the First Name field to the original value
+    And HE I set the First Name field to the original value "PurpleHE"
     And HE I save the changes
 
 

@@ -25,6 +25,8 @@ public class UserListPageStepDefs implements En  {
 
         And("^SP I Login as the user \"([^\"]*)\"$", userListPage::loginAs);
 
+        And("^SP I verify the \"([^\"]*)\" message in the homepage$",userListPage::verifyLoginMessageInHomPage);
+
     }
 
 }

@@ -20,12 +20,14 @@ Feature: HS - Home - HomePage - As an HS user, I want to be able to access the f
        Examples:
       | user          | module              | button      | pageURL                 |
       | administrator | RepVisits           | SCHEDULE    | rep-visits/calendar     |
-      | member        | RepVisits           | SCHEDULE    | rep-visits/calendar     |
+#  skipped because not found the UI and will be reported as issue
+#      | member        | RepVisits           | SCHEDULE    | rep-visits/calendar     |
 #  skipped due to MATCH-4997
 #      | administrator | Your settings       | CONFIGURE   | settings/change-profile |
 #      | member        | Your settings       | CONFIGURE   | settings/change-profile |
       | administrator | Counselor Community | PARTICIPATE | community/              |
-      | member        | Counselor Community | PARTICIPATE | community/              |
+#  skipped because not found the UI and will be reported as issue
+#      | member        | Counselor Community | PARTICIPATE | community/              |
 
 
   @MATCH-1430

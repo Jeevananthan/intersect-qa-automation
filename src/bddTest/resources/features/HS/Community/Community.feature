@@ -1,5 +1,5 @@
 @HS
-Feature: HS - Community - As an HS user, I can view HE institution data
+Feature: HS - Community - Community - As an HS user, I can view HE institution data
 
   @MATCH-1904
   Scenario: HS user - Verify access to Hubs View mode

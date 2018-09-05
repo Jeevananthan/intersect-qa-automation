@@ -1,6 +1,6 @@
 @SM
-Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
-  certain fit criteria
+Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search
+         college based on certain fit criteria
 
   @MATCH-3592
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with an Student Body
@@ -462,3 +462,32 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Radio           |Maximum Tuition and Fees                        |
       |Maximum Cost    |$5,000                                          |
     Then SM I verify that the Must Have box contains "Cost < $5000"
+
+   @MATCH-4897
+   Scenario: When student performs Start Over action, the GPA and test scores data should revert to what is stored in
+   naviance student profile
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I start the search over
+     When I select the following data from the Admission Fit Criteria
+       | GPA (4.0 scale) | 3  |
+       | SAT Composite   | 1000 |
+       | ACT Composite   | 26   |
+     Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+     Then SM I verify if the GPA and test scores revert to those stored in naviance student profile when Start Over action is performed
+
+  @MATCH-3449
+  Scenario: As a HS student that is viewing my pinned schools, I want to see each college's fit score and academic match
+  so I can use these details when comparing all my pinned colleges.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    Then SM I clear pinned schools list
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 1200 |
+      | ACT Composite   | 36   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I pin "Harvard University" if it is not pinned already
+    Then SM I open the Pinned Schools Compare screen
+    Then SM I verify that in the "" criteria table "Academic Match" criteria for the 1 college is "match"

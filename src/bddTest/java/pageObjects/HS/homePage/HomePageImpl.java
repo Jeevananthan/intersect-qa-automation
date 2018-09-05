@@ -98,13 +98,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
     }
 
-    public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
-        moduleButton(moduleName).click();
-        waitUntilPageFinishLoading();
-        String expectedURL = GetProperties.get("hs.app.url") + expectedUrl;
-        String actualURL = driver.getCurrentUrl();
-        Assert.assertEquals(actualURL, expectedURL);
-    }
+        public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
+            waitUntilElementExists(moduleButton(moduleName));
+            moduleButton(moduleName).click();
+            waitUntilPageFinishLoading();
+            String expectedURL = GetProperties.get("hs.app.url") + expectedUrl;
+            String actualURL = driver.getCurrentUrl();
+            Assert.assertEquals(actualURL, expectedURL);
+        }
 
     public void verifyYearInLoginPage(){
         String currentYear = getCurrentYear();

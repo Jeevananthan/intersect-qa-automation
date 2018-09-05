@@ -1,5 +1,5 @@
 @HUBS @HUBS-918 @HUBSCosts @HUBS-944
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs Cost Tab content so I can understand
+Feature: HUBS - Costs - As a community user viewing College Hubs, I want to be able to view Hubs Cost Tab content so I can understand
   what Hubs offers students.
 
   Background:

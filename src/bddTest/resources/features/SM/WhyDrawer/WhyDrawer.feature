@@ -1,6 +1,6 @@
 @SM
-Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdown section to be more intuitive for the
-  HS student, we want to add a legend that provides an explanation of what each icon in the fit score breakdown means.
+Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score breakdown section to be more intuitive for the
+         HS student, we want to add a legend that provides an explanation of what each icon in the fit score breakdown means.
 
   Background:
     Given SM I am logged in to SuperMatch through Family Connection
@@ -120,3 +120,18 @@ Feature: SM - SuperMatchSearch - In order for the Why? drawer fit score breakdow
     And  I check if I can see "The following organizations and clubs are offered:" on the page
 
 #    To add one more scenario w\o data a college with appropriate data is needed. TODO
+
+  @MATCH-3427
+  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  I want to see the actual out of States Students for the college so I can clearly see
+  what matched/did not match/partially matched my search/fit criteria requirements
+    When SM I click "Admission" filter criteria tab
+    And SM I clean GPA/SAT/ACT scores
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Bennett College" if it is not pinned already
+    And SM I remove the "Campus Surroundings [1]" fit criteria from the Must Have box or Nice to Have box
+    And SM I select the "Large City" checkbox from "Location" fit criteria
+    Then SM I press Why button for "Bennett College" college
+    Then I check there are 2 icons ".green.check.icon" are displayed
+    Then I check there are 2 icons ".red.cancel.icon" are displayed

@@ -64,5 +64,7 @@ public class HomePageStepDefs implements En {
         Then("^HE I verify the current year is displayed at the bottom of the window in the Home Page$",homePage::verifyYearInHomePage);
 
         And("^HE I verify the items are present in the help center dropdown$",homePage::verifyHelpCentre);
+
+        Then("^SP I go to the users list for \"([^\"]*)\" user, institution \"([^\"]*)\" from the institution dashboard$",homePage::goToAccountUsersList);
     }
 }

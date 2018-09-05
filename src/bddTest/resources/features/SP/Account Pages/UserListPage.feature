@@ -123,3 +123,10 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     And SP I select the following institution "The University of Alabama" from the results
     Then SP I verify that I can edit the Primary User Details
     Then SP I successfully sign out
+
+  @MATCH-5014
+  Scenario: As a Support User I should see the impersonator banner in HS project
+    When SP I am logged in to the Admin page as a Support user
+    And SP I go to the users list for "HS" user, institution "Int Qa High School 4" from the institution dashboard
+    And SP I "Login As" the user account for "hobsons.rrt+other16@gmail.com"
+    Then SP I verify the "You're currently logged in as IAM Purple from Int Qa High School 4. Changes you make will reflect in their account." message in the homepage
