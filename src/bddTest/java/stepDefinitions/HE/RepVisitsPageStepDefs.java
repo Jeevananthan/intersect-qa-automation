@@ -277,8 +277,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I switch to the Support App$",repVisits::switchToSupportApp);
 
-        And("^HE I verify the \"([^\"]*)\" message in the homepage$",repVisits::verifyLoginMessageInHomPage);
-
         Then("^HE I post a \"([^\"]*)\" Message in the homepage$",repVisits::postMessageInHomePage);
 
         Then("HE I verify the title \"([^\"]*)\" in RepVisits branding header",repVisits::verifyRepVisitsBrandingHeader);
@@ -395,9 +393,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
-        When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
+        When("^HE I go to re assign appointments$", repVisits::goToReassignAppointment);
 
-        Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
+        Then("^HE I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
       
         Then("^HE I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
@@ -425,5 +423,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link$",repVisits::verifyShareYourCalendarModalIsDisplayed);
 
+        Then("^HE I verify that Re-assign link is \"([^\"]*)\"$",repVisits::verifyReAssignLinkStatus);
+
+        And("^HE I verify the users are displaying including \"([^\"]*)\" in re assign appointments dropdown using \"([^\"]*)\"$",repVisits::verifyUsersInReAssignAppointments);
+
+        Then("^HE I verify the user \"([^\"]*)\" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown$",repVisits::verifyUserIsExcludedInSelectNewAssignee);
+
+        Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" (?:with no appointments|with appointments) in Select new assignee dropdown$",repVisits::verifyBlueNoteAlert);
     }
 }

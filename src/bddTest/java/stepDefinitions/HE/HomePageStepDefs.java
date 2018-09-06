@@ -35,9 +35,6 @@ public class HomePageStepDefs implements En {
 
         Then("^I verify that the \"([^\"]*)\" widget is not displayed$",homePage::verifyWidgetIsNotVisible);
 
-        When("^HE I verify that I am redirected to the Community activate profile page when accessing RepVisits$",
-                homePage::verifyCommunityActivationForRepVisits);
-
         Then("^HE I verify the left navigation bar and section breadcrumbs are as follows$", navigationBar::verifyLeftNavAndBreadcrumbs);
 
         Then("^HE I click on Learn More button on Upgrade message on the Community Widget$",homePage::accessFreemiumLearnMoreOption);
@@ -52,15 +49,10 @@ public class HomePageStepDefs implements En {
 
         And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navigationBar::verifySubMenuIsNotVisible);
 
-        And("^HE I activate my community profile by providing OfficePhone as \"([^\"]*)\" JobTitle as \"([^\"]*)\" and EU citizen as \"([^\"]*)\"$",
-                homePage::fillCommunityWelcomeMandatoryFields);
-
         And("^HE I go to the Counselor Community$", navigationBar::goToCommunity);
 
         And("^HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits$",
                 homePage::verifyRepVisitsLandingPage);
-
-        And("^HE I clear the account to get the community welcome page again$",homePage::clearCommunityProfile);
 
         And("^HE I open the Events list$", homePage::openEventList);
 
@@ -77,5 +69,6 @@ public class HomePageStepDefs implements En {
         Then("^HE I verify that the text in the button for \"([^\"]*)\" is \"([^\"]*)\"$", homePage::verifyTextInButtonFromModule);
 
         Then("^HE I verify that \"([^\"]*)\" is opened from the \"([^\"]*)\" module$", homePage::verifyScreenIsOpenFromModule);
+
     }
 }
