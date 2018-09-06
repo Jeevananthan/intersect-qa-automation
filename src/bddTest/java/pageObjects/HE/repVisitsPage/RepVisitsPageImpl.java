@@ -1516,8 +1516,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         searchTextBox().sendKeys(school);
         waitUntil(ExpectedConditions.visibilityOf(search()));
         searchButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/a[contains(text(),'"+school+"')]")));
         WebElement schoolName = driver.findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
-        waitUntil(ExpectedConditions.visibilityOf(schoolName));
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         schoolName.click();
         waitUntilPageFinishLoading();
