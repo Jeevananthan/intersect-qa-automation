@@ -424,6 +424,12 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link$",repVisits::verifyShareYourCalendarModalIsDisplayed);
 
         Then("^HE I verify that Re-assign link is \"([^\"]*)\"$",repVisits::verifyReAssignLinkStatus);
+
+        And("^HE I verify the users are displaying including \"([^\"]*)\" in re assign appointments dropdown using \"([^\"]*)\"$",repVisits::verifyUsersInReAssignAppointments);
+
+        Then("^HE I verify the user \"([^\"]*)\" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown$",repVisits::verifyUserIsExcludedInSelectNewAssignee);
+
+        Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" (?:with no appointments|with appointments) in Select new assignee dropdown$",repVisits::verifyBlueNoteAlert);
       
         Then("^HE I verify the college fair is present in the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairInHECalendar);
     }
