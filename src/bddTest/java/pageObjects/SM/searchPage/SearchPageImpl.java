@@ -24,16 +24,19 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.support.Color;
+import stepDefinitions.World;
 import utilities.HUBSEditMode.Navigation;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private World world;
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties", fs, fs, fs, fs, fs);
 
     WebDriverWait wait = new WebDriverWait(driver, 10);
     public SearchPageImpl() {
+        this.world = new World();
         logger = Logger.getLogger(SearchPageImpl.class);
     }
 
@@ -1981,7 +1984,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pressButton(String text) {
         try {
-            waitUntil(ExpectedConditions.elementToBeClickable(button(text)));
             button(text).click();
         } catch (Exception e) {
             driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
@@ -2000,7 +2002,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.cssSelector(dropdown)).click();
             }
         }
-        driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();
+        driver.findElement(By.xpath("//span[text()='"+choice+"']")).click();
     }
 
     public void pressWhyForCollegeWithScore(Integer score) {
@@ -2090,10 +2092,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if (Character.valueOf(dateString.charAt(0)).equals('0')) {
             dateString = dateString.substring(1);
         }
-            while (driver.findElement(By.xpath("//"))getMonth(date)) {
-            if(datePickerMonthYearText().getText().equals(getMonth(date))){
-                break;
-            }
+            while (!driver.findElement(By.xpath("//option[text()='"+getMonth(date)+"']")).isSelected()) {
+
                 datePickerNextMonthButton().click();
 
         }
@@ -2162,6 +2162,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
        Assert.assertEquals((Integer) driver.findElements(By.cssSelector(locator)).size(), number);
 
+    }
+    public void getCurrentNumberOfTableRows(String locator) {
+        Integer rows = driver.findElements(By.cssSelector(locator + " tr")).size() - 1;
+        world.numberOfElements = rows;
+    }
+
+    public void checkTableHasOneMoreRow(String locator) {
+        int actual = driver.findElements(By.cssSelector(locator + " tr")).size() - 1;
+        int expected  = world.numberOfElements + 1;
+        Assert.assertEquals(actual, expected);
     }
 
     public void onPageRefreshVerifyIfGPAAndTestScoresDoNotRevertToValuesStoredInNavianceStudentProfile() {

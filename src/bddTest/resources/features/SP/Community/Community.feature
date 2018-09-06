@@ -22,10 +22,8 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Scenario: As a Support user, I need the ability to add a state subscription so that I can configure the correct subscription for the HE client.
       Given SP I am logged in to the Admin page as a Super Admin user
       When SP I select "The University of Alabama" from the institution dashboard
-
-
       Then HE I click the link "Connection"
-#      Here I need a step to get current number of records
+      Then I check number of records in the ".subscriptions-table" table
       Then SM I press button "ADD NEW SUBSCRIPTION"
       Then SM I press button "State"
       Then SM I press button "Next"
@@ -41,11 +39,60 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
       Then SM I pick "Female" from the dropdown ".custom-rounded-dropdown"
       Then SM I pick "Arizona" from the dropdown ".custom-dropdown"
       Then SM I press button "Select date"
-      Then SM I pick the date "01/01/18" from the date picker
+      Then SM I pick the date "01/01/19" from the date picker
       Then SM I press button "Finish"
-#      Here I need step to verify that one more record was added
-
-
+      Then I check that table ".subscriptions-table"  has one more row
       And SP I successfully sign out
-#        | University                                 | HubsModule                  | CommunityModule   | IntersectAwarenessModule         | IntersectPresenceModule         | AdvancedAwarenessModule | ConnectionModule | StartDate | EndDate | Inactive | Active |
-#        | Bowling Green State University-Main Campus | Legacy: Hub page management | Legacy: Community | Intersect Awareness Subscription | Intersect Presence Subscription | Advanced Awareness      | Connection       | 0         | 35      | inactive | active |
+
+  @MATCH-4372
+  Scenario: As a Support user, I need the ability to add a county subscription so that I can configure the correct subscription for the HE client.
+    Given SP I am logged in to the Admin page as a Super Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    Then HE I click the link "Connection"
+    Then I check number of records in the ".subscriptions-table" table
+    Then SM I press button "ADD NEW SUBSCRIPTION"
+    Then SM I press button "County"
+    Then SM I press button "Next"
+    Then I check if I can see "Add New Subscription" on the page
+    Then I check if I can see " - The University of Alabama" on the page
+    Then I check if I can see "Choose State(s)" on the page
+    Then I check if I can see "Choose Diversity Filter" on the page
+    Then I check if I can see "Choose Naviance Engagement" on the page
+    Then I check if I can see "Select Competitors" on the page
+    Then I check if I can see "Start and End Dates" on the page
+    Then SM I pick "Male" from the dropdown ".custom-rounded-dropdown"
+    Then SM I pick "Arizona" from the dropdown ".custom-dropdown"
+    Then SM I press button "Select date"
+    Then SM I pick the date "01/01/19" from the date picker
+    Then SM I verify that checkBox with text "Majors" can be checked|unchecked
+    Then SM I verify that checkBox with text "Connection" can be checked|unchecked
+    Then SM I pick "Coconino" from the dropdown "[name='counties.Arizona']"
+    Then SM I press button "Finish"
+    Then I check that table ".subscriptions-table"  has one more row
+    And SP I successfully sign out
+
+  @MATCH-4373
+  Scenario: As a Support user, I need the ability to add a zip subscription so that I can configure the correct subscription for the HE client.
+    Given SP I am logged in to the Admin page as a Super Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    Then HE I click the link "Connection"
+    Then I check number of records in the ".subscriptions-table" table
+    Then SM I press button "ADD NEW SUBSCRIPTION"
+    Then SM I press button "Zip"
+    Then SM I press button "Next"
+    Then I check if I can see "Add New Subscription" on the page
+    Then I check if I can see " - The University of Alabama" on the page
+    Then I check if I can see "Choose State(s)" on the page
+    Then I check if I can see "Choose Diversity Filter" on the page
+    Then I check if I can see "Choose Naviance Engagement" on the page
+    Then I check if I can see "Select Competitors" on the page
+    Then I check if I can see "Start and End Dates" on the page
+    Then SM I verify that checkBox with text "Majors" can be checked|unchecked
+    Then SM I verify that checkBox with text "Connection" can be checked|unchecked
+    Then SM I pick "Racial & Ethnic Minority" from the dropdown ".custom-rounded-dropdown"
+    Then SM I pick "Arizona" from the dropdown ".custom-dropdown"
+    Then SM I press button "Select date"
+    Then SM I pick the date "01/01/19" from the date picker
+    Then SM I press button "Finish"
+    Then I check that table ".subscriptions-table"  has one more row
+    And SP I successfully sign out

@@ -265,5 +265,9 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I click on the Back button in Compare Pinned Colleges page$", searchPage::clickOnBackButtonInComparePinnedCollegesPage);
 
+
+        Then("^I check number of records in the \"([^\"]*)\" table$", searchPage::getCurrentNumberOfTableRows);
+
+        Then("^I check that table \"([^\"]*)\"  has one more row$", searchPage::checkTableHasOneMoreRow);
     }
 }
