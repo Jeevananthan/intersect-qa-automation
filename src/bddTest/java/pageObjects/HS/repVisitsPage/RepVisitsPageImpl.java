@@ -7006,10 +7006,16 @@ public void cancelRgisteredCollegeFair(String fairName){
     public void openVisit(String date) {
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
-        waitUntilPageFinishLoading();
-        if (driver.findElements(By.xpath(showMoreLinkLocator(date.split(",")[1].split(" ")[1]))).size() > 0) {
-            driver.findElement(By.xpath(showMoreLinkLocator(date.split(",")[1].split(" ")[1]))).sendKeys(Keys.RETURN);
-            eventInOverlay(date.split(",")[2].replaceFirst("0", "")).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(exportButtonLocator), 1));
+        List<WebElement> showMoreLinksList = driver.findElements(By.xpath(showMoreLinkLocator(date.split(",")[1].split(" ")[1])));
+        if (showMoreLinksList.size() > 0) {
+            for (WebElement showMoreLinkInRow : showMoreLinksList) {
+                try {
+                    showMoreLinkInRow.sendKeys(Keys.RETURN);
+                    eventInOverlay(date.split(",")[2].replaceFirst("0", "")).click();
+                    break;
+                } catch(WebDriverException e) {}
+            }
         } else {
             eventInCell(date.split(",")[1].split(" ")[1], date.split(",")[2].replaceFirst("0", "")).click();
         }
@@ -8904,4 +8910,6 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement hoursDaysDropdown() { return driver.findElement(By.cssSelector("div#rsvpKind")); }
 
     private WebElement hoursDaysOption(String option) { return driver.findElement(By.xpath("//div[@role='option']/span[text() = '" + option + "']")); }
+
+    private String exportButtonLocator = "button[title='Export']";
 }
