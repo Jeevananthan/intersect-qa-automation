@@ -2119,6 +2119,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'ACT' score is not according to naviance student profile", actScoreTextBox().getAttribute("value").equals(actScoreInNavianceStudentProfile));
     }
 
+    public void verifyPinnedCollegeCountInFooter(String numberOfCollegesPinned) {
+        Assert.assertTrue("Number of colleges should be " + numberOfCollegesPinned + " but is " +
+                pinCount().getText(), pinCount().getText().equals(numberOfCollegesPinned));
+    }
+
 
     public void checkNumberOfElementsDisplayed(Integer number, String locator){
 
