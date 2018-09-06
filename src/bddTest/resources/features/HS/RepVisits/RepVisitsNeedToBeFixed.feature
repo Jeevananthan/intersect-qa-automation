@@ -333,3 +333,24 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #    Examples:
 #      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                             |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |
 #      |7   |10:am    |11:25pm |3        |7        |14      |11:25pm      |Yes, accept all incoming requests. |Int Qa High School 4    |10:       |10:   |QAs Fairs tests       |14   |0900AM    |1000AM |7            |$25 |25                    |100                        | Save          |
+
+#  @MATCH-2444
+#  Scenario Outline: Verify that email is sent to HS users after cancelling a fair as an HE user
+#    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+#    Then HS I add the email "<EMail>" in the primary contact in Notifications & Primary Contact page
+#    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+#    And HS I successfully sign out
+#
+#    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+#    And HE I search for "<School>" in RepVisits page
+#    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+#    Then HE I verify the calendar page using "<School>","<heCT>","<Date>" for Fairs
+#    Then HE I remove the Fair appointment from the calendar
+#    And HE I successfully sign out
+#    Then HE I verify the Email Notification Message for "<School>" using "<Date>","<EmailTimeForFair>"
+#      |Subject                                                             |To       |Messages |
+#      |College fair registration cancelled for <School for Notification>   |<EMail>  |1        |
+#
+#    Examples:
+#      |School for Notification|School        |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
+#      |Homeconnection (WA)    |Homeconnection|purpleheautomation@gmail.com    |QAs Fairs tests       |4   |900AM    |1100AM  |2            |$25 |25                    |100                        | Save          |9AM   |9:00am.         |

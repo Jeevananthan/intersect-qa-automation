@@ -135,3 +135,34 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     Then SM I press Why button for "Bennett College" college
     Then I check there are 2 icons ".green.check.icon" are displayed
     Then I check there are 2 icons ".red.cancel.icon" are displayed
+
+  @MATCH-3428
+  Scenario: As a HS student reviewing results from my SuperMatch fit criteria, I want to see how the SuperMatch tool
+  calculated my fit score so i can view that information in more detail rather than just the overall fit score.
+    When SM I click "Admission" filter criteria tab
+    And SM I clean GPA/SAT/ACT scores
+    And HS I Click on close button
+    And I select the following data from the Admission Fit Criteria
+  | GPA (4.0 scale) | 3.8 |
+  | SAT Composite   | 1200 |
+  | ACT Composite   | 32   |
+  | Acceptance Rate | 25% or Lower |
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    Then SM I press Why button for "Paine College" college
+    Then I check if I can see "This institution is a " on the page
+    Then I check if I can see "Safety" on the page
+    Then I check if I can see "Your academic qualifications (GPA & test scores) are above the academic profile of students who are typically admitted to this institution:" on the page
+    Then I check if I can see "For a more in depth view of how your scores compare with students accepted to this institution, visit" on the page
+    Then I check if I can see "Paine College's profile" on the page
+    Then SM I press Why button for "Virginia Union University" college
+    Then I check if I can see "Academic Match" on the page
+    Then I check if I can see "SuperMatch doesn’t have sufficient application history for this institution to determine academic match." on the page
+    Then I check if I can see "For a more in depth view of how your scores compare with students accepted to this institution, visit" on the page
+    Then I check if I can see "Virginia Union University's profile" on the page
+    Then SM I press Why button for "Colorado College" college
+    Then I check if I can see "This institution is a " on the page
+    Then I check if I can see "Match" on the page
+    Then I check if I can see "Your academic qualifications (GPA & test scores) are similar to the academic profile of students who are typically admitted to this institution:" on the page
+    Then I check if I can see "For a more in depth view of how your scores compare with students accepted to this institution, visit" on the page
+    Then I check if I can see "Colorado College's profile" on the page

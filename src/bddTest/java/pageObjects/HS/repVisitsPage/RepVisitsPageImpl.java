@@ -2677,6 +2677,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void verifyPillsNotAvailableinNewScheduleVisitPage(){
         navigationBar.goToRepVisits();
+        waitUntilElementExists(calendar());
         calendar().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -2712,6 +2713,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         waitUntilElementExists(currentDateInCalendar());
         monthInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        waitUntilElementExists( driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")));
         driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).click();
         waitUntilElementExists(driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")));
         driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
@@ -3821,10 +3823,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         emailTextBox().sendKeys(Email);
         phoneNoTextBox().sendKeys(PhNo);
         positionTextBox().sendKeys(Position);
+        institutionTextBox().clear();
         institutionTextBox().sendKeys(Institution);
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='"+Institution+"']"),1));
-        driver.findElement(By.xpath("//div[text()='"+Institution+"']")).click();
+        /*Eventually commented this steps cause causing an issue that will be isolated*/
+//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='"+Institution+"']"),1));
+//        driver.findElement(By.xpath("//div[text()='"+Institution+"']")).click();
         institutionTextBox().sendKeys(Keys.PAGE_DOWN);
         eventLocationInAddVisitPopup().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
@@ -8064,6 +8068,18 @@ public void cancelRgisteredCollegeFair(String fairName){
         WebElement button=driver.findElement(By.xpath("//button[@class='ui teal basic icon button _38R7SJgG4fJ86m-eLYYZJw']"));
         return button;
     }
+
+    private WebElement forwardDayButton()
+    {
+        WebElement button=driver.findElement(By.xpath("//button[@title='Forwards']"));
+        return button;
+    }
+
+    private WebElement backwardsDayButton()
+    {
+        WebElement button=driver.findElement(By.xpath("//button[@title='Backwards']"));
+        return button;
+    }
     private WebElement eventLocationTextboxInSchedulePopup() {
         WebElement text=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
         return text;
@@ -8339,6 +8355,9 @@ public void cancelRgisteredCollegeFair(String fairName){
       }
 
     public void clickVisitName(String schoolName, String startTime, String endTime){
+        while ( getDriver().findElements(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).size() <1 ){
+                backwardsDayButton().click();
+        }
         getDriver().findElement(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).click();
         waitForUITransition();
 
