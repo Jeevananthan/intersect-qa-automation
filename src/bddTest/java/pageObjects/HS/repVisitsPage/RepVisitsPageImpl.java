@@ -353,8 +353,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.clear();
         visitBox.sendKeys(Numberofdays);
         button("Save Changes").click();
-        waitUntilPageFinishLoading();
-        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
@@ -370,7 +368,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.clear();
         visitBox.sendKeys(DaysInAdvance);
         button("Save Changes").click();
-        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
@@ -397,7 +394,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             visitsBox.sendKeys(visitsPerDay);
         }
         button("Save Changes").click();
-        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
@@ -4713,7 +4709,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.id("ignore-time-slots")).click();
             button("Add regular hours").click();
             waitUntilPageFinishLoading();
-            waitForUITransition();
         }else if(duplicateTimeSlot.size()==1){
             addnewTimeSlot(day, startTime, endTime, numVisits);
         }
@@ -7760,7 +7755,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement availability ()
     {
-        WebElement availability = driver.findElement(By.partialLinkText("Availability"));
+        WebElement availability = driver.findElement(By.xpath("//span[text()='Availability']"));
         return availability;
     }
     private WebElement regularWeeklyHours ()
