@@ -3,6 +3,7 @@ package stepDefinitions.CM;
 import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.CM.welcomePage.WelcomePageImpl;
+import pageObjects.HE.welcomePage.HEWelcomePageImpl;
 
 /**
  * Created by bojan on 5/30/17.
@@ -29,7 +30,11 @@ public class WelcomePageStepDefs implements En {
         And("^I check if privacy settings are saved properly$", welcomePage::checkPrivacySettingsSaved);
         And("^I consent to create and maintain my Intersect account$",welcomePage::consentCreateAndMaintainIntersectAccount);
         And("^I set the EU citizen to \"([^\"]*)\"$",welcomePage::setEuCitizen);
-
-
+        When("^I verify that I am redirected to the Community activate profile page when accessing RepVisits$",welcomePage::verifyCommunityActivationForRepVisits);
+        Then("^I verify the new user required to complete the Counselor Community profile form before they can access the following fields$",welcomePage::verifyRequiredPageforNewUser);
+        Then("^I verify the following fields are required fields in the Counselor Community profile form$",welcomePage::verifyRequiredFieldsInCCProfileForm);
+        Then("^I verify the user can access the following fields$",welcomePage::verifyingTabNavigation);
+        And("^I activate my community profile by providing OfficePhone as \"([^\"]*)\" JobTitle as \"([^\"]*)\" and EU citizen as \"([^\"]*)\"$", welcomePage::fillCommunityWelcomeMandatoryFields);
+        And("^I clear the account to get the community welcome page again$",welcomePage::clearCommunityProfile);
     }
 }

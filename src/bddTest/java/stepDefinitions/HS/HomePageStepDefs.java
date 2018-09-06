@@ -57,5 +57,6 @@ public class HomePageStepDefs implements En {
         Then("^HS I verify the current year is displayed at the bottom of the window in the RepVisits Page$",homePage::verifyYearInRepVisitsPage);
 
         Then("^HS I verify the current year is displayed at the bottom of the window in the login page for Naviance$",homePage::verifyYearInNavianceLoginPage);
+
     }
 }
