@@ -188,7 +188,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         link("Calendar").click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        Assert.assertTrue("Export button is Enabled in Calendar page",driver.findElement(By.xpath("//button[@class='ui teal basic button _1I0GHfcjpniiDr2MOWxpxw']")).isDisplayed());
+        Assert.assertTrue("Export button is Enabled in Calendar page",driver.findElement(By.xpath("//button[@class='ui teal basic disabled button _1I0GHfcjpniiDr2MOWxpxw _3Rc-fBQEQJr4FpMhLBYL0m']")).isDisplayed());
     }
 
     public void verifyExportButtonisEnabledInCalendar(){
@@ -295,24 +295,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.close();
         driver.switchTo().window(supportWindow);
         waitUntilPageFinishLoading();
-    }
-
-    public void verifyLoginMessageInHomPage(String message){
-        waitForUITransition();
-        waitForUITransition();
-        waitForUITransition();
-        waitUntilPageFinishLoading();
-        String supportWindow = driver.getWindowHandle();
-        String HEWindow = null;
-        Set<String> windows = driver.getWindowHandles();
-        for(String thisWindow : windows){
-            if(!thisWindow.equals(supportWindow)){
-                HEWindow = thisWindow;
-            }
-        }
-        driver.switchTo().window(HEWindow);
-        String originalMessage = driver.findElement(By.xpath("//div[@class='_1iOWqkacLvWSlz2RWS4WYl']/span")).getText();
-        Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
     }
 
     public void postMessageInHomePage(String message){
@@ -2174,6 +2156,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Naviance ActiveMatch is not displayed",navianceActiveMatchText().isDisplayed());
         Assert.assertTrue("Email Textbox is not displayed",emailTextBox().isDisplayed());
         Assert.assertTrue("Save button is not displayed",saveButton().isDisplayed());
+        Assert.assertTrue("Add people to counselor community label is not displayed", addPeopleOutsideCounselorCommunityLabel().isDisplayed());
     }
 
     public void validateEmailInInstitutionNotificationPage(String Email,String InvalidEmail,String ValidEmail){
@@ -3452,6 +3435,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Verifies the status of the re-assign link, it could be visible or not visible
+     * @param status
+     */
+    public void verifyReAssignLinkStatus(String status){
+        navigationBar.goToRepVisits();
+        link("Calendar").click();
+        switch (status.toLowerCase()){
+            case "visible":
+                Assert.assertTrue("The Re-assign link is not displayed",getReAssignLink().size()==1);
+                break;
+            case "not visible":
+                Assert.assertTrue("The Re-assign link is displayed",getReAssignLink().size()==0);
+                break;
+                default:
+                    Assert.fail("The status of the Re-assign link to be verified is not correct");
+                    break;
+        }
+    }
+    /**
      * Vrifies if the given button is displayed for the travel plan schools
      * @param buttonText
      * @param status
@@ -3498,6 +3500,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("There is not any appoiment for past/upcoming appointments",
                     appointmentLabels.size()>0);
         }
+    }
+
+    /**
+     * Verifies if the share claendar link is displayed
+     */
+    public void verifyShareCalendarsLinkIsDisplayed(){
+        navigateToRepVisitsSection("Calendar");
+        Assert.assertTrue("The share clanedars link is nor displayed", getShareCalendarsLink().isDisplayed());
+    }
+
+    /**
+     * Verifies if share your calendar modal is displayed
+     */
+    public void verifyShareYourCalendarModalIsDisplayed(){
+        navigateToRepVisitsSection("Calendar");
+        getShareCalendarsLink().click();
+        waitUntil(ExpectedConditions.visibilityOf(getShareYourCalendarLabel()));
+        Assert.assertTrue("Share your calendar modal was not displayed", getShareYourCalendarLabel()
+                .isDisplayed());
+        getCloseShareYourCalendarButton().click();
     }
 
     //Locators
@@ -3882,6 +3904,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Gets the add people outside counselor community label
+     * @return
+     */
+    private WebElement addPeopleOutsideCounselorCommunityLabel(){
+        return driver.findElement(By.xpath("//label[text()='Add people outside of the Counselor Community.']"));
+    }
+
+    /**
      * Gets the web element container of the RepVisits branding header
      * @return Webelement
      */
@@ -4023,6 +4053,39 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> getUpcomingAppointmentsLabelsInTravelPlan(){
         return driver.findElements(By.xpath("//span[contains(text(),'Upcoming Appointments')]"));
+    }
+
+    /**
+     * Gets the share calendars link
+     * @return
+     */
+    private WebElement getShareCalendarsLink(){
+        return link("Share calendars");
+    }
+
+    /**
+     * Gets the share your calendar label
+     * @return
+     */
+    private WebElement getShareYourCalendarLabel(){
+        return driver.findElement(By.xpath("//div[@class='ui small modal transition visible " +
+                "active _56z_iePncfEtW1YuLtMg4']/div/span[text()='Share Your Calendar']"));
+    }
+
+    /**
+     * Gets the close button to close the share your calendar modal
+     * @return
+     */
+    public WebElement getCloseShareYourCalendarButton(){
+        return driver.findElement(By.cssSelector("div>i[class='close icon']"));
+    }
+
+    /**
+     * Get the re assign link
+     * @return
+     */
+    private List<WebElement> getReAssignLink(){
+        return driver.findElements(By.xpath("//span[text()='Re-assign appointments']"));
     }
 }
 
