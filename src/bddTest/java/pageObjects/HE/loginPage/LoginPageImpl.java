@@ -32,13 +32,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(LoginPageImpl.class);
     }
 
-    private void openLoginPage() {
-        try {
-            driver.manage().deleteAllCookies();
-        } catch (NoSuchSessionException nsse) {
-            load("http://www.google.com");
-        }
-        load(GetProperties.get("he.app.url"));
+    private void openLoginPage(String url) {
+        deleteCookies();
+        load(url);
         // If a previous test fails, we'll still have an open session.  Log out first.
         if (button(By.id("user-dropdown")).isDisplayed()) {
             button(By.id("user-dropdown")).click();
@@ -50,8 +46,23 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void login(String username, String password) {
-        openLoginPage();
+        openLoginPage(GetProperties.get("he.app.url"));
+        loginActions(username, password);
+    }
 
+    //Log in as an HE administrator
+    public void defaultLogin(String usertype) {
+        String username = GetProperties.get("he."+ usertype + ".username");
+        String password = GetProperties.get("he."+ usertype + ".password");
+        login(username, password);
+    }
+
+    /**
+     * Login actions, fill textboxes and click on login button
+     * @param username
+     * @param password
+     */
+    private void loginActions(String username, String password){
         logger.info("Login into the HE app");
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
@@ -70,27 +81,30 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    //Log in as an HE administrator
-    public void defaultLogin(String usertype) {
-        openLoginPage();
+    /**
+     * Login into HE app given user type and url
+     * @param usertype
+     * @param urlKey
+     */
+    public void loginWithUrl(String usertype, String urlKey){
+        String url = GetProperties.get("he."+ urlKey + ".url");
+        deleteCookies();
+        openLoginPage(url);
         String username = GetProperties.get("he."+ usertype + ".username");
         String password = GetProperties.get("he."+ usertype + ".password");
-        logger.info("Logging into the HE app - " + driver.getCurrentUrl());
-        usernameTextbox().sendKeys(username);
-        passwordTextbox().sendKeys(password);
-        logger.info("Sending credentials - " + username + ":" + password);
-        loginButton().click();
-        logger.info("Clicked the login button");
-        List<WebElement> errorMessage = driver.findElements(By.cssSelector("div[class='ui negative message']"));
-        if (errorMessage.size()==1){
-            logger.info("Login failed. Invalid user or password.");
-        }else {
-            waitUntilElementExists(link(By.id("user-dropdown")));
+        loginActions(username, password);
+    }
+
+    private void deleteCookies(){
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
         }
     }
 
     public void createNewUser() {
-        openLoginPage();
+        openLoginPage(GetProperties.get("he.app.url"));
         link("New User?").click();
         waitUntilPageFinishLoading();
     }
@@ -104,7 +118,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void beginResetPassword(String userType) {
-        openLoginPage();
+        openLoginPage(GetProperties.get("he.app.url"));
         String userName = GetProperties.get("he."+ userType + ".username");
         link("Forgot Password").click();
         textbox("E-Mail Address").sendKeys(userName);
@@ -179,7 +193,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToLoginScreenAndVerify() {
-        openLoginPage();
+        openLoginPage(GetProperties.get("he.app.url"));
         verifyLoginPage();
     }
 
@@ -290,7 +304,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void attemptLogin(String userType, String errorMessage) {
-        openLoginPage();
+        openLoginPage(GetProperties.get("he.app.url"));
         String username = GetProperties.get("he."+ userType + ".username");
         String password = GetProperties.get("he."+ userType + ".password");
         waitUntilPageFinishLoading();
