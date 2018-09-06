@@ -233,29 +233,31 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
 
   @MATCH-3816
   Scenario Outline: When an HE rep cancels their RSVP for a college fair, the fair is removed from the calendar of all the other HE reps that have RSVPd but did not cancel
+ #Pre-condition
+  #create a college fair
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
-
+ #Register a college fair from first user
     Then HE I am logged in to Intersect HE as user type "community"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
-    Then HE I verify the college fair is present in the calendar page using "<School>","<heCT>","<Date>"
-
-    Then HE I am logged in to Intersect HE as user type "publishing"
+ #verify fair in calendar page from first user
+    Then HE I verify the college fair is "present" in the calendar page using "<School>","<heCT>","<Date>"
+ #Register a college fair from second user
+    Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
-    Then HE I verify the college fair is present in the calendar page using "<School>","<heCT>","<Date>"
+ #verify and cancel the fair in calendar page from second user
+    Then HE I verify the college fair is "present" in the calendar page using "<School>","<heCT>","<Date>"
     Then HE I verify the calendar page using "<School>","<heCT>","<Date>" for Fairs
-    Then HE I remove the Fair appointment from the calendar
-
+    Then HE I cancel the Fair appointment from the calendar
+    Then HE I verify the college fair is "not present" in the calendar page using "<School>","<heCT>","<Date>"
+ #verify fair in calendar page from first user
     Then HE I am logged in to Intersect HE as user type "community"
-    Then HE I verify the college fair is present in the calendar page using "<School>","<heCT>","<Date>"
-#cancelling registered college fair
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>" for Fairs
-    Then HE I remove the Fair appointment from the calendar
+    Then HE I verify the college fair is "present" in the calendar page using "<School>","<heCT>","<Date>"
     And HE I successfully sign out
-
+#Post condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
