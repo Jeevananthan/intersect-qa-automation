@@ -37,6 +37,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             driver.manage().deleteAllCookies();
         } catch (NoSuchSessionException nsse) {
             load("http://www.google.com");
+        } catch (org.openqa.selenium.WebDriverException wde) {
+            load("http://www.google.com");
         }
         load(GetProperties.get("he.app.url"));
         // If a previous test fails, we'll still have an open session.  Log out first.
