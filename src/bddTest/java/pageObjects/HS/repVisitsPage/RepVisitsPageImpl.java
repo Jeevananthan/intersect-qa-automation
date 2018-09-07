@@ -7488,39 +7488,6 @@ public void cancelRgisteredCollegeFair(String fairName){
         }
     }
 
-    public void verifySubtabsforNaviance(DataTable dataTable){
-        List<String> tabs = dataTable.asList(String.class);
-        navigationBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        notificationsAndTasks().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='menu-link active']/span[text()='Requests']"),1));
-        for(String subtab:tabs){
-            if(subtab.equals("Requests")){
-                Assert.assertTrue("Requests subtab is not displayed",driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='"+subtab+"']")).isDisplayed());
-            }else {
-                Assert.assertTrue(subtab + " sub tab is not displayed", driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='" + subtab + "']")).isDisplayed());
-            }
-        }
-    }
-
-    public void verifySubtabsforNonNaviance(String navianceSync,DataTable dataTable){
-        List<String> tabs = dataTable.asList(String.class);
-        navigationBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        notificationsAndTasks().click();
-        List<WebElement> navianceSyncTab = driver.findElements(By.xpath("//a[@class='menu-link']/span[text()='"+navianceSync+"']"));
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='menu-link active']/span[text()='Requests']"),1));
-        for(String subtab:tabs){
-            if(subtab.equals("Requests")){
-                Assert.assertTrue("Requests subtab is not displayed",driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='"+subtab+"']")).isDisplayed());
-            }else {
-                Assert.assertTrue(subtab + " sub tab is not displayed", driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='" + subtab + "']")).isDisplayed());
-            }
-        }
-        Assert.assertTrue("Naviance sync tab is displayed",navianceSyncTab.size()==0);
-    }
-
-
     // Locators
 
     private WebElement getUserNameHS() {

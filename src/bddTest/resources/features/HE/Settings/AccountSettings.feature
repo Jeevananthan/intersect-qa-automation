@@ -135,24 +135,24 @@ Feature: HE - Settings - AccountSettings - As an HE user, I should be able to ma
     Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
 
     Then HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the following sub-tabs are displaying in the notification tab for premium user
-      |Requests|Activity|High Schools Now Available|
+    Then I verify the following sub-tabs are displaying and "High Schools Now Available" is "displaying" in the notification tab for "premium" user
+      |Requests|Activity|
 
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     Then SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
 
     Then HE I am logged in to Intersect HE as user type "limited"
-    Then HE I verify the following sub-tabs are displaying and "High Schools Now Available" is not displaying in the notification tab for limited user
+    Then I verify the following sub-tabs are displaying and "High Schools Now Available" is "not displaying" in the notification tab for "limited" user
       |Requests|Activity|
     And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    Then HS I verify the following sub-tabs are displaying in the notification tab for naviance user
-      |Requests|Activity|Naviance Sync|Visit Feedback|
+    Then I verify the following sub-tabs are displaying and "Naviance Sync" is "displaying" in the notification tab for "naviance" user
+      |Requests|Activity|Visit Feedback|
     And HS I successfully sign out
 
     Given HS I am logged in to Intersect HS as user type "administrator"
-    Then HS I verify the following sub-tabs are displaying and "Naviance Sync" is not displaying in the notification tab for non-naviance user
+    Then I verify the following sub-tabs are displaying and "Naviance Sync" is "not displaying" in the notification tab for "non-naviance" user
       |Requests|Activity|Visit Feedback|
     And HS I successfully sign out

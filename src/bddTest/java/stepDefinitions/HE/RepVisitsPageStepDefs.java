@@ -430,9 +430,5 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the user \"([^\"]*)\" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown$",repVisits::verifyUserIsExcludedInSelectNewAssignee);
 
         Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" (?:with no appointments|with appointments) in Select new assignee dropdown$",repVisits::verifyBlueNoteAlert);
-      
-        Then("^HE I verify the following sub-tabs are displaying in the notification tab for premium user$",repVisits::verifySubtabsforPremium);
-
-        Then("^HE I verify the following sub-tabs are displaying and \"([^\"]*)\" is not displaying in the notification tab for limited user$",repVisits::verifySubtabsforLimited);
     }
 }

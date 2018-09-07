@@ -3284,37 +3284,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(StartDate, "FirstDate");
     }
 
-      public void verifySubtabsforPremium(DataTable dataTable){
-        List<String> tabs = dataTable.asList(String.class);
-        navigationBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        notification().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='menu-link active']/span[text()='Requests']"),1));
-        for(String subtab:tabs){
-            if(subtab.equals("Requests")){
-                Assert.assertTrue("Requests subtab is not displayed",driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='"+subtab+"']")).isDisplayed());
-            }else {
-                Assert.assertTrue(subtab + " sub tab is not displayed", driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='" + subtab + "']")).isDisplayed());
-            }
-        }
-    }
 
-    public void verifySubtabsforLimited(String highSchoolsNowAvailable,DataTable dataTable){
-        List<String> tabs = dataTable.asList(String.class);
-        navigationBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        notification().click();
-        List<WebElement> highSchoolAvailable = driver.findElements(By.xpath("//a[@class='menu-link']/span[text()='"+highSchoolsNowAvailable+"']"));
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='menu-link active']/span[text()='Requests']"),1));
-        for(String subtab:tabs){
-            if(subtab.equals("Requests")){
-                Assert.assertTrue("Requests subtab is not displayed",driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='"+subtab+"']")).isDisplayed());
-            }else {
-                Assert.assertTrue(subtab + " sub tab is not displayed", driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='" + subtab + "']")).isDisplayed());
-            }
-        }
-        Assert.assertTrue("'High school now available' sub tab is displaying",highSchoolAvailable.size()==0);
-    }
     /**
      * Select Visit in HE
      * @param highSchool high School to select
@@ -4153,9 +4123,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public List<WebElement> getUsers() {
        return driver.findElements(By.xpath("//div[@class='menu transition visible']/div"));
     }
-     private WebElement notification(){
-        return driver.findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Notifications']"));
-     }
 }
 
 
