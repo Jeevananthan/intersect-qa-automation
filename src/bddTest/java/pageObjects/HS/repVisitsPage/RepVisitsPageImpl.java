@@ -8355,9 +8355,24 @@ public void cancelRgisteredCollegeFair(String fairName){
       }
 
     public void clickVisitName(String schoolName, String startTime, String endTime){
+
+        int count = 0;
         while ( getDriver().findElements(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).size() <1 ){
+            if (count <= 5)
+            {
                 backwardsDayButton().click();
+                count = count + 1;
+            }
+            else {
+
+                while ( getDriver().findElements(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).size() <1 ){
+
+                    forwardDayButton().click();
+                }
+            }
+
         }
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")));
         getDriver().findElement(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).click();
         waitForUITransition();
 
