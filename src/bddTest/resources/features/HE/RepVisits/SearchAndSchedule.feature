@@ -1,5 +1,5 @@
 @HE
-Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able to access the Search and Schedule in the RepVisits features based on my role/subscription
+Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able to access the Search and Schedule in the RepVisits features based on my role,subscription
 
   @MATCH-3856 @MATCH-4273 @MATCH-4378 @MATCH-3861
   Scenario Outline: As an HE freemium user (any role) searching for a school in RVs on the Search and Schedule view,

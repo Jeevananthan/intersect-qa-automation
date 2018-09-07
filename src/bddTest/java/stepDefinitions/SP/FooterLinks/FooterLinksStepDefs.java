@@ -11,8 +11,6 @@ public class FooterLinksStepDefs implements En {
 
         And("^SP I navigate to each page and verify the unique URL is present in the \"([^\"]*)\" page$",footerLinksObj::switchToWindowAndVerifyURL);
 
-        Then("^SP I verify the current year is displayed at the bottom of the window in the login page$",footerLinksObj::verifyYearInLoginPage);
-
         Then("^SP I verify the current year is displayed at the bottom of the window in the Home Page$",footerLinksObj::verifyYearInHomePage);
 
 

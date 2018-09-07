@@ -73,14 +73,6 @@ public class FooterLinksImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyYearInLoginPage(){
-        String currentYear = getCurrentYear();
-        load(GetProperties.get("sp.app.url"));
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='©"+currentYear+" Microsoft']"),1));
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//span[text()='©"+currentYear+" Microsoft']")).isDisplayed());
-    }
-
     public void verifyYearInHomePage(){
         String currentYear = getCurrentYear();
         Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
