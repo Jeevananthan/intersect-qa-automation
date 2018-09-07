@@ -491,3 +491,17 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I pin "Harvard University" if it is not pinned already
     Then SM I open the Pinned Schools Compare screen
     Then SM I verify that in the "" criteria table "Academic Match" criteria for the 1 college is "match"
+
+  @MATCH-4804
+  Scenario: When a HS student has pinned the max number of colleges (25), then clears all pinned schools, and then tries
+  to repin a new schools, they still receive the error message about they are at the max number of pinned schools.
+  This message only stops appearing if the user refreshes the page.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    Then SM I clear pinned schools list
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "25" colleges
+    Then SM I clear pinned schools list
+    Then SM I pin "1" colleges
+    Then SM I verify the pinned college count is "1" in footer

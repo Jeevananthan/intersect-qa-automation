@@ -1,5 +1,5 @@
 @HE @Events
-Feature: HE - Events - EventsAttendees - As a HE Intersect Administrator/Publishing user with Intersect Presence or Legacy ActiveMatch Events subscriptions,
+Feature: HE - Events - EventsAttendees - As a HE Intersect Administrator,Publishing user with Intersect Presence or Legacy ActiveMatch Events subscriptions,
   I should be able to see the attendees of an event
 
   @MATCH-2906

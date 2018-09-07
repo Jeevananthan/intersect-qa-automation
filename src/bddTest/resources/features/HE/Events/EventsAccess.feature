@@ -1,5 +1,5 @@
 @HE @Events
-Feature: HE - Events - EventsAccess - As an HE Administrator/Publishing user with active Presence or Legacy ActiveMatch Events subscriptions, I can access the Events module
+Feature: HE - Events - EventsAccess - As an HE Administrator,Publishing user with active Presence or Legacy ActiveMatch Events subscriptions, I can access the Events module
 
   @MATCH-2918
   Scenario: As a HE User with Administrator role with active Presence & Events subscription, I can access Events module ( Open issue with logout MATCH-3109)

@@ -35,3 +35,10 @@ Then HE I verify the downloaded ActiveMatch Cvs file "student-connections.csv" c
 |First Name|Last Name|Email|Phone|Address|City|State|Zip|Ethnicity|Gender|BirthDate|SchoolName|Ceeb|Graduation Year|Gpa|Created/Modified Date|Connection Status|
 Then HE I delete the downloaded ActiveMatch Cvs file "student-connections.csv"
 Then HE I successfully sign out
+
+  @MATCH-4696
+  Scenario: Bug: ActiveMatch Blinking login screen
+    Given HE I am logged in to Intersect HE as user type "administrator" and url "amconnections"
+    Then HE I verify the ActiveMatch page
+    And HE I successfully sign out
+

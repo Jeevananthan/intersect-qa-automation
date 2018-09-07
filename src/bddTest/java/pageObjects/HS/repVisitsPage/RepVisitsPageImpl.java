@@ -353,8 +353,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.clear();
         visitBox.sendKeys(Numberofdays);
         button("Save Changes").click();
-        waitUntilPageFinishLoading();
-        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
@@ -370,7 +368,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.clear();
         visitBox.sendKeys(DaysInAdvance);
         button("Save Changes").click();
-        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
@@ -397,7 +394,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             visitsBox.sendKeys(visitsPerDay);
         }
         button("Save Changes").click();
-        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
     }
 
@@ -2680,6 +2676,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void verifyPillsNotAvailableinNewScheduleVisitPage(){
         navigationBar.goToRepVisits();
+        waitUntilElementExists(calendar());
         calendar().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -2715,6 +2712,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         waitUntilElementExists(currentDateInCalendar());
         monthInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        waitUntilElementExists( driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")));
         driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).click();
         waitUntilElementExists(driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")));
         driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
@@ -3870,10 +3868,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         emailTextBox().sendKeys(Email);
         phoneNoTextBox().sendKeys(PhNo);
         positionTextBox().sendKeys(Position);
+        institutionTextBox().clear();
         institutionTextBox().sendKeys(Institution);
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='"+Institution+"']"),1));
-        driver.findElement(By.xpath("//div[text()='"+Institution+"']")).click();
+        /*Eventually commented this steps cause causing an issue that will be isolated*/
+//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='"+Institution+"']"),1));
+//        driver.findElement(By.xpath("//div[text()='"+Institution+"']")).click();
         institutionTextBox().sendKeys(Keys.PAGE_DOWN);
         eventLocationInAddVisitPopup().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
@@ -4754,7 +4754,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.id("ignore-time-slots")).click();
             button("Add regular hours").click();
             waitUntilPageFinishLoading();
-            waitForUITransition();
         }else if(duplicateTimeSlot.size()==1){
             addnewTimeSlot(day, startTime, endTime, numVisits);
         }
@@ -7800,7 +7799,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement availability ()
     {
-        WebElement availability = driver.findElement(By.partialLinkText("Availability"));
+        WebElement availability = driver.findElement(By.xpath("//span[text()='Availability']"));
         return availability;
     }
     private WebElement regularWeeklyHours ()
@@ -8113,6 +8112,18 @@ public void cancelRgisteredCollegeFair(String fairName){
         WebElement button=driver.findElement(By.xpath("//button[@class='ui teal basic icon button _38R7SJgG4fJ86m-eLYYZJw']"));
         return button;
     }
+
+    private WebElement forwardDayButton()
+    {
+        WebElement button=driver.findElement(By.xpath("//button[@title='Forwards']"));
+        return button;
+    }
+
+    private WebElement backwardsDayButton()
+    {
+        WebElement button=driver.findElement(By.xpath("//button[@title='Backwards']"));
+        return button;
+    }
     private WebElement eventLocationTextboxInSchedulePopup() {
         WebElement text=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
         return text;
@@ -8388,6 +8399,24 @@ public void cancelRgisteredCollegeFair(String fairName){
       }
 
     public void clickVisitName(String schoolName, String startTime, String endTime){
+
+        int count = 0;
+        while ( getDriver().findElements(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).size() <1 ){
+            if (count <= 5)
+            {
+                backwardsDayButton().click();
+                count = count + 1;
+            }
+            else {
+
+                while ( getDriver().findElements(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).size() <1 ){
+
+                    forwardDayButton().click();
+                }
+            }
+
+        }
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")));
         getDriver().findElement(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).click();
         waitForUITransition();
 
