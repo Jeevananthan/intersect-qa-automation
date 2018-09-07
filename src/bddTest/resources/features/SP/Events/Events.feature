@@ -1,9 +1,9 @@
 @SP
-Feature: SP - Events - Events - SuperAdmin Role for ActiveMatch
+Feature: SP - Events - SuperAdmin Role for Events
 
   @MATCH-3518
-  Scenario: As a Hobsons Support user ghosting in to an HE admin user account, I shouldn't have access to a client's
-  ActiveMatch Connections unless I have the Super Admin role so student data is protected.
+  Scenario: As a Hobsons Support user ghosting in to an HE admin user account, I shouldn't have access to student
+  rsvps/attendees unless I have the Super Admin role so student data is protected.
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and save a new event with a unique name and the following details:

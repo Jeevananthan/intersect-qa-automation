@@ -91,7 +91,6 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
       Then SP I set the "<IntersectAwarenessModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
       Then SP I set the "<IntersectPresenceModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
       Then SP I set the "<AdvancedAwarenessModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
-      Then SP I set the "<ConnectionModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
       And SP I Click the Save Changes button
       When SP I select "<University>" from the institution dashboard
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<HubsModule>"
@@ -99,14 +98,12 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<IntersectAwarenessModule>"
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<IntersectPresenceModule>"
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<AdvancedAwarenessModule>"
-      Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<ConnectionModule>"
       When SP I select "<University>" from the institution dashboard
       Then SP I set the "<HubsModule>" module to "<Inactive>" in the institution page
       Then SP I set the "<CommunityModule>" module to "<Inactive>" in the institution page
       Then SP I set the "<IntersectAwarenessModule>" module to "<Inactive>" in the institution page
       Then SP I set the "<IntersectPresenceModule>" module to "<Inactive>" in the institution page
       Then SP I set the "<AdvancedAwarenessModule>" module to "<Inactive>" in the institution page
-      Then SP I set the "<ConnectionModule>" module to "<Inactive>" in the institution page
       And SP I Click the Save Changes button
       When SP I select "<University>" from the institution dashboard
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<HubsModule>"
@@ -114,7 +111,6 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<IntersectAwarenessModule>"
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<IntersectPresenceModule>"
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<AdvancedAwarenessModule>"
-      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<ConnectionModule>"
       And SP I successfully sign out
 
       Examples:

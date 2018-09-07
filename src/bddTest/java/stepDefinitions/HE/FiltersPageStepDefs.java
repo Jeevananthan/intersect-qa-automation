@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.filtersPage.FiltersPageImpl;
 
@@ -30,5 +31,7 @@ public class FiltersPageStepDefs implements En {
         When("^HE I enter data to create a new filter based on the following details:$", filtersPage::summaryFilter);
 
         And("^HE I verify Filter Summary value is greater than zero$",filtersPage:: recommendedCount);
+
+        Then("^HE I verify that the filters with base names \"([^\"]*)\" are ordered by \"([^\"]*)\"$", filtersPage::verifyFiltersOrder);
     }
 }

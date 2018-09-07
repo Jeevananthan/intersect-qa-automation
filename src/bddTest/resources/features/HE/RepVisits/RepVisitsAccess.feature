@@ -1,5 +1,5 @@
 @HE
-Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the RepVisits features based on my role/subscription
+Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the RepVisits features based on my role,subscription
 
   @MATCH-1697
   Scenario: As an HE user I want to be able to access RepVisit functionality within Intersect so I can find value from this new module and its features
@@ -119,7 +119,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
     Then HE I verify the see details link in RepVisits
     And HE I successfully sign out
     
-  @MATCH-3065
+  @MATCH-3065 @MATCH-3407
   Scenario: As a RepVisits Admin User
   I want to be able to configure email forwarding of my ActiveMatch and ActiveMatch Events Reports
   So that I can keep non RV Using members of my school staff informed
