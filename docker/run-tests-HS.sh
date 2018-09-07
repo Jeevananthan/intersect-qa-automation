@@ -5,4 +5,4 @@ echo "Profile: HS-QA"
 echo "Browser: GridDriver"
 
 mvn -version
-mvn -X install -P HS-QA -Dbrowser=GridDriver
+mvn install -P HS-QA -Dbrowser=GridDriver
