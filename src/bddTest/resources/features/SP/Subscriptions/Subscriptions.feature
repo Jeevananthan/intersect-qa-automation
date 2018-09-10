@@ -57,5 +57,3 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
       | Radius from zips | 101 |
     Then SP I verify that the value in the Radius From Zips field is "10"
 
-
-

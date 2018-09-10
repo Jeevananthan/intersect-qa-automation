@@ -47,11 +47,11 @@
                                     <goal>test</goal>
                                 </goals>
                                 <configuration>
-                                    <forkCount>2</forkCount>
+                                    <forkCount>4</forkCount>
                                     <parallel>classes</parallel>
                                     <useSystemClassLoader>false</useSystemClassLoader>
                                     <perCoreThreadCount>false</perCoreThreadCount>
-                                    <threadCount>2</threadCount>
+                                    <threadCount>4</threadCount>
                                     <reuseForks>true</reuseForks>
                                     <useUnlimitedThreads>false</useUnlimitedThreads>
                                     <includes>
