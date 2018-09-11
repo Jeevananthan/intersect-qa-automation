@@ -1,6 +1,6 @@
 @HE
-Feature: As an HE user in Intersect, I need to be engaged to upgrade my subscription to Advanced Awareness
-  so that I can purchase Advanced Awareness from Hobsons.
+Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engaged to upgrade my subscription to Advanced Awareness
+         so that I can purchase Advanced Awareness from Hobsons.
   @MATCH-4919
   Scenario: As an HE user, I want to verify that user is able to upgrade subscription
     Given HE I am logged in to Intersect HE as user type "upgradeSubscriptions"

@@ -548,3 +548,12 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify that the Must Have box contains "Acceptance Rate [1]"
     Then SM I verify that the text from "your.fit.criteria.instruction.text" is displayed in Your Fit Criteria screen
     Then SM I verify that the button Select Criteria To Start is not displayed in the Your Fit Criteria screen
+
+  @MATCH-4473
+  Scenario: Verify the text 0-0 of 0 is displayed in Compare Pinned Colleges page when no colleges are pinned
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I clear pinned schools list
+    Then SM I navigate to page via URL path "colleges/supermatch-next/compare"
+    Then SM I verify that the pagination text displayed in Compare Pinned Colleges page is "Viewing 1 - 1 of 1"
+    Then SM I verify that the left pagination button is "disabled" and the right pagination button is "disabled" in Compare Pinned Colleges page
