@@ -513,6 +513,13 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     private WebElement selectYearInInstitutionPage(){
         return getDriver().findElement(By.id("year-select"));
     }
+
+    public void openModuleLink(String moduleName) {
+        moduleLink(moduleName).click();
+    }
+
+    //Locators
+    private WebElement moduleLink(String moduleName) { return driver.findElement(By.xpath("//span[text() = '" + moduleName + "']")); }
 }
 
 

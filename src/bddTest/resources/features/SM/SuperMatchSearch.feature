@@ -492,6 +492,48 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I open the Pinned Schools Compare screen
     Then SM I verify that in the "" criteria table "Academic Match" criteria for the 1 college is "match"
 
+  @MATCH-4804
+  Scenario: When a HS student has pinned the max number of colleges (25), then clears all pinned schools, and then tries
+  to repin a new schools, they still receive the error message about they are at the max number of pinned schools.
+  This message only stops appearing if the user refreshes the page.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    Then SM I clear pinned schools list
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "25" colleges
+    Then SM I clear pinned schools list
+    Then SM I pin "1" colleges
+    Then SM I verify the pinned college count is "1" in footer
+
+  #Note: The second AC of this ticket is already implemented in MATCH-4897
+  @MATCH-5025
+  Scenario: When student refreshes the page, the GPA and test scores data should not revert to what is stored in
+  naviance student profile
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+    Then SM I verify if the GPA and test scores are not reverted to those stored in naviance student profile when page is refreshed
+
+  @MATCH-3445
+  Scenario: As a HS student using the SuperMatch tool I want to compare my pinned schools side by side so it is easier
+  to identify similarities and differences between the schools I have pinned
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I verify that COMPARE PINNED COLLEGES is not clickable
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "1" colleges
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify the header text in Compare Pinned Colleges page
+    And SM I click on the Back button in Compare Pinned Colleges page
+    And SM I verify that the Must Have box contains "Learning Differences Support"
+
   @MATCH-4473
   Scenario: Verify the text 0-0 of 0 is displayed in Compare Pinned Colleges page when no colleges are pinned
     Given SM I am logged in to SuperMatch through Family Connection

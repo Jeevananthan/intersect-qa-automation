@@ -1575,12 +1575,25 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyComparePinnedCollegesOptionIsNotClickable() {
+
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        Assert.assertTrue("'COMPARE PINNED COLLEGES' option is enabled/clickable",
+                comparePinnedCollegesLink().findElement(By.xpath(".//ancestor::div[1]")).getAttribute("aria-disabled").equals("true"));
+
+        //close the PINNED dropdown
+        pinnedDropdown().click();
+
+    }
+
     public void verifyCLEARPINNEDLISTOptionIsClickable()
     {
         //open the PINNED dropdown
         pinnedDropdown().click();
 
-        Assert.assertTrue("'CLEAR PINNED LIST' option is not enabled/clickable", clearPinnedListOption().isEnabled());
+        Assert.assertTrue("'CLEAR PINNED LIST' option is not enabled/clickable", clearPinnedListOption().getAttribute("aria-disabled").equals("false"));
 
         //close the PINNED dropdown
         pinnedDropdown().click();
@@ -2051,6 +2064,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals("Scroll bar is not positioned at the top of the page", new Long(0), scrollPosition);
     }
 
+
+    public void verifyHeaderTextinComparePinnedCollegesPage() {
+
+        Assert.assertTrue("'SUPERMATCH COLLEGE SEARCH' text is not displayed in the header", comparePinnedCollegesPageHeader().getText().contains("SUPERMATCH COLLEGE SEARCH"));
+        Assert.assertTrue("'Compare Pinned Colleges' text is not displayed in the header", comparePinnedCollegesPageHeader().getText().contains("Compare Pinned Colleges"));
+
+    }
+
+    public void clickOnBackButtonInComparePinnedCollegesPage() {
+        backToMainPageButton().click();
+    }
+
     /**
      * Picks a date in the calendars of 'DatePicker' type.
      *
@@ -2124,12 +2149,26 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("fc.app.url")+path);
     }
 
+    public void verifyPinnedCollegeCountInFooter(String numberOfCollegesPinned) {
+        Assert.assertTrue("Number of colleges should be " + numberOfCollegesPinned + " but is " +
+                pinCount().getText(), pinCount().getText().equals(numberOfCollegesPinned));
+    }
+
 
     public void checkNumberOfElementsDisplayed(Integer number, String locator){
 
         waitUntilPageFinishLoading();
        Assert.assertEquals((Integer) driver.findElements(By.cssSelector(locator)).size(), number);
 
+    }
+
+    public void onPageRefreshVerifyIfGPAAndTestScoresDoNotRevertToValuesStoredInNavianceStudentProfile() {
+        driver.navigate().refresh();
+        openFitCriteria("Admission");
+
+        Assert.assertTrue("The value in 'GPA' text box is not correct", gpaTextBox().getAttribute("value").equals("3"));
+        Assert.assertTrue("The value in 'SAT' text box is not correct", satScoreTextBox().getAttribute("value").equals("1000"));
+        Assert.assertTrue("The value in 'ACT' text box is not correct", actScoreTextBox().getAttribute("value").equals("26"));
     }
 
     public void verifyPaginationTextInComparePinnedCollegesPage(String paginationText) {
@@ -2162,8 +2201,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     // Locators Below
 
-    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
-    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
 
 
@@ -2636,6 +2675,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement superMatchLink() {
         return driver.findElement(By.xpath("//a[contains(text(), 'SuperMatch')]"));
+    }
+    private WebElement comparePinnedCollegesPageHeader() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-header')]"));
+    }
+
+    private WebElement backToMainPageButton() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-top-toolbar')]//button[contains(text(), 'Back')]"));
     }
 
     private WebElement superMatchComparePaginationText() {

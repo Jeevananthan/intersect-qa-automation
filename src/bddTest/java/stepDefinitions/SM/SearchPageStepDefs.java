@@ -255,6 +255,16 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify if the GPA and test scores revert to those stored in naviance student profile when Start Over action is performed$", searchPage::onStartOverVerifyIfGPAAndTestScoresRevertToValuesStoredInNavianceStudentProfile);
 
+        Then("^SM I verify the pinned college count is \"([^\"]*)\" in footer$", searchPage::verifyPinnedCollegeCountInFooter);
+
+        Then("^SM I verify if the GPA and test scores are not reverted to those stored in naviance student profile when page is refreshed$", searchPage::onPageRefreshVerifyIfGPAAndTestScoresDoNotRevertToValuesStoredInNavianceStudentProfile);
+
+        Then("^SM I verify that COMPARE PINNED COLLEGES is not clickable$", searchPage::verifyComparePinnedCollegesOptionIsNotClickable);
+
+        Then("^SM I verify the header text in Compare Pinned Colleges page$", searchPage::verifyHeaderTextinComparePinnedCollegesPage);
+
+        Then("^SM I click on the Back button in Compare Pinned Colleges page$", searchPage::clickOnBackButtonInComparePinnedCollegesPage);
+
         Then("^SM I navigate to page via URL path \"([^\"]*)\"$", searchPage::navigateToPageViaURLPath);
 
         Then("^SM I verify that the pagination text displayed in Compare Pinned Colleges page is \"([^\"]*)\"$", searchPage::verifyPaginationTextInComparePinnedCollegesPage);

@@ -38,21 +38,6 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
 #    Then I verify that the "Configure your Account" widget is not displayed
 #    And HE I successfully sign out
 
-  @MATCH-1799
-  Scenario: As a HE user when I access RepVisits for the first time, I should be forced to activate Community Profile before accessing RepVisits
-    #Cleanup steps
-    Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
-    And HE I go to the Counselor Community
-    And HE I clear the account to get the community welcome page again
-    Then HE I successfully sign out
-    # Testcase
-    Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
-    When HE I verify that I am redirected to the Community activate profile page when accessing RepVisits
-    And HE I activate my community profile by providing OfficePhone as "1234567892" JobTitle as "Counselor" and EU citizen as "Yes"
-    And HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits
-    And HE I clear the account to get the community welcome page again
-    Then HE I successfully sign out
-
   @MATCH-1732 @MATCH-1496
   Scenario: As an HE user I want the Intersect left navigation bar to be better organized and labeled.
     Given HE I am logged in to Intersect HE as user type "administrator"

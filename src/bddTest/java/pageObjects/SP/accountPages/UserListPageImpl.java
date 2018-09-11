@@ -280,7 +280,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         timeDropdown().click();
         timeDropdownOption(option).click();
         waitUntilPageFinishLoading();
-        String date = getSpecificDate(0,"M/dd/yyyy");
+        String date = getSpecificDate(0,"M/d/yyyy");
         String firstNameValue = AccountSettingsPageImpl.generatedFirstName;
         Assert.assertTrue("The user account was not successfully updated.",driver.findElement(By.xpath("//td/span[text()='"+date+"']/../following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td//div/span[text()='firstName:']/following-sibling::span[text()='\""+firstNameValue+"\"']")).isDisplayed());
     }
