@@ -51,5 +51,6 @@ public class AccountPagesStepDefs implements En {
 
         Then("^SP I verify the rolling update behaviour changed to \"([^\"]*)\" and \"([^\"]*)\" for \"([^\"]*)\" in institution calendar page$",accountPage::verifyModulesStartandEndDateCalendar);
 
+        And("^SP I open the module link of name \"([^\"]*)\"$", accountPage::openModuleLink);
     }
 }

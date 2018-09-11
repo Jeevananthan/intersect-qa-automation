@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - RepVisitsContacts - As an HE user, I should be able to view my HS contacts
+Feature: HE - RepVisits - RepVisitsContacts - As an HE user, I should be able to view my HS contacts
 
   @MATCH-1881 @MATCH-1872
   Scenario: As an HE premium user, I need be able to search through my RepVisits Contacts

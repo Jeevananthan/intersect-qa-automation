@@ -448,6 +448,26 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HS I remove the Time Slot recently created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsRefactoredForHS);
 
+        Then("^HS I add new Time Slot as precondition with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::addNewTimeSlotForHS);
+
+        Then("^HS I confirm Request with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::confirmRequest);
+
+        Then("^HS I verify the visit in Naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitInNaviance);
+
+        Then("^HS I verify the cancel in Naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCancelInNaviance);
+
+        Then("^HS I verify the reschedule in Naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyRescheduleInNaviance);
+
+        Then("^HS I reschedule a visit for HS with the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectRescheduleForHS);
+
+        Then("^HS I verify reschedule pop-up for HS with the following data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyReschedulePopupForHS);
+
+        Then("^HS I reschedule the visit in HS for the following data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::reschedulevisitForHS);
+
+        Then("^HS I setup Naviance Sync Settings page with \"([^\"]*)\" option$",repVisits::navianceSyncSettingsSetup);
+
+        Then("^HS I setup Availability Settings page with \"([^\"]*)\" option$",repVisits::availabilitySettingsSetup);
+
         Then("^HS I add the following attendees to the College Fair$", repVisits::addAttendees);
 
         Then("^HS I click on Disconnect RepVisits from Naviance button$",repVisits::disconnectFromNavianceButton);
@@ -681,5 +701,6 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
 
         And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
+
     }
 }

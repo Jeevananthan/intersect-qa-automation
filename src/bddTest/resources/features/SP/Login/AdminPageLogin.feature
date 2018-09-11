@@ -1,6 +1,6 @@
 @SP
-Feature: SP - Login - Verify access to Support app by roles
-  Hobsons Staff - Access Admin page via Network Credentials
+Feature: SP - Login - AdminPageLogin - Verify access to Support app by roles
+         Hobsons Staff - Access Admin page via Network Credentials
          As a Hobsons Staff user I want to access the Intersect admin page with my network credentials that
          already exist so I don't have to create a new set of login credentials.
 

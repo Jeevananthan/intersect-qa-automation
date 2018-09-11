@@ -1,5 +1,5 @@
 @HUBS @HUBSDataValidation
-Feature: As a community user viewing College Hubs, I want data to be validated properly in the edition mode fields.
+Feature: HUBS - DataValidation - As a community user viewing College Hubs, I want data to be validated properly in the edition mode fields.
 
   Background:
     Given HE I am logged in to Intersect HE as user type "administrator"

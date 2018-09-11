@@ -1,6 +1,6 @@
 @SM
-Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
-  certain fit criteria
+Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search
+         college based on certain fit criteria
 
   @MATCH-3592
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with an Student Body
@@ -462,6 +462,63 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Radio           |Maximum Tuition and Fees                        |
       |Maximum Cost    |$5,000                                          |
     Then SM I verify that the Must Have box contains "Cost < $5000"
+
+   @MATCH-4897
+   Scenario: When student performs Start Over action, the GPA and test scores data should revert to what is stored in
+   naviance student profile
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I start the search over
+     When I select the following data from the Admission Fit Criteria
+       | GPA (4.0 scale) | 3  |
+       | SAT Composite   | 1000 |
+       | ACT Composite   | 26   |
+     Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+     Then SM I verify if the GPA and test scores revert to those stored in naviance student profile when Start Over action is performed
+
+  @MATCH-3449
+  Scenario: As a HS student that is viewing my pinned schools, I want to see each college's fit score and academic match
+  so I can use these details when comparing all my pinned colleges.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    Then SM I clear pinned schools list
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 1200 |
+      | ACT Composite   | 36   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I pin "Harvard University" if it is not pinned already
+    Then SM I open the Pinned Schools Compare screen
+    Then SM I verify that in the "" criteria table "Academic Match" criteria for the 1 college is "match"
+
+  @MATCH-4804
+  Scenario: When a HS student has pinned the max number of colleges (25), then clears all pinned schools, and then tries
+  to repin a new schools, they still receive the error message about they are at the max number of pinned schools.
+  This message only stops appearing if the user refreshes the page.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    Then SM I clear pinned schools list
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "25" colleges
+    Then SM I clear pinned schools list
+    Then SM I pin "1" colleges
+    Then SM I verify the pinned college count is "1" in footer
+
+  #Note: The second AC of this ticket is already implemented in MATCH-4897
+  @MATCH-5025
+  Scenario: When student refreshes the page, the GPA and test scores data should not revert to what is stored in
+  naviance student profile
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+    Then SM I verify if the GPA and test scores are not reverted to those stored in naviance student profile when page is refreshed
 
   @MATCH-3445
   Scenario: As a HS student using the SuperMatch tool I want to compare my pinned schools side by side so it is easier

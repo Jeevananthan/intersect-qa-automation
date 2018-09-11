@@ -19,6 +19,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I search for \"([^\"]*)\" in RepVisits$", repVisits::searchforHighSchool);
 
+        Then("^HE I request an appointment with \"([^\"]*)\" for Visits with \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::selectVisitForHE);
+
         Then("^HE I select \"([^\"]*)\" in \"([^\"]*)\" from the RepVisits intermediate search results$", repVisits::selectHighSchoolFromIntermediateSearchResults);
 
         Then("^HE I view the map plugin on RepVisits Search & Schedule subtab$", repVisits::viewMapPlugin);
@@ -209,7 +211,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::verifyCalendarPageforFairs);
 
-        Then("^HE I remove the Fair appointment from the calendar$",repVisits::removeFairAppointmentfromCalendar);
+        Then("^HE I cancel the Fair appointment from the calendar$",repVisits::cancelFairAppointmentfromCalendar);
 
         Then("HE verify the Pills got disappear for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPills);
 
@@ -274,8 +276,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I search the \"([^\"]*)\" by \"([^\"]*)\"$",repVisits::searchSchoolbyLocation);
 
         Then("^HE I switch to the Support App$",repVisits::switchToSupportApp);
-
-        And("^HE I verify the \"([^\"]*)\" message in the homepage$",repVisits::verifyLoginMessageInHomPage);
 
         Then("^HE I post a \"([^\"]*)\" Message in the homepage$",repVisits::postMessageInHomePage);
 
@@ -393,9 +393,9 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
-        When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
+        When("^HE I go to re assign appointments$", repVisits::goToReassignAppointment);
 
-        Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
+        Then("^HE I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
       
         Then("^HE I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
@@ -419,5 +419,18 @@ public class RepVisitsPageStepDefs implements En {
       
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
 
+        Then("^HE I verify that Share Calendars Link is displayed in Calendar page$",repVisits::verifyShareCalendarsLinkIsDisplayed);
+
+        Then("^HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link$",repVisits::verifyShareYourCalendarModalIsDisplayed);
+
+        Then("^HE I verify that Re-assign link is \"([^\"]*)\"$",repVisits::verifyReAssignLinkStatus);
+
+        And("^HE I verify the users are displaying including \"([^\"]*)\" in re assign appointments dropdown using \"([^\"]*)\"$",repVisits::verifyUsersInReAssignAppointments);
+
+        Then("^HE I verify the user \"([^\"]*)\" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown$",repVisits::verifyUserIsExcludedInSelectNewAssignee);
+
+        Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" (?:with no appointments|with appointments) in Select new assignee dropdown$",repVisits::verifyBlueNoteAlert);
+      
+        Then("^HE I verify the college fair is \"([^\"]*)\" in the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairInHECalendar);
     }
 }

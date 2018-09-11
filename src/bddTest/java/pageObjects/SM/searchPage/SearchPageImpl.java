@@ -2103,17 +2103,74 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void clearGPASATACTScores() {
 
-        gpaTextBox().clear();
-        satScoreTextBox().clear();
-        actScoreTextBox().clear();
+        gpaTextBox().sendKeys("0");
+        satScoreTextBox().sendKeys("1");
+        actScoreTextBox().sendKeys("0");
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".triangle.supermatch-error-icon"),2));
     }
 
+    public void onStartOverVerifyIfGPAAndTestScoresRevertToValuesStoredInNavianceStudentProfile() {
+        aboutMeLink().click();
+        aboutMeHomeLink().click();
+        aboutMeAccountLink().click();
+        String gpaInNavianceStudentProfile = gpaInNavianceStudentProfile().getText();
+
+        aboutMeLink().click();
+        aboutMeHomeLink().click();
+        aboutMeTestScoresLink().click();
+        String satScoreInNavianceStudentProfile = satScoreInNavianceStudentProfile().getText();
+        String actScoreInNavianceStudentProfile = actScoreInNavianceStudentProfile().getText();
+
+        if(gpaInNavianceStudentProfile.equals("N/A"))
+            gpaInNavianceStudentProfile = "";
+
+        if(satScoreInNavianceStudentProfile.equals("0"))
+            satScoreInNavianceStudentProfile = "";
+
+        if(actScoreInNavianceStudentProfile.equals("0"))
+            actScoreInNavianceStudentProfile = "";
+
+        collegesLink().click();
+        findYourFitButton().click();
+        superMatchLink().click();
+        new WebDriverWait(getDriver(),40).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
+
+        startSearchOver();
+
+        openFitCriteria("Admission");
+
+        Assert.assertTrue("'GPA' is not according to naviance student profile", gpaTextBox().getAttribute("value").equals(gpaInNavianceStudentProfile));
+        Assert.assertTrue("'SAT' score is not according to naviance student profile",satScoreTextBox().getAttribute("value").equals(satScoreInNavianceStudentProfile));
+        Assert.assertTrue("'ACT' score is not according to naviance student profile", actScoreTextBox().getAttribute("value").equals(actScoreInNavianceStudentProfile));
+    }
+
+    public void verifyPinnedCollegeCountInFooter(String numberOfCollegesPinned) {
+        Assert.assertTrue("Number of colleges should be " + numberOfCollegesPinned + " but is " +
+                pinCount().getText(), pinCount().getText().equals(numberOfCollegesPinned));
+    }
+
+
+    public void checkNumberOfElementsDisplayed(Integer number, String locator){
+
+        waitUntilPageFinishLoading();
+       Assert.assertEquals((Integer) driver.findElements(By.cssSelector(locator)).size(), number);
+
+    }
+
+    public void onPageRefreshVerifyIfGPAAndTestScoresDoNotRevertToValuesStoredInNavianceStudentProfile() {
+        driver.navigate().refresh();
+        openFitCriteria("Admission");
+
+        Assert.assertTrue("The value in 'GPA' text box is not correct", gpaTextBox().getAttribute("value").equals("3"));
+        Assert.assertTrue("The value in 'SAT' text box is not correct", satScoreTextBox().getAttribute("value").equals("1000"));
+        Assert.assertTrue("The value in 'ACT' text box is not correct", actScoreTextBox().getAttribute("value").equals("26"));
+    }
 
 
     // Locators Below
 
-    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
-    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
 
 
@@ -2548,6 +2605,45 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//label[contains(text(), 'Maximum Total Cost (Tuition, Fees, Room & Board)')]/../input"));
     }
 
+    private WebElement aboutMeLink() {
+        return driver.findElement(By.xpath("//a[@href='/about-me']"));
+    }
+
+    private WebElement aboutMeHomeLink() {
+        return driver.findElement(By.xpath("(//a[@href='/about-me'])[2]"));
+    }
+
+    private WebElement aboutMeAccountLink() {
+        return driver.findElement(By.xpath("//a[@href='/about-me/profile/general' and text()='Account']"));
+    }
+
+    private WebElement aboutMeTestScoresLink() {
+        return driver.findElement(By.xpath("//a[@href='/about-me/test-scores' and text()='Test Scores']"));
+    }
+
+    private WebElement gpaInNavianceStudentProfile() {
+        return driver.findElement(By.xpath("//div[text()='GPA']/following-sibling::div[1]"));
+    }
+
+    private WebElement satScoreInNavianceStudentProfile() {
+        return driver.findElement(By.xpath("//dt[text()='Highest combined SAT (1600 scale)']/following-sibling::dd[1]"));
+    }
+
+    private WebElement actScoreInNavianceStudentProfile() {
+        return driver.findElement(By.xpath("//dt[text()='Highest ACT']/following-sibling::dd[1]"));
+    }
+
+    private WebElement collegesLink() {
+        return driver.findElement(By.xpath("//a[@href='/colleges']"));
+    }
+
+    private WebElement findYourFitButton() {
+        return driver.findElement(By.xpath("//button[contains(text(), 'Find Your Fit')]"));
+    }
+
+    private WebElement superMatchLink() {
+        return driver.findElement(By.xpath("//a[contains(text(), 'SuperMatch')]"));
+    }
     private WebElement comparePinnedCollegesPageHeader() {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-header')]"));
     }

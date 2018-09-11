@@ -1,5 +1,5 @@
 @HUBS @HUBS-945 @HUBS-1060
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs International Tab content so I can
+Feature: HBS - International - As a community user viewing College Hubs, I want to be able to view Hubs International Tab content so I can
   understand what Hubs offers students.
 
   Background:
