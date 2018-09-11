@@ -31,6 +31,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties", fs, fs, fs, fs, fs);
+    private static String smLabelsPropertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSMFitCriteriaText%sSMFitCriteriaText.properties", fs, fs, fs, fs, fs);
 
     WebDriverWait wait = new WebDriverWait(driver, 10);
     public SearchPageImpl() {
@@ -2166,6 +2167,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The value in 'ACT' text box is not correct", actScoreTextBox().getAttribute("value").equals("26"));
     }
 
+    public void verifyTextIsPresentInFitCriteria(String entryTitle) {
+        Assert.assertTrue("The text is not present in the Fit Criteria Screen", yourFitCriteriaInstructionText()
+                .getText().equals(getStringFromPropFile(smLabelsPropertiesFilePath, entryTitle)));
+    }
+
+    public void verifySelectCriteriaButtonNotPresent() {
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("The Select Criteria To Start button is displayed when it shouldn't",
+                driver.findElements(By.xpath(selectCriteriaToStartButton)).size() == 0);
+    }
+
 
     // Locators Below
 
@@ -2344,8 +2356,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement firstSelectCriteriaToStartButton() {
-        return driver.findElement(By.xpath("(//button[contains(text(),'Select Criteria To Start')])[2]"));
+        return driver.findElement(By.xpath(selectCriteriaToStartButton));
     }
+
+    String selectCriteriaToStartButton = "(//button[contains(text(),'Select Criteria To Start')])[2]";
 
     private WebElement secondSelectCriteriaToStartButton(){
         return driver.findElement(By.xpath("(//button[contains(text(),'Select Criteria To Start')])[3]"));
@@ -2652,4 +2666,5 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-top-toolbar')]//button[contains(text(), 'Back')]"));
     }
 
+    private WebElement yourFitCriteriaInstructionText() { return driver.findElement(By.cssSelector("div.box.colored-box p")); }
 }
