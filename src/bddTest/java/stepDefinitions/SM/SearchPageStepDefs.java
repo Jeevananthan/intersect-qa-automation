@@ -265,9 +265,14 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I click on the Back button in Compare Pinned Colleges page$", searchPage::clickOnBackButtonInComparePinnedCollegesPage);
 
-
         Then("^I check number of records in the \"([^\"]*)\" table$", searchPage::getCurrentNumberOfTableRows);
 
         Then("^I check that table \"([^\"]*)\"  has one more row$", searchPage::checkTableHasOneMoreRow);
+      
+        Then("^SM I navigate to page via URL path \"([^\"]*)\"$", searchPage::navigateToPageViaURLPath);
+
+        Then("^SM I verify that the pagination text displayed in Compare Pinned Colleges page is \"([^\"]*)\"$", searchPage::verifyPaginationTextInComparePinnedCollegesPage);
+
+        Then("^SM I verify that the left pagination button is \"([^\"]*)\" and the right pagination button is \"([^\"]*)\" in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsAreEnabledOrDisabledInCpmparePinnedCollegesPage);
     }
 }

@@ -533,3 +533,12 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the header text in Compare Pinned Colleges page
     And SM I click on the Back button in Compare Pinned Colleges page
     And SM I verify that the Must Have box contains "Learning Differences Support"
+
+  @MATCH-4473
+  Scenario: Verify the text 0-0 of 0 is displayed in Compare Pinned Colleges page when no colleges are pinned
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I clear pinned schools list
+    Then SM I navigate to page via URL path "colleges/supermatch-next/compare"
+    Then SM I verify that the pagination text displayed in Compare Pinned Colleges page is "Viewing 1 - 1 of 1"
+    Then SM I verify that the left pagination button is "disabled" and the right pagination button is "disabled" in Compare Pinned Colleges page

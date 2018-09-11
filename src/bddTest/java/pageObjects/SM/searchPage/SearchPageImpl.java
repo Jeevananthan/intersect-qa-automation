@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.support.Color;
 import stepDefinitions.World;
+import utilities.GetProperties;
 import utilities.HUBSEditMode.Navigation;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
@@ -2151,6 +2152,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'ACT' score is not according to naviance student profile", actScoreTextBox().getAttribute("value").equals(actScoreInNavianceStudentProfile));
     }
 
+    public void navigateToPageViaURLPath(String path) {
+        load(GetProperties.get("fc.app.url")+path);
+    }
+
     public void verifyPinnedCollegeCountInFooter(String numberOfCollegesPinned) {
         Assert.assertTrue("Number of colleges should be " + numberOfCollegesPinned + " but is " +
                 pinCount().getText(), pinCount().getText().equals(numberOfCollegesPinned));
@@ -2182,6 +2187,33 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The value in 'GPA' text box is not correct", gpaTextBox().getAttribute("value").equals("3"));
         Assert.assertTrue("The value in 'SAT' text box is not correct", satScoreTextBox().getAttribute("value").equals("1000"));
         Assert.assertTrue("The value in 'ACT' text box is not correct", actScoreTextBox().getAttribute("value").equals("26"));
+    }
+
+    public void verifyPaginationTextInComparePinnedCollegesPage(String paginationText) {
+        softly().assertThat(superMatchComparePaginationText().getText().equals(paginationText));
+    }
+
+    public void verifyPaginationButtonsAreEnabledOrDisabledInCpmparePinnedCollegesPage(String leftPaginationButtonState, String rightPaginationButtonState) {
+
+        switch(leftPaginationButtonState)
+        {
+            case "enabled":
+                softly().assertThat(!leftPaginationButtonInComparePinnedCollegesPage().getAttribute("class").contains("disabled"));
+                break;
+            case "disabled":
+                softly().assertThat(leftPaginationButtonInComparePinnedCollegesPage().getAttribute("class").contains("disabled"));
+                break;
+        }
+
+        switch(rightPaginationButtonState)
+        {
+            case "enabled":
+                softly().assertThat(!leftPaginationButtonInComparePinnedCollegesPage().getAttribute("class").contains("disabled"));
+                break;
+            case "disabled":
+                softly().assertThat(leftPaginationButtonInComparePinnedCollegesPage().getAttribute("class").contains("disabled"));
+                break;
+        }
     }
 
 
@@ -2670,4 +2702,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-top-toolbar')]//button[contains(text(), 'Back')]"));
     }
 
+    private WebElement superMatchComparePaginationText() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-txt']"));
+    }
+
+    private WebElement leftPaginationButtonInComparePinnedCollegesPage() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-btn']//button[1]"));
+    }
+
+    private WebElement rightPaginationButtonInComparePinnedCollegesPage() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-btn']//button[2]"));
+    }
 }
