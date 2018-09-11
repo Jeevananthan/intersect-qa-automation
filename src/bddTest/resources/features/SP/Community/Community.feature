@@ -66,7 +66,7 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Then SM I pick the date "01/01/19" from the date picker
     Then SM I verify that checkBox with text "Majors" can be checked|unchecked
     Then SM I verify that checkBox with text "Connection" can be checked|unchecked
-    Then SM I pick "Coconino" from the dropdown "[name='counties.Arizona']"
+    Then SM I pick "Coconino County" from the dropdown "[name='counties.Arizona']"
     Then SM I press button "Finish"
     Then I check that table ".subscriptions-table"  has one more row
     And SP I successfully sign out
@@ -83,8 +83,7 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Then I check if I can see "Add New Subscription" on the page
     Then I check if I can see " - The University of Alabama" on the page
     Then I check if I can see "Choose Zip(s)" on the page
-    Then I check if I can see "Choose Zip(s)" on the page
-    Then I check if I can see "Radius from Zips" on the page
+    Then I check if I can see "Radius from Zip(s)" on the page
     Then I check if I can see "Choose Naviance Engagement" on the page
     Then I check if I can see "Select Competitors" on the page
     Then I check if I can see "Start and End Dates" on the page

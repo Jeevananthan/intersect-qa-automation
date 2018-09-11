@@ -2164,14 +2164,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
     public void getCurrentNumberOfTableRows(String locator) {
-        Integer rows = driver.findElements(By.cssSelector(locator + " tr")).size() - 1;
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(locator + " tr")));
+        Integer rows = driver.findElements(By.cssSelector(locator + " tr")).size();
         world.numberOfElements = rows;
     }
 
     public void checkTableHasOneMoreRow(String locator) {
-        int actual = driver.findElements(By.cssSelector(locator + " tr")).size() - 1;
-        int expected  = world.numberOfElements + 1;
-        Assert.assertEquals(actual, expected);
+
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(locator + " tr"), world.numberOfElements));
+
     }
 
     public void onPageRefreshVerifyIfGPAAndTestScoresDoNotRevertToValuesStoredInNavianceStudentProfile() {
