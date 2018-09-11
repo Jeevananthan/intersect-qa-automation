@@ -2132,6 +2132,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void onPageRefreshVerifyIfGPAAndTestScoresDoNotRevertToValuesStoredInNavianceStudentProfile() {
+        driver.navigate().refresh();
+        openFitCriteria("Admission");
+
+        Assert.assertTrue("The value in 'GPA' text box is not correct", gpaTextBox().getAttribute("value").equals("3"));
+        Assert.assertTrue("The value in 'SAT' text box is not correct", satScoreTextBox().getAttribute("value").equals("1000"));
+        Assert.assertTrue("The value in 'ACT' text box is not correct", actScoreTextBox().getAttribute("value").equals("26"));
+    }
+
 
     // Locators Below
 

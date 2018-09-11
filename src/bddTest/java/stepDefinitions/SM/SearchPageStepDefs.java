@@ -256,5 +256,7 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify if the GPA and test scores revert to those stored in naviance student profile when Start Over action is performed$", searchPage::onStartOverVerifyIfGPAAndTestScoresRevertToValuesStoredInNavianceStudentProfile);
 
         Then("^SM I verify the pinned college count is \"([^\"]*)\" in footer$", searchPage::verifyPinnedCollegeCountInFooter);
+
+        Then("^SM I verify if the GPA and test scores are not reverted to those stored in naviance student profile when page is refreshed$", searchPage::onPageRefreshVerifyIfGPAAndTestScoresDoNotRevertToValuesStoredInNavianceStudentProfile);
     }
 }

@@ -505,3 +505,17 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I clear pinned schools list
     Then SM I pin "1" colleges
     Then SM I verify the pinned college count is "1" in footer
+
+  #Note: The second AC of this ticket is already implemented in MATCH-4897
+  @MATCH-5025
+  Scenario: When student refreshes the page, the GPA and test scores data should not revert to what is stored in
+  naviance student profile
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+    Then SM I verify if the GPA and test scores are not reverted to those stored in naviance student profile when page is refreshed
