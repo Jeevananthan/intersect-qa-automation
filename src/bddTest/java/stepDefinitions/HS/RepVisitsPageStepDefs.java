@@ -705,5 +705,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the Attendee details \"([^\"]*)\" in Edit fairs page$",repVisits::verifyAttendeeDetailsInEditFairs);
 
         Then("^HS I cancel registered college fair \"([^\"]*)\"$",repVisits::cancelRegisteredCollegeFair);
+
     }
 }
