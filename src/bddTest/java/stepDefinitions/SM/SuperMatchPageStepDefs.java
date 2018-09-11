@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 
@@ -74,6 +75,8 @@ public class SuperMatchPageStepDefs implements En {
         Then("^I verify that there is not text \"([^\"]*)\" on the page$", fcSuperMatch::verifyThereIsNoTextOnThePage);
 
         And("^SM I delete all the saved searches$", fcSuperMatch::deleteAllSavedSearches);
+
+        Then("^SM I verify the \"([^\"]*)\" link in the SuperMatch Footer$", fcSuperMatch::verifyFooterLink);
 
     }
 }
