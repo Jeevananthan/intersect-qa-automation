@@ -146,6 +146,10 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The subscription was not added", subscriptionStartDateInTable(location, diversity, startDate).isDisplayed());
     }
 
+    public void verifyValueRadiusFromZips(String expectedValue) {
+        Assert.assertTrue("The value in Radius From Zips field is not correct", radiusFromZipsField().getAttribute("value").equals(expectedValue));
+    }
+
     //Locators
     private WebElement addNewSubscriptionButton() { return driver.findElement(By.cssSelector("h2.light-title + div[class " +
             "*= 'he-account-links'] a[class *= 'ui teal basic button link-button']:nth-of-type(2)")); }
