@@ -1574,12 +1574,25 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyComparePinnedCollegesOptionIsNotClickable() {
+
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        Assert.assertTrue("'COMPARE PINNED COLLEGES' option is enabled/clickable",
+                comparePinnedCollegesLink().findElement(By.xpath(".//ancestor::div[1]")).getAttribute("aria-disabled").equals("true"));
+
+        //close the PINNED dropdown
+        pinnedDropdown().click();
+
+    }
+
     public void verifyCLEARPINNEDLISTOptionIsClickable()
     {
         //open the PINNED dropdown
         pinnedDropdown().click();
 
-        Assert.assertTrue("'CLEAR PINNED LIST' option is not enabled/clickable", clearPinnedListOption().isEnabled());
+        Assert.assertTrue("'CLEAR PINNED LIST' option is not enabled/clickable", clearPinnedListOption().getAttribute("aria-disabled").equals("false"));
 
         //close the PINNED dropdown
         pinnedDropdown().click();
@@ -2048,6 +2061,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr")));
         Long scrollPosition = (Long) ((JavascriptExecutor)driver).executeScript("return window.pageYOffset; ");
         Assert.assertEquals("Scroll bar is not positioned at the top of the page", new Long(0), scrollPosition);
+    }
+
+
+    public void verifyHeaderTextinComparePinnedCollegesPage() {
+
+        Assert.assertTrue("'SUPERMATCH COLLEGE SEARCH' text is not displayed in the header", comparePinnedCollegesPageHeader().getText().contains("SUPERMATCH COLLEGE SEARCH"));
+        Assert.assertTrue("'Compare Pinned Colleges' text is not displayed in the header", comparePinnedCollegesPageHeader().getText().contains("Compare Pinned Colleges"));
+
+    }
+
+    public void clickOnBackButtonInComparePinnedCollegesPage() {
+        backToMainPageButton().click();
     }
 
     /**
@@ -2619,4 +2644,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement superMatchLink() {
         return driver.findElement(By.xpath("//a[contains(text(), 'SuperMatch')]"));
     }
+    private WebElement comparePinnedCollegesPageHeader() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-header')]"));
+    }
+
+    private WebElement backToMainPageButton() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-top-toolbar')]//button[contains(text(), 'Back')]"));
+    }
+
 }
