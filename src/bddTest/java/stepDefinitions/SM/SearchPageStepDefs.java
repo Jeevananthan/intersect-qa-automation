@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -270,5 +271,11 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify that the pagination text displayed in Compare Pinned Colleges page is \"([^\"]*)\"$", searchPage::verifyPaginationTextInComparePinnedCollegesPage);
 
         Then("^SM I verify that the left pagination button is \"([^\"]*)\" and the right pagination button is \"([^\"]*)\" in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsAreEnabledOrDisabledInCpmparePinnedCollegesPage);
+
+        And("^SM I store the \"([^\"]*)\" value from the footer$", searchPage::storeValueFromFooter);
+
+        Then("^SM I favorite the school \"([^\"]*)\"$", searchPage::favoriteSchool);
+
+        And("^SM I verify that the \"([^\"]*)\" value from the footer is \"([^\"]*)\" the value stored earlier$", searchPage::verifyValueFromFooter);
     }
 }

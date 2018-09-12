@@ -32,6 +32,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties", fs, fs, fs, fs, fs);
+    private static Integer pinnedCount;
+    private static Integer thinkingAboutCount;
+    private static Integer applyingToCount;
 
     WebDriverWait wait = new WebDriverWait(driver, 10);
     public SearchPageImpl() {
@@ -858,7 +861,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
-     * select any selected checkbox only when fit criteria menu is open.
+     * Selects the named checkbox from the named filter criteria
+     * @param checkBox - Name of the checkbox to be selected
+     * @param fitCriteriaName - Name of the filter criteria containing the checkbox
      */
     public void selectCheckBox(String checkBox, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
@@ -868,6 +873,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 //        Assert.assertTrue(checkBox + " checkbox by default is not selected.", !checkboxLocator.isSelected());
         if (!onlyCheckbox.isSelected()) {
             checkboxLocator.click();
+            waitUntilPageFinishLoading();
         }
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
         getFitCriteriaCloseButton().click();
@@ -888,7 +894,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
-     * unselect any selected checkbox only when fit criteria menu is open.
+     * Unselects the named checkbox from the named filter criteria
+     * @param checkBox - Name of the checkbox to be unselected
+     * @param fitCriteriaName - Name of the filter criteria containing the checkbox
      */
     public void unselectCheckbox(String checkBox, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
@@ -2198,9 +2206,99 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Stores a numerical value from the SM footer to compare against later.
+     * @param type Value to capture from the footer.  Valid values: THINKING ABOUT, APPLYING TO, PINNED
+     */
+    public void storeValueFromFooter(String type) {
+        switch(type) {
+            case "THINKING ABOUT":
+                thinkingAboutCount = Integer.parseInt(getTinkingAboutValue().getText());
+                break;
+            case "APPLYING TO":
+                applyingToCount = Integer.parseInt(getApplyingToValue().getText());
+                break;
+            case "PINNED":
+                pinnedCount = Integer.parseInt(getPinnedValue().getText());
+                break;
+            default:
+                logger.info(type + " is not a valid value for the type of value in the footer.");
+        }
+    }
+
+    /**
+     * Favorites the school passed to the method if possible.  Continues with info message if school is not found or already favorited.
+     * @param schoolName Name of the school to be favorited
+     */
+    public void favoriteSchool(String schoolName) {
+        try {
+            setImplicitWaitTimeout(2);
+            getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite")).click();
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            logger.info("School: '" + schoolName + "' was not found, or is already favorited");
+            resetImplicitWaitTimeout();
+        }
+    }
+
+    /**
+     * Verifies a value from the footer against a value stored earlier by storeValueFromFooter(String)
+     * @param type Value to capture from the footer.  Valid values: THINKING ABOUT, APPLYING TO, PINNED
+     * @param direction compare direction - "greater than", "less than", or "equal to"
+     */
+    public void verifyValueFromFooter(String type, String direction) {
+        Integer currentThinkingAbout = 0;
+        Integer currentApplyingTo = 0;
+        Integer currentPinned = 0;
+
+        switch(type) {
+            case "THINKING ABOUT":
+                currentThinkingAbout = Integer.parseInt(getTinkingAboutValue().getText());
+                compareValues(currentThinkingAbout,thinkingAboutCount,direction);
+                break;
+            case "APPLYING TO":
+                currentApplyingTo = Integer.parseInt(getApplyingToValue().getText());
+                compareValues(currentApplyingTo,applyingToCount,direction);
+                break;
+            case "PINNED":
+                currentPinned = Integer.parseInt(getPinnedValue().getText());
+                compareValues(currentPinned,pinnedCount,direction);
+                break;
+            default:
+                Assert.assertTrue(type + " is not a valid value for the type of value in the footer.",false);
+        }
+    }
+
+    /**
+     * Compare two values in the direction indicated -- used by verifyValueFromFooter(String, String)
+     * @param current - current value
+     * @param expected - expected value
+     * @param direction - compare direction - "greater than", "less than", or "equal to"
+     */
+    private void compareValues(Integer current,Integer expected, String direction){
+        switch(direction) {
+            case "greater than":
+                softly().assertThat(current).as("Footer Value Comparison").isGreaterThan(expected);
+                break;
+            case "less than":
+                softly().assertThat(current).as("Footer Value Comparison").isLessThan(expected);
+                break;
+            case "equal to":
+                softly().assertThat(current).as("Footer Value Comparison").isEqualTo(expected);
+                break;
+            default:
+                Assert.assertTrue(direction + " is not a valid value for direction.  Use 'greater than', 'less than', or 'equal to'",false);
+        }
+    }
+
 
     // Locators Below
 
+    private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"'")))));}
+    private WebElement getPinnedValue() { return pinnedDropdown().findElement(By.xpath("./span/div"));}
+    private WebElement getApplyingToValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Applying To']/div")); }
+    private WebElement getTinkingAboutValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Thinking About']/div")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
