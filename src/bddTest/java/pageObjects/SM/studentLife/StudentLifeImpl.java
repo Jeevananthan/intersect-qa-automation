@@ -39,6 +39,19 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         searchPage.verifyMustHaveBoxContains(option);
     }
 
+    public void pickOptionFromDropdownInStudentLife(String option, String dropdown) {
+        switch(dropdown) {
+            case "ORGANIZATIONS AND CLUBS" :
+                organizationsAndClubsDropdown().click();
+                orgsAndClubsOption(option).click();
+                break;
+            case "GREEK LIFE" :
+                greekLifeDropdown().click();
+                greekLifeOption(option).click();
+                break;
+        }
+    }
+
     //Locator
 
     private WebElement getGreekLife(){ return driver.findElement(By.id("greeklife-dropdown")); }
@@ -48,4 +61,12 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     private WebElement getGreekLifeOptionNo(){return driver.findElement(By.id("greek-life-selection-no")); }
 
     private WebElement getGreekLifeDefaultOption(){ return driver.findElement(By.id("greeklife-dropdown-option-close")); }
+
+    private WebElement organizationsAndClubsDropdown() { return driver.findElement(By.cssSelector("input.search + span + div")); }
+
+    private WebElement orgsAndClubsOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div/span[text() = '" + optionName + "']")); }
+
+    private WebElement greekLifeDropdown() { return driver.findElement(By.cssSelector("div#greeklife-dropdown")); }
+
+    private WebElement greekLifeOption(String optionName) { return driver.findElement(By.cssSelector("//div[@class = 'visible menu transition']/div/span[text() = '" + optionName + "']")); }
 }
