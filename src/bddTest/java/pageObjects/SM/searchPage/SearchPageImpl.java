@@ -2198,6 +2198,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyPINNEDDropdownISPresentInFooter() {
+        softly().assertThat(pinnedFooterOption().isDisplayed() && pinnedFooterOption().getText().equals("PINNED"));
+    }
+
+    public void verifyFollowingOptionsDisplayedInPinnedDropdown(DataTable dataTable) {
+        List<String> pinnedDropdownOptions = dataTable.asList(String.class);
+
+        pinnedFooterOption().click();
+
+        for(String pinnedDropdownOption : pinnedDropdownOptions) {
+
+            softly().assertThat(visibleFooterOpenMenu().findElement(By.xpath(".//*[contains(text(), '"+ pinnedDropdownOption +"')]")).isDisplayed()
+                                && visibleFooterOpenMenu().findElement(By.xpath(".//*[contains(text(), '"+ pinnedDropdownOption +"')]")).getText().equals(pinnedDropdownOption.toUpperCase()));
+
+        }
+
+    }
+
+    public void verifyPinkCircleIsDisplayedNextToThePinnedDropdown() {
+        softly().assertThat(pinCount().findElement(By.xpath("./following-sibling::span")).getText().equals("PINNED"));
+        softly().assertThat(pinCount().getCssValue("background-color").equals("rgba(210, 0, 97, 1)"));
+    }
+
 
     // Locators Below
 
@@ -2694,5 +2717,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement rightPaginationButtonInComparePinnedCollegesPage() {
         return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-btn']//button[2]"));
+    }
+
+    private WebElement visibleFooterOpenMenu() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'menu transition visible')]"));
     }
 }

@@ -270,5 +270,11 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify that the pagination text displayed in Compare Pinned Colleges page is \"([^\"]*)\"$", searchPage::verifyPaginationTextInComparePinnedCollegesPage);
 
         Then("^SM I verify that the left pagination button is \"([^\"]*)\" and the right pagination button is \"([^\"]*)\" in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsAreEnabledOrDisabledInCpmparePinnedCollegesPage);
+
+        Then("^SM I verify that a PINNED dropdown is present in the footer$", searchPage::verifyPINNEDDropdownISPresentInFooter);
+
+        Then("^SM I verify the following options are displayed in the PINNED dropdown$", searchPage::verifyFollowingOptionsDisplayedInPinnedDropdown);
+
+        Then("^SM I verify that a pink circle is displayed next to the pinned dropdown$", searchPage::verifyPinkCircleIsDisplayedNextToThePinnedDropdown);
     }
 }

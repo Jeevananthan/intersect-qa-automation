@@ -542,3 +542,14 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I navigate to page via URL path "colleges/supermatch-next/compare"
     Then SM I verify that the pagination text displayed in Compare Pinned Colleges page is "Viewing 1 - 1 of 1"
     Then SM I verify that the left pagination button is "disabled" and the right pagination button is "disabled" in Compare Pinned Colleges page
+
+  @MATCH-3444
+  Scenario: As a HS student using the SuperMatch tool, I want a way to view and manage all my pinned schools so that
+  list of schools is always up to date.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I verify that a PINNED dropdown is present in the footer
+    And SM I verify that a pink circle is displayed next to the pinned dropdown
+    And SM I verify the following options are displayed in the PINNED dropdown
+    |Compare Pinned Colleges|
+    |Clear Pinned List      |
