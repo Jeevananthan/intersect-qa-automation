@@ -256,7 +256,12 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status, String startDateDelta, String endDateDelta){
-        WebElement actualStatus = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div[@role='alert']"));
+        WebElement actualStatus = null;
+        if(moduleName.equals("Advanced Awareness")){
+            actualStatus = driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/div/div[@role='alert']"));
+        }else {
+             actualStatus = driver.findElement(By.xpath("//td/span[text()='" + moduleName + "']/parent::td/following-sibling::td/div/div[@role='alert']"));
+        }
         if(!actualStatus.getText().equalsIgnoreCase(status)){
             actualStatus.click();
             WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
