@@ -374,7 +374,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectRadioButtonInAcademicsFitCriteria(String option) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).sendKeys(Keys.RETURN);
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'" + option.split("'")[0] + "')]"))).click();
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
@@ -1175,6 +1175,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         WebElement downChevron = superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//i"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", downChevron);
+        if (driver.findElements(By.cssSelector(confirmationMessageCloseIcon)).size() > 0) {
+            driver.findElement(By.cssSelector(confirmationMessageCloseIcon)).click();
+        }
         downChevron.click();
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")));
         superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")).click();
@@ -2695,4 +2698,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement rightPaginationButtonInComparePinnedCollegesPage() {
         return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-btn']//button[2]"));
     }
+
+    private String confirmationMessageCloseIcon = "i.close.icon";
 }
