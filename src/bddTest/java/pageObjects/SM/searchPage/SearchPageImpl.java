@@ -1640,7 +1640,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         //open the PINNED dropdown
         pinnedDropdown().click();
 
-        Assert.assertFalse("'CLEAR PINNED LIST' option is enabled/clickable", clearPinnedListOption().isEnabled());
+        Assert.assertTrue("'CLEAR PINNED LIST' option is enabled/clickable",
+                clearPinnedListOption().getAttribute("class").contains("disabled"));
 
         //close the PINNED dropdown
         pinnedDropdown().click();
