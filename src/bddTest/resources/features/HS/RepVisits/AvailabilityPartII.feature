@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able to setup my visit configurations
 
   @MATCH-1580

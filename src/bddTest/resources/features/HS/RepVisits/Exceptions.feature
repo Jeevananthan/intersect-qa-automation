@@ -1,4 +1,4 @@
-@HS @MATCH-1582
+@HS @MATCH-1582 @HS1
 Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage exceptions to my regular visit availability schedule
 
   Scenario Outline: As an HS user, I want to be able to add precondition I want to be able to view the weekly recurring time slots that my school is available for visits
