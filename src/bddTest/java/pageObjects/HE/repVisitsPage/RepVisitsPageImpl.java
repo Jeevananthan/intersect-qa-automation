@@ -3599,7 +3599,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  goToDate;
     }
     private WebElement getOverviewBtn() {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Overview']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Overview']"));
     }
     private WebElement travelPlanSeeDetailsLink() {
         return link("See details »");

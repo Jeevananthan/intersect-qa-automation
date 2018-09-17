@@ -21,12 +21,12 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='menu-link active']/span[text()='Requests']"),1));
         if(user.equals("premium")||user.equals("limited")||user.equals("naviance")||user.equals("non-naviance")){
             for(String subtab:tabs){
-                Assert.assertTrue("Requests subtab is not displayed",driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='"+subtab+"'] | //a[@class='menu-link']/span[text()='" + subtab + "']")).isDisplayed());
+                Assert.assertTrue("Requests subtab is not displayed",driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='"+subtab+"'] | //a[contains(@class, 'menu-link')]/span[text()='" + subtab + "']")).isDisplayed());
             }
         }else {
             Assert.fail("Invalid option");
         }
-        List<WebElement> Tab = driver.findElements(By.xpath("//a[@class='menu-link']/span[text()='" + tab + "']"));
+        List<WebElement> Tab = driver.findElements(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='" + tab + "']"));
         if(option.equals("displaying")){
             Assert.assertTrue("SubTab is not displayed",Tab.size()==1);
         }else if(option.equals("not displaying")){
@@ -42,6 +42,6 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Notifications']"));
     }
     private WebElement notificationsAndTasks () {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Notifications & Tasks']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Notifications & Tasks']"));
     }
 }
