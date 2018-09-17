@@ -2181,7 +2181,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void checkTableHasOneMoreRow(String locator) {
 
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(locator + " tr"), world.numberOfElements));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(locator + " tr"), world.numberOfElements + 1));
 
     }
 
