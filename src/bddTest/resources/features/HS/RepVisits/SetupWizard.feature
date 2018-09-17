@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set up Visit availability using the setup wizard
 
   @MATCH-1944

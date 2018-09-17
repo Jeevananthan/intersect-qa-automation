@@ -32,6 +32,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private Logger logger;
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties", fs, fs, fs, fs, fs);
+    private static String smLabelsPropertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSMFitCriteriaText%sSMFitCriteriaText.properties", fs, fs, fs, fs, fs);
 
     WebDriverWait wait = new WebDriverWait(driver, 10);
     public SearchPageImpl() {
@@ -374,7 +375,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectRadioButtonInAcademicsFitCriteria(String option) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).sendKeys(Keys.RETURN);
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'" + option.split("'")[0] + "')]"))).click();
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
@@ -1175,6 +1176,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         WebElement downChevron = superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//i"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", downChevron);
+        if (driver.findElements(By.cssSelector(confirmationMessageCloseIcon)).size() > 0) {
+            driver.findElement(By.cssSelector(confirmationMessageCloseIcon)).click();
+        }
         downChevron.click();
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")));
         superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")).click();
@@ -1637,7 +1641,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         //open the PINNED dropdown
         pinnedDropdown().click();
 
-        Assert.assertFalse("'CLEAR PINNED LIST' option is enabled/clickable", clearPinnedListOption().isEnabled());
+        Assert.assertTrue("'CLEAR PINNED LIST' option is enabled/clickable",
+                clearPinnedListOption().getAttribute("class").contains("disabled"));
 
         //close the PINNED dropdown
         pinnedDropdown().click();
@@ -2171,6 +2176,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The value in 'ACT' text box is not correct", actScoreTextBox().getAttribute("value").equals("26"));
     }
 
+    public void verifyTextIsPresentInFitCriteria(String entryTitle) {
+        Assert.assertTrue("The text is not present in the Fit Criteria Screen", yourFitCriteriaInstructionText()
+                .getText().equals(getStringFromPropFile(smLabelsPropertiesFilePath, entryTitle)));
+    }
+
+    public void verifySelectCriteriaButtonNotPresent() {
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("The Select Criteria To Start button is displayed when it shouldn't",
+                driver.findElements(By.xpath(selectCriteriaToStartButton)).size() == 0);
+    }
+
     public void verifyPaginationTextInComparePinnedCollegesPage(String paginationText) {
         softly().assertThat(superMatchComparePaginationText().getText().equals(paginationText));
     }
@@ -2380,8 +2396,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement firstSelectCriteriaToStartButton() {
-        return driver.findElement(By.xpath("(//button[contains(text(),'Select Criteria To Start')])[2]"));
+        return driver.findElement(By.xpath(selectCriteriaToStartButton));
     }
+
+    String selectCriteriaToStartButton = "(//button[contains(text(),'Select Criteria To Start')])[2]";
 
     private WebElement secondSelectCriteriaToStartButton(){
         return driver.findElement(By.xpath("(//button[contains(text(),'Select Criteria To Start')])[3]"));
@@ -2688,6 +2706,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-top-toolbar')]//button[contains(text(), 'Back')]"));
     }
 
+    private WebElement yourFitCriteriaInstructionText() { return driver.findElement(By.cssSelector("div.box.colored-box p")); }
+
     private WebElement superMatchComparePaginationText() {
         return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-txt']"));
     }
@@ -2701,4 +2721,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement criteriaBox(String boxTitle) { return driver.findElement(By.xpath("//h3[text() = '" + boxTitle + "']/following-sibling::*")); }
+
+    private String confirmationMessageCloseIcon = "i.close.icon";
+
 }

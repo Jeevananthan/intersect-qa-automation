@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -264,6 +265,10 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify the header text in Compare Pinned Colleges page$", searchPage::verifyHeaderTextinComparePinnedCollegesPage);
 
         Then("^SM I click on the Back button in Compare Pinned Colleges page$", searchPage::clickOnBackButtonInComparePinnedCollegesPage);
+
+        Then("^SM I verify that the text from \"([^\"]*)\" is displayed in Your Fit Criteria screen$", searchPage::verifyTextIsPresentInFitCriteria);
+
+        Then("^SM I verify that the button Select Criteria To Start is not displayed in the Your Fit Criteria screen$", searchPage::verifySelectCriteriaButtonNotPresent);
 
         Then("^SM I navigate to page via URL path \"([^\"]*)\"$", searchPage::navigateToPageViaURLPath);
 

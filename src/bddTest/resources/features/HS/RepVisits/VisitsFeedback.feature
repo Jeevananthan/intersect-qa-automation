@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature:  HS - RepVisits - VisitsFeedback - As an HS user, I should be able to provide feedback on the visit to HE user
 
   @MATCH-3101

@@ -133,10 +133,19 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
                     generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
                     break;
                 case "Student Retention (%)" :
-                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    if ((Integer.parseInt(fieldValues.get(key)) + 1) > 100) {
+                        generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) - 1));
+                    } else {
+                        generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    }
                     break;
                 case "Graduation Rate (%)" :
-                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    if ((Integer.parseInt(fieldValues.get(key)) + 1) > 100) {
+                        generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) - 1));
+                    } else {
+                        generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    }
+
                     break;
                 case "Top Areas of Study" :
                     if (fieldValues.get(key).contains("/")) {
