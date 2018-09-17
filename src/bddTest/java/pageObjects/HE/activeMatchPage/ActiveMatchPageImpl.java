@@ -185,6 +185,10 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The Download button is enabled", disabledDownloadButton().isDisplayed());
     }
 
+    public void sendTextToTheField(String text, String locator) {
+       driver.findElement(By.id(locator)).sendKeys(text);
+    }
+
     //Locators
     /**
      * Gets the ActiveMatch download connections

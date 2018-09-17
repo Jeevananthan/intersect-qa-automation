@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature: HS - Home - HomePage - As an HS user, I want to be able to access the features of the Home page
 
   @MATCH-1496

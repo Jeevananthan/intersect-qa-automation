@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set up my Visit availability
 
   @MATCH-1779 @MATCH-1735 @NotInQA
