@@ -269,7 +269,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify that tooltip icon is added to the include online learning opportunities fit criteria
 
-  @MATCH-3767
+  @MATCH-3767 @MATCH-3374
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % MALE VS. FEMALE
   in Diversity dropdown
     Given SM I am logged in to SuperMatch through Family Connection
