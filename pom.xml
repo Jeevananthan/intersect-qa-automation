@@ -166,7 +166,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @HS --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+                <cucumber.options>--tags @HStest --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
