@@ -2214,6 +2214,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyTextInBoxInWhyDrawer(String text, String box) {
+        Assert.assertTrue("The text is not present in the " + box + " box", criteriaBox(box).getText().contains(text));
+    }
+
 
     // Locators Below
 
@@ -2716,5 +2720,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-btn']//button[2]"));
     }
 
+    private WebElement criteriaBox(String boxTitle) { return driver.findElement(By.xpath("//h3[text() = '" + boxTitle + "']/following-sibling::*")); }
+
     private String confirmationMessageCloseIcon = "i.close.icon";
+
 }

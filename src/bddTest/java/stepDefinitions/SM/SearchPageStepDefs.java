@@ -275,5 +275,7 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify that the pagination text displayed in Compare Pinned Colleges page is \"([^\"]*)\"$", searchPage::verifyPaginationTextInComparePinnedCollegesPage);
 
         Then("^SM I verify that the left pagination button is \"([^\"]*)\" and the right pagination button is \"([^\"]*)\" in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsAreEnabledOrDisabledInCpmparePinnedCollegesPage);
+
+        And("^SM I verify that \"([^\"]*)\" is displayed in the \"([^\"]*)\" box in the Why Drawer$", searchPage::verifyTextInBoxInWhyDrawer);
     }
 }
