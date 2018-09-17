@@ -70,8 +70,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navigationBar.goToRepVisits();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
-            Assert.assertTrue(repVisitsSubItem + " is not showing.", driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='"+repVisitsSubItem+"']"))!=null);
-            driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='"+repVisitsSubItem+"']")).click();
+            Assert.assertTrue(repVisitsSubItem + " is not showing.", driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='"+repVisitsSubItem+"']"))!=null);
+            driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='"+repVisitsSubItem+"']")).click();
         }
     }
 
@@ -138,7 +138,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 Assert.assertTrue("Tab " + tab + " is not displaying as expected!", driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='" + tab + "']")).isDisplayed());
             }
             else{
-                Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='"+tab+"']")).isDisplayed());
+                Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='"+tab+"']")).isDisplayed());
             }
         }
     }
@@ -2098,7 +2098,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         availabilityAndSettings();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Availability is not displayed", driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Availability & Settings']")).isDisplayed());
+        Assert.assertTrue("Availability is not displayed", driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability & Settings']")).isDisplayed());
         availabilityAndSettings().click();
         notificationAndPrimaryContact().click();
         waitUntilPageFinishLoading();
@@ -7661,11 +7661,11 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement availabilityAndSettings() {
         overview().click();
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Availability & Settings']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability & Settings']"));
     }
 
     private WebElement collegeFairs() {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='College Fairs']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='College Fairs']"));
     }
 
     private WebElement collegeFairsSettings() {
@@ -7673,7 +7673,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement blockedDays() {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Blocked Days']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Blocked Days']"));
     }
 
     private WebElement timeZone() {
@@ -7681,15 +7681,15 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement messageOptions() {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Messaging Options']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Messaging Options']"));
     }
 
     private WebElement availabilitySettings() {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Availability Settings']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability Settings']"));
     }
 
     private WebElement notificationAndPrimaryContact() {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Notifications & Primary Contact']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Notifications & Primary Contact']"));
     }
 
     public void clickAddCollegeFairButton() {
@@ -8063,7 +8063,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement exception ()
     {
-        WebElement link = driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Exceptions']"));
+        WebElement link = driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Exceptions']"));
         return link;
     }
     private WebElement dateButton ()
@@ -8080,7 +8080,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement calendarHS()
     {
-        WebElement navbar = driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Calendar']"));
+        WebElement navbar = driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Calendar']"));
         return navbar;
     }
 
@@ -8088,19 +8088,19 @@ public void cancelRgisteredCollegeFair(String fairName){
     {
         waitUntil(ExpectedConditions.visibilityOf(notificationsAndTasks()));
         notificationsAndTasks().click();
-        WebElement navbar = driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Overview']"));
+        WebElement navbar = driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Overview']"));
         return navbar;
     }
 
     private WebElement notificationsAndTasks ()
     {
-        WebElement navbar = driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Notifications & Tasks']"));
+        WebElement navbar = driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Notifications & Tasks']"));
         return navbar;
     }
 
     private WebElement visitFeedback()
     {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Visit Feedback']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Visit Feedback']"));
     }
 
 
@@ -8428,9 +8428,24 @@ public void cancelRgisteredCollegeFair(String fairName){
       }
 
     public void clickVisitName(String schoolName, String startTime, String endTime){
+
+        int count = 0;
         while ( getDriver().findElements(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).size() <1 ){
+            if (count <= 5)
+            {
                 backwardsDayButton().click();
+                count = count + 1;
+            }
+            else {
+
+                while ( getDriver().findElements(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).size() <1 ){
+
+                    forwardDayButton().click();
+                }
+            }
+
         }
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")));
         getDriver().findElement(By.cssSelector("div[title='"+startTime+" — "+endTime+": "+schoolName+"']")).click();
         waitForUITransition();
 
@@ -8619,7 +8634,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return text;
     }
     private WebElement notificationAndTasks(){
-        WebElement notification=driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Notifications & Tasks']"));
+        WebElement notification=driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Notifications & Tasks']"));
         return  notification;
     }
     private WebElement activityTab(){

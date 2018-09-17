@@ -505,3 +505,66 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I clear pinned schools list
     Then SM I pin "1" colleges
     Then SM I verify the pinned college count is "1" in footer
+
+  #Note: The second AC of this ticket is already implemented in MATCH-4897
+  @MATCH-5025
+  Scenario: When student refreshes the page, the GPA and test scores data should not revert to what is stored in
+  naviance student profile
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+    Then SM I verify if the GPA and test scores are not reverted to those stored in naviance student profile when page is refreshed
+
+  @MATCH-3445
+  Scenario: As a HS student using the SuperMatch tool I want to compare my pinned schools side by side so it is easier
+  to identify similarities and differences between the schools I have pinned
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I verify that COMPARE PINNED COLLEGES is not clickable
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "1" colleges
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify the header text in Compare Pinned Colleges page
+    And SM I click on the Back button in Compare Pinned Colleges page
+    And SM I verify that the Must Have box contains "Learning Differences Support"
+
+  @MATCH-3210
+  Scenario: As a HS student I want to know how many fit criteria I have selected when searching for colleges so I can quickly see how selective I am being.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | Acceptance Rate | 25% or Lower |
+      | Acceptance Rate | 26%-50%      |
+    And SM I reload the page
+    Then SM I verify that the Must Have box contains "Acceptance Rate [2]"
+    When SM I unselect the "26%-50%" checkbox from the "Admission" fit criteria
+    Then SM I verify that the Must Have box contains "Acceptance Rate [1]"
+    Then SM I verify that the text from "your.fit.criteria.instruction.text" is displayed in Your Fit Criteria screen
+    Then SM I verify that the button Select Criteria To Start is not displayed in the Your Fit Criteria screen
+
+  @MATCH-4473
+  Scenario: Verify the text 0-0 of 0 is displayed in Compare Pinned Colleges page when no colleges are pinned
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I clear pinned schools list
+    Then SM I navigate to page via URL path "colleges/supermatch-next/compare"
+    Then SM I verify that the pagination text displayed in Compare Pinned Colleges page is "Viewing 1 - 1 of 1"
+    Then SM I verify that the left pagination button is "disabled" and the right pagination button is "disabled" in Compare Pinned Colleges page
+
+  @MATCH-3444
+  Scenario: As a HS student using the SuperMatch tool, I want a way to view and manage all my pinned schools so that
+  list of schools is always up to date.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I verify that a PINNED dropdown is present in the footer
+    And SM I verify that a pink circle is displayed next to the pinned dropdown
+    And SM I verify the following options are displayed in the PINNED dropdown
+    |Compare Pinned Colleges|
+    |Clear Pinned List      |

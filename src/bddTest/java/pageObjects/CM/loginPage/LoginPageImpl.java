@@ -57,6 +57,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             driver.manage().deleteAllCookies();
         } catch (NoSuchSessionException nsse) {
             load("http://www.google.com");
+        } catch (org.openqa.selenium.WebDriverException wde) {
+            load("http://www.google.com");
         }
         openLoginPageHE();
         String username = GetProperties.get("he.administrator.username");
@@ -80,6 +82,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             driver.manage().deleteAllCookies();
         } catch (NoSuchSessionException nsse) {
             load("http://www.google.com");
+        } catch (org.openqa.selenium.WebDriverException wde) {
+            load("http://www.google.com");
         }
         openLoginPageHS();
         String username = GetProperties.get("hs.default.username");
@@ -99,6 +103,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         try {
             driver.manage().deleteAllCookies();
         } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        } catch (org.openqa.selenium.WebDriverException wde) {
             load("http://www.google.com");
         }
         openLoginPageSupport();

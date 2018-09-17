@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manange my College Fairs availability and appointments
 
   @MATCH-1962

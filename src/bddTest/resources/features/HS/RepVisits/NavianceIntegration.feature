@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature: HS - RepVisits - NavianceIntegration -  As an HS user, I should be able to setup and sync visits to Naviance
 
   @MATCH-1625 @MATCH-1958 @MATCH-1943

@@ -1,4 +1,4 @@
-@HS @MATCH-1811
+@HS @MATCH-1811 @HS1
 Feature: HS - LoginLogout - LogoutPage - As an HS user, I can logout to end my session
 
   @QASmokeTest

@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be able to modify my enrollment data via the Community.
 
   @MATCH-811 @MATCH-814 @MATCH-815 @MATCH-1561

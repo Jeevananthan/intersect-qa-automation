@@ -98,6 +98,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             driver.manage().deleteAllCookies();
         } catch (NoSuchSessionException nsse) {
             load("http://www.google.com");
+        } catch (org.openqa.selenium.WebDriverException wde) {
+            load("http://www.google.com");
         }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
@@ -245,6 +247,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         try {
             driver.manage().deleteAllCookies();
         } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        } catch (org.openqa.selenium.WebDriverException wde) {
             load("http://www.google.com");
         }
         load(GetProperties.get("hs.app.url"));
@@ -397,6 +401,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         try {
             driver.manage().deleteAllCookies();
         } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        } catch (org.openqa.selenium.WebDriverException wde) {
             load("http://www.google.com");
         }
         openLoginPageSupport();

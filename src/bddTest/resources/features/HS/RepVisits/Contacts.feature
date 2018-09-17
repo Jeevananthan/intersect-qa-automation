@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature: HS - RepVisits - Contacts - As an HS user, I should be able to view my HE contacts
 
   @MATCH-1881 @MATCH-1872
