@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -277,5 +276,11 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify that the left pagination button is \"([^\"]*)\" and the right pagination button is \"([^\"]*)\" in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsAreEnabledOrDisabledInCpmparePinnedCollegesPage);
 
         And("^SM I verify that \"([^\"]*)\" is displayed in the \"([^\"]*)\" box in the Why Drawer$", searchPage::verifyTextInBoxInWhyDrawer);
+
+        Then("^SM I verify that a PINNED dropdown is present in the footer$", searchPage::verifyPINNEDDropdownISPresentInFooter);
+
+        Then("^SM I verify the following options are displayed in the PINNED dropdown$", searchPage::verifyFollowingOptionsDisplayedInPinnedDropdown);
+
+        Then("^SM I verify that a pink circle is displayed next to the pinned dropdown$", searchPage::verifyPinkCircleIsDisplayedNextToThePinnedDropdown);
     }
 }
