@@ -37,5 +37,7 @@ public class ActiveMatchPageStepDefs implements En {
         Then("^HE I verify the Header after selecting \"([^\"]*)\" for the following selection in the ActiveMatch export connections$",activeMatchPage::verifySelectedHeader);
 
         Then("^HE I verify the Header \"([^\"]*)\"$",activeMatchPage::verifyHeader);
+
+        Then("^I send text \"([^\"]*)\" to the field \"([^\"]*)\"$", activeMatchPage::sendTextToTheField);
     }
 }

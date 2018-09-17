@@ -24,18 +24,21 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.support.Color;
+import stepDefinitions.World;
 import utilities.GetProperties;
 import utilities.HUBSEditMode.Navigation;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private World world;
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties", fs, fs, fs, fs, fs);
     private static String smLabelsPropertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSMFitCriteriaText%sSMFitCriteriaText.properties", fs, fs, fs, fs, fs);
 
     WebDriverWait wait = new WebDriverWait(driver, 10);
     public SearchPageImpl() {
+        this.world = new World();
         logger = Logger.getLogger(SearchPageImpl.class);
     }
 
@@ -1985,9 +1988,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void pressButton(String text){
-        waitUntil(ExpectedConditions.elementToBeClickable(button(text)));
-        button(text).click();
+    public void pressButton(String text) {
+        try {
+            button(text).click();
+        } catch (Exception e) {
+            driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
+        }
     }
 
     public void pickFromDropdown(String choice, String dropdown){
@@ -2002,7 +2008,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.cssSelector(dropdown)).click();
             }
         }
-        driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();
+        driver.findElement(By.xpath("//span[text()='"+choice+"']")).click();
     }
 
     public void pressWhyForCollegeWithScore(Integer score) {
@@ -2092,7 +2098,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if (Character.valueOf(dateString.charAt(0)).equals('0')) {
             dateString = dateString.substring(1);
         }
-            while (!datePickerMonthYearText().getText().equals(getMonth(date))) {
+            while (!driver.findElement(By.xpath("//option[text()='"+getMonth(date)+"']")).isSelected()) {
+
                 datePickerNextMonthButton().click();
 
         }
@@ -2164,6 +2171,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         waitUntilPageFinishLoading();
        Assert.assertEquals((Integer) driver.findElements(By.cssSelector(locator)).size(), number);
+
+    }
+    public void getCurrentNumberOfTableRows(String locator) {
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(locator + " tr")));
+        Integer rows = driver.findElements(By.cssSelector(locator + " tr")).size();
+        world.numberOfElements = rows;
+    }
+
+    public void checkTableHasOneMoreRow(String locator) {
+
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(locator + " tr"), world.numberOfElements + 1));
 
     }
 
@@ -2244,7 +2262,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     // Locators Below
 
-    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
 
