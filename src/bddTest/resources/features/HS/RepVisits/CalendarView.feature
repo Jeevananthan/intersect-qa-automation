@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to view, manage and export my appointments from Calendar view
 
   @MATCH-1756

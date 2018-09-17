@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global search to help me find records
 
   @MATCH-1069
