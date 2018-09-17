@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature: HS - Home - AccountSettings - As an HS user, I can manage my account settings
 
   @MATCH-3060 @MATCH-3061

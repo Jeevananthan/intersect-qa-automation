@@ -6,7 +6,7 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I open the module link of name "Advanced Awareness"
-    And SP I click the button "Add New Subscription"
+    And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "State" in Add new Subscription modal
     And SP I click the Next button
     Then SP I verify the functionality of the Back button
@@ -16,8 +16,8 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
   that the client's services can be provisioned.
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
-    And SP I click in "Advanced Awareness" link
-    And SP I click the button "Add New Subscription"
+    And HE I click the link "Advanced Awareness"
+    And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "<Subscription type>" in Add new Subscription modal
     And SP I click the Next button
     And SP I fill the new subscription with the following data:
@@ -45,4 +45,19 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
       | County            | Alaska  | Aleutians East Borough County  | Male                     | Auburn University Main Campus | no     | yes        | 2 days from now | 3 days from now | None  | None             |
       | Zip               | Arizona | None                           | Racial & Ethnic Minority | Auburn University Main Campus | yes    | no         | 2 days from now | 3 days from now | 76001 | 15               |
 
+  @MATCH-5073
+  Scenario: As a Support person provisioning an AM NxtGen zip code subscription, I want to have an open text box for the
+  zip code radius that has a 100 mile limit, so that clients can be more specific with their radiuses.
+    Given SP I am logged in to the Admin page as a Support user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    And SP I open the module link of name "Advanced Awareness"
+    And SM I press button "ADD NEW SUBSCRIPTION"
+    And SP I select the radio button "Zip" in Add new Subscription modal
+    And SP I click the Next button
+    And SP I fill the new subscription with the following data:
+      | Radius from zips | 100 |
+    Then SP I verify that the value in the Radius From Zips field is "100"
+    And SP I fill the new subscription with the following data:
+      | Radius from zips | 101 |
+    Then SP I verify that the value in the Radius From Zips field is "10"
 

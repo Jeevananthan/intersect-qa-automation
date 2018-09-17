@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to access the features of the Sync Opt in features.
 
 @MATCH-3237

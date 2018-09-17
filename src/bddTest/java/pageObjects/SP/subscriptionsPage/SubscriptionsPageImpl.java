@@ -145,11 +145,6 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath(subscriptionTypeRadioButtonLocator(buttonLabel))).click();
     }
 
-    public void clickButton(String buttonLabel) {
-        waitUntil(ExpectedConditions.visibilityOf(button(buttonLabel)));
-        button(buttonLabel).click();
-    }
-
     public void deleteSubscription(DataTable dataTable) {
         waitUntilPageFinishLoading();
         List<List<String>> details = dataTable.asLists(String.class);
@@ -171,6 +166,10 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         deleteButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
+    }
+
+    public void verifyValueRadiusFromZips(String expectedValue) {
+        Assert.assertTrue("The value in Radius From Zips field is not correct", radiusFromZipsField().getAttribute("value").equals(expectedValue));
     }
 
     //Locators

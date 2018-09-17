@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days for visit availability
 
 

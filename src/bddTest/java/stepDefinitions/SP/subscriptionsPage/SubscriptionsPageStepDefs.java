@@ -21,8 +21,10 @@ public class SubscriptionsPageStepDefs implements En {
 
         And("^SP I select the radio button \"([^\"]*)\" in Add new Subscription modal$", subscriptionsPage::selectRadioButton);
 
-        And("^SP I click the button \"([^\"]*)\"$", subscriptionsPage::clickButton);
-
         And("^SP I delete the subscriptions with the following data:$", subscriptionsPage::deleteSubscription);
+
+        Then("^SP I verify that a new subscription was added with the following data:$", subscriptionsPage::verifyNewSubscription);
+
+        Then("^SP I verify that the value in the Radius From Zips field is \"([^\"]*)\"$", subscriptionsPage::verifyValueRadiusFromZips);
     }
 }

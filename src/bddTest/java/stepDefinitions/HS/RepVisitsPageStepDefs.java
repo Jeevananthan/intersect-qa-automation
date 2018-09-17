@@ -701,5 +701,6 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
 
         And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
+
     }
 }

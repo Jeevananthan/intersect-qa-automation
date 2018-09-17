@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of RepVisits I want to receive email notifications
          when there is new activity on the fairs.
 

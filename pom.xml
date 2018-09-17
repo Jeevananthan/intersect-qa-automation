@@ -33,35 +33,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.22.0</version>
-                        <configuration>
-                            <testFailureIgnore>true</testFailureIgnore>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>acceptance-test</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <forkCount>4</forkCount>
-                                    <parallel>classes</parallel>
-                                    <useSystemClassLoader>false</useSystemClassLoader>
-                                    <perCoreThreadCount>false</perCoreThreadCount>
-                                    <threadCount>4</threadCount>
-                                    <reuseForks>true</reuseForks>
-                                    <useUnlimitedThreads>false</useUnlimitedThreads>
-                                    <includes>
-                                        <include>**/*IT.class</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <version>1.8</version>
                         <executions>
@@ -214,11 +185,11 @@
                                     <goal>test</goal>
                                 </goals>
                                 <configuration>
-                                    <forkCount>3</forkCount>
+                                    <forkCount>1</forkCount>
                                     <parallel>classes</parallel>
                                     <useSystemClassLoader>false</useSystemClassLoader>
                                     <perCoreThreadCount>false</perCoreThreadCount>
-                                    <threadCount>3</threadCount>
+                                    <threadCount>1</threadCount>
                                     <reuseForks>true</reuseForks>
                                     <useUnlimitedThreads>false</useUnlimitedThreads>
                                     <includes>
@@ -228,6 +199,74 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete file="${configFilePath}"/>
+                                        <copy file="${folderFilePath}/qaEnv.properties" tofile="${configFilePath}"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>HS1-QA</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>qaEnv</value>
+                </property>
+            </activation>
+            <properties>
+                <cucumber.options>--tags @HS1 --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <delete file="${configFilePath}"/>
+                                        <copy file="${folderFilePath}/qaEnv.properties" tofile="${configFilePath}"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>HS2-QA</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>qaEnv</value>
+                </property>
+            </activation>
+            <properties>
+                <cucumber.options>--tags @HS2 --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+            </properties>
+            <build>
+                <plugins>
                     <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <version>1.8</version>
@@ -262,35 +301,6 @@
             </properties>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.22.0</version>
-                        <configuration>
-                            <testFailureIgnore>true</testFailureIgnore>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>acceptance-test</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <forkCount>2</forkCount>
-                                    <parallel>classes</parallel>
-                                    <useSystemClassLoader>false</useSystemClassLoader>
-                                    <perCoreThreadCount>false</perCoreThreadCount>
-                                    <threadCount>2</threadCount>
-                                    <reuseForks>true</reuseForks>
-                                    <useUnlimitedThreads>false</useUnlimitedThreads>
-                                    <includes>
-                                        <include>**/*IT.class</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <plugin>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <version>1.8</version>
@@ -571,6 +581,13 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.11.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <!--<version>3.0.2</version>-->
             <scope>test</scope>
         </dependency>
 

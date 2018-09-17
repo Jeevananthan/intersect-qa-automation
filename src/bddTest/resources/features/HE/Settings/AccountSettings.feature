@@ -127,4 +127,32 @@ Feature: HE - Settings - AccountSettings - As an HE user, I should be able to ma
       |purpleheautomation+limited@gmail.com   |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |limited   |PurpleHE |Limited   |purpleheautomation+limited@gmail.com   |
       |purpleheautomation+publishing@gmail.com|Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |publishing|PurpleHE |Publishing|purpleheautomation+publishing@gmail.com|
 
+  @MATCH-1785
+  Scenario: As a RepVisits user I want to see the appropriate subtabs within the RepVisits Notifications page so I can easily find the notifications I need to review.
 
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    Then I verify the following sub-tabs are displaying and "High Schools Now Available" is "displaying" in the notification tab for "premium" user
+      |Requests|Activity|
+
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+
+    Then HE I am logged in to Intersect HE as user type "limited"
+    Then I verify the following sub-tabs are displaying and "High Schools Now Available" is "not displaying" in the notification tab for "limited" user
+      |Requests|Activity|
+    And HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then I verify the following sub-tabs are displaying and "Naviance Sync" is "displaying" in the notification tab for "naviance" user
+      |Requests|Activity|Visit Feedback|
+    And HS I successfully sign out
+
+    Given HS I am logged in to Intersect HS as user type "administrator"
+    Then I verify the following sub-tabs are displaying and "Naviance Sync" is "not displaying" in the notification tab for "non-naviance" user
+      |Requests|Activity|Visit Feedback|
+    And HS I successfully sign out
