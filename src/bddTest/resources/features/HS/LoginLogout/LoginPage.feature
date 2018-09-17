@@ -1,4 +1,4 @@
-@HS @MATCH-1784
+@HS @MATCH-1784 @HS2
 Feature: HS - LoginLogout - LoginPage - As an HS user I can login with appropriate access
 
   @QASmokeTest

@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -269,10 +270,16 @@ public class SearchPageStepDefs implements En {
 
         Then("^I check that table \"([^\"]*)\"  has one more row$", searchPage::checkTableHasOneMoreRow);
       
+        Then("^SM I verify that the text from \"([^\"]*)\" is displayed in Your Fit Criteria screen$", searchPage::verifyTextIsPresentInFitCriteria);
+
+        Then("^SM I verify that the button Select Criteria To Start is not displayed in the Your Fit Criteria screen$", searchPage::verifySelectCriteriaButtonNotPresent);
+
         Then("^SM I navigate to page via URL path \"([^\"]*)\"$", searchPage::navigateToPageViaURLPath);
 
         Then("^SM I verify that the pagination text displayed in Compare Pinned Colleges page is \"([^\"]*)\"$", searchPage::verifyPaginationTextInComparePinnedCollegesPage);
 
         Then("^SM I verify that the left pagination button is \"([^\"]*)\" and the right pagination button is \"([^\"]*)\" in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsAreEnabledOrDisabledInCpmparePinnedCollegesPage);
+
+        And("^SM I verify that \"([^\"]*)\" is displayed in the \"([^\"]*)\" box in the Why Drawer$", searchPage::verifyTextInBoxInWhyDrawer);
     }
 }

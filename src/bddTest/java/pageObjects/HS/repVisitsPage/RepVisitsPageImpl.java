@@ -7588,11 +7588,11 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement availabilityAndSettings() {
         overview().click();
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Availability & Settings']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability & Settings']"));
     }
 
     private WebElement collegeFairs() {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='College Fairs']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='College Fairs']"));
     }
 
     private WebElement collegeFairsSettings() {
