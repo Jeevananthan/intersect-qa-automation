@@ -702,8 +702,6 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
 
-        And("^HS I open the Schedule New Visit form$", repVisits::clickAddVisit);
-
         And("^HS I create a visit \"([^\"]*)\" days ahead from now with the following details$", repVisits::createVisit);
 
         And("^HS I open the visit with generated time in the Calendar$", repVisits::openFairDetailsWithGeneratedDate);

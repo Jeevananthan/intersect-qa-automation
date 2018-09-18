@@ -7527,11 +7527,6 @@ public void cancelRgisteredCollegeFair(String fairName){
         }
     }
 
-    public void clickAddVisit() {
-        waitUntil(ExpectedConditions.elementToBeClickable(addVisitButton()));
-        addVisitButton().click();
-    }
-
     public void createVisit(String daysAheadFromNow, DataTable dataTable) {
         customTimeLink().click();
         Calendar calendarDate = getDeltaDate(Integer.parseInt(daysAheadFromNow));
