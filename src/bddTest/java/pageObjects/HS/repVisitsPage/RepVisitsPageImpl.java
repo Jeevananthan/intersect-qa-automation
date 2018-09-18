@@ -4507,6 +4507,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void clicklinkCollegeFair() {
             navigationBar.goToRepVisits();
+            waitUntilElementExists(collegeFairs());
             collegeFairs().click();
             waitForUITransition();
     }
@@ -6322,7 +6323,23 @@ public void cancelRgisteredCollegeFair(String fairName){
      * Click on "Disconnect RepVisits from Naviance" button.
      */
     public void disconnectFromNavianceButton(){
-        disconnectButton().click();
+            try {
+                disconnectButton().click();
+            } catch (WebDriverException e) {
+                optInYesRadioButton().click();
+                nextButton().click();
+                waitUntilElementExists(nextButton());
+                nextButton().click();
+                nextButton().click();
+                nextButton().click();
+                driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+                FluentWait<WebDriver> wait = new WebDriverWait(driver, 5);
+                wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
+                navigationBar.goToRepVisits();
+                availabilityAndSettings().click();
+                navianceSettings().click();
+                disconnectButton().click();
+        }
     }
 
     /**
@@ -6671,7 +6688,8 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span/span[text()='Go to date']"),1));
         doubleClick(goToDateButton());
         setSpecificDateforManuallyCreatingVisit(date);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//td/button[text()='"+startTime+"']"),1));
+        waitUntilElementExists(driver.findElement(By.xpath("//td/button[text()='"+startTime+"']")));
+        //waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//td/button[text()='"+startTime+"']"),1));
         WebElement button = driver.findElement(By.xpath("//td/button[text()='"+startTime+"']"));
         moveToElement(button);
         driver.findElement(By.xpath("//td/button[text()='"+startTime+"']")).click();
@@ -8081,7 +8099,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return button;
     }
     private WebElement eventLocationTextboxInSchedulePopup() {
-        WebElement text=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
+        WebElement text=driver.findElement(By.xpath("//input[@name='eventLocation']"));
         return text;
     }
     private WebElement addVisitManually() {
