@@ -299,7 +299,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
@@ -318,7 +318,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HS I successfully sign out
 
 #verify the pills in search and schedule page
-    Given HE I want to login to the HE app using "purpleheautomation+marketing@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "marketing"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the pills is not displayed in the search and schedule page using "<School>","<Date>" and "<heStartTime>"
 
@@ -333,7 +333,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HS I successfully sign out
 
 #verify the pills is present in the search and schedule page
-    Given HE I want to login to the HE app using "purpleheautomation+marketing@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "marketing"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the pills is displayed in the search and schedule page using "<School>","<Date>" and "<heStartTime>"
 
