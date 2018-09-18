@@ -2481,8 +2481,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchButton().click();
         link(schoolName).click();
         waitForUITransition();
+        waitUntilElementExists(getFairsButton());
         getFairsButton().click();
         waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='search-container']")));
         Assert.assertTrue("College Fair: " + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + " was not displayed in upcoming fairs list",driver.findElement(By.xpath("//span[text()='" + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + "']")).isDisplayed());
     }
 
