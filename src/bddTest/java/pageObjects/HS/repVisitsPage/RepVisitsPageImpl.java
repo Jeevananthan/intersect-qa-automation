@@ -3480,10 +3480,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyInputValidationsForStuRegDeadline() {
-        studentRegistrationDeadlineField().sendKeys("1000");
+    public void verifyInputValidationsForStuRegDeadline(DataTable dataTable) {
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        studentRegistrationDeadlineField().sendKeys(data.get("Registration will close"));
         hoursDaysDropdown().click();
-        hoursDaysOption("hours").click();
+        hoursDaysOption(data.get("Hours or Days option")).click();
         Assert.assertTrue("The value greater than 255 was not turned into 255", studentRegistrationDeadlineField().getAttribute("value").equals("255"));
     }
 

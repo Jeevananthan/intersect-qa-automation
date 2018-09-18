@@ -5,7 +5,7 @@ Feature: HS - RepVisits - CollegeVisits - As an HS user, I want my inputs to be 
   Scenario: As a HS RepVisits user I want my inputs to be validated in the Schedule New Visit form
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     When HS I navigate to the "Calendar" page in RepVisits
-    And HS I open the Schedule New Visit form
+    And HS I click on button Add Visit
     And HS I verify the following input validations in the Schedule New Visit form:
     | Student Registration Deadline | days | 0 |
     | Student Registration Deadline | days | 1000 |
@@ -17,7 +17,7 @@ Feature: HS - RepVisits - CollegeVisits - As an HS user, I want my inputs to be 
   Scenario: As a HS RepVisits user I want my inputs to be validated in the Visit Details form
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     When HS I navigate to the "Calendar" page in RepVisits
-    And HS I open the Schedule New Visit form
+    And HS I click on button Add Visit
     And HS I create a visit "1" days ahead from now with the following details
     | Start Time | 09:36am |
     | End Time   | 10:30am |
@@ -36,4 +36,6 @@ Feature: HS - RepVisits - CollegeVisits - As an HS user, I want my inputs to be 
   Scenario: As a HS RepVisits user I want my inputs to be validated in the Naviance Settings form
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I go to the Naviance settings
-    Then HS I verify the input validations for Student Registration Deadline
+    Then HS I verify the input validations for Student Registration Deadline with the data:
+    | Registration will close | 1000 |
+    | Hours or Days option | hours |

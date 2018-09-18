@@ -708,7 +708,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I open the visit with generated time in the Calendar$", repVisits::openFairDetailsWithGeneratedDate);
 
-        Then("^HS I verify the input validations for Student Registration Deadline$", repVisits::verifyInputValidationsForStuRegDeadline);
+        Then("^HS I verify the input validations for Student Registration Deadline with the data:$", repVisits::verifyInputValidationsForStuRegDeadline);
 
         And("^HS I cancel the open visit$", repVisits::cancelOpenVisit);
     }
