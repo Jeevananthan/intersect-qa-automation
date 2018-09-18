@@ -1,7 +1,7 @@
 @HE
 Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able to access the Search and Schedule in the RepVisits features based on my role,subscription
 
-  @MATCH-3856 @MATCH-4273 @MATCH-4378 @MATCH-3861
+  @MATCH-3856 @MATCH-4273 @MATCH-4378 @MATCH-3861 @MATCH-4209
   Scenario Outline: As an HE freemium user (any role) searching for a school in RVs on the Search and Schedule view,
                     I want to see a Search By drop-down clearly indicating what's available to me and what what requires an upgrade
                     so that I won't be confused as to what I can search against as a free user.
@@ -124,7 +124,7 @@ Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able t
 
 
 
-  @MATCH-3865 @MATCH-4489
+  @MATCH-3865 @MATCH-4489 @MATCH-4209
   Scenario Outline: As an HE premium/paid user (any role) searching for a school in RVs on the Search and Schedule view,
                     I want to be able to see all high schools outside of the U.S.
                     so that I don't have to do a country by country search to see ALL international high schools
@@ -156,7 +156,7 @@ Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able t
       |publishing        |Country        |Country    |Canada     |International QA High School|limitedPublishing|
       |community         |Country        |Country    |Canada     |International QA High School|limitedCommunity |
 
-  @MATCH-3779
+  @MATCH-3779 @MATCH-4209
   Scenario Outline: As an HE user searching for a school in RVs on the Search and Schedule view,
                     I want to see how many search results were returned and what portion of the results I'm viewing (count)
                     so that I can get a sense of how many hits I have based upon the search criteria I specified.
