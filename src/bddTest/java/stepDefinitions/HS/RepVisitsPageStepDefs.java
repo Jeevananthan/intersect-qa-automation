@@ -317,7 +317,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$", repVisits::navigateToNavianceSettingsPage);
 
         Then("^HS I click on link Add School User Manually$",repVisits::addSchoolUserManually);
-        Then("^HS I Enter Folliwng Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
+        Then("^HS I Enter Following Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
         Then("^HS I click on button Add attendees$",repVisits::clickAddAttendeetovisit);
         Then("^HS I click the Message Colleges button$",repVisits::clickMessageCollegesButton);
         Then("^HS I Enter Message as \"([^\"]*)\"$",repVisits:: massEmailMessageForAttendees);
@@ -542,8 +542,6 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I Cancel visit to create again add Notes to Cancel \"([^\"]*)\"$", repVisits::visitCancelled);
 
-        And("^HS I Enter Following Data to Add a School User Manually$", repVisits::addDataToAddAttendeeManually);
-
         And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits::verifyRepDetails);
 
         Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
@@ -702,5 +700,6 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
 
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
     }
 }

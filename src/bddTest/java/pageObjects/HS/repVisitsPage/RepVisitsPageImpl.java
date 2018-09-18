@@ -1469,8 +1469,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         collegeFairs().click();
         waitUntilPageFinishLoading();
-        while (driver.findElements(By.xpath("//span[text()='View More Upcoming Events']/..")).size()>0){
-            viewMoreUpcomingEventsLink().click();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
             waitUntilPageFinishLoading();
         }
         fairNametoClickViewDetails = FairName;
@@ -3013,12 +3013,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("input[id='notification_contacts_primary_contact_phone']"));
     }
     public void cancelCollegeFair(String fairName) {
-        logger.info("Cancelling Job Fair " + FairName + " under RepVisits.");
         navigationBar.goToRepVisits();
         collegeFairs().click();
         button(By.xpath("//a[@aria-label='"+FairName+"']")).click();
         button(By.xpath("//button[@id='edit-college-fair']")).click();
-//        button("Cancel This College Fair").click();
         driver.findElement(By.cssSelector("button[class='ui red basic button _1cCLCZWTdTFaaExQxVjUzr _2Mxz8MGcxLQjyp9ht7UTNz']")).click();
         if (getDriver().findElements(By.xpath("//span[contains(text(), 'Yes, Cancel this fair')]")).size() >= 1) {
             button("yes, cancel this fair").click();
@@ -3249,7 +3247,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void enterCollegeFairData(String field, String data){
         switch (field) {
             case "College Fair Name":
-                textbox(By.id("college-fair-name")).sendKeys(data);
+                FairName = randomizeFairName(data);
+                textbox(By.id("college-fair-name")).sendKeys(FairName);
                 break;
             case "Date":
                 getDriver().findElement(By.xpath("//div[@class='ui fluid input']/input[@id = 'college-fair-date']/../i")).click();
@@ -4443,8 +4442,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private boolean isLinkActive(WebElement link) {
         return link.getAttribute("class").contains("active");
     }
-    private WebElement viewMoreUpcomingEventsLink() { return getDriver().findElement(By.xpath("//span[text()='View More Upcoming Events']/..")); }
-    private WebElement viewMorePastEventsLink() { return getDriver().findElement(By.xpath("//span[text()='View More Past Events']/..")); }
+    private WebElement viewMoreUpcomingEventsLink() { return getDriver().findElement(By.xpath("//span[text()='View More Upcoming Events']")); }
+    private WebElement viewMorePastEventsLink() { return getDriver().findElement(By.xpath("//span[text()='View More Past Events']")); }
     private WebElement fairElementDetails(String fairName) { return getDriver().findElement(By.xpath
             ("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td[text()='" + fairName + "']/following-sibling::td[4]/a/span")); }
     private WebElement editFairButton() { return getDriver().findElement(By.cssSelector("#edit-college-fair")); }
@@ -4786,8 +4785,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyCollegeFairOverview(String fairName,String date, String attendees, String RSVPBy, String time,String viewDetails){
         navigationBar.goToRepVisits();
         collegeFairs().click();
-        while (viewMoreUpcomingEventsLink().isDisplayed()){
-            viewMoreUpcomingEventsLink().click();
+        while (link("View More Upcoming Events").isDisplayed()){
+            link("View More Upcoming Events").click();
+            waitUntilPageFinishLoading();
         }
         //Verify UI
         Assert.assertTrue("'Settings' button is not displayed",driver.findElement(By.xpath("//a/span[text()='SETTINGS']")).isDisplayed());
@@ -5304,16 +5304,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Boolean verifyElement = false;
         String rsvpConverted = dateConverter(rsvpDeadLine);
         try {
-              verifyElement = driver.findElement(By.xpath("//*[contains(text(), 'View More Upcoming Events']/..')]")).isDisplayed();
+              verifyElement = driver.findElement(By.xpath("//span[text()='View More Upcoming Events']")).isDisplayed();
         }catch(NoSuchElementException e){
              verifyElement  = false;
         }
 
         if(verifyElement)
         {
-            while (viewMoreUpcomingEventsLink().isDisplayed()) {
+            List<WebElement> viewMoreEvent = driver.findElements(By.xpath("//span[text()='View More Upcoming Events']"));
+            while (viewMoreEvent.size()>0) {
                 viewMoreUpcomingEventsLink().click();
                 waitUntilPageFinishLoading();
+                viewMoreEvent = driver.findElements(By.xpath("//span[text()='View More Upcoming Events']"));
             }
         }
         List<WebElement> upcomingEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(1)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
@@ -5423,22 +5425,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         boolean verifyLink = false;
 
         try {
-            verifyLink = driver.findElement(By.xpath("//*[contains(text(), 'View More Past Events']/..')]")).isDisplayed();
+            verifyLink = driver.findElement(By.xpath("//span[text()='View More Past Events']")).isDisplayed();
         }catch(NoSuchElementException e){
             verifyLink  = false;
         }
 
         if(verifyLink) {
-            while (viewMorePastEventsLink().isDisplayed()) {
-
+            List<WebElement> viewPastEvent = driver.findElements(By.xpath("//span[text()='View More Past Events']"));
+            while (viewPastEvent.size()>0) {
                 viewMorePastEventsLink().click();
                 waitUntilPageFinishLoading();
-
-                try {
-                    viewMorePastEventsLink().isDisplayed();
-                } catch (NoSuchElementException e) {
-                    break;
-                }
+                viewPastEvent = driver.findElements(By.xpath("//span[text()='View More Past Events']"));
             }
         }
         List<WebElement> pastEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(2)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
@@ -6313,7 +6310,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         List<String> names = dataTable.asList(String.class);
         for (String name : names) {
             getAddAttendeeSearchBox().sendKeys(name);
-            getDriver().findElement(By.xpath("//div[text()[contains(.,'" + name + "')]]")).click();
+            getDriver().findElement(By.xpath("//div[text()='" + name + "']")).click();
         }
         getDriver().findElement(By.xpath("//button/span[text()='Add Attendees']")).click();
     }
@@ -6479,8 +6476,10 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntilPageFinishLoading();
         activityTab().click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
         getDriver().findElements(By.xpath("//span[text()='View Full Details']")).get(0).click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='ui segments _3pzgJh2J1gbNBaq2S9asNJ']")));
         Assert.assertTrue("Fairs does not contains New Fair", getDriver().findElement(By.cssSelector("div[class='ui segments _3pzgJh2J1gbNBaq2S9asNJ']")).getText().contains(collegeFair));
         Assert.assertTrue("Fairs does not contains Attendee name", getDriver().findElement(By.cssSelector("div[class='ui segments _3pzgJh2J1gbNBaq2S9asNJ']")).getText().contains(attendee));
     }
