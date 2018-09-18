@@ -432,5 +432,11 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" (?:with no appointments|with appointments) in Select new assignee dropdown$",repVisits::verifyBlueNoteAlert);
       
         Then("^HE I verify the college fair is \"([^\"]*)\" in the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairInHECalendar);
+      
+        Then("^HE I select the user \"([^\"]*)\" from \"([^\"]*)\" dropdown$",repVisits::selectUserFromUserListDropdown);
+
+        Then("^HE I select the fair to reassign using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFairsToReAssign);
+
+        Then("^HE I click Reassign Appointments button \"([^\"]*)\"$",repVisits::clickReAssignAppointmentsButton);
     }
 }
