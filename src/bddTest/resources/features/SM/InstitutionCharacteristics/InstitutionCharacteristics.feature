@@ -168,4 +168,4 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
   Scenario: Adding tooltip to 'Average Class Size' fit criteria.
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
-    And SM I verify the tootip for "Average Class Size"
+    And SM I verify the tootip for "AVERAGE CLASS SIZE" in "Institution Characteristics"

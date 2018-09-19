@@ -9,7 +9,7 @@ public class InstitutionCharacteristicsStepDefs implements En {
 
         InstitutionCharacteristicsImpl iCObj = new InstitutionCharacteristicsImpl();
 
-        And("^SM I verify the tootip for \"([^\"]*)\"$", iCObj::verifyTooltipForAverageClassSize);
+        And("^SM I verify the tootip for \"([^\"]*)\" in \"([^\"]*)\"$", iCObj::verifyTooltipForAverageClassSize);
 
     }
 }
