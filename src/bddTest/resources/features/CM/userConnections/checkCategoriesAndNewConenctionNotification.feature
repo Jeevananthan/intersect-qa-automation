@@ -7,7 +7,6 @@ Feature: As a Community user I want to be able to see subtab/category called "Pe
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then I go to connections page
     And I check if subtabs/categories called "Pending Requests" and "Invited Connections" are displayed
-    Then HE I successfully sign out
 
 
 
@@ -24,4 +23,3 @@ Feature: As a Community user I want to be able to see subtab/category called "Pe
     Then I check if I see a red indicator which indicates pending connections
     And I click on Pending requests link
     And I click Approve button for "PurpleHE Automation" user
-    Then HS I successfully sign out

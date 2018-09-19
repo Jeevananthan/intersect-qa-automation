@@ -34,7 +34,6 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
   so that I can be sure internal notifications will be routed to the people who need the information.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
-    And HS I successfully sign out
 
   @MATCH-1946
   Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
@@ -49,7 +48,6 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
     Then HS I change to "next week" in exception and verify saving option works successfully
     And HS I navigate to sub tab "Availability Settings" in availability wizard
     Then HS I set the RepVisits Visits Confirmations option to "<Visits Confirmation>","<Prevent colleges scheduling new visits>","<Prevent colleges cancelling or rescheduling>"
-    And HS I successfully sign out
 
     Examples:
       |Visits Confirmation                                 |Prevent colleges scheduling new visits|Prevent colleges cancelling or rescheduling|
@@ -78,7 +76,6 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
     Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "Only Me"
     Then HS I select the "All RepVisits Users" option for Visit Availability on the 'One Last Step' page
     Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
-    Then HS I successfully sign out
 
 
   @MATCH-1947
@@ -109,7 +106,6 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
     Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
     And HS I navigate to the college visits page
     Then HS I verify the default calendar page present after the Wizard completion
-    And HS I successfully sign out
 
   @MATCH-2294
   Scenario: As a Non-Naviance HS, I want the RepVisit setup wizard to not have Naviance Settings options.
@@ -124,4 +120,3 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I navigate to the Naviance Settings page through the setup Wizard
     And HS I verify the UI of the Naviance Settings Page in setup wizard
-    And HS I successfully sign out

@@ -27,7 +27,6 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HE I successfully sign out
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "Fair-MATCH1771" with the reason "test"
-    And HS I successfully sign out
 
   @MATCH-1771
   Scenario: As a HE user, on the scheduling results page, each college fair listed has a "register" button that presents
@@ -56,7 +55,6 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HE I successfully sign out
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "Fair-MATCH1771" with the reason "test"
-    And HS I successfully sign out
 
   @MATCH-1771
   Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled
@@ -85,7 +83,6 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HE I successfully sign out
     When HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "Fair-MATCH1771" with the reason "test"
-    And HS I successfully sign out
 
   # The following scenario is failing because of MATCH-3704.
 #  @MATCH-1771
@@ -133,7 +130,6 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HE I successfully sign out
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
-    And HS I successfully sign out
 
   @manual @NotInQA
   Scenario: As a HE user, I need to verify that the error message when the fair is not available anymore
@@ -203,7 +199,6 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HE I successfully sign out
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "TestFair--x" with the reason "test"
-    And HS I successfully sign out
 
   @MATCH-2309
   Scenario: As a HE user with the community role, I am able to submit a fair request
@@ -229,7 +224,6 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     Then HE I verify that the message for registered fairs with auto approval is displayed
     When HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
-    And HS I successfully sign out
 
   @MATCH-3816
   Scenario Outline: When an HE rep cancels their RSVP for a college fair, the fair is removed from the calendar of all the other HE reps that have RSVPd but did not cancel
@@ -261,7 +255,6 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
-    And HS I successfully sign out
 
     Examples:
       |School                     |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |

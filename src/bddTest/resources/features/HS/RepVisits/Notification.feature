@@ -82,7 +82,6 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option2>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    And HS I successfully sign out
 
     Examples:
       |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |School              |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|cityAndStateofInstitution|cityAndStateofSchool  |schoolForHE                 |
@@ -170,7 +169,6 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option2>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    And HS I successfully sign out
 
     Examples:
       |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE         |
@@ -230,7 +228,6 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I verify the Notification is not displayed after "Confirm" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
 #FOR DECLINE
     Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
-    And HS I successfully sign out
 
     Examples:
       |Date  |Day|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime |Option                                              |School            |heStartTime|heTime |user    |institution              |

@@ -15,4 +15,3 @@ Feature: HE Community User - Prepopulate Community User Profile Fields Upon Acti
     And I consent to create and maintain my Intersect account
     Then I Save changes
     And I check if changes are saved
-    Then HE I successfully sign out

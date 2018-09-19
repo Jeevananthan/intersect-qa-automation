@@ -44,7 +44,6 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     Then HE I verify the left navigation bar and section breadcrumbs are as follows
       | Awareness | Counselor Community, Naviance College Profile |
       | Presence  | RepVisits                                     |
-    And HE I successfully sign out
 
   @MATCH-1344
   Scenario: As a HE premium user with Administrator role, I want to verify I have the appropriate access to various modules
@@ -53,7 +52,6 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     And HE I verify the "Counselor Community" nav link is displaying for this user
     And HE I verify the "Naviance College Profile" nav link is displaying for this user
     And HE I verify the "RepVisits" nav link is displaying for this user
-    Then HE I successfully sign out
 
   @MATCH-1344
   Scenario: As a HE Premium user with Community role, I want to verify I have the appropriate access to various modules
@@ -63,7 +61,6 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     And HE I verify the "RepVisits" nav link is displaying for this user
     And HE I verify the "Naviance college profile" nav link is not displaying for this user
     And HE I verify the "Users" nav link is not displaying for this user
-    Then HE I successfully sign out
 #
 #  @MATCH-1548 @skip
 ##  to be covered by MATCH-4631
@@ -117,7 +114,6 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the navigation globe is displayed for this user
     And HS I click the navigation globe for viewing the recent notifications
-    Then HS I successfully sign out
 
   @MATCH-4657 @MATCH-4660 @MATCH-4661 @MATCH-4662 @MATCH-4664 @MATCH-4658  @MATCH-1266 @MATCH-4659
   Scenario Outline: As an HE user in Intersect, I need to see the Intersect Connection subscription module
@@ -152,21 +148,18 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     Then HE I verify "Privacy Policy" is present in the footer
     Then HE I navigate to each page and verify the unique URL is present in the "Terms of Service" page
     Then HE I navigate to each page and verify the unique URL is present in the "Privacy Policy" page
-    And HE I successfully sign out
 
   @MATCH-2057 @MATCH-2195
   Scenario: As a HE user, I want to access to secure help links to learn about my features.
   So non-clients cannot access our help content and learn about our product.
     Given HE I want to login to the HE app using "purpleheautomation+HEAlmaCollege@gmail.com" as username and "Password!1" as password
     Then HE I verify that the help content is secure and matches the correct URL for "HE Users"
-    And HE I successfully sign out
 
   @MATCH-1430
   Scenario: As a HE user, I can access Community Guidelines page
   to read and understand how they are supposed to used the system and how the system uses their information.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to each page and verify the unique URL is present in the "Counselor Community Guidelines" page in Help Center
-    Then HE I successfully sign out
 
   @MATCH-3563
   Scenario:As a HE, I verify the Copyright information
@@ -176,4 +169,3 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the current year is displayed at the bottom of the window in the Home Page
     And HE I verify the items are present in the help center dropdown
-    Then HE I successfully sign out
