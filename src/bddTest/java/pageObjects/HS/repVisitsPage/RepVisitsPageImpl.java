@@ -1949,17 +1949,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         collegeFairs().click();
         Boolean verifyElement = false;
         try {
-            verifyElement = driver.findElement(By.xpath("//*[contains(text(), 'View More Upcoming Events']/..')]")).isDisplayed();
+            verifyElement = driver.findElement(By.xpath("//span[text()='View More Upcoming Events']")).isDisplayed();
         }catch(NoSuchElementException e){
             verifyElement  = false;
         }
 
         if(verifyElement)
         {
-            while (viewMoreUpcomingEventsLink().isDisplayed()) {
+            List<WebElement> viewMoreEvent = driver.findElements(By.xpath("//span[text()='View More Upcoming Events']"));
+            while (viewMoreEvent.size()>0) {
                 viewMoreUpcomingEventsLink().click();
-                WebElement element=viewMoreUpcomingEventsLink();
-    //            waitUntilElementExists(element);
+                waitUntilPageFinishLoading();
+                viewMoreEvent = driver.findElements(By.xpath("//span[text()='View More Upcoming Events']"));
             }
         }
         // If we're using a previously set Dynamic fair name, look for that instead.
