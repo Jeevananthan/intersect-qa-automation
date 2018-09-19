@@ -42,11 +42,11 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I Click the View Details button for the College Fair Event for "Automation Fair for Mass Email"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HEadmin" from the results in the Add Attendee pop-up page
-#    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then  HS I click the Message Colleges button
     Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
     Then  HS I click on Send Message
     Then  HS I verify confirmation message
+    And HS I successfully sign out
 
   @MATCH-1462
   Scenario: As a HS Repvisit user manually add college fair attendees
@@ -68,8 +68,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Attendee"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
-#    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
-
+    And HS I successfully sign out
 
   @MATCH-1462
   Scenario: As a HS Repvisit user manually add college fair attendees and save it
@@ -99,7 +98,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       |Position  |Alma Tester        |
       |Institution|Alma College    |
     Then HS I click on button Add attendees
-#    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    And HS I successfully sign out
 
 
   @MATCH-1631 @MATCH-1463
@@ -111,7 +110,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I verify the Fair Details Page "PreviouslySetFair","<VerifyDate>","<instructionsforCollegeRepresentatives>"
     Then HS I Click on the "Add Attendee" button in the College Fair Details Page
     Then HS I Add the following Attendee "<Attendees>" from the results in the Add Attendee pop-up page
-#    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<Status>","<Action>"
     Then HS I Click the "Cancel" button for the attendee named "<Name>"
     Then HS I set the following data in the confirm cancel pop-up "<cancellationMessage>","<buttonToClickNo,go back>"
@@ -146,9 +144,9 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I Click the View Details button for the College Fair Event for "Cancel This Fair"
     And HS I click on button Add attendees for fair
     And HS I Add the following Attendee "Franky2" from the results in the Add Attendee pop-up page
-#    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I Click on the View Details button for the College Fair Event "Cancel This Fair"
     Then HS I select Edit button to cancel the college Fair "Cancel This Fair"
+    And HS I successfully sign out
 
 
   @MATCH-1598
@@ -158,6 +156,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
     Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I verify the data for the fair present on the College Fair Overview page "PreviouslySetFair","<date>","<CollegesRegistered>","<RSVPBy>","<Time>","<ViewDetails>"
+    And HS I successfully sign out
 
   Examples:
     |CollegeFairName      |Date            |StartTime|EndTime|RSVPDate        |Cost  |MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|date        |CollegesRegistered   |RSVPBy	    |Time             |ViewDetails|
@@ -174,6 +173,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       |PurpleHE Automation|
     Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "PurpleHE Automation"
     Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
+    And HS I successfully sign out
 
   @MATCH-2382
   Scenario: As a HS user, I should see a green confirmation message when I save College Fair settings
@@ -181,6 +181,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I go to the College Fair Settings page
     Then HS I click on the Save Settings button in College Fairs tab
     Then HS I verify that a banner appears letting me know that College Fair settings were saved
+    And HS I successfully sign out
 
   @MATCH-2202
   Scenario Outline: As a HS RepVisits user who has canceled an HE attendee at a college fair
@@ -192,7 +193,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 #add attendee
     Then HS I add the following attendees to the College Fair
       |<Attendee>|
-#    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
 #cancel attendee
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I Click the "Cancel" button for the attendee "<Attendee>"
