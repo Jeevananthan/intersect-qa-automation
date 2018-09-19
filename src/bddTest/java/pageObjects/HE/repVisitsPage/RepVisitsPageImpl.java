@@ -576,7 +576,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void pressCalendarArrowUntil(String side, String month, int tries) {
         waitUntil(ExpectedConditions.visibilityOf(rightCalendarRightButton()));
         for (int i = 0; i < tries; i++) {
-            if (!rightCalendarHeaderDate().getText().split(" ")[0].equals(month)) {
+            if (!rightCalendarHeaderDate().getText().trim().split(" ")[0].equals(month)) {
                 if (side.equals("right")) {
                     rightCalendarRightButton().click();
                     waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ui.medium.inverted.loader")));
@@ -3748,7 +3748,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement miniCalendarRightButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Next Month\"]")); }
     private WebElement miniCalendarLeftButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Previous Month\"]")); }
     public WebElement miniCalendarDayCell(String day) { return getDriver().findElement(By.xpath("//div[@class='DayPicker-Week']/div[text()='" + day + "' and @class='DayPicker-Day']")); }
-    public WebElement showMoreLink() { return getDriver().findElement(By.cssSelector("a.rbc-show-more")); }
+    public String showMoreLink = "a.rbc-show-more";
     private List<WebElement> overlayEventsList() { return getDriver().findElements(By.cssSelector("div.rbc-overlay div.rbc-event")); }
     private WebElement visitsTab() { return getDriver().findElement(By.cssSelector("div.ui.left.attached.button")); }
     private WebElement goToDateButton() { return getDriver().findElement(By.cssSelector("button.ui.right.labeled.small.basic i")); }
