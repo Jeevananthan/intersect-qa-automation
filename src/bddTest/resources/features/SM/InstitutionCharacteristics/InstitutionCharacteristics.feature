@@ -163,3 +163,9 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
     Then SM I press Why button for "Grambling State University" college
     Then I check if I can see "On-campus Housing > 66%" on the page
     Then I check if I can see "79% of students live on-campus" on the page
+
+  @MATCH-4781
+  Scenario: Adding tooltip to 'Average Class Size' fit criteria.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I verify the tootip for "AVERAGE CLASS SIZE" in "Institution Characteristics"
