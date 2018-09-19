@@ -706,5 +706,12 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel registered college fair \"([^\"]*)\"$",repVisits::cancelRegisteredCollegeFair);
 
+        And("^HS I create a visit \"([^\"]*)\" days ahead from now with the following details$", repVisits::createVisit);
+
+        And("^HS I open the visit with generated time in the Calendar$", repVisits::openFairDetailsWithGeneratedDate);
+
+        Then("^HS I verify the input validations for Student Registration Deadline with the data:$", repVisits::verifyInputValidationsForStuRegDeadline);
+
+        And("^HS I cancel the open visit$", repVisits::cancelOpenVisit);
     }
 }
