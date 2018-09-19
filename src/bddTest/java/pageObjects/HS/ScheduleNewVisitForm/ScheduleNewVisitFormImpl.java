@@ -93,6 +93,7 @@ public class ScheduleNewVisitFormImpl extends PageObjectFacadeImpl {
     }
 
     public void openRescheduleVisitForm() {
+        waitUntil(ExpectedConditions.elementToBeClickable(rescheduleButton()));
         rescheduleButton().click();
     }
 

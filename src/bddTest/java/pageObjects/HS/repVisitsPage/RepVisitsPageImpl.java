@@ -7083,19 +7083,20 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(exportButtonLocator), 1));
-        List<WebElement> showMoreLinksList = driver.findElements(By.xpath(showMoreLinkLocator(date.split(",")[1].split(" ")[1])));
-        if (showMoreLinksList.size() > 0) {
-            for (WebElement showMoreLinkInRow : showMoreLinksList) {
-                try {
-                    showMoreLinkInRow.sendKeys(Keys.RETURN);
-                    eventInOverlay(date.split(",")[2].replaceFirst("0", "")).click();
-                    break;
-                } catch(WebDriverException e) {}
-            }
-        } else {
+        try {
             eventInCell(date.split(",")[1].split(" ")[1], date.split(",")[2].replaceFirst("0", "")).click();
+        } catch (Exception e) {
+            List<WebElement> showMoreLinksList = driver.findElements(By.xpath(showMoreLinkLocator(date.split(",")[1].split(" ")[1])));
+            if (showMoreLinksList.size() > 0) {
+                for (WebElement showMoreLinkInRow : showMoreLinksList) {
+                    try {
+                        showMoreLinkInRow.sendKeys(Keys.RETURN);
+                        eventInOverlay(date.split(",")[2].replaceFirst("0", "")).click();
+                        break;
+                    } catch(WebDriverException f) {}
+                }
+            }
         }
-
     }
 
     public void cancelOpenVisit() {
