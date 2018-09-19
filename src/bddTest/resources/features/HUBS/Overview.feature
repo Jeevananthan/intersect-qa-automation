@@ -58,3 +58,13 @@ Feature: HUBS - Overview - As a community user viewing College Hubs, I want to b
       #| Contact Information      |
     And HUBS I successfully sign out
 
+  @MATCH-4157
+  Scenario: User have ability to Edit 25th and 75th GPA percentile
+    When HUBS I open "Overview" in the edit menu
+    Then HUBS I should be able to edit the following fields for Overview in real time:
+      | 25th Percentile (visible only in SuperMatch) | 2.5 |
+      | 75th Percentile (visible only in SuperMatch) | 2.9 |
+
+
+
+

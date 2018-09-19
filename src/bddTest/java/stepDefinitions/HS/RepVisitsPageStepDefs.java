@@ -699,6 +699,10 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
 
         And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
+      
+        Then("^HS I verify the Attendee details \"([^\"]*)\" in Edit fairs page$",repVisits::verifyAttendeeDetailsInEditFairs);
+
+        Then("^HS I cancel registered college fair \"([^\"]*)\"$",repVisits::cancelRegisteredCollegeFair);
 
         Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
     }
