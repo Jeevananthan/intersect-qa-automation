@@ -2561,6 +2561,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
         navianceSettings().click();
     }
 
@@ -7101,6 +7102,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     public void cancelOpenVisit() {
         getCancelThisVisitButon().click();
+        waitUntilPageFinishLoading();
         selectCancel();
     }
 
