@@ -92,6 +92,7 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToHome() {
+        PageFactory.initElements(getDriver(), this);
         waitUntilElementExists(navigationDropDown);
         navigationDropDown.click();
         waitUntilPageFinishLoading();
@@ -102,6 +103,7 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToCommunity() {
+        PageFactory.initElements(getDriver(), this);
         waitForElementSetMaxTimeout();
         waitUntilElementExists(navigationDropDown);
         navigationDropDown.click();
@@ -230,8 +232,8 @@ public class NavigationBarImpl extends SeleniumBase {
      * @param option to be selected
      */
     public void selectUserOption(String option){
-        waitUntil(ExpectedConditions.visibilityOf(userDropdown));
-        userDropdown.click();
+        waitUntil(ExpectedConditions.visibilityOf(this.userDropdown));
+        this.userDropdown.click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//span[text()='%s']", option))));
         getDriver().findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
         waitUntilPageFinishLoading();

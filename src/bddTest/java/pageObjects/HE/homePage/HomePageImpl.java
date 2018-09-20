@@ -265,6 +265,38 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals(actualURL, expectedURL);
     }
 
+    public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
+        getNavigationBar().verifyLeftNavAndBreadcrumbs(dataTable);
+    }
+
+    public void verifySubMenuIsVisible(String string){
+        getNavigationBar().verifySubMenuIsVisible(string);
+    }
+
+    public void verifySubMenuIsNotVisible(String submenu){
+        getNavigationBar().verifySubMenuIsNotVisible(submenu);
+    }
+
+    public void goToCommunity(){
+        getNavigationBar().goToCommunity();
+    }
+
+    public void goToActiveMatch(){
+        getNavigationBar().goToActiveMatch();
+    }
+
+    public void goToEvents(){
+        getNavigationBar().goToEvents();
+    }
+
+    public void verifyNotificationIconInHomePage(){
+        getNavigationBar().verifyNotificationIconInHomePage();
+    }
+
+    public void clickNotificationsDropdown(){
+        getNavigationBar().clickNotificationsDropdown();
+    }
+
 
     //locators
     private WebElement userDropdown() {
