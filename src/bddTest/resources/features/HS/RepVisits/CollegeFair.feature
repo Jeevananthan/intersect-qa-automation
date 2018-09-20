@@ -100,7 +100,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
 
 
-  @MATCH-1631 @MATCH-1463
+  @MATCH-1631 @MATCH-1463 @skip
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
   so I can keep track of who is attending.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
