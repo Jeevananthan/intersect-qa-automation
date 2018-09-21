@@ -119,7 +119,8 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I verify the "<NumVisits>" Maximum colleges are present in the Availability slot for the following details "<StartDate>","<StartTime>"
     Then HS I verify the Availability slot color after select the slot "<StartDate>","<heStartTime>" in the Exception Tab
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    Examples:
+
+   Examples:
       |Day|StartDate|EndDate |StartTime|EndTime |heStartTime|NumVisits|SlotColor             |StartTimeColor        |OutlineColor      |
       |28 |28       |49      |10:41am  |12:59pm |10:        |4        |rgba(124, 174, 112, 1)|rgba(255, 255, 255, 1)|rgb(127, 143, 162)|
 
@@ -215,6 +216,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I verify the light blue background color present in the Partially Scheduled availability using "<PartiallystartTime>","<StartDate>","<back-ground color>" in Exception Tab
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     Then HS I remove the Time Slot created with "<StartDate>","<PartiallystartTime>" in Regular Weekly Hours Tab
+
     Examples:
       |Day|StartDate|EndDate |School              |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     |
       |28 |28       |49      |Int Qa High School 4|5                 |10:am               |12:am                 |12:59pm          |rgba(255, 255, 255, 1)|
@@ -277,3 +279,62 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 #    And HS I cancel a visit with time "6:06AM" college "RepresentativeTest" and note "Cancel"
 #    And HS I cancel a visit with time "6:06AM" college "RepresentativeTest2" and note "Cancel"
 #    And HS I remove the time slot with day "Fri" and time "6:06am"
+
+  @MATCH-4255
+  Scenario Outline: As a high school admin, I can able to edit the availability slots in regular weekly hours, so that i can able to enable/disable the particular time slot availability.
+#precondition
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+# NumVisits-2
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I go to the Exception tab to verify the visits using "Appointment scheduled","<heStartTime>","<StartDate>",""
+
+#NumofVisits from 2 to 1
+    Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
+    Then HS I edit the slots in Regular Weekly Hours to "1"
+
+#NumVisits-1
+    Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>","<StartDate>",""
+    Then HS I verify the pills "<StartDate>","<StartTime>" is not displayed in the schedule new visit popup
+    And HS I successfully sign out
+
+#verify the pills in search and schedule page
+    Then HE I am logged in to Intersect HE as user type "marketing"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify the pills is not displayed in the search and schedule page using "<School>","<Date>" and "<heStartTime>"
+
+#edit regular weekly hours
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
+    Then HS I edit the slots in Regular Weekly Hours to "2"
+
+#verify the Exception tab
+    Then HS I go to the Exception tab to verify the visits using "Appointment scheduled","<heStartTime>","<StartDate>",""
+    Then HS I verify the pills "<StartDate>","<StartTime>" is displayed in the schedule new visit popup
+    And HS I successfully sign out
+
+#verify the pills is present in the search and schedule page
+    Then HE I am logged in to Intersect HE as user type "marketing"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I verify the pills is displayed in the search and schedule page using "<School>","<Date>" and "<heStartTime>"
+
+#Remove the time slot in Regular Weekly Hours Tab
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Examples:
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|School              |heStartTime|heTime |
+      |7   |7   |10:55am  |12:11pm|2        |7        |14     |12:11pm  |Int Qa High School 4|10:55am    |10:55am|

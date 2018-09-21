@@ -1,5 +1,5 @@
 @HS @HS1
-Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manange my College Fairs availability and appointments
+Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manage my College Fairs availability and appointments
 
   @MATCH-1962
   Scenario: As a HIGH School User, I want to verify College Fair Blank DashBoard
@@ -40,11 +40,11 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     And HS I Click the View Details button for the College Fair Event for "Automation Fair for Mass Email"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HEadmin" from the results in the Add Attendee pop-up page
-    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then  HS I click the Message Colleges button
     Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
     Then  HS I click on Send Message
     Then  HS I verify confirmation message
+    And HS I successfully sign out
 
   @MATCH-1462
   Scenario: As a HS Repvisit user manually add college fair attendees
@@ -66,8 +66,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Attendee"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
-    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
-
+    And HS I successfully sign out
 
   @MATCH-1462
   Scenario: As a HS Repvisit user manually add college fair attendees and save it
@@ -89,7 +88,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Manual Attendee"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     Then HS I click on link Add School User Manually
-    Then HS I Enter Folliwng Data to Add a School User Manually
+    Then HS I Enter Following Data to Add a School User Manually
       |First Name| AlmauserFirstName|
       |Last Name |AlmaUserLastName  |
       |E-mail    |almauser@E-mail.com|
@@ -97,7 +96,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
       |Position  |Alma Tester        |
       |Institution|Alma College    |
     Then HS I click on button Add attendees
-    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    And HS I successfully sign out
 
 
   @MATCH-1631 @MATCH-1463 @ignore
@@ -109,7 +108,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     Then HS I verify the Fair Details Page "PreviouslySetFair","<VerifyDate>","<instructionsforCollegeRepresentatives>"
     Then HS I Click on the "Add Attendee" button in the College Fair Details Page
     Then HS I Add the following Attendee "<Attendees>" from the results in the Add Attendee pop-up page
-    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<Status>","<Action>"
     Then HS I Click the "Cancel" button for the attendee named "<Name>"
     Then HS I set the following data in the confirm cancel pop-up "<cancellationMessage>","<buttonToClickNo,go back>"
@@ -125,7 +123,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
       |QA Fair Cancel Fair Attendee|3               |2               |0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|3                |                                     |PurpleHE Automation      |PurpleHE Automation undefined         |     |Attending|yes   |QA Test for canceling Attendees |No, go back            |Yes, cancel visit             |Canceled        |               |
 
   @MATCH-1775
-  Scenario: As a High School Community user, I wan tto be able to cancel my college fair and notify attendees
+  Scenario: As a High School Community user, I want to be able to cancel my college fair and notify attendees
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I create a College Fair with the following data
@@ -143,10 +141,9 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     And HS I Click the View Details button for the College Fair Event for "Cancel This Fair"
     And HS I click on button Add attendees for fair
     And HS I Add the following Attendee "Franky2" from the results in the Add Attendee pop-up page
-    And HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
-    And HS I click on Edit button to navigate to Edit College Fair
-    And HS I cancel the "Cancel This Fair" College Fair
-
+    Then HS I Click on the View Details button for the College Fair Event "Cancel This Fair"
+    Then HS I select Edit button to cancel the college Fair "Cancel This Fair"
+    And HS I successfully sign out
 
 
   @MATCH-1598
@@ -156,6 +153,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
     Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I verify the data for the fair present on the College Fair Overview page "PreviouslySetFair","<date>","<CollegesRegistered>","<RSVPBy>","<Time>","<ViewDetails>"
+    And HS I successfully sign out
 
   Examples:
     |CollegeFairName      |Date            |StartTime|EndTime|RSVPDate        |Cost  |MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|date        |CollegesRegistered   |RSVPBy	    |Time             |ViewDetails|
@@ -169,9 +167,10 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     Then HS I verify configuration and staff notifications for "District Manager" and "NidhuHS User"
     Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
     Then HS I add the following attendees to the College Fair
-      |Jeeva C|
-    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "Jeeva C"
+      |PurpleHE Automation|
+    Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "PurpleHE Automation"
     Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
+    And HS I successfully sign out
 
   @MATCH-2382
   Scenario: As a HS user, I should see a green confirmation message when I save College Fair settings
@@ -179,6 +178,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     Then HS I go to the College Fair Settings page
     Then HS I click on the Save Settings button in College Fairs tab
     Then HS I verify that a banner appears letting me know that College Fair settings were saved
+    And HS I successfully sign out
 
   @MATCH-2202
   Scenario Outline: As a HS RepVisits user who has canceled an HE attendee at a college fair
@@ -190,7 +190,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
 #add attendee
     Then HS I add the following attendees to the College Fair
       |<Attendee>|
-    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
 #cancel attendee
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I Click the "Cancel" button for the attendee "<Attendee>"
@@ -200,7 +199,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
-    And HE I successfully sign out
 #decline attendee
     Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
@@ -212,7 +210,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
-    And HE I successfully sign out
 #confirm attendee
     Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
