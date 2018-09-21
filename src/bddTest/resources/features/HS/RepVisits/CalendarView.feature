@@ -157,3 +157,64 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     Then HE I verify that Share Calendars Link is displayed in Calendar page
     Then HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link
     And HS I successfully sign out
+
+  @MATCH-1762 @MATCH-2124
+  Scenario Outline: As an HE Community member,
+  I need to be able to view appointment details in my calendar of my appointments
+  so that I can easily get address/contact/additional info on the scheduled visit.
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    And HS I successfully sign out
+
+#premium
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    And HE I select calendar in RepVisits
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I remove the appointment from the calendar
+
+#community
+    Then HE I am logged in to Intersect HE as user type "community"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I remove the appointment from the calendar
+
+#freemium
+    Then HE I am logged in to Intersect HE as user type "limited"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>" in freemium
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>" for freemium
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I remove the appointment from the calendar
+
+#Remove the time slot in Regular Weekly Hours Tab
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
+    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
+    Examples:
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School                  |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo  |user          |eMail                                       |
+      |21  |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |555-555-1212 |School Manager|school_user_61024USPU@localhost.naviance.com|
