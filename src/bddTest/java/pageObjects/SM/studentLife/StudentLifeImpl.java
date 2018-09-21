@@ -3,9 +3,15 @@ package pageObjects.SM.studentLife;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentLifeImpl extends PageObjectFacadeImpl {
 
@@ -13,6 +19,10 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(StudentLifeImpl.class);
     }
     SearchPageImpl searchPage = new SearchPageImpl();
+
+    private static String fs = File.separator;
+    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sDropdownOptionsLists%sDropdownOptionsLists.properties", fs, fs, fs, fs, fs);
+
 
     private Logger logger;
 
@@ -52,6 +62,62 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyDefaultTextInDropdown(String dropdown, String expectedText) {
+        Assert.assertTrue("The default text in the " + dropdown + " is not correct",
+                organizationsAndClubsDropdown().getText().equals(expectedText));
+    }
+
+    public void clickDropdown(String locator) {
+        try {
+            driver.findElement(By.cssSelector(locator)).click();
+        } catch (Exception e) {
+            driver.findElement(By.xpath(locator)).click();
+        }
+    }
+
+    public void verifyListMatchesList(String originalListLocator, String expectedListEntryTitle) {
+        List<String> expectedOptionsList = getListFromPropFile(propertiesFilePath, ";", expectedListEntryTitle);
+        List<WebElement> originalListWebElements = driver.findElements(By.cssSelector(originalListLocator));
+        List<String> originalList = new ArrayList<>();
+        for (WebElement element : originalListWebElements) {
+            originalList.add(element.getText());
+        }
+        Assert.assertTrue("The list in the dropdown does not have the expected values",
+                originalList.equals(expectedOptionsList));
+    }
+
+    public void selectOptionFromList(String optionName, String listLocator) {
+        List<WebElement> optionsListWebElements = driver.findElements(By.cssSelector(listLocator));
+        for (WebElement element : optionsListWebElements) {
+            if (element.getText().equals(optionName)) {
+                element.click();
+                break;
+            }
+        }
+    }
+
+    public void verifyAddedOptionInOrgsAndClubs(String optionName) {
+        List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInOrgsAndClubs));
+        boolean isElementPresent = false;
+        for (WebElement element : addedElements) {
+            if (element.getAttribute("value").equals(optionName)) {
+                isElementPresent = true;
+            }
+        }
+        Assert.assertTrue("The option was not added to the Organizations and Clubs text field",
+                isElementPresent);
+    }
+
+    public void verifyNumberOfAddedOptionsInOrgsAndClubs(String numberOfAddedOptions) {
+        List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInOrgsAndClubs));
+        Assert.assertTrue("The number of added options in the Organizations and Clubs text field is incorrect",
+                addedElements.size() == Integer.parseInt(numberOfAddedOptions));
+    }
+
+    public void removeOptionFromOrgAndClubs(String optionName) {
+        driver.findElement(By.xpath(xButtonAddedElementOrgsAndClubs(optionName))).click();
+    }
+
     //Locator
 
     private WebElement getGreekLife(){ return driver.findElement(By.id("greeklife-dropdown")); }
@@ -69,4 +135,8 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     private WebElement greekLifeDropdown() { return driver.findElement(By.cssSelector("div#greeklife-dropdown")); }
 
     private WebElement greekLifeOption(String optionName) { return driver.findElement(By.cssSelector("//div[@class = 'visible menu transition']/div/span[text() = '" + optionName + "']")); }
+
+    private String addedElementsInOrgsAndClubs = "a.ui.label";
+
+    private String xButtonAddedElementOrgsAndClubs(String optionName) { return "//a[@value = '" + optionName + "']/i";}
 }
