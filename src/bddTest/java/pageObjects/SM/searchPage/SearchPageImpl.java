@@ -897,8 +897,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void unselectCheckbox(String checkBox, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
             openFitCriteria(fitCriteriaName);
-        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
-        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), \"" + checkBox + "\")]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), \"" + checkBox + "\")]/../input"));
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
         if (onlyCheckbox.isSelected()) {
             checkboxLocator.click();
