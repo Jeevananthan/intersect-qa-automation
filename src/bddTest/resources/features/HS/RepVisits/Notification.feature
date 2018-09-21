@@ -1,7 +1,7 @@
 @HS @HS1
 Feature: HS - RepVisits - Notification - As an HS user, I should be able to see notifications when there are new appointment requests or changes to existing appointments
 
-  @MATCH-2168
+  @MATCH-2168 @ignore
   Scenario Outline: As a Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page,
                     I want to see the City and State of each institution within each notification entry
                     so I can more easily identify the institution the notification entry is updating me about.
@@ -87,7 +87,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
       |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |School              |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|cityAndStateofInstitution|cityAndStateofSchool  |schoolForHE                 |
       |PurpleHE|The University of Alabama|9:00am       |7  |10:25am  |11:25pm |3        |7        |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|Int Qa High School 4|10:        |10:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Tuscaloosa, AL           |Liberty Township, Ohio|Int Qa High School 4 - Ohio |
 
-  @MATCH-2168
+  @MATCH-2168 @ignore
   Scenario Outline: As a Non-Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page,
                     I want to see the City and State of each institution within each notification entry
                     so I can more easily identify the institution the notification entry is updating me about.

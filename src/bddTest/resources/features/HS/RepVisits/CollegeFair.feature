@@ -100,7 +100,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
     Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
 
 
-  @MATCH-1631 @MATCH-1463
+  @MATCH-1631 @MATCH-1463 @ignore
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
   so I can keep track of who is attending.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
@@ -225,7 +225,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manan
       |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School              |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
       |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Int Qa High School 4|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
 
-  @MATCH-2080 @MATCH-2217
+  @MATCH-2080 @MATCH-2217 @ignore
   Scenario: As a HS RepVisits user,
   I need to be able to access all college fairs from the dashboard
   So i know what's upcoming and can see previous fairs' data.

@@ -78,7 +78,7 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
     Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
 
 
-  @MATCH-1947
+  @MATCH-1947 @ignore
   Scenario Outline: As a HS RepVisits user I want to be able to use the rep-visits setup page to set the Messaging options
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Messaging Options Page in the repvists setup wizard "<verify Confirmation Message>","<verify Special Instruction for RepVisits>"
