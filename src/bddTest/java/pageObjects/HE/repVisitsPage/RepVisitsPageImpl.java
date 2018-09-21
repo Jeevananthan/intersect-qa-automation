@@ -1644,7 +1644,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyNotification(String school,String date,String time) {
         Assert.assertTrue("Requests is not displayed",requestsubtab().isDisplayed());
         requestsubtab().click();
-        Assert.assertTrue("school is not displayed",schoolInRequest(school).isDisplayed());
+        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']")).isDisplayed());
         String Date = selectdate(date);
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         Assert.assertTrue("date and time are not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+visitTime+"']")).isDisplayed());
@@ -1656,7 +1656,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(requestsubtab());
         Assert.assertTrue("Requests is not displayed",requestsubtab().isDisplayed());
         requestsubtab().click();
-        Assert.assertTrue("school is not displayed",schoolInRequest(school).isDisplayed());
+        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']")).isDisplayed());
         String Date = selectdate(date);
         Assert.assertTrue("date and time is not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+time+"']")).isDisplayed());
     }
@@ -1680,14 +1680,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String Date = selectdate(date);
         Assert.assertTrue("View full details option is not displayed",driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+visitTime+"']/following-sibling::div/a/span[text()='View full details']")).isDisplayed());
         driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+Date+"']/parent::div[text()='"+visitTime+"']/following-sibling::div/a/span[text()='View full details']")).click();
-        waitForUITransition();
-        waitUntilElementExists(textBoxInViewDetails());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@aria-label='Internal Notes']")));
         textBoxInViewDetails().sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("save button is not displayed",saveButton().isDisplayed());
         saveButton().click();
-        // The temporary notification that appears on save hides the user dropdown which can break subsequent steps.
-        waitForUITransition();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Great! Your notes have been updated']")));
     }
 
     public void clickOnSeeAllUsersLink(String link) {
@@ -1718,6 +1715,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         textBoxInViewDetails().sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("save button is not displayed",saveButton().isDisplayed());
         saveButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Great! Your notes have been updated']")));
     }
 
     public void verifynoNotificationMessage(String message) {
@@ -3860,7 +3858,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return school;
     }
     private WebElement saveButton() {
-        WebElement button=driver.findElement(By.cssSelector("button[class='ui primary button']"));
+        WebElement button=driver.findElement(By.xpath("//button/span[text()='Save']"));
         return button;
     }
     private WebElement yesButton() {
