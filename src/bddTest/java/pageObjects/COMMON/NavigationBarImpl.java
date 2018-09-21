@@ -92,7 +92,6 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToHome() {
-        PageFactory.initElements(getDriver(), this);
         waitUntilElementExists(navigationDropDown);
         navigationDropDown.click();
         waitUntilPageFinishLoading();
@@ -103,7 +102,6 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToCommunity() {
-        PageFactory.initElements(getDriver(), this);
         waitForElementSetMaxTimeout();
         waitUntilElementExists(navigationDropDown);
         navigationDropDown.click();

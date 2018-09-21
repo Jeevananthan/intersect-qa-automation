@@ -792,7 +792,7 @@ public class GlobalSearch extends SeleniumBase {
         getDriver().findElement(By.xpath("//div[@class='ui icon input']/i")).click();
     }
     private void clickAdvancedSearchLink(){
-        navigationBar.clickAdvancedSearchLink();
+        getNavigationBar().clickAdvancedSearchLink();
     }
     private WebElement RepvisitsAvailabilityButton()
     {
