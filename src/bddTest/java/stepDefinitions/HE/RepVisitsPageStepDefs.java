@@ -391,8 +391,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the saved changes after navigate away from Your Notifications subtab$",repVisits::verifySavedChangesInYourNotification);
 
-        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
-
         When("^HE I go to re assign appointments$", repVisits::goToReassignAppointment);
 
         Then("^HE I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
@@ -432,5 +430,11 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" (?:with no appointments|with appointments) in Select new assignee dropdown$",repVisits::verifyBlueNoteAlert);
       
         Then("^HE I verify the college fair is \"([^\"]*)\" in the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairInHECalendar);
+      
+        Then("^HE I select the user \"([^\"]*)\" from \"([^\"]*)\" dropdown$",repVisits::selectUserFromUserListDropdown);
+
+        Then("^HE I select the fair to reassign using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectFairsToReAssign);
+
+        Then("^HE I click Reassign Appointments button \"([^\"]*)\"$",repVisits::clickReAssignAppointmentsButton);
     }
 }

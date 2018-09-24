@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature: HS - Community - Community - As an HS user, I can view HE institution data
 
   @MATCH-1904

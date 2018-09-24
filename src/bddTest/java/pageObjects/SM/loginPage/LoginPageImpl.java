@@ -60,7 +60,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(button("Find Your Fit"))).click();
         //SuperMatch™ College Search Next
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("SuperMatch®"))).click();
-        new WebDriverWait(getDriver(),40).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
+        new WebDriverWait(getDriver(),100).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
     }
 
     /**

@@ -25,10 +25,10 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     | X out of X Must Have criteria are a match |
     | X out of X Nice to Have criteria are a match |
 
-@MATCH-4249
+  @MATCH-4249 @MATCH-3295
   Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual athletics data for the college so I can clearly see what matched
- When SM I click "Athletics" filter criteria tab
+    When SM I click "Athletics" filter criteria tab
     And SM I press button "ADD SPORT"
     And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
     And SM I press button "ADD"
@@ -36,6 +36,8 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     Then I check if I can see "Athletics [1]" on the page
     And  I check if I can see "The following athletics are offered:" on the page
     And  I check if I can see "Archery" on the page
+    Then I check if I can see "Fit Score Breakdown" on the page
+    Then I check if I can see "Your Fit Score:" on the page
 
   @MATCH-4249
   Scenario: As a HS student viewing the Why drawer of a particular college in my search results,

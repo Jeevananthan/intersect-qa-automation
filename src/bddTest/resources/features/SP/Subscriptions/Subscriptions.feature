@@ -4,18 +4,22 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
   @MATCH-4369
   Scenario: As a Support user, I verify that the Next and Back button are working properly when adding a new subscription
     Given SP I am logged in to the Admin page as a Support user
-    When SP I select "The University of Alabama" from the institution dashboard
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I open the module link of name "Advanced Awareness"
-    And SP I add a new subscription of type "State"
+    And SM I press button "ADD NEW SUBSCRIPTION"
+    And SP I select the radio button "State" in Add new Subscription modal
+    And SP I click the Next button
     Then SP I verify the functionality of the Back button
 
   @MATCH-4369 @MATCH-4368
   Scenario Outline: As a Support user, I need the ability to add an Advanced Awareness or Connection subscription so
   that the client's services can be provisioned.
     Given SP I am logged in to the Admin page as a Support user
-    When SP I select "The University of Alabama" from the institution dashboard
-    And SP I open the module link of name "Advanced Awareness"
-    And SP I add a new subscription of type "<Subscription type>"
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SM I press button "ADD NEW SUBSCRIPTION"
+    And SP I select the radio button "<Subscription type>" in Add new Subscription modal
+    And SP I click the Next button
     And SP I fill the new subscription with the following data:
     | State                | <State>            |
     | Counties             | <Counties>         |
@@ -28,15 +32,13 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
     | Zips                 | <Zips>             |
     | Radius from zips     | <Radius from zips> |
     And SP I save the new subscription
-    #Since it is not possible to remove Subscriptions yet, this verification will match many items, so it cannot be used yet.
-#    Then SP I verify that a new subscription was added with the following data:
-#    | Location  | <State>              |
-#    | Diversity | <Diversity Filter>   |
-#    | Start Date | <Start date>        |
-    # The functionality to delete subscriptions is not implemented yet
-#    And SP I delete the subscriptions with the following data:
-#      | Location | <State> |
-#      | Diversity | <Diversity Filter>   |
+    Then SP I verify that a new subscription was added to the subscription table with the following data:
+    | Location  | <State>              |
+    | Diversity | <Diversity Filter>   |
+    | Start Date | <Start date>        |
+    And SP I delete the subscriptions with the following data:
+      | Diversity | <Diversity Filter>   |
+      | Start Date | <Start date>        |
     Examples:
       | Subscription type | State   | Counties                       | Diversity Filter         | Competitors                   | Majors | Connection | Start date      | End date        | Zips  | Radius from zips |
       | State             | Alabama | None                           | Female                   | Auburn University Main Campus | yes    | no         | 2 days from now | 3 days from now | None  | None             |
@@ -47,9 +49,11 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
   Scenario: As a Support person provisioning an AM NxtGen zip code subscription, I want to have an open text box for the
   zip code radius that has a 100 mile limit, so that clients can be more specific with their radiuses.
     Given SP I am logged in to the Admin page as a Support user
-    When SP I select "The University of Alabama" from the institution dashboard
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I open the module link of name "Advanced Awareness"
-    And SP I add a new subscription of type "Zip"
+    And SM I press button "ADD NEW SUBSCRIPTION"
+    And SP I select the radio button "Zip" in Add new Subscription modal
+    And SP I click the Next button
     And SP I fill the new subscription with the following data:
       | Radius from zips | 100 |
     Then SP I verify that the value in the Radius From Zips field is "100"

@@ -236,7 +236,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(startDate);
-        setDate(gotoDate, "other");
+       setDate(gotoDate, "Go To Date");
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         String visitDate=getMonthandDate(startDate);
         WebElement button= driver.findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
@@ -251,7 +251,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(startDate);
-        setDate(gotoDate, "other");
+        setDate(gotoDate, "Go To Date");
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         String visitDate=getMonthandDate(startDate);
         List<WebElement> button= driver.findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
@@ -577,7 +577,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void pressCalendarArrowUntil(String side, String month, int tries) {
         waitUntil(ExpectedConditions.visibilityOf(rightCalendarRightButton()));
         for (int i = 0; i < tries; i++) {
-            if (!rightCalendarHeaderDate().getText().split(" ")[0].equals(month)) {
+            if (!rightCalendarHeaderDate().getText().trim().split(" ")[0].equals(month)) {
                 if (side.equals("right")) {
                     rightCalendarRightButton().click();
                     waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ui.medium.inverted.loader")));
@@ -1504,8 +1504,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-
-    public void searchSchool(String school){
+   public void searchSchool(String school){
         waitUntilPageFinishLoading();
         navigateToRepVisitsSection("Search and Schedule");
         waitUntilPageFinishLoading();
@@ -1519,7 +1518,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         schoolName.click();
         waitUntilPageFinishLoading();
     }
-
 
     public void visitsSchedule(String school,String startDate,String time){
         waitUntil(ExpectedConditions.visibilityOf(visit()));
@@ -2443,6 +2441,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    public String getSpecificDateforReAssignAppointments(String addDays) {
+        String DATE_FORMAT_NOW = "EEEE, d MMMM yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
     public void setDateforCalendarPage(String date,String fromOrTo){
         String[] parts = date.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
@@ -2482,8 +2490,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchButton().click();
         link(schoolName).click();
         waitForUITransition();
+        waitUntilElementExists(getFairsButton());
         getFairsButton().click();
         waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='search-container']")));
         Assert.assertTrue("College Fair: " + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + " was not displayed in upcoming fairs list",driver.findElement(By.xpath("//span[text()='" + pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName + "']")).isDisplayed());
     }
 
@@ -3264,7 +3274,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement userInSelectNewAssignee = driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']"));
         jsClick(userInSelectNewAssignee);
     }
-  
+
     public void verifyCollegeFairInHECalendar(String option,String school,String time,String date){
         navigationBar.goToRepVisits();
         waitUntilPageFinishLoading();
@@ -3292,6 +3302,45 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Appointment Slot time and university is displayed",appointment.size()==0);
         }else {
             Assert.fail("Invalid option");
+        }
+    }
+  
+        public void selectUserFromUserListDropdown(String user,String dropdown){
+        if(dropdown.equals("Select staff member")){
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[text()='Select staff member']")));
+            selectStaffMemberButton().click();
+            driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")).click();
+            waitUntilPageFinishLoading();
+        }else if (dropdown.equals("Select new assignee")){
+            jsClick(newAssigneeButton());
+            driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")).click();
+            waitUntilPageFinishLoading();
+        }else {
+            Assert.fail("Invalid option");
+        }
+    }
+
+    public void selectFairsToReAssign(String date,String school,String noOfStudents){
+        while(showMoreButtonInReassignAppointments().isDisplayed()){
+            showMoreButtonInReassignAppointments().click();
+            waitUntilPageFinishLoading();
+        }
+        String fairsDate = getSpecificDateforCalendar(date);
+        WebElement appointmentCheckbox = driver.findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
+                "div/span[text()='College Fair']/ancestor::div/following-sibling::div[@class='twelve wide column']" +
+                "/div/div//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/span[text()='Number of Expected Students']" +
+                "/following-sibling::div[text()='"+noOfStudents+"']/ancestor::div/div/div/input[@type='checkbox']"));
+        appointmentCheckbox.click();
+    }
+
+    public void clickReAssignAppointmentsButton(String appointmentsCount){
+        int count = Integer.parseInt(appointmentsCount);
+        if(count>0){
+            driver.findElement(By.xpath("//button[text()='Reassign "+count+" Appointments']")).click();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='content']>span")));
+            waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[class='content']>span")));
+        }else {
+            reAssignAppointmentsButton().click();
         }
     }
 
@@ -3600,7 +3649,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  goToDate;
     }
     private WebElement getOverviewBtn() {
-        return driver.findElement(By.xpath("//a[@class='menu-link']/span[text()='Overview']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Overview']"));
     }
     private WebElement travelPlanSeeDetailsLink() {
         return link("See details »");
@@ -3700,7 +3749,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement miniCalendarRightButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Next Month\"]")); }
     private WebElement miniCalendarLeftButton() { return getDriver().findElement(By.cssSelector("span[aria-label=\"Previous Month\"]")); }
     public WebElement miniCalendarDayCell(String day) { return getDriver().findElement(By.xpath("//div[@class='DayPicker-Week']/div[text()='" + day + "' and @class='DayPicker-Day']")); }
-    public WebElement showMoreLink() { return getDriver().findElement(By.cssSelector("a.rbc-show-more")); }
+    public String showMoreLink = "a.rbc-show-more";
     private List<WebElement> overlayEventsList() { return getDriver().findElements(By.cssSelector("div.rbc-overlay div.rbc-event")); }
     private WebElement visitsTab() { return getDriver().findElement(By.cssSelector("div.ui.left.attached.button")); }
     private WebElement goToDateButton() { return getDriver().findElement(By.cssSelector("button.ui.right.labeled.small.basic i")); }
@@ -4146,6 +4195,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public List<WebElement> getUsers() {
        return driver.findElements(By.xpath("//div[@class='menu transition visible']/div"));
+    }
+     private WebElement selectStaffMemberButton(){
+        return driver.findElement(By.xpath("//div[text()='Select staff member']"));
+    }
+    private WebElement showMoreButtonInReassignAppointments(){
+        return button("Show More");
     }
 }
 

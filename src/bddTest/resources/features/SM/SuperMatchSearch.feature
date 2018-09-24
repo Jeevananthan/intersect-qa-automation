@@ -269,7 +269,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify that tooltip icon is added to the include online learning opportunities fit criteria
 
-  @MATCH-3767
+  @MATCH-3767 @MATCH-3374
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % MALE VS. FEMALE
   in Diversity dropdown
     Given SM I am logged in to SuperMatch through Family Connection
@@ -534,6 +534,21 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I click on the Back button in Compare Pinned Colleges page
     And SM I verify that the Must Have box contains "Learning Differences Support"
 
+  @MATCH-3210
+  Scenario: As a HS student I want to know how many fit criteria I have selected when searching for colleges so I can quickly see how selective I am being.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | Acceptance Rate | 25% or Lower |
+      | Acceptance Rate | 26%-50%      |
+    And SM I reload the page
+    Then SM I verify that the Must Have box contains "Acceptance Rate [2]"
+    When SM I unselect the "26%-50%" checkbox from the "Admission" fit criteria
+    Then SM I verify that the Must Have box contains "Acceptance Rate [1]"
+    Then SM I verify that the text from "your.fit.criteria.instruction.text" is displayed in Your Fit Criteria screen
+    Then SM I verify that the button Select Criteria To Start is not displayed in the Your Fit Criteria screen
+
   @MATCH-4473
   Scenario: Verify the text 0-0 of 0 is displayed in Compare Pinned Colleges page when no colleges are pinned
     Given SM I am logged in to SuperMatch through Family Connection
@@ -542,3 +557,14 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I navigate to page via URL path "colleges/supermatch-next/compare"
     Then SM I verify that the pagination text displayed in Compare Pinned Colleges page is "Viewing 1 - 1 of 1"
     Then SM I verify that the left pagination button is "disabled" and the right pagination button is "disabled" in Compare Pinned Colleges page
+
+  @MATCH-3444
+  Scenario: As a HS student using the SuperMatch tool, I want a way to view and manage all my pinned schools so that
+  list of schools is always up to date.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I verify that a PINNED dropdown is present in the footer
+    And SM I verify that a pink circle is displayed next to the pinned dropdown
+    And SM I verify the following options are displayed in the PINNED dropdown
+    |Compare Pinned Colleges|
+    |Clear Pinned List      |
