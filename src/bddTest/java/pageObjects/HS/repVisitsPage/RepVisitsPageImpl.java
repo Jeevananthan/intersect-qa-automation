@@ -4577,7 +4577,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             navigationBar.goToRepVisits();
             waitUntilElementExists(collegeFairs());
             collegeFairs().click();
-            waitForUITransition();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("add-college")));
     }
     public void verifyCollgeFairBlankDashBoard(){
         Assert.assertTrue("College Fairs Header is not present",getDriver().findElement(By.cssSelector("h1")).isDisplayed());
@@ -7768,7 +7768,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void clickAddCollegeFairButton() {
-        driver.findElement(By.cssSelector("button[id='add-college']")).click();
+        addCollegeFair().click();
     }
     public void noteForSchools(String note){
         Assert.assertTrue("Note For Schools is not displayed",noteDeclaration().getText().contains(note));
@@ -7776,7 +7776,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     public void closeAddEditFairScreen(){
         waitUntilElementExists(closeFairScreen());
         closeFairScreen().click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("add-college")));
     }
 
     private WebElement rescheduleButtonInReScheduleVisitPage ()
@@ -9037,4 +9037,8 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement hoursDaysOption(String option) { return driver.findElement(By.xpath("//div[@role='option']/span[text() = '" + option + "']")); }
 
     private String exportButtonLocator = "button[title='Export']";
+
+    private WebElement addCollegeFair(){
+        return driver.findElement(By.cssSelector("button[id='add-college']"));
+    }
 }
