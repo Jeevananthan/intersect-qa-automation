@@ -3,9 +3,14 @@ package pageObjects.SM.studentLife;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentLifeImpl extends PageObjectFacadeImpl {
 
@@ -13,6 +18,10 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(StudentLifeImpl.class);
     }
     SearchPageImpl searchPage = new SearchPageImpl();
+
+    private static String fs = File.separator;
+    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sDropdownOptionsLists%sDropdownOptionsLists.properties", fs, fs, fs, fs, fs);
+
 
     private Logger logger;
 
@@ -52,6 +61,59 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clickDropdown(String locator) {
+        try {
+            driver.findElement(By.cssSelector(locator)).click();
+        } catch (InvalidSelectorException e) {
+            driver.findElement(By.xpath(locator)).click();
+        }
+    }
+
+    public void verifyListMatchesList(String originalListLocator, String expectedListEntryTitle) {
+        List<String> expectedOptionsList = getListFromPropFile(propertiesFilePath, ";", expectedListEntryTitle);
+        List<WebElement> originalListWebElements = driver.findElements(By.cssSelector(originalListLocator));
+        List<String> originalList = new ArrayList<>();
+        for (WebElement element : originalListWebElements) {
+            originalList.add(element.getText());
+        }
+        Assert.assertTrue("The list in the dropdown does not have the expected values",
+                originalList.equals(expectedOptionsList));
+    }
+
+    public void selectOptionFromList(String optionName, String listLocator) {
+        List<WebElement> optionsListWebElements;
+        try {
+            driver.findElement(By.cssSelector(listLocator));
+            optionsListWebElements = driver.findElements(By.xpath(listLocator));
+        } catch (InvalidSelectorException e) {
+            driver.findElement(By.cssSelector(listLocator));
+            optionsListWebElements = driver.findElements(By.xpath(listLocator));
+        }
+        for (WebElement element : optionsListWebElements) {
+            if (element.getText().equals(optionName)) {
+                element.click();
+            } else {
+                logger.info("The option " + optionName + " is not present in the list.");
+            }
+        }
+    }
+
+    public void verifyAddedOption(String optionName) {
+        List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
+        boolean isElementPresent = false;
+        for (WebElement element : addedElements) {
+            if (element.getAttribute("value").equals(optionName)) {
+                isElementPresent = true;
+            }
+        }
+        Assert.assertTrue("The option was not added to the dropdown field",
+                isElementPresent);
+    }
+
+    public void removeOptionFromDropdownField(String optionName) {
+        driver.findElement(By.xpath(xButtonAddedElementDropdownField(optionName))).click();
+    }
+
     //Locator
 
     private WebElement getGreekLife(){ return driver.findElement(By.id("greeklife-dropdown")); }
@@ -69,4 +131,8 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     private WebElement greekLifeDropdown() { return driver.findElement(By.cssSelector("div#greeklife-dropdown")); }
 
     private WebElement greekLifeOption(String optionName) { return driver.findElement(By.cssSelector("//div[@class = 'visible menu transition']/div/span[text() = '" + optionName + "']")); }
+
+    private String addedElementsInDropdownField = "a.ui.label";
+
+    private String xButtonAddedElementDropdownField(String optionName) { return "//a[@value = '" + optionName + "']/i";}
 }

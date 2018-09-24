@@ -49,3 +49,26 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     And SM I remove the "Associate's [Any]" fit criteria from the Must Have box or Nice to Have box
     When SM I select the "Associate's" radio button from the Academics fit criteria
     Then SM I verify that the Must Have box contains "Associate's [Any]"
+
+  @MATCH-3397
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by Degree Type within the Academics category
+  so I can see relevant colleges that match my Degree Type requirements.
+    Given SM I click "Academics" filter criteria tab
+    And SM I select the "<degreeType>" radio button from the Academics fit criteria
+    Then SM I verify that "Include online learning opportunities" checkbox is "unselected" in "Academics" fit criteria
+    And SM I select the "Include online learning opportunities" checkbox from "Academics" fit criteria
+    And SM I click "Academics" filter criteria tab
+    Then I verify that the default text in "div.ui.divider + div.row.supermatch-academics-checkbox-row + div.row div.default.text" is "Start typing..."
+    And I scroll the dialog down, anchored in the element "//p[contains(text(), 'Degree')]"
+    And SM I pick "<dropDownOption>" from the dropdown "input.search + span + div"
+    Then SM I verify that the option "<dropDownOption>" was added to the dropdown field
+    And SM I remove the option "<dropDownOption>" from the dropdown field
+    And SM I select the "Search for institutions that have ALL of my selected programs" checkbox from "Academics" fit criteria
+    Examples:
+    | degreeType   | dropDownOption  |
+    | Certificate  | Accounting      |
+    | Associate's  | Accounting      |
+    | Master's     | Accounting and Business/Management |
+    | Doctorate    | Accounting and Business/Management |
+    | Graduate Certificate | Aboriginal/Indigenous Studies |
+
