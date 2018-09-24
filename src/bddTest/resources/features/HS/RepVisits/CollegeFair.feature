@@ -265,10 +265,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I successfully sign out
 
   Examples:
-  |College Fair Name       |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School              |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
-  |qa Fairs          |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Int Qa High School 4|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
-
-
+  |College Fair Name |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|
+  |qa Fairs          |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |
   @MATCH-2381
   Scenario Outline: As a Non Naviance HS RepVisits user verify note to let users know their contact info will be visible
     Given HS I am logged in to Intersect HS as user type "administrator"
@@ -286,5 +284,5 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I successfully sign out
 
   Examples:
-  |College Fair Name |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School              |cancellationMessage          |buttonToClickYes, cancel visit|
-  |qa Fairs          |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Mays High School    |Qa test for cancel Attendee  |Yes, cancel visit             |
+  |College Fair Name |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|
+  |qa Fairs          |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |
