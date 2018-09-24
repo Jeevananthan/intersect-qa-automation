@@ -36,7 +36,17 @@ public class InstitutionCharacteristicsImpl extends PageObjectFacadeImpl {
         icTooltipList.get(5).click();
     }
 
+    public void verifyCheckboxSelectedUnselected(String checkBoxLabel, String selectedUnselected) {
+        if (selectedUnselected.equals("selected")) {
+            String prueba = institutionType(checkBoxLabel).getAttribute("class");
+            Assert.assertTrue("The checkbox is not selected", institutionType(checkBoxLabel).getAttribute("class").contains("checked"));
+        } else if (selectedUnselected.equals("unselected")) {
+            Assert.assertFalse("The checkbox is not unselected", institutionType(checkBoxLabel).getAttribute("class").contains("checked"));
+        }
+    }
+
     //Locators
     private String tooltipsInTabListLocator = "div.ui.bottom.left.basic.popup.transition.visible.supermatch-menuitem-popup button.supermatch-tooltip-trigger";
     private String tooltipText = "div[id*='supermatch-tooltip-'] div";
+    private WebElement institutionType(String label) { return driver.findElement(By.xpath("//div/label[text() = '" + label + "']/..")); }
 }
