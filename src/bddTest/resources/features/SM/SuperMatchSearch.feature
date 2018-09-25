@@ -568,3 +568,29 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the following options are displayed in the PINNED dropdown
     |Compare Pinned Colleges|
     |Clear Pinned List      |
+
+  @MATCH-3376
+  Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % Out of State
+  students
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the text displayed in the % Out of State Students Fit Criteria
+    Then SM I verify the options displayed in Out of State students Select % dropdown
+    |Select %|
+    |10%     |
+    |20%     |
+    |30%     |
+    |40%     |
+    |50%     |
+    Then SM I click "Diversity" filter criteria tab
+    And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
+    And HS I Click on close button
+    And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
+    And SM I move "Out of State Students ≥ 10%" from the Must Have box to the Nice to Have box
+    Then SM I verify that the Nice to Have box contains "Out of State Students ≥ 10%"
+    Then SM I click "Diversity" filter criteria tab
+    And SM I pick "Select %" from the dropdown "OutOfStateStudents-dropdown"
+    And HS I Click on close button
+    Then SM I click "Diversity" filter criteria tab
+    And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
+    And HS I Click on close button
+    And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"

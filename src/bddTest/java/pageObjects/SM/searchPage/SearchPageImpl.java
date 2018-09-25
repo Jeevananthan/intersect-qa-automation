@@ -1687,6 +1687,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         closeFitCriteria().click();
     }
 
+    public void verifyTextDisplayedInPercentageOutOfStateStudentsFitCriteria() {
+        chooseFitCriteriaTab("Diversity");
+
+        softly().assertThat(outOfStateStudentsSectionHeader().isDisplayed());
+        softly().assertThat(outOfStateStudentsSectionHeader().findElement(By.xpath("./ancestor::div[2]")).getText().contains("At least"));
+
+        closeFitCriteria().click();
+    }
+
+
     public void verifyPlaceholdersInSelectPercentAndSelectGenderDropdown(DataTable dataTable)
     {
         chooseFitCriteriaTab("Diversity");
@@ -1718,6 +1728,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (String expectedOption : expectedOptions) {
             actualOption = maleFemalePercentOptionsActual.get(optionIndex);
             Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Male Vs. Female 'Select %' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+    }
+
+    public void verifyOptionsInOutOfStateStudentsSelectPercentDropdown(DataTable dataTable)
+    {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Diversity");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        outOfStateStudentsPercentDropdownChevron().click();
+
+        List<String> outOfStateStudentsPercentOptionsActual = outOfStateStudentsPercentDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = outOfStateStudentsPercentOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Out of State students 'Select %' dropdown", expectedOption.equals(actualOption));
             optionIndex++;
         }
 
@@ -2584,6 +2617,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("(//div[@class='supermatch-religious-affiliation-wrapper'])[2]"));
     }
 
+    private WebElement outOfStateStudentsSectionHeader() {
+        return getDriver().findElement(By.xpath("//div[@class='ui tiny header']/span[text()='Out of State Students']"));
+    }
+
     private WebElement maleVsFemalePercentDropdownDefaultOption() {
         return getDriver().findElement(By.xpath("//div[@id='male-female-percent-dropdown']/div[@class='default text']"));
     }
@@ -2606,6 +2643,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private List<WebElement> maleVsFemaleGenderDropdownOptions() {
         return getDriver().findElements(By.xpath("//div[@id='male-female-gender-dropdown']//span"));
+    }
+
+    private WebElement outOfStateStudentsPercentDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='OutOfStateStudents-dropdown']/i"));
+    }
+
+    private List<WebElement> outOfStateStudentsPercentDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='OutOfStateStudents-dropdown']//span"));
     }
 
     private WebElement startOverButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button.supermatch-start-over-button")); }

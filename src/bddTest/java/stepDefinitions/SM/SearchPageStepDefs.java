@@ -286,5 +286,9 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify the following options are displayed in the PINNED dropdown$", searchPage::verifyFollowingOptionsDisplayedInPinnedDropdown);
 
         Then("^SM I verify that a pink circle is displayed next to the pinned dropdown$", searchPage::verifyPinkCircleIsDisplayedNextToThePinnedDropdown);
+
+        Then("^SM I verify the text displayed in the % Out of State Students Fit Criteria$", searchPage::verifyTextDisplayedInPercentageOutOfStateStudentsFitCriteria);
+
+        Then("^SM I verify the options displayed in Out of State students Select % dropdown$", searchPage::verifyOptionsInOutOfStateStudentsSelectPercentDropdown);
     }
 }
