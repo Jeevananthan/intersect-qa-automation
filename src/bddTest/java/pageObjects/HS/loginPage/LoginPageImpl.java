@@ -147,8 +147,10 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     private void openNavianceLoginPage() {
 
         try {
-            load(GetProperties.get("naviance.app.url"));
             getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+            load(GetProperties.get("naviance.app.url"));
+            getDriver().findElement(By.xpath("//a[@href='/legacy']")).click();
+            waitUntilPageFinishLoading();
         } catch (Exception e) {
             getDriver().close();
             load("http://www.google.com");
