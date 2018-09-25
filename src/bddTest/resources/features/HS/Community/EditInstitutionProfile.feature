@@ -296,3 +296,11 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     And HS I search for "Request new institution" in the registration page
     Then HS I verify the Request New User page
       | firstName      | email  | verifyEmail  | institutionName  |  lastName  | jobTitle |
+
+
+  @MATCH-1781
+  Scenario: As a HS user, I need to be able to search for high schools during the registration process.
+  so I can associate myself with the high school I work at
+    Given HS I am navigating to Intersect HS through Non naviance Url
+    Then HS I click the new user link in the login page
+    And HS I search for "Int Qa High School 4" in "High school" and verify the results
