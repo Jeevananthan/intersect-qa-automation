@@ -34,7 +34,7 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
     public void addNewProductAnnouncement(String title, String content,String audience, String status){
         goToProductAnnouncements();
         getAddNewProductAnnouncementButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Save']")));
         getProductAnnouncementTitleField().sendKeys(title);
         getProductAnnouncementContentField().sendKeys(content);
         selectProductAnnouncementAudience(audience);
@@ -265,6 +265,7 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
         while(showMoreButton.size()==1) {
             Assert.assertTrue("Show more button is not displayed",showMoreButton.size()==1);
             driver.findElement(By.xpath("//button/span[text()='" + showMore + "']")).click();
+            waitForUITransition();
             showMoreButton = driver.findElements(By.xpath("//button/span[text()='"+showMore+"']"));
             announcementsSize = driver.findElements(By.xpath("//div[@class='ui grid _3E9gDLAhuHSRcSf2bDO-Q8']"));
             Assert.assertTrue("Announcements Size is less than 25", announcementsSize.size() > 25);

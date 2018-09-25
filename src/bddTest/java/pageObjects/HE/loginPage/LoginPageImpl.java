@@ -441,7 +441,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
 
     public void clickLinkInRegisterationPage(String linkToClick){
-        waitUntil(ExpectedConditions.elementToBeClickable(By.linkText(linkToClick)));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText(linkToClick)));
         link(linkToClick).click();
     }
 

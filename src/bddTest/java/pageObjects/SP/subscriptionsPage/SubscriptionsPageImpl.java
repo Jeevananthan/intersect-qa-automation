@@ -198,7 +198,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement diversityFilterDropdown() { return driver.findElement(By.cssSelector("div#field14")); }
 
-    private WebElement diversityFilterDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'menu transition visible']/div[@role = 'option']/span[text() = '" + optionName + "']")); }
+    private WebElement diversityFilterDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div[@role = 'option']/span[text() = '" + optionName + "']")); }
 
     private WebElement competitorsField() { return driver.findElement(By.cssSelector("input#field15")); }
 

@@ -290,11 +290,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         getDriver().close();
         getDriver().switchTo().window(supportWindow);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-admin-menu-link")));
         waitUntilPageFinishLoading();
     }
 
     public void postMessageInHomePage(String message){
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a/img[@alt='Intersect Logo']")));
         getNavigationBar().goToCommunity();
         waitUntilPageFinishLoading();
         WebElement element=getDriver().findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
