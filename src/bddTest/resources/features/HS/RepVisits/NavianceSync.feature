@@ -13,7 +13,6 @@ And HS I click on Disconnect RepVisits from Naviance button
 And HS I verify the Yes on the disconnect confirmation popup with "7","6:30am","7:00am","2","PurpleHE Automation" and "Cbba"
 And HS I cancel a visit with time "6:30AM" college "Bowling Green State University-Main Campus" and note "Cancel"
 Then HS I remove the Time Slot recently created with "7","6:30am" in Regular Weekly Hours Tab
-And HS I successfully sign out
 
   @MATCH-4895
   Scenario: When a Naviance High School has their settings set to:
@@ -54,4 +53,3 @@ And HS I successfully sign out
     #Clean environment
     Then HS I remove the Time Slot recently created with "10","5:31am" in Regular Weekly Hours Tab
     Then HS I remove the Time Slot recently created with "10","5:51am" in Regular Weekly Hours Tab
-    And HS I successfully sign out

@@ -8,7 +8,6 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
     When SP I search for "Bowling Green State University-Main Campus" in "Institutions"
     And SP I select the following institution "Bowling Green State University-Main Campus" from the results
     Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
-    And SP I successfully sign out
 
   @MATCH-264
   Scenario: As a Hobsons Sales Ops user I can view an institutional account
@@ -16,7 +15,6 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
     When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
     Then SP I do not have access to "Community" sub menu in left navigation
-    And SP I successfully sign out
 
   @MATCH-3007
   Scenario: As a Hobsons Super Admin user I can view an institutional account
@@ -24,7 +22,6 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
     When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
     Then SP I do have access to "Community" sub menu in left navigation
-    And SP I successfully sign out
 
   @MATCH-264
   Scenario: As a Hobsons Admin user I can view an institutional account
@@ -32,14 +29,12 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
     When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
     Then SP I do have access to "Community" sub menu in left navigation
-    And SP I successfully sign out
 
   @MATCH-264
   Scenario: As a Hobsons Support user I can view an institutional account
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
-    And SP I successfully sign out
 
   @MATCH-958
   Scenario: As a Hobsons Support user I should not activate any module where the end date is earlier than the start date and vice-versa.
@@ -49,35 +44,30 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
     Then SP I set the "Legacy: Hub page management" module to "active" in the institution page
     Then SP I verify subscription end date restrictions
     Then SP I verify subscription start date restrictions
-    And SP I successfully sign out
 
   @MATCH-264
   Scenario: As a Hobsons Community user I cannot view an institutional accounts but have access to Community
     Given SP I am logged in to the Admin page as a Community user
     Then SP I do not have access to "Home" sub menu in left navigation
     Then SP I do have access to "Community" sub menu in left navigation
-    And SP I successfully sign out
 
   @MATCH-264
   Scenario: As a Hobsons Community Manager user I cannot view an institutional accounts but have access to Community
     Given SP I am logged in to the Admin page as a Community Manager user
     Then SP I do not have access to "Home" sub menu in left navigation
     Then SP I do have access to "Community" sub menu in left navigation
-    And SP I successfully sign out
 
   @MATCH-650
   Scenario: As a Hobsons staff user I can see the institutional account address, city, state/province, postal code, SCID
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "Docufide Institute of Technology (not a real school)" from the institution dashboard
     Then SP I should see Additional Contact Details on Institutional Account Page
-    And SP I successfully sign out
 
   @MATCH-1895  @MATCH-1496
   Scenario: As an support user I want the Intersect left navigation bar to be better organized and labeled.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I verify the left navigation bar and section breadcrumbs are as follows
       |Awareness|Counselor Community|
-    And SP I successfully sign out
 
 
    @MATCH-128 @MATCH-4366 @MATCH-4367
@@ -122,8 +112,6 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<Legacy: ActiveMatch Events>"
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<ActiveMatch Plus>"
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<AdvancedAwarenessModule>"
-      Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<ConnectionModule>"
-      And SP I successfully sign out
 
       Examples:
       |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |Legacy: ActiveMatch Events|ActiveMatch Plus|AdvancedAwarenessModule|ConnectionModule|StartDate|EndDate|Inactive|Active|
@@ -193,8 +181,6 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
     Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<ActiveMatchPlusModule>"
     Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<AdvancedAwarenessModule>"
     Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<ConnectionModule>"
-    And SP I successfully sign out
-    And SP I successfully sign out
 
   Examples:
   |University                                |HubsModule                 |CommunityModule  |IntersectAwarenessModule        |IntersectPresenceModule        |ActiveMatchEventsModule   |ActiveMatchPlusModule|AdvancedAwarenessModule|ConnectionModule|startDate|endDate|Active|Inactive|year|color              |

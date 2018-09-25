@@ -19,7 +19,6 @@ Feature: HE - Login - LoginPage - As an HE user with appropriate access, I shoul
     And HE I successfully sign out
     Then HE I am logged in to Intersect HE as user type "locked"
     And HE I am able to successfully login
-    Then HE I successfully sign out
 
   @MATCH-1846
   Scenario: As a potential Intersect user, I need to go down the appropriate HE or HS path in the registration url.

@@ -94,13 +94,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openNonNavianceLoginPage(){
-        try {
-            driver.manage().deleteAllCookies();
-        } catch (NoSuchSessionException nsse) {
-            load("http://www.google.com");
-        } catch (org.openqa.selenium.WebDriverException wde) {
-            load("http://www.google.com");
-        }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
 
@@ -154,9 +147,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     private void openNavianceLoginPage() {
 
         try {
-            driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-            //driver.executeScript( GetProperties.get("naviance.app.url"));
             load(GetProperties.get("naviance.app.url"));
+            getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
         } catch (Exception e) {
             getDriver().close();
             load("http://www.google.com");
@@ -244,13 +236,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openHSLoginPage() {
-        try {
-            driver.manage().deleteAllCookies();
-        } catch (NoSuchSessionException nsse) {
-            load("http://www.google.com");
-        } catch (org.openqa.selenium.WebDriverException wde) {
-            load("http://www.google.com");
-        }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
     }
@@ -271,7 +256,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLogoInHomePage()
     {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-white.png";
         String actualIntersectLogo=driver.findElement(By.cssSelector("dt[class='header _2_tAB8btcE4Sc5e1O_XUwn']>img[alt='Intersect Logo']")).getAttribute("src");
@@ -398,13 +383,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void defaultLoginForSupport() {
-        try {
-            driver.manage().deleteAllCookies();
-        } catch (NoSuchSessionException nsse) {
-            load("http://www.google.com");
-        } catch (org.openqa.selenium.WebDriverException wde) {
-            load("http://www.google.com");
-        }
         openLoginPageSupport();
         String username = GetProperties.get("sp.admin.username");
         String password = GetProperties.get("sp.admin.password");
