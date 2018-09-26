@@ -2270,9 +2270,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         newPasswordInput().sendKeys(oldPassword);
         confirmPasswordInput().sendKeys(oldPassword);
         saveButton().click();
-        waitForUITransition();
-        List<WebElement> list=getDriver().findElements(By.xpath("//div[@class='ui negative message']/div/span"));
-        if(list.size()==1) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
+        if(negativeMessage().size()==1) {
             Assert.fail("Error Message is displayed");
         }
         waitUntilPageFinishLoading();
@@ -2293,18 +2292,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void resetPassword(String oldPassword,String newPassword)
-    {
+    public void resetPassword(String oldPassword,String newPassword) {
         currentPasswordInput().clear();
         currentPasswordInput().sendKeys(oldPassword);
         newPasswordInput().sendKeys(newPassword);
         confirmPasswordInput().sendKeys(newPassword);
         saveButton().click();
-        waitForUITransition();
-        List<WebElement> list=getDriver().findElements(By.xpath("//div[@class='ui negative message']/div/span"));
-        if(list.size()==1) {
-            logger.info("Error Message is displayed");
-            Assert.fail();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
+        if(negativeMessage().size()==1) {
+            Assert.fail("Error Message is displayed");
         }
     }
 
@@ -4201,6 +4197,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement showMoreButtonInReassignAppointments(){
         return button("Show More");
+    }
+    private By successMessage(){
+        return By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span");
+    }
+    private List<WebElement> negativeMessage(){
+        return getDriver().findElements(By.xpath("//div[@class='ui negative message']/div/span"));
     }
 }
 
