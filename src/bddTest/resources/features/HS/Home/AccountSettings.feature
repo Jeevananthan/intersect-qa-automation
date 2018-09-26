@@ -44,3 +44,26 @@ Feature: HS - Home - AccountSettings - As an HS user, I can manage my account se
     Then HS I navigate to naviance settings page
     Then HS I verify the following details are displaying in Naviance Settings page
       |Naviance Sync Settings|Default Visit Details for College Visits|You can set default values to save time in scheduling future visits, but you can also edit details for individual visits when needed.|The following default visit details will be applied to visits scheduled moving forward.|
+
+  @MATCH-3062
+  Scenario Outline: As a HS RepVisits User,I need to be able to update my contact information and reset my password
+                    So I can effectively manage my RepVisits Account.
+
+    Given HS I want to login to the HS app using "<usertype>" as username and "<oldPassword>" as password
+    Then HS I navigate to the "Account Settings" Page
+    Then HS I reset the password for "<oldPassword>","<newPassword>"
+    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+    And HS I successfully sign out
+
+    Given HS I want to login to the HS app using "<usertype>" as username and "<newPassword>" as password
+    Then HS I navigate to the "Account Settings" Page
+    And HS I verify the left-sub menu "Account Information" is present in the Account Settings page
+    And HS I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<FirstName>","<LastName>","<Email>"
+      |contain a lowercase letter|contain an uppercase letter|contain a number|
+    And HS I validate the password field "<oldPassword>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
+    And HS I verify the success message "Success! You've updated your account information." in Account settings page
+    And HS I successfully sign out
+  Examples:
+   |usertype                                                 |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter |FirstName|LastName      |Email                                                    |
+   |purplehsautomations+AdministratorPasswordPolicy@gmail.com|Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1               |PurpleHS |PasswordPolicy|purplehsautomations+AdministratorPasswordPolicy@gmail.com|
+   |purplehsautomations+MemberPasswordPolicy@gmail.com       |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1               |PurpleHS |PasswordPolicy|purplehsautomations+MemberPasswordPolicy@gmail.com       |

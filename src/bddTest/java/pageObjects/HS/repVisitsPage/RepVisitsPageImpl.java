@@ -2468,16 +2468,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("FirstName is not displayed",firstname.equals(firstName));
         String lastname=lastNameTextbox().getAttribute("value");
         Assert.assertTrue("LastName is not displayed",lastname.equals(lastName));
-        String email=eMailTextbox().getAttribute("value");
+        String email=formEmailTextBox().getAttribute("value");
         Assert.assertTrue("Email is not displayed",email.equals(eMail));
     }
 
-    public void validatePassword(String userType,String oldPassword,String minimum8character,String lowercaseletter,String uppercaseletter,String withoutNumber,String withoutspecialcharacter) {
+    public void validatePassword(String oldPassword,String newPassword,String minimum8character,String lowercaseletter,String uppercaseletter,String withoutNumber,String withoutspecialcharacter) {
         currentPasswordInput().clear();
-        currentPasswordInput().sendKeys(oldPassword);
-        //verify the password policy of minimum of 8 characters
-        newPasswordInput().clear();
-        confirmPasswordInput().clear();
+        currentPasswordInput().sendKeys(newPassword);
         //verify the password policy of minimum of 8 characters
         newPasswordInput().sendKeys(minimum8character);
         confirmPasswordInput().sendKeys(minimum8character);
@@ -2524,14 +2521,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify the password accepted with the password policy
         newPasswordInput().clear();
         confirmPasswordInput().clear();
-        newPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
-        confirmPasswordInput().sendKeys(GetProperties.get("hs."+ userType + ".password"));
+        newPasswordInput().sendKeys(oldPassword);
+        confirmPasswordInput().sendKeys(oldPassword);
         saveButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")));
         List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
         if(list.size()==1) {
-            logger.info("Error Message is displayed");
-            TestCase.fail();
+            Assert.fail("Error Message is displayed");
         }
         waitUntilPageFinishLoading();
     }
@@ -9038,4 +9034,8 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement hoursDaysOption(String option) { return driver.findElement(By.xpath("//div[@role='option']/span[text() = '" + option + "']")); }
 
     private String exportButtonLocator = "button[title='Export']";
+
+    private WebElement formEmailTextBox(){
+        return driver.findElement(By.id("user-form-email"));
+    }
 }
