@@ -1,4 +1,4 @@
-@HS @MATCH-1784
+@HS @MATCH-1784 @HS2
 Feature: HS - LoginLogout - LoginPage - As an HS user I can login with appropriate access
 
   @QASmokeTest
@@ -20,7 +20,7 @@ Feature: HS - LoginLogout - LoginPage - As an HS user I can login with appropria
     | User not found                   |
 
   Scenario: As a non Naviance HS user, I want to verify the locking rules in the HS login page
-    When HS I will block HS app using "hobsonstest11@mailinator.com" as username and "boGusPassw0rd" as password
+    When HS I will block HS app using "hobsonstest15@mailinator.com" as username and "boGusPassw0rd" as password
 #    And HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "boGusPassw0rd" as password
 #    And HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "boGusPassw0rd" as password
 #    And HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "boGusPassw0rd" as password
@@ -28,14 +28,12 @@ Feature: HS - LoginLogout - LoginPage - As an HS user I can login with appropria
     Then HS I am locked out from logging in as user type "locked"
     Given SP I am logged in to the Admin page as a Support user
     Then SP I go to the users list for "THE FULTON SCHOOL" with NCES_ID "A0771765" from the institution dashboard using the search
-    And SP I "unlock" the user account for "hobsonstest11@mailinator.com"
+    And SP I "unlock" the user account for "hobsonstest15@mailinator.com"
     And SP I successfully sign out
-    And HS I want to login to the HS app using "hobsonstest11@mailinator.com" as username and "boGusPassw0rd@" as password
-    And HS I successfully sign out
+    And HS I want to login to the HS app using "hobsonstest15@mailinator.com" as username and "boGusPassw0rd@" as password
 
  @MATCH-2062
   Scenario: As a HS user,I want to see the right logo, So that I know I'm in the counselor community (by Hobsons).
     When HS I verify the Intersect Logo present in the Login Page
     When HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
     And HS I verify the Intersect Logo present in the Home Page
-    And HS I successfully sign out

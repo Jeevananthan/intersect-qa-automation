@@ -317,7 +317,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$", repVisits::navigateToNavianceSettingsPage);
 
         Then("^HS I click on link Add School User Manually$",repVisits::addSchoolUserManually);
-        Then("^HS I Enter Folliwng Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
+        Then("^HS I Enter Following Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
         Then("^HS I click on button Add attendees$",repVisits::clickAddAttendeetovisit);
         Then("^HS I click the Message Colleges button$",repVisits::clickMessageCollegesButton);
         Then("^HS I Enter Message as \"([^\"]*)\"$",repVisits:: massEmailMessageForAttendees);
@@ -448,6 +448,26 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HS I remove the Time Slot recently created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsRefactoredForHS);
 
+        Then("^HS I add new Time Slot as precondition with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::addNewTimeSlotForHS);
+
+        Then("^HS I confirm Request with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::confirmRequest);
+
+        Then("^HS I verify the visit in Naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitInNaviance);
+
+        Then("^HS I verify the cancel in Naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCancelInNaviance);
+
+        Then("^HS I verify the reschedule in Naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyRescheduleInNaviance);
+
+        Then("^HS I reschedule a visit for HS with the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectRescheduleForHS);
+
+        Then("^HS I verify reschedule pop-up for HS with the following data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyReschedulePopupForHS);
+
+        Then("^HS I reschedule the visit in HS for the following data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::reschedulevisitForHS);
+
+        Then("^HS I setup Naviance Sync Settings page with \"([^\"]*)\" option$",repVisits::navianceSyncSettingsSetup);
+
+        Then("^HS I setup Availability Settings page with \"([^\"]*)\" option$",repVisits::availabilitySettingsSetup);
+
         Then("^HS I add the following attendees to the College Fair$", repVisits::addAttendees);
 
         Then("^HS I click on Disconnect RepVisits from Naviance button$",repVisits::disconnectFromNavianceButton);
@@ -521,8 +541,6 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify Internal Notes on Visit Details screen \"([^\"]*)\"$", repVisits::verifyVisitInternalNotes);
 
         And("^HS I Cancel visit to create again add Notes to Cancel \"([^\"]*)\"$", repVisits::visitCancelled);
-
-        And("^HS I Enter Following Data to Add a School User Manually$", repVisits::addDataToAddAttendeeManually);
 
         And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits::verifyRepDetails);
 
@@ -681,5 +699,19 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
 
         And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
+      
+        Then("^HS I verify the Attendee details \"([^\"]*)\" in Edit fairs page$",repVisits::verifyAttendeeDetailsInEditFairs);
+
+        Then("^HS I cancel registered college fair \"([^\"]*)\"$",repVisits::cancelRegisteredCollegeFair);
+
+        And("^HS I create a visit \"([^\"]*)\" days ahead from now with the following details$", repVisits::createVisit);
+
+        And("^HS I open the visit with generated time in the Calendar$", repVisits::openFairDetailsWithGeneratedDate);
+
+        Then("^HS I verify the input validations for Student Registration Deadline with the data:$", repVisits::verifyInputValidationsForStuRegDeadline);
+
+        And("^HS I cancel the open visit$", repVisits::cancelOpenVisit);
+       
+       Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
     }
 }

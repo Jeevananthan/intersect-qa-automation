@@ -29,8 +29,12 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         logger = Logger.getLogger(PageObjectFacadeImpl.class);
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
-        navigationBar = new NavigationBarImpl();
     }
+
+      public NavigationBarImpl getNavigationBar(){
+        return new NavigationBarImpl();
+    }
+
 
     /**
      * Uses JavaScript to click on an element.  This is occasionally necessary because Selenium thinks that something
@@ -292,8 +296,8 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return GlobalSteps.softly;
     }
 
-    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
-    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
-    private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
+    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    protected WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
 
 }

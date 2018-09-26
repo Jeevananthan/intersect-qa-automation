@@ -26,7 +26,6 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
 
     When HE I delete the open location
     Then HE The deleted location of name "RandomLocation " should not be present in the locations list
-    And HE I successfully sign out
 
   @MATCH-2914
   Scenario: As a HE User, verify Create Location Validations
@@ -39,7 +38,6 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
       | Postal Code   | ABCDE  |
     And HE I save the current location
     And HE I verify required fields error messages
-    And HE I successfully sign out
 
   @MATCH-2914
   Scenario: As a HE user, verify the message when deleting a location associated with a unpublished event
@@ -58,7 +56,6 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
     Then HE I verify the error message when deleting the location of name "LocationToDeleteUnpublished" associated to a "unpublished" event
     And HE I open the Events list
     And HE I delete the event of name "TestEventUnpublished"
-    And HE I successfully sign out
 
   @MATCH-2914
   Scenario: As a HE user, verify the message when deleting a location associated with a published event
@@ -81,7 +78,6 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
     And HE I open the Create Event screen
     And HE I delete the location of name "LocationToDeletePublished"
     And HE I open the Events list
-    And HE I successfully sign out
 
   @MATCH-2914
   Scenario: As a HE user, verify the message when deleting a location associated with an expired event
@@ -90,7 +86,6 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
     When HE I open the Create Event screen
     Then HE I verify the error message when deleting the location of name "ExpiredLocationForAutomation" associated to a "expired" event
     When HE I open the Events list
-    And HE I successfully sign out
 
 
 

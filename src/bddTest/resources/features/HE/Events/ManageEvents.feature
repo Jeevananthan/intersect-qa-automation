@@ -42,7 +42,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     When HE I unpublish the event of name "TestEvent9999Edited"
     And HE I delete the event of name "TestEvent9999Edited"
     Then HE The deleted event of name "TestEvent9999Edited" should not be displayed in the unpublished events list
-    And HE I successfully sign out
 
   @MATCH-2913 @MATCH-2902 @MATCH-2928
   Scenario: Verify an event can be cancelled
@@ -77,7 +76,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     And HE I open the Create Event screen
     And HE I publish the current event
     Then HE I verify required fields error messages for events
-    And HE I successfully sign out
 
   @MATCH-3614
   Scenario: Verify an event with registrations cannot be unpublished
@@ -107,7 +105,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     Then HE I verify the message that warns that an event with attendee cannot be unpublished
     #Cleanup step
     And HE I cancel the created event
-    And HE I successfully sign out
 
   @MATCH-3613
   Scenario: Verify cancelled events can still be viewed in Naviance Student
@@ -129,7 +126,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     And I open link Upcoming college events
     And I look for the host "The University of Alabama"
     Then I verify the cancelation message for the generated event
-    And HUBS I successfully sign out
 
   @MATCH-3489
   Scenario: Verify a past event cannot be published
@@ -143,7 +139,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     Then HE I verify that a warning message about the past date is displayed
-    And HE I successfully sign out
 
     @MATCH-4101 @manual @ignore
   Scenario: Verify an event for one school cannot be accessed from another

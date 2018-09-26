@@ -10,7 +10,6 @@ Feature: Community User - Follow Institution
     And I am not following institution with id "10226"
     Then I go to institution page with institution id "10226"
     And I check if follow institution button is visible
-    Then HE I successfully sign out
 
 
 
@@ -24,7 +23,6 @@ Feature: Community User - Follow Institution
     And I go to connections page
     And I go to Institutions that I'm following page
     Then I check if institution with id "10226" is in the list
-    And HE I successfully sign out
 
 
   #This scenario cannot be done, missing credentials for freemium user

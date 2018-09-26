@@ -24,16 +24,21 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.support.Color;
+import stepDefinitions.World;
+import utilities.GetProperties;
 import utilities.HUBSEditMode.Navigation;
 
 public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private World world;
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties", fs, fs, fs, fs, fs);
+    private static String smLabelsPropertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSMFitCriteriaText%sSMFitCriteriaText.properties", fs, fs, fs, fs, fs);
 
     WebDriverWait wait = new WebDriverWait(driver, 10);
     public SearchPageImpl() {
+        this.world = new World();
         logger = Logger.getLogger(SearchPageImpl.class);
     }
 
@@ -373,7 +378,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectRadioButtonInAcademicsFitCriteria(String option) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).sendKeys(Keys.RETURN);
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'" + option.split("'")[0] + "')]"))).click();
         getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
@@ -1174,6 +1179,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         WebElement downChevron = superMatchNonEmptyTable().findElement(By.xpath("./thead/tr/th[4]//i"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", downChevron);
+        if (driver.findElements(By.cssSelector(confirmationMessageCloseIcon)).size() > 0) {
+            driver.findElement(By.cssSelector(confirmationMessageCloseIcon)).click();
+        }
         downChevron.click();
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")));
         superMatchNonEmptyTable().findElement(By.xpath(".//span[text()='" + optionToSelect + "']")).click();
@@ -1574,12 +1582,25 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyComparePinnedCollegesOptionIsNotClickable() {
+
+        //open the PINNED dropdown
+        pinnedDropdown().click();
+
+        Assert.assertTrue("'COMPARE PINNED COLLEGES' option is enabled/clickable",
+                comparePinnedCollegesLink().findElement(By.xpath(".//ancestor::div[1]")).getAttribute("aria-disabled").equals("true"));
+
+        //close the PINNED dropdown
+        pinnedDropdown().click();
+
+    }
+
     public void verifyCLEARPINNEDLISTOptionIsClickable()
     {
         //open the PINNED dropdown
         pinnedDropdown().click();
 
-        Assert.assertTrue("'CLEAR PINNED LIST' option is not enabled/clickable", clearPinnedListOption().isEnabled());
+        Assert.assertTrue("'CLEAR PINNED LIST' option is not enabled/clickable", clearPinnedListOption().getAttribute("aria-disabled").equals("false"));
 
         //close the PINNED dropdown
         pinnedDropdown().click();
@@ -1623,7 +1644,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         //open the PINNED dropdown
         pinnedDropdown().click();
 
-        Assert.assertFalse("'CLEAR PINNED LIST' option is enabled/clickable", clearPinnedListOption().isEnabled());
+        Assert.assertTrue("'CLEAR PINNED LIST' option is enabled/clickable",
+                clearPinnedListOption().getAttribute("class").contains("disabled"));
 
         //close the PINNED dropdown
         pinnedDropdown().click();
@@ -1966,9 +1988,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void pressButton(String text){
-        waitUntil(ExpectedConditions.elementToBeClickable(button(text)));
-        button(text).click();
+    public void pressButton(String text) {
+        try {
+            button(text).click();
+        } catch (Exception e) {
+            driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
+        }
     }
 
     public void pickFromDropdown(String choice, String dropdown){
@@ -1983,7 +2008,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.cssSelector(dropdown)).click();
             }
         }
-        driver.findElement(By.xpath("//*[text()='"+choice+"']")).click();
+        driver.findElement(By.xpath("//span[text()='"+choice+"']")).click();
     }
 
     public void pressWhyForCollegeWithScore(Integer score) {
@@ -2050,6 +2075,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals("Scroll bar is not positioned at the top of the page", new Long(0), scrollPosition);
     }
 
+
+    public void verifyHeaderTextinComparePinnedCollegesPage() {
+
+        Assert.assertTrue("'SUPERMATCH COLLEGE SEARCH' text is not displayed in the header", comparePinnedCollegesPageHeader().getText().contains("SUPERMATCH COLLEGE SEARCH"));
+        Assert.assertTrue("'Compare Pinned Colleges' text is not displayed in the header", comparePinnedCollegesPageHeader().getText().contains("Compare Pinned Colleges"));
+
+    }
+
+    public void clickOnBackButtonInComparePinnedCollegesPage() {
+        backToMainPageButton().click();
+    }
+
     /**
      * Picks a date in the calendars of 'DatePicker' type.
      *
@@ -2061,7 +2098,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         if (Character.valueOf(dateString.charAt(0)).equals('0')) {
             dateString = dateString.substring(1);
         }
-            while (!datePickerMonthYearText().getText().equals(getMonth(date))) {
+            while (!driver.findElement(By.xpath("//option[text()='"+getMonth(date)+"']")).isSelected()) {
+
                 datePickerNextMonthButton().click();
 
         }
@@ -2078,17 +2116,154 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void clearGPASATACTScores() {
 
-        gpaTextBox().clear();
-        satScoreTextBox().clear();
-        actScoreTextBox().clear();
+        gpaTextBox().sendKeys("0");
+        satScoreTextBox().sendKeys("1");
+        actScoreTextBox().sendKeys("0");
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".triangle.supermatch-error-icon"),2));
     }
 
+    public void onStartOverVerifyIfGPAAndTestScoresRevertToValuesStoredInNavianceStudentProfile() {
+        aboutMeLink().click();
+        aboutMeHomeLink().click();
+        aboutMeAccountLink().click();
+        String gpaInNavianceStudentProfile = gpaInNavianceStudentProfile().getText();
+
+        aboutMeLink().click();
+        aboutMeHomeLink().click();
+        aboutMeTestScoresLink().click();
+        String satScoreInNavianceStudentProfile = satScoreInNavianceStudentProfile().getText();
+        String actScoreInNavianceStudentProfile = actScoreInNavianceStudentProfile().getText();
+
+        if(gpaInNavianceStudentProfile.equals("N/A"))
+            gpaInNavianceStudentProfile = "";
+
+        if(satScoreInNavianceStudentProfile.equals("0"))
+            satScoreInNavianceStudentProfile = "";
+
+        if(actScoreInNavianceStudentProfile.equals("0"))
+            actScoreInNavianceStudentProfile = "";
+
+        collegesLink().click();
+        findYourFitButton().click();
+        superMatchLink().click();
+        new WebDriverWait(getDriver(),40).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
+
+        startSearchOver();
+
+        openFitCriteria("Admission");
+
+        Assert.assertTrue("'GPA' is not according to naviance student profile", gpaTextBox().getAttribute("value").equals(gpaInNavianceStudentProfile));
+        Assert.assertTrue("'SAT' score is not according to naviance student profile",satScoreTextBox().getAttribute("value").equals(satScoreInNavianceStudentProfile));
+        Assert.assertTrue("'ACT' score is not according to naviance student profile", actScoreTextBox().getAttribute("value").equals(actScoreInNavianceStudentProfile));
+    }
+
+    public void navigateToPageViaURLPath(String path) {
+        load(GetProperties.get("fc.app.url")+path);
+    }
+
+    public void verifyPinnedCollegeCountInFooter(String numberOfCollegesPinned) {
+        Assert.assertTrue("Number of colleges should be " + numberOfCollegesPinned + " but is " +
+                pinCount().getText(), pinCount().getText().equals(numberOfCollegesPinned));
+    }
+
+
+    public void checkNumberOfElementsDisplayed(Integer number, String locator){
+
+        waitUntilPageFinishLoading();
+       Assert.assertEquals((Integer) driver.findElements(By.cssSelector(locator)).size(), number);
+
+    }
+    public void getCurrentNumberOfTableRows(String locator) {
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(locator + " tr")));
+        Integer rows = driver.findElements(By.cssSelector(locator + " tr")).size();
+        world.numberOfElements = rows;
+    }
+
+    public void checkTableHasOneMoreRow(String locator) {
+
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(locator + " tr"), world.numberOfElements + 1));
+
+    }
+
+    public void onPageRefreshVerifyIfGPAAndTestScoresDoNotRevertToValuesStoredInNavianceStudentProfile() {
+        driver.navigate().refresh();
+        openFitCriteria("Admission");
+
+        Assert.assertTrue("The value in 'GPA' text box is not correct", gpaTextBox().getAttribute("value").equals("3"));
+        Assert.assertTrue("The value in 'SAT' text box is not correct", satScoreTextBox().getAttribute("value").equals("1000"));
+        Assert.assertTrue("The value in 'ACT' text box is not correct", actScoreTextBox().getAttribute("value").equals("26"));
+    }
+
+    public void verifyTextIsPresentInFitCriteria(String entryTitle) {
+        Assert.assertTrue("The text is not present in the Fit Criteria Screen", yourFitCriteriaInstructionText()
+                .getText().equals(getStringFromPropFile(smLabelsPropertiesFilePath, entryTitle)));
+    }
+
+    public void verifySelectCriteriaButtonNotPresent() {
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("The Select Criteria To Start button is displayed when it shouldn't",
+                driver.findElements(By.xpath(selectCriteriaToStartButton)).size() == 0);
+    }
+
+    public void verifyPaginationTextInComparePinnedCollegesPage(String paginationText) {
+        softly().assertThat(superMatchComparePaginationText().getText().equals(paginationText));
+    }
+
+    public void verifyPaginationButtonsAreEnabledOrDisabledInCpmparePinnedCollegesPage(String leftPaginationButtonState, String rightPaginationButtonState) {
+
+        switch(leftPaginationButtonState)
+        {
+            case "enabled":
+                softly().assertThat(!leftPaginationButtonInComparePinnedCollegesPage().getAttribute("class").contains("disabled"));
+                break;
+            case "disabled":
+                softly().assertThat(leftPaginationButtonInComparePinnedCollegesPage().getAttribute("class").contains("disabled"));
+                break;
+        }
+
+        switch(rightPaginationButtonState)
+        {
+            case "enabled":
+                softly().assertThat(!leftPaginationButtonInComparePinnedCollegesPage().getAttribute("class").contains("disabled"));
+                break;
+            case "disabled":
+                softly().assertThat(leftPaginationButtonInComparePinnedCollegesPage().getAttribute("class").contains("disabled"));
+                break;
+        }
+    }
+
+    public void verifyTextInBoxInWhyDrawer(String text, String box) {
+        Assert.assertTrue("The text is not present in the " + box + " box", criteriaBox(box).getText().contains(text));
+    }
+
+    public void verifyPINNEDDropdownISPresentInFooter() {
+        softly().assertThat(pinnedFooterOption().isDisplayed() && pinnedFooterOption().getText().equals("PINNED"));
+    }
+
+    public void verifyFollowingOptionsDisplayedInPinnedDropdown(DataTable dataTable) {
+        List<String> pinnedDropdownOptions = dataTable.asList(String.class);
+
+        pinnedFooterOption().click();
+
+        for(String pinnedDropdownOption : pinnedDropdownOptions) {
+
+            softly().assertThat(visibleFooterOpenMenu().findElement(By.xpath(".//*[contains(text(), '"+ pinnedDropdownOption +"')]")).isDisplayed()
+                                && visibleFooterOpenMenu().findElement(By.xpath(".//*[contains(text(), '"+ pinnedDropdownOption +"')]")).getText().equals(pinnedDropdownOption.toUpperCase()));
+
+        }
+
+    }
+
+    public void verifyPinkCircleIsDisplayedNextToThePinnedDropdown() {
+        softly().assertThat(pinCount().findElement(By.xpath("./following-sibling::span")).getText().equals("PINNED"));
+        softly().assertThat(pinCount().getCssValue("background-color").equals("rgba(210, 0, 97, 1)"));
+    }
 
 
     // Locators Below
 
-    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
-    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
+    protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
 
 
@@ -2262,8 +2437,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement firstSelectCriteriaToStartButton() {
-        return driver.findElement(By.xpath("(//button[contains(text(),'Select Criteria To Start')])[2]"));
+        return driver.findElement(By.xpath(selectCriteriaToStartButton));
     }
+
+    String selectCriteriaToStartButton = "(//button[contains(text(),'Select Criteria To Start')])[2]";
 
     private WebElement secondSelectCriteriaToStartButton(){
         return driver.findElement(By.xpath("(//button[contains(text(),'Select Criteria To Start')])[3]"));
@@ -2523,4 +2700,72 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//label[contains(text(), 'Maximum Total Cost (Tuition, Fees, Room & Board)')]/../input"));
     }
 
+    private WebElement aboutMeLink() {
+        return driver.findElement(By.xpath("//a[@href='/about-me']"));
+    }
+
+    private WebElement aboutMeHomeLink() {
+        return driver.findElement(By.xpath("(//a[@href='/about-me'])[2]"));
+    }
+
+    private WebElement aboutMeAccountLink() {
+        return driver.findElement(By.xpath("//a[@href='/about-me/profile/general' and text()='Account']"));
+    }
+
+    private WebElement aboutMeTestScoresLink() {
+        return driver.findElement(By.xpath("//a[@href='/about-me/test-scores' and text()='Test Scores']"));
+    }
+
+    private WebElement gpaInNavianceStudentProfile() {
+        return driver.findElement(By.xpath("//div[text()='GPA']/following-sibling::div[1]"));
+    }
+
+    private WebElement satScoreInNavianceStudentProfile() {
+        return driver.findElement(By.xpath("//dt[text()='Highest combined SAT (1600 scale)']/following-sibling::dd[1]"));
+    }
+
+    private WebElement actScoreInNavianceStudentProfile() {
+        return driver.findElement(By.xpath("//dt[text()='Highest ACT']/following-sibling::dd[1]"));
+    }
+
+    private WebElement collegesLink() {
+        return driver.findElement(By.xpath("//a[@href='/colleges']"));
+    }
+
+    private WebElement findYourFitButton() {
+        return driver.findElement(By.xpath("//button[contains(text(), 'Find Your Fit')]"));
+    }
+
+    private WebElement superMatchLink() {
+        return driver.findElement(By.xpath("//a[contains(text(), 'SuperMatch')]"));
+    }
+    private WebElement comparePinnedCollegesPageHeader() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-header')]"));
+    }
+
+    private WebElement backToMainPageButton() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'supermatch-compare-top-toolbar')]//button[contains(text(), 'Back')]"));
+    }
+
+    private WebElement yourFitCriteriaInstructionText() { return driver.findElement(By.cssSelector("div.box.colored-box p")); }
+
+    private WebElement superMatchComparePaginationText() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-txt']"));
+    }
+
+    private WebElement leftPaginationButtonInComparePinnedCollegesPage() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-btn']//button[1]"));
+    }
+
+    private WebElement rightPaginationButtonInComparePinnedCollegesPage() {
+        return driver.findElement(By.xpath("//span[@class='supermatch-compare-actions-pagination-btn']//button[2]"));
+    }
+
+    private WebElement criteriaBox(String boxTitle) { return driver.findElement(By.xpath("//h3[text() = '" + boxTitle + "']/following-sibling::*")); }
+
+    private String confirmationMessageCloseIcon = "i.close.icon";
+
+    private WebElement visibleFooterOpenMenu() {
+        return driver.findElement(By.xpath("//div[contains(@class, 'menu transition visible')]"));
+    }
 }

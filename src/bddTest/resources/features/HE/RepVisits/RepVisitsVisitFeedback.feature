@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to be view feedback from HS on my institution's school visits
+Feature: HE - RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to be view feedback from HS on my institution's school visits
 
 
   @MATCH-2403
@@ -17,7 +17,6 @@ Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button
-    Then SP I successfully sign out
 
   @MATCH-3076
   Scenario: As a HE user I do not want to see the word 'rating' or 'rate' when interacting with the RV Feedback functionality so I dont feel depressed if feedback isn't always positive from HSs.
@@ -25,7 +24,6 @@ Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to
     Then HE I navigate to the "Visit Feedback" page in RepVisits
     Then HE I verify that rate or rating text is not present on Visit Feedback Overview page
     Then HE I verify text displayed while viewing individual staff member feedback
-    Then HE I successfully sign out
 
   @MATCH-2404
   Scenario: As an HE user with the Administrator role I want to be presented with a Staff Ratings page

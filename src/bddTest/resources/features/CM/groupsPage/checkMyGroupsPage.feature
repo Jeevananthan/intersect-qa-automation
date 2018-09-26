@@ -9,4 +9,3 @@ Feature: Community User - Groups Tab to Show Community User Their Joined Groups
     Then I navigate to Groups page
     And I check if my groups are displayed
     And I can go to Hobsons default group page
-    Then HE I successfully sign out

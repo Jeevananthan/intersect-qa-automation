@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days for visit availability
 
 
@@ -16,7 +16,8 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
     Then HS I schedule a new visit for "<BlockedDate>","<StartTime>","<EndTime>","<Attendee>","<visitLocation>"
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
+    Given HE I am logged in to Intersect HE as user type "publishing"
+#    Given HE I want to login to the HE app using "purpleheautomation+publishing2@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to verify the appointment is not present for "<School>" using "<BlockedDate>" and "<StartTime>"
     Then HE I type into the global search box and select the result using "<School>"
@@ -26,11 +27,10 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
-    And HS I successfully sign out
 
     Examples:
       |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School              |
-      |14         |21     |10:25 am |11:25 pm |PurpleHE Publishing|USA          |Holiday|Int Qa High School 4|
+      |14         |21     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Int Qa High School 4|
 
 
 

@@ -11,7 +11,6 @@ Feature: Community User - Disconnect from Community User
     Then I search for "PurpleHS User" and open profile page of this user
     And I click disconnect button
     And I check if user is not connected to "PurpleHSUser" user
-    And HE I successfully sign out
 
 
   #There is no option to disconnect from another Community user in search results
@@ -27,7 +26,6 @@ Feature: Community User - Disconnect from Community User
     Then I go to connections page
     And I disconnect from the "PurpleHS User" user
     And I check if user is not connected to "PurpleHSUser" user
-    And HE I successfully sign out
 
 
   #Message to confirm disconnect action feature is not implemented

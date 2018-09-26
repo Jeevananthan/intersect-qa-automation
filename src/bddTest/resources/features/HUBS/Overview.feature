@@ -1,5 +1,5 @@
 @HUBS @HUBS-913
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs Overview Tab content so I can
+Feature: HUBS - Overview - As a community user viewing College Hubs, I want to be able to view Hubs Overview Tab content so I can
   understand what Hubs offers students.
 
   Background:
@@ -10,7 +10,6 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
   @HUBS-923 @HUBS-1005 @HUBS-992
   Scenario: All the elements of the page are displayed for HE users in Overview (MATCH-3930)
     Then HUBS All the elements of the overview tab should be displayed
-    And HE I successfully sign out
 
   @HUBS-1087
   Scenario: All the types of fields are editable in real time
@@ -22,12 +21,11 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Undergraduate Enrollment | 10;10 |
       | Student / Faculty Ratio  | 777 |
       | Campus Surroundings      | City Size;Town, within 10 miles of urban area |
-      | Test Scores              | SAT Critical Reading;Low;777                  |
+      | Test Scores              | SAT Critical Reading;25th Percentile;777                  |
       #MATCH-3775: Average GPA is not updated in real time
       #| Average GPA              | 7.7                                           |
       #MATCH-3780: Contact Information is not editable
       #| Contact Information      | Application Mailing Address;ZIP;777           |
-    And HE I successfully sign out
 
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-3957 - MATCH-4652)
     When HUBS I open "Overview" in the edit menu
@@ -38,7 +36,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Undergraduate Enrollment |
       | Student / Faculty Ratio  |
       | Campus Surroundings      |
-      | Test Scores              |
+      | Test Scores;SAT;SAT 2400 Reading;25th Percentile |
       #| Average GPA              |
       #| Contact Information      |
     And HUBS I edit all the fields in Overview based on the gathered values, with the publish reason "test"
@@ -53,8 +51,17 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Undergraduate Enrollment |
       | Student / Faculty Ratio  |
       | Campus Surroundings      |
-      | Test Scores              |
+      | Test Scores;SAT;SAT 2400 Reading;25th Percentile            |
       #| Average GPA              |
       #| Contact Information      |
-    And HUBS I successfully sign out
+
+  @MATCH-4157
+  Scenario: User have ability to Edit 25th and 75th GPA percentile
+    When HUBS I open "Overview" in the edit menu
+    Then HUBS I should be able to edit the following fields for Overview in real time:
+      | 25th Percentile (visible only in SuperMatch) | 2.5 |
+      | 75th Percentile (visible only in SuperMatch) | 2.9 |
+
+
+
 

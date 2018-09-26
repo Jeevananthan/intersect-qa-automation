@@ -1,10 +1,8 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 import pageObjects.SM.studentLife.StudentLifeImpl;
-import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 public class StudentLifeStepDefs implements En {
 
@@ -16,6 +14,8 @@ public class StudentLifeStepDefs implements En {
         Then("^SM I select the \"([^\"]*)\" fit criteria$", searchPageObj::selectFitCriteria);
 
         And("^SM I verify Greek Life option \"([^\"]*)\"$", studentLifeObj::verifyGreekLife);
+
+        And("^SM I pick \"([^\"]*)\" from the \"([^\"]*)\" dropdown in Student Life fit criteria$", studentLifeObj::pickOptionFromDropdownInStudentLife);
 
     }
 }

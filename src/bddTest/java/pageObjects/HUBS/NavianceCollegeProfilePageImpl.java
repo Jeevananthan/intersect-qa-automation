@@ -19,12 +19,12 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void openHUBSEditorMode() {
-        navigationBar.goToCollegeProfile();
+        getNavigationBar().goToCollegeProfile();
         verifyVieworEditYourCollegeProfileinNaviance();
         try {
             getStartedButton().click();
         } catch(WebDriverException e) {
-            navigationBar.navianceCollegeProfileMenuLink.sendKeys(Keys.ESCAPE);
+            getNavigationBar().navianceCollegeProfileMenuLink.sendKeys(Keys.ESCAPE);
             getStartedButton().click();
         }
         waitUntilPageFinishLoading();
@@ -59,7 +59,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
 
     public void navigateToInstitutionProfile(){
         waitUntilPageFinishLoading();
-        navigationBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         waitForUITransition();
         communityFrame();
         driver.findElement(By.xpath("//a[text()='Institution']")).click();

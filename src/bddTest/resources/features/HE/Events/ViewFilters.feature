@@ -7,7 +7,6 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
     When HE I open the Events section
     And HE I open the "Filters" tab in the Events section
     Then HE I should be able to see a list of all the AM Events filters
-    And HE I successfully sign out
 
   @MATCH-2903
   Scenario: Filter Name is editable
@@ -25,7 +24,6 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
     And HE I edit the Event Filter's name "ViewFilterTest6674" to "ViewFilterTest6674Edited"
     Then HE A filter of name "ViewFilterTest6674Edited" is displayed in the filters list
     And HE I delete the filter of name "ViewFilterTest6674Edited"
-    And HE I successfully sign out
 
   @MATCH-2903
   Scenario: A deleted filter is removed from any applied events
@@ -61,7 +59,6 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
     When HE I open the Events section
     And HE I open the "Events" tab in the Events section
     And HE I delete the event of name "TestEventDeletedFilter33"
-    And HE I successfully sign out
 
   @MATCH-2903
   Scenario: The number of published events that a specific filter is assigned to is displayed
@@ -93,4 +90,10 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
     And HE I open the "Events" tab in the Events section
     And HE I unpublish the event of name "AsignedEvent17863"
     And HE I delete the event of name "AsignedEvent17863"
-    And HE I successfully sign out
+
+  @MATCH-3499
+  Scenario: Sort by Recommended To should sort items in ascending or descending order
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events section
+    And HE I open the "Filters" tab in the Events section
+    Then HE I verify that the filters with base names "AutomationFilter" are ordered by "Recommended to"

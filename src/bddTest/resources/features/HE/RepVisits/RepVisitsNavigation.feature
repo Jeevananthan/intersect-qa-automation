@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - RepVisitsNavigation - As an HE user, I should be able to access the submenus
+Feature: HE - RepVisits - RepVisitsNavigation - As an HE user, I should be able to access the submenus
   @MATCH-3869
   Scenario: As a HE user with active presence subscription I want to navigate the submenus in RepVisits and see
   the Presence RepVisits branding in the header
@@ -27,4 +27,3 @@ Feature: HE- RepVisits - RepVisitsNavigation - As an HE user, I should be able t
     Then HE I verify the title "Presence RepVisits" in RepVisits branding header
     When  HE I navigate to the "Overview" page in RepVisits
     Then HE I verify the title "Presence RepVisits" in RepVisits branding header
-    And HE I successfully sign out

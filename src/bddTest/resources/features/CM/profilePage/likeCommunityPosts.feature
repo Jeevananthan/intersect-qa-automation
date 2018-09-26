@@ -11,7 +11,6 @@ Feature: Community User - Like Community Posts
     And I check if the Hobsons post is liked
     Then I unlike the Hobsons post
     And I check if Hobsons post is unliked
-    And HE I successfully sign out
 
 
   Scenario: Community user can like and unlike their own post/comment
@@ -22,8 +21,6 @@ Feature: Community User - Like Community Posts
     And I check if the my own post is liked
     Then I unlike the my own post
     And I check if my own post is unliked
-    And HE I successfully sign out
-
 
   Scenario: If another Community user likes one of my posts/comments, a Community notification is created
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -38,7 +35,6 @@ Feature: Community User - Like Community Posts
     Then I go to Counselor Community page
     And I open Notifications list
     And I check if user has new notification for post like
-    And HE I successfully sign out
 
 
   Scenario: If another Community user unlikes one of my posts/comments, do NOT create a Community notification
@@ -50,4 +46,3 @@ Feature: Community User - Like Community Posts
     Then I go to Counselor Community page
     And I open Notifications list
     And I check if new notification for post like is not raised
-    And HE I successfully sign out

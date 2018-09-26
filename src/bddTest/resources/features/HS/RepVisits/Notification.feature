@@ -1,7 +1,7 @@
-@HS
-Feature: HS - RepVisits - Notifications - As an HS user, I should be able to see notifications when there are new appointment requests or changes to existing appointments
+@HS @HS1
+Feature: HS - RepVisits - Notification - As an HS user, I should be able to see notifications when there are new appointment requests or changes to existing appointments
 
-  @MATCH-2168
+  @MATCH-2168 @ignore
   Scenario Outline: As a Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page,
                     I want to see the City and State of each institution within each notification entry
                     so I can more easily identify the institution the notification entry is updating me about.
@@ -82,13 +82,12 @@ Feature: HS - RepVisits - Notifications - As an HS user, I should be able to see
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option2>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    And HS I successfully sign out
 
     Examples:
       |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |School              |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|cityAndStateofInstitution|cityAndStateofSchool  |schoolForHE                 |
       |PurpleHE|The University of Alabama|9:00am       |7  |10:25am  |11:25pm |3        |7        |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|Int Qa High School 4|10:        |10:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Tuscaloosa, AL           |Liberty Township, Ohio|Int Qa High School 4 - Ohio |
 
-  @MATCH-2168
+  @MATCH-2168 @ignore
   Scenario Outline: As a Non-Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page,
                     I want to see the City and State of each institution within each notification entry
                     so I can more easily identify the institution the notification entry is updating me about.
@@ -148,10 +147,12 @@ Feature: HS - RepVisits - Notifications - As an HS user, I should be able to see
     Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
     Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab for Fairs
-    And HS I select "Confirm" option for the Notification using "<user>","<fairStartTime>","<institution>" for Fairs
+#    And HS I select "Confirm" option for the Notification using "<user>","<fairStartTime>","<institution>" for Fairs
+    And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
 
     Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
-    And HS I select "Decline" option for the Notification using "<user>","<fairStartTime>","<institution>" for Fairs
+#    And HS I select "Decline" option for the Notification using "<user>","<fairStartTime>","<institution>" for Fairs
+    And HS I select "Decline" option for the Notification using "<user>","<heStartTime>","<institution>"
     Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<fairStartTime>","<Date>" for Fairs
     Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Activity Tab for Fairs
@@ -168,11 +169,10 @@ Feature: HS - RepVisits - Notifications - As an HS user, I should be able to see
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option2>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    And HS I successfully sign out
 
     Examples:
       |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE         |
-      |PurpleHE|The University of Alabama|9:00am       |14 |10:25am  |11:25pm |3        |14       |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|10:        |10:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Homeconnection|Tuscaloosa, AL           |Oak Harbor, Washington          |Homeconnection - Washington|
+      |PurpleHE|The University of Alabama|9:00am       |14 |9:00am  |11:25pm |3        |14       |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|9:        |9:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Homeconnection|Tuscaloosa, AL           |Oak Harbor, Washington          |Homeconnection - Washington|
 
   @MATCH-2565
   Scenario Outline: As a Repvisits admin users, I want to view the all requests should be available for all Admin user until one of the user approves/denies the request.
@@ -228,7 +228,6 @@ Feature: HS - RepVisits - Notifications - As an HS user, I should be able to see
     Then HS I verify the Notification is not displayed after "Confirm" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
 #FOR DECLINE
     Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
-    And HS I successfully sign out
 
     Examples:
       |Date  |Day|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime |Option                                              |School            |heStartTime|heTime |user    |institution              |

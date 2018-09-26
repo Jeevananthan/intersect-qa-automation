@@ -108,6 +108,8 @@ public class FCCollegeEventsPage {
         return  driver.findElement(By.cssSelector("div.fc-tooltip.fc-tooltip--right.fc-tooltip--event-message"));
 
     }
+
+    public static WebElement registeredEventSaveChangesButton() { return driver.findElement(By.cssSelector("button[ng-disabled='!vm.cancellationAffirmed']")); }
 }
 
 

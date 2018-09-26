@@ -20,6 +20,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
+import java.util.List;
+
 public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
@@ -29,8 +31,14 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToActiveMatch() {
-        navigationBar.goToActiveMatch();
+        getNavigationBar().goToActiveMatch();
         waitUntilPageFinishLoading();
+    }
+
+    public void verfyActiveMatchPage(){
+        Assert.assertTrue("Connection link is not displayed",connectionTab().isDisplayed());
+        Assert.assertTrue("Dropdown button is not displayed",exportConnectionsDropdown().isDisplayed());
+        Assert.assertTrue("Download button is not displayed",downloadButton().isDisplayed());
     }
 
     public void verifyActiveMatchDropdownMenu(String Option,DataTable dataTable){
@@ -45,7 +53,6 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         action.sendKeys(Keys.UP).build().perform();
         action.sendKeys(Keys.ESCAPE).build().perform();
     }
-
     /**
      * Downloads the ActiveMatch connection files for the last year
      */
@@ -109,12 +116,6 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verfyActiveMatchPage(){
-        Assert.assertTrue("Connection link is not displayed",connectionTab().isDisplayed());
-        Assert.assertTrue("Dropdown button is not displayed",exportConnectionsDropdown().isDisplayed());
-        Assert.assertTrue("Download button is not displayed",downloadButton().isDisplayed());
-    }
-
     public void verifyDropdownMenuHeader(DataTable dataTable){
         List<String> value=dataTable.asList(String.class);
         exportConnectionsDropdown().click();
@@ -124,31 +125,71 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDefaultdropdownMenuSelection(String defaultMenuSelection,DataTable dataTable){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        navigationBar.goToActiveMatch();
+        getNavigationBar().goToActiveMatch();
         waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
         for (String option : value) {
             exportConnectionsDropdown().click();
             driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
             waitUntilPageFinishLoading();
-            navigationBar.goToRepVisits();
+            getNavigationBar().goToRepVisits();
             waitUntilPageFinishLoading();
-            navigationBar.goToActiveMatch();
+            getNavigationBar().goToActiveMatch();
             waitUntilPageFinishLoading();
             Assert.assertTrue("Since Last Export is not present as a default dropdown menu selection",driver.findElement(By.xpath("//div[@class='ui button dropdown gyhR4eL0bZuX-AtA9-Cgy']/div[text()='"+defaultMenuSelection+"']")).isDisplayed());
-        }}
+     }}
 
-        public void verifyActiveMatchConnectionsDropdownMenu(String option,DataTable dataTable){
+    //locators
+    private WebElement activeMatchTitle() { return driver.findElement(By.cssSelector("div.five.wide.computer.seven.wide.mobile.eight.wide.tablet.column div.UDWEBAWmyRe5Hb8kD2Yoc")); }
+    private WebElement activeMatchConntectionText(){
+        WebElement text=driver.findElement(By.xpath("//div[text()='Connection']/following-sibling::div[text()='ActiveMatch']"));
+        return text;
+    }
+   
+    public void verifyActiveMatchConnectionsDropdownMenu(String option,DataTable dataTable){
         exportConnectionsDropdown().click();
         List<String> list = dataTable.asList(String.class);
         for(String value:list){
             moveToElement(driver.findElement(By.xpath("//div/span[text()='"+option+"']/parent::div/following-sibling::div/span[text()='"+value+"']")));
             Assert.assertTrue(value+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']/parent::div/following-sibling::div/span[text()='"+value+"']")).isDisplayed());
-        }navigationBar.goToActiveMatch();
-        }
+        }getNavigationBar().goToActiveMatch();
+      }
 
+    public void verifySelectedHeader(String Option,DataTable dataTable){
+        getNavigationBar().goToActiveMatch();
+        waitUntilPageFinishLoading();
+        List<String> value=dataTable.asList(String.class);
+            for (String option : value) {
+                exportConnectionsDropdown().click();
+                driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
+                waitUntilPageFinishLoading();
+                String displayingValue = Option+": "+option;
+                Assert.assertTrue(option + "is not displayed", driver.findElement(By.xpath("//div[text()='"+displayingValue+"']")).isDisplayed());
+            }
+    }
+
+    public void verifyHeader(String option){
+        exportConnectionsDropdown().click();
+        Assert.assertTrue("Since Last Export option is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']")).isDisplayed());
+        Assert.assertTrue("Last exported connection details are not displayed",driver.findElement(By.xpath("//div/span[contains(text(),'connections since last export on')]")).isDisplayed());
+    }
+
+    public void verifyErrorMessageInConnections(DataTable dataTable) {
+        String errorMessage = dataTable.asList(String.class).get(0);
+        Assert.assertTrue("The error message is not correct", connectionsErrorMessage().getText().equals(errorMessage));
+    }
+
+    public void verifyDownloadButtonDisabled() {
+        Assert.assertTrue("The Download button is enabled", disabledDownloadButton().isDisplayed());
+    }
+
+    public void sendTextToTheField(String text, String locator) {
+       driver.findElement(By.id(locator)).sendKeys(text);
+    }
+
+    //Locators
     /**
      * Gets the ActiveMatch download connections
      * @return WebElement
@@ -188,7 +229,13 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         WebElement button=driver.findElement(By.xpath("//span[text()='Download']"));
         return button;
     }
+
     private void moveToElement(WebElement element){
         Actions builder = new Actions(driver);
         builder.moveToElement(element ).build().perform();
-    }}
+    }
+
+    private WebElement connectionsErrorMessage() { return driver.findElement(By.cssSelector("th div[class *= 'ui header'] span")); }
+
+    private WebElement disabledDownloadButton() { return driver.findElement(By.cssSelector("button[disabled]")); }
+}

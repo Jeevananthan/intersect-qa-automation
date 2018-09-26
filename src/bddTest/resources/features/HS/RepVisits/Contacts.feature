@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature: HS - RepVisits - Contacts - As an HS user, I should be able to view my HE contacts
 
   @MATCH-1881 @MATCH-1872
@@ -15,6 +15,5 @@ Feature: HS - RepVisits - Contacts - As an HS user, I should be able to view my 
     And HS I search for invalid data of "invalid data" in Contacts
     #Page layout is the same for HE/HS, so use the existing HE code for this.
     And HE I search for partial data of "The Univer" in Contacts
-    And HS I successfully sign out
 
 

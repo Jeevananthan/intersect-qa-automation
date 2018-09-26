@@ -1,7 +1,7 @@
 @HE
-Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the Search and Schedule in the RepVisits features based on my role/subscription
+Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able to access the Search and Schedule in the RepVisits features based on my role,subscription
 
-  @MATCH-3856 @MATCH-4273 @MATCH-4378 @MATCH-3861
+  @MATCH-3856 @MATCH-4273 @MATCH-4378 @MATCH-3861 @MATCH-4209
   Scenario Outline: As an HE freemium user (any role) searching for a school in RVs on the Search and Schedule view,
                     I want to see a Search By drop-down clearly indicating what's available to me and what what requires an upgrade
                     so that I won't be confused as to what I can search against as a free user.
@@ -24,7 +24,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |U.S. County|U.S. Zip Code|Country|CEEB Code|
     Then HE I select the following fields will not submit the search on the page search by "Name","Int Qa High School 4"
       |Name|City|U.S. State|
-    And HE I successfully sign out
 
     Examples:
     |freemium-color    |premium-color           |userType          |
@@ -46,7 +45,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the fields are displaying box after selecting the following fields in the dropdown
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|CEEB Code|
     Then HE I verify the text "Search for a school..." present in the text box
-    And HE I successfully sign out
 
     Examples:
       |userType      |
@@ -65,7 +63,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the search results have "<searchResult>" in the "<field>" field
     And HE I search a school by "<filter>" using "<invalid>"
     Then HE I verify "No results found." is displayed in the search results
-    And HE I successfully sign out
 
     Examples:
       |userType          |filter         |toSearch                    |searchResult                |field      |invalid       |fewCharacters|
@@ -111,7 +108,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the search results have "<searchResultForNon-US>" in the "<field>" field
     And HE I search a school by "<filter>" using "<CityForUS>"
     Then HE I verify the search results have "<searchResultForUS>" in the "<field>" field
-    Then HE I successfully sign out
 
     Examples:
       |userType          |filter         |CityForUS             |CityForNon-Us|searchResultForUS|searchResultForNon-US|field      |invalid       |fewCharacters|
@@ -124,7 +120,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
 
 
 
-  @MATCH-3865 @MATCH-4489
+  @MATCH-3865 @MATCH-4489 @MATCH-4209
   Scenario Outline: As an HE premium/paid user (any role) searching for a school in RVs on the Search and Schedule view,
                     I want to be able to see all high schools outside of the U.S.
                     so that I don't have to do a country by country search to see ALL international high schools
@@ -148,7 +144,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
 #The International Schools list view does not load for HE RV freemium users
     Then HE I am logged in to Intersect HE as user type "<limitedUser>"
     Then HE I verify the International Schools list view does not load for freemium users in search and schedule page
-    Then HE I successfully sign out
 
     Examples:
       |userType          |filter         |field      |Non-USState|school                      |limitedUser      |
@@ -156,7 +151,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
       |publishing        |Country        |Country    |Canada     |International QA High School|limitedPublishing|
       |community         |Country        |Country    |Canada     |International QA High School|limitedCommunity |
 
-  @MATCH-3779
+  @MATCH-3779 @MATCH-4209
   Scenario Outline: As an HE user searching for a school in RVs on the Search and Schedule view,
                     I want to see how many search results were returned and what portion of the results I'm viewing (count)
                     so that I can get a sense of how many hits I have based upon the search criteria I specified.
@@ -164,7 +159,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Given HE I am logged in to Intersect HE as user type "<userType>"
     And HE I search a school by "<filter>" using "<value>"
     Then HE I verify the results count by "<filter>" using "<value>" in search results page
-    Then HE I successfully sign out
 
     Examples:
       |userType          |filter      |value    |

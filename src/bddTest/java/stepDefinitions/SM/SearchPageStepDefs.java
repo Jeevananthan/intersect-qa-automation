@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -252,5 +251,40 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that the below options are displayed in Family Income dropdown$", searchPage::verifyOptionsDisplayedInFamilyIncomeDropdown);
 
+        Then("^I check there are (\\d+) icons \"([^\"]*)\" are displayed$", searchPage::checkNumberOfElementsDisplayed);
+
+        Then("^SM I verify if the GPA and test scores revert to those stored in naviance student profile when Start Over action is performed$", searchPage::onStartOverVerifyIfGPAAndTestScoresRevertToValuesStoredInNavianceStudentProfile);
+
+        Then("^SM I verify the pinned college count is \"([^\"]*)\" in footer$", searchPage::verifyPinnedCollegeCountInFooter);
+
+        Then("^SM I verify if the GPA and test scores are not reverted to those stored in naviance student profile when page is refreshed$", searchPage::onPageRefreshVerifyIfGPAAndTestScoresDoNotRevertToValuesStoredInNavianceStudentProfile);
+
+        Then("^SM I verify that COMPARE PINNED COLLEGES is not clickable$", searchPage::verifyComparePinnedCollegesOptionIsNotClickable);
+
+        Then("^SM I verify the header text in Compare Pinned Colleges page$", searchPage::verifyHeaderTextinComparePinnedCollegesPage);
+
+        Then("^SM I click on the Back button in Compare Pinned Colleges page$", searchPage::clickOnBackButtonInComparePinnedCollegesPage);
+
+        Then("^I check number of records in the \"([^\"]*)\" table$", searchPage::getCurrentNumberOfTableRows);
+
+        Then("^I check that table \"([^\"]*)\"  has one more row$", searchPage::checkTableHasOneMoreRow);
+      
+        Then("^SM I verify that the text from \"([^\"]*)\" is displayed in Your Fit Criteria screen$", searchPage::verifyTextIsPresentInFitCriteria);
+
+        Then("^SM I verify that the button Select Criteria To Start is not displayed in the Your Fit Criteria screen$", searchPage::verifySelectCriteriaButtonNotPresent);
+
+        Then("^SM I navigate to page via URL path \"([^\"]*)\"$", searchPage::navigateToPageViaURLPath);
+
+        Then("^SM I verify that the pagination text displayed in Compare Pinned Colleges page is \"([^\"]*)\"$", searchPage::verifyPaginationTextInComparePinnedCollegesPage);
+
+        Then("^SM I verify that the left pagination button is \"([^\"]*)\" and the right pagination button is \"([^\"]*)\" in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsAreEnabledOrDisabledInCpmparePinnedCollegesPage);
+
+        And("^SM I verify that \"([^\"]*)\" is displayed in the \"([^\"]*)\" box in the Why Drawer$", searchPage::verifyTextInBoxInWhyDrawer);
+
+        Then("^SM I verify that a PINNED dropdown is present in the footer$", searchPage::verifyPINNEDDropdownISPresentInFooter);
+
+        Then("^SM I verify the following options are displayed in the PINNED dropdown$", searchPage::verifyFollowingOptionsDisplayedInPinnedDropdown);
+
+        Then("^SM I verify that a pink circle is displayed next to the pinned dropdown$", searchPage::verifyPinkCircleIsDisplayedNextToThePinnedDropdown);
     }
 }

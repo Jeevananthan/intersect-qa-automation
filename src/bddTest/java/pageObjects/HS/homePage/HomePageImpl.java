@@ -1,15 +1,18 @@
 package pageObjects.HS.homePage;
 
+import cucumber.api.DataTable;
 import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import java.util.List;
 import java.util.Calendar;
 import java.util.Set;
 
@@ -39,8 +42,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void goToCounselorCommunity(){
-        //link(By.cssSelector("a[id='js-main-nav-home-menu-link']>span")).click();
-        navigationBar.goToCommunityInHS();
+        getNavigationBar().goToCommunityInHS();
     }
 
     public void verifyTitleHS(String generalCategoryName,String pageName){
@@ -92,11 +94,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("div[id='user-dropdown']"));
     }
 
-        public void verifyTextInButtonFromModule(String moduleName, String buttonText) {
-            Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
-        }
+    public void verifyTextInButtonFromModule(String moduleName, String buttonText) {
+        Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
+    }
 
         public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
+            waitUntilElementExists(moduleButton(moduleName));
             moduleButton(moduleName).click();
             waitUntilPageFinishLoading();
             String expectedURL = GetProperties.get("hs.app.url") + expectedUrl;
@@ -189,6 +192,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         String currentYear=Integer.toString(year);
         return currentYear;
+    }
+
+    public void iframeExit() {
+        driver.switchTo().defaultContent();
+    }
+
+    public void iframeEnter()  {
+        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
     }
 
     private WebElement collageNameLabel() {

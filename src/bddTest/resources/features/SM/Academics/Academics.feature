@@ -1,5 +1,5 @@
 @SM
-Feature: SM - Feature - As a HS student, I need to be able to search for colleges based on the 'Academics' fit criteria
+Feature: SM - Academics - Academics - As a HS student, I need to be able to search for colleges based on the 'Academics' fit criteria
 
   Background:
     Given SM I am logged in to SuperMatch through Family Connection

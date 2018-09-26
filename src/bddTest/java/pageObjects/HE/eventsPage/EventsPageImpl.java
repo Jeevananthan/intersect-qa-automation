@@ -341,7 +341,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             getEventsTab("Published").click();
         } catch(WebDriverException e) {
             //navianceCollegeProfilePage.welcomeTitle().click();
-            navigationBar.goToHome();
+            getNavigationBar().goToHome();
             getEventsTab("Published").click();
         }
         menuButtonForEvent(eventName).click();
@@ -571,10 +571,35 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The Edit Events screen was not opened", eventNameField().isDisplayed());
     }
 
+    public void openEventOfGeneratedName() {
+        waitUntilPageFinishLoading();
+        menuButtonForEvent(eventName).click();
+        menuButtonForEventsAttendees().click();
+    }
+
+    public void openTabInEditEvent(String tabName) {
+        getOptionFromMenuButtonForEvents(tabName).click();
+        waitUntilPageFinishLoading();
+        driver.get(driver.getCurrentUrl());
+        waitUntilPageFinishLoading();
+    }
+
     public void verifyAttendeesErrorMessage(DataTable dataTable) {
         List<String> details = dataTable.asList(String.class);
         attendeeStatusBarStudent(eventName).click();
         Assert.assertTrue("The error message is not correct", attendeesErrorMessage().getText().equals(details.get(0)));
+    }
+
+    public void createAndSaveEventWithGenDateAndName(String xDaysFromNow, DataTable dataTable) {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss");
+        List<List<String>> eventDetails = dataTable.asLists(String.class);
+        waitUntilPageFinishLoading();
+        fillEventStartDateTimeFields(xDaysFromNow);
+        fillCreateEventForm(eventDetails);
+        eventNameField().sendKeys(dateFormat.format(date));
+        eventName = eventNameField().getAttribute("value");
+        publishNowButton().sendKeys(Keys.RETURN);
     }
 
     /*public void statusDraft(){

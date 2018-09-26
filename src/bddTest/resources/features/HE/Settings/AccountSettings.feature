@@ -1,5 +1,5 @@
 @HE
-Feature:  HE - Settings - AccountSettings - As an HE user, I should be able to manage my user settings
+Feature: HE - Settings - AccountSettings - As an HE user, I should be able to manage my user settings
 
   @MATCH-1172 @MATCH-1155
   Scenario: As an HE user, I can enter the Account Settings screen and then cancel my
@@ -15,8 +15,6 @@ Feature:  HE - Settings - AccountSettings - As an HE user, I should be able to m
     # This step will fail if the password was changed when clicking "Cancel"
     And HE I am logged in to Intersect HE as user type "administrator"
     And HE I am able to successfully login
-    Then HE I successfully sign out
-
 
   @MATCH-1191
   Scenario: As an HE user, I want to be able to manage my Purple account and my Community account separately.
@@ -28,7 +26,6 @@ Feature:  HE - Settings - AccountSettings - As an HE user, I should be able to m
       |First Name       |PurpleHE                       |
       |Last Name        |Automation                     |
       |Your institution |The University of Alabama (636)|
-    Then HE I successfully sign out
 
 
   @MATCH-1134
@@ -58,7 +55,6 @@ Feature:  HE - Settings - AccountSettings - As an HE user, I should be able to m
     And HE I receive the "Matching Account has been Updated" email below
       |Subject                             |To                                            |Messages |Body                                                                                                                                                          |
       |Intersect Account has been Updated  |purpleheautomation+updates_updated@gmail.com  |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact|
-    Then HE I successfully sign out
 
 # This test case isn't actually testing MATCH-1129, and since the AC for that ticket is basically a negative test with email, it will be hard to automate in the first place
 # Given that, I've commented it out, but left it to be fixed at a later time if necessary.
@@ -96,7 +92,6 @@ Feature:  HE - Settings - AccountSettings - As an HE user, I should be able to m
     Then HE I verify the items are navigate to the respective page in the user dropdown for a HE user
     Then HE I verify the user is "<user>" or not
     And HE I verify the items are present in the help center dropdown for a HE user
-    And HE I successfully sign out
     Examples:
       |usertype   |user     |
       |publishing |NON-ADMIN|
@@ -121,8 +116,36 @@ Feature:  HE - Settings - AccountSettings - As an HE user, I should be able to m
       |contain a lowercase letter|contain an uppercase letter|contain a number|
     And HE I validate the password field "<oldPassword>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HE I verify the success message "Success! You've updated your account information." in Account settings page
-    And HE I successfully sign out
     Examples:
       |Email                                                |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|FirstName|LastName                |
       |purpleheautomation+LimitedPasswordPolicy@gmail.com   |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |PurpleHE |LimitedPasswordPolicy   |
       |purpleheautomation+PublishingPasswordPolicy@gmail.com|Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |PurpleHE |PublishingPasswordPolicy|
+      
+  @MATCH-1785
+  Scenario: As a RepVisits user I want to see the appropriate subtabs within the RepVisits Notifications page so I can easily find the notifications I need to review.
+
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    Then I verify the following sub-tabs are displaying and "High Schools Now Available" is "displaying" in the notification tab for "premium" user
+      |Requests|Activity|
+
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+
+    Then HE I am logged in to Intersect HE as user type "limited"
+    Then I verify the following sub-tabs are displaying and "High Schools Now Available" is "not displaying" in the notification tab for "limited" user
+      |Requests|Activity|
+    And HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then I verify the following sub-tabs are displaying and "Naviance Sync" is "displaying" in the notification tab for "naviance" user
+      |Requests|Activity|Visit Feedback|
+    And HS I successfully sign out
+
+    Given HS I am logged in to Intersect HS as user type "administrator"
+    Then I verify the following sub-tabs are displaying and "Naviance Sync" is "not displaying" in the notification tab for "non-naviance" user
+      |Requests|Activity|Visit Feedback|
