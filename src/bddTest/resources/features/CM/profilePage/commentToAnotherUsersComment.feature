@@ -10,7 +10,6 @@ Feature: As a Community user I want to comment directly to another Community use
     Then I check if I see a comment icon/action below reply "New comment to this post"
     Then I go to user profile page
     And I delete created post
-    And HE I successfully sign out
 
 
 
@@ -25,7 +24,6 @@ Feature: As a Community user I want to comment directly to another Community use
     And I check if I can see "Comment text is required." as a placeholder
     Then I go to user profile page
     And I delete created post
-    And HE I successfully sign out
 
 
 
@@ -46,5 +44,4 @@ Feature: As a Community user I want to comment directly to another Community use
     And I check if user has new notification
     Then I go to user profile page
     And I delete created post
-    Then HE I successfully sign out
 

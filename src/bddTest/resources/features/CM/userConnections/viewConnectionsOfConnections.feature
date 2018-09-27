@@ -11,7 +11,6 @@ Feature: Community User - View Connections of Connections
     Then I search for "PurpleHS User" and open profile page of this user
     And I open a list of user's connections
     And I check if user's connections are displayed
-    Then HE I successfully sign out
 
 
   @MATCH-447
@@ -21,4 +20,3 @@ Feature: Community User - View Connections of Connections
     Then I search for "PurpleHS User" and open profile page of this user
     And I open a list of user's connections
     And I check when viewing a connection's connections if I am able to request to connect with them
-    Then HE I successfully sign out

@@ -8,5 +8,4 @@ Feature: HUBS - Links - As a community user viewing College Hubs, I want to veri
   Scenario: The 'Terms of Service' link points to the Terms of Service page
     When HUBS I verify the Terms of Service page
     | Terms of Service | Privacy Policy |
-    And HE I successfully sign out
 

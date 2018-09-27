@@ -11,7 +11,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
 
     public void verifySubtabsInNotificationsPage(String tab,String option,String user,DataTable dataTable){
         List<String> tabs = dataTable.asList(String.class);
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         if(user.equals("premium")||user.equals("limited")){
             notification().click();
