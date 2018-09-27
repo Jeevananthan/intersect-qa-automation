@@ -149,7 +149,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         try {
             //getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
             load(GetProperties.get("naviance.app.url"));
-            //getDriver().findElement(By.xpath("//a[@href='/legacy']")).click();
+            getDriver().findElement(By.xpath("//a[@href='/legacy']")).click();
             waitUntilPageFinishLoading();
         } catch (Exception e) {
             try{getDriver().close();} catch (Exception e2) { logger.info("Tried to call .close() on an already killed session."); }
