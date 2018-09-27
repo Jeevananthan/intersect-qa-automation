@@ -5,6 +5,8 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
   Scenario: As a Support user, I verify that the Next and Back button are working properly when adding a new subscription
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
+    And SP I Click the Save Changes button
     And SP I open the module link of name "Advanced Awareness"
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "State" in Add new Subscription modal
@@ -16,6 +18,8 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
                     that the client's services can be provisioned.
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
+    And SP I Click the Save Changes button
     And HE I click the link "Advanced Awareness"
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "<Subscription type>" in Add new Subscription modal
@@ -51,6 +55,8 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
   zip code radius that has a 100 mile limit, so that clients can be more specific with their radiuses.
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
+    And SP I Click the Save Changes button
     And SP I open the module link of name "Advanced Awareness"
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "Zip" in Add new Subscription modal

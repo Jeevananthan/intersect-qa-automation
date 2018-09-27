@@ -219,6 +219,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
 
     public void setModuleStatusAsActiveOrInActive(String moduleName, String status){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(moduleText()));
         WebElement dropDownItem = null;
          WebElement actualStatus = getLocatorforSubscription(moduleName);
          if(!actualStatus.getText().equalsIgnoreCase(status)){
@@ -261,6 +262,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status, String startDateDelta, String endDateDelta){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(moduleText()));
         WebElement dropDownItem = null;
         WebElement actualStatus = getLocatorforSubscription(moduleName);
         if(!actualStatus.getText().equalsIgnoreCase(status)){
@@ -555,6 +557,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     //Locators
     private WebElement moduleLink(String moduleName) { return driver.findElement(By.xpath("//span[text() = '" + moduleName + "']")); }
+    private By moduleText() {
+        return By.xpath("//span[text()='Modules']");
+    }
 }
 
 
