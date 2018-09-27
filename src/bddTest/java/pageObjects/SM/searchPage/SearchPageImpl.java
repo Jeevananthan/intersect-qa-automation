@@ -1990,8 +1990,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pressButton(String text) {
         try {
+            waitUntilPageFinishLoading();
             button(text).click();
         } catch (Exception e) {
+            waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
         }
     }
