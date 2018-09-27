@@ -13,7 +13,6 @@ Feature: SP - Events - SuperAdmin Role for Events
       | RSVP Deadline | 12-30-2018;10:00AM |
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
-    And HE I successfully sign out
 
     When I log in to Family Connection with the following user details:
       | rtsa       | benhubs | Hobsons!23  |

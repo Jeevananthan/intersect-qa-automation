@@ -8,4 +8,3 @@ Feature: Community User - Profile Tab to Show User Profile
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then I go to user profile page
     And I check if my user profile page is opened
-    Then HE I successfully sign out

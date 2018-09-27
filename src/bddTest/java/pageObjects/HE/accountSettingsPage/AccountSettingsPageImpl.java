@@ -32,7 +32,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         }
         switch (action) {
             case "Home":
-                navigationBar.goToHome();
+                getNavigationBar().goToHome();
                 waitUntilPageFinishLoading();
                 break;
             case "Save":
@@ -70,7 +70,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
                         xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
                 //driver.navigate().refresh();
-                navigationBar.goToHome();
+                getNavigationBar().goToHome();
                 waitUntilPageFinishLoading();
                 userDropdown().click();
                 Assert.assertTrue("Account Settings option is not displayed",selectOptionfromDropdownList(option).isDisplayed());

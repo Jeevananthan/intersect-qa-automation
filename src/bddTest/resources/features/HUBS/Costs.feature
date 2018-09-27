@@ -17,7 +17,6 @@ Feature: HUBS - Costs - As a community user viewing College Hubs, I want to be a
       | Average Net Prices | $48,001 - $75,000 | 42300 |
       | % Receiving Aid    | Pell Grant        | 64    |
       | Average Amount of Aid | Grant          | 1111  |
-    And HE I successfully sign out
 
   @HUBS-1080
   Scenario: Changes done in HEM are successfully published to HUBS
@@ -41,4 +40,3 @@ Feature: HUBS - Costs - As a community user viewing College Hubs, I want to be a
     #Sometimes, the Average Net Prices take a lot of time to be updated. So, the next
     #setting is the number of times to reload the HUBS page to verify the value.
       | Number of tries       | 10                |
-    And HUBS I successfully sign out

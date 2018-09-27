@@ -18,7 +18,6 @@ Feature: Community User - Manage Community User Profile Field Permissions
     And I Save changes
     Then I click on Edit profile button
     And I check if permissions settings are saved to "private"
-    And HE I successfully sign out
 
 
   @MATCH-517
@@ -33,7 +32,6 @@ Feature: Community User - Manage Community User Profile Field Permissions
     And I Save changes
     Then I click on Edit profile button
     And I check if permissions settings are saved to "connections"
-    And HE I successfully sign out
 
 
   @MATCH-518
@@ -48,7 +46,6 @@ Feature: Community User - Manage Community User Profile Field Permissions
     And I Save changes
     Then I click on Edit profile button
     And I check if permissions settings are saved to "public"
-    And HE I successfully sign out
 
 
 
@@ -64,7 +61,6 @@ Feature: Community User - Manage Community User Profile Field Permissions
     And I Save changes
     Then I click on Edit profile button
     And I check if permissions settings are saved to "connections"
-    And HE I successfully sign out
 
 
 
@@ -80,7 +76,6 @@ Feature: Community User - Manage Community User Profile Field Permissions
     And I Save changes
     Then I click on Edit profile button
     And I check if permissions settings are saved to "public"
-    And HE I successfully sign out
 
 
 
@@ -96,8 +91,6 @@ Feature: Community User - Manage Community User Profile Field Permissions
     And I Save changes
     Then I click on Edit profile button
     And I check if permissions settings are saved to "private"
-    And HE I successfully sign out
-
 
 
   @MATCH-522
@@ -106,5 +99,4 @@ Feature: Community User - Manage Community User Profile Field Permissions
     And I go to user profile page
     Then I click on Edit profile button
     And I check if there are no privacy settings for following fields first name, last name, institution name, bio, headline, territory served, and job title
-    And HE I successfully sign out
 

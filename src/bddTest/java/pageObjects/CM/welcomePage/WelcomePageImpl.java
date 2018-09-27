@@ -186,7 +186,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityActivationForRepVisits(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();
@@ -272,7 +272,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
         saveButton().click();
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
     }
 
     public void clearCommunityProfile(){

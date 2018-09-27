@@ -7,7 +7,6 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     When SP I search for "Bowling Green State University-Main Campus" as an Institution in the global search box
     And SP I select "Bowling Green State University-Main Campus" from the global search results
     Then SP I verify Hubs view mode for "Bowling Green State University-Main Campus"
-    And SP I successfully sign out
 
   @MATCH-3007
   Scenario: As a Support user with the 'Super Administrator' role I need to be able to access Community so I can create my profile and network with other users.
@@ -16,7 +15,6 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Then SP I verify the user can access the following sub tabs in the Counselor Community
       |Home|Profile|Institution|Connections|Groups|
     Then SP I verify the user tied to the Hobsons institution
-    And SP I successfully sign out
 
     @MATCH-4371
     Scenario: As a Support user, I need the ability to add a state subscription so that I can configure the correct subscription for the HE client.
@@ -42,7 +40,6 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
       Then SM I pick the date "01/01/19" from the date picker
       Then SM I press button "Finish"
       Then I check that table ".subscriptions-table"  has one more row
-      And SP I successfully sign out
 
   @MATCH-4372
   Scenario: As a Support user, I need the ability to add a county subscription so that I can configure the correct subscription for the HE client.
@@ -69,7 +66,6 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Then SM I pick "Coconino County" from the dropdown "[name='counties.Arizona']"
     Then SM I press button "Finish"
     Then I check that table ".subscriptions-table"  has one more row
-    And SP I successfully sign out
 
   @MATCH-4373
   Scenario: As a Support user, I need the ability to add a zip subscription so that I can configure the correct subscription for the HE client.
@@ -95,7 +91,6 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Then SM I pick the date "01/01/19" from the date picker
     Then SM I press button "Finish"
     Then I check that table ".subscriptions-table"  has one more row
-    And SP I successfully sign out
 
   @MATCH-4371 @MATCH-4372 @MATCH-4373
   Scenario Outline: As a Support user, I need to see error messages when required fields are not set while adding subscription.
@@ -108,7 +103,6 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Then SM I press button "Next"
     Then SM I press button "Finish"
     Then I check there are <numberOfErrorMessages> icons ".ui.red.pointing.label" are displayed
-    And SP I successfully sign out
     Examples:
     |subscription|numberOfErrorMessages|
     |State       |3                    |
