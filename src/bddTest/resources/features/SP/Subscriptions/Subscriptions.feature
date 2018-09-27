@@ -13,7 +13,7 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
 
   @MATCH-4369 @MATCH-4368
   Scenario Outline: As a Support user, I need the ability to add an Advanced Awareness or Connection subscription so
-  that the client's services can be provisioned.
+                    that the client's services can be provisioned.
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And HE I click the link "Advanced Awareness"
@@ -39,7 +39,8 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
     And SP I delete the subscriptions with the following data:
       | Diversity | <Diversity Filter>   |
       | Start Date | <Start date>        |
-    Examples:
+
+  Examples:
       | Subscription type | State   | Counties                       | Diversity Filter         | Competitors                   | Majors | Connection | Start date      | End date        | Zips  | Radius from zips |
       | State             | Alabama | None                           | Female                   | Auburn University Main Campus | yes    | no         | 2 days from now | 3 days from now | None  | None             |
       | County            | Alaska  | Aleutians East Borough County  | Male                     | Auburn University Main Campus | no     | yes        | 2 days from now | 3 days from now | None  | None             |
