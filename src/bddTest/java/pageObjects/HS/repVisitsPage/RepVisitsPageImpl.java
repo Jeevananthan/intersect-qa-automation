@@ -5814,7 +5814,9 @@ public void cancelRgisteredCollegeFair(String fairName){
         for (List<String> row : details) {
             switch (row.get(0)) {
                 case "Name":
-                    fairNameTextBox().sendKeys(row.get(1));
+                    String fairName = randomizeFairName(row.get(1));
+                    FairName = fairName;
+                    fairNameTextBox().sendKeys(fairName);
                     break;
                 case "Date":
                     SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyy");
