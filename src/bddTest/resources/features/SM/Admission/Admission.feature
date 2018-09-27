@@ -170,3 +170,23 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
     Then SM I press Why button for "Alabama State University" college
     Then I check if I can see "Application Deadline is on/after Jan 9" on the page
     Then I check if I can see "Regular application deadline is on Jul 30" on the page
+
+  @MATCH-3787
+  Scenario: As a HS student, I want to filter colleges I am searching for by Acceptance Rate within the Admission
+  category so I can see relevant colleges that match my Acceptance Rate requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Admission" filter criteria tab
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "26%-50%" checkbox from "Admission" fit criteria
+    And SM I select the "51%-75%" checkbox from "Admission" fit criteria
+    And SM I select the "76% or more" checkbox from "Admission" fit criteria
+    And SM I select the "Open Admissions" checkbox from "Admission" fit criteria
+    And SM I click "Admission" filter criteria tab
+    Then SM I verify that the Must Have box contains "Acceptance Rate [5]"
+    And SM I unselect the "25% or Lower" checkbox from the "Admission" fit criteria
+    And SM I unselect the "26%-50%" checkbox from the "Admission" fit criteria
+    And SM I unselect the "51%-75%" checkbox from the "Admission" fit criteria
+    And SM I click "Admission" filter criteria tab
+    Then SM I verify that the Must Have box contains "Acceptance Rate [2]"

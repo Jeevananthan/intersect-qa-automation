@@ -7,4 +7,3 @@ Feature: HE - Community - HUBSViewMode - As an HE user, I want to be able to vie
     When HE I go to the Counselor Community
     And HE I access the INSTITUTION page
     Then SP I verify Hubs view mode for "The University of Alabama"
-    And HE I successfully sign out

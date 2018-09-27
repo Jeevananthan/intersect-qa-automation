@@ -41,7 +41,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       | Phone       | 360.555.1212     |
       | Fax         | 360.123.4567     |
       | Website URL | www.hobsons.com  |
-    And HS I successfully sign out
 
 
 
@@ -136,7 +135,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       | Grade 12                         | 280     |
       | Title I Eligible                 | Unknown |
       | Title I Status                   | Eligible for Title I SWP provides TAS program. |
-    And HS I successfully sign out
 
 
 
@@ -184,7 +182,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       | School Level                       | Secondary (7-12)                           |
       | School Type Options                | Regular school                             |
       | School Year of Last Reported Data  | 2015-2017                                  |
-    And HS I successfully sign out
 
 
 
@@ -204,7 +201,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I access the INSTITUTION page
     And HS I verify that I do not have access to the institution profile edit button
-    And HS I successfully sign out
 
 
 
@@ -219,7 +215,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Not specified |
     Then HS I make sure the HIGHEST GRADE LEVEL dropdown is complete and sorted correctly and "highestGrade"
       | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Not specified |
-    And HS I successfully sign out
 
 
   @MATCH-1563
@@ -229,7 +224,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I verify the header exist above Title I data entry boxes "Title I Information"
-    And HS I successfully sign out
 
   @MATCH-1562
   Scenario: As an authenticated HS user on the HS Institution Edit Page I don't want to have a "total" box in demographic data
@@ -239,7 +233,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure that no total fields exist
       | Total |
-    And HS I successfully sign out
 
   @MATCH-1564
   Scenario: As an HS Intersect user viewing my HS Institution Edit page I want dropdowns that don't have too many options
@@ -255,7 +248,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       | Yes | No | Unknown |
     Then HS I make sure the Coeducational dropdown only displays appropriate options "coeducational"
       | Coed (school has male and female students) | All-male (school only has all-male students) | All-female (school only has all-female students) | Unknown |
-    And HS I successfully sign out
 
 
 
@@ -287,7 +279,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       | websiteUrl  | Ex: www.yourschool.edu |
       | collegeRate | Ex: 78%                |
       | ratio       | Ex: 12 (for 12:1)      |
-    And HS I successfully sign out
 
   @MATCH-2052
   Scenario: As a HS user, I need to be able to request a new user account AND a new high school institution during the registration process.

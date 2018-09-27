@@ -27,5 +27,7 @@ public class StudentLifeStepDefs implements En {
 
         And("^SM I remove the option \"([^\"]*)\" from the dropdown field$", studentLifeObj::removeOptionFromDropdownField);
 
+        Then("^SM I verify that \"([^\"]*)\" items are displayed in the dropdown field$", studentLifeObj::verifyNumberOfAddedOptions);
+
     }
 }

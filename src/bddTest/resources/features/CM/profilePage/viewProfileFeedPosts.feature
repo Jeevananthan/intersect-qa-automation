@@ -8,4 +8,3 @@ Feature: Community User - Aggregate Feed on Profile Page
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then I go to user profile page
     And I check if Profile posts are visible
-    Then HE I successfully sign out

@@ -11,7 +11,6 @@ Feature: Community User - Joining Public Groups
     And I am sure that user is not a member of the group
     And I search for "**Test Automation** HE Community PUBLIC Group" group
     Then I check if I see "Join Group" button
-    And HE I successfully sign out
 
 
   @MATCH-681
@@ -21,7 +20,6 @@ Feature: Community User - Joining Public Groups
     And I click on Search icon
     Then I click on Groups tab under search
     And I check if I am presented with a 'Join' action next to any Public group that returns in my search results
-    And HE I successfully sign out
 
 
   @MATCH-683
@@ -33,4 +31,3 @@ Feature: Community User - Joining Public Groups
     And I click on 'Join Group' button
     Then I open my groups tab
     And I check if I can see "**Test Automation** HE Community PUBLIC Group" on the page
-    And HE I successfully sign out

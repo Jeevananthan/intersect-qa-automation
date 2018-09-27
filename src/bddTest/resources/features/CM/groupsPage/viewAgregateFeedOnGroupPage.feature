@@ -7,4 +7,3 @@ Feature: Community Group - Aggregate Feed on Group Page
     Given HE I am logged in to Intersect HE as user type "administrator"
     And I search for "Hobsons News & Events" group
     Then I check if I can see aggregate feed on group page
-    And HE I successfully sign out
