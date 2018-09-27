@@ -6,7 +6,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I verify the College Fair Blank DashBoard Message
-    And HS I successfully sign out
 
 
   @MATCH-1776
@@ -18,7 +17,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
     Then HS I Click on the "Edit" button in the College Fair Details Page
     Then HS I set the data to the Edit a college Fair "<College Fair Name>","<VerifyDateEdit>","<Cost>","<NumberofStudentsExpected>","<MaxNumberofColleges>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<ButtonToClick>"
-    And HS I successfully sign out
     Examples:
       |College Fair Name    |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
       |QA Test Fair New/Edit|35              |0900AM    |1000AM  |7                |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2018|Wednesday, Nov 15, 2018|09:00          |10:00        |
@@ -101,7 +99,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I successfully sign out
 
 
-  @MATCH-1631 @MATCH-1463
+  @MATCH-1631 @MATCH-1463 @ignore
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
   so I can keep track of who is attending.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
@@ -118,7 +116,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I set the following data in the confirm cancel pop-up "<cancellationMessage>","<buttonToClickYes, cancel visit>"
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<StatusCanceled>","<ActionCanceled>"
     Then HS I cancel the fair of name "PreviouslySetFair" with the reason "TestCase Cleanup"
-    And HS I successfully sign out
 
 
     Examples:
@@ -221,12 +218,11 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 #cancel the college Fair
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
-    And HS I successfully sign out
     Examples:
       |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School              |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
       |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Int Qa High School 4|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
 
-  @MATCH-2080 @MATCH-2217
+  @MATCH-2080 @MATCH-2217 @ignore
   Scenario: As a HS RepVisits user,
   I need to be able to access all college fairs from the dashboard
   So i know what's upcoming and can see previous fairs' data.
@@ -246,7 +242,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I verify the Dashboard Upcoming events for "MATCH-2080 Fair " and "2"
     Then HS I cancel new event created for "MATCH-2080 Fair"
     And HS I verify the Canceled events for "MATCH-2080 Fair"
-    And HS I successfully sign out
 
   @MATCH-2381
   Scenario Outline: As a HS RepVisits user verify note to let users know their contact info will be visible
@@ -267,7 +262,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   Examples:
   |College Fair Name |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|
   |qa Fairs          |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |
-  @MATCH-2381
+ 
+ @MATCH-2381
   Scenario Outline: As a Non Naviance HS RepVisits user verify note to let users know their contact info will be visible
     Given HS I am logged in to Intersect HS as user type "administrator"
     And HS I Navigate to College Fairs tab of the Repvisits Page

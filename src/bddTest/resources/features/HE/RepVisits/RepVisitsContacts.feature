@@ -14,4 +14,3 @@ Feature: HE - RepVisits - RepVisitsContacts - As an HE user, I should be able to
     And HE I search for "HOMECONNECTION" in Contacts
     And HE I search for invalid data of "invalid data" in Contacts
     And HE I search for partial data of "HOMECON" in Contacts
-    And HE I successfully sign out

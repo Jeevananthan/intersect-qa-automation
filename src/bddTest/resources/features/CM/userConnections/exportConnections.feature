@@ -10,4 +10,3 @@ Feature: Community User - Automate Bulk Export of Connections
     And I am sure that user has at least one connection
     Then I export my connections
     And I check if connections CSV file "my_connections_" is exported successfully to location "/Users/bojan/Downloads"
-    Then HE I successfully sign out

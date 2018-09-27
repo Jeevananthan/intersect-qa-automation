@@ -42,7 +42,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void goToCounselorCommunity(){
-        navigationBar.goToCommunityInHS();
+        getNavigationBar().goToCommunityInHS();
     }
 
     public void verifyTitleHS(String generalCategoryName,String pageName){

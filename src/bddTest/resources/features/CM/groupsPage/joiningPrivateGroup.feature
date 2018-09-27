@@ -10,7 +10,6 @@ Feature: Community User - Joining Private Groups
     And I am sure that user is not a member of the group
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     Then I check if I see "Request to join" button
-    And HE I successfully sign out
 
   #This scenario may fail on step when denying join group request due to session issue (not possible to go to /groups page)
   @MATCH-690

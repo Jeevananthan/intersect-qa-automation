@@ -7,4 +7,3 @@ Feature: HE - RepVisits - RepVisitsOverview - As an HE user, I should be able to
     When HE I want to login to the HE app using "purpleheautomation+HEAuto_freshAccount@gmail.com" as username and "Password!1" as password
     Then HE I navigate to the "Overview" page in RepVisits
     Then HE I verify the RepVisits Overview page and Search and Schedule hyperlink when no events are scheduled for the next 7 days
-    And HE I successfully sign out

@@ -10,4 +10,3 @@ Feature: Community User - Institution Tab for User to View Their Institution's P
     Then I go to institution page
     And I check if my institution info is displayed
     And I check if I am able to edit my institution info
-    Then HE I successfully sign out

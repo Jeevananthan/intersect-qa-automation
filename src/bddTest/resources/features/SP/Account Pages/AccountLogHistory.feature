@@ -8,25 +8,21 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     When SP I select "The University of Alabama" from the institution dashboard
     And SP I am able to view the individual account page
     Then SP I do not have access to View Log History
-    And SP I successfully sign out
 
   Scenario: As a Hobsons Support user I can view an Institution's Log History
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "The University of Alabama" from the institution dashboard
     And SP I am able to view the individual account page
     Then SP I do have access to View Log History
-    And SP I successfully sign out
 
   Scenario: As a Hobsons Admin user I can view an Institution's Log History
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard
-    And SP I successfully sign out
 
 @MATCH-3007
   Scenario: As a Hobsons Super Admin user I can view an Institution's Log History
     Given SP I am logged in to the Admin page as a Super Admin user
     Then SP I go to the Log History for "Bowling Green State University-Main Campus" from the institution dashboard
-    And SP I successfully sign out
 
   @MATCH-1682 @MATCH-2124 @MATCH-5014
   Scenario Outline: As a Support App I need to add log entries to HE Accounts View Log History page when Support users are using the Login As feature
@@ -77,7 +73,6 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    And HS I successfully sign out
 
     Examples:
       |user                                   |supportUser         |profileName |institution              |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime |Option1                                              |Option2                           |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |

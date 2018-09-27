@@ -12,4 +12,3 @@ Feature: Community User - Send Message Form
     Then I check if new message form elements are present
     Then I search for "PurpleHS User" and open profile page of this user
     And I click disconnect button
-    And HE I successfully sign out
