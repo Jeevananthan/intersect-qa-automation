@@ -29,8 +29,12 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         logger = Logger.getLogger(PageObjectFacadeImpl.class);
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
-        navigationBar = new NavigationBarImpl();
     }
+
+      public NavigationBarImpl getNavigationBar(){
+        return new NavigationBarImpl();
+    }
+
 
     /**
      * Uses JavaScript to click on an element.  This is occasionally necessary because Selenium thinks that something

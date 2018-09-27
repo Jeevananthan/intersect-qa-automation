@@ -17,7 +17,6 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
     And HE I open the Events list
     And HE I unpublish the event of name "TestEventAttendees65334"
     And HE I delete the event of name "TestEventAttendees65334"
-    And HE I successfully sign out
 
   @MATCH-3312
   Scenario: Verify access to the Attendees list by clicking on the ellipse of a Published Event
@@ -35,7 +34,6 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
     And HE I unpublish the event of name "TestEventAttendees2"
     And HE I open the "Unpublished" tab in Events
     And HE I delete the event of name "TestEventAttendees2"
-    And HE I successfully sign out
 
   @MATCH-3312
   Scenario: Verify access to the Attendees list by clicking on the ellipse of a Cancelled and Expired  Event
@@ -46,7 +44,6 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
     When HE I open the Events list
     And HE I open the "Expired" tab in Events
     Then HE I verify that the Attendees tab in the event of name "ExpiredEventForAutomation" is opened by clicking the Attendees option in the edit menu
-    And HE I successfully sign out
 
   @MATCH-3312
   Scenario: Verify access to the Attendees list by clicking on the "attendee status bar / students" area of Cancelled/Expired Events
@@ -57,7 +54,6 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
     When HE I open the Events list
     And HE I open the "Expired" tab in Events
     Then HE I verify that the Attendees tab in the event of name "ExpiredEventForAutomation" is opened by clicking the attendee status bar/students area
-    And HE I successfully sign out
 
   @MATCH-4361
   Scenario: Verify Event information from Naviance Student

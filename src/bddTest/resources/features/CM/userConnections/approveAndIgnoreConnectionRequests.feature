@@ -14,8 +14,6 @@ Feature: Community User - Approve/Ignore Request to Connect
     And I send the connection invitation
     Then As a HS user I accept the invitation
     And I check if user is connected to "PurpleHSUser" user
-    And HE I successfully sign out
-
 
 
   @MATCH-406
@@ -27,7 +25,6 @@ Feature: Community User - Approve/Ignore Request to Connect
     And I send the connection invitation
     Then As a HS user I ignore the invitation
     And I check if user is not connected to "PurpleHS User" user
-    And HE I successfully sign out
 
 
 #  #There is no any messages visible on connection requests page from user that requested a connection
@@ -46,8 +43,6 @@ Feature: Community User - Approve/Ignore Request to Connect
     Then As a HS user I ignore the invitation
     Then I search for "PurpleHS User" and open profile page of this user
     And I see "Send Connect Request" status button
-    And HE I successfully sign out
-
 
 
   @MATCH-1375
@@ -59,8 +54,6 @@ Feature: Community User - Approve/Ignore Request to Connect
     And I send the connection invitation
     Then As a HE user I accept the invitation
     And I check if user is connected to "PurpleHE Automation" user
-    And HS I successfully sign out
-
 
 
   @MATCH-1376
@@ -72,7 +65,6 @@ Feature: Community User - Approve/Ignore Request to Connect
     And I send the connection invitation
     Then As a HE user I ignore the invitation
     And I check if user is not connected to "PurpleHE Automation" user
-    And HS I successfully sign out
 
 
 #  #There is no any messages visible on connection requests page from user that requested a connection

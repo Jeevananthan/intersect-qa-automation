@@ -7,7 +7,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     When HE I go to re assign appointments
     Then HE I verify UI components with the option "Publishing, PurpleHE" in the drop down action
     Then HE I verify UI components with the option "Coordinator, PurpleHE" in the drop down action
-    And HE I successfully sign out
     
   @MATCH-4450
   Scenario Outline: As a HE user with active Prescence subscription, I can access Agenda view of my appointments
@@ -27,7 +26,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I verify the message "Unlock Agenda View" is displaying in the "Agenda" page
     Then HE I verify "UPGRADE" button is displaying in the "Agenda" page
     Then HE I verify the upgrade model page after clicking the UPGRADE button in Agenda view
-    And HE I successfully sign out
 
     Examples:
       |hePremium    |heFreemium       |
@@ -42,7 +40,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       Given HE I am logged in to Intersect HE as user type "administrator"
       Then HE I verify that Share Calendars Link is displayed in Calendar page
       Then HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link
-      And HE I successfully sign out
 
    @MATCH-4798
    Scenario: Limit access to the "Re-assign appointments" link to JUST HE admins associated with an HE
@@ -88,7 +85,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 
     Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceMember>"
     Then HS I verify the user cannot access Agenda view
-    And HS I successfully sign out
 
     Examples:
       |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
@@ -121,7 +117,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    And HS I successfully sign out
 
     Examples:
     |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|
@@ -160,7 +155,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 #cancel the college Fair
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
-    And HS I successfully sign out
 
     Examples:
       |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |reAssignedAttendee |appointmentsCount|

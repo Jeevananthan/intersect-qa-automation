@@ -9,7 +9,6 @@ Feature: HE - RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be 
       | City     | State    | State Abbreviation | County | Postal Code |
       | new york | Kentucky | KY                 | Bronx  | 45044       |
     #And HE I verify the Coming Soon message on the RepVisits Overview page
-    And HE I successfully sign out
 
   @MATCH-1476 @MATCH-1902 @MATCH-1903 @MATCH-1774
   Scenario: As an HE user with the Intersect Presence Subscription active I want to see
@@ -49,7 +48,6 @@ Feature: HE - RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be 
     And HS I remove the time slot with day "Wed" and time "<heStartTime>"
     And HS I remove the time slot with day "Thu" and time "<heStartTime>"
     And HS I remove the time slot with day "Fri" and time "<heStartTime>"
-    And HS I successfully sign out
 
     Examples:
       |hsEndTime|heStartTime  |heTime  |SchoolName             |Date    |userType       |HourStartTime|HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|StartDate  |EndDate  |Option                                              |

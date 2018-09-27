@@ -10,5 +10,5 @@ Feature: HS - RepVisits - OverviewPage - As an HS user, I should be able to see 
     Then HS I cancel all events for the next 7 days
     Then HS I navigate to the "Overview" page in RepVisits
     Then HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days
-    Then HS I successfully sign out
+
 

@@ -471,7 +471,7 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
     }
 
     public void verifyHSUsersNameLink(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         getVisitsFeedbackBtn().click();
         waitUntilPageFinishLoading();

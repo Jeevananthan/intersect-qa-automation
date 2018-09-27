@@ -10,4 +10,3 @@ Feature: Community User - View HE/HS Institutional Banner
     And I go to institution page
     And I go to Hobsons institution page
     Then I check if institution banner exists
-    And HE I successfully sign out

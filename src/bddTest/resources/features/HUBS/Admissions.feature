@@ -21,7 +21,6 @@ Feature: HUBS - Admissions - As a community user viewing College Hubs, I want to
       | Application Requirements | Freshman       | Campus Visit;Optional    |
       | Recommended Courses      | Science        | Years Required;7         |
       | Application Factors      | Ethnicity | Considered |
-    And HE I successfully sign out
 
   @HUBS-1052
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4022)
@@ -49,4 +48,3 @@ Feature: HUBS - Admissions - As a community user viewing College Hubs, I want to
       | Application Requirements;Required;Campus Visit |
       | Recommended Courses;Math;Years Required |
       | Application Factors;Class Rank;Important      |
-    And HUBS I successfully sign out

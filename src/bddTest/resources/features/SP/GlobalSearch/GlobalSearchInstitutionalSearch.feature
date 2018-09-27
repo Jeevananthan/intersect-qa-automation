@@ -8,4 +8,3 @@ Feature:  SP - GlobalSearch - GlobalSearchInstitutionalSearch - Ability to searc
     Given SP I am logged in to the Admin page as an Admin user
     And SP I search for "University" as a HE Institution in the global search box
     Then SP I am presented with all institutional accounts that contain "university" in their names below the global search box
-    And SP I successfully sign out

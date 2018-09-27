@@ -14,5 +14,4 @@ Feature: Community User - Send Message to Community User
     And I click on Message link
     Then I fill in Subject "Test message - no reply" and message body "This message is sent automatically by Test Automation Script!"
     And I click on Send button
-    And HE I successfully sign out
 
