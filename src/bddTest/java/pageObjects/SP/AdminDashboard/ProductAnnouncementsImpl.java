@@ -340,7 +340,7 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement getAddNewProductAnnouncementButton(){
-        return driver.findElement(By.cssSelector("button[class='ui button _25tK6fNpUwtK5iq61J61ex']"));
+        return driver.findElement(By.cssSelector("a[class='ui button _25tK6fNpUwtK5iq61J61ex']"));
     }
 
     /**
@@ -388,10 +388,10 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement getSaveUpdateConfirmationToast(){
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(
-                "//div[@class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']/div/span[not(@class)]"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+                "//div[@class='aIt5aCQ6cGJhCVYB9NA02']/div/div/p")));
         return driver.findElement(By.xpath(
-                "//div[@class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']/div/span[not(@class)]"));
+                "//div[@class='aIt5aCQ6cGJhCVYB9NA02']/div/div/p"));
     }
 
     /**
