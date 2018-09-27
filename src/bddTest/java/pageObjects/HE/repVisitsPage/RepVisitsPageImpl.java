@@ -484,6 +484,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickRegistrationButton(String fairName) {
+        if(fairName.equalsIgnoreCase("PreviouslySetFair")){
+            fairName = FairName;
+        }
         getRegistrationButton(fairName).click();
     }
 
@@ -554,6 +557,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             pressCalendarArrowUntil("right", date.split(" ")[0], 10);
         }
         try{
+            if(fairName.equalsIgnoreCase("PreviouslySetFair")){
+                fairName = FairName;
+            }
             getDriver().findElements(By.xpath(String.format(".//span[text()='%s']",fairName)));
             getDriver().findElements(By.xpath(String.format(".//span[text()='%s']/preceding-sibling::span[text()='%s']",
                     fairName,time)));
@@ -1539,7 +1545,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             visitDate = getShortMonth(dateParts[0]) + " " + dateParts[1];
         }
         setDate(gotoDate, "Go To Date");
-        time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        if(time==null){
+            time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        }
         WebElement availabilityButton = getDriver().findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
         waitUntil(ExpectedConditions.visibilityOf(availabilityButton));
         Assert.assertTrue("Availability is not displayed",availabilityButton.isDisplayed());
@@ -1614,7 +1622,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifySchedulePopup(String school,String startTime,String endTime){
         waitUntilPageFinishLoading();
-        startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        if(startTime==null){
+            startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        }
         Assert.assertTrue("SchedulePopup is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
         Assert.assertTrue("time is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
@@ -2544,7 +2554,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String internalNotesText = "";
         for (List<String> fairDataElement : fairDetailsList) {
             switch (fairDataElement.get(0)) {
-                case "College Fair Name" : Assert.assertTrue(fairNameHeader().getText().equals(fairDataElement.get(1)));
+                case "College Fair Name" :
+                    String fairName = fairDataElement.get(1);
+                    if(fairName.equalsIgnoreCase("PreviouslySetFair")){
+                        fairName =FairName;
+                    }
+                    Assert.assertTrue(fairNameHeader().getText().equals(fairName));
                     break;
                 case "High School name" : Assert.assertTrue(fairHSName().getText().equals(fairDataElement.get(1)));
                     break;
@@ -3034,10 +3049,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyCollegeFairOnList(DataTable dataTable) {
         Map<String,String> items = dataTable.asMap(String.class,String.class);
         String fairName = items.get("College Fair Name");
-        WebElement firstResultName = getDriver().findElements(By.xpath("//span[text()='" + fairName + "']")).get(0);
+        if(fairName.equalsIgnoreCase("PreviouslySetFair")){
+            fairName = FairName;
+        }
+        WebElement firstResultName = getDriver().findElement(By.xpath("//span[text()='" + fairName + "']"));
         WebElement resultFair = getParent(getParent(getParent(firstResultName)));
         for (String key : items.keySet()){
-            Assert.assertTrue("Expected to find \""+ items.get(key) +"\" in Fair entry, but it was not found.",resultFair.findElement(By.xpath("//*[text()[contains(.,'"+ items.get(key) +"')]]")).isDisplayed());
+            String value;
+            value = items.get(key);
+            if(key.equalsIgnoreCase("College Fair Name")){
+                value = fairName;
+            }
+            Assert.assertTrue("Expected to find \""+ value +"\" in Fair entry, but it was not found.",resultFair.findElement(By.xpath("//*[text()[contains(.,'"+ value +"')]]")).isDisplayed());
         }
     }
   
@@ -3982,7 +4005,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private WebElement emailTextBox(){
-        WebElement text=driver.findElement(By.id("user-form-email"));
+        WebElement text=getDriver().findElement(By.id("user-form-email"));
         return text;
     }
 

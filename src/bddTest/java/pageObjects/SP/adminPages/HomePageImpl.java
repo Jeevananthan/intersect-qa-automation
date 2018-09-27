@@ -198,7 +198,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement userListTable() {
         return button(By.cssSelector("[class='ui table']"));
     }
-    private WebElement signoutButtonForNoRole(){return driver.findElement(By.cssSelector("button[class='ui mini button']")); }
+    private WebElement signoutButtonForNoRole(){return driver.findElement(By.xpath("//button[text()='Sign Out']")); }
     private WebElement notificationIconInHelpCentre() {
         WebElement notificationIcon=driver.findElement(By.id("notificationsNav"));
         return notificationIcon;
