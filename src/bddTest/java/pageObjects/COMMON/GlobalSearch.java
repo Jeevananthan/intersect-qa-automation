@@ -148,7 +148,7 @@ public class GlobalSearch extends SeleniumBase {
 
     public void selectResult(String optionToSelect) {
         waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='global-search-box-results']")));
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[id='global-search-box-results']")));
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
@@ -263,14 +263,14 @@ public class GlobalSearch extends SeleniumBase {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
-        WebElement frameClass=driver.findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
-        driver.switchTo().frame(frameClass);
-        waitUntilElementExists(driver.findElement(By.xpath("//div/a[text()='Check RepVisits Availability']")));
+        WebElement frameClass=getDriver().findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
+        getDriver().switchTo().frame(frameClass);
+        waitUntilElementExists(getDriver().findElement(By.xpath("//div/a[text()='Check RepVisits Availability']")));
         waitUntilElementExists(RepvisitsAvailabilityButton());
         Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvailabilityButton().isDisplayed());
         RepvisitsAvailabilityButton().click();
         waitUntilPageFinishLoading();
-        driver.switchTo().defaultContent();
+        getDriver().switchTo().defaultContent();
     }
 
     public void verifyblockedAvaialbility(String date,String time) {
@@ -283,7 +283,7 @@ public class GlobalSearch extends SeleniumBase {
         setSpecificDate(date);
         String dateResult=getMonthandDate(date);
         String Time=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        List<WebElement> availabilitySlot = driver.findElements(By.xpath("//span[text()='" + dateResult + "']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/button[text()='" + Time + "']"));
+        List<WebElement> availabilitySlot = getDriver().findElements(By.xpath("//span[text()='" + dateResult + "']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/button[text()='" + Time + "']"));
         if(availabilitySlot.size()==0){
             logger.info("Availability is displayed");
         }else {
@@ -318,19 +318,19 @@ public class GlobalSearch extends SeleniumBase {
 
     public void findMonth(String month) {
 
-        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+        String DayPickerCaption = getDriver().findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
 
         try{
             int i = 0;
             while (!DayPickerCaption.contains(month) && i < 12) {
-                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                getDriver().findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
                 i++;
-                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                DayPickerCaption = getDriver().findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
             }
             while (!DayPickerCaption.contains(month) && i > -12) {
-                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                getDriver().findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
                 i--;
-                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                DayPickerCaption = getDriver().findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
             }
         }
         catch (Exception e) {
@@ -341,7 +341,7 @@ public class GlobalSearch extends SeleniumBase {
     public void clickOnDay(String date) {
         try {
 
-            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
+            getDriver().findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
 
         } catch (Exception e) {
             Assert.fail("The Date selected is out of RANGE.");
@@ -383,9 +383,9 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         waitUntilPageFinishLoading();
         waitUntilPageFinishLoading();
-        driver.findElement(By.id("global-search-box-input")).sendKeys(Keys.ENTER);
+        getDriver().findElement(By.id("global-search-box-input")).sendKeys(Keys.ENTER);
         waitUntilPageFinishLoading();
-        Assert.assertEquals("Did not end on Advanced Search page utilizing the enter/return key!  Original search data not entered in Keyword textBox!", searchRequest, driver.findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
+        Assert.assertEquals("Did not end on Advanced Search page utilizing the enter/return key!  Original search data not entered in Keyword textBox!", searchRequest, getDriver().findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
     }
 
     public void verifyAdvanceSearchByIcon(String searchRequest) {
@@ -395,7 +395,7 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         clickSearchIcon();
         waitUntilPageFinishLoading();
-        Assert.assertEquals("Did not end on Advanced Search page utilizing the search icon button!  Original search data not entered in Keyword textBox!", searchRequest, driver.findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
+        Assert.assertEquals("Did not end on Advanced Search page utilizing the search icon button!  Original search data not entered in Keyword textBox!", searchRequest, getDriver().findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
     }
 
     public void verifyRealTimeSearchCategorized(DataTable dataTable) {
@@ -441,12 +441,12 @@ public class GlobalSearch extends SeleniumBase {
     public void verifySearchDropBoxResultsActionable(String searchRequest){
         waitUntilPageFinishLoading();
         logger.info("Verifying search dropdown results are clickable/actionable.");
-        String searchPageURL = driver.getCurrentUrl();
+        String searchPageURL = getDriver().getCurrentUrl();
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
         selectResult(searchRequest);
         waitUntilPageFinishLoading();
-        String searchResultsURL = driver.getCurrentUrl();
+        String searchResultsURL = getDriver().getCurrentUrl();
         Assert.assertNotEquals("Real-time search option was not clickable/actionable",searchPageURL,searchResultsURL);
     }
 
@@ -614,7 +614,7 @@ public class GlobalSearch extends SeleniumBase {
         for (String key : textBoxData.keySet()) {
             switch (key) {
                 case "Advises Students on Admissions Process":
-                    WebElement advisesStudents = driver.findElement(By.id("advise_students"));
+                    WebElement advisesStudents = getDriver().findElement(By.id("advise_students"));
                     Boolean isChecked = advisesStudents.findElement(By.id("advise_students")).isSelected();
                     if(textBoxData.get(key).equalsIgnoreCase("Yes") && !isChecked || textBoxData.get(key).equalsIgnoreCase("No") && isChecked){
                         advisesStudents.click();
@@ -622,7 +622,7 @@ public class GlobalSearch extends SeleniumBase {
                     waitUntilPageFinishLoading();
                     break;
                 case "Charter School":
-                    WebElement drpCharterSchool = driver.findElement(By.id("hs-charter-school"));
+                    WebElement drpCharterSchool = getDriver().findElement(By.id("hs-charter-school"));
                     drpCharterSchool.click();
                     waitUntilPageFinishLoading();
                     jsClick(drpCharterSchool.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -638,7 +638,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "College Type":
-                    WebElement drpCollegeType = driver.findElement(By.id("he-type"));
+                    WebElement drpCollegeType = getDriver().findElement(By.id("he-type"));
                     drpCollegeType.click();
                     waitUntilPageFinishLoading();
                     jsClick(drpCollegeType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -646,7 +646,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "County Served":
-                    WebElement drpCountyServed = driver.findElement(By.cssSelector("div[id='field_population_served_name_COUNTY']"));
+                    WebElement drpCountyServed = getDriver().findElement(By.cssSelector("div[id='field_population_served_name_COUNTY']"));
                     drpCountyServed.click();
                     waitUntilPageFinishLoading();
                     jsClick(drpCountyServed.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -654,7 +654,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "Institution State":
-                    WebElement drpInstitutionState = driver.findElement(By.id("institutionState"));
+                    WebElement drpInstitutionState = getDriver().findElement(By.id("institutionState"));
                     drpInstitutionState.click();
                     waitUntilPageFinishLoading();
                     jsClick(drpInstitutionState.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -663,13 +663,13 @@ public class GlobalSearch extends SeleniumBase {
 
                 case "Institution Type":
                     if(categorySearch.equalsIgnoreCase("People")){
-                        WebElement drpInstitutionType = driver.findElement(By.id("field_institution_type_name"));
+                        WebElement drpInstitutionType = getDriver().findElement(By.id("field_institution_type_name"));
                         drpInstitutionType.click();
                         waitUntilPageFinishLoading();
                         jsClick(drpInstitutionType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key) + "')]")));
                         waitUntilPageFinishLoading();
                     }else {
-                        WebElement drpInstitutionType = driver.findElement(By.id("institution-type"));
+                        WebElement drpInstitutionType = getDriver().findElement(By.id("institution-type"));
                         drpInstitutionType.click();
                         waitUntilPageFinishLoading();
                         jsClick(drpInstitutionType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key) + "')]")));
@@ -684,7 +684,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "Schedules College Visits":
-                    WebElement schedulesVisits = driver.findElement(By.id("college_visits"));
+                    WebElement schedulesVisits = getDriver().findElement(By.id("college_visits"));
                     Boolean isSelected = schedulesVisits.findElement(By.id("college_visits")).isSelected();
                     if(textBoxData.get(key).equalsIgnoreCase("Yes") && !isSelected || textBoxData.get(key).equalsIgnoreCase("No") && isSelected){
                         schedulesVisits.click();
@@ -693,7 +693,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "School Type":
-                    WebElement drpSchoolType = driver.findElement(By.id("he-control"));
+                    WebElement drpSchoolType = getDriver().findElement(By.id("he-control"));
                     drpSchoolType.click();
                     waitUntilPageFinishLoading();
                     jsClick(drpSchoolType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -703,9 +703,9 @@ public class GlobalSearch extends SeleniumBase {
                 case "State":
                     WebElement drpState;
                     if(categorySearch.equalsIgnoreCase("Higher Education")) {
-                        drpState = driver.findElement(By.id("he-state"));
+                        drpState = getDriver().findElement(By.id("he-state"));
                     }else {
-                        drpState = driver.findElement(By.id("hs-state"));
+                        drpState = getDriver().findElement(By.id("hs-state"));
                     }
                     drpState.click();
                     waitUntilPageFinishLoading();
@@ -714,7 +714,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "State Served":
-                    WebElement drpStateServed = driver.findElement(By.id("field_population_served_name_STATE"));
+                    WebElement drpStateServed = getDriver().findElement(By.id("field_population_served_name_STATE"));
                     drpStateServed.click();
                     waitUntilPageFinishLoading();
                     jsClick(drpStateServed.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -722,7 +722,7 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "Title I Eligible":
-                    WebElement drpTitleEligible = driver.findElement(By.id("hs-title-i-eligible"));
+                    WebElement drpTitleEligible = getDriver().findElement(By.id("hs-title-i-eligible"));
                     drpTitleEligible.click();
                     waitUntilPageFinishLoading();
                     jsClick(drpTitleEligible.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -731,10 +731,10 @@ public class GlobalSearch extends SeleniumBase {
 
                 case "Type":
                     if(categorySearch.equalsIgnoreCase("Groups")) {
-                        WebElement typeRadio = driver.findElement(By.id(textBoxData.get(key).toLowerCase()));
+                        WebElement typeRadio = getDriver().findElement(By.id(textBoxData.get(key).toLowerCase()));
                         typeRadio.click();
                     }else {
-                        WebElement drpType = driver.findElement(By.id("hs-type"));
+                        WebElement drpType = getDriver().findElement(By.id("hs-type"));
                         drpType.click();
                         waitUntilPageFinishLoading();
                         jsClick(drpType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
@@ -743,18 +743,18 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "Institution":
-                    driver.findElement(By.id("institutionTitle")).sendKeys(textBoxData.get(key));
+                    getDriver().findElement(By.id("institutionTitle")).sendKeys(textBoxData.get(key));
                     break;
 
                 case "Degree":
-                    driver.findElement(By.id("he-degree")).sendKeys(textBoxData.get(key));
+                    getDriver().findElement(By.id("he-degree")).sendKeys(textBoxData.get(key));
                     break;
 
                 case "Postal Code":
-                    if (driver.findElements(By.id("he-postalCode")).size() > 0) {
-                        driver.findElement(By.id("he-postalCode")).sendKeys(textBoxData.get(key));
+                    if (getDriver().findElements(By.id("he-postalCode")).size() > 0) {
+                        getDriver().findElement(By.id("he-postalCode")).sendKeys(textBoxData.get(key));
                     }else {
-                        driver.findElement(By.id("hs-postalCode")).sendKeys(textBoxData.get(key));
+                        getDriver().findElement(By.id("hs-postalCode")).sendKeys(textBoxData.get(key));
                     }
                     break;
 
@@ -778,7 +778,7 @@ public class GlobalSearch extends SeleniumBase {
         return getDriver().findElement(By.id("app"));
     }
     private void jsClick(WebElement element) {
-        driver.executeScript("arguments[0].click();",element);
+        getDriver().executeScript("arguments[0].click();",element);
     }
     private WebElement getSearchBox() {
         waitUntilPageFinishLoading();
@@ -789,10 +789,10 @@ public class GlobalSearch extends SeleniumBase {
         return getDriver().findElement(By.id("global-search-box-filter"));
     }
     private void clickSearchIcon(){
-        driver.findElement(By.xpath("//div[@class='ui icon input']/i")).click();
+        getDriver().findElement(By.xpath("//div[@class='ui icon input']/i")).click();
     }
     private void clickAdvancedSearchLink(){
-        navigationBar.clickAdvancedSearchLink();
+        new NavigationBarImpl().clickAdvancedSearchLink();
     }
     private WebElement RepvisitsAvailabilityButton()
     {
@@ -801,7 +801,7 @@ public class GlobalSearch extends SeleniumBase {
     }
     private WebElement visit()
     {
-        WebElement visit=driver.findElement(By.xpath("//span[text()='Visits']"));
+        WebElement visit=getDriver().findElement(By.xpath("//span[text()='Visits']"));
         return  visit;
     }
     private WebElement dateInRepVisitsAvailability()

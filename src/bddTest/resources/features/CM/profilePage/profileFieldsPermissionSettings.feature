@@ -15,7 +15,6 @@ Feature: Community User - Profile Fields Permission Settings
     And HS I am logged in to Intersect HS as user type "default"
     And I search for "PurpleHE Automation" and open profile page of this user
     Then I check if I see fields with privacy set to 'visible to all users'
-    And HS I successfully sign out
 
 
 

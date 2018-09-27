@@ -27,4 +27,3 @@ Feature: HE - RepVisits - RepVisitsNavigation - As an HE user, I should be able 
     Then HE I verify the title "Presence RepVisits" in RepVisits branding header
     When  HE I navigate to the "Overview" page in RepVisits
     Then HE I verify the title "Presence RepVisits" in RepVisits branding header
-    And HE I successfully sign out

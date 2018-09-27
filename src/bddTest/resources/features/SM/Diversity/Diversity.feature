@@ -221,3 +221,20 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     And I click the dropdown "div#supermatch-diversity-percent-dropdown"
     And I select the option "10%" from the list "span.text"
     Then SM I verify that the Must Have box contains "At least 10% are minority students"
+
+  @MATCH-3372
+  Scenario: As a HS student, I want to filter colleges I am searching for by Religious Affiliation within the Diversity
+  category so I can see relevant colleges that match my Religious Affiliation requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    When SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Diversity" fit criteria
+    Then I verify that the default text in "input.search + span + div" is "Start Typing..."
+    And I click the dropdown "input.search + span + div"
+    Then I verify that the options list "span.text" matches the list in "religious.affiliation.options.list"
+    And I select the option "Advent Christian Church" from the list "span.text"
+    Then SM I verify that the option "Advent Christian Church" was added to the dropdown field
+    And I select the option "American Baptist" from the list "span.text"
+    Then SM I verify that "2" items are displayed in the dropdown field
+    And SM I remove the option "American Baptist" from the dropdown field
+    Then SM I verify that "1" items are displayed in the dropdown field
+    Then SM I verify that the Must Have box contains "Religious Affiliation [1]"

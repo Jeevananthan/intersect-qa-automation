@@ -18,6 +18,7 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     public StudentLifeImpl() {
         logger = Logger.getLogger(StudentLifeImpl.class);
     }
+
     SearchPageImpl searchPage = new SearchPageImpl();
 
     private static String fs = File.separator;
@@ -26,36 +27,36 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
 
-    public void verifyGreekLife(String option){
+    public void verifyGreekLife(String option) {
         getGreekLife().click();
         Assert.assertTrue("Greek Life default option ie Select Preference is not displaying.", getGreekLifeDefaultOption().isDisplayed());
-        switch (option){
-            case "Fraternities/Sororities Available" :
+        switch (option) {
+            case "Fraternities/Sororities Available":
                 Assert.assertTrue("Fraternities/Sororities Available option is not displaying.", getGreekLikeOptionOneYes().isDisplayed());
                 getGreekLikeOptionOneYes().click();
                 verifyPillForGreekLifeInMustHaveBox("Greek Life");
                 break;
-            case "No Fraternities/Sororities" :
+            case "No Fraternities/Sororities":
                 Assert.assertTrue("No Fraternities/Sororities option is not displaying.", getGreekLifeOptionNo().isDisplayed());
                 getGreekLifeOptionNo().click();
                 verifyPillForGreekLifeInMustHaveBox("No Greek Life");
                 break;
             default:
-                    logger.info("Invaild option : "+option  );
+                logger.info("Invaild option : " + option);
         }
     }
 
-    private void  verifyPillForGreekLifeInMustHaveBox(String option){
+    private void verifyPillForGreekLifeInMustHaveBox(String option) {
         searchPage.verifyMustHaveBoxContains(option);
     }
 
     public void pickOptionFromDropdownInStudentLife(String option, String dropdown) {
-        switch(dropdown) {
-            case "ORGANIZATIONS AND CLUBS" :
+        switch (dropdown) {
+            case "ORGANIZATIONS AND CLUBS":
                 organizationsAndClubsDropdown().click();
                 orgsAndClubsOption(option).click();
                 break;
-            case "GREEK LIFE" :
+            case "GREEK LIFE":
                 greekLifeDropdown().click();
                 greekLifeOption(option).click();
                 break;
@@ -98,6 +99,10 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
 
     public void verifyAddedOptionInOrgsAndClubs(String optionName) {
         List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInOrgsAndClubs));
+    }
+
+    public void verifyAddedOption(String optionName) {
+        List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
         boolean isElementPresent = false;
         for (WebElement element : addedElements) {
             if (element.getAttribute("value").equals(optionName)) {
@@ -114,27 +119,57 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
                 addedElements.size() == Integer.parseInt(numberOfAddedOptions));
     }
 
+    public void verifyNumberOfAddedOptions(String numberOfAddedOptions) {
+        List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
+        Assert.assertTrue("The number of added options in the Organizations and Clubs text field is incorrect",
+                addedElements.size() == Integer.parseInt(numberOfAddedOptions));
+    }
+
     public void removeOptionFromOrgAndClubs(String optionName) {
         driver.findElement(By.xpath(xButtonAddedElementOrgsAndClubs(optionName))).click();
     }
 
+    public void removeOptionFromDropdownField(String optionName) {
+        driver.findElement(By.xpath(xButtonAddedElementDropdownField(optionName))).click();
+    }
+
     //Locator
 
-    private WebElement getGreekLife(){ return driver.findElement(By.id("greeklife-dropdown")); }
+    private WebElement getGreekLife() {
+        return driver.findElement(By.id("greeklife-dropdown"));
+    }
 
-    private WebElement getGreekLikeOptionOneYes(){ return driver.findElement(By.id("greek-life-selection-yes")); }
+    private WebElement getGreekLikeOptionOneYes() {
+        return driver.findElement(By.id("greek-life-selection-yes"));
+    }
 
-    private WebElement getGreekLifeOptionNo(){return driver.findElement(By.id("greek-life-selection-no")); }
+    private WebElement getGreekLifeOptionNo() {
+        return driver.findElement(By.id("greek-life-selection-no"));
+    }
 
-    private WebElement getGreekLifeDefaultOption(){ return driver.findElement(By.id("greeklife-dropdown-option-close")); }
+    private WebElement getGreekLifeDefaultOption() {
+        return driver.findElement(By.id("greeklife-dropdown-option-close"));
+    }
 
-    private WebElement organizationsAndClubsDropdown() { return driver.findElement(By.cssSelector("input.search + span + div")); }
+    private WebElement organizationsAndClubsDropdown() {
+        return driver.findElement(By.cssSelector("input.search + span + div"));
+    }
 
-    private WebElement orgsAndClubsOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div/span[text() = '" + optionName + "']")); }
+    private WebElement orgsAndClubsOption(String optionName) {
+        return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div/span[text() = '" + optionName + "']"));
+    }
 
-    private WebElement greekLifeDropdown() { return driver.findElement(By.cssSelector("div#greeklife-dropdown")); }
+    private WebElement greekLifeDropdown() {
+        return driver.findElement(By.cssSelector("div#greeklife-dropdown"));
+    }
 
-    private WebElement greekLifeOption(String optionName) { return driver.findElement(By.cssSelector("//div[@class = 'visible menu transition']/div/span[text() = '" + optionName + "']")); }
+    private WebElement greekLifeOption(String optionName) {
+        return driver.findElement(By.cssSelector("//div[@class = 'visible menu transition']/div/span[text() = '" + optionName + "']"));
+    }
+
+    private String addedElementsInDropdownField = "a.ui.label";
+
+    private String xButtonAddedElementDropdownField(String optionName) { return "//a[@value = '" + optionName + "']/i";}
 
     private String addedElementsInOrgsAndClubs = "a.ui.label";
 

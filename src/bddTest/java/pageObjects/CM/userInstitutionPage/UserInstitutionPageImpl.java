@@ -32,7 +32,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void goToUserInstitutionPage() {
         logger.info("Going to user profile page.");
-        navigationBar.goToCommunity();
+        getNavigationBar().goToCommunity();
     }
 
     public void goToHSUserInstitutionPage() {

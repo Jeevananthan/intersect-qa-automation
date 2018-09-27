@@ -6,19 +6,16 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active 
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the "ActiveMatch" nav link is displaying for this user
     And HE I open the Active Match section
-    And HE I successfully sign out
 
   @MATCH-3010
   Scenario: Active Match section is not displayed for Publishing users in Intersect HE
     Given HE I am logged in to Intersect HE as user type "publishing"
     Then HE I verify the "ActiveMatch" nav link is not displaying for this user
-    And HE I successfully sign out
 
   @MATCH-3010
   Scenario: Active Match section is not displayed for Community users in Intersect HE
     Given HE I am logged in to Intersect HE as user type "community"
     Then HE I verify the "ActiveMatch" nav link is not displaying for this user
-    And HE I successfully sign out
 
   @MATCH-3010 @MATCH-3023
   Scenario: As a HE User with Administrator role with no ActiveMatch Plus subscription, I can not access Active Match module
@@ -30,7 +27,6 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active 
     Then SP I successfully sign out
     Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I verify the "ActiveMatch" nav link is not displaying for this user
-    And HE I successfully sign out
 
   @MATCH-3519
   Scenario: As an Active Match user,
@@ -48,4 +44,3 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active 
     And HE I verify the Header "Since Last Export"
     And HE I verify the Default drop-down Menu selection to remain "Since Last Export" after all connections are modified
       |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
-    And HE I successfully sign out

@@ -341,7 +341,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             getEventsTab("Published").click();
         } catch(WebDriverException e) {
             //navianceCollegeProfilePage.welcomeTitle().click();
-            navigationBar.goToHome();
+            getNavigationBar().goToHome();
             getEventsTab("Published").click();
         }
         menuButtonForEvent(eventName).click();

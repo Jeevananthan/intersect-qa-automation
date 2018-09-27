@@ -18,7 +18,6 @@ Feature: Community User - Default Profile Contact Field Settings to Public Upon 
     And I accept Terms and conditions
     And I consent to create and maintain my Intersect account
     And I Save changes
-    And HE I successfully sign out
 
 
   @MATCH-513
@@ -36,4 +35,3 @@ Feature: Community User - Default Profile Contact Field Settings to Public Upon 
     And I Save changes
     Then I click on Edit profile button
     And I check if privacy settings are saved properly
-    And HE I successfully sign out

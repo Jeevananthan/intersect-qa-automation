@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.institutionCharacteristicsPage.InstitutionCharacteristicsImpl;
+import org.openqa.selenium.WebElement;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
 public class DiversityPageImpl extends PageObjectFacadeImpl {
@@ -13,6 +15,7 @@ public class DiversityPageImpl extends PageObjectFacadeImpl {
         logger = Logger.getLogger(DiversityPageImpl.class);
     }
     InstitutionCharacteristicsImpl institutionCharacteristics = new InstitutionCharacteristicsImpl();
+    SearchPageImpl searchPage = new SearchPageImpl();
 
     private Logger logger;
 
