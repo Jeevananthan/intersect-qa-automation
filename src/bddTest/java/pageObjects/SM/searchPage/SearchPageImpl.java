@@ -2261,6 +2261,60 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(pinCount().getCssValue("background-color").equals("rgba(210, 0, 97, 1)"));
     }
 
+    public void selectRadioButtonInDiversityFitCriteria(String radioButtonLabel)
+    {
+        chooseFitCriteriaTab("Diversity");
+        selectRadioButton(radioButtonLabel);
+    }
+
+    public void verifyOptionsInSpecificRepresentationPercentListBox(DataTable table)
+    {
+        List<List<String>> data = table.raw();
+        String option;
+
+        if(!diversityPercentDropdown().getAttribute("class").contains("active"))
+            diversityPercentDropdown().findElement(By.xpath(".//i")).click();
+
+        for(int i = 0; i < data.size(); i++)
+        {
+            option = data.get(i).get(0);
+            Assert.assertTrue("Option " + option + " is not present in Specific Representation percent dropdown",
+                    diversityPercentDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).isDisplayed());
+        }
+    }
+
+    public void verifyOptionsInRaceAndEthnicityListBox(DataTable table)
+    {
+        List<List<String>> data = table.raw();
+        String option;
+
+        if(!diversityRaceDropdown().getAttribute("class").contains("active"))
+            diversityRaceDropdown().findElement(By.xpath(".//i")).click();
+
+        for(int i = 0; i < data.size(); i++)
+        {
+            option = data.get(i).get(0);
+            Assert.assertTrue("Option " + option + " is not present in Specific Representation race and ethnicity dropdown",
+                    diversityRaceDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).isDisplayed());
+        }
+    }
+
+    public void selectOptionInSpecificRepresentationPercentListBox(String option)
+    {
+        if(!diversityPercentDropdown().getAttribute("class").contains("active"))
+            diversityPercentDropdown().findElement(By.xpath(".//i")).click();
+
+        diversityPercentDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+    public void selectOptionInRaceAndEthnicityListBox(String option)
+    {
+        if(!diversityRaceDropdown().getAttribute("class").contains("active"))
+            diversityRaceDropdown().findElement(By.xpath(".//i")).click();
+
+        diversityRaceDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
 
     // Locators Below
 

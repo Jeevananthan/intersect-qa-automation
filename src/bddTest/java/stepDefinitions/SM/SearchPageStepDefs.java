@@ -286,5 +286,15 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify the following options are displayed in the PINNED dropdown$", searchPage::verifyFollowingOptionsDisplayedInPinnedDropdown);
 
         Then("^SM I verify that a pink circle is displayed next to the pinned dropdown$", searchPage::verifyPinkCircleIsDisplayedNextToThePinnedDropdown);
+
+        And("^SM I select the \"([^\"]*)\" radio button in Diversity Fit Criteria$", searchPage::selectRadioButtonInDiversityFitCriteria);
+
+        And("^SM I verify the options displayed in the Specific Representation percent listbox", searchPage::verifyOptionsInSpecificRepresentationPercentListBox);
+
+        And("^SM I verify the options displayed in the Specific Representation race and ethnicity listbox",searchPage::verifyOptionsInRaceAndEthnicityListBox);
+
+        And("^SM I select the option \"([^\"]*)\" in the Specific Representation percent listbox", searchPage::selectOptionInSpecificRepresentationPercentListBox);
+
+        And("^SM I select the option \"([^\"]*)\" in the Specific Representation race and ethnicity listbox$", searchPage::selectOptionInRaceAndEthnicityListBox);
     }
 }
