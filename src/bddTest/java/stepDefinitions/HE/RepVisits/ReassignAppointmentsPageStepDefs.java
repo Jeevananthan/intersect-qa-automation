@@ -11,8 +11,6 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         When("^HE I go to re assign appointments$", reassignAppointmentsPage::goToReassignAppointment);
 
-        Then("^HE I verify UI components with the option \"([^\"]*)\" in the drop down action$", reassignAppointmentsPage::reassignAppointmentsVerification);
-
         Then("^HE I verify that Re-assign link is \"([^\"]*)\"$",reassignAppointmentsPage::verifyReAssignLinkStatus);
 
         And("^HE I verify the users are displaying including \"([^\"]*)\" in re assign appointments dropdown using \"([^\"]*)\"$",reassignAppointmentsPage::verifyUsersInReAssignAppointments);
@@ -36,5 +34,9 @@ public class ReassignAppointmentsPageStepDefs implements En {
         Then("^HE I verify the error Message \"([^\"]*)\" is displaying when appointments is not selected using \"([^\"]*)\",\"([^\"]*)\"$",reassignAppointmentsPage::verifyErrrorMessageForNoAppointmentsSelected);
 
         Then("^HE I verify the error Message \"([^\"]*)\" is displaying when the user \"([^\"]*)\" is selected$",reassignAppointmentsPage::verifyErrrorMessageForNoAppointmentsUser);
+
+        Then("^HE I verify UI components for the user \"([^\"]*)\" with appointments in reAssignAppointments page$",reassignAppointmentsPage::verifyUserWithAppointments);
+
+        Then("^HE I verify UI components for the user \"([^\"]*)\" in reAssignAppointments page$",reassignAppointmentsPage::verifyUserWithoutAppointments);
     }
 }

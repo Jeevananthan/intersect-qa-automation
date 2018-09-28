@@ -18,71 +18,6 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         reAssignAppointments().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(reAssignAppointmentsText()));
     }
-
-    public void reassignAppointmentsVerification(String option){
-
-        if (option.contains("Coordinator, PurpleHE"))
-        {
-            waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
-            staffForReassign().click();
-            //Verify item of the Staff Member
-            Assert.assertTrue("Item was not displayed!", driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
-            //Select the item
-            driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
-            waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")));
-            //Verify item of the Staff Member
-            Assert.assertTrue("No message was displayed for the appointment", driver.findElement(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")).isDisplayed());
-            buttonGoBack().click();
-        }
-        else {
-
-            waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
-            staffForReassign().click();
-            //Verify item of the Staff Member
-            Assert.assertTrue("Item was not displayed!", driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
-            //Select the item
-            driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
-            waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(), 'Select all')]")));
-            //Capturing the counter
-            String items= driver.findElement(By.xpath("//label[contains(text(), 'Select all')]")).getText();
-            String[] parts = items.split(" ");
-            String count = parts[2];
-            String countNumber = count.replaceAll("[^a-zA-Z0-9\\\\s+]", "");
-            int counter = Integer.parseInt(countNumber);
-            //Verify that agenda is displayed below to Select staff label area
-            waitUntilElementExists(agendaIsDisplayed());
-            Assert.assertTrue("The Agenda was not displayed!", agendaIsDisplayed().isDisplayed());
-            //Verify "Showing all of" appointments
-            Assert.assertTrue("Showing all was not displayed", driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]")).isDisplayed());
-            //Verify "Select all" count
-            Assert.assertTrue("Select all count was not displayed", driver.findElement(By.xpath("//label[contains(text(), 'Select all (" + counter +")')]")).isDisplayed());
-            //Verify "SHOW MORE" button
-            if (counter > 25) {
-                Assert.assertTrue("Button SHOW MORE was not displayed", buttonShowMore().isDisplayed());
-                //Verify "Showing" word in the UI
-                Assert.assertTrue("Showing was not displayed", driver.findElement(By.xpath("//p[contains(text(), 'Showing')]")).isDisplayed());
-            }
-
-            waitUntilPageFinishLoading();
-            waitUntilElementExists( staffForReassign());
-            staffForReassign().click();
-            //Select the item
-            driver.findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
-            //Verify Select all is possible to do
-            driver.findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
-            //Un selecting  action
-            driver.findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
-            //Selecting one item and verifying the counter increased
-            driver.findElement(By.xpath("(//input[@type='checkbox'])[last()-1]")).click();
-            //Un selecting  action
-            Assert.assertTrue("No changed the number of items in the button",  driver.findElement(By.xpath("//button[contains(text(), 'Reassign 1 Appointments')]")).isDisplayed());
-        }
-    }
-
     /**
      * Verifies the status of the re-assign link, it could be visible or not visible
      * @param status
@@ -252,6 +187,56 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarText()));
     }
 
+    public void verifyUserWithAppointments(String user){
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
+        staffForReassign().click();
+        Assert.assertTrue("Item was not displayed!", selectStaff(user).isDisplayed());
+        selectStaff(user).click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
+        //Capturing the counter
+        String items= selectAllCheckBoxText().getText();
+        String[] parts = items.split(" ");
+        String count = parts[2];
+        String countNumber = count.replaceAll("[^a-zA-Z0-9\\\\s+]", "");
+        int finalCount = Integer.parseInt(countNumber);
+        //Verify that agenda is displayed below to Select staff label area
+        waitUntilElementExists(agendaIsDisplayed());
+        Assert.assertTrue("The Agenda was not displayed!", agendaIsDisplayed().isDisplayed());
+        //Verify "Showing all of" appointments
+        Assert.assertTrue("Showing all was not displayed",showingAllText().isDisplayed());
+        //Verify "Select all" count
+        Assert.assertTrue("Select all count was not displayed",selectAllCount(finalCount).isDisplayed());
+        //Verify "SHOW MORE" button
+        if (finalCount > 25) {
+            Assert.assertTrue("Button SHOW MORE was not displayed", buttonShowMore().isDisplayed());
+            //Verify "Showing" word in the UI
+            Assert.assertTrue("Showing was not displayed",showingText() .isDisplayed());
+        }
+        waitUntilElementExists( staffForReassign());
+        staffForReassign().click();
+        //Select the item
+        selectStaff(user).click();
+        //Verify Select all is possible to do
+        selectAllCheckBoxText().click();
+        //Un selecting  action
+        selectAllCheckBoxText().click();
+        //Selecting one item and verifying the counter increased
+        selectReAssignWithIncreasedCount().click();
+        //Un selecting  action
+        Assert.assertTrue("No changed the number of items in the button",  reAssignButtonWithSingleAppointment().isDisplayed());
+    }
+
+    public void verifyUserWithoutAppointments(String user){
+        waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
+        staffForReassign().click();
+        Assert.assertTrue("Item was not displayed!", selectStaff(user).isDisplayed());
+        selectStaff(user).click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(noAppointmentMessage()));
+        Assert.assertTrue("No message was displayed for the appointment", noAppointment().isDisplayed());
+        buttonGoBack().click();
+    }
+
     public WebElement alertMessage(String alertMessage){return driver.findElement(By.xpath("//span[text()='" + alertMessage + "']"));}
     public By alert(String alertMessage){return By.xpath("//span[text()='" + alertMessage + "']");}
     public List<WebElement> currentUserList(String currentUser){return driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));}
@@ -269,6 +254,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     public WebElement errorMessage(String errorMessage){return driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']"));}
     public By errorText(String errorMessage){return By.xpath("//div/span[text()='"+errorMessage+"']");}
     public WebElement selectNewAssigneeStaff(String newAssignee){return driver.findElement(By.xpath("//div[text()='Select new assignee']/parent::div//div[text()='"+newAssignee+"']"));}
+    public WebElement selectAllCount(int count){return driver.findElement(By.xpath("//label[contains(text(), 'Select all (" + count +")')]"));}
 
     //locators
     private WebElement staffForReassign(){ return  driver.findElement(By.cssSelector("div[role='alert']")); }
@@ -293,4 +279,9 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement noAppointment(){return driver.findElement(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span"));}
     private By calendarText(){return By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum _3GCGVUzheyMFBFnbzJUu6J']/span[text()='Calendar']");}
     private By selectAllCheckBox(){return By.xpath("//label[@for='selectAllCheckBox']");}
+    private WebElement selectAllCheckBoxText(){ return driver.findElement(By.xpath("//label[contains(text(), 'Select all')]"));}
+    private WebElement showingAllText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
+    private WebElement reAssignButtonWithSingleAppointment(){return driver.findElement(By.xpath("//button[contains(text(), 'Reassign 1 Appointments')]"));}
+    private WebElement showingText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing')]"));}
+    private WebElement selectReAssignWithIncreasedCount(){return driver.findElement(By.xpath("(//input[@type='checkbox'])[last()-1]"));}
     }

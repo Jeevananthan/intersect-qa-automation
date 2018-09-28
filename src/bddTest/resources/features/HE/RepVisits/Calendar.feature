@@ -5,8 +5,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
   Scenario: As an RepVisits HE admin premium/paid Presence subscription user, I should be able to view visit/fair appointments that I can reassign
     Given HE I want to login to the HE app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
     When HE I go to re assign appointments
-    Then HE I verify UI components with the option "Publishing, PurpleHE" in the drop down action
-    Then HE I verify UI components with the option "Coordinator, PurpleHE" in the drop down action
+    Then HE I verify UI components for the user "Publishing, PurpleHE" with appointments in reAssignAppointments page
+    Then HE I verify UI components for the user "Fresh, PurpleHE" in reAssignAppointments page
     
   @MATCH-4450
   Scenario Outline: As a HE user with active Prescence subscription, I can access Agenda view of my appointments
