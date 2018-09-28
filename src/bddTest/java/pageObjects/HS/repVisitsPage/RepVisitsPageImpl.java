@@ -67,7 +67,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkRepVisitsSubTabs(DataTable dataTable) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
             Assert.assertTrue(repVisitsSubItem + " is not showing.", driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='"+repVisitsSubItem+"']"))!=null);
@@ -77,7 +77,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void confirmDeclineCollegeAttendanceRequest(String requestOption, String fairName){
         logger.info("Validating the functionality of the " + requestOption + " button for College Fair attendance request.");
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         button(By.xpath("//a[@aria-label='"+fairName+"']")).click();
         boolean expectedResult = false;
@@ -119,7 +119,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyAvailabilityAndSettingsPage(){
         waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         List<String> tabs = new ArrayList<>();
         //Left Menu
@@ -145,13 +145,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEmptyContactPage(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getContactsBtn().click();
         Assert.assertTrue("Contact Header is not displayed",driver.findElement(By.xpath("//h1[@class='ui header _2GIsNevIB_s082IZwcYen3']")).isDisplayed());
         Assert.assertTrue("Instruction text is not displayed",driver.findElement(By.xpath("//div[@class='sub header _240ldPuujUDvP5vNIGw15H']")).isDisplayed());
     }
     public void verifyFullContactPage(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getContactsBtn().click();
         Assert.assertTrue("Contact Header is not displayed",driver.findElement(By.xpath("//h1[@class='ui header _2GIsNevIB_s082IZwcYen3']")).isDisplayed());
         Assert.assertTrue("Instruction text is not displayed",driver.findElement(By.xpath("//div[@class='sub header _240ldPuujUDvP5vNIGw15H']")).isDisplayed());
@@ -172,7 +172,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void sortingContacts()
     {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getContactsBtn().click();
         driver.findElement(By.xpath("//input[@name='contacts-search']")).clear();
         ArrayList<String> original=new ArrayList<>();
@@ -198,7 +198,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void validatingthePaginationof25Contacts()
     {
         int count;
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getContactsBtn().click();
         waitForUITransition();
         Assert.assertTrue("Contacts is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']")).isDisplayed());
@@ -210,7 +210,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyContactDetails(DataTable dataTable){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getContactsBtn().click();
         List<String> list = dataTable.asList(String.class);
         for (String repVisitsSubItem : list) {
@@ -218,7 +218,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void verifyAvailabilitySettings(DataTable dataTable){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availabilitySettings().click();
 //        availabilityAndSettings().click();
@@ -284,7 +284,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void searchforContact(String institutionName){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getContactsBtn().click();
         getSearchBoxforContact().clear();
         getSearchBoxforContact().sendKeys(institutionName);
@@ -293,7 +293,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("the specified schoolname is not displayed",driver.findElement(By.xpath("//tr[@class='_1ijSBYwG-OqiUP1_S7yMUN']/td[@class='five wide hidden-mobile']/div[contains(text(),'"+institutionName+"')]")).isDisplayed());
     }
     public void partialsearchforContact(String institutionName){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getContactsBtn().click();
         getSearchBoxforContact().clear();
         getSearchBoxforContact().sendKeys(institutionName);
@@ -305,7 +305,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addNewTimeSlot(String day, String hourStartTime, String hourEndTime, String minuteStartTime, String minuteEndTime, String meridianStartTime, String meridianEndTime, String numVisits) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         regularWeeklyHours().click();
@@ -344,7 +344,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setPreventCollegesSchedulingNewVisits(String Numberofdays){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         availability();
@@ -359,7 +359,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setPreventCollegesCancellingorRescheduling(String DaysInAdvance){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         availability().click();
@@ -378,7 +378,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setAcceptinAvailabilitySettings(String accept, String visitsPerDay){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilElementExists(availabilityAndSettings());
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
@@ -401,7 +401,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setVisitsConfirmations(String option){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         WebElement element= availabilityAndSettings();
         waitUntilElementExists(element);
@@ -420,7 +420,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void accessVisitAvailability(String visitAvailability){
         waitUntilPageFinishLoading();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
@@ -436,7 +436,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyVisitAvailability(String visitAvailabiltyOption) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availabilitySettings().click();
         //Verify the Title
@@ -457,7 +457,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void addDefaultMessage(String message){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         messageOptions().click();
         waitUntilPageFinishLoading();
@@ -470,7 +470,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyMessageUpdated(String message){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         messageOptions().click();
         waitUntilPageFinishLoading();
@@ -486,7 +486,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyContentsOfNavianceSettings() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         navianceSettings().click();
         waitUntilPageFinishLoading();
@@ -561,7 +561,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyContentsOfRegularWeeklyHours() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         regularWeeklyHours().click();
@@ -620,7 +620,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void VerifyMessagingOptionsUI() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         messageOptions().click();
         waitUntilPageFinishLoading();
@@ -639,7 +639,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void setStartAndEndDates(String startDate, String endDate) {
         setDefaultDateforStartAndEndDate();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         availability().click();
@@ -667,7 +667,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void setStartandEndDates(String startDate,String endDate) {
         setDefaultDateforStartAndEndDate();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
         availabilityAndSettings().click();
@@ -722,7 +722,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
 
     public void selectOptionforManuallyorAutomatically(String option) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
@@ -736,7 +736,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyNavianceSyncTab(String option,String university, String time, String date) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         notificationAndTasks().click();
         waitUntilPageFinishLoading();
@@ -756,7 +756,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRescheduledNotificationInNavianceSyncTab(String option,String university, String time, String date){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         notificationAndTasks().click();
         waitUntilPageFinishLoading();
@@ -776,7 +776,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectCalendar() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         getCalendarBtn().click();
         waitUntilPageFinishLoading();
@@ -784,7 +784,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyAvaliabilityDates(String startDate, String endDate, String day) {
         waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
         availabilityAndSettings().click();
@@ -1006,7 +1006,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyTimeZonePage(String ValueTZ) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         timeZone().click();
         Assert.assertTrue("Tell us about your high school text is not present",getDriver().findElement(By.cssSelector(".ui.header")).isDisplayed());
@@ -1019,7 +1019,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyManualBlockedHolidays(String holiday) {
 //        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         blockedDays().click();
         waitUntilPageFinishLoading();
@@ -1097,7 +1097,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void searchforSchool(String school,String location, String Date) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         getSearchAndScheduleBtn().click();
         getSearchBox().sendKeys(school);
@@ -1198,7 +1198,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void setTimeZone(String timeZone){
         if (!isLinkActive(timeZone())) {
-            navigationBar.goToRepVisits();
+            getNavigationBar().goToRepVisits();
             availabilityAndSettings().click();
             timeZone().click();
         }
@@ -1218,7 +1218,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void clickLinkAvailability() {
         if (!isLinkActive(availability())) {
-            navigationBar.goToRepVisits();
+            getNavigationBar().goToRepVisits();
             availabilityAndSettings().click();
             availability().click();
         }
@@ -1226,6 +1226,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCalendarSyncMilestoneInSetupWizard(){
         waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         waitUntilElementExists(driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")));
@@ -1238,7 +1239,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
         //verify 'Back' button and 'Next' button is displayed
-        Assert.assertTrue(button("Back").isDisplayed());
+        Assert.assertTrue(backButton().isDisplayed());
         Assert.assertTrue(nextButton().isDisplayed());
 
         //verify UI text
@@ -1247,9 +1248,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         nextButton().click();
         Assert.assertTrue("'Naviance setting page' page is not displayed", text("Connecting Naviance and RepVisits").isDisplayed());
 
-        button("Back").click();
+        backButton().click();
         waitUntilPageFinishLoading();
-        button("Back").click();
+        backButton().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Notification and Primary contact' page is not displayed", text("Primary Contact for Visits").isDisplayed());
 
@@ -1266,7 +1267,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCalendarViewOnRepVisits() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         calendar().click();
 
         //Verify Small Calendar
@@ -1338,7 +1339,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void cancelFair(String fairName, String cancelationReason) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -1369,7 +1370,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void createFair(DataTable details) {
         List<List<String>> fairDetails = details.asLists(String.class);
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         addFairButton().click();
         fairNameTextBox().sendKeys(fairDetails.get(0).get(1));
@@ -1427,7 +1428,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCalendarPageForCancelVisit(String university,String time,String date){
         String startTime=getRescheduleVisitStartTimeInCalendar();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -1453,7 +1454,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyActivityforFairs(String option,String user,String university,String date,String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         notificationAndTasks().click();
         activityTab().click();
         waitForUITransition();
@@ -1468,7 +1469,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         collegeFairs().click();
         waitUntilPageFinishLoading();
@@ -1530,7 +1531,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyCalendarPageForCanceltheVisit(String university,String time,String date){
         String startTime=getVisitSchedulePopupStartTimeInCalendar();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -1598,6 +1599,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public  void verifyRepvisitsSetupWizardTimeZoneMilestones() {
+        waitForUITransition();
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
         load(GetProperties.get("hs.WizardAppSelect.url"));
 
         // getStartedBtn().click();
@@ -1611,7 +1614,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Tell us about your high school' is not displayed", text("Tell us about your high school.").isDisplayed());
         Assert.assertTrue("'Please specify your high school's time zone.' is not showing", text("Please specify your high school's time zone.").isDisplayed());
 
-        Assert.assertTrue(button("Back").isDisplayed());
+        Assert.assertTrue(backButton().isDisplayed());
         Assert.assertTrue(nextButton().isDisplayed());
 
     }
@@ -1677,7 +1680,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         setTimeZoneValue(timeZoneToSet);
 
-        button("Back").click();
+        backButton().click();
         nextButton().click();
 
         waitForUITransition();
@@ -1687,7 +1690,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setTimeZoneValue(timeZoneToSet);
         nextButton().click();
         waitUntilPageFinishLoading();
-        button("Back").click();
+        backButton().click();
         //driver.navigate().back();
 
         String actualTimeZoneWhenNextButtonClicked = driver.findElement(By.xpath("//div[@class='ui search selection dropdown']//div[@class='text']")).getText();
@@ -1704,7 +1707,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyStartDateAndEndDateInAvailabilitySetting(String startDate,String endDate){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         regularWeeklyHours().click();
@@ -1757,9 +1760,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         while (!url.equalsIgnoreCase("https://qa-hs.intersect.hobsons.com/rep-visits/setup/completed/visible")) {
             if (!url.toLowerCase().contains("naviance")) {
                 waitForUITransition();
-                waitUntilElementExists(nextButton());
-                nextButton().click();
-                url = getDriver().getCurrentUrl();
+                try {
+                    waitUntilElementExists(nextButton());
+                    nextButton().click();
+                    url = getDriver().getCurrentUrl();
+                }catch(Exception e){
+                    driver.findElement(By.xpath("//span[text()='Take me to my visits']")).click();
+                }
+
             } else
                 Assert.assertTrue("Naviance options are available in RepVisits setup wizard for a non-Naviance HS.", false);
         }
@@ -1948,28 +1956,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessCollegeFairOverviewPage(String fairName) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         Boolean verifyElement = false;
         try {
-            verifyElement = driver.findElement(By.xpath("//span[text()='View More Upcoming Events']")).isDisplayed();
+            verifyElement = getDriver().findElement(By.xpath("//span[text()='View More Upcoming Events']")).isDisplayed();
         }catch(NoSuchElementException e){
             verifyElement  = false;
         }
 
         if(verifyElement)
         {
-            List<WebElement> viewMoreEvent = driver.findElements(By.xpath("//span[text()='View More Upcoming Events']"));
+            List<WebElement> viewMoreEvent = getDriver().findElements(By.xpath("//span[text()='View More Upcoming Events']"));
             while (viewMoreEvent.size()>0) {
                 viewMoreUpcomingEventsLink().click();
                 waitUntilPageFinishLoading();
-                viewMoreEvent = driver.findElements(By.xpath("//span[text()='View More Upcoming Events']"));
+                viewMoreEvent = getDriver().findElements(By.xpath("//span[text()='View More Upcoming Events']"));
             }
         }
         // If we're using a previously set Dynamic fair name, look for that instead.
         if (fairName.equalsIgnoreCase("PreviouslySetFair"))
             fairName = FairName;
-        WebElement viewDetails = driver.findElement(By.xpath("//td[text()='"+fairName+"']/../td/following-sibling::td/a/span[text()='View Details']"));
+        WebElement viewDetails = getDriver().findElement(By.xpath("//td[text()='"+fairName+"']/../td/following-sibling::td/a/span[text()='View Details']"));
         waitUntilElementExists(viewDetails);
         viewDetails.click();
     }
@@ -2097,7 +2105,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToAvailabilityAndSettings() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings();
         waitUntilPageFinishLoading();
@@ -2108,7 +2116,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToCollegeFairSettings() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         Assert.assertTrue("College Fairs is not displayed", driver.findElement(By.xpath("//a[@class='menu-link qxSNjKWAyYiOIN9yZHE_d']/span[text()='College Fairs']")).isDisplayed());
 //        driver.findElement(By.cssSelector("a[href='rep-visits/collegefairs/settings']>span")).click();
@@ -2171,12 +2179,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         button("ADD TIME SLOT").click();
 
-        button("Back").click();
+        backButton().click();
         Assert.assertTrue("High school information is not displayed", text("Tell us about your high school.").isDisplayed());
     }
 
     public void openExceptions() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettingsButton().click();
         innerExceptionsButton().click();
     }
@@ -2222,14 +2230,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectBlockDaysAndSave(String dayName){
-        button("Back").click();
+        backButton().click();
         Assert.assertTrue("Regular Weekly Hours tab is not loaded",text("Regular Weekly Hours").isDisplayed());
         nextButton().click();
         driver.findElement(By.xpath("//div[@title='"+dayName+"']/input/following-sibling::label")).click();
     }
 
     public void changeWeekAvailability(String changeWeek){
-        button("Back").click();
+        backButton().click();
         Assert.assertTrue("Blocked Days tab is not loaded",text("Blocked Days").isDisplayed());
         nextButton().click();
         waitUntilElementExists(driver.findElement(By.xpath("//button[@title='"+changeWeek+"']")));
@@ -2237,7 +2245,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void availabilityandSettingsPage(String visitsConfirmations ,String preventCollegesSchedulingNewVisits, String preventCollegesCancellingorRescheduling){
-        button("Back").click();
+        backButton().click();
         Assert.assertTrue("Exceptions tab is not loaded",text("Exceptions").isDisplayed());
         nextButton().click();
         Assert.assertTrue("Availability Settings tab is not loaded",text("Availability Settings").isDisplayed());
@@ -2259,7 +2267,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setBlockedDate(String blockdate, String reason){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         blockedDays().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/div/span[text()='Choose Dates']"),1));
@@ -2279,7 +2287,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void RemoveBlockedDate(String startDate, String endDate){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         blockedDays().click();
         //Remove specific Blocked Day
@@ -2339,7 +2347,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyPillsColorDays(String appointmentsStatus, String color){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
         exception().click();
@@ -2348,7 +2356,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyBlockedHolidaysAdded(String startDate,String endDate,String reason) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         blockedDays().click();
 
@@ -2375,7 +2383,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyBlockedHolidaysRemoved(String startDate, String endDate,String reason) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         blockedDays().click();
         int columnID = getColumnIdByFieldName( "//table[@class='ui basic table']//thead", "Start Date");
@@ -2443,7 +2451,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void navaigateToAccountSettings(String accountSettings)
     {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         userDropdown().click();
         Assert.assertTrue("AccountSettings is not displayed",accountSettings(accountSettings).isDisplayed());
@@ -2559,7 +2567,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void naviagateToAvailbilityandSettings()
     {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
@@ -2589,7 +2597,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         waitForUITransition();
         //verify 'Back' button and 'Next' button is displayed
-        Assert.assertTrue(button("Back").isDisplayed());
+        Assert.assertTrue(backButton().isDisplayed());
         Assert.assertTrue(nextButton().isDisplayed());
 
         //verify UI text
@@ -2613,7 +2621,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         nextButton().click();
         Assert.assertTrue("Calendar Sync page is not displayed", text("iCal/Outlook Subscription").isDisplayed());
 
-        button("Back").click();
+        backButton().click();
         primaryContactName = driver.findElement(By.xpath("//div[@class='ui selection dropdown']//div[@class='text']")).getText();
         Assert.assertTrue("Primary contact name is not saved properly",primaryContactName.equalsIgnoreCase(userTochange));
 
@@ -2628,7 +2636,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
 
-        button("Back").click();
+        backButton().click();
         Assert.assertTrue("'Confirmation Message' page is not displayed", text("Confirmation Message").isDisplayed());
         nextButton().click();
         Assert.assertTrue("Primary contact name is not saved properly",!primaryContactName.contains(userTochange));
@@ -2643,7 +2651,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCityAndStateInActivitysubTab(String cityAndState,String institution){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         notificationAndTasks().click();
         waitForUITransition();
@@ -2664,7 +2672,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCityAndStateInActivitysubTabforFairs(String cityAndState,String institution){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         notificationAndTasks().click();
         waitForUITransition();
@@ -2681,7 +2689,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//button[@class='ui primary button _3M36944K6FppJHU9VD7kZy']"));
     }
     public void verifyPillsNotAvailableinNewScheduleVisitPage(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilElementExists(calendar());
         calendar().click();
         waitUntilPageFinishLoading();
@@ -2711,8 +2719,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Past dates are not disabled",disabled.equalsIgnoreCase("true"));
     }
     public void verifyPillsNotAvailableinReScheduleVisitPage(){
-//        navigationBar.goToCommunity();
-        navigationBar.goToRepVisits();
+//        getNavigationBar().goToCommunity();
+        getNavigationBar().goToRepVisits();
         calendar().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -2800,7 +2808,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("webInstructions Message text is not showing", getDriver().findElement(By.cssSelector("label[for='webInstructions']")).getText().contains("Is there anything you would like the representative to know before scheduling a visit? If so, include that information here. Please note we will display your contact information and the school's address."));
         Assert.assertTrue("Email Instructions textbox is not showing", getDriver().findElement(By.xpath("//textarea[@id='emailInstructions']")).isDisplayed());
         Assert.assertTrue("Web Instructions textbox is not showing", getDriver().findElement(By.xpath("//textarea[@id='webInstructions' and @maxlength='250']")).isDisplayed());
-        Assert.assertTrue(button("Back").isDisplayed());
+        Assert.assertTrue(backButton().isDisplayed());
         Assert.assertTrue(nextButton().isDisplayed());
 
         if(!confirmationMessage.equals("")) {
@@ -2881,7 +2889,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyUserDropdownforNaviance() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         userDropdown().click();
         Assert.assertTrue("'Your Profile' option is not displayed",getYourProfileBtn().isDisplayed());
@@ -2920,8 +2928,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
         FluentWait<WebDriver> wait = new WebDriverWait(driver, 5);
         wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
-        navigationBar.goToCommunityInHS();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToCommunityInHS();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettingsButton().click();
         waitUntilPageFinishLoading();
@@ -2979,7 +2987,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void completeSetupWizard(String visitAvailability){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitUntilElementExists(availabilityAndSettings());
         availabilityAndSettings().click();
@@ -3016,7 +3024,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void cancelRegisteredCollegeFair(String fair){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         collegeFairs().click();
         waitUntilPageFinishLoading();
@@ -3063,7 +3071,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("input[id='notification_contacts_primary_contact_phone']"));
     }
     public void cancelCollegeFair(String fairName) {
-        navigationBar.goToRepVisits();
+        logger.info("Cancelling Job Fair " + FairName + " under RepVisits.");
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         waitForUITransition();
         try {
@@ -3096,7 +3105,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.partialLinkText("Calendar"),1));
         calendar().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
@@ -3116,13 +3125,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String date = getStartDateInAgenda().getText();
         String displayingDate = getDisplayingDateInCalendarAgenda(disabledDate);
         Assert.assertTrue("Selected date is not displayed",!date.equals(displayingDate));
-        navigationBar.goToCommunityInHS();
+        getNavigationBar().goToCommunityInHS();
         waitUntilPageFinishLoading();
     }
 
     public void createCollegeFair(DataTable dataTable) {
         logger.info("Creating a Job Fair under RepVisits.");
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitUntilElementExists(collegeFairs());
         collegeFairs().click();
@@ -3156,7 +3165,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void createDynamicCollegeFair(DataTable dataTable) {
         logger.info("Creating a Job Fair under RepVisits.");
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         collegeFairs().click();
         waitUntilPageFinishLoading();
@@ -3257,7 +3266,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void addEmailInNotificationandPrimaryContactPage(String Email){
         waitUntilPageFinishLoading();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
@@ -3569,7 +3578,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyRequestNotificationTab(String user, String university, String time,String date) {
         waitUntilPageFinishLoading();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
        waitUntilElementExists(notificationAndTasks());
         notificationAndTasks().click();
@@ -3634,7 +3643,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Close button is not displayed", closebutton.isDisplayed());
             Assert.assertTrue("User name with declined message are not displayed", driver.findElement(By.xpath("//span[text()='" + user + "']/parent::p[text()='has been declined.']")).isDisplayed());
             closebutton.click();
-            navigationBar.goToRepVisits();
+            getNavigationBar().goToRepVisits();
             waitUntilPageFinishLoading();
         } else if (option.equals("No, go back")) {
             jsClick(cancellationMessage());
@@ -3696,7 +3705,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRequestNotificationTabforFairs(String user, String university, String time,String date) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         WebElement element=button("Notifications & Tasks");
         waitUntilElementExists(element);
@@ -3774,7 +3783,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void reschedulevisit(String university,String time,String date) {
         String startTime=getVisitStartTimeInCalendar();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -3854,7 +3863,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addContactManually(String date,String Time,String FName,String LName,String Email,String PhNo,String Position,String Institution) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -4001,7 +4010,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }*/
 
     public void verifyFairsAreClickable(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         calendar().click();
         waitUntilPageFinishLoading();
 
@@ -4178,7 +4187,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void removeTimeSlotsInRegularWeeklyHoursTab(String date, String time) {
         time = StartTime.toUpperCase();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
@@ -4209,7 +4218,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      * @param time, the time of the slot time to be deleted: 8:25PM
      */
     public void removeSlotTimeByDayAndTime(String day, String time) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         driver.findElement(By.partialLinkText("REGULAR WEEKLY HOURS")).click();
@@ -4323,7 +4332,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addVisitsManuallyFromCalendarTab(String date,String time,String attendee,String location) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -4360,7 +4369,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyAppointmentsIncalendar(String date,String time,String institution){
         String startTime=getVisitStartTimeforcalendar();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -4386,7 +4395,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void scheduleNewVisitusingCustomTime(String date,String startTime,String endTime,String attendee,String location) {
         availabilityAndSettings().click();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -4432,7 +4441,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCalendarPageIsDisplayed() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -4442,7 +4451,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCloseDrawerInVisitSchedulePopup(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -4574,7 +4583,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clicklinkCollegeFair() {
-            navigationBar.goToRepVisits();
+            getNavigationBar().goToRepVisits();
             waitUntilElementExists(collegeFairs());
             collegeFairs().click();
             waitForUITransition();
@@ -4605,7 +4614,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToRepVisitsSection(String pageName) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         if (pageName.equalsIgnoreCase("visit feedback")) {
             getVisitsFeedbackBtn().click();
         } else {
@@ -4742,7 +4751,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addnewTimeSlot(String day, String startTime, String endTime, String numVisits) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         WebElement element = availabilityAndSettings();
         waitUntilElementExists(element);
         availabilityAndSettings().click();
@@ -4785,7 +4794,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void accessCreateCollegeFair(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected,String buttonToClick){
         waitUntilPageFinishLoading();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         WebElement fairs=collegeFairs();
         waitUntilElementExists(fairs);
@@ -4852,7 +4861,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCollegeFairOverview(String fairName,String date, String attendees, String RSVPBy, String time,String viewDetails){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         while (link("View More Upcoming Events").isDisplayed()){
             link("View More Upcoming Events").click();
@@ -4918,7 +4927,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyExportButtonInCalendar(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitForUITransition();
@@ -5083,7 +5092,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifynoNotificationMessage(String message) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         WebElement element=button("Notifications & Tasks");
         waitUntilElementExists(element);
         button("Notifications & Tasks").click();
@@ -5096,7 +5105,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void setSpecificStartAndEndDatesinRegularWeeklyHoursTab(String startDate,String endDate) {
         waitUntilPageFinishLoading();
         setDefaultDateforStartAndEndDate();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
         availabilityAndSettings().click();
@@ -5110,7 +5119,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyVisitsinException(String option,String time,String Date,String visits) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         exception().click();
@@ -5137,7 +5146,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyTimeslot(String startDate,String endDate,String time) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
         availabilityAndSettings().click();
@@ -5168,7 +5177,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("confirmation message is not displayed",driver.findElement(By.cssSelector("div>span[class='LkKQEXqh0w8bxd1kyg0Mq']")).isDisplayed());
     }
     public void verifyPillsInManuallyAddedAppointmentsPage(String date,String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -5186,7 +5195,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyPillsNotdisplayedScheduleNewVisit(String date,String time){
         time = StartTime ;
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -5203,7 +5212,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void removeTimeslotforEntireDayInRegularWeeklyHours(String date){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
@@ -5229,7 +5238,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
    public void verifyActivity(String option,String user,String university,String date,String time) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         notificationAndTasks().click();
         waitUntilPageFinishLoading();
@@ -5246,7 +5255,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyActivityforReschedule(String option,String user,String university,String date,String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         notificationAndTasks().click();
         activityTab().click();
@@ -5262,7 +5271,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyReScheduledNotification(String user,String institution,String day,String date,String time) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         notificationAndTasks().click();
         activityTab().click();
@@ -5288,7 +5297,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }else if(option.equals("ReScheduled")){
              startTime = getRescheduledVisitStartTimeInCalendar();
         }
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -5342,7 +5351,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyActivityForCanceltheVisit(String option,String user,String university,String date,String time) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         notificationAndTasks().click();
         waitUntilPageFinishLoading();
@@ -5359,7 +5368,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUpcommingEvents(String collegeFairName, String rsvpDeadLine) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         waitUntilPageFinishLoading();
         rsvpDeadLine = getSpecificDateForFairsPage(rsvpDeadLine);
@@ -5373,18 +5382,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Boolean verifyElement = false;
         String rsvpConverted = dateConverter(rsvpDeadLine);
         try {
-              verifyElement = driver.findElement(By.xpath("//span[text()='View More Upcoming Events']")).isDisplayed();
+              verifyElement = getDriver().findElement(By.xpath("//span[text()='View More Upcoming Events']")).isDisplayed();
         }catch(NoSuchElementException e){
              verifyElement  = false;
         }
 
         if(verifyElement)
         {
-            List<WebElement> viewMoreEvent = driver.findElements(By.xpath("//span[text()='View More Upcoming Events']"));
+            List<WebElement> viewMoreEvent = getDriver().findElements(By.xpath("//span[text()='View More Upcoming Events']"));
             while (viewMoreEvent.size()>0) {
                 viewMoreUpcomingEventsLink().click();
                 waitUntilPageFinishLoading();
-                viewMoreEvent = driver.findElements(By.xpath("//span[text()='View More Upcoming Events']"));
+                viewMoreEvent = getDriver().findElements(By.xpath("//span[text()='View More Upcoming Events']"));
             }
         }
         List<WebElement> upcomingEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(1)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
@@ -5422,7 +5431,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String eventsData;
         String eventsRsvp;
         Boolean flag = false;
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
         collegeFairs().click();
@@ -5478,7 +5487,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCanceledEvents(String collegeFairName) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         waitUntilPageFinishLoading();
         Boolean resultFairEventsVerification = findPastEvents(FairName);
@@ -5494,17 +5503,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         boolean verifyLink = false;
 
         try {
-            verifyLink = driver.findElement(By.xpath("//span[text()='View More Past Events']")).isDisplayed();
+            verifyLink = getDriver().findElement(By.xpath("//span[text()='View More Past Events']")).isDisplayed();
         }catch(NoSuchElementException e){
             verifyLink  = false;
         }
 
         if(verifyLink) {
-            List<WebElement> viewPastEvent = driver.findElements(By.xpath("//span[text()='View More Past Events']"));
+            List<WebElement> viewPastEvent = getDriver().findElements(By.xpath("//span[text()='View More Past Events']"));
             while (viewPastEvent.size()>0) {
                 viewMorePastEventsLink().click();
                 waitUntilPageFinishLoading();
-                viewPastEvent = driver.findElements(By.xpath("//span[text()='View More Past Events']"));
+                viewPastEvent = getDriver().findElements(By.xpath("//span[text()='View More Past Events']"));
             }
         }
         List<WebElement> pastEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(2)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
@@ -5559,7 +5568,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyNotificationInRequestTab(String option,String user,String institution,String time){
         waitUntilPageFinishLoading();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Notifications & Tasks']"),1));
         notificationAndTasks().click();
@@ -5575,7 +5584,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private void setDefaultDateforStartAndEndDate(){
         waitUntilPageFinishLoading();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitForUITransition();
         availabilityAndSettings().click();
@@ -5766,7 +5775,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
 
     public void clickLinkNotificationsAndTasks () {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         notificationAndTasks().click();
     }
 
@@ -5813,7 +5822,9 @@ public void cancelRgisteredCollegeFair(String fairName){
         for (List<String> row : details) {
             switch (row.get(0)) {
                 case "Name":
-                    fairNameTextBox().sendKeys(row.get(1));
+                    String fairName = randomizeFairName(row.get(1));
+                    FairName = fairName;
+                    fairNameTextBox().sendKeys(fairName);
                     break;
                 case "Date":
                     SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyy");
@@ -5881,7 +5892,7 @@ public void cancelRgisteredCollegeFair(String fairName){
             representativeLastName,
                                   String representativeInstitution, String location, String maxNumberOfStudents,
                                   String registrationWillClose){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         calendar().click();
         waitUntilPageFinishLoading();
         getAddVisitButton().click();
@@ -5942,7 +5953,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time of the time slot to be selected
      */
     public void verifyBlockThisTimeSlotButtonIsDisplayed (String day, String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
@@ -5970,7 +5981,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time of the time slot to be selected
      */
     public void verifyBlockThisTimeSlotToolTipIsDisplayed (String day, String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
@@ -6001,7 +6012,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time of the time slot to be selected
      */
     public void verifyUnblockThisTimeSlotButtonIsDisplayed (String day, String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
@@ -6016,7 +6027,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time, the time of the slot to check the blocked label
      */
     public void verifyBlockedLabelIsDisplayedInTimeSlot (String day, String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
@@ -6033,7 +6044,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time, the time of the slot time to try to set the appointment, 2:30PM
      */
     public void verifyNewVisitCannotBeSet (String day, String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         calendar().click();
         getAddVisitButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(
@@ -6063,7 +6074,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time, the time of the time slot to unblock
      */
     public void unblockTimeSlot (String day, String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
@@ -6079,7 +6090,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time of the time slot to be verified
      */
     public void verifyBlockedLabelIsNotDisplayedInTimeSlot (String day, String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
@@ -6115,7 +6126,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param note,    the note to cancel the appointment
      */
     public void cancelVisit (String time, String college, String note){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         calendar().click();
         waitUntil(ExpectedConditions.visibilityOf(getAddVisitButton()));
         waitForUITransition();
@@ -6141,7 +6152,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      */
     public void removeTimeSlotsRefactoredForHS(String date, String time) {
         time = time.toUpperCase();
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
@@ -6185,7 +6196,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time - Request time
      */
     public void confirmRequest(String user, String highSchool, String time){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilElementExists(notificationAndTasks());
         navigateToNotificaionsAndTasksRequestPage();
         confirmButton(user, highSchool, time).click();
@@ -6246,7 +6257,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param date - Date to reschedule
      */
     public void reschedulevisitForHS(String university,String time,String date) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         String startTime = time;
         waitUntilElementExists(calendar());
         calendar().click();
@@ -6361,7 +6372,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void navigateToAvailabilitySettings() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         availabilitySettings().click();
@@ -6400,7 +6411,7 @@ public void cancelRgisteredCollegeFair(String fairName){
                 driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
                 FluentWait<WebDriver> wait = new WebDriverWait(driver, 5);
                 wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
-                navigationBar.goToRepVisits();
+                getNavigationBar().goToRepVisits();
                 availabilityAndSettings().click();
                 navianceSettings().click();
                 disconnectButton().click();
@@ -6446,7 +6457,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         Assert.assertTrue("Opt In was not activated ",optInNoRadioButton().isDisplayed());
         /*Events can be added/edited/cancelled separately in both Naviance and RepVisits*/
         addNewTimeSlotAndAddVisit(date, startTime, endTime, numVisits, attendee, location   );
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         calendar().click();
 
         //Verification in RV side
@@ -6484,7 +6495,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     public void verifyTimeslotInException(String date, String time)
     {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         exception().click();
         String startDate = getSpecificDate(date);
@@ -6498,7 +6509,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void verifyStaffNotifications(String primaryContactName, String alternativePrimaryContact) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         waitUntilPageFinishLoading();
         collegeFairsSettings().click();
@@ -6556,7 +6567,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     public void verifyCollegeFairNotificationWasReceived (String collegeFair, String attendee){
         if (collegeFair.equals("PreviouslySetFair"))
             collegeFair = FairName;
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         notificationAndTasks().click();
         waitUntilPageFinishLoading();
         activityTab().click();
@@ -6570,7 +6581,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void verifyNotificationsToNonMembersSection (String correctEmail, String incorrectEmail){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         collegeFairs().click();
         waitUntilPageFinishLoading();
         collegeFairsSettings().click();
@@ -6594,7 +6605,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
    public void verifyCalendarPageForaddVisit() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitUntilElementExists(addVisitButton());
         Assert.assertTrue("add visit button is not displayed",addVisitButton().isDisplayed());
@@ -6624,7 +6635,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void removeManuallyAddedBlockedDate(String startDate, String endDate){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
@@ -6640,7 +6651,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void setSpecificBlockedDate(String reason,String blockdate){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         blockedDays().click();
@@ -6670,7 +6681,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
      public void navigateToException() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         exceptionLink().click();
@@ -6688,7 +6699,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void verifyPartiallyScheduledDayInExceptionsSubtab(String reason,String startDate) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         exception().click();
@@ -6746,7 +6757,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      *  @param location - The location in the new Visit or Appointment
      */
     public void addVisitsRefactoredForHS(String date,String startTime,String attendee,String location) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntilPageFinishLoading();
@@ -6786,7 +6797,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param numVisits - Set Number of Visits
      */
     public void addnewTimeSlotRefactoredForHS(String day, String startTime, String endTime, String numVisits) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         WebElement element = availabilityAndSettings();
         waitUntilElementExists(element);
         availabilityAndSettings().click();
@@ -6867,7 +6878,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void verifyUnscheduledAppointmentsInExceptionsSubtab(String time,String Date){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         exception().click();
@@ -6886,7 +6897,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void verifyBlockedDaysInExceptionsSubtab(String reason,String Date){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
         exception().click();
@@ -6929,7 +6940,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void removeCreatedBlockedDaysInBlockedDaysTab(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         waitUntilElementExists(availabilityAndSettings());
         availabilityAndSettings().click();
@@ -7015,7 +7026,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
       public void accessAgendaView(String agenda){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         calendar().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
@@ -7026,7 +7037,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void verifyUserCannotAccessAgendaView(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         List<WebElement> calendar = driver.findElements(By.partialLinkText("Calendar"));
         Assert.assertTrue("Calendar is displayed",calendar.size()==0);
@@ -7034,7 +7045,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void verifyHEUsersNameLink(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         //link("Notifications & Tasks").click();
         notificationsAndTasks().click();
         waitUntilPageFinishLoading();
@@ -7363,7 +7374,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         switch (user){
             case "Naviance":
                 waitUntilPageFinishLoading();
-                navigationBar.goToRepVisits();
+                getNavigationBar().goToRepVisits();
                 waitUntilPageFinishLoading();
                 userDropdown().click();
                 List<WebElement> accountSettings = driver.findElements(By.xpath("//span[text()='Account Settings']"));
@@ -7372,7 +7383,7 @@ public void cancelRgisteredCollegeFair(String fairName){
                 break;
             case "non-Naviance":
                 waitUntilPageFinishLoading();
-                navigationBar.goToRepVisits();
+                getNavigationBar().goToRepVisits();
                 waitUntilPageFinishLoading();
                 userDropdown().click();
                 accountSettings().click();
@@ -7388,7 +7399,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     //The below method is to check the functionality of Visit Feedback-->Pending & Submitted subtab like when there is data present in both subtabs & when both are empty accordingly.
     public void verifyVisitFeedbackForHSUser() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         notificationsAndTasks().click();
         //link("Notifications & Tasks").click();
         waitUntilPageFinishLoading();
@@ -7404,7 +7415,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     //The below method will verify the left panel tag sequence for Naviance HS Users
     public void verifyVisitFeedbackTagSequenceForNavianceHS(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         notificationsAndTasks().click();
         //link("Notifications & Tasks").click();
         waitUntilPageFinishLoading();
@@ -7424,7 +7435,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     //The below method will verify the left panel tag sequence for Non-Naviance HS Users
     public void verifyVisitFeedbackTagSequenceForNonHS(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         notificationsAndTasks().click();
         //link("Notifications & Tasks").click();
         waitUntilPageFinishLoading();
@@ -8352,7 +8363,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return days;
     }
     public void navigateToRVCalendar(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         driver.findElement(By.partialLinkText("Calendar"));
     }
     public void buttonAddVisit(){
@@ -8445,7 +8456,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     //Calendar verification for created Visit
 
     public void goToMonthOnCalendar( String visitMonth) {
-            navigationBar.goToRepVisits();
+            getNavigationBar().goToRepVisits();
             driver.findElement(By.partialLinkText("Calendar")).click();
 
         while (!monthHeader().getText().equals(visitMonth)) {
@@ -8770,7 +8781,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void primaryContactForVisit(String phone, String email) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         notificationAndPrimaryContact().click();
         primaryContactPhone().clear();
@@ -8975,7 +8986,11 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement nextButton() {
-        return driver.findElement(By.xpath("//button[@class='ui primary button']"));
+            return driver.findElement(By.xpath("//button[@class='ui primary button']"));
+    }
+
+    private WebElement backButton() {
+        return driver.findElement(By.xpath("//span[text()='Back']"));
     }
 
     private WebElement takeMeButton() {

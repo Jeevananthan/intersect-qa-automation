@@ -6,7 +6,6 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
   so that I can easily see what my day/week/month schedule looks like.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I verify the calendar view in RepVisits
-    And HS I successfully sign out
 
   @MATCH-2728
   Scenario Outline: As an HS RepVisists user who I click on a College Fair in the calendar
@@ -114,7 +113,6 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
   #Confirmation message:
     Then HS I verify the confirmation message "Appointment Scheduled!,We have emailed the college with the appointment details." for the created visit
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    And HS I successfully sign out
 
     Examples:
       |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|
@@ -127,7 +125,6 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     Then HS verify the past dates are disabled in the select custom date section
     Then HS verify pills are not available for the past dates in Re-schedule visit page
     Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
-    And HS I successfully sign out
 
   @MATCH-2061 @MATCH3954
   Scenario: : As a HS user, I should be able to add internal notes to my visits
@@ -147,7 +144,6 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     And HS I click on Visit with "Franky2" from "5:40 AM" to "6:00 AM" on Day Calendar
     And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
     And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
-    And HS I successfully sign out
 
   @MATCH-4472
   Scenario: As an RepVisits RepVisits HS admin user,I want the ability to more easily access the
@@ -156,7 +152,6 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HE I verify that Share Calendars Link is displayed in Calendar page
     Then HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link
-    And HS I successfully sign out
 
   @MATCH-1762 @MATCH-2124
   Scenario Outline: As an HE Community member,

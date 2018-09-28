@@ -10,4 +10,3 @@ Feature: Community User - View All Followed Institutions
     Then I go to connections page
     And I go to Institutions that I'm following page
     And I check if institutions list is displayed
-    Then HE I successfully sign out

@@ -6,4 +6,3 @@ Feature: SP - HomePage - Help - Ability to access Help content
             So non-clients cannot access our help content and learn about our product.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I verify that the help content is secure and matches the correct URL for "SP Users"
-    And SP I successfully sign out
