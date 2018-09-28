@@ -218,7 +218,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     And I select the option "Advent Christian Church" from the list "span.text"
     Then SM I verify that the option "Advent Christian Church" was added to the dropdown field
     And I select the option "American Baptist" from the list "span.text"
-    Then SM I verify that "2" items are displayed in the dropdown field
+    Then SM I verify that 2 items are displayed in the dropdown field
     And SM I remove the option "American Baptist" from the dropdown field
-    Then SM I verify that "1" items are displayed in the dropdown field
+    Then SM I verify that 1 items are displayed in the dropdown field
     Then SM I verify that the Must Have box contains "Religious Affiliation [1]"

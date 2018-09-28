@@ -3,6 +3,7 @@ package pageObjects.SM.studentLife;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
@@ -86,7 +87,13 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     }
 
     public void selectOptionFromList(String optionName, String listLocator) {
-        List<WebElement> optionsListWebElements = driver.findElements(By.cssSelector(listLocator));
+        List<WebElement> optionsListWebElements;
+        try {
+            driver.findElement(By.xpath(listLocator));
+            optionsListWebElements = driver.findElements(By.xpath(listLocator));
+        } catch(NoSuchElementException e) {
+            optionsListWebElements = driver.findElements(By.cssSelector(listLocator));
+        }
         for (WebElement element : optionsListWebElements) {
             if (element.getText().equals(optionName)) {
                 element.click();
@@ -118,16 +125,10 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
                 isElementPresent);
     }
 
-    public void verifyNumberOfAddedOptionsInOrgsAndClubs(String numberOfAddedOptions) {
-        List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInOrgsAndClubs));
-        Assert.assertTrue("The number of added options in the Organizations and Clubs text field is incorrect",
-                addedElements.size() == Integer.parseInt(numberOfAddedOptions));
-    }
-
-    public void verifyNumberOfAddedOptions(String numberOfAddedOptions) {
+    public void verifyNumberOfAddedOptions(Integer numberOfAddedOptions) {
         List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
         Assert.assertTrue("The number of added options in the text field is incorrect",
-                addedElements.size() == Integer.parseInt(numberOfAddedOptions));
+                addedElements.size() == numberOfAddedOptions);
     }
 
     public void removeOptionFromOrgAndClubs(String optionName) {

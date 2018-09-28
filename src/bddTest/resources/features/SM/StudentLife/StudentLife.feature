@@ -33,9 +33,9 @@ Feature: SM - StudentLife - StudentLife - As a HS student, I need to be able to 
     And I click the dropdown "input.search + span + div"
     Then I verify that the options list "span.text" matches the list in "org.and.clubs.options.list"
     And I select the option "Business" from the list "span.text"
-    Then SM I verify that the option "Business" was added to the Organizations and Clubs dropdown
+    Then SM I verify that the option "Business" was added to the dropdown field
     And I select the option "Choir" from the list "span.text"
-    Then SM I verify that "2" items are displayed in the Organizations and Clubs dropdown
+    Then SM I verify that 2 items are displayed in the dropdown field
     And SM I remove the option "Choir" from the Organizations and Clubs text field
-    Then SM I verify that "1" items are displayed in the Organizations and Clubs dropdown
+    Then SM I verify that 1 items are displayed in the dropdown field
     Then SM I verify that the Must Have box contains "Organizations and Clubs [1]"
