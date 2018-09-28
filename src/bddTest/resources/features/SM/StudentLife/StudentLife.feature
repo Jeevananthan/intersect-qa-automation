@@ -29,8 +29,8 @@ Feature: SM - StudentLife - StudentLife - As a HS student, I need to be able to 
     Given SM I am logged in to SuperMatch through Family Connection
     When SM I clear all pills from Must have  and Nice to have boxes
     And SM I select the "Student Life" fit criteria
-    Then SM I verify that the default text in the "ORGANIZATIONS AND CLUBS" dropdown is "Start typing..." in Student Life fit criteria
-    And I click the dropdown "input.search + span + div"
+    Then I check if I can see "Start typing..." on the page
+    And I click the dropdown ".sm-filter-search-dropdown.multiple"
     Then I verify that the options list "span.text" matches the list in "org.and.clubs.options.list"
     And I select the option "Business" from the list "span.text"
     Then SM I verify that the option "Business" was added to the dropdown field

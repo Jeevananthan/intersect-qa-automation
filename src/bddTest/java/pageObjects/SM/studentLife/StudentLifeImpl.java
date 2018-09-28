@@ -62,11 +62,6 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyDefaultTextInDropdown(String dropdown, String expectedText) {
-        Assert.assertTrue("The default text in the " + dropdown + " is not correct",
-                organizationsAndClubsDropdown().getText().equals(expectedText));
-    }
-
     public void clickDropdown(String locator) {
         try {
             driver.findElement(By.cssSelector(locator)).click();
