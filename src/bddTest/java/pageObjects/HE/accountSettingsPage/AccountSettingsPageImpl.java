@@ -1,14 +1,11 @@
 package pageObjects.HE.accountSettingsPage;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.cs.A;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.junit.rules.ExpectedException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.text.SimpleDateFormat;
@@ -113,14 +110,6 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         firstNameField().sendKeys(firstName);
     }
 
-    /**
-     * Verifies if the given account settings sub menu is displayed
-     * @param subMenu
-     */
-    public void verifyAccountSettingsSubMenuIsDisplayed(String subMenu){
-        Assert.assertTrue(String.format("The account settings sub menu: %s is not displayed", subMenu)
-                ,accountSettingsSubMenuLink(subMenu).isDisplayed());
-    }
     //Locators
     private WebElement saveChanges() { return driver.findElement(By.xpath("//span[text()='SAVE']")); }
     private WebElement userDropdown() {
@@ -138,14 +127,5 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement firstNameField() { return driver.findElement(By.cssSelector("input#user-form-first-name")); }
-
-    /**
-     * Gets the account seetings submenu link
-     * @param accountSettingsSubMenu
-     * @return
-     */
-    private WebElement accountSettingsSubMenuLink(String accountSettingsSubMenu){
-        return link(accountSettingsSubMenu);
-    }
 
 }

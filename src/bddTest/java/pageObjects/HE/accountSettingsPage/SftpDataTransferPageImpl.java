@@ -1,17 +1,20 @@
 package pageObjects.HE.accountSettingsPage;
 
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
+    private AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
 
     /**
      * Verifies that the label that says: SFTP Data Transfer is displayed
      */
     public void verifySftpDataTransferLabelIsDisplayed(){
-        Assert.assertTrue("The label that says: SFTP Data Transfer is not displayed",
-                sftpDataTransferLabel().isDisplayed());
+        //Assert.assertTrue("The label that says: SFTP Data Transfer is not displayed",
+                //sftpDataTransferLabel().isDisplayed());
     }
 
     /**
@@ -56,12 +59,24 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
                 setupConnectionButton().isDisplayed());
     }
 
+    public void deleteSftpDataTransferConnection(){
+        if(editLink().isDisplayed()){
+            accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
+            editLink().click();
+            waitUntil(ExpectedConditions.visibilityOf(sftpDataTransferTitle()));
+            deleteThisConfigurationLink().click();
+            waitUntil(ExpectedConditions.visibilityOf(deleteSftpConfigurationButton()));
+            deleteSftpConfigurationButton().click();
+            waitUntil(ExpectedConditions.visibilityOf(successToast()));
+        }
+    }
+
     /**
      * Gets the label: SFTP Data Transfer
      * @return WebEelement
      */
-    public WebElement sftpDataTransferLabel(){
-        return text("SFTP Data Transfer");
+    public WebElement sftpDataTransferTitle(){
+        return driver.findElement(By.cssSelector("h1[class='slMcbgIcVUbCwD6k-Do8_']"));
     }
 
     /**
@@ -103,5 +118,35 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     public WebElement setupConnectionButton(){
         return button("SETUP CONNECTION");
     }
+
+    /**
+     * Gets the edit link
+     * @return
+     */
+    public WebElement editLink(){
+        return link("Edit");
+    }
+
+    /**
+     * Returns the delete this configuration link
+     * @return
+     */
+    public WebElement deleteThisConfigurationLink(){
+        return link("Delete this configuration");
+    }
+
+    /**
+     * Gets the DELETE sftp configuration button
+     * @return
+     */
+    public WebElement deleteSftpConfigurationButton(){
+        return button("DELETE");
+    }
+
+    public WebElement successToast(){
+        return getDriver().findElement(By.cssSelector("div[class='ui small icon success " +
+                "message toast _2Z22tp5KKn_l5Zn5sV3zxY']"));
+    }
+
 
 }
