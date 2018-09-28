@@ -101,18 +101,6 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyAddedOptionInOrgsAndClubs(String optionName) {
-        List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInOrgsAndClubs));
-        boolean isElementPresent = false;
-        for (WebElement element : addedElements) {
-            if (element.getAttribute("value").equals(optionName)) {
-                isElementPresent = true;
-            }
-        }
-        Assert.assertTrue("The option was not added to the Organizations and Clubs text field",
-                isElementPresent);
-    }
-
     public void verifyAddedOption(String optionName) {
         List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
         boolean isElementPresent = false;
@@ -129,10 +117,6 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
         Assert.assertTrue("The number of added options in the text field is incorrect",
                 addedElements.size() == numberOfAddedOptions);
-    }
-
-    public void removeOptionFromOrgAndClubs(String optionName) {
-        driver.findElement(By.xpath(xButtonAddedElementOrgsAndClubs(optionName))).click();
     }
 
     public void removeOptionFromDropdownField(String optionName) {
@@ -176,8 +160,4 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     private String addedElementsInDropdownField = "a.ui.label";
 
     private String xButtonAddedElementDropdownField(String optionName) { return "//a[@value = '" + optionName + "']/i";}
-
-    private String addedElementsInOrgsAndClubs = "a.ui.label";
-
-    private String xButtonAddedElementOrgsAndClubs(String optionName) { return "//a[@value = '" + optionName + "']/i";}
 }
