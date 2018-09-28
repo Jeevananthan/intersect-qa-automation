@@ -10,4 +10,3 @@ Feature: Community User - View Related Staff of an Institution
     And I go to Hobsons institution page
     And I click on Staff members tab
     Then I check if Institution staff members are visible and I can connect with them
-    And HE I successfully sign out

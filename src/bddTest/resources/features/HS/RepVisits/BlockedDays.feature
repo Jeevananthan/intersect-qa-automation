@@ -27,7 +27,6 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
-    And HS I successfully sign out
 
     Examples:
       |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School              |

@@ -7,4 +7,3 @@ Feature: As a Community user I want to view the actual users who have following 
     And I go to institution page
     And I click on Followers tab
     Then I check if I see followers of my institution
-    And HE I successfully sign out
