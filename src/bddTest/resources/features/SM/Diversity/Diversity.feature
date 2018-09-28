@@ -222,6 +222,25 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     And I select the option "10%" from the list "span.text"
     Then SM I verify that the Must Have box contains "At least 10% are minority students"
 
+  @MATCH-3373
+  Scenario: As a HS student, I want to filter colleges I am searching for by Gender Concentration within the Diversity
+  category so I can see relevant colleges that match my Gender Concentration requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Diversity" filter criteria tab
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    Then SM I verify that the Must Have box contains "Gender Concentration [1]"
+    And SM I select the "Women's College" checkbox from "Diversity" fit criteria
+    Then SM I verify that the Must Have box contains "Gender Concentration [2]"
+    And SM I select the "Men's College" checkbox from "Diversity" fit criteria
+    Then SM I verify that the Must Have box contains "Gender Concentration [3]"
+    And SM I unselect the "Coed" checkbox from the "Diversity" fit criteria
+    Then SM I verify that the Must Have box contains "Gender Concentration [2]"
+    And SM I unselect the "Women's College" checkbox from the "Diversity" fit criteria
+    Then SM I verify that the Must Have box contains "Gender Concentration [1]"
+    And SM I unselect the "Men's College" checkbox from the "Diversity" fit criteria
+
   @MATCH-3372
   Scenario: As a HS student, I want to filter colleges I am searching for by Religious Affiliation within the Diversity
   category so I can see relevant colleges that match my Religious Affiliation requirements.
