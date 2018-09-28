@@ -582,7 +582,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3370
   Scenario: As a HS student, I want to filter colleges I am searching for by Diversity within the Diversity category so
-  I can see relevant colleges that match my Diversity requirements.
+            I can see relevant colleges that match my Diversity requirements.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
     Then SM I verify the options displayed in the Specific Representation percent listbox
@@ -599,23 +599,19 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Black or African-American                |
       |Hispanic/Latin                           |
       |Native Hawaiian or other Pacific Islander|
-
     Then SM I select the option "10%" in the Specific Representation percent listbox
     And SM I verify that the Must Have box does not contain "10%"
     Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
     And HS I Click on close button
     And SM I verify that the Must Have box contains "At least 10% Asian"
-
     And SM I move "At least 10% Asian" from the Must Have box to the Nice to Have box
     And SM I verify that the Nice to Have box contains "At least 10% Asian"
-
     Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
     Then SM I select the option "Select %" in the Specific Representation percent listbox
     Then SM I select the option "Select race or ethnicity" in the Specific Representation race and ethnicity listbox
     And HS I Click on close button
     And SM I verify that the Must Have box does not contain "At least 10% Asian"
     And SM I verify that Nice to Have box does not contain "At least 10% Asian"
-
     Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
     Then SM I select the option "10%" in the Specific Representation percent listbox
     Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
