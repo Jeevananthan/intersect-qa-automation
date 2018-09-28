@@ -2287,6 +2287,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     {
         List<List<String>> data = table.raw();
         String option;
+
         if(!diversityRaceDropdown().getAttribute("class").contains("active"))
             diversityRaceDropdown().findElement(By.xpath(".//i")).click();
 
