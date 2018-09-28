@@ -19,7 +19,6 @@ Feature: HS Community User - Prepopulate Community User Profile Fields Upon Acti
     And I Save changes
     Then I click on Edit profile button
     And I check if privacy settings are saved properly
-    Then HS I successfully sign out
 
   @MATCH-1799 @MATCH-4609
   Scenario: As a Hobsons staff wanting to ensure data security compliance for Intersect users,
@@ -57,4 +56,3 @@ Feature: HS Community User - Prepopulate Community User Profile Fields Upon Acti
     And I activate my community profile by providing OfficePhone as "5137462317" JobTitle as "Counselor" and EU citizen as "Yes"
     Then I verify the user can access the following fields
       |Counselor Community|RepVisits|
-    And HS I successfully sign out

@@ -569,6 +569,55 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     |Compare Pinned Colleges|
     |Clear Pinned List      |
 
+  @MATCH-4475
+  Scenario: We need the pinned college to stay in the student's view, and a copy of it to be disaplyed at the top
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    When SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I pin "Amherst College"
+    Then SM I verify that the college "Amherst College" is displayed in position "1" in the results table
+    Then SM I verify that the college in position "1" contains "inPinnedList" in its class
+
+  @MATCH-3370
+  Scenario: As a HS student, I want to filter colleges I am searching for by Diversity within the Diversity category so
+            I can see relevant colleges that match my Diversity requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
+    Then SM I verify the options displayed in the Specific Representation percent listbox
+      |Select %|
+      |10%     |
+      |20%     |
+      |30%     |
+      |40%     |
+      |50%     |
+    Then SM I verify the options displayed in the Specific Representation race and ethnicity listbox
+      |Select race or ethnicity                 |
+      |American Indian or Alaskan Native        |
+      |Asian                                    |
+      |Black or African-American                |
+      |Hispanic/Latin                           |
+      |Native Hawaiian or other Pacific Islander|
+    Then SM I select the option "10%" in the Specific Representation percent listbox
+    And SM I verify that the Must Have box does not contain "10%"
+    Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
+    And HS I Click on close button
+    And SM I verify that the Must Have box contains "At least 10% Asian"
+    And SM I move "At least 10% Asian" from the Must Have box to the Nice to Have box
+    And SM I verify that the Nice to Have box contains "At least 10% Asian"
+    Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
+    Then SM I select the option "Select %" in the Specific Representation percent listbox
+    Then SM I select the option "Select race or ethnicity" in the Specific Representation race and ethnicity listbox
+    And HS I Click on close button
+    And SM I verify that the Must Have box does not contain "At least 10% Asian"
+    And SM I verify that Nice to Have box does not contain "At least 10% Asian"
+    Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
+    Then SM I select the option "10%" in the Specific Representation percent listbox
+    Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
+    And HS I Click on close button
+    And SM I verify that the Must Have box contains "At least 10% Asian"
+
   @MATCH-3376
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % Out of State
   students

@@ -10,7 +10,7 @@ Feature: HBS - International - As a community user viewing College Hubs, I want 
   @HUBS-946 @HUBS-992 @HUBS-803
   Scenario: All the elements of the page are displayed for HE users in International
     Then HUBS All the elements of the international tab should be displayed
-    And HE I successfully sign out
+
 
   Scenario: All the types of fields are editable in real time
     And HUBS I open "International" in the edit menu
@@ -22,7 +22,7 @@ Feature: HBS - International - As a community user viewing College Hubs, I want 
       | Test Scores  | Michigan (MELAB) | Low;777 |
       | Qualifications | Ability to Finance | Recommended |
       | Accepted English Tests | TOEFL      | -           |
-    And HE I successfully sign out
+
   @HUBS-803 @HUBS-1063 @HUBS-1024 @HUBS-1060 @HUBS-1024
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4651)
     When HUBS I open "International" in the edit menu
@@ -55,5 +55,5 @@ Feature: HBS - International - As a community user viewing College Hubs, I want 
       | Test Scores  | TOEFL (Paper);Low |
       | Qualifications | Ability to Finance |
       | Accepted English Tests | TOEFL      |
-    And HUBS I successfully sign out
+
 

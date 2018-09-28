@@ -92,7 +92,6 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    And HS I successfully sign out
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                            |School              |heStartTime|heTime |
@@ -120,9 +119,8 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I verify the "<NumVisits>" Maximum colleges are present in the Availability slot for the following details "<StartDate>","<StartTime>"
     Then HS I verify the Availability slot color after select the slot "<StartDate>","<heStartTime>" in the Exception Tab
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    Then HS I successfully sign out
 
-    Examples:
+   Examples:
       |Day|StartDate|EndDate |StartTime|EndTime |heStartTime|NumVisits|SlotColor             |StartTimeColor        |OutlineColor      |
       |28 |28       |49      |10:41am  |12:59pm |10:        |4        |rgba(124, 174, 112, 1)|rgba(255, 255, 255, 1)|rgb(127, 143, 162)|
 
@@ -152,7 +150,6 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I verify the Blocked days with reason "Blocked - Other" in Exception subtab using "<BlockedDate>"
     Then HS I verify the diagonal HashLines present in the Blocked date "<BlockedDate>","<back-ground color>"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
-    Then HS I successfully sign out
 
     Examples:
       |StartDate|EndDate|BlockedDate|EndDate |back-ground color|
@@ -183,7 +180,6 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I verify the diagonal HashLines present in the Max Appointments Met date "<StartDate>","<back-ground color>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     Then HS I remove the Time Slot created with "<StartDate>","<MaxstartTime>" in Regular Weekly Hours Tab
-    Then HS I successfully sign out
 
     Examples:
       |Day|StartDate|EndDate |School              |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|
@@ -220,7 +216,6 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I verify the light blue background color present in the Partially Scheduled availability using "<PartiallystartTime>","<StartDate>","<back-ground color>" in Exception Tab
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     Then HS I remove the Time Slot created with "<StartDate>","<PartiallystartTime>" in Regular Weekly Hours Tab
-    Then HS I successfully sign out
 
     Examples:
       |Day|StartDate|EndDate |School              |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     |
@@ -255,7 +250,6 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I go to the Exception tab to verify the visits using "Fully booked","<FullyhestartTime>","<FullyBookedStartDate>",""
     Then HS I verify the diagonal HashLines present in the Fully booked date "<FullyBookedStartDate>","<back-ground color>"
     Then HS I remove the Time Slot created with "<FullyBookedStartDate>","<FullystartTime>" in Regular Weekly Hours Tab
-    Then HS I successfully sign out
 
     Examples:
       |Day |School              |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color|
@@ -285,7 +279,6 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 #    And HS I cancel a visit with time "6:06AM" college "RepresentativeTest" and note "Cancel"
 #    And HS I cancel a visit with time "6:06AM" college "RepresentativeTest2" and note "Cancel"
 #    And HS I remove the time slot with day "Fri" and time "6:06am"
-    And HS I successfully sign out
 
   @MATCH-4255
   Scenario Outline: As a high school admin, I can able to edit the availability slots in regular weekly hours, so that i can able to enable/disable the particular time slot availability.
@@ -341,7 +334,6 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    And HS I successfully sign out
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|School              |heStartTime|heTime |

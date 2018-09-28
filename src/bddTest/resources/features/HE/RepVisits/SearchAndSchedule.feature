@@ -24,7 +24,6 @@ Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able t
       |U.S. County|U.S. Zip Code|Country|CEEB Code|
     Then HE I select the following fields will not submit the search on the page search by "Name","Int Qa High School 4"
       |Name|City|U.S. State|
-    And HE I successfully sign out
 
     Examples:
     |freemium-color    |premium-color           |userType          |
@@ -46,7 +45,6 @@ Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able t
     Then HE I verify the fields are displaying box after selecting the following fields in the dropdown
       |Name|City|U.S. State|U.S. County|U.S. Zip Code|Country|CEEB Code|
     Then HE I verify the text "Search for a school..." present in the text box
-    And HE I successfully sign out
 
     Examples:
       |userType      |
@@ -65,7 +63,6 @@ Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able t
     Then HE I verify the search results have "<searchResult>" in the "<field>" field
     And HE I search a school by "<filter>" using "<invalid>"
     Then HE I verify "No results found." is displayed in the search results
-    And HE I successfully sign out
 
     Examples:
       |userType          |filter         |toSearch                    |searchResult                |field      |invalid       |fewCharacters|
@@ -111,7 +108,6 @@ Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able t
     Then HE I verify the search results have "<searchResultForNon-US>" in the "<field>" field
     And HE I search a school by "<filter>" using "<CityForUS>"
     Then HE I verify the search results have "<searchResultForUS>" in the "<field>" field
-    Then HE I successfully sign out
 
     Examples:
       |userType          |filter         |CityForUS             |CityForNon-Us|searchResultForUS|searchResultForNon-US|field      |invalid       |fewCharacters|
@@ -148,7 +144,6 @@ Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able t
 #The International Schools list view does not load for HE RV freemium users
     Then HE I am logged in to Intersect HE as user type "<limitedUser>"
     Then HE I verify the International Schools list view does not load for freemium users in search and schedule page
-    Then HE I successfully sign out
 
     Examples:
       |userType          |filter         |field      |Non-USState|school                      |limitedUser      |
@@ -164,7 +159,6 @@ Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able t
     Given HE I am logged in to Intersect HE as user type "<userType>"
     And HE I search a school by "<filter>" using "<value>"
     Then HE I verify the results count by "<filter>" using "<value>" in search results page
-    Then HE I successfully sign out
 
     Examples:
       |userType          |filter      |value    |

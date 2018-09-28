@@ -897,8 +897,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void unselectCheckbox(String checkBox, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
             openFitCriteria(fitCriteriaName);
-        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
-        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), \"" + checkBox + "\")]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), \"" + checkBox + "\")]/../input"));
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
         if (onlyCheckbox.isSelected()) {
             checkboxLocator.click();
@@ -2023,8 +2023,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pressButton(String text) {
         try {
+            waitUntilPageFinishLoading();
             button(text).click();
         } catch (Exception e) {
+            waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
         }
     }
@@ -2290,6 +2292,69 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void verifyPinkCircleIsDisplayedNextToThePinnedDropdown() {
         softly().assertThat(pinCount().findElement(By.xpath("./following-sibling::span")).getText().equals("PINNED"));
         softly().assertThat(pinCount().getCssValue("background-color").equals("rgba(210, 0, 97, 1)"));
+    }
+
+    public void verifyCollegePosition(String collegeName, String position) {
+        Assert.assertTrue("The college " + collegeName + " is not displayed at the top of the list. UI: " + collegeInResultsTableByPosition(position).getText(),
+                collegeInResultsTableByPosition(position).getText().equals(collegeName));
+    }
+
+    public void verifyClassContentCollegePosition(String position, String classPart) {
+        Assert.assertTrue("The college in position " + position + " does not contain " + classPart + " in its class.",
+                collegeCellInResultsTableByPosition(position).getAttribute("class").contains(classPart));
+    }
+    public void selectRadioButtonInDiversityFitCriteria(String radioButtonLabel)
+    {
+        chooseFitCriteriaTab("Diversity");
+        selectRadioButton(radioButtonLabel);
+    }
+
+    public void verifyOptionsInSpecificRepresentationPercentListBox(DataTable table)
+    {
+        List<List<String>> data = table.raw();
+        String option;
+
+        if(!diversityPercentDropdown().getAttribute("class").contains("active"))
+            diversityPercentDropdown().findElement(By.xpath(".//i")).click();
+
+        for(int i = 0; i < data.size(); i++)
+        {
+            option = data.get(i).get(0);
+            Assert.assertTrue("Option " + option + " is not present in Specific Representation percent dropdown",
+                    diversityPercentDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).isDisplayed());
+        }
+    }
+
+    public void verifyOptionsInRaceAndEthnicityListBox(DataTable table)
+    {
+        List<List<String>> data = table.raw();
+        String option;
+
+        if(!diversityRaceDropdown().getAttribute("class").contains("active"))
+            diversityRaceDropdown().findElement(By.xpath(".//i")).click();
+
+        for(int i = 0; i < data.size(); i++)
+        {
+            option = data.get(i).get(0);
+            Assert.assertTrue("Option " + option + " is not present in Specific Representation race and ethnicity dropdown",
+                    diversityRaceDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).isDisplayed());
+        }
+    }
+
+    public void selectOptionInSpecificRepresentationPercentListBox(String option)
+    {
+        if(!diversityPercentDropdown().getAttribute("class").contains("active"))
+            diversityPercentDropdown().findElement(By.xpath(".//i")).click();
+
+        diversityPercentDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
+    }
+
+    public void selectOptionInRaceAndEthnicityListBox(String option)
+    {
+        if(!diversityRaceDropdown().getAttribute("class").contains("active"))
+            diversityRaceDropdown().findElement(By.xpath(".//i")).click();
+
+        diversityRaceDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
     }
 
 
@@ -2812,5 +2877,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement visibleFooterOpenMenu() {
         return driver.findElement(By.xpath("//div[contains(@class, 'menu transition visible')]"));
+    }
+
+    private WebElement collegeInResultsTableByPosition(String position) {
+        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") div.institution-details-cell a.result-row-decription-label"));
+    }
+
+    private WebElement collegeCellInResultsTableByPosition(String position) {
+        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") td.left.aligned"));
     }
 }
