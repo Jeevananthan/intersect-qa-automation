@@ -106,19 +106,17 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
     And HS I successfully sign out
 #Register a Visit
-    Given HE I want to login to the HE app using "purpleheautomation+4224@gmail.com" as username and "Password!1" as password
+    Given HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-    And HE I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the error Message "Please select a Staff Member" is displaying when "Select staff member" is not selected for "4224, Automation"
-    Then HE I verify the error Message "Please select a New Assignee" is displaying when "Select new assignee" is not selected for "4224, Automation"
-    Then HE I verify the error Message "Please select at least one appointment" is displaying when "No appointments" is not selected for "4224, Automation"
-    Then HE I verify the error Message "doesn't have any appointments scheduled." is displaying when "Select staff member, no associated visits or fairs" is not selected for "Fresh, PurpleHE"
+    Then HE I verify the error Message "Please select a Staff Member" is displaying when Select staff member is not selected
+    Then HE I verify the error Message "Please select a New Assignee" is displaying when Select new assignee is not selected using "Publishing, PurpleHE"
+    Then HE I verify the error Message "Please select at least one appointment" is displaying when appointments is not selected using "Publishing, PurpleHE","Community, PurpleHE"
+    Then HE I verify the error Message "doesn't have any appointments scheduled." is displaying when the user "Fresh, PurpleHE" is selected
     Then HE I verify the error Message "Please select a Staff Member" is disappearing when the error message "doesn't have any appointments scheduled." is displayed for "Fresh, PurpleHE"
-    And HE I successfully sign out
 
     Examples:
       |School               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |Date|

@@ -27,8 +27,14 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         Then("^HE I click Reassign Appointments button \"([^\"]*)\"$",reassignAppointmentsPage::clickReAssignAppointmentsButton);
 
-        Then("^HE I verify the error Message \"([^\"]*)\" is displaying when \"([^\"]*)\" is not selected for \"([^\"]*)\"$",reassignAppointmentsPage::verifyErrorMessageInReAssignAppointments);
+        Then("^HE I verify the error Message \"([^\"]*)\" is displaying when Select staff member is not selected$",reassignAppointmentsPage::verifyErrorMessageInSelectStaffMember);
 
         Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",reassignAppointmentsPage::verifyDisappearingErrorMessageInReAssignAppointments);
+
+        Then("^HE I verify the error Message \"([^\"]*)\" is displaying when Select new assignee is not selected using \"([^\"]*)\"$",reassignAppointmentsPage::verifyErrorMessageInSelectNewAssignee);
+
+        Then("^HE I verify the error Message \"([^\"]*)\" is displaying when appointments is not selected using \"([^\"]*)\",\"([^\"]*)\"$",reassignAppointmentsPage::verifyErrrorMessageForNoAppointmentsSelected);
+
+        Then("^HE I verify the error Message \"([^\"]*)\" is displaying when the user \"([^\"]*)\" is selected$",reassignAppointmentsPage::verifyErrrorMessageForNoAppointmentsUser);
     }
 }
