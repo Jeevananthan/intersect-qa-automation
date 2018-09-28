@@ -300,5 +300,9 @@ public class SearchPageStepDefs implements En {
         And("^SM I select the option \"([^\"]*)\" in the Specific Representation percent listbox", searchPage::selectOptionInSpecificRepresentationPercentListBox);
 
         And("^SM I select the option \"([^\"]*)\" in the Specific Representation race and ethnicity listbox$", searchPage::selectOptionInRaceAndEthnicityListBox);
+
+        Then("^SM I verify the text displayed in the % Out of State Students Fit Criteria$", searchPage::verifyTextDisplayedInPercentageOutOfStateStudentsFitCriteria);
+
+        Then("^SM I verify the options displayed in Out of State students Select % dropdown$", searchPage::verifyOptionsInOutOfStateStudentsSelectPercentDropdown);
     }
 }
