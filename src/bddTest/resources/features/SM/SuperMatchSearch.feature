@@ -571,7 +571,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3370
   Scenario: As a HS student, I want to filter colleges I am searching for by Diversity within the Diversity category so
-  I can see relevant colleges that match my Diversity requirements.
+  I can see relevant colleges that match my Diversity requirements
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
     Then SM I verify the options displayed in the Specific Representation percent listbox

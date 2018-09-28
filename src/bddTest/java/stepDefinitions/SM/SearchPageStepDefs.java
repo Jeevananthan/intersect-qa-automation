@@ -294,7 +294,6 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify the options displayed in the Specific Representation race and ethnicity listbox",searchPage::verifyOptionsInRaceAndEthnicityListBox);
 
         And("^SM I select the option \"([^\"]*)\" in the Specific Representation percent listbox", searchPage::selectOptionInSpecificRepresentationPercentListBox);
-
         And("^SM I select the option \"([^\"]*)\" in the Specific Representation race and ethnicity listbox$", searchPage::selectOptionInRaceAndEthnicityListBox);
     }
 }
