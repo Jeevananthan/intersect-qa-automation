@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -291,5 +290,15 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify that the college \"([^\"]*)\" is displayed in position \"([^\"]*)\" in the results table$", searchPage::verifyCollegePosition);
 
         Then("^SM I verify that the college in position \"([^\"]*)\" contains \"([^\"]*)\" in its class$", searchPage::verifyClassContentCollegePosition);
+
+        And("^SM I select the \"([^\"]*)\" radio button in Diversity Fit Criteria$", searchPage::selectRadioButtonInDiversityFitCriteria);
+
+        And("^SM I verify the options displayed in the Specific Representation percent listbox", searchPage::verifyOptionsInSpecificRepresentationPercentListBox);
+
+        And("^SM I verify the options displayed in the Specific Representation race and ethnicity listbox",searchPage::verifyOptionsInRaceAndEthnicityListBox);
+
+        And("^SM I select the option \"([^\"]*)\" in the Specific Representation percent listbox", searchPage::selectOptionInSpecificRepresentationPercentListBox);
+
+        And("^SM I select the option \"([^\"]*)\" in the Specific Representation race and ethnicity listbox$", searchPage::selectOptionInRaceAndEthnicityListBox);
     }
 }
