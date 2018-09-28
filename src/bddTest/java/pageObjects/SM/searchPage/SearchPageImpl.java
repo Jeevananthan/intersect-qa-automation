@@ -897,8 +897,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void unselectCheckbox(String checkBox, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
             openFitCriteria(fitCriteriaName);
-        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]"));
-        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), '" + checkBox + "')]/../input"));
+        WebElement checkboxLocator = driver.findElement(By.xpath("//label[contains(text(), \"" + checkBox + "\")]"));
+        WebElement onlyCheckbox = driver.findElement(By.xpath("//label[contains(text(), \"" + checkBox + "\")]/../input"));
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
         if (onlyCheckbox.isSelected()) {
             checkboxLocator.click();
@@ -2261,6 +2261,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(pinCount().getCssValue("background-color").equals("rgba(210, 0, 97, 1)"));
     }
 
+    public void verifyCollegePosition(String collegeName, String position) {
+        Assert.assertTrue("The college " + collegeName + " is not displayed at the top of the list. UI: " + collegeInResultsTableByPosition(position).getText(),
+                collegeInResultsTableByPosition(position).getText().equals(collegeName));
+    }
+
+    public void verifyClassContentCollegePosition(String position, String classPart) {
+        Assert.assertTrue("The college in position " + position + " does not contain " + classPart + " in its class.",
+                collegeCellInResultsTableByPosition(position).getAttribute("class").contains(classPart));
+    }
     public void selectRadioButtonInDiversityFitCriteria(String radioButtonLabel)
     {
         chooseFitCriteriaTab("Diversity");
@@ -2823,5 +2832,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement visibleFooterOpenMenu() {
         return driver.findElement(By.xpath("//div[contains(@class, 'menu transition visible')]"));
+    }
+
+    private WebElement collegeInResultsTableByPosition(String position) {
+        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") div.institution-details-cell a.result-row-decription-label"));
+    }
+
+    private WebElement collegeCellInResultsTableByPosition(String position) {
+        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") td.left.aligned"));
     }
 }

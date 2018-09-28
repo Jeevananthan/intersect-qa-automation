@@ -287,6 +287,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that a pink circle is displayed next to the pinned dropdown$", searchPage::verifyPinkCircleIsDisplayedNextToThePinnedDropdown);
 
+        Then("^SM I verify that the college \"([^\"]*)\" is displayed in position \"([^\"]*)\" in the results table$", searchPage::verifyCollegePosition);
+
+        Then("^SM I verify that the college in position \"([^\"]*)\" contains \"([^\"]*)\" in its class$", searchPage::verifyClassContentCollegePosition);
+
         And("^SM I select the \"([^\"]*)\" radio button in Diversity Fit Criteria$", searchPage::selectRadioButtonInDiversityFitCriteria);
 
         And("^SM I verify the options displayed in the Specific Representation percent listbox", searchPage::verifyOptionsInSpecificRepresentationPercentListBox);
