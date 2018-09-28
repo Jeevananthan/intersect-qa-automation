@@ -568,3 +568,14 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the following options are displayed in the PINNED dropdown
     |Compare Pinned Colleges|
     |Clear Pinned List      |
+
+  @MATCH-4475
+  Scenario: We need the pinned college to stay in the student's view, and a copy of it to be disaplyed at the top
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    When SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I pin "Amherst College"
+    Then SM I verify that the college "Amherst College" is displayed in position "1" in the results table
+    Then SM I verify that the college in position "1" contains "inPinnedList" in its class
