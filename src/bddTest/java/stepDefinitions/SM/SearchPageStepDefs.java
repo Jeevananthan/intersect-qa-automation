@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -286,5 +287,9 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify the following options are displayed in the PINNED dropdown$", searchPage::verifyFollowingOptionsDisplayedInPinnedDropdown);
 
         Then("^SM I verify that a pink circle is displayed next to the pinned dropdown$", searchPage::verifyPinkCircleIsDisplayedNextToThePinnedDropdown);
+
+        Then("^SM I verify that the college \"([^\"]*)\" is displayed in position \"([^\"]*)\" in the results table$", searchPage::verifyCollegePosition);
+
+        Then("^SM I verify that the college in position \"([^\"]*)\" contains \"([^\"]*)\" in its class$", searchPage::verifyClassContentCollegePosition);
     }
 }
