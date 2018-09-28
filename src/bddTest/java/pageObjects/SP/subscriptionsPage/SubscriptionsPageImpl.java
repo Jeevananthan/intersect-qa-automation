@@ -172,6 +172,12 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The value in Radius From Zips field is not correct", radiusFromZipsField().getAttribute("value").equals(expectedValue));
     }
 
+    public void openSubscription(String subscriptionName){
+        waitUntilPageFinishLoading();
+        clickSubscriptionName(subscriptionName).click();
+
+    }
+
     //Locators
 
     private String subscriptionTypeRadioButtonLocator(String subscriptionType) { return "//label[text() = '" + subscriptionType + "']"; }
@@ -198,7 +204,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement diversityFilterDropdown() { return driver.findElement(By.cssSelector("div#field14")); }
 
-    private WebElement diversityFilterDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'menu transition visible']/div[@role = 'option']/span[text() = '" + optionName + "']")); }
+    private WebElement diversityFilterDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div[@role = 'option']/span[text() = '" + optionName + "']")); }
 
     private WebElement competitorsField() { return driver.findElement(By.cssSelector("input#field15")); }
 
@@ -224,6 +230,9 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement deleteButton() {
         return driver.findElement(By.cssSelector("button[class *= 'ui teal basic button']"));
+    }
+    private WebElement clickSubscriptionName(String subName){
+        return  driver.findElement(By.xpath("//div[text()='" + subName + "']"));
     }
 }
 
