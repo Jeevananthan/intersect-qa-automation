@@ -12,43 +12,8 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     /**
      * Verifies that the label that says: SFTP Data Transfer is displayed
      */
-    public void verifySftpDataTransferLabelIsDisplayed(){
-        //Assert.assertTrue("The label that says: SFTP Data Transfer is not displayed",
-                //sftpDataTransferLabel().isDisplayed());
-    }
-
-    /**
-     * Verifies that the label that says: Establish an automated secure file transfer using SFTP for the data listed
-     * below is displayed
-     */
-    public void verifySftpDataTransferPageDescriptionIsDisplayed(){
-        Assert.assertTrue("The label that says: Establish an automated secure file transfer using SFTP " +
-                "for the data listed below, is not displayed", sftpDataTransferPageDescription().isDisplayed());
-    }
-
-    /**
-     * Verifies that the label that says: NAVIANCE ACTIVEMATCH is displayed
-     */
-    public void verifyNavianceActiveMatchLabelIsDisplayed(){
-        Assert.assertTrue("The label that says: NAVIANCE ACTIVEMATCH is not displayed",
-                navianceActiveMatchLabel().isDisplayed());
-    }
-
-    /**
-     * Verifies that the label that says: Student Connections is displayed
-     */
-    public void verifyStudentConnectionsLabelIsDisplayed(){
-        Assert.assertTrue("The label that says: Student Connections is not displayed",
-                studentConnectionsLabel().isDisplayed());
-    }
-
-    /**
-     * Verifies that the label that says: Transfer new ActiveMatch student connections to a location of your choice
-     * is displayed
-     */
-    public void verifyTransferAMConnectionsToALocationLabelIsDisplayed(){
-        Assert.assertTrue("The label that says: Transfer new ActiveMatch student connections to " +
-                "a location of your choice, is not displayed", transferAMConnectionsToALocationLabel().isDisplayed());
+    public void verifySftpDataTransferText(String expectedText){
+        Assert.assertTrue(String.format("The text: %s is not displayed",expectedText),text(expectedText).isDisplayed());
     }
 
     /**
@@ -60,93 +25,61 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteSftpDataTransferConnection(){
-        if(editLink().isDisplayed()){
-            accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
+        accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
+        if(getDriver().findElements(editLinkLocator()).size()>0){
             editLink().click();
-            waitUntil(ExpectedConditions.visibilityOf(sftpDataTransferTitle()));
             deleteThisConfigurationLink().click();
             waitUntil(ExpectedConditions.visibilityOf(deleteSftpConfigurationButton()));
             deleteSftpConfigurationButton().click();
-            waitUntil(ExpectedConditions.visibilityOf(successToast()));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupConnectionButtonLocator()));
         }
-    }
-
-    /**
-     * Gets the label: SFTP Data Transfer
-     * @return WebEelement
-     */
-    public WebElement sftpDataTransferTitle(){
-        return driver.findElement(By.cssSelector("h1[class='slMcbgIcVUbCwD6k-Do8_']"));
-    }
-
-    /**
-     * Gets the label: Establish an automated secure file transfer using SFTP for the data listed below.
-     * @return WebEelement
-     */
-    public WebElement sftpDataTransferPageDescription(){
-        return text("Establish an automated secure file transfer using SFTP for the data listed below.");
-    }
-
-    /**
-     * Gets the label: NAVIANCE ACTIVEMATCH
-     * @return WebElement
-     */
-    public WebElement navianceActiveMatchLabel(){
-        return text("NAVIANCE ACTIVEMATCH");
-    }
-
-    /**
-     * Gets the label: Student Connections
-     * @return WebElement
-     */
-    public WebElement studentConnectionsLabel(){
-        return text("Student Connections");
-    }
-
-    /**
-     * Gets the label: Transfer new ActiveMatch student connections to a location of your choice
-     * @return WebElement
-     */
-    public WebElement transferAMConnectionsToALocationLabel(){
-        return text("Transfer new ActiveMatch student connections to a location of your choice.");
     }
 
     /**
      * Gets the button: SET UP CONNECTION
      * @return WebElement
      */
-    public WebElement setupConnectionButton(){
-        return button("SETUP CONNECTION");
+    private WebElement setupConnectionButton(){
+        return getDriver().findElement(setupConnectionButtonLocator());
     }
 
     /**
      * Gets the edit link
      * @return
      */
-    public WebElement editLink(){
-        return link("Edit");
+    private WebElement editLink(){
+        return getDriver().findElement(editLinkLocator());
     }
 
     /**
      * Returns the delete this configuration link
      * @return
      */
-    public WebElement deleteThisConfigurationLink(){
-        return link("Delete this configuration");
+    private WebElement deleteThisConfigurationLink(){
+        return getDriver().findElement(By.cssSelector("a[class='_2MEy4XgNL-4iHq3oKYYQxQ']"));
     }
 
     /**
      * Gets the DELETE sftp configuration button
      * @return
      */
-    public WebElement deleteSftpConfigurationButton(){
-        return button("DELETE");
+    private WebElement deleteSftpConfigurationButton(){
+        return getDriver().findElement(By.cssSelector("button[class='ui teal button']"));
     }
 
-    public WebElement successToast(){
-        return getDriver().findElement(By.cssSelector("div[class='ui small icon success " +
-                "message toast _2Z22tp5KKn_l5Zn5sV3zxY']"));
+    /**
+     * Gets the setup configuration locator
+     * @return By
+     */
+    private By setupConnectionButtonLocator(){
+        return By.cssSelector("a[class='ui basic primary button _3cZsSOtK8zE89dYeekrtKo']");
     }
 
-
+    /**
+     * Gets the edit link locator
+     * @return By
+     */
+    private By editLinkLocator(){
+        return By.cssSelector("a[class='WNpDJtkdD8rjQ1bCvaie1'");
+    }
 }
