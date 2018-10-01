@@ -51,13 +51,16 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     Then SM I verify that the Must Have box contains "Associate's [Any]"
 
   @MATCH-4105
-  Scenario: Institution Type Updates in Academics
+  Scenario Outline: Institution Type Updates in Academics
     Given SM I click "Academics" filter criteria tab
     And SM I select the "Bachelor's" radio button from the Academics fit criteria
     And SM I click "Academics" filter criteria tab
     And I scroll the dialog down, anchored in the element "//p[contains(text(), 'Degree')]"
-    And SM I pick "Acoustics" from the dropdown "div.ui.divider.supermatch-academics-divider + div + div + div div.one.column.row:not(.supermatch-academics-checkbox-row)"
+    And SM I pick "Acoustics" from the dropdown "<minorsDropdownLocator>"
     Then SM I verify that the Must Have box contains "Major [Any]"
-    And SM I pick "Accounting" from the dropdown "div.ui.divider.supermatch-academics-divider + div + div div.one.column.row:not(.supermatch-academics-checkbox-row)"
+    And SM I pick "Accounting" from the dropdown "<majorsDropdownLocator>"
     Then SM I verify that the Must Have box contains "Major [1]"
     Then SM I verify that the Must Have box contains "Minor [1]"
+  Examples:
+    | majorsDropdownLocator                                                                                              | minorsDropdownLocator |
+    | div.ui.divider.supermatch-academics-divider + div + div div.one.column.row:not(.supermatch-academics-checkbox-row) | div.ui.divider.supermatch-academics-divider + div + div + div div.one.column.row:not(.supermatch-academics-checkbox-row) |
