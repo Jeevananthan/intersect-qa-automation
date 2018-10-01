@@ -1,5 +1,6 @@
 package pageObjects.HE.eventsPage;
 
+import com.thoughtworks.selenium.webdriven.commands.WaitForPageToLoad;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -13,9 +14,15 @@ import pageObjects.HE.homePage.HomePageImpl;
 import pageObjects.HUBS.FamilyConnection.FCColleges.FCCollegeEventsPage;
 import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import utilities.GetProperties;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
+import pageObjects.COMMON.PageObjectFacadeImpl;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class EventsPageImpl extends PageObjectFacadeImpl {
 
@@ -79,6 +86,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteEvent(String eventName) {
+        waitUntilPageFinishLoading();
         getEventsTab("Unpublished").click();
         waitUntilPageFinishLoading();
         menuButtonForEvent(eventName).click();
@@ -143,7 +151,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     selectLocationByPosition(Integer.parseInt(row.get(1)));
                     break;
                 case "EVENT PRIMARY CONTACT":
-                    selectContactByName(row.get(1));
+                    if (isStringNumber(row.get(1))) {
+                        selectContactByPosition(Integer.parseInt(row.get(1)));
+                    } else{
+                        selectPrimaryContactByName(row.get(1));
+                    }
                     break;
                 case "EVENT PRIMARY CONTACT BY POSITION":
                     selectContactByPosition(Integer.parseInt(row.get(1)));
@@ -184,6 +196,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         primaryContactField().sendKeys(Keys.BACK_SPACE);
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _1CESARq218cDE7u8vMyW3O']" +
                 "/tbody/tr[" + position + "]/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']")).click();
+    }
+
+    public void selectPrimaryContactByName(String contactName){
+
+        openSelectionFieldMenu(primaryContactField());
+        driver.switchTo().defaultContent();
+        driver.findElement(By.xpath("//div[text()='"+contactName+"']")).click();
+
     }
 
     public void selectLocationByName(String name) {
@@ -354,7 +374,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
         unpublishYesButton().click();
-//
     }
 
     public void createAndSaveEventWithUniqueName(DataTable eventData) {
