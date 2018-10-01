@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class FCCollegeEvents extends PageObjectFacadeImpl {
     private static String fs = File.separator;
-    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sEventMessages%sEventMessages.properties",fs ,fs ,fs ,fs ,fs);
+    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sEventMessages%sEventMessages.properties", fs, fs, fs, fs, fs);
 
 
     public void verifyCollegeEventsDetails() {
@@ -91,8 +91,7 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
 
         Select distanceDropDown = new Select(FCCollegeEventsPage.selectDistanceandEnterZipCodeValue);
         distanceDropDown.selectByVisibleText(distance);
-        new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable
-        (FCCollegeEventsPage.eventsTextBoxForZipCode));
+        new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(FCCollegeEventsPage.eventsTextBoxForZipCode));
         FCCollegeEventsPage.eventsTextBoxForZipCode.sendKeys(Zipcode);
     }
 
@@ -107,9 +106,8 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
 
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
         arrayOfEvents = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventsList));
-        for(int i = 0; i < arrayOfEvents.size(); i++)
-        {
-            if (arrayOfEvents.get(i).getText().equals(eventName)){
+        for (int i = 0; i < arrayOfEvents.size(); i++) {
+            if (arrayOfEvents.get(i).getText().equals(eventName)) {
                 result = true;
             }
 
@@ -119,53 +117,58 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
 
     public void clickCollegesTabOld() {
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
-        new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable
-                (FCCollegeEventsPage.oldCollegesTab));
+        new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(FCCollegeEventsPage.oldCollegesTab));
         FCCollegeEventsPage.oldCollegesTab.click();
     }
-    public void  clickViewUpdatebutton(){
-        PageFactory.initElements(driver,FCCollegeEventsPage.class);
+
+   /* public void clickViewUpdatebutton() {
+        PageFactory.initElements(driver, FCCollegeEventsPage.class);
         FCCollegeEventsPage.clickUpdateButton.click();
 
 
-    }
-    public void  selectYesCancelRegistration() {
+    }*/
+
+    public void selectYesCancelRegistration() {
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
         FCCollegeEventsPage.clickYesToCancelRegistration.click();
     }
-    public void  clickSaveChanges() {
+
+    public void clickSaveChanges() {
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
         FCCollegeEventsPage.clickSaveChangesButton.click();
     }
-    public void  cancelRegistrationVerify(String cancelRegistrationConfirmed) {
+
+    public void cancelRegistrationVerify(String cancelRegistrationConfirmed) {
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
         assertTrue("The confirmation message is not correct", FCCollegeEventsPage.ConfirmationRegistrationCancelledMessage.getText().equals(cancelRegistrationConfirmed));
     }
-    public void signUpDealineMessage(String deadlinePassed){
-        PageFactory.initElements(driver,FCCollegeEventsPage.class);
+
+    public void signUpDealineMessage(String deadlinePassed) {
+        PageFactory.initElements(driver, FCCollegeEventsPage.class);
         assertTrue("The signup deadline has passed message is not available", FCCollegeEventsPage.signUpMessage.getText().equals(deadlinePassed));
     }
 
     public void searchHost(String collegeName) {
-        PageFactory.initElements(driver,FCCollegeEventsPage.class);
+        PageFactory.initElements(driver, FCCollegeEventsPage.class);
         waitForUITransition();
         FCCollegeEventsPage.hostedByTextBox.sendKeys(collegeName);
         waitForUITransition();
     }
-    public void clickCollegeEventsDetails(){
+
+    public void clickCollegeEventsDetails() {
         FCCollegeEventsPage.clickEventInformationlink().click();
     }
 
-    public void verifyInformationAndWelcomeMessage(){
+    public void verifyInformationAndWelcomeMessage() {
         String tooltipcontent = FCCollegeEventsPage.EventToolTipMessage().getText();
-        List<String> eventsListfromProperties = getListFromPropFile(propertiesFilePath, ";","event.information.message");
-        for(String element : eventsListfromProperties ){
-            Assert.assertTrue("Events Information Text is  Incorrect",tooltipcontent.contains(element));
+        List<String> eventsListfromProperties = getListFromPropFile(propertiesFilePath, ";", "event.information.message");
+        for (String element : eventsListfromProperties) {
+            Assert.assertTrue("Events Information Text is  Incorrect", tooltipcontent.contains(element));
         }
     }
 
     public void signUpToEvent() {
-        PageFactory.initElements(driver,FCCollegeEventsPage.class);
+        PageFactory.initElements(driver, FCCollegeEventsPage.class);
         waitForUITransition();
         if (driver.findElements(By.cssSelector(FCCollegeEventsPage.welcomeTooltipLocator)).size() > 0) {
             FCCollegeEventsPage.welcomeTooltipCloseButton.click();
@@ -199,4 +202,18 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         }
     }
 
+    public void signUpForEvent(String eventForAttendee) {
+        PageFactory.initElements(driver, FCCollegeEventsPage.class);
+        FCCollegeEventsPage.signupForEvent(eventForAttendee).click();
+
     }
+    public void registerForEvent(){
+        PageFactory.initElements(driver, FCCollegeEventsPage.class);
+        FCCollegeEventsPage.registerEvent().click();
+    }
+    public void ViewUpdateEvent(String updateEvent){
+        PageFactory.initElements(driver, FCCollegeEventsPage.class);
+        FCCollegeEventsPage.clickUpdateButton(updateEvent).click();
+
+    }
+}

@@ -110,6 +110,8 @@ public class EventsPageStepDefs implements En {
 
         And("^HE I create and save a new event \"([^\"]*)\" minutes ahead from now with a unique name and the following details:$", eventsPage::createAndSaveEventWithGenDateAndName);
         //Then("^HE I verify status \"([^\"]*)\" under Unpublished tab$",eventsPage:: statusDraft);
+        And("^HE I verify Attendee Data Details on Edit Events attendee screen$",eventsPage::VerifyAttendeeData);
+
 
     }
 }
