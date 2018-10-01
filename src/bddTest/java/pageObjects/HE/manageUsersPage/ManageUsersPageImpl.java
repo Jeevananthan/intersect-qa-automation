@@ -10,6 +10,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
+import pageObjects.HE.homePage.HomePageImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
@@ -77,12 +79,14 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.cssSelector("input[value='"+entity.get(field).toLowerCase()+"']")).click();
             }
         }
-        button("SAVE").click();
+        getSaveButton().click();
     }
 
 
     public void verifyUserRoles(DataTable table) {
-        navBar.goToUsers();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
+        waitUntil(ExpectedConditions.visibilityOf(button("ADD NEW USER")));
         button("ADD NEW USER").click();
         List<String> li = table.transpose().asList(String.class);
         for (int i=1;i<li.size();i++){
@@ -92,7 +96,8 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyUserData(DataTable data) {
-        navBar.goToUsers();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
         List<Map<String,String>> entities = data.asMaps(String.class,String.class);
         for (Map<String,String> entity : entities) {
             WebElement row = getDriver().findElement(By.xpath(String.format(".//div[text()='%s']/parent::td/parent::tr",
@@ -104,8 +109,16 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyAddNewUser() {
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
+        getDriver().findElement(By.cssSelector("a[href='/manageUsers/add-user']")).click();
+        Assert.assertTrue("Did not end up on Add New User page!",getDriver().getCurrentUrl().contains("/manageUsers/add-user"));
+    }
+
     private void takeUserAction(String accountName, String action) {
-        navBar.goToUsers();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
         WebElement userAccountRow = getDriver().findElement(By.xpath(String.format(".//div[text()='%s']/parent::td/parent::tr",accountName)));
         WebElement actionsButton = userAccountRow.findElement(By.cssSelector("div[aria-label='Actions']"));
         WebElement button = actionsButton.findElement(By.xpath("div/div/span[contains(text(),'"+action+"')]"));
@@ -113,8 +126,10 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEmailChangedNotification(DataTable data) {
+        waitForUITransition();
         GetProperties.setGmailAPIWait(60);     //Time unit is in seconds
         try {
+            waitForUITransition();
             List<Email> emails = getGmailApi().getMessages(data);
 
             for (Email email : emails) {
@@ -129,7 +144,8 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
 
     //The below method is to validate the Last Login Date for Administrator (MATCH-192)
     public void verifyLastLoginData(String usertype) {
-        navBar.goToUsers();
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
         String username = GetProperties.get("he." + usertype + ".username");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
         LocalDate localDate = LocalDate.now();
@@ -141,5 +157,13 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
+
+    /**
+     * Gets the save button
+     * @return webelement
+     */
+    private WebElement getSaveButton(){
+        return   driver.findElement(By.xpath("//span[text()='SAVE']"));
+    }
 
 }

@@ -1,20 +1,20 @@
 package pageObjects.SP.accountPages;
 
-import cucumber.api.java.gl.E;
+import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 
@@ -219,42 +219,64 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
 
     public void setModuleStatusAsActiveOrInActive(String moduleName, String status){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(moduleText()));
+        WebElement dropDownItem = null;
+         WebElement actualStatus = getLocatorforSubscription(moduleName);
+         if(!actualStatus.getText().equalsIgnoreCase(status)){
+            actualStatus.click();
+             List<WebElement> dropDownItems = driver.findElements(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+             if(dropDownItems.size()==1)
+                 dropDownItem = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+             else
+                 dropDownItem = driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+             jsClick(dropDownItem);
+            if(!status.equalsIgnoreCase("inactive")) {
+                WebElement StartDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+                WebElement EndDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
 
-        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
 
-       WebElement ActualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
-       if(!ActualStatus.getText().equalsIgnoreCase(status)){
-           ActualStatus.click();
-           WebElement selectstatusDrp = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
-           driver.executeScript("arguments[0].click();",selectstatusDrp);
+                StartDateButton.click();
+                setStartDateInModulePage();
+                StartDateButton.click();
+                EndDateButton.click();
+                setEndDateInModulePage();
+                EndDateButton.click();
+            }
+            clicksaveChangesButton();
+        }
+    }
 
-           if(!status.equalsIgnoreCase("inactive")) {
-               WebElement StartDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[4]/button/i"));
-               WebElement EndDateButton = getParent(getParent(subscription)).findElement(By.xpath("//td[5]/button/i"));
+    public WebElement getLocatorforSubscription(String moduleName){
+        WebElement result = null;
+        List <WebElement>  listOfSubscriptions  = driver.findElements(By.xpath("//td/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/div/div[@role='alert']"));
 
-               StartDateButton.click();
-               setStartDateInModulePage();
-               StartDateButton.click();
-               EndDateButton.click();
-               setEndDateInModulePage();
-               EndDateButton.click();
-           }
-       }
+        if (listOfSubscriptions.size()== 0)
+        {
+            result = driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/div/div[@role='alert']"));
+        }
+        else {
+             result = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/div/div[@role='alert']"));
+
+        }
+            return  result;
     }
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status, String startDateDelta, String endDateDelta){
-
-        WebElement subscription = driver.findElement(By.xpath("//table[@class='ui celled striped table']//tbody//tr//td/span[text()='"+moduleName+"']"));
-
-        WebElement actualStatus = getParent(getParent(subscription)).findElement(By.cssSelector("[aria-label='Module Status Selector'] > div"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(moduleText()));
+        WebElement dropDownItem = null;
+        WebElement actualStatus = getLocatorforSubscription(moduleName);
         if(!actualStatus.getText().equalsIgnoreCase(status)){
             actualStatus.click();
-            WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
-            driver.executeScript("arguments[0].click();",dropDownItem);
+            List<WebElement> dropDownItems = driver.findElements(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+            if(dropDownItems.size()==1)
+                dropDownItem = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+            else
+                dropDownItem = driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+            jsClick(dropDownItem);
             Actions actions = new Actions(getDriver());
             if(!status.equalsIgnoreCase("inactive")) {
-                WebElement StartDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(0);
-                WebElement EndDateButton = getParent(getParent(subscription)).findElements(By.tagName("button")).get(1);
+                WebElement StartDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+                WebElement EndDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
 
                 StartDateButton.click();
                 setStartDate(startDateDelta);
@@ -327,7 +349,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     public void setEndDateInModulePage(String... endDateArray){
         String endDate;
         if (endDateArray == null || endDateArray.length==0) {
-            endDate = "June 13, 2018";
+            endDate = "June 13, 2020";
         } else {
             endDate = endDateArray[0];
         }
@@ -367,10 +389,10 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         }
         Assert.assertTrue("Administrator option is not displayed",driver.findElement(By.xpath("//span[text()='Administrator (All access)']")).isDisplayed());
         driver.findElement(By.xpath("//span[text()='Administrator (All access)']")).click();
-        Assert.assertTrue("Save is not displayed",button("Save").isDisplayed());
-        button("Save").click();
+        Assert.assertTrue("Save is not displayed",saveButtonInAddUser().isDisplayed());
+        saveButtonInAddUser().click();
         waitUntilPageFinishLoading();
-        WebElement seeAllUser =driver.findElement(By.xpath("//span[text()='See All Users']"));
+        WebElement seeAllUser = driver.findElement(By.xpath("//span[text()='See All Users']"));
         waitUntilElementExists(seeAllUser);
         Assert.assertTrue("See All Users is not displayed",seeAllUser.isDisplayed());
         seeAllUser.click();
@@ -382,14 +404,162 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         }
 
     }
+
+    public void verifyYearInInstitutionCalendarPage(String year,String moduleName,String startDate,String endDate){
+        waitUntilPageFinishLoading();
+        jsClick(endDateButton(moduleName));
+        waitUntilPageFinishLoading();
+        selectYearInInstitutionPage().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Given Year is not displayed",yearInCalendar(year).isDisplayed());
+        yearInCalendar(year).click();
+        yearInCalendar(year).click();
+        jsClick(dateInCalendar(endDate));
+        waitUntil(ExpectedConditions.visibilityOf(endDate(moduleName)));
+        String displayingEndDateValue = endDate(moduleName).getText();
+        String endDateValue[] = displayingEndDateValue.split(" ");
+        String displayingEndDateYear = endDateValue[2];
+        Assert.assertTrue("Year is not displayed",year.equals(displayingEndDateYear));
+        jsClick(endDateButton(moduleName));
+        jsClick(startDateButton(moduleName));
+        waitUntilPageFinishLoading();
+        selectYearInInstitutionPage().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Given Year is not displayed",yearInCalendar(year).isDisplayed());
+        yearInCalendar(year).click();
+        yearInCalendar(year).click();
+        jsClick(dateInCalendar(startDate));
+        waitUntil(ExpectedConditions.visibilityOf(startDate(moduleName)));
+        String displayingStartDateValue = startDate(moduleName).getText();
+        String startDateValue[] = displayingStartDateValue.split(" ");
+        String displayingStartDateYear = startDateValue[2];
+        Assert.assertTrue("Year is not displayed",year.equals(displayingStartDateYear));
+        jsClick(startDateButton(moduleName));
+    }
+
+    public void verifySelectedDateColorInInstitutionCalendarPage(String color,String startDate,String endDate,String module){
+        startDateButton(module).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+startDate+"']"),1));
+        String displayingColorforStartDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+startDate+"']")).getCssValue("background-color");
+        Assert.assertTrue("Given color is not displayed",color.equals(displayingColorforStartDate));
+        startDateButton(module).click();
+        waitUntilPageFinishLoading();
+        endDateButton(module).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+endDate+"']"),1));
+        String displayingColorforEndDate = driver.findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--selected' and text()='"+endDate+"']")).getCssValue("background-color");
+        Assert.assertTrue("Given color is not displayed",color.equals(displayingColorforEndDate));
+        endDateButton(module).click();
+    }
+
+    public void verifyYearsListinStartandEndDateCalendar(String moduleName){
+        //End date
+        List<WebElement> yearsList = getDriver().findElements(By.cssSelector("select[id='year-select']>option"));
+        waitUntilPageFinishLoading();
+        endDateButton(moduleName).click();
+        waitUntilPageFinishLoading();
+        selectYearInInstitutionPage().click();
+        waitUntilPageFinishLoading();
+        for(WebElement year:yearsList){
+            Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+year+"']")).isDisplayed());
+        }
+        endDateButton(moduleName).click();
+        //Start date
+        startDateButton(moduleName).click();
+        waitUntilPageFinishLoading();
+        selectYearInInstitutionPage().click();
+        waitUntilPageFinishLoading();
+        for(WebElement year:yearsList){
+            Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+year+"']")).isDisplayed());
+        }
+        startDateButton(moduleName).click();
+    }
+
+    public void verifyModulesStartandEndDateCalendar(String previousYear,String lastYear,String moduleName){
+    //End date
+        endDateButton(moduleName).click();
+        waitUntilPageFinishLoading();
+        selectYearInInstitutionPage().click();
+        waitUntilPageFinishLoading();
+        String getPreviousYear = previousYear.replace("-","");
+        int startYear = Integer.parseInt(getPreviousYear);
+        int calendarStartYear = currentYear()-startYear;
+        String getLastYear = lastYear.replace("+","");
+        int endYear = Integer.parseInt(getLastYear);
+        int calendarEndYear = currentYear()+endYear;
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+calendarStartYear+"']")).isDisplayed());
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+calendarEndYear+"']")).isDisplayed());
+        endDateButton(moduleName).click();
+     //Start date
+        startDateButton(moduleName).click();
+        waitUntilPageFinishLoading();
+        selectYearInInstitutionPage().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+calendarStartYear+"']")).isDisplayed());
+        Assert.assertTrue("Given Year is not displayed",driver.findElement(By.xpath("//select/option[@value='"+calendarEndYear+"']")).isDisplayed());
+        startDateButton(moduleName).click();
+    }
+
     public String generateRandomNumber() {
         Random random = new Random();
         int value = random.nextInt(100000) + 100;
         String Randomvalue=Integer.toString(value);
         return Randomvalue;
     }
+    public WebElement startDateButton(String moduleName){
+        List<WebElement> dateButton = driver.findElements(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+        if(dateButton.size()==0)
+          return driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+        else
+          return driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
+    }
+    public WebElement endDateButton(String moduleName){
+        List<WebElement> dateButton = driver.findElements(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
+        if(dateButton.size()==0)
+            return driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
+        else
+            return driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
+    }
+    public WebElement startDate(String moduleName) {
+        List<WebElement> startDate = driver.findElements(By.xpath("//td/span[text()='" + moduleName + "']/parent::td/following-sibling::td[3]/span"));
+        if (startDate.size()==0)
+            return driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td[3]/span"));
+        else
+            return driver.findElement(By.xpath("//td/span[text()='" + moduleName + "']/parent::td/following-sibling::td[3]/span"));
+    }
+    public WebElement endDate(String moduleName){
+        List<WebElement> endDate = driver.findElements(By.xpath("//td/span[text()='" + moduleName + "']/parent::td/following-sibling::td[4]/span"));
+        if (endDate.size()==0)
+            return driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td[4]/span"));
+        else
+            return driver.findElement(By.xpath("//td/span[text()='" + moduleName + "']/parent::td/following-sibling::td[4]/span"));
+    }
+    public WebElement yearInCalendar(String year){
+        return driver.findElement(By.xpath("//select/option[@value='"+year+"']"));
+    }
+    public WebElement dateInCalendar(String date){
+        return driver.findElement(By.xpath("//div[@class='DayPicker-Day' and text()='"+date+"']"));
+    }
 
+    private WebElement saveButtonInAddUser(){
+        return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
+    }
+    private int currentYear(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        return year;
+    }
+    private WebElement selectYearInInstitutionPage(){
+        return getDriver().findElement(By.id("year-select"));
+    }
 
+    public void openModuleLink(String moduleName) {
+        moduleLink(moduleName).click();
+    }
+
+    //Locators
+    private WebElement moduleLink(String moduleName) { return driver.findElement(By.xpath("//span[text() = '" + moduleName + "']")); }
+    private By moduleText() {
+        return By.xpath("//span[text()='Modules']");
+    }
 }
 
 

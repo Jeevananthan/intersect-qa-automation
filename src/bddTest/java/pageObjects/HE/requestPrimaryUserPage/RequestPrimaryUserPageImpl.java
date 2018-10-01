@@ -4,7 +4,9 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.loginPage.LoginPageImpl;
 
@@ -35,7 +37,9 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
     private void searchForInstitution(String institution){
         waitUntilPageFinishLoading();
         textbox("Search Institutions...").sendKeys(institution);
+        waitForUITransition();
         WebElement results = getDriver().findElement(By.id("global-search-box-results"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("search-box-item-0")));
         results.findElement(By.id("search-box-item-0")).click();
         waitUntilPageFinishLoading();
         if (driver.findElements(By.className("primary-user")).size() > 0) {
@@ -88,22 +92,30 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
             switch (field) {
                 case "Are you authorized to post public information about your institution?":
                     if (data.get(field).equalsIgnoreCase("Yes")) {
-                        checkbox(By.cssSelector("[name='authorizedToPostPublicInformation']")).select();
+                        WebElement hiddenWebElement = driver.findElement(By.cssSelector("[name='authorizedToPostPublicInformation']"));
+                        driver.executeScript("arguments[0].click()",hiddenWebElement);
                     }
                     break;
                 case "Do you schedule visits to high schools?":
                     if (data.get(field).equalsIgnoreCase("Yes")) {
-                        checkbox(By.cssSelector("[name='schedulesVisits']")).select();
+                        WebElement hiddenWebElement = driver.findElement(By.cssSelector("[name='schedulesVisits']"));
+                        driver.executeScript("arguments[0].click()",hiddenWebElement);
                     }
+                    break;
+                case "EU Citizen":
+                    setEuCitizen(data.get(field));
                     break;
                 default:
                     textbox(field).sendKeys(data.get(field));
             }
         }
+        agreeIntersectPolicy();
+        agreeIntersectTermsOfUse();
         clickReCaptcha();
         waitForUITransition();
         button("REQUEST USER").click();
         waitForUITransition();
+
         Assert.assertTrue("Confirmation message was not displayed!", text("Your request has been successfully submitted. You can expect a response from Hobsons within 1 business day.").isDisplayed());
         button("OK").click();
         loginPage.verifyLoginPage();
@@ -114,6 +126,34 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
         checkbox(By.className("recaptcha-checkbox")).click();
         getDriver().switchTo().defaultContent();
         waitUntilPageFinishLoading();
+    }
+
+    /**
+     * Clicks on the agree Intersect policy checkbox
+     */
+    public void agreeIntersectPolicy() {
+        WebElement hiddenWebElement = driver.findElement(By.id("request-he-user-agree-privacy"));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].click()",hiddenWebElement);
+    }
+
+    /**
+     * Clicks on the agree Intersect terms of use checkbox
+     */
+    public void agreeIntersectTermsOfUse() {
+        WebElement hiddenWebElement = driver.findElement(By.id("request-he-user-agree-termsofuse"));
+        ((JavascriptExecutor)driver).executeScript("arguments[0].click()",hiddenWebElement);
+    }
+
+
+    /***
+     * Sets the eu citizen radio button
+     * @param euCitizen, to be set, it can be Yes or No
+     */
+    public void setEuCitizen(String euCitizen){
+        WebElement euCitizenRadioButton = driver.findElement(By.xpath(String.format(
+                "//div[@id='request-he-user-isEuCitizen']//input[contains(@id,'%s')]",
+                euCitizen.toLowerCase())));
+        jsClick(euCitizenRadioButton);
     }
 
     private WebElement getSearchButton() {

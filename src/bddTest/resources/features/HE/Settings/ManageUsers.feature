@@ -1,5 +1,5 @@
 @HE
-Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage users at my institution
+Feature: HE - Settings - ManageUsers - As an HE admin user, I should be able to manage users at my institution
 
   @MATCH-1100 @MATCH-1258
   Scenario: As an HE administrator, I am able to deactivate and reactivate other users' accounts in my institution.
@@ -15,7 +15,6 @@ Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage u
     And HE I successfully sign out
     Then HE I am logged in to Intersect HE as user type "recruiter"
     And HE I am able to successfully login
-    Then HE I successfully sign out
 
 
   @MATCH-133
@@ -27,7 +26,6 @@ Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage u
     Then HE I am logged in to Intersect HE as user type "recruiter"
     Then HE I edit the user account for "purpleheautomation+recruiter@gmail.com" with the following info
       |Role  |publishing |
-    And HE I successfully sign out
 
   @MATCH-175 @MATCH-1845
   Scenario: As an HE administrator, I am able to verify the roles for users in my institution.
@@ -37,7 +35,6 @@ Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage u
       | Administrator (All access)                                             |
       | Publishing (Community access + RepVisits + College Profile Management) |
       | Community (Community + RepVisits access)                               |
-    Then HE I successfully sign out
 
   @MATCH-1127
   Scenario: As an HE user, I want to be notified at my old email address when my account email is changed by my administrator.
@@ -54,14 +51,12 @@ Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage u
     And HE I receive the "Matching Account has been Updated" email below
       |Subject                             |To                                                |Messages |Body                                                                                                                               |
       |Intersect Account has been Updated  |purpleheautomation+coordinator_updated@gmail.com  |1        |The email address of your Intersect user account was recently updated. If you or your institution's administrator did not initiate this change, please contact  |
-    Then HE I successfully sign out
 
 
   @MATCH-192
   Scenario: As an HE Admissions Administrator I can see the last login date for each user in Purple
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I can see the last login date for user type "administrator"
-    Then HE I successfully sign out
 
 
   @MATCH-1416 @NotInQA
@@ -72,4 +67,8 @@ Feature: HE - Settings - ManageUsers - As an HE administrator I want to manage u
     And HE I search for "PurpleHE Recruiter" in "People"
     Then HE I verify there are no search results returned
     And HE I activate the user account for "purpleheautomation+recruiter@gmail.com"
-    Then HE I successfully sign out
+
+  @MATCH-1844
+  Scenario: As a freemium HE administrator user, I need to be able to create additional users
+    Given HE I am logged in to Intersect HE as user type "limited"
+    Then HE I verify that I can create new users

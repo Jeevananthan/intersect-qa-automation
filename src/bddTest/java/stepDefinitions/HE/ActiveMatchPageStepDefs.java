@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HE.activeMatchPage.ActiveMatchPageImpl;
 
@@ -9,6 +10,34 @@ public class ActiveMatchPageStepDefs implements En {
 
         ActiveMatchPageImpl activeMatchPage = new ActiveMatchPageImpl();
 
-        Then("^HE The Active Match page is displayed$", activeMatchPage::verifyTitleIsPresent);
+        Then("^HE I verify the ActiveMatch page$", activeMatchPage::verfyActiveMatchPage);
+
+        Then("^HE I verify the Headers are present in the Active Match Connections$",activeMatchPage::verifyActiveMatchConnectionsHeaders);
+
+        Then("^HE I verify the following details are present under the new header of \"([^\"]*)\" in the ActiveMatch export connections dropdown Menu$",activeMatchPage::verifyActiveMatchDropdownMenu);
+
+        Then("^HE I verify the following headers are present in the ActiveMatch export connections dropdown Menu in the following order$",activeMatchPage::verifyDropdownMenuHeader);
+
+        Then("^HE I verify the Default drop-down Menu selection to remain \"([^\"]*)\" after all connections are modified$",activeMatchPage::verifyDefaultdropdownMenuSelection);
+
+        Then("^HE I verify the following details are present under the header of \"([^\"]*)\" in the ActiveMatch export connections dropdown Menu$",activeMatchPage::verifyActiveMatchConnectionsDropdownMenu);
+
+        Then("^HE I navigate to the ActiveMatch Tab$", activeMatchPage::navigateToActiveMatch);
+
+        When("^HE I export the ActiveMatchConnections for the current year$",activeMatchPage::downloadActiveMatchConnectionsForCurrentYear);
+
+        Then("^HE I verify the downloaded ActiveMatch Cvs file \"([^\"]*)\" contains the following headers",activeMatchPage::verifyDownloadedActiveMatchConnectionsHeaders);
+
+        Then("^HE I delete the downloaded ActiveMatch Cvs file \"([^\"]*)\"",activeMatchPage::deleteDownloadedActiveMatchConnectionsFile);
+
+        Then("^HE I verify the following message in the Connections screen:$", activeMatchPage::verifyErrorMessageInConnections);
+
+        Then("^HE I verify that the Download button is disabled$", activeMatchPage::verifyDownloadButtonDisabled);
+      
+        Then("^HE I verify the Header after selecting \"([^\"]*)\" for the following selection in the ActiveMatch export connections$",activeMatchPage::verifySelectedHeader);
+
+        Then("^HE I verify the Header \"([^\"]*)\"$",activeMatchPage::verifyHeader);
+
+        Then("^I send text \"([^\"]*)\" to the field \"([^\"]*)\"$", activeMatchPage::sendTextToTheField);
     }
 }

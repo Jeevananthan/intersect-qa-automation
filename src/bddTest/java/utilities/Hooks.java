@@ -16,6 +16,7 @@ public class Hooks extends SeleniumBase {
 
     public void testTearDown() {
         takeScreenshotOnFailure();
+        driver.quit();
     }
 
     private void takeScreenshotOnFailure() {

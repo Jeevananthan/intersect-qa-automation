@@ -7,11 +7,12 @@ Scenario: The HS user profile activation page requires Office Phone
   When I am sure that HS user will be logged in for the first time and HS Welcome page will be opened
   And I go to HS Counselor Community page
   Then I check if office phone is required field
-  Then I upload Profile and Banner pictures
+  #Then I upload Profile and Banner pictures
   And I populate all the fields on Welcome page
+  And I set the EU citizen to "Yes"
   And I accept Terms and conditions
+  And I consent to create and maintain my Intersect account
   Then I Save changes
-  And HS I successfully sign out
 
 
 
@@ -20,11 +21,12 @@ Scenario: The HE user profile activation page requires Office Phone
   When I am sure that HE user will be logged in for the first time and Welcome page will be opened
   And I go to Counselor Community page
   Then I check if office phone is required field
-  Then I upload Profile and Banner pictures
+  #Then I upload Profile and Banner pictures
   And I populate all the fields on Welcome page
+  And I set the EU citizen to "Yes"
   And I accept Terms and conditions
+  And I consent to create and maintain my Intersect account
   Then I Save changes
-  And HE I successfully sign out
 
 
 
@@ -33,8 +35,6 @@ Scenario: The HS update user profile page requires Office Phone
   When I go to HS user profile page
   And I click on Edit profile button
   Then I check if office phone is required field
-  And HS I successfully sign out
-
 
 
 # This scenario is covered by MATCH-873 (Scenario MATCH-875)

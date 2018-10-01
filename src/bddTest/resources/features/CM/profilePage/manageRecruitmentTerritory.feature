@@ -11,4 +11,3 @@ Feature: HE Community User - Manage Recruitment Territory within User Profile
     Then I select "California" state
     And I Save changes
     Then I check if "California" state is saved
-    Then HE I successfully sign out

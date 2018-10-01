@@ -1,17 +1,27 @@
 package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
+import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
+import stepDefinitions.GlobalSteps;
+import utilities.GetProperties;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class PageObjectFacadeImpl extends SeleniumBase {
 
     private Logger logger;
     public NavBarImpl navBar;
+    public  NavigationBarImpl navigationBar;
     public GlobalSearch globalSearch;
 
     protected PageObjectFacadeImpl() {
@@ -19,6 +29,11 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
     }
+
+      public NavigationBarImpl getNavigationBar(){
+        return new NavigationBarImpl();
+    }
+
 
     /**
      * Uses JavaScript to click on an element.  This is occasionally necessary because Selenium thinks that something
@@ -123,9 +138,10 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     protected void pickDateInDatePicker(Calendar date) {
         Calendar todaysDate = Calendar.getInstance();
         String dateString = getDay(date);
-             if (Character.valueOf(dateString.charAt(0)).equals('0')) {
-                        dateString = dateString.substring(1);
-              }
+        if (Character.valueOf(dateString.charAt(0)).equals('0')) {
+            dateString = dateString.substring(1);
+        }
+
         if (date.before(todaysDate)) {
             while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
                 datePickerPrevMonthButton().click();
@@ -138,7 +154,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         waitForUITransition();
         driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
                 "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
-                "DayPicker-Day--today'][text()='" + getDay(date).replaceFirst("0", "") + "']")).click();
+                "DayPicker-Day--today'][text()='" + dateString + "']")).click();
     }
 
     /**
@@ -194,8 +210,92 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return sdf.format(cal.getTime());
     }
 
-    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
-    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
-    private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
+    /**
+     * Waits until a given path exists.
+     * @param path
+     */
+    public void waitUntilFileExists(String path){
+        ExpectedCondition<Boolean> expectation = webDriver -> Files.exists(Paths.get(path));
+        try{
+            waitUntil(expectation);
+        }
+        catch (Exception e){
+            throw  new AssertionError(String.format("There was a problem waiting for the file: %s, error: %s",
+                    path, e.toString()));
+        }
+    }
+
+    /**
+     * Returns a list of String based on a list in a properties file
+     *
+     * @param propertiesFilePath - String representing the path to the properties files to be used
+     * @param separator - Separation character
+     * @param propertiesEntry - String that corresponds to the appropriate list in the properties file
+     * @return List<String> - List of String containing the data in the entry of the properties file
+     */
+    public List<String> getListFromPropFile(String propertiesFilePath, String separator, String propertiesEntry) {
+        Properties properties = new Properties();
+        InputStream input = null;
+        List<String> resultList = new ArrayList<>();
+        try {
+            input = new FileInputStream(propertiesFilePath);
+            properties.load(input);
+            resultList = Arrays.asList(properties.getProperty(propertiesEntry).split(separator));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    /**
+     * Returns a String corresponding to the entry in a properties file
+     *
+     * @param propertiesFilePath - String representing the path to the properties file to be used
+     * @param propertiesEntry - String that corresponds to the appropriate list in the properties file
+     * @return String - String containing the data in the entry of the properties file
+     */
+    public String getStringFromPropFile(String propertiesFilePath, String propertiesEntry) {
+        Properties properties = new Properties();
+        InputStream input = null;
+        String resultString = "";
+        try {
+            input = new FileInputStream(propertiesFilePath);
+            properties.load(input);
+            resultString = properties.getProperty(propertiesEntry);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultString;
+    }
+
+    /**
+     * Sets the Implicit Wait timeout for the current WebDriver to the value passed in 'seconds'
+     *
+     * @param seconds - Value to set the Driver's implicit Wait timeout to
+     */
+    protected void setImplicitWaitTimeout(Integer seconds) {
+        getDriver().manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Sets the Implicit Wait timeout for the current WebDriver to the value stored in the Env file
+     */
+    public void resetImplicitWaitTimeout() {
+        getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
+    }
+
+    /**
+     * Returns a SoftAssertions object to check things that you care about, but don't want to stop test
+     *      execution over if the assertion fails.
+     *
+     * @return The static SoftAssertions object from GlobalSteps to be checked on Scenario teardown.
+     */
+    public SoftAssertions softly() {
+        return GlobalSteps.softly;
+    }
+
+    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    protected WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
 
 }

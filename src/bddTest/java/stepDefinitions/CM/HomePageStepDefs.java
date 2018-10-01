@@ -41,6 +41,8 @@ public class HomePageStepDefs implements En {
         Then("^I write a comment with text \"([^\"]*)\" on the Hobsons post$", homePage::writeCommentOnHobsonsPost);
         And("^I check if comment \"([^\"]*)\" is posted on the Hobsons post$", homePage::checkIfHobsonsPostCommentIsPosted);
         And("^I go to the HS home page$", homePage::goToHSHomePage);
-
+        When("^HS I click on HIGHER EDUCATION STAFF MEMBER$", homePage::clickOnHighEducationTab);
+        Then("^I navigate to Counselor Community page$", homePage::navigateToCounselorCommunityPage);
+        Then("^I verify the instruction text in the post box$", homePage::verifyInstructionalTextInPostBox);
     }
 }

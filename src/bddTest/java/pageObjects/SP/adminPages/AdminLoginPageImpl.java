@@ -5,7 +5,10 @@ import Selenium.WebElement.TextboxImpl;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
@@ -22,7 +25,13 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void login(String username, String password) {
-        driver.manage().deleteAllCookies();
+        try {
+            driver.manage().deleteAllCookies();
+        } catch (NoSuchSessionException nsse) {
+            load("http://www.google.com");
+        } catch (org.openqa.selenium.WebDriverException wde) {
+            load("http://www.google.com");
+        }
         openAdminPage();
         // Make sure our previous session ended.
         if (link(By.id("user-dropdown")).isDisplayed()) {
@@ -31,7 +40,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
             driver.manage().deleteAllCookies();
             openAdminPage();
         }
-        WebElement userAnotherAccount = button(By.className("use_another_account"));
+        WebElement userAnotherAccount = button(By.id("otherTileText"));
         if (userAnotherAccount.isDisplayed()) {
             userAnotherAccount.click();
         }
@@ -39,8 +48,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
         button("Next").click();
-        waitForUITransition();
-        passwordTextbox().click();
+        new WebDriverWait(driver,20).until(ExpectedConditions.elementToBeClickable(passwordTextbox())).click();
         logger.info("Using " + password + " as password");
         handleAccountTypeDialog(password);
         logger.info("Clicked the login button");
@@ -80,8 +88,8 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("sp.app.url"));
     }
 
-    public void loginAsAViewOnlyUser() {
-        login(GetProperties.get("sp.viewOnly.username"), GetProperties.get("sp.viewOnly.password"));
+    public void loginAsASuperAdminUser() {
+        login(GetProperties.get("sp.superAdmin.username"), GetProperties.get("sp.superAdmin.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 
@@ -112,7 +120,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
 
     public void loginAsNoAccessUser() {
         login(GetProperties.get("sp.norole.username"), GetProperties.get("sp.norole.password"));
-        adminPage.verifyUserIsLoggedIn();
+        adminPage.verifyUserIsLoggedInForNoRole();
     }
 
     //Page Web Elements

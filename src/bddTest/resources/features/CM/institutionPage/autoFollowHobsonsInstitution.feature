@@ -9,7 +9,6 @@ Feature: Community User - Auto Follow the Hobsons Institution
     And I go to connections page
     And I go to Institutions that I'm following page
     Then I check if I am following Hobsons instituion
-    And HE I successfully sign out
 
   @MATCH-892
   Scenario: As a Community user I am unable to unfollow the Hobsons institution.
@@ -17,4 +16,3 @@ Feature: Community User - Auto Follow the Hobsons Institution
     And I go to institution page
     And I go to Hobsons institution page
     Then I check if I can unfollow the Hobsons institution
-    And HE I successfully sign out

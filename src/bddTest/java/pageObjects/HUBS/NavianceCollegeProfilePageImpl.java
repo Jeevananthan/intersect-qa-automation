@@ -2,9 +2,7 @@ package pageObjects.HUBS;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,9 +19,14 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void openHUBSEditorMode() {
-        navBar.goToCollegeProfile();
+        getNavigationBar().goToCollegeProfile();
         verifyVieworEditYourCollegeProfileinNaviance();
-        getStartedButton().click();
+        try {
+            getStartedButton().click();
+        } catch(WebDriverException e) {
+            getNavigationBar().navianceCollegeProfileMenuLink.sendKeys(Keys.ESCAPE);
+            getStartedButton().click();
+        }
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
         verifyInstitutionalProfilePage();
@@ -32,15 +35,16 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void verifyVieworEditYourCollegeProfileinNaviance(){
+        //waitUntilElementExists(driver.findElement(By.xpath("//p/span[text()='In Intersect, higher education users can manage, and add to, the information provided on their college profile in Family Connection.']")));
         Assert.assertTrue("Page Title 'View or Edit Your College Profile in Naviance' is not dsiplayed",text("View or Edit Your College Profile in Naviance").isDisplayed());
-        Assert.assertTrue("Welcome Text 1 is not displayed",driver.findElement(By.xpath("//p/span[text()='In Intersect, higher education users can manage, and add to, the information provided on their college profile in Family Connection.']")).isDisplayed());
+        Assert.assertTrue("Welcome Text 1 is not displayed",welcomeText1().isDisplayed());
         Assert.assertTrue("Welcome Text 2 is not displayed",driver.findElement(By.xpath("//p/span[text()='Family Connection is the student and parent portal that is part of the larger Naviance system - a comprehensive K-12 college and career readiness solution that helps districts and schools align student strengths and interests to postsecondary goals.']")).isDisplayed());
         Assert.assertTrue("Welcome Text 3 is not displayed",driver.findElement(By.xpath("//p/span[text()='College profiles can be displayed to students and parents in Family Connection as early as 6th grade, and are used through 12th grade to manage the college research and application process.']")).isDisplayed());
         Assert.assertTrue("'Get Started' button is not displayed",getStartedButton().isDisplayed());
     }
 
     public void verifyInstitutionalProfilePage(){
-        WebDriverWait wait = new WebDriverWait(driver, 40);
+        WebDriverWait wait = new WebDriverWait(driver, 60);
         wait.pollingEvery(500, TimeUnit.MILLISECONDS);
         wait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
@@ -52,9 +56,17 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         Assert.assertTrue("Text 'This College Profile Page is using mock student data to replicate a student experience.' is not displayed",driver.findElement(By.xpath("//div/span[text()='This College Profile Page is using mock student data to replicate a student experience.']")).isDisplayed());
         Assert.assertTrue("Button 'Publish' is not displayed",button("Publish").isDisplayed());
     }
+
+    public void navigateToInstitutionProfile(){
+        waitUntilPageFinishLoading();
+        getNavigationBar().goToCommunity();
+        waitForUITransition();
+        communityFrame();
+        driver.findElement(By.xpath("//a[text()='Institution']")).click();
+    }
     //Locators
-    private WebElement getStartedButton() {
+    public WebElement getStartedButton() {
         return button("Get Started");
     }
-
+    private WebElement welcomeText1() { return driver.findElement(By.cssSelector("div.ui.centered.stackable.two.column.grid div.row:nth-of-type(2) div.column:nth-of-type(1) p:nth-of-type(1)")); }
 }

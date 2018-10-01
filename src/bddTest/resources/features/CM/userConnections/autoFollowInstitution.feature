@@ -14,4 +14,3 @@ Feature: Community User - Automatically Follow Institution of Community User Con
     Then I go to connections page
     And I go to Institutions that I'm following page
     And I check if I am following HS user's institution
-    And HE I successfully sign out

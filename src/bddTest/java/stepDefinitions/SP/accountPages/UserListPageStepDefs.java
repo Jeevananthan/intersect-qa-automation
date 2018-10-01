@@ -21,6 +21,11 @@ public class UserListPageStepDefs implements En  {
 
         Then("^SP I verify that I can create a new primary user using create new user button$",userListPage::verifyCreateUserButton);
 
+        Then("^SP I verify that I can edit the Primary User Details$", userListPage::verifyEditPrimaryUserDetails);
+
+        And("^SP I Login as the user \"([^\"]*)\"$", userListPage::loginAs);
+
+        And("^SP I verify the \"([^\"]*)\" message in the homepage$",userListPage::verifyLoginMessageInHomPage);
 
     }
 
