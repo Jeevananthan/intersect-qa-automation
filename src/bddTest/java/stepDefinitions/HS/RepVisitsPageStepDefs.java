@@ -197,7 +197,11 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days$", repVisits::verifyRepVisitsPageWhenNoVisitsScheduledForNext7Days);
 
-        Then("^HS I add the new time slot with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addnewTimeSlot);
+        Then("^HS I add the new time slot with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\" with \"([^\"]*)\"$", repVisits::addnewTimeSlot);
+
+        Then("^HS I verify time slot was not created in Exception$", repVisits::verifyTimeSlotInExceptions);
+
+
 
         //And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
 
@@ -311,6 +315,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the list of registered college fair attendees for the \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$", repVisits::verifyListofRegisteredAttendee);
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
+
+        Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Exceptions Tab$", repVisits::removeTimeSlotsInExceptionsTab);
 
         Then("^HS I add the email \"([^\"]*)\" in the primary contact in Notifications & Primary Contact page$", repVisits::addEmailInNotificationandPrimaryContactPage);
 
