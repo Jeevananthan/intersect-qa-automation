@@ -1212,7 +1212,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (String element : details) {
             switch (element) {
                 case "Search results":
-                    while (driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() <= 1) {
+                    while (driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
                         waitUntilPageFinishLoading();
                         backToTopButton().sendKeys(Keys.END);
                         waitUntilPageFinishLoading();
