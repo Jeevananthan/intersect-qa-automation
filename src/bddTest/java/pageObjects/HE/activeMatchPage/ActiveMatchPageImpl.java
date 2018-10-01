@@ -173,7 +173,8 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     public void verifyHeader(String option){
         exportConnectionsDropdown().click();
         Assert.assertTrue("Since Last Export option is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']")).isDisplayed());
-        Assert.assertTrue("Last exported connection details are not displayed",driver.findElement(By.xpath("//div/span[contains(text(),'connections since last export on')]")).isDisplayed());
+        Assert.assertTrue("Last exported connection details are not displayed",driver.findElement(By.xpath("//div/span[contains(text()," +
+                "'connections since last export on') or contains(text(),'connection since last export on')]")).isDisplayed());
     }
 
     public void verifyErrorMessageInConnections(DataTable dataTable) {

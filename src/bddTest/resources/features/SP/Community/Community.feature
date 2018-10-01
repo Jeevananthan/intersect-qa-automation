@@ -59,11 +59,11 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Then I check if I can see "Start and End Dates" on the page
     Then SM I pick "Male" from the dropdown ".custom-rounded-dropdown"
     Then SM I pick "Arizona" from the dropdown ".custom-dropdown"
-    Then SM I press button "Select date"
-    Then SM I pick the date "01/01/19" from the date picker
     Then SM I verify that checkBox with text "Majors" can be checked|unchecked
     Then SM I verify that checkBox with text "Connection" can be checked|unchecked
     Then SM I pick "Coconino County" from the dropdown "[name='counties.Arizona']"
+    Then SM I press button "Select date"
+    Then SM I pick the date "01/01/19" from the date picker
     Then SM I press button "Finish"
     Then I check that table ".subscriptions-table"  has one more row
 

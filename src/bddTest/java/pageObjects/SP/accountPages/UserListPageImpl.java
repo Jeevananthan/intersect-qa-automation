@@ -145,11 +145,11 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
                 break;
             case "nonprimary":
                 //empty
-                className = "empty star icon";
+                className = "outline star icon";
                 break;
             case "active":
                 //empty
-                className = "empty star icon";
+                className = "outline star icon";
                 break;
             case "inactive":
                 //ban

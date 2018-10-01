@@ -219,11 +219,17 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
 
     public void setModuleStatusAsActiveOrInActive(String moduleName, String status){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(moduleText()));
+        WebElement dropDownItem = null;
          WebElement actualStatus = getLocatorforSubscription(moduleName);
          if(!actualStatus.getText().equalsIgnoreCase(status)){
             actualStatus.click();
-            WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
-            driver.executeScript("arguments[0].click();",dropDownItem);
+             List<WebElement> dropDownItems = driver.findElements(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+             if(dropDownItems.size()==1)
+                 dropDownItem = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+             else
+                 dropDownItem = driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+             jsClick(dropDownItem);
             if(!status.equalsIgnoreCase("inactive")) {
                 WebElement StartDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
                 WebElement EndDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
@@ -256,11 +262,17 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setModuleStatusAsActiveOrInActiveWithDate(String moduleName, String status, String startDateDelta, String endDateDelta){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(moduleText()));
+        WebElement dropDownItem = null;
         WebElement actualStatus = getLocatorforSubscription(moduleName);
         if(!actualStatus.getText().equalsIgnoreCase(status)){
             actualStatus.click();
-            WebElement dropDownItem = driver.findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+status+"']"));
-            driver.executeScript("arguments[0].click();",dropDownItem);
+            List<WebElement> dropDownItems = driver.findElements(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+            if(dropDownItems.size()==1)
+                dropDownItem = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+            else
+                dropDownItem = driver.findElement(By.xpath("//td/a/span[text()='"+moduleName+"']/ancestor::td/following-sibling::td/div/div/div/span[text()='"+status+"']"));
+            jsClick(dropDownItem);
             Actions actions = new Actions(getDriver());
             if(!status.equalsIgnoreCase("inactive")) {
                 WebElement StartDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
@@ -545,6 +557,9 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     //Locators
     private WebElement moduleLink(String moduleName) { return driver.findElement(By.xpath("//span[text() = '" + moduleName + "']")); }
+    private By moduleText() {
+        return By.xpath("//span[text()='Modules']");
+    }
 }
 
 
