@@ -643,3 +643,16 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
     And HS I Click on close button
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
+
+  @MATCH-3546
+  Scenario: As a HS student, I want to fit criteria that I select to be added to the 'Must Have' box within SuperMatch
+  so I can see all the fit criteria I have selected easily and can manage them.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I "select" the "Central" checkbox from "Location" Fit Criteria
+    And SM I "select" the "Midwest" checkbox from "Location" Fit Criteria
+    And SM I "select" the "Large City" checkbox from "Location" Fit Criteria
+    And SM I "select" the "Small City" checkbox from "Location" Fit Criteria
+    And SM I verify that the Must Have box contains "Location [14]"
+    And SM I verify that the Must Have box contains "Campus Surroundings [2]"

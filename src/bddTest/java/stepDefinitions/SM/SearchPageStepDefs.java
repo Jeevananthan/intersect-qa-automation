@@ -304,5 +304,7 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify the text displayed in the % Out of State Students Fit Criteria$", searchPage::verifyTextDisplayedInPercentageOutOfStateStudentsFitCriteria);
 
         Then("^SM I verify the options displayed in Out of State students Select % dropdown$", searchPage::verifyOptionsInOutOfStateStudentsSelectPercentDropdown);
+
+        Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from \"([^\"]*)\" Fit Criteria$", searchPage::selectOrUnselectCheckboxInFitCriteria);
     }
 }
