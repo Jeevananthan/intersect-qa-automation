@@ -11,7 +11,5 @@ public class DiversityStepDefs implements En {
 
         Then("^I verify that the default text in \"([^\"]*)\" is \"([^\"]*)\"$", diversityPage::verifyDefaultTextInElement);
 
-        And("^I scroll the dialog down, anchored in the element \"([^\"]*)\"$", diversityPage::scrollToBottom);
-
     }
 }

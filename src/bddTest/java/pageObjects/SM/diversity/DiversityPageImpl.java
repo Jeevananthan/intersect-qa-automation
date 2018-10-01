@@ -30,12 +30,5 @@ public class DiversityPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The default text in the element is incorrect",
                 actualText.equals(expectedText));
     }
-
-    public void scrollToBottom(String locator) {
-        WebElement textField = getDriver().findElement(By.xpath(locator));
-        JavascriptExecutor js=driver;
-        js.executeScript("arguments[0].scrollIntoView()", textField);
-    }
-
     //Locators
 }

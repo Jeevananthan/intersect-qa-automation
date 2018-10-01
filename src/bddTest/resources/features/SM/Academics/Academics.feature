@@ -58,14 +58,13 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     Then SM I verify that "Include online learning opportunities" checkbox is "unselected" in "Academics" fit criteria
     And SM I select the "Include online learning opportunities" checkbox from "Academics" fit criteria
     And SM I click "Academics" filter criteria tab
-    Then I verify that the default text in "div.ui.divider + div.row.supermatch-academics-checkbox-row + div.row div.default.text" is "Start typing..."
-    And I scroll the dialog down, anchored in the element "//p[contains(text(), 'Degree')]"
-    And SM I pick "<dropDownOption>" from the dropdown "input.search + span + div"
-    Then SM I verify that the option "<dropDownOption>" was added to the dropdown field
-    And SM I remove the option "<dropDownOption>" from the dropdown field
+    Then I check if I can see "Start typing..." on the page
+    And SM I pick "<program>" from the dropdown "input.search + span + div"
+    Then SM I verify that the option "<program>" was added to the dropdown field
+    And SM I remove the option "<program>" from the dropdown field
     And SM I select the "Search for institutions that have ALL of my selected programs" checkbox from "Academics" fit criteria
     Examples:
-    | degreeType   | dropDownOption  |
+    | degreeType   | program  |
     | Certificate  | Accounting      |
     | Associate's  | Accounting      |
     | Master's     | Accounting and Business/Management |
