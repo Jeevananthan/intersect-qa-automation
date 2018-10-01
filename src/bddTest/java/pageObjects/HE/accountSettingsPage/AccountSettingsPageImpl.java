@@ -110,6 +110,15 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         firstNameField().sendKeys(firstName);
     }
 
+    /**
+     * Verifies if a given account settings tab is not displayed
+     */
+    public void verifyAccountSettingsTabIsNotDisplayed(String tab){
+        navigationBar.selectUserOption("Account Settings");
+        Assert.assertFalse(String.format("The tab: %s is displayed",tab),
+                getDriver().findElements(accountSettingsTabLocator(tab)).size()>0);
+    }
+
     //Locators
     private WebElement saveChanges() { return driver.findElement(By.xpath("//span[text()='SAVE']")); }
     private WebElement userDropdown() {
@@ -127,5 +136,14 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement firstNameField() { return driver.findElement(By.cssSelector("input#user-form-first-name")); }
+
+    /**
+     * Gets the account settings tabs
+     * @param tab
+     * @return
+     */
+    private By accountSettingsTabLocator(String tab){
+        return By.xpath(String.format("//span[text()='%s']",tab));
+    }
 
 }

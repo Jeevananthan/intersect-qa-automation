@@ -13,4 +13,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
     And HE I verify the text "Student Connections" is displayed
     And HE I verify the text "Transfer new ActiveMatch student connections to a location of your choice." is displayed
     And HE I verify the SET UP CONNECTION button is displayed
-    And HE I successfully sign out
+    Given HE I am logged in to Intersect HE as user type "publishing"
+    Then HE I verify the "SFTP Data Transfer" tab is not displayed
+    Given HE I am logged in to Intersect HE as user type "limited"
+    Then HE I verify the "SFTP Data Transfer" tab is not displayed

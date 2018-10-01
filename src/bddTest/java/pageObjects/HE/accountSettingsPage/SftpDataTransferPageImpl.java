@@ -24,6 +24,9 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
                 setupConnectionButton().isDisplayed());
     }
 
+    /**
+     *
+     */
     public void deleteSftpDataTransferConnection(){
         accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
         if(getDriver().findElements(editLinkLocator()).size()>0){
