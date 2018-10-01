@@ -1,5 +1,6 @@
 package pageObjects.HUBS.FamilyConnection.FCColleges;
 
+import org.apache.bcel.generic.RETURN;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -66,8 +67,8 @@ public class FCCollegeEventsPage {
     @FindBy(how = How.CSS, using = "div.events-list event-summary:nth-of-type(1) label")
     public static WebElement firstEventRecommendedLabel;
 
-    @FindBy(how = How.CSS, using = ".fc-button.ng-binding")
-    public static WebElement clickUpdateButton;
+   /* @FindBy(how = How.CSS, using = ".fc-button.ng-binding")
+    public static WebElement clickUpdateButton;*/
 
     @FindBy(how = How.CSS, using = "label.fc-label.fc-label--inline")
     public static WebElement clickYesToCancelRegistration;
@@ -107,6 +108,16 @@ public class FCCollegeEventsPage {
     public static WebElement EventToolTipMessage(){
         return  driver.findElement(By.cssSelector("div.fc-tooltip.fc-tooltip--right.fc-tooltip--event-message"));
 
+    }
+    public static WebElement signupForEvent(String eventName){
+        return driver.findElement((By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']")));
+    }
+    public  static WebElement registerEvent(){
+        return  driver.findElement(By.cssSelector("button.fc-button.fc-button--primary"));
+
+    }
+    public static WebElement clickUpdateButton (String updateEvent){
+        return driver.findElement((By.xpath("//h3[text()='" + updateEvent + "']/../../../div[@class='event-summary__status-column']")));
     }
 
     public static WebElement registeredEventSaveChangesButton() { return driver.findElement(By.cssSelector("button[ng-disabled='!vm.cancellationAffirmed']")); }

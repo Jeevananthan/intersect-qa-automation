@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import selenium.SeleniumBase;
 import stepDefinitions.GlobalSteps;
 import utilities.GetProperties;
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -138,7 +137,6 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      */
     protected void pickDateInDatePicker(Calendar date) {
         Calendar todaysDate = Calendar.getInstance();
-
         String dateString = getDay(date);
         if (Character.valueOf(dateString.charAt(0)).equals('0')) {
             dateString = dateString.substring(1);
