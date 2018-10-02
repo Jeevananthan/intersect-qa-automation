@@ -29,11 +29,5 @@ public class DiversityPageImpl extends PageObjectFacadeImpl {
                 actualText.equals(expectedText));
     }
 
-    public void scrollToBottom(String locator) {
-        WebElement textField = getDriver().findElement(By.xpath(locator));
-        JavascriptExecutor js=driver;
-        js.executeScript("arguments[0].scrollIntoView()", textField);
-    }
-
     //Locators
 }
