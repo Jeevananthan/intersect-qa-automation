@@ -338,3 +338,37 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|School              |heStartTime|heTime |
       |7   |7   |10:55am  |12:11pm|2        |7        |14     |12:11pm  |Int Qa High School 4|10:55am    |10:55am|
+
+
+  @MATCH-3701
+  Scenario Outline: As a HS admin user setting an exception or custom regular hours for my school's availability but
+  deletes it as it's no longer relevant, I want the ability to have greater clarity if there are potential "conflicts"
+  when then saving updated Regular Weekly Hours and there's overlap to the previously deleted slots, so that I know if
+  there may potentially be any gaps on exceptions that I need to update.
+
+  #precondition
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    And  HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+#  Delete from Exceptions
+    Then HS I set a date using "<StartDateException>" and "<EndDate>"
+    And  HS I verify the update button appears and I click update button
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Exceptions Tab
+
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    And  HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+# Verify "Add time slot to regular hours, but DO NOT create for the dates above" option
+    Then HS I verify time slot was not created in Exception
+
+    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    And  HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+# Verify "Add time slot to regular hours, and create for the dates above" option
+    Then HS I verify time slot was not created in Exception
+
+    Examples:
+      |Day |StartTime|EndTime|NumVisits|StartDate|EndDate|StartDateException|option |
+      |0   |10:55am  |12:11pm|2        |1        |14     |6                 |1      |
+      |1   |10:56am  |12:12pm|2        |1        |18     |7                 |2      |
