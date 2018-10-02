@@ -4,8 +4,6 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidSelectorException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -28,6 +26,5 @@ public class DiversityPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The default text in the element is incorrect",
                 actualText.equals(expectedText));
     }
-
     //Locators
 }

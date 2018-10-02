@@ -61,5 +61,26 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     Then SM I verify that the Must Have box contains "Major [1]"
     Then SM I verify that the Must Have box contains "Minor [1]"
   Examples:
-    | majorsDropdownLocator                                  | minorsDropdownLocator |
+    | majorsDropdownLocator                                  | minorsDropdownLocator                                  |
     | //div[@class = 'row'][1]//div[@class = 'default text'] | //div[@class = 'row'][2]//div[@class = 'default text'] |
+
+  @MATCH-3397
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by Degree Type within the Academics category
+  so I can see relevant colleges that match my Degree Type requirements.
+    Given SM I click "Academics" filter criteria tab
+    And SM I select the "<degreeType>" radio button from the Academics fit criteria
+    Then SM I verify that "Include online learning opportunities" checkbox is "unselected" in "Academics" fit criteria
+    And SM I select the "Include online learning opportunities" checkbox from "Academics" fit criteria
+    And SM I click "Academics" filter criteria tab
+    Then I check if I can see "Start typing..." on the page
+    And SM I pick "<program>" from the dropdown "input.search + span + div"
+    Then SM I verify that the option "<program>" was added to the dropdown field
+    And SM I remove the option "<program>" from the dropdown field
+    And SM I select the "Search for institutions that have ALL of my selected programs" checkbox from "Academics" fit criteria
+    Examples:
+    | degreeType   | program  |
+    | Certificate  | Accounting      |
+    | Associate's  | Accounting      |
+    | Master's     | Accounting and Business/Management |
+    | Doctorate    | Accounting and Business/Management |
+    | Graduate Certificate | Aboriginal/Indigenous Studies |
