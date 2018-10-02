@@ -3,7 +3,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
          so that I can set Diversity , Configure Audience  etc etc
 
 
-  @MATCH-4919
+  @MATCH-4629
   Scenario: As an HE user, I want to configure Advance Awareness
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I click on button Configure for subscription "Advanced Awareness"

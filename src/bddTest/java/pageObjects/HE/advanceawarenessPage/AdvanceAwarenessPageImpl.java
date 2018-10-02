@@ -14,8 +14,7 @@ import java.util.List;
 public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
-    private static String fs = File.separator;
-    private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sRequestInformationMessageContent%sRequestInformationMessage.properties", fs, fs, fs, fs, fs);
+
 
     public AdvanceAwarenessPageImpl() {
         logger = Logger.getLogger(AdvanceAwarenessPageImpl.class);
@@ -35,7 +34,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
         for (String  eachOption : ethnicities) {
             switch (eachOption) {
                 case "Asian":
-                    //diversityEthnicityCheckBox().clear();
+
                     diversityEthnicityCheckBox(eachOption).click();
                     break;
                 case "Hispanic/Latino of any race":
