@@ -23,5 +23,7 @@ public class AccountSettingsPageStepDefs implements En {
         And("^HE I save the changes$", accountSettingsPage::clickSaveChanges);
 
         And("^HE I set the First Name field to the original value \"([^\"]*)\"$", accountSettingsPage::setFirstNameToOriginalValue);
+
+        And("^HE I verify the \"([^\"]*)\" tab is not displayed$", accountSettingsPage::verifyAccountSettingsTabIsNotDisplayed);
     }
 }
