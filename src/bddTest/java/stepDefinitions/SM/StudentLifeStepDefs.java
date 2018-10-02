@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 import pageObjects.SM.studentLife.StudentLifeImpl;
@@ -26,16 +25,11 @@ public class StudentLifeStepDefs implements En {
 
         Then("^I select the option \"([^\"]*)\" from the list \"([^\"]*)\"$", studentLifeObj::selectOptionFromList);
 
-        Then("^SM I verify that the option \"([^\"]*)\" was added to the Organizations and Clubs dropdown$", studentLifeObj::verifyAddedOptionInOrgsAndClubs);
-
-        Then("^SM I verify that \"([^\"]*)\" items are displayed in the Organizations and Clubs dropdown$", studentLifeObj::verifyNumberOfAddedOptionsInOrgsAndClubs);
-
-        And("^SM I remove the option \"([^\"]*)\" from the Organizations and Clubs text field$", studentLifeObj::removeOptionFromOrgAndClubs);
-
         Then("^SM I verify that the option \"([^\"]*)\" was added to the dropdown field$", studentLifeObj::verifyAddedOption);
 
         Then("^SM I verify that (\\d+) items are displayed in the dropdown field$", studentLifeObj::verifyNumberOfAddedOptions);
 
         And("^SM I remove the option \"([^\"]*)\" from the dropdown field$", studentLifeObj::removeOptionFromDropdownField);
+
     }
 }
