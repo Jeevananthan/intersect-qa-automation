@@ -1,7 +1,7 @@
 @HE
 Feature: HE - Events - Verify Manual Test Cases
 
-  @Manual @MATCH-3406
+  @Manual @MATCH-3406 @ignore
     Scenario: : This manual test case is to verify Filter count match
       Given HE I am logged in to Intersect HE as user type "administrator"
       When HE I open the Events section
@@ -27,7 +27,7 @@ Feature: HE - Events - Verify Manual Test Cases
       And HE I verify count increased by 1
       And HE I successfully sign out
 
-    @Manual @MATCH-2898
+    @Manual @MATCH-2898 @ignore
   Scenario: : This manual test case is to verify Filter count match
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events section
