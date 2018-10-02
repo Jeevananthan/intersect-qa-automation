@@ -10,6 +10,8 @@ public class DiversityStepDefs implements En {
         DiversityPageImpl diversityPage = new DiversityPageImpl();
 
         Then("^I verify that the default text in \"([^\"]*)\" is \"([^\"]*)\"$", diversityPage::verifyDefaultTextInElement);
-        
+
+        Then("^SM I verify that the \"([^\"]*)\" radio button is \"([^\"]*)\"$", diversityPage::verifyRadioButtonIsSelected);
+
     }
 }
