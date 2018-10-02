@@ -3,6 +3,7 @@ package pageObjects.SM.studentLife;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -65,7 +66,7 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     public void clickDropdown(String locator) {
         try {
             driver.findElement(By.cssSelector(locator)).click();
-        } catch (Exception e) {
+        } catch (InvalidSelectorException e) {
             driver.findElement(By.xpath(locator)).click();
         }
     }
@@ -92,6 +93,8 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         for (WebElement element : optionsListWebElements) {
             if (element.getText().equals(optionName)) {
                 element.click();
+            } else {
+                logger.info("The option " + optionName + " is not present in the list.");
             }
         }
     }
@@ -104,7 +107,7 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
                 isElementPresent = true;
             }
         }
-        Assert.assertTrue("The option was not added to the Organizations and Clubs text field",
+        Assert.assertTrue("The option was not added to the dropdown field",
                 isElementPresent);
     }
 

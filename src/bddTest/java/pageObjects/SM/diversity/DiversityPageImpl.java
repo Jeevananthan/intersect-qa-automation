@@ -3,6 +3,10 @@ package pageObjects.SM.diversity;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
@@ -20,12 +24,11 @@ public class DiversityPageImpl extends PageObjectFacadeImpl {
         String actualText = "";
         try {
             actualText = driver.findElement(By.cssSelector(locator)).getText();
-        } catch (Exception e) {
+        } catch (InvalidSelectorException e) {
             actualText = driver.findElement(By.xpath(locator)).getText();
         }
         Assert.assertTrue("The default text in the element is incorrect",
                 actualText.equals(expectedText));
     }
-
     //Locators
 }
