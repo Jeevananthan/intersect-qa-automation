@@ -206,6 +206,22 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     Then I check if I can see "63% are out-of-state students" on the page
   #TODO: add a scenario for Overall Diversity' once MATCH-4939 and MATCH-4938 are fixed
 
+  @MATCH-3805
+  Scenario: As a HS student, I want to filter colleges I am searching for by Diversity within the Diversity category so
+  I can see relevant colleges that match my Diversity requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Diversity" filter criteria tab
+    Then SM I verify that the "Overall Diversity" radio button is "selected"
+    And I click the dropdown "div#supermatch-diversity-percent-dropdown"
+    Then I verify that the options list "span.text" matches the list in "overall.diversity.percentage.list"
+    And I select the option "20%" from the list "span.text"
+    Then SM I verify that the Must Have box contains "At least 20% are minority students"
+    And I click the dropdown "div#supermatch-diversity-percent-dropdown"
+    And I select the option "10%" from the list "span.text"
+    Then SM I verify that the Must Have box contains "At least 10% are minority students"
+
   @MATCH-3373
   Scenario: As a HS student, I want to filter colleges I am searching for by Gender Concentration within the Diversity
   category so I can see relevant colleges that match my Gender Concentration requirements.

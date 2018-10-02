@@ -3,6 +3,8 @@ package pageObjects.SM.diversity;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.SM.institutionCharacteristicsPage.InstitutionCharacteristicsImpl;
 import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -16,6 +18,7 @@ public class DiversityPageImpl extends PageObjectFacadeImpl {
     public DiversityPageImpl() {
         logger = Logger.getLogger(DiversityPageImpl.class);
     }
+    InstitutionCharacteristicsImpl institutionCharacteristics = new InstitutionCharacteristicsImpl();
     SearchPageImpl searchPage = new SearchPageImpl();
 
     private Logger logger;
@@ -30,5 +33,10 @@ public class DiversityPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The default text in the element is incorrect",
                 actualText.equals(expectedText));
     }
+
+    public void verifyRadioButtonIsSelected(String label, String selectedUnselected) {
+        institutionCharacteristics.verifyCheckboxSelectedUnselected(label, selectedUnselected);
+    }
+
     //Locators
 }
