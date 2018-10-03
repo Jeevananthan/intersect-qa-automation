@@ -30,7 +30,7 @@ Feature: HS - RepVisits - CollegeVisits - As an HS user, I want my inputs to be 
     And HS I create a visit "1" days ahead from now with the following details
       | Start Time | 09:36am |
       | End Time   | 10:30am |
-      | Representative | Franky |
+      | Representative | PurpleHE Automation |
     And HS I open the visit with generated time in the Calendar
     And HS I open the Reschedule New Visit form
     Then HS I verify the following input validations in the Reschedule Visit form:

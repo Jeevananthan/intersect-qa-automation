@@ -16,9 +16,8 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #Create a visits and Fairs
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    T    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
-    And HS I successfully sign out
 #Register Visits and Fairs
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
@@ -27,7 +26,6 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
-    Then HE I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
@@ -39,9 +37,9 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #verify the City and State displayed in the HE Request Notification tab
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<School>" in the Request Notification Tab
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<School>" in the Request Notification Tab for Fairs
-    Then HE I successfully sign out
+
 #Verify the City and State displayed in the HS Request and Activity Notification Tab for Visits
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
@@ -53,13 +51,13 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Activity Tab
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    And HS I successfully sign out
+
 #Verify the City and State displayed in the HE Activity Notification Tab
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<schoolForHE>" in the Activity Tab
-    And HE I successfully sign out
+
 #Verify the City and State displayed in the HS Request and Activity Notification Tab for Fairs
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab for Fairs
     And HS I select "Confirm" option for the Notification using "<user>","<Date>","<fairStartTime>","<institution>" for Fairs
@@ -74,9 +72,9 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #Verify the City and State displayed in the HE Activity Notification Tab
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<schoolForHE>" in the Activity Tab for Fairs
-    And HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
@@ -104,7 +102,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
-    And HS I successfully sign out
+
 #Register Visits and Fairs
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And HE I search for "<Non-NavSchool>" in RepVisits page
@@ -113,7 +111,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     And HE I search for "<Non-NavSchool>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<Non-NavSchool>"
-    Then HE I successfully sign out
+
 
     Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
     And HE I search for "<Non-NavSchool>" in RepVisits page
@@ -125,9 +123,9 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #verify the City and State displayed in the HE Request Notification tab
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavSchool>" in the Request Notification Tab
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavSchool>" in the Request Notification Tab for Fairs
-    Then HE I successfully sign out
+
 #Verify the City and State displayed in the HS Request and Activity Notification Tab for Visits
-    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+#    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
@@ -138,11 +136,11 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Activity Tab
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    And HS I successfully sign out
+
 #Verify the City and State displayed in the HE Activity Notification Tab
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavschoolForHE>" in the Activity Tab
-    And HE I successfully sign out
+
 #Verify the City and State displayed in the HS Request and Activity Notification Tab for Fairs
     Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
     Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
@@ -157,13 +155,13 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Activity Tab for Fairs
     Then HS I set the RepVisits Visits Confirmations option to "<Option2>"
-    And HS I successfully sign out
+
 #Verify the City and State displayed in the HE Activity Notification Tab
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavschoolForHE>" in the Activity Tab for Fairs
-    And HE I successfully sign out
 
-    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+
+#    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
@@ -177,7 +175,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
   @MATCH-2565
   Scenario Outline: As a Repvisits admin users, I want to view the all requests should be available for all Admin user until one of the user approves/denies the request.
 #precondition
-    Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
+#    Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
@@ -185,25 +183,25 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    T    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
-    And HS I successfully sign out
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+
 
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-    Then HE I successfully sign out
+
 
     Then HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
-    Then HE I successfully sign out
+
 #verify notification is displayed
 #verify Notification in other admin user with same school
     Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
-    And HS I successfully sign out
+
 #verify Notification in admin user
     Given HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
@@ -220,7 +218,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #verify notification is not displayed
     Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    And HS I successfully sign out
+
 
 #verify Notification is not displayed in other admin user with same school
 #FOR CONFIRM
@@ -249,7 +247,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 #create new visit
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    Then     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
 #schedule Visit
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
