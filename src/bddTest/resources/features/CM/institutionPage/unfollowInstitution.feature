@@ -12,8 +12,6 @@ Feature: Community User - Unfollow Institution
     Then I go to institution page with institution id "10226"
     And I click on Unfollow institution button
     And I check if follow institution button is visible
-    Then HE I successfully sign out
-
 
   @MATCH-465
   Scenario: As a Community user I can unfollow a previously followed institution when on the Connections tab - Institutions I'm Following.
@@ -25,5 +23,4 @@ Feature: Community User - Unfollow Institution
     Then I unfollow institution with id "10226"
     And I go to institution page with institution id "10226"
     Then I check if follow institution button is visible
-    And HE I successfully sign out
 

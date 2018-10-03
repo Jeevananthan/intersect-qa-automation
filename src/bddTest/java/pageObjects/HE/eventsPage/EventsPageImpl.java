@@ -1,5 +1,6 @@
 package pageObjects.HE.eventsPage;
 
+import com.thoughtworks.selenium.webdriven.commands.WaitForPageToLoad;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -13,12 +14,15 @@ import pageObjects.HE.homePage.HomePageImpl;
 import pageObjects.HUBS.FamilyConnection.FCColleges.FCCollegeEventsPage;
 import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import utilities.GetProperties;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class EventsPageImpl extends PageObjectFacadeImpl {
 
@@ -82,6 +86,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteEvent(String eventName) {
+        waitUntilPageFinishLoading();
         getEventsTab("Unpublished").click();
         waitUntilPageFinishLoading();
         menuButtonForEvent(eventName).click();
@@ -146,7 +151,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     selectLocationByPosition(Integer.parseInt(row.get(1)));
                     break;
                 case "EVENT PRIMARY CONTACT":
-                    selectContactByName(row.get(1));
+                    if (isStringNumber(row.get(1))) {
+                        selectContactByPosition(Integer.parseInt(row.get(1)));
+                    } else{
+                        selectPrimaryContactByName(row.get(1));
+                    }
                     break;
                 case "EVENT PRIMARY CONTACT BY POSITION":
                     selectContactByPosition(Integer.parseInt(row.get(1)));
@@ -187,6 +196,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         primaryContactField().sendKeys(Keys.BACK_SPACE);
         driver.findElement(By.xpath("//table[@class='ui unstackable very basic left aligned table _1CESARq218cDE7u8vMyW3O']" +
                 "/tbody/tr[" + position + "]/td/div[@class='_3NjlddcItI-OTbh8G7MTQQ']")).click();
+    }
+
+    public void selectPrimaryContactByName(String contactName){
+
+        openSelectionFieldMenu(primaryContactField());
+        driver.switchTo().defaultContent();
+        driver.findElement(By.xpath("//div[text()='"+contactName+"']")).click();
+
     }
 
     public void selectLocationByName(String name) {
@@ -331,6 +348,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpublishEvent(String eventName) {
+        waitUntilPageFinishLoading();
         waitForUITransition();
         if (driver.findElements(By.cssSelector("input#name")).size() == 1) {
             eventsTabFromEditEventScreen().click();
@@ -341,13 +359,21 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             getEventsTab("Published").click();
         } catch(WebDriverException e) {
             //navianceCollegeProfilePage.welcomeTitle().click();
-            navigationBar.goToHome();
+            getNavigationBar().goToHome();
             getEventsTab("Published").click();
         }
+        for(int i=0; i<6;i++) {
+            try {
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(eventName)), 0));
+                break;
+            } catch (Exception e) {
+                getDriver().navigate().refresh();
+            }
+        }
+
         menuButtonForEvent(eventName).click();
         menuButtonForEventsUnpublish().click();
         unpublishYesButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(eventName)), 0));
     }
 
     public void createAndSaveEventWithUniqueName(DataTable eventData) {
@@ -519,12 +545,54 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         attendeeStatusBarStudent(eventName).click();
         verifyNoAttendeesMessage();
+
+
+    }
+
+    public void VerifyAttendeeData(DataTable attendeeData) {
+        waitUntilPageFinishLoading();
+        List<List<String>> attendeeDataDetails = attendeeData.asLists(String.class);
+        getTab("ATTENDEES").click();
+
+        for (int i = 0; i<6; i++) {
+            try {
+                driver.navigate().refresh();
+                waitUntilPageFinishLoading();
+                VerifyDataForAttendees(attendeeDataDetails);
+                break;
+            } catch (Exception e) {
+                //e.printStackTrace();
+            }
+        }
+    }
+
+
+
+    private void VerifyDataForAttendees(List<List<String>> data){
+            for (List<String> row : data) {
+            switch (row.get(0)) {
+                case "AttendeeFirstName":
+                    Assert.assertTrue("Attendee First Name is missinng",attendeeDataFirstName(row.get(1)).getText().contains(row.get(1)));
+                    break;
+                case "AttendeeLastName":
+                    Assert.assertTrue("Attendee Last Name is missinng",attendeeDataLastName(row.get(1)).getText().contains(row.get(1)));
+                    break;
+                case "AttendeeEmail":
+                    Assert.assertTrue("Attendee Email is missinng",attendeeDataEmail(row.get(1)).getText().contains(row.get(1)));
+                    break;
+                case "AttendeeStatus":
+                    Assert.assertTrue("Attendee Registered Status is missinng",attendeeDataStatus(row.get(1)).getText().contains(row.get(1)));
+                    break;
+                    }
+        }
+
     }
 
     private void verifyNoAttendeesMessage() {
         Assert.assertTrue("The message for no attendees in the event is not displayed", noAttendeesMessage().
                 getText().equals(noAttendeesMessageString));
     }
+
 
     public void verifyAttendeesFromEditMenu(String eventName) {
         menuButtonForEvent(eventName).click();
@@ -715,4 +783,10 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement mainEventsTitle() { return driver.findElement(By.cssSelector("a div div.hidden-mobile")); }
     private WebElement eventLinkByPosition(int position) { return driver.findElement(By.cssSelector("div[class *= 'ui stackable middle aligned grid'] div[class *= 'row']:nth-of-type(" + position + ") a:not(.ui)")); }
     private WebElement attendeesErrorMessage() { return driver.findElement(By.cssSelector("table[class *= 'ui very basic table'] div.ui.header span")); }
+    private WebElement attendeeDataFirstName(String firstName){return  driver.findElement(By.xpath("//Div[text()='" + firstName + "']"));}
+   // private WebElement attendeeDataFirstName(String firstName){return driver.findElement(By.cssSelector("div._3xgrllu8DG-OcR4kpSPd3A"));}
+    private WebElement attendeeDataLastName(String lastName){return  driver.findElement(By.xpath("//Div[text()='" + lastName + "']"));}
+    private WebElement attendeeDataEmail(String Email){return driver.findElement(By.xpath("//Div[text()='" + Email + "']"));}
+    private WebElement attendeeDataStatus(String Status){return driver.findElement(By.xpath("//Div[text()='" + Status + "']"));}
+
 }

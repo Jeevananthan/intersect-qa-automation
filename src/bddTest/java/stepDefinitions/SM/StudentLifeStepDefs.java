@@ -17,5 +17,19 @@ public class StudentLifeStepDefs implements En {
 
         And("^SM I pick \"([^\"]*)\" from the \"([^\"]*)\" dropdown in Student Life fit criteria$", studentLifeObj::pickOptionFromDropdownInStudentLife);
 
+        Then("^SM I verify that the default text in the \"([^\"]*)\" dropdown is \"([^\"]*)\" in Student Life fit criteria$", studentLifeObj::verifyDefaultTextInDropdown);
+
+        And("^I click the dropdown \"([^\"]*)\"$", studentLifeObj::clickDropdown);
+
+        Then("^I verify that the options list \"([^\"]*)\" matches the list in \"([^\"]*)\"$", studentLifeObj::verifyListMatchesList);
+
+        Then("^I select the option \"([^\"]*)\" from the list \"([^\"]*)\"$", studentLifeObj::selectOptionFromList);
+
+        Then("^SM I verify that the option \"([^\"]*)\" was added to the dropdown field$", studentLifeObj::verifyAddedOption);
+
+        Then("^SM I verify that (\\d+) items are displayed in the dropdown field$", studentLifeObj::verifyNumberOfAddedOptions);
+
+        And("^SM I remove the option \"([^\"]*)\" from the dropdown field$", studentLifeObj::removeOptionFromDropdownField);
+
     }
 }

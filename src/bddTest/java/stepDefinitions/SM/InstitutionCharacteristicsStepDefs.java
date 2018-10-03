@@ -11,5 +11,7 @@ public class InstitutionCharacteristicsStepDefs implements En {
 
         And("^SM I verify the tootip for \"([^\"]*)\" in \"([^\"]*)\"$", iCObj::verifyTooltipForAverageClassSize);
 
+        Then("^SM I verify that the \"([^\"]*)\" check box is \"([^\"]*)\" in Institution Characteristics$", iCObj::verifyCheckboxSelectedUnselected);
+
     }
 }
