@@ -16,7 +16,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #Create a visits and Fairs
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    T    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 #Register Visits and Fairs
@@ -185,7 +185,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    T    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "administrator"
@@ -249,7 +249,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 #create new visit
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    Then     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
 #schedule Visit
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
@@ -327,7 +327,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
