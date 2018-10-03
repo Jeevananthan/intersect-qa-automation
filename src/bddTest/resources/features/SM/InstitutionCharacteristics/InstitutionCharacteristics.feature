@@ -170,7 +170,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
     And SM I skip the onboarding modals
     And SM I verify the tootip for "AVERAGE CLASS SIZE" in "Institution Characteristics"
 
-  @MATCH-3341
+  @MATCH-3341 @MATCH-4105
   Scenario: As a HS student, I want to filter colleges I am searching for by College Type within the Institution
   Characteristics category so I can see relevant colleges that match my College Type requirements.
     Given SM I am logged in to SuperMatch through Family Connection

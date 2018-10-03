@@ -16,7 +16,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #Create a visits and Fairs
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 #Register Visits and Fairs
@@ -84,8 +84,8 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 
     Examples:
-      |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |School              |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|cityAndStateofInstitution|cityAndStateofSchool  |schoolForHE                 |
-      |PurpleHE|The University of Alabama|9:00am       |7  |10:25am  |11:25pm |3        |7        |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|Int Qa High School 4|10:        |10:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Tuscaloosa, AL           |Liberty Township, Ohio|Int Qa High School 4 - Ohio |
+      |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |School              |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|cityAndStateofInstitution|cityAndStateofSchool  |schoolForHE                 | option|
+      |PurpleHE|The University of Alabama|9:00am       |7  |10:25am  |11:25pm |3        |7        |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|Int Qa High School 4|10:        |10:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Tuscaloosa, AL           |Liberty Township, Ohio|Int Qa High School 4 - Ohio |1      |
 
   @MATCH-2168 @ignore
   Scenario Outline: As a Non-Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page,
@@ -102,7 +102,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #Create a visits and Fairs
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 #Register Visits and Fairs
@@ -171,8 +171,8 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 
     Examples:
-      |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE         |
-      |PurpleHE|The University of Alabama|9:00am       |14 |9:00am  |11:25pm |3        |14       |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|9:        |9:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Homeconnection|Tuscaloosa, AL           |Oak Harbor, Washington          |Homeconnection - Washington|
+      |user    |institution              |fairStartTime|Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |Option2                           |heStartTime|heTime |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE         |option|
+      |PurpleHE|The University of Alabama|9:00am       |14 |9:00am  |11:25pm |3        |14       |42      |11:25pm  |No, I want to manually review all incoming requests.|Yes, accept all incoming requests.|9:        |9:    |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Homeconnection|Tuscaloosa, AL           |Oak Harbor, Washington          |Homeconnection - Washington|1        |
 
   @MATCH-2565
   Scenario Outline: As a Repvisits admin users, I want to view the all requests should be available for all Admin user until one of the user approves/denies the request.
@@ -185,7 +185,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "administrator"
@@ -230,8 +230,8 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
 
     Examples:
-      |Date  |Day|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime |Option                                              |School            |heStartTime|heTime |user    |institution              |
-      |7     |7  |10:56am  |12:11pm|3        |7        |49     |12:11pm   |No, I want to manually review all incoming requests.|Homeconnection    |10:56am    |10:56am|PurpleHE|The University of Alabama|
+      |Date  |Day|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime |Option                                              |School            |heStartTime|heTime |user    |institution              |option|
+      |7     |7  |10:56am  |12:11pm|3        |7        |49     |12:11pm   |No, I want to manually review all incoming requests.|Homeconnection    |10:56am    |10:56am|PurpleHE|The University of Alabama|1     |
 
   @MATCH-2881
   Scenario Outline: As a Repvisits Naviance user, i cannot view the notification while Rescheduling an appointment that has already been pushed to Naviance
@@ -241,7 +241,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I go to the Naviance Settings to select the option "Manually choose which visits to publish. (If any)"
 #create Visit for Reschedule
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the value for Reschedule the visit
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -249,7 +249,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 #create new visit
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    Then HS I add the new time slot with "<Day>","<StartTimefornewVisit>","<EndTime>" and "<NumVisits>"
+    Then     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
 #schedule Visit
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
@@ -282,11 +282,11 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I go to the Naviance Settings to select the option "Manually choose which visits to publish. (If any)"
 #create Visit for Reschedule
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the value for Reschedule the visit
 #create new visit
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    Then HS I add the new time slot with "<Day>","<StartTimefornewVisit>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
 #schedule Visit
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
@@ -309,5 +309,5 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I remove the appointment from the calendar
 
     Examples:
-      |StartTime|EndTime |NumVisits|Option                            |hsEndTime|School                   |University                |heStartTime   |heTime   |Day|Date|StartDate|EndDate|StartTimefornewVisit|User     |reason   |heTimefornewVisit|heCalendarTime|
-      |12:34am  |12:59pm |3        |Yes, accept all incoming requests.|12:59pm  |Standalone High School 6 |The University of Alabama |12:34am       |12:34am  |14 |14  |14       |35     |12:28am             |PurpleHE |by QA    |12:28am          |12:33AM       |
+      |StartTime|EndTime |NumVisits|Option                            |hsEndTime|School                   |University                |heStartTime   |heTime   |Day|Date|StartDate|EndDate|StartTimefornewVisit|User     |reason   |heTimefornewVisit|heCalendarTime|option|
+      |12:34am  |12:59pm |3        |Yes, accept all incoming requests.|12:59pm  |Standalone High School 6 |The University of Alabama |12:34am       |12:34am  |14 |14  |14       |35     |12:28am             |PurpleHE |by QA    |12:28am          |12:33AM       |1|

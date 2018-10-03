@@ -50,6 +50,20 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     When SM I select the "Associate's" radio button from the Academics fit criteria
     Then SM I verify that the Must Have box contains "Associate's [Any]"
 
+  @MATCH-4105
+  Scenario Outline: Institution Type Updates in Academics
+    Given SM I click "Academics" filter criteria tab
+    And SM I select the "Bachelor's" radio button from the Academics fit criteria
+    And SM I click "Academics" filter criteria tab
+    And SM I pick "Acoustics" from the dropdown "<minorsDropdownLocator>"
+    Then SM I verify that the Must Have box contains "Major [Any]"
+    And SM I pick "Accounting" from the dropdown "<majorsDropdownLocator>"
+    Then SM I verify that the Must Have box contains "Major [1]"
+    Then SM I verify that the Must Have box contains "Minor [1]"
+  Examples:
+    | majorsDropdownLocator                                  | minorsDropdownLocator                                  |
+    | //div[@class = 'row'][1]//div[@class = 'default text'] | //div[@class = 'row'][2]//div[@class = 'default text'] |
+
   @MATCH-3397
   Scenario Outline: As a HS student, I want to filter colleges I am searching for by Degree Type within the Academics category
   so I can see relevant colleges that match my Degree Type requirements.
@@ -70,4 +84,3 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     | Master's     | Accounting and Business/Management |
     | Doctorate    | Accounting and Business/Management |
     | Graduate Certificate | Aboriginal/Indigenous Studies |
-

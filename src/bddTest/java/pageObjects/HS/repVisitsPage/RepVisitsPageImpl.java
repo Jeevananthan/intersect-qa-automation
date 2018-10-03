@@ -4191,6 +4191,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         time = StartTime.toUpperCase();
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
+        navigateToException();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -5156,8 +5157,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyVisitsinException(String option,String time,String Date,String visits) {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        availabilityAndSettings().click();
-        exception().click();
+        navigateToException();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='previous week']")));
         waitUntilElementExists(dateButton());
@@ -5183,7 +5183,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyTimeslot(String startDate,String endDate,String time) {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        waitForUITransition();
+        navigateToException();
+        waitUntilElementExists(availabilityAndSettings());
         availabilityAndSettings().click();
         availability().click();
         regularWeeklyHours().click();
@@ -5992,7 +5993,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         availabilityAndSettings().click();
         availability().click();
         exception().click();
-        selectTimeSlot(day, time);
+        selectTimeSlot(day,StartTime);
         Assert.assertTrue("Block this time slot button is not present", getBlockThisTimeSlotButton()
                 .isDisplayed());
         getCancelExceptionButton().click();
