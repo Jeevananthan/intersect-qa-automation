@@ -1548,7 +1548,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(time==null){
             time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         }
-        WebElement availabilityButton = getDriver().findElement(By.xpath("(//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr/td)[3]/div/div/button[text()='"+time+"']"));
+        WebElement availabilityButton = getDriver().findElement(By.xpath("(//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr/td)[3]/div/div/button[text()='"+pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime+"']"));
         waitUntil(ExpectedConditions.visibilityOf(availabilityButton));
         Assert.assertTrue("Availability is not displayed",availabilityButton.isDisplayed());
         availabilityButton.click();

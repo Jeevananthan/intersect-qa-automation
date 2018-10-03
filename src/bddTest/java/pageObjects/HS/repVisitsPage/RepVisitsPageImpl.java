@@ -17,7 +17,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -4192,6 +4191,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         time = StartTime.toUpperCase();
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
+        navigateToException();
         availabilityAndSettings().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -4207,11 +4207,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
             jsClick(removeIcon);
             waitUntilPageFinishLoading();
-            driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+            acceptButton().click();
             waitUntilPageFinishLoading();
         }else{
             Assert.fail("The Time Slot "+time+"is not displayed in the Regular weekly hours ");
         }
+    }
+
+    public void removeTimeSlotsInExceptionsTab(String date, String time) {
+        navigateToException();
+        waitUntilPageFinishLoading();
+        nextWeekException().click();
+
+            //Remove Time slot
+            WebElement removeIcon = removeSingleTimeSlot();
+            jsClick(removeIcon);
+            waitUntilPageFinishLoading();
+            acceptButton().click();
+            waitUntilPageFinishLoading();
     }
 
     /**
@@ -4757,7 +4770,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return allElementsInDayCell;
     }
 
-    public void addnewTimeSlot(String day, String startTime, String endTime, String numVisits) {
+    public void addnewTimeSlot(String day, String startTime, String endTime, String numVisits, String option) {
         getNavigationBar().goToRepVisits();
         WebElement element = availabilityAndSettings();
         waitUntilElementExists(element);
@@ -4790,14 +4803,30 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
         List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
-        if(displayingPopup.size()==1){
-            driver.findElement(By.id("ignore-time-slots")).click();
-            button("Add regular hours").click();
+        if(displayingPopup.size()==1 && option.contains("1")){
+            ignoreTimeSlotOption().click();
+            addRegularHoursButton().click();
             waitUntilPageFinishLoading();
+        }else if(option.contains("2")){
+            createTimeSlotOption().click();
+            addRegularHoursButton().click();
+
         }else if(duplicateTimeSlot.size()==1){
-            addnewTimeSlot(day, startTime, endTime, numVisits);
+            addnewTimeSlot(day, startTime, endTime, numVisits, option);
         }
     }
+
+    public boolean verifyTimeSlotInExceptions() {
+       navigateToException();
+       try{
+        Assert.assertFalse("College Fair TextBox is not displayed",driver.findElement(By.xpath("//div[@class = 'igoATb7tmfPWBM8CX8CkN']/table/tbody/tr/td/div/button[text()='+StartTime+']")).isDisplayed());}
+       catch (NoSuchElementException ex)  {
+           return true;
+       }
+        return false;
+    }
+
+
 
     public void accessCreateCollegeFair(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected,String buttonToClick){
         waitUntilPageFinishLoading();
@@ -5128,8 +5157,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyVisitsinException(String option,String time,String Date,String visits) {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        availabilityAndSettings().click();
-        exception().click();
+        navigateToException();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='previous week']")));
         waitUntilElementExists(dateButton());
@@ -5155,7 +5183,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyTimeslot(String startDate,String endDate,String time) {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        waitForUITransition();
+        navigateToException();
+        waitUntilElementExists(availabilityAndSettings());
         availabilityAndSettings().click();
         availability().click();
         regularWeeklyHours().click();
@@ -5964,7 +5993,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         availabilityAndSettings().click();
         availability().click();
         exception().click();
-        selectTimeSlot(day, time);
+        selectTimeSlot(day,StartTime);
         Assert.assertTrue("Block this time slot button is not present", getBlockThisTimeSlotButton()
                 .isDisplayed());
         getCancelExceptionButton().click();
@@ -6842,7 +6871,7 @@ public void cancelRgisteredCollegeFair(String fairName){
             waitUntilPageFinishLoading();
             waitForUITransition();
         }else if(duplicateTimeSlot.size()==1){
-            addnewTimeSlot(day, startTime, endTime, numVisits);
+            addnewTimeSlot(day, startTime, endTime, numVisits, "1");
         }
     }
 
@@ -8426,6 +8455,11 @@ public void cancelRgisteredCollegeFair(String fairName){
     private  WebElement rightArrowNextWeek(){
         return getDriver().findElement(By.xpath("//button[@aria-label='Next week']"));
     }
+
+    private  WebElement nextWeekException(){
+        return getDriver().findElement(By.xpath("//button[@title='next week']"));
+    }
+
     private WebElement selectFridayVisit(){
         return getDriver().findElement(By.cssSelector("table.ui.unstackable.basic.table td:nth-of-type(4) button"));
     }
@@ -9064,4 +9098,18 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement hoursDaysOption(String option) { return driver.findElement(By.xpath("//div[@role='option']/span[text() = '" + option + "']")); }
 
     private String exportButtonLocator = "button[title='Export']";
+
+    private WebElement createTimeSlotOption() {  return driver.findElement(By.id("recreate-time-slots"));    }
+
+    private WebElement ignoreTimeSlotOption() {  return driver.findElement(By.id("ignore-time-slots"));    }
+
+    private WebElement addRegularHoursButton() {  return  button("Add regular hours");    }
+
+    private WebElement removeSingleTimeSlot() {  return getDriver().findElement(By.xpath("//i[@class='trash outline icon _6S_VIt7XKOpy-Mn7y_CJu']"));   }
+
+    private WebElement acceptButton() {  return driver.findElement(By.cssSelector("button[class='ui primary button']"));   }
+
+
+
+
 }
