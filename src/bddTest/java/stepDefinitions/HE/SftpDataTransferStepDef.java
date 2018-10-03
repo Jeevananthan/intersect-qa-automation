@@ -23,5 +23,10 @@ public class SftpDataTransferStepDef implements En {
         And("^HE I verify that the TEST AND SAVE button is displayed$",sftpDataTransferPage::verifyTestAndSaveButtonIsDisplayed);
         And("^HE I verify the title of the page is \"([^\"]*)\"$",sftpDataTransferPage::verifySftpDataTransferTitleLink);
         And("^HE I verify that when clicking on the title link I am redirected to the main page$",sftpDataTransferPage::verifySftDataTransferTitleLinkBehavior);
+        And("^HE I verify the text of the generate ssh key button is \"([^\"]*)\"$",sftpDataTransferPage::verifyGenerateKeyButtonText);
+        And("^HE I verify the text of the re generate ssh key button is \"([^\"]*)\"$",sftpDataTransferPage::verifyReGenerateKeyButtonText);
+        And("^I generate a new SSH Key$",sftpDataTransferPage::generateSSHKey);
+        And("^I verify a new SSH key was generated$",sftpDataTransferPage::verifySshKeyWasGenerated);
+        And("^I verify the generated ssh key message that says \"([^\"]*)\"$",sftpDataTransferPage::verifyGeneratedSshKeyMessage);
     }
 }

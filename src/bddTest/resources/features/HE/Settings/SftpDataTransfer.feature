@@ -58,6 +58,23 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
       And HE I verify the text "For quicker confirmation during set up, it is recommended you ask your administrator for your server's fingerprint beforehand." is displayed
       And HE I verify that the TEST AND SAVE button is displayed
 
+      @MATCH-4917
+      Scenario: As an HE admin associated with an HE account that has an active AMPLUS subscription, I want the ability
+      to generate an SSH public key for Hobsons So that I can leverage an alternate authentication path beyond
+      entering our SFTP server password.
+        Given HE I am logged in to Intersect HE as user type "administrator"
+        And HE I delete the SFTP Data Transfer connection
+        When HE I go to the Set Up Connection page
+        And HE I select the value "SSH Public Key" in authentication method radio buttons
+        Then HE I verify the text of the generate ssh key button is "GENERATE KEY"
+        When I generate a new SSH Key
+        Then I verify a new SSH key was generated
+        And HE I verify the text of the re generate ssh key button is "DELETE & REGENERATE KEY"
+        And I verify the generated ssh key message that says "Using public key generated (.*)by PurpleHE Automation"
+        And HE I verify the text "Copy the generated key shown below immediately. You won't see it again later. Otherwise, you'll need to generate a new one." is displayed
+        And HE I verify the text "SSH Public Keys can be used instead of a password to authenticate over secure protocols. Be careful, personal access tokens should be treated as securely as any other password." is displayed
+
+
 
 
 
