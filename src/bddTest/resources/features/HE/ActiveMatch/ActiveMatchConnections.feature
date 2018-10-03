@@ -16,7 +16,6 @@ And HE I verify the following headers are present in the ActiveMatch export conn
 |Since Last Export|Historical|By School Year|
 And HE I verify the Default drop-down Menu selection to remain "Since Last Export" after all connections are modified
 |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
-And HE I successfully sign out
 
 
 @MATCH-3012 @ignore
@@ -34,11 +33,9 @@ When HE I export the ActiveMatchConnections for the current year
 Then HE I verify the downloaded ActiveMatch Cvs file "student-connections.csv" contains the following headers
 |First Name|Last Name|Email|Phone|Address|City|State|Zip|Ethnicity|Gender|BirthDate|SchoolName|Ceeb|Graduation Year|Gpa|Created/Modified Date|Connection Status|
 Then HE I delete the downloaded ActiveMatch Cvs file "student-connections.csv"
-Then HE I successfully sign out
 
   @MATCH-4696
   Scenario: Bug: ActiveMatch Blinking login screen
     Given HE I am logged in to Intersect HE as user type "administrator" and url "amconnections"
     Then HE I verify the ActiveMatch page
-    And HE I successfully sign out
 

@@ -42,7 +42,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     When HE I unpublish the event of name "TestEvent9999Edited"
     And HE I delete the event of name "TestEvent9999Edited"
     Then HE The deleted event of name "TestEvent9999Edited" should not be displayed in the unpublished events list
-    And HE I successfully sign out
 
   @MATCH-2913 @MATCH-2902 @MATCH-2928
   Scenario: Verify an event can be cancelled
@@ -77,7 +76,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     And HE I open the Create Event screen
     And HE I publish the current event
     Then HE I verify required fields error messages for events
-    And HE I successfully sign out
 
   @MATCH-3614
   Scenario: Verify an event with registrations cannot be unpublished
@@ -107,7 +105,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     Then HE I verify the message that warns that an event with attendee cannot be unpublished
     #Cleanup step
     And HE I cancel the created event
-    And HE I successfully sign out
 
   @MATCH-3613
   Scenario: Verify cancelled events can still be viewed in Naviance Student
@@ -129,7 +126,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     And I open link Upcoming college events
     And I look for the host "The University of Alabama"
     Then I verify the cancelation message for the generated event
-    And HUBS I successfully sign out
 
   @MATCH-3489
   Scenario: Verify a past event cannot be published
@@ -143,7 +139,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     Then HE I verify that a warning message about the past date is displayed
-    And HE I successfully sign out
 
     @MATCH-4101 @manual @ignore
   Scenario: Verify an event for one school cannot be accessed from another
@@ -162,4 +157,54 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     When HE I open the Events section
     And HE I open the "Events" tab in the Events section
     Then HE I verify that the events' names are clickable and they open the Edit Event screen
+
+  @MATCH-2897
+  Scenario: Verify Attendee details on the Edit Event screen - Registered and Cancelled Status for Attendees
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I create and publish a new event "60" minutes ahead from now with the following details:
+      | Event Name  | EventForMATCH2897M |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | Test |
+      | Max Attendees | 30 |
+      | EVENT LOCATION BY POSITION  | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
+    When I log in to Family Connection with the following user details:
+      | rtsa       | amandahubs | Hobsons!23  |
+    And I Navigate to old Colleges tab
+    And I open link Upcoming college events
+    And I look for the host "The University of Alabama"
+    Then I sign up for the event "EventForMATCH2897M"
+    Then I register for the event
+    And HUBS I successfully sign out
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I open the event of name "EventForMATCH2897M"
+    And HE I verify Attendee Data Details on Edit Events attendee screen
+      | AttendeeFirstName | Amanda |
+      | AttendeeLastName | Hubs |
+      | AttendeeEmail | amandahubs@dev.naviance.com |
+      | AttendeeStatus | Registered                 |
+    When I log in to Family Connection with the following user details:
+      | rtsa       | amandahubs | Hobsons!23  |
+    And I Navigate to old Colleges tab
+    And I open link Upcoming college events
+    And I look for the host "The University of Alabama"
+    Then I click on View/Update button on event name "EventForMATCH2897M"
+    Then I Cancel for the Event I signed up for
+    And HUBS I successfully sign out
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I open the Events list
+    And HE I open the event of name "EventForMATCH2897M"
+    And HE I verify Attendee Data Details on Edit Events attendee screen
+      | AttendeeFirstName | Amanda |
+      | AttendeeLastName | Hubs |
+      | AttendeeEmail | amandahubs@dev.naviance.com |
+      | AttendeeStatus | Cancelled                 |
+    And HE I open the Events list
+    And HE I unpublish the event of name "EventForMATCH2897M"
+    And HE I open the "Unpublished" tab in Events
+    And HE I delete the event of name "EventForMATCH2897M"
+    And HE I successfully sign out
+    # This test case will run only once successfully because of the reported issue MATCH-5019. Once MATCH-5019 is fixed , it will work properly. To re-run manualay edit Event Name
 

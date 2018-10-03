@@ -17,6 +17,5 @@ Feature: Community User - Send Message to Multiple Community Users
     And I add "PurpleHS User" user as selected connection
     And I click on Send button
     And I check if there is a notification about message action
-    Then HE I successfully sign out
 
 

@@ -12,7 +12,6 @@ Feature: Community User - New Connection Request Notification
     And I am connected to HS user
     Then I open Notifications list
     And I check if user has new notification
-    And HE I successfully sign out
 
 
   #This scenario cannot be covered because of gmail security system

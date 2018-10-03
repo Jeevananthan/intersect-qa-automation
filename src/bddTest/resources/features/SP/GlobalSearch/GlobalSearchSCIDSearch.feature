@@ -19,7 +19,6 @@ Feature: SP - GlobalSearch - GlobalSearchSCIDSearch - Ability to search for Inst
     Given SP I am logged in to the Admin page as a Sales Ops user
     When SP I search for "1100545"
     Then SP I am able to see "Indiana University Bloomington" institution in the results
-    And SP I successfully sign out
 
 
   @MATCH-5074
@@ -27,4 +26,3 @@ Feature: SP - GlobalSearch - GlobalSearchSCIDSearch - Ability to search for Inst
     Given SP I am logged in to the Admin page as a Sales Ops user
     When SP I search for "2400006"
     Then SP I am able to see "The University of Alabama" institution in the results
-    And SP I successfully sign out

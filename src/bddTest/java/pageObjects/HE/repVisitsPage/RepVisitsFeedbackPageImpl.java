@@ -471,7 +471,7 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
     }
 
     public void verifyHSUsersNameLink(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         getVisitsFeedbackBtn().click();
         waitUntilPageFinishLoading();
@@ -479,8 +479,8 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
             logger.info("No visit feedback is submitted for this user from HS side....");
         else {
             WebElement HEUserLeftPanel = driver.findElement(By.xpath("//ul[@class='ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu']"));
-            HEUserLeftPanel.findElement(By.xpath(".//i[@class='star disabled icon azDd81vj4qd4ERFjicrCo']")).click();
-            WebElement sectionOne = driver.findElement(By.xpath("(//div[@class='ui vertical segment rating-segment'])[2]"));
+            HEUserLeftPanel.findElement(By.xpath("(.//i[@class='star disabled icon azDd81vj4qd4ERFjicrCo']) [2]")).click();
+            WebElement sectionOne = driver.findElement(By.xpath("(//div[@class='ui vertical segment rating-segment'])[3]"));
             List<WebElement> links = sectionOne.findElements(By.tagName("a"));
             WebElement HSUserLink = links.get(0);
             String userNameColorHS = HSUserLink.getCssValue("color");

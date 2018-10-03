@@ -17,7 +17,6 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
     | Filter Name        | FilterTest123 |
     Then HE A filter of name "FilterTest123" is displayed in the filters list
     And HE I delete the filter of name "FilterTest123"
-    And HE I successfully sign out
 
   @MATCH-2895
   Scenario: As a HE Intersect user, I can create a filter in AM Events from the Create Event Screen
@@ -38,7 +37,6 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
     Then HE A filter of name "FilterTestxx937" is displayed in the Event Audience list
     And HE I open the "Filters" tab in the Events section
     And HE I delete the filter of name "FilterTestxx937"
-    And HE I successfully sign out
 
   @MATCH-2895 @MATCH-3509
   Scenario: As a HE User, verify Create Filter Page Validations

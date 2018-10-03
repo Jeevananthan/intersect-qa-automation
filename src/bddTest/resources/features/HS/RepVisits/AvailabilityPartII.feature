@@ -13,7 +13,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     And HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" in "Liberty Township, OH" from the RepVisits intermediate search results
     And HE I verify Repvisits Special Instructions for School are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
-    And HE I successfully sign out
 
   @MATCH-1576
   Scenario Outline: As a HS RepVisits user, I want to be able to Block specific days and date ranges in the Holidays tab of the Availability and Settings page
@@ -24,7 +23,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I click the Remove option for the "<StartDate>" and "<EndDate>" in the Holiday tab
     Then HS I go to the Counselor Community
     Then HS I verify the "<StartDate>" and "<EndDate>" date with "<Reason>" was not present in the Holidays tab in the Availability & Settings page in RepVisits
-    And HS I successfully sign out
     Examples:
       |BlockedDate          |Reason       |StartDate  | EndDate   |
       |13                   |No School    |13         | 13        |
@@ -39,7 +37,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
     Then HS I verify the StartDate is set to "<verifyStartDate>" and EndDate is set to "<verifyEndDate>"
-    And HS I successfully sign out
 
     Examples:
       |StartDate     |EndDate        |verifyStartDate  |verifyEndDate   |
@@ -52,7 +49,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I set the RepVisits Confirmation message to "<Message>"
     And HS I verify the messaging updated confirmation toast message
     And HS I verify the RepVisits Confirmation message is set to "<Message>"
-    Then HS I successfully sign out
 
     Examples:
       |Message                 |
@@ -71,7 +67,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I verify the success Message "Great! You've updated College Fair settings." in Fair Settings page
     And HS I go to the Notifications & Primary Contact Tab in HS Setup Wizard page
     Then HS I verify the Primary Contact Phone Number is required in the Visits and Fairs setup wizard
-    And HS I successfully sign out
 
   @MATCH-2691
   Scenario Outline: As a High School RepVisits User who is viewing my exceptions (/rep-visits/settings/availability/exceptions)
@@ -79,7 +74,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
   So that I can edit remaining availabilities.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify in exceptions the appointments color and status for "<AppointmentStatus>" with color "<Color>"
-    Then HS I successfully sign out
     Examples:
       |AppointmentStatus       |Color                   |
       |Max visits met          | rgba(233, 233, 245, 1) |
@@ -141,7 +135,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    And HS I successfully sign out
 
     Examples:
       |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         |
@@ -153,7 +146,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I Set the Primary Contact for Visits for my  school with phone"444-444-4444" and Email "mbhangu@hobsons.com"
     And HS I Save the Primary Contacts for visits for my school
-    And HS I successfully sign out
 
   @MATCH-2381 @test
   Scenario: As a HS RepVisits user verify note to let users know their contact info will be visible
@@ -165,7 +157,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     And HS I click View Details against fair
     And HS I click on Edit button to edit fair
     And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
-    And HS I successfully sign out
 
   @MATCH-3257 @MATCH-3603
   Scenario Outline: As a HS admin user,I want the ability to specify my school's "regular weekly hours"

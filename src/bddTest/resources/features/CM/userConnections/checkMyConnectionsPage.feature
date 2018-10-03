@@ -10,4 +10,3 @@ Feature: Community User - Connections Tab to Show Community User Their Connectio
     Then I go to connections page
     And I check if my connections page is opened
     And I check if I can navigate to an individual user
-    Then HE I successfully sign out
