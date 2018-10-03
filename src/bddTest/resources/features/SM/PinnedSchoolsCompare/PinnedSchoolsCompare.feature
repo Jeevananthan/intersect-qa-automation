@@ -67,3 +67,12 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       Then SM I open the Pinned Schools Compare screen
       Then SM I verify that in the "Cost" criteria table "Meets 100% of need" criteria for the 1 college is "Unknown"
       Then SM I verify that in the "Cost" criteria table "Meets 100% of need" criteria for the 2 college is "Yes"
+
+  @MATCH-3950
+  Scenario: As a HS student that is comparing my pinned schools, I want to see Resources details about each college
+  side by side so I can determine which pinned college is a best fit for me based on their Resources.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I check if any college is already pin if not then pin one college
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify all the options available in Resources fit criteria in Resources expandable drawer

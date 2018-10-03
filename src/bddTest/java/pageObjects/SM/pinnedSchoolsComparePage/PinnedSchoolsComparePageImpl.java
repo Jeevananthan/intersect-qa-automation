@@ -15,6 +15,8 @@ import java.io.File;
 import pageObjects.SM.searchPage.SearchPageImpl;
 import utilities.HUBSEditMode.Navigation;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
@@ -240,7 +242,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     private String getDataForSpecificFilter(String fitTab, String criteriaName, int collegPosition) {
-        if(fitTab.trim().length() != 0) {
+        if (fitTab.trim().length() != 0) {
             return driver.findElement(By.xpath("//table[caption='" + fitTab + "']//div[text()='" +
                     criteriaName + "']/../../td[" + (collegPosition + 1) + "]/span")).getText();
         } else {
@@ -250,13 +252,38 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyTextDataForCriteria(String fitTab, String criteriaName, Integer collegePosition, String expectedText){
+    public void verifyTextDataForCriteria(String fitTab, String criteriaName, Integer collegePosition, String expectedText) {
 
-       String actualText =  getDataForSpecificFilter(fitTab, criteriaName,collegePosition);
-       Assert.assertEquals(actualText, expectedText);
+        String actualText = getDataForSpecificFilter(fitTab, criteriaName, collegePosition);
+        Assert.assertEquals(actualText, expectedText);
+    }
+
+    public void verifyResourcesExpandableDrawerOptions() {
+        WebElement resourceDrawerTable = resourceDrawerTable();
+        List<WebElement> resourcesOptions = resourceDrawerTable.findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));
+        String expResourcesOptions[] = {"Learning Differences Support", "Academic/Career Counseling", "Counseling Services", "Tutoring Services",
+                "Remedial Services", "ESL/ELL Services", "Physical Accessibility", "Services for the Blind or Visually Impaired", "Services for the Deaf and Hard of Hearing",
+                "Asperger's/Autism Support", "Day Care Services"};
+
+        for (int i = 0; i < resourcesOptions.size(); i++) {
+            Assert.assertTrue(resourcesOptions.get(i) + " option is not matching with the expected option ie " + expResourcesOptions[i], resourcesOptions.get(i).getText().equals(expResourcesOptions[i]));
+        }
+    }
+
+    public void checkPinnedCollegeCount(){
+        WebElement pinnedCollegeNo = driver.findElement(By.id("pinCount"));
+        if (Integer.parseInt(pinnedCollegeNo.getText())==0){
+            searchPage.setResourcesCriteria("Learning Differences Support");
+            searchPage.iPinColleges("1");
+        } else
+            logger.info("No need to pin any college since college is already pinned");
     }
 
     // Locators Below
+
+    private WebElement resourceDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Resources']/.."));
+    }
 
     private String drawersListLocator = "thead.toggle-enabled";
     private String drawersArrowsLocator = "div.ui.segment.supermatch-compare-content i.caret";
