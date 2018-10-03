@@ -5,6 +5,9 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utilities.GetProperties;
+
+import java.util.Iterator;
 import java.util.List;
 
 public class HEHSCommonImpl extends PageObjectFacadeImpl {
@@ -36,6 +39,18 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void navigateToURL(String URL){
+        load(GetProperties.get("he.app.url")+ URL);
+    }
+
+    public void verifyColumnHeaders(String locator, DataTable dataTable) {
+        List<String> details = dataTable.asList(String.class);
+        List<WebElement> columns = getTable(locator).findElements(By.cssSelector("tr th"));
+        for (int i=0; i < details.size(); i++) {
+            Assert.assertEquals("Column names are different", details.get(i), columns.get(i).getText());
+        }
+    }
+
 
 //locators
     private WebElement notification(){
@@ -43,5 +58,8 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
     private WebElement notificationsAndTasks () {
         return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Notifications & Tasks']"));
+    }
+    private WebElement getTable (String locator) {
+        return driver.findElement(By.cssSelector("table."+locator));
     }
 }
