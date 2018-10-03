@@ -44,6 +44,29 @@ public class FCHubsEvents_StepDef {
         collegeEvents.verifyInformationAndWelcomeMessage();
 
     }
+
+    @Then("^I sign up for the event \"([^\"]*)\"$")
+    public void iSignUpForTheEvent(String nameOfEvent) throws Throwable {
+        collegeEvents.signUpForEvent(nameOfEvent);
+}
+
+
+    @Then("^I register for the event$")
+    public void iRegisterForTheEvent() throws Throwable {
+        collegeEvents.registerForEvent();
+    }
+
+    @Then("^I click on View/Update button on event name \"([^\"]*)\"$")
+    public void iClickOnViewUpdateButtonOnEventName(String eventToUpdate) throws Throwable {
+        collegeEvents.ViewUpdateEvent(eventToUpdate);
+    }
+
+    @Then("^I Cancel for the Event I signed up for$")
+    public void iCancelForTheEventISignedUpFor() throws Throwable {
+        collegeEvents.selectYesCancelRegistration();
+        collegeEvents.clickSaveChanges();
+
+    }
 }
 
 
