@@ -185,7 +185,6 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
 
-
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
