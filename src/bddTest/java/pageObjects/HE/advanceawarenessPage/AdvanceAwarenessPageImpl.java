@@ -34,7 +34,6 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
         for (String  eachOption : ethnicities) {
             switch (eachOption) {
                 case "Asian":
-
                     diversityEthnicityCheckBox(eachOption).click();
                     break;
                 case "Hispanic/Latino of any race":
@@ -43,6 +42,22 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
                 case "Multiracial":
                     diversityEthnicityCheckBox(eachOption).click();
                     break;
+                case "American Indian or Alaskan Native":
+                    diversityEthnicityCheckBox(eachOption).click();
+                    break;
+                case "Black or African American":
+                    diversityEthnicityCheckBox(eachOption).click();
+                    break;
+                case "Filipino":
+                    diversityEthnicityCheckBox(eachOption).click();
+                    break;
+                case "Native Hawaiian or Other Pacific Islander":
+                    diversityEthnicityCheckBox(eachOption).click();
+                    break;
+                case "All Other Racial/Ethnic Minority Groups":
+                    diversityEthnicityCheckBox(eachOption).click();
+                    break;
+
 
     }}}
 
