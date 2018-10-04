@@ -47,7 +47,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
       And HE I verify the text "Choose which days of the week Intersect should transfer new data to your SFTP server." is displayed
       And HE I verify that the following check boxes are displayed in transfer frequency section
           |sun|mon|tue|wed|thu|fri|sat|
-      And HE I verify the text "File transfers will occur on selected days every week between approximately 12 AM and 1 AM (EST)." is displayed
+      And HE I verify the text "File transfers will occur on selected days every week between approximately 12 AM and 1 AM (EDT)." is displayed
       And HE I verify the text "IP WHITELISTING" is displayed
       And HE I verify the text "To successfully accept this connection, you may need to add the Hobsons Public IPs to your IP Whitelist." is displayed
       And HE I verify the following ip addresses are displayed in IP WHITELISTING text box
