@@ -52,12 +52,12 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void clickMenuLink(String text) {
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//div[3]//a/span[text()=\"" + text + "\"]")));
+        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath(getMenuLinkLocator(text))));
         getMenuLink(text).click();
     }
 
     public void clickMenuTab(String text) {
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//div[2]//a/span[text()=\"" + text + "\"]")));
+        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath(getMenuTabLocator(text))));
         getMenuTab(text).click();
     }
 
@@ -74,9 +74,15 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getMenuLink(String locator) {
-        return getDriver().findElement(By.xpath("//div[3]//a/span[text()=\"" + locator + "\"]"));
+        return getDriver().findElement(By.xpath(getMenuLinkLocator(locator)));
     }
     private WebElement getMenuTab (String locator) {
-        return getDriver().findElement(By.xpath("//div[2]//a/span[text()=\"" + locator + "\"]"));
+        return getDriver().findElement(By.xpath(getMenuTabLocator(locator)));
+    }
+    private String getMenuLinkLocator(String advancedAwarenessOption) {
+        return "//div[3]//a/span[text()=\"" + advancedAwarenessOption + "\"]";
+    }
+    private String getMenuTabLocator(String advancedAwarenessTab) {
+        return "//div[2]//a/span[text()=\"" + advancedAwarenessTab + "\"]";
     }
 }
