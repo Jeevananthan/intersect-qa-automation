@@ -12,6 +12,8 @@ public class HEHSCommonStepDefs implements En {
         Then("I verify the following sub-tabs are displaying and \"([^\"]*)\" is \"([^\"]*)\" in the notification tab for \"([^\"]*)\" user$",HEHSCommonImpl::verifySubtabsInNotificationsPage);
         When("^HE I navigate to the \"([^\"]*)\" url$",HEHSCommonImpl::navigateToURL);
         Then("^I verify that the column headers in the \"([^\"]*)\" table are the following:$", HEHSCommonImpl::verifyColumnHeaders);
+        Then("^HE I click menu tab \"([^\"]*)\"$",HEHSCommonImpl::clickMenuTab );
+        Then("^HE I click menu link \"([^\"]*)\"$",HEHSCommonImpl::clickMenuLink);
 
     }
 }

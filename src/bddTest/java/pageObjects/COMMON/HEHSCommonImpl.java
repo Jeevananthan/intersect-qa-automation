@@ -51,6 +51,16 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clickMenuLink(String text) {
+        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//div[3]//a/span[text()=\"" + text + "\"]")));
+        getMenuLink(text).click();
+    }
+
+    public void clickMenuTab(String text) {
+        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//div[2]//a/span[text()=\"" + text + "\"]")));
+        getMenuTab(text).click();
+    }
+
 
 //locators
     private WebElement notification(){
@@ -61,5 +71,12 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
     private WebElement getTable (String locator) {
         return driver.findElement(By.cssSelector("table."+locator));
+    }
+
+    private WebElement getMenuLink(String locator) {
+        return getDriver().findElement(By.xpath("//div[3]//a/span[text()=\"" + locator + "\"]"));
+    }
+    private WebElement getMenuTab (String locator) {
+        return getDriver().findElement(By.xpath("//div[2]//a/span[text()=\"" + locator + "\"]"));
     }
 }
