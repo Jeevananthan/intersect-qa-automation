@@ -194,47 +194,57 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarText()));
     }
 
-    public void verifyUIComponent(String user){
-        goToReassignAppointment();
-        waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
-        staffForReassign().click();
-        Assert.assertTrue("User was not displayed!", selectStaff(user).isDisplayed());
-        selectStaff(user).click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
-        Assert.assertTrue("The Agenda was not displayed!", agendaIsDisplayed().isDisplayed());
-        Assert.assertTrue("Showing all was not displayed",showingAllText().isDisplayed());
-        buttonGoBack().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarText()));
-    }
-
-    public void verifyCheckBox(String user){
-        goToReassignAppointment();
+    public void verifySelectAllCheckBox(String user){
         waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
         staffForReassign().click();
         selectStaff(user).click();
         selectAllCheckBoxText().click();
         //Un selecting  action
         selectAllCheckBoxText().click();
-        buttonGoBack().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarText()));
     }
 
     public void verifyAppointmentsCount(String user){
-        goToReassignAppointment();
-        waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
         staffForReassign().click();
         selectStaff(user).click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
         String count = getAppointmentsCount();
         selectAllCheckBoxText().click();
         Assert.assertTrue("No changed the number of items in the button",  selectReAssignAppointmentsButton(count).isDisplayed());
+    }
+
+    public void verifyUserInSelectStaffMemberDropdown(String user){
+        waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
+        staffForReassign().click();
+        Assert.assertTrue("User was not displayed!", selectStaff(user).isDisplayed());
+    }
+
+    public void verifyShowingAllText(String user){
+        selectStaff(user).click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
+        Assert.assertTrue("Showing all text was not displayed",showingAllText().isDisplayed());
+    }
+
+    public void verifyAppointmentsAreInAgendaView(){
+        Assert.assertTrue("The Agenda was not displayed!", agendaIsDisplayed().isDisplayed());
+    }
+
+    public void clickGoBackButton(){
         buttonGoBack().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarText()));
     }
 
+    public void verifyUserInSelectNewAssigneeDropdown(String user){
+        staffForReassign().click();
+        Assert.assertTrue("User was not displayed!", selectStaff(user).isDisplayed());
+    }
+
+    public void verifyUserWithNoAppointments(String user){
+        selectStaff(user).click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(noAppointmentMessage()));
+        Assert.assertTrue("No message was displayed for the appointment", noAppointment().isDisplayed());
+    }
+
     public void verifyShowMoreButton(String user){
-        goToReassignAppointment();
-        waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
         staffForReassign().click();
         Assert.assertTrue("User was not displayed!", selectStaff(user).isDisplayed());
         selectStaff(user).click();
@@ -245,40 +255,25 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         //Verify "SHOW MORE" button
         if (finalCount > 25) {
             Assert.assertTrue("Button SHOW MORE was not displayed", buttonShowMore().isDisplayed());
-            Assert.assertTrue("Showing was not displayed",showingText() .isDisplayed());
         }
-        buttonGoBack().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarText()));
     }
 
-    public void verifyUserWithoutAppointments(String user){
-        goToReassignAppointment();
-        waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
-        staffForReassign().click();
-        Assert.assertTrue("User was not displayed!", selectStaff(user).isDisplayed());
-        selectStaff(user).click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(noAppointmentMessage()));
-        Assert.assertTrue("No message was displayed for the appointment", noAppointment().isDisplayed());
-        buttonGoBack().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarText()));
-    }
-
-    public List<WebElement> currentUserList(String currentUser){return driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));}
-    public WebElement userInSelectStaffMember(String selectUser){return driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+selectUser+"']"));}
-    public WebElement excludedUser(String user){return driver.findElement(By.xpath("//div[text()= '" + user + "']"));}
-    public WebElement userInNewAssignee(String newAssignee){return driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']"));}
-    public WebElement selectFairsAppointment(String fairsDate,String school,String noOfStudents){return driver.findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
+    private List<WebElement> currentUserList(String currentUser){return driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));}
+    private WebElement userInSelectStaffMember(String selectUser){return driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+selectUser+"']"));}
+    private WebElement excludedUser(String user){return driver.findElement(By.xpath("//div[text()= '" + user + "']"));}
+    private WebElement userInNewAssignee(String newAssignee){return driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']"));}
+    private WebElement selectFairsAppointment(String fairsDate,String school,String noOfStudents){return driver.findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
             "div/span[text()='College Fair']/ancestor::div/following-sibling::div[@class='twelve wide column']" +
             "/div/div//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/span[text()='Number of Expected Students']" +
             "/following-sibling::div[text()='"+noOfStudents+"']/ancestor::div/div/div/input[@type='checkbox']"));}
-    public WebElement selectReAssignAppointmentsButton(String count){return driver.findElement(By.xpath("//button[text()='Reassign "+count+" Appointments']"));}
-    public WebElement selectStaff(String staff){return driver.findElement(By.xpath("//div[text()='"+staff+"']"));}
-    public By disappearingErrorMessage(String disappearingErrorMessage){return By.xpath("//div/span[text()='"+disappearingErrorMessage+"']");}
-    public WebElement verifyDisappearingErrorMessage(String disappearingErrorMessage){return driver.findElement(By.xpath("//div/span[text()='"+disappearingErrorMessage+"']"));}
-    public WebElement errorMessage(String errorMessage){return driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']"));}
-    public By errorText(String errorMessage){return By.xpath("//div/span[text()='"+errorMessage+"']");}
-    public WebElement selectNewAssigneeStaff(String newAssignee){return driver.findElement(By.xpath("//div[text()='Select new assignee']/parent::div//div[text()='"+newAssignee+"']"));}
-    public WebElement selectAllCount(int count){return driver.findElement(By.xpath("//label[contains(text(), 'Select all (" + count +")')]"));}
+    private WebElement selectReAssignAppointmentsButton(String count){return driver.findElement(By.xpath("//button[text()='Reassign "+count+" Appointments']"));}
+    private WebElement selectStaff(String staff){return driver.findElement(By.xpath("//div[text()='"+staff+"']"));}
+    private By disappearingErrorMessage(String disappearingErrorMessage){return By.xpath("//div/span[text()='"+disappearingErrorMessage+"']");}
+    private WebElement verifyDisappearingErrorMessage(String disappearingErrorMessage){return driver.findElement(By.xpath("//div/span[text()='"+disappearingErrorMessage+"']"));}
+    private WebElement errorMessage(String errorMessage){return driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']"));}
+    private By errorText(String errorMessage){return By.xpath("//div/span[text()='"+errorMessage+"']");}
+    private WebElement selectNewAssigneeStaff(String newAssignee){return driver.findElement(By.xpath("//div[text()='Select new assignee']/parent::div//div[text()='"+newAssignee+"']"));}
+    private WebElement selectAllCount(int count){return driver.findElement(By.xpath("//label[contains(text(), 'Select all (" + count +")')]"));}
     private String getAppointmentsCount(){
         String items= selectAllCheckBoxText().getText();
         String[] parts = items.split(" ");
@@ -311,7 +306,6 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private By selectAllCheckBox(){return By.cssSelector("label[for='selectAllCheckBox']");}
     private WebElement selectAllCheckBoxText(){ return driver.findElement(By.xpath("//label[contains(text(), 'Select all')]"));}
     private WebElement showingAllText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
-    private WebElement showingText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing')]"));}
     private WebElement blueNoteAlertMessage(){return driver.findElement(By.cssSelector("strong+span>span"));}
     private By blueNoteAlert(){ return By.cssSelector("strong+span>span"); }
     }

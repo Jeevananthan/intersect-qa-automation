@@ -39,14 +39,22 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         Then("^HE I verify the error Message \"([^\"]*)\" is displaying when the user \"([^\"]*)\" is selected$",reassignAppointmentsPage::verifyErrrorMessageForNoAppointmentsUser);
 
-        Then("^HE I verify UI components for the user \"([^\"]*)\" with no appointments appointments in reAssignAppointments page$",reassignAppointmentsPage::verifyUserWithoutAppointments);
-
         Then("^HE I verify show more button displaying when 26 or more appointments are returned for the user \"([^\"]*)\" in reassignAppointments Page$",reassignAppointmentsPage::verifyShowMoreButton);
 
-        Then("^HE I verify UI component in reAssignAppointments page using \"([^\"]*)\"$",reassignAppointmentsPage::verifyUIComponent);
-
-        Then("^HE I verify the check box in reAssignAppointments page using \"([^\"]*)\"$",reassignAppointmentsPage::verifyCheckBox);
+        Then("^HE I verify Select all check box in reAssignAppointments page using \"([^\"]*)\"$",reassignAppointmentsPage::verifySelectAllCheckBox);
 
         Then("^HE I verify the appointments count in reAssignAppointments page for the user \"([^\"]*)\"$",reassignAppointmentsPage::verifyAppointmentsCount);
+
+        Then("^HE I verify the user \"([^\"]*)\" is displaying in Select staff member dropdown$",reassignAppointmentsPage::verifyUserInSelectStaffMemberDropdown);
+
+        Then("^HE I verify the text 'Showing all' is displaying in reassignAppointments Page for the user \"([^\"]*)\"$",reassignAppointmentsPage::verifyShowingAllText);
+
+        Then("^HE I verify the appointments displaying in agenda view$",reassignAppointmentsPage::verifyAppointmentsAreInAgendaView);
+
+        Then("^HE I click Go Back button$",reassignAppointmentsPage::clickGoBackButton);
+
+        Then("^HE I verify the user \"([^\"]*)\" is displaying in Select new assignee dropdown$",reassignAppointmentsPage::verifyUserInSelectNewAssigneeDropdown);
+
+        Then("^HE I verify no appointment text is displaying for the user \"([^\"]*)\"$",reassignAppointmentsPage::verifyUserWithNoAppointments);
     }
 }
