@@ -38,8 +38,8 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         goToReassignAppointment();
         selectStaffMember(staffMember);
         selectNewAssignee(newAssignee);
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(alert()));
-        String actualMessage = alertMessage().getText();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(blueNoteAlert()));
+        String actualMessage = blueNoteAlertMessage().getText();
         Assert.assertTrue("Alert message is not displayed", actualMessage.equals(alertMessage));
         buttonGoBack().click();
         waitUntilPageFinishLoading();
@@ -312,6 +312,6 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement selectAllCheckBoxText(){ return driver.findElement(By.xpath("//label[contains(text(), 'Select all')]"));}
     private WebElement showingAllText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
     private WebElement showingText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing')]"));}
-    private WebElement alertMessage(){return driver.findElement(By.cssSelector("strong+span>span"));}
-    private By alert(){return By.cssSelector("strong+span>span");}
+    private WebElement blueNoteAlertMessage(){return driver.findElement(By.cssSelector("strong+span>span"));}
+    private By blueNoteAlert(){ return By.cssSelector("strong+span>span"); }
     }
