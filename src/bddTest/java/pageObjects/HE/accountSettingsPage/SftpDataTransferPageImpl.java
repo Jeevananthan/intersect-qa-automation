@@ -194,6 +194,52 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Generates a SSH key
+     */
+    public void generateSSHKey(){
+        generateKeyButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(sshKeyTextBoxLocator()));
+    }
+
+    /**
+     * Verifies that the given text is present in the generate ssh key button
+     * @param expectedText
+     */
+    public void verifyGenerateKeyButtonText(String expectedText){
+        String actualText = generateKeyButton().getAttribute("innerText");
+        Assert.assertEquals(String.format("The Generate key button text is not correct, expected: %s, actual: %s"
+                ,expectedText, actualText),expectedText,actualText);
+    }
+
+    /**
+     * Verifies that the given text is present in the generate ssh key button
+     * @param expectedText
+     */
+    public void verifyReGenerateKeyButtonText(String expectedText){
+        String actualText = reGenerateKeyButton().getAttribute("innerText");
+        Assert.assertEquals(String.format("The re Generate key button text is not correct, expected: %s, actual: %s"
+                ,expectedText, actualText),expectedText,actualText);
+    }
+
+    /**
+     * Verifies that the new ssh key was generated
+     */
+    public void verifySshKeyWasGenerated(){
+        String key = sshKeyTextBox().getAttribute("innerText");
+        Assert.assertFalse("The SSH Key was not generated",key.isEmpty());
+    }
+
+    /**
+     * Verifies the message displayed after regenerating a new ssh key
+     * @param expectedMessage
+     */
+    public void verifyGeneratedSshKeyMessage(String expectedMessage){
+        String actualMessage = generatedSshKeyMessage().getAttribute("innerText");
+        Assert.assertTrue(String.format("The message after generating the ssh key is not correct, expected: %s, " +
+                "actual: %s",expectedMessage, actualMessage),actualMessage.matches(expectedMessage));
+    }
+
+    /**
      * Gets the button: SET UP CONNECTION
      * @return WebElement
      */
@@ -338,5 +384,37 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement testAndSaveButton(){
         return getDriver().findElement(By.id("sftpSave"));
+    }
+
+    /**
+     * Gets the ssh key text box locator
+     * @return By
+     */
+    private By sshKeyTextBoxLocator(){
+        return By.cssSelector("P[class='JJ-wa-vGPMQ0mhmOYrOrV']");
+    }
+
+    /**
+     * Gets the ssh key text box
+     * @return
+     */
+    private WebElement sshKeyTextBox(){
+        return getDriver().findElement(sshKeyTextBoxLocator());
+    }
+
+    /**
+     * Gets the generated ssh key message
+     * @return
+     */
+    private WebElement generatedSshKeyMessage(){
+        return getDriver().findElement(By.cssSelector("div[class='header LnXSRjbTz9l5Ksclle1N8']>div>p"));
+    }
+
+    /**
+     * Gets the regenerate key button
+     * @return
+     */
+    private WebElement reGenerateKeyButton(){
+        return getDriver().findElement(By.id("sftpReGenerateKey"));
     }
 }
