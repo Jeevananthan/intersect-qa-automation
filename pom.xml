@@ -845,7 +845,7 @@
                             <!-- The naming scheme to use for the generated test classes.  One of ['simple', 'feature-title', 'pattern'] -->
                             <namingScheme>simple</namingScheme>
                             <!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per scenario.  FEATURE generates a runner per feature. -->
-                            <parallelScheme>FEATURE</parallelScheme>
+                            <parallelScheme>SCENARIO</parallelScheme>
                             <!--<filterFeaturesByTags>true</filterFeaturesByTags>-->
                         </configuration>
                     </execution>
