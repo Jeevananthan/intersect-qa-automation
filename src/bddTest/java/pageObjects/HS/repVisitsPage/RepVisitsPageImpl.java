@@ -4632,6 +4632,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void navigateToRepVisitsSection(String pageName) {
         getNavigationBar().goToRepVisits();
         if (pageName.equalsIgnoreCase("visit feedback")) {
+            notificationsAndTasks().click();
             getVisitsFeedbackBtn().click();
         } else {
             driver.findElement(By.partialLinkText(pageName)).click();
@@ -6373,6 +6374,13 @@ public void cancelRgisteredCollegeFair(String fairName){
         requestLink().click();
     }
 
+    public void navigateToNotificationsAndTasksVisitsFeedBack(){
+        waitUntilPageFinishLoading();
+        navigateToRepVisitsSection("visit feedback");
+        notificationAndTasks().click();
+        visitFeedback().click();
+    }
+
 
     /**
      * Setup Naviance Sync Settings Page.
@@ -7103,6 +7111,8 @@ public void cancelRgisteredCollegeFair(String fairName){
                 Assert.assertTrue("User link is not working.", getURLHE.contains("/community/profile/"));
             }
         }
+
+        navigateToNotificationsAndTasksVisitsFeedBack();
 
         link("SUBMITTED").click();
         if(text("No visit feedback has been submitted.").isDisplayed()){
@@ -7857,7 +7867,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement getVisitsFeedbackBtn () {
-        return driver.findElement(By.partialLinkText("Visit Feedback"));
+        return visitFeedback();
     }
 
     private WebElement saveChanges ()
