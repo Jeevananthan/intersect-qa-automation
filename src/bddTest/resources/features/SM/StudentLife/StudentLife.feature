@@ -39,3 +39,13 @@ Feature: SM - StudentLife - StudentLife - As a HS student, I need to be able to 
     And SM I remove the option "Choir" from the dropdown field
     Then SM I verify that 1 items are displayed in the dropdown field
     Then SM I verify that the Must Have box contains "Organizations and Clubs [1]"
+
+  @MATCH-3842
+  Scenario: As a HS student, I need to make sure that new interships+coop field works as expected
+    Given SM I am logged in to SuperMatch through Family Connection
+    When SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Internships and Co-ops" checkbox from "Student Life" fit criteria
+    Then SM I verify that the Must Have box contains "Internships and Co-ops"
+    And SM I press Why button for the first college in results with score 100%
+    Then SM I verify that "Internships and Co-ops" is displayed in the "Must Have" box in the Why Drawer
+    
