@@ -11,13 +11,17 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         When("^HE I go to re assign appointments$", reassignAppointmentsPage::goToReassignAppointment);
 
-        Then("^HE I verify that Re-assign link is \"([^\"]*)\"$",reassignAppointmentsPage::verifyReAssignLinkStatus);
+        Then("^HE I verify that Re-assign link is visible$",reassignAppointmentsPage::verifyReAssignLinkIsVisible);
 
-        And("^HE I verify the users are displaying including \"([^\"]*)\" in re assign appointments dropdown using \"([^\"]*)\"$",reassignAppointmentsPage::verifyUsersInReAssignAppointments);
+        Then("^HE I verify that Re-assign link is not visible",reassignAppointmentsPage::verifyReAssignLinkIsNotVisible);
+
+        And("^HE I verify the users are displaying including \"([^\"]*)\" in Select staff member dropdown$",reassignAppointmentsPage::verifyUsersInSelectStaffMemberDropdown);
+
+        And("^HE I verify the users are displaying including \"([^\"]*)\" in Select new assignee dropdown using \"([^\"]*)\"$",reassignAppointmentsPage::verifyUsersInSelectNewAssigneeDropdown);
 
         Then("^HE I verify the user \"([^\"]*)\" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown$",reassignAppointmentsPage::verifyUserIsExcludedInSelectNewAssignee);
 
-        Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" (?:with no appointments|with appointments) in Select new assignee dropdown$",reassignAppointmentsPage::verifyBlueNoteAlert);
+        Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" (?:with no appointments|with appointments) in Select new assignee dropdown$",reassignAppointmentsPage::verifyBlueNoteAlertIsDisplayed);
 
         Then("^HE I select the user \"([^\"]*)\" from \"([^\"]*)\" dropdown$",reassignAppointmentsPage::selectUserFromUserListDropdown);
 
@@ -35,8 +39,14 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         Then("^HE I verify the error Message \"([^\"]*)\" is displaying when the user \"([^\"]*)\" is selected$",reassignAppointmentsPage::verifyErrrorMessageForNoAppointmentsUser);
 
-        Then("^HE I verify UI components for the user \"([^\"]*)\" with appointments in reAssignAppointments page$",reassignAppointmentsPage::verifyUserWithAppointments);
+        Then("^HE I verify UI components for the user \"([^\"]*)\" with no appointments appointments in reAssignAppointments page$",reassignAppointmentsPage::verifyUserWithoutAppointments);
 
-        Then("^HE I verify UI components for the user \"([^\"]*)\" in reAssignAppointments page$",reassignAppointmentsPage::verifyUserWithoutAppointments);
+        Then("^HE I verify show more button displaying when 26 or more appointments are returned for the user \"([^\"]*)\" in reassignAppointments Page$",reassignAppointmentsPage::verifyShowMoreButton);
+
+        Then("^HE I verify UI component in reAssignAppointments page using \"([^\"]*)\"$",reassignAppointmentsPage::verifyUIComponent);
+
+        Then("^HE I verify the check box in reAssignAppointments page using \"([^\"]*)\"$",reassignAppointmentsPage::verifyCheckBox);
+
+        Then("^HE I verify the appointments count in reAssignAppointments page for the user \"([^\"]*)\"$",reassignAppointmentsPage::verifyAppointmentsCount);
     }
 }

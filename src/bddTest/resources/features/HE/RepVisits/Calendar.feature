@@ -5,11 +5,13 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
   Scenario: As an RepVisits HE admin premium/paid Presence subscription user, I should be able to view visit/fair appointments that I can reassign
     Given HE I want to login to the HE app using "purpleheautomation+administrator@gmail.com" as username and "Password!1" as password
     When HE I go to re assign appointments
-    Then HE I verify UI components for the user "Publishing, PurpleHE" with appointments in reAssignAppointments page
-    Then HE I verify UI components for the user "Fresh, PurpleHE" in reAssignAppointments page
-    
+    Then HE I verify UI component in reAssignAppointments page using "Publishing, PurpleHE"
+    Then HE I verify the check box in reAssignAppointments page using "Publishing, PurpleHE"
+    Then HE I verify show more button displaying when 26 or more appointments are returned for the user "Publishing, PurpleHE" in reassignAppointments Page
+    Then HE I verify UI components for the user "Publishing, PurpleHE" with no appointments appointments in reAssignAppointments page
+
   @MATCH-4450
-  Scenario Outline: As a HE user with active Prescence subscription, I can access Agenda view of my appointments
+  Scenario Outline: As a HE user with active Presence subscription, I can access Agenda view of my appointments
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I select "The University of Alabama" from the institution dashboard
     And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
@@ -46,25 +48,25 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
    institution that has an active Presence subscription
      #Administrator
      Given HE I am logged in to Intersect HE as user type "administrator"
-     Then HE I verify that Re-assign link is "visible"
+     Then HE I verify that Re-assign link is visible
      #Community
      Given HE I am logged in to Intersect HE as user type "publishing"
-     Then HE I verify that Re-assign link is "not visible"
+     Then HE I verify that Re-assign link is not visible
      #Publishing
      Given HE I am logged in to Intersect HE as user type "community"
-     Then HE I verify that Re-assign link is "not visible"
+     Then HE I verify that Re-assign link is not visible
      #Limited
      Given HE I am logged in to Intersect HE as user type "limited"
-     Then HE I verify that Re-assign link is "not visible"
+     Then HE I verify that Re-assign link is not visible
      #Limited publishing
      Given HE I am logged in to Intersect HE as user type "limitedPublishing"
-     Then HE I verify that Re-assign link is "not visible"
+     Then HE I verify that Re-assign link is not visible
      #Limited community
      Given HE I am logged in to Intersect HE as user type "limitedCommunity"
-     Then HE I verify that Re-assign link is "not visible"
+     Then HE I verify that Re-assign link is not visible
      #HS User
      Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-     Then HE I verify that Re-assign link is "not visible"
+     Then HE I verify that Re-assign link is not visible
      
   @MATCH-4450
   Scenario Outline: As Hobsons product manager managing value adds to getting HS users to upgrade to RV Presence premium subscription,
@@ -103,7 +105,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 #Create a Visit
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 #Register a Visit
     Given HE I am logged in to Intersect HE as user type "publishing"
@@ -119,8 +121,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I verify the error Message "Please select a Staff Member" is disappearing when the error message "doesn't have any appointments scheduled." is displayed for "Fresh, PurpleHE"
 
     Examples:
-      |School               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |Date|
-      |Int Qa High School 4 |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |14  |
+      |School               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |Date|option|
+      |Int Qa High School 4 |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |14  |1     |
 
 
   @MATCH-4622 @MATCH-4550
@@ -130,7 +132,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
    #pre-condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I set a date using "<StartDate>" and "<EndDate>"
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
@@ -144,7 +146,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the users "Publishing, PurpleHE","Fresh, PurpleHE" with appointments in Select new assignee dropdown
     Then HE I verify the blue Note alert "<alertMessage>" is displaying when changing the Select staff member dropdown for the users "Publishing, PurpleHE","Community, PurpleHE" with no appointments in Select new assignee dropdown
-    And HE I verify the users are displaying including "Publishing, PurpleHE" in re assign appointments dropdown using "Community, PurpleHE"
+    And HE I verify the users are displaying including "Publishing, PurpleHE" in Select staff member dropdown
+    And HE I verify the users are displaying including "Publishing, PurpleHE" in Select new assignee dropdown using "Community, PurpleHE"
     Then HE I verify the user "Publishing, PurpleHE" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
     And HE I successfully sign out
 
@@ -152,8 +155,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
 
     Examples:
-    |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|
-    |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |14 |14  |14       |35     |
+    |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|option|
+    |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |14 |14  |14       |35     |1     |
 
   @MATCH-4902
   Scenario Outline: As a HE admin with an active Presence subscription reassigns a college fair registration from one HE rep to another at their institution,
