@@ -32,7 +32,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I verify all the options available in Resources fit criteria in Resources expandable drawer$", pinnedSchoolsComparePage::verifyResourcesExpandableDrawerOptions);
 
-        And("^SM I check if any college is already pin if not then pin one college$", pinnedSchoolsComparePage::checkPinnedCollegeCount);
+        And("^SM I clear all the pinned college$", pinnedSchoolsComparePage::clearPinnedColleges);
 
 
     }

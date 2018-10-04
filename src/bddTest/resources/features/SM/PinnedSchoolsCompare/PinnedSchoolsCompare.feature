@@ -73,6 +73,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
   side by side so I can determine which pinned college is a best fit for me based on their Resources.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
-    And SM I check if any college is already pin if not then pin one college
+    And SM I clear all the pinned college
+    And SM I search for "College of the North Atlantic" college in search bar
     And SM I open the Pinned Schools Compare screen
     And SM I verify all the options available in Resources fit criteria in Resources expandable drawer

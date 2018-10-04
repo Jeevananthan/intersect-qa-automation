@@ -259,28 +259,54 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyResourcesExpandableDrawerOptions() {
-        WebElement resourceDrawerTable = resourceDrawerTable();
-        List<WebElement> resourcesOptions = resourceDrawerTable.findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));
         String expResourcesOptions[] = {"Learning Differences Support", "Academic/Career Counseling", "Counseling Services", "Tutoring Services",
                 "Remedial Services", "ESL/ELL Services", "Physical Accessibility", "Services for the Blind or Visually Impaired", "Services for the Deaf and Hard of Hearing",
                 "Asperger's/Autism Support", "Day Care Services"};
 
-        for (int i = 0; i < resourcesOptions.size(); i++) {
-            Assert.assertTrue(resourcesOptions.get(i) + " option is not matching with the expected option ie " + expResourcesOptions[i], resourcesOptions.get(i).getText().equals(expResourcesOptions[i]));
+        String expResurceOptionsValues[] = {"Unknown", "No", "Unknown", "No", "Yes", "No", "No", "No", "No", "No", "Yes"};
+            for (int i = 0; i < resourcesOptions().size(); i++) {
+            Assert.assertTrue(resourcesOptions().get(i) + " option is not matching with the expected option ie " + expResourcesOptions[i], resourcesOptions().get(i).getText().equals(expResourcesOptions[i]));
+            if(expResourcesOptions[i].equals("Asperger's/Autism Support"))
+                continue;
+            String actResurceOptionsValues = driver.findElement(By.xpath("//div[text()='"+expResourcesOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue("temp", actResurceOptionsValues.equals(expResurceOptionsValues[i]));
         }
     }
 
-    public void checkPinnedCollegeCount(){
-        WebElement pinnedCollegeNo = driver.findElement(By.id("pinCount"));
-        if (Integer.parseInt(pinnedCollegeNo.getText())==0){
-            searchPage.setResourcesCriteria("Learning Differences Support");
-            searchPage.iPinColleges("1");
-        } else
-            logger.info("No need to pin any college since college is already pinned");
+    public void clearPinnedColleges(){
+        if (Integer.parseInt(getPinnedCollegesCount().getText())>0){
+            pinnedDropdown().click();
+            clearPinnedListOption().click();
+            yesClearMyListButton().click();
+            waitForUITransition();
+            Assert.assertTrue("Colleges are not cleared, still it's showing the count "+getPinnedCollegesCount().getText(), Integer.parseInt(getPinnedCollegesCount().getText())==0);
+        }
+    }
+
+    public void pinCollegeFromBottomSearchResult(String collegeName){
+        searchBar().sendKeys(collegeName);
+        String searchedCollegePinString = "//a[text()='"+collegeName+"']/../../div/a/span[text()='PIN']";
+        WebElement searchedCollegePinButton = driver.findElement(By.xpath(searchedCollegePinString));
+        searchedCollegePinButton.click();
     }
 
     // Locators Below
 
+    private WebElement searchBar(){return driver.findElement(By.id("supermatch-search-box-input"));}
+    private List<WebElement> resourcesOptions(){ return resourceDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+    private WebElement yesClearMyListButton() {
+        return clearPinnedListModal().findElement(By.xpath(".//button[text()='YES, CLEAR MY LIST']"));
+    }
+    private WebElement clearPinnedListModal() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'visible active supermatch-modal')]"));
+    }
+    private WebElement clearPinnedListOption() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Clear Pinned List')]//ancestor::div[1]"));
+    }
+    private WebElement pinnedDropdown() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'supermatch-pinned-dropdown')]"));
+    }
+    private  WebElement getPinnedCollegesCount(){return driver.findElement(By.id("pinCount"));}
     private WebElement resourceDrawerTable() {
         return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Resources']/.."));
     }

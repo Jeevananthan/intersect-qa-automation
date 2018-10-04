@@ -1313,6 +1313,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void openPinnedCompareSchools() {
         waitUntilPageFinishLoading();
+        waitForUITransition();
         pinnedFooterOption().click();
         comparePinnedCollegesLink().click();
     }
