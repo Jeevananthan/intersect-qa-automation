@@ -482,3 +482,13 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #      |14           |12:19AM       |purple   |School Manager |Alpena Community College  |14  |12:19am  |10:59pm |3        |14       |35      |10:59pm      |No, I want to manually review all incoming requests. |Standalone High School 6|12:19am         |12:     |Qa Fair for testng    |14  |1200AM    |0100AM  |5            |$25 |25                    |100                        |Save          |21                  |12:31am      |12:29 AM           |12:29am                        |10:59pm                      |12:00am   |12:00am      |12:00am          |fairNewqa  |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |12:00 AM              |
 #
 #
+#
+#  @MATCH-2833
+#  Scenario: As an HS RepVisits user I want to see a message on the RepVisits Overview page that informs me I have no
+#  upcoming appointments (visits OR fairs) for the next week so I can quickly know I don't have any colleges
+#  visiting my high school over the next 7 days.
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+#    Then HS I navigate to the "Calendar" page in RepVisits
+#    Then HS I cancel all events for the next 7 days
+#    Then HS I navigate to the "Overview" page in RepVisits
+#    Then HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days

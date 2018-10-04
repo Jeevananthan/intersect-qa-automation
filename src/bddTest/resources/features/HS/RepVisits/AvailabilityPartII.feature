@@ -98,7 +98,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
@@ -137,8 +137,8 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
 
     Examples:
-      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         |
-      |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |15  |Int Qa High School |
+      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         | option |
+      |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |15  |Int Qa High School | 1|
 
 
   @MATCH-1583

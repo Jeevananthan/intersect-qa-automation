@@ -63,6 +63,11 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyDefaultTextInDropdown(String dropdown, String expectedText) {
+        Assert.assertTrue("The default text in the " + dropdown + " is not correct",
+                organizationsAndClubsDropdown().getText().equals(expectedText));
+    }
+
     public void clickDropdown(String locator) {
         try {
             driver.findElement(By.cssSelector(locator)).click();
@@ -93,6 +98,7 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         for (WebElement element : optionsListWebElements) {
             if (element.getText().equals(optionName)) {
                 element.click();
+                break;
             } else {
                 logger.info("The option " + optionName + " is not present in the list.");
             }
@@ -107,7 +113,7 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
                 isElementPresent = true;
             }
         }
-        Assert.assertTrue("The option was not added to the dropdown field",
+        Assert.assertTrue("The option was not added to the Organizations and Clubs text field",
                 isElementPresent);
     }
 
