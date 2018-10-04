@@ -2542,25 +2542,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-        public void resetPassword(String oldPassword,String newPassword)
-        {
-            currentPasswordInput().clear();
-            currentPasswordInput().sendKeys(oldPassword);
-            newPasswordInput().sendKeys(newPassword);
-            confirmPasswordInput().sendKeys(newPassword);
-            saveButton().click();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span"),1));
-            List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
-            if(list.size()==1) {
-                logger.info("Error Message is displayed");
-                TestCase.fail();
-            }
+    public void resetPassword(String oldPassword,String newPassword) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("current-password-input")));
+        currentPasswordInput().clear();
+        currentPasswordInput().sendKeys(oldPassword);
+        newPasswordInput().sendKeys(newPassword);
+        confirmPasswordInput().sendKeys(newPassword);
+        saveButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")));
+        List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+        if(list.size()==1) {
+            logger.info("Error Message is displayed");
+            TestCase.fail();
         }
+    }
 
-        public void verifySuccessMessageinAccountSettingsPage(String message){
+    public void verifySuccessMessageinAccountSettingsPage(String message){
         String SuccessMessage = driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
         Assert.assertTrue("Success message is not displayed",message.equals(SuccessMessage));
-        }
+    }
 
 
     public void naviagateToAvailbilityandSettings()
