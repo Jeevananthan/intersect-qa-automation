@@ -175,5 +175,5 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
 
     Examples:
       |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
-      |navianceAdmin  |navianceMember  |administrator      |member              |
+      |navianceAdmin  |navianceMember1 |administrator      |member              |
 
