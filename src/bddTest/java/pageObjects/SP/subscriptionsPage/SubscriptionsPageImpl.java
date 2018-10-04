@@ -77,6 +77,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Zips" :
                     if (!row.get(1).equals("None")) {
+                        chooseZipsField().clear();
                         chooseZipsField().sendKeys(row.get(1));
                     }
                     break;
@@ -162,6 +163,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
+        waitUntilPageFinishLoading();
         driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).click();
         waitUntilPageFinishLoading();
         deleteButton().click();
@@ -232,7 +234,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("button[class *= 'ui teal basic button']"));
     }
     private WebElement clickSubscriptionName(String subName){
-        return  driver.findElement(By.xpath("//div[text()='" + subName + "']"));
+        return  driver.findElement(By.xpath("//a[text()='" + subName + "']"));
     }
 }
 
