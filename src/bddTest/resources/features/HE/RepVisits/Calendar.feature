@@ -66,30 +66,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
      Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
      Then HE I verify that Re-assign link is "not visible"
      
-  @MATCH-4450
-  Scenario Outline: As Hobsons product manager managing value adds to getting HS users to upgrade to RV Presence premium subscription,
-  I want the RV>Calendar, Agenda view to be premium level access on the HS side while remaining accessible for HE users,
-  So that further value can be provided to upgrade to an RV Presence premium subscription.
-
-    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceAdmin>"
-    Then HS I verify the user can access "Agenda" view
-    And HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceMember>"
-    Then HS I verify the user cannot access Agenda view
-    And HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceAdmin>"
-    Then HS I verify the user can access "Agenda" view
-    And HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceMember>"
-    Then HS I verify the user cannot access Agenda view
-
-    Examples:
-      |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
-      |navianceAdmin  |navianceMember  |administrator      |member              |
-
   @MATCH-4622 @MATCH-4550
   Scenario Outline: As a HE admin trying to transfer appointments from one HE user to another at my institution,
                      I want to be reminded that the system does not validate whether there's a conflict of day/time for the appointments being moved with the target new assignees calendars,
