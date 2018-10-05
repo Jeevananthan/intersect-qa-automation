@@ -162,7 +162,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Examples:
     |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|option|
     |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |14 |14  |14       |35     |1     |
-
+ 
   @MATCH-4902
   Scenario Outline: As a HE admin with an active Presence subscription reassigns a college fair registration from one HE rep to another at their institution,
   that update is not currently being reflected for the HS admin at RV>College Fairs>View Details for the college fair in question.
