@@ -278,7 +278,8 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
             pinnedDropdown().click();
             clearPinnedListOption().click();
             yesClearMyListButton().click();
-            waitForUITransition();
+            //waitForUITransition();
+            explicitWaitWithTwoConditionCheck(getPinnedCollegesCountFooter(), "0");
             Assert.assertTrue("Colleges are not cleared, still it's showing the count "+getPinnedCollegesCount().getText(), Integer.parseInt(getPinnedCollegesCount().getText())==0);
         }
     }
@@ -292,6 +293,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
 
     // Locators Below
 
+    private WebElement getPinnedCollegesCountFooter(){return driver.findElement(By.id("pinCount"));}
     private WebElement searchBar(){return driver.findElement(By.id("supermatch-search-box-input"));}
     private List<WebElement> resourcesOptions(){ return resourceDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
     private WebElement yesClearMyListButton() {

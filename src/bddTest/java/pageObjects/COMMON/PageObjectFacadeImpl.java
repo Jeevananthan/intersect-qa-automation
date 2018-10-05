@@ -3,9 +3,11 @@ package pageObjects.COMMON;
 import org.apache.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 import stepDefinitions.GlobalSteps;
 import utilities.GetProperties;
@@ -284,6 +286,19 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      */
     public void resetImplicitWaitTimeout() {
         getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
+    }
+
+    /**
+     * Sets the Implicit Wait timeout untill both the condition are not match
+     * NOTE : FIRST PARAMETER IS WEBELEMENT AND SECOND IS THE EXPECTED VALUE
+     * @param seconds - Value to set the Driver's implicit Wait timeout to
+     */
+    protected void explicitWaitWithTwoConditionCheck(WebElement actCondition, String expCondition){
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return actCondition.getText().equals(expCondition);
+            }
+        });
     }
 
     /**

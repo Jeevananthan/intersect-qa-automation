@@ -77,3 +77,5 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
     And SM I search for "College of the North Atlantic" college in search bar
     And SM I open the Pinned Schools Compare screen
     And SM I verify all the options available in Resources fit criteria in Resources expandable drawer
+
+
