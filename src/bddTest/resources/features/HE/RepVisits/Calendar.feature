@@ -130,7 +130,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       |School               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |Date|option|
       |Int Qa High School 4 |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |14  |1     |
 
-
   @MATCH-4622 @MATCH-4550
   Scenario Outline: As a HE admin trying to transfer appointments from one HE user to another at my institution,
                      I want to be reminded that the system does not validate whether there's a conflict of day/time for the appointments being moved with the target new assignees calendars,
