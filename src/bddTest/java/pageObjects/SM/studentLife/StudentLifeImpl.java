@@ -106,15 +106,17 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyAddedOption(String optionName) {
+        waitUntilPageFinishLoading();
         List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
         boolean isElementPresent = false;
         for (WebElement element : addedElements) {
             if (element.getAttribute("value").equals(optionName)) {
                 isElementPresent = true;
             }
+            Assert.assertTrue("The option was not added to the Organizations and Clubs text field: " + optionName + " UI: " + element.getText(),
+                    isElementPresent);
         }
-        Assert.assertTrue("The option was not added to the Organizations and Clubs text field",
-                isElementPresent);
+
     }
 
     public void verifyNumberOfAddedOptions(Integer numberOfAddedOptions) {
@@ -126,7 +128,6 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     public void removeOptionFromDropdownField(String optionName) {
         driver.findElement(By.xpath(xButtonAddedElementDropdownField(optionName))).click();
     }
-
     //Locator
 
     private WebElement getGreekLife() {
