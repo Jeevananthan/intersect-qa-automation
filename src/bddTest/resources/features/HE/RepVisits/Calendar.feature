@@ -66,30 +66,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
      Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
      Then HE I verify that Re-assign link is "not visible"
      
-  @MATCH-4450
-  Scenario Outline: As Hobsons product manager managing value adds to getting HS users to upgrade to RV Presence premium subscription,
-  I want the RV>Calendar, Agenda view to be premium level access on the HS side while remaining accessible for HE users,
-  So that further value can be provided to upgrade to an RV Presence premium subscription.
-
-    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceAdmin>"
-    Then HS I verify the user can access "Agenda" view
-    And HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceMember>"
-    Then HS I verify the user cannot access Agenda view
-    And HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceAdmin>"
-    Then HS I verify the user can access "Agenda" view
-    And HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceMember>"
-    Then HS I verify the user cannot access Agenda view
-
-    Examples:
-      |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
-      |navianceAdmin  |navianceMember  |administrator      |member              |
-
   @MATCH-4622 @MATCH-4550
   Scenario Outline: As a HE admin trying to transfer appointments from one HE user to another at my institution,
                      I want to be reminded that the system does not validate whether there's a conflict of day/time for the appointments being moved with the target new assignees calendars,
@@ -97,7 +73,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
    #pre-condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I set a date using "<StartDate>" and "<EndDate>"
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
@@ -119,8 +95,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
 
     Examples:
-    |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|
-    |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |14 |14  |14       |35     |
+    |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate| option|
+    |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |14 |14  |14       |35     |1      |
 
   @MATCH-4902
   Scenario Outline: As a HE admin with an active Presence subscription reassigns a college fair registration from one HE rep to another at their institution,

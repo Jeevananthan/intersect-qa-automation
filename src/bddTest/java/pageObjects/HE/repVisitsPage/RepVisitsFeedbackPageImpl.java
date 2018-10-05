@@ -480,7 +480,7 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         else {
             WebElement HEUserLeftPanel = driver.findElement(By.xpath("//ul[@class='ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu']"));
             HEUserLeftPanel.findElement(By.xpath("(.//i[@class='star disabled icon azDd81vj4qd4ERFjicrCo']) [2]")).click();
-            WebElement sectionOne = driver.findElement(By.xpath("(//div[@class='ui vertical segment rating-segment'])[3]"));
+            WebElement sectionOne = driver.findElement(By.xpath("(//div[@class='twelve wide column _2TegQ4j_MCOlAM0RjDSzhW'])"));
             List<WebElement> links = sectionOne.findElements(By.tagName("a"));
             WebElement HSUserLink = links.get(0);
             String userNameColorHS = HSUserLink.getCssValue("color");
