@@ -84,3 +84,20 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     | Master's     | Accounting and Business/Management |
     | Doctorate    | Accounting and Business/Management |
     | Graduate Certificate | Aboriginal/Indigenous Studies |
+
+  @MATCH-3584
+  Scenario: As a HS student trying to search for colleges via the Degree Type fit criteria and search box, I want to be
+  able to search for keywords when trying to find Majors so I don't have to be familiar with super specific specialties within that Major's field.
+    And SM I select the "Bachelor's" radio button from the Academics fit criteria
+    And SM I click "Academics" filter criteria tab
+    And SM I search the keyword "indigenous" in Majors
+    And I select the option "Keyword: "INDIGENOUS [2]"" from the list "span.text"
+    Then SM I verify that the option "Keyword: "INDIGENOUS [2]"" was added to the dropdown field
+    Then SM I verify that the option "Aboriginal/Indigenous Studies" was added to the dropdown field
+    Then SM I verify that the option "Indigenous Health" was added to the dropdown field
+    Then SM I remove the option "Keyword: "INDIGENOUS [2]"" from the dropdown field
+    Then SM I verify that 0 items are displayed in the dropdown field
+    And SM I search the keyword "indigenous" in Majors
+    And I select the option "Keyword: "INDIGENOUS [2]"" from the list "span.text"
+    Then SM I remove the option "Aboriginal/Indigenous Studies" from the dropdown field
+    Then SM I verify that 1 items are displayed in the dropdown field
