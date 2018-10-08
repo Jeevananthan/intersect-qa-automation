@@ -98,7 +98,7 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
 #Manually adding appointment based on pre-determined time slots:
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
 
     Then HS I add the appointment based on pre-determined time slots using "<StartDate>","<StartTime>","<Attendees>","<visitLocation>"
@@ -115,8 +115,8 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
 
     Examples:
-      |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|
-      |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Community |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |
+      |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|option|
+      |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Community |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |1      |
 
   @MATCH-2391
   Scenario: As a HS user, I should not be able to add visits in the past
@@ -152,3 +152,28 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HE I verify that Share Calendars Link is displayed in Calendar page
     Then HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link
+
+  @MATCH-4450
+  Scenario Outline: As Hobsons product manager managing value adds to getting HS users to upgrade to RV Presence premium subscription,
+                    I want the RV>Calendar, Agenda view to be premium level access on the HS side while remaining accessible for HE users,
+                    So that further value can be provided to upgrade to an RV Presence premium subscription.
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceAdmin>"
+    Then HS I verify the user can access "Agenda" view
+    And HS I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceMember>"
+    Then HS I verify the user cannot access Agenda view
+    And HS I successfully sign out
+
+    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceAdmin>"
+    Then HS I verify the user can access "Agenda" view
+    And HS I successfully sign out
+
+    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceMember>"
+    Then HS I verify the user cannot access Agenda view
+
+    Examples:
+      |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
+      |navianceAdmin  |navianceMember1 |administrator      |member              |
+
