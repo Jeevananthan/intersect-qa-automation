@@ -6,7 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
@@ -109,6 +111,18 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         }else {
             Assert.fail("Invalid option");
         }
+    }
+
+    public void selectUserFromSelectStaffMemberDropdown(String user){
+        selectStaffMemberButton().click();
+        userInSelectStaffMember(user).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void selectUserFromSelectNewAssigneeDropdown(String user){
+        jsClick(newAssigneeButton());
+        userInNewAssignee(user).click();
+        waitUntilPageFinishLoading();
     }
 
     public void selectFairsToReAssign(String date,String school,String noOfStudents){
@@ -244,6 +258,60 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         Assert.assertTrue("No message was displayed for the appointment", noAppointment().isDisplayed());
     }
 
+    public void verifyReAssignAppointmentsText(){
+        Assert.assertTrue("Re Assign Appointment Text is not displayed",reAssignAppointmentText().isDisplayed());
+    }
+
+    public void verifySelectAppointmentsToReAssignText(){
+        Assert.assertTrue("Select Appointments to Re Assign Text Text is not displayed",SelectAppointmentsToReAssignText().isDisplayed());
+    }
+
+    public void SelectStaffMemberToSeeTheirAppointments(){
+        Assert.assertTrue("Select Staff Member to See their Appointments text is not displayed",SelectStaffMemberToSeeTheirAppointmentsText().isDisplayed());
+    }
+
+    public void verifySelectStaffMemberDropdown(){
+        Assert.assertTrue("Select Staff Member dropdown is not displayed",selectStaffMemberDropdown().isDisplayed());
+    }
+
+    public void verifySelectNewAssigneeDropdown(){
+        Assert.assertTrue("Select New Assignee dropdown is not displayed",selectNewAssigneeDropdown().isDisplayed());
+    }
+
+    public void verifyGoBackButton(){
+        Assert.assertTrue("Go back button is not displayed",buttonGoBack().isDisplayed());
+    }
+
+    public void verifyReAssignAppointmentsButton(){
+        Assert.assertTrue("Re Assign Appointments Button is not displayed",reAssignAppointmentsButton().isDisplayed());
+    }
+
+    public void verifyUsersSortingOrderInSelectStaffMemberDropdown(){
+        goToReassignAppointment();
+        selectStaffMemberDropdown().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("User list is not displayed", userList().size()>0);
+        Assert.assertTrue("Inactive User is not displayed",inActivateUserLabel().isDisplayed());
+        sortingUser();
+        buttonGoBack().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyUsersSortingOrderInSelectNewAssigneeDropdown(String user){
+        goToReassignAppointment();
+        selectStaffMemberDropdown().click();
+        waitUntilPageFinishLoading();
+        selectStaff(user).click();
+        waitUntilPageFinishLoading();
+        selectNewAssigneeDropdown().click();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("User list is not displayed", userList().size()>0);
+        Assert.assertTrue("Inactive User is not displayed",inactiveUser().size()>0);
+        sortingUser();
+        buttonGoBack().click();
+        waitUntilPageFinishLoading();
+    }
+
     public void verifyShowMoreButton(String user){
         staffForReassign().click();
         Assert.assertTrue("User was not displayed!", selectStaff(user).isDisplayed());
@@ -257,6 +325,26 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
             Assert.assertTrue("Button SHOW MORE was not displayed", buttonShowMore().isDisplayed());
         }
     }
+
+    private void sortingUser(){
+        List<String> userList = new ArrayList<>();
+        List<String> sortedList = new ArrayList<>();
+        for(int i=1;i<=userList().size();i++) {
+            String users = driver.findElement(By.xpath("//div[@class='menu transition visible']/div[" + i + "]")).getAttribute("data-name");
+            if (users.contains(", ")) {
+                String user[] = users.split(", ");
+                String secondName = user[user.length - 1];
+                String userValue = secondName.toUpperCase();
+                userList.add(userValue);
+            }
+        }
+        for(String userValue:userList){
+            sortedList.add(userValue);
+        }
+        Collections.sort(sortedList);
+        Assert.assertTrue("User list is not in A-Z order",userList.equals(sortedList));
+    }
+
 
     private List<WebElement> currentUserList(String currentUser){return driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));}
     private WebElement userInSelectStaffMember(String selectUser){return driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+selectUser+"']"));}
@@ -308,4 +396,10 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement showingAllText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
     private WebElement blueNoteAlertMessage(){return driver.findElement(By.cssSelector("strong+span>span"));}
     private By blueNoteAlert(){ return By.cssSelector("strong+span>span"); }
-    }
+    private WebElement reAssignAppointmentText(){return driver.findElement(By.cssSelector("//div/span[text()='Re-assign Appointments']"));}
+    private WebElement SelectAppointmentsToReAssignText(){return driver.findElement(By.cssSelector("//div/span[text()='Select appointments to re-assign:']"));}
+    private WebElement SelectStaffMemberToSeeTheirAppointmentsText(){return driver.findElement(By.cssSelector("//p/span[text()='Select a staff member above to see their appointments here']"));}
+    private List<WebElement> userList(){ return driver.findElements(By.xpath("//div[@class='menu transition visible']/div")); }
+    private List<WebElement> inactiveUser(){ return driver.findElements(By.xpath("//div[@aria-disabled='false']/span[text()='Inactive User']")); }
+    private WebElement inActivateUserLabel(){ return driver.findElement(By.xpath("//span[text()='Inactive User']")); }
+}

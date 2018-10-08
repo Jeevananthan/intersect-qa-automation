@@ -1518,10 +1518,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         searchTextBox().sendKeys(school);
         waitUntil(ExpectedConditions.visibilityOf(search()));
         searchButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/a[contains(text(),'"+school+"')]")));
-        WebElement schoolName = getDriver().findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
-        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
-        schoolName.click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(schoolNameText(school)));
+        Assert.assertTrue("school is not displayed",schoolInSearchAndSchedule(school).isDisplayed());
+        schoolInSearchAndSchedule(school).click();
         waitUntilPageFinishLoading();
     }
 
@@ -1633,15 +1632,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(getFairsButton());
         getFairsButton().click();
         waitUntilElementExists(register());
-        WebElement fairname=getDriver().findElement(By.xpath("//a/h3[text()='"+schoolName+"']/parent::a/following-sibling::span[text()='"+Fair+"']"));
-        waitUntilElementExists(fairname);
-        Assert.assertTrue("fair is not displayed",fairname.isDisplayed());
-        WebElement schoolDetails = getDriver().findElement(By.xpath("//a/h3[text()='"+schoolName+"']"));
-        Assert.assertTrue("schoolName is not displayed",schoolDetails.isDisplayed());
-        WebElement button=  getDriver().findElement(By.xpath("//span[text()='"+Fair+"']/parent::div/following-sibling::div/button[text()='Register']"));
-        button.click();
+        waitUntilElementExists(fairName(schoolName,Fair));
+        Assert.assertTrue("School and Fair Name is not displayed",fairName(schoolName,Fair).isDisplayed());
+        registerButton(Fair).click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("submit page is not displayed",text("Yes, Submit Request").isDisplayed());
+        Assert.assertTrue("submit page is not displayed",submitRequestText().isDisplayed());
         submitButton().click();
         waitUntil(ExpectedConditions.visibilityOf(goToDate()));
     }
@@ -3913,6 +3908,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public WebElement getCloseShareYourCalendarButton(){
         return getDriver().findElement(By.cssSelector("div>i[class='close icon']"));
+    }
+    private By schoolNameText(String school){
+        return By.xpath("//td/a[contains(text(),'"+school+"')]");
+    }
+    private WebElement submitRequestText(){
+        return text("Yes, Submit Request");
     }
 }
 

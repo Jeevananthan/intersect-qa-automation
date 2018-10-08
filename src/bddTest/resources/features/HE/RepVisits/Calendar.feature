@@ -184,9 +184,9 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 
     Then HE I am logged in to Intersect HE as user type "administrator"
     When HE I go to re assign appointments
-    Then HE I select the user "Publishing, PurpleHE" from "Select staff member" dropdown
+    Then HE I select the user "Publishing, PurpleHE" from 'Select staff member' dropdown
     Then HE I select the fair to reassign using "<Date>","<School>","<Number of Students Expected>"
-    Then HE I select the user "Community, PurpleHE" from "Select new assignee" dropdown
+    Then HE I select the user "Community, PurpleHE" from 'Select new assignee' dropdown
     Then HE I click Reassign Appointments button "<appointmentsCount>"
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
@@ -201,3 +201,59 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |reAssignedAttendee |appointmentsCount|
       |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 6|PurpleHE Publishing   |PurpleHE Community |1                |
 
+  @MATCH-4147
+  Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user,
+  I want the ability to easily access a path to reassign other HE users visits at my institution from RepVisits>Calendar view,
+  so that I can support rep attritition, rep absences, and so forth while maintaining scheduled appointments and do so from the location in RV that I'm used to managing my own appointments.
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+#verify all fields in re assign appointments page
+    When HE I go to re assign appointments
+    Then HE I verify the text 'Re-assign Appointments' is displaying in re assign appointments page
+    Then HE I verify the text 'Select appointments to re-assign:' is displaying in re assign appointments page
+    Then HE I verify the text 'Select a staff member above to see their appointments here' is displaying in re assign appointments page
+    Then HE I verify the dropdown 'Select staff member' is displaying in re assign appointments page
+    Then HE I verify the dropdown 'Select new assignee' is displaying in re assign appointments page
+    Then HE I verify the button 'GO BACK' is displaying in re assign appointments page
+    Then HE I verify the button 'Reassign  Appointments' is displaying in re assign appointments page
+#verify staff member dropdown
+    And HE I verify the users are displaying including "Automation, PurpleHE" in Select staff member dropdown
+    Then HE I verify the users are listed in A-Z order and the users have 'Inactive User' notation in 'select staff member' dropdown
+#verify new assignee dropdown
+    And HE I verify the users are displaying including "Automation, PurpleHE" in Select new assignee dropdown using "Publishing, PurpleHE"
+    Then HE I verify the users are listed in A-Z order and the users have 'Inactive User' notation in 'Select new assignee' dropdown using "Publishing, PurpleHE"
+    Then HE I verify the user "Publishing, PurpleHE" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
+
+#verify 'GO BACK' button
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Then HS I cancel registered college fair "<College Fair Name>"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "publishing"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the Attendee details "<Attendee>" in Edit fairs page
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    When HE I go to re assign appointments
+    Then HE I select the user "Publishing, PurpleHE" from 'Select staff member' dropdown
+    Then HE I select the fair to reassign using "<Date>","<School>","<Number of Students Expected>"
+    Then HE I select the user "Community, PurpleHE" from 'Select new assignee' dropdown
+    Then HE I click Go Back button
+
+#verify the details is not changed after clicked 'GO BACK' button
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the Attendee details "<Attendee>" in Edit fairs page
+    Then HS I cancel registered college fair "<College Fair Name>"
+    And HS I successfully sign out
+
+    Examples:
+      |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |
+      |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 6|PurpleHE Publishing   |
