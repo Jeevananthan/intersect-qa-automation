@@ -691,6 +691,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setSpecificDateforManuallyCreatingVisit(numberOfDaysFromNowTillStartDate);
     }
 
+    public void completeSetupWizardFromAnylocation() {
+            waitUntilElementExists(nextButton());
+            nextButton().click();
+            waitUntilElementExists(nextButton());
+            nextButton().click();
+            waitUntilElementExists(nextButton());
+            nextButton().click();
+    }
+
     public void verifyNumberOfVisitsDisplayedInAgendaView(String numberOfVisits) {
         Assert.assertTrue("The number of visits to be displayed in Agenda view is " + numberOfVisits
         + " but instead is " + listOfEventsDisplayedInAgendaView().size(), listOfEventsDisplayedInAgendaView().size()>Integer.parseInt(numberOfVisits));
@@ -2932,7 +2941,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
         getNavigationBar().goToCommunityInHS();
         getNavigationBar().goToRepVisits();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(availabilityAndSettingsButton());
         availabilityAndSettingsButton().click();
         waitUntilPageFinishLoading();
         navianceSettings().click();
@@ -3546,7 +3555,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Naviance Settings']")).size() == 0) {
             waitUntilElementExists(nextButton());
             nextButton().click();
-            waitForUITransition();
+            waitUntilElementExists(nextButton());
+        }
+    }
+
+    public void verifyToastInSetupWizardIncomplete(String option) {
+        if(option.contains("is")) {
+            Assert.assertTrue("The Naviance Settings Not Yet Complete  was not displayed", text("Naviance Settings Not Yet Complete")
+                    .isDisplayed());
+        }else{
+            Assert.assertFalse("The Naviance Settings Not Yet Complete  was  displayed", text("Naviance Settings Not Yet Complete")
+                    .isDisplayed());
+        }
+    }
+
+
+
+    public void connectRVWithNaviance(String option) {
+        if (option.contains("No")) {
+            optInNoRadioButton().click();
+            nextButton().click();
+            nextButton().click();
+            nextButton().click();
+        }else{
+            optInYesRadioButton().click();
+            nextButton().click();
         }
     }
 
@@ -6445,6 +6478,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     public void disconnectFromNavianceButton(){
             try {
                 disconnectButton().click();
+                nextButton().click();
             } catch (WebDriverException e) {
                 optInYesRadioButton().click();
                 nextButton().click();
