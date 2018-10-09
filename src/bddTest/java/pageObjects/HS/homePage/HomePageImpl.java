@@ -82,7 +82,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         link(backToIntersect).click();
         String additionalInfoCurrentURL = driver.getCurrentUrl();
         waitUntilPageFinishLoading();
-        new WebDriverWait(driver, 20).until(ExpectedConditions.urlToBe((additionalInfoCurrentURL)));
         Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
