@@ -56,3 +56,85 @@ Feature: As an HE user, I need to understand my Connection and Advansed Awarenes
     Then I check if I can see "Default Filter Values" on the page
     Then HE I click menu link "Diversity"
     Then I check if I can see "Diversity Settings" on the page
+
+  @MATCH-4429 @MATCH-4400
+  Scenario: As an HE user, I need to be be able to manage my AM Next Gen Diversity Filter in Connection and Advanced awareness
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "connection/overview" url
+    Then HE I click menu tab "Diversity"
+    And HE I select following Diversity Settings
+      | American Indian or Alaskan Native         |
+      | Asian                                     |
+      | Black or African American                 |
+      | Filipino                                  |
+      | Hispanic/Latino of any race               |
+      | Native Hawaiian or Other Pacific Islander |
+      | Multiracial                               |
+      | All Other Racial/Ethnic Minority Groups   |
+    Then HE I verify following options are checked
+      | American Indian or Alaskan Native         |
+      | Asian                                     |
+      | Black or African American                 |
+      | Filipino                                  |
+      | Hispanic/Latino of any race               |
+      | Native Hawaiian or Other Pacific Islander |
+      | Multiracial                               |
+      | All Other Racial/Ethnic Minority Groups   |
+    And SM I press button "Save"
+    Then HE I verify following options are checked
+      | American Indian or Alaskan Native         |
+      | Asian                                     |
+      | Black or African American                 |
+      | Filipino                                  |
+      | Hispanic/Latino of any race               |
+      | Native Hawaiian or Other Pacific Islander |
+      | Multiracial                               |
+      | All Other Racial/Ethnic Minority Groups   |
+    Then HE I navigate to the "advanced-awareness/overview" url
+    Then HE I click menu tab "Diversity"
+    Then HE I verify following options are checked
+      | American Indian or Alaskan Native         |
+      | Asian                                     |
+      | Black or African American                 |
+      | Filipino                                  |
+      | Hispanic/Latino of any race               |
+      | Native Hawaiian or Other Pacific Islander |
+      | Multiracial                               |
+      | All Other Racial/Ethnic Minority Groups   |
+    Then HE I unselect following Diversity Settings
+      | American Indian or Alaskan Native         |
+      | Asian                                     |
+      | Black or African American                 |
+      | Filipino                                  |
+      | Hispanic/Latino of any race               |
+      | Native Hawaiian or Other Pacific Islander |
+      | Multiracial                               |
+      | All Other Racial/Ethnic Minority Groups   |
+    Then HE I verify following options are unchecked
+      | American Indian or Alaskan Native         |
+      | Asian                                     |
+      | Black or African American                 |
+      | Filipino                                  |
+      | Hispanic/Latino of any race               |
+      | Native Hawaiian or Other Pacific Islander |
+      | Multiracial                               |
+      | All Other Racial/Ethnic Minority Groups   |
+    And SM I press button "Save"
+    Then I check if I can see "Please select at least one value" on the page
+    And HE I select following Diversity Settings
+      | American Indian or Alaskan Native         |
+    And SM I press button "Save"
+    Then HE I verify following options are checked
+      | American Indian or Alaskan Native         |
+    Then HE I navigate to the "connection/overview" url
+    Then HE I click menu tab "Diversity"
+    Then HE I verify following options are checked
+      | American Indian or Alaskan Native         |
+    Then HE I verify following options are unchecked
+      | Asian                                     |
+      | Black or African American                 |
+      | Filipino                                  |
+      | Hispanic/Latino of any race               |
+      | Native Hawaiian or Other Pacific Islander |
+      | Multiracial                               |
+      | All Other Racial/Ethnic Minority Groups   |
