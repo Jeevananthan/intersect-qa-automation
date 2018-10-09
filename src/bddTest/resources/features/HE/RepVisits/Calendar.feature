@@ -208,13 +208,10 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
 #premium
@@ -254,10 +251,9 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 #Remove the time slot in Regular Weekly Hours Tab
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 
     Examples:
-      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School                  |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo  |user          |eMail                                       |
-      |21  |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |555-555-1212 |School Manager|school_user_61024USPU@localhost.naviance.com|
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School                  |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo  |user          |eMail                                       |option|
+      |21  |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |555-555-1212 |School Manager|school_user_61024USPU@localhost.naviance.com|1     |

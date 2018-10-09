@@ -354,7 +354,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.clear();
         visitBox.sendKeys(Numberofdays);
         button("Save Changes").click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void setPreventCollegesCancellingorRescheduling(String DaysInAdvance){
@@ -369,7 +369,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.clear();
         visitBox.sendKeys(DaysInAdvance);
         button("Save Changes").click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void setAcceptInVisitSchedulingToFullyBooked(String accept){
@@ -396,7 +396,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             visitsBox.sendKeys(visitsPerDay);
         }
         button("Save Changes").click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void setVisitsConfirmations(String option){
@@ -414,7 +414,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         options.findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
         saveChangesAvailability().click();
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void accessVisitAvailability(String visitAvailability){
@@ -431,7 +431,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']/input[@type='radio']")).click();
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void verifyVisitAvailability(String visitAvailabiltyOption) {
@@ -588,7 +588,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
         dayList.click();
-        driver.findElement(By.cssSelector("div[class='menu transition visible']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
+        driver.findElement(By.cssSelector("div[class='visible menu transition']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
     }
 
 
@@ -4237,7 +4237,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             columnID = columnID + 1;
             rowID = rowID + 1;
             //Remove Time slot
-            WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+            WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash alternate outline icon _26AZia1UzBMUnJh9vMujjF']"));
             jsClick(removeIcon);
             waitUntilPageFinishLoading();
             acceptButton().click();
@@ -9153,6 +9153,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement acceptButton() {  return driver.findElement(By.cssSelector("button[class='ui primary button']"));   }
 
+    private By successMessage() {return By.cssSelector("div[class='ui small icon success message toast']");}
 
 
 
