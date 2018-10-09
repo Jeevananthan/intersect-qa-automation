@@ -34,6 +34,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I clear all the pinned college$", pinnedSchoolsComparePage::clearPinnedColleges);
 
+        And("^SM I verify all the options available in Student Life fit criteria in Student Life expandable drawer$", pinnedSchoolsComparePage::verifyStudentLifeExpandableDrawerOptions);
 
     }
 }

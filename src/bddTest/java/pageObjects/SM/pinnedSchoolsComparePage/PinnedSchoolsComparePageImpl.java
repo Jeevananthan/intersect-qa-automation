@@ -289,7 +289,24 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         searchedCollegePinButton.click();
     }
 
+    public void verifyStudentLifeExpandableDrawerOptions() {
+        String expStudentLifeOptions[] = {"Clubs & Organizations", "Study Abroad", "Internships & Co-Ops", "Fraternities & Sororities",
+                "ROTC - Army", "ROTC - Navy", "ROTC - Air Force"};
+
+        String expStudentLifeOptionsValues[] = {"16", "Yes", "Unknown", "Yes", "Yes", "No", "Yes"};
+        for (int i = 0; i < studentLifeOptions().size(); i++) {
+            Assert.assertTrue(studentLifeOptions().get(i) + " option is not matching with the expected option ie " + expStudentLifeOptions[i], studentLifeOptions().get(i).getText().equals(expStudentLifeOptions[i]));
+            String actResurceOptionsValues = driver.findElement(By.xpath("//div[text()='"+expStudentLifeOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue("temp", actResurceOptionsValues.equals(expStudentLifeOptionsValues[i]));
+        }
+    }
+
     // Locators Below
+
+    private WebElement studentLifeDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Student Life']/.."));
+    }
+    private List<WebElement> studentLifeOptions(){ return studentLifeDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
 
     private WebElement getPinnedCollegesCountFooter(){return driver.findElement(By.id("pinCount"));}
     private WebElement searchBar(){return driver.findElement(By.id("supermatch-search-box-input"));}
