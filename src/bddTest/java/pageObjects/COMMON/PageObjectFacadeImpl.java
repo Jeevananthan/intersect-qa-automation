@@ -3,9 +3,11 @@ package pageObjects.COMMON;
 import org.apache.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 import stepDefinitions.GlobalSteps;
 import utilities.GetProperties;
@@ -282,6 +284,19 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      */
     public void resetImplicitWaitTimeout() {
         getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
+    }
+
+    /**
+     * Waits up to 10 seconds for the text of the supplied WebElement to equal the text of the passed String.
+     * @param element - WebElement to evaluate .getText() on
+     * @param expectedText - expected value of .getText()
+     */
+    protected void waitForElementTextToEqual(WebElement element, String expectedText){
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return element.getText().equals(expectedText);
+            }
+        });
     }
 
     /**
