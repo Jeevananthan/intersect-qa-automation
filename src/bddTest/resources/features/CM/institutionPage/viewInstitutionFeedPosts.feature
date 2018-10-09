@@ -10,4 +10,3 @@ Feature: Community User - View Aggregate Feed on HE/HS Institutions
     And I go to institution page
     And I go to Hobsons institution page
     Then I check if Institution posts are visible
-    And HE I successfully sign out

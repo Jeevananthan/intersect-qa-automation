@@ -88,7 +88,7 @@ public class NavigationBarImpl extends SeleniumBase {
     public NavigationBarImpl(){
 
         logger = Logger.getLogger(NavBarImpl.class);
-        PageFactory.initElements(driver, this);
+        PageFactory.initElements(getDriver(), this);
     }
 
     public void goToHome() {
@@ -134,18 +134,15 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     public void goToRepVisits() {
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-        FluentWait<WebDriver> wait = new WebDriverWait(driver, 5);
+        getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        FluentWait<WebDriver> wait = new WebDriverWait(getDriver(), 5);
         wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
         waitUntilElementExists(navigationDropDown);
+        waitUntilPageFinishLoading();
         navigationDropDown.sendKeys(Keys.ENTER);
         waitUntilElementExists(repVisitsMenuLink);
         repVisitsMenuLink.sendKeys(Keys.ENTER);
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
-//        Assert.assertTrue("The RepVisits menu was not selected",
-//                selectedNavigationMenu.getAttribute("innerText").contains("RepVisits"));
-//        Assert.assertTrue("The RepVisits menu was not selected",
-//                selectedNavigationMenu.getAttribute("innerText").contains("RepVisits"));
     }
 
     public void goToEvents() {
@@ -194,7 +191,7 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntil(ExpectedConditions.visibilityOf(searchFilterDropdown));
         searchFilterDropdown.click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//span[text()='%s']",filter))));
-        driver.findElement(By.xpath(String.format("//span[text()='%s']",filter))).click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']",filter))).click();
         waitUntil(ExpectedConditions.visibilityOf(searchSesultsListBox));
     }
 
@@ -215,7 +212,7 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntil(ExpectedConditions.visibilityOf(helpDropdown));
         helpDropdown.click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//span[text()='%s']", helpOption))));
-        driver.findElement(By.xpath(String.format("//span[text()='%s']", helpOption))).click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", helpOption))).click();
         waitUntilPageFinishLoading();
     }
 
@@ -233,10 +230,10 @@ public class NavigationBarImpl extends SeleniumBase {
      * @param option to be selected
      */
     public void selectUserOption(String option){
-        waitUntil(ExpectedConditions.visibilityOf(userDropdown));
-        userDropdown.click();
+        waitUntil(ExpectedConditions.visibilityOf(this.userDropdown));
+        this.userDropdown.click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//span[text()='%s']", option))));
-        driver.findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
         waitUntilPageFinishLoading();
     }
 
@@ -248,7 +245,7 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
         navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//span[text()='%s']", menu))));
-        driver.findElement(By.xpath(String.format("//span[text()='%s']", menu))).click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", menu))).click();
         waitUntilPageFinishLoading();
     }
 
@@ -260,14 +257,14 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
         navigationDropDown.click();
         Assert.assertTrue(String.format("The sub menu: %s is not displayed",submenu),
-                driver.findElement(By.xpath(String.format("//span[text()='%s']",submenu))).isDisplayed());
+                getDriver().findElement(By.xpath(String.format("//span[text()='%s']",submenu))).isDisplayed());
         navigationDropDown.click();
     }
     public void verifySubMenuIsNotVisible(String submenu){
         waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
         navigationDropDown.click();
         Assert.assertTrue(String.format("The sub menu: %s is displayed",submenu),
-                driver.findElements(By.xpath(String.format("//span[text()='%s']",submenu))).size()==0);
+                getDriver().findElements(By.xpath(String.format("//span[text()='%s']",submenu))).size()==0);
         navigationDropDown.click();
     }
 
@@ -275,7 +272,7 @@ public class NavigationBarImpl extends SeleniumBase {
      *Selects the logout option in the user menu
      */
     public void logout(){
-        driver.switchTo().defaultContent();
+        getDriver().switchTo().defaultContent();
         goToHome();
         selectUserOption("Sign Out");
         waitUntilPageFinishLoading();
@@ -286,12 +283,12 @@ public class NavigationBarImpl extends SeleniumBase {
      * @param dataTable
      */
     public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
-        waitUntilElementExists(driver.findElement(By.cssSelector("div[class='_3xvPKh2BtfX3PytW8GQpO3']")));
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='_3xvPKh2BtfX3PytW8GQpO3']")));
         waitUntilPageFinishLoading();
         navigationDropDown.click();
         List<List<String>> data = dataTable.raw();
         for(List<String> row : data){
-            WebElement menu = driver.findElement(By.xpath(String.format(
+            WebElement menu = getDriver().findElement(By.xpath(String.format(
                     "//dt[@class='header _3zoxpD-z3dk4-NIOb73TRl']/span[text()='%s']", row.get(0).trim())));
             String[] subMenusText = row.get(1).split(",");
             Assert.assertTrue(String.format("The menu: %s is not displayed",row.get(0).trim()),menu.isDisplayed());
@@ -311,9 +308,9 @@ public class NavigationBarImpl extends SeleniumBase {
     public void verifyNotificationIconInHomePage(){
         String notificationCount;
         Assert.assertTrue("Notification Icon is not visible",notificationsDropdown.isDisplayed());
-        try{if(driver.findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).isDisplayed())
+        try{if(getDriver().findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).isDisplayed())
         {
-            notificationCount=driver.findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).getText();
+            notificationCount=getDriver().findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).getText();
             if(notificationCount.equals(""))
             {
                 logger.info("There is no notification");
@@ -336,7 +333,7 @@ public class NavigationBarImpl extends SeleniumBase {
         navigationDropDown.click();
         List<List<String>> data = dataTable.raw();
         for(List<String> row : data){
-            WebElement menu = driver.findElement(By.xpath(String.format(
+            WebElement menu = getDriver().findElement(By.xpath(String.format(
                     "//dt[@class='header _3zoxpD-z3dk4-NIOb73TRl _384bOUKpp0wQluMQzJZp0P']/span[text()='%s']", row.get(0).trim())));
             String[] subMenusText = row.get(1).split(",");
             Assert.assertTrue(String.format("The menu: %s is not displayed",row.get(0).trim()),menu.isDisplayed());
@@ -347,12 +344,12 @@ public class NavigationBarImpl extends SeleniumBase {
                 Assert.assertTrue(String.format("The submenu: %s is not displayed",subMenuText.trim()),subMenu.isDisplayed());
             }
         }
-        driver.navigate().refresh();
+        getDriver().navigate().refresh();
     }
 
     //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
     //Read more information here: https://imalittletester.com/2016/05/11/selenium-how-to-wait-for-an-element-to-be-displayed-not-displayed/
     private void waitForElementSetMaxTimeout() {
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
     }
 }

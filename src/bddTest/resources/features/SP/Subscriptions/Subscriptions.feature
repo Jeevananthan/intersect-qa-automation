@@ -5,6 +5,8 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
   Scenario: As a Support user, I verify that the Next and Back button are working properly when adding a new subscription
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
+    And SP I Click the Save Changes button
     And SP I open the module link of name "Advanced Awareness"
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "State" in Add new Subscription modal
@@ -13,9 +15,11 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
 
   @MATCH-4369 @MATCH-4368
   Scenario Outline: As a Support user, I need the ability to add an Advanced Awareness or Connection subscription so
-  that the client's services can be provisioned.
+                    that the client's services can be provisioned.
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
+    And SP I Click the Save Changes button
     And HE I click the link "Advanced Awareness"
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "<Subscription type>" in Add new Subscription modal
@@ -39,7 +43,8 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
     And SP I delete the subscriptions with the following data:
       | Diversity | <Diversity Filter>   |
       | Start Date | <Start date>        |
-    Examples:
+
+  Examples:
       | Subscription type | State   | Counties                       | Diversity Filter         | Competitors                   | Majors | Connection | Start date      | End date        | Zips  | Radius from zips |
       | State             | Alabama | None                           | Female                   | Auburn University Main Campus | yes    | no         | 2 days from now | 3 days from now | None  | None             |
       | County            | Alaska  | Aleutians East Borough County  | Male                     | Auburn University Main Campus | no     | yes        | 2 days from now | 3 days from now | None  | None             |
@@ -50,6 +55,8 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
   zip code radius that has a 100 mile limit, so that clients can be more specific with their radiuses.
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
+    And SP I Click the Save Changes button
     And SP I open the module link of name "Advanced Awareness"
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "Zip" in Add new Subscription modal

@@ -13,7 +13,6 @@ And HS I click on Disconnect RepVisits from Naviance button
 And HS I verify the Yes on the disconnect confirmation popup with "7","6:30am","7:00am","2","PurpleHE Automation" and "Cbba"
 And HS I cancel a visit with time "6:30AM" college "Bowling Green State University-Main Campus" and note "Cancel"
 Then HS I remove the Time Slot recently created with "7","6:30am" in Regular Weekly Hours Tab
-And HS I successfully sign out
 
   @MATCH-4895
   Scenario: When a Naviance High School has their settings set to:
@@ -54,4 +53,47 @@ And HS I successfully sign out
     #Clean environment
     Then HS I remove the Time Slot recently created with "10","5:31am" in Regular Weekly Hours Tab
     Then HS I remove the Time Slot recently created with "10","5:51am" in Regular Weekly Hours Tab
-    And HS I successfully sign out
+
+
+  @MATCH-4071
+  Scenario: A persistent message appears in RepVisits (i.e. no other locations in Intersect such as Counselor Community,
+  etc) alerting them that they did not complete the Naviance Settings wizard in the aforementioned scenario indicating,
+  "Naviance Sync Incomplete Looks like you didn't finish connecting RepVisits to Naviance. Please select an option below
+  to proceed." - specs per mock and related assets
+
+
+  @MATCH-4071 @MATCH-4205 @MATCH3955
+  Scenario: A persistent message appears in RepVisits (i.e. no other locations in Intersect such as Counselor Community,
+  etc) alerting them that they did not complete the Naviance Settings wizard in the aforementioned scenario indicating,
+  "Naviance Sync Incomplete Looks like you didn't finish connecting RepVisits to Naviance. Please select an option below
+  to proceed." - specs per mock and related assets. When in this partial saved state, message disappears when:
+  2.1 The user selects the "no" radio option and clicks "next" on the wizard (i.e. performs a disconnect per --MATCH-3955--)
+  QA/UAT: The timing for which this is disappearing is incorrect as with current implementation it's only disappearing
+  when you complete the entire wizard with this tickets scenario and not when you complete the Naviance Settings section
+  of the wizard. Instead of correcting with this ticket, will adjust the timing of this alert disappearing with MATCH-4205
+  2.2PASSED the user selects the "yes" radio  option and completes the full Naviance Settings wizard
+    #Precondition
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
+    Then HS I navigate to naviance settings page
+    Then HS I click on Disconnect RepVisits from Naviance button
+    Then HS I navigate to the Naviance Settings page through the setup Wizard
+    Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
+    Then HS I navigate to the Naviance Settings page through the setup Wizard
+    Then HS I verify the toast "is" displayed when setup Wizard is incomplete
+    Then HS I complete the set up wizard from any location
+
+    #Verify with No option
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
+    Then HS I navigate to the Naviance Settings page through the setup Wizard
+    Then HS I select "No" to connect RepVisits with Naviance in the Wizard
+    Then HS I verify the toast "not" displayed when setup Wizard is incomplete
+    #Verify with Yes option
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
+    Then HS I navigate to the Naviance Settings page through the setup Wizard
+    Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
+    Then HS I complete the set up wizard from any location
+    Then HS I verify the toast "not" displayed when setup Wizard is incomplete
+#    Then HS I complete the set up wizard from any location
+
+
+

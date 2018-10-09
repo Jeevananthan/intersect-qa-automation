@@ -9,7 +9,6 @@ Feature: HS - Home - AccountSettings - As an HS user, I can manage my account se
     And HS I verify the items in the user dropdown for a Naviance user
     Then HS I verify the items are navigate to the respective page in the user dropdown for a Naviance user
     Then HS I verify the user is "<user>" or not
-    And HS I successfully sign out
   Examples:
     |navianceUserType|user      |
     |navianceAdmin   |ADMIN     |
@@ -24,7 +23,6 @@ Feature: HS - Home - AccountSettings - As an HS user, I can manage my account se
     Then HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user
     Then HS I verify the user is "<user>" or not
     And HS I verify the items are present in the help center dropdown for a Non-Naviance user
-    And HS I successfully sign out
   Examples:
     |usertype                                  |password  |user      |
     |purpleheautomation+administrator@gmail.com|Password!1|ADMIN     |
@@ -46,4 +44,3 @@ Feature: HS - Home - AccountSettings - As an HS user, I can manage my account se
     Then HS I navigate to naviance settings page
     Then HS I verify the following details are displaying in Naviance Settings page
       |Naviance Sync Settings|Default Visit Details for College Visits|You can set default values to save time in scheduling future visits, but you can also edit details for individual visits when needed.|The following default visit details will be applied to visits scheduled moving forward.|
-    And HS I successfully sign out

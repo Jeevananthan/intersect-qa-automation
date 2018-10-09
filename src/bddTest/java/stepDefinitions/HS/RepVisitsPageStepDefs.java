@@ -197,7 +197,11 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the RepVisits Overview page when no events are scheduled for the next 7 days$", repVisits::verifyRepVisitsPageWhenNoVisitsScheduledForNext7Days);
 
-        Then("^HS I add the new time slot with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$", repVisits::addnewTimeSlot);
+        Then("^HS I add the new time slot with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\" with \"([^\"]*)\"$", repVisits::addnewTimeSlot);
+
+        Then("^HS I verify time slot was not created in Exception$", repVisits::verifyTimeSlotInExceptions);
+
+
 
         //And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
 
@@ -312,12 +316,18 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$", repVisits::removeTimeSlotsInRegularWeeklyHoursTab);
 
+        Then("HS I remove the Time Slot created with \"([^\"]*)\",\"([^\"]*)\" in Exceptions Tab$", repVisits::removeTimeSlotsInExceptionsTab);
+
         Then("^HS I add the email \"([^\"]*)\" in the primary contact in Notifications & Primary Contact page$", repVisits::addEmailInNotificationandPrimaryContactPage);
 
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$", repVisits::navigateToNavianceSettingsPage);
 
+        Then("^HS I verify the toast \"([^\"]*)\" displayed when setup Wizard is incomplete$", repVisits::verifyToastInSetupWizardIncomplete);
+
+        Then("^HS I select \"([^\"]*)\" to connect RepVisits with Naviance in the Wizard", repVisits::connectRVWithNaviance);
+
         Then("^HS I click on link Add School User Manually$",repVisits::addSchoolUserManually);
-        Then("^HS I Enter Folliwng Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
+        Then("^HS I Enter Following Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
         Then("^HS I click on button Add attendees$",repVisits::clickAddAttendeetovisit);
         Then("^HS I click the Message Colleges button$",repVisits::clickMessageCollegesButton);
         Then("^HS I Enter Message as \"([^\"]*)\"$",repVisits:: massEmailMessageForAttendees);
@@ -542,8 +552,6 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I Cancel visit to create again add Notes to Cancel \"([^\"]*)\"$", repVisits::visitCancelled);
 
-        And("^HS I Enter Following Data to Add a School User Manually$", repVisits::addDataToAddAttendeeManually);
-
         And("^HS I verify Representative details on Visit Details screen \"([^\"]*)\"$", repVisits::verifyRepDetails);
 
         Then("^HS I go the Exception tab in RepVisits$",repVisits::navigateToException);
@@ -670,6 +678,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I complete the set up wizard that not yet completed by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::completeSetupWizard);
 
+        Then("^HS I complete the set up wizard from any location$",repVisits::completeSetupWizardFromAnylocation);
+
         And("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in Agenda view$", repVisits::setStartDateAndEndDateInAgendaView);
 
         And("^HS I verify that \"([^\"]*)\" visits are displayed in Agenda view$", repVisits::verifyNumberOfVisitsDisplayedInAgendaView);
@@ -701,6 +711,19 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
 
         And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
+      
+        Then("^HS I verify the Attendee details \"([^\"]*)\" in Edit fairs page$",repVisits::verifyAttendeeDetailsInEditFairs);
 
+        Then("^HS I cancel registered college fair \"([^\"]*)\"$",repVisits::cancelRegisteredCollegeFair);
+
+        And("^HS I create a visit \"([^\"]*)\" days ahead from now with the following details$", repVisits::createVisit);
+
+        And("^HS I open the visit with generated time in the Calendar$", repVisits::openFairDetailsWithGeneratedDate);
+
+        Then("^HS I verify the input validations for Student Registration Deadline with the data:$", repVisits::verifyInputValidationsForStuRegDeadline);
+
+        And("^HS I cancel the open visit$", repVisits::cancelOpenVisit);
+       
+       Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
     }
 }

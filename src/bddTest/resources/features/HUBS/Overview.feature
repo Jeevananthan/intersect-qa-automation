@@ -10,7 +10,6 @@ Feature: HUBS - Overview - As a community user viewing College Hubs, I want to b
   @HUBS-923 @HUBS-1005 @HUBS-992
   Scenario: All the elements of the page are displayed for HE users in Overview (MATCH-3930)
     Then HUBS All the elements of the overview tab should be displayed
-    And HE I successfully sign out
 
   @HUBS-1087
   Scenario: All the types of fields are editable in real time
@@ -27,7 +26,6 @@ Feature: HUBS - Overview - As a community user viewing College Hubs, I want to b
       #| Average GPA              | 7.7                                           |
       #MATCH-3780: Contact Information is not editable
       #| Contact Information      | Application Mailing Address;ZIP;777           |
-    And HE I successfully sign out
 
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-3957 - MATCH-4652)
     When HUBS I open "Overview" in the edit menu
@@ -56,5 +54,14 @@ Feature: HUBS - Overview - As a community user viewing College Hubs, I want to b
       | Test Scores;SAT;SAT 2400 Reading;25th Percentile            |
       #| Average GPA              |
       #| Contact Information      |
-    And HUBS I successfully sign out
+
+  @MATCH-4157
+  Scenario: User have ability to Edit 25th and 75th GPA percentile
+    When HUBS I open "Overview" in the edit menu
+    Then HUBS I should be able to edit the following fields for Overview in real time:
+      | 25th Percentile (visible only in SuperMatch) | 2.5 |
+      | 75th Percentile (visible only in SuperMatch) | 2.9 |
+
+
+
 
