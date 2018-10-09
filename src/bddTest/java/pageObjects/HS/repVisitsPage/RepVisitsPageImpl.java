@@ -4815,6 +4815,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
         startOrEndDate().sendKeys(Keys.PAGE_DOWN);
+        StartTime = startTime(startTime);
+        deleteDuplicateSlot(StartTime);
         addTimeSlot().click();
         List<WebElement> slot= driver.findElements(By.cssSelector("button[class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
         if(slot.size()>0){
@@ -4825,7 +4827,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(selectDay());
         String visitDay = day(day);
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", visitDay);
-        StartTime = startTime(startTime);
         logger.info("Start Time = " + StartTime);
         addStartTime().sendKeys(StartTime);
         addEndTime().sendKeys(endTime);
@@ -7553,6 +7554,14 @@ public void cancelRgisteredCollegeFair(String fairName){
         }
     }
 
+    private void deleteDuplicateSlot(String startTime){
+        while(duplicateSlot(startTime).size()>0){
+            clickDuplicateSlot(startTime).click();
+            removeButton().click();
+            waitForUITransition();
+        }
+    }
+
     private void checkStarRatingValidation(){
         link("PENDING").click();
         waitUntilPageFinishLoading();
@@ -9153,7 +9162,8 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement acceptButton() {  return driver.findElement(By.cssSelector("button[class='ui primary button']"));   }
 
+    private List<WebElement> duplicateSlot(String startTime){return driver.findElements(By.xpath("//button[text()='"+startTime+"']"));}
 
-
+    private WebElement clickDuplicateSlot(String startTime){return driver.findElement(By.xpath("//button[text()='"+startTime+"']/preceding-sibling::span/i"));}
 
 }

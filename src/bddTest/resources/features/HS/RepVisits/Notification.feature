@@ -316,24 +316,23 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #FOR VISITS
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
-    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    And HE I click Request button in visit schedule popup
+
+    Then HE I verify default the HE user to see the REQUESTS subtab when they arrive on the Notifications page
     Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
     Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
+    Then HE I verify the Sorting notification entries in the REQUESTS subtab by newest to oldest
     And HE I verify the Notifications & Tasks using "<School>","<StartDate>","<heStartTime>"
     Then HE I click the View full details option in the Request subTab using "<School>","<StartDate>","<heStartTime>"
 

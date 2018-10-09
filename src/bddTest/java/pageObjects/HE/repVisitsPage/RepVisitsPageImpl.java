@@ -1616,16 +1616,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
-    public void verifySchedulePopup(String school,String startTime,String endTime){
+    public void clickRequestButton(){
         waitUntilPageFinishLoading();
-        startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        Assert.assertTrue("SchedulePopup is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
-        Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
-//        Assert.assertTrue("time is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
         visitRequestButton().click();
         waitUntil(ExpectedConditions.visibilityOf(goToDate()));
     }
-
 
     public void visitFairsToRegister(String fairName,String schoolName){
         waitUntilPageFinishLoading();
@@ -3193,6 +3188,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyRequestsSubTabIsEnabled(){
+        getNavigationBar().goToRepVisits();
+        getNotificationsBtn().click();
+        waitUntilElementExists(requestsubtab());
+        Assert.assertTrue("Request subtab is not enabled",requestsubtab().isEnabled());
+    }
+
+    public void verifySortingNotificationEntries() throws ParseException {
+        ArrayList<Date> date=new ArrayList<>();
+        ArrayList<Date> sortedDate = new ArrayList<>();
+        SimpleDateFormat format=new SimpleDateFormat("d MMM yyyy");
+        for(WebElement dateValue:getDateInRequestTab()){
+            String sortingDate = dateValue.getText();
+            String Date[] = sortingDate.split(", ");
+            String dateWithoutDay = Date[0];
+            Date currentDate = format.parse(dateWithoutDay);
+            sortedDate.add(currentDate);
+        }
+        Collections.sort(sortedDate);
+        for(WebElement dateValue:getDateInRequestTab()){
+            String sortingDate = dateValue.getText();
+            String Date[] = sortingDate.split(", ");
+            String dateWithoutDay = Date[0];
+            Date currentDate = format.parse(dateWithoutDay);
+            date.add(currentDate);
+        }
+        Assert.assertTrue("Date is not sorted",sortedDate.equals(date));
+    }
+
     public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
         getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.linkText("Calendar"),1));
@@ -3977,10 +4001,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]"));
     }
 
-    public WebElement schoolInVisits(String school) {
-        return getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
-    }
-
     public WebElement availabilityButton(String visitDate){
         return getDriver().findElement(By.xpath("(//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr/td)[3]/div/div/button[text()='"+pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime+"']"));
     }
@@ -3997,6 +4017,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=getDriver().findElement(By.xpath("//span[text()='"+option+"']"));
         return text;
     }
+    private List<WebElement> getDateInRequestTab(){return driver.findElements(By.xpath("//div[@class='row _7a-AX8OE6ILreCgE8P27C']/following-sibling::div/div/div/following-sibling::div/span"));}
+
 }
 
 
