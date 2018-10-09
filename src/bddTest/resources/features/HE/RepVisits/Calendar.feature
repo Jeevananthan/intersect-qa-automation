@@ -218,7 +218,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
-    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    And HE I click Request button in visit schedule popup
 
     And HE I select calendar in RepVisits
     Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
@@ -230,7 +230,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I am logged in to Intersect HE as user type "community"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
-    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    And HE I click Request button in visit schedule popup
 
     Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
     Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
@@ -241,7 +241,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I am logged in to Intersect HE as user type "limited"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>" in freemium
-    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    And HE I click Request button in visit schedule popup
 
     Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
     Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>" for freemium
@@ -255,5 +255,5 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     And HS I successfully sign out
 
     Examples:
-      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                                              |School                  |heStartTime|heTime   |heCT     |heCST   |heCET   |hsAddress                                |contactPhNo  |user          |eMail                                       |option|
-      |21  |21  |11:50am  |12:11pm|10       |21       |49     |12:11pm  |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50am  |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |555-555-1212 |School Manager|school_user_61024USPU@localhost.naviance.com|1     |
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|Option                                              |School                  |heStartTime|heCT     |heCST   |heCET   |hsAddress                                |contactPhNo  |user          |eMail                                       |option|
+      |21  |21  |11:57am  |12:11pm|10       |21       |49     |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |555-555-1212 |School Manager|school_user_61024USPU@localhost.naviance.com|1     |

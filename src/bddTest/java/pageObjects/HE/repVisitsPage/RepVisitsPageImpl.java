@@ -1615,12 +1615,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
-    public void verifySchedulePopup(String school,String startTime,String endTime){
+    public void clickRequestButton(){
         waitUntilPageFinishLoading();
-        startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        Assert.assertTrue("SchedulePopup is not displayed",readyToScheduleText().isDisplayed());
-        Assert.assertTrue("school is not displayed",scheduleTextWithSchool(school).isDisplayed());
-        Assert.assertTrue("time is not displayed",scheduleTextWithTime(school,startTime,endTime).isDisplayed());
         visitRequestButton().click();
         waitUntil(ExpectedConditions.visibilityOf(goToDate()));
     }

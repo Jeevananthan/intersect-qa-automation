@@ -111,7 +111,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I select Visits to schedule the appointment for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::visitsSchedule);
 
-        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
+        Then("^HE I click Request button in visit schedule popup$",repVisits::clickRequestButton);
 
         Then("^HE I register for the \"([^\"]*)\" college fair at \"([^\"]*)\"$",repVisits::visitFairsToRegister);
 
