@@ -14,6 +14,7 @@ public class AdvanceAwarenessStepDefsHE implements En {
         And("^HE I click on button Configure for subscription \"([^\"]*)\"$", advanceAwarenessPage::configureSubscription);
         And("^HE I click on Advance Awareness menu option \"([^\"]*)\"$", advanceAwarenessPage:: selectAdvanceAwarenessMenuOption );
         And("^HE I select following Diversity Settings$", advanceAwarenessPage:: selectDiversityOptions );
+        And("^HE I unselect following Diversity Settings$", advanceAwarenessPage:: unselectDiversityOptions );
         And("^HE I verify following options are checked$", advanceAwarenessPage:: verifyDiversityOptionschecked);
         And("^HE I verify following options are unchecked$",advanceAwarenessPage:: VerifyDiversityOptionUnChecked);
 
