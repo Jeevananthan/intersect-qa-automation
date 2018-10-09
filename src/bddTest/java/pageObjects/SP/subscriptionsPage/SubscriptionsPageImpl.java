@@ -167,6 +167,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).click();
         waitUntilPageFinishLoading();
         deleteButton().click();
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
     }
 
@@ -175,6 +176,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openSubscription(String subscriptionName){
+        driver.navigate().refresh();
         waitUntilPageFinishLoading();
         clickSubscriptionName(subscriptionName).click();
 
