@@ -9084,7 +9084,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
 
     private WebElement takeMeButton() {
-        return driver.findElement(By.xpath("//button[@class='ui secondary button']"));
+        return driver.findElement(By.xpath("//button[@class='ui button']"));
     }
     /**
      * Gets the Button to perform action over there.

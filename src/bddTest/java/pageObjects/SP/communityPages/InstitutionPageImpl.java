@@ -33,7 +33,8 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         try{
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("h1.masthead__name"), 1));
-            waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));
+            /*Commented because changed the UI
+            waitUntil(ExpectedConditions.textToBePresentInElement(collageNameLabel(),collegeName));*/
         }catch(Exception e){
             logger.info("Caught Exception: " + e.getMessage());
             getDriver().switchTo().defaultContent();
