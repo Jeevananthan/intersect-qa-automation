@@ -15,8 +15,6 @@ import java.io.File;
 import pageObjects.SM.searchPage.SearchPageImpl;
 import utilities.HUBSEditMode.Navigation;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
@@ -279,7 +277,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
             clearPinnedListOption().click();
             yesClearMyListButton().click();
             //waitForUITransition();
-            explicitWaitWithTwoConditionCheck(getPinnedCollegesCountFooter(), "0");
+            waitForElementTextToEqual(getPinnedCollegesCountFooter(), "0");
             Assert.assertTrue("Colleges are not cleared, still it's showing the count "+getPinnedCollegesCount().getText(), Integer.parseInt(getPinnedCollegesCount().getText())==0);
         }
     }

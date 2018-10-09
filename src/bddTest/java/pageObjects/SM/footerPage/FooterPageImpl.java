@@ -24,7 +24,7 @@ public class FooterPageImpl extends PageObjectFacadeImpl {
             getClearPinnedListButton().click();
             getYesClearMyListButton().click();
             WebElement element = getPinnedCollegesCountFooter();
-            explicitWaitWithTwoConditionCheck(element, "0");
+            waitForElementTextToEqual(element, "0");
             pinnedCollegesCount = Integer.parseInt(getPinnedCollegesCountFooter().getText());
             Assert.assertTrue("After removing all pinned college, count is not showing 0", pinnedCollegesCount==0);
         }

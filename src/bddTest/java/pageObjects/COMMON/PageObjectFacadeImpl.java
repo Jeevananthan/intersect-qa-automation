@@ -289,14 +289,14 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     }
 
     /**
-     * Sets the Implicit Wait timeout untill both the condition are not match
-     * NOTE : FIRST PARAMETER IS WEBELEMENT AND SECOND IS THE EXPECTED VALUE
-     * @param seconds - Value to set the Driver's implicit Wait timeout to
+     * Waits up to 10 seconds for the text of the supplied WebElement to equal the text of the passed String.
+     * @param element - WebElement to evaluate .getText() on
+     * @param expectedText - expected value of .getText()
      */
-    protected void explicitWaitWithTwoConditionCheck(WebElement actCondition, String expCondition){
+    protected void waitForElementTextToEqual(WebElement element, String expectedText){
         (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
-                return actCondition.getText().equals(expCondition);
+                return element.getText().equals(expectedText);
             }
         });
     }
