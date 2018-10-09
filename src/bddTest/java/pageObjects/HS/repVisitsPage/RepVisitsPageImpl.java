@@ -691,6 +691,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setSpecificDateforManuallyCreatingVisit(numberOfDaysFromNowTillStartDate);
     }
 
+    public void completeSetupWizardFromAnylocation() {
+            waitUntilElementExists(nextButton());
+            nextButton().click();
+            waitUntilElementExists(nextButton());
+            nextButton().click();
+            waitUntilElementExists(nextButton());
+            nextButton().click();
+    }
+
     public void verifyNumberOfVisitsDisplayedInAgendaView(String numberOfVisits) {
         Assert.assertTrue("The number of visits to be displayed in Agenda view is " + numberOfVisits
         + " but instead is " + listOfEventsDisplayedInAgendaView().size(), listOfEventsDisplayedInAgendaView().size()>Integer.parseInt(numberOfVisits));
@@ -2932,7 +2941,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
         getNavigationBar().goToCommunityInHS();
         getNavigationBar().goToRepVisits();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(availabilityAndSettingsButton());
         availabilityAndSettingsButton().click();
         waitUntilPageFinishLoading();
         navianceSettings().click();
@@ -3546,7 +3555,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Naviance Settings']")).size() == 0) {
             waitUntilElementExists(nextButton());
             nextButton().click();
-            waitForUITransition();
+            waitUntilElementExists(nextButton());
+        }
+    }
+
+    public void verifyToastInSetupWizardIncomplete(String option) {
+        if(option.contains("is")) {
+            Assert.assertTrue("The Naviance Settings Not Yet Complete  was not displayed", text("Naviance Settings Not Yet Complete")
+                    .isDisplayed());
+        }else{
+            Assert.assertFalse("The Naviance Settings Not Yet Complete  was  displayed", text("Naviance Settings Not Yet Complete")
+                    .isDisplayed());
+        }
+    }
+
+
+
+    public void connectRVWithNaviance(String option) {
+        if (option.contains("No")) {
+            optInNoRadioButton().click();
+            nextButton().click();
+            nextButton().click();
+            nextButton().click();
+        }else{
+            optInYesRadioButton().click();
+            nextButton().click();
         }
     }
 
@@ -4632,6 +4665,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void navigateToRepVisitsSection(String pageName) {
         getNavigationBar().goToRepVisits();
         if (pageName.equalsIgnoreCase("visit feedback")) {
+            notificationsAndTasks().click();
             getVisitsFeedbackBtn().click();
         } else {
             driver.findElement(By.partialLinkText(pageName)).click();
@@ -6373,6 +6407,13 @@ public void cancelRgisteredCollegeFair(String fairName){
         requestLink().click();
     }
 
+    public void navigateToNotificationsAndTasksVisitsFeedBack(){
+        waitUntilPageFinishLoading();
+        navigateToRepVisitsSection("visit feedback");
+        notificationAndTasks().click();
+        visitFeedback().click();
+    }
+
 
     /**
      * Setup Naviance Sync Settings Page.
@@ -6437,6 +6478,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     public void disconnectFromNavianceButton(){
             try {
                 disconnectButton().click();
+                nextButton().click();
             } catch (WebDriverException e) {
                 optInYesRadioButton().click();
                 nextButton().click();
@@ -7103,6 +7145,8 @@ public void cancelRgisteredCollegeFair(String fairName){
                 Assert.assertTrue("User link is not working.", getURLHE.contains("/community/profile/"));
             }
         }
+
+        navigateToNotificationsAndTasksVisitsFeedBack();
 
         link("SUBMITTED").click();
         if(text("No visit feedback has been submitted.").isDisplayed()){
@@ -7857,7 +7901,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement getVisitsFeedbackBtn () {
-        return driver.findElement(By.partialLinkText("Visit Feedback"));
+        return visitFeedback();
     }
 
     private WebElement saveChanges ()
@@ -9040,7 +9084,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
 
     private WebElement takeMeButton() {
-        return driver.findElement(By.xpath("//button[@class='ui secondary button']"));
+        return driver.findElement(By.xpath("//button[@class='ui button']"));
     }
     /**
      * Gets the Button to perform action over there.
