@@ -99,5 +99,11 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     Then SM I verify that 0 items are displayed in the dropdown field
     And SM I search the keyword "indigenous" in Majors
     And I select the option "Keyword: "INDIGENOUS [2]"" from the list "span.text"
-    Then SM I remove the option "Aboriginal/Indigenous Studies" from the dropdown field
+    And SM I remove the option "Aboriginal/Indigenous Studies" from the dropdown field
     Then SM I verify that 1 items are displayed in the dropdown field
+    And SM I remove the option "Indigenous Health" from the dropdown field
+    And SM I search the keyword "indigenous" in Majors
+    And I select the option "Keyword: "INDIGENOUS [2]"" from the list "span.text"
+    And SM I search the keyword "anatomy" in Majors
+    And I select the option "Keyword: "ANATOMY [5]"" from the list "span.text"
+    Then SM I verify that 9 items are displayed in the dropdown field
