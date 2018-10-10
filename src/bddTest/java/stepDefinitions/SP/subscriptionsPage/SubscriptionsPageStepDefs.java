@@ -1,5 +1,6 @@
 package stepDefinitions.SP.subscriptionsPage;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SP.subscriptionsPage.SubscriptionsPageImpl;
 
@@ -26,5 +27,7 @@ public class SubscriptionsPageStepDefs implements En {
         Then("^SP I verify that a new subscription was added with the following data:$", subscriptionsPage::verifyNewSubscription);
 
         Then("^SP I verify that the value in the Radius From Zips field is \"([^\"]*)\"$", subscriptionsPage::verifyValueRadiusFromZips);
+        And("^SP I delete all the subscriptions for school$", subscriptionsPage :: deleteMultipleSubscriptions);
+
     }
 }

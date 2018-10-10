@@ -68,3 +68,35 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
       | Radius from zips | 101 |
     Then SP I verify that the value in the Radius From Zips field is "10"
 
+  @MATCH-5249
+  Scenario: As a Support person I need to be able to generate a bulk subscription transaction that results in multiple subscriptions being displayed on UI
+  Given SP I am logged in to the Admin page as a Support user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SM I press button "ADD NEW SUBSCRIPTION"
+    And SP I select the radio button "State" in Add new Subscription modal
+    And SP I click the Next button
+    And SP I fill the new subscription with the following data:
+      | State                | Virginia |
+      | State                | Ohio |
+      | Diversity Filter     | Female |
+      | Competitors          | Auburn University Main Campus (2400026)      |
+      | Majors               | yes           |
+      | Connection           | yes |
+      | Start date           | 2 days from now      |
+      | End date             | 3 days from now      |
+    And SP I save the new subscription
+    Then SP I verify that a new subscription was added to the subscription table with the following data:
+      | Location | Ohio |
+      | Location | Virginia |
+      | Diversity | Female |
+      | Start Date | 2 days from now |
+    And SP I delete all the subscriptions for school
+
+
+
+
+
+
+
+
