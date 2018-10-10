@@ -19,6 +19,8 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         And("^HE I verify the users are displaying including \"([^\"]*)\" in Select new assignee dropdown using \"([^\"]*)\"$", reassignAppointmentsPage::verifyUsersInSelectNewAssigneeDropdown);
 
+        And("^HE I verify the users are displaying including \"([^\"]*)\" and in active user \"([^\"]*)\" in Select new assignee dropdown$", reassignAppointmentsPage::verifyUsersInSelectNewAssigneeDropdown);
+
         Then("^HE I verify the user \"([^\"]*)\" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown$", reassignAppointmentsPage::verifyUserIsExcludedInSelectNewAssignee);
 
         Then("^HE I verify the blue Note alert \"([^\"]*)\" is displaying when changing the Select staff member dropdown for the users \"([^\"]*)\",\"([^\"]*)\" (?:with no appointments|with appointments) in Select new assignee dropdown$", reassignAppointmentsPage::verifyBlueNoteAlertIsDisplayed);
@@ -59,9 +61,9 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         Then("^HE I verify no appointment text is displaying for the user \"([^\"]*)\"$", reassignAppointmentsPage::verifyUserWithNoAppointments);
 
-        Then("^HE I verify the users are listed in A-Z order and the users have 'Inactive User' notation in 'select staff member' dropdown$", reassignAppointmentsPage::verifyUsersSortingOrderInSelectStaffMemberDropdown);
+        Then("^HE I verify the users are listed in A-Z order in 'select staff member' dropdown$", reassignAppointmentsPage::verifyUsersSortingOrderInSelectStaffMemberDropdown);
 
-        Then("^HE I verify the users are listed in A-Z order and the users have 'Inactive User' notation in 'Select new assignee' dropdown using \"([^\"]*)\"$", reassignAppointmentsPage::verifyUsersSortingOrderInSelectNewAssigneeDropdown);
+        Then("^HE I verify the users are listed in A-Z order in 'Select new assignee' dropdown using \"([^\"]*)\"$", reassignAppointmentsPage::verifyUsersSortingOrderInSelectNewAssigneeDropdown);
 
         Then("^HE I verify the text 'Re-assign Appointments' is displaying in re assign appointments page$", reassignAppointmentsPage::verifyReAssignAppointmentsText);
 
@@ -76,5 +78,17 @@ public class ReassignAppointmentsPageStepDefs implements En {
         Then("^HE I verify the button 'GO BACK' is displaying in re assign appointments page$",reassignAppointmentsPage::verifyGoBackButton);
 
         Then("^HE I verify the button 'Reassign  Appointments' is displaying in re assign appointments page$",reassignAppointmentsPage::verifyReAssignAppointmentsButton);
+
+        Then("^HE I select the user \"([^\"]*)\" in select staff member dropdown$",reassignAppointmentsPage::selectUserInSelectStaffMemberDropdown);
+
+        Then("^HE I verify the current user \"([^\"]*)\" is displaying in Select staff member dropdown list$",reassignAppointmentsPage::verifyCurrentUserIsDisplayingInSelectStaffMember);
+
+        Then("^HE I verify the in active user \"([^\"]*)\" is displaying with 'Inactive User' notation in Select staff member dropdown list$",reassignAppointmentsPage::verifyInActiveUserIsDisplayingInSelectStaffMember);
+
+        Then("^HE I verify the current user \"([^\"]*)\" is displaying in Select new assignee dropdown list$",reassignAppointmentsPage::verifyCurrentUserIsDisplayingInSelectNewAssignee);
+
+        Then("^HE I verify the in active user \"([^\"]*)\" is displaying with 'Inactive User' notation in new assignee dropdown list$",reassignAppointmentsPage::verifyInActiveUserIsDisplayingInSelectNewAssignee);
+
+        Then("^HE I verify the in active user \"([^\"]*)\" is not selectable in Select new assignee dropdown$",reassignAppointmentsPage::verifyInActiveUserIsNotSelectable);
     }
 }

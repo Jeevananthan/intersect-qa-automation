@@ -206,7 +206,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
   I want the ability to easily access a path to reassign other HE users visits at my institution from RepVisits>Calendar view,
   so that I can support rep attritition, rep absences, and so forth while maintaining scheduled appointments and do so from the location in RV that I'm used to managing my own appointments.
 
-    Then HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
 #verify all fields in re assign appointments page
     When HE I go to re assign appointments
     Then HE I verify the text 'Re-assign Appointments' is displaying in re assign appointments page
@@ -216,13 +216,18 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I verify the dropdown 'Select new assignee' is displaying in re assign appointments page
     Then HE I verify the button 'GO BACK' is displaying in re assign appointments page
     Then HE I verify the button 'Reassign  Appointments' is displaying in re assign appointments page
+    Then HE I click Go Back button
 #verify staff member dropdown
-    And HE I verify the users are displaying including "Automation, PurpleHE" in Select staff member dropdown
-    Then HE I verify the users are listed in A-Z order and the users have 'Inactive User' notation in 'select staff member' dropdown
+    Then HE I verify the current user "HE, Purple" is displaying in Select staff member dropdown list
+    Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in Select staff member dropdown list
+    Then HE I verify the users are listed in A-Z order in 'select staff member' dropdown
 #verify new assignee dropdown
-    And HE I verify the users are displaying including "Automation, PurpleHE" in Select new assignee dropdown using "Publishing, PurpleHE"
-    Then HE I verify the users are listed in A-Z order and the users have 'Inactive User' notation in 'Select new assignee' dropdown using "Publishing, PurpleHE"
-    Then HE I verify the user "Publishing, PurpleHE" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
+    Then HE I select the user "Alpena, purple" in select staff member dropdown
+    Then HE I verify the current user "HE, Purple" is displaying in Select new assignee dropdown list
+    Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in new assignee dropdown list
+    Then HE I verify the in active user "InActive, PurpleHE" is not selectable in Select new assignee dropdown
+    Then HE I verify the users are listed in A-Z order in 'Select new assignee' dropdown using "HE, Purple"
+    Then HE I verify the user "HE, Purple" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
 
 #verify 'GO BACK' button
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
