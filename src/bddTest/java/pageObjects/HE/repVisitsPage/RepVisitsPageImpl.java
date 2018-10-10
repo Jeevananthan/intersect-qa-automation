@@ -3195,23 +3195,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Request subtab is not enabled",requestsubtab().isEnabled());
     }
 
-    public void verifySortingNotificationEntries() throws ParseException {
+    public void verifySortingNotificationEntries() {
         ArrayList<Date> date=new ArrayList<>();
+        Date currentDate=null;
         ArrayList<Date> sortedDate = new ArrayList<>();
-        SimpleDateFormat format=new SimpleDateFormat("d MMM yyyy");
+        SimpleDateFormat format=new SimpleDateFormat("MMMM d, yyyy");
         for(WebElement dateValue:getDateInRequestTab()){
             String sortingDate = dateValue.getText();
             String Date[] = sortingDate.split(", ");
-            String dateWithoutDay = Date[0];
-            Date currentDate = format.parse(dateWithoutDay);
+            String dateWithoutDay = Date[1]+", "+Date[2];
+            try {
+                currentDate = format.parse(dateWithoutDay);
+            }catch(ParseException e){}
             sortedDate.add(currentDate);
         }
         Collections.sort(sortedDate);
         for(WebElement dateValue:getDateInRequestTab()){
             String sortingDate = dateValue.getText();
             String Date[] = sortingDate.split(", ");
-            String dateWithoutDay = Date[0];
-            Date currentDate = format.parse(dateWithoutDay);
+            String dateWithoutDay = Date[1]+", "+Date[2];
+            try{
+                currentDate = format.parse(dateWithoutDay);
+            }catch(ParseException e){}
             date.add(currentDate);
         }
         Assert.assertTrue("Date is not sorted",sortedDate.equals(date));
@@ -4017,7 +4022,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement text=getDriver().findElement(By.xpath("//span[text()='"+option+"']"));
         return text;
     }
-    private List<WebElement> getDateInRequestTab(){return driver.findElements(By.xpath("//div[@class='row _7a-AX8OE6ILreCgE8P27C']/following-sibling::div/div/div/following-sibling::div/span"));}
+    private List<WebElement> getDateInRequestTab(){return driver.findElements(By.cssSelector("div[class='row _7a-AX8OE6ILreCgE8P27C']+div>div>div+div>span"));}
 
 }
 
