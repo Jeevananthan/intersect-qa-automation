@@ -40,6 +40,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToURL(String URL){
+        waitUntilPageFinishLoading();
         load(GetProperties.get("he.app.url")+ URL);
     }
 

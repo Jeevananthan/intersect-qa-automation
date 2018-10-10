@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -1702,6 +1703,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         WebElement Actions = getParent(getParent(login)).findElement(By.cssSelector("[aria-label='Actions']"));
         Actions.click();
+
+
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,350)", "");
+        org.openqa.selenium.interactions.Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(By.id("//main[@class='GuR-15HmYdF_kylVxUNpD']"))).perform();
 
         waitUntilElementExists(getDriver().findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+action+"']")));
         WebElement selectsReInviteDropDown = getDriver().findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+action+"']"));
