@@ -1294,8 +1294,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         verifyCommunityAvatarIsDisplayedToTheLeftOfStaffMemberName();
         verifyNoFeedbackSubmittedYetMessageIsDisplayed();
     }
-    public void navaigateToAccountSettings(String accountSettings)
-    {
+    public void navaigateToAccountSettings(String accountSettings) {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         userDropdown().click();
@@ -2316,9 +2315,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySuccessMessageinAccountSettingsPage(String message){
-        String SuccessMessage = getDriver().findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
+        String SuccessMessage = getSuccessMessage().getText();
         Assert.assertTrue("Success message is not displayed",message.equals(SuccessMessage));
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/sp")));
     }
 
     public void selectCalendar() {
@@ -3941,11 +3939,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button("Show More");
     }
     private By successMessage(){
-        return By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span");
+        return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']>span");
     }
     private List<WebElement> negativeMessage(){
-        return getDriver().findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+        return getDriver().findElements(By.cssSelector("div[class='ui negative message']>div>span"));
     }
+    private WebElement getSuccessMessage(){return driver.findElement(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']>span"));}
 }
 
 
