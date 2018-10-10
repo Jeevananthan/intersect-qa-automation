@@ -344,8 +344,11 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
+
+    Then HE I verify default the HE user to see the REQUESTS subtab when they arrive on the Notifications page
     Then HE I verify the message "You currently have no notifications" is displayed in the Request subTab
     Then HE I verify the Paginate the REQUESTS subtab via 25 entries with a "Show More" action to display the next 25 entries
+    Then HE I verify the Sorting notification entries in the REQUESTS subtab by newest to oldest
     And HE I verify the Notifications & Tasks using "<School>","<Date>","<fairTime>" for fairs
     Then HE I click the View full details option in the Request subTab using "<School>","<Date>","<fairTime>" for fairs
 

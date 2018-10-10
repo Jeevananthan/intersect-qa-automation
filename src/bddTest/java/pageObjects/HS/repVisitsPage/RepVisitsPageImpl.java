@@ -4240,7 +4240,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             columnID = columnID + 1;
             rowID = rowID + 1;
             //Remove Time slot
-            WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+            WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash alternate outline icon _26AZia1UzBMUnJh9vMujjF']"));
             jsClick(removeIcon);
             waitUntilPageFinishLoading();
             acceptButton().click();
@@ -4883,7 +4883,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!date.equals("")) {
             Assert.assertTrue("Date Textbox are not displayed",textbox(By.id("college-fair-date")).isDisplayed());
-            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             datepicker.click();
             setSpecificDate(date);
         }
@@ -4897,7 +4897,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!RSVPDate.equals("")) {
             Assert.assertTrue("RSVP Deadline TextBox is not displayed",textbox(By.id("college-fair-rsvp-deadline")).isDisplayed());
-            WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             RSVPdatepicker.click();
             setSpecificDate(RSVPDate);
         }

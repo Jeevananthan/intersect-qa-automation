@@ -3664,7 +3664,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return seealluser;
     }
     private WebElement textBoxInViewDetails() {
-        WebElement text= getDriver().findElement(By.xpath("//input[@aria-label='Internal Notes']"));
+        WebElement text= getDriver().findElement(By.cssSelector("input[aria-label='Internal Notes']"));
         return text;
     }
     private WebElement calendar() {
@@ -3972,7 +3972,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]"));
     }
     private List<WebElement> getTotalCountInNotification(){
-        return getDriver().findElements(By.xpath("//div[@class='_12QfCShNjFFA8a-x4K3-yn']/div/div"));
+        return getDriver().findElements(By.cssSelector("div[class='_12QfCShNjFFA8a-x4K3-yn']>div>div"));
     }
       public WebElement fairname(String schoolName,String Fair){
         return getDriver().findElement(By.xpath("//a/h3[text()='"+schoolName+"']/parent::a/following-sibling::span[text()='"+Fair+"']"));
@@ -3987,7 +3987,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public By internalNodeTextBox(){
-        return By.xpath("//input[@aria-label='Internal Notes']");
+        return By.cssSelector("input[aria-label='Internal Notes']");
     }
 
     public WebElement verifySchoolInNotificationTab(String school){
