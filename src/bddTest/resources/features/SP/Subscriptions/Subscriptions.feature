@@ -94,12 +94,6 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
     And SP I delete all the subscriptions for school
 
 
-
-
-
-
-
-
   @MATCH-4374
   Scenario: As a Support person provisioning AM NextGen, I want to Edit/Delete State subscriptions
     Given SP I am logged in to the Admin page as a Support user
