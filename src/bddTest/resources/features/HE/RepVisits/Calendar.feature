@@ -230,7 +230,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I verify the user "HE, Purple" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
 
 #verify 'GO BACK' button
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I cancel registered college fair "<College Fair Name>"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
@@ -240,7 +240,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the Attendee details "<Attendee>" in Edit fairs page
     And HS I successfully sign out
@@ -253,7 +253,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I click Go Back button
 
 #verify the details is not changed after clicked 'GO BACK' button
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the Attendee details "<Attendee>" in Edit fairs page
     Then HS I cancel registered college fair "<College Fair Name>"
@@ -261,4 +261,4 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 
     Examples:
       |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |
-      |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 6|PurpleHE Publishing   |
+      |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 2|PurpleHE Publishing   |

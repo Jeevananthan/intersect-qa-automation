@@ -3,6 +3,7 @@ package pageObjects.HE.repVisitsPage;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
@@ -300,11 +301,12 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void verifyInActiveUserIsDisplayingInSelectStaffMember(String inActiveUser){
         Assert.assertTrue("In active user is not displayed",inActiveUserLabelInSelectStaffMember(inActiveUser).isDisplayed());
-        jsClick(buttonGoBack());
         waitUntilPageFinishLoading();
     }
 
     public void verifyCurrentUserIsDisplayingInSelectNewAssignee(String currentUser){
+        selectNewAssigneeDropdown().click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("Current user is not displayed",currentUserInSelectNewAssignee(currentUser).isDisplayed());
 
     }
@@ -314,8 +316,8 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     }
 
     public void verifyInActiveUserIsNotSelectable(String inActiveUser){
-        selectInActiveUserInSelectNewAssignee(inActiveUser).click();
-        Assert.assertTrue("Selected in active user is displayed",!selectedUserInSelectNewAssignee(inActiveUser).isDisplayed());
+        doubleClick(selectInActiveUserInSelectNewAssignee(inActiveUser));
+        Assert.assertTrue("Selected in active user is displayed",selectedUserInSelectNewAssignee(inActiveUser).size()==0);
     }
 
     public void verifyUsersSortingOrderInSelectStaffMemberDropdown(){
@@ -424,14 +426,18 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement showingAllText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
     private WebElement blueNoteAlertMessage(){return driver.findElement(By.cssSelector("strong+span>span"));}
     private By blueNoteAlert(){ return By.cssSelector("strong+span>span"); }
-    private WebElement reAssignAppointmentText(){return driver.findElement(By.cssSelector("//div/span[text()='Re-assign Appointments']"));}
-    private WebElement SelectAppointmentsToReAssignText(){return driver.findElement(By.cssSelector("//div/span[text()='Select appointments to re-assign:']"));}
-    private WebElement SelectStaffMemberToSeeTheirAppointmentsText(){return driver.findElement(By.cssSelector("//p/span[text()='Select a staff member above to see their appointments here']"));}
+    private WebElement reAssignAppointmentText(){return driver.findElement(By.xpath("//div/span[text()='Re-assign Appointments']"));}
+    private WebElement SelectAppointmentsToReAssignText(){return driver.findElement(By.xpath("//div/span[text()='Select appointments to re-assign:']"));}
+    private WebElement SelectStaffMemberToSeeTheirAppointmentsText(){return driver.findElement(By.xpath("//p/span[text()='Select a staff member above to see their appointments here']"));}
     private List<WebElement> userList(){ return driver.findElements(By.xpath("//div[@class='menu transition visible']/div")); }
     private WebElement currentUserInSelectStaffMember(String user){return driver.findElement(By.xpath("//div/div[text()='Select staff member']/following-sibling::div/div/div[text()='"+user+"']"));};
     private WebElement inActiveUserLabelInSelectStaffMember(String user){return driver.findElement(By.xpath("//div/div[text()='Select staff member']/following-sibling::div/div/div[text()='"+user+"']/following-sibling::span[text()='Inactive User']"));}
     private WebElement currentUserInSelectNewAssignee(String user){return driver.findElement(By.xpath("//div/div[text()='Select new assignee']/following-sibling::div/div/div[text()='"+user+"']"));};
     private WebElement inActiveUserLabelInSelectNewAssignee(String user){return driver.findElement(By.xpath("//div/div[text()='Select new assignee']/following-sibling::div/div/div[text()='"+user+"']/following-sibling::span[text()='Inactive User']"));}
     private WebElement selectInActiveUserInSelectNewAssignee(String user){return driver.findElement(By.xpath("//div/div[text()='Select new assignee']/following-sibling::div/div//span[text()='Inactive User']/preceding-sibling::div[text()='"+user+"']"));}
-    private WebElement selectedUserInSelectNewAssignee(String user){return driver.findElement(By.xpath("//div[@class='ui selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC']/div[text()='"+user+"']"));}
+    private List<WebElement> selectedUserInSelectNewAssignee(String user){return driver.findElements(By.xpath("//div[@class='ui selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC']/div[text()='"+user+"']"));}
+    private void doubleClick(WebElement elementLocator) {
+        Actions actions = new Actions(driver);
+        actions.doubleClick(elementLocator).perform();
+    }
 }

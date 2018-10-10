@@ -4877,7 +4877,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!date.equals("")) {
             Assert.assertTrue("Date Textbox are not displayed",textbox(By.id("college-fair-date")).isDisplayed());
-            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             datepicker.click();
             setSpecificDate(date);
         }
@@ -4891,7 +4891,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!RSVPDate.equals("")) {
             Assert.assertTrue("RSVP Deadline TextBox is not displayed",textbox(By.id("college-fair-rsvp-deadline")).isDisplayed());
-            WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             RSVPdatepicker.click();
             setSpecificDate(RSVPDate);
         }

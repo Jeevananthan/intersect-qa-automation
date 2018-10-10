@@ -3591,7 +3591,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  schoolDetails;
     }
     private WebElement registerButton(String fair) {
-        WebElement button=  getDriver().findElement(By.xpath("//span[text()='"+fair+"']/parent::div/following-sibling::div/button/span[text()='Register']"));
+        WebElement button=  getDriver().findElement(By.xpath("//span[text()='"+fair+"']/parent::div/following-sibling::div/button[text()='Register']"));
         return  button;
     }
     private WebElement submitButton() {
