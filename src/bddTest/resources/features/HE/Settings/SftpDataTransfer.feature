@@ -83,8 +83,18 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           |host          |port|path    |userName|password         |transferFrequency  |checkFingerPrintToVerifyServer|
           |209.97.159.244|22  |/uploads|sftpme  |bruh-you-can-SFTP|mon,tue,wed,thu,fri|no                            |
           Then HE I verify that clicking on GO BACK button it cancels the configuration deletion
+          And HE I verify the Host text box has the value: "209.97.159.244"
+          And HE I verify the Port text box has the value: "22"
+          And HE I verify the Path text box has the value: "/uploads"
+          And HE I verify the User Name text box has the value: "sftpme"
           When HE I delete the SFTP Data Transfer connection
           Then HE I verify that the success toast that says "Configuration deleted" is displayed
+          Given SP I am logged in to the Admin page as a Support user
+          When SP I select "The University of Alabama" from the institution dashboard
+          And SP I go to the log history page
+          Then SP I verify that it is displayed an entry with action "PurpleHE Automation Deleted AMExportConfig" and the following keys
+          |id:|scid:|modifiedBy:|secretName:|createdDate:|lastModified:|
+
 
 
 

@@ -314,8 +314,8 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     private void setUpNewFingerPrint(String action){
         if(action.equalsIgnoreCase("yes")){
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(fingerPrintConfirmationLinkLocator()));
-            fingerPrintConfirmationLink().click();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(yesFingerPrintIsCorrectLinkLocator()));
+            yesFingerPrintIsCorrectLink().click();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(sftpMainPageTitleLocator()));
         }
     }
@@ -487,7 +487,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Gets the ssh key text box
-     * @return
+     * @return WebElement
      */
     private WebElement sshKeyTextBox(){
         return getDriver().findElement(sshKeyTextBoxLocator());
@@ -495,7 +495,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Gets the generated ssh key message
-     * @return
+     * @return WebElement
      */
     private WebElement generatedSshKeyMessage(){
         return getDriver().findElement(By.cssSelector("div[class='header LnXSRjbTz9l5Ksclle1N8']>div>p"));
@@ -503,7 +503,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Gets the regenerate key button
-     * @return
+     * @return WebElement
      */
     private WebElement reGenerateKeyButton(){
         return getDriver().findElement(By.id("sftpReGenerateKey"));
@@ -511,7 +511,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Gets the GO BACK button
-     * @return
+     * @return WebElement
      */
     private WebElement goBackButton(){
         return getDriver().findElement(By.xpath("//button/span[text()='Go Back']"));
@@ -521,21 +521,21 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * Gets the confirmation fingerprint link locator
      * @return By
      */
-    private By fingerPrintConfirmationLinkLocator(){
+    private By yesFingerPrintIsCorrectLinkLocator(){
         return By.id("fingerprintConfirmationLink");
     }
 
     /**
      * ets the confirmation fingerprint link
-     * @return
+     * @return WebElement
      */
-    private  WebElement fingerPrintConfirmationLink(){
-        return getDriver().findElement(fingerPrintConfirmationLinkLocator());
+    private  WebElement yesFingerPrintIsCorrectLink(){
+        return getDriver().findElement(yesFingerPrintIsCorrectLinkLocator());
     }
 
     /**
      * Gets the success toast
-     * @return
+     * @return WebElement
      */
     private WebElement successToast(){
         return getDriver().findElement(By.cssSelector(
@@ -544,9 +544,25 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Gets the sftp main page title
-     * @return
+     * @return By
      */
     private By sftpMainPageTitleLocator(){
         return By.cssSelector("h1[class='ui header']");
+    }
+
+    /**
+     * Gets the fingerprint label
+     * @return WebElement
+     */
+    private WebElement fingeprintLabel(){
+        return getDriver().findElement(By.cssSelector("p[class='_3chbcQvvoW6tHDNAT5g5gQ']"));
+    }
+
+    /**
+     * Gets the disable server finger print verification link
+     * @return WebElement
+     */
+    private WebElement disableServerFingerPrintVerificationLink(){
+        return getDriver().findElement(By.id("fingerprintDisableLink"));
     }
 }
