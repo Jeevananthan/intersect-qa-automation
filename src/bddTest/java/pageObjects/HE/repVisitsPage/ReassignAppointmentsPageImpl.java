@@ -12,7 +12,7 @@ import java.util.List;
 public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void goToReassignAppointment(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getCalendarBtn().click();
         waitUntil(ExpectedConditions.visibilityOf(reAssignAppointments()));
         reAssignAppointments().click();
@@ -20,16 +20,16 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     }
     /**
      * Verifies the status of the re-assign link, it could be visible or not visible
-     * @param status
+     * @param
      */
     public void verifyReAssignLinkIsVisible(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getCalendarBtn().click();
         Assert.assertTrue("The Re-assign link is not displayed",getReAssignLink().size()==1);
     }
 
     public void verifyReAssignLinkIsNotVisible() {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getCalendarBtn().click();
         Assert.assertTrue("The Re-assign link is displayed",getReAssignLink().size()==0);
     }
