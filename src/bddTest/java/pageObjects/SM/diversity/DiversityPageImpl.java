@@ -26,7 +26,7 @@ public class DiversityPageImpl extends PageObjectFacadeImpl {
         } catch (InvalidSelectorException e) {
             actualText = driver.findElement(By.xpath(locator)).getText();
         }
-        Assert.assertTrue("The default text in the element is incorrect",
+        Assert.assertTrue("The default text in the element is incorrect. UI: " + actualText,
                 actualText.equals(expectedText));
     }
 
