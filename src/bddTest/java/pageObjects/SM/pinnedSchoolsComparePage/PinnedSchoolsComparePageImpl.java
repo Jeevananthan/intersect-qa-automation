@@ -301,8 +301,27 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyDiversityExpandableDrawerOptions() {
+        String expDiversityOptions[] = {"Coed", "Gender Mix", "Out-of-state Students", "International Students",
+                "Percentage Minority", "% American Indian or Alaskan Native", "% Asian",
+                "% Black or African American", "% Hispanic/Latin", "% Native Hawaiian or other Pacific Islander",
+                "Religious Affiliation", "Diversity Affiliation"};
+
+        String expDiversityOptionsValues[] = {"Yes", "0% Female\n0% Male", "10%", "Unknown", "0%", "0%", "0%", "0%", "0%", "Unknown", "Unknown", "Unknown"};
+        for (int i = 0; i < diversityOptions().size(); i++) {
+            Assert.assertTrue(diversityOptions().get(i) + " option is not matching with the expected option ie " + expDiversityOptions[i], diversityOptions().get(i).getText().equals(expDiversityOptions[i]));
+            String actDiversityOptionsValues = driver.findElement(By.xpath("//div[text()='"+expDiversityOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue("temp", actDiversityOptionsValues.equals(expDiversityOptionsValues[i]));
+        }
+    }
+
     // Locators Below
 
+    private List<WebElement> diversityOptions(){ return diversityDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
+    private WebElement diversityDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Diversity']/.."));
+    }
     private WebElement studentLifeDrawerTable() {
         return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Student Life']/.."));
     }

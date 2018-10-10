@@ -36,5 +36,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I verify all the options available in Student Life fit criteria in Student Life expandable drawer$", pinnedSchoolsComparePage::verifyStudentLifeExpandableDrawerOptions);
 
+        And("^SM I verify all the options available in Diversity fit criteria in Diversity expandable drawer$", pinnedSchoolsComparePage::verifyDiversityExpandableDrawerOptions);
+
     }
 }
