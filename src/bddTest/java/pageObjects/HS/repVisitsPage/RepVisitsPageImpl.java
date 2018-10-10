@@ -588,7 +588,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
         dayList.click();
-        driver.findElement(By.cssSelector("div[class='visible menu transition']")).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();
+        if (day.contains("Saturday") || day.contains("Sunday")){
+            driver.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(), 'Monday')]")).click();}
+        else {
+        driver.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(), '"+day+"')]")).click();}
     }
 
 
@@ -5040,8 +5043,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifySuccessMessage(String originalMessage){
         waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div")));
-        String successMessage = driver.findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div")).getText();
+        waitUntilElementExists(driver.findElement(By.xpath("//div[@class='content']")));
+        String successMessage = driver.findElement(By.xpath("//div[@class='content']")).getText();
         Assert.assertTrue("Success Message is not equal",successMessage.equals(originalMessage));
     }
 
