@@ -119,7 +119,7 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
 
     public void verifyNumberOfAddedOptions(Integer numberOfAddedOptions) {
         List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
-        Assert.assertTrue("The number of added options in the text field is incorrect",
+        Assert.assertTrue("The number of added options in the text field is incorrect. Number of added options: " + addedElements.size(),
                 addedElements.size() == numberOfAddedOptions);
     }
 
