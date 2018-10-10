@@ -109,6 +109,23 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clickUpgradeFilter(String filter ){
+        upgradeFilterButton(filter).click();
+
+    }
+
+    public void filterPremiumLock(String filterForLock){
+        Assert.assertTrue("Advance Awareness logo is not available",premiumLockIconForFilter(filterForLock).isDisplayed());
+        Assert.assertTrue("Advance Awareness Upgrade button is not available",upgradeFilterButton(filterForLock).isDisplayed());
+
+
+    }
+
+    public void filterUpgradeClick(String upgradeFilters){
+        upgradeFilterButton(upgradeFilters).click();
+
+    }
+
     private WebElement contactFirstNameField(){
         return driver.findElement(By.cssSelector("input#field13"));
     }
@@ -148,6 +165,14 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
     }
     private WebElement requestConfirmationMessage(){
         return driver.findElement((By.xpath("//span[contains(text(), 'be reaching out to you soon.')]")));
+    }
+    private WebElement premiumLockIconForFilter(String filterName){
+        return driver.findElement(By.xpath("//span[text()='" + filterName + "']/../../..//img"));
+
+    }
+    private WebElement upgradeFilterButton(String filterUpgrade){
+        return driver.findElement(By.cssSelector("button#locked-upgrade-button.ui.pink.button._1xXwDP5X-gB37o7xxX7f5k"));
+
     }
 
 }

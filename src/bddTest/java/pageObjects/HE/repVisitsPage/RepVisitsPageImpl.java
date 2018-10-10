@@ -11,6 +11,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -1528,9 +1529,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void visitsSchedule(String school,String startDate,String time){
         waitUntil(ExpectedConditions.visibilityOf(visit()));
         visit().click();
-        WebElement schoolInVisits = getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
-        waitUntil(ExpectedConditions.visibilityOf(schoolInVisits));
-        Assert.assertTrue("school is not displayed",schoolInVisits.isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOf(schoolInVisits(school)));
+        Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntil(ExpectedConditions.visibilityOf(goToDate()));
         String gotoDate;
         String visitDate;
@@ -1545,13 +1545,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             visitDate = getShortMonth(dateParts[0]) + " " + dateParts[1];
         }
         setDate(gotoDate, "Go To Date");
-        if(time==null){
-            time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        }
-        WebElement availabilityButton = getDriver().findElement(By.xpath("(//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr/td)[3]/div/div/button[text()='"+time+"']"));
-        waitUntil(ExpectedConditions.visibilityOf(availabilityButton));
-        Assert.assertTrue("Availability is not displayed",availabilityButton.isDisplayed());
-        availabilityButton.click();
+        time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        waitUntil(ExpectedConditions.visibilityOf(avialabilityButton(visitDate,time)));
+        Assert.assertTrue("Availability is not displayed",avialabilityButton(visitDate,time).isDisplayed());
+        avialabilityButton(visitDate,time).click();
         waitUntilPageFinishLoading();
     }
 
@@ -1622,9 +1619,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifySchedulePopup(String school,String startTime,String endTime){
         waitUntilPageFinishLoading();
-        if(startTime==null){
-            startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        }
+        startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         Assert.assertTrue("SchedulePopup is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
         Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]")).isDisplayed());
 //        Assert.assertTrue("time is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
@@ -1713,6 +1708,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         WebElement Actions = getParent(getParent(login)).findElement(By.cssSelector("[aria-label='Actions']"));
         Actions.click();
+
+
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,350)", "");
+        org.openqa.selenium.interactions.Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(By.id("//main[@class='GuR-15HmYdF_kylVxUNpD']"))).perform();
 
         waitUntilElementExists(getDriver().findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+action+"']")));
         WebElement selectsReInviteDropDown = getDriver().findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+action+"']"));
@@ -2447,16 +2448,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
-    public String getSpecificDateforReAssignAppointments(String addDays) {
-        String DATE_FORMAT_NOW = "EEEE, d MMMM yyyy";
-        Calendar cal = Calendar.getInstance();
-        int days=Integer.parseInt(addDays);
-        cal.add(Calendar.DATE, days);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String currentDate = sdf.format(cal.getTime());
-        return currentDate;
-    }
-
     public void setDateforCalendarPage(String date,String fromOrTo){
         String[] parts = date.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
@@ -3172,128 +3163,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='UPGRADE']"),1));
     }
 
-    public void verifyErrorMessageInReAssignAppointments(String errorMessage,String option,String staff){
-        getNavigationBar().goToRepVisits();
-        waitUntilPageFinishLoading();
-        getCalendarBtn().click();
-        waitUntilPageFinishLoading();
-        reAssignAppointments().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Reassign  Appointments']"),1));
-        switch (option){
-            case "Select staff member":
-                reAssignAppointmentsButton().click();
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1));
-                Assert.assertTrue("Error message is not displayed",getDriver().findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
-                break;
-            case "Select new assignee":
-                selectStaffMemberDropdown().click();
-                jsClick(getDriver().findElement(By.xpath("//div[text()='"+staff+"']")));
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//label[@for='selectAllCheckBox']"),1));
-                reAssignAppointmentsButton().click();
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1));
-                Assert.assertTrue("Error message is not displayed",getDriver().findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
-                break;
-            case "No appointments":
-                selectStaffMemberDropdown().click();
-                jsClick(getDriver().findElement(By.xpath("//div[text()='"+staff+"']")));
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//label[@for='selectAllCheckBox']"),1));
-                selectNewAssigneeDropdown().click();
-                jsClick(getDriver().findElement(By.xpath("//div[text()='Select new assignee']/parent::div//div[text()='HE, Purple']")));
-                reAssignAppointmentsButton().click();
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+errorMessage+"']"),1));
-                Assert.assertTrue("Error message is not displayed",getDriver().findElement(By.xpath("//div/span[text()='"+errorMessage+"']")).isDisplayed());
-                break;
-            case "Select staff member, no associated visits or fairs":
-                selectStaffMemberDropdown().click();
-                jsClick(getDriver().findElement(By.xpath("//div[text()='"+staff+"']")));
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span"),1));
-                String actualMessage = getDriver().findElement(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span")).getText();
-                Assert.assertTrue("Error message is not displayed",actualMessage.equals(errorMessage));
-                break;
-            default:
-                Assert.fail("Invalid option");
-                break;
-        }
-        buttonGoBack().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum _3GCGVUzheyMFBFnbzJUu6J']/span[text()='Calendar']"),1));
-    }
-
-    public void verifyDisappearingErrorMessageInReAssignAppointments(String disappearingErrorMessage,String errorMessage,String staff){
-        getNavigationBar().goToRepVisits();
-        waitUntilPageFinishLoading();
-        getCalendarBtn().click();
-        waitUntilPageFinishLoading();
-        reAssignAppointments().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Reassign  Appointments']"),1),5);
-        reAssignAppointmentsButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+disappearingErrorMessage+"']"),1),5);
-        Assert.assertTrue("Error message is not displayed",getDriver().findElement(By.xpath("//div/span[text()='"+disappearingErrorMessage+"']")).isDisplayed());
-        selectStaffMemberDropdown().click();
-        getDriver().findElement(By.xpath("//div[text()='"+staff+"']")).click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span"),1),5);
-        String actualMessage = getDriver().findElement(By.xpath("//p[@class='_118YtPAz_wuAU_t1i9SSRo']/span")).getText();
-        Assert.assertTrue("Error message is not displayed",actualMessage.equals(errorMessage));
-        buttonGoBack().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum _3GCGVUzheyMFBFnbzJUu6J']/span[text()='Calendar']"),1),5);
-    }
-
-    public void verifyBlueNoteAlert(String alertMessage,String staffMember,String newAssignee) {
-        goToReassignAppointment();
-        selectStaffMember(staffMember);
-        selectNewAssignee(newAssignee);
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + alertMessage + "']")));
-        Assert.assertTrue("Alert message is not displayed", getDriver().findElement(By.xpath("//span[text()='" + alertMessage + "']")).isDisplayed());
-        buttonGoBack().click();
-        waitUntilPageFinishLoading();
-    }
-
-    public void verifyUsersInReAssignAppointments(String currentUser,String selectUser){
-        goToReassignAppointment();
-        jsClick(selectStaffMemberDropdown());
-        waitUntilPageFinishLoading();
-        //verify Select new assignee dropdown is disabled
-        Assert.assertTrue("Select new assignee dropdown is enabled",disabledNewAssigneeDropdown().isDisplayed());
-        List<WebElement> userList = getUsers();
-        List<WebElement> user = getDriver().findElements(By.xpath("//div[text()='"+currentUser+"']"));
-        Assert.assertTrue("User is not displayed",user.size()>0);
-        Assert.assertTrue("Users are not displayed",userList.size()>0);
-        WebElement userInSelectStaffMember = getDriver().findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+selectUser+"']"));
-        jsClick(userInSelectStaffMember);
-        jsClick(newAssigneeButton());
-        waitUntilPageFinishLoading();
-        user = getDriver().findElements(By.xpath("//div[text()='"+currentUser+"']"));
-        userList = getUsers();
-        Assert.assertTrue("User is not displayed",user.size()>0);
-        Assert.assertTrue("Users are not displayed",userList.size()>0);
-        newAssigneeButton().click();
-        waitUntilPageFinishLoading();
-        buttonGoBack().click();
-        waitUntilPageFinishLoading();
-    }
-
-    public void verifyUserIsExcludedInSelectNewAssignee(String user){
-        goToReassignAppointment();
-        selectStaffMember(user);
-        jsClick(newAssigneeButton());
-        waitUntilPageFinishLoading();
-        WebElement excludedUser = getDriver().findElement(By.xpath("//div[text()= '" + user + "']"));
-        Assert.assertTrue("Selected user is displayed",!excludedUser.isDisplayed());
-        buttonGoBack().click();
-        waitUntilPageFinishLoading();
-    }
-
-    public void selectStaffMember(String staffMember){
-        jsClick(selectStaffMemberDropdown());
-        WebElement userInSelectStaffMember = getDriver().findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+staffMember+"']"));
-        jsClick(userInSelectStaffMember);
-    }
-
-    public void selectNewAssignee(String newAssignee){
-        jsClick(newAssigneeButton());
-        WebElement userInSelectNewAssignee = getDriver().findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']"));
-        jsClick(userInSelectNewAssignee);
-    }
-
     public void verifyCollegeFairInHECalendar(String option,String school,String time,String date){
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
@@ -3321,45 +3190,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Appointment Slot time and university is displayed",appointment.size()==0);
         }else {
             Assert.fail("Invalid option");
-        }
-    }
-  
-        public void selectUserFromUserListDropdown(String user,String dropdown){
-        if(dropdown.equals("Select staff member")){
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[text()='Select staff member']")));
-            selectStaffMemberButton().click();
-            getDriver().findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")).click();
-            waitUntilPageFinishLoading();
-        }else if (dropdown.equals("Select new assignee")){
-            jsClick(newAssigneeButton());
-            getDriver().findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+user+"']")).click();
-            waitUntilPageFinishLoading();
-        }else {
-            Assert.fail("Invalid option");
-        }
-    }
-
-    public void selectFairsToReAssign(String date,String school,String noOfStudents){
-        while(showMoreButtonInReassignAppointments().isDisplayed()){
-            showMoreButtonInReassignAppointments().click();
-            waitUntilPageFinishLoading();
-        }
-        String fairsDate = getSpecificDateforCalendar(date);
-        WebElement appointmentCheckbox = getDriver().findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
-                "div/span[text()='College Fair']/ancestor::div/following-sibling::div[@class='twelve wide column']" +
-                "/div/div//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/span[text()='Number of Expected Students']" +
-                "/following-sibling::div[text()='"+noOfStudents+"']/ancestor::div/div/div/input[@type='checkbox']"));
-        appointmentCheckbox.click();
-    }
-
-    public void clickReAssignAppointmentsButton(String appointmentsCount){
-        int count = Integer.parseInt(appointmentsCount);
-        if(count>0){
-            getDriver().findElement(By.xpath("//button[text()='Reassign "+count+" Appointments']")).click();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='content']>span")));
-            waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[class='content']>span")));
-        }else {
-            reAssignAppointmentsButton().click();
         }
     }
 
@@ -3480,98 +3310,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void goToReassignAppointment(){
-        getNavigationBar().goToRepVisits();
-        link("Calendar").click();
-        waitUntil(ExpectedConditions.visibilityOf(link("Re-assign appointments")));
-        link("Re-assign appointments").click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("" +
-                "//div[@class='_1gOm2VKVcyiA-N5sbcuEvj header']/span[text()='Re-assign Appointments']")));
-    }
-
-    public void reassignAppointmentsVerification(String option){
-
-        if (option.contains("Coordinator, PurpleHE"))
-        {
-            waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
-            staffForReassign().click();
-            //Verify item of the Staff Member
-            Assert.assertTrue("Item was not displayed!", getDriver().findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
-            //Select the item
-            getDriver().findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
-            waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")));
-            //Verify item of the Staff Member
-            Assert.assertTrue("No message was displayed for the appointment", getDriver().findElement(By.xpath("//span[contains(text(), ' have any appointments scheduled.')]")).isDisplayed());
-            buttonGoBack().click();
-        }
-        else {
-
-            waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
-            staffForReassign().click();
-            //Verify item of the Staff Member
-            Assert.assertTrue("Item was not displayed!", getDriver().findElement(By.xpath("//div[contains(text(), '" + option + "')]")).isDisplayed());
-            //Select the item
-            getDriver().findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
-            waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(), 'Select all')]")));
-            //Capturing the counter
-            String items= getDriver().findElement(By.xpath("//label[contains(text(), 'Select all')]")).getText();
-            String[] parts = items.split(" ");
-            String count = parts[2];
-            String countNumber = count.replaceAll("[^a-zA-Z0-9\\\\s+]", "");
-            int counter = Integer.parseInt(countNumber);
-            //Verify that agenda is displayed below to Select staff label area
-            waitUntilElementExists(agendaIsDisplayed());
-            Assert.assertTrue("The Agenda was not displayed!", agendaIsDisplayed().isDisplayed());
-            //Verify "Showing all of" appointments
-            Assert.assertTrue("Showing all was not displayed", getDriver().findElement(By.xpath("//p[contains(text(), 'Showing all of')]")).isDisplayed());
-            //Verify "Select all" count
-            Assert.assertTrue("Select all count was not displayed", getDriver().findElement(By.xpath("//label[contains(text(), 'Select all (" + counter +")')]")).isDisplayed());
-            //Verify "SHOW MORE" button
-            if (counter > 25) {
-                Assert.assertTrue("Button SHOW MORE was not displayed", buttonShowMore().isDisplayed());
-                //Verify "Showing" word in the UI
-                Assert.assertTrue("Showing was not displayed", getDriver().findElement(By.xpath("//p[contains(text(), 'Showing')]")).isDisplayed());
-            }
-
-            waitUntilPageFinishLoading();
-            waitUntilElementExists( staffForReassign());
-            staffForReassign().click();
-            //Select the item
-            getDriver().findElement(By.xpath("//div[contains(text(), '" + option + "')]")).click();
-            //Verify Select all is possible to do
-            getDriver().findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
-            //Un selecting  action
-            getDriver().findElement(By.xpath("//div[@class='Je6ekRe044BthZWPPfS1z']//preceding-sibling::input[@type='checkbox']")).click();
-            //Selecting one item and verifying the counter increased
-            getDriver().findElement(By.xpath("(//input[@type='checkbox'])[last()-1]")).click();
-            //Un selecting  action
-            Assert.assertTrue("No changed the number of items in the button",  getDriver().findElement(By.xpath("//button[contains(text(), 'Reassign 1 Appointments')]")).isDisplayed());
-        }
-    }
-
-    /**
-     * Verifies the status of the re-assign link, it could be visible or not visible
-     * @param status
-     */
-    public void verifyReAssignLinkStatus(String status){
-        getNavigationBar().goToRepVisits();
-        link("Calendar").click();
-        switch (status.toLowerCase()){
-            case "visible":
-                Assert.assertTrue("The Re-assign link is not displayed",getReAssignLink().size()==1);
-                break;
-            case "not visible":
-                Assert.assertTrue("The Re-assign link is displayed",getReAssignLink().size()==0);
-                break;
-                default:
-                    Assert.fail("The status of the Re-assign link to be verified is not correct");
-                    break;
-        }
-    }
     /**
      * Vrifies if the given button is displayed for the travel plan schools
      * @param buttonText
@@ -3639,6 +3377,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Share your calendar modal was not displayed", getShareYourCalendarLabel()
                 .isDisplayed());
         getCloseShareYourCalendarButton().click();
+    }
+
+    public WebElement schoolInVisits(String school) {
+        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        return  schoolName;
+    }
+
+    public WebElement avialabilityButton(String visitDate,String time){
+        return getDriver().findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
     }
 
     //Locators
@@ -3800,10 +3547,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     {
         WebElement schoolName=getDriver().findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
         return schoolName;
-    }
-    private WebElement schoolInVisits(String school) {
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
-        return  schoolName;
     }
     private WebElement currentPasswordInput() {
         WebElement currentPassword=getDriver().findElement(By.id("current-password-input"));
@@ -4110,12 +3853,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getUpgradeButton(){
         return getDriver().findElement(By.cssSelector("button[class='ui button _3A-KkdzsiqhORmN0RiEGSO']"));
     }
-    private WebElement buttonShowMore(){
-        return button("SHOW MORE");
-    }
-    private WebElement buttonGoBack(){
-        return  button("GO BACK");
-    }
     private WebElement agendaButton(){
         return getDriver().findElement(By.xpath("//button[@title='Agenda']"));
     }
@@ -4140,24 +3877,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement yourNotification(){
         return getDriver().findElement(By.xpath("//a/span[text()='Your Notifications']"));
     }
-    private WebElement reAssignAppointments(){
-        return link("Re-assign appointments");
-    }
-    private WebElement reAssignAppointmentsButton(){
-        return getDriver().findElement(By.xpath("//button[text()='Reassign  Appointments']"));
-    }
-    private WebElement selectStaffMemberDropdown(){
-        return getDriver().findElement(By.xpath("//div[text()='Select staff member']"));
-    }
-
-    /**
-     * Gets the select new asignee dropdown
-     * @return
-     */
-    private WebElement selectNewAssigneeDropdown(){
-        return getDriver().findElement(By.xpath("//div[text()='Select new assignee']"));
-    }
-
     /**
      * Gets the past appointments label in travel plan page
      * @return webelement

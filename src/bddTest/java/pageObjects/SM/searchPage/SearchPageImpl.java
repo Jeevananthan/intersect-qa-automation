@@ -1313,6 +1313,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void openPinnedCompareSchools() {
         waitUntilPageFinishLoading();
+        waitForUITransition();
         pinnedFooterOption().click();
         comparePinnedCollegesLink().click();
     }
@@ -2040,7 +2041,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 driver.findElement(By.id(dropdown)).click();
             }
             catch (Exception exp){
-                driver.findElement(By.cssSelector(dropdown)).click();
+                try {
+                    driver.findElement(By.cssSelector(dropdown)).click();
+                } catch (Exception f) {
+                    driver.findElement(By.xpath(dropdown)).click();
+                }
             }
         }
         driver.findElement(By.xpath("//span[text()='"+choice+"']")).click();
