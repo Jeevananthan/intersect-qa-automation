@@ -154,6 +154,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
             }
         }
         waitForUITransition();
+
         driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
                 "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
                 "DayPicker-Day--today'][text()='" + dateString + "']")).click();
