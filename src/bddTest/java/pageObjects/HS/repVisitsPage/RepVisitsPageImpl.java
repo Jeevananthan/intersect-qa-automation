@@ -1429,7 +1429,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void selectCancel() {
         cancellationMessageTextBox().sendKeys("by QA");
         cancelVisitButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[contains(text(),'Visit canceled!')]"),1));
     }
 
     public void verifyCalendarPageForCancelVisit(String university,String time,String date){
@@ -1633,7 +1632,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         waitForUITransition();
-        driver.findElement(By.xpath("//input[@value='VISITS' and @type='radio']")).click();
+        waitUntilElementExists(visitsRadioButton());
+        visitsRadioButton().click();
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
             nextButton().click();
             waitUntilPageFinishLoading();
@@ -2735,10 +2735,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         waitUntilElementExists(currentDateInCalendar());
         monthInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
-        waitUntilElementExists( driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")));
-        driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).click();
-        waitUntilElementExists(driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")));
-        driver.findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
+        waitUntilElementExists( circularButton());
+        circularButton().click();
+        waitUntilElementExists(selectVisitInTheCalendar());
+       selectVisitInTheCalendar().click();
         waitForUITransition();
         hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
         hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
@@ -2750,7 +2750,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
         waitForUITransition();
-        setDateFixed(getCurrentDate(), getCurrentDate());
+        setDateFixed("October 02 2018", getCurrentDate());
 //        previousWeekInNewScheduleVisitPage().click();
         Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
     }
@@ -3647,7 +3647,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         moveToElement(declinePopupMessage());
         waitUntilElementExists(goBack());
-        Assert.assertTrue("Close button is not displayed",driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).isDisplayed());
+        Assert.assertTrue("Close button is not displayed",circularButton().isDisplayed());
         Assert.assertTrue("Decline message is not displayed",driver.findElement(By.xpath("//div/span[text()='Are you sure you want to decline?']")).isDisplayed());
         Assert.assertTrue("Attendee Details text is not displayed",driver.findElement(By.xpath("//span[text()='Attendee Details']")).isDisplayed());
         Assert.assertTrue("Text box message is not displayed",driver.findElement(By.xpath("//div/p/span[text()='Please send the attendee a message to explain why you are declining.']")).isDisplayed());
@@ -3763,7 +3763,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement UserName=driver.findElement(By.xpath("//strong[contains(text(),'"+user+"')]"));
         moveToElement(UserName);
         waitUntilElementExists(goBack());
-        Assert.assertTrue("Close button is not displayed",driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).isDisplayed());
+        Assert.assertTrue("Close button is not displayed",circularButton().isDisplayed());
         Assert.assertTrue("Decline message is not displayed",driver.findElement(By.xpath("//div/span[text()='Are you sure you want to decline?']")).isDisplayed());
         Assert.assertTrue("Attendee Details text is not displayed",driver.findElement(By.xpath("//span[text()='Attendee Details']")).isDisplayed());
         Assert.assertTrue("Text box message is not displayed",driver.findElement(By.xpath("//div/p/span[text()='Please send the attendee a message to explain why you are declining.']")).isDisplayed());
@@ -4504,8 +4504,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitUntilElementExists(addVisitButton());
         addVisitButton().click();
-        waitUntilElementExists(driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")));
-        Assert.assertTrue("close drawer is not displayed",driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).isDisplayed());
+        waitUntilElementExists(circularButton());
+        Assert.assertTrue("close drawer is not displayed",circularButton().isDisplayed());
         Assert.assertTrue("schedule new visit is not displayed",textInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("select an available time slot is not displayed",verifyTextInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("Go to date is not displayed",gotoDateButtonInVisitSchedulePopup().isDisplayed());
@@ -4558,7 +4558,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyAddvisitButtoninVisitSchedulepopup(String addVisitButton){
         Assert.assertTrue("add visit button is not displayed",button(addVisitButton).isDisplayed());
-        driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).click();
+        circularButton().click();
     }
 
     private WebElement getAddAttendeeSearchBox() {
@@ -7696,6 +7696,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void createVisit(String daysAheadFromNow, DataTable dataTable) {
+        waitUntilElementExists(customTimeLink());
         customTimeLink().click();
         Calendar calendarDate = getDeltaDate(Integer.parseInt(daysAheadFromNow));
         generatedDateDayOfWeek = getDayOfWeek(calendarDate) + " " + getDay(calendarDate);
@@ -9151,7 +9152,11 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement acceptButton() {  return driver.findElement(By.cssSelector("button[class='ui primary button']"));   }
 
+    private WebElement visitsRadioButton() {  return driver.findElement(By.xpath("//input[@value='VISITS' and @type='radio']"));   }
 
+    private WebElement circularButton() {  return getDriver().findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']"));   }
+
+    private WebElement selectVisitInTheCalendar() {  return  getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']"));   }
 
 
 }
