@@ -643,3 +643,16 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
     And HS I Click on close button
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
+
+  @MATCH-3344
+  Scenario: As a HS student, I want to filter colleges I am searching for by Student Body Size within the Institution
+  Characteristics category so I can see relevant colleges that match my Student Body Size requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I click "Institution Characteristics" filter criteria tab
+    Then SM I verify that radio button with text "All students" is selected
+    Then SM I select the "Very large (Over 20,000 students)" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box contains "Student Body Size [1]"
+    Then SM I unselect the "Very large (Over 20,000 students)" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box does not contain "Student Body Size [1]"
