@@ -246,7 +246,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void goToManageGroupMembersPage() {
         logger.info("Going to the Manage Group Members Page.");
         // Implementing Brian's fix from @MATCH-654
-        navBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         communityFrame();
         link("Groups").click();
         waitUntilPageFinishLoading();
@@ -256,7 +256,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void goToSpecificManageGroupMembersPage(String group) {
         logger.info("Going to the Manage Group Members Page for group " + group);
-        navBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         communityFrame();
         link("Groups").click();
         waitUntilPageFinishLoading();
