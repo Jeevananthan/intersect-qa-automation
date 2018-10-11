@@ -652,7 +652,9 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
     And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
-    Then SM I pin "United States Merchant Marine Academy"
-    Then SM I verify that the college "United States Merchant Marine Academy" is displayed in position "1" in the results table
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I pin "La Sierra University"
+    Then SM I verify that the college "La Sierra University" is displayed in position "1" in the results table
+    Then SM I verify that the match score for the college in position 1 is "<" 100
 
 
