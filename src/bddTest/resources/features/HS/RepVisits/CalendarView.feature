@@ -128,20 +128,21 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
 
   @MATCH-2061 @MATCH3954
   Scenario: : As a HS user, I should be able to add internal notes to my visits
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I set the date using "-15" and "42"
     And HS I am Navigating to Calendar Home Screen
     And HS I click on button Add Visit
     And HS I select custom time manually
-    And HS I select a date "3" days ahead from now
+    And HS I select a date "25" days ahead from now
     And HS I select Visit StartTime "5:40am" and End Time "6:00am"
-    And HS I select representative from drop down "Franky2"
+    And HS I select representative from drop down "Franky Sejas"
     And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
     And HS I click on Add Visit button
     And HS I click on Agenda on Calendar
     And Hs I open the date picker on Agenda View
-    And HS I select a date "3" days ahead from now from the standard date picker
+    And HS I select a date "0" days ahead from now from the standard date picker
     And HS I click on Day on Calendar
-    And HS I click on Visit with "Franky2" from "5:40 AM" to "6:00 AM" on Day Calendar
+    And HS I click on Visit with "Adrian College" from "5:40 AM" to "6:00 AM" on Day Calendar
     And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
     And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
 

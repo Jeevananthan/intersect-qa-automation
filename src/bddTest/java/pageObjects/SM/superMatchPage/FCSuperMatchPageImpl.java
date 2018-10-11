@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.CM.groupsPage.GroupsPageImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -26,6 +27,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
     private NewSuperMatchPageImpl newSuperMatch = new NewSuperMatchPageImpl();
     private SearchPageImpl searchPage = new SearchPageImpl();
+    private GroupsPageImpl groupsPage = new GroupsPageImpl();
     static String saveSearchName;
 
     public void verifySuperMatchBanner() {
@@ -630,6 +632,17 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyInfoMessage(DataTable dataTable) {
+        List<String> messageContents = dataTable.asList(String.class);
+        for (String element : messageContents) {
+            if(element.contains("Not all fields are required. Remember to only")) {
+                Assert.assertTrue("This piece of text was not found: " + element, infoBarExtraWording().getText().contains(element));
+            } else {
+                Assert.assertTrue("This piece of text was not found: " + element, infoBarMainWording().getText().contains(element));
+            }
+        }
+    }
+
     // Locators Below
 
     private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//span[@class='supermatch-footer-item-text'][text()='More']"));}
@@ -707,4 +720,6 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String letterGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(1)";
     private String percentGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(2)";
     private String fourScaleListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(3)";
+    private WebElement infoBarMainWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]")); }
+    private WebElement infoBarExtraWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]/span[3]")); }
 }
