@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
@@ -240,6 +241,96 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Setups the ftp configuration
+     * @param data with the sftp information
+     */
+    public void setupFtpConnection(DataTable data){
+        List<List<String>> sftpInformation = data.raw();
+        accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
+        if(getDriver().findElements(editLinkLocator()).size()>0){
+            editLink().click();
+        } else{
+            setupConnectionButton().click();
+        }
+        hostTextBox().clear();
+        hostTextBox().sendKeys(sftpInformation.get(1).get(0));
+        portTextBox().clear();
+        portTextBox().sendKeys(sftpInformation.get(1).get(1));
+        pathTexBox().clear();
+        pathTexBox().sendKeys(sftpInformation.get(1).get(2));
+        userNameTextBox().clear();
+        userNameTextBox().sendKeys(sftpInformation.get(1).get(3));
+        passwordTextBox().clear();
+        passwordTextBox().sendKeys(sftpInformation.get(1).get(4));
+        selectTransferFrequency(sftpInformation.get(1).get(5));
+        selectCheckFingerprintToVerifyServerCheckBox(sftpInformation.get(1).get(6));
+        testAndSaveButton().click();
+        waitUntilPageFinishLoading();
+        setUpNewFingerPrint(sftpInformation.get(1).get(6));
+    }
+
+    /**
+     * Selects the given frequency checkboxes
+     * @param frequency
+     */
+    private void selectTransferFrequency(String frequency){
+        String[] days = frequency.split(",");
+        Arrays.stream(days).forEach(
+                day -> {
+                    if(!transferFrequencyCheckBox(day).isSelected()){
+                        transferFrequencyCheckBox(day).click();
+                    }
+                }
+        );
+    }
+
+    /**
+     * Verifies if GO BACK button cancels the deletion of the configuration
+     */
+    public void verifyGoBackButtonBehaviorWhenDeletingConnection(){
+        editLink().click();
+        deleteThisConfigurationLink().click();
+        goBackButton().click();
+        Assert.assertTrue("The GO back button does not send back to the edit configuration page and it does" +
+                "not cancels the configuration deletion",deleteThisConfigurationLink().isDisplayed());
+    }
+
+    /**
+     * Checks the check fingerprint to verify server checkboxes
+     * @param selected
+     */
+    private void selectCheckFingerprintToVerifyServerCheckBox(String selected){
+        if(selected.equalsIgnoreCase("yes") && !checkFingerprintToVerifyServerCheckBox().isSelected()){
+            checkFingerprintToVerifyServerCheckBox().click();
+        } else {
+            if(selected.equalsIgnoreCase("no") && checkFingerprintToVerifyServerCheckBox().isSelected()){
+                checkFingerprintToVerifyServerCheckBox().click();
+            }
+        }
+    }
+
+    /**
+     * Confirms if a new fingerprint is detected
+     */
+    private void setUpNewFingerPrint(String action){
+        if(action.equalsIgnoreCase("yes")){
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(yesFingerPrintIsCorrectLinkLocator()));
+            yesFingerPrintIsCorrectLink().click();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(sftpMainPageTitleLocator()));
+        }
+    }
+
+    /**
+     * Verifies the text of a success toast
+     * @param expectedText
+     */
+    public void verifySuccessToastText(String expectedText){
+        String actualText = successToast().getText();
+        Assert.assertTrue(String.format("The toast text is not correct, expected: %s, actual: %s",
+                expectedText,actualText), actualText.contains(expectedText));
+    }
+
+    /**
      * Gets the button: SET UP CONNECTION
      * @return WebElement
      */
@@ -396,7 +487,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Gets the ssh key text box
-     * @return
+     * @return WebElement
      */
     private WebElement sshKeyTextBox(){
         return getDriver().findElement(sshKeyTextBoxLocator());
@@ -404,7 +495,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Gets the generated ssh key message
-     * @return
+     * @return WebElement
      */
     private WebElement generatedSshKeyMessage(){
         return getDriver().findElement(By.cssSelector("div[class='header LnXSRjbTz9l5Ksclle1N8']>div>p"));
@@ -412,9 +503,66 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
 
     /**
      * Gets the regenerate key button
-     * @return
+     * @return WebElement
      */
     private WebElement reGenerateKeyButton(){
         return getDriver().findElement(By.id("sftpReGenerateKey"));
+    }
+
+    /**
+     * Gets the GO BACK button
+     * @return WebElement
+     */
+    private WebElement goBackButton(){
+        return getDriver().findElement(By.xpath("//button/span[text()='Go Back']"));
+    }
+
+    /**
+     * Gets the confirmation fingerprint link locator
+     * @return By
+     */
+    private By yesFingerPrintIsCorrectLinkLocator(){
+        return By.id("fingerprintConfirmationLink");
+    }
+
+    /**
+     * ets the confirmation fingerprint link
+     * @return WebElement
+     */
+    private  WebElement yesFingerPrintIsCorrectLink(){
+        return getDriver().findElement(yesFingerPrintIsCorrectLinkLocator());
+    }
+
+    /**
+     * Gets the success toast
+     * @return WebElement
+     */
+    private WebElement successToast(){
+        return getDriver().findElement(By.cssSelector(
+                "div[class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']"));
+    }
+
+    /**
+     * Gets the sftp main page title
+     * @return By
+     */
+    private By sftpMainPageTitleLocator(){
+        return By.cssSelector("h1[class='ui header']");
+    }
+
+    /**
+     * Gets the fingerprint label
+     * @return WebElement
+     */
+    private WebElement fingeprintLabel(){
+        return getDriver().findElement(By.cssSelector("p[class='_3chbcQvvoW6tHDNAT5g5gQ']"));
+    }
+
+    /**
+     * Gets the disable server finger print verification link
+     * @return WebElement
+     */
+    private WebElement disableServerFingerPrintVerificationLink(){
+        return getDriver().findElement(By.id("fingerprintDisableLink"));
     }
 }
