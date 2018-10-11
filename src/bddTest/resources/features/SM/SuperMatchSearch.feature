@@ -643,3 +643,18 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
     And HS I Click on close button
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
+
+  @MATCH-3263
+  Scenario: As a HS student who is interacting with the fit criteria and categories in College Search, I want to see
+  informational message letting me know when my search becomes too granular so I don't limit my results to too few
+  of colleges based on too many fit criteria being selected.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    Then SM I verify that the Informational Message contains the following texts:
+    | You’ve selected |
+    | –Your results include |
+    | institutions with a fit score of |
+    | Not all fields are required. Remember to only fill out the criteria that is most important to you. |
+
