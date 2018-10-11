@@ -78,5 +78,7 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify the \"([^\"]*)\" link in the SuperMatch Footer$", fcSuperMatch::verifyFooterLink);
 
+        Then("^SM I verify that the Informational Message contains the following texts:$", fcSuperMatch::verifyInfoMessage);
+
     }
 }
