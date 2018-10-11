@@ -2758,16 +2758,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void selectGeneratedDateInExceptions(String daysFromNow) {
         Calendar calendarStartDate = getDeltaDate(Integer.parseInt(daysFromNow));
         if(getDayOfWeek(calendarStartDate).equals("Saturday")) {
-            calendarStartDate = getDeltaDate(Integer.parseInt(daysFromNow) - 1);
+            calendarStartDate = getDeltaDate(Integer.parseInt(daysFromNow) - 2);
         } else if(getDayOfWeek(calendarStartDate).equals("Sunday")) {
-            calendarStartDate = getDeltaDate(Integer.parseInt(daysFromNow) + 1);
+            calendarStartDate = getDeltaDate(Integer.parseInt(daysFromNow) + 2);
         }
 
         generatedDateForExceptions = getMonthNumber(calendarStartDate) + "/" + getDay(calendarStartDate) + "/"
                 + getYear(calendarStartDate).substring(2);
 
         chooseADateButton().click();
-        pickDateInDatePicker(calendarStartDate);
+            pickDateInDatePicker(calendarStartDate);
     }
 
     public void verifyTimeSlotWithGeneratedDate(String time) {
@@ -4504,8 +4504,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitUntilElementExists(addVisitButton());
         addVisitButton().click();
-        waitUntilElementExists(driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")));
-        Assert.assertTrue("close drawer is not displayed",driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).isDisplayed());
+        waitUntilElementExists(driver.findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")));
+        Assert.assertTrue("close drawer is not displayed",driver.findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).isDisplayed());
         Assert.assertTrue("schedule new visit is not displayed",textInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("select an available time slot is not displayed",verifyTextInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("Go to date is not displayed",gotoDateButtonInVisitSchedulePopup().isDisplayed());
@@ -4558,7 +4558,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyAddvisitButtoninVisitSchedulepopup(String addVisitButton){
         Assert.assertTrue("add visit button is not displayed",button(addVisitButton).isDisplayed());
-        driver.findElement(By.xpath("//button[@class='ui black basic circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")).click();
+        circularIconCloseButton().click();
+
     }
 
     private WebElement getAddAttendeeSearchBox() {
@@ -8715,11 +8716,12 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     }
     private WebElement clicklinkAgenda(){
-        return getDriver().findElement(By.cssSelector("button.ui.teal.basic.button.GFr3D5C_jMOwFFfwEoOXq._1CTi_onI6_4BEyd2aTw3c2"));
+        return getDriver().findElement(By.cssSelector("button[id='calendar-agenda-view-button']"));
 
     }
     private WebElement clicklinkDays(){
-        return getDriver().findElement(By.cssSelector("button.ui.teal.basic.button.GFr3D5C_jMOwFFfwEoOXq._1aOzhO0fbLlfLnEsVWQZCQ"));
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("button[class='ui teal button GFr3D5C_jMOwFFfwEoOXq _1aOzhO0fbLlfLnEsVWQZCQ']")));
+        return getDriver().findElement(By.cssSelector("button[class='ui teal button GFr3D5C_jMOwFFfwEoOXq _1aOzhO0fbLlfLnEsVWQZCQ']"));
 
     }
     private WebElement getVisistName(String collegeName){
@@ -8728,11 +8730,12 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     }
     private WebElement getAgendaDatePicker(){
-        return getDriver().findElement(By.cssSelector("button.bne-HEiKl3BvzkB-LIC8M:nth-child(1)"));
+        return getDriver().findElement(By.cssSelector("button.bne-HEiKl3BvzkB-LIC8M:nth-child(3)"));
 
     }
+
     private WebElement getCancelVisit(){
-        return getDriver().findElement(By.cssSelector("._1CeoLUvpYCPd81FPL670wj span"));
+        return getDriver().findElement(By.cssSelector("button[class='ui negative button']"));
 
     }
     private WebElement getCancelnotes(){
@@ -9143,15 +9146,15 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement createTimeSlotOption() {  return driver.findElement(By.id("recreate-time-slots"));    }
 
-    private WebElement ignoreTimeSlotOption() {  return driver.findElement(By.id("ignore-time-slots"));    }
+    private WebElement ignoreTimeSlotOption() {  return getDriver().findElement(By.cssSelector("div[class='_38sblAMW4YmtYg8-opsyeI content']")).findElement(By.cssSelector("input[id='ignore-time-slots']"));    }
 
     private WebElement addRegularHoursButton() {  return  button("Add regular hours");    }
 
     private WebElement removeSingleTimeSlot() {  return getDriver().findElement(By.xpath("//i[@class='trash outline icon _6S_VIt7XKOpy-Mn7y_CJu']"));   }
 
-    private WebElement acceptButton() {  return driver.findElement(By.cssSelector("button[class='ui primary button']"));   }
+    private WebElement acceptButton() {  return getDriver().findElement(By.cssSelector("button[class='ui primary button']"));   }
 
-
+    private WebElement circularIconCloseButton(){  return getDriver().findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")); }
 
 
 }

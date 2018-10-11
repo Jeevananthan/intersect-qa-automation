@@ -29,5 +29,7 @@ public class SubscriptionsPageStepDefs implements En {
         Then("^SP I verify that the value in the Radius From Zips field is \"([^\"]*)\"$", subscriptionsPage::verifyValueRadiusFromZips);
         And("^SP I delete all the subscriptions for school$", subscriptionsPage :: deleteMultipleSubscriptions);
 
+        And("^SP I press on the name of the Subscription \"([^\"]*)\"$", subscriptionsPage::openSubscription);
+
     }
 }
