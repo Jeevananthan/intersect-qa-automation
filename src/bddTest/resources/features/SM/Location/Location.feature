@@ -17,7 +17,7 @@ Feature: SM - Location - Location - As a HS student, I need to be able to search
       | Search by distance | Within 25 miles |
    Then SM I see validation message "Enter postal code to finish adding this criteria"
 
-  @MATCH-3848
+  @MATCH-3848 @MATCH-4104
   Scenario: As a HS student I want to see validation message when enter incorrect 'Zip Code' value
     Given SM I am logged in to SuperMatch through Family Connection
     When I select the following data from the Location Fit Criteria
@@ -104,3 +104,55 @@ Feature: SM - Location - Location - As a HS student, I need to be able to search
     Then SM I press Why button for the first college in results with score 100%
     Then I check if I can see "Campus Surroundings [1]" on the page
     Then I check if I can see "Large City" on the page
+
+  @MATCH-3199
+  Scenario: As a HS student, I want to filter colleges I am searching for by state or region so I can see relevant
+  colleges that match my location requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I verify that "Search by state or region" checkbox is "selected" in "Location" fit criteria
+    And SM I select the "Location" fit criteria
+    And I click the dropdown "div[role='combobox']"
+    Then I verify that the default text in "div.default.text" is "Type US State or Canadian Province..."
+    And I click the dropdown "div[role='combobox']"
+    And I select the option "Alberta" from the list "span.text"
+    Then SM I verify that the option "Alberta" was added to the dropdown field
+    And I click the dropdown "div[role='combobox']"
+    And I select the option "Arizona" from the list "span.text"
+    Then SM I verify that 2 items are displayed in the dropdown field
+    And SM I remove the option "Alberta" from the dropdown field
+    Then SM I verify that 1 items are displayed in the dropdown field
+    Then I check if I can see "Quick Selection: US Regions & Others" on the page
+    And I click the dropdown "div[role='combobox'] i.teal"
+    And SM I remove the option "Arizona" from the dropdown field
+    And SM I select the "Central" checkbox from "Location" fit criteria
+    Then SM I verify that the following options were added to the dropdown field:
+    | Kansas |
+    | Missouri |
+    | Nebraska |
+    | North Dakota |
+    | Oklahoma     |
+    | South Dakota |
+    | Texas        |
+    And SM I unselect the "Central" checkbox from the "Location" fit criteria
+    Then SM I verify that 0 items are displayed in the dropdown field
+
+  @MATCH-3199
+  Scenario: As a HS student, I want to filter colleges I am searching for by distance so I can see relevant
+  colleges that match my location requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I open the "Location" tab
+    And I select the radio button "Search by distance"
+    And I click the dropdown "div.default"
+    Then I verify that the options list "span.text" matches the list in "select.miles.options.list"
+    And I click the dropdown "div.default"
+    Then I check if I can see "Campus Surroundings" on the page
+    Then SM I select the "Large City" checkbox from "Location" fit criteria
+    Then SM I select the "Small City" checkbox from "Location" fit criteria
+    And SM I unselect the "Large City" checkbox from the "Location" fit criteria
+    And SM I unselect the "Small City" checkbox from the "Location" fit criteria
+
+

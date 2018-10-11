@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageObjects.CM.groupsPage.GroupsPageImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -26,6 +27,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
     private NewSuperMatchPageImpl newSuperMatch = new NewSuperMatchPageImpl();
     private SearchPageImpl searchPage = new SearchPageImpl();
+    private GroupsPageImpl groupsPage = new GroupsPageImpl();
     static String saveSearchName;
 
     public void verifySuperMatchBanner() {
@@ -67,6 +69,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
             case "Admission" :
                 verifyTooltips("admission.tooltips.titles.list");
                 verifyTooltips("admission.tooltips.text.list");
+                verifyTooltips("admission.your.gpa.table");
                 break;
             case "Diversity" : verifyTooltips("diversity.tooltips.titles.list");
                 break;
@@ -181,6 +184,33 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                     }
                 }
                 break;
+            case "admission.your.gpa.table" :
+                WebElement yourGPAIcon = driver.findElements(By.cssSelector(tooltipsInTabListLocator)).get(0);
+                yourGPAIcon.click();
+
+                List<WebElement> letterGrade = driver.findElements(By.cssSelector(letterGradeListLocator));
+                List<WebElement> percentGrade = driver.findElements(By.cssSelector(percentGradeListLocator));
+                List<WebElement> fourScale = driver.findElements(By.cssSelector(fourScaleListLocator));
+
+                List<String> letterGradeStrings = new ArrayList<>();
+                List<String> percentGradeStrings = new ArrayList<>();
+                List<String> fourScaleStrings = new ArrayList<>();
+
+                for (int i = 0; i < letterGrade.size(); i++) {
+                    letterGradeStrings.add(letterGrade.get(i).getText());
+                    percentGradeStrings.add(percentGrade.get(i).getText());
+                    fourScaleStrings.add(fourScale.get(i).getText());
+                }
+
+                Assert.assertTrue("The values in the GPA scores table are not correct.", letterGradeStrings.equals
+                        (getListFromPropFile(propertiesFilePath, ";", "admission.gpa.letter.grade")));
+                Assert.assertTrue("The values in the GPA scores table are not correct.", percentGradeStrings.equals
+                        (getListFromPropFile(propertiesFilePath, ";", "admission.gpa.percent.grade")));
+                Assert.assertTrue("The values in the GPA scores table are not correct.", fourScaleStrings.equals
+                        (getListFromPropFile(propertiesFilePath, ";", "admission.gpa.4.scale")));
+
+                break;
+
             case "gpa.results.table.title" :
                 waitUntil(ExpectedConditions.elementToBeClickable(searchPage.firstWhyButton()));
                 gpaTooltipsIconsInResults = driver.findElements(By.cssSelector(gpaTooltipIconInResultsLocator));
@@ -602,6 +632,17 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyInfoMessage(DataTable dataTable) {
+        List<String> messageContents = dataTable.asList(String.class);
+        for (String element : messageContents) {
+            if(element.contains("Not all fields are required. Remember to only")) {
+                Assert.assertTrue("This piece of text was not found: " + element, infoBarExtraWording().getText().contains(element));
+            } else {
+                Assert.assertTrue("This piece of text was not found: " + element, infoBarMainWording().getText().contains(element));
+            }
+        }
+    }
+
     // Locators Below
 
     private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//span[@class='supermatch-footer-item-text'][text()='More']"));}
@@ -676,4 +717,9 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private static WebElement superMatchCollegeSearchHeader() { return driver.findElement(By.xpath("//h1[text()='SuperMatch College Search']")); }
     private WebElement yesDeleteButton() { return driver.findElement(By.cssSelector("div.actions button.ui.teal.basic.button:nth-of-type(1)")); }
     private String disabledSavedSearchesButtonLocator = "div[aria-disabled='true']";
+    private String letterGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(1)";
+    private String percentGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(2)";
+    private String fourScaleListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(3)";
+    private WebElement infoBarMainWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]")); }
+    private WebElement infoBarExtraWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]/span[3]")); }
 }

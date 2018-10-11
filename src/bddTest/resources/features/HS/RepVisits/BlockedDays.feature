@@ -40,7 +40,7 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
   so that I do not have to manually block each holiday.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set a date using "<StartDate>" and "<EndDate>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"

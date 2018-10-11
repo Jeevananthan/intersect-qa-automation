@@ -3,6 +3,8 @@ package pageObjects.SM.studentLife;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
@@ -61,10 +63,15 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyDefaultTextInDropdown(String dropdown, String expectedText) {
+        Assert.assertTrue("The default text in the " + dropdown + " is not correct",
+                organizationsAndClubsDropdown().getText().equals(expectedText));
+    }
+
     public void clickDropdown(String locator) {
         try {
             driver.findElement(By.cssSelector(locator)).click();
-        } catch (Exception e) {
+        } catch (InvalidSelectorException e) {
             driver.findElement(By.xpath(locator)).click();
         }
     }
@@ -81,36 +88,46 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     }
 
     public void selectOptionFromList(String optionName, String listLocator) {
-        List<WebElement> optionsListWebElements = driver.findElements(By.cssSelector(listLocator));
+        List<WebElement> optionsListWebElements;
+        try {
+            driver.findElement(By.xpath(listLocator));
+            optionsListWebElements = driver.findElements(By.xpath(listLocator));
+        } catch(NoSuchElementException e) {
+            optionsListWebElements = driver.findElements(By.cssSelector(listLocator));
+        }
         for (WebElement element : optionsListWebElements) {
             if (element.getText().equals(optionName)) {
                 element.click();
+                break;
+            } else {
+                logger.info("The option " + optionName + " is not present in the list.");
             }
         }
     }
 
     public void verifyAddedOption(String optionName) {
+        waitUntilPageFinishLoading();
         List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
         boolean isElementPresent = false;
         for (WebElement element : addedElements) {
             if (element.getAttribute("value").equals(optionName)) {
                 isElementPresent = true;
             }
+            Assert.assertTrue("The option was not added to the Organizations and Clubs text field: " + optionName + " UI: " + element.getText(),
+                    isElementPresent);
         }
-        Assert.assertTrue("The option was not added to the dropdown field",
-                isElementPresent);
+
     }
 
-    public void verifyNumberOfAddedOptions(String numberOfAddedOptions) {
+    public void verifyNumberOfAddedOptions(Integer numberOfAddedOptions) {
         List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
-        Assert.assertTrue("The number of added options in the Organizations and Clubs text field is incorrect",
-                addedElements.size() == Integer.parseInt(numberOfAddedOptions));
+        Assert.assertTrue("The number of added options in the text field is incorrect. Number of added options: " + addedElements.size(),
+                addedElements.size() == numberOfAddedOptions);
     }
 
     public void removeOptionFromDropdownField(String optionName) {
         driver.findElement(By.xpath(xButtonAddedElementDropdownField(optionName))).click();
     }
-
     //Locator
 
     private WebElement getGreekLife() {
@@ -148,5 +165,4 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     private String addedElementsInDropdownField = "a.ui.label";
 
     private String xButtonAddedElementDropdownField(String optionName) { return "//a[@value = '" + optionName + "']/i";}
-
 }
