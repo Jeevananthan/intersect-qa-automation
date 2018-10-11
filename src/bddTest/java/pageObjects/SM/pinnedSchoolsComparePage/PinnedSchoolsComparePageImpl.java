@@ -256,13 +256,15 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals(actualText, expectedText);
     }
 
-    public void verifyResourcesExpandableDrawerOptions() {
-        String expResourcesOptions[] = {"Learning Differences Support", "Academic/Career Counseling", "Counseling Services", "Tutoring Services",
-                "Remedial Services", "ESL/ELL Services", "Physical Accessibility", "Services for the Blind or Visually Impaired", "Services for the Deaf and Hard of Hearing",
-                "Asperger's/Autism Support", "Day Care Services"};
-
-        String expResurceOptionsValues[] = {"Unknown", "No", "Unknown", "No", "Yes", "No", "No", "No", "No", "No", "Yes"};
-            for (int i = 0; i < resourcesOptions().size(); i++) {
+    public void verifyResourcesExpandableDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expResourcesOptions[] = new String[data.get(0).size()];
+        String expResurceOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++) {
+            expResourcesOptions[i] = data.get(0).get(i);
+            expResurceOptionsValues[i] = data.get(1).get(i);
+        }
+        for (int i = 0; i < resourcesOptions().size(); i++) {
             Assert.assertTrue(resourcesOptions().get(i) + " option is not matching with the expected option ie " + expResourcesOptions[i], resourcesOptions().get(i).getText().equals(expResourcesOptions[i]));
             if(expResourcesOptions[i].equals("Asperger's/Autism Support"))
                 continue;
@@ -276,7 +278,6 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
             pinnedDropdown().click();
             clearPinnedListOption().click();
             yesClearMyListButton().click();
-            //waitForUITransition();
             waitForElementTextToEqual(getPinnedCollegesCountFooter(), "0");
             Assert.assertTrue("Colleges are not cleared, still it's showing the count "+getPinnedCollegesCount().getText(), Integer.parseInt(getPinnedCollegesCount().getText())==0);
         }
@@ -289,11 +290,14 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         searchedCollegePinButton.click();
     }
 
-    public void verifyStudentLifeExpandableDrawerOptions() {
-        String expStudentLifeOptions[] = {"Clubs & Organizations", "Study Abroad", "Internships & Co-Ops", "Fraternities & Sororities",
-                "ROTC - Army", "ROTC - Navy", "ROTC - Air Force"};
-
-        String expStudentLifeOptionsValues[] = {"16", "Yes", "Unknown", "Yes", "Yes", "No", "Yes"};
+    public void verifyStudentLifeExpandableDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expStudentLifeOptions[] = new String[data.get(0).size()];
+        String expStudentLifeOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++){
+            expStudentLifeOptions[i] = data.get(0).get(i);
+            expStudentLifeOptionsValues[i] = data.get(1).get(i);
+        }
         for (int i = 0; i < studentLifeOptions().size(); i++) {
             Assert.assertTrue(studentLifeOptions().get(i) + " option is not matching with the expected option ie " + expStudentLifeOptions[i], studentLifeOptions().get(i).getText().equals(expStudentLifeOptions[i]));
             String actResurceOptionsValues = driver.findElement(By.xpath("//div[text()='"+expStudentLifeOptions[i]+"']/../following-sibling::td")).getText();
@@ -301,13 +305,14 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyDiversityExpandableDrawerOptions() {
-        String expDiversityOptions[] = {"Coed", "Gender Mix", "Out-of-state Students", "International Students",
-                "Percentage Minority", "% American Indian or Alaskan Native", "% Asian",
-                "% Black or African American", "% Hispanic/Latin", "% Native Hawaiian or other Pacific Islander",
-                "Religious Affiliation", "Diversity Affiliation"};
-
-        String expDiversityOptionsValues[] = {"Yes", "0% Female\n0% Male", "10%", "Unknown", "0%", "0%", "0%", "0%", "0%", "Unknown", "Unknown", "Unknown"};
+    public void verifyDiversityExpandableDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expDiversityOptions[] = new String[data.get(0).size()];
+        String expDiversityOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++){
+            expDiversityOptions[i] = data.get(0).get(i);
+            expDiversityOptionsValues[i] = data.get(1).get(i);
+        }
         for (int i = 0; i < diversityOptions().size(); i++) {
             Assert.assertTrue(diversityOptions().get(i) + " option is not matching with the expected option ie " + expDiversityOptions[i], diversityOptions().get(i).getText().equals(expDiversityOptions[i]));
             String actDiversityOptionsValues = driver.findElement(By.xpath("//div[text()='"+expDiversityOptions[i]+"']/../following-sibling::td")).getText();

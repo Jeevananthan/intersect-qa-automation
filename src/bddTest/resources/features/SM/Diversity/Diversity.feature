@@ -266,4 +266,6 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     And SM I clear all the pinned college
     And SM I search for "College of the North Atlantic" college in search bar
     And SM I open the Pinned Schools Compare screen
-    And SM I verify all the options available in Diversity fit criteria in Diversity expandable drawer
+    And SM I verify all the below options available in Diversity fit criteria in Diversity expandable drawer
+      |Coed| Gender Mix| Out-of-state Students |International Students|Percentage Minority |% American Indian or Alaskan Native |% Asian|% Black or African American|% Hispanic/Latin|% Native Hawaiian or other Pacific Islander|Religious Affiliation |Diversity Affiliation|
+      |Yes| 0% Female\n0% Male |10%| Unknown |0%| 0%| 0%| 0%| 0%| Unknown |Unknown| Unknown|

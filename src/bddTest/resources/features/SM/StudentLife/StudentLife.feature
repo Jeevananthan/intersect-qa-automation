@@ -57,7 +57,9 @@ Feature: SM - StudentLife - StudentLife - As a HS student, I need to be able to 
     And SM I clear all the pinned college
     And SM I search for "Bennett College" college in search bar
     And SM I open the Pinned Schools Compare screen
-    And SM I verify all the options available in Student Life fit criteria in Student Life expandable drawer
+    And SM I verify all the below options available in Student Life fit criteria in Student Life expandable drawer
+      |Clubs & Organizations| Study Abroad| Internships & Co-Ops| Fraternities & Sororities| ROTC - Army| ROTC - Navy| ROTC - Air Force|
+      |16| Yes| Unknown| Yes| Yes| No| Yes|
 
 
     
