@@ -360,7 +360,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         List<String> userList = new ArrayList<>();
         List<String> sortedList = new ArrayList<>();
         for(int i=1;i<=userList().size();i++) {
-            String users = driver.findElement(By.xpath("//div[@class='menu transition visible']/div[" + i + "]")).getAttribute("data-name");
+            String users = getUserFromDropdown(i).getAttribute("data-name");
             if (users.contains(", ")) {
                 String user[] = users.split(", ");
                 String secondName = user[user.length - 1];
@@ -399,6 +399,10 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         String countNumber = count.replaceAll("[^a-zA-Z0-9\\\\s+]", "");
         return countNumber;
     }
+    private void doubleClick(WebElement elementLocator) {
+        Actions actions = new Actions(driver);
+        actions.doubleClick(elementLocator).perform();
+    }
     //locators
     private WebElement staffForReassign(){ return  driver.findElement(By.cssSelector("div[role='alert']")); }
     private List<WebElement> getReAssignLink(){ return driver.findElements(By.xpath("//span[text()='Re-assign appointments']")); }
@@ -429,15 +433,12 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement reAssignAppointmentText(){return driver.findElement(By.xpath("//div/span[text()='Re-assign Appointments']"));}
     private WebElement SelectAppointmentsToReAssignText(){return driver.findElement(By.xpath("//div/span[text()='Select appointments to re-assign:']"));}
     private WebElement SelectStaffMemberToSeeTheirAppointmentsText(){return driver.findElement(By.xpath("//p/span[text()='Select a staff member above to see their appointments here']"));}
-    private List<WebElement> userList(){ return driver.findElements(By.xpath("//div[@class='menu transition visible']/div")); }
+    private List<WebElement> userList(){ return driver.findElements(By.cssSelector("div[class='menu transition visible']>div")); }
     private WebElement currentUserInSelectStaffMember(String user){return driver.findElement(By.xpath("//div/div[text()='Select staff member']/following-sibling::div/div/div[text()='"+user+"']"));};
     private WebElement inActiveUserLabelInSelectStaffMember(String user){return driver.findElement(By.xpath("//div/div[text()='Select staff member']/following-sibling::div/div/div[text()='"+user+"']/following-sibling::span[text()='Inactive User']"));}
     private WebElement currentUserInSelectNewAssignee(String user){return driver.findElement(By.xpath("//div/div[text()='Select new assignee']/following-sibling::div/div/div[text()='"+user+"']"));};
     private WebElement inActiveUserLabelInSelectNewAssignee(String user){return driver.findElement(By.xpath("//div/div[text()='Select new assignee']/following-sibling::div/div/div[text()='"+user+"']/following-sibling::span[text()='Inactive User']"));}
     private WebElement selectInActiveUserInSelectNewAssignee(String user){return driver.findElement(By.xpath("//div/div[text()='Select new assignee']/following-sibling::div/div//span[text()='Inactive User']/preceding-sibling::div[text()='"+user+"']"));}
     private List<WebElement> selectedUserInSelectNewAssignee(String user){return driver.findElements(By.xpath("//div[@class='ui selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC']/div[text()='"+user+"']"));}
-    private void doubleClick(WebElement elementLocator) {
-        Actions actions = new Actions(driver);
-        actions.doubleClick(elementLocator).perform();
-    }
+    private WebElement getUserFromDropdown(int index){ return driver.findElement(By.cssSelector("div[class='menu transition visible']>div[" + index + "]")); }
 }
