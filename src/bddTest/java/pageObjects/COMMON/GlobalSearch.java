@@ -147,6 +147,30 @@ public class GlobalSearch extends SeleniumBase {
         Assert.assertTrue("No HE Accounts or Institutions whee returned in the search", institutionsReturned);
     }
 
+    public void verifyHSSchoolResults(String schoolHSResults){
+        waitUntilPageFinishLoading();
+
+        List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
+        boolean institutionsReturned = false;
+        boolean itemFound = false;
+        for (WebElement category : categories) {
+            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HS Accounts")) {
+                institutionsReturned = true;
+                List<WebElement> options = category.findElements(By.className("title"));
+                for (WebElement option : options) {
+                    if (option.getText().toLowerCase().contains(schoolHSResults.toLowerCase())) {
+                        itemFound = true;                    }
+                    //Assert.assertTrue(searchTerm + " HE Institution was not found on the search results", option.getText().toLowerCase().contains(searchTerm.toLowerCase()));
+                }
+            }
+        }
+        Assert.assertTrue("Search term was not found in the search results",itemFound);
+        Assert.assertTrue("No HS Accounts or Institutions whee returned in the search", institutionsReturned);
+
+
+
+    }
+
     public void selectResult(String optionToSelect) {
         waitUntilPageFinishLoading();
         waitUntilElementExists(getDriver().findElement(By.cssSelector("div[id='global-search-box-results']")));
