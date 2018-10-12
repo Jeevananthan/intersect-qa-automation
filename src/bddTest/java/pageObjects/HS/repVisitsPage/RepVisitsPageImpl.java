@@ -561,7 +561,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
 
-        String startEndDatesForVisitsText = getDriver().findElement(By.cssSelector("div[class='availability']")).getText();
+        String startEndDatesForVisitsText = getDriver().findElement(By.cssSelector("div[class='_29He7WmXYb0-NAsgTU0zJc']")).getText();
         //String dayTableText = getDriver().findElement(By.cssSelector("table[class='ui basic table']")).getText();
         String dayTableText = getDriver().findElement(By.cssSelector("div[class='_10Tg7oamBO_AGbl5OgX9ba']")).getText();
         String displayStartEndForVisitsText = "Start and End Dates For Visits";
