@@ -664,9 +664,11 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
     And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
     And SM I select the "Coed" checkbox from "Diversity" fit criteria
     And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Prairie View A & M University" if it is not pinned already
     And SM I pick "Institution Characteristics" in the editable column number 1
     Then SM I verify that "Institution Characteristics" in column number 1 for college "Prairie View A & M University" contains the following data:
     | Average Class Size | 32 |

@@ -2365,6 +2365,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
 
     public void pickColumnHeader(String option, Integer columnNumber) {
+        firstWhyButton().sendKeys(Keys.PAGE_UP);
         scrollDown(firstWhyButton());
         editableColumnHeader(columnNumber).click();
         List<WebElement> optionsList = driver.findElements(By.cssSelector(editableColumnHeaderOptionListLocator));
@@ -2387,6 +2388,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                             institutionsCharElements.get(i).get(0).equals(institutionCharsLeftElements.get(i).getText()));
                 }
                 for (int i = 0; i < institutionsCharsRigthElements.size(); i++) {
+                    String data = institutionsCharElements.get(i).get(1);
+                    String ui = institutionsCharsRigthElements.get(i).getText();
                     Assert.assertTrue("The element " + institutionsCharElements.get(i).get(1) + " does not have a correct value",
                             institutionsCharElements.get(i).get(1).equals(institutionsCharsRigthElements.get(i).getText()));
                 }
@@ -2934,6 +2937,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     private String institutionsCharsRigthElementsLocator(String collegeName, int columnNumber) {
-        return "//a[text() = '" + collegeName + "']/ancestor::tr/td[" + (columnNumber + 3) + "]//span[2]";
+        return "//table//tr[1]//a[text() = '" + collegeName + "']/ancestor::tr/td[" + columnNumber + "]//span[2]";
     }
 }
