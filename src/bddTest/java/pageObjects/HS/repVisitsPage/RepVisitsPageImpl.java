@@ -4877,7 +4877,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!date.equals("")) {
             Assert.assertTrue("Date Textbox are not displayed",textbox(By.id("college-fair-date")).isDisplayed());
-            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             datepicker.click();
             setSpecificDate(date);
         }
@@ -4891,7 +4891,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!RSVPDate.equals("")) {
             Assert.assertTrue("RSVP Deadline TextBox is not displayed",textbox(By.id("college-fair-rsvp-deadline")).isDisplayed());
-            WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
+            WebElement RSVPdatepicker = driver.findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
             RSVPdatepicker.click();
             setSpecificDate(RSVPDate);
         }
@@ -5242,7 +5242,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//input[@type='number']")).sendKeys(noOfVisits);
 //        button("Save").click();
         driver.findElement(By.cssSelector("button[class='ui primary button kirHVQYTJ7-jMrlwR-VTA']")).click();
-        Assert.assertTrue("confirmation message is not displayed",driver.findElement(By.cssSelector("div>span[class='LkKQEXqh0w8bxd1kyg0Mq']")).isDisplayed());
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[class='ui small icon success message toast']")));
+        Assert.assertTrue("confirmation message is not displayed",driver.findElement(By.cssSelector("div[class='ui small icon success message toast']")).isDisplayed());
     }
     public void verifyPillsInManuallyAddedAppointmentsPage(String date,String time){
         getNavigationBar().goToRepVisits();
@@ -6672,7 +6673,7 @@ public void cancelRgisteredCollegeFair(String fairName){
             getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).sendKeys(correctEmail);
             getDriver().findElement(By.cssSelector("button[class='ui primary right floated button']")).click();
             waitUntilPageFinishLoading();
-            Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']")).getText().contains("You've updated College Fair settings"));
+            Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")).getText().contains("You've updated College Fair settings"));
         } catch (Exception e) {
             logger.info("Notifications displayed in bad format: " + e.getMessage());
             e.printStackTrace();
@@ -7834,7 +7835,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement collegeFairsSettings() {
-        return driver.findElement(By.xpath("//a[@class='ui teal small basic primary right floated button _1V3Ic-4VeK2sTRYUuz8RGZ']/span[text()='SETTINGS']"));
+        return driver.findElement(By.xpath("//a[@class='ui small right floated button _1V3Ic-4VeK2sTRYUuz8RGZ']/span[text()='SETTINGS']"));
     }
 
     private WebElement blockedDays() {
@@ -9146,7 +9147,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement createTimeSlotOption() {  return driver.findElement(By.id("recreate-time-slots"));    }
 
-    private WebElement ignoreTimeSlotOption() {  return getDriver().findElement(By.cssSelector("div[class='_38sblAMW4YmtYg8-opsyeI content']")).findElement(By.cssSelector("input[id='ignore-time-slots']"));    }
+    private WebElement ignoreTimeSlotOption() {  return getDriver().findElement(By.cssSelector("div[class='ui radio checkbox _1vltWKJ_6mK9OYjf4UnP2l']"));    }
 
     private WebElement addRegularHoursButton() {  return  button("Add regular hours");    }
 

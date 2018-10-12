@@ -12,7 +12,6 @@ public class HomePageStepDefs implements En {
 
         HomePageImpl homePage = new HomePageImpl();
         LoginPageImpl loginPage = new LoginPageImpl();
-//        NavBarImpl navBar = new NavBarImpl();
         NavigationBarImpl navigationBar = new NavigationBarImpl();
 
         And("^HS I successfully sign out$", homePage::logout );
