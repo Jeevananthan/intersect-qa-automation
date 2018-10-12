@@ -306,5 +306,9 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify the options displayed in Out of State students Select % dropdown$", searchPage::verifyOptionsInOutOfStateStudentsSelectPercentDropdown);
 
         And("^I select the radio button \"([^\"]*)\"$", searchPage::selectRadioButton);
+
+        And("^SM I pick \"([^\"]*)\" in the editable column number (\\d+)$", searchPage::pickColumnHeader);
+
+        Then("^SM I verify that \"([^\"]*)\" in column number (\\d+) for college \"([^\"]*)\" contains the following data:$", searchPage::verifyDataInEditableColumn);
     }
 }
