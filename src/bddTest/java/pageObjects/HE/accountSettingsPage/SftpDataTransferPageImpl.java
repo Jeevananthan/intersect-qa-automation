@@ -61,7 +61,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
         //when clicking it should send us back to the main page
         sftpDataTransferTitleLink().click();
         Assert.assertTrue("The Sftp Dta Transfer title link does not send to the main page",
-                setupConnectionButton().isDisplayed());
+                getDriver().findElement(sftpMainPageTitleLocator()).isDisplayed());
 
     }
 
@@ -265,7 +265,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
         selectTransferFrequency(sftpInformation.get(1).get(5));
         selectCheckFingerprintToVerifyServerCheckBox(sftpInformation.get(1).get(6));
         testAndSaveButton().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(connectionLoaderLocator()));
         setUpNewFingerPrint(sftpInformation.get(1).get(6));
     }
 
@@ -315,8 +315,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     private void setUpNewFingerPrint(String action){
         if(action.equalsIgnoreCase("yes")){
             waitUntil(ExpectedConditions.visibilityOfElementLocated(yesFingerPrintIsCorrectLinkLocator()));
-            yesFingerPrintIsCorrectLink().click();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(sftpMainPageTitleLocator()));
+            clickOnYesFingerPrintIsCorrect();
         }
     }
 
@@ -328,6 +327,80 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
         String actualText = successToast().getText();
         Assert.assertTrue(String.format("The toast text is not correct, expected: %s, actual: %s",
                 expectedText,actualText), actualText.contains(expectedText));
+    }
+
+    /**
+     * Verifies if a given text is displayed in the new fingerprint detected alert box
+     * @param text
+     */
+    public void verifyTextInNewFingerprintDetectedAlertBox(String text){
+        String alertBoxText = newFingerPrintDetectedAlert().getText();
+        Assert.assertTrue(String.format("The text %s is not displayed in the new fingerprint detected alert box",text),
+                alertBoxText.contains(text));
+    }
+
+    /**
+     * Enables the finger print verification
+     */
+    public void enableServerFingerPrintVerification(){
+        editLink().click();
+        selectCheckFingerprintToVerifyServerCheckBox("yes");
+        testAndSaveButton().click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(connectionLoaderLocator()));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(warningToast()));
+    }
+
+    /**
+     * Disables the finger print verification
+     */
+    public void disableServerFingerPrintVerification(){
+        editLink().click();
+        selectCheckFingerprintToVerifyServerCheckBox("no");
+        testAndSaveButton().click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(connectionLoaderLocator()));
+        waitUntilPageFinishLoading();
+    }
+
+    /**
+     * Verifies if the finger print to verify server check box is selected
+     */
+    public void verifyFingerPrintToVerifyServerIsEnabled(){
+        editLink().click();
+        Assert.assertTrue("The finger print to verify server check box is not selected",
+                checkFingerprintToVerifyServerCheckBox().isSelected());
+    }
+
+    /**
+     * Verifies if the finger print to verify server check box is not selected
+     */
+    public void verifyFingerPrintToVerifyServerIsNotEnabled(){
+        editLink().click();
+        Assert.assertTrue("The finger print to verify server check box is selected",
+                !checkFingerprintToVerifyServerCheckBox().isSelected());
+    }
+
+    /**
+     * Verifies that the new fingerprint detected alert box is not displayed
+     */
+    public void verifyNewFingerPrintDetectedAlertBoxIsNotDisplayed(){
+        Assert.assertTrue("The new detected fingerprint alert box is displayed",
+                getDriver().findElements(newFinerPrintDetectedAlertLocator()).size()==0);
+    }
+
+    /**
+     * Click on yes fingerprint is correct link
+     */
+    public void clickOnYesFingerPrintIsCorrect(){
+        yesFingerPrintIsCorrectLink().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(sftpMainPageTitleLocator()));
+    }
+
+    /**
+     * Click on disable fingerprint verification link
+     */
+    public void clickOnDisableFingerPrintVerification(){
+        disableServerFingerPrintVerificationLink().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(sftpMainPageTitleLocator()));
     }
 
     /**
@@ -550,13 +623,6 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
         return By.cssSelector("h1[class='ui header']");
     }
 
-    /**
-     * Gets the fingerprint label
-     * @return WebElement
-     */
-    private WebElement fingeprintLabel(){
-        return getDriver().findElement(By.cssSelector("p[class='_3chbcQvvoW6tHDNAT5g5gQ']"));
-    }
 
     /**
      * Gets the disable server finger print verification link
@@ -564,5 +630,37 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement disableServerFingerPrintVerificationLink(){
         return getDriver().findElement(By.id("fingerprintDisableLink"));
+    }
+
+    /**
+     * Gets the new fingerprint detected alert box
+     * @return WebElement
+     */
+    private WebElement newFingerPrintDetectedAlert(){
+        return driver.findElement(newFinerPrintDetectedAlertLocator());
+    }
+
+    /**
+     * Gets the new fingerprint detected alert box
+     * @return By
+     */
+    private By newFinerPrintDetectedAlertLocator(){
+        return By.id("fingerPrintDetectedMessage");
+    }
+
+    /**
+     * Gets the connection loader locator
+     * @return
+     */
+    private By connectionLoaderLocator(){
+        return By.id("connectionloader");
+    }
+
+    /**
+     * Gets the warning toast
+     * @return WebElement
+     */
+    private By warningToast(){
+        return By.cssSelector("div[class='ui small icon warning message toast _2Z22tp5KKn_l5Zn5sV3zxY']");
     }
 }
