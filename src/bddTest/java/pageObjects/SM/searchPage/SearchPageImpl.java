@@ -874,6 +874,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             checkboxLocator.click();
         }
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
+        waitUntilPageFinishLoading();
         getFitCriteriaCloseButton().click();
     }
 
@@ -1313,6 +1314,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void openPinnedCompareSchools() {
         waitUntilPageFinishLoading();
+        waitForUITransition();
         pinnedFooterOption().click();
         comparePinnedCollegesLink().click();
     }

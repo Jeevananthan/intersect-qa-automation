@@ -3,9 +3,11 @@ package pageObjects.COMMON;
 import org.apache.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 import stepDefinitions.GlobalSteps;
 import utilities.GetProperties;
@@ -21,11 +23,11 @@ public class PageObjectFacadeImpl extends SeleniumBase {
 
     private Logger logger;
     public NavBarImpl navBar;
-    public  NavigationBarImpl navigationBar;
     public GlobalSearch globalSearch;
 
     protected PageObjectFacadeImpl() {
         logger = Logger.getLogger(PageObjectFacadeImpl.class);
+        // navBar is still required for the SP webapp, as it has not been updated to use the new NavigationBar
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
     }
@@ -33,7 +35,6 @@ public class PageObjectFacadeImpl extends SeleniumBase {
       public NavigationBarImpl getNavigationBar(){
         return new NavigationBarImpl();
     }
-
 
     /**
      * Uses JavaScript to click on an element.  This is occasionally necessary because Selenium thinks that something
@@ -152,6 +153,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
             }
         }
         waitForUITransition();
+
         driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
                 "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
                 "DayPicker-Day--today'][text()='" + dateString + "']")).click();
@@ -282,6 +284,19 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      */
     public void resetImplicitWaitTimeout() {
         getDriver().manage().timeouts().implicitlyWait(Long.parseLong(GetProperties.get("implicitWaitTime")), TimeUnit.SECONDS);
+    }
+
+    /**
+     * Waits up to 10 seconds for the text of the supplied WebElement to equal the text of the passed String.
+     * @param element - WebElement to evaluate .getText() on
+     * @param expectedText - expected value of .getText()
+     */
+    protected void waitForElementTextToEqual(WebElement element, String expectedText){
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return element.getText().equals(expectedText);
+            }
+        });
     }
 
     /**

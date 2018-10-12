@@ -322,6 +322,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$", repVisits::navigateToNavianceSettingsPage);
 
+        Then("^HS I verify the toast \"([^\"]*)\" displayed when setup Wizard is incomplete$", repVisits::verifyToastInSetupWizardIncomplete);
+
+        Then("^HS I select \"([^\"]*)\" to connect RepVisits with Naviance in the Wizard", repVisits::connectRVWithNaviance);
+
         Then("^HS I click on link Add School User Manually$",repVisits::addSchoolUserManually);
         Then("^HS I Enter Following Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
         Then("^HS I click on button Add attendees$",repVisits::clickAddAttendeetovisit);
@@ -673,6 +677,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I complete the set up wizard page by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::goToCalendarInWizardLastStepPage);
 
         Then("^HS I complete the set up wizard that not yet completed by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::completeSetupWizard);
+
+        Then("^HS I complete the set up wizard from any location$",repVisits::completeSetupWizardFromAnylocation);
 
         And("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in Agenda view$", repVisits::setStartDateAndEndDateInAgendaView);
 

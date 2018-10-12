@@ -120,28 +120,37 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
 
   @MATCH-2391
   Scenario: As a HS user, I should not be able to add visits in the past
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    When HS I navigate to the "Calendar" page in RepVisits
+    And HS I click on button Add Visit
+    Given HS I create a visit "3" days ahead from now with the following details
+      | Start Time | 09:36am |
+      | End Time   | 10:30am |
+      | Representative | franky sejas |
     Then HS verify pills are not available for the past dates in schedule new visit page
     Then HS verify the past dates are disabled in the select custom date section
     Then HS verify pills are not available for the past dates in Re-schedule visit page
     Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
+    And HS I open the visit with generated time in the Calendar
+    And HS I cancel the open visit
 
   @MATCH-2061 @MATCH3954
   Scenario: : As a HS user, I should be able to add internal notes to my visits
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I set the date using "-15" and "42"
     And HS I am Navigating to Calendar Home Screen
     And HS I click on button Add Visit
     And HS I select custom time manually
-    And HS I select a date "3" days ahead from now
+    And HS I select a date "25" days ahead from now
     And HS I select Visit StartTime "5:40am" and End Time "6:00am"
-    And HS I select representative from drop down "Franky2"
+    And HS I select representative from drop down "Franky Sejas"
     And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
     And HS I click on Add Visit button
     And HS I click on Agenda on Calendar
     And Hs I open the date picker on Agenda View
-    And HS I select a date "3" days ahead from now from the standard date picker
+    And HS I select a date "0" days ahead from now from the standard date picker
     And HS I click on Day on Calendar
-    And HS I click on Visit with "Franky2" from "5:40 AM" to "6:00 AM" on Day Calendar
+    And HS I click on Visit with "Adrian College" from "5:40 AM" to "6:00 AM" on Day Calendar
     And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
     And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
 
@@ -152,3 +161,28 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HE I verify that Share Calendars Link is displayed in Calendar page
     Then HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link
+
+  @MATCH-4450
+  Scenario Outline: As Hobsons product manager managing value adds to getting HS users to upgrade to RV Presence premium subscription,
+                    I want the RV>Calendar, Agenda view to be premium level access on the HS side while remaining accessible for HE users,
+                    So that further value can be provided to upgrade to an RV Presence premium subscription.
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceAdmin>"
+    Then HS I verify the user can access "Agenda" view
+    And HS I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "<hsNavianceMember>"
+    Then HS I verify the user cannot access Agenda view
+    And HS I successfully sign out
+
+    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceAdmin>"
+    Then HS I verify the user can access "Agenda" view
+    And HS I successfully sign out
+
+    Given HS I am logged in to Intersect HS as user type "<hsNon-NavianceMember>"
+    Then HS I verify the user cannot access Agenda view
+
+    Examples:
+      |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
+      |navianceAdmin  |navianceMember1 |administrator      |member              |
+
