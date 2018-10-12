@@ -40,6 +40,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I Click the View Details button for the College Fair Event for "Automation Fair for Mass Email"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HEadmin" from the results in the Add Attendee pop-up page
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then  HS I click the Message Colleges button
     Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
     Then  HS I click on Send Message
@@ -108,19 +109,21 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I verify the Fair Details Page "PreviouslySetFair","<VerifyDate>","<instructionsforCollegeRepresentatives>"
     Then HS I Click on the "Add Attendee" button in the College Fair Details Page
     Then HS I Add the following Attendee "<Attendees>" from the results in the Add Attendee pop-up page
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<Status>","<Action>"
     Then HS I Click the "Cancel" button for the attendee named "<Name>"
     Then HS I set the following data in the confirm cancel pop-up "<cancellationMessage>","<buttonToClickNo,go back>"
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<Status>","<Action>"
     Then HS I Click the "Cancel" button for the attendee named "<Name>"
     Then HS I set the following data in the confirm cancel pop-up "<cancellationMessage>","<buttonToClickYes, cancel visit>"
+    Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<StatusCanceled>","<ActionCanceled>"
     Then HS I cancel the fair of name "PreviouslySetFair" with the reason "TestCase Cleanup"
 
 
     Examples:
-      |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                     |Contact                               |Notes|Status   |Action|cancellationMessage             |buttonToClickNo,go back|buttonToClickYes, cancel visit|StatusCanceled  |ActionCanceled |
-      |QA Fair Cancel Fair Attendee|3               |2               |0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|3                |                                     |PurpleHE Automation      |PurpleHE Automation undefined         |     |Attending|yes   |QA Test for canceling Attendees |No, go back            |Yes, cancel visit             |Canceled        |               |
+      |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                     |Contact                      |Notes|Status   |Action|cancellationMessage             |buttonToClickNo,go back|buttonToClickYes, cancel visit|StatusCanceled  |ActionCanceled |
+      |QA Fair Cancel Fair Attendee|3               |2               |0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|3                |                                     |PurpleHE Automation      |PurpleHE Automation          |     |Attending|yes   |QA Test for canceling Attendees |No, go back            |Yes, cancel visit             |Canceled        |               |
 
   @MATCH-1775
   Scenario: As a High School Community user, I want to be able to cancel my college fair and notify attendees
