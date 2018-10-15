@@ -309,6 +309,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
 
+        And("^SM I pick \"([^\"]*)\" in the editable column number (\\d+)$", searchPage::pickColumnHeader);
+
+        Then("^SM I verify that \"([^\"]*)\" in column number (\\d+) for college \"([^\"]*)\" contains the following data:$", searchPage::verifyDataInEditableColumn);
+
         And("^SM I verify that radio button with text \"([^\"]*)\" is selected$", searchPage::verifyRadioButtonIsSelected);
 
         Then("^SM I verify the options displayed in On-Campus Housing Select % dropdown$", searchPage::verifyOptionsInOnCampusHousingSelectPercentDropdown);

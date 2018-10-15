@@ -716,3 +716,22 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select the "Small City" checkbox from the "Location" fit criteria
     And SM I verify that the Must Have box contains "Location [14]"
     And SM I verify that the Must Have box contains "Campus Surroundings [2]"
+
+  @MATCH-3438
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Student Life details about each
+  college in my results table so I can quickly see information about the college's social offerings.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Prairie View A & M University" if it is not pinned already
+    And SM I pick "Student Life" in the editable column number 1
+    Then SM I verify that "Student Life" in column number 1 for college "Prairie View A & M University" contains the following data:
+    | Greek Life |
+    | 22 Student Clubs |
+    | Offers Study Abroad |
+    | Offers Internships/Co-ops |
+    | Offers ROTC\n(Army, Navy, Air Force) |
