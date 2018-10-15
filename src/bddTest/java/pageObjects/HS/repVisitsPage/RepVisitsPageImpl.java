@@ -1967,22 +1967,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessCollegeFairOverviewPage(String fairName) {
         getNavigationBar().goToRepVisits();
         collegeFairs().click();
-        Boolean verifyElement = false;
-        try {
-            verifyElement = getDriver().findElement(By.xpath("//span[text()='View More Upcoming Events']")).isDisplayed();
-        }catch(NoSuchElementException e){
-            verifyElement  = false;
-        }
-
-        if(verifyElement)
-        {
-            List<WebElement> viewMoreEvent = getDriver().findElements(By.xpath("//span[text()='View More Upcoming Events']"));
-            while (viewMoreEvent.size()>0) {
-                viewMoreUpcomingEventsLink().click();
-                waitUntilPageFinishLoading();
-                viewMoreEvent = getDriver().findElements(By.xpath("//span[text()='View More Upcoming Events']"));
+        waitUntilPageFinishLoading();
+        List<WebElement> viewMoreEvent = getDriver().findElements(By.xpath("//span[text()='View More Upcoming Events']"));
+        while (viewMoreEvent.size()>0) {
+            viewMoreUpcomingEventsLink().click();
+            waitUntilPageFinishLoading();
+            viewMoreEvent = getDriver().findElements(By.xpath("//span[text()='View More Upcoming Events']"));
             }
-        }
         fairName = FairName;
         WebElement viewDetails = getDriver().findElement(By.xpath("//td[text()='"+fairName+"']/../td/following-sibling::td/a/span[text()='View Details']"));
         waitUntilElementExists(viewDetails);
@@ -4572,7 +4563,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement fairElementDetails(String fairName) { return getDriver().findElement(By.xpath
             ("//div[@class='_1743W0qaWdOtlS0jkveD7o'][1]/table/tbody/tr/td[text()='" + fairName + "']/following-sibling::td[4]/a/span")); }
     private WebElement editFairButton() { return getDriver().findElement(By.cssSelector("#edit-college-fair")); }
-    private WebElement cancelThisCollegeFair() { return getDriver().findElement(By.cssSelector("button.ui.red.basic.button")); }
+    private WebElement cancelThisCollegeFair() { return getDriver().findElement(By.cssSelector("button.ui.negative.button")); }
     private String cancelMessageTextBoxLocator() { return "college-fair-cancellation-message"; }
     private WebElement cancelFairButton() { return getDriver().findElement(By.cssSelector("button[class='ui primary right floated button _4kmwcVf4F-UxKXuNptRFQ']")); }
     private WebElement closeButton() { return getDriver().findElement(By.xpath("//button[text()='Close']")); }
@@ -4952,10 +4943,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         for (String column : columns) {
             Assert.assertTrue("column Name " + column + " is not displaying as expected!", driver.findElement(By.xpath("//table[@class='ui unstackable table']//thead/tr//th/span[text()='"+column+"']")).isDisplayed());
         }
-
-        if (fairName.equals("PreviouslySetFair")) {
-            fairName = FairName;
-        }
+        fairName = FairName;
 
         //Verify the data present in the table
         int nameColumnID = getColumnIdByFieldName("//table[@class='ui unstackable table']//thead", "Fair Name");
@@ -7075,7 +7063,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void verifySettingsSavedBannerIsDislayedInCollegeFairsTab() {
-        assertEquals("The 'Settings Saved' banner is not displayed", successBanner().getText(), "Great! You've updated College Fair settings.");
+        assertEquals("The 'Settings Saved' banner is not displayed", successBanner().getText(), "Great!You've updated College Fair settings.");
     }
     public void verifyButtonsInFairs(String decline,String confirm) {
         waitUntilPageFinishLoading();

@@ -23,7 +23,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 
   @MATCH-1464
   Scenario: As a HS Repvisit user send Mass email to college fair attendees
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I create a College Fair with the following data
       | College Fair Name                                         | Automation Fair for Mass Email  |
@@ -37,7 +37,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       | Number of Students Expected                               | 10                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
-    And HS I Click the View Details button for the College Fair Event for "Automation Fair for Mass Email"
+    Then HS I Click on the View Details button for the College Fair Event "Automation Fair for Mass Email"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HEadmin" from the results in the Add Attendee pop-up page
     Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
@@ -71,7 +71,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 
   @MATCH-1462
   Scenario: As a HS Repvisit user manually add college fair attendees and save it
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I create a College Fair with the following data
       | College Fair Name                                         | Automation Fair Add Manual Attendee       |
@@ -103,7 +103,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   @MATCH-1631 @MATCH-1463 @ignore
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
   so I can keep track of who is attending.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
     Then HS I verify the Fair Details Page "PreviouslySetFair","<VerifyDate>","<instructionsforCollegeRepresentatives>"
@@ -151,7 +151,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 
   @MATCH-1598
   Scenario Outline: As a HS RepVisits user I want to be able to access the College Fair overview page
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I set the data to create the College Fair "<CollegeFairName>","<Date>","<StartTime>","<EndTime>","<RSVPDate>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>","<ButtonToClick>"
     Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
     Then HS I Click on the "Close" button in the success page of the college fair
@@ -188,7 +188,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   I want to be able to re-add that attendee to the fair
   So that I can optimize fair attendance.
 #create fair
-    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with account "navAdminStandalone2"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
 #add attendee
     Then HS I add the following attendees to the College Fair
@@ -203,7 +203,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #decline attendee
-    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with account "navAdminStandalone2"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
     Then HS I select "DECLINE" option for "<College Fair Name>"
@@ -214,7 +214,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #confirm attendee
-    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with account "navAdminStandalone2"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
     Then HS I select "CONFIRM" option for "<College Fair Name>"
@@ -222,8 +222,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     Examples:
-      |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School              |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
-      |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Int Qa High School 4|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
+      |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
+      |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Standalone High School 2|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
 
   @MATCH-2080 @MATCH-2217 @ignore
   Scenario: As a HS RepVisits user,
@@ -242,6 +242,6 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       | Number of Students Expected                               | 10                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
-    And HS I verify the Dashboard Upcoming events for "MATCH-2080 Fair " and "2"
-    Then HS I cancel new event created for "MATCH-2080 Fair"
+    Then HS I Click on the View Details button for the College Fair Event "MATCH-2080 Fair"
+    Then HS I select Edit button to cancel the college Fair "MATCH-2080 Fair"
     And HS I verify the Canceled events for "MATCH-2080 Fair"
