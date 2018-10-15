@@ -710,9 +710,9 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
-    And SM I "select" the "Central" checkbox from "Location" Fit Criteria
-    And SM I "select" the "Midwest" checkbox from "Location" Fit Criteria
-    And SM I "select" the "Large City" checkbox from "Location" Fit Criteria
-    And SM I "select" the "Small City" checkbox from "Location" Fit Criteria
+    And SM I select the "Central" checkbox from the "Location" fit criteria
+    And SM I select the "Midwest" checkbox from the "Location" fit criteria
+    And SM I select the "Large City" checkbox from the "Location" fit criteria
+    And SM I select the "Small City" checkbox from the "Location" fit criteria
     And SM I verify that the Must Have box contains "Location [14]"
     And SM I verify that the Must Have box contains "Campus Surroundings [2]"
