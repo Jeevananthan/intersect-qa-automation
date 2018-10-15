@@ -1811,17 +1811,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void selectOrUnselectCheckboxInFitCriteria(String selectOrUnselect, String checkboxLabel, String fitCriteria) {
-        switch (selectOrUnselect.toUpperCase()) {
-            case "SELECT":
-                selectCheckBox(checkboxLabel, fitCriteria);
-                break;
-            case "UNSELECT":
-                unselectCheckbox(checkboxLabel, fitCriteria);
-                break;
-        }
-    }
-
     public void iPinColleges(String numberOfCollegesToPin)
     {
         int numOfCollegesToPin = Integer.parseInt(numberOfCollegesToPin);
