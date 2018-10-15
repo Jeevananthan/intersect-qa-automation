@@ -644,6 +644,21 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And HS I Click on close button
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
 
+  @MATCH-3555
+  Scenario: As a HS student who has pinned colleges in SuperMatch, I want those schools to show at the top of my search
+  results table so I am reminded that those colleges were already pinned.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Virginia Union University"
+    Then SM I verify that the college "Virginia Union University" is displayed in position "1" in the results table
+    Then SM I verify that the match score for the college in position 1 is "<" 100
+    Then SM I verify that the match score for the college in position 2 is "=" 100
+
   @MATCH-3263
   Scenario: As a HS student who is interacting with the fit criteria and categories in College Search, I want to see
   informational message letting me know when my search becomes too granular so I don't limit my results to too few
