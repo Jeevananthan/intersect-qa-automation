@@ -2363,6 +2363,33 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         diversityRaceDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
     }
 
+    public void verifyMatchScoreByPosition(Integer position, String operator, Integer referenceNumber) {
+        int matchScore = Integer.parseInt(getMatchScoreByPosition(position.toString()).getText());
+        switch (operator) {
+            case "<" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore < referenceNumber);
+                break;
+            case ">" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore > referenceNumber);
+                break;
+            case "=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore == referenceNumber);
+                break;
+            case "<=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore <= referenceNumber);
+                break;
+            case ">=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore >= referenceNumber);
+                break;
+        }
+
+    }
+
 
     // Locators Below
 
@@ -2891,5 +2918,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement collegeCellInResultsTableByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") td.left.aligned"));
+    }
+
+    private WebElement getMatchScoreByPosition(String position) {
+        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
     }
 }
