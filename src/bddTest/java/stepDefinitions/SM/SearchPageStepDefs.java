@@ -310,5 +310,9 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
 
         And("^SM I verify that radio button with text \"([^\"]*)\" is selected$", searchPage::verifyRadioButtonIsSelected);
+
+        Then("^SM I verify the options displayed in On-Campus Housing Select % dropdown$", searchPage::verifyOptionsInOnCampusHousingSelectPercentDropdown);
+
+        Then("^SM I close the fit criteria selection window$", searchPage::closeFitCriteriaWindow);
     }
 }
