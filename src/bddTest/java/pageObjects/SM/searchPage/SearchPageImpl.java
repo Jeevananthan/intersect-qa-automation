@@ -1765,6 +1765,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyOptionsInOnCampusHousingSelectPercentDropdown(DataTable dataTable) {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Institution Characteristics");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        onCampusHousingPercentDropdownChevron().click();
+
+        List<String> outOfStateStudentsPercentOptionsActual = onCampusHousingPercentDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = outOfStateStudentsPercentOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in On-Campus Housing 'Select %' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+
+    }
+
     public void verifyOptionsInSelectGenderDropdown(DataTable dataTable)
     {
         int optionIndex = 0;
@@ -2040,17 +2063,25 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pickFromDropdown(String choice, String dropdown){
         try {
+            setImplicitWaitTimeout(2);
             driver.findElement(By.className(dropdown)).click();
+            resetImplicitWaitTimeout();
         }
         catch (Exception e){
             try {
+                setImplicitWaitTimeout(2);
                 driver.findElement(By.id(dropdown)).click();
+                resetImplicitWaitTimeout();
             }
             catch (Exception exp){
                 try {
+                    setImplicitWaitTimeout(2);
                     driver.findElement(By.cssSelector(dropdown)).click();
+                    resetImplicitWaitTimeout();
                 } catch (Exception f) {
+                    setImplicitWaitTimeout(2);
                     driver.findElement(By.xpath(dropdown)).click();
+                    resetImplicitWaitTimeout();
                 }
             }
         }
@@ -2395,6 +2426,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void closeFitCriteriaWindow() {
+        getFitCriteriaCloseButton().click();
+    }
 
     // Locators Below
 
@@ -2758,6 +2792,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private List<WebElement> outOfStateStudentsPercentDropdownOptions() {
         return getDriver().findElements(By.xpath("//div[@id='OutOfStateStudents-dropdown']//span"));
+    }
+
+    private WebElement onCampusHousingPercentDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='on-campus-housing-dropdown']/i"));
+    }
+
+    private List<WebElement> onCampusHousingPercentDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='on-campus-housing-dropdown']//span"));
     }
 
     private WebElement startOverButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button.supermatch-start-over-button")); }
