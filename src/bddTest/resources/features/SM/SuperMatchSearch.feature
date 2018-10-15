@@ -620,7 +620,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3376
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % Out of State
-  students
+            students
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the text displayed in the % Out of State Students Fit Criteria
     Then SM I verify the options displayed in Out of State students Select % dropdown
@@ -646,7 +646,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3555
   Scenario: As a HS student who has pinned colleges in SuperMatch, I want those schools to show at the top of my search
-  results table so I am reminded that those colleges were already pinned.
+            results table so I am reminded that those colleges were already pinned.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
@@ -661,8 +661,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3263
   Scenario: As a HS student who is interacting with the fit criteria and categories in College Search, I want to see
-  informational message letting me know when my search becomes too granular so I don't limit my results to too few
-  of colleges based on too many fit criteria being selected.
+            informational message letting me know when my search becomes too granular so I don't limit my results to too few
+            of colleges based on too many fit criteria being selected.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
@@ -675,7 +675,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3344
   Scenario: As a HS student, I want to filter colleges I am searching for by Student Body Size within the Institution
-  Characteristics category so I can see relevant colleges that match my Student Body Size requirements.
+            Characteristics category so I can see relevant colleges that match my Student Body Size requirements.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
@@ -703,3 +703,16 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I pick "33%" from the dropdown "on-campus-housing-dropdown"
     And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "On-campus Housing > 33%"
+
+  @MATCH-3546
+  Scenario: As a HS student, I want to fit criteria that I select to be added to the 'Must Have' box within SuperMatch
+            so I can see all the fit criteria I have selected easily and can manage them.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Central" checkbox from the "Location" fit criteria
+    And SM I select the "Midwest" checkbox from the "Location" fit criteria
+    And SM I select the "Large City" checkbox from the "Location" fit criteria
+    And SM I select the "Small City" checkbox from the "Location" fit criteria
+    And SM I verify that the Must Have box contains "Location [14]"
+    And SM I verify that the Must Have box contains "Campus Surroundings [2]"
