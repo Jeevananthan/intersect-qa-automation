@@ -1,13 +1,11 @@
 package pageObjects.HE.accountSettingsPage;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.cs.A;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.text.SimpleDateFormat;
@@ -112,23 +110,17 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         firstNameField().sendKeys(firstName);
     }
 
+    /**
+     * Verifies if a given account settings tab is not displayed
+     */
+    public void verifyAccountSettingsTabIsNotDisplayed(String tab){
+        getNavigationBar().selectUserOption("Account Settings");
+        Assert.assertFalse(String.format("The tab: %s is displayed",tab),
+                getDriver().findElements(accountSettingsTabLocator(tab)).size()>0);
+    }
+
     //Locators
-    private WebElement currentPasswordBox() {
-        return textbox("Current Password");
-    }
-
-    private WebElement newPasswordBox() {
-        return textbox("New Password");
-    }
-
-    private WebElement confirmPasswordBox() {
-        return textbox("Confirm New Password");
-    }
-
     private WebElement saveChanges() { return driver.findElement(By.xpath("//span[text()='SAVE']")); }
-
-    private WebElement cancelButton() { return button("CANCEL"); }
-
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
@@ -144,5 +136,14 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement firstNameField() { return driver.findElement(By.cssSelector("input#user-form-first-name")); }
+
+    /**
+     * Gets the account settings tabs
+     * @param tab
+     * @return
+     */
+    private By accountSettingsTabLocator(String tab){
+        return By.xpath(String.format("//span[text()='%s']",tab));
+    }
 
 }

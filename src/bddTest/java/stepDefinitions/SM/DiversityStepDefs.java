@@ -11,5 +11,7 @@ public class DiversityStepDefs implements En {
 
         Then("^I verify that the default text in \"([^\"]*)\" is \"([^\"]*)\"$", diversityPage::verifyDefaultTextInElement);
 
+        Then("^SM I verify that the \"([^\"]*)\" radio button is \"([^\"]*)\"$", diversityPage::verifyRadioButtonIsSelected);
+
     }
 }

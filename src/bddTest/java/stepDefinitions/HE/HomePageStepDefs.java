@@ -1,19 +1,15 @@
 package stepDefinitions.HE;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
-import pageObjects.COMMON.NavigationBarImpl;
 import pageObjects.HE.eventsPage.EventsPageImpl;
 import pageObjects.HE.homePage.HomePageImpl;
-import cucumber.api.java.cs.A;
 
 public class HomePageStepDefs implements En {
 
     public HomePageStepDefs() {
 
         HomePageImpl homePage = new HomePageImpl();
-        NavBarImpl navBar = new NavBarImpl();
         EventsPageImpl eventsPage = new EventsPageImpl();
 
         Then("^HE I am able to successfully login$", homePage::verifyUserIsLoggedIn);

@@ -28,3 +28,15 @@ Feature: SM - Resources - Resources - As a HS student, I need to be able to sear
       | Asperger's/Autism Support                   |
       | Day Care Services                           |
 
+  @MATCH-3950
+  Scenario: As a HS student that is comparing my pinned schools, I want to see Resources details about each college
+  side by side so I can determine which pinned college is a best fit for me based on their Resources.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "College of the North Atlantic" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify all the below options available in Resources fit criteria in Resources expandable drawer
+      |Learning Differences Support |Academic/Career Counseling| Counseling Services |Tutoring Services|Remedial Services |ESL/ELL Services |Physical Accessibility |Services for the Blind or Visually Impaired |Services for the Deaf and Hard of Hearing|Asperger's/Autism Support |Day Care Services|
+      |Unknown |No| Unknown| No |Yes |No| No| No| No| No| Yes|
+
