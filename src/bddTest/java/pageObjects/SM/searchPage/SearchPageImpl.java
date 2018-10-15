@@ -398,6 +398,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
     }
 
+    public void verifyRadioButtonIsSelected(String radioButtonText) {
+        Assert.assertTrue("Radio button" + radioButtonText + " is selected", getRadioButtonLabelByText(radioButtonText).isSelected());
+    }
+
+
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
@@ -874,6 +879,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             checkboxLocator.click();
         }
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
+        waitUntilPageFinishLoading();
         getFitCriteriaCloseButton().click();
     }
 
@@ -1313,6 +1319,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void openPinnedCompareSchools() {
         waitUntilPageFinishLoading();
+        waitForUITransition();
         pinnedFooterOption().click();
         comparePinnedCollegesLink().click();
     }
@@ -2067,9 +2074,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 resetImplicitWaitTimeout();
             }
             catch (Exception exp){
-                setImplicitWaitTimeout(2);
-                driver.findElement(By.cssSelector(dropdown)).click();
-                resetImplicitWaitTimeout();
+                try {
+                    setImplicitWaitTimeout(2);
+                    driver.findElement(By.cssSelector(dropdown)).click();
+                    resetImplicitWaitTimeout();
+                } catch (Exception f) {
+                    setImplicitWaitTimeout(2);
+                    driver.findElement(By.xpath(dropdown)).click();
+                    resetImplicitWaitTimeout();
+                }
             }
         }
         driver.findElement(By.xpath("//span[text()='"+choice+"']")).click();
@@ -2386,6 +2399,33 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         diversityRaceDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
     }
 
+    public void verifyMatchScoreByPosition(Integer position, String operator, Integer referenceNumber) {
+        int matchScore = Integer.parseInt(getMatchScoreByPosition(position.toString()).getText());
+        switch (operator) {
+            case "<" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore < referenceNumber);
+                break;
+            case ">" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore > referenceNumber);
+                break;
+            case "=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore == referenceNumber);
+                break;
+            case "<=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore <= referenceNumber);
+                break;
+            case ">=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore >= referenceNumber);
+                break;
+        }
+
+    }
+
     public void closeFitCriteriaWindow() {
         getFitCriteriaCloseButton().click();
     }
@@ -2529,6 +2569,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement diversityRaceDropdown(){
         return driver.findElement(By.id("supermatch-diversity-race-dropdown"));
+    }
+
+    private WebElement getRadioButtonLabelByText(String radioButtonText) {
+        return driver.findElement(By.xpath("//label[text()='" + radioButtonText + "']/../input"));
     }
 
     private WebElement maleFemalePercentDropdown(){
@@ -2925,5 +2969,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement collegeCellInResultsTableByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") td.left.aligned"));
+    }
+
+    private WebElement getMatchScoreByPosition(String position) {
+        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
     }
 }
