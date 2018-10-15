@@ -2390,6 +2390,47 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void pickColumnHeader(String option, Integer columnNumber) {
+        firstWhyButton().sendKeys(Keys.PAGE_UP);
+        scrollDown(firstWhyButton());
+        editableColumnHeader(columnNumber).click();
+        List<WebElement> optionsList = driver.findElements(By.cssSelector(editableColumnHeaderOptionListLocator));
+        for (WebElement element : optionsList) {
+            if (element.getText().equals(option)) {
+                element.click();
+                break;
+            }
+        }
+    }
+
+    public void verifyDataInEditableColumn(String selectedOption, Integer columnNumber, String collegeName, DataTable dataTable) {
+        switch (selectedOption) {
+            case "Institution Characteristics" :
+                List<List<String>> institutionsCharElements = dataTable.asLists(String.class);
+                List<WebElement> institutionCharsLeftElements = driver.findElements(By.xpath(institutionsCharsLeftElementsLocator(collegeName, columnNumber)));
+                List<WebElement> institutionsCharsRigthElements = driver.findElements(By.xpath(institutionsCharsRigthElementsLocator(collegeName, columnNumber)));
+                for (int i = 0; i < institutionsCharElements.size(); i++) {
+                    Assert.assertTrue("The element " + institutionsCharElements.get(i).get(0) + " does not have a correct value",
+                            institutionsCharElements.get(i).get(0).equals(institutionCharsLeftElements.get(i).getText()));
+                }
+                for (int i = 0; i < institutionsCharsRigthElements.size(); i++) {
+                    String data = institutionsCharElements.get(i).get(1);
+                    String ui = institutionsCharsRigthElements.get(i).getText();
+                    Assert.assertTrue("The element " + institutionsCharElements.get(i).get(1) + " does not have a correct value",
+                            institutionsCharElements.get(i).get(1).equals(institutionsCharsRigthElements.get(i).getText()));
+                }
+                break;
+            case "Admission info":
+                List<String> admissionInfoElements = dataTable.asList(String.class);
+                List<WebElement> wrapperElements = driver.findElements(By.xpath(cellContentsLocator(collegeName, columnNumber)));
+                for (int i = 0; i < wrapperElements.size(); i++) {
+                    Assert.assertTrue("The element is not correct in Admission Info.",
+                            wrapperElements.get(i).getText().equals(admissionInfoElements.get(i)));
+                }
+                break;
+        }
+    }
+
 
     // Locators Below
 
@@ -2922,5 +2963,23 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement getMatchScoreByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
+    }
+
+    private WebElement editableColumnHeader(int position) {
+        return driver.findElement(By.cssSelector("table.ui.unstackable:not(.csr-header-table) th:nth-of-type(" + (position + 3) + ") span"));
+    }
+
+    private String editableColumnHeaderOptionListLocator = "span.text";
+
+    private String institutionsCharsLeftElementsLocator(String collegeName, int columnNumber) {
+        return "//a[text() = '" + collegeName + "']/ancestor::tr/td[" + (columnNumber + 3) + "]//span[1]";
+    }
+
+    private String institutionsCharsRigthElementsLocator(String collegeName, int columnNumber) {
+        return "//table//tr[1]//a[text() = '" + collegeName + "']/ancestor::tr/td[" + columnNumber + "]//span[2]";
+    }
+
+    private String cellContentsLocator(String collegeName, int columnNumber) {
+        return "//td[contains(@class, 'inPinnedList')]//a[text() = '" + collegeName + "']/ancestor::tr/td[" + (columnNumber + 3) + "]//p";
     }
 }
