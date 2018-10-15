@@ -34,7 +34,7 @@ public class GetProperties {
     public static String get(String propertyName) {
         String propertyValue = properties.getProperty(propertyName);
         if (Strings.isNullOrEmpty(propertyValue)) {
-            throw new NullPointerException("Unable to find " + propertyName + " property. Make sure property is set");
+             throw new NullPointerException("Unable to find " + propertyName + " property. Make sure property is set");
         } else {
             return propertyValue;
         }
