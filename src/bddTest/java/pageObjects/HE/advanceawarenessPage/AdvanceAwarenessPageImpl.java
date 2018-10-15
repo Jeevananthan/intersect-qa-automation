@@ -59,21 +59,21 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
 
     }}
     public void verifyAudienceData (DataTable dataTable){
-        String Audience="";
-        String Competitors="";
+        String audience="";
+        String competitors="";
 
         List<List<String>> details = dataTable.asLists(String.class);
         for (List<String> row : details){
             switch (row.get(0)) {
                 case "Audience" :
-                    Audience = row.get(1);
+                    audience = row.get(1);
                     break;
                 case "Competitors" :
-                    Competitors = row.get(1);
+                    competitors = row.get(1);
                     break;
+            }
         }
-        }
-        Assert.assertTrue("The Audience are not displayed in HE App ", driver.findElement(By.xpath(audianceName(Audience))).isDisplayed());
+        Assert.assertTrue("The Audience are not displayed in HE App ", getDriver().findElement(By.xpath(audianceName(audience))).isDisplayed());
 
     }
 

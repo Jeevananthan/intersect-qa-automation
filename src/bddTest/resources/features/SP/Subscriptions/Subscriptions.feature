@@ -98,6 +98,7 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
   Scenario: As a Support person I need to be able to generate a bulk subscription transaction that results in multiple subscriptions being displayed on UI and Signle subscription on HE App
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" in the institution page
     And HE I click the link "Advanced Awareness"
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "State" in Add new Subscription modal
@@ -127,6 +128,8 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
+    Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "inactive" in the institution page
 
 
 
