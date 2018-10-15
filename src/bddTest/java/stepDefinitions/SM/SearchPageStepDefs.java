@@ -307,5 +307,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify the options displayed in On-Campus Housing Select % dropdown$", searchPage::verifyOptionsInOnCampusHousingSelectPercentDropdown);
 
+        Then("^SM I close the fit criteria selection window$", searchPage::closeFitCriteriaWindow);
+
     }
 }

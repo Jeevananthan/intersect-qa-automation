@@ -2056,14 +2056,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pickFromDropdown(String choice, String dropdown){
         try {
+            setImplicitWaitTimeout(2);
             driver.findElement(By.className(dropdown)).click();
+            resetImplicitWaitTimeout();
         }
         catch (Exception e){
             try {
+                setImplicitWaitTimeout(2);
                 driver.findElement(By.id(dropdown)).click();
+                resetImplicitWaitTimeout();
             }
             catch (Exception exp){
+                setImplicitWaitTimeout(2);
                 driver.findElement(By.cssSelector(dropdown)).click();
+                resetImplicitWaitTimeout();
             }
         }
         driver.findElement(By.xpath("//span[text()='"+choice+"']")).click();
@@ -2380,6 +2386,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         diversityRaceDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
     }
 
+    public void closeFitCriteriaWindow() {
+        getFitCriteriaCloseButton().click();
+    }
 
     // Locators Below
 
