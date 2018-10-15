@@ -205,6 +205,10 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
   Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user,
   I want the ability to easily access a path to reassign other HE users visits at my institution from RepVisits>Calendar view,
   so that I can support rep attritition, rep absences, and so forth while maintaining scheduled appointments and do so from the location in RV that I'm used to managing my own appointments.
+#Pre-condition
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I go to the users list for "<institution>" from the institution dashboard
+    And SP I "Inactivate" the user account for "<user>"
 
     Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
 #verify all fields in re assign appointments page
@@ -233,7 +237,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I cancel registered college fair "<College Fair Name>"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
-    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    Then HS I Click on the "Close" button in the success page of the college fair
     And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "publishing"
@@ -260,5 +264,5 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     And HS I successfully sign out
 
     Examples:
-      |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |
-      |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 2|PurpleHE Publishing   |
+      |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |institution             |user                                       |
+      |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 2|PurpleHE Publishing   |Alpena Community College|purpleheautomation+AlpenaInActive@gmail.com|

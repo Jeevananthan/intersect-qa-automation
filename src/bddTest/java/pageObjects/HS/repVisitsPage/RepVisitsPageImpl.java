@@ -1834,7 +1834,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void accessSuccessMessageforFair(String buttonName){
         if(buttonName.equals("Close")){
-            driver.findElement(By.cssSelector("button[class='ui basic primary button']")).click();
+            driver.findElement(By.cssSelector("button[class='ui button']")).click();
         }else if(buttonName.equals("Add Attendees")){
             driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
         }else{

@@ -28,7 +28,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
-        if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
+        if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("Inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
             Assert.fail("Valid user actions are \"activate\",\"inactivate\",\"unlock\",\"re-invite\" and \"Login As\".");
