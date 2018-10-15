@@ -734,8 +734,8 @@ public class GlobalSearch extends SeleniumBase {
 
                 case "Type":
                     if(categorySearch.equalsIgnoreCase("Groups")) {
-                        WebElement typeRadio = getDriver().findElement(By.id(textBoxData.get(key).toLowerCase()));
-                        typeRadio.click();
+                        WebElement typeRadio = getDriver().findElement(By.cssSelector("div[class='ui fitted radio checkbox']"));
+                         typeRadio.click();
                     }else {
                         WebElement drpType = getDriver().findElement(By.id("hs-type"));
                         drpType.click();

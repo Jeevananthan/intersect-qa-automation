@@ -114,7 +114,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
      * Verifies if a given account settings tab is not displayed
      */
     public void verifyAccountSettingsTabIsNotDisplayed(String tab){
-        navigationBar.selectUserOption("Account Settings");
+        getNavigationBar().selectUserOption("Account Settings");
         Assert.assertFalse(String.format("The tab: %s is displayed",tab),
                 getDriver().findElements(accountSettingsTabLocator(tab)).size()>0);
     }
