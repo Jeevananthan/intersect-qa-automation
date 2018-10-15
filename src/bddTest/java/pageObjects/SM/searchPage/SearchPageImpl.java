@@ -398,6 +398,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
     }
 
+    public void verifyRadioButtonIsSelected(String radioButtonText) {
+        Assert.assertTrue("Radio button" + radioButtonText + " is selected", getRadioButtonLabelByText(radioButtonText).isSelected());
+    }
+
+
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
@@ -2530,6 +2535,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement diversityRaceDropdown(){
         return driver.findElement(By.id("supermatch-diversity-race-dropdown"));
+    }
+
+    private WebElement getRadioButtonLabelByText(String radioButtonText) {
+        return driver.findElement(By.xpath("//label[text()='" + radioButtonText + "']/../input"));
     }
 
     private WebElement maleFemalePercentDropdown(){

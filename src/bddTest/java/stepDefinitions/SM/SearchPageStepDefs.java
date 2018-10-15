@@ -308,5 +308,7 @@ public class SearchPageStepDefs implements En {
         And("^I select the radio button \"([^\"]*)\"$", searchPage::selectRadioButton);
 
         Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
+
+        And("^SM I verify that radio button with text \"([^\"]*)\" is selected$", searchPage::verifyRadioButtonIsSelected);
     }
 }
