@@ -2361,32 +2361,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     appointment = getAppointmentFromCalendar(startTime, school);
                     if(appointment==1){
                         selectAppointmentInCalendar(startTime, school);
+                    }else {
+                        Assert.fail("Appointment is not displayed");
                     }
                 }
             }else if(appointment == 1){
                 selectAppointmentInCalendar(startTime, school);
             }
         }else {
-            Assert.fail("Invalid option");
+            Assert.fail("Appointment is not displayed");
         }
     }
 
     public int getAppointmentFromCalendar(String startTime,String university){
-        List<WebElement> row = driver.findElements(By.xpath("//div[@class='rbc-month-row']"));
-        if(row.size()>0){
+        if(getMonthRow().size()>0){
             outerloop:
-            for(int i=1;i<=row.size();i++){
-                List<WebElement> more = driver.findElements(By.xpath("//div[@class='rbc-month-row']["+i+"]/div[@class='rbc-row-content']/div[@class='rbc-row'][5]/div/a"));
-                if(more.size()>0)
+            for(int i=1;i<=getMonthRow().size();i++){
+                if(showMore(i).size()>0)
                     for(int j=1;j<=7;j++){
-                        List<WebElement> showMoreButton = driver.findElements(By.xpath("//div[@class='rbc-month-row']["+i+"]/div[@class='rbc-row-content']/div[@class='rbc-row'][5]/div["+j+"]/a"));
-                        if(showMoreButton.size()==1) {
-                            jsClick(driver.findElement(By.xpath("//div[@class='rbc-month-row'][" + i + "]/div[@class='rbc-row-content']/div[@class='rbc-row'][5]/div[" + j + "]/a")));
+                        if(showMoreButton(i,j).size()==1) {
+                            jsClick(selectShowMoreButton(i,j));
                             waitUntilPageFinishLoading();
                             if (calendarAppointments(startTime,university).size() == 1){
                                 break outerloop;
                             }else {
-                                jsClick(driver.findElement(By.xpath("//div[@class='rbc-month-row'][" + i + "]/div[@class='rbc-row-content']/div[@class='rbc-row'][5]/div[" + j + "]/a")));
+                                jsClick(selectShowMoreButton(i,j));
                                 waitUntilPageFinishLoading();
                             }
                         }
@@ -2469,7 +2468,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(cancelVisitButton()));
         Assert.assertTrue("Cancel This Visit is not displayed",cancelThisVisitButton().isDisplayed());
         cancelThisVisitButton().click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(cancelMessageText()));
         cancelMessageTextBox().click();
         cancelMessageTextBox().sendKeys(Keys.PAGE_DOWN);
         cancelMessageTextBox().sendKeys("by QA");
@@ -3698,7 +3697,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return month;
     }
     private WebElement nextMonthButton() {
-        WebElement button=getDriver().findElement(By.cssSelector("button[class='ui teal basic icon button _38R7SJgG4fJ86m-eLYYZJw']"));
+        WebElement button=getDriver().findElement(By.cssSelector("button[class='ui icon button _38R7SJgG4fJ86m-eLYYZJw']"));
         return button;
     }
     private String month(String date) {
@@ -3989,12 +3988,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private By successMessage(){return By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div"); }
     private By cancelVisitButton(){return By.xpath("//button/span[text()='Cancel This Visit']");}
-    private WebElement cancelThisVisitButton(){return driver.findElement( By.xpath("//button/span[text()='Cancel This Visit']"));}
+    private WebElement cancelThisVisitButton(){return getDriver().findElement( By.xpath("//button/span[text()='Cancel This Visit']"));}
     private WebElement visitCancelButton(){return button("Yes, Cancel Visit");}
     private WebElement cancelMessageTextBox(){return getDriver().findElement(By.id("cancel-message"));}
-    private WebElement saveButtonInCalendarPopup(){return driver.findElement(By.xpath("//button/span[text()='Save']"));}
-    public List<WebElement> calendarAppointments(String startTime,String institution){return driver.findElements(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + institution + "']"));}
-    public WebElement calendarAppointment(String startTime,String institution){return driver.findElement(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + institution + "']"));}
+    private By cancelMessageText(){return By.id("cancel-message");}
+    private WebElement saveButtonInCalendarPopup(){return getDriver().findElement(By.xpath("//button/span[text()='Save']"));}
+    public List<WebElement> calendarAppointments(String startTime,String institution){return getDriver().findElements(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + institution + "']"));}
+    public WebElement calendarAppointment(String startTime,String institution){return getDriver().findElement(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + institution + "']"));}
     public By visitDetailsText(){return By.xpath("//span[text()='Visit Details']");}
     public WebElement userText(String user){return getDriver().findElement(By.xpath("//div[text()='"+user+"']"));}
     public WebElement eMail(String eMail){return getDriver().findElement(By.xpath("//div[text()='"+eMail+"']"));}
@@ -4015,6 +4015,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement scheduleTextWithTime(String school,String startTime,String endTime){
         return getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]"));
     }
+    private List<WebElement> getMonthRow(){return getDriver().findElements(By.cssSelector("div.rbc-month-row"));}
+    private List<WebElement> showMore(int index){return getDriver().findElements(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+index+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div>a"));}
+    private List<WebElement> showMoreButton(int firstIndex,int secondIndex){return getDriver().findElements(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+firstIndex+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div:nth-of-type("+secondIndex+")>a"));}
+    private WebElement selectShowMoreButton(int firstIndex,int secondIndex) {return getDriver().findElement(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+firstIndex+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div:nth-of-type("+secondIndex+")>a"));}
 
 }
 
