@@ -2469,7 +2469,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         cancelMessageTextBox().sendKeys(Keys.PAGE_DOWN);
         cancelMessageTextBox().sendKeys("by QA");
         visitCancelButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(getSuccessMessage()));
     }
 
     public String getSpecificDateforCalendar(String addDays) {
@@ -4072,7 +4072,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             startTime = "00"+":"+hour[1];
         return startTime;
     }
-    private By successMessage(){return By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div"); }
+    private By getSuccessMessage(){return By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div"); }
     private By cancelVisitButton(){return By.xpath("//button/span[text()='Cancel This Visit']");}
     private WebElement cancelThisVisitButton(){return getDriver().findElement( By.xpath("//button/span[text()='Cancel This Visit']"));}
     private WebElement visitCancelButton(){return button("Yes, Cancel Visit");}

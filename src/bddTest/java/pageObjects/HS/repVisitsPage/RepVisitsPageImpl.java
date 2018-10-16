@@ -9190,12 +9190,6 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement onlyMeRadioButton(){  return getDriver().findElement(By.xpath("//label[text()='Only Me']")); }
 
     private WebElement allRepVisitsUsersRadioButton(){  return getDriver().findElement(By.xpath("//label[text()='All RepVisits Users']")); }
-   
-    private By successMessage() {return By.cssSelector("div[class='ui small icon success message toast']");}
-  
-    private List<WebElement> duplicateSlot(String startTime){return driver.findElements(By.xpath("//button[text()='"+startTime+"']"));}
-
-    private WebElement clickDuplicateSlot(String startTime){return driver.findElement(By.xpath("//button[text()='"+startTime+"']/preceding-sibling::span/i"));}
 
     private void settingsCollegeFairNoRadioButton() { jsClick(driver.findElement(By.id("college-fair-automatic-request-confirmation-no")));  }
 
@@ -9205,5 +9199,4 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement noGoBackButton() { return driver.findElement(By.cssSelector("button[id='go-back']"));  }
 
-    private WebElement removeButton(){return driver.findElement(By.xpath("//button/span[text()='REMOVE']"));}
 }
