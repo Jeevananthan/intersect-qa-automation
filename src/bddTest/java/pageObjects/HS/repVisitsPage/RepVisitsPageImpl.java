@@ -354,6 +354,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.clear();
         visitBox.sendKeys(Numberofdays);
         button("Save Changes").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void setPreventCollegesCancellingorRescheduling(String DaysInAdvance){
@@ -368,6 +369,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.clear();
         visitBox.sendKeys(DaysInAdvance);
         button("Save Changes").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void setAcceptInVisitSchedulingToFullyBooked(String accept){
@@ -394,6 +396,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             visitsBox.sendKeys(visitsPerDay);
         }
         button("Save Changes").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void setVisitsConfirmations(String option){
@@ -411,6 +414,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         options.findElement(By.xpath("//label[text()='"+ option +"']")).click();
         saveChangesAvailability().click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void accessVisitAvailability(String visitAvailability){
@@ -427,6 +431,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']")).click();
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void verifyVisitAvailability(String visitAvailabiltyOption) {
@@ -4235,7 +4240,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             columnID = columnID + 1;
             rowID = rowID + 1;
             //Remove Time slot
-            WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+            WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash alternate outline icon _26AZia1UzBMUnJh9vMujjF']"));
             jsClick(removeIcon);
             waitUntilPageFinishLoading();
             acceptButton().click();
@@ -4813,6 +4818,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         regularWeeklyHours().click();
         waitUntilPageFinishLoading();
         startOrEndDate().sendKeys(Keys.PAGE_DOWN);
+        StartTime = startTime(startTime);
+        deleteDuplicateSlot(StartTime);
         addTimeSlot().click();
         List<WebElement> slot= driver.findElements(By.cssSelector("button[class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
         if(slot.size()>0){
@@ -4823,7 +4830,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(selectDay());
         String visitDay = day(day);
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", visitDay);
-        StartTime = startTime(startTime);
         logger.info("Start Time = " + StartTime);
         addStartTime().sendKeys(StartTime);
         addEndTime().sendKeys(endTime);
@@ -7552,6 +7558,14 @@ public void cancelRgisteredCollegeFair(String fairName){
         }
     }
 
+    private void deleteDuplicateSlot(String startTime){
+        while(duplicateSlot(startTime).size()>0){
+            clickDuplicateSlot(startTime).click();
+            removeButton().click();
+            waitForUITransition();
+        }
+    }
+
     private void checkStarRatingValidation(){
         link("PENDING").click();
         waitUntilPageFinishLoading();
@@ -9168,6 +9182,12 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement onlyMeRadioButton(){  return getDriver().findElement(By.xpath("//label[text()='Only Me']")); }
 
     private WebElement allRepVisitsUsersRadioButton(){  return getDriver().findElement(By.xpath("//label[text()='All RepVisits Users']")); }
+   
+    private By successMessage() {return By.cssSelector("div[class='ui small icon success message toast']");}
+  
+    private List<WebElement> duplicateSlot(String startTime){return driver.findElements(By.xpath("//button[text()='"+startTime+"']"));}
+
+    private WebElement clickDuplicateSlot(String startTime){return driver.findElement(By.xpath("//button[text()='"+startTime+"']/preceding-sibling::span/i"));}
 
     private void settingsCollegeFairNoRadioButton() { jsClick(driver.findElement(By.id("college-fair-automatic-request-confirmation-no")));  }
 
@@ -9177,4 +9197,5 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement noGoBackButton() { return driver.findElement(By.cssSelector("button[id='go-back']"));  }
 
+    private WebElement removeButton(){return driver.findElement(By.xpath("//button/span[text()='REMOVE']"));}
 }

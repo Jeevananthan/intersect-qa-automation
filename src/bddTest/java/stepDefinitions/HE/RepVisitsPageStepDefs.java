@@ -111,7 +111,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I select Visits to schedule the appointment for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::visitsSchedule);
 
-        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
+        Then("^HE I click Request button in visit schedule popup$",repVisits::clickRequestButton);
 
         Then("^HE I register for the \"([^\"]*)\" college fair at \"([^\"]*)\"$",repVisits::visitFairsToRegister);
 
@@ -414,5 +414,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link$",repVisits::verifyShareYourCalendarModalIsDisplayed);
       
         Then("^HE I verify the college fair is \"([^\"]*)\" in the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairInHECalendar);
+
+        Then("^HE I verify default the HE user to see the REQUESTS subtab when they arrive on the Notifications page$",repVisits::verifyRequestsSubTabIsEnabled);
+
+        Then("^HE I verify the Sorting notification entries in the REQUESTS subtab by newest to oldest$",repVisits::verifySortingNotificationEntries);
     }
 }
