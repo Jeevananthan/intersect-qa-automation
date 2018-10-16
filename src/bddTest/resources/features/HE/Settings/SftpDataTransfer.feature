@@ -141,7 +141,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           When HE I go to the Set Edit Connection page
           Then HE I verify that when clicking on the title link I am redirected to the main page
           When HE I go to the Set Edit Connection page
-          Then HE I verify the last updated label has the text: "Last updated Oct (.*)by PurpleHE Automation"
+          Then HE I verify the last updated label has the text: "Last updated (.*)by PurpleHE Automation"
           And HE I verify the title of the page is "SFTP Data Transfer"
           And HE I verify the text "Edit Connection" is displayed
           And HE I verify the text "CONNECTION ADDRESS" is displayed
