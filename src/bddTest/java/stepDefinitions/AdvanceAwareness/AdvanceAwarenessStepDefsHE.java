@@ -17,5 +17,6 @@ public class AdvanceAwarenessStepDefsHE implements En {
         And("^HE I unselect following Diversity Settings$", advanceAwarenessPage:: unselectDiversityOptions );
         And("^HE I verify following options are checked$", advanceAwarenessPage:: verifyDiversityOptionschecked);
         And("^HE I verify following options are unchecked$",advanceAwarenessPage:: VerifyDiversityOptionUnChecked);
+        And("^HE I verify following audience are present on HE App$", advanceAwarenessPage :: verifyAudienceData);
 
     }}

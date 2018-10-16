@@ -27,6 +27,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     public void selectAdvanceAwarenessMenuOption(String menuOption){
         waitUntilPageFinishLoading();
         selectMenuOption(menuOption).click();
+        waitUntilPageFinishLoading();
 
     }
 
@@ -57,6 +58,24 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
             Assert.assertFalse(checkBoxDiversityChecked(eachOption).isSelected());
 
     }}
+    public void verifyAudienceData (DataTable dataTable){
+        String audience="";
+        String competitors="";
+
+        List<List<String>> details = dataTable.asLists(String.class);
+        for (List<String> row : details){
+            switch (row.get(0)) {
+                case "Audience" :
+                    audience = row.get(1);
+                    break;
+                case "Competitors" :
+                    competitors = row.get(1);
+                    break;
+            }
+        }
+        Assert.assertTrue("The Audience are not displayed in HE App ", getDriver().findElement(By.xpath(audianceName(audience))).isDisplayed());
+
+    }
 
 
 
@@ -86,4 +105,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
         return "//label[text()='" + enthicity + "']/../input" ;
     }
 
+    private String  audianceName(String subName){
+        return "//table [@class='ui table connections-table']/tbody/tr/td/span/div[text()='" + subName + "']";
+    }
 }
