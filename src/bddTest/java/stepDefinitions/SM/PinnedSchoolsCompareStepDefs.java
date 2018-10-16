@@ -17,5 +17,7 @@ public class PinnedSchoolsCompareStepDefs implements En {
 
         And("^SM I unpin \"([^\"]*)\" from the Schools Compare screen$", pinnedSchoolsComparePage::unpinSchool);
 
+        And("^SM I search for \"([^\"]*)\" college in search bar$", pinnedSchoolsComparePage::pinCollegeFromBottomSearchResult);
+
     }
 }

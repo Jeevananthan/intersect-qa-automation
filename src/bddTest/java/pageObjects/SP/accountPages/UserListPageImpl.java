@@ -119,6 +119,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     private void takeUserAction(String userName, String action) {
+        waitUntilElementExists(driver.findElement(By.xpath("//a[text()='"+userName+"']")));
         WebElement element = driver.findElement(By.xpath("//a[text()='"+userName+"']"));
         moveToElement(element);
         WebElement actionsButton = driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/following-sibling::td/div[@aria-label='Actions']"));
@@ -145,11 +146,11 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
                 break;
             case "nonprimary":
                 //empty
-                className = "empty star icon";
+                className = "outline star icon";
                 break;
             case "active":
                 //empty
-                className = "empty star icon";
+                className = "outline star icon";
                 break;
             case "inactive":
                 //ban

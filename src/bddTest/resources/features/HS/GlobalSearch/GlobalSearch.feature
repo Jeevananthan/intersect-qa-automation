@@ -1,4 +1,4 @@
-@HS
+@HS @HS1
 Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global search to help me find records
 
   @MATCH-1069
@@ -7,7 +7,6 @@ Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global sear
     Then HS I go to the advanced search page for "Institutions"
     Then HS I go to the advanced search page for "People"
     Then HS I go to the advanced search page for "Groups"
-    And HS I successfully sign out
 
   @MATCH-590 @MATCH-592 @MATCH-593 @MATCH-594 @MATCH-596 @MATCH-1051 @MATCH-1052 @MATCH-1053 @MATCH-1110
   Scenario: As a HS user I want real-time results displayed to me while performing a global search.
@@ -21,7 +20,6 @@ Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global sear
     Then HS I verify real-time search results are clickable and actionable "admin administrator"
     Then HS I verify real-time search layouts are displayed correctly "admin"
       | People | Institutions | Groups |
-    And HS I successfully sign out
 
   @MATCH-1063 @MATCH-1064 @MATCH-1065 @MATCH-1066 @MATCH-1067 @MATCH-1073 @MATCH-1074 @MATCH-1075
   Scenario: As a HS user I want to be taken to a search results page after performing a "hard" global search.
@@ -38,14 +36,12 @@ Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global sear
       | People | Institutions | Groups |
     Then HS I verify advanced search tab layouts are displayed correctly "admin"
       | People | Institutions | Groups |
-    And HS I successfully sign out
 
   @MATCH-1545
   Scenario: As a HS user I want to see general recruitment territory details on all users returned to me when during advanced searches for people.
             So I can find the other community user I want to network with more efficiently.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify advanced search returns the HS user's general description field below the title and institution fields "MatchSupportUIQA4"
-    And HS I successfully sign out
 
   @MATCH-932 @MATCH-934 @MATCH-1076 @MATCH-1077 @MATCH-1078
   Scenario: As a Community user I want to perform an advanced search for other Community users using any combination of the fields below.
@@ -66,7 +62,6 @@ Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global sear
       | County Served                          | Autauga                              |
       | Advises Students on Admissions Process | No                                   |
       | Schedules College Visits               | No                                   |
-    And HS I successfully sign out
 
   @MATCH-933 @MATCH-1103 @MATCH-1105 @MATCH-1107
   Scenario: As a Community user I want to perform an advanced search for groups using any combination of the fields below.
@@ -77,7 +72,6 @@ Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global sear
       | Name        | Hobsons                                    |
       | Description | Hobsons                                    |
       | Type        | Public                                     |
-    And HS I successfully sign out
 
 
   @MATCH-934 @MATCH-1104 @MATCH-1106 @MATCH-1108
@@ -107,7 +101,6 @@ Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global sear
       | Charter School                | Unknown                    |
       | Title I Eligible              | No                         |
       | College Going Rate            | 59-100                     |
-    And HS I successfully sign out
 
   @MATCH-1400
   Scenario: As a HS user I want to preform a global and advanced search for groups that do not return HE results.
@@ -116,7 +109,6 @@ Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global sear
     Then HS I verify real-time search results do not return any results for HE groups "New Test HE Group"
     Then HS I verify advanced search results do not return any results for HE groups "New Test HE Group"
       | Groups |
-    And HS I successfully sign out
 
   @MATCH-1054
   Scenario: As an Intersect user I want the global search box to return results based on a full match.
@@ -124,4 +116,3 @@ Feature: HS - GlobalSearch - GlobalSearch - As an HS user, I can use Global sear
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the real-time results return for global search are a partial and full match "Adrian College"
       | People | Institutions |
-    And HS I successfully sign out

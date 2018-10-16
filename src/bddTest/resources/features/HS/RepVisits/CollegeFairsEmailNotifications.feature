@@ -1,4 +1,4 @@
-@HS
+@HS @HS2
 Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of RepVisits I want to receive email notifications
          when there is new activity on the fairs.
 
@@ -26,7 +26,6 @@ Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of R
       |College fair scheduled for Int Qa High School 4 |purpleheautomation@gmail.com  |1        |
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "Email Scenario 1" with the reason "Test Finished"
-    And HS I successfully sign out
 
 
   @MATCH-1792
@@ -53,7 +52,6 @@ Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of R
       |College fair request confirmed for Int Qa High School 4 (OH)   |purpleheautomation@gmail.com  |1        |
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "Email Scenario 2" with the reason "Test Finished"
-    And HS I successfully sign out
 
   @MATCH-1792
   Scenario: Verify Fair request email sent to HS user when approval is set to manual
@@ -79,4 +77,3 @@ Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of R
       |Request to attend college fair: The University of Alabama (AL) |	purplehsautomations@gmail.com|1        |
     And HS I want to login to the HS app using "purplehsautomations@gmail.com" as username and "Password!1" as password
     And HS I cancel the fair of name "Email Scenario 3" with the reason "Test Finished"
-    And HS I successfully sign out

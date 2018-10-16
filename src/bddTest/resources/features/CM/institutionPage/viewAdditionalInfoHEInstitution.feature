@@ -9,4 +9,3 @@ Feature: Community User - View Additional Information on HE Institutions
     And I go to institution page
     And I click on Additional Info
     Then I check items on the Alabama's institution additional info
-    And HE I successfully sign out

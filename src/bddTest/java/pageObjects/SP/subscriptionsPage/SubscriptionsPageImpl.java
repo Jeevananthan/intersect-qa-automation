@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -17,15 +18,6 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     public SubscriptionsPageImpl() {
         logger = Logger.getLogger(SubscriptionsPageImpl.class);
-    }
-
-    public void addNewSubscription(String type) {
-        addNewSubscriptionButton().click();
-        waitUntilPageFinishLoading();
-        driver.findElement(By.xpath(subscriptionTypeRadioButtonLocator(type))).click();
-        waitUntilPageFinishLoading();
-        driver.findElement(By.cssSelector(nextButton)).click();
-        waitUntilPageFinishLoading();
     }
 
     public void verifyBackButtonFunctionality() {
@@ -63,8 +55,8 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Competitors" :
                     competitorsField().sendKeys(row.get(1));
-                    waitUntilPageFinishLoading();
-                    competitorsOption(row.get(1));
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(competitorsOption(row.get(1))), 1));
+                    driver.findElement(By.xpath(competitorsOption(row.get(1)))).click();
                     break;
                 case "Majors" :
                     majorsCheckbox().click();
@@ -86,6 +78,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Zips" :
                     if (!row.get(1).equals("None")) {
+                        chooseZipsField().clear();
                         chooseZipsField().sendKeys(row.get(1));
                     }
                     break;
@@ -143,16 +136,83 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
                     startDate = getMonth(futureDate).substring(0, 3) + " " + getDay(futureDate) + ", " + getYear(futureDate);
             }
         }
-        Assert.assertTrue("The subscription was not added", subscriptionStartDateInTable(location, diversity, startDate).isDisplayed());
+        Assert.assertTrue("The subscription was not added", driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).isDisplayed());
+    }
+
+    public void clickNextButton() {
+        driver.findElement(By.cssSelector(nextButton)).click();
+    }
+
+    public void selectRadioButton(String buttonLabel) {
+        driver.findElement(By.xpath(subscriptionTypeRadioButtonLocator(buttonLabel))).click();
+    }
+
+    public void deleteSubscription(DataTable dataTable) {
+        waitUntilPageFinishLoading();
+        List<List<String>> details = dataTable.asLists(String.class);
+        String location = "";
+        String diversity = "";
+        String startDate = "";
+
+        List<WebElement> subList = driver.findElements(By.xpath(subscriptionRemoveButton(diversity, startDate)));
+        int sizeOfSubList = subList.size();
+        for (List<String> row : details) {
+            switch (row.get(0)) {
+                case "Diversity":
+                    diversity = row.get(1);
+                    break;
+                case "Start Date":
+                    Calendar futureDate = getDeltaDate(Integer.parseInt(row.get(1).split(" ")[0]));
+                    startDate = getMonth(futureDate).substring(0, 3) + " " + getDay(futureDate) + ", " + getYear(futureDate);
+                    break;
+
+            }
+        }
+            waitUntilPageFinishLoading();
+            driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).click();
+            waitUntilPageFinishLoading();
+            deleteButton().click();
+
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
+
+
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).click();
+        waitUntilPageFinishLoading();
+        deleteButton().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
     }
 
     public void verifyValueRadiusFromZips(String expectedValue) {
         Assert.assertTrue("The value in Radius From Zips field is not correct", radiusFromZipsField().getAttribute("value").equals(expectedValue));
     }
 
+    public void deleteMultipleSubscriptions(){
+        List<WebElement> buttonList = driver.findElements(By.cssSelector(removeButtonListLocator));
+        for (WebElement removeButton : buttonList){
+            waitUntilPageFinishLoading();
+            removeButton.click();
+            waitUntilPageFinishLoading();
+            deleteButton().click();
+
+        }
+
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(removeButtonListLocator),0 ));
+
+
+
+
+    }
+
+    public void openSubscription(String subscriptionName){
+        driver.navigate().refresh();
+        waitUntilPageFinishLoading();
+        clickSubscriptionName(subscriptionName).click();
+
+    }
+
     //Locators
-    private WebElement addNewSubscriptionButton() { return driver.findElement(By.cssSelector("h2.light-title + div[class " +
-            "*= 'he-account-links'] a[class *= 'ui teal basic button link-button']:nth-of-type(2)")); }
 
     private String subscriptionTypeRadioButtonLocator(String subscriptionType) { return "//label[text() = '" + subscriptionType + "']"; }
 
@@ -172,21 +232,17 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement finishButton() { return driver.findElement(By.cssSelector("button#action-submit")); }
 
-    private WebElement calendarMonthText() { return driver.findElement(By.cssSelector("select#month-select")); }
-
-    private WebElement calendarYearText() { return driver.findElement(By.cssSelector("select#year-select")); }
-
     private WebElement dateInCalendar(String dateString) { return driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
             "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
             "DayPicker-Day--today'][text()='" + dateString + "']")); }
 
     private WebElement diversityFilterDropdown() { return driver.findElement(By.cssSelector("div#field14")); }
 
-    private WebElement diversityFilterDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'menu transition visible']/div[@role = 'option']/span[text() = '" + optionName + "']")); }
+    private WebElement diversityFilterDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'visible menu transition']/div[@role = 'option']/span[text() = '" + optionName + "']")); }
 
     private WebElement competitorsField() { return driver.findElement(By.cssSelector("input#field15")); }
 
-    private WebElement competitorsOption(String optionName) { return driver.findElement(By.xpath("//div[contains(@class, 'content')][contains(text(), '" + optionName + "')]")); }
+    private String competitorsOption(String optionName) { return "//div[contains(@class, 'content')][contains(text(), '" + optionName + "')]"; }
 
     private WebElement majorsCheckbox() { return driver.findElement(By.cssSelector("input#field16")); }
 
@@ -202,8 +258,19 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement countiesOption(String optionName) { return driver.findElement(By.xpath("//span[text() = '" + optionName + "']")); }
 
-    private WebElement subscriptionStartDateInTable(String location, String diversity, String startDate) {
-        return driver.findElement(By.xpath("//tbody/tr[1]/td[1]/div[text() = '" + location + "']/../../td[text() = '" + diversity + "']/../td[6]/span[text() = '" + startDate + "']"));}
+    private String subscriptionRemoveButton(String diversity, String startDate) {
+        return "//tbody/tr/td[text() = '" + diversity + "']/../td[6]/span[text() = '" + startDate + "']/../../td/button";}
+
+    private String removeButtonListLocator = "button.ui:not(.icon)";
+
+    private WebElement deleteButton() {
+        return driver.findElement(By.cssSelector("button[class *= 'ui teal basic button']"));
+
+    }
+
+    private WebElement clickSubscriptionName(String subName){
+        return  driver.findElement(By.xpath("//a[text()='" + subName + "']"));
+    }
 }
 
 

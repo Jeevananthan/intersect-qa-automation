@@ -22,4 +22,3 @@ Feature: HE - Community - Welcome - As an HE User, Prepopulate Community User Pr
     Then HE I verify the user can access the following fields
       |Counselor Community|RepVisits|Events|ActiveMatch|
     And HE I clear the account to get the community welcome page again
-    Then HE I successfully sign out

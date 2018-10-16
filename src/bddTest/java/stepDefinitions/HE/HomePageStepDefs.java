@@ -1,25 +1,20 @@
 package stepDefinitions.HE;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
-import pageObjects.COMMON.NavigationBarImpl;
 import pageObjects.HE.eventsPage.EventsPageImpl;
 import pageObjects.HE.homePage.HomePageImpl;
-import cucumber.api.java.cs.A;
 
 public class HomePageStepDefs implements En {
 
     public HomePageStepDefs() {
 
         HomePageImpl homePage = new HomePageImpl();
-        NavBarImpl navBar = new NavBarImpl();
-        NavigationBarImpl navigationBar = new NavigationBarImpl();
         EventsPageImpl eventsPage = new EventsPageImpl();
 
         Then("^HE I am able to successfully login$", homePage::verifyUserIsLoggedIn);
 
-        And("^HE I successfully sign out$", navigationBar::logout);
+        And("^HE I successfully sign out$",  homePage::logout);
 
         Then("^HE I access the Account Settings page$", homePage::accountSettings);
 
@@ -35,7 +30,7 @@ public class HomePageStepDefs implements En {
 
         Then("^I verify that the \"([^\"]*)\" widget is not displayed$",homePage::verifyWidgetIsNotVisible);
 
-        Then("^HE I verify the left navigation bar and section breadcrumbs are as follows$", navigationBar::verifyLeftNavAndBreadcrumbs);
+        Then("^HE I verify the left navigation bar and section breadcrumbs are as follows$", homePage::verifyLeftNavAndBreadcrumbs);
 
         Then("^HE I click on Learn More button on Upgrade message on the Community Widget$",homePage::accessFreemiumLearnMoreOption);
 
@@ -45,11 +40,11 @@ public class HomePageStepDefs implements En {
 
         Then("^HE I verify the Confirmation message for Request Information$",homePage::verifyRequestInformation);
 
-        And("^HE I verify the \"([^\"]*)\" nav link is displaying for this user$",navigationBar::verifySubMenuIsVisible);
+        And("^HE I verify the \"([^\"]*)\" nav link is displaying for this user$",homePage::verifySubMenuIsVisible);
 
-        And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",navigationBar::verifySubMenuIsNotVisible);
+        And("^HE I verify the \"([^\"]*)\" nav link is not displaying for this user$",homePage::verifySubMenuIsNotVisible);
 
-        And("^HE I go to the Counselor Community$", navigationBar::goToCommunity);
+        And("^HE I go to the Counselor Community$", homePage::goToCommunity);
 
         And("^HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits$",
                 homePage::verifyRepVisitsLandingPage);
@@ -58,13 +53,13 @@ public class HomePageStepDefs implements En {
 
         Then("^HE Events section is not displayed for Community users$", eventsPage::verifyEventsNotPresent);
 
-        And("^HE I open the Active Match section$", navigationBar::goToActiveMatch);
+        And("^HE I open the Active Match section$", homePage::goToActiveMatch);
 
-        And("^HE I open the Events section$", navigationBar::goToEvents);
+        And("^HE I open the Events section$", homePage::goToEvents);
 
-        Then("^HE I verify the navigation globe is displayed for this user$",navigationBar::verifyNotificationIconInHomePage);
+        Then("^HE I verify the navigation globe is displayed for this user$",homePage::verifyNotificationIconInHomePage);
 
-        And("^HE I click the navigation globe for viewing the recent notifications$",navigationBar::clickNotificationsDropdown);
+        And("^HE I click the navigation globe for viewing the recent notifications$",homePage::clickNotificationsDropdown);
 
         Then("^HE I verify that the text in the button for \"([^\"]*)\" is \"([^\"]*)\"$", homePage::verifyTextInButtonFromModule);
 

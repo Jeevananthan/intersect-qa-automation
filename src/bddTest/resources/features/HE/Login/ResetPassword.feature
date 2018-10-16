@@ -8,7 +8,6 @@ Feature: HE - Login - ResetPassword - As an HE User I should be able to reset my
       |Subject                                      |To                                     |Messages |
       |Intersect Forgot Password Verification Email |purpleheautomation+marketing@gmail.com |1        |
     Then HE I am logged in to Intersect HE as user type "marketing"
-    Then HE I successfully sign out
 
   @ignore
   Scenario: As an HE Admissions user I must provide a valid username or email address when attempting to reset my password

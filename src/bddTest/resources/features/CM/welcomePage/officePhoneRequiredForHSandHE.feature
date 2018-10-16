@@ -13,7 +13,6 @@ Scenario: The HS user profile activation page requires Office Phone
   And I accept Terms and conditions
   And I consent to create and maintain my Intersect account
   Then I Save changes
-  And HS I successfully sign out
 
 
 
@@ -28,7 +27,6 @@ Scenario: The HE user profile activation page requires Office Phone
   And I accept Terms and conditions
   And I consent to create and maintain my Intersect account
   Then I Save changes
-  And HE I successfully sign out
 
 
 
@@ -37,8 +35,6 @@ Scenario: The HS update user profile page requires Office Phone
   When I go to HS user profile page
   And I click on Edit profile button
   Then I check if office phone is required field
-  And HS I successfully sign out
-
 
 
 # This scenario is covered by MATCH-873 (Scenario MATCH-875)

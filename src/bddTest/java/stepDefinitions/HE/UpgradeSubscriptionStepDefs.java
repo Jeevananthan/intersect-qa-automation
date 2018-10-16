@@ -17,4 +17,7 @@ public class UpgradeSubscriptionStepDefs implements En {
             And("^HE I enter message on request information page \"([^\"]*)\"$",UpgradeSubscriptionPage :: enterAdditionalMessage);
             And("^HE I verify message is not more than \"([^\"]*)\" characters$",UpgradeSubscriptionPage :: verifyMessageCount);
             And("^HE I Edit The Contact Details with the following data$",UpgradeSubscriptionPage :: editContactDetails);
+            And("^HE I verify Upgrade Message for \"([^\"]*)\"$", UpgradeSubscriptionPage :: clickUpgradeFilter);
+            And("^HE I Verify Upgrade Filter Ribbon and Button for \"([^\"]*)\"$",UpgradeSubscriptionPage :: filterPremiumLock);
+            And("^HE I click on Upgrade button filter \"([^\"]*)\"$", UpgradeSubscriptionPage :: filterUpgradeClick);
     }}

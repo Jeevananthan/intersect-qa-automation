@@ -46,8 +46,10 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      */
     public void loginThroughFamilyConnection(String username, String password, String hsid) {
         // Just deleting cookies isn't enough to end your session in FC, so close the browser too.
-        getDriver().manage().deleteAllCookies();
-        getDriver().close();
+        try {
+            getDriver().manage().deleteAllCookies();
+            getDriver().close();
+        } catch (Exception e) {}
         navigateToFamilyConnection(hsid);
         // Sometimes the FC UI takes a long time to load, give it some extra room.
         getDriver().manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
@@ -60,7 +62,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(button("Find Your Fit"))).click();
         //SuperMatch™ College Search Next
         new WebDriverWait(getDriver(),20).until(ExpectedConditions.visibilityOf(link("SuperMatch®"))).click();
-        new WebDriverWait(getDriver(),40).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
+        new WebDriverWait(getDriver(),100).until(ExpectedConditions.visibilityOfElementLocated(By.className("supermatch-page")));
     }
 
     /**

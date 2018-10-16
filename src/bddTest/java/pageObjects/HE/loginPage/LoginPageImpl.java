@@ -33,7 +33,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openLoginPage(String url) {
-        deleteCookies();
         load(url);
         // If a previous test fails, we'll still have an open session.  Log out first.
         if (button(By.id("user-dropdown")).isDisplayed()) {
@@ -97,7 +96,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private void deleteCookies(){
         try {
-            driver.manage().deleteAllCookies();
+            getDriver().manage().deleteAllCookies();
         } catch (NoSuchSessionException nsse) {
             load("http://www.google.com");
         } catch (org.openqa.selenium.WebDriverException wde) {
@@ -442,6 +441,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
 
     public void clickLinkInRegisterationPage(String linkToClick){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText(linkToClick)));
         link(linkToClick).click();
     }
 

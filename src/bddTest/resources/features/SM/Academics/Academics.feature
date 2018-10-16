@@ -49,3 +49,61 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     And SM I remove the "Associate's [Any]" fit criteria from the Must Have box or Nice to Have box
     When SM I select the "Associate's" radio button from the Academics fit criteria
     Then SM I verify that the Must Have box contains "Associate's [Any]"
+
+  @MATCH-4105
+  Scenario Outline: Institution Type Updates in Academics
+    Given SM I click "Academics" filter criteria tab
+    And SM I select the "Bachelor's" radio button from the Academics fit criteria
+    And SM I click "Academics" filter criteria tab
+    And SM I pick "Acoustics" from the dropdown "<minorsDropdownLocator>"
+    Then SM I verify that the Must Have box contains "Major [Any]"
+    And SM I pick "Accounting" from the dropdown "<majorsDropdownLocator>"
+    Then SM I verify that the Must Have box contains "Major [1]"
+    Then SM I verify that the Must Have box contains "Minor [1]"
+  Examples:
+    | majorsDropdownLocator                                  | minorsDropdownLocator                                  |
+    | //div[@class = 'row'][1]//div[@class = 'default text'] | //div[@class = 'row'][2]//div[@class = 'default text'] |
+
+  @MATCH-3397
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by Degree Type within the Academics category
+  so I can see relevant colleges that match my Degree Type requirements.
+    Given SM I click "Academics" filter criteria tab
+    And SM I select the "<degreeType>" radio button from the Academics fit criteria
+    Then SM I verify that "Include online learning opportunities" checkbox is "unselected" in "Academics" fit criteria
+    And SM I select the "Include online learning opportunities" checkbox from "Academics" fit criteria
+    And SM I click "Academics" filter criteria tab
+    Then I check if I can see "Start typing..." on the page
+    And SM I pick "<program>" from the dropdown "input.search + span + div"
+    Then SM I verify that the option "<program>" was added to the dropdown field
+    And SM I remove the option "<program>" from the dropdown field
+    And SM I select the "Search for institutions that have ALL of my selected programs" checkbox from "Academics" fit criteria
+    Examples:
+    | degreeType   | program  |
+    | Certificate  | Accounting      |
+    | Associate's  | Accounting      |
+    | Master's     | Accounting and Business/Management |
+    | Doctorate    | Accounting and Business/Management |
+    | Graduate Certificate | Aboriginal/Indigenous Studies |
+
+  @MATCH-3584
+  Scenario: As a HS student trying to search for colleges via the Degree Type fit criteria and search box, I want to be
+  able to search for keywords when trying to find Majors so I don't have to be familiar with super specific specialties within that Major's field.
+    And SM I select the "Bachelor's" radio button from the Academics fit criteria
+    And SM I click "Academics" filter criteria tab
+    And SM I search the keyword "indigenous" in Majors
+    And I select the option "Keyword: "INDIGENOUS [2]"" from the list "span.text"
+    Then SM I verify that the option "Keyword: "INDIGENOUS [2]"" was added to the dropdown field
+    Then SM I verify that the option "Aboriginal/Indigenous Studies" was added to the dropdown field
+    Then SM I verify that the option "Indigenous Health" was added to the dropdown field
+    Then SM I remove the option "Keyword: "INDIGENOUS [2]"" from the dropdown field
+    Then SM I verify that 0 items are displayed in the dropdown field
+    And SM I search the keyword "indigenous" in Majors
+    And I select the option "Keyword: "INDIGENOUS [2]"" from the list "span.text"
+    And SM I remove the option "Aboriginal/Indigenous Studies" from the dropdown field
+    Then SM I verify that 1 items are displayed in the dropdown field
+    And SM I remove the option "Indigenous Health" from the dropdown field
+    And SM I search the keyword "indigenous" in Majors
+    And I select the option "Keyword: "INDIGENOUS [2]"" from the list "span.text"
+    And SM I search the keyword "anatomy" in Majors
+    And I select the option "Keyword: "ANATOMY [5]"" from the list "span.text"
+    Then SM I verify that 9 items are displayed in the dropdown field

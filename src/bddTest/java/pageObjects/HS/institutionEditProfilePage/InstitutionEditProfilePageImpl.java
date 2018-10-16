@@ -40,56 +40,57 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
             switch (key) {
                 case "Country":
                     driver.findElement(By.name("country")).click();
-                    driver.findElement(By.cssSelector("input[class='search']")).click();
-                    driver.findElement(By.cssSelector("input[class='search']")).sendKeys(data.get(key));
+//                    waitUntilElementExists(driver.findElement(By.cssSelector("input[class='search']")));
+//                    driver.findElement(By.cssSelector("input[class='search']")).click();
+                    driver.findElement(By.cssSelector("input[class='search focus-visible']")).sendKeys(data.get(key));
                     break;
                 case "Charter School":
                     WebElement drpCharterSchool = driver.findElement(By.id("charterSchool"));
                     drpCharterSchool.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpCharterSchool.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")));
+                    jsClick(drpCharterSchool.findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
                 case "Coeducational":
                     WebElement drpCoeducational = driver.findElement(By.id("coeducational"));
                     drpCoeducational.click();
                     waitUntilPageFinishLoading();
-                    drpCoeducational.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")).click();
+                    drpCoeducational.findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")).click();
                     waitUntilPageFinishLoading();
                     break;
                 case "Highest Grade":
                     WebElement drpHighestGrade = driver.findElement(By.id("highestGrade"));
                     drpHighestGrade.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpHighestGrade.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//div [@id='highestGrade']/div/div/span[contains(text(),'" + data.get(key)+"')]")));
+                    jsClick(drpHighestGrade.findElement(By.xpath("//div [@id='highestGrade']/div/div/span[contains(text(),'" + data.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
                 case "Lowest Grade":
                     WebElement drpLowestGrade = driver.findElement(By.id("lowestGrade"));
                     drpLowestGrade.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpLowestGrade.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//div [@id='lowestGrade']/div/div/span[contains(text(),'" + data.get(key)+"')]")));
+                    jsClick(drpLowestGrade.findElement(By.xpath("//div [@id='lowestGrade']/div/div/span[contains(text(),'" + data.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
                 case "School Level":
                     WebElement drpSchoolLevel = driver.findElement(By.id("schoolLevel"));
                     drpSchoolLevel.click();
                     waitUntilPageFinishLoading();
-                    drpSchoolLevel.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")).click();
+                    drpSchoolLevel.findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")).click();
                     waitUntilPageFinishLoading();
                     break;
                 case "School Type Options":
                     WebElement drpSchoolType = driver.findElement(By.id("schoolPublicType"));
                     drpSchoolType.click();
                     waitUntilPageFinishLoading();
-                    drpSchoolType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")).click();
+                    drpSchoolType.findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")).click();
                     waitUntilPageFinishLoading();
                     break;
                 case "Title I Eligible":
                     WebElement drpEligible = driver.findElement(By.id("titleEligible"));
                     drpEligible.click();
                     waitUntilPageFinishLoading();
-                    drpEligible.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")).click();
+                    drpEligible.findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")).click();
                     waitUntilPageFinishLoading();
                     break;
                 case "Title I Status":
@@ -97,7 +98,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
                     drpStatus.click();
                     waitUntilPageFinishLoading();
                     //TODO - This doesn't work for all values of this dropdown, for unknown reasons.  "Unknown", in particular, does not work.
-                    jsClick(drpStatus.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")));
+                    jsClick(drpStatus.findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
                 default:
@@ -118,7 +119,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
 
     public void navigateToInstitutionProfile() {
         waitUntilPageFinishLoading();
-        navigationBar.goToCommunityInHS();
+        getNavigationBar().goToCommunityInHS();
         waitForUITransition();
         communityFrame();
         driver.findElement(By.xpath("//a[text()='Institution']")).click();

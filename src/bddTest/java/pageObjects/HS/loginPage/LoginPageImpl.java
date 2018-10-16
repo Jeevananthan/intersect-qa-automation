@@ -94,51 +94,36 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openNonNavianceLoginPage(){
-        try {
-            driver.manage().deleteAllCookies();
-        } catch (NoSuchSessionException nsse) {
-            load("http://www.google.com");
-        } catch (org.openqa.selenium.WebDriverException wde) {
-            load("http://www.google.com");
-        }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
 
     }
 
     public void searchForHSInstitution(String institutionName,String institutionType){
-
-        if(institutionType.equalsIgnoreCase("high school")){
-            button("High School Staff Member").click();
+        if(institutionType.equalsIgnoreCase("High school"))
+        highSchoolStaffMember().click();
+        inputTextBox().click();
+        inputTextBox().clear();
+        inputTextBox().sendKeys(institutionName);
+        searchButton().click();
+        waitUntilPageFinishLoading();
+        while (showMore().size()==1){
+            showMoreButton().click();
+            waitUntilPageFinishLoading();
         }
-        else{
-            button("Higher Education Staff Member").click();
+        List<WebElement> schoolList = driver.findElements(By.xpath("//td/a[contains(text(),'"+institutionName+"')]"));
+        if(schoolList.size()==0) {
+            inputTextBox().click();
+            inputTextBox().clear();
+            inputTextBox().sendKeys(institutionName);
+            List<WebElement> school = driver.findElements(By.xpath("//div[contains(text(),'" + institutionName + "')]"));
+            if (school.size() == 1)
+                driver.findElement(By.xpath("//div[contains(text(),'" + institutionName + "')]")).click();
+        }else {
+            driver.findElement(By.xpath("//td/a[contains(text(),'"+institutionName+"')]")).click();
         }
-
-        driver.findElement(By.cssSelector("input[class='prompt']")).clear();
-        driver.findElement(By.cssSelector("input[class='prompt']")).sendKeys(institutionName);
-        button("Search").click();
-        while(button("More Institutions").isDisplayed()){
-            button("More Institutions").click();
-        }
-
-        if(!institutionName.equalsIgnoreCase("Request new institution")){
-
-            if(driver.findElement(By.xpath("//table[@id='institution-list']")).isDisplayed() &&  link(institutionName).isDisplayed()){
-                logger.info("Results are displayed after the search");
-                link(institutionName).click();
-            }
-            else{
-                logger.info("Results are not displayed after the search");
-            }
-        }
-        else{
-            link(institutionName).click();
-        }
-
-        Assert.assertTrue("Institution Page is not loaded",text(institutionName).isDisplayed());
-        link("Back to search").click();
-
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h1[text()='"+institutionName+"']")));
+        Assert.assertTrue("Institution is displayed",driver.findElement(By.xpath("//div/h1[text()='"+institutionName+"']")).isDisplayed());
     }
 
     public void clickNewUserBtn(){
@@ -154,11 +139,19 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     private void openNavianceLoginPage() {
 
         try {
-            driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-            //driver.executeScript( GetProperties.get("naviance.app.url"));
+            //getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
             load(GetProperties.get("naviance.app.url"));
+            try {
+                setImplicitWaitTimeout(2);
+                getDriver().findElement(By.xpath("//a[@href='/legacy']")).click();
+                resetImplicitWaitTimeout();
+            } catch (Exception e2) {
+                resetImplicitWaitTimeout();
+                logger.info("New Naviance login page was not shown, using legacy flow.");
+            }
+            waitUntilPageFinishLoading();
         } catch (Exception e) {
-            getDriver().close();
+            try{getDriver().close();} catch (Exception e2) { logger.info("Tried to call .close() on an already killed session."); }
             load("http://www.google.com");
             System.out.println("Page: " + GetProperties.get("naviance.app.url") + " did not load within 40 seconds!");
         }
@@ -244,13 +237,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openHSLoginPage() {
-        try {
-            driver.manage().deleteAllCookies();
-        } catch (NoSuchSessionException nsse) {
-            load("http://www.google.com");
-        } catch (org.openqa.selenium.WebDriverException wde) {
-            load("http://www.google.com");
-        }
         load(GetProperties.get("hs.app.url"));
         waitUntilPageFinishLoading();
     }
@@ -271,7 +257,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLogoInHomePage()
     {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         String intersectLogo="https://static.intersect.hobsons.com/images/counselor-community-by-hobsons-rgb-white.png";
         String actualIntersectLogo=driver.findElement(By.cssSelector("dt[class='header _2_tAB8btcE4Sc5e1O_XUwn']>img[alt='Intersect Logo']")).getAttribute("src");
@@ -398,13 +384,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public void defaultLoginForSupport() {
-        try {
-            driver.manage().deleteAllCookies();
-        } catch (NoSuchSessionException nsse) {
-            load("http://www.google.com");
-        } catch (org.openqa.selenium.WebDriverException wde) {
-            load("http://www.google.com");
-        }
         openLoginPageSupport();
         String username = GetProperties.get("sp.admin.username");
         String password = GetProperties.get("sp.admin.password");
@@ -466,5 +445,25 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private WebElement nextButtonToSupport() {
         return driver.findElement(By.cssSelector("input[class='btn btn-block btn-primary']"));
+    }
+
+    private WebElement inputTextBox(){
+        return driver.findElement(By.cssSelector("input[class='prompt']"));
+    }
+
+    private WebElement highSchoolStaffMember(){
+        return driver.findElement(By.xpath("//button/span[text()='High School Staff Member']"));
+    }
+
+    private WebElement searchButton(){
+        return driver.findElement(By.xpath("//button/span[text()='Search']"));
+    }
+
+    private List<WebElement> showMore(){
+        return driver.findElements(By.xpath("//button/span[text()='More Institutions']"));
+    }
+
+    private WebElement showMoreButton(){
+        return driver.findElement(By.xpath("//button/span[text()='More Institutions']"));
     }
 }
