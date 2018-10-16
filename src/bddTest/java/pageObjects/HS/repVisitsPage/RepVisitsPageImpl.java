@@ -1986,10 +1986,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         // If we're using a previously set Dynamic fair name, look for that instead.
         if (fairName.equalsIgnoreCase("PreviouslySetFair"))
             fairName = FairName;
-        WebElement viewDetails = getDriver().findElement(By.xpath("//td[text()='"+fairName+"']/../td/following-sibling::td/a/span[text()='View Details']"));
+        WebElement viewDetails = getDriver().findElement(By.xpath("//td[text()='"+FairName+"']/../td/following-sibling::td/a/span[text()='View Details']"));
         waitUntilElementExists(viewDetails);
         viewDetails.click();
-    }
+}
 
     public void findMonth(String month) {
         waitUntilPageFinishLoading();
@@ -3401,10 +3401,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             case "Automatically Confirm Incoming Requestions From Colleges?":
                 scrollDown(driver.findElement(By.id("college-fair-automatic-request-confirmation-yes")));
                 if(data.equalsIgnoreCase("yes")) {
-                    radioButton(By.id("college-fair-automatic-request-confirmation-yes")).click();
+                    settingsCollegeFairYesRadioButton();
                 }
                 else {
-                    radioButton(By.id("college-fair-automatic-request-confirmation-no")).click();
+                    settingsCollegeFairNoRadioButton();
                 }
                 break;
             case "Email Message to Colleges After Confirmation":
@@ -4170,17 +4170,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.xpath("//textarea[@id='attendee-cancellation-message']")).clear();
             driver.findElement(By.xpath("//textarea[@id='attendee-cancellation-message']")).sendKeys(cancellationMessage);
             //verify 'Yes, cancel visit" Button
-            Assert.assertTrue("Button 'Yes, cancel visit' is not displayed",driver.findElement(By.cssSelector("button[class='ui red small right floated button']")).isDisplayed());
+            Assert.assertTrue("Button 'Yes, cancel attendee' is not displayed",yesCancelAttendeeLink().isDisplayed());
         }
 
         if(!buttonToClick.equals("")) {
             if(buttonToClick.equals("No, go back")){
-                WebElement goBackButton = driver.findElement(By.cssSelector("button[id='go-back']"));
-                goBackButton.click();
+
+                noGoBackButton().click();
                 waitUntilPageFinishLoading();
             }else if(buttonToClick.equals("Yes, cancel visit")){
-                WebElement yesCancelVisit = driver.findElement(By.cssSelector("button[class='ui red small right floated button']"));
-                yesCancelVisit.click();
+                yesCancelAttendeeLink().click();
                 waitUntilPageFinishLoading();
             }else{
                 Assert.fail("The given option for the button to click is not a valid one");
@@ -9169,5 +9168,13 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement onlyMeRadioButton(){  return getDriver().findElement(By.xpath("//label[text()='Only Me']")); }
 
     private WebElement allRepVisitsUsersRadioButton(){  return getDriver().findElement(By.xpath("//label[text()='All RepVisits Users']")); }
+
+    private void settingsCollegeFairNoRadioButton() { jsClick(driver.findElement(By.id("college-fair-automatic-request-confirmation-no")));  }
+
+    private void settingsCollegeFairYesRadioButton() { jsClick(driver.findElement(By.id("college-fair-automatic-request-confirmation-yes")));  }
+
+    private WebElement yesCancelAttendeeLink() { return driver.findElement(By.cssSelector("button[class='ui negative right floated button']"));  }
+
+    private WebElement noGoBackButton() { return driver.findElement(By.cssSelector("button[id='go-back']"));  }
 
 }
