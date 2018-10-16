@@ -9,6 +9,15 @@ Feature: SM - FavoriteSchools - As a HS student, I want to be able to Favorite s
     Then SM I clear all pills from Must have  and Nice to have boxes
     Then SM I select the "25% or Lower" checkbox from "Admission" fit criteria
     Then SM I select the "Northeast" checkbox from "Location" fit criteria
+    Then SM I un-favorite the school "Cornell University"
     And SM I store the "THINKING ABOUT" value from the footer
     Then SM I favorite the school "Cornell University"
     And SM I verify that the "THINKING ABOUT" value from the footer is "greater than" the value stored earlier
+    Then SM I press Why button for "Cornell University" college
+    Then SM I un-favorite the school "Cornell University" from the why drawer
+    And SM I verify that the "THINKING ABOUT" value from the footer is "equal to" the value stored earlier
+    Then SM I favorite the school "Cornell University" from the why drawer
+    And SM I close the why drawer
+    And SM I verify that the "THINKING ABOUT" value from the footer is "greater than" the value stored earlier
+    Then SM I un-favorite the school "Cornell University"
+    And SM I verify that the "THINKING ABOUT" value from the footer is "equal to" the value stored earlier

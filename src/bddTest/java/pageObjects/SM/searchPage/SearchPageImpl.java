@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -17,8 +16,6 @@ import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -2213,7 +2210,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void storeValueFromFooter(String type) {
         switch(type) {
             case "THINKING ABOUT":
-                thinkingAboutCount = Integer.parseInt(getTinkingAboutValue().getText());
+                thinkingAboutCount = Integer.parseInt(getThinkingAboutValue().getText());
                 break;
             case "APPLYING TO":
                 applyingToCount = Integer.parseInt(getApplyingToValue().getText());
@@ -2233,11 +2230,71 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void favoriteSchool(String schoolName) {
         try {
             setImplicitWaitTimeout(2);
-            getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite")).click();
+            WebElement favoriteLink = getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite"));
+            if (favoriteLink.findElement(By.xpath("./span/span[contains(@class, 'empty')]")).isDisplayed()) {
+                favoriteLink.click();
+            }
             waitUntilPageFinishLoading();
             resetImplicitWaitTimeout();
         } catch (Exception e) {
-            logger.info("School: '" + schoolName + "' was not found, or is already favorited");
+            logger.info("School: '" + schoolName + "' was not found, or was already favorited.");
+            resetImplicitWaitTimeout();
+        }
+    }
+
+    /**
+     * Un-favorites the school passed to the method if possible.  Continues with info message if school is not found or wasn't favorited.
+     * @param schoolName Name of the school to be un-favorited
+     */
+    public void unFavoriteSchool(String schoolName) {
+        try {
+            setImplicitWaitTimeout(2);
+            WebElement favoriteLink = getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite"));
+            if (favoriteLink.findElement(By.xpath("./span/span[@class='heart icon')]")).isDisplayed()) {
+                favoriteLink.click();
+            }
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            logger.info("School: '" + schoolName + "' was not found, or was already un-favorited.");
+            resetImplicitWaitTimeout();
+        }
+    }
+
+    /**
+     * Favorites the school passed to the method in the why drawer if possible.  Continues with info message if school is not found or already favorited.
+     * @param schoolName Name of the school to be favorited
+     */
+    public void favoriteSchoolFromWhyDrawer(String schoolName) {
+        try {
+            setImplicitWaitTimeout(2);
+            WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span[contains(@class, 'empty')]")).isDisplayed()) {
+                whyDrawerFavoriteLink.click();
+            }
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            logger.info("School: '" + schoolName + "' was not found, or was already favorited.");
+            resetImplicitWaitTimeout();
+        }
+    }
+
+    /**
+     * Un-favorites the school passed to the methodin the why drawer if possible.  Continues with info message if school is not found or wasn't favorited.
+     * @param schoolName Name of the school to be un-favorited
+     */
+    public void unFavoriteSchoolFromWhyDrawer(String schoolName) {
+        try {
+            setImplicitWaitTimeout(2);
+            WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span[@class='heart icon')]")).isDisplayed()) {
+                whyDrawerFavoriteLink.click();
+            }
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            logger.info("School: '" + schoolName + "' was not found, or was already un-favorited.");
             resetImplicitWaitTimeout();
         }
     }
@@ -2254,7 +2311,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         switch(type) {
             case "THINKING ABOUT":
-                currentThinkingAbout = Integer.parseInt(getTinkingAboutValue().getText());
+                currentThinkingAbout = Integer.parseInt(getThinkingAboutValue().getText());
                 compareValues(currentThinkingAbout,thinkingAboutCount,direction);
                 break;
             case "APPLYING TO":
@@ -2267,6 +2324,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 break;
             default:
                 Assert.assertTrue(type + " is not a valid value for the type of value in the footer.",false);
+        }
+    }
+
+    /**
+     * Closes the why drawer if it is open.
+     */
+    public void closeWhyDrawer() {
+        try {
+            whyDrawerCloseButton().click();
+        } catch (Exception e) {
+            logger.info("Why drawer close button was not found.");
         }
     }
 
@@ -2292,13 +2360,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-
     // Locators Below
 
     private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"'")))));}
     private WebElement getPinnedValue() { return pinnedDropdown().findElement(By.xpath("./span/div"));}
     private WebElement getApplyingToValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Applying To']/div")); }
-    private WebElement getTinkingAboutValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Thinking About']/div")); }
+    private WebElement getThinkingAboutValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Thinking About']/div")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
@@ -2493,7 +2560,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
 
-    public WebElement profilePageCollegeName() { return driver.findElement(By.cssSelector("h1.masthead__name.ng-binding")); }
+    private WebElement profilePageCollegeName() { return driver.findElement(By.cssSelector("h1.masthead__name.ng-binding")); }
+
+    private WebElement whyDrawer() { return getDriver().findElement(By.xpath("//div[contains(@class,'supermatch-sidebar')]")); }
 
     private WebElement whyDrawerButton(String collegeName) { return driver.findElement(By.xpath("//a[text()='" + collegeName + "']/../../../following-sibling::td/div/button")); }
 
