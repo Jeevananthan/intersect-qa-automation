@@ -78,6 +78,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Zips" :
                     if (!row.get(1).equals("None")) {
+                        chooseZipsField().clear();
                         chooseZipsField().sendKeys(row.get(1));
                     }
                     break;
@@ -175,6 +176,12 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
 
 
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).click();
+        waitUntilPageFinishLoading();
+        deleteButton().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
     }
 
     public void verifyValueRadiusFromZips(String expectedValue) {
@@ -195,6 +202,13 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
 
 
+
+    }
+
+    public void openSubscription(String subscriptionName){
+        driver.navigate().refresh();
+        waitUntilPageFinishLoading();
+        clickSubscriptionName(subscriptionName).click();
 
     }
 
@@ -254,6 +268,9 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    private WebElement clickSubscriptionName(String subName){
+        return  driver.findElement(By.xpath("//a[text()='" + subName + "']"));
+    }
 }
 
 

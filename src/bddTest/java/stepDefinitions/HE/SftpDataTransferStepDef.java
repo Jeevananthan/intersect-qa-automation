@@ -28,5 +28,16 @@ public class SftpDataTransferStepDef implements En {
         And("^I generate a new SSH Key$",sftpDataTransferPage::generateSSHKey);
         And("^I verify a new SSH key was generated$",sftpDataTransferPage::verifySshKeyWasGenerated);
         And("^I verify the generated ssh key message that says \"([^\"]*)\"$",sftpDataTransferPage::verifyGeneratedSshKeyMessage);
+        And("^HE I setup a SFTP connection with the following data$",sftpDataTransferPage::setupFtpConnection);
+        And("^HE I verify that clicking on GO BACK button it cancels the configuration deletion$", sftpDataTransferPage::verifyGoBackButtonBehaviorWhenDeletingConnection);
+        And("^HE I verify that the success toast that says \"([^\"]*)\" is displayed$", sftpDataTransferPage::verifySuccessToastText);
+        And("^HE I enable the server fingerprint verification$", sftpDataTransferPage::enableServerFingerPrintVerification);
+        And("^HE I verify that the new fingerprint detected alert box has the text \"([^\"]*)\"$", sftpDataTransferPage::verifyTextInNewFingerprintDetectedAlertBox);
+        And("^HE I select the Yes, Fingerprint is Correct link$", sftpDataTransferPage::clickOnYesFingerPrintIsCorrect);
+        And("^HE I verify that the server fingerprint verification is enabled$", sftpDataTransferPage::verifyFingerPrintToVerifyServerIsEnabled);
+        And("^HE I disable the server fingerprint verification$", sftpDataTransferPage::disableServerFingerPrintVerification);
+        And("^HE I select the Disable Server Fingerprint Verification link$", sftpDataTransferPage::clickOnDisableFingerPrintVerification);
+        And("^HE I verify that the server fingerprint verification is disabled$", sftpDataTransferPage::verifyFingerPrintToVerifyServerIsNotEnabled);
+        And("^HE I verify that the new fingerprint detected alert box is not displayed$", sftpDataTransferPage::verifyNewFingerPrintDetectedAlertBoxIsNotDisplayed);
     }
 }
