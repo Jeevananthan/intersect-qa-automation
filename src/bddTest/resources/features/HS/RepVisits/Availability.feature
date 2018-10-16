@@ -49,7 +49,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
     Examples:
       |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
       |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
-      |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
+#      |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
 
   @MATCH-1574
   Scenario: As a high school staff member,
@@ -62,7 +62,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
   Scenario: As a HS RepVisits user I can able to access the Visit Confirmation in the Availability Settings page
   So that i can able to fix the appointment for the High school
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
+    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests."
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
     Then HS I verify the Availability Settings section of the Availability subtab in the Availability & Settings page in RepVisits has the following data

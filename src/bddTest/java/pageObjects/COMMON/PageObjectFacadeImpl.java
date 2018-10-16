@@ -23,11 +23,11 @@ public class PageObjectFacadeImpl extends SeleniumBase {
 
     private Logger logger;
     public NavBarImpl navBar;
-    public  NavigationBarImpl navigationBar;
     public GlobalSearch globalSearch;
 
     protected PageObjectFacadeImpl() {
         logger = Logger.getLogger(PageObjectFacadeImpl.class);
+        // navBar is still required for the SP webapp, as it has not been updated to use the new NavigationBar
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
     }
@@ -35,7 +35,6 @@ public class PageObjectFacadeImpl extends SeleniumBase {
       public NavigationBarImpl getNavigationBar(){
         return new NavigationBarImpl();
     }
-
 
     /**
      * Uses JavaScript to click on an element.  This is occasionally necessary because Selenium thinks that something
