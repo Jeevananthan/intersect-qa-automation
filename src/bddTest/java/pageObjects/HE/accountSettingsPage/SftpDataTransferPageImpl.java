@@ -328,7 +328,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     private void setUpNewFingerPrint(String action){
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(connectionLoaderLocator()));
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(warningToast()));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(warningToastLocator()));
         if(action.equalsIgnoreCase("yes")){
             waitUntil(ExpectedConditions.visibilityOfElementLocated(yesFingerPrintIsCorrectLinkLocator()));
             clickOnYesFingerPrintIsCorrect();
@@ -363,7 +363,17 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
         selectCheckFingerprintToVerifyServerCheckBox("yes");
         testAndSaveButton().click();
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(connectionLoaderLocator()));
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(warningToast()));
+    }
+
+    /**
+     * Verifies the given test is displayed in the warning toasts
+     * @param expectedText
+     */
+    public void verifyWarningToastText(String expectedText){
+        String actualText = warningToast().getText();
+        Assert.assertTrue(String.format("The toast text is not correct, expected: %s, actual: %s",
+                expectedText,actualText), actualText.contains(expectedText));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(warningToastLocator()));
     }
 
     /**
@@ -710,7 +720,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * Gets the warning toast
      * @return WebElement
      */
-    private By warningToast(){
+    private By warningToastLocator(){
         return By.cssSelector("div[class='ui small icon warning message toast _2Z22tp5KKn_l5Zn5sV3zxY']");
     }
 
@@ -720,5 +730,13 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement lastUpdatedConnectionLabel(){
         return getDriver().findElement(By.cssSelector("p[class='iNe0n_IA95vyfA4hNXQYl']"));
+    }
+
+    /**
+     * Gets the warning toast
+     * @return WebElement
+     */
+    private WebElement warningToast(){
+        return getDriver().findElement(warningToastLocator());
     }
 }

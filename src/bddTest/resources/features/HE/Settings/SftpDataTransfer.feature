@@ -96,7 +96,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           |id:|scid:|modifiedBy:|secretName:|createdDate:|lastModified:|
 
 
-        @MATCH-4973
+        @MATCH-4973 @MATCH-4947
         Scenario: As an HE admin associated with an HE institution that has an active AMPLUS subscription and that has
         enabled Server Fingerprint Verification for my SFTP Data Transfer for Student Connections, I want the ability to
         preview the detected fingerprint at both set-up as well as if a mismatch has been detected following confirmation,
@@ -106,6 +106,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
             |host          |port|path    |userName|password         |transferFrequency  |checkFingerPrintToVerifyServer|
             |209.97.159.244|22  |/uploads|sftpme  |bruh-you-can-SFTP|mon,tue,wed,thu,fri|no                            |
           And HE I enable the server fingerprint verification
+          Then HE I verify that the warning toast that says "Configuration saved with errors" is displayed
           Then HE I verify that the new fingerprint detected alert box has the text "New fingerprint detected. Please take action to unblock file transfers."
           And HE I verify that the new fingerprint detected alert box has the text "Confirm with your administrator that this is your server's fingerprint:"
           And HE I verify that the new fingerprint detected alert box has the text "c0:4a:58:71:41:f8:44:75:94:7e:2c:a1:d8:9f:f0:b7"

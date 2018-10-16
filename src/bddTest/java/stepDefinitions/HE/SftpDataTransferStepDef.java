@@ -43,5 +43,6 @@ public class SftpDataTransferStepDef implements En {
         And("^HE I verify the last updated label has the text: \"([^\"]*)\"$", sftpDataTransferPage::verifyConnectionLastUpdateText);
         And("^HE I go to the Main Sftp Connection page$",sftpDataTransferPage::goToSftpConnectionMainPageThroughTitleLink);
         And("^HE fill the sftp connection form with the following data$",sftpDataTransferPage::fillSftpConnectionData);
+        And("^HE I verify that the warning toast that says \"([^\"]*)\" is displayed$", sftpDataTransferPage::verifyWarningToastText);
     }
 }
