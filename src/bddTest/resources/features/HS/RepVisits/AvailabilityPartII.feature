@@ -34,7 +34,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
 #    And HS I verify the update button appears and I click update button
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
     Then HS I verify the StartDate is set to "<verifyStartDate>" and EndDate is set to "<verifyEndDate>"
 
