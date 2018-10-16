@@ -17,6 +17,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
     Then HS I Click on the "Edit" button in the College Fair Details Page
     Then HS I set the data to the Edit a college Fair "<College Fair Name>","<VerifyDateEdit>","<Cost>","<NumberofStudentsExpected>","<MaxNumberofColleges>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<ButtonToClick>"
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     Examples:
       |College Fair Name    |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
       |QA Test Fair New/Edit|35              |0900AM    |1000AM  |7                |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2018|Wednesday, Nov 15, 2018|09:00          |10:00        |
@@ -45,6 +47,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
     Then  HS I click on Send Message
     Then  HS I verify confirmation message
+    Then HS I Click on the View Details button for the College Fair Event "Automation Fair for Mass Email"
+    Then HS I select Edit button to cancel the college Fair "Automation Fair for Mass Email"
     And HS I successfully sign out
 
   @MATCH-1462
@@ -67,6 +71,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Attendee"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
+    Then HS I Click on the View Details button for the College Fair Event "Automation Fair Add Attendee"
+    Then HS I select Edit button to cancel the college Fair "Automation Fair Add Attendee"
     And HS I successfully sign out
 
   @MATCH-1462
@@ -97,6 +103,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       |Position  |Alma Tester        |
       |Institution|Alma College    |
     Then HS I click on button Add attendees
+    Then HS I Click on the View Details button for the College Fair Event "Automation Fair Add Manual Attendee"
+    Then HS I select Edit button to cancel the college Fair "Automation Fair Add Manual Attendee"
     And HS I successfully sign out
 
 
@@ -156,6 +164,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I verify the Success Message for the College Fair "<CollegeFairName>"
     Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I verify the data for the fair present on the College Fair Overview page "PreviouslySetFair","<date>","<CollegesRegistered>","<RSVPBy>","<Time>","<ViewDetails>"
+    Then HS I Click on the View Details button for the College Fair Event "<CollegeFairName>"
+    Then HS I select Edit button to cancel the college Fair "<CollegeFairName>"
     And HS I successfully sign out
 
   Examples:
@@ -173,6 +183,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       |PurpleHE Automation|
     Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "PurpleHE Automation"
     Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
+    Then HS I Click on the View Details button for the College Fair Event "QA Test Fair New/Edit"
+    Then HS I select Edit button to cancel the college Fair "QA Test Fair New/Edit"
     And HS I successfully sign out
 
   @MATCH-2382
