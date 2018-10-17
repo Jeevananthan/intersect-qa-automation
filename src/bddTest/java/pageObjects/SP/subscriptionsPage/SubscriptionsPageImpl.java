@@ -173,7 +173,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             deleteButton().click();
 
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(subscriptionRemoveButton(diversity, startDate))));
 
 
         waitUntilPageFinishLoading();
@@ -181,7 +181,6 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         deleteButton().click();
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
     }
 
     public void verifyValueRadiusFromZips(String expectedValue) {
