@@ -107,3 +107,14 @@ Feature: SM - Academics - Academics - As a HS student, I need to be able to sear
     And SM I search the keyword "anatomy" in Majors
     And I select the option "Keyword: "ANATOMY [5]"" from the list "span.text"
     Then SM I verify that 9 items are displayed in the dropdown field
+
+  @MATCH-3709
+  Scenario: As a HS student that is comparing my pinned schools, I want to see Academics details about each college
+  side by side so I can determine which pinned college is a best fit for me based on their Academics.
+    And SM I clear all the pinned college
+    And SM I search for "Drake College of Business" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify all the below options available in Academics fit criteria in Academics expandable drawer
+      |Degree Types| Online Learning|# of 2 Year Majors|# of 4 Year Majors|# of Minors |
+      |Certificate| No| 0 |0| Unknown|
+
