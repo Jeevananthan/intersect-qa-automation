@@ -398,6 +398,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
     }
 
+    public void verifyRadioButtonIsSelected(String radioButtonText) {
+        Assert.assertTrue("Radio button" + radioButtonText + " is selected", getRadioButtonLabelByText(radioButtonText).isSelected());
+    }
+
+
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
@@ -1760,6 +1765,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyOptionsInOnCampusHousingSelectPercentDropdown(DataTable dataTable) {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Institution Characteristics");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        onCampusHousingPercentDropdownChevron().click();
+
+        List<String> outOfStateStudentsPercentOptionsActual = onCampusHousingPercentDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = outOfStateStudentsPercentOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in On-Campus Housing 'Select %' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+
+    }
+
     public void verifyOptionsInSelectGenderDropdown(DataTable dataTable)
     {
         int optionIndex = 0;
@@ -2035,17 +2063,25 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void pickFromDropdown(String choice, String dropdown){
         try {
+            setImplicitWaitTimeout(2);
             driver.findElement(By.className(dropdown)).click();
+            resetImplicitWaitTimeout();
         }
         catch (Exception e){
             try {
+                setImplicitWaitTimeout(2);
                 driver.findElement(By.id(dropdown)).click();
+                resetImplicitWaitTimeout();
             }
             catch (Exception exp){
                 try {
+                    setImplicitWaitTimeout(2);
                     driver.findElement(By.cssSelector(dropdown)).click();
+                    resetImplicitWaitTimeout();
                 } catch (Exception f) {
+                    setImplicitWaitTimeout(2);
                     driver.findElement(By.xpath(dropdown)).click();
+                    resetImplicitWaitTimeout();
                 }
             }
         }
@@ -2363,6 +2399,36 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         diversityRaceDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
     }
 
+    public void verifyMatchScoreByPosition(Integer position, String operator, Integer referenceNumber) {
+        int matchScore = Integer.parseInt(getMatchScoreByPosition(position.toString()).getText());
+        switch (operator) {
+            case "<" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore < referenceNumber);
+                break;
+            case ">" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore > referenceNumber);
+                break;
+            case "=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore == referenceNumber);
+                break;
+            case "<=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore <= referenceNumber);
+                break;
+            case ">=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore >= referenceNumber);
+                break;
+        }
+
+    }
+
+    public void closeFitCriteriaWindow() {
+        getFitCriteriaCloseButton().click();
+    }
 
     // Locators Below
 
@@ -2503,6 +2569,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement diversityRaceDropdown(){
         return driver.findElement(By.id("supermatch-diversity-race-dropdown"));
+    }
+
+    private WebElement getRadioButtonLabelByText(String radioButtonText) {
+        return driver.findElement(By.xpath("//label[text()='" + radioButtonText + "']/../input"));
     }
 
     private WebElement maleFemalePercentDropdown(){
@@ -2724,6 +2794,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElements(By.xpath("//div[@id='OutOfStateStudents-dropdown']//span"));
     }
 
+    private WebElement onCampusHousingPercentDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='on-campus-housing-dropdown']/i"));
+    }
+
+    private List<WebElement> onCampusHousingPercentDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='on-campus-housing-dropdown']//span"));
+    }
+
     private WebElement startOverButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button.supermatch-start-over-button")); }
 
     private WebElement yesStartOverLink() { return driver.findElement(By.cssSelector("div.actions button:not([default=''])")); }
@@ -2891,5 +2969,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement collegeCellInResultsTableByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") td.left.aligned"));
+    }
+
+    private WebElement getMatchScoreByPosition(String position) {
+        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
     }
 }
