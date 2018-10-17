@@ -1453,6 +1453,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyBackToTopButtonFunctionality() {
         backToTopButton().sendKeys(Keys.END);
+        waitForUITransition();
         backToTopButton().sendKeys(Keys.RETURN);
         waitUntilPageFinishLoading();
         JavascriptExecutor executor = driver;
@@ -2962,7 +2963,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement visibleFooterOpenMenu() {
         return driver.findElement(By.xpath("//div[contains(@class, 'menu transition visible')]"));
     }
-
+  
     private WebElement collegeInResultsTableByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") div.institution-details-cell a.result-row-decription-label"));
     }
@@ -2975,3 +2976,4 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
     }
 }
+
