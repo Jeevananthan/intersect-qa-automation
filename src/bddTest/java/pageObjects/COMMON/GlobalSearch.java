@@ -160,7 +160,6 @@ public class GlobalSearch extends SeleniumBase {
                 for (WebElement option : options) {
                     if (option.getText().toLowerCase().contains(schoolHSResults.toLowerCase())) {
                         itemFound = true;                    }
-                    //Assert.assertTrue(searchTerm + " HE Institution was not found on the search results", option.getText().toLowerCase().contains(searchTerm.toLowerCase()));
                 }
             }
         }
