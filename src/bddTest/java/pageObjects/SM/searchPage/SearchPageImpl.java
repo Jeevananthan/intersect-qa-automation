@@ -1416,7 +1416,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 }
             }
 
-    private void goToCollegeInSearchResults(String collegeName) {
+    public void goToCollegeInSearchResults(String collegeName) {
         while(driver.findElements(By.xpath(getResultsCollegeNameLink(collegeName))).size() < 1) {
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(showMoreSpinnerLocator), 0));
             waitUntil(ExpectedConditions.elementToBeClickable(backToTopButton()));
