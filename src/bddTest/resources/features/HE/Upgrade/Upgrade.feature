@@ -39,7 +39,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
       | Message    | Edited Contact detaiils to request information |
       And HE I Request Information to Upgrade Subscription
 
-  @MATCH-4631
+  @MATCH-4631 @MATCH-5203
   Scenario: As an HE user, I want to verify that user is able to upgrade subscription for CONNECTIONS Module
     Given HE I am logged in to Intersect HE as user type "upgradeSubscriptions"
     And HE I Verify Upgrade Subscription Ribbon and Button for "Connection"

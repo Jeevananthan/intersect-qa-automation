@@ -602,25 +602,25 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I select the option "10%" in the Specific Representation percent listbox
     And SM I verify that the Must Have box does not contain "10%"
     Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "At least 10% Asian"
     And SM I move "At least 10% Asian" from the Must Have box to the Nice to Have box
     And SM I verify that the Nice to Have box contains "At least 10% Asian"
     Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
     Then SM I select the option "Select %" in the Specific Representation percent listbox
     Then SM I select the option "Select race or ethnicity" in the Specific Representation race and ethnicity listbox
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box does not contain "At least 10% Asian"
     And SM I verify that Nice to Have box does not contain "At least 10% Asian"
     Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
     Then SM I select the option "10%" in the Specific Representation percent listbox
     Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "At least 10% Asian"
 
   @MATCH-3376
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % Out of State
-  students
+            students
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the text displayed in the % Out of State Students Fit Criteria
     Then SM I verify the options displayed in Out of State students Select % dropdown
@@ -632,21 +632,21 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     |50%     |
     Then SM I click "Diversity" filter criteria tab
     And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
     And SM I move "Out of State Students ≥ 10%" from the Must Have box to the Nice to Have box
     Then SM I verify that the Nice to Have box contains "Out of State Students ≥ 10%"
     Then SM I click "Diversity" filter criteria tab
     And SM I pick "Select %" from the dropdown "OutOfStateStudents-dropdown"
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     Then SM I click "Diversity" filter criteria tab
     And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
 
   @MATCH-3555
   Scenario: As a HS student who has pinned colleges in SuperMatch, I want those schools to show at the top of my search
-  results table so I am reminded that those colleges were already pinned.
+            results table so I am reminded that those colleges were already pinned.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
@@ -661,8 +661,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-3263
   Scenario: As a HS student who is interacting with the fit criteria and categories in College Search, I want to see
-  informational message letting me know when my search becomes too granular so I don't limit my results to too few
-  of colleges based on too many fit criteria being selected.
+            informational message letting me know when my search becomes too granular so I don't limit my results to too few
+            of colleges based on too many fit criteria being selected.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
@@ -673,3 +673,46 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     | institutions with a fit score of |
     | Not all fields are required. Remember to only fill out the criteria that is most important to you. |
 
+  @MATCH-3344
+  Scenario: As a HS student, I want to filter colleges I am searching for by Student Body Size within the Institution
+            Characteristics category so I can see relevant colleges that match my Student Body Size requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I click "Institution Characteristics" filter criteria tab
+    Then SM I verify that radio button with text "All students" is selected
+    Then SM I select the "Very large (Over 20,000 students)" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box contains "Student Body Size [1]"
+    Then SM I unselect the "Very large (Over 20,000 students)" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box does not contain "Student Body Size [1]"
+
+  @MATCH-3345
+  Scenario: As a HS student, I want to filter colleges I am searching for by Housing within the
+            Institution Characteristics category so I can see relevant colleges that match my Housing requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I click "Institution Characteristics" filter criteria tab
+    Then SM I verify that checkBox with text "On-Campus Housing" is not checked
+    Then SM I select the "On-Campus Housing" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify the options displayed in On-Campus Housing Select % dropdown
+    |Select %|
+    |33%     |
+    |66%     |
+    Then SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "33%" from the dropdown "on-campus-housing-dropdown"
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "On-campus Housing > 33%"
+
+  @MATCH-3546
+  Scenario: As a HS student, I want to fit criteria that I select to be added to the 'Must Have' box within SuperMatch
+            so I can see all the fit criteria I have selected easily and can manage them.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Central" checkbox from the "Location" fit criteria
+    And SM I select the "Midwest" checkbox from the "Location" fit criteria
+    And SM I select the "Large City" checkbox from the "Location" fit criteria
+    And SM I select the "Small City" checkbox from the "Location" fit criteria
+    And SM I verify that the Must Have box contains "Location [14]"
+    And SM I verify that the Must Have box contains "Campus Surroundings [2]"
