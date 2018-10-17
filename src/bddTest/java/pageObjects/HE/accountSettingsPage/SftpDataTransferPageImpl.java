@@ -198,7 +198,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * Generates a SSH key
      */
     public void generateSSHKey(){
-        if(driver.findElements(regenerateKeyButtonLocator()).size()>0){
+        if(getDriver().findElements(regenerateKeyButtonLocator()).size()>0){
             reGenerateKeyButton().click();
         }
         else{
