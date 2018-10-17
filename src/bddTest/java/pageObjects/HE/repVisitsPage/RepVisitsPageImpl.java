@@ -2194,14 +2194,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyAccountsettings(String leftSubMenuInaccountSettings) {
         String subMenu[] = leftSubMenuInaccountSettings.split(",");
         for (int i=0;i<subMenu.length-1;i++) {
-            Assert.assertTrue("Tab " + subMenu[i] + " is not displaying as expected!",getDriver().findElement(By.xpath("//a/span[text()='"+subMenu[i]+"']")).isDisplayed());
+            Assert.assertTrue("Tab " + subMenu[i] + " is not displaying as expected!",leftSubMenu(subMenu,i).isDisplayed());
         } }
 
     public void verifyPasswordFields(String AccountInformationPage,String firstName,String lastName,String eMail,DataTable dataTable) {
         String details[] = AccountInformationPage.split(",");
         for(int i=0;i<details.length-1;i++) {
-            Assert.assertTrue(details[i] + " is not showing.",
-                    getDriver().findElement(By.xpath("//span[text()='"+details[i]+"']")).isDisplayed());}
+            Assert.assertTrue(details[i] + " is not showing.",accountSettingsNonPasswordFields(details,i)
+                    .isDisplayed());}
         currentPasswordInput().sendKeys(Keys.PAGE_DOWN);
 
         List<String> list = dataTable.asList(String.class);
@@ -3646,7 +3646,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return school;
     }
     private WebElement saveButton() {
-        WebElement button=driver.findElement(By.xpath("//button/span[text()='Save']"));
+        WebElement button=getDriver().findElement(By.xpath("//button/span[text()='Save']"));
         return button;
     }
     private WebElement yesButton() {
@@ -3960,9 +3960,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button("Show More");
     }
     private WebElement submitRequestText(){return text("Yes, Submit Request");}
-    private By successMessage(){
-        return By.xpath("//span[text()='Great! Your notes have been updated']");
-    }
     private WebElement schedulePopupTextInVisitSchedule(){
         return getDriver().findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]"));
     }
@@ -4024,7 +4021,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> negativeMessage(){
         return getDriver().findElements(By.cssSelector("div[class='ui negative message']>div>span"));
     }
-    private WebElement getSuccessMessage(){return driver.findElement(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']>span"));}
+    private WebElement getSuccessMessage(){return getDriver().findElement(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']>span"));}
+    private WebElement leftSubMenu(String subMenu[],int i){return getDriver().findElement(By.xpath("//a/span[text()='"+subMenu[i]+"']"));}
+    private WebElement accountSettingsNonPasswordFields(String fieldDetails[],int i){return getDriver().findElement(By.xpath("//span[text()='"+fieldDetails[i]+"']"));}
 }
 
 
