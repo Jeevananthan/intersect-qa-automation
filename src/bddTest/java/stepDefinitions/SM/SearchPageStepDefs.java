@@ -328,5 +328,7 @@ public class SearchPageStepDefs implements En {
         Then("^SM I un-favorite the school \"([^\"]*)\" from the why drawer$", searchPage::unFavoriteSchoolFromWhyDrawer);
 
         And("^SM I close the why drawer$", searchPage::closeWhyDrawer);
+
+        Then("^SM I verify that the student's scores for the college in position (\\d+) are displayed in the Academic Match cell:$", searchPage::verifyScoresInAcademicMatch);
     }
 }
