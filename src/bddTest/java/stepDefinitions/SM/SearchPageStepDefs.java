@@ -314,5 +314,19 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify the options displayed in On-Campus Housing Select % dropdown$", searchPage::verifyOptionsInOnCampusHousingSelectPercentDropdown);
 
         Then("^SM I close the fit criteria selection window$", searchPage::closeFitCriteriaWindow);
+
+        And("^SM I store the \"([^\"]*)\" value from the footer$", searchPage::storeValueFromFooter);
+
+        Then("^SM I favorite the school \"([^\"]*)\"$", searchPage::favoriteSchool);
+
+        Then("^SM I un-favorite the school \"([^\"]*)\"$", searchPage::unFavoriteSchool);
+
+        And("^SM I verify that the \"([^\"]*)\" value from the footer is \"([^\"]*)\" the value stored earlier$", searchPage::verifyValueFromFooter);
+
+        Then("^SM I favorite the school \"([^\"]*)\" from the why drawer$", searchPage::favoriteSchoolFromWhyDrawer);
+
+        Then("^SM I un-favorite the school \"([^\"]*)\" from the why drawer$", searchPage::unFavoriteSchoolFromWhyDrawer);
+
+        And("^SM I close the why drawer$", searchPage::closeWhyDrawer);
     }
 }
