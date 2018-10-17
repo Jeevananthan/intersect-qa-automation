@@ -62,6 +62,46 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         getMenuTab(text).click();
     }
 
+    public void checkCheckboxFirsRow(String checkboxText) {
+        if (checkboxText.equals("Enabled")) {
+            if (!getEnabledCheckbox().getAttribute("class").contains("checked")) {
+                getEnabledCheckbox().click();
+            }
+        } else if (checkboxText.equals("Use Default Filter Values")) {
+            if (!getUseDefaultFilterCheckbox().getAttribute("class").contains("checked")) {
+                getUseDefaultFilterCheckbox().click();
+            }
+        }
+    }
+
+    public void uncheckCheckboxFirsRow(String checkboxText) {
+        if (checkboxText.equals("Enabled")) {
+            if (getEnabledCheckbox().getAttribute("class").contains("checked")) {
+                getEnabledCheckbox().click();
+            }
+        } else if (checkboxText.equals("Use Default Filter Values")) {
+            if (getUseDefaultFilterCheckbox().getAttribute("class").contains("checked")) {
+                getUseDefaultFilterCheckbox().click();
+            }
+        }
+    }
+
+    public void setDefaultValue(String value, String defaultValueId) {
+        getDefaultFilterValueBox(defaultValueId).sendKeys(value);
+    }
+
+    public void clearDefaultFIlterValue(String defaultValueId) {
+        getDefaultFilterValueBox(defaultValueId).sendKeys("0");
+        getDefaultFilterValueBox(defaultValueId).clear();
+    }
+
+    public void verifyDefaultFilterValueIs(String defaultValueId, String expectedValue) {
+       softly().assertThat(getDefaultFilterValueBox(defaultValueId).getText().equals(expectedValue));
+    }
+
+    public void checkThereIsNoText(String text) {
+        softly().assertThat(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[text()='" + text + "']")));
+    }
 
 //locators
     private WebElement notification(){
@@ -80,6 +120,19 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     private WebElement getMenuTab (String locator) {
         return getDriver().findElement(By.xpath(getMenuTabLocator(locator)));
     }
+
+    private WebElement getEnabledCheckbox(){
+        return  getDriver().findElement(By.xpath("//tr/td[1]//div/div"));
+    }
+
+    private WebElement getUseDefaultFilterCheckbox(){
+        return  getDriver().findElement(By.xpath("//tr/td[3]//div/div"));
+    }
+
+    private WebElement getDefaultFilterValueBox(String id){
+        return  getDriver().findElement(By.id(id));
+    }
+
     private String getMenuLinkLocator(String advancedAwarenessOption) {
         return "//div[3]//a/span[text()=\"" + advancedAwarenessOption + "\"]";
     }
