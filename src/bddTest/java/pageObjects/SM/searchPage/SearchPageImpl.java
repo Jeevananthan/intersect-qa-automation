@@ -2247,7 +2247,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void checkNumberOfElementsDisplayed(Integer number, String locator){
 
-        waitUntilPageFinishLoading();
+       waitUntilPageFinishLoading();
        Assert.assertEquals((Integer) driver.findElements(By.cssSelector(locator)).size(), number);
 
     }
