@@ -495,6 +495,10 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         }
     }
 
+    /**
+     * Used to enable or disable the RepVisits Feedback feature.
+     * @param setting Valid values - enable, disable.
+     */
     public void setVisitFeedback(String setting) {
         feedbackToggleLink().click();
         switch(setting){
@@ -511,6 +515,10 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         }
     }
 
+    /**
+     * Verifies the text of the RepVisits Feedback toggle link
+     * @param message - Expected value of the link text
+     */
     public void verifyVisitFeedbackToggleText(String message) {
         softly().assertThat(feedbackToggleLink().findElement(By.tagName("span")).getText()).isEqualTo(message);
     }
