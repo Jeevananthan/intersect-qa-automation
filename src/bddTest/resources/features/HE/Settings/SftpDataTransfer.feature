@@ -198,3 +198,24 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           And SP I go to the log history page
           Then SP I verify that it is displayed an entry with action "PurpleHE Automation Edited AMExportConfig" and the following keys
             |institutionId:|connectionTestSuccess:|serverFingerprintMismatch:|serverFingerprintEnabled:|
+
+         @MATCH-5128 @MATCH-4947 @MATCH-5087
+         Scenario: As an HE admin associated with an HE account that has an active AMPLUS subscription, I want to be
+         notified if there is an error while saving, so that I know I'll have to re-attempt the save.
+           Given HE I am logged in to Intersect HE as user type "administrator"
+           When HE I setup a SFTP connection with the following data
+             |host          |port|path    |userName|password         |transferFrequency  |checkFingerPrintToVerifyServer|
+             |209.97.159.249|22  |/uploads|sftpme  |bruh-you-can-SFTP|mon,tue,wed,thu,fri|no                            |
+           And HE I verify that the message that says "Connection test failed" is displayed when saving fails
+           And HE I verify that the message that says "Authentication failed. Check that the host and connection credentials are correct. If you are using an SSH Public Key, make sure it is installed on your SFTP server." is displayed when saving fails
+           When HE I setup a SFTP connection with the following data
+             |host          |port|path    |userName     |password                |transferFrequency   |checkFingerPrintToVerifyServer|
+             |209.97.159.244|22  |/uploads|wronUserName |foo-bar-biz-bat-4442332 |mon,tue,wed,thu,fri |no                            |
+           And HE I verify that the message that says "Connection test failed" is displayed when saving fails
+           And HE I verify that the message that says "Authentication failed. Check that the host and connection credentials are correct. If you are using an SSH Public Key, make sure it is installed on your SFTP server." is displayed when saving fails
+           When HE I setup a SFTP connection with the following data
+             |host          |port|path    |userName          |password                |transferFrequency   |checkFingerPrintToVerifyServer|
+             |209.97.159.244|23  |/uploads|bruh-you-can-SFTP |foo-bar-biz-bat-4442332 |mon,tue,wed,thu,fri |no                            |
+           And HE I verify that the message that says "Connection test failed" is displayed when saving fails
+           And HE I verify that the message that says "Port was refused. Check that the port number is correct." is displayed when saving fails
+

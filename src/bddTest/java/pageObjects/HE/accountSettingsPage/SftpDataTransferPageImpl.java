@@ -449,6 +449,16 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Verifies if the given text is present in the error message when saving the connection fails
+     * @param expectedMessage
+     */
+    public void verifyFailedSaveMessage(String expectedMessage){
+        String actualMessage = saveFailedMessageBox().getText();
+        Assert.assertTrue(String.format("The error message when saving the connection does not contains the text: %s",
+                expectedMessage),actualMessage.contains(expectedMessage));
+    }
+
+    /**
      * Goes to the main sftp connection page though the title link
      */
     public void goToSftpConnectionMainPageThroughTitleLink(){
@@ -738,5 +748,13 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement warningToast(){
         return getDriver().findElement(warningToastLocator());
+    }
+
+    /**
+     * Gets the save failed message box
+     * @return
+     */
+    private WebElement saveFailedMessageBox(){
+        return getDriver().findElement(By.cssSelector("div[class='content _3mk-peHwINmRrC00Aa1rDo']"));
     }
 }
