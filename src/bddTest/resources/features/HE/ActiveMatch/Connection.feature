@@ -166,7 +166,7 @@ Feature: As an HE user, I need to understand my Connection and Advansed Awarenes
     Then I check there is no "Invalid Default Filter Values" text on the page
 
   @MATCH-4428
-  Scenario Outline: Academic Threshold min and max values for GPA,SAT,ACT
+  Scenario Outline: Academic Threshold min and max values for default GPA,SAT,ACT
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "connection/threshold" url
     Then HE I clear default filter value for "<defaultValue>" on the Threshold Page
@@ -186,3 +186,60 @@ Feature: As an HE user, I need to understand my Connection and Advansed Awarenes
       | gpa          | 0.1      | 4.0      | 0.02        | 4.1         | Value must be between 0.1 - 4    |
       | sat          | 400      | 1600     | 399         | 1601        | Value must be between 400 - 1600 |
       | act          | 1        | 36       | 0           | 37          | Value must be between 1 - 36     |
+
+    ###################TO check
+  @MATCH-4428
+  Scenario Outline: Academic Threshold min and max values for GPA,SAT,ACT
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "connection/threshold" url
+    Then HE I check "Enabled" checkbox for the first row on the Threshold Page
+    Then HE I uncheck "Use Default Filter Values" checkbox for the first row on the Threshold Page
+    Then HE I clear default filter value for "<valueName>" on the Threshold Page
+    Then HE I set filter value "<minValue>" for "<valueName>" on the Threshold Page
+    Then I check there is no "<message>" text on the page
+    Then HE I clear filter value for "<valueName>" on the Threshold Page
+    Then HE I set filter value "<maxValue>" for "<valueName>" on the Threshold Page
+    Then I check there is no "<message>" text on the page
+    Then HE I clear filter value for "<valueName>" on the Threshold Page
+    Then HE I set filter value "<lessThanMin>" for "<valueName>" on the Threshold Page
+    Then I check if I can see "<message>" on the page
+    Then HE I clear filter value for "<valueName>" on the Threshold Page
+    Then HE I set filter value "<moreThanMax>" for "<valueName>" on the Threshold Page
+    Then I check if I can see "<message>" on the page
+    Examples:
+      | valueName | minValue | maxValue | lessThanMin | moreThanMax | message                          |
+      | gpa          | 0.1      | 4.0      | 0.02        | 4.1         | Value must be between 0.1 - 4    |
+      | sat          | 400      | 1600     | 399         | 1601        | Value must be between 400 - 1600 |
+      | act          | 1        | 36       | 0           | 37          | Value must be between 1 - 36     |
+
+
+
+  @MATCH-4428 #################/////TO check
+  Scenario Outline: Academic Threshold GPA, SAT, ACT default values are applied
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "connection/threshold" url
+    Then HE I clear default filter value for "<filterValue>" on the Threshold Page
+    Then HE I set default filter value "<value>" for "<filterValue>" on the Threshold Page
+    Then HE I check "Enabled" checkbox for the first row on the Threshold Page
+    Then HE I check "Use Default Filter Values" checkbox for the first row on the Threshold Page
+    Then HE I verify "<filterValue>" value for the first row is "<value>" on the Threshold Page
+    Examples:
+      | filterValue | value |
+      | gpa         | 0.8   |
+      | sat         | 1250  |
+      | act         | 13    |
+
+  @MATCH-4428 #################/////TO check
+  Scenario: Academic Threshold check all fields
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "connection/threshold" url
+    Then HE I check "Enabled" checkbox for the first row on the Threshold Page
+    Then HE I uncheck "Use Default Filter Values" checkbox for the first row on the Threshold Page
+    Then HE I set filter value "0.8" for "gpa" on the Threshold Page
+    Then HE I set filter value "1250" for "sat" on the Threshold Page
+    Then HE I set filter value "13" for "act" on the Threshold Page
+    Then SM I press button "Save"
+    When HE I navigate to the "advanced-awareness/threshold" url
+    Then HE I verify "gpa" value for the first row is "0.8" on the Threshold Page
+    Then HE I verify "sat" value for the first row is "1250" on the Threshold Page
+    Then HE I verify "act" value for the first row is "13" on the Threshold Page

@@ -95,8 +95,17 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         getDefaultFilterValueBox(defaultValueId).clear();
     }
 
-    public void verifyDefaultFilterValueIs(String defaultValueId, String expectedValue) {
-       softly().assertThat(getDefaultFilterValueBox(defaultValueId).getText().equals(expectedValue));
+    public void verifyFilterValue(String filterName, String expectedValue) {
+       softly().assertThat(getFilterValueFirstRow(filterName).getText().equals(expectedValue));
+    }
+
+    public void setValue(String value, String valueId) {
+        getFilterValueFirstRow(valueId).sendKeys(value);
+    }
+
+    public void clearFilterValue(String valueId) {
+        getFilterValueFirstRow(valueId).sendKeys("0");
+        getFilterValueFirstRow(valueId).clear();
     }
 
     public void checkThereIsNoText(String text) {
@@ -127,6 +136,10 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
 
     private WebElement getUseDefaultFilterCheckbox(){
         return  getDriver().findElement(By.xpath("//tr/td[3]//div/div"));
+    }
+
+    private WebElement getFilterValueFirstRow(String filterName) {
+        return getDriver().findElement(By.xpath("//div[@title='" + filterName + "']"));
     }
 
     private WebElement getDefaultFilterValueBox(String id){
