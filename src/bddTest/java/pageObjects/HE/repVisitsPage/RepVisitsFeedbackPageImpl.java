@@ -495,6 +495,34 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         }
     }
 
+    /**
+     * Selects a user from the Ratings Feedback list in order to view information about their visits.
+     * @param username - Name of the user to view.
+     */
+    public void selectFeedbackUser(String username) {
+        getDriver().findElement(By.xpath("//div[contains(@class,'menu-link')]/div/div[text()[contains(.,'"+username+"')]]")).click();
+        waitUntil(ExpectedConditions.visibilityOf(getRatingDetails()));
+    }
+
+    /**
+     * Verifies the format of the individual user Visit Feedback page
+     * Name displays, ratings summary displays, at least one individual visit feedback displays,
+     * and the content of the individual feedback is as expected.
+     */
+    public void verifyUserFeedbackPage(String username) {
+        // Make sure we have at least two segments (one for the user, one for a visit rating)
+        List<WebElement> segments = getDriver().findElements(By.xpath("//div[contains(@class,'rating-segment')]"));
+        softly().assertThat(segments.size()).isGreaterThan(1);
+        // Make sure that the contents of the user area are present
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(@class,'rating-user-name')]")).getText()).as("User's Name").isEqualTo(username);
+        softly().assertThat(getUserSummary().isDisplayed()).as("User rating summary displayed").isTrue();
+        softly().assertThat(getUserSummary().findElement(By.xpath("./div[@role='radiogroup']")).isDisplayed()).as("Star ratings are displayed for user").isTrue();
+        // Verify the contents of an individual rating are present
+        softly().assertThat(getSingleRating().findElement(By.xpath("./div[@role='radiogroup']")).isDisplayed()).as("Star ratings are displayed for visit").isTrue();
+        softly().assertThat(getSingleRating().findElement(By.className("_3HkfzGwe9DUTIza-b_pTkn")).isDisplayed()).as("Area of excellence/improvement icon").isTrue();
+        softly().assertThat(getSingleRating().findElement(By.xpath("./strong/span/span[text()='stars']")).isDisplayed()).as("Textual star rating").isTrue();
+    }
+
     private ArrayList sortByLastName(ArrayList<String> al) {
         Collections.sort(al, new Comparator<String>() {
             @Override
@@ -531,4 +559,7 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         }
     }
 
+    private WebElement getRatingDetails() { return getDriver().findElement(By.className("rating-details")); }
+    private WebElement getUserSummary() { return getDriver().findElement(By.xpath("//div[contains(@class,'user-summary')]")); }
+    private WebElement getSingleRating() { return getParent(getDriver().findElement(By.xpath("//span[text()='submitted visit feedback of']")));}
 }

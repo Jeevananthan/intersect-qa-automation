@@ -32,5 +32,9 @@ public class RepVisitsFeedbackPageStepDefs implements En {
         And("^HE I verify Top Areas To Improve Percentage Breakdown for the HE account on Overview area$", repVisitsFeedback::verifyTopAreasToImproveBreakdownInOverviewArea);
 
         Then("^HE I verify HS user's name be an active hyperlink to the HE user's Community profile in visit feedback subtab$", repVisitsFeedback::verifyHSUsersNameLink);
+
+        Then("^HE I select \"([^\"]*)\" from the RepVisits Feedback user list$", repVisitsFeedback::selectFeedbackUser);
+
+        And("^HE I verify the format of the user feedback page for user \"([^\"]*)\"$", repVisitsFeedback::verifyUserFeedbackPage);
     }
 }
