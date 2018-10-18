@@ -2,6 +2,7 @@ package pageObjects.SM.searchPage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
@@ -2446,22 +2447,20 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 List<WebElement> institutionCharsLeftElements = driver.findElements(By.xpath(institutionsCharsLeftElementsLocator(collegeName, columnNumber)));
                 List<WebElement> institutionsCharsRigthElements = driver.findElements(By.xpath(institutionsCharsRigthElementsLocator(collegeName, columnNumber)));
                 for (int i = 0; i < institutionsCharElements.size(); i++) {
-                    Assert.assertTrue("The element " + institutionsCharElements.get(i).get(0) + " does not have a correct value",
-                            institutionsCharElements.get(i).get(0).equals(institutionCharsLeftElements.get(i).getText()));
+                    softly().assertThat(institutionsCharElements.get(i).get(0)).as("The element " + institutionsCharElements.get(i).get(0)
+                            + " does not have a correct value").contains(institutionCharsLeftElements.get(i).getText());
                 }
                 for (int i = 0; i < institutionsCharsRigthElements.size(); i++) {
-                    String data = institutionsCharElements.get(i).get(1);
-                    String ui = institutionsCharsRigthElements.get(i).getText();
-                    Assert.assertTrue("The element " + institutionsCharElements.get(i).get(1) + " does not have a correct value",
-                            institutionsCharElements.get(i).get(1).equals(institutionsCharsRigthElements.get(i).getText()));
+                    softly().assertThat(institutionsCharElements.get(i).get(1)).as("The element " + institutionsCharElements.get(i).get(1)
+                            + " does not have a correct value").contains(institutionsCharsRigthElements.get(i).getText());
                 }
                 break;
             case "Admission info":
                 List<String> admissionInfoElements = dataTable.asList(String.class);
                 List<WebElement> wrapperElements = driver.findElements(By.xpath(cellContentsLocator(collegeName, columnNumber)));
                 for (int i = 0; i < wrapperElements.size(); i++) {
-                    Assert.assertTrue("The element is not correct in Admission Info.",
-                            wrapperElements.get(i).getText().equals(admissionInfoElements.get(i)));
+                    softly().assertThat(wrapperElements.get(i).getText()).as("The element is not correct in Admission Info.")
+                            .contains(admissionInfoElements.get(i));
                 }
                 break;
         }
