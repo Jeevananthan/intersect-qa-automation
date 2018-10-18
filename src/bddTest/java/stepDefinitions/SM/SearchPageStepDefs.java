@@ -9,15 +9,15 @@ public class SearchPageStepDefs implements En {
 
         SearchPageImpl searchPage = new SearchPageImpl();
 
-        Then("^I select the following data from the Location Fit Criteria$",searchPage::setLocationCriteria);
+        Then("^I select the following data from the Location Fit Criteria$", searchPage::setLocationCriteria);
 
-        Then("^I select the following data from the Diversity Fit Criteria$",searchPage::setDiversityCriteria);
+        Then("^I select the following data from the Diversity Fit Criteria$", searchPage::setDiversityCriteria);
 
-        Then("^SM I select the \"([^\"]*)\" checkbox from the Resources fit criteria$",searchPage::setResourcesCriteria);
+        Then("^SM I select the \"([^\"]*)\" checkbox from the Resources fit criteria$", searchPage::setResourcesCriteria);
 
-        Then("^SM I verify that the \"([^\"]*)\" checkbox from the Resources fit criteria is \"([^\"]*)\"$",searchPage::verifyResourcesCriteria);
+        Then("^SM I verify that the \"([^\"]*)\" checkbox from the Resources fit criteria is \"([^\"]*)\"$", searchPage::verifyResourcesCriteria);
 
-        Then("^SM I unselect the \"([^\"]*)\" checkbox from the Resources fit criteria$",searchPage::unsetResourcesCriteria);
+        Then("^SM I unselect the \"([^\"]*)\" checkbox from the Resources fit criteria$", searchPage::unsetResourcesCriteria);
 
         And("^SM I verify that the Must Have box contains \"([^\"]*)\"$", searchPage::verifyMustHaveBoxContains);
 
@@ -43,9 +43,9 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that entered GPA data persists$", searchPage::verifyGPADataPersists);
 
-        Then("^SM I verify the system response when the GPA entered by the user is valid$",searchPage::verifySystemResponseWhenGPAInputIsValid);
+        Then("^SM I verify the system response when the GPA entered by the user is valid$", searchPage::verifySystemResponseWhenGPAInputIsValid);
 
-        Then("^SM I verify the system response when the GPA entered by the user is invalid$",searchPage::verifySystemResponseWhenGPAInputIsInvalid);
+        Then("^SM I verify the system response when the GPA entered by the user is invalid$", searchPage::verifySystemResponseWhenGPAInputIsInvalid);
 
         And("^SM I verify the system response when the ACT score entered by the user is valid$", searchPage::verifySystemResponseWhenACTScoreIsValid);
 
@@ -67,7 +67,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the dark blue footer$", searchPage::verifyDarkBlueFooter);
 
-        Then("^SM I select the \"([^\"]*)\" radio button from the Academics fit criteria",searchPage::selectRadioButtonInAcademicsFitCriteria);
+        Then("^SM I select the \"([^\"]*)\" radio button from the Academics fit criteria", searchPage::selectRadioButtonInAcademicsFitCriteria);
 
         Then("^SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type$", searchPage::selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType);
 
@@ -77,7 +77,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I unselect the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type$", searchPage::unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType);
 
-        Then ("SM I click \"([^\"]*)\" filter criteria tab", searchPage::chooseFitCriteriaTab);
+        Then("SM I click \"([^\"]*)\" filter criteria tab", searchPage::chooseFitCriteriaTab);
 
         Then("^SM I see validation message \"([^\"]*)\"$", (searchPage::checkValidationMessageIsVisible));
 
@@ -103,7 +103,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I check both Select Criteria To Start buttons take the user to the Location dropdown$", searchPage::checkSelectCriteriaToStartButtonsRedirectsLocation);
 
-        Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from the Diversity$",searchPage::selectOrUnselectDiversityCheckbox);
+        Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from the Diversity$", searchPage::selectOrUnselectDiversityCheckbox);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the \"([^\"]*)\" fit criteria$", searchPage::selectCheckBox);
 
@@ -225,7 +225,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify that the pinned colleges are not cleared when the NO CANCEL button is clicked in the modal$", searchPage::verifyPinnedCollegesNotClearedWhenNOCANCELbuttonIsClicked);
 
-        And("^SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal$",searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
+        And("^SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal$", searchPage::verifyPinnedCollegesClearedWhenYesClearButtonIsClicked);
 
         And("^SM I verify that the CLEAR PINNED LIST option is disabled$", searchPage::verifyCLEARPINNEDLISTIsDisabled);
 
@@ -233,7 +233,7 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I pick the date \"([^\"]*)\" from the date picker$", searchPage::pickDateInDatePickerSM);
 
-        Then ("^SM I click clear calendar icon$", searchPage::clickClearCalendarIcon);
+        Then("^SM I click clear calendar icon$", searchPage::clickClearCalendarIcon);
 
         And("^SM I clean GPA/SAT/ACT scores$", searchPage::clearGPASATACTScores);
 
@@ -268,7 +268,7 @@ public class SearchPageStepDefs implements En {
         Then("^I check number of records in the \"([^\"]*)\" table$", searchPage::getCurrentNumberOfTableRows);
 
         Then("^I check that table \"([^\"]*)\"  has one more row$", searchPage::checkTableHasOneMoreRow);
-      
+
         Then("^SM I verify that the text from \"([^\"]*)\" is displayed in Your Fit Criteria screen$", searchPage::verifyTextIsPresentInFitCriteria);
 
         Then("^SM I verify that the button Select Criteria To Start is not displayed in the Your Fit Criteria screen$", searchPage::verifySelectCriteriaButtonNotPresent);
@@ -295,7 +295,7 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the options displayed in the Specific Representation percent listbox", searchPage::verifyOptionsInSpecificRepresentationPercentListBox);
 
-        And("^SM I verify the options displayed in the Specific Representation race and ethnicity listbox",searchPage::verifyOptionsInRaceAndEthnicityListBox);
+        And("^SM I verify the options displayed in the Specific Representation race and ethnicity listbox", searchPage::verifyOptionsInRaceAndEthnicityListBox);
 
         And("^SM I select the option \"([^\"]*)\" in the Specific Representation percent listbox", searchPage::selectOptionInSpecificRepresentationPercentListBox);
 
@@ -310,5 +310,27 @@ public class SearchPageStepDefs implements En {
         And("^SM I pick \"([^\"]*)\" in the editable column number (\\d+)$", searchPage::pickColumnHeader);
 
         Then("^SM I verify that \"([^\"]*)\" in column number (\\d+) for college \"([^\"]*)\" contains the following data:$", searchPage::verifyDataInEditableColumn);
+
+        Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
+
+        And("^SM I verify that radio button with text \"([^\"]*)\" is selected$", searchPage::verifyRadioButtonIsSelected);
+
+        Then("^SM I verify the options displayed in On-Campus Housing Select % dropdown$", searchPage::verifyOptionsInOnCampusHousingSelectPercentDropdown);
+
+        Then("^SM I close the fit criteria selection window$", searchPage::closeFitCriteriaWindow);
+
+        And("^SM I store the \"([^\"]*)\" value from the footer$", searchPage::storeValueFromFooter);
+
+        Then("^SM I favorite the school \"([^\"]*)\"$", searchPage::favoriteSchool);
+
+        Then("^SM I un-favorite the school \"([^\"]*)\"$", searchPage::unFavoriteSchool);
+
+        And("^SM I verify that the \"([^\"]*)\" value from the footer is \"([^\"]*)\" the value stored earlier$", searchPage::verifyValueFromFooter);
+
+        Then("^SM I favorite the school \"([^\"]*)\" from the why drawer$", searchPage::favoriteSchoolFromWhyDrawer);
+
+        Then("^SM I un-favorite the school \"([^\"]*)\" from the why drawer$", searchPage::unFavoriteSchoolFromWhyDrawer);
+
+        And("^SM I close the why drawer$", searchPage::closeWhyDrawer);
     }
 }
