@@ -42,6 +42,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     public void navigateToURL(String URL){
         waitUntilPageFinishLoading();
         load(GetProperties.get("he.app.url")+ URL);
+        waitUntilPageFinishLoading();
     }
 
     public void verifyColumnHeaders(String locator, DataTable dataTable) {
@@ -63,6 +64,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void checkCheckboxFirsRow(String checkboxText) {
+        waitUntilPageFinishLoading();
         if (checkboxText.equals("Enabled")) {
             if (!getEnabledCheckbox().getAttribute("class").contains("checked")) {
                 getEnabledCheckbox().click();
@@ -97,7 +99,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
 
     public void verifyFilterValue(String filterName, String expectedValue) {
         waitUntilPageFinishLoading();
-       softly().assertThat(getFilterValueFirstRow(filterName).getText().equals(expectedValue));
+        softly().assertThat(getFilterValueFirstRow(filterName).getText().equals(expectedValue));
     }
 
     public void setValue(String value, String valueId) {
