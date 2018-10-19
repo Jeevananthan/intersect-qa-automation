@@ -21,7 +21,7 @@ public class HEHSCommonStepDefs implements En {
         Then("^I check there is no \"([^\"]*)\" text on the page$", HEHSCommonImpl::checkThereIsNoText);
         Then("^HE I verify \"([^\"]*)\" value for the first row is \"([^\"]*)\" on the Threshold Page$",HEHSCommonImpl::verifyFilterValue);
         Then("^HE I set filter value \"([^\"]*)\" for \"([^\"]*)\" on the Threshold Page$",HEHSCommonImpl::setValue );
-        Then("^HE I clear filter value for \"([^\"]*)\" on the Threshold Page$", HEHSCommonImpl::clearDefaultFIlterValue);
+        Then("^HE I clear filter value for \"([^\"]*)\" on the Threshold Page$", HEHSCommonImpl::clearFilterValue);
 
     }
 }

@@ -96,6 +96,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFilterValue(String filterName, String expectedValue) {
+        waitUntilPageFinishLoading();
        softly().assertThat(getFilterValueFirstRow(filterName).getText().equals(expectedValue));
     }
 
@@ -104,7 +105,6 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void clearFilterValue(String valueId) {
-        getFilterValueFirstRow(valueId).sendKeys("0");
         getFilterValueFirstRow(valueId).clear();
     }
 
@@ -139,7 +139,8 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getFilterValueFirstRow(String filterName) {
-        return getDriver().findElement(By.xpath("//div[@title='" + filterName + "']"));
+        waitUntilPageFinishLoading();
+        return getDriver().findElement(By.xpath("//div[@title='" + filterName + "']/input"));
     }
 
     private WebElement getDefaultFilterValueBox(String id){

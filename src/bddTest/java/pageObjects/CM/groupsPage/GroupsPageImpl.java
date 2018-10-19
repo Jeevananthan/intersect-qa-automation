@@ -481,6 +481,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkIfTextIsVisible(String item) {
+        waitUntilPageFinishLoading();
         logger.info("Searching for "+item+".");
         Assert.assertTrue("The "+item+" cannot be found on the page!", checkItemVisible(item));
     }
