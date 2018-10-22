@@ -1,13 +1,13 @@
 @HE @ActiveMatch
 Feature: HE - ActiveMatch - ActiveMatchConnections - As an HE Admin user with access, I can view and download my connections
 
-  @MATCH-3016
+  @MATCH-3016 @MATCH-4956
   Scenario:  As an HE intersect user, I need the ability to view my student connections from AM so I can see who has made a connection
     Given HE I am logged in to Intersect HE as user type "administrator"
     And SM I press button "Manage"
     And HE I verify the ActiveMatch page
     Then HE I verify the Headers are present in the Active Match Connections
-      | Name | Gender / Ethnicity | Birth Date | Grad Year / GPA | School Name / CEEB | Contact / Address | Created / Modified |
+      | Name | Gender / Ethnicity | Birth Date | Grad Year / GPA | School Name / CEEB | Contact / Address | Majors | Created / Modified |
     And HE I verify the following details are present under the new header of "Historical" in the ActiveMatch export connections dropdown Menu
       | Last 7 days | Last 14 days | Last 30 days | Last 60 days | Last 90 days |
     And HE I verify the following details are present under the header of "By School Year" in the ActiveMatch export connections dropdown Menu
@@ -18,7 +18,7 @@ Feature: HE - ActiveMatch - ActiveMatchConnections - As an HE Admin user with ac
       | Last 7 days | Last 14 days | Last 30 days | Last 60 days | Last 90 days |
 
 
-  @MATCH-3012
+  @MATCH-3012 @MATCH-4957
   Scenario: As an HE intersect user, I need the ability to export my student connections from AM so I can import them
   into my own system.
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -31,7 +31,7 @@ Feature: HE - ActiveMatch - ActiveMatchConnections - As an HE Admin user with ac
       | connections since last export on |
     When HE I export the ActiveMatchConnections for the current year
     Then HE I verify the downloaded ActiveMatch Cvs file "student-connections.csv" contains the following headers
-      | First Name | Last Name | Email | Phone | Address | City | State | Zip | Ethnicity | Gender | BirthDate | SchoolName | Ceeb | Graduation Year | Gpa | Created/Modified Date | Connection Status |
+      | First Name | Last Name | Email | Phone | Address | City | State | Zip | Ethnicity | Gender | BirthDate | SchoolName | Ceeb | Graduation Year | Gpa | Created/Modified Date | Connection Status |Major 1|Major 2|Major 3|
     Then HE I delete the downloaded ActiveMatch Cvs file "student-connections.csv"
 
   @MATCH-4696
