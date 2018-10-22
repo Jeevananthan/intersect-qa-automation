@@ -1506,6 +1506,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             link("View More Upcoming Events").click();
             waitUntilPageFinishLoading();
         }
+        fairNametoClickViewDetails = FairName;
         waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsViewDetails(fairNametoClickViewDetails)));
         selectViewDetails(fairNametoClickViewDetails).click();
         waitUntilPageFinishLoading();
@@ -5851,29 +5852,29 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     /*We have to refactor the same method with a Create NEw and Edit a Fair */
     public void cancelRegisteredEditedCollegeFair(String fairName){
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-college-fair")));
+        fairName = FairName;
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(editCollegeFairButton()));
         Assert.assertTrue("Edit button is not displayed",editButtonInCollegeFair().isDisplayed());
         editButtonInCollegeFair().click();
         waitUntilPageFinishLoading();
-        String displayedFairName = driver.findElement(By.id("college-fair-name")).getAttribute("value");
+        String displayedFairName = fairNameTextBox().getAttribute("value");
         Assert.assertTrue("FairName is displayed",displayedFairName.equals(fairName));
-        driver.findElement(By.id("college-fair-start-time")).sendKeys(Keys.PAGE_DOWN);
-        driver.findElement(By.id("college-fair-max-number-colleges")).sendKeys(Keys.PAGE_DOWN);
-        driver.findElement(By.id("college-fair-email-message-to-colleges")).sendKeys(Keys.PAGE_DOWN);
-        Assert.assertTrue("Cancel This College Fair button is not displayed",button("Cancel This College Fair").isDisplayed());
-        button("Cancel This College Fair").click();
+        fairsStartTimeInEditFairsPopup().sendKeys(Keys.PAGE_DOWN);
+        maxNoOfCollegesInEditFairsPopup().sendKeys(Keys.PAGE_DOWN);
+        collegeFairEmailInEditFairsPopup().sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("Cancel This College Fair button is not displayed",cancelCollegeFairButton().isDisplayed());
+        cancelCollegeFairButton().click();
         waitUntilPageFinishLoading();
-        List<WebElement> textbox = driver.findElements(By.id("college-fair-cancellation-message"));
-        if(textbox.size()>0) {
-            driver.findElement(By.id("college-fair-cancellation-message")).sendKeys("by QA");
-            driver.findElement(By.id("college-fair-cancellation-message")).sendKeys(Keys.PAGE_DOWN);
-            button("Cancel fair and notify colleges").click();
+        if(fairCancellationTextBox().size()>0) {
+            cancelMessageTextboxInFairsPopup().sendKeys("by QA");
+            cancelMessageTextboxInFairsPopup().sendKeys(Keys.PAGE_DOWN);
+            notificationButtonForFairsCancel().click();
         }else {
-            button("Yes, Cancel this fair").click();
+            fairCancelButton().click();
         }
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Close']")));
-        driver.findElement(By.xpath("//button[text()='Close']")).click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsClose()));
+        closeButtonInFairsPopup().click();
         waitUntilPageFinishLoading();
     }
 
@@ -9288,4 +9289,11 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement cancelFairsButton(){return getDriver().findElement(By.xpath("//button/span[text()='Cancel This College Fair']"));}
 
     private WebElement fairsSaveButton(){return getDriver().findElement(By.xpath("//button/span[text()='Save']"));}
+
+    private By editCollegeFairButton(){return By.id("edit-college-fair");}
+
+    private List<WebElement> fairCancellationTextBox(){return getDriver().findElements(By.id("college-fair-cancellation-message"));}
+
+    private By fairsClose(){return By.cssSelector("button[class='ui button']");}
+
 }
