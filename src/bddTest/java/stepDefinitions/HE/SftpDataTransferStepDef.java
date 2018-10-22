@@ -39,5 +39,10 @@ public class SftpDataTransferStepDef implements En {
         And("^HE I select the Disable Server Fingerprint Verification link$", sftpDataTransferPage::clickOnDisableFingerPrintVerification);
         And("^HE I verify that the server fingerprint verification is disabled$", sftpDataTransferPage::verifyFingerPrintToVerifyServerIsNotEnabled);
         And("^HE I verify that the new fingerprint detected alert box is not displayed$", sftpDataTransferPage::verifyNewFingerPrintDetectedAlertBoxIsNotDisplayed);
+        And("^HE I go to the Set Edit Connection page$",sftpDataTransferPage::goToEditConnectionPage);
+        And("^HE I verify the last updated label has the text: \"([^\"]*)\"$", sftpDataTransferPage::verifyConnectionLastUpdateText);
+        And("^HE I go to the Main Sftp Connection page$",sftpDataTransferPage::goToSftpConnectionMainPageThroughTitleLink);
+        And("^HE fill the sftp connection form with the following data$",sftpDataTransferPage::fillSftpConnectionData);
+        And("^HE I verify that the warning toast that says \"([^\"]*)\" is displayed$", sftpDataTransferPage::verifyWarningToastText);
     }
 }
