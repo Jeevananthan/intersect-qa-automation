@@ -9243,9 +9243,9 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement fairsDatePicker(){return getDriver().findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));}
 
-    private WebElement fairsStartTimeTextBox(){return getDriver().findElement(By.xpath("//form//input[@id='college-fair-start-time']"));}
+    private WebElement fairsStartTimeTextBox(){return getDriver().findElement(By.cssSelector("form input[id='college-fair-start-time']"));}
 
-    private WebElement fairsEndTimeTextBox(){return getDriver().findElement(By.xpath("//form//input[@id='college-fair-end-time']"));}
+    private WebElement fairsEndTimeTextBox(){return getDriver().findElement(By.cssSelector("form input[id='college-fair-end-time']"));}
 
     private WebElement fairsRSVPDatePicker(){return getDriver().findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));}
 
