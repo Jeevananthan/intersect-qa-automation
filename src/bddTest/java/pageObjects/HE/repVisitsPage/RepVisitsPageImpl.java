@@ -3646,7 +3646,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return school;
     }
     private WebElement saveButton() {
-        WebElement button=getDriver().findElement(By.xpath("//button/span[text()='Save']"));
+        WebElement button=getDriver().findElement(By.xpath("//button/span[text()='SAVE']"));
         return button;
     }
     private WebElement yesButton() {
