@@ -199,5 +199,8 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I select the "Test Optional" checkbox from "Admission" fit criteria
-    Then SM I verify that "Colby College" contains the label "Test Optional" in Academic Match
+    Then SM I verify that "California State University-Los Angeles" contains the label "Test Optional" in Academic Match
+    And SM I press Why button for "California State University-Los Angeles" college
+    Then SM I verify that "Test Optional" is displayed in the "Must Have" box in the Why Drawer
+
 
