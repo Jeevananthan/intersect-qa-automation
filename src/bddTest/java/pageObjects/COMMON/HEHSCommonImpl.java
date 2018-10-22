@@ -114,6 +114,10 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         softly().assertThat(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[text()='" + text + "']")));
     }
 
+    public void pickFromTHeMenuItems(String menuItem) {
+            getDriver().findElement(By.id(getMenuItemById(menuItem))).click();
+    }
+
 //locators
     private WebElement notification(){
         return driver.findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Notifications']"));
@@ -154,5 +158,11 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
     private String getMenuTabLocator(String advancedAwarenessTab) {
         return "//div[2]//a/span[text()=\"" + advancedAwarenessTab + "\"]";
+    }
+
+    private String getMenuItemById(String menuItem) {
+        String lowCaseText = menuItem.toLowerCase();
+        lowCaseText = lowCaseText.replace(" ", "-");
+        return "js-main-nav-" + lowCaseText + "-menu-link";
     }
 }

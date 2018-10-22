@@ -136,6 +136,16 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Then HE I verify "sat" value for the first row is "1250" on the Threshold Page
     Then HE I verify "act" value for the first row is "13" on the Threshold Page
 
+  @MATCH-5138
+  Scenario:  As an Intersect User with Advanced Awareness provisioned,  I need to have Advanced Awareness displayed
+  as navigational items so that I can access those subscriptions easily.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then SM I press button "Home"
+    Then HE I pick the "Advanced Awareness" from the menu items
+    Then I check if I can see "Your Advanced Awareness and Connection Subscriptions" on the page
+    Then HE I navigate to the "home" url
+    And SM I press button "Configure"
+    Then I check if I can see "Your Advanced Awareness and Connection Subscriptions" on the page
 
 
 
