@@ -9229,8 +9229,6 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement noGoBackButton() { return getDriver().findElement(By.cssSelector("button[id='go-back']"));  }
 
-    private WebElement removeButton(){return getDriver().findElement(By.xpath("//button/span[text()='REMOVE']"));}
-
     private By fairsViewDetails(String fairNametoClickViewDetails){ return By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+fairNametoClickViewDetails+"']/parent::tr/td/a[span='View Details']");}
 
     private WebElement attendeeCancellationMessageTextBox(){return getDriver().findElement(By.xpath("//textarea[@id='attendee-cancellation-message']"));}

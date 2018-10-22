@@ -1544,9 +1544,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         setDate(gotoDate, "Go To Date");
         time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        waitUntil(ExpectedConditions.visibilityOf(avialabilityButton(visitDate,time)));
-        Assert.assertTrue("Availability is not displayed",avialabilityButton(visitDate,time).isDisplayed());
-        avialabilityButton(visitDate,time).click();
+        waitUntil(ExpectedConditions.visibilityOf(availabilityButton(visitDate,time)));
+        Assert.assertTrue("Availability is not displayed",availabilityButton(visitDate,time).isDisplayed());
+        availabilityButton(visitDate,time).click();
         waitUntilPageFinishLoading();
     }
 
@@ -3450,10 +3450,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public WebElement schoolInVisits(String school) {
         WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
         return  schoolName;
-    }
-
-    public WebElement avialabilityButton(String visitDate,String time){
-        return getDriver().findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+time+"']"));
     }
 
     //Locators
