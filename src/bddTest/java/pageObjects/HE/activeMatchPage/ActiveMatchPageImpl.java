@@ -13,6 +13,7 @@ import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.Date.DateUtility;
 import utilities.File.CsvFileUtility;
 import utilities.File.FileManager;
+import utilities.GetProperties;
 
 import java.util.List;
 
@@ -127,7 +128,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     public void verifyDefaultdropdownMenuSelection(String defaultMenuSelection,DataTable dataTable){
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        getNavigationBar().goToActiveMatch();
+        load(GetProperties.get("he.app.url")+ "connection/connections");
         waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
         for (String option : value) {
@@ -136,9 +137,9 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             getNavigationBar().goToRepVisits();
             waitUntilPageFinishLoading();
-            getNavigationBar().goToActiveMatch();
+            load(GetProperties.get("he.app.url")+ "connection/connections");
             waitUntilPageFinishLoading();
-            Assert.assertTrue("Since Last Export is not present as a default dropdown menu selection",driver.findElement(By.xpath("//div[@class='ui button dropdown gyhR4eL0bZuX-AtA9-Cgy']/div[text()='"+defaultMenuSelection+"']")).isDisplayed());
+            Assert.assertTrue("Since Last Export is not present as a default dropdown menu selection",driver.findElement(By.xpath("//div[text()='"+defaultMenuSelection+"']")).isDisplayed());
      }}
 
     //locators
@@ -154,7 +155,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         for(String value:list){
             moveToElement(driver.findElement(By.xpath("//div/span[text()='"+option+"']/parent::div/following-sibling::div/span[text()='"+value+"']")));
             Assert.assertTrue(value+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+option+"']/parent::div/following-sibling::div/span[text()='"+value+"']")).isDisplayed());
-        }getNavigationBar().goToActiveMatch();
+        }getDriver().navigate().refresh();
       }
 
     public void verifySelectedHeader(String Option,DataTable dataTable){
@@ -223,7 +224,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         return Tab;
     }
     private WebElement exportConnectionsDropdown() {
-        WebElement button=driver.findElement(By.xpath("//div[@class='ui button dropdown gyhR4eL0bZuX-AtA9-Cgy']"));
+        WebElement button=driver.findElement(By.xpath("//div[text()='Since Last Export']"));
         return button;
     }
     private WebElement downloadButton(){
