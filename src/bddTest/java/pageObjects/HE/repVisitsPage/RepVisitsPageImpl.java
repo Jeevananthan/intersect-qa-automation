@@ -4011,11 +4011,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public By school(String school){
-        return By.xpath("//td/a[contains(text(),'"+school+"')]");
+        return By.xpath("//td//a[contains(text(),'"+school+"')]");
     }
 
     public WebElement verifySchool(String school){
-        return getDriver().findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        return getDriver().findElement(By.xpath("//td//a[contains(text(),'"+school+"')]"));
     }
 
     public WebElement showMoreButton(String option){
@@ -4025,9 +4025,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> getDateInRequestTab(){return driver.findElements(By.cssSelector("div[class='row _7a-AX8OE6ILreCgE8P27C']+div>div>div+div>span"));}
     private By schoolNameText(String school){
         return By.xpath("//td/a[contains(text(),'"+school+"')]");
-    }
-    private WebElement submitRequestText(){
-        return text("Yes, Submit Request");
     }
 }
 

@@ -224,12 +224,14 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 #verify staff member dropdown
     Then HE I verify the current user "HE, Purple" is displaying in Select staff member dropdown list
     Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in Select staff member dropdown list
+    Then HE I click Go Back button
     Then HE I verify the users are listed in A-Z order in 'select staff member' dropdown
 #verify new assignee dropdown
     Then HE I select the user "Alpena, purple" in select staff member dropdown
     Then HE I verify the current user "HE, Purple" is displaying in Select new assignee dropdown list
     Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in new assignee dropdown list
     Then HE I verify the in active user "InActive, PurpleHE" is not selectable in Select new assignee dropdown
+    Then HE I click Go Back button
     Then HE I verify the users are listed in A-Z order in 'Select new assignee' dropdown using "HE, Purple"
     Then HE I verify the user "HE, Purple" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
 

@@ -377,9 +377,9 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
 
     private List<WebElement> currentUserList(String currentUser){return getDriver().findElements(By.xpath("//div[text()='"+currentUser+"']"));}
-    private WebElement userInSelectStaffMember(String selectUser){return getDriver().findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+selectUser+"']"));}
+    private WebElement userInSelectStaffMember(String selectUser){return getDriver().findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+selectUser+"']"));}
     private WebElement excludedUser(String user){return getDriver().findElement(By.xpath("//div[text()= '" + user + "']"));}
-    private WebElement userInNewAssignee(String newAssignee){return getDriver().findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='menu transition visible']/div/div[text()='"+newAssignee+"']"));}
+    private WebElement userInNewAssignee(String newAssignee){return getDriver().findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+newAssignee+"']"));}
     private WebElement selectFairsAppointment(String fairsDate,String school,String noOfStudents){return getDriver().findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
             "div/span[text()='College Fair']/ancestor::div/following-sibling::div[@class='twelve wide column']" +
             "/div/div//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/span[text()='Number of Expected Students']" +
