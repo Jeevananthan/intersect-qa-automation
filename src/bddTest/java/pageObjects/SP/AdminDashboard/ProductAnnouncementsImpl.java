@@ -332,7 +332,7 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement getProductAnnouncementsLabel(){
-        return driver.findElement(By.cssSelector("span._1103HJBLer5n5AcCg0Meht"));
+        return driver.findElement(By.cssSelector("h2[class='ui header']"));
     }
 
     /**

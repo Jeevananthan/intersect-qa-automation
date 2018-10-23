@@ -174,14 +174,6 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
             deleteButton().click();
 
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
-
-
-        waitUntilPageFinishLoading();
-        driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).click();
-        waitUntilPageFinishLoading();
-        deleteButton().click();
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
     }
 
     public void verifyValueRadiusFromZips(String expectedValue) {
@@ -259,7 +251,8 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     private WebElement countiesOption(String optionName) { return driver.findElement(By.xpath("//span[text() = '" + optionName + "']")); }
 
     private String subscriptionRemoveButton(String diversity, String startDate) {
-        return "//tbody/tr/td[text() = '" + diversity + "']/../td[6]/span[text() = '" + startDate + "']/../../td/button";}
+        return String.format("//td[text()='%s']/preceding-sibling::td/following-sibling::td/span[text()='%s']/ancestor::tr/td/button",diversity,startDate);
+    }
 
     private String removeButtonListLocator = "button.ui:not(.icon)";
 
@@ -271,6 +264,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     private WebElement clickSubscriptionName(String subName){
         return  driver.findElement(By.xpath("//a[text()='" + subName + "']"));
     }
+
 }
 
 
