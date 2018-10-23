@@ -347,6 +347,30 @@ public class NavigationBarImpl extends SeleniumBase {
         getDriver().navigate().refresh();
     }
 
+    /**
+     * Goes to the Admin Dashboard menu
+     */
+    public void goToAdminDashboard(){
+        getAdminDashboardLink().click();
+        waitUntil(ExpectedConditions.visibilityOf(getAdminDashboardLabel()));
+    }
+
+    /**
+     * Gets the Admin Dashboard link
+     * @return WebElement
+     */
+    private WebElement getAdminDashboardLink(){
+        return getDriver().findElement(By.id("js-main-nav-admin-menu-link"));
+    }
+
+    /**
+     * Gets the Admin Dashboard label
+     * @return WebElement
+     */
+    private WebElement getAdminDashboardLabel(){
+        return getDriver().findElement(By.cssSelector("h1._2uZ_hMKXaU0AzfCZMfjh1t"));
+    }
+
     //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
     //Read more information here: https://imalittletester.com/2016/05/11/selenium-how-to-wait-for-an-element-to-be-displayed-not-displayed/
     private void waitForElementSetMaxTimeout() {

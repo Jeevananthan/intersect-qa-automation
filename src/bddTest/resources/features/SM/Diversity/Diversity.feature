@@ -257,3 +257,15 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     And SM I remove the option "American Baptist" from the dropdown field
     Then SM I verify that 1 items are displayed in the dropdown field
     Then SM I verify that the Must Have box contains "Religious Affiliation [1]"
+
+  @MATCH-3948
+  Scenario: As a HS student that is comparing my pinned schools, I want to see Diversity details about each college
+  side by side so I can determine which pinned college is a best fit for me based on their Diversity.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "College of the North Atlantic" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify all the below options available in Diversity fit criteria in Diversity expandable drawer
+      |Coed| Gender Mix| Out-of-state Students |International Students|Percentage Minority |% American Indian or Alaskan Native |% Asian|% Black or African American|% Hispanic/Latin|% Native Hawaiian or other Pacific Islander|Religious Affiliation |Diversity Affiliation|
+      |Yes| 0% Female\n0% Male |10%| Unknown |0%| 0%| 0%| 0%| 0%| Unknown |Unknown| Unknown|

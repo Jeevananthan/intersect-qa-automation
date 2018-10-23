@@ -10,7 +10,6 @@ public class HomePageStepDefs implements En {
     public HomePageStepDefs() {
 
         HomePageImpl homePage = new HomePageImpl();
-        NavBarImpl navBar = new NavBarImpl();
         EventsPageImpl eventsPage = new EventsPageImpl();
 
         Then("^HE I am able to successfully login$", homePage::verifyUserIsLoggedIn);

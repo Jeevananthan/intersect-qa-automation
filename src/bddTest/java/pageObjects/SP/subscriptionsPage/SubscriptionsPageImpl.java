@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -77,6 +78,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Zips" :
                     if (!row.get(1).equals("None")) {
+                        chooseZipsField().clear();
                         chooseZipsField().sendKeys(row.get(1));
                     }
                     break;
@@ -151,25 +153,55 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         String location = "";
         String diversity = "";
         String startDate = "";
+
+        List<WebElement> subList = driver.findElements(By.xpath(subscriptionRemoveButton(diversity, startDate)));
+        int sizeOfSubList = subList.size();
         for (List<String> row : details) {
             switch (row.get(0)) {
-                case "Diversity" :
+                case "Diversity":
                     diversity = row.get(1);
                     break;
-                case "Start Date" :
+                case "Start Date":
                     Calendar futureDate = getDeltaDate(Integer.parseInt(row.get(1).split(" ")[0]));
                     startDate = getMonth(futureDate).substring(0, 3) + " " + getDay(futureDate) + ", " + getYear(futureDate);
                     break;
+
             }
         }
-        driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).click();
-        waitUntilPageFinishLoading();
-        deleteButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
+            waitUntilPageFinishLoading();
+            driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).click();
+            waitUntilPageFinishLoading();
+            deleteButton().click();
+
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
     }
 
     public void verifyValueRadiusFromZips(String expectedValue) {
         Assert.assertTrue("The value in Radius From Zips field is not correct", radiusFromZipsField().getAttribute("value").equals(expectedValue));
+    }
+
+    public void deleteMultipleSubscriptions(){
+        List<WebElement> buttonList = driver.findElements(By.cssSelector(removeButtonListLocator));
+        for (WebElement removeButton : buttonList){
+            waitUntilPageFinishLoading();
+            removeButton.click();
+            waitUntilPageFinishLoading();
+            deleteButton().click();
+
+        }
+
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(removeButtonListLocator),0 ));
+
+
+
+
+    }
+
+    public void openSubscription(String subscriptionName){
+        driver.navigate().refresh();
+        waitUntilPageFinishLoading();
+        clickSubscriptionName(subscriptionName).click();
+
     }
 
     //Locators
@@ -219,12 +251,20 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     private WebElement countiesOption(String optionName) { return driver.findElement(By.xpath("//span[text() = '" + optionName + "']")); }
 
     private String subscriptionRemoveButton(String diversity, String startDate) {
-        return "//tbody/tr/td[text() = '" + diversity + "']/../td[6]/span[text() = '" + startDate + "']/../../td/button";
+        return String.format("//td[text()='%s']/preceding-sibling::td/following-sibling::td/span[text()='%s']/ancestor::tr/td/button",diversity,startDate);
     }
+
+    private String removeButtonListLocator = "button.ui:not(.icon)";
 
     private WebElement deleteButton() {
         return driver.findElement(By.cssSelector("button[class *= 'ui teal basic button']"));
+
     }
+
+    private WebElement clickSubscriptionName(String subName){
+        return  driver.findElement(By.xpath("//a[text()='" + subName + "']"));
+    }
+
 }
 
 

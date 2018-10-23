@@ -240,7 +240,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     private String getDataForSpecificFilter(String fitTab, String criteriaName, int collegPosition) {
-        if(fitTab.trim().length() != 0) {
+        if (fitTab.trim().length() != 0) {
             return driver.findElement(By.xpath("//table[caption='" + fitTab + "']//div[text()='" +
                     criteriaName + "']/../../td[" + (collegPosition + 1) + "]/span")).getText();
         } else {
@@ -250,13 +250,107 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyTextDataForCriteria(String fitTab, String criteriaName, Integer collegePosition, String expectedText){
+    public void verifyTextDataForCriteria(String fitTab, String criteriaName, Integer collegePosition, String expectedText) {
 
-       String actualText =  getDataForSpecificFilter(fitTab, criteriaName,collegePosition);
-       Assert.assertEquals(actualText, expectedText);
+        String actualText = getDataForSpecificFilter(fitTab, criteriaName, collegePosition);
+        Assert.assertEquals(actualText, expectedText);
+    }
+
+    public void verifyResourcesExpandableDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expResourcesOptions[] = new String[data.get(0).size()];
+        String expResurceOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++) {
+            expResourcesOptions[i] = data.get(0).get(i);
+            expResurceOptionsValues[i] = data.get(1).get(i);
+        }
+        for (int i = 0; i < resourcesOptions().size(); i++) {
+            Assert.assertTrue(resourcesOptions().get(i) + " option is not matching with the expected option ie " + expResourcesOptions[i], resourcesOptions().get(i).getText().equals(expResourcesOptions[i]));
+            if(expResourcesOptions[i].equals("Asperger's/Autism Support"))
+                continue;
+            String actResurceOptionsValues = driver.findElement(By.xpath("//div[text()='"+expResourcesOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue("temp", actResurceOptionsValues.equals(expResurceOptionsValues[i]));
+        }
+    }
+
+    public void clearPinnedColleges(){
+        if (Integer.parseInt(getPinnedCollegesCount().getText())>0){
+            pinnedDropdown().click();
+            clearPinnedListOption().click();
+            yesClearMyListButton().click();
+            waitForElementTextToEqual(getPinnedCollegesCountFooter(), "0");
+            Assert.assertTrue("Colleges are not cleared, still it's showing the count "+getPinnedCollegesCount().getText(), Integer.parseInt(getPinnedCollegesCount().getText())==0);
+        }
+    }
+
+    public void pinCollegeFromBottomSearchResult(String collegeName){
+        searchBar().sendKeys(collegeName);
+        String searchedCollegePinString = "//a[text()='"+collegeName+"']/../../div/a/span[text()='PIN']";
+        WebElement searchedCollegePinButton = driver.findElement(By.xpath(searchedCollegePinString));
+        searchedCollegePinButton.click();
+    }
+
+    public void verifyStudentLifeExpandableDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expStudentLifeOptions[] = new String[data.get(0).size()];
+        String expStudentLifeOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++){
+            expStudentLifeOptions[i] = data.get(0).get(i);
+            expStudentLifeOptionsValues[i] = data.get(1).get(i);
+        }
+        for (int i = 0; i < studentLifeOptions().size(); i++) {
+            Assert.assertTrue(studentLifeOptions().get(i) + " option is not matching with the expected option ie " + expStudentLifeOptions[i], studentLifeOptions().get(i).getText().equals(expStudentLifeOptions[i]));
+            String actResurceOptionsValues = driver.findElement(By.xpath("//div[text()='"+expStudentLifeOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue("temp", actResurceOptionsValues.equals(expStudentLifeOptionsValues[i]));
+        }
+    }
+
+    public void verifyDiversityExpandableDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expDiversityOptions[] = new String[data.get(0).size()];
+        String expDiversityOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++){
+            expDiversityOptions[i] = data.get(0).get(i);
+            expDiversityOptionsValues[i] = data.get(1).get(i);
+        }
+        for (int i = 0; i < diversityOptions().size(); i++) {
+            Assert.assertTrue(diversityOptions().get(i) + " option is not matching with the expected option ie " + expDiversityOptions[i], diversityOptions().get(i).getText().equals(expDiversityOptions[i]));
+            String actDiversityOptionsValues = driver.findElement(By.xpath("//div[text()='"+expDiversityOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue("temp", actDiversityOptionsValues.equals(expDiversityOptionsValues[i]));
+        }
     }
 
     // Locators Below
+
+    private List<WebElement> diversityOptions(){ return diversityDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
+    private WebElement diversityDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Diversity']/.."));
+    }
+    private WebElement studentLifeDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Student Life']/.."));
+    }
+    private List<WebElement> studentLifeOptions(){ return studentLifeDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
+    private WebElement getPinnedCollegesCountFooter(){return driver.findElement(By.id("pinCount"));}
+    private WebElement searchBar(){return driver.findElement(By.id("supermatch-search-box-input"));}
+    private List<WebElement> resourcesOptions(){ return resourceDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+    private WebElement yesClearMyListButton() {
+        return clearPinnedListModal().findElement(By.xpath(".//button[text()='YES, CLEAR MY LIST']"));
+    }
+    private WebElement clearPinnedListModal() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'visible active supermatch-modal')]"));
+    }
+    private WebElement clearPinnedListOption() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Clear Pinned List')]//ancestor::div[1]"));
+    }
+    private WebElement pinnedDropdown() {
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'supermatch-pinned-dropdown')]"));
+    }
+    private  WebElement getPinnedCollegesCount(){return driver.findElement(By.id("pinCount"));}
+    private WebElement resourceDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Resources']/.."));
+    }
 
     private String drawersListLocator = "thead.toggle-enabled";
     private String drawersArrowsLocator = "div.ui.segment.supermatch-compare-content i.caret";

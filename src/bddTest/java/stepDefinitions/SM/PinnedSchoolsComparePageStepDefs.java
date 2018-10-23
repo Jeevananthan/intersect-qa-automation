@@ -30,5 +30,13 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I verify that in the \"([^\"]*)\" criteria table \"([^\"]*)\" criteria for the (\\d+) college is \"([^\"]*)\"$", pinnedSchoolsComparePage::verifyTextDataForCriteria);
 
+        And("^SM I verify all the below options available in Resources fit criteria in Resources expandable drawer$", pinnedSchoolsComparePage::verifyResourcesExpandableDrawerOptions);
+
+        And("^SM I clear all the pinned college$", pinnedSchoolsComparePage::clearPinnedColleges);
+
+        And("^SM I verify all the below options available in Student Life fit criteria in Student Life expandable drawer$", pinnedSchoolsComparePage::verifyStudentLifeExpandableDrawerOptions);
+
+        And("^SM I verify all the below options available in Diversity fit criteria in Diversity expandable drawer$", pinnedSchoolsComparePage::verifyDiversityExpandableDrawerOptions);
+
     }
 }

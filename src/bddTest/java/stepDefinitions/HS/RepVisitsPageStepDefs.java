@@ -112,6 +112,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify that the time slot was removed from date \"([^\"]*)\", with the start time \"([^\"]*)\"$", repVisits::verifyAbsenceOfTimeSlot);
 
+        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
+
         Then("^HS I clear the day$", repVisits::clearDay);
 
         Then("^HE I set and verify that \"([^\"]*)\" is blocked on the Blocked Days page$", repVisits::verifyManualBlockedHolidays);
@@ -322,6 +324,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I navigate to the Naviance Settings page through the setup Wizard$", repVisits::navigateToNavianceSettingsPage);
 
+        Then("^HS I verify the toast \"([^\"]*)\" displayed when setup Wizard is incomplete$", repVisits::verifyToastInSetupWizardIncomplete);
+
+        Then("^HS I select \"([^\"]*)\" to connect RepVisits with Naviance in the Wizard", repVisits::connectRVWithNaviance);
+
         Then("^HS I click on link Add School User Manually$",repVisits::addSchoolUserManually);
         Then("^HS I Enter Following Data to Add a School User Manually$",repVisits::addDataToAddAttendeeManually);
         Then("^HS I click on button Add attendees$",repVisits::clickAddAttendeetovisit);
@@ -373,7 +379,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the View Details button for the College Fair \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
-        Then("^HS I select Edit button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
+        Then("^HS I select Edit button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRegisteredEditedCollegeFair);
 
         And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
 
@@ -674,6 +680,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I complete the set up wizard that not yet completed by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::completeSetupWizard);
 
+        Then("^HS I complete the set up wizard from any location$",repVisits::completeSetupWizardFromAnylocation);
+
         And("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in Agenda view$", repVisits::setStartDateAndEndDateInAgendaView);
 
         And("^HS I verify that \"([^\"]*)\" visits are displayed in Agenda view$", repVisits::verifyNumberOfVisitsDisplayedInAgendaView);
@@ -718,6 +726,6 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I cancel the open visit$", repVisits::cancelOpenVisit);
        
-       Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+       Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::viewDetailsPageforEditedFair);
     }
 }
