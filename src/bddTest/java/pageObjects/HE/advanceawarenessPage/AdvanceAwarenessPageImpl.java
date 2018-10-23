@@ -82,7 +82,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     //locators
 
     private WebElement configureSub(String clickConfigure){
-        return driver.findElement(By.xpath("//div[text()='"+clickConfigure +"']/../div/a"));
+        return driver.findElement(By.xpath("//div/h2[text()='"+clickConfigure +"']/../div/a"));
     }
     private WebElement selectMenuOption(String clickMenuOption){
         return driver.findElement(By.xpath("//ul[@class='ui vertical third menu']/li/a[@class='menu-link']/span[text()='" + clickMenuOption +"']"));

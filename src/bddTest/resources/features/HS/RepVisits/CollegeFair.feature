@@ -241,7 +241,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   Scenario: As a HS RepVisits user,
   I need to be able to access all college fairs from the dashboard
   So i know what's upcoming and can see previous fairs' data.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I create a dynamic College Fair with the following data
       | College Fair Name                                         | MATCH-2080 Fair         |
       | Automatically Confirm Incoming Requestions From Colleges? | no                      |

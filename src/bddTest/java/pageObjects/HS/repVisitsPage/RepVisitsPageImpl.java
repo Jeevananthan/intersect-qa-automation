@@ -1506,6 +1506,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             link("View More Upcoming Events").click();
             waitUntilPageFinishLoading();
         }
+        fairNametoClickViewDetails = FairName;
         waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsViewDetails(fairNametoClickViewDetails)));
         selectViewDetails(fairNametoClickViewDetails).click();
         waitUntilPageFinishLoading();
@@ -1947,7 +1948,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(!collegeFairName.equals("")) {
             WebElement currentCollegeFairName = textbox(By.id("college-fair-name"));
             currentCollegeFairName.clear();
-            currentCollegeFairName.sendKeys(collegeFairName);
+            currentCollegeFairName.sendKeys(FairName);
         }
         if(!date.equals("")) {
             WebElement datepicker = driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));
@@ -2001,7 +2002,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessCollegeFairOverviewPage(String fairName) {
         getNavigationBar().goToRepVisits();
         collegeFairs().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("add-college")));
         while (moreUpComingEvents().size()>0) {
             viewMoreUpcomingEventsLink().click();
             waitUntilPageFinishLoading();
@@ -3115,7 +3116,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             button(By.xpath("//a[@aria-label='"+FairName+"']")).click();
             button(By.xpath("//button[@id='edit-college-fair']")).click();
 //        button("Cancel This College Fair").click();
-            driver.findElement(By.cssSelector("button[class='ui red basic button _1cCLCZWTdTFaaExQxVjUzr _2Mxz8MGcxLQjyp9ht7UTNz']")).click();
+            cancelFairsButton().click();
             if (getDriver().findElements(By.xpath("//span[contains(text(), 'Yes, Cancel this fair')]")).size() >= 1) {
                 button("yes, cancel this fair").click();
                 waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Close']"),1));
@@ -3232,7 +3233,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      * @param dataTable - Data Table containing all the fields for the College Fair
      */
     public void editCollegeFair(DataTable dataTable) {
-       editFair();
+       editCFFair();
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String key : data.keySet()) {
             if(key.equals("Date")){
@@ -3261,7 +3262,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      * @param dataTable - Data Table containing all the fields for the College Fair
      */
     public void verifyDataCollegeFair(DataTable dataTable) {
-        editFair();
+        editCFFair();
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String key : data.keySet()) {
             if(key.equals("Date")){
@@ -3711,6 +3712,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessSuccessMessageforAddAttendees(String buttonName) {
         if (buttonName.equals("No, I'm Done")) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class='ui button']")));
+            waitForUITransition();
             iamDoneButton().click();
         } else if (buttonName.equals("Yes, Add More")) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[id='next-action']")));
@@ -4070,8 +4072,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
 
 //        driver.findElement(By.cssSelector("button[title= 'Forwards']")).click();
-        waitUntilElementExists(driver.findElement(By.cssSelector("button[class= 'ui teal basic button _1I0GHfcjpniiDr2MOWxpxw']")));
-        waitForUITransition();
+//        waitUntilElementExists(driver.findElement(By.cssSelector("button[class= 'ui teal basic button _1I0GHfcjpniiDr2MOWxpxw']")));
+//        waitForUITransition();
         while(!driver.findElement(By.xpath("//*[contains(text(), '" + FairName + "')]")).isDisplayed()){
             driver.findElement(By.cssSelector("button[title= 'Forwards']")).click();
         }
@@ -4099,7 +4101,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Settings' Label is not displayed",driver.findElement(By.xpath("//h2/span[text()='Settings']")).isDisplayed());
         Assert.assertTrue("'Email Message to Colleges After Confirmation' Label is not displayed",driver.findElement(By.xpath("//label[text()='Email Message to Colleges After Confirmation']")).isDisplayed());
         Assert.assertTrue("'Cancel This College Fair' Button is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This College Fair']")).isDisplayed());
-        Assert.assertTrue("'Publish/Unpublish' Button is not displayed",driver.findElement(By.cssSelector("button[class='ui basic primary button']")).isDisplayed());
+        Assert.assertTrue("'Publish/Unpublish' Button is not displayed",unpublishButton().isDisplayed());
 
         if(!FairName.equals("")) {
             String currentFairName = textbox(By.id("college-fair-name")).getAttribute("value");
@@ -4862,7 +4864,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             addRegularHoursButton().click();
             waitUntilPageFinishLoading();
         }else if(option.contains("2")){
-            createTimeSlotOption().click();
+            addTimeSlot().click();
             addRegularHoursButton().click();
 
         }else if(duplicateTimeSlot.size()==1){
@@ -4930,17 +4932,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         // Send a JavaScript click to this control because it will be off-screen.
         jsClick(fairsAutomaticRequestConfirmation());
         fairsExpectedStudentsTextBox().sendKeys(Keys.PAGE_DOWN);
-        fairsExpectedStudentsTextBox().sendKeys(Keys.PAGE_DOWN);
+        eMailMessageTextBox().sendKeys(Keys.PAGE_DOWN);
 
         if(!buttonToClick.equals("")) {
             if(buttonToClick.equals("Cancel This College Fair")) {
-                Assert.assertTrue("'Cancel This College Fair' Button is not displayed", cancelCollegeFairButton().isDisplayed());
-                cancelCollegeFairButton().click();
+                Assert.assertTrue("'Cancel This College Fair' Button is not displayed",cancelFairsButton().isDisplayed());
+                cancelFairsButton().click();
                 waitUntilPageFinishLoading();
             }else if(buttonToClick.equals("Save")){
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Save']")));
-                Assert.assertTrue("'Save' Button is not displayed", editFairsSubmitButton().isDisplayed());
-                jsClick(editFairsSubmitButton());
+                Assert.assertTrue("'Save' Button is not displayed", fairsSaveButton().isDisplayed());
+                jsClick(fairsSaveButton());
                 waitUntilPageFinishLoading();
             }else {
                 Assert.fail("The option for the button to click ="+buttonToClick+" is not a valid one");
@@ -5850,29 +5852,29 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     /*We have to refactor the same method with a Create NEw and Edit a Fair */
     public void cancelRegisteredEditedCollegeFair(String fairName){
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-college-fair")));
+        fairName = FairName;
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(editCollegeFairButton()));
         Assert.assertTrue("Edit button is not displayed",editButtonInCollegeFair().isDisplayed());
         editButtonInCollegeFair().click();
         waitUntilPageFinishLoading();
-        String displayedFairName = driver.findElement(By.id("college-fair-name")).getAttribute("value");
+        String displayedFairName = fairNameTextBox().getAttribute("value");
         Assert.assertTrue("FairName is displayed",displayedFairName.equals(fairName));
-        driver.findElement(By.id("college-fair-start-time")).sendKeys(Keys.PAGE_DOWN);
-        driver.findElement(By.id("college-fair-max-number-colleges")).sendKeys(Keys.PAGE_DOWN);
-        driver.findElement(By.id("college-fair-email-message-to-colleges")).sendKeys(Keys.PAGE_DOWN);
-        Assert.assertTrue("Cancel This College Fair button is not displayed",button("Cancel This College Fair").isDisplayed());
-        button("Cancel This College Fair").click();
+        fairsStartTimeInEditFairsPopup().sendKeys(Keys.PAGE_DOWN);
+        maxNoOfCollegesInEditFairsPopup().sendKeys(Keys.PAGE_DOWN);
+        collegeFairEmailInEditFairsPopup().sendKeys(Keys.PAGE_DOWN);
+        Assert.assertTrue("Cancel This College Fair button is not displayed",cancelCollegeFairButton().isDisplayed());
+        cancelCollegeFairButton().click();
         waitUntilPageFinishLoading();
-        List<WebElement> textbox = driver.findElements(By.id("college-fair-cancellation-message"));
-        if(textbox.size()>0) {
-            driver.findElement(By.id("college-fair-cancellation-message")).sendKeys("by QA");
-            driver.findElement(By.id("college-fair-cancellation-message")).sendKeys(Keys.PAGE_DOWN);
-            button("Cancel fair and notify colleges").click();
+        if(fairCancellationTextBox().size()>0) {
+            cancelMessageTextboxInFairsPopup().sendKeys("by QA");
+            cancelMessageTextboxInFairsPopup().sendKeys(Keys.PAGE_DOWN);
+            notificationButtonForFairsCancel().click();
         }else {
-            button("Yes, Cancel this fair").click();
+            fairCancelButton().click();
         }
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Close']")));
-        driver.findElement(By.xpath("//button[text()='Close']")).click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsClose()));
+        closeButtonInFairsPopup().click();
         waitUntilPageFinishLoading();
     }
 
@@ -8476,6 +8478,11 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntilPageFinishLoading();
         editButton().click();
     }
+
+    public void editCFFair () {
+        waitUntilPageFinishLoading();
+        editCFButton().click();
+    }
     private WebElement noteDeclaration () {
         return getDriver().findElement(By.cssSelector("p._2jKMD8r6D3Vkw7TQidWlZ_"));
     }
@@ -8484,6 +8491,10 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement editButton () {
         return getDriver().findElement(By.cssSelector("button#edit-college-fair.ui.basic.primary.right.floated.button._2WIBPMrHDvfagooC6zkFpq"));
+    }
+
+    private WebElement editCFButton () {
+        return getDriver().findElement(By.cssSelector("button[class='ui right floated button _2WIBPMrHDvfagooC6zkFpq']"));
     }
     private WebElement getSearchBox() {
         return getDriver().findElement(By.xpath("//input[@placeholder='Search for a school...']"));
@@ -8894,6 +8905,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return button;
     }
      private WebElement selectViewDetails(String fairNametoClickViewDetails) {
+        waitUntilElementExists(driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+fairNametoClickViewDetails+"']/parent::tr/td/a[span='View Details']")));
         WebElement select=driver.findElement(By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+fairNametoClickViewDetails+"']/parent::tr/td/a[span='View Details']"));
         return select;
      }
@@ -9199,7 +9211,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement addRegularHoursButton() {  return  button("Add regular hours");    }
 
-    private WebElement removeSingleTimeSlot() {  return getDriver().findElement(By.xpath("//i[@class='trash outline icon _6S_VIt7XKOpy-Mn7y_CJu']"));   }
+    private WebElement removeSingleTimeSlot() {  return getDriver().findElement(By.cssSelector("i[class='trash alternate outline icon _6S_VIt7XKOpy-Mn7y_CJu']"));}
 
     private WebElement acceptButton() {  return driver.findElement(By.cssSelector("button[class='ui primary button']"));   }
 
@@ -9241,9 +9253,9 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement fairsDatePicker(){return getDriver().findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));}
 
-    private WebElement fairsStartTimeTextBox(){ return getDriver().findElement(By.cssSelector("input[id='college-fair-start-time']"));}
+    private WebElement fairsStartTimeTextBox(){return getDriver().findElement(By.cssSelector("form input[id='college-fair-start-time']"));}
 
-    private WebElement fairsEndTimeTextBox(){ return getDriver().findElement(By.cssSelector("input[id='college-fair-end-time']"));}
+    private WebElement fairsEndTimeTextBox(){return getDriver().findElement(By.cssSelector("form input[id='college-fair-end-time']"));}
 
     private WebElement fairsRSVPDatePicker(){return getDriver().findElement(By.xpath("//input[@id='college-fair-rsvp-deadline']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']"));}
 
@@ -9282,4 +9294,18 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntilElementExists(goToDate);
         return  goToDate;
     }
+    private WebElement eMailMessageTextBox(){return getDriver().findElement(By.id("college-fair-email-message-to-colleges"));}
+
+    private WebElement cancelFairsButton(){return getDriver().findElement(By.xpath("//button/span[text()='Cancel This College Fair']"));}
+
+    private WebElement fairsSaveButton(){return getDriver().findElement(By.xpath("//button/span[text()='Save']"));}
+
+    private By editCollegeFairButton(){return By.id("edit-college-fair");}
+
+    private List<WebElement> fairCancellationTextBox(){return getDriver().findElements(By.id("college-fair-cancellation-message"));}
+
+    private By fairsClose(){return By.cssSelector("button[class='ui button']");}
+
+    private WebElement unpublishButton(){return getDriver().findElement(By.cssSelector("button[class='ui button']"));}
+
 }

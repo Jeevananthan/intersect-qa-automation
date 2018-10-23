@@ -61,10 +61,10 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours to "1"
 
-#verify the Exception tab(after changing the NumofVisits : NumVisits-1)
-    Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>","<StartDate>",""
-    Then HS I verify the pills "<StartDate>","<StartTime>" is not displayed in the schedule new visit popup
-#    And HS I successfully sign out
+##verify the Exception tab(after changing the NumofVisits : NumVisits-1)
+#    Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>","<StartDate>",""
+#    Then HS I verify the pills "<StartDate>","<StartTime>" is not displayed in the schedule new visit popup
+##    And HS I successfully sign out
 
 #verify the pills is not present in the search and schedule page
     Given HE I want to login to the HE app using "purpleheautomation+marketing@gmail.com" as username and "Password!1" as password

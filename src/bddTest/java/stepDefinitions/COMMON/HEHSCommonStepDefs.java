@@ -22,6 +22,7 @@ public class HEHSCommonStepDefs implements En {
         Then("^HE I verify \"([^\"]*)\" value for the first row is \"([^\"]*)\" on the Threshold Page$",HEHSCommonImpl::verifyFilterValue);
         Then("^HE I set filter value \"([^\"]*)\" for \"([^\"]*)\" on the Threshold Page$",HEHSCommonImpl::setValue );
         Then("^HE I clear filter value for \"([^\"]*)\" on the Threshold Page$", HEHSCommonImpl::clearFilterValue);
+        Then("^HE I pick the \"([^\"]*)\" from the menu items$", HEHSCommonImpl::pickFromTHeMenuItems);
 
     }
 }
