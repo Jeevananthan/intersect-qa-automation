@@ -484,7 +484,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement deleteSftpConfigurationButton(){
-        return getDriver().findElement(By.cssSelector("button[class='ui teal button']"));
+        return getDriver().findElement(By.cssSelector("button[class='ui primary button']"));
     }
 
     /**
@@ -492,7 +492,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return By
      */
     private By setupConnectionButtonLocator(){
-        return By.cssSelector("a[class='ui basic primary button _3cZsSOtK8zE89dYeekrtKo']");
+        return By.cssSelector("a[class='ui primary button _3cZsSOtK8zE89dYeekrtKo']");
     }
 
     /**
