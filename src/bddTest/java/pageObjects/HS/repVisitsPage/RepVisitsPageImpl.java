@@ -258,7 +258,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         if (availabilityData.get(key).contains("Yes, accept all incoming requests.")){
                             Assert.assertTrue("Confirmation option is not set as expected",driver.findElement(By.cssSelector("[id=autoConfirmVisit-yes]")).isSelected());
                         } else if (availabilityData.get(key).contains("No, I want to manually review all incoming requests.")) {
-                            Assert.assertTrue("Confirmation option is not set as expected", driver.findElement(By.cssSelector("[id=autoConfirmVisit-no]")).isSelected());
+                            Assert.assertFalse("Confirmation option is not set as expected", driver.findElement(By.cssSelector("[id=autoConfirmVisit-no]")).isSelected());
                         } else {
                             Assert.fail("\"" + availabilityData.get(key) + "\" is not a valid input for visit request confirmations.");
                         }
@@ -572,18 +572,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String displayStartEndForVisitsText = "Start and End Dates For Visits";
         waitUntilElementExists( getDriver().findElement(By.cssSelector("div[class='_10Tg7oamBO_AGbl5OgX9ba']")));
         Assert.assertTrue(dayTableText + " Text is not displayed",
-                startEndDatesForVisitsText.contains("MON"));
-        Assert.assertTrue(dayTableText + " Text is not displayed",
-                startEndDatesForVisitsText.contains("TUE"));
-        Assert.assertTrue(dayTableText + " Text is not displayed",
-                startEndDatesForVisitsText.contains("WED"));
-        Assert.assertTrue(dayTableText + " Text is not displayed",
-                startEndDatesForVisitsText.contains("THU"));
-        Assert.assertTrue(dayTableText + " Text is not displayed",
-                startEndDatesForVisitsText.contains("FRI"));
-
+                dayTableText.contains("MON TUE WED THU FRI"));
         Assert.assertTrue(displayStartEndForVisitsText + " Text is not displayed",
-                startEndDatesForVisitsText.contains(displayStartEndForVisitsText));
+                dayTableText.contains(displayStartEndForVisitsText));
         Assert.assertTrue("Button Start Date is not showing.",
                 button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']")).isDisplayed());
         Assert.assertTrue("Button End Date is not showing.",
