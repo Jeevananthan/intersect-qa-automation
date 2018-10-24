@@ -2593,11 +2593,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyScoresInAcademicMatch(Integer positionInResultTable, DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         List<String> scoresList = dataTable.asList(String.class);
         List<WebElement> scoresInUIList = driver.findElements(By.xpath(studentScoresInAcademicMatchLocator(positionInResultTable)));
         for (int i = 0; i < scoresList.size(); i++) {
             softly().assertThat(scoresInUIList.get(i).getText()).as("The student score in Academic Match cell is incorrect.")
-                    .contains(scoresList.get(i));
+                    .isEqualTo(scoresList.get(i));
         }
 
     }
