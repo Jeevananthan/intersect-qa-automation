@@ -1245,12 +1245,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCalendarSyncMilestoneInSetupWizard(){
-        waitForUITransition();
-        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")));
-        driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//h1/span[text()='Tell us about your High School']"), 1));
+        doubleClick(visitsAndFairsRadioButton());
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Calendar Sync']")).size()==0) {
             waitUntilPageFinishLoading();
             waitForUITransition();
@@ -1638,12 +1636,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public  void verifyRepvisitsSetupWizardTimeZoneMilestones() {
-        waitForUITransition();
-        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
         load(GetProperties.get("hs.WizardAppSelect.url"));
-
-        // getStartedBtn().click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//h1/span[text()='Tell us about your High School']"), 1));
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='High School Information']")).size()==0) {
             waitUntilElementExists(nextButton());
             nextButton().click();
@@ -1661,13 +1656,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void navigateToFairsAndVisistsAndVerifyEachScreen(){
 
-        //verifying the navigation of corresponding screen for 'Fairs' , 'Visits' and 'Visits and Fairs'
-
+     //verifying the navigation of corresponding screen for 'Visits'
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         waitForUITransition();
-        waitUntilElementExists(visitsRadioButton());
-        visitsRadioButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("input[value='VISITS']"), 1));
+        doubleClick(visitsRadioButton());
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
             nextButton().click();
             waitUntilPageFinishLoading();
@@ -1675,18 +1669,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         Assert.assertTrue("'Availability' is not displayed", text("Regular Weekly Hours").isDisplayed());
 
+     //verifying the navigation of corresponding screen for 'Fairs'
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-        driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
-        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
-            nextButton().click();
-            waitUntilPageFinishLoading();
-        }
-        Assert.assertTrue("'Availability' is not displayed", text("Regular Weekly Hours").isDisplayed());
-
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
-        driver.findElement(By.xpath("//input[@value='FAIRS' and @type='radio']")).click();
+        doubleClick(fairsRadioButton());
         while (driver.findElements(By.xpath("//a[@class='menu-link active']/span[text()='College Fairs']")).size()>0) {
             waitUntilElementExists(nextButton());
             nextButton().click();
@@ -1696,16 +1682,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         nextButton().click();
         Assert.assertTrue("'College Fairs' is not displayed", driver.findElement(By.xpath("//a[@class='menu-link qxSNjKWAyYiOIN9yZHE_d']/span[text()='College Fairs']")).isDisplayed());
 
+     //verifying the navigation of corresponding screen for 'Visits and Fairs'
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilPageFinishLoading();
+        doubleClick(visitsAndFairsRadioButton());
+        while (driver.findElements(By.xpath("//div[@class='active step' and @name='Availability']")).size()==0) {
+            nextButton().click();
+            waitUntilPageFinishLoading();
+        }
+        Assert.assertTrue("'Availability' is not displayed", text("Regular Weekly Hours").isDisplayed());
     }
 
 
     public void verifyTimeZoneInRepVisits(String alreadySelectedTimeZone,String newTimeZone){
-
         String timeZoneToSet;
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         waitForUITransition();
-        driver.findElement(By.xpath("//label[text()='Visits and Fairs']/input[@type='radio']")).click();
+        doubleClick(visitsAndFairsRadioButton());
+        waitUntilPageFinishLoading();
         nextButton().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -9215,7 +9210,11 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement acceptButton() {  return driver.findElement(By.cssSelector("button[class='ui primary button']"));   }
 
-    private WebElement visitsRadioButton() {  return driver.findElement(By.xpath("//input[@value='VISITS' and @type='radio']"));   }
+    private WebElement visitsRadioButton() {  return driver.findElement(By.cssSelector("input[value='VISITS']"));   }
+
+    private WebElement fairsRadioButton() {  return driver.findElement(By.cssSelector("input[value='FAIRS']"));   }
+
+    private WebElement visitsAndFairsRadioButton() {  return driver.findElement(By.cssSelector("input[value='VISITS_AND_FAIRS']"));   }
 
     private WebElement circularButton() {  return getDriver().findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']"));   }
 
