@@ -2061,9 +2061,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             waitUntilPageFinishLoading();
             button(text).click();
+            waitUntilPageFinishLoading();
         } catch (Exception e) {
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
+            waitUntilPageFinishLoading();
         }
     }
 
@@ -2252,7 +2254,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void checkNumberOfElementsDisplayed(Integer number, String locator){
 
-        waitUntilPageFinishLoading();
+       waitUntilPageFinishLoading();
        Assert.assertEquals((Integer) driver.findElements(By.cssSelector(locator)).size(), number);
 
     }
