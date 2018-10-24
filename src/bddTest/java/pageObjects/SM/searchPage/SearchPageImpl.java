@@ -2594,6 +2594,21 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyTabIsOpenAfterClickItemInCriteriaBox(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        for (List<String> row : details) {
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(informationalTopBarLocator), 0));
+            getCriteriaPill(row.get(0)).click();
+            verifyFitCriteriaTabOpen(row.get(1));
+            closeButtonForFitCriteria().click();
+        }
+    }
+
+    public void verifyFitCriteriaTabOpen(String fitCriteriaName) {
+        softly().assertThat(innerFitCriteriaTabTitle().getText()).as("The fit criteria tab " + fitCriteriaName + " is not open.")
+                .isEqualTo(fitCriteriaName);
+    }
+
     // Locators Below
 
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
@@ -3144,5 +3159,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getMatchScoreByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
     }
+
+    private WebElement innerFitCriteriaTabTitle() { return driver.findElement(By.cssSelector("h1.supermatch-menu-header")); }
+
+    private WebElement getCriteriaPill(String pillText) { return driver.findElement(By.xpath("//button[text() = '" + pillText + "']")); }
+
+    private String informationalTopBarLocator = "//div[contains(@class, 'message')]/div/span[3]/span[3]";
 }
 

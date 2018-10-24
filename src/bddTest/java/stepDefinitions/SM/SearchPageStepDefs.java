@@ -328,5 +328,7 @@ public class SearchPageStepDefs implements En {
         Then("^SM I un-favorite the school \"([^\"]*)\" from the why drawer$", searchPage::unFavoriteSchoolFromWhyDrawer);
 
         And("^SM I close the why drawer$", searchPage::closeWhyDrawer);
+
+        Then("^SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:$", searchPage::verifyTabIsOpenAfterClickItemInCriteriaBox);
     }
 }

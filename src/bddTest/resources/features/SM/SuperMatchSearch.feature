@@ -716,3 +716,47 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select the "Small City" checkbox from the "Location" fit criteria
     And SM I verify that the Must Have box contains "Location [14]"
     And SM I verify that the Must Have box contains "Campus Surroundings [2]"
+
+  @MATCH-3777
+  Scenario: Certain fit criteria are too wordy/long when they display in the Must Have or Nice to Have box. We need to
+  update how we display these fit criteria within the boxes
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Central" checkbox from "Location" fit criteria
+    And SM I select the "Large City" checkbox from "Location" fit criteria
+    And SM I select the "Very large (Over 20,000 students)" checkbox from "Institution Characteristics" fit criteria
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I click "Diversity" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Advent Christian Church" from the list "span.text"
+    And SM I select the "Bachelor's" radio button from the Academics fit criteria
+    Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      |Accounting|
+    Then SM I select the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type
+      |Acoustics|
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I close the fit criteria selection window
+    Then SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:
+    | Location [7] | Location |
+    | Campus Surroundings [1] | Location |
+    | Student Body Size [1]   | Institution Characteristics |
+    | Acceptance Rate [1]     | Admission                   |
+    | Religious Affiliation [1] | Diversity                 |
+    | Major [1]                 | Academics                 |
+    | Minor [1]                 | Academics                 |
+    | Gender Concentration [1]  | Diversity                 |
+    | Athletics [1]             | Athletics                 |
+    And SM I select the "Certificate" radio button from the Academics fit criteria
+    And SM I click "Academics" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Accounting" from the list "span.text"
+    And SM I close the fit criteria selection window
+    Then SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:
+    | Certificate [1] | Academics |
+
+
