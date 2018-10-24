@@ -91,6 +91,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
         //Read more information here: https://stackoverflow.com/questions/6992993/selenium-c-sharp-webdriver-wait-until-element-is-present
         new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("app")));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//title[text()='Intersect - Home']"), 1));
     }
 
     public void openNonNavianceLoginPage(){

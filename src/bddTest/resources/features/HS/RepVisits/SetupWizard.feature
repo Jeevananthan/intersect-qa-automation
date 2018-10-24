@@ -35,7 +35,7 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
 
   @MATCH-1946
   Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
-  so that I can be sure my RepVisits account is properly set up.
+                    so that I can be sure my RepVisits account is properly set up.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to welcome wizard of the repvisits
     And HS I navigate to "Availability" wizard in repvisits

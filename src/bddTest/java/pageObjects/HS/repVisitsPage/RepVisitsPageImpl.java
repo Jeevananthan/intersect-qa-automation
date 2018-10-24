@@ -2641,8 +2641,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         else{
              userTochange = primaryUser;
         }
-        driver.findElement(By.xpath("//div[@name='primaryContact']/div[@class='text']")).click();
-        driver.findElement(By.xpath("//div[@class='menu transition visible']/div/span[text()='" + userTochange + "']")).click();
+
+        getDriver().findElement(By.xpath("//div[@name='primaryContact']/div[@class='text']")).click();
+        clickUsingJavaScript(By.xpath("//div[@class='menu transition visible']/div/span[text()='" + userTochange + "']"));
+
 
         nextButton().click();
         Assert.assertTrue("Calendar Sync page is not displayed", text("iCal/Outlook Subscription").isDisplayed());
