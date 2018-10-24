@@ -719,13 +719,12 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-4271
   Scenario: The Academic Match values are displayed in the academic match cell after the user selects their first fit criteria.
-    #A specific user with different scores will be created for this test
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I select the "Coed" checkbox from the "Diversity" fit criteria
     Then SM I verify that the student's scores for the college in position 1 are displayed in the Academic Match cell:
-    | N/A |
+    | 4   |
     | N/A |
     | N/A |
 
