@@ -101,7 +101,7 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
     Then HS I verify the default calendar page present after the Wizard completion
     And HS I successfully sign out
    #Non-Naviance
-    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Given HS I am logged in to Intersect HS as user type "admin"
     And HS I navigate to the college visits page
     Then HS I verify the default calendar page present after the Wizard completion
 

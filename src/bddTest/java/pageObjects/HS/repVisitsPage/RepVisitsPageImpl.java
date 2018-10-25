@@ -876,17 +876,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessWelcomeSetupWizard(String optionToSelect) {
         waitForUITransition();
         load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilElementExists(driver.findElement(By.xpath("//label/input[@value='VISITS']")));
-//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//label/input[@value='VISITS']"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Tell us about your High School']")));
         if (!optionToSelect.equals("")) {
             if (optionToSelect.equalsIgnoreCase("VISITS")) {
-                driver.findElement(By.xpath("//input[@value='VISITS']")).click();
+                jsClick(driver.findElement(By.xpath("//input[@value='VISITS']")));
                 waitUntilPageFinishLoading();
             } else if (optionToSelect.equalsIgnoreCase("FAIRS")) {
-                driver.findElement(By.xpath("//input[@value='FAIRS']")).click();
+                jsClick(driver.findElement(By.xpath("//input[@value='FAIRS']")));
                 waitUntilPageFinishLoading();
             } else if (optionToSelect.equalsIgnoreCase("VISITS AND FAIRS")) {
-                driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS']")).click();
+                jsClick(driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS']")));
                 waitUntilPageFinishLoading();
             } else {
                 Assert.fail("The given option to select is not a valid one");
@@ -937,7 +936,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessOneLastStepSetupWizard(String visitAvailability) {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-        driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
+        jsClick(driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")));
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size() == 0) {
             waitUntilElementExists( nextButton());
             waitUntilElementExists( nextButton());
@@ -947,9 +946,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Complete page is not displayed", text("Visit Availability").isDisplayed());
         if (!visitAvailability.equals("")) {
             if (visitAvailability.equalsIgnoreCase("All RepVisits Users")) {
-                driver.findElement(By.xpath("//label[text()='All RepVisits Users']/input[@type='radio']")).click();
+                jsClick(driver.findElement(By.xpath("//label[text()='All RepVisits Users']")));
             } else if (visitAvailability.equalsIgnoreCase("Only Me")) {
-                driver.findElement(By.xpath("//label[text()='Only Me']/input[@type='radio']")).click();
+                jsClick(driver.findElement(By.xpath("//label[text()='Only Me']")));
             } else {
                 Assert.fail("The given option for the visitAvailability is not a valid one");
             }
@@ -2269,8 +2268,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         nextButton().click();
         Assert.assertTrue("Availability Settings tab is not loaded",text("Availability Settings").isDisplayed());
         //Visit Confirmation
-        WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
-        options.findElement(By.xpath("div/label[text()[contains(., '"+ visitsConfirmations +"')]]")).click();
+        getDriver().findElement(By.xpath("//div/label[text()[contains(., '"+ visitsConfirmations +"')]]")).click();
         //Prevent Colleges Scheduling New Visits
         WebElement visitBox = getDriver().findElement(By.cssSelector("input[title='Days in advance to prevent colleges from scheduling new visits.'][min='1'][max='99']"));
         visitBox.clear();
@@ -2636,7 +2634,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
 
         getDriver().findElement(By.xpath("//div[@name='primaryContact']/div[@class='text']")).click();
-        clickUsingJavaScript(By.xpath("//div[@class='menu transition visible']/div/span[text()='" + userTochange + "']"));
+        clickUsingJavaScript(By.xpath("//div[@class='visible menu transition']/div/span[text()='" + userTochange + "']"));
 
 
         nextButton().click();
@@ -3434,14 +3432,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         waitForUITransition();
-        driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")).click();
+        jsClick(driver.findElement(By.xpath("//input[@value='VISITS_AND_FAIRS' and @type='radio']")));
         while (driver.findElements(By.xpath("//div[@class='active step' and @name='Complete!']")).size()==0) {
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Next']"), 1));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Next']")));
             nextButton().click();
             waitForUITransition();
             waitUntilPageFinishLoading();
         }
-        driver.findElement(By.xpath("//label[text()='All RepVisits Users']")).click();
+        jsClick(driver.findElement(By.xpath("//label[text()='All RepVisits Users']")));
         nextButton().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -9205,9 +9203,9 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement acceptButton() {  return driver.findElement(By.cssSelector("button[class='ui primary button']"));   }
 
-    private WebElement visitsRadioButton() {  return  getDriver().findElement(By.xpath("//div[@class='field _2sdmYWzbOPHy7r9z3SIJp9']")); 
-                                           }
-    private WebElement visitsRadioButton() {  return driver.findElement(By.cssSelector("input[value='VISITS']"));   }
+    private WebElement visitsRadioButton() {
+        return getDriver().findElement(By.xpath("//div[@class='field _2sdmYWzbOPHy7r9z3SIJp9']"));
+    }
 
     private WebElement fairsRadioButton() {  return driver.findElement(By.cssSelector("input[value='FAIRS']"));   }
 
