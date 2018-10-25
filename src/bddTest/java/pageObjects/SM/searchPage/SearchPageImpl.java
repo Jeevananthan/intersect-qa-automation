@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -2599,7 +2600,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (List<String> row : details) {
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(informationalTopBarLocator), 0));
             getCriteriaPill(row.get(0)).click();
-            verifyFitCriteriaTabOpen(row.get(1));
+            while (driver.findElements(By.cssSelector(innerFitCriteriaTabTitleLocator)).size() == 0 ) {
+                try {
+                    verifyFitCriteriaTabOpen(row.get(1));
+                } catch (NoSuchElementException e) {
+                    getCriteriaPill(row.get(0)).click();
+                    verifyFitCriteriaTabOpen(row.get(1));
+                }
+            }
             closeButtonForFitCriteria().click();
         }
     }
@@ -3160,7 +3168,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
     }
 
-    private WebElement innerFitCriteriaTabTitle() { return driver.findElement(By.cssSelector("h1.supermatch-menu-header")); }
+    private WebElement innerFitCriteriaTabTitle() { return driver.findElement(By.cssSelector(innerFitCriteriaTabTitleLocator)); }
+
+    private String innerFitCriteriaTabTitleLocator = "h1.supermatch-menu-header";
 
     private WebElement getCriteriaPill(String pillText) { return driver.findElement(By.xpath("//button[text() = '" + pillText + "']")); }
 
