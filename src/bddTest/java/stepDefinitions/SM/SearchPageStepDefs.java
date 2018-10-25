@@ -328,5 +328,15 @@ public class SearchPageStepDefs implements En {
         Then("^SM I un-favorite the school \"([^\"]*)\" from the why drawer$", searchPage::unFavoriteSchoolFromWhyDrawer);
 
         And("^SM I close the why drawer$", searchPage::closeWhyDrawer);
+
+        And("^SM I verify the college \"([^\"]*)\" is \"([^\"]*)\" in the results table$", searchPage::verifyCollegeIsPinnedORUnpinnedInResultsTable);
+
+        And("^SM I unpin \"([^\"]*)\"$", searchPage::unpinCollege);
+
+        And("^SM I pin the college \"([^\"]*)\" from the why drawer$", searchPage::pinCollegeFromWhyDrawer);
+
+        And("^SM I unpin the college \"([^\"]*)\" from the why drawer$", searchPage::unpinCollegeFromWhyDrawer);
+
+        And("^SM I verify the college \"([^\"]*)\" is \"([^\"]*)\" in the why drawer$", searchPage::verifyCollegeIsPinnedORUnpinnedInWhyDrawer);
     }
 }

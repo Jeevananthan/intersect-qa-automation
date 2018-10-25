@@ -89,12 +89,11 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
 
     public void selectOptionFromList(String optionName, String listLocator) {
         List<WebElement> optionsListWebElements;
-        try {
-            driver.findElement(By.xpath(listLocator));
+        if(listLocator.contains("/"))
             optionsListWebElements = driver.findElements(By.xpath(listLocator));
-        } catch(NoSuchElementException e) {
+        else
             optionsListWebElements = driver.findElements(By.cssSelector(listLocator));
-        }
+
         for (WebElement element : optionsListWebElements) {
             if (element.getText().equals(optionName)) {
                 element.click();
