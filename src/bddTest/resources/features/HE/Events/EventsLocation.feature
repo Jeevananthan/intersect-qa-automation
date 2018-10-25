@@ -45,17 +45,17 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
     When HE I open the Events list
     And HE I open the Create Event screen
     And HE I create and save a new location with the following details:
-      | Location Name | LocationToDeleteUnpublished |
+      | Location Name | LocationToDeleteUnpublished3254 |
     When HE I open the Events list
     And HE I create and save a new event "3" minutes ahead from now with the following details:
-      | Event Name     | TestEventUnpublished |
+      | Event Name     | TestEventUnpublished444 |
       | Max Attendees  | 30        |
-      | EVENT LOCATION | LocationToDeleteUnpublished |
+      | EVENT LOCATION | LocationToDeleteUnpublished3254 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I open the Create Event screen
     Then HE I verify the error message when deleting the location of name "LocationToDeleteUnpublished" associated to a "unpublished" event
     And HE I open the Events list
-    And HE I delete the event of name "TestEventUnpublished"
+    And HE I delete the event of name "TestEventUnpublished444"
 
   @MATCH-2914
   Scenario: As a HE user, verify the message when deleting a location associated with a published event
