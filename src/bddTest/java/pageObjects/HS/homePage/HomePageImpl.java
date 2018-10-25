@@ -204,7 +204,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement collageNameLabel() {
         return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }
-    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
+    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div/h2[text() = '" + moduleName + "']/../div/a")); }
     private WebElement notificationIconInHelpCentre() {
         WebElement notificationIcon=driver.findElement(By.id("notificationsNav"));
         return notificationIcon;
