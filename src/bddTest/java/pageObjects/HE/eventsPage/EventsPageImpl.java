@@ -253,7 +253,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void openEditScreen(String eventName) {
         menuButtonForEvent(eventName).click();
-        menuButtonForEventsEdit().click();
+        getMenuButton("Edit").click();
     }
 
     public void takeNoteOfData() {
@@ -313,7 +313,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void cancelEvent(String eventName) {
         menuButtonForEvent(eventName).click();
-        menuButtonForEventsCancel().click();
+        getMenuButton("Cancel").click();
         cancelYesButton().click();
     }
 
@@ -372,7 +372,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         }
 
         menuButtonForEvent(eventName).click();
-        menuButtonForEventsUnpublish().click();
+        getMenuButton("Unpublish").click();
         unpublishYesButton().click();
     }
 
@@ -390,7 +390,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void cancelCreatedEvent() {
         menuButtonForEvent(eventName).click();
-        menuButtonForEventsCancel().click();
+        getMenuButton("Cancel").click();
         cancelYesButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(eventName)), 0));
     }
@@ -437,7 +437,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public void unpublishEventOfGeneratedName() {
         waitUntil(ExpectedConditions.visibilityOf(menuButtonForEvent(eventName)));
         menuButtonForEvent(eventName).click();
-        menuButtonForEventsUnpublish().click();
+        getMenuButton("Unpublish").click();
     }
 
     public void verifyNoUnpublishWithAttendeesMessage() {
@@ -525,7 +525,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void openEvent(String eventName) {
         menuButtonForEvent(eventName).click();
-        menuButtonForEventsEdit().click();
+        getMenuButton("Edit").click();
     }
 
     public void verifyFilterNotPresentInAudienceList(String filterName) {
@@ -545,8 +545,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         attendeeStatusBarStudent(eventName).click();
         verifyNoAttendeesMessage();
-
-
     }
 
     public void VerifyAttendeeData(DataTable attendeeData) {
@@ -589,6 +587,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     private void verifyNoAttendeesMessage() {
+        waitUntil(ExpectedConditions.elementToBeClickable(editEventBarTab("ATTENDEES")));
         Assert.assertTrue("The message for no attendees in the event is not displayed", noAttendeesMessage().
                 getText().equals(noAttendeesMessageString));
     }
@@ -642,7 +641,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public void openEventOfGeneratedName() {
         waitUntilPageFinishLoading();
         menuButtonForEvent(eventName).click();
-        menuButtonForEventsAttendees().click();
+        getMenuButton("Attendees").click();
     }
 
     public void openTabInEditEvent(String tabName) {
@@ -693,33 +692,21 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
     public WebElement menuButtonForEvent(String eventName) {
-        return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'three wide column')]/div/div/i"));
+        return driver.findElement(By.xpath("//h3[text() = '" + eventName + "']/../../../..//i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
         return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));
     }
-    private WebElement menuButtonForEventsEdit() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(1) span"));
-    }
-    private WebElement menuButtonForEventsUnpublish() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(2) span"));
-    }
-    private WebElement menuButtonForEventsCancel() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(3) span"));
-    }
-    private WebElement menuButtonForEventsDuplicate() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(4) span"));
-    }
-    private WebElement menuButtonForEventsAttendees() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(5) span"));
+
+    private WebElement getMenuButton(String optionName) {
+        return driver.findElement(By.xpath("//span[text()  = '" + optionName + "']"));
     }
 
 
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
     private WebElement getEventsTab(String tabName) {
-        return driver.findElement(By.xpath("//ul[@class='ui huge pointing secondary stackable _1efVFbHpRG36vpSaIzpNNv menu']" +
-                "/li/a/span[text()='" + tabName + "']"));
+        return driver.findElement(By.xpath("//h2[contains(text(), '" + tabName + "')]"));
     }
     private WebElement getTimeZoneOption(String optionName) {
         return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _22IjfAfN4Zs4CnM4Q_AlWZ']" +
@@ -772,7 +759,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement filterInEventAudienceList(String filterName) { return driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
     private WebElement filtersListContainer() { return driver.findElement(By.cssSelector("ul[class *= \"ui huge pointing secondary stackable\"] + div")); }
     private List<WebElement> filtersInEventsAudienceList(String filterName) { return driver.findElements(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
-    private WebElement attendeeStatusBarStudent(String eventName) { return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'four wide column')]/a")); }
+    private WebElement attendeeStatusBarStudent(String eventName) { return driver.findElement(By.xpath("//h3[text() = '" + eventName + "']/../../../..//a[@class = 'ui middle aligned grid']")); }
     private WebElement noAttendeesMessage() { return driver.findElement(By.cssSelector("div.ui.stackable.middle.aligned.grid")); }
     private String noAttendeesMessageString = "There are no attendees currently registered for this event.";
     private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
@@ -788,5 +775,5 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement attendeeDataLastName(String lastName){return  driver.findElement(By.xpath("//Div[text()='" + lastName + "']"));}
     private WebElement attendeeDataEmail(String Email){return driver.findElement(By.xpath("//Div[text()='" + Email + "']"));}
     private WebElement attendeeDataStatus(String Status){return driver.findElement(By.xpath("//Div[text()='" + Status + "']"));}
-
+    private WebElement editEventBarTab(String tabName) { return  driver.findElement(By.xpath("//h2[text() = '" + tabName + "']")); }
 }

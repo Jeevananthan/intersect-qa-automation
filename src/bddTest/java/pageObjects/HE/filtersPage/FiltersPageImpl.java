@@ -45,23 +45,23 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Location" :
                     locationMilesDropdown().click();
-                    getDropdownOption(filterDataElement.get(1).split(";")[0]).click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1).split(";")[0]).click();
                     locationPostalCodeField().sendKeys(filterDataElement.get(1).split(";")[1]);
                     break;
                 case "Race and Ethnicity" :
                     raceAndEthnicityField().click();
-                    getDropdownOption(filterDataElement.get(1)).click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
                     filterNameLabel().click();
                     break;
                 case "Grade Level" :
                     gradeLevel().click();
                     waitForUITransition();
-                    getDropdownOption(filterDataElement.get(1)).click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
                     filterNameLabel().click();
                     break;
                 case "GPA" :
                     gpaField().click();
-                    getDropdownOption(filterDataElement.get(1)).click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
                     filterNameLabel().click();
                     break;
                 case "Filter Name" :
@@ -154,7 +154,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement filterNameLabel() { return driver.findElement(By.xpath("//label/span[text()='Filter Name']")); }
     private WebElement threePointsMenu(String filterName) { return driver.findElement(By.xpath("//strong[text() = '" + filterName + "']/../../div[contains(@class, 'ui right pointing dropdown button')]")); }
     private WebElement threePointsMenuElement(String optionName) { return driver.findElement(By.xpath("//div[@class='menu transition visible']/*[contains(@class, 'item')]/span[text()='" + optionName + "']")); }
-    private WebElement deleteConfirmationButton() { return driver.findElement(By.cssSelector("button.ui.teal.button:not(.basic)")); }
+    private WebElement deleteConfirmationButton() { return driver.findElement(By.cssSelector("button.ui.primary.button")); }
     private WebElement nameField() { return driver.findElement(By.cssSelector("input[id=\"name\"]")); }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("button[class=\"ui primary button\"]")); }
     private String deleteFilterDialogTitle = "Are you sure you want to delete this filter?";
@@ -168,4 +168,5 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement sortByDropdown() { return driver.findElement(By.cssSelector("div[class *= 'ui button floating labeled dropdown icon'] div.text")); }
     private WebElement sortByDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[contains(@class, 'menu transition visible')]/div[contains(@class, 'item')]/span[text() = '" + optionName + "']")); }
     private String recommendedCountListLocator(String eventBaseName) { return "//div[contains(@class, 'dimmable')]/div/strong[contains(text(), '" + eventBaseName + "')]/../../div[5]/span[2]"; }
+    private WebElement getCreateFilterDropdownOption(String option) { return driver.findElement(By.xpath("//span[@class = 'text' and text() = '" + option + "']")); }
 }
