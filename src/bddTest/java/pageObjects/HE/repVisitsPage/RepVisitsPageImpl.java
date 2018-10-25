@@ -2799,13 +2799,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().findElement(By.xpath("//div/span[text()='" + defaultOption + "']")).click();
         getSearchButton().click();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Result is not displayed",getDriver().findElement(By.xpath("//td/a[text()='"+school+"']")).isDisplayed());
+        Assert.assertTrue("Result is not displayed",getDriver().findElement(By.xpath("//td/h3/a[text()='"+school+"']")).isDisplayed());
         for(String fields:list){
             dropdownInSearchAndSchedule().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='" + fields + "']"),1));
             getDriver().findElement(By.xpath("//div/span[text()='" + fields + "']")).click();
             waitUntilPageFinishLoading();
-            Assert.assertTrue("Result is not displayed",getDriver().findElement(By.xpath("//td/a[text()='"+school+"']")).isDisplayed());
+            Assert.assertTrue("Result is not displayed",getDriver().findElement(By.xpath("//td/h3/a[text()='"+school+"']")).isDisplayed());
         }
         getSearchButton().click();
         waitUntilPageFinishLoading();
@@ -2968,7 +2968,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyTextInSearchResultPage(String text){
-        Assert.assertTrue(text+" is not displayed",getDriver().findElement(By.xpath("//div/h3[text()='"+text+"']")).isDisplayed());
+        Assert.assertTrue(text+" is not displayed",getDriver().findElement(By.xpath("//div/h2[text()='"+text+"']")).isDisplayed());
     }
 
     public void verifySchoolInSchedulePage(String school,String value){
