@@ -125,7 +125,7 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
       | user          | module                   | button      | pageURL                         |
       | administrator | Naviance College Profile | UPDATE      | naviance-college-profile/edit   |
       | publishing    | Naviance College Profile | UPDATE      | naviance-college-profile/edit   |
-      | administrator | Connection               | MANAGE      | am-plus/view-connections        |
+      | administrator | Connection               | MANAGE      | connection/connections       |
       | administrator | RepVisits                | SCHEDULE    | rep-visits/search               |
       | publishing    | RepVisits                | SCHEDULE    | rep-visits/search               |
       | community     | RepVisits                | SCHEDULE    | rep-visits/search               |
@@ -138,8 +138,8 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
       | publishing    | Counselor Community      | PARTICIPATE | counselor-community/            |
       | community     | Counselor Community      | PARTICIPATE | counselor-community/            |
       | limited       | Counselor Community      | PARTICIPATE | counselor-community/            |
-      | administrator | Advanced Awareness        | CONFIGURE   | advanced-awareness/             |
-      | publishing    | Advanced Awareness        | CONFIGURE   | advanced-awareness/             |
+      | administrator | Advanced Awareness        | CONFIGURE  | advanced-awareness/overview     |
+      | publishing    | Advanced Awareness        | CONFIGURE  | advanced-awareness/overview     |
 
   @MATCH-1430
   Scenario: As a HE user, I should be able to access Privacy Policy and Terms of Use pages
