@@ -92,3 +92,43 @@ Feature: SP - AdminDashboard - ProductAnnouncements - As a super admin and admin
     Then SP I verify the product announcement with title "Untitled" content "Thisisgoingtobe140characterslimit.Thisisgoingtobe140characterslimit.Thisisgoingtobe140characterslimit.Thisisgoingto be 140 characters limit." visibility "HE" date "today" user "Match Support UI QA4" and status "Unpublished" in the list
     Then SP I verify "Show More" button for more than 25 notifications in the Product Announcements page
     And SP I un-publish all the published announcements
+
+  @MATCH-3907
+  Scenario Outline: As a Intersect HE, HS (naviance), and HS (non-naviance) user (any role),
+  I want the ability to view the full content of an in product notification when it doesn't all fit in the notification bar,
+  So that I'm able access the content of longer in product notifications.
+    Given SP I am logged in to the Admin page as an Admin user
+    And SP I un-publish all the published announcements
+#create announcement with title
+    When SP I add a new product announcement with title "Intersect" content "<content>" audience "HE,HS - Naviance,HS - Non Naviance" and status "Published"
+    Then SP I verify the toast with the message "New announcement added" is displayed
+#Verify announcement in HS-Naviance
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer
+    Then HS I verify the close button is displaying in the product announcements 'Read More' drawer
+    Then HS I verify the title "Intersect" is displaying in the product announcements 'Read More' drawer
+    Then HS I verify the date is displaying next to the title "Intersect" with "MMM dd" format in the product announcements 'Read More' drawer
+    Then HS I verify the content "<content>" is displaying in the product announcements 'Read More' drawer
+    Then HS I click close button in the product announcements 'Read More' drawer
+    And HS I successfully sign out
+#Verify announcement in HS-Non-Naviance
+    Given HS I am logged in to Intersect HS as user type "administrator"
+    Then HS I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer
+    Then HS I verify the close button is displaying in the product announcements 'Read More' drawer
+    Then HS I verify the title "Intersect" is displaying in the product announcements 'Read More' drawer
+    Then HS I verify the date is displaying next to the title "Intersect" with "MMM dd" format in the product announcements 'Read More' drawer
+    Then HS I verify the content "<content>" is displaying in the product announcements 'Read More' drawer
+    Then HE I click close button in the product announcements 'Read More' drawer
+    And HS I successfully sign out
+#Verify announcement in HE
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer
+    Then HE I verify the close button is displaying in the product announcements 'Read More' drawer
+    Then HE I verify the title "Intersect" is displaying in the product announcements 'Read More' drawer
+    Then HE I verify the date is displaying next to the title "Intersect" with "MMM dd" format in the product announcements 'Read More' drawer
+    Then HE I verify the content "<content>" is displaying in the product announcements 'Read More' drawer
+    Then HE I click close button in the product announcements 'Read More' drawer
+
+    Examples:
+    |content                                                                                                                                                                                                                                                                                                                                         |
+    |ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.|
