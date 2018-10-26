@@ -703,7 +703,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//button/span[text()='Unpublish']"));
     }
     private WebElement menuButtonForEventsCancel() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(3) span"));
+        return driver.findElement(By.xpath("//span[text()='Cancel']"));
     }
     private WebElement menuButtonForEventsDuplicate() {
         return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(4) span"));
