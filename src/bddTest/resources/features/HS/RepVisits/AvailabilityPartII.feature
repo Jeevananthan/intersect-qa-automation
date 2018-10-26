@@ -61,10 +61,10 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I go to the Availability & Settings
     Then HS I verify the Primary Contact Phone Number is required in Availability & Settings
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I go to the College Fair Settings page
     Then HS I verify the Primary Contact Phone Number is required in College Fair Settings
-    Then HS I verify the success Message "Great! You've updated College Fair settings." in Fair Settings page
+    Then HS I verify the success Message "Great!You've updated College Fair settings." in Fair Settings page
     And HS I go to the Notifications & Primary Contact Tab in HS Setup Wizard page
     Then HS I verify the Primary Contact Phone Number is required in the Visits and Fairs setup wizard
 
@@ -86,18 +86,18 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
 #Pre-condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
@@ -116,7 +116,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
