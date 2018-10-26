@@ -45,6 +45,7 @@ Feature: HS - Home - AccountSettings - As an HS user, I can manage my account se
     Then HS I verify the following details are displaying in Naviance Settings page
       |Naviance Sync Settings|Default Visit Details for College Visits|You can set default values to save time in scheduling future visits, but you can also edit details for individual visits when needed.|The following default visit details will be applied to visits scheduled moving forward.|
 
+  #Due to the throttle error in qa , we could not be able to reset the password more than twice a day. So we could not be able to run the test case more than twice.
   @MATCH-3062
   Scenario Outline: As a HS RepVisits User,I need to be able to update my contact information and reset my password
                     So I can effectively manage my RepVisits Account.
