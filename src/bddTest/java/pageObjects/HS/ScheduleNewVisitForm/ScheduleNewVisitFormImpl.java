@@ -120,5 +120,5 @@ public class ScheduleNewVisitFormImpl extends PageObjectFacadeImpl {
     private WebElement customTimeLink() { return driver.findElement(By.xpath("//span[text() = 'Want a custom time? Add it manually']")); }
     private WebElement addRepresentativeManually() { return driver.findElement(By.xpath("//span[text() = 'Not in the list? Add them manually']")); }
     private WebElement selectDateButton() { return driver.findElement(By.cssSelector("button.ui.small.fluid.button")); }
-    private WebElement rescheduleButton() { return driver.findElement(By.cssSelector("button[class *= 'ui basic primary button']")); }
+    private WebElement rescheduleButton() { return driver.findElement(By.cssSelector("button[class *= 'ui button _3vZDfsYYTrAHlC39ZjUDHc']")); }
 }
