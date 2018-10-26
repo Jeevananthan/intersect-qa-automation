@@ -691,25 +691,25 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
     public WebElement menuButtonForEvent(String eventName) {
-        return driver.findElement(By.xpath("//a/h3[text() = '" + eventName + "']/../../../../div[contains(@class, 'three wide column')]/div/div/i"));
+        return getDriver().findElement(By.xpath("//a/h3[text() = '" + eventName + "']/../../../../div[contains(@class, 'three wide column')]/div/div/i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
-        return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));
+        return getDriver().findElement(By.xpath("//span[text()='" + optionName + "']"));
     }
     private WebElement menuButtonForEventsEdit() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(1) span"));
+        return getDriver().findElement(By.xpath("//span[text()='Edit']"));
     }
     private WebElement menuButtonForEventsUnpublish() {
-        return driver.findElement(By.xpath("//button/span[text()='Unpublish']"));
+        return getDriver().findElement(By.xpath("//button/span[text()='Unpublish']"));
     }
     private WebElement menuButtonForEventsCancel() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(3) span"));
+        return getDriver().findElement(By.xpath("//span[text()='Cancel']"));
     }
     private WebElement menuButtonForEventsDuplicate() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(4) span"));
+        return getDriver().findElement(By.xpath("//span[text()='Duplicate']"));
     }
     private WebElement menuButtonForEventsAttendees() {
-        return driver.findElement(By.cssSelector("div.menu.transition.visible.h8roPzSIEFBFl1AUxcoMO div:nth-of-type(5) span"));
+        return getDriver().findElement(By.xpath("//span[text()='Attendees']"));
     }
 
 

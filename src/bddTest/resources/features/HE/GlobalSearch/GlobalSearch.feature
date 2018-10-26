@@ -33,7 +33,6 @@ Feature: HE - GlobalSearch - GlobalSearch - As an HE user, I want to be able to 
       | Intersect Presence Subscription   | inactive |
       | Legacy: ActiveMatch Events        | inactive |
       | ActiveMatch Plus                  | inactive |
-
     And SP I successfully sign out
     Given HE I want to login to the HE app using "daniel.kirtman@hobsons.com" as username and "internHOBS25%" as password
     Then HE I verify there is no global search options available
