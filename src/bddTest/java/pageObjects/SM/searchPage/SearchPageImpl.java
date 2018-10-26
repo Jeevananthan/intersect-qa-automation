@@ -2617,6 +2617,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 .isEqualTo(fitCriteriaName);
     }
 
+    public void verifyScoresInAcademicMatch(Integer positionInResultTable, DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<String> scoresList = dataTable.asList(String.class);
+        List<WebElement> scoresInUIList = driver.findElements(By.xpath(studentScoresInAcademicMatchLocator(positionInResultTable)));
+        for (int i = 0; i < scoresList.size(); i++) {
+            softly().assertThat(scoresInUIList.get(i).getText()).as("The student score in Academic Match cell is incorrect.")
+                    .isEqualTo(scoresList.get(i));
+        }
+
+    }
+
     // Locators Below
 
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
@@ -3175,5 +3186,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getCriteriaPill(String pillText) { return driver.findElement(By.xpath("//button[text() = '" + pillText + "']")); }
 
     private String informationalTopBarLocator = "//div[contains(@class, 'message')]/div/span[3]/span[3]";
+
+    private String studentScoresInAcademicMatchLocator(int rowPosition) {
+        return "//table[contains(@class, 'csr-results-table')]/tbody/tr[" + rowPosition + "]//tr[contains(@class, 'aligned')]/td[@class = 'you-column']";
+    }
 }
 

@@ -330,5 +330,7 @@ public class SearchPageStepDefs implements En {
         And("^SM I close the why drawer$", searchPage::closeWhyDrawer);
 
         Then("^SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:$", searchPage::verifyTabIsOpenAfterClickItemInCriteriaBox);
+
+        Then("^SM I verify that the student's scores for the college in position (\\d+) are displayed in the Academic Match cell:$", searchPage::verifyScoresInAcademicMatch);
     }
 }
