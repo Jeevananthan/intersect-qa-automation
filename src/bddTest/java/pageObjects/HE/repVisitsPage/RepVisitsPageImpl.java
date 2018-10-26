@@ -2129,15 +2129,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyInstitutionNotificationPage(){
         // Temporary fix because an error is displayed due to amount of data to be processed
         for(int i=0; i<10;i++){
-                        try{
-                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
-                                                xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
-                                navigateToInstitutionNotificationPage();
-                                waitUntilPageFinishLoading();
-                            } catch (Exception e){
-                                break;
-                            }
-                    }
+            try{
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
+                navigateToInstitutionNotificationPage();
+                waitUntilPageFinishLoading();
+            } catch (Exception e){
+                break;
+            }
+        }
         Assert.assertTrue("Institution Notifications is not displayed",institutionNotificationText().isDisplayed());
         Assert.assertTrue("Naviance ActiveMatch is not displayed",navianceActiveMatchText().isDisplayed());
         Assert.assertTrue("Email Textbox is not displayed",emailTextBox().isDisplayed());
@@ -2159,7 +2158,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String ExactMessage=getDriver().findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
         String SuccessMessage="Success! You've updated your notifications settings.";
         Assert.assertTrue("Success Message is not displayed", ExactMessage.equals(SuccessMessage));
+        setImplicitWaitTimeout(7);
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")));
+        resetImplicitWaitTimeout();
     }
 
     public void validateCheckboxInInstitutionNotificationPage(String checkboxValue){
@@ -3772,7 +3773,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private WebElement emailTextBox(){
-        WebElement text=getDriver().findElement(By.id("user-form-email"));
+        WebElement text=getDriver().findElement(By.id("am_notification_contacts_additional_emails"));
         return text;
     }
 
