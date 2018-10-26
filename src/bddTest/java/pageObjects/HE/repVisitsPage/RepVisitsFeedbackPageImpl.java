@@ -478,10 +478,8 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         if (text("Insights into your team's reputation will appear here").isDisplayed())
             logger.info("No visit feedback is submitted for this user from HS side....");
         else {
-            WebElement HEUserLeftPanel = driver.findElement(By.xpath("//ul[@class='ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu']"));
-            HEUserLeftPanel.findElement(By.xpath("(.//i[@class='star disabled icon azDd81vj4qd4ERFjicrCo']) [2]")).click();
-            WebElement sectionOne = driver.findElement(By.xpath("(//div[@class='twelve wide column _2TegQ4j_MCOlAM0RjDSzhW'])"));
-            List<WebElement> links = sectionOne.findElements(By.tagName("a"));
+            visitFeedBackHEUserLeftPanel().click();
+            List<WebElement> links = visitFeedSectionOne().findElements(By.tagName("a"));
             WebElement HSUserLink = links.get(0);
             String userNameColorHS = HSUserLink.getCssValue("color");
             Assert.assertTrue("HE user name is not showing teal in color.", userNameColorHS.contains("rgba(30, 120, 122, 1)"));
@@ -529,6 +527,18 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         } catch(Exception ex) {
             return null;
         }
+    }
+
+    private WebElement visitFeedBackLeftPanel() {
+        return getDriver().findElement(By.xpath("//nav[@class='ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu']"));
+    }
+
+    private WebElement visitFeedBackHEUserLeftPanel() {
+        return visitFeedBackLeftPanel().findElement(By.xpath("(.//i[@class='star disabled icon azDd81vj4qd4ERFjicrCo']) [2]"));
+    }
+
+    private WebElement visitFeedSectionOne() {
+        return getDriver().findElement(By.xpath("(//div[@class='twelve wide column _2TegQ4j_MCOlAM0RjDSzhW'])"));
     }
 
 }
