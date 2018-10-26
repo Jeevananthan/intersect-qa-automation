@@ -539,6 +539,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         createEventButton().click();
         fillCreateEventForm(eventDetails);
         publishNowButton().sendKeys(Keys.RETURN);
+        waitUntil(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//h1/span[text()='Events']"))));
     }
 
     public void verifyAttendeesFromStatusBar(String eventName) {
@@ -587,9 +588,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     private void verifyNoAttendeesMessage() {
-        waitUntil(ExpectedConditions.elementToBeClickable(editEventBarTab("ATTENDEES")));
-        Assert.assertTrue("The message for no attendees in the event is not displayed", noAttendeesMessage().
-                getText().equals(noAttendeesMessageString));
+        softly().assertThat(noAttendeesMessage().getText()).as("No attendees message").isEqualTo(noAttendeesMessageString);
     }
 
 
@@ -697,12 +696,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
         return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));
     }
-
     private WebElement getMenuButton(String optionName) {
         return driver.findElement(By.xpath("//span[text()  = '" + optionName + "']"));
     }
-
-
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
     private WebElement getEventsTab(String tabName) {
@@ -771,7 +767,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement eventLinkByPosition(int position) { return driver.findElement(By.cssSelector("div[class *= 'ui stackable middle aligned grid'] div[class *= 'row']:nth-of-type(" + position + ") a:not(.ui)")); }
     private WebElement attendeesErrorMessage() { return driver.findElement(By.cssSelector("table[class *= 'ui very basic table'] div.ui.header span")); }
     private WebElement attendeeDataFirstName(String firstName){return  driver.findElement(By.xpath("//Div[text()='" + firstName + "']"));}
-   // private WebElement attendeeDataFirstName(String firstName){return driver.findElement(By.cssSelector("div._3xgrllu8DG-OcR4kpSPd3A"));}
     private WebElement attendeeDataLastName(String lastName){return  driver.findElement(By.xpath("//Div[text()='" + lastName + "']"));}
     private WebElement attendeeDataEmail(String Email){return driver.findElement(By.xpath("//Div[text()='" + Email + "']"));}
     private WebElement attendeeDataStatus(String Status){return driver.findElement(By.xpath("//Div[text()='" + Status + "']"));}

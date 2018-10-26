@@ -434,8 +434,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
-        getDriver().findElement(By.xpath(String.format(".//td[text()='%s']/preceding::td/a[text()='%s']"
-                ,location, schoolName))).click();
+        getDriver().findElement(By.xpath(String.format(".//td[text()[contains(.,'%s')]]/preceding::td//a[text()='%s']",location, schoolName))).click();
         waitUntilPageFinishLoading();
     }
 
@@ -1856,7 +1855,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void removeHighSchoolFromTravelPlan(String school){
         navigateToRepVisitsSection("Travel Plan");
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
-        button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']",school))).click();
+        button(By.xpath(String.format(".//div/div/h2[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']",school))).click();
         Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?").isDisplayed());
         Assert.assertTrue("The remove from travel plan confirmation message is not displayed",text(String.format("Are you sure you want to remove %s from your travel plan?", school)).isDisplayed());
         button("YES, REMOVE").click();
@@ -2062,7 +2061,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         try{
             getDriver().findElement(By.xpath(String.format(
-                    ".//div/div/div[text()='%s']/ancestor::div[@class='item']/div/div/button/i[@class='trash icon _22IhW8lEh2abuRIROnZXJx']"
+                    ".//div/div/h2[text()='%s']/ancestor::div[@class='item']/div/div/button/i[@class='trash alternate icon _22IhW8lEh2abuRIROnZXJx']"
                     ,school)));
         }catch(Exception e){
             throw new AssertionFailedError(String.format("The trash icon is not displayed for school: %s, error: %s"
@@ -2077,7 +2076,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void cancelRemoveHighSchoolFromTravelPlan(String school){
         navigateToRepVisitsSection("Travel Plan");
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
-        button(By.xpath(String.format(".//div/div/div[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
+        button(By.xpath(String.format(".//div/div/h2[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
                 ,school))).click();
         Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?")
                 .isDisplayed());
@@ -2104,7 +2103,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyHighSchoolInTravelPlan(String school){
         try{
-            getDriver().findElement(By.xpath(String.format(".//div[@class='content']/div/div/div[text()='%s']", school)));
+            getDriver().findElement(By.xpath(String.format(".//div[@class='content']/div/div/h2[text()='%s']", school)));
         } catch(Exception e){
             throw new AssertionFailedError(String.format("The high school: %s is not displayed in the travel plan page",
                     school));
@@ -2130,15 +2129,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyInstitutionNotificationPage(){
         // Temporary fix because an error is displayed due to amount of data to be processed
         for(int i=0; i<10;i++){
-                        try{
-                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
-                                                xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
-                                navigateToInstitutionNotificationPage();
-                                waitUntilPageFinishLoading();
-                            } catch (Exception e){
-                                break;
-                            }
-                    }
+            try{
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
+                navigateToInstitutionNotificationPage();
+                waitUntilPageFinishLoading();
+            } catch (Exception e){
+                break;
+            }
+        }
         Assert.assertTrue("Institution Notifications is not displayed",institutionNotificationText().isDisplayed());
         Assert.assertTrue("Naviance ActiveMatch is not displayed",navianceActiveMatchText().isDisplayed());
         Assert.assertTrue("Email Textbox is not displayed",emailTextBox().isDisplayed());
@@ -2160,7 +2158,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String ExactMessage=getDriver().findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
         String SuccessMessage="Success! You've updated your notifications settings.";
         Assert.assertTrue("Success Message is not displayed", ExactMessage.equals(SuccessMessage));
+        setImplicitWaitTimeout(7);
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")));
+        resetImplicitWaitTimeout();
     }
 
     public void validateCheckboxInInstitutionNotificationPage(String checkboxValue){
@@ -3773,7 +3773,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private WebElement emailTextBox(){
-        WebElement text=getDriver().findElement(By.id("user-form-email"));
+        WebElement text=getDriver().findElement(By.id("am_notification_contacts_additional_emails"));
         return text;
     }
 

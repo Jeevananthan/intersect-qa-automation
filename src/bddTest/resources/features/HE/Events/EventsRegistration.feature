@@ -12,7 +12,6 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
       | RSVP Deadline | 13-30-2018;10:00AM |
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
-    #And HE I open the Events section
     And HE I verify that the Attendees tab in the event of name "TestEventAttendees65778" is opened by clicking the attendee status bar/students area
     And HE I open the Events list
     And HE I unpublish the event of name "TestEventAttendees65778"
