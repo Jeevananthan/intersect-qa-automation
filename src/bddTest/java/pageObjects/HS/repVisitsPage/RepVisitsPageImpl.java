@@ -8294,6 +8294,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement notificationsAndTasks ()
     {
+        waitUntilElementExists(driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Notifications & Tasks']")));
         WebElement navbar = driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Notifications & Tasks']"));
         return navbar;
     }
@@ -9380,7 +9381,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement fairsButton(){return getDriver().findElement(By.cssSelector("input[value='FAIRS']"));}
 
-    private WebElement visitAndFairsButton(){return getDriver().findElement(By.cssSelector("input[value='VISITS_AND_FAIRS']"));}
+    private WebElement visitAndFairsButton(){return getDriver().findElement(By.xpath("//label[text() = 'Visits and Fairs']"));}
 
     private List<WebElement> completeWizardActiveStep(){return getDriver().findElements(By.xpath("//div[@class='active step' and @name='Complete!']"));}
 
