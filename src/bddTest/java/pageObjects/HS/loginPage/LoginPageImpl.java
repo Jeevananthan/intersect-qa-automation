@@ -77,7 +77,18 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         button("Sign In").click();
         waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
         waitUntilPageFinishLoading();
-        link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        // Necessary to handle the announcements overlay.
+        try {
+            link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        } catch (Exception e) {
+            if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
+                //We have to jsclick the close button... because the close button is behind the overlay...
+                jsClick(getDriver().findElement(By.id("announcement-overlay--close")));
+                link(By.xpath("//li/a[@title='Counselor Community']")).click();
+            } else {
+                throw e;
+            }
+        }
         Set<String> windows = driver.getWindowHandles();
         if(windows.size()>1){
             for (String thisWindow : windows) {
