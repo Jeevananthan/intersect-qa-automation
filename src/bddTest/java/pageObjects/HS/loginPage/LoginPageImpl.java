@@ -81,12 +81,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
-
-        if(link(By.xpath("//div[@id='announcement-overlay--close']")).isDisplayed()) {
-            waitUntilElementExists(link(By.xpath("//div[@id='announcement-overlay--close']")));
-            link(By.xpath("//div[@id='announcement-overlay--close']")).click();
-        }
-
         waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
         waitUntilPageFinishLoading();
         // Necessary to handle the announcements overlay.
