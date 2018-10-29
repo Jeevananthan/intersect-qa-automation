@@ -644,7 +644,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTabInEditEvent(String tabName) {
-        getOptionFromMenuButtonForEvents(tabName).click();
+        getEventsTab(tabName).click();
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
