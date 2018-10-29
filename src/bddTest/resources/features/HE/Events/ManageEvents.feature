@@ -98,7 +98,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     And I look for the host "The University of Alabama"
     Then I sign up for the event of generated name
     And HUBS I successfully sign out
-
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I attempt to unpublish the event of generated name
