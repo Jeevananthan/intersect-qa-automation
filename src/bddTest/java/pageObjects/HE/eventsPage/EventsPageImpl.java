@@ -500,6 +500,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFilterIsPresentInList(String eventName) {
+        waitUntilPageFinishLoading();
         List<String> filtersNamesStrings = new ArrayList<>();
         List<WebElement> filtersNames = driver.findElements(By.cssSelector(filtersList));
         for (WebElement filterName : filtersNames) {
@@ -769,7 +770,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private String filtersList = "div[class*=dimmable] strong";
     private WebElement newFilterLink() { return driver.findElement(By.cssSelector("table[class *= \"ui unstackable very basic left aligned table\"] a")); }
     private WebElement filterInEventAudienceList(String filterName) { return driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
-    private WebElement filtersListContainer() { return driver.findElement(By.cssSelector("ul[class *= \"ui huge pointing secondary stackable\"] + div")); }
+    private WebElement filtersListContainer() { return driver.findElement(By.cssSelector("div.ui.secondary + div")); }
     private List<WebElement> filtersInEventsAudienceList(String filterName) { return driver.findElements(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
     private WebElement attendeeStatusBarStudent(String eventName) {
         //return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'four wide column')]/a"));
