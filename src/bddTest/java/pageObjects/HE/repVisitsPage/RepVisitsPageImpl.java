@@ -790,8 +790,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyBlockedAvailability(String school,String Date,String time) {
         visit().click();
-        waitUntilElementExists(getDriver().findElement(By.xpath("//div/a[text()='"+school+"']")));
-        Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//div/a[text()='"+school+"']")).isDisplayed());
+        waitUntilElementExists(getDriver().findElement(By.xpath("//div/h3/a[text()='"+school+"']")));
+        Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//div/h3/a[text()='"+school+"']")).isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(Date);
         setDate(gotoDate, "Go To Date");
@@ -3454,7 +3454,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getContactsBtn() {
-        return getDriver().findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Contacts']"));
+        return getDriver().findElement(By.xpath("//a[@class='menu-link']/span[text()='Contacts']"));
     }
     private WebElement getRecommendationsBtn() {return link("Recommendations");}
     private WebElement getNotificationsBtn() {
