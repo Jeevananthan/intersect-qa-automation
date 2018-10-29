@@ -1422,7 +1422,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         for(int i=0; i < itemsInStaffMemberMenu.size(); i++)
         {
-            String fullNameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]")).getText();
+            String fullNameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//h2")).getText();
             listContainingFullNamesOfStaffMembers.add(fullNameOfStaffMember);
         }
 
@@ -1440,12 +1440,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         {
             try {
                 isCommunityAvatarDisplayed = itemsInStaffMemberMenu.get(i).
-                        findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]/img | .//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]/i")).isDisplayed();
+                        findElement(By.xpath(".//h2/../img | .//h2/../i[@class[contains(.,'circular')]]")).isDisplayed();
             } catch(Exception ex) {
                 isCommunityAvatarDisplayed = false;
             }
 
-            String nameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]")).getText();
+            String nameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//h2")).getText();
             Assert.assertTrue("Community avatar for staff member - " + nameOfStaffMember + " - is not displayed", isCommunityAvatarDisplayed);
         }
     }
@@ -3554,7 +3554,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> eventsRows(String day) { return getDriver().findElements(By.xpath("//div[not(contains(@class, 'rbc-off-range'))][contains(@class,'rbc-date-cell')]/a[text()='" + day + "']/../../following-sibling::div")); }
     protected WebElement getVerticalStaffMembersMenu() {
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav[@label='Representatives']")));
     }
     private WebElement searchTextBox() {
         WebElement textBox= getDriver().findElement(By.cssSelector("input[placeholder='Search for a school...']"));
