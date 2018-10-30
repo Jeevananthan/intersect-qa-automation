@@ -18,7 +18,7 @@ Feature: HE - ActiveMatch - ActiveMatchConnections - As an HE Admin user with ac
       | Last 7 days | Last 14 days | Last 30 days | Last 60 days | Last 90 days |
 
 
-  @MATCH-3012 @MATCH-4957
+  @MATCH-3012 @MATCH-4957 @ignore
   Scenario: As an HE intersect user, I need the ability to export my student connections from AM so I can import them
   into my own system.
     Given HE I am logged in to Intersect HE as user type "administrator"
