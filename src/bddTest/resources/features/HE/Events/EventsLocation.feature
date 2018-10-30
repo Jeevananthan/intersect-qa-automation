@@ -25,7 +25,7 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
     Then HE The location currently selected should be updated
 
     When HE I delete the open location
-    Then HE The deleted location of name "RandomLocation " should not be present in the locations list
+    Then HE The deleted location of name "RandomLocation" should not be present in the locations list
 
   @MATCH-2914
   Scenario: As a HE User, verify Create Location Validations

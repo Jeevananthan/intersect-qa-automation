@@ -150,11 +150,11 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement filterNameField() { return driver.findElement(By.cssSelector("input[aria-label=\"Filter Name\"]")); }
     private WebElement saveFilterButton() { return driver.findElement(By.cssSelector("button[type=\"submit\"] span")); }
     private WebElement createFilterButton() { return driver.findElement(By.cssSelector("a[role=\"button\"] span")); }
-    private WebElement getDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'menu transition visible']/div/span[text() = '" + optionName + "']")); }
+    private WebElement getDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@role='option']/span[text()='"+optionName+"']")); }
     private WebElement filterNameLabel() { return driver.findElement(By.xpath("//label/span[text()='Filter Name']")); }
-    private WebElement threePointsMenu(String filterName) { return driver.findElement(By.xpath("//strong[text() = '" + filterName + "']/../../div[contains(@class, 'ui right pointing dropdown button')]")); }
+    private WebElement threePointsMenu(String filterName) { return driver.findElement(By.xpath("//strong[text()='"+filterName+"']/../..//i[@class[contains(.,'ellipsis')]]")); }
     private WebElement threePointsMenuElement(String optionName) { return driver.findElement(By.xpath("//div[@class='menu transition visible']/*[contains(@class, 'item')]/span[text()='" + optionName + "']")); }
-    private WebElement deleteConfirmationButton() { return driver.findElement(By.cssSelector("button.ui.teal.button:not(.basic)")); }
+    private WebElement deleteConfirmationButton() { return driver.findElement(By.xpath("//button/span[text()='Delete']")); }
     private WebElement nameField() { return driver.findElement(By.cssSelector("input[id=\"name\"]")); }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("button[class=\"ui primary button\"]")); }
     private String deleteFilterDialogTitle = "Are you sure you want to delete this filter?";

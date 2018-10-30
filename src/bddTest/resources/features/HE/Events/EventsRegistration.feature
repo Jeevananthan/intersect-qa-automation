@@ -14,7 +14,7 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I open the Events section
     And HE I verify that the Attendees tab in the event of name "TestEventAttendees65334" is opened by clicking the attendee status bar/students area
-    And HE I open the Events list
+    #And HE I open the Events list
     And HE I unpublish the event of name "TestEventAttendees65334"
     And HE I delete the event of name "TestEventAttendees65334"
 

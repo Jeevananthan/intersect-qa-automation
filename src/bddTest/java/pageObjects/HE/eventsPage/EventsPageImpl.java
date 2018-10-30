@@ -539,14 +539,13 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         createEventButton().click();
         fillCreateEventForm(eventDetails);
         publishNowButton().sendKeys(Keys.RETURN);
+        waitUntil(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//h1/span[text()='Events']"))));
     }
 
     public void verifyAttendeesFromStatusBar(String eventName) {
         waitForUITransition();
         attendeeStatusBarStudent(eventName).click();
         verifyNoAttendeesMessage();
-
-
     }
 
     public void VerifyAttendeeData(DataTable attendeeData) {
@@ -589,8 +588,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     private void verifyNoAttendeesMessage() {
-        Assert.assertTrue("The message for no attendees in the event is not displayed", noAttendeesMessage().
-                getText().equals(noAttendeesMessageString));
+        softly().assertThat(noAttendeesMessage().getText()).as("No attendees message").isEqualTo(noAttendeesMessageString);
     }
 
 
@@ -646,7 +644,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTabInEditEvent(String tabName) {
-        getOptionFromMenuButtonForEvents(tabName).click();
+        getEventsTab(tabName).click();
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
@@ -696,14 +694,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//h3[text() = '" + eventName + "']/../../../..//i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
-        return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));
+        return getDriver().findElement(By.xpath("//span[text()='" + optionName + "']"));
     }
-
     private WebElement getMenuButton(String optionName) {
         return driver.findElement(By.xpath("//span[text()  = '" + optionName + "']"));
     }
-
-
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
     private WebElement getEventsTab(String tabName) {
@@ -760,8 +755,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement filterInEventAudienceList(String filterName) { return driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
     private WebElement filtersListContainer() { return driver.findElement(By.cssSelector("ul[class *= \"ui huge pointing secondary stackable\"] + div")); }
     private List<WebElement> filtersInEventsAudienceList(String filterName) { return driver.findElements(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
-    private WebElement attendeeStatusBarStudent(String eventName) { return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'four wide column')]/a")); }
-    private WebElement noAttendeesMessage() { return driver.findElement(By.cssSelector("div.ui.stackable.middle.aligned.grid")); }
+    private WebElement attendeeStatusBarStudent(String eventName) {
+        //return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'four wide column')]/a"));
+        return getDriver().findElement(By.xpath("//h3[text()='"+eventName+"']/../../../following::div/a"));
+    }
+    private WebElement noAttendeesMessage() { return driver.findElement(By.xpath("//div[@class[contains(.,'_22IjfAfN4Zs4CnM4Q_AlWZ')]]")); }
     private String noAttendeesMessageString = "There are no attendees currently registered for this event.";
     private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
     private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
