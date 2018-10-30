@@ -17,7 +17,7 @@ Feature: HE - Settings - ManageUsers - As an HE admin user, I should be able to 
     And HE I am able to successfully login
 
 
-  @MATCH-133
+  @MATCH-133 @Unstable
   Scenario: As an HE administrator, I am able to manage other users' roles in my institution.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I edit the user account for "purpleheautomation+recruiter@gmail.com" with the following info

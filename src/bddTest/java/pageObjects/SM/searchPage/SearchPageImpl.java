@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -2673,6 +2674,39 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyTabIsOpenAfterClickItemInCriteriaBox(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        for (List<String> row : details) {
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(informationalTopBarLocator), 0));
+            getCriteriaPill(row.get(0)).click();
+            while (driver.findElements(By.cssSelector(innerFitCriteriaTabTitleLocator)).size() == 0 ) {
+                try {
+                    verifyFitCriteriaTabOpen(row.get(1));
+                } catch (NoSuchElementException e) {
+                    getCriteriaPill(row.get(0)).click();
+                    verifyFitCriteriaTabOpen(row.get(1));
+                }
+            }
+            closeButtonForFitCriteria().click();
+        }
+    }
+
+    public void verifyFitCriteriaTabOpen(String fitCriteriaName) {
+        softly().assertThat(innerFitCriteriaTabTitle().getText()).as("The fit criteria tab " + fitCriteriaName + " is not open.")
+                .isEqualTo(fitCriteriaName);
+    }
+
+    public void verifyScoresInAcademicMatch(Integer positionInResultTable, DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<String> scoresList = dataTable.asList(String.class);
+        List<WebElement> scoresInUIList = driver.findElements(By.xpath(studentScoresInAcademicMatchLocator(positionInResultTable)));
+        for (int i = 0; i < scoresList.size(); i++) {
+            softly().assertThat(scoresInUIList.get(i).getText()).as("The student score in Academic Match cell is incorrect.")
+                    .isEqualTo(scoresList.get(i));
+        }
+
+    }
+
     // Locators Below
 
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
@@ -3226,6 +3260,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement getMatchScoreByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
+    }
+
+    private WebElement innerFitCriteriaTabTitle() { return driver.findElement(By.cssSelector(innerFitCriteriaTabTitleLocator)); }
+
+    private String innerFitCriteriaTabTitleLocator = "h1.supermatch-menu-header";
+
+    private WebElement getCriteriaPill(String pillText) { return driver.findElement(By.xpath("//button[text() = '" + pillText + "']")); }
+
+    private String informationalTopBarLocator = "//div[contains(@class, 'message')]/div/span[3]/span[3]";
+
+    private String studentScoresInAcademicMatchLocator(int rowPosition) {
+        return "//table[contains(@class, 'csr-results-table')]/tbody/tr[" + rowPosition + "]//tr[contains(@class, 'aligned')]/td[@class = 'you-column']";
     }
 }
 

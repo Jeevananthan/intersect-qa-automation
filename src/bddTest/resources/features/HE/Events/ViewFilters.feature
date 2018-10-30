@@ -53,7 +53,7 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
     And HE I open the "Filters" tab in the Events section
     And HE I delete the filter of name "FilterToBeRemoved776"
     And HE I open the "Events" tab in the Events section
-    And HE I open the "Unpublished" tab in the Events section
+    And HE I open the "Unpublished" tab in Events
     And HE I open the event of name "TestEventDeletedFilter33"
     Then HE The filter of name "FilterToBeRemoved776" should not be present in the Event Audience list
     When HE I open the Events section
@@ -83,7 +83,7 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
       | EVENT LOCATION BY POSITION | 1  |
       | EVENT PRIMARY CONTACT BY POSITION | 1  |
       | EVENT AUDIENCE        | AssignedFilter88663     |
-    When HE I open the Events section
+    #When HE I open the Events section
     And HE I open the "Filters" tab in the Events section
     Then HE I verify that the filter of name "AssignedFilter88663" is assigned to "1" events
     And HE I delete the filter of name "AssignedFilter88663"
