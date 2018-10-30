@@ -80,5 +80,6 @@ public class SuperMatchPageStepDefs implements En {
 
         Then("^SM I verify that the Informational Message contains the following texts:$", fcSuperMatch::verifyInfoMessage);
 
+        And("^SM I go to College Events from the SuperMatch main menu$", fcSuperMatch::goToPageFromSMMainMenu);
     }
 }

@@ -167,6 +167,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
+
+        if(link(By.xpath("//div[@id='announcement-overlay--close']")).isDisplayed()) {
+            waitUntilElementExists(link(By.xpath("//div[@id='announcement-overlay--close']")));
+            link(By.xpath("//div[@id='announcement-overlay--close']")).click();
+        }
+
         waitUntilPageFinishLoading();
         Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//td[contains(text(),'Copyright © "+currentYear+", Hobsons Inc.')]")).isDisplayed());
     }
@@ -204,7 +210,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement collageNameLabel() {
         return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }
-    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
+    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div/h2[text() = '" + moduleName + "']/../div/a")); }
     private WebElement notificationIconInHelpCentre() {
         WebElement notificationIcon=driver.findElement(By.id("notificationsNav"));
         return notificationIcon;

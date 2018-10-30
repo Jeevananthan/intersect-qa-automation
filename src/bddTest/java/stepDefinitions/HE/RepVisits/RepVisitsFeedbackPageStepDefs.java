@@ -33,6 +33,10 @@ public class RepVisitsFeedbackPageStepDefs implements En {
 
         Then("^HE I verify HS user's name be an active hyperlink to the HE user's Community profile in visit feedback subtab$", repVisitsFeedback::verifyHSUsersNameLink);
 
+        Then("^HE I \"([^\"]*)\" RepVisits Feedback$", repVisitsFeedback::setVisitFeedback);
+
+        Then("^HE I verify that the Visit Feedback Toggle link displays as \"([^\"]*)\"$", repVisitsFeedback::verifyVisitFeedbackToggleText);
+
         Then("^HE I select \"([^\"]*)\" from the RepVisits Feedback user list$", repVisitsFeedback::selectFeedbackUser);
 
         And("^HE I verify the format of the user feedback page for user \"([^\"]*)\"$", repVisitsFeedback::verifyUserFeedbackPage);
