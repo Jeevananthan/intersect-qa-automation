@@ -102,6 +102,16 @@ Feature: SP - AdminDashboard - ProductAnnouncements - As a super admin and admin
 #create announcement with title
     When SP I add a new product announcement with title "Intersect" content "<content>" audience "HE,HS - Naviance,HS - Non Naviance" and status "Published"
     Then SP I verify the toast with the message "New announcement added" is displayed
+#Verify announcement in HE
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer
+    Then HE I verify the close button is displaying in the product announcements 'Read More' drawer
+    Then HE I verify the title "Intersect" is displaying in the product announcements 'Read More' drawer
+    Then HE I verify the date is displaying next to the title "Intersect" with "MMM dd" format in the product announcements 'Read More' drawer
+    Then HE I verify the content "<content>" is displaying in the product announcements 'Read More' drawer
+    Then HE I click close button in the product announcements 'Read More' drawer
+
+#Bug: HS-Naviance and Non-Naviance - Date and title are not displaying under product announcements 'Read More' drawer
 #Verify announcement in HS-Naviance
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer
@@ -120,15 +130,6 @@ Feature: SP - AdminDashboard - ProductAnnouncements - As a super admin and admin
     Then HS I verify the content "<content>" is displaying in the product announcements 'Read More' drawer
     Then HE I click close button in the product announcements 'Read More' drawer
     And HS I successfully sign out
-#Verify announcement in HE
-    Then HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer
-    Then HE I verify the close button is displaying in the product announcements 'Read More' drawer
-    Then HE I verify the title "Intersect" is displaying in the product announcements 'Read More' drawer
-    Then HE I verify the date is displaying next to the title "Intersect" with "MMM dd" format in the product announcements 'Read More' drawer
-    Then HE I verify the content "<content>" is displaying in the product announcements 'Read More' drawer
-    Then HE I click close button in the product announcements 'Read More' drawer
-
     Examples:
     |content                                                                                                                                                                                                                                                                                                                                         |
     |ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.|
