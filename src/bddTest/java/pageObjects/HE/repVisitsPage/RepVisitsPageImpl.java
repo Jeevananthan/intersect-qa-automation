@@ -2614,7 +2614,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyActiveSubscription(String schoolName){
-        Assert.assertTrue("Searched school is not displayed",getDriver().findElement(By.xpath("//div/a[text()='"+schoolName+"']")).isDisplayed());
+        Assert.assertTrue("Searched school is not displayed",getDriver().findElement(By.xpath("//div/h3/a[text()='"+schoolName+"']")).isDisplayed());
         Assert.assertTrue("High school name scheduling results is a not a hyperlink",link(schoolName).isEnabled());
         link(schoolName).click();
     }
@@ -2712,8 +2712,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyDropdownInSearchAndSchedulePage(String dropdown){
         navigateToRepVisitsSection("Search and Schedule");
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='"+dropdown+"']"),1));
-        Assert.assertTrue("Search by text is displayed in the drop-down",getDriver().findElement(By.xpath("//div/span[text()='"+dropdown+"']")).isDisplayed());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/label[text()='"+dropdown+"']"),1));
+        Assert.assertTrue("Search by text is displayed in the drop-down",getDriver().findElement(By.xpath("//div/label[text()='"+dropdown+"']")).isDisplayed());
     }
 
     public void verifyDropdownFieldsInSearchAndSchedule(DataTable dataTable){
@@ -2749,11 +2749,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             dropdownInSearchAndSchedule().click();
             Assert.assertTrue(fields+" is not displayed in the dropdown",getDriver().findElement(By.xpath("//div/span[text()='"+fields+"']")).isDisplayed());
             getDriver().findElement(By.xpath("//div/span[text()='"+fields+"']")).click();
-            Assert.assertTrue(fields+" is not displayed",getDriver().findElement(By.xpath("//div/span[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+fields+"']")).isDisplayed());
+            Assert.assertTrue(fields+" is not displayed",getDriver().findElement(By.xpath("//div/label[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+fields+"']")).isDisplayed());
             calendar().click();
             waitUntilPageFinishLoading();
             navigateToRepVisitsSection("Search and Schedule");
-            Assert.assertTrue(defaultOption+" is not displayed",getDriver().findElement(By.xpath("//div/span[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+defaultValue[1]+"']")).isDisplayed());
+            Assert.assertTrue(defaultOption+" is not displayed",getDriver().findElement(By.xpath("//div/label[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+defaultValue[1]+"']")).isDisplayed());
         }
     }
 
@@ -2780,7 +2780,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             dropdownInSearchAndSchedule().click();
             getDriver().findElement(By.xpath("//div/span[text()='" + fields + "']")).click();
             waitUntilPageFinishLoading();
-            Assert.assertTrue(fields + " is not present in the Textbox", getDriver().findElement(By.xpath("//div/span[text()='Search by']/parent::div/div/div[text()='" + fields + "']")).isDisplayed());
+            Assert.assertTrue(fields + " is not present in the Textbox", getDriver().findElement(By.xpath("//div/label[text()='Search by']/parent::div/div/div[text()='" + fields + "']")).isDisplayed());
         }
     }
 
@@ -3012,7 +3012,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         int count = searchResultsSize();
         logger.info("Result count:"+count);
         if(count==25){
-            Assert.assertTrue("Result count is not displayed",getDriver().findElement(By.xpath("//b/span[text()='Showing 1-"+count+" of "+finalSchoolCount+"']")).isDisplayed());
+            Assert.assertTrue("Result count is not displayed",getDriver().findElement(By.xpath("//p/span/span[text()='Showing 1-"+count+" of "+finalSchoolCount+"']")).isDisplayed());
             while(getMoreResultsButton().isDisplayed()) {
                 getMoreResultsButton().click();
                 waitUntilPageFinishLoading();
@@ -3409,7 +3409,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public WebElement schoolInVisits(String school) {
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//div/h3/a[text()='"+school+"']"));
         return  schoolName;
     }
 
@@ -3882,7 +3882,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//button[@title='Agenda']"));
     }
     private WebElement getStartDateInAgenda(){
-        return getDriver().findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]/b/span"));
+        return getDriver().findElement(By.xpath("//button[@class='ui tiny button bne-HEiKl3BvzkB-LIC8M'][1]/b/span"));
     }
     private WebElement requestInformationButton(){
         return getDriver().findElement(By.xpath("//span[text()='Request Information']"));

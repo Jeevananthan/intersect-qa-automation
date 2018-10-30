@@ -9038,7 +9038,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return driver.findElement(By.xpath("//button[@title='Agenda']"));
     }
     private WebElement getStartDateInAgenda(){
-        return driver.findElement(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]/b/span"));
+        return driver.findElement(By.xpath("//button[@class='ui tiny button bne-HEiKl3BvzkB-LIC8M'][1]/b/span"));
     }
     private WebElement negativeMessageInRepvisits(){
         return getDriver().findElement(By.xpath("//div[@class='ui negative message']"));
