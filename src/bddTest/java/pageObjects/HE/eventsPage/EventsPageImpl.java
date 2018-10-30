@@ -344,6 +344,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Unpublished")));
         Assert.assertTrue("The deleted event is still present in the list",
                 driver.findElements(By.xpath(eventsListLocator(eventName))).size() == 0);
     }
@@ -491,11 +492,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public void openTab(String tabName) {
         waitForUITransition();
         try {
-            getTab(tabName).click();
+            getEventsTab(tabName).click();
         } catch(WebDriverException e) {
             mainEventsTitle().click();
             waitUntilPageFinishLoading();
-            getTab(tabName).click();
+            getEventsTab(tabName).click();
         }
         waitForUITransition();
     }
