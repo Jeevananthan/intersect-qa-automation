@@ -116,7 +116,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
 
     public void verifyNumberOfAssignedEvents(String filterName, String numberOfAssignedEvents) {
         waitUntilPageFinishLoading();
-        driver.get(driver.getCurrentUrl());
+        waitUntilElementExists(getDriver().findElement(By.xpath("//h1/span[text()='Filters']")));
         Assert.assertTrue("The displayed number does not match the number of events the filter " + filterName + " is assigned to",
                 numberOfAssignedEvents(filterName).getText().equals(numberOfAssignedEvents));
     }
