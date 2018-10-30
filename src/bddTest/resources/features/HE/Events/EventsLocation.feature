@@ -13,7 +13,6 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
     | State         | WA          |
     | Postal Code   | 12345-4561  |
     Then HE I should see the location of name "RandomLocation" present in the locations list
-
     When HE I edit the location currently selected in the event with the following details:
       | Location Name | RandomLocation    |
       | Street        | Test Street # 888 |
@@ -23,7 +22,6 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
     And HE I take note of the data in the Location
     And HE I save the location
     Then HE The location currently selected should be updated
-
     When HE I delete the open location
     Then HE The deleted location of name "RandomLocation" should not be present in the locations list
 
