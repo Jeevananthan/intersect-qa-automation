@@ -325,7 +325,6 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
                 HEWindow = thisWindow;
             }
         }
-        driver.close();
         driver.switchTo().window(HEWindow);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")));
         String originalMessage = getLoginMessageInHomePage().getText();
