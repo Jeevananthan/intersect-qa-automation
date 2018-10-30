@@ -716,7 +716,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select the "Small City" checkbox from the "Location" fit criteria
     And SM I verify that the Must Have box contains "Location [14]"
     And SM I verify that the Must Have box contains "Campus Surroundings [2]"
-    
+
   @MATCH-3777
   Scenario: Certain fit criteria are too wordy/long when they display in the Must Have or Nice to Have box. We need to
   update how we display these fit criteria within the boxes
@@ -770,3 +770,22 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     | N/A |
     | N/A |
 
+  @MATCH-3425
+  Scenario: As a HS student searching for colleges within SuperMatch, I want to pin schools that I find in my search
+            results that are of interest to me so I can maintain a smaller list of schools that I am more interested in than others.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Massachusetts      |
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I pin the college "Williams College" from the why drawer
+    And SM I verify the college "Williams College" is "pinned" in the results table
+    And SM I unpin the college "Williams College" from the why drawer
+    And SM I verify the college "Williams College" is "unpinned" in the results table
+    And SM I pin "Williams College" if it is not pinned already
+    And SM I verify the college "Williams College" is "pinned" in the why drawer
+    And SM I unpin "Williams College"
+    And SM I verify the college "Williams College" is "unpinned" in the why drawer

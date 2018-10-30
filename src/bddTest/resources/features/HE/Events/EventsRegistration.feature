@@ -6,17 +6,16 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and publish a new event with the following details:
-      | Event Name | TestEventAttendees65334 |
+      | Event Name | TestEventAttendees65778 |
       | Event Start | 13-31-2018;10:00AM |
       | Max Attendees | 30 |
       | RSVP Deadline | 13-30-2018;10:00AM |
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
-    And HE I open the Events section
-    And HE I verify that the Attendees tab in the event of name "TestEventAttendees65334" is opened by clicking the attendee status bar/students area
-    #And HE I open the Events list
-    And HE I unpublish the event of name "TestEventAttendees65334"
-    And HE I delete the event of name "TestEventAttendees65334"
+    And HE I verify that the Attendees tab in the event of name "TestEventAttendees65778" is opened by clicking the attendee status bar/students area
+    And HE I open the Events list
+    And HE I unpublish the event of name "TestEventAttendees65778"
+    And HE I delete the event of name "TestEventAttendees65778"
 
   @MATCH-3312
   Scenario: Verify access to the Attendees list by clicking on the ellipse of a Published Event
@@ -57,9 +56,7 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
 
   @MATCH-4361
   Scenario: Verify Event information from Naviance Student
-    Given  I log in to Family Connection with the following user details:
-      | rtsa       | benhubs | Hobsons!23  |
-    And I Navigate to old Colleges tab
-    And I open link Upcoming college events
+    When SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I go to College Events from the SuperMatch main menu
     And I click on icon next to College Events Header
     And I verify Events Information and Welcome message
