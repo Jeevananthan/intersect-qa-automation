@@ -65,7 +65,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     public void unlockUser(String accountName) {
         takeUserAction(accountName,"Unlock");
         waitUntil(ExpectedConditions.presenceOfElementLocated(By.xpath(".//div[text()='Unlock this user']")));
-        jsClick(getDriver().findElement(By.cssSelector("button[class='ui positive button']")));
+        jsClick(getDriver().findElement(By.cssSelector("button[class='ui icon positive left labeled button']")));
         waitForUITransition();
     }
 

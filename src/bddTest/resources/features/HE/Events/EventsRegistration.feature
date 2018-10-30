@@ -57,9 +57,7 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
 
   @MATCH-4361
   Scenario: Verify Event information from Naviance Student
-    Given  I log in to Family Connection with the following user details:
-      | rtsa       | benhubs | Hobsons!23  |
-    And I Navigate to old Colleges tab
-    And I open link Upcoming college events
+    When SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I go to College Events from the SuperMatch main menu
     And I click on icon next to College Events Header
     And I verify Events Information and Welcome message
