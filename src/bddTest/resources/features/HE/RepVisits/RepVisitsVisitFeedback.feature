@@ -41,3 +41,13 @@ Feature: HE - RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want t
     Then HE I verify that number of comments submitted for the HE account for the current school year is displayed as a statistic on Overview area
     Then HE I verify the Feedback Breakdown for the HE account on Overview area
     Then HE I verify Top Areas To Improve Percentage Breakdown for the HE account on Overview area
+
+  @MATCH-2962
+  Scenario: As an HE user, I want to be able to opt out of RV Ratings so HS users don't spend their time submitting
+            ratings on my HE staff that I don't care about.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the "Visit Feedback" page in RepVisits
+    Then HE I "disable" RepVisits Feedback
+    And HE I verify that the Visit Feedback Toggle link displays as "Turn On?"
+    Then HE I "enable" RepVisits Feedback
+    And HE I verify that the Visit Feedback Toggle link displays as "Turn Off?"

@@ -493,6 +493,37 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         }
     }
 
+    /**
+     * Used to enable or disable the RepVisits Feedback feature.
+     * @param setting Valid values - enable, disable.
+     */
+    public void setVisitFeedback(String setting) {
+        feedbackToggleLink().click();
+        switch(setting){
+            case "enable":
+                getDriver().findElement(By.xpath("//label[text()[contains(.,'Yes')]]")).click();
+                getDriver().findElement(By.cssSelector("button.ui.primary.button")).click();
+                waitUntil(ExpectedConditions.visibilityOf(feedbackToggleLink().findElement(By.xpath("./span[text()='Turn Off?']"))));
+                break;
+            case "disable":
+                getDriver().findElement(By.xpath("//label[text()[contains(.,'No')]]")).click();
+                getDriver().findElement(By.cssSelector("button.ui.primary.button")).click();
+                waitUntil(ExpectedConditions.visibilityOf(feedbackToggleLink().findElement(By.xpath("./span[text()='Turn On?']"))));
+                break;
+        }
+    }
+
+    /**
+     * Verifies the text of the RepVisits Feedback toggle link
+     * @param message - Expected value of the link text
+     */
+    public void verifyVisitFeedbackToggleText(String message) {
+        softly().assertThat(feedbackToggleLink().findElement(By.tagName("span")).getText()).isEqualTo(message);
+    }
+
+    // Locators
+    private WebElement feedbackToggleLink(){ return getDriver().findElement(By.className("_3t9wqiT3dGuO4aQrXOvdo5")); }
+
     private ArrayList sortByLastName(ArrayList<String> al) {
         Collections.sort(al, new Comparator<String>() {
             @Override
