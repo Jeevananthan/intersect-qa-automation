@@ -51,3 +51,11 @@ Feature: HE - RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want t
     And HE I verify that the Visit Feedback Toggle link displays as "Turn On?"
     Then HE I "enable" RepVisits Feedback
     And HE I verify that the Visit Feedback Toggle link displays as "Turn Off?"
+
+  @MATCH-2405
+  Scenario: As an HE user with the Administrator role I want to be presented with a Staff Ratings page so I can view information
+            about how an individual staff member is doing when visiting high schools.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the "Visit Feedback" page in RepVisits
+    Then HE I select "Rosh Nag_HE01" from the RepVisits Feedback user list
+    And HE I verify the format of the user feedback page for user "Rosh Nag_HE01"
