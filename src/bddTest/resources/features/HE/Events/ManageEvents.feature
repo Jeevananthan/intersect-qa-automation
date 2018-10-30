@@ -20,7 +20,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     | EVENT AUDIENCE BY POSITION       | 1 |
     Then HE I should see the event of name "TestEvent9999" present in the unpublished events list as Draft event
     Then HE I verify status "Draft" for the event of name "TestEvent9999"
-
     When HE I edit the event of name "TestEvent9999" with the following details:
     | Event Name | TestEvent9999Edited |
     | Event Start | 12-23-2018;11:00AM |
@@ -34,11 +33,9 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     And HE I take note of the data in the Event
     And HE I save the draft
     Then HE The event of name "TestEvent9999Edited" should be updated
-
     When HE I publish the current event
     Then HE I verify status "Published" for the event of name "TestEvent9999Edited"
     Then HE I should see the event of name "TestEvent9999Edited" present in the events list as a published event
-
     When HE I unpublish the event of name "TestEvent9999Edited"
     And HE I delete the event of name "TestEvent9999Edited"
     Then HE The deleted event of name "TestEvent9999Edited" should not be displayed in the unpublished events list
