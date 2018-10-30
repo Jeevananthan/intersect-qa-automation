@@ -751,7 +751,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private String pastDateErrorMessagesListLocator = "div.ui.red.pointing.basic.label span";
     private String pastDateErrorMessageString = "Event Start date and time must not be in the past";
     private String pastRSVPErrorMessageString = "Event RSVP Deadline date and time must not be in the past";
-    private WebElement getTab(String tabName) { return driver.findElement(By.xpath("//li[contains(@class, 'link item')]/a/span[text()='" + tabName + "']")); }
+    private WebElement getTab(String tabName) { return driver.findElement(By.xpath("//li[contains(@class, 'link item')]/a/h2[text()='" + tabName + "']")); }
     private String filtersList = "div[class*=dimmable] strong";
     private WebElement newFilterLink() { return driver.findElement(By.cssSelector("table[class *= \"ui unstackable very basic left aligned table\"] a")); }
     private WebElement filterInEventAudienceList(String filterName) { return driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
