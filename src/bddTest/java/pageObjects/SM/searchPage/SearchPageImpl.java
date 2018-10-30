@@ -293,7 +293,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     case "State or Province":
                         String[] states = criteria.get(key).split(",");
                         for (String state : states) {
-                            // TODO - Actually access this component - it's poorly labeled in the app
+                            getStateInput().sendKeys(state);
+                            getStateInput().sendKeys(Keys.ENTER);
                         }
                         break;
                     case "Quick Selection: US Regions & Others":
@@ -317,6 +318,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         break;
 
                 }
+                closeFitCriteria();
             }
         }
     }
@@ -2708,7 +2710,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     // Locators Below
-
+    private WebElement getStateInput() { return getDriver().findElement(By.xpath("//div[contains(@class,'sm-filter-search-dropdown')]/div/input")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
     private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"'")))));}
     private WebElement getPinnedValue() { return pinnedDropdown().findElement(By.xpath("./span/div"));}

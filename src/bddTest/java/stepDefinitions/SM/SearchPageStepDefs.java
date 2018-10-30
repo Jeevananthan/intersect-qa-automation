@@ -9,9 +9,9 @@ public class SearchPageStepDefs implements En {
 
         SearchPageImpl searchPage = new SearchPageImpl();
 
-        Then("^I select the following data from the Location Fit Criteria$", searchPage::setLocationCriteria);
+        Then("^SM I select the following data from the Location Fit Criteria$", searchPage::setLocationCriteria);
 
-        Then("^I select the following data from the Diversity Fit Criteria$", searchPage::setDiversityCriteria);
+        Then("^SM I select the following data from the Diversity Fit Criteria$", searchPage::setDiversityCriteria);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the Resources fit criteria$", searchPage::setResourcesCriteria);
 

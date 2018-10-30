@@ -777,10 +777,9 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
-    And SM I select the "Location" fit criteria
-    And I click the dropdown "div[role='combobox']"
-    And I select the option "Massachusetts" from the list "span.text"
-    And SM I close the fit criteria selection window
+    And SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Massachusetts      |
     And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
     And SM I pin the college "Williams College" from the why drawer
     And SM I verify the college "Williams College" is "pinned" in the results table
