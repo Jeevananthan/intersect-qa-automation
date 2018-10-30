@@ -72,9 +72,9 @@ public class EventsContactPageImpl extends PageObjectFacadeImpl {
         returnToListLink().sendKeys(Keys.RETURN);
     }
     public void verifyContact(String contact){
-        waitForUITransition();
-       String results = driver.findElement(By.cssSelector("input[name='contacts-search']")).getAttribute("value");
-       Assert.assertTrue("Newly created contact is not present", results.equals(contact));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@name='eventContact']"),0));
+        String results = driver.findElement(By.cssSelector("input[name='contacts-search']")).getAttribute("value");
+        Assert.assertTrue("Newly created contact is not present", results.equals(contact));
 
     }
     public  void requiredFieldMessage(){
