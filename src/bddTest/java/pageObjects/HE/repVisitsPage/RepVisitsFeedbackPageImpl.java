@@ -500,7 +500,7 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
      * @param username - Name of the user to view.
      */
     public void selectFeedbackUser(String username) {
-        getDriver().findElement(By.xpath("//div[contains(@class,'menu-link')]/div/div[text()[contains(.,'"+username+"')]]")).click();
+        getDriver().findElement(By.xpath("//div[contains(@class,'menu-link')]/div/div/h2[text()[contains(.,'"+username+"')]]")).click();
         waitUntil(ExpectedConditions.visibilityOf(getRatingDetails()));
     }
 
