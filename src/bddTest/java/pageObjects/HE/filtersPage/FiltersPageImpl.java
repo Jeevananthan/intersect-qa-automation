@@ -45,23 +45,23 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Location" :
                     locationMilesDropdown().click();
-                    getDropdownOption(filterDataElement.get(1).split(";")[0]).click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1).split(";")[0]).click();
                     locationPostalCodeField().sendKeys(filterDataElement.get(1).split(";")[1]);
                     break;
                 case "Race and Ethnicity" :
                     raceAndEthnicityField().click();
-                    getDropdownOption(filterDataElement.get(1)).click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
                     filterNameLabel().click();
                     break;
                 case "Grade Level" :
                     gradeLevel().click();
                     waitForUITransition();
-                    getDropdownOption(filterDataElement.get(1)).click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
                     filterNameLabel().click();
                     break;
                 case "GPA" :
                     gpaField().click();
-                    getDropdownOption(filterDataElement.get(1)).click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
                     filterNameLabel().click();
                     break;
                 case "Filter Name" :
@@ -168,4 +168,5 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement sortByDropdown() { return driver.findElement(By.cssSelector("div[class *= 'ui button floating labeled dropdown icon'] div.text")); }
     private WebElement sortByDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'item']//span[text() = '" + optionName + "']")); }
     private String recommendedCountListLocator(String eventBaseName) { return "//div[contains(@class, 'dimmable')]/div/strong[contains(text(), '" + eventBaseName + "')]/../../div[5]/span[2]"; }
+    private WebElement getCreateFilterDropdownOption(String option) { return driver.findElement(By.xpath("//span[@class = 'text' and text() = '" + option + "']")); }
 }

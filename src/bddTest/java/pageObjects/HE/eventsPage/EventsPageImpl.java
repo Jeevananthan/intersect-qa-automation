@@ -351,7 +351,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void unpublishEvent(String eventName) {
         waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Published")));
         if (driver.findElements(By.cssSelector("input#name")).size() == 1) {
             eventsTabFromEditEventScreen().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
@@ -772,9 +772,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement eventLinkByPosition(int position) { return driver.findElement(By.cssSelector("div[class *= 'ui stackable middle aligned grid'] div[class *= 'row']:nth-of-type(" + position + ") a:not(.ui)")); }
     private WebElement attendeesErrorMessage() { return driver.findElement(By.cssSelector("table[class *= 'ui very basic table'] div.ui.header span")); }
     private WebElement attendeeDataFirstName(String firstName){return  driver.findElement(By.xpath("//Div[text()='" + firstName + "']"));}
-   // private WebElement attendeeDataFirstName(String firstName){return driver.findElement(By.cssSelector("div._3xgrllu8DG-OcR4kpSPd3A"));}
     private WebElement attendeeDataLastName(String lastName){return  driver.findElement(By.xpath("//Div[text()='" + lastName + "']"));}
     private WebElement attendeeDataEmail(String Email){return driver.findElement(By.xpath("//Div[text()='" + Email + "']"));}
     private WebElement attendeeDataStatus(String Status){return driver.findElement(By.xpath("//Div[text()='" + Status + "']"));}
-
+    private WebElement editEventBarTab(String tabName) { return  driver.findElement(By.xpath("//h2[text() = '" + tabName + "']")); }
 }
