@@ -351,7 +351,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void unpublishEvent(String eventName) {
         waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Published")));
         if (driver.findElements(By.cssSelector("input#name")).size() == 1) {
             eventsTabFromEditEventScreen().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
