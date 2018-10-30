@@ -3409,7 +3409,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public WebElement schoolInVisits(String school) {
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//div/h3/a[text()='"+school+"']"));
         return  schoolName;
     }
 
@@ -4019,7 +4019,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public By school(String school){
-        return By.xpath("//a[contains(text(),'"+school+"')]");
+        return By.xpath("//td/h3/a[contains(text(),'"+school+"')]");
     }
 
     public WebElement verifySchool(String school){

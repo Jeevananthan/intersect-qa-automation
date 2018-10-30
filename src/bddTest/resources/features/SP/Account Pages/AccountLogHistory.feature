@@ -34,10 +34,10 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
   #visit
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
   #Fairs
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
@@ -72,7 +72,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
 
     Examples:
       |user                                   |supportUser         |profileName |institution              |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime |Option1                                              |Option2                           |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |option|

@@ -7885,7 +7885,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement availabilitySettings() {
-        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability Settings']"));
+        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/h2/span[text()='Availability Settings']"));
     }
 
     private WebElement notificationAndPrimaryContact() {
