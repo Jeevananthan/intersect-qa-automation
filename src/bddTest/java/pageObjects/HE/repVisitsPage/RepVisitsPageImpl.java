@@ -3652,7 +3652,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return school;
     }
     private WebElement saveButton() {
-        WebElement button=driver.findElement(By.xpath("//button/span[text()='Save']"));
+        WebElement button=driver.findElement(By.xpath("//button/span[text()='SAVE']"));
         return button;
     }
     private WebElement yesButton() {
@@ -3773,8 +3773,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private WebElement emailTextBox(){
-        WebElement text=getDriver().findElement(By.id("am_notification_contacts_additional_emails"));
-        return text;
+        WebElement textBox;
+        try {
+            setImplicitWaitTimeout(2);
+            textBox=getDriver().findElement(By.id("am_notification_contacts_additional_emails"));
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            resetImplicitWaitTimeout();
+            textBox=getDriver().findElement(By.id("user-form-email"));
+        }
+        return textBox;
     }
 
     private WebElement checkBoxInAccountSettingsNotification(String value) {
