@@ -147,6 +147,29 @@ public class GlobalSearch extends SeleniumBase {
         Assert.assertTrue("No HE Accounts or Institutions whee returned in the search", institutionsReturned);
     }
 
+    public void verifyHSSchoolResults(String schoolHSResults){
+        waitUntilPageFinishLoading();
+
+        List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
+        boolean institutionsReturned = false;
+        boolean itemFound = false;
+        for (WebElement category : categories) {
+            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HS Accounts")) {
+                institutionsReturned = true;
+                List<WebElement> options = category.findElements(By.className("title"));
+                for (WebElement option : options) {
+                    if (option.getText().toLowerCase().contains(schoolHSResults.toLowerCase())) {
+                        itemFound = true;                    }
+                }
+            }
+        }
+        Assert.assertTrue("Search term was not found in the search results",itemFound);
+        Assert.assertTrue("No HS Accounts or Institutions whee returned in the search", institutionsReturned);
+
+
+
+    }
+
     public void selectResult(String optionToSelect) {
         waitUntilPageFinishLoading();
         waitUntilElementExists(getDriver().findElement(By.cssSelector("div[id='global-search-box-results']")));
@@ -569,22 +592,32 @@ public class GlobalSearch extends SeleniumBase {
                 case("Legacy: Hub page management"):
                     WebElement hub = getDriver().findElement(By.xpath("//span[contains(text(), 'Hub')]/../following-sibling::td/div/i"));
                     hub.click();
-                    jsClick(hub.findElement((By.xpath("//span[contains(text(), 'Hub')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(hub.findElement((By.xpath("//span[contains(text(), 'Hub')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
                 case("Legacy: Community"):
                     WebElement community = getDriver().findElement(By.xpath("//span[contains(text(), 'Community')]/../following-sibling::td/div/i"));
                     community.click();
-                    jsClick(community.findElement((By.xpath("//span[contains(text(), 'Community')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(community.findElement((By.xpath("//span[contains(text(), 'Community')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
                 case("Intersect Awareness Subscription"):
                     WebElement awareness = getDriver().findElement(By.xpath("//span[contains(text(), 'Awareness')]/../following-sibling::td/div/i"));
                     awareness.click();
-                    jsClick(awareness.findElement((By.xpath("//span[contains(text(), 'Awareness')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(awareness.findElement((By.xpath("//span[contains(text(), 'Awareness')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
                 case("Intersect Presence Subscription"):
                     WebElement presence = getDriver().findElement(By.xpath("//span[contains(text(), 'Presence')]/../following-sibling::td/div/i"));
                     presence.click();
-                    jsClick(presence.findElement((By.xpath("//span[contains(text(), 'Presence')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(presence.findElement((By.xpath("//span[contains(text(), 'Presence')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
+                    break;
+                case("Legacy: ActiveMatch Events"):
+                    WebElement events = getDriver().findElement(By.xpath("//span[contains(text(), 'Events')]/../following-sibling::td/div/i"));
+                    events.click();
+                    jsClick(events.findElement((By.xpath("//span[contains(text(), 'Events')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
+                    break;
+                case("ActiveMatch Plus"):
+                    WebElement plus = getDriver().findElement(By.xpath("//span[contains(text(), 'Plus')]/../following-sibling::td/div/i"));
+                    plus.click();
+                    jsClick(plus.findElement((By.xpath("//span[contains(text(), 'Plus')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
             }
         }

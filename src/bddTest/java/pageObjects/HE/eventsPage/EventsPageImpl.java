@@ -53,11 +53,13 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         createEventButton().click();
         fillCreateEventForm(eventDetails);
-        saveDraftButton().sendKeys(Keys.RETURN);
+        saveDraftButton().click();
+        //saveDraftButton().sendKeys(Keys.RETURN);
     }
 
     public void verifyEventIsPresent(String eventName) {
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Unpublished")));
         driver.get(driver.getCurrentUrl());
         int numberOfEventsFound = driver.findElements(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']" +
                 "/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/div[text()='" + eventName + "']")).size();
@@ -275,37 +277,36 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public void verifyEditedData(String eventName) {
         openEditScreen(eventName);
         waitUntilPageFinishLoading();
+        // The data on the form doesn't load with the page, so we need to wait for that to populate first.
+        waitUntil(ExpectedConditions.attributeContains(eventNameField(),"value",eventName));
         for (String key : editedData.keySet()) {
             switch (key) {
                 case "Event Name" :
-                    Assert.assertTrue(key + " was not successfully updated", eventNameField().getText().equals(editedData.get(key)));
+                    softly().assertThat(eventNameField().getText()).as("Event Name").isEqualTo(editedData.get(key));
                     break;
                 case "Event Start" :
-                    Assert.assertTrue(key + " was not successfully updated", eventStartTimeField().getText().equals(editedData.get(key)));
+                    softly().assertThat(eventStartTimeField().getText()).as("Event Start").isEqualTo(editedData.get(key));
                     break;
                 case "Timezone" :
-                    Assert.assertTrue(key + "was not successfully updated", timeZoneDropdown().getText().equals(editedData.get(key)));
+                    softly().assertThat(timeZoneDropdown().getText()).as("Timezone").isEqualTo(editedData.get(key));
                     break;
                 case "Description" :
-                    //it is necessary to reload the page to see the change in Description (MATCH-3460)
-                    driver.get(driver.getCurrentUrl());
-                    Assert.assertTrue(key + " was not successfully updated", descriptionField().getText().equals(editedData.get(key)));
+                    softly().assertThat(descriptionField().getText()).as("Description").isEqualTo(editedData.get(key));
                     break;
                 case "Max Attendees" :
-                    Assert.assertTrue(key + " was not successfully updated", maxAttendeesField().getText().equals(editedData.get(key)));
+                    softly().assertThat(maxAttendeesField().getText()).as("Max Attendees").isEqualTo(editedData.get(key));
                     break;
                 case "RSVP Deadline" :
-                    Assert.assertTrue(key + " was not successfully updated", rsvpCalendarButton().getText().equals(editedData.get(key)));
+                    softly().assertThat(rsvpCalendarButton().getText()).as("RSVP Deadline").isEqualTo(editedData.get(key));
                     break;
                 case "EVENT LOCATION" :
-                    Assert.assertTrue(key + " was not successfully updated. UI: " + locationField().getText()
-                            + ", Edited Data: " + editedData.get(key), locationField().getAttribute("value").equals(editedData.get(key)));
+                    softly().assertThat(locationField().getAttribute("value")).as("Event Location").isEqualTo(editedData.get(key));
                     break;
                 case "EVENT PRIMARY CONTACT" :
-                    Assert.assertTrue(key + " was not successfully updated", primaryContactField().getAttribute("value").equals(editedData.get(key)));
+                    softly().assertThat(primaryContactField().getAttribute("value")).as("Event Primary Contact").isEqualTo(editedData.get(key));
                     break;
                 case "EVENT AUDIENCE" :
-                    Assert.assertTrue(key + " was not successfully updated", audienceField().getAttribute("value").equals(editedData.get(key)));
+                    softly().assertThat(audienceField().getAttribute("value")).as("Event Audience").isEqualTo(editedData.get(key));
                     break;
             }
         }
@@ -343,6 +344,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Unpublished")));
         Assert.assertTrue("The deleted event is still present in the list",
                 driver.findElements(By.xpath(eventsListLocator(eventName))).size() == 0);
     }
@@ -490,11 +492,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public void openTab(String tabName) {
         waitForUITransition();
         try {
-            getTab(tabName).click();
+            getEventsTab(tabName).click();
         } catch(WebDriverException e) {
             mainEventsTitle().click();
             waitUntilPageFinishLoading();
-            getTab(tabName).click();
+            getEventsTab(tabName).click();
         }
         waitForUITransition();
     }
@@ -644,7 +646,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTabInEditEvent(String tabName) {
-        getOptionFromMenuButtonForEvents(tabName).click();
+        getEventsTab(tabName).click();
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
@@ -694,7 +696,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//h3[text() = '" + eventName + "']/../../../..//i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
-        return driver.findElement(By.xpath("//span[text()='" + optionName + "']"));
+        return getDriver().findElement(By.xpath("//span[text()='" + optionName + "']"));
     }
     private WebElement getMenuButton(String optionName) {
         return driver.findElement(By.xpath("//span[text()  = '" + optionName + "']"));
@@ -755,13 +757,16 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement filterInEventAudienceList(String filterName) { return driver.findElement(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
     private WebElement filtersListContainer() { return driver.findElement(By.cssSelector("ul[class *= \"ui huge pointing secondary stackable\"] + div")); }
     private List<WebElement> filtersInEventsAudienceList(String filterName) { return driver.findElements(By.xpath("//table[contains(@class, 'ui unstackable very basic left aligned table')]/tbody/tr/td/div[text()='" + filterName + "']")); }
-    private WebElement attendeeStatusBarStudent(String eventName) { return driver.findElement(By.xpath("//h3[text() = '" + eventName + "']/../../../..//a[@class = 'ui middle aligned grid']")); }
-    private WebElement noAttendeesMessage() { return driver.findElement(By.cssSelector("div.ui.stackable.middle.aligned.grid")); }
+    private WebElement attendeeStatusBarStudent(String eventName) {
+        //return driver.findElement(By.xpath("//a[text() = '" + eventName + "']/../../../div[contains(@class, 'four wide column')]/a"));
+        return getDriver().findElement(By.xpath("//h3[text()='"+eventName+"']/../../../following::div/a"));
+    }
+    private WebElement noAttendeesMessage() { return driver.findElement(By.xpath("//div[@class[contains(.,'_22IjfAfN4Zs4CnM4Q_AlWZ')]]")); }
     private String noAttendeesMessageString = "There are no attendees currently registered for this event.";
     private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
     private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
     private String eventsListLocator(String eventName) { return "//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']"; }
-    private WebElement eventStatus(String eventName) { return driver.findElement(By.xpath("//div[@class = 'ui middle aligned grid']/a[text() = '" + eventName + "']/../../../div[contains(@class, 'two wide column')]/div")); }
+    private WebElement eventStatus(String eventName) { return driver.findElement(By.xpath("//a/h3[text()='"+eventName+"']/../../../../div[@class[contains(.,'two')]]/div")); }
     private WebElement eventAudienceTextBox() { return driver.findElement(By.cssSelector("input[name = 'filters-dropdown']")); }
     private WebElement mainEventsTitle() { return driver.findElement(By.cssSelector("a div div.hidden-mobile")); }
     private WebElement eventLinkByPosition(int position) { return driver.findElement(By.cssSelector("div[class *= 'ui stackable middle aligned grid'] div[class *= 'row']:nth-of-type(" + position + ") a:not(.ui)")); }

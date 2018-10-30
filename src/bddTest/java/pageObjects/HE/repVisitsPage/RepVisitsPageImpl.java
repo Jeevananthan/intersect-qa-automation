@@ -790,8 +790,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyBlockedAvailability(String school,String Date,String time) {
         visit().click();
-        waitUntilElementExists(getDriver().findElement(By.xpath("//div/a[text()='"+school+"']")));
-        Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//div/a[text()='"+school+"']")).isDisplayed());
+        waitUntilElementExists(getDriver().findElement(By.xpath("//div/h3/a[text()='"+school+"']")));
+        Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//div/h3/a[text()='"+school+"']")).isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(Date);
         setDate(gotoDate, "Go To Date");
@@ -1422,7 +1422,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         for(int i=0; i < itemsInStaffMemberMenu.size(); i++)
         {
-            String fullNameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]")).getText();
+            String fullNameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//h2")).getText();
             listContainingFullNamesOfStaffMembers.add(fullNameOfStaffMember);
         }
 
@@ -1440,12 +1440,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         {
             try {
                 isCommunityAvatarDisplayed = itemsInStaffMemberMenu.get(i).
-                        findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]/img | .//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]/i")).isDisplayed();
+                        findElement(By.xpath(".//h2/../img | .//h2/../i[@class[contains(.,'circular')]]")).isDisplayed();
             } catch(Exception ex) {
                 isCommunityAvatarDisplayed = false;
             }
 
-            String nameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]")).getText();
+            String nameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//h2")).getText();
             Assert.assertTrue("Community avatar for staff member - " + nameOfStaffMember + " - is not displayed", isCommunityAvatarDisplayed);
         }
     }
@@ -1855,7 +1855,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void removeHighSchoolFromTravelPlan(String school){
         navigateToRepVisitsSection("Travel Plan");
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
-        button(By.xpath(String.format(".//div/div/h2[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']",school))).click();
+        button(By.xpath(String.format(".//div/div/h3[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']",school))).click();
         Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?").isDisplayed());
         Assert.assertTrue("The remove from travel plan confirmation message is not displayed",text(String.format("Are you sure you want to remove %s from your travel plan?", school)).isDisplayed());
         button("YES, REMOVE").click();
@@ -2061,7 +2061,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         try{
             getDriver().findElement(By.xpath(String.format(
-                    ".//div/div/h2[text()='%s']/ancestor::div[@class='item']/div/div/button/i[@class='trash alternate icon _22IhW8lEh2abuRIROnZXJx']"
+                    ".//div/div/h3[text()='%s']/ancestor::div[@class='item']/div/div/button/i[@class='trash alternate icon _22IhW8lEh2abuRIROnZXJx']"
                     ,school)));
         }catch(Exception e){
             throw new AssertionFailedError(String.format("The trash icon is not displayed for school: %s, error: %s"
@@ -2076,7 +2076,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void cancelRemoveHighSchoolFromTravelPlan(String school){
         navigateToRepVisitsSection("Travel Plan");
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
-        button(By.xpath(String.format(".//div/div/h2[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
+        button(By.xpath(String.format(".//div/div/h3[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
                 ,school))).click();
         Assert.assertTrue("The Remove from Travel Plan text is not displayed", text("Remove from Travel Plan?")
                 .isDisplayed());
@@ -2103,7 +2103,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyHighSchoolInTravelPlan(String school){
         try{
-            getDriver().findElement(By.xpath(String.format(".//div[@class='content']/div/div/h2[text()='%s']", school)));
+            getDriver().findElement(By.xpath(String.format(".//div[@class='content']/div/div/h3[text()='%s']", school)));
         } catch(Exception e){
             throw new AssertionFailedError(String.format("The high school: %s is not displayed in the travel plan page",
                     school));
@@ -3454,7 +3454,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getContactsBtn() {
-        return getDriver().findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Contacts']"));
+        return getDriver().findElement(By.xpath("//a[@class='menu-link']/span[text()='Contacts']"));
     }
     private WebElement getRecommendationsBtn() {return link("Recommendations");}
     private WebElement getNotificationsBtn() {
@@ -3554,7 +3554,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> eventsRows(String day) { return getDriver().findElements(By.xpath("//div[not(contains(@class, 'rbc-off-range'))][contains(@class,'rbc-date-cell')]/a[text()='" + day + "']/../../following-sibling::div")); }
     protected WebElement getVerticalStaffMembersMenu() {
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[contains(@class, 'ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu')]")));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav[@label='Representatives']")));
     }
     private WebElement searchTextBox() {
         WebElement textBox= getDriver().findElement(By.cssSelector("input[placeholder='Search for a school...']"));
@@ -3652,7 +3652,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return school;
     }
     private WebElement saveButton() {
-        WebElement button=driver.findElement(By.xpath("//button/span[text()='Save']"));
+        WebElement button=driver.findElement(By.xpath("//button/span[text()='SAVE']"));
         return button;
     }
     private WebElement yesButton() {
@@ -3773,8 +3773,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private WebElement emailTextBox(){
-        WebElement text=getDriver().findElement(By.id("am_notification_contacts_additional_emails"));
-        return text;
+        WebElement textBox;
+        try {
+            setImplicitWaitTimeout(2);
+            textBox=getDriver().findElement(By.id("am_notification_contacts_additional_emails"));
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            resetImplicitWaitTimeout();
+            textBox=getDriver().findElement(By.id("user-form-email"));
+        }
+        return textBox;
     }
 
     private WebElement checkBoxInAccountSettingsNotification(String value) {

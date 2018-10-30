@@ -75,14 +75,17 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="helpNav-dropdown")
     private WebElement helpDropdown;
 
-    @FindBy(css = "i[class='globe big icon WwLybVz7icbheav6VG-r5']")
+    @FindBy(xpath = "//i[@class[contains(.,'globe big icon')]]")
     private WebElement notificationsDropdown;
 
-    @FindBy(css = "div[class='menu transition visible']")
+    @FindBy(xpath = "//div[@class[contains(.,'menu') and contains(.,'transition') and contains(.,'visible')]]")
     private WebElement notificationList;
 
     @FindBy(css = "i[class='user circle big icon _2zVyfrnly39K0rqwywYZo8']")
     private WebElement userDropdown;
+
+    @FindBy(xpath = "//i[@class[contains(.,'pink') and contains(.,'circle')]]")
+    private WebElement notificationsCounter;
 
     public NavigationBarImpl(){
 
@@ -216,11 +219,19 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     /**
-     * Clicks on the notification dwopdown
+     * Clicks on the notification dropdown
      */
     public void clickNotificationsDropdown(){
         waitUntil(ExpectedConditions.visibilityOf(notificationsDropdown));
-        notificationsDropdown.click();
+        try {
+            notificationsDropdown.click();
+        } catch (Exception e) {
+            if (notificationsCounter.isDisplayed()) {
+                notificationsCounter.click();
+            } else {
+                throw e;
+            }
+        }
         waitUntil(ExpectedConditions.visibilityOf(notificationList));
     }
 
