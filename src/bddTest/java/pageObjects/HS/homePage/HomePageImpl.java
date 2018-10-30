@@ -207,6 +207,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
+
+        if(link(By.xpath("//div[@id='announcement-overlay--close']")).isDisplayed()) {
+            waitUntilElementExists(link(By.xpath("//div[@id='announcement-overlay--close']")));
+            link(By.xpath("//div[@id='announcement-overlay--close']")).click();
+        }
+
         waitUntilPageFinishLoading();
         Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//td[contains(text(),'Copyright © "+currentYear+", Hobsons Inc.')]")).isDisplayed());
     }
