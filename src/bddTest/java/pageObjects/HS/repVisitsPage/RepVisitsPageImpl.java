@@ -411,7 +411,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         availabilitySettings().click();
         waitUntilElementExists(saveChangesAvailability());
-        yesAcceptAllIncommingRequestsRadioButton().click();
+        setVisitsConfirmation(option).click();
         saveChangesAvailability().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
@@ -740,7 +740,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navianceSettings().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Naviance Sync Settings']"),1));
-        driver.findElement(By.xpath("//div[@class='grouped fields']/div/label[text()='" + option + "']")).click();
+        driver.findElement(By.xpath("//div[@class='grouped fields']//div/label[text()='"+option+"']")).click();
         locationTextBoxInNaviance().sendKeys(Keys.PAGE_DOWN);
         saveChangesNaviance().click();
         waitUntilPageFinishLoading();
@@ -1494,6 +1494,83 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         fairNametoClickViewDetails = FairName;
         waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsViewDetails(fairNametoClickViewDetails)));
         selectViewDetails(fairNametoClickViewDetails).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyAndSelectAppointmentInCalendarPage(String university,String time,String date,String option){
+        String startTime = "";
+        if(option.equals("Scheduled")) {
+            startTime = getVisitStartTimeInCalendar();
+        }else if(option.equals("ReScheduled")){
+            startTime = getRescheduledVisitStartTimeInCalendar();
+        }
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@title='Day']"),1));
+        collegeFairTextBoxInCalendarPage().click();
+        pendingCheckBoxInCalendarPage().click();
+        String month = month(date);
+        String currentMonth = currentMonthInCalendarPage().getText();
+        String selectMonth[] = currentMonth.split(" ");
+        String Month = selectMonth[0];
+        while (!month.equals(Month)) {
+            nextMonthButton().click();
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@title='Day']"),1));
+            currentMonth = currentMonthInCalendarPage().getText();
+            selectMonth = currentMonth.split(" ");
+            Month = selectMonth[0];
+        }
+        if (calendarAppointments(startTime,university).size() == 1) {
+            selectAppointmentInCalendar(startTime, university);
+        } else if (calendarAppointments(startTime,university).size() == 0) {
+            int appointment = getAppointmentFromCalendar(startTime, university);
+            if (appointment == 0) {
+                startTime = getCalendarStartTime();
+                if (calendarAppointments(startTime,university).size() == 1) {
+                    selectAppointmentInCalendar(startTime, university);
+                } else if (calendarAppointments(startTime,university).size() == 0) {
+                    appointment = getAppointmentFromCalendar(startTime, university);
+                    if(appointment==1){
+                        selectAppointmentInCalendar(startTime, university);
+                    }else {
+                        Assert.fail("Appointment is not displayed");
+                    }
+                }
+            }else if(appointment == 1){
+                selectAppointmentInCalendar(startTime, university);
+            }
+        }else {
+            Assert.fail("Appointment is not displayed");
+        }
+    }
+
+    public int getAppointmentFromCalendar(String startTime,String university){
+        if(getMonthRow().size()>0){
+            outerloop:
+            for(int i=1;i<=getMonthRow().size();i++){
+                if(showMore(i).size()>0)
+                    for(int j=1;j<=7;j++){
+                        if(showMoreButton(i,j).size()==1) {
+                            jsClick(selectShowMoreButton(i,j));
+                            waitUntilPageFinishLoading();
+                            if (calendarAppointments(startTime,university).size() == 1){
+                                break outerloop;
+                            }else {
+                                jsClick(selectShowMoreButton(i,j));
+                                waitUntilPageFinishLoading();
+                            }
+                        }
+                    }
+            }
+        }
+        return calendarAppointments(startTime,university).size();
+    }
+    public void selectAppointmentInCalendar(String startTime,String university){
+        Assert.assertTrue("Appointment is not displayed", calendarAppointment(startTime,university).isDisplayed());
+        calendarAppointment(startTime,university).click();
         waitUntilPageFinishLoading();
     }
 
@@ -6304,14 +6381,15 @@ public void cancelRgisteredCollegeFair(String fairName){
      */
     public void verifyVisitInNaviance(String user, String highSchool, String time){
         //Verification in Naviance side
+        time = getVisitStartTimeInReschedule();
         load(GetProperties.get("naviance.visits.url"));
-        driver.navigate().refresh();
+        getDriver().navigate().refresh();
         load(GetProperties.get("naviance.visits.url"));
         waitForUITransition();
-        Assert.assertTrue("Representative was not found in Naviance",driver.getPageSource().contains(user));
-        Assert.assertTrue("High School was not found in Naviance",driver.getPageSource().contains(highSchool));
-        Assert.assertTrue("Schedule tima was not changed",driver.getPageSource().contains(time));
-        driver.navigate().back();
+        Assert.assertTrue("Representative was not found in Naviance",getDriver().getPageSource().contains(user));
+        Assert.assertTrue("High School was not found in Naviance",getDriver().getPageSource().contains(highSchool));
+        Assert.assertTrue("Schedule tima was not changed",getDriver().getPageSource().contains(time));
+        getDriver().navigate().back();
     }
 
     /**
@@ -6466,7 +6544,7 @@ public void cancelRgisteredCollegeFair(String fairName){
                 break;
             case "No, I want to manually review all incoming requests." :
                 WebElement options = getParent(getParent(getParent(driver.findElement(By.cssSelector("[name=autoConfirmVisit]")))));
-                options.findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
+                getDriver().findElement(By.xpath("div/label[text()[contains(., '"+ option +"')]]")).click();
                 saveChangesAvailability().click();
                 break;
         }
@@ -6503,7 +6581,6 @@ public void cancelRgisteredCollegeFair(String fairName){
     public void disconnectFromNavianceButton(){
             try {
                 disconnectButton().click();
-                nextButton().click();
             } catch (WebDriverException e) {
                 optInYesRadioButton().click();
                 nextButton().click();
@@ -6514,7 +6591,9 @@ public void cancelRgisteredCollegeFair(String fairName){
                 driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
                 FluentWait<WebDriver> wait = new WebDriverWait(driver, 5);
                 wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
-                getNavigationBar().goToRepVisits();
+                takeMeToMyVisitsButton().click();
+                waitUntilPageFinishLoading();
+                waitUntilElementExists(todayText());
                 availabilityAndSettings().click();
                 navianceSettings().click();
                 disconnectButton().click();
@@ -6525,7 +6604,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * Verify Disconnect button from RV from Naviance.
      */
     public void verifyCancelDisconnectFromNavianceButton(){
-        waitUntilElementExists(cancelIndisconnectRVfromNaviancePopup());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(cancelButtonIndisconnectRVfromNaviancePopup()));
         Assert.assertTrue("Cancel from Disconnect RepVisits from Naviance is displayed",cancelIndisconnectRVfromNaviancePopup().isDisplayed());
         cancelIndisconnectRVfromNaviancePopup().click();
         Assert.assertTrue("The button Cancel closes the modal and maintains the connection between RepVisits and Naviance for the user",disconnectButton().isDisplayed());
@@ -6540,19 +6619,19 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param attendee - Attendee to use un the new Visit or Appointment
      * @param location - The location in the new Visit or Appointment
      */
-    public void verifyYesDisconnectFromNavianceButton(String date, String startTime, String endTime, String numVisits, String attendee, String location){
+    public void verifyYesDisconnectFromNavianceButton(String date, String startTime, String endTime, String numVisits, String attendee,String college, String location){
         waitUntilElementExists(yeslIndisconnectRVfromNaviancePopup());
         Assert.assertTrue("Yes from Disconnect RepVisits from Naviance is displayed",yeslIndisconnectRVfromNaviancePopup().isDisplayed());
         yeslIndisconnectRVfromNaviancePopup().click();
         /*The ability to add/edit/delete events directly in Naviance is re-enabled and is present in the UI for the user in Naviance*/
         load(GetProperties.get("naviance.visits.url"));
-        driver.navigate().refresh();
-        waitUntilElementExists(driver.findElement(By.linkText("add new visit")));
-        Assert.assertTrue("The ability to add new visit was not activated",driver.getPageSource().contains("add new visit"));
-        Assert.assertTrue("The ability to view was not activated",driver.getPageSource().contains("view"));
-        Assert.assertTrue("The ability to edit was not activated",driver.getPageSource().contains("edit"));
-        Assert.assertTrue("The ability to cancel was not activated",driver.getPageSource().contains("cancel"));
-        driver.navigate().back();
+        getDriver().navigate().refresh();
+        waitUntilElementExists(getDriver().findElement(By.linkText("add new visit")));
+        Assert.assertTrue("The ability to add new visit was not activated",getDriver().getPageSource().contains("add new visit"));
+        Assert.assertTrue("The ability to view was not activated",getDriver().getPageSource().contains("view"));
+        Assert.assertTrue("The ability to edit was not activated",getDriver().getPageSource().contains("edit"));
+        Assert.assertTrue("The ability to cancel was not activated",getDriver().getPageSource().contains("cancel"));
+        getDriver().navigate().back();
         /*The RepVisits>Availability & Settings>Naviance Settings page is restored to the "opt in/out" to connect page */
         /*Also MATCH-3462 verify the UI*/
         waitUntilElementExists(optInYesRadioButton());
@@ -6564,15 +6643,15 @@ public void cancelRgisteredCollegeFair(String fairName){
         calendar().click();
 
         //Verification in RV side
-        Assert.assertTrue("College was not found in RV ",driver.getPageSource().contains("Bowling Green State University"));
+        Assert.assertTrue("College was not found in RV ",getDriver().getPageSource().contains(college));
 
         //Verification in Naviance side
         load(GetProperties.get("naviance.visits.url"));
-        driver.navigate().refresh();
-        waitUntilElementExists(driver.findElement(By.linkText("add new visit")));
-        Assert.assertFalse("Representative was found in Naviance",driver.getPageSource().contains("PurpleHE Automation"));
-        Assert.assertFalse("Location was found in Naviance",driver.getPageSource().contains("Cbba"));
-        driver.navigate().back();
+        getDriver().navigate().refresh();
+        waitUntilElementExists(getDriver().findElement(By.linkText("add new visit")));
+        Assert.assertFalse("Representative was found in Naviance",getDriver().getPageSource().contains(attendee));
+        Assert.assertFalse("Location was found in Naviance",getDriver().getPageSource().contains(location));
+        getDriver().navigate().back();
 
         navigateToNavianceSettingsInAvailabilitySettingsPage();
 
@@ -6591,8 +6670,8 @@ public void cancelRgisteredCollegeFair(String fairName){
         load(GetProperties.get("naviance.visits.url"));
         driver.navigate().refresh();
         waitUntilElementExists(driver.findElement(By.linkText("view")));
-        Assert.assertTrue("Representative was found in Naviance",driver.getPageSource().contains("PurpleHE Automation"));
-        Assert.assertFalse("Time was found in Naviance",driver.getPageSource().contains("6:30am"));
+        Assert.assertTrue("Representative was found in Naviance",driver.getPageSource().contains(attendee));
+        Assert.assertFalse("Time was found in Naviance",driver.getPageSource().contains(StartTime));
         driver.navigate().back();
     }
 
@@ -8337,10 +8416,8 @@ public void cancelRgisteredCollegeFair(String fairName){
         WebElement month=driver.findElement(By.xpath("//div[@class='three wide column']/div[@class='ui medium header _1ucD2vjQuS9iWHF9uzN__M']"));
         return month;
     }
-    private WebElement nextMonthButton()
-    {
-        WebElement button=driver.findElement(By.xpath("//button[@class='ui teal basic icon button _38R7SJgG4fJ86m-eLYYZJw']"));
-        return button;
+    private WebElement nextMonthButton() {
+        return getDriver().findElement(By.cssSelector("button[class='ui icon button _38R7SJgG4fJ86m-eLYYZJw']"));
     }
 
     private WebElement forwardDayButton()
@@ -9446,4 +9523,22 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement navianceImportText(){return getDriver().findElement(By.xpath("//span[normalize-space(text())='Importing from Naviance: Your current College Visits in Naviance will be imported into RepVisits. We will automatically match these to any existing visits in RepVisits for the same colleges on the same day. You will have a chance to review and validate these matches before the Naviance and RepVisits entries are linked.']"));}
 
     private WebElement optInOptOutInstruction(){return getDriver().findElement(By.xpath("//span[text()='Opt-In/Opt-Out: Once you choose to connect RepVisits and Naviance, you will have the option to disconnect the sync by returning to Naviance Settings.']"));}
+
+    private By cancelButtonIndisconnectRVfromNaviancePopup() {
+        return By.cssSelector("button[class='ui teal basic button']");
+    }
+
+    private List<WebElement> calendarAppointments(String startTime,String institution){return getDriver().findElements(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + institution + "']"));}
+
+    private List<WebElement> getMonthRow(){return getDriver().findElements(By.cssSelector("div.rbc-month-row"));}
+
+    private List<WebElement> showMore(int index){return getDriver().findElements(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+index+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div>a"));}
+
+    private List<WebElement> showMoreButton(int firstIndex,int secondIndex){return getDriver().findElements(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+firstIndex+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div:nth-of-type("+secondIndex+")>a"));}
+
+    private WebElement selectShowMoreButton(int firstIndex,int secondIndex) {return getDriver().findElement(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+firstIndex+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div:nth-of-type("+secondIndex+")>a"));}
+
+    private WebElement calendarAppointment(String startTime,String institution){return getDriver().findElement(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + institution + "']"));}
+
+    private WebElement setVisitsConfirmation(String option){return getDriver().findElement(By.xpath("//div/label[text()='"+option+"']"));}
 }

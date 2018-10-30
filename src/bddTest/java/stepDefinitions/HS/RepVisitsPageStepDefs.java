@@ -486,7 +486,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Cancel on the disconnect confirmation popup$",repVisits::verifyCancelDisconnectFromNavianceButton);
 
-        Then("^HS I verify the Yes on the disconnect confirmation popup with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyYesDisconnectFromNavianceButton);
+        Then("^HS I verify the Yes on the disconnect confirmation popup with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyYesDisconnectFromNavianceButton);
 
         Then("^HS I verify configuration and staff notifications for \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyStaffNotifications);
 
@@ -726,6 +726,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I cancel the open visit$", repVisits::cancelOpenVisit);
        
-       Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::viewDetailsPageforEditedFair);
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::viewDetailsPageforEditedFair);
+
+        Then("^HS I verify and select an appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAndSelectAppointmentInCalendarPage);
     }
 }
