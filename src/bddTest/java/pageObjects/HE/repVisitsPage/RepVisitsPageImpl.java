@@ -1678,8 +1678,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         viewFullDetails(school,Date,visitTime).click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(internalNodeTextBox()));
         textBoxInViewDetails().sendKeys(Keys.PAGE_DOWN);
-        Assert.assertTrue("save button is not displayed",saveButton().isDisplayed());
-        saveButton().click();
+        Assert.assertTrue("save button is not displayed",viewDetailsSaveButton().isDisplayed());
+        viewDetailsSaveButton().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
@@ -1715,8 +1715,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(internalNodeTextBox()));
         waitUntilElementExists(textBoxInViewDetails());
         textBoxInViewDetails().sendKeys(Keys.PAGE_DOWN);
-        Assert.assertTrue("save button is not displayed",saveButton().isDisplayed());
-        saveButton().click();
+        Assert.assertTrue("save button is not displayed",viewDetailsSaveButton().isDisplayed());
+        viewDetailsSaveButton().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
@@ -2656,57 +2656,53 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         {
         }
     }
-  
+
     public void verifyCityAndStateInRequestNotificationsubTab(String cityAndState,String school){
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Notifications").click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        getNotificationsBtn().click();
         String value[] = cityAndState.split(",");
         String city = value[0];
         String state = value[1];
-        Assert.assertTrue("City and state are not displayed",getDriver().findElement(By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']")).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(cityAndStateInRequest(visitTime,city,state,school)));
+        Assert.assertTrue("City and state are not displayed",verifyCityAndStateInRequest(visitTime,city,state,school).isDisplayed());
     }
 
     public void verifyCityAndStateInActivitysubTab(String cityAndState,String school){
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Notifications").click();
-        waitForUITransition();
-        link("Activity").click();
-        waitForUITransition();
+        getNotificationsBtn().click();
+        getActivityTab().click();
         String value[] = cityAndState.split(",");
         String city = value[0];
         String state = value[1];
-        Assert.assertTrue("City and state are not displayed",getDriver().findElement(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']")).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(cityAndStateInActivity(visitTime,city,state,school)));
+        Assert.assertTrue("City and state are not displayed",verifyCityAndStateInActivity(visitTime,city,state,school).isDisplayed());
     }
 
     public void verifyCityAndStateInRequestNotificationsubTabforFairs(String cityAndState,String school){
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Notifications").click();
-        waitForUITransition();
+        getNotificationsBtn().click();
         String value[] = cityAndState.split(",");
         String city = value[0];
         String state = value[1];
-        Assert.assertTrue("City and state are not displayed",getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']")).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(cityAndStateInRequestforFairs(city,state,school)));
+        Assert.assertTrue("City and state are not displayed",verifyCityAndStateInRequestforFairs(city,state,school).isDisplayed());
     }
 
     public void verifyCityAndStateInActivitysubTabforFairs(String cityAndState,String school){
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        link("Notifications").click();
-        waitForUITransition();
-        link("Activity").click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        getNotificationsBtn().click();
+        getActivityTab().click();
         String value[] = cityAndState.split(",");
         String city = value[0];
         String state = value[1];
-        Assert.assertTrue("City and state are not displayed",getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']")).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(cityAndStateInActivityforFairs(city,state,school)));
+        Assert.assertTrue("City and state are not displayed",verifyCityAndStateInActivityforFairs(city,state,school).isDisplayed());
     }
 
     public void verifyDropdownInSearchAndSchedulePage(String dropdown){
@@ -3991,7 +3987,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public WebElement viewFullDetails(String school,String date,String time){
-        return driver.findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+date+"']/parent::div[text()='"+time+"']/following-sibling::div/a/span[text()='View full details']"));
+        return driver.findElement(By.xpath("//span[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+date+"']/parent::div[text()='"+time+"']/following-sibling::div/a/span[text()='View full details']"));
     }
 
     public By internalNodeTextBox(){
@@ -3999,11 +3995,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public WebElement verifySchoolInNotificationTab(String school){
-        return driver.findElement(By.xpath("//b[text()='"+school+"']"));
+        return driver.findElement(By.xpath("//span[text()='"+school+"']"));
     }
 
     public WebElement verifyDateAndTimeInNotificationTab(String school,String date,String time){
-        return getDriver().findElement(By.xpath("//b[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+date+"']/parent::div[text()='"+time+"']"));
+        return getDriver().findElement(By.xpath("//span[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+date+"']/parent::div[text()='"+time+"']"));
     }
 
     public WebElement schoolInVisitSchedule(String school){
@@ -4032,6 +4028,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     private List<WebElement> getDateInRequestTab(){return driver.findElements(By.cssSelector("div[class='row _7a-AX8OE6ILreCgE8P27C']+div>div>div+div>span"));}
 
+    private WebElement getActivityTab(){return link("Activity");}
+
+    private By cityAndStateInRequest(String visitTime,String city,String state,String school){return By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']");}
+
+    private By cityAndStateInActivity(String visitTime,String city,String state,String school){return By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']");}
+
+    private WebElement verifyCityAndStateInRequest(String visitTime,String city,String state,String school){return getDriver().findElement(By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
+
+    private WebElement verifyCityAndStateInActivity(String visitTime,String city,String state,String school){return getDriver().findElement(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']"));}
+
+    private By cityAndStateInRequestforFairs(String city,String state,String school){return By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']");}
+
+    private By cityAndStateInActivityforFairs(String city,String state,String school){return By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']");}
+
+    private WebElement verifyCityAndStateInRequestforFairs(String city,String state,String school){return getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
+
+    private WebElement verifyCityAndStateInActivityforFairs(String city,String state,String school){return getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']"));}
+
+    private WebElement viewDetailsSaveButton(){return getDriver().findElement(By.xpath("//button/span[text()='Save']"));}
 }
 
 
