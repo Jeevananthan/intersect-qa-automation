@@ -134,11 +134,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         tabs.add("Exceptions");
 //        tabs.add("Availability Settings");
         for (String tab : tabs) {
-            if (tab.contains("Availability") || tab.contains("Regular Weekly Hours")) {
-                Assert.assertTrue("Tab " + tab + " is not displaying as expected!", driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='" + tab + "']")).isDisplayed());
-            }
-            else{
+
+            if (tab.contains("Regular Weekly Hours") || tab.contains("Blocked Days") || tab.contains("Exceptions") || tab.contains("Availability Settings")) {
+                Assert.assertTrue("Tab " + tab + " is not displaying as expected!", driver.findElement(By.xpath("//a/h2[@class='ui header XgpYufXdBrkgn-HSc74qf']/span[text()='" + tab + "']")).isDisplayed());
+            } else{
                 Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='"+tab+"']")).isDisplayed());
+            }
+
+            if (tab.contains("Availability")) {
+                Assert.assertTrue("Tab " + tab + " is not displaying as expected!", driver.findElement(By.xpath("//a[@class='menu-link active']/span[text()='" + tab + "']")).isDisplayed());
             }
         }
     }
