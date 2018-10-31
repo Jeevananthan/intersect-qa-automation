@@ -4,7 +4,7 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active 
   @MATCH-3010
   Scenario: Active Match section is displayed for Admin users in Intersect HE (MATCH-3109)
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the "ActiveMatch" nav link is displaying for this user
+    Then HE I verify the "Connection" nav link is displaying for this user
     And HE I open the Active Match section
 
   @MATCH-3010

@@ -49,7 +49,7 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="js-main-nav-am-events-menu-link")
     private WebElement eventsMenuLink;
 
-    @FindBy(id="js-main-nav-am-plus-menu-link")
+    @FindBy(id="js-main-nav-connection-menu-link")
     private WebElement activeMatchMenuLink;
 
     @FindBy(css = "a[name='mainmenu'] div.hidden-mobile")
@@ -164,7 +164,7 @@ public class NavigationBarImpl extends SeleniumBase {
         activeMatchMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Active Match menu was not selected",
-                selectedNavigationMenu.getAttribute("innerText").contains("ActiveMatch"));
+                selectedNavigationMenu.getAttribute("innerText").contains("Connection"));
     }
 
     /**
