@@ -171,7 +171,7 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
 
     }
     private WebElement upgradeFilterButton(String filterUpgrade){
-        return driver.findElement(By.cssSelector("button#locked-upgrade-button.ui.pink.button._1xXwDP5X-gB37o7xxX7f5k"));
+        return driver.findElement(By.cssSelector("button#locked-upgrade-button.ui.secondary.button._1xXwDP5X-gB37o7xxX7f5k"));
 
     }
 
