@@ -157,6 +157,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
                 className = "ban icon";
                 break;
         }
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='"+userName+"']/parent::td/parent::tr/td/i[@class='"+className+"']")));
         Assert.assertTrue("Expected user status icon was not found.  Expected " + status, driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/parent::tr/td/i[@class='"+className+"']")).isDisplayed());
     }
 
