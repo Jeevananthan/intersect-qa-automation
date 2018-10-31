@@ -92,7 +92,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectFairForHE(String highSchool, String fairTitle){
         getNavigationBar().goToRepVisits();
-        navigateToRepVisitsSection("Search And Schedule");
+        navigateToRepVisitsSection("Search and Schedule");
         //text("Search for a school...").sendKeys(highSchool);
         getSearchBox().sendKeys(highSchool);
         getSearchButton().click();
@@ -1080,7 +1080,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void navigateToRepVisitsSection(String pageName) {
         getNavigationBar().goToRepVisits();
-        getDriver().findElement(By.partialLinkText(pageName)).click();
+        getDriver().findElement(By.xpath("(//a/span[text()='"+pageName+"'])[2]")).click();
         waitUntilPageFinishLoading();
     }
 
