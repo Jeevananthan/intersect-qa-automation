@@ -391,7 +391,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * select any radio button only when fit criteria menu is open.
      */
     public void selectRadioButton(String radioButton){
-        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        waitUntilPageFinishLoading();
+        WebElement radioButtonLocator;
+        if (radioButton.equalsIgnoreCase("Certificate")) {
+            radioButtonLocator = driver.findElement(By.xpath("//label[text() = '"+radioButton+"']"));
+        } else {
+            radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        }
         WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
         Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
         if (!radioButtonLocator.isSelected()) {

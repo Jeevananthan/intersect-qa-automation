@@ -69,6 +69,7 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
     }
 
     public void clickDropdown(String locator) {
+        waitUntilPageFinishLoading();
         try {
             driver.findElement(By.cssSelector(locator)).click();
         } catch (InvalidSelectorException e) {
