@@ -172,8 +172,6 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.xpath(subscriptionRemoveButton(diversity, startDate))).click();
             waitUntilPageFinishLoading();
             deleteButton().click();
-
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(subscriptionRemoveButton(diversity, startDate)), 0));
     }
 
     public void verifyValueRadiusFromZips(String expectedValue) {
@@ -181,13 +179,14 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteMultipleSubscriptions(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h2[text()='Advanced Awareness and Connections Subscriptions']")));
         List<WebElement> buttonList = driver.findElements(By.cssSelector(removeButtonListLocator));
         for (WebElement removeButton : buttonList){
             waitUntilPageFinishLoading();
             removeButton.click();
             waitUntilPageFinishLoading();
             deleteButton().click();
-
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h2[text()='Advanced Awareness and Connections Subscriptions']")));
         }
 
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(removeButtonListLocator),0 ));
