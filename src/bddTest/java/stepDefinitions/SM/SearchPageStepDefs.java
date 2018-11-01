@@ -9,9 +9,9 @@ public class SearchPageStepDefs implements En {
 
         SearchPageImpl searchPage = new SearchPageImpl();
 
-        Then("^I select the following data from the Location Fit Criteria$", searchPage::setLocationCriteria);
+        Then("^SM I select the following data from the Location Fit Criteria$", searchPage::setLocationCriteria);
 
-        Then("^I select the following data from the Diversity Fit Criteria$", searchPage::setDiversityCriteria);
+        Then("^SM I select the following data from the Diversity Fit Criteria$", searchPage::setDiversityCriteria);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the Resources fit criteria$", searchPage::setResourcesCriteria);
 
@@ -309,6 +309,10 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
 
+        And("^SM I pick \"([^\"]*)\" in the editable column number (\\d+)$", searchPage::pickColumnHeader);
+
+        Then("^SM I verify that \"([^\"]*)\" in column number (\\d+) for college \"([^\"]*)\" contains the following data:$", searchPage::verifyDataInEditableColumn);
+
         And("^SM I verify that radio button with text \"([^\"]*)\" is selected$", searchPage::verifyRadioButtonIsSelected);
 
         Then("^SM I verify the options displayed in On-Campus Housing Select % dropdown$", searchPage::verifyOptionsInOnCampusHousingSelectPercentDropdown);
@@ -332,5 +336,15 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:$", searchPage::verifyTabIsOpenAfterClickItemInCriteriaBox);
 
         Then("^SM I verify that the student's scores for the college in position (\\d+) are displayed in the Academic Match cell:$", searchPage::verifyScoresInAcademicMatch);
+
+        And("^SM I verify the college \"([^\"]*)\" is \"([^\"]*)\" in the results table$", searchPage::verifyCollegeIsPinnedORUnpinnedInResultsTable);
+
+        And("^SM I unpin \"([^\"]*)\"$", searchPage::unpinCollege);
+
+        And("^SM I pin the college \"([^\"]*)\" from the why drawer$", searchPage::pinCollegeFromWhyDrawer);
+
+        And("^SM I unpin the college \"([^\"]*)\" from the why drawer$", searchPage::unpinCollegeFromWhyDrawer);
+
+        And("^SM I verify the college \"([^\"]*)\" is \"([^\"]*)\" in the why drawer$", searchPage::verifyCollegeIsPinnedORUnpinnedInWhyDrawer);
     }
 }

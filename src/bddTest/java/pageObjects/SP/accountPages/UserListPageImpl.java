@@ -157,6 +157,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
                 className = "ban icon";
                 break;
         }
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='"+userName+"']/parent::td/parent::tr/td/i[@class='"+className+"']")));
         Assert.assertTrue("Expected user status icon was not found.  Expected " + status, driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/parent::tr/td/i[@class='"+className+"']")).isDisplayed());
     }
 
@@ -325,7 +326,6 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
                 HEWindow = thisWindow;
             }
         }
-        driver.close();
         driver.switchTo().window(HEWindow);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")));
         String originalMessage = getLoginMessageInHomePage().getText();
