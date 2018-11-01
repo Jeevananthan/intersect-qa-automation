@@ -3,42 +3,39 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
 
   @MATCH-1945
   Scenario: As a new RepVisits user,I want the setup wizard to confirm my school's timezone
-  So that I can be sure my appointments will be scheduled at the right time.
+            So that I can be sure my appointments will be scheduled at the right time.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I verify the repvisit setup wizard displayed for high school information
     Then HS I check the time zone is selected as "America/Mexico_City" and change it to "America/New_York"
     And HS I navigate to college fairs,visits through availability option
 #    And HS I successfully sign out
 
-
   @MATCH-1944
   Scenario: As a new RepVisits user,I want a setup wizard with an introduction that describes what the system does
-  so that I can be encouraged to set up my RepVisits account.
+            so that I can be encouraged to set up my RepVisits account.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I am verifying the welcome milestone in setup wizard
     And HS I click the Get Started button in the welcome milestone page
     And HS I navigate to college fairs,visits through availability option
 #    And HS I successfully sign out
 
-
-
   @MATCH-1949
   Scenario: As a new RepVisits user,I want the setup wizard to help me configure my calendars
-  so that I can see all my calendar information in one place.
+            so that I can see all my calendar information in one place.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I verify the Calendar Sync Milestone in the setup wizard of repvisits
 #    And HS I successfully sign out
 
-
   @MATCH-1948
   Scenario: As a new RepVisits user,I want the setup wizard to help me configure my school's contacts.
-  so that I can be sure internal notifications will be routed to the people who need the information.
+            so that I can be sure internal notifications will be routed to the people who need the information.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I change the primary contact from "IAM Purple" to "Jennifer TestAdmin" and verify that the save option is working
+    And HS I successfully sign out
 
   @MATCH-1946
   Scenario Outline: As a new RepVisits user,I want the setup wizard to walk me through my availability settings
-  so that I can be sure my RepVisits account is properly set up.
+                    so that I can be sure my RepVisits account is properly set up.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to welcome wizard of the repvisits
     And HS I navigate to "Availability" wizard in repvisits
@@ -104,7 +101,7 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
     Then HS I verify the default calendar page present after the Wizard completion
     And HS I successfully sign out
    #Non-Naviance
-    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Given HS I am logged in to Intersect HS as user type "admin"
     And HS I navigate to the college visits page
     Then HS I verify the default calendar page present after the Wizard completion
 

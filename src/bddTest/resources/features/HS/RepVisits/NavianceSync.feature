@@ -1,7 +1,7 @@
 @HS @HS1
 Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to access the features of the Sync Opt in features.
 
-@MATCH-3237
+@MATCH-3237 @ignore
 Scenario: As an RepVisits HS user that had previously connected my RepVisits with my Naviance account to publish
 events into Naviance, I want the ability to opt out/disconnect my RepVisits events from publishing to Naviance,
 so that I can manage events separately in Naviance and RepVisits.
@@ -14,7 +14,7 @@ And HS I verify the Yes on the disconnect confirmation popup with "7","6:30am","
 And HS I cancel a visit with time "6:30AM" college "Bowling Green State University-Main Campus" and note "Cancel"
 Then HS I remove the Time Slot recently created with "7","6:30am" in Regular Weekly Hours Tab
 
-  @MATCH-4895
+  @MATCH-4895 @ignore
   Scenario: When a Naviance High School has their settings set to:
   "Visits Confirmations" set to "No, I want to manually review all incoming requests."
   Naviance Sync settings set to "Automatically publish confirmed visits." OR "Manually choose which visits to publish"
@@ -62,7 +62,7 @@ Then HS I remove the Time Slot recently created with "7","6:30am" in Regular Wee
   to proceed." - specs per mock and related assets
 
 
-  @MATCH-4071 @MATCH-4205 @MATCH3955
+  @MATCH-4071 @MATCH-4205 @MATCH3955 @ignore
   Scenario: A persistent message appears in RepVisits (i.e. no other locations in Intersect such as Counselor Community,
   etc) alerting them that they did not complete the Naviance Settings wizard in the aforementioned scenario indicating,
   "Naviance Sync Incomplete Looks like you didn't finish connecting RepVisits to Naviance. Please select an option below

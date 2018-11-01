@@ -110,7 +110,7 @@ public class FCCollegeEventsPage {
 
     }
     public static WebElement signupForEvent(String eventName){
-        return driver.findElement((By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']")));
+        return driver.findElement((By.xpath("//h3[text()='" + eventName + "']/../../..//div[@ng-switch-when='SIGNUP']")));
     }
     public  static WebElement registerEvent(){
         return  driver.findElement(By.cssSelector("button.fc-button.fc-button--primary"));
