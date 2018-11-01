@@ -100,7 +100,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         text("Fairs").click();
         if (text(fairTitle).isDisplayed()){
             waitUntilPageFinishLoading();
-            getDriver().findElement(By.xpath("//span[contains(text(), '"+fairTitle+"')]/../following-sibling::div/button[contains(text(),'Register')]")).click();
+
+            getDriver().findElement(By.xpath("//span[contains(text(), '"+FairName+"')]/../following-sibling::div/button[contains(text(),'Register')]")).click();
         }else
             Assert.assertFalse("Fair = "+fairTitle+" is not exist.", text(fairTitle).isDisplayed());
 
