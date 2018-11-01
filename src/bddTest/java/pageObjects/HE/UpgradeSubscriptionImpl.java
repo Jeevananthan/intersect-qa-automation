@@ -43,7 +43,7 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
 
     public void clickUpgradeSubscription(String subscriptionName){
 
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='"+subscriptionName+"']/../div/button"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//h2[text()='"+subscriptionName+"']/../div/button"),1));
         upgradeSubscriptionbutton(subscriptionName).click();
 
     }
@@ -151,11 +151,11 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("input#field20.ui.checkbox"));
     }
     private WebElement premiumLockIcon(String LockIconForSubscription){
-        return driver.findElement(By.xpath("//div[text()='"+LockIconForSubscription+"']/../../img"));
+        return driver.findElement(By.xpath("//h2[text()='"+LockIconForSubscription+"']/../../img"));
     }
 
     private WebElement upgradeSubscriptionbutton(String upgradeSubscription){
-        return driver.findElement(By.xpath("//div[text()='"+upgradeSubscription+"']/../div/button"));
+        return driver.findElement(By.xpath("//h2[text()='"+upgradeSubscription+"']/../div/button"));
     }
     private WebElement Upgradebu(String upgradeSubscription){
         return driver.findElement(By.xpath("//div[text()='"+upgradeSubscription+"']/../div/button"));
@@ -171,7 +171,7 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
 
     }
     private WebElement upgradeFilterButton(String filterUpgrade){
-        return driver.findElement(By.cssSelector("button#locked-upgrade-button.ui.pink.button._1xXwDP5X-gB37o7xxX7f5k"));
+        return driver.findElement(By.cssSelector("button#locked-upgrade-button.ui.secondary.button._1xXwDP5X-gB37o7xxX7f5k"));
 
     }
 

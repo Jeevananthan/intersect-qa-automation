@@ -40,6 +40,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void logout() {
+        waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
