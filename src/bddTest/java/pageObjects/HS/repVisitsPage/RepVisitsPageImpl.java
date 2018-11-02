@@ -3684,10 +3684,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyToastInSetupWizardIncomplete(String option) {
         if(option.contains("is")) {
+            load(GetProperties.get("hs.WizardAppNaviance.url"));
+            waitUntilPageFinishLoading();
             Assert.assertTrue("The Naviance Settings Not Yet Complete  was not displayed", text("Naviance Settings Not Yet Complete")
-                    .isDisplayed());
-        }else{
-            Assert.assertFalse("The Naviance Settings Not Yet Complete  was  displayed", text("Naviance Settings Not Yet Complete")
                     .isDisplayed());
         }
     }
@@ -3697,8 +3696,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void connectRVWithNaviance(String option) {
         if (option.contains("No")) {
             optInNoRadioButton().click();
-            nextButton().click();
-            nextButton().click();
             nextButton().click();
         }else{
             optInYesRadioButton().click();
