@@ -21,7 +21,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   and a College Rep reschedules a visit after the HS previously confirmed the visit (resulting in it previously syncing to Naviance)
   They will not get synced back into Naviance with the updated date/time..
     #Setup environment
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone3"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I navigate to naviance settings page
     Then HS I set the date using "14" and "21"
     Then HS I add the new time slot with "14","11:30am","12:40pm" and "2" with "1"
@@ -33,19 +33,24 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
 
     #Request and verifications
     Given HE I am logged in to Intersect HE as user type "administrator"
-    And HE I search for "Standalone High School 3" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "Standalone High School 3" using "14" and "10:31am"
-    And HE I verify the schedule pop_up for "Standalone High School 3" using "10:31am" and "12:40pm"
+    And HE I search for "Standalone High School 6" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Standalone High School 6" using "14" and "10:31am"
+    And HE I verify the schedule pop_up for "Standalone High School 6" using "10:31am" and "12:40pm"
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone3"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I verify the Notification "PurpleHE","The University of Alabama","10:31am","14" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "PurpleHE","10:31am","The University of Alabama"
     And HS I verify the visit in Naviance with "PurpleHE Automation","The University of Alabama","10:31 AM	"
 
     #Reschedule visit and verifications
-    Then HS I reschedule the visit in HS for the following data "The University of Alabama","10:31AM","10"
-    Then HS I verify reschedule pop-up for HS with the following data "PurpleHE","The University of Alabama","10:31AM","10"
-    Then HS I reschedule a visit for HS with the following details "11:51AM","Test","10"
+    Then HS I reschedule the visit for the following data "The University of Alabama","10:31AM","14" in calendar
+
+    Then HS I verify reschedule pop-up for the following data "PurpleHE","The University of Alabama","10:31AM","14"
+    Then HS I reschedule a visit for the following details "11:51AM","Test","14"
+
+#    Then HS I verify reschedule pop-up for HS with the following data "PurpleHE","The University of Alabama","10:31AM","14"
+#    Then HS I reschedule a visit for HS with the following details "11:51AM","Test","14"
+
     And HS I verify the reschedule in Naviance with "PurpleHE Automation","The University of Alabama","11:51 AM"
 
     #Cancel visit and verifications

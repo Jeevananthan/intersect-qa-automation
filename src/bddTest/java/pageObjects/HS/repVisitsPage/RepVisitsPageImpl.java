@@ -6447,6 +6447,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         //Verification Reschedule in Naviance side
         load(GetProperties.get("naviance.visits.url"));
         driver.navigate().refresh();
+        time = getRescheduledVisitStartTime();
         Assert.assertTrue("Representative was not found in Naviance",driver.getPageSource().contains(user));
         Assert.assertTrue("High School was not found in Naviance",driver.getPageSource().contains(highSchool));
         Assert.assertTrue("Schedule time was not changed",driver.getPageSource().contains(time));
@@ -6499,9 +6500,10 @@ public void cancelRgisteredCollegeFair(String fairName){
         dateButtonInVisitReschedule().click();
         setSpecificDate(date);
         waitForUITransition();
-        driver.findElement(By.xpath("//button[@class='_2ZD-g84n2fp2z3hn5FplyW']")).sendKeys(Keys.PAGE_DOWN);
+        driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).sendKeys(Keys.PAGE_DOWN);
         waitUntilPageFinishLoading();
         int Date = Integer.parseInt(date);
+        time = RescheduleStartTimeforNewVisit.toUpperCase();
         String Day = getSpecificDate(Date,"EEE").toUpperCase();
         int columnID = getColumnIdFromTableforManuallyAddVisit( "//table[@class='ui unstackable basic table']/thead",Day );
         int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table']//tbody", columnID, time);
@@ -6674,6 +6676,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         calendar().click();
 
         //Verification in RV side
+        waitUntil(ExpectedConditions.visibilityOf(currentMonthInCalendarPage()));
         Assert.assertTrue("College was not found in RV ",getDriver().getPageSource().contains(college));
 
         //Verification in Naviance side
@@ -9009,6 +9012,11 @@ public void cancelRgisteredCollegeFair(String fairName){
     private String getRescheduledVisitStartTimeInCalendar(){
         String[] time=RescheduleStartTimeforNewVisit.split("am");
         String startTime=time[0]+"AM";
+        return startTime;
+    }
+    private String getRescheduledVisitStartTime(){
+        String[] time=RescheduleStartTimeforNewVisit.split("am");
+        String startTime=time[0]+" "+"AM";
         return startTime;
     }
     private WebElement editButtonInCollegeFair(){

@@ -731,8 +731,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I reschedule the visit for the following data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in calendar$",repVisits::rescheduleVisitInCalendar);
 
         Then("^HS I verify and select an appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAndSelectAppointmentInCalendarPage);
-      
-        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::viewDetailsPageforEditedFair);
 
     }
 }
