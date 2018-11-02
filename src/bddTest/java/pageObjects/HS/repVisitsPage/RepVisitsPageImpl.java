@@ -136,7 +136,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         for (String tab : tabs) {
 
             if (tab.contains("Regular Weekly Hours") || tab.contains("Blocked Days") || tab.contains("Exceptions") || tab.contains("Availability Settings")) {
-                Assert.assertTrue("Tab " + tab + " is not displaying as expected!", driver.findElement(By.xpath("//a/h2[@class='ui header XgpYufXdBrkgn-HSc74qf']/span[text()='" + tab + "']")).isDisplayed());
+                Assert.assertTrue("Tab " + tab + " is not displaying as expected!", driver.findElement(By.xpath("//h2[@class='ui header XgpYufXdBrkgn-HSc74qf']/span[text()='" + tab + "']")).isDisplayed());
             } else{
                 Assert.assertTrue("Tab " + tab + " is not displaying as expected!",driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='"+tab+"']")).isDisplayed());
             }
@@ -2482,7 +2482,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyPillsColorDays(String appointmentsStatus, String color){
         getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(exception());
         exception().click();
         waitUntilPageFinishLoading();
         findAndVerifyAppointments(appointmentsStatus, color);
@@ -7974,6 +7974,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement availabilityAndSettings() {
         overview().click();
+        waitUntilElementExists(driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability & Settings']")));
         return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability & Settings']"));
     }
 
@@ -7998,7 +7999,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement availabilitySettings() {
-        return driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/h2/span[text()='Availability Settings']"));
+        return driver.findElement(By.xpath("//h2/span[text()='Availability Settings']"));
     }
 
     private WebElement notificationAndPrimaryContact() {
@@ -8376,7 +8377,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement exception ()
     {
-        WebElement link = driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Exceptions']"));
+        WebElement link = driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/nav/h2/span[text()='Exceptions']"));
         return link;
     }
     private WebElement dateButton ()
