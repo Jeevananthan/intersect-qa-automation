@@ -2746,11 +2746,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             dropdownInSearchAndSchedule().click();
             Assert.assertTrue(fields+" is not displayed in the dropdown",getDriver().findElement(By.xpath("//div/span[text()='"+fields+"']")).isDisplayed());
             getDriver().findElement(By.xpath("//div/span[text()='"+fields+"']")).click();
-            Assert.assertTrue(fields+" is not displayed",getDriver().findElement(By.xpath("//div/label[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+fields+"']")).isDisplayed());
+            Assert.assertTrue(fields+" is not displayed",getDriver().findElement(By.xpath("//div/label[text()='"+defaultValue[0]+"']/parent::div/div/span[text()='"+fields+"']")).isDisplayed());
             calendar().click();
             waitUntilPageFinishLoading();
             navigateToRepVisitsSection("Search and Schedule");
-            Assert.assertTrue(defaultOption+" is not displayed",getDriver().findElement(By.xpath("//div/label[text()='"+defaultValue[0]+"']/parent::div/div/div[text()='"+defaultValue[1]+"']")).isDisplayed());
+            Assert.assertTrue(defaultOption+" is not displayed",getDriver().findElement(By.xpath("//div/label[text()='"+defaultValue[0]+"']/parent::div/div/span[text()='"+defaultValue[1]+"']")).isDisplayed());
         }
     }
 
@@ -2777,7 +2777,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             dropdownInSearchAndSchedule().click();
             getDriver().findElement(By.xpath("//div/span[text()='" + fields + "']")).click();
             waitUntilPageFinishLoading();
-            Assert.assertTrue(fields + " is not present in the Textbox", getDriver().findElement(By.xpath("//div/label[text()='Search by']/parent::div/div/div[text()='" + fields + "']")).isDisplayed());
+            Assert.assertTrue(fields + " is not present in the Textbox", getDriver().findElement(By.xpath("//div/label[text()='Search by']/parent::div/div/span[text()='" + fields + "']")).isDisplayed());
         }
     }
 
@@ -2799,7 +2799,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Result is not displayed",getDriver().findElement(By.xpath("//td/h3/a[text()='"+school+"']")).isDisplayed());
         for(String fields:list){
             dropdownInSearchAndSchedule().click();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/span[text()='" + fields + "']"),1));
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@role='option']/span[text()='" + fields + "']"),1));
             getDriver().findElement(By.xpath("//div/span[text()='" + fields + "']")).click();
             waitUntilPageFinishLoading();
             Assert.assertTrue("Result is not displayed",getDriver().findElement(By.xpath("//td/h3/a[text()='"+school+"']")).isDisplayed());
@@ -3113,6 +3113,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(!checkBoxInYourNotification().isSelected())
             checkBoxInYourNotification().click();
             saveButtonInYourNotification().click();
+            waitUntil(ExpectedConditions.invisibilityOfElementLocated(notificationsSettingsWereUpdatedToastLocator()));
     }
 
     public void accessAgendaView(String agenda){
@@ -3451,7 +3452,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getContactsBtn() {
-        return getDriver().findElement(By.xpath("//a[@class='menu-link']/span[text()='Contacts']"));
+        return getDriver().findElement(By.xpath("//nav[@aria-label='RepVisits Sub Menu']//a[@role='menuitem']/span[text()='Contacts']"));
     }
     private WebElement getRecommendationsBtn() {return link("Recommendations");}
     private WebElement getNotificationsBtn() {
@@ -4048,6 +4049,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement verifyCityAndStateInActivityforFairs(String city,String state,String school){return getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']"));}
 
     private WebElement viewDetailsSaveButton(){return getDriver().findElement(By.xpath("//button/span[text()='Save']"));}
+
+    /**
+     * Gets the notifications settings updated toast locator
+     * @return
+     */
+    private By notificationsSettingsWereUpdatedToastLocator(){
+        return By.xpath("//div/span[@class='LkKQEXqh0w8bxd1kyg0Mq']");
+    }
 }
 
 
