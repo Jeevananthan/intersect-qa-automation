@@ -8496,7 +8496,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return attendee;
     }
     private WebElement eventLocation() {
-        WebElement location=driver.findElement(By.name("locationWithinSchool"));
+        WebElement location=driver.findElement(By.name("eventLocation"));
         return location;
     }
     private WebElement addVisitButtonInVisitSchedulePopup() {
