@@ -42,9 +42,18 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
         button("Sign In").click();
 
-        if(link(By.xpath("//div[@id='announcement-overlay--close']")).isDisplayed()) {
-            waitUntilElementExists(link(By.xpath("//div[@id='announcement-overlay--close']")));
-            link(By.xpath("//div[@id='announcement-overlay--close']")).click();
+        waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
+        // Necessary to handle the announcements overlay.
+        try {
+            link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        } catch (Exception e) {
+            if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
+                //We have to jsclick the close button... because the close button is behind the overlay...
+                jsClick(getDriver().findElement(By.name("continue-button")));
+                link(By.xpath("//li/a[@title='Counselor Community']")).click();
+            } else {
+                throw e;
+            }
         }
 
 
@@ -55,6 +64,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.xpath("//a[@class='ns-top-nav__secondary-link js-community-link']")).click();
             waitUntilPageFinishLoading();
         } else {
+
             waitUntilElementExists(driver.findElement(By.xpath("//a[@title='Counselor Community']")));
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//a[@title='Counselor Community']")).click();
