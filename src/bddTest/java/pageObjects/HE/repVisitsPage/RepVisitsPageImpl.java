@@ -3452,7 +3452,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getContactsBtn() {
-        return getDriver().findElement(By.xpath("//nav[@aria-label='RepVisits Sub Menu']//a[@role='menuitem']/span[text()='Contacts']"));
+        return getDriver().findElement(By.xpath("//a[@class='menu-link']/span[text()='Contacts']"));
     }
     private WebElement getRecommendationsBtn() {return link("Recommendations");}
     private WebElement getNotificationsBtn() {
