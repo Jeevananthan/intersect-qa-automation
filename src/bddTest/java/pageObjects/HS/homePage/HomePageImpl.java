@@ -168,9 +168,16 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
 
-        if(link(By.xpath("//div[@id='announcement-overlay--close']")).isDisplayed()) {
-            waitUntilElementExists(link(By.xpath("//div[@id='announcement-overlay--close']")));
-            link(By.xpath("//div[@id='announcement-overlay--close']")).click();
+        try {
+            link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        } catch (Exception e) {
+            if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
+                //We have to jsclick the close button... because the close button is behind the overlay...
+                jsClick(getDriver().findElement(By.name("continue-button")));
+                link(By.xpath("//li/a[@title='Counselor Community']")).click();
+            } else {
+                throw e;
+            }
         }
 
         waitUntilPageFinishLoading();
