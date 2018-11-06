@@ -23,7 +23,7 @@ Feature: HUBS - Admissions - As a community user viewing College Hubs, I want to
       | Application Factors      | Ethnicity | Considered |
 
   @HUBS-1052
-  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4022)
+  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4022 - MATCH-5459 - MATCH-5459 - MATCH-5461)
     When HUBS I open "Admissions" in the edit menu
     And HUBS I take note of the values from the following fields in Admissions:
       | Acceptance Rate |
