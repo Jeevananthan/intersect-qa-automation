@@ -89,7 +89,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         } catch (Exception e) {
             if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
                 //We have to jsclick the close button... because the close button is behind the overlay...
-                jsClick(getDriver().findElement(By.id("announcement-overlay--close")));
+                jsClick(getDriver().findElement(By.name("continue-button")));
                 link(By.xpath("//li/a[@title='Counselor Community']")).click();
             } else {
                 throw e;
