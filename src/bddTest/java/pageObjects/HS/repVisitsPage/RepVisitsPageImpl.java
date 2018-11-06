@@ -1472,10 +1472,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         collegeFairs().click();
         waitUntilPageFinishLoading();
+
+
+
         while (link("View More Upcoming Events").isDisplayed()){
             link("View More Upcoming Events").click();
             waitUntilPageFinishLoading();
         }
+
+
+
         fairNametoClickViewDetails = FairName;
         waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsViewDetails(fairNametoClickViewDetails)));
         selectViewDetails(fairNametoClickViewDetails).click();
@@ -8897,6 +8903,11 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement getYesCancelVisit()
     {
         return  getDriver().findElement(By.cssSelector("button.ui.negative.right.floated.button span"));
+    }
+
+    private WebElement getYesCancelCollegeFair()
+    {
+        return  getDriver().findElement(By.xpath("//span[text() = 'Yes, Cancel this fair']"));
     }
 /*    private WebElement attendeeFirstNameTextBox() {
         return getDriver().findElement(By.cssSelector("input#add-rep-first-name"));
