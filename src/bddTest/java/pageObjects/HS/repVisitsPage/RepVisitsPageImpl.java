@@ -6746,7 +6746,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         Assert.assertFalse("New Primary Contact can be checked.", checkbox(By.cssSelector("[name='Q29tbXVuaXR5UGVyc29uOmZmMzg1MTAwLWVkZWUtYTQ4NS0xNmMzLTNhMjQzNmMyMjIxZg==']")).isEnabled());
 
         /* Heading: "Notifications for Visits"  */
-        Assert.assertTrue("Notification Header was not found.", getDriver().findElement(By.cssSelector("div[class='ui header']:nth-child(3)")).getText().contains("Notifications for Fairs"));
+        Assert.assertTrue("Notification Header was not found.", getDriver().findElement(By.cssSelector("h2[class='ui header']:nth-child(3)")).getText().contains("Notifications for Fairs"));
 
         /* Text: "Choose users who will receive mail notifications. Users are notified when visit requests are made, confirmed, denied, rescheduled, canceled, or manually added."  */
 
