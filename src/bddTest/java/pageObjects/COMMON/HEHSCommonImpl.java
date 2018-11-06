@@ -54,7 +54,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void clickMenuLink(String text) {
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath(getMenuLinkLocator(text))));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(getMenuLinkLocator(text))));
         getMenuLink(text).click();
     }
 
@@ -154,7 +154,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private String getMenuLinkLocator(String advancedAwarenessOption) {
-        return "//div[3]//a/span[text()=\"" + advancedAwarenessOption + "\"]";
+        return "//div[3]//a[@class='menu-link']/span[text()=\"" + advancedAwarenessOption + "\"]";
     }
     private String getMenuTabLocator(String advancedAwarenessTab) {
         return String.format("//nav[@aria-label='Active Match Sub Menu']/ul/li/span[text()='%s'] | //nav[@aria-label='Active Match Sub Menu']/ul/li/a/span[text()='%s']",advancedAwarenessTab,advancedAwarenessTab);
