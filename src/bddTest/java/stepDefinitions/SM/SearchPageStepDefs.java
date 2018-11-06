@@ -97,6 +97,8 @@ public class SearchPageStepDefs implements En {
 
         And("^I select the following data from the Admission Fit Criteria$", searchPage::setAdmissionCriteria);
 
+        And("^I verify the following data from the Admission Fit Criteria$", searchPage::verifyAdmissionCriteria);
+
         Then("^SM I verify each fit category in the Choose Fit Criteria header bar is clickable and match the color$", searchPage::verifyEachFitCriteria);
 
         Then("^SM I verify clicking outside of the box will also close the box$", searchPage::checkOutsideClick);

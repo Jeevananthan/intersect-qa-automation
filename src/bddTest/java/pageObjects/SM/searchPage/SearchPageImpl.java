@@ -1015,6 +1015,30 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyAdmissionCriteria(DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        waitUntilElementExists(ChooseFitCriteriaText());
+        List<List<String>> entities = dataTable.asLists(String.class);
+        chooseFitCriteriaTab("Admission");
+        for (List<String> criteria : entities) {
+            switch (criteria.get(0)) {
+                case "GPA (4.0 scale)":
+                    Assert.assertTrue(gpaTextBox().getAttribute("value").equals(criteria.get(1)));
+                    break;
+                case "SAT Composite":
+                    Assert.assertTrue(satScoreTextBox().getAttribute("value").equals(criteria.get(1)));
+                    break;
+                case "ACT Composite":
+                    Assert.assertTrue(actScoreTextBox().getAttribute("value").equals(criteria.get(1)));
+                    break;
+            }
+        }
+        getFitCriteriaCloseButton().click();
+        waitUntilPageFinishLoading();
+    }
+
+
+
     /**
      * The below method is to check all the fit criteria is clickable and as per the fit criteria menu option is showing
      */

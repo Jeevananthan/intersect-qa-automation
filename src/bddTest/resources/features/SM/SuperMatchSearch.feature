@@ -844,3 +844,27 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the college "Williams College" is "pinned" in the why drawer
     And SM I unpin "Williams College"
     And SM I verify the college "Williams College" is "unpinned" in the why drawer
+
+  @MATCH-4051
+  Scenario: As a HS student, I want the SuperMatch tool to remember my most recent search (fit criteria selected including
+  the GPA, ACT, and SAT score used) even if I don't formally save the search so I can be presented with this search the
+  next time I access SuperMatch and don't have to start my search over again.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I select the "Tutoring Services" checkbox from the Resources fit criteria
+    And SM I move "Tutoring Services" from the Must Have box to the Nice to Have box
+    And I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    Then SM I log out of SuperMatch and close the browser
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I verify that the Must Have box contains "Learning Differences Support"
+    Then SM I verify that the Nice to Have box contains "Tutoring Services"
+    Then I verify the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
