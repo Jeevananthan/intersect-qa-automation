@@ -24,7 +24,7 @@ Feature: HBS - International - As a community user viewing College Hubs, I want 
       | Accepted English Tests | TOEFL      | -           |
 
   @HUBS-803 @HUBS-1063 @HUBS-1024 @HUBS-1060 @HUBS-1024
-  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4651)
+  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4651 - MATCH-5464)
     When HUBS I open "International" in the edit menu
     And HUBS I take note of the values from the following fields in International:
       | Application Deadline | Day |
