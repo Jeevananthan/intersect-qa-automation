@@ -6777,7 +6777,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
         primaryContact().click();
         primaryContactName(alternativePrimaryContact).findElement(By.xpath("//span[@class='text'][contains(text(), '" + alternativePrimaryContact + "')]")).click();
-        checkbox(By.cssSelector("button[class='ui primary right floated button'")).click();
+        checkbox(By.cssSelector("button[class='ui primary right floated button']")).click();
 
     }
 
@@ -6811,6 +6811,7 @@ public void cancelRgisteredCollegeFair(String fairName){
             Assert.assertTrue("Invalid email format error isn't being shown correctly", getDriver().findElement(By.xpath("//span[text() = 'Emails must be valid and separated by comma']")).isDisplayed());
             getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).clear();
             getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).sendKeys(correctEmail);
+            getCollegeFairsPrimaryContactPhoneNumberField().clear();
             getCollegeFairsPrimaryContactPhoneNumberField().sendKeys("555555555");
             clickSaveSettingsButtonInCollegeFairsTab();
             Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")).getText().contains("You've updated College Fair settings"));
