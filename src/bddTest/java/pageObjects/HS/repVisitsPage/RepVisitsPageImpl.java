@@ -8379,7 +8379,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement exception ()
     {
-        WebElement link = driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/nav/h2/span[text()='Exceptions']"));
+        WebElement link = driver.findElement(By.xpath("//h2/span[text()='Exceptions']"));
         return link;
     }
     private WebElement dateButton ()
