@@ -424,7 +424,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
         Calendar date = Calendar.getInstance();
         createEventButton().click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOf(eventStartCalendarButton()));
         eventStartCalendarButton().click();
         waitForUITransition();
         pickDateInDatePicker(date);
@@ -764,7 +764,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement noAttendeesMessage() { return driver.findElement(By.xpath("//div[@class[contains(.,'_22IjfAfN4Zs4CnM4Q_AlWZ')]]")); }
     private String noAttendeesMessageString = "There are no attendees currently registered for this event.";
-    private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
+    private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("#content > div > h1")); }
     private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
     private String eventsListLocator(String eventName) { return "//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']"; }
     private WebElement eventStatus(String eventName) { return driver.findElement(By.xpath("//a/h3[text()='"+eventName+"']/../../../../div[@class[contains(.,'two')]]/div")); }
