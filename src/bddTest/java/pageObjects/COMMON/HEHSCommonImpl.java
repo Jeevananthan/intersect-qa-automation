@@ -115,6 +115,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void pickFromTHeMenuItems(String menuItem) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(getMenuItemById(menuItem))));
             getDriver().findElement(By.id(getMenuItemById(menuItem))).click();
     }
 
@@ -145,7 +146,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getFilterValueFirstRow(String filterName) {
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@title='" + filterName + "']/input")));
         return getDriver().findElement(By.xpath("//div[@title='" + filterName + "']/input"));
     }
 

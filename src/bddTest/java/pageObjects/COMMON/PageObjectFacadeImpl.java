@@ -144,6 +144,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         }
 
         if (date.before(todaysDate)) {
+            waitUntil(ExpectedConditions.visibilityOf(datePickerMonthYearText()));
             while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
                 datePickerPrevMonthButton().click();
             }
