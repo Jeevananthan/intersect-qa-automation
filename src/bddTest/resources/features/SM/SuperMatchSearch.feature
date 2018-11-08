@@ -602,25 +602,25 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I select the option "10%" in the Specific Representation percent listbox
     And SM I verify that the Must Have box does not contain "10%"
     Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "At least 10% Asian"
     And SM I move "At least 10% Asian" from the Must Have box to the Nice to Have box
     And SM I verify that the Nice to Have box contains "At least 10% Asian"
     Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
     Then SM I select the option "Select %" in the Specific Representation percent listbox
     Then SM I select the option "Select race or ethnicity" in the Specific Representation race and ethnicity listbox
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box does not contain "At least 10% Asian"
     And SM I verify that Nice to Have box does not contain "At least 10% Asian"
     Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
     Then SM I select the option "10%" in the Specific Representation percent listbox
     Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "At least 10% Asian"
 
   @MATCH-3376
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % Out of State
-  students
+            students
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify the text displayed in the % Out of State Students Fit Criteria
     Then SM I verify the options displayed in Out of State students Select % dropdown
@@ -632,22 +632,37 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     |50%     |
     Then SM I click "Diversity" filter criteria tab
     And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
     And SM I move "Out of State Students ≥ 10%" from the Must Have box to the Nice to Have box
     Then SM I verify that the Nice to Have box contains "Out of State Students ≥ 10%"
     Then SM I click "Diversity" filter criteria tab
     And SM I pick "Select %" from the dropdown "OutOfStateStudents-dropdown"
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     Then SM I click "Diversity" filter criteria tab
     And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
-    And HS I Click on close button
+    And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
+
+  @MATCH-3555
+  Scenario: As a HS student who has pinned colleges in SuperMatch, I want those schools to show at the top of my search
+            results table so I am reminded that those colleges were already pinned.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Virginia Union University"
+    Then SM I verify that the college "Virginia Union University" is displayed in position "1" in the results table
+    Then SM I verify that the match score for the college in position 1 is "<" 100
+    Then SM I verify that the match score for the college in position 2 is "=" 100
 
   @MATCH-3263
   Scenario: As a HS student who is interacting with the fit criteria and categories in College Search, I want to see
-  informational message letting me know when my search becomes too granular so I don't limit my results to too few
-  of colleges based on too many fit criteria being selected.
+            informational message letting me know when my search becomes too granular so I don't limit my results to too few
+            of colleges based on too many fit criteria being selected.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
@@ -658,3 +673,174 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     | institutions with a fit score of |
     | Not all fields are required. Remember to only fill out the criteria that is most important to you. |
 
+  @MATCH-3436
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Admission Info details about each
+  college in my results table so I can quickly see information about the college's admission process.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Prairie View A & M University" if it is not pinned already
+    And SM I pick "Admission Info" in the editable column number 1
+    Then SM I verify that "Admission info" in column number 1 for college "Prairie View A & M University" contains the following data:
+    | Acceptance Rate 85% |
+    | App Fee $40         |
+
+  @MATCH-3344
+  Scenario: As a HS student, I want to filter colleges I am searching for by Student Body Size within the Institution
+            Characteristics category so I can see relevant colleges that match my Student Body Size requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I click "Institution Characteristics" filter criteria tab
+    Then SM I verify that radio button with text "All students" is selected
+    Then SM I select the "Very large (Over 20,000 students)" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box contains "Student Body Size [1]"
+    Then SM I unselect the "Very large (Over 20,000 students)" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box does not contain "Student Body Size [1]"
+
+  @MATCH-3345
+  Scenario: As a HS student, I want to filter colleges I am searching for by Housing within the
+            Institution Characteristics category so I can see relevant colleges that match my Housing requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I click "Institution Characteristics" filter criteria tab
+    Then SM I verify that checkBox with text "On-Campus Housing" is not checked
+    Then SM I select the "On-Campus Housing" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify the options displayed in On-Campus Housing Select % dropdown
+    |Select %|
+    |33%     |
+    |66%     |
+    Then SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "33%" from the dropdown "on-campus-housing-dropdown"
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "On-campus Housing > 33%"
+
+  @MATCH-3546
+  Scenario: As a HS student, I want to fit criteria that I select to be added to the 'Must Have' box within SuperMatch
+            so I can see all the fit criteria I have selected easily and can manage them.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Central" checkbox from the "Location" fit criteria
+    And SM I select the "Midwest" checkbox from the "Location" fit criteria
+    And SM I select the "Large City" checkbox from the "Location" fit criteria
+    And SM I select the "Small City" checkbox from the "Location" fit criteria
+    And SM I verify that the Must Have box contains "Location [14]"
+    And SM I verify that the Must Have box contains "Campus Surroundings [2]"
+
+  @MATCH-3777
+  Scenario: Certain fit criteria are too wordy/long when they display in the Must Have or Nice to Have box. We need to
+  update how we display these fit criteria within the boxes
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Central" checkbox from "Location" fit criteria
+    And SM I select the "Large City" checkbox from "Location" fit criteria
+    And SM I select the "Very large (Over 20,000 students)" checkbox from "Institution Characteristics" fit criteria
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I click "Diversity" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Advent Christian Church" from the list "span.text"
+    And SM I select the "Bachelor's" radio button from the Academics fit criteria
+    Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      |Accounting|
+    Then SM I select the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type
+      |Acoustics|
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I close the fit criteria selection window
+    Then SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:
+      | Location [7] | Location |
+      | Campus Surroundings [1] | Location |
+      | Student Body Size [1]   | Institution Characteristics |
+      | Acceptance Rate [1]     | Admission                   |
+      | Religious Affiliation [1] | Diversity                 |
+      | Major [1]                 | Academics                 |
+      | Minor [1]                 | Academics                 |
+      | Gender Concentration [1]  | Diversity                 |
+      | Athletics [1]             | Athletics                 |
+    And SM I select the "Certificate" radio button from the Academics fit criteria
+    And SM I click "Academics" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Accounting" from the list "span.text"
+    And SM I close the fit criteria selection window
+    Then SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:
+      | Certificate [1] | Academics |
+
+  @MATCH-3741
+  Scenario: Certain fit criteria are too wordy/long when they display in the Must Have or Nice to Have box. We need to
+  update how we display these fit criteria within the boxes
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Central" checkbox from "Location" fit criteria
+    And SM I select the "Large City" checkbox from "Location" fit criteria
+    And SM I select the "Very large (Over 20,000 students)" checkbox from "Institution Characteristics" fit criteria
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I click "Diversity" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Advent Christian Church" from the list "span.text"
+    And SM I select the "Bachelor's" radio button from the Academics fit criteria
+    Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      |Accounting|
+    Then SM I select the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type
+      |Acoustics|
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    Then SM I verify that the Must Have box contains "Location [7]"
+    Then SM I verify that the Must Have box contains "Campus Surroundings [1]"
+    Then SM I verify that the Must Have box contains "Student Body Size [1]"
+    Then SM I verify that the Must Have box contains "Acceptance Rate [1]"
+    Then SM I verify that the Must Have box contains "Religious Affiliation [1]"
+    Then SM I verify that the Must Have box contains "Major [1]"
+    Then SM I verify that the Must Have box contains "Minor [1]"
+    Then SM I verify that the Must Have box contains "Gender Concentration [1]"
+    Then SM I verify that the Must Have box contains "Athletics [1]"
+    And SM I close the fit criteria selection window
+    And SM I select the "Certificate" radio button from the Academics fit criteria
+    And SM I click "Academics" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Accounting" from the list "span.text"
+    Then SM I verify that the Must Have box contains "Certificate [1]"
+
+  @MATCH-4271
+  Scenario: The Academic Match values are displayed in the academic match cell after the user selects their first fit criteria.
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Coed" checkbox from the "Diversity" fit criteria
+    Then SM I verify that the student's scores for the college in position 1 are displayed in the Academic Match cell:
+    | 4   |
+    | N/A |
+    | N/A |
+
+  @MATCH-3425
+  Scenario: As a HS student searching for colleges within SuperMatch, I want to pin schools that I find in my search
+            results that are of interest to me so I can maintain a smaller list of schools that I am more interested in than others.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Massachusetts      |
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I pin the college "Williams College" from the why drawer
+    And SM I verify the college "Williams College" is "pinned" in the results table
+    And SM I unpin the college "Williams College" from the why drawer
+    And SM I verify the college "Williams College" is "unpinned" in the results table
+    And SM I pin "Williams College" if it is not pinned already
+    And SM I verify the college "Williams College" is "pinned" in the why drawer
+    And SM I unpin "Williams College"
+    And SM I verify the college "Williams College" is "unpinned" in the why drawer

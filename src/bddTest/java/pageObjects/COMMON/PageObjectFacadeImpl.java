@@ -144,6 +144,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         }
 
         if (date.before(todaysDate)) {
+            waitUntil(ExpectedConditions.visibilityOf(datePickerMonthYearText()));
             while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
                 datePickerPrevMonthButton().click();
             }
@@ -208,7 +209,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      * @return String containing the time in hh:mm a (e.g.: 10:30 AM) format
      */
     protected String getTime(Calendar cal) {
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm a");
         return sdf.format(cal.getTime());
     }
 

@@ -42,6 +42,21 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
         button("Sign In").click();
 
+        waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
+        // Necessary to handle the announcements overlay.
+        try {
+            link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        } catch (Exception e) {
+            if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
+                //We have to jsclick the close button... because the close button is behind the overlay...
+                jsClick(getDriver().findElement(By.name("continue-button")));
+                link(By.xpath("//li/a[@title='Counselor Community']")).click();
+            } else {
+                throw e;
+            }
+        }
+
+
         if (username.contains("molly"))
         {
             waitUntilElementExists(driver.findElement(By.xpath("//a[@class='ns-top-nav__secondary-link js-community-link']")));
@@ -49,6 +64,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.xpath("//a[@class='ns-top-nav__secondary-link js-community-link']")).click();
             waitUntilPageFinishLoading();
         } else {
+
             waitUntilElementExists(driver.findElement(By.xpath("//a[@title='Counselor Community']")));
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//a[@title='Counselor Community']")).click();
@@ -75,9 +91,21 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
         button("Sign In").click();
+        waitForUITransition();
         waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
-        waitUntilPageFinishLoading();
-        link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        // Necessary to handle the announcements overlay.
+        try {
+            link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        } catch (Exception e) {
+            if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
+                //We have to jsclick the close button... because the close button is behind the overlay...
+                jsClick(getDriver().findElement(By.name("continue-button")));
+                link(By.xpath("//li/a[@title='Counselor Community']")).click();
+            } else {
+                throw e;
+            }
+        }
+
         Set<String> windows = driver.getWindowHandles();
         if(windows.size()>1){
             for (String thisWindow : windows) {
@@ -90,7 +118,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
         //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
         //Read more information here: https://stackoverflow.com/questions/6992993/selenium-c-sharp-webdriver-wait-until-element-is-present
-        new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("app")));
+        new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("user-dropdown")));
+
     }
 
     public void openNonNavianceLoginPage(){

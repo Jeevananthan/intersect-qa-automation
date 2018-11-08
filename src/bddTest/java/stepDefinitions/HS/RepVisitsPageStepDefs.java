@@ -112,6 +112,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify that the time slot was removed from date \"([^\"]*)\", with the start time \"([^\"]*)\"$", repVisits::verifyAbsenceOfTimeSlot);
 
+        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
+
         Then("^HS I clear the day$", repVisits::clearDay);
 
         Then("^HE I set and verify that \"([^\"]*)\" is blocked on the Blocked Days page$", repVisits::verifyManualBlockedHolidays);
@@ -377,7 +379,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I Click on the View Details button for the College Fair \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
 
-        Then("^HS I select Edit button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRgisteredCollegeFair);
+        Then("^HS I select Edit button to cancel the college Fair \"([^\"]*)\"$",repVisits::cancelRegisteredEditedCollegeFair);
 
         And ("^HS I navigate to the college visits page$",repVisits::navigateToVisitPage);
 
@@ -711,7 +713,7 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the lock icon for Anonymously feedback$", repVisits::submitAnonymouslyFeedback);
 
         And("^HS I verify submitted subtab under Visit Feedback$", repVisits::verifySubmittedSubtab);
-      
+
         Then("^HS I verify the Attendee details \"([^\"]*)\" in Edit fairs page$",repVisits::verifyAttendeeDetailsInEditFairs);
 
         Then("^HS I cancel registered college fair \"([^\"]*)\"$",repVisits::cancelRegisteredCollegeFair);
@@ -723,7 +725,11 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the input validations for Student Registration Deadline with the data:$", repVisits::verifyInputValidationsForStuRegDeadline);
 
         And("^HS I cancel the open visit$", repVisits::cancelOpenVisit);
-       
-       Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
+
+        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::viewDetailsPageforEditedFair);
+
+        Then("^HS I reschedule the visit for the following data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in calendar$",repVisits::rescheduleVisitInCalendar);
+
+        Then("^HS I verify and select an appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAndSelectAppointmentInCalendarPage);
     }
 }

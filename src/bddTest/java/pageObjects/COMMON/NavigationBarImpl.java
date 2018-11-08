@@ -52,8 +52,7 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="js-main-nav-am-plus-menu-link")
     private WebElement activeMatchMenuLink;
 
-    @FindBy(xpath = "//div[@class='hidden-mobile yBsrTFLn1W-1lYcbX39B6']|" +
-            "//span[@class='hidden-mobile hidden-tablet _3zP6971BAXkchn_VGmJPZr VdkH6dltNSvmQo2ObYzwJ']")
+    @FindBy(css = "a[name='mainmenu'] div.hidden-mobile")
     private  WebElement selectedNavigationMenu;
 
     //Header Bar Search Box Controls
@@ -76,14 +75,17 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="helpNav-dropdown")
     private WebElement helpDropdown;
 
-    @FindBy(css = "i[class='globe big icon WwLybVz7icbheav6VG-r5']")
+    @FindBy(xpath = "//i[@class[contains(.,'globe big icon')]]")
     private WebElement notificationsDropdown;
 
-    @FindBy(css = "div[class='menu transition visible']")
+    @FindBy(xpath = "//div[@class[contains(.,'menu') and contains(.,'transition') and contains(.,'visible')]]")
     private WebElement notificationList;
 
     @FindBy(css = "i[class='user circle big icon _2zVyfrnly39K0rqwywYZo8']")
     private WebElement userDropdown;
+
+    @FindBy(xpath = "//i[@class[contains(.,'pink') and contains(.,'circle')]]")
+    private WebElement notificationsCounter;
 
     public NavigationBarImpl(){
 
@@ -136,7 +138,7 @@ public class NavigationBarImpl extends SeleniumBase {
     public void goToRepVisits() {
         getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
         FluentWait<WebDriver> wait = new WebDriverWait(getDriver(), 5);
-        wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
+            wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
         waitUntilElementExists(navigationDropDown);
         waitUntilPageFinishLoading();
         navigationDropDown.sendKeys(Keys.ENTER);
@@ -152,7 +154,7 @@ public class NavigationBarImpl extends SeleniumBase {
         eventsMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Events menu was not selected",
-                selectedNavigationMenu.getAttribute("innerText").contains("Events"));
+                selectedNavigationMenu.getText().contains("Events"));
     }
 
     public void goToActiveMatch() {
@@ -217,11 +219,19 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     /**
-     * Clicks on the notification dwopdown
+     * Clicks on the notification dropdown
      */
     public void clickNotificationsDropdown(){
         waitUntil(ExpectedConditions.visibilityOf(notificationsDropdown));
-        notificationsDropdown.click();
+        try {
+            notificationsDropdown.click();
+        } catch (Exception e) {
+            if (notificationsCounter.isDisplayed()) {
+                notificationsCounter.click();
+            } else {
+                throw e;
+            }
+        }
         waitUntil(ExpectedConditions.visibilityOf(notificationList));
     }
 

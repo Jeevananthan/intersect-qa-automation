@@ -2,13 +2,14 @@ package pageObjects.SM.searchPage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -17,8 +18,6 @@ import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -34,6 +33,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private World world;
     private static String fs = File.separator;
     private static String propertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSaveSearchPopupContent%sSaveSearchPopupContent.properties", fs, fs, fs, fs, fs);
+    private static Integer pinnedCount;
+    private static Integer thinkingAboutCount;
+    private static Integer applyingToCount;
     private static String smLabelsPropertiesFilePath = String.format(".%ssrc%sbddTest%sresources%sSMFitCriteriaText%sSMFitCriteriaText.properties", fs, fs, fs, fs, fs);
 
     WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -292,7 +294,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     case "State or Province":
                         String[] states = criteria.get(key).split(",");
                         for (String state : states) {
-                            // TODO - Actually access this component - it's poorly labeled in the app
+                            getStateInput().sendKeys(state);
+                            getStateInput().sendKeys(Keys.ENTER);
                         }
                         break;
                     case "Quick Selection: US Regions & Others":
@@ -316,6 +319,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         break;
 
                 }
+                closeFitCriteria();
             }
         }
     }
@@ -388,7 +392,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * select any radio button only when fit criteria menu is open.
      */
     public void selectRadioButton(String radioButton){
-        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        waitUntilPageFinishLoading();
+        WebElement radioButtonLocator;
+        if (radioButton.equalsIgnoreCase("Certificate")) {
+            radioButtonLocator = driver.findElement(By.xpath("//label[text() = '"+radioButton+"']"));
+        } else {
+            radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        }
         WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
         Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
         if (!radioButtonLocator.isSelected()) {
@@ -397,6 +407,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
         Assert.assertTrue(radioButton+" radio button is not selected.", onlyRadioButton.isSelected());
     }
+
+    public void verifyRadioButtonIsSelected(String radioButtonText) {
+        Assert.assertTrue("Radio button" + radioButtonText + " is selected", getRadioButtonLabelByText(radioButtonText).isSelected());
+    }
+
 
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
@@ -862,7 +877,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
-     * select any selected checkbox only when fit criteria menu is open.
+     * Selects the named checkbox from the named filter criteria
+     * @param checkBox - Name of the checkbox to be selected
+     * @param fitCriteriaName - Name of the filter criteria containing the checkbox
      */
     public void selectCheckBox(String checkBox, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
@@ -872,6 +889,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 //        Assert.assertTrue(checkBox + " checkbox by default is not selected.", !checkboxLocator.isSelected());
         if (!onlyCheckbox.isSelected()) {
             checkboxLocator.click();
+            waitUntilPageFinishLoading();
         }
         Assert.assertTrue(checkBox + " checkbox is not selected.", onlyCheckbox.isSelected());
         waitUntilPageFinishLoading();
@@ -893,7 +911,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
-     * unselect any selected checkbox only when fit criteria menu is open.
+     * Unselects the named checkbox from the named filter criteria
+     * @param checkBox - Name of the checkbox to be unselected
+     * @param fitCriteriaName - Name of the filter criteria containing the checkbox
      */
     public void unselectCheckbox(String checkBox, String fitCriteriaName) {
         if (!(driver.findElements(By.xpath("//h1[text()='" + fitCriteriaName + "']")).size() > 0))
@@ -1312,6 +1332,85 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void unpinCollege(String collegeName) {
+        goToCollegeInSearchResults(collegeName);
+        boolean elementNotFound = true;
+        WebElement firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
+        //System.out.println(firstPinLinkCoincidence.getText() + " VALUE");
+        if (firstPinLinkCoincidence.getText().trim().contains("PINNED")) {
+            while (elementNotFound) {
+                try {
+                    waitForUITransition();
+                    firstPinLinkCoincidence.click();
+                    waitUntilPageFinishLoading();
+                    elementNotFound = false;
+                } catch (WebDriverException e) {
+                    whyDrawerButton(collegeName).sendKeys(Keys.ARROW_UP);
+                    elementNotFound = true;
+                }
+            }
+        }
+    }
+
+    public void pinCollegeFromWhyDrawer(String collegeName) {
+        clickWhyButtonForCollege(collegeName);
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebElement firstPinLinkInWhyDrawerCoincidence = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(pinLinkLocatorWhyDrawer(collegeName)))).get(0);
+        if (firstPinLinkInWhyDrawerCoincidence.getText().trim().contains("PIN TO COMPARE")) {
+            firstPinLinkInWhyDrawerCoincidence.click();
+        }
+
+        closeWhyDrawer();
+    }
+
+    public void unpinCollegeFromWhyDrawer(String collegeName) {
+        clickWhyButtonForCollege(collegeName);
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebElement firstPinLinkInWhyDrawerCoincidence = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(pinLinkLocatorWhyDrawer(collegeName)))).get(0);
+        if (firstPinLinkInWhyDrawerCoincidence.getText().trim().contains("PINNED")) {
+            firstPinLinkInWhyDrawerCoincidence.click();
+        }
+
+        closeWhyDrawer();
+    }
+
+    public void clickWhyButtonForCollege(String collegeName) {
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        WebElement firstWhyButtonCoincidence = driver.findElements(By.xpath(whyButtonLocator(collegeName))).get(0);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", firstWhyButtonCoincidence);
+        repVisitsPageUtility.scrollDown(firstWhyButtonCoincidence);
+        waitForUITransition();
+        firstWhyButtonCoincidence.click();
+    }
+
+
+
+    public void verifyCollegeIsPinnedORUnpinnedInResultsTable(String collegeName, String pinnedOrUnpinned){
+        goToCollegeInSearchResults(collegeName);
+        WebElement firstPinLinkCoincidence = driver.findElements(By.xpath(pinLinkLocator(collegeName))).get(0);
+        switch(pinnedOrUnpinned)
+        {
+            case "pinned": Assert.assertTrue("College is not pinned", firstPinLinkCoincidence.getText().trim().equals("PINNED"));
+                           break;
+            case "unpinned": Assert.assertTrue("College is pinned", firstPinLinkCoincidence.getText().trim().equals("PIN TO COMPARE"));
+                             break;
+        }
+    }
+
+    public void verifyCollegeIsPinnedORUnpinnedInWhyDrawer(String collegeName, String pinnedOrUnpinned) {
+        clickWhyButtonForCollege(collegeName);
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebElement firstPinLinkInWhyDrawerCoincidence = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(pinLinkLocatorWhyDrawer(collegeName)))).get(0);
+        switch(pinnedOrUnpinned)
+        {
+            case "pinned": Assert.assertTrue("College is not pinned", firstPinLinkInWhyDrawerCoincidence.getText().trim().equals("PINNED"));
+                break;
+            case "unpinned": Assert.assertTrue("College is pinned", firstPinLinkInWhyDrawerCoincidence.getText().trim().equals("PIN TO COMPARE"));
+                break;
+        }
+    }
+
     public void openPinnedCompareSchools() {
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -1448,6 +1547,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyBackToTopButtonFunctionality() {
         backToTopButton().sendKeys(Keys.END);
+        waitForUITransition();
         backToTopButton().sendKeys(Keys.RETURN);
         waitUntilPageFinishLoading();
         JavascriptExecutor executor = driver;
@@ -1760,6 +1860,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyOptionsInOnCampusHousingSelectPercentDropdown(DataTable dataTable) {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Institution Characteristics");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        onCampusHousingPercentDropdownChevron().click();
+
+        List<String> outOfStateStudentsPercentOptionsActual = onCampusHousingPercentDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = outOfStateStudentsPercentOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in On-Campus Housing 'Select %' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+
+    }
+
     public void verifyOptionsInSelectGenderDropdown(DataTable dataTable)
     {
         int optionIndex = 0;
@@ -2027,25 +2150,35 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             waitUntilPageFinishLoading();
             button(text).click();
+            waitUntilPageFinishLoading();
         } catch (Exception e) {
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
+            waitUntilPageFinishLoading();
         }
     }
 
     public void pickFromDropdown(String choice, String dropdown){
         try {
+            setImplicitWaitTimeout(2);
             driver.findElement(By.className(dropdown)).click();
+            resetImplicitWaitTimeout();
         }
         catch (Exception e){
             try {
+                setImplicitWaitTimeout(2);
                 driver.findElement(By.id(dropdown)).click();
+                resetImplicitWaitTimeout();
             }
             catch (Exception exp){
                 try {
+                    setImplicitWaitTimeout(2);
                     driver.findElement(By.cssSelector(dropdown)).click();
+                    resetImplicitWaitTimeout();
                 } catch (Exception f) {
+                    setImplicitWaitTimeout(2);
                     driver.findElement(By.xpath(dropdown)).click();
+                    resetImplicitWaitTimeout();
                 }
             }
         }
@@ -2210,7 +2343,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void checkNumberOfElementsDisplayed(Integer number, String locator){
 
-        waitUntilPageFinishLoading();
+       waitUntilPageFinishLoading();
        Assert.assertEquals((Integer) driver.findElements(By.cssSelector(locator)).size(), number);
 
     }
@@ -2363,10 +2496,272 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         diversityRaceDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
     }
 
+    public void verifyMatchScoreByPosition(Integer position, String operator, Integer referenceNumber) {
+        int matchScore = Integer.parseInt(getMatchScoreByPosition(position.toString()).getText());
+        switch (operator) {
+            case "<" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore < referenceNumber);
+                break;
+            case ">" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore > referenceNumber);
+                break;
+            case "=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore == referenceNumber);
+                break;
+            case "<=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore <= referenceNumber);
+                break;
+            case ">=" :
+                Assert.assertTrue("The match score at position " + position + " is not " + operator + " than " + referenceNumber,
+                        matchScore >= referenceNumber);
+                break;
+        }
+
+    }
+
+    public void pickColumnHeader(String option, Integer columnNumber) {
+        firstWhyButton().sendKeys(Keys.PAGE_UP);
+        scrollDown(firstWhyButton());
+        editableColumnHeader(columnNumber).click();
+        List<WebElement> optionsList = driver.findElements(By.cssSelector(editableColumnHeaderOptionListLocator));
+        for (WebElement element : optionsList) {
+            if (element.getText().equals(option)) {
+                element.click();
+                break;
+            }
+        }
+    }
+
+    public void verifyDataInEditableColumn(String selectedOption, Integer columnNumber, String collegeName, DataTable dataTable) {
+        switch (selectedOption) {
+            case "Institution Characteristics" :
+                List<List<String>> institutionsCharElements = dataTable.asLists(String.class);
+                List<WebElement> institutionCharsLeftElements = driver.findElements(By.xpath(institutionsCharsLeftElementsLocator(collegeName, columnNumber)));
+                List<WebElement> institutionsCharsRigthElements = driver.findElements(By.xpath(institutionsCharsRigthElementsLocator(collegeName, columnNumber)));
+                for (int i = 0; i < institutionsCharElements.size(); i++) {
+                    softly().assertThat(institutionsCharElements.get(i).get(0)).as("The element " + institutionsCharElements.get(i).get(0)
+                            + " does not have a correct value").contains(institutionCharsLeftElements.get(i).getText());
+                }
+                for (int i = 0; i < institutionsCharsRigthElements.size(); i++) {
+                    softly().assertThat(institutionsCharElements.get(i).get(1)).as("The element " + institutionsCharElements.get(i).get(1)
+                            + " does not have a correct value").contains(institutionsCharsRigthElements.get(i).getText());
+                }
+                break;
+            case "Admission info":
+                List<String> admissionInfoElements = dataTable.asList(String.class);
+                List<WebElement> wrapperElements = driver.findElements(By.xpath(cellContentsLocator(collegeName, columnNumber)));
+                for (int i = 0; i < wrapperElements.size(); i++) {
+                    softly().assertThat(wrapperElements.get(i).getText()).as("The element is not correct in Admission Info.")
+                            .contains(admissionInfoElements.get(i));
+                }
+                break;
+        }
+    }
+
+    public void closeFitCriteriaWindow() {
+        getFitCriteriaCloseButton().click();
+    }
+    /**
+     * Stores a numerical value from the SM footer to compare against later.
+     * @param type Value to capture from the footer.  Valid values: THINKING ABOUT, APPLYING TO, PINNED
+     */
+    public void storeValueFromFooter(String type) {
+        switch(type) {
+            case "THINKING ABOUT":
+                thinkingAboutCount = Integer.parseInt(getThinkingAboutValue().getText());
+                break;
+            case "APPLYING TO":
+                applyingToCount = Integer.parseInt(getApplyingToValue().getText());
+                break;
+            case "PINNED":
+                pinnedCount = Integer.parseInt(getPinnedValue().getText());
+                break;
+            default:
+                logger.info(type + " is not a valid value for the type of value in the footer.");
+        }
+    }
+
+    /**
+     * Favorites the school passed to the method if possible.  Continues with info message if school is not found or already favorited.
+     * @param schoolName Name of the school to be favorited
+     */
+    public void favoriteSchool(String schoolName) {
+        try {
+            setImplicitWaitTimeout(2);
+            WebElement favoriteLink = getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite"));
+            if (favoriteLink.findElement(By.xpath("./span/span[contains(@class, 'empty')]")).isDisplayed()) {
+                favoriteLink.click();
+            }
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            logger.info("School: '" + schoolName + "' was not found, or was already favorited.");
+            resetImplicitWaitTimeout();
+        }
+    }
+
+    /**
+     * Un-favorites the school passed to the method if possible.  Continues with info message if school is not found or wasn't favorited.
+     * @param schoolName Name of the school to be un-favorited
+     */
+    public void unFavoriteSchool(String schoolName) {
+        try {
+            setImplicitWaitTimeout(2);
+            WebElement favoriteLink = getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite"));
+            if (favoriteLink.findElement(By.xpath("./span/span[@class='heart icon')]")).isDisplayed()) {
+                favoriteLink.click();
+            }
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            logger.info("School: '" + schoolName + "' was not found, or was already un-favorited.");
+            resetImplicitWaitTimeout();
+        }
+    }
+
+    /**
+     * Favorites the school passed to the method in the why drawer if possible.  Continues with info message if school is not found or already favorited.
+     * @param schoolName Name of the school to be favorited
+     */
+    public void favoriteSchoolFromWhyDrawer(String schoolName) {
+        try {
+            setImplicitWaitTimeout(2);
+            WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span[contains(@class, 'empty')]")).isDisplayed()) {
+                whyDrawerFavoriteLink.click();
+            }
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            logger.info("School: '" + schoolName + "' was not found, or was already favorited.");
+            resetImplicitWaitTimeout();
+        }
+    }
+
+    /**
+     * Un-favorites the school passed to the methodin the why drawer if possible.  Continues with info message if school is not found or wasn't favorited.
+     * @param schoolName Name of the school to be un-favorited
+     */
+    public void unFavoriteSchoolFromWhyDrawer(String schoolName) {
+        try {
+            setImplicitWaitTimeout(2);
+            WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span[@class='heart icon')]")).isDisplayed()) {
+                whyDrawerFavoriteLink.click();
+            }
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        } catch (Exception e) {
+            logger.info("School: '" + schoolName + "' was not found, or was already un-favorited.");
+            resetImplicitWaitTimeout();
+        }
+    }
+
+    /**
+     * Verifies a value from the footer against a value stored earlier by storeValueFromFooter(String)
+     * @param type Value to capture from the footer.  Valid values: THINKING ABOUT, APPLYING TO, PINNED
+     * @param direction compare direction - "greater than", "less than", or "equal to"
+     */
+    public void verifyValueFromFooter(String type, String direction) {
+        Integer currentThinkingAbout = 0;
+        Integer currentApplyingTo = 0;
+        Integer currentPinned = 0;
+
+        switch(type) {
+            case "THINKING ABOUT":
+                currentThinkingAbout = Integer.parseInt(getThinkingAboutValue().getText());
+                compareValues(currentThinkingAbout,thinkingAboutCount,direction);
+                break;
+            case "APPLYING TO":
+                currentApplyingTo = Integer.parseInt(getApplyingToValue().getText());
+                compareValues(currentApplyingTo,applyingToCount,direction);
+                break;
+            case "PINNED":
+                currentPinned = Integer.parseInt(getPinnedValue().getText());
+                compareValues(currentPinned,pinnedCount,direction);
+                break;
+            default:
+                Assert.assertTrue(type + " is not a valid value for the type of value in the footer.",false);
+        }
+    }
+
+    /**
+     * Closes the why drawer if it is open.
+     */
+    public void closeWhyDrawer() {
+        try {
+            whyDrawerCloseButton().click();
+        } catch (Exception e) {
+            logger.info("Why drawer close button was not found.");
+        }
+    }
+
+    /**
+     * Compare two values in the direction indicated -- used by verifyValueFromFooter(String, String)
+     * @param current - current value
+     * @param expected - expected value
+     * @param direction - compare direction - "greater than", "less than", or "equal to"
+     */
+    private void compareValues(Integer current,Integer expected, String direction){
+        switch(direction) {
+            case "greater than":
+                softly().assertThat(current).as("Footer Value Comparison").isGreaterThan(expected);
+                break;
+            case "less than":
+                softly().assertThat(current).as("Footer Value Comparison").isLessThan(expected);
+                break;
+            case "equal to":
+                softly().assertThat(current).as("Footer Value Comparison").isEqualTo(expected);
+                break;
+            default:
+                Assert.assertTrue(direction + " is not a valid value for direction.  Use 'greater than', 'less than', or 'equal to'",false);
+        }
+    }
+
+    public void verifyTabIsOpenAfterClickItemInCriteriaBox(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        for (List<String> row : details) {
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(informationalTopBarLocator), 0));
+            getCriteriaPill(row.get(0)).click();
+            while (driver.findElements(By.cssSelector(innerFitCriteriaTabTitleLocator)).size() == 0 ) {
+                try {
+                    verifyFitCriteriaTabOpen(row.get(1));
+                } catch (NoSuchElementException e) {
+                    getCriteriaPill(row.get(0)).click();
+                    verifyFitCriteriaTabOpen(row.get(1));
+                }
+            }
+            closeButtonForFitCriteria().click();
+        }
+    }
+
+    public void verifyFitCriteriaTabOpen(String fitCriteriaName) {
+        softly().assertThat(innerFitCriteriaTabTitle().getText()).as("The fit criteria tab " + fitCriteriaName + " is not open.")
+                .isEqualTo(fitCriteriaName);
+    }
+
+    public void verifyScoresInAcademicMatch(Integer positionInResultTable, DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        List<String> scoresList = dataTable.asList(String.class);
+        List<WebElement> scoresInUIList = driver.findElements(By.xpath(studentScoresInAcademicMatchLocator(positionInResultTable)));
+        for (int i = 0; i < scoresList.size(); i++) {
+            softly().assertThat(scoresInUIList.get(i).getText()).as("The student score in Academic Match cell is incorrect.")
+                    .isEqualTo(scoresList.get(i));
+        }
+
+    }
 
     // Locators Below
-
+    private WebElement getStateInput() { return getDriver().findElement(By.xpath("//div[contains(@class,'sm-filter-search-dropdown')]/div/input")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
+    private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"'")))));}
+    private WebElement getPinnedValue() { return pinnedDropdown().findElement(By.xpath("./span/div"));}
+    private WebElement getApplyingToValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Applying To']/div")); }
+    private WebElement getThinkingAboutValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Thinking About']/div")); }
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
 
@@ -2505,6 +2900,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.id("supermatch-diversity-race-dropdown"));
     }
 
+    private WebElement getRadioButtonLabelByText(String radioButtonText) {
+        return driver.findElement(By.xpath("//label[text()='" + radioButtonText + "']/../input"));
+    }
+
     private WebElement maleFemalePercentDropdown(){
         return driver.findElement(By.id("male-female-percent-dropdown"));
     }
@@ -2562,7 +2961,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement searchResultsCollegeNameLink(String collegeName) { return driver.findElement(By.xpath(getResultsCollegeNameLink(collegeName))); }
 
-    public WebElement profilePageCollegeName() { return driver.findElement(By.cssSelector("h1.masthead__name.ng-binding")); }
+    private WebElement profilePageCollegeName() { return driver.findElement(By.cssSelector("h1.masthead__name.ng-binding")); }
+
+    private WebElement whyDrawer() { return getDriver().findElement(By.xpath("//div[contains(@class,'supermatch-sidebar')]")); }
 
     private WebElement whyDrawerButton(String collegeName) { return driver.findElement(By.xpath("//a[text()='" + collegeName + "']/../../../following-sibling::td/div/button")); }
 
@@ -2623,6 +3024,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
 
     private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../div/a[@class = 'supermatch-college-action-pin-to-compare']"; }
+
+    private String pinLinkLocatorWhyDrawer(String collegeName) { return "//div[contains(@class, 'supermatch-sidebar')]//a[text()='"+ collegeName +"']//ancestor::div[@class='row']//a[@class='supermatch-college-action-pin-to-compare']"; }
+
+    private String whyButtonLocator(String collegeName) { return "//div[contains(@class, 'supermatch-results')]//a[contains(@href, '/colleges/hubs/') and text()='" + collegeName + "']//ancestor::tr[1]//button[text()='Why?']"; }
 
     private WebElement singleCostValue(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/../../../../td[@class = 'sm-hidden-xl-down csr-data-points']/div/p/span[@class = 'cost-text']")); }
 
@@ -2722,6 +3127,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private List<WebElement> outOfStateStudentsPercentDropdownOptions() {
         return getDriver().findElements(By.xpath("//div[@id='OutOfStateStudents-dropdown']//span"));
+    }
+
+    private WebElement onCampusHousingPercentDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='on-campus-housing-dropdown']/i"));
+    }
+
+    private List<WebElement> onCampusHousingPercentDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='on-campus-housing-dropdown']//span"));
     }
 
     private WebElement startOverButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button.supermatch-start-over-button")); }
@@ -2884,7 +3297,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement visibleFooterOpenMenu() {
         return driver.findElement(By.xpath("//div[contains(@class, 'menu transition visible')]"));
     }
-
+  
     private WebElement collegeInResultsTableByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") div.institution-details-cell a.result-row-decription-label"));
     }
@@ -2892,4 +3305,39 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement collegeCellInResultsTableByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") td.left.aligned"));
     }
+
+    private WebElement getMatchScoreByPosition(String position) {
+        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
+    }
+
+    private WebElement editableColumnHeader(int position) {
+        return driver.findElement(By.cssSelector("table.ui.unstackable:not(.csr-header-table) th:nth-of-type(" + (position + 3) + ") span"));
+    }
+
+    private String editableColumnHeaderOptionListLocator = "span.text";
+
+    private String institutionsCharsLeftElementsLocator(String collegeName, int columnNumber) {
+        return "//a[text() = '" + collegeName + "']/ancestor::tr/td[" + (columnNumber + 3) + "]//span[1]";
+    }
+
+    private String institutionsCharsRigthElementsLocator(String collegeName, int columnNumber) {
+        return "//table//tr[1]//a[text() = '" + collegeName + "']/ancestor::tr/td[" + columnNumber + "]//span[2]";
+    }
+
+    private String cellContentsLocator(String collegeName, int columnNumber) {
+        return "//td[contains(@class, 'inPinnedList')]//a[text() = '" + collegeName + "']/ancestor::tr/td[" + (columnNumber + 3) + "]//p";
+    }
+
+    private WebElement innerFitCriteriaTabTitle() { return driver.findElement(By.cssSelector(innerFitCriteriaTabTitleLocator)); }
+
+    private String innerFitCriteriaTabTitleLocator = "h1.supermatch-menu-header";
+
+    private WebElement getCriteriaPill(String pillText) { return driver.findElement(By.xpath("//button[text() = '" + pillText + "']")); }
+
+    private String informationalTopBarLocator = "//div[contains(@class, 'message')]/div/span[3]/span[3]";
+
+    private String studentScoresInAcademicMatchLocator(int rowPosition) {
+        return "//table[contains(@class, 'csr-results-table')]/tbody/tr[" + rowPosition + "]//tr[contains(@class, 'aligned')]/td[@class = 'you-column']";
+    }
 }
+

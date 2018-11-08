@@ -643,6 +643,13 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void goToPageFromSMMainMenu() {
+        waitUntilPageFinishLoading();
+        getMainMenuTab("Colleges").click();
+        button("Apply to College").click();
+        link("College Events").click();
+    }
+
     // Locators Below
 
     private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//span[@class='supermatch-footer-item-text'][text()='More']"));}
@@ -722,4 +729,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String fourScaleListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(3)";
     private WebElement infoBarMainWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]")); }
     private WebElement infoBarExtraWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]/span[3]")); }
+    private WebElement getMainMenuTab(String tabName) { return driver.findElement(By.xpath("//ul//div[text() = '" + tabName + "']")); }
 }

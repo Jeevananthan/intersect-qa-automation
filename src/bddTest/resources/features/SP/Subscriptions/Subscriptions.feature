@@ -21,6 +21,7 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
     Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
     And SP I Click the Save Changes button
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "<Subscription type>" in Add new Subscription modal
     And SP I click the Next button
@@ -73,6 +74,7 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
   Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "State" in Add new Subscription modal
     And SP I click the Next button
@@ -93,12 +95,12 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
       | Start Date | 2 days from now |
     And SP I delete all the subscriptions for school
 
-
   @MATCH-4374
   Scenario: As a Support person provisioning AM NextGen, I want to Edit/Delete State subscriptions
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "State" in Add new Subscription modal
     And SP I click the Next button
@@ -125,11 +127,53 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
       | Diversity | Female |
       | Start Date | 2 days from now |
 
+  @MATCH-5250
+  Scenario: As a Support person I need to be able to generate a bulk subscription transaction that results in multiple subscriptions being displayed on UI and Signle subscription on HE App
+    Given SP I am logged in to the Admin page as a Support user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "-1" and end date "30" in the institution page
+    And SP I Click the Save Changes button
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SM I press button "ADD NEW SUBSCRIPTION"
+    And SP I select the radio button "State" in Add new Subscription modal
+    And SP I click the Next button
+    And SP I fill the new subscription with the following data:
+      |State                |Virginia                               |
+      |State                |Ohio                                   |
+      |Diversity Filter     |Female                                 |
+      |Competitors          |Auburn University Main Campus (2400026)|
+      |Majors               |yes                                    |
+      |Connection           |yes                                    |
+      |Start date           |2 days from now                        |
+      |End date             |3 days from now                        |
+    And SP I save the new subscription
+    Then SP I verify that a new subscription was added to the subscription table with the following data:
+      |Location    |Ohio            |
+      |Location    |Virginia        |
+      |Diversity   |Female          |
+      |Start Date  |2 days from now |
+    And HE I am logged in to Intersect HE as user type "subscriptionuser"
+    And HE I click on button Configure for subscription "Advanced Awareness"
+    And HE I verify following audience are present on HE App
+      |Audience    |Ohio                          |
+      |Audience    |Virginia                      |
+      |Competitors |Auburn University Main Campus |
+    And SP I am logged in to the Admin page as a Support user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "inactive" in the institution page
+
     @MATCH-4374
     Scenario: As a Support person provisioning AM NextGen, I want to Edit/Delete County subscriptions
       Given SP I am logged in to the Admin page as a Support user
       When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+      Then SP I set the "Advanced Awareness" module to "active" with the start date "-1" and end date "30" in the institution page
+      And SP I Click the Save Changes button
       And HE I click the link "Advanced Awareness"
+      And SP I delete all the subscriptions for school
       And SM I press button "ADD NEW SUBSCRIPTION"
       And SP I select the radio button "County" in Add new Subscription modal
       And SP I click the Next button
@@ -150,12 +194,17 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
       And SP I delete the subscriptions with the following data:
         | Diversity | Female |
         | Start Date | 2 days from now |
+      Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+      Then SP I set the "Advanced Awareness" module to "inactive" in the institution page
 
   @MATCH-4374
   Scenario: As a Support person provisioning AM NextGen, I want to Edit/Delete Zip subscriptions
     Given SP I am logged in to the Admin page as a Support user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "-1" and end date "30" in the institution page
+    And SP I Click the Save Changes button
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SM I press button "ADD NEW SUBSCRIPTION"
     And SP I select the radio button "Zip" in Add new Subscription modal
     And SP I click the Next button
@@ -177,3 +226,5 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
     And SP I delete the subscriptions with the following data:
       | Diversity | Female |
       | Start Date | 2 days from now |
+    Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "inactive" in the institution page

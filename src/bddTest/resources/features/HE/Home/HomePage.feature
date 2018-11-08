@@ -101,16 +101,14 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
 
   @MATCH-1365
   Scenario: As an HE, HS, or Hobsons user,I need to be presented with the notifications globe from Community in the Intersect banner
-  so I can still see when I have notifications from Community.
+            so I can still see when I have notifications from Community.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I add post in the Homepage "test1921"
     And SP I successfully sign out
-
     Then HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the navigation globe is displayed for this user
     And HE I click the navigation globe for viewing the recent notifications
     Then HE I successfully sign out
-
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the navigation globe is displayed for this user
     And HS I click the navigation globe for viewing the recent notifications
@@ -125,7 +123,7 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
       | user          | module                   | button      | pageURL                         |
       | administrator | Naviance College Profile | UPDATE      | naviance-college-profile/edit   |
       | publishing    | Naviance College Profile | UPDATE      | naviance-college-profile/edit   |
-      | administrator | Connection               | MANAGE      | am-plus/view-connections        |
+      | administrator | Connection               | MANAGE      | connection/connections       |
       | administrator | RepVisits                | SCHEDULE    | rep-visits/search               |
       | publishing    | RepVisits                | SCHEDULE    | rep-visits/search               |
       | community     | RepVisits                | SCHEDULE    | rep-visits/search               |
@@ -138,8 +136,8 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
       | publishing    | Counselor Community      | PARTICIPATE | counselor-community/            |
       | community     | Counselor Community      | PARTICIPATE | counselor-community/            |
       | limited       | Counselor Community      | PARTICIPATE | counselor-community/            |
-      | administrator | Advanced Awareness        | CONFIGURE   | advanced-awareness/             |
-      | publishing    | Advanced Awareness        | CONFIGURE   | advanced-awareness/             |
+      | administrator | Advanced Awareness        | CONFIGURE  | advanced-awareness/overview     |
+      | publishing    | Advanced Awareness        | CONFIGURE  | advanced-awareness/overview     |
 
   @MATCH-1430
   Scenario: As a HE user, I should be able to access Privacy Policy and Terms of Use pages

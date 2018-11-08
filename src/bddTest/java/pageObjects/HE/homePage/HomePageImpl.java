@@ -40,6 +40,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void logout() {
+        waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
@@ -319,7 +320,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     private String loginButtonLocator = "button.ui.primary.button";
 
-    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
+    private WebElement moduleButton(String moduleName) {
+        return getDriver().findElement(By.xpath(String.format("//h2[text()='%s']/parent::div/div/a[@role='button']",
+                moduleName)));
+    }
 
     private WebElement saveButton(){
         return button("Save");

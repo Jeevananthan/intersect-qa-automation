@@ -148,6 +148,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToUsersList(String institutionName) {
         goToInstitution(institutionName);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText("See All Users")));
         link("See All Users").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOf(userListTable()));
@@ -155,6 +156,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToAccountUsersList(String accountType, String accountName) {
         goToAccount(accountType, accountName);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText("See All Users")));
         link("See All Users").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOf(userListTable()));

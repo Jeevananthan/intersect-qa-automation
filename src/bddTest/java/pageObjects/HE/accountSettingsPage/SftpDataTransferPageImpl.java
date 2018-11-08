@@ -34,7 +34,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     public void deleteSftpDataTransferConnection(){
         accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
         if(getDriver().findElements(editLinkLocator()).size()>0){
-            editLink().click();
+            goToEditConnectionPage();
             deleteThisConfigurationLink().click();
             waitUntil(ExpectedConditions.visibilityOf(deleteSftpConfigurationButton()));
             deleteSftpConfigurationButton().click();
@@ -59,9 +59,9 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     public void verifySftDataTransferTitleLinkBehavior(){
         //when clicking it should send us back to the main page
-        sftpDataTransferTitleLink().click();
+        goToSftpConnectionMainPageThroughTitleLink();
         Assert.assertTrue("The Sftp Dta Transfer title link does not send to the main page",
-                setupConnectionButton().isDisplayed());
+                getDriver().findElement(sftpMainPageTitleLocator()).isDisplayed());
 
     }
 
@@ -198,7 +198,12 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * Generates a SSH key
      */
     public void generateSSHKey(){
-        generateKeyButton().click();
+        if(getDriver().findElements(regenerateKeyButtonLocator()).size()>0){
+            reGenerateKeyButton().click();
+        }
+        else{
+            generateKeyButton().click();
+        }
         waitUntil(ExpectedConditions.visibilityOfElementLocated(sshKeyTextBoxLocator()));
     }
 
@@ -248,10 +253,22 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
         List<List<String>> sftpInformation = data.raw();
         accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
         if(getDriver().findElements(editLinkLocator()).size()>0){
-            editLink().click();
+            goToEditConnectionPage();
         } else{
             setupConnectionButton().click();
         }
+        fillSftpConnectionData(data);
+        testAndSaveButton().click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(connectionLoaderLocator()));
+        setUpNewFingerPrint(sftpInformation.get(1).get(6));
+    }
+
+    /**
+     * Fills the sftp connection data
+     * @param data
+     */
+    public void fillSftpConnectionData(DataTable data){
+        List<List<String>> sftpInformation = data.raw();
         hostTextBox().clear();
         hostTextBox().sendKeys(sftpInformation.get(1).get(0));
         portTextBox().clear();
@@ -264,9 +281,6 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
         passwordTextBox().sendKeys(sftpInformation.get(1).get(4));
         selectTransferFrequency(sftpInformation.get(1).get(5));
         selectCheckFingerprintToVerifyServerCheckBox(sftpInformation.get(1).get(6));
-        testAndSaveButton().click();
-        waitUntilPageFinishLoading();
-        setUpNewFingerPrint(sftpInformation.get(1).get(6));
     }
 
     /**
@@ -288,7 +302,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * Verifies if GO BACK button cancels the deletion of the configuration
      */
     public void verifyGoBackButtonBehaviorWhenDeletingConnection(){
-        editLink().click();
+        goToEditConnectionPage();
         deleteThisConfigurationLink().click();
         goBackButton().click();
         Assert.assertTrue("The GO back button does not send back to the edit configuration page and it does" +
@@ -313,10 +327,11 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * Confirms if a new fingerprint is detected
      */
     private void setUpNewFingerPrint(String action){
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(connectionLoaderLocator()));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(warningToastLocator()));
         if(action.equalsIgnoreCase("yes")){
             waitUntil(ExpectedConditions.visibilityOfElementLocated(yesFingerPrintIsCorrectLinkLocator()));
-            yesFingerPrintIsCorrectLink().click();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(sftpMainPageTitleLocator()));
+            clickOnYesFingerPrintIsCorrect();
         }
     }
 
@@ -328,6 +343,116 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
         String actualText = successToast().getText();
         Assert.assertTrue(String.format("The toast text is not correct, expected: %s, actual: %s",
                 expectedText,actualText), actualText.contains(expectedText));
+    }
+
+    /**
+     * Verifies if a given text is displayed in the new fingerprint detected alert box
+     * @param text
+     */
+    public void verifyTextInNewFingerprintDetectedAlertBox(String text){
+        String alertBoxText = newFingerPrintDetectedAlert().getText();
+        Assert.assertTrue(String.format("The text %s is not displayed in the new fingerprint detected alert box",text),
+                alertBoxText.contains(text));
+    }
+
+    /**
+     * Enables the finger print verification
+     */
+    public void enableServerFingerPrintVerification(){
+        goToEditConnectionPage();
+        selectCheckFingerprintToVerifyServerCheckBox("yes");
+        testAndSaveButton().click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(connectionLoaderLocator()));
+    }
+
+    /**
+     * Verifies the given test is displayed in the warning toasts
+     * @param expectedText
+     */
+    public void verifyWarningToastText(String expectedText){
+        String actualText = warningToast().getText();
+        Assert.assertTrue(String.format("The toast text is not correct, expected: %s, actual: %s",
+                expectedText,actualText), actualText.contains(expectedText));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(warningToastLocator()));
+    }
+
+    /**
+     * Disables the finger print verification
+     */
+    public void disableServerFingerPrintVerification(){
+        goToEditConnectionPage();
+        selectCheckFingerprintToVerifyServerCheckBox("no");
+        testAndSaveButton().click();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(connectionLoaderLocator()));
+        waitUntilPageFinishLoading();
+    }
+
+    /**
+     * Verifies if the finger print to verify server check box is selected
+     */
+    public void verifyFingerPrintToVerifyServerIsEnabled(){
+        goToEditConnectionPage();
+        Assert.assertTrue("The finger print to verify server check box is not selected",
+                checkFingerprintToVerifyServerCheckBox().isSelected());
+    }
+
+    /**
+     * Verifies if the finger print to verify server check box is not selected
+     */
+    public void verifyFingerPrintToVerifyServerIsNotEnabled(){
+        goToEditConnectionPage();
+        Assert.assertTrue("The finger print to verify server check box is selected",
+                !checkFingerprintToVerifyServerCheckBox().isSelected());
+    }
+
+    /**
+     * Verifies that the new fingerprint detected alert box is not displayed
+     */
+    public void verifyNewFingerPrintDetectedAlertBoxIsNotDisplayed(){
+        Assert.assertTrue("The new detected fingerprint alert box is displayed",
+                getDriver().findElements(newFinerPrintDetectedAlertLocator()).size()==0);
+    }
+
+    /**
+     * Click on yes fingerprint is correct link
+     */
+    public void clickOnYesFingerPrintIsCorrect(){
+        yesFingerPrintIsCorrectLink().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(sftpMainPageTitleLocator()));
+    }
+
+    /**
+     * Click on disable fingerprint verification link
+     */
+    public void clickOnDisableFingerPrintVerification(){
+        disableServerFingerPrintVerificationLink().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(sftpMainPageTitleLocator()));
+    }
+
+    /**
+     * Goes to the edit sftp connection page
+     */
+    public void goToEditConnectionPage(){
+        editLink().click();
+        waitUntil(ExpectedConditions.visibilityOf(sftpDataTransferTitleLink()));
+    }
+
+    /**
+     * Verifies the last updated connection label text
+     * @param expectedText
+     */
+    public void verifyConnectionLastUpdateText(String expectedText){
+        String actualText = lastUpdatedConnectionLabel().getText();
+        Assert.assertTrue(String.format("The last updated connection text is not correct, actual: %s, expected: %s",
+                actualText, expectedText),actualText.matches(expectedText));
+
+    }
+
+    /**
+     * Goes to the main sftp connection page though the title link
+     */
+    public void goToSftpConnectionMainPageThroughTitleLink(){
+        sftpDataTransferTitleLink().click();
     }
 
     /**
@@ -359,7 +484,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement deleteSftpConfigurationButton(){
-        return getDriver().findElement(By.cssSelector("button[class='ui teal button']"));
+        return getDriver().findElement(By.cssSelector("button[class='ui primary button']"));
     }
 
     /**
@@ -367,7 +492,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return By
      */
     private By setupConnectionButtonLocator(){
-        return By.cssSelector("a[class='ui basic primary button _3cZsSOtK8zE89dYeekrtKo']");
+        return By.cssSelector("a[class='ui primary button _3cZsSOtK8zE89dYeekrtKo']");
     }
 
     /**
@@ -506,7 +631,15 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement reGenerateKeyButton(){
-        return getDriver().findElement(By.id("sftpReGenerateKey"));
+        return getDriver().findElement(regenerateKeyButtonLocator());
+    }
+
+    /**
+     * Geys the regenerated key button locator
+     * @return
+     */
+    private By regenerateKeyButtonLocator(){
+        return By.id("sftpReGenerateKey");
     }
 
     /**
@@ -550,13 +683,6 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
         return By.cssSelector("h1[class='ui header']");
     }
 
-    /**
-     * Gets the fingerprint label
-     * @return WebElement
-     */
-    private WebElement fingeprintLabel(){
-        return getDriver().findElement(By.cssSelector("p[class='_3chbcQvvoW6tHDNAT5g5gQ']"));
-    }
 
     /**
      * Gets the disable server finger print verification link
@@ -564,5 +690,53 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement disableServerFingerPrintVerificationLink(){
         return getDriver().findElement(By.id("fingerprintDisableLink"));
+    }
+
+    /**
+     * Gets the new fingerprint detected alert box
+     * @return WebElement
+     */
+    private WebElement newFingerPrintDetectedAlert(){
+        return driver.findElement(newFinerPrintDetectedAlertLocator());
+    }
+
+    /**
+     * Gets the new fingerprint detected alert box
+     * @return By
+     */
+    private By newFinerPrintDetectedAlertLocator(){
+        return By.id("fingerPrintDetectedMessage");
+    }
+
+    /**
+     * Gets the connection loader locator
+     * @return
+     */
+    private By connectionLoaderLocator(){
+        return By.id("connectionloader");
+    }
+
+    /**
+     * Gets the warning toast
+     * @return WebElement
+     */
+    private By warningToastLocator(){
+        return By.cssSelector("div[class='ui small icon warning message toast _2Z22tp5KKn_l5Zn5sV3zxY']");
+    }
+
+    /**
+     * Gets the last updated connection label
+     * @return WebElement
+     */
+    private WebElement lastUpdatedConnectionLabel(){
+        return getDriver().findElement(By.cssSelector("p[class='iNe0n_IA95vyfA4hNXQYl']"));
+    }
+
+    /**
+     * Gets the warning toast
+     * @return WebElement
+     */
+    private WebElement warningToast(){
+        return getDriver().findElement(warningToastLocator());
     }
 }

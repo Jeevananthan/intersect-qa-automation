@@ -37,7 +37,10 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The created Location is not displayed in the Location field", eventsPage.locationField().
                 getAttribute("value").equals(locationName+locationIndex));
         eventsPage.locationField().click();
-        Assert.assertTrue("The created location is not displayed in the location list", singleResultInLocationListNameText().getText().equals(locationName+locationIndex));
+        List<WebElement> locationsWebElementList = driver.findElements(By.xpath(locationsList));
+        List<String> locationsListText = new ArrayList<>();
+        for (WebElement element : locationsWebElementList) locationsListText.add(element.getText());
+        Assert.assertTrue("The created location is not displayed in the location list", locationsListText.contains(locationName+locationIndex));
         waitUntil(ExpectedConditions.visibilityOf(singleResultInLocationListEditLink()));
         Assert.assertTrue("The Edit button is not displayed for the new location in the location list",
                 singleResultInLocationListEditLink().isDisplayed());
@@ -90,7 +93,9 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
 
     public void openEditFormForSelectedLocation() {
         waitUntilPageFinishLoading();
-        eventsPage.locationField().click();
+        if (driver.findElements(By.cssSelector("div.popup.transition.visible")).size() == 0) {
+            eventsPage.locationField().click();
+        }
         singleResultInLocationListEditLink().click();
     }
 
@@ -194,8 +199,8 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
     private WebElement stateField() { return driver.findElement(By.cssSelector("input[name='location-state']")); }
     private WebElement postalCodeField() { return driver.findElement(By.cssSelector("input[name='location-postalcode']")); }
     private WebElement doneButton() { return driver.findElement(By.cssSelector("button.ui.primary.button._2hWsKmd3ZpllcWLNxffNeu")); }
-    private WebElement singleResultInLocationListNameText() { return driver.findElement(By.cssSelector("tr._1hExGvG5jluro4Q-IOyjd7 div._1mf5Fc8-Wa2hXhNfBdgxce")); }
-    private WebElement singleResultInLocationListEditLink() { return driver.findElement(By.xpath("//tr[@class='_1hExGvG5jluro4Q-IOyjd7']//td[@class='_1OZ1oMK3GglRUsHKbjbU2-']")); }
+    private WebElement singleResultInLocationListNameText() { return driver.findElement(By.cssSelector("tr._1hExGvG5jluro4Q-IOyjd7 div:nth-of-type(1)")); }
+    private WebElement singleResultInLocationListEditLink() { return driver.findElement(By.xpath("//tr[@class = '_1hExGvG5jluro4Q-IOyjd7']//a/span[text() = 'Edit']")); }
     private WebElement deleteLocationLink() { return driver.findElement(By.cssSelector("a._2m8lgYbkXvYZuzvkh1m_Q1 span")); }
     private WebElement deleteLocationYesButton() { return driver.findElement(By.cssSelector("div.ui.warning.message + div button.ui.primary.button")); }
     private List<WebElement> locationList() {
@@ -209,4 +214,5 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
     private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent =
             "This location is associated with a past published event.Are you sure you want to delete?";
     public WebElement locationAssociatedToPublishedEventOkButton() { return driver.findElement(By.xpath("//button[@class = 'ui primary button']")); }
+    private String locationsList = "//div[@class = 'content']//td[1]/div[1]";
 }

@@ -478,10 +478,8 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         if (text("Insights into your team's reputation will appear here").isDisplayed())
             logger.info("No visit feedback is submitted for this user from HS side....");
         else {
-            WebElement HEUserLeftPanel = driver.findElement(By.xpath("//ul[@class='ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu']"));
-            HEUserLeftPanel.findElement(By.xpath("(.//i[@class='star disabled icon azDd81vj4qd4ERFjicrCo']) [2]")).click();
-            WebElement sectionOne = driver.findElement(By.xpath("(//div[@class='twelve wide column _2TegQ4j_MCOlAM0RjDSzhW'])"));
-            List<WebElement> links = sectionOne.findElements(By.tagName("a"));
+            visitFeedBackHEUserLeftPanel().click();
+            List<WebElement> links = visitFeedSectionOne().findElements(By.tagName("a"));
             WebElement HSUserLink = links.get(0);
             String userNameColorHS = HSUserLink.getCssValue("color");
             Assert.assertTrue("HE user name is not showing teal in color.", userNameColorHS.contains("rgba(30, 120, 122, 1)"));
@@ -493,6 +491,65 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
             }
 
         }
+    }
+
+    /**
+     * Used to enable or disable the RepVisits Feedback feature.
+     * @param setting Valid values - enable, disable.
+     */
+    public void setVisitFeedback(String setting) {
+        feedbackToggleLink().click();
+        switch(setting){
+            case "enable":
+                getDriver().findElement(By.xpath("//label[text()[contains(.,'Yes')]]")).click();
+                getDriver().findElement(By.cssSelector("button.ui.primary.button")).click();
+                waitUntil(ExpectedConditions.visibilityOf(feedbackToggleLink().findElement(By.xpath("./span[text()='Turn Off?']"))));
+                break;
+            case "disable":
+                getDriver().findElement(By.xpath("//label[text()[contains(.,'No')]]")).click();
+                getDriver().findElement(By.cssSelector("button.ui.primary.button")).click();
+                waitUntil(ExpectedConditions.visibilityOf(feedbackToggleLink().findElement(By.xpath("./span[text()='Turn On?']"))));
+                break;
+        }
+    }
+
+    /**
+     * Verifies the text of the RepVisits Feedback toggle link
+     * @param message - Expected value of the link text
+     */
+    public void verifyVisitFeedbackToggleText(String message) {
+        softly().assertThat(feedbackToggleLink().findElement(By.tagName("span")).getText()).isEqualTo(message);
+    }
+
+    // Locators
+    private WebElement feedbackToggleLink(){ return getDriver().findElement(By.className("_3t9wqiT3dGuO4aQrXOvdo5")); }
+
+    /**
+     * Selects a user from the Ratings Feedback list in order to view information about their visits.
+     * @param username - Name of the user to view.
+     */
+    public void selectFeedbackUser(String username) {
+        getDriver().findElement(By.xpath("//div[contains(@class,'menu-link')]/div/div/h2[text()[contains(.,'"+username+"')]]")).click();
+        waitUntil(ExpectedConditions.visibilityOf(getRatingDetails()));
+    }
+
+    /**
+     * Verifies the format of the individual user Visit Feedback page
+     * Name displays, ratings summary displays, at least one individual visit feedback displays,
+     * and the content of the individual feedback is as expected.
+     */
+    public void verifyUserFeedbackPage(String username) {
+        // Make sure we have at least two segments (one for the user, one for a visit rating)
+        List<WebElement> segments = getDriver().findElements(By.xpath("//div[contains(@class,'rating-segment')]"));
+        softly().assertThat(segments.size()).isGreaterThan(1);
+        // Make sure that the contents of the user area are present
+        softly().assertThat(getDriver().findElement(By.xpath("//h2[contains(@class,'rating-user-name')]")).getText()).as("User's Name").isEqualTo(username);
+        softly().assertThat(getUserSummary().isDisplayed()).as("User rating summary displayed").isTrue();
+        softly().assertThat(getUserSummary().findElement(By.xpath("./div[@role='radiogroup']")).isDisplayed()).as("Star ratings are displayed for user").isTrue();
+        // Verify the contents of an individual rating are present
+        softly().assertThat(getSingleRating().findElement(By.xpath("./div[@role='radiogroup']")).isDisplayed()).as("Star ratings are displayed for visit").isTrue();
+        softly().assertThat(getSingleRating().findElement(By.className("_3HkfzGwe9DUTIza-b_pTkn")).isDisplayed()).as("Area of excellence/improvement icon").isTrue();
+        softly().assertThat(getSingleRating().findElement(By.xpath("./strong/span/span[text()='stars']")).isDisplayed()).as("Textual star rating").isTrue();
     }
 
     private ArrayList sortByLastName(ArrayList<String> al) {
@@ -531,4 +588,19 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         }
     }
 
+    private WebElement visitFeedBackLeftPanel() {
+        return getDriver().findElement(By.xpath("//nav[@class='ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu']"));
+    }
+
+    private WebElement visitFeedBackHEUserLeftPanel() {
+        return visitFeedBackLeftPanel().findElement(By.xpath("(.//i[@class='star disabled icon azDd81vj4qd4ERFjicrCo']) [2]"));
+    }
+
+    private WebElement visitFeedSectionOne() {
+        return getDriver().findElement(By.xpath("(//div[@class='twelve wide column _2TegQ4j_MCOlAM0RjDSzhW'])"));
+    }
+
+    private WebElement getRatingDetails() { return getDriver().findElement(By.className("rating-details")); }
+    private WebElement getUserSummary() { return getDriver().findElement(By.xpath("//div[contains(@class,'user-summary')]")); }
+    private WebElement getSingleRating() { return getParent(getDriver().findElement(By.xpath("//span[text()='submitted visit feedback of']")));}
 }
