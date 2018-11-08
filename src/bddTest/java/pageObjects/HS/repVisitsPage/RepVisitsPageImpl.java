@@ -7239,7 +7239,8 @@ public void cancelRgisteredCollegeFair(String fairName){
         declineButton().click();
         waitUntilPageFinishLoading();
         Assert.assertTrue("Close button is not displayed",close().isDisplayed());
-        close().click();
+        waitUntilElementExists(closeButton());
+        closeButton();
         waitUntilPageFinishLoading();
     }
 
