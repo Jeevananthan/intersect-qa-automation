@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -115,8 +116,13 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyNumberOfAssignedEvents(String filterName, String numberOfAssignedEvents) {
-        waitUntilPageFinishLoading();
         waitUntilElementExists(getDriver().findElement(By.xpath("//h1/span[text()='Filters']")));
+        try {
+            numberOfAssignedEvents(filterName).isDisplayed();
+        } catch (NoSuchElementException f) {
+            driver.get(driver.getCurrentUrl());
+            waitUntilPageFinishLoading();
+        }
         Assert.assertTrue("The displayed number does not match the number of events the filter " + filterName + " is assigned to",
                 numberOfAssignedEvents(filterName).getText().equals(numberOfAssignedEvents));
     }
