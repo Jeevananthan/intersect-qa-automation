@@ -6681,8 +6681,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         calendar().click();
 
         //Verification in RV side
-        waitUntil(ExpectedConditions.visibilityOf(currentMonthInCalendarPage()));
-        Assert.assertTrue("College was not found in RV ",getDriver().getPageSource().contains(college));
+        verifyAppointmentInCalendar(college,startTime,date,"Scheduled");
 
         //Verification in Naviance side
         load(GetProperties.get("naviance.visits.url"));
@@ -7880,6 +7879,60 @@ public void cancelRgisteredCollegeFair(String fairName){
         generatedDate = dateButtonText().getText().split(",")[1].trim().split(" ")[0];
         findRepresentativeTextBox().sendKeys(Keys.PAGE_DOWN);
         scheduleVisitAddVisitButton().click();
+    }
+
+    private void verifyAppointmentInCalendar(String university,String time,String date,String option){
+        String startTime = "";
+        if(option.equals("Scheduled")) {
+            startTime = getVisitStartTimeInCalendar();
+        }else if(option.equals("ReScheduled")){
+            startTime = getRescheduledVisitStartTimeInCalendar();
+        }
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@title='Day']"),1));
+        collegeFairTextBoxInCalendarPage().click();
+        pendingCheckBoxInCalendarPage().click();
+        String month = month(date);
+        String currentMonth = currentMonthInCalendarPage().getText();
+        String selectMonth[] = currentMonth.split(" ");
+        String Month = selectMonth[0];
+        while (!month.equals(Month)) {
+            nextMonthButton().click();
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@title='Day']"),1));
+            currentMonth = currentMonthInCalendarPage().getText();
+            selectMonth = currentMonth.split(" ");
+            Month = selectMonth[0];
+        }
+        if (calendarAppointments(startTime,university).size() == 1) {
+            verifyAppointmentInCalendar(startTime, university);
+        } else if (calendarAppointments(startTime,university).size() == 0) {
+            int appointment = getAppointmentFromCalendar(startTime, university);
+            if (appointment == 0) {
+                startTime = getCalendarStartTime();
+                if (calendarAppointments(startTime,university).size() == 1) {
+                    verifyAppointmentInCalendar(startTime, university);
+                } else if (calendarAppointments(startTime,university).size() == 0) {
+                    appointment = getAppointmentFromCalendar(startTime, university);
+                    if(appointment==1){
+                        verifyAppointmentInCalendar(startTime, university);
+                    }else {
+                        Assert.fail("Appointment is not displayed");
+                    }
+                }
+            }else if(appointment == 1){
+                verifyAppointmentInCalendar(startTime, university);
+            }
+        }else {
+            Assert.fail("Appointment is not displayed");
+        }
+    }
+
+    public void verifyAppointmentInCalendar(String startTime,String university){
+        Assert.assertTrue("Appointment is not displayed", calendarAppointment(startTime,university).isDisplayed());
     }
 
     // Locators

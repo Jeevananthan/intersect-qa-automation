@@ -51,7 +51,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     And HS I verify the reschedule in Naviance with "PurpleHE Automation","The University of Alabama","11:51 AM"
 
     #Cancel visit and verifications
-    Then HS I verify and select an appointment in calendar page using "Bowling Green State University-Main Campus","11:30am","21","ReScheduled"
+    Then HS I verify and select an appointment in calendar page using "The University of Alabama","11:30am","21","ReScheduled"
     Then HS I remove the appointment from the calendar
     And HS I verify the cancel in Naviance with "PurpleHE Automation","The University of Alabama","11:51 AM"
 
