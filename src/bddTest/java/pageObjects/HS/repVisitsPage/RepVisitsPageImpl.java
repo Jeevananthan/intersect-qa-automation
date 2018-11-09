@@ -416,6 +416,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilitySettings().click();
         waitUntilElementExists(saveChangesAvailability());
         visitConfirmation(option).click();
+        waitUntilPageFinishLoading();
         saveChangesAvailability().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));

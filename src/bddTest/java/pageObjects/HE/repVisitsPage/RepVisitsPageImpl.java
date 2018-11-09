@@ -478,7 +478,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectAllRepVisitsUser(String option){
-        getDriver().findElement(By.xpath("//ul[@class='ui pointing secondary fourth menu']//a/span[text()='Availability Settings']")).click();
+        getDriver().findElement(By.xpath("//ul[@class='ui pointing secondary fourth menu']//h2/span[text()='Availability Settings']")).click();
         waitUntilElementExists(saveChanges());
         getDriver().findElement(By.xpath("//label[text()='"+option+"']")).click();
         button("Save Changes").click();
@@ -868,9 +868,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
    public void verifyUpgradeMessageInContactspage()
    {
-       getNavigationBar().goToRepVisits();
-       waitUntilElementExists(getContactsBtn());
-       getContactsBtn().click();
+       navigateToRepVisitsSection("Contacts");
        waitUntilPageFinishLoading();
        Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
        Assert.assertTrue(getUpgradeButton().isDisplayed());
@@ -1049,7 +1047,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Month view is not displayed",getDriver().findElement(By.cssSelector("div[class='rbc-month-view']")).isDisplayed());
 
         // Appointments are clickable
-        getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
+        getDriver().findElement(By.cssSelector("div[class='rbc-event']")).click();
         waitForUITransition();
         Assert.assertTrue("The Wizard contains the appointment details are not displayed",getDriver().findElement(By.cssSelector("div[class='ui overlay right very wide visible sidebar _1bTs4IjZQSsADQ671qHLL3']")).isDisplayed());
         getDriver().findElement(By.xpath("//button[@aria-label='Close']")).click();
@@ -1058,7 +1056,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Visits
         Assert.assertTrue(" visit confirmed option is not displayed",text("Visits - Confirmed").isDisplayed());
         Assert.assertTrue("Visit confirmed Checkbox is not displayed",getDriver().findElement(By.xpath("//input[@id='visit' and @type='checkbox']/following::label")).isDisplayed());
-        String visitColor = "rgba(0, 0, 0, 0.87)";
+        String visitColor = "rgba(0, 0, 0, 1)";
         String actualVisitColor = getDriver().findElement(By.xpath("//input[@id='visit']")).getCssValue("color");
         Assert.assertTrue("Background Color for the Visit checkbox are not displayed",actualVisitColor.equals(visitColor));
         getDriver().findElement(By.xpath("//input[@id='visit']/following::label")).click();
@@ -1066,7 +1064,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Fairs
         Assert.assertTrue(" Fair confirmed option is not displayed",text("College Fair - Confirmed").isDisplayed());
         Assert.assertTrue("Fair confirmed Checkbox is not displayed",getDriver().findElement(By.xpath("//input[@id='fair'and @type='checkbox']/following::label")).isDisplayed());
-        String fairColor = "rgba(0, 0, 0, 0.87)";
+        String fairColor = "rgba(0, 0, 0, 1)";
         String actualFairColor = getDriver().findElement(By.xpath("//input[@id='fair']")).getCssValue("color");
         Assert.assertTrue("Background Color for the fair checkbox are not displayed",actualFairColor.equals(fairColor));
         getDriver().findElement(By.xpath("//input[@id='fair']/following::label")).click();
@@ -1074,7 +1072,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Pending
         Assert.assertTrue("Pending option is not displayed",text("Pending").isDisplayed());
         Assert.assertTrue("Pending Checkbox is not displayed",getDriver().findElement(By.xpath("//input[@id='pending'and @type='checkbox']/following::label")).isDisplayed());
-        String pendingColor = "rgba(0, 0, 0, 0.87)";
+        String pendingColor = "rgba(0, 0, 0, 1)";
         String actualPendingColor = getDriver().findElement(By.xpath("//input[@id='pending']")).getCssValue("color");
         getDriver().findElement(By.xpath("//input[@id='pending']/following::label")).click();
         Assert.assertTrue("Background Color for the Pending checkbox are not displayed",actualPendingColor.equals(pendingColor));
@@ -1223,12 +1221,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyScheduleHeadingOverAvailabilityBlockInSearchAndSchedule(){
         waitUntilPageFinishLoading();
         waitForUITransition();
-        Assert.assertTrue("Schedule text is not over the Availability block",getDriver().findElement(By.xpath("//div/span[text()='Visits']/ancestor::div/preceding-sibling::h1/span[text()='Schedule']")).isDisplayed());
+        Assert.assertTrue("Schedule text is not over the Availability block",getDriver().findElement(By.xpath("//div/span[text()='Visits']/ancestor::div/preceding-sibling::h2/span[text()='Schedule']")).isDisplayed());
     }
 
     public void verifyCalendarIconNextToDateInSearchAndSchedule(){
         Assert.assertTrue("Go To Date button is not displayed",getDriver().findElement(By.xpath("//button[text()='Go To Date']")).isDisplayed());
-        Assert.assertTrue("Calendar icon is not present next to date",getDriver().findElement(By.xpath("//button[text()='Go To Date']/ancestor::div/button/i[@class='calendar icon']")).isDisplayed());
+        Assert.assertTrue("Calendar icon is not present next to date",getDriver().findElement(By.xpath("//button[text()='Go To Date']/ancestor::div/button/i[@class='calendar outline icon']")).isDisplayed());
     }
 
     public void verifyDateAndCalenderIconOverAvailabilityTable(){
@@ -1872,14 +1870,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String state = addressdetails[1];
         String county = addressdetails[2];
         String zip = addressdetails[3];
-        List<WebElement> countOfHighSchoolInSameState = getDriver().findElements(By.xpath("//span[text()='"+stateName+"']/parent::div/span"));
+        List<WebElement> countOfHighSchoolInSameState = getDriver().findElements(By.xpath("//h2[text()='"+stateName+"']"));
         Assert.assertTrue("HighSchool count is not displayed",countOfHighSchoolInSameState.size()==1);
         Assert.assertTrue("HighSchool avatar image is not displayed",getDriver().findElement(By.xpath("//div/img[@class='ui centered image yUiNH8XB_uHGXhISF0aaL']")).isDisplayed());
-        Assert.assertTrue("School is not displayed",getDriver().findElement(By.xpath("//div[text()='"+school+"']")).isDisplayed());
+        Assert.assertTrue("School is not displayed",getDriver().findElement(By.xpath("//h3[text()='"+school+"']")).isDisplayed());
         Assert.assertTrue("Address is not displayed",getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+","+county+","+zip+"']")).isDisplayed());
-        Assert.assertTrue("CollegeGoingRate is not displayed",getDriver().findElement(By.xpath("//div[text()='"+collegeGoingRate+"']")).isDisplayed());
-        Assert.assertTrue("Senior class size is not displayed",getDriver().findElement(By.xpath("//div[text()='"+seniorclassSize+"']")).isDisplayed());
-        Assert.assertTrue("primary Poc is not displayed",getDriver().findElement(By.xpath("//div[text()='"+primaryPoc+"']")).isDisplayed());
+        Assert.assertTrue("CollegeGoingRate is not displayed",getDriver().findElement(By.xpath("//h3[text()='" + school + "']/../../..//*[text() = '" + collegeGoingRate +"']/../../div")).isDisplayed());
+        Assert.assertTrue("Senior class size is not displayed",getDriver().findElement(By.xpath("//h3[text()='" + school + "']/../../..//*[text() = '" + seniorclassSize + "']/../../div")).isDisplayed());
+        Assert.assertTrue("primary Poc is not displayed",getDriver().findElement(By.xpath("//h3[text()='" + school + "']/../../..//*[text() = '" + primaryPoc + "']/../../div")).isDisplayed());
     }
 
     public void verifyLinkInTravelPlanPage(){
