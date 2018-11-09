@@ -57,7 +57,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
 
   @MATCH-1771
-  Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled
+  Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled (MATCH-5473)
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I create a College Fair with the following data
       | College Fair Name                                         | Fair-MATCH1771          |

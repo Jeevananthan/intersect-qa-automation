@@ -262,7 +262,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         if (availabilityData.get(key).contains("Yes, accept all incoming requests.")){
                             Assert.assertTrue("Confirmation option is not set as expected",driver.findElement(By.cssSelector("[id=autoConfirmVisit-yes]")).isSelected());
                         } else if (availabilityData.get(key).contains("No, I want to manually review all incoming requests.")) {
-                            Assert.assertFalse("Confirmation option is not set as expected", driver.findElement(By.cssSelector("[id=autoConfirmVisit-no]")).isSelected());
+                            Assert.assertTrue("Confirmation option is not set as expected", driver.findElement(By.cssSelector("[id=autoConfirmVisit-no]")).isSelected());
                         } else {
                             Assert.fail("\"" + availabilityData.get(key) + "\" is not a valid input for visit request confirmations.");
                         }
@@ -4705,7 +4705,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement autoApprovalYesRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-yes")); }
     private WebElement autoApprovalNoRadButton() { return getDriver().findElement(By.cssSelector("#college-fair-automatic-request-confirmation-no")); }
     private WebElement saveButton() { return getDriver().findElement(By.xpath("//span[text()='Save']")); }
-    private WebElement cancelFairNoAutoApprovals() { return driver.findElement(By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ span")); }
+    private WebElement cancelFairNoAutoApprovals() { return driver.findElement(By.cssSelector("button.ui.primary.right.floated.button span")); }
     private WebElement availabilityAndSettingsButton() { return getDriver().findElement(By.partialLinkText("Availability & Settings")); }
     private WebElement innerExceptionsButton() { return getDriver().findElement(By.cssSelector("ul.ui.pointing.secondary.fourth.menu li:nth-of-type(3) a")); }
     private WebElement chooseADateButton() { return getDriver().findElement(By.cssSelector("button.ui.small.button i")); }
