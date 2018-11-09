@@ -262,7 +262,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                         if (availabilityData.get(key).contains("Yes, accept all incoming requests.")){
                             Assert.assertTrue("Confirmation option is not set as expected",driver.findElement(By.cssSelector("[id=autoConfirmVisit-yes]")).isSelected());
                         } else if (availabilityData.get(key).contains("No, I want to manually review all incoming requests.")) {
-                            Assert.assertFalse("Confirmation option is not set as expected", driver.findElement(By.cssSelector("[id=autoConfirmVisit-no]")).isSelected());
+                            Assert.assertTrue("Confirmation option is not set as expected", driver.findElement(By.cssSelector("[id=autoConfirmVisit-no]")).isSelected());
                         } else {
                             Assert.fail("\"" + availabilityData.get(key) + "\" is not a valid input for visit request confirmations.");
                         }
