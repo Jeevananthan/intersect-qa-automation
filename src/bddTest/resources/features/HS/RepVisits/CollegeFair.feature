@@ -108,7 +108,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HS I successfully sign out
 
 
-  @MATCH-1631 @MATCH-1463 @ignore
+  @MATCH-1631 @MATCH-1463
   Scenario Outline: As a high school community member, I want to be able to view a list colleges that have requested to attend my college fair,
   so I can keep track of who is attending.
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
@@ -189,7 +189,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 
   @MATCH-2382
   Scenario: As a HS user, I should see a green confirmation message when I save College Fair settings
-    Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to the College Fair Settings page
     Then HS I click on the Save Settings button in College Fairs tab
     Then HS I verify that a banner appears letting me know that College Fair settings were saved
@@ -200,7 +200,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   I want to be able to re-add that attendee to the fair
   So that I can optimize fair attendance.
 #create fair
-    Given HS I am logged in to Intersect HS through Naviance with account "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
 #add attendee
     Then HS I add the following attendees to the College Fair
@@ -215,7 +215,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #decline attendee
-    Given HS I am logged in to Intersect HS through Naviance with account "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
     Then HS I select "DECLINE" option for "<College Fair Name>"
@@ -226,7 +226,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #confirm attendee
-    Given HS I am logged in to Intersect HS through Naviance with account "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
     Then HS I select "CONFIRM" option for "<College Fair Name>"
@@ -237,7 +237,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
       |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Standalone High School 2|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
 
-  @MATCH-2080 @MATCH-2217 @ignore
+  @MATCH-2080 @MATCH-2217
   Scenario: As a HS RepVisits user,
   I need to be able to access all college fairs from the dashboard
   So i know what's upcoming and can see previous fairs' data.
