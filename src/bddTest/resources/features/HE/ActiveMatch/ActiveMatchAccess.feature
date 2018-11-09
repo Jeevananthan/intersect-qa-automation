@@ -3,8 +3,13 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active 
 
   @MATCH-3010
   Scenario: Active Match section is displayed for Admin users in Intersect HE (MATCH-3109)
-    Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the "ActiveMatch" nav link is displaying for this user
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Connection" module to "inactive" in the institution page
+    And SP I set the "ActiveMatch Plus" module to "active" in the institution page
+    And SP I Click the Save Changes button
+    When HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the "Connection" nav link is displaying for this user
     And HE I open the Active Match section
 
   @MATCH-3010

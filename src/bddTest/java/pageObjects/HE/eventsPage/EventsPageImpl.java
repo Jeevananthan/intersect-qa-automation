@@ -1,13 +1,10 @@
 package pageObjects.HE.eventsPage;
 
-import com.thoughtworks.selenium.webdriven.commands.WaitForPageToLoad;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.homePage.HomePageImpl;
@@ -89,7 +86,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void deleteEvent(String eventName) {
         waitUntilPageFinishLoading();
-        getEventsTab("Unpublished").click();
+        getEventsInternalTab("Unpublished").click();
         waitUntilPageFinishLoading();
         menuButtonForEvent(eventName).click();
         waitUntilPageFinishLoading();
@@ -351,18 +348,17 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void unpublishEvent(String eventName) {
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Published")));
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Published")));
         if (driver.findElements(By.cssSelector("input#name")).size() == 1) {
             eventsTabFromEditEventScreen().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='CREATE EVENT']"), 1));
         }
         homePage.openEventList();
         try {
-            getEventsTab("Published").click();
+            getEventsInternalTab("Published").click();
         } catch(WebDriverException e) {
-            //navianceCollegeProfilePage.welcomeTitle().click();
             getNavigationBar().goToHome();
-            getEventsTab("Published").click();
+            getEventsInternalTab("Published").click();
         }
         for(int i=0; i<6;i++) {
             try {
@@ -424,10 +420,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
         Calendar date = Calendar.getInstance();
         createEventButton().click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOf(eventStartCalendarButton()));
         eventStartCalendarButton().click();
-        waitForUITransition();
-        pickDateInDatePicker(date);
+        try {
+            pickDateInDatePicker(date);
+        } catch (NoSuchElementException e) {
+            eventStartCalendarButton().click();
+            pickDateInDatePicker(date);
+        }
         eventStartTimeField().sendKeys(getTime(generatedTime).replace(" ", ""));
     }
 
@@ -603,7 +603,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void openEventsTab(String tabName) {
         waitUntilPageFinishLoading();
-        getEventsTab(tabName).click();
+        getEventsInternalTab(tabName).click();
     }
 
     private void selectContactByName(String contactName) {
@@ -679,7 +679,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 //    private WebElement statusDraft(){return  driver.findElement(By.cssSelector(""))};
     private WebElement eventsTitle() { return driver.findElement(By.xpath("//span[text()='Events']")); }
     private WebElement eventNameField() { return driver.findElement(By.cssSelector("input#name")); }
-    private WebElement eventStartCalendarButton() { return driver.findElement(By.cssSelector("div.seven.wide.column button[title='Event Date']")); }
+    private WebElement eventStartCalendarButton() { return driver.findElement(By.cssSelector("div#content.ui div.row:nth-of-type(3) button.ui.basic.button")); }
     private WebElement eventStartTimeField() { return driver.findElement(By.cssSelector("input#startTime")); }
     private WebElement timeZoneDropdown() { return driver.findElement(By.cssSelector("div[aria-live='polite']")); }
     private WebElement timeZoneText() { return driver.findElement(By.cssSelector("input.search + div")); }
@@ -705,7 +705,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
     private WebElement getEventsTab(String tabName) {
-        return driver.findElement(By.xpath("//h2[contains(text(), '" + tabName + "')]"));
+        return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]"));
     }
     private WebElement getTimeZoneOption(String optionName) {
         return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _22IjfAfN4Zs4CnM4Q_AlWZ']" +
@@ -764,7 +764,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement noAttendeesMessage() { return driver.findElement(By.xpath("//div[@class[contains(.,'_22IjfAfN4Zs4CnM4Q_AlWZ')]]")); }
     private String noAttendeesMessageString = "There are no attendees currently registered for this event.";
-    private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("ul.ui.huge.pointing.secondary.stackable + div h1")); }
+    private WebElement notAuthorizedErrorMessage() { return driver.findElement(By.cssSelector("#content > div > h1")); }
     private String expectedNotAuthorizedErrorText = "You are not authorized to view the content on this page";
     private String eventsListLocator(String eventName) { return "//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/a[text()='" + eventName + "']"; }
     private WebElement eventStatus(String eventName) { return driver.findElement(By.xpath("//a/h3[text()='"+eventName+"']/../../../../div[@class[contains(.,'two')]]/div")); }
@@ -776,5 +776,5 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement attendeeDataLastName(String lastName){return  driver.findElement(By.xpath("//Div[text()='" + lastName + "']"));}
     private WebElement attendeeDataEmail(String Email){return driver.findElement(By.xpath("//Div[text()='" + Email + "']"));}
     private WebElement attendeeDataStatus(String Status){return driver.findElement(By.xpath("//Div[text()='" + Status + "']"));}
-    private WebElement editEventBarTab(String tabName) { return  driver.findElement(By.xpath("//h2[text() = '" + tabName + "']")); }
+    private WebElement getEventsInternalTab(String tabName) { return  driver.findElement(By.xpath("//h2[contains(text(), '" + tabName + "')]")); }
 }

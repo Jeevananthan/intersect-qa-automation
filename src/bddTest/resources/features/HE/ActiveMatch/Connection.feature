@@ -3,6 +3,9 @@ Feature: As an HE user, I need to understand my Connection and Advansed Awarenes
 
   @MATCH-4427 @MATCH-4397
   Scenario Outline:As an HE user, I need to understand my subscriptions that have been provisioned so that I can configure or manage that subscription effectively
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Connection" module to "active" in the institution page
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "<URL>" url
     Then I check if I can see "Understanding Your Subscriptions" on the page
