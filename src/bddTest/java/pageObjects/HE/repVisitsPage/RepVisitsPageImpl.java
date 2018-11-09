@@ -485,6 +485,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickRegistrationButton(String fairName) {
+        waitUntilPageFinishLoading();
         if(fairName.equalsIgnoreCase("PreviouslySetFair")){
             fairName = FairName;
         }
@@ -504,12 +505,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String startDate = getStartEndTimeAndTimeZone().getText().split("-")[0];
         String endDate = getStartEndTimeAndTimeZone().getText().split("-")[1].split(" ")[0];
         String timeZone = getStartEndTimeAndTimeZone().getText().split("-")[1].split(" ")[1];
-        Assert.assertTrue("The Start time does not have a correct format: " + startDate, startDate.matches("([0-9]):([0-9])?([0-9])([ap])([m])"));
-        Assert.assertTrue("The End time does not have a correct format: " + endDate, endDate.matches("([0-9]):([0-9])?([0-9])([ap])([m])"));
-        Assert.assertTrue("The time zone does not have a correct format: " + timeZone, timeZone.matches("([ABCDEFGHIJKLMNOPQRSTUVWXYZ])([ABCDEFGHIJKLMNOPQRSTUVWXYZ])([ABCDEFGHIJKLMNOPQRSTUVWXYZ])"));
-        Assert.assertTrue("The High School name is not displayed", requestText().getText().contains(highSchoolName));
-        Assert.assertTrue("The confirmation button's text is not correct: " + submitRequestButton().getText(), submitRequestButton().getText().equals("YES, SUBMIT REQUEST"));
-        Assert.assertTrue("The cancel button's text is not correct", cancelButton().getText().equals("CANCEL"));
+        softly().assertThat(startDate).as("The Start time does not have a correct format: " + startDate).matches("([0-9]):([0-9])?([0-9])([ap])([m])");
+        softly().assertThat(endDate).as("The End time does not have a correct format: " + endDate).matches("([0-9]):([0-9])?([0-9])([ap])([m])");
+        softly().assertThat(timeZone).as("The time zone does not have a correct format: " + timeZone).matches("([ABCDEFGHIJKLMNOPQRSTUVWXYZ])([ABCDEFGHIJKLMNOPQRSTUVWXYZ])([ABCDEFGHIJKLMNOPQRSTUVWXYZ])");
+        softly().assertThat(requestText().getText()).as("The High School name is not displayed").contains(highSchoolName);
+        softly().assertThat(submitRequestButton().getText()).as("The confirmation button's text is not correct: " + submitRequestButton().getText()).isEqualToIgnoringCase("Yes, Submit Request");
+        softly().assertThat(cancelButton().getText()).as("The cancel button's text is not correct").isEqualToIgnoringCase("cancel");
     }
 
     public void closeFairRequestPopup() {
@@ -517,6 +518,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickFairsTab() {
+        waitUntilPageFinishLoading();
         fairsTab().click();
         waitUntilPageFinishLoading();
     }
@@ -617,7 +619,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 result = true;
             }
         }
-        Assert.assertTrue("The fair is not displayed in the Quick View", result);
+        softly().assertThat(result).as("The fair is not displayed in the Quick View").isTrue();
     }
 
     public void pressMiniCalendarArrowUntil(String direction, String month, int tries) {
@@ -3526,11 +3528,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getStartEndTimeAndTimeZone() { return getDriver().findElement(By.xpath("//div[@class='dJgg9PNwgMdtXUrtb_czW content']/div/b[text()]")); }
     private WebElement requestText() { return getDriver().findElement(By.cssSelector("div.ui.modal.transition.visible.active div.content div")); }
     private WebElement submitRequestButton() { return getDriver().findElement(By.xpath("//button[text()='Yes, Submit Request']")); }
-    private WebElement cancelButton() { return getDriver().findElement(By.cssSelector("div.actions button.ui.teal.basic.button")); }
-    private WebElement fairsTab() { return getDriver().findElement(By.cssSelector("div.right.button")); }
+    private WebElement cancelButton() { return getDriver().findElement(By.cssSelector("div.actions button.ui.button:not(.primary)")); }
+    private WebElement fairsTab() { return getDriver().findElement(By.cssSelector("div.ui.fluid.buttons button:nth-of-type(2)")); }
     private WebElement upperMessage() { return getDriver().findElement(By.cssSelector("span.LkKQEXqh0w8bxd1kyg0Mq + span")); }
     private WebElement rightCalendarRightButton() { return getDriver().findElement(By.cssSelector("button._2UEGkUTszONN0hK0CeHMm0")); }
-    private WebElement rightCalendarHeaderDate() { return getDriver().findElement(By.cssSelector("h2[class='ui medium header _1ucD2vjQuS9iWHF9uzN__M']")); }
+    private WebElement rightCalendarHeaderDate() { return getDriver().findElement(By.cssSelector("h2.ui.medium.header")); }
     private WebElement rightCalendarLeftButton() { return getDriver().findElement(By.cssSelector("button[title=\"Backwards\"]")); }
     private WebElement getDateCell(String day, String time, int row) { return getDriver().findElement(By.xpath("//h3/a[text()='" + day + "']/../../../following-sibling::div[" + row + "]/div/div[@class='rbc-event']/div/button/h4/span[text()='" + time + "']")); }
     private List<WebElement> quickViewCalendarHeaderDates() { return getDriver().findElements(By.cssSelector("h1.ui.header + div span span span")); }
