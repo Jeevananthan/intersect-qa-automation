@@ -1358,6 +1358,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         editFairButton().click();
         waitUntil(ExpectedConditions.visibilityOf(cancelThisCollegeFair()));
         cancelThisCollegeFair().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsCancelButton()));
         if (driver.findElements(By.id(cancelMessageTextBoxLocator())).size() > 0) {
             driver.findElement(By.id(cancelMessageTextBoxLocator())).sendKeys(cancelationReason);
             cancelFairButton().click();
@@ -5051,10 +5052,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
         }
         //Verify UI
-        Assert.assertTrue("'Settings' button is not displayed",driver.findElement(By.xpath("//a/span[text()='SETTINGS']")).isDisplayed());
-        Assert.assertTrue("'Add a College Fair' button is not displayed",driver.findElement(By.cssSelector("button[id='add-college']")).isDisplayed());
-        Assert.assertTrue("'Upcoming Events' Heading ",driver.findElement(By.xpath("//div/span[text()='Upcoming Events']")).isDisplayed());
-        Assert.assertTrue("'Past Events' Heading",driver.findElement(By.xpath("//div/span[text()='PAST EVENTS']")).isDisplayed());
+        Assert.assertTrue("'Settings' button is not displayed",fairsSettingsButton().isDisplayed());
+        Assert.assertTrue("'Add a College Fair' button is not displayed",addCollegeFairButton().isDisplayed());
+        Assert.assertTrue("'Upcoming Events' Heading ",upcomingEventsHeading().isDisplayed());
+        Assert.assertTrue("'Past Events' Heading",pastEventsHeading().isDisplayed());
 
         //Verify the Headers of the table
         List<String> columns = new ArrayList<>();
@@ -5065,7 +5066,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         columns.add("Time");
 
         for (String column : columns) {
-            Assert.assertTrue("column Name " + column + " is not displaying as expected!", driver.findElement(By.xpath("//table[@class='ui unstackable table']//thead/tr//th/span[text()='"+column+"']")).isDisplayed());
+            Assert.assertTrue("column Name " + column + " is not displaying as expected!", getDriver().findElement(By.xpath("//table[@class='ui unstackable table']//thead/tr//th/span[text()='"+column+"']")).isDisplayed());
         }
         fairName = FairName;
 
@@ -5684,6 +5685,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         boolean verifyLink = false;
 
         try {
+            waitForUITransition();
             verifyLink = getDriver().findElement(By.xpath("//span[text()='View More Past Events']")).isDisplayed();
         }catch(NoSuchElementException e){
             verifyLink  = false;
@@ -5693,7 +5695,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             List<WebElement> viewPastEvent = getDriver().findElements(By.xpath("//span[text()='View More Past Events']"));
             while (viewPastEvent.size()>0) {
                 viewMorePastEventsLink().click();
-                waitUntilPageFinishLoading();
+                waitForUITransition();
                 viewPastEvent = getDriver().findElements(By.xpath("//span[text()='View More Past Events']"));
             }
         }
@@ -6804,6 +6806,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         collegeFairsSettings().click();
         waitUntilPageFinishLoading();
         try {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("textarea[id='notification_fairs_additional_emails']")));
             Assert.assertTrue("Notification Area for Non Community Does not exist.", getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).isDisplayed());
             getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).clear();
             getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).sendKeys(incorrectEmail);
@@ -9639,5 +9642,15 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement selectShowMoreButton(int firstIndex,int secondIndex) {return getDriver().findElement(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+firstIndex+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div:nth-of-type("+secondIndex+")>a"));}
 
     private WebElement calendarAppointment(String startTime,String institution){return getDriver().findElement(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + institution + "']"));}
+
+    private By fairsCancelButton(){ return By.cssSelector("button.ui.primary.right.floated.button._4kmwcVf4F-UxKXuNptRFQ span"); }
+
+    private WebElement fairsSettingsButton(){return getDriver().findElement(By.xpath("//a/span[text()='SETTINGS']"));}
+
+    private WebElement addCollegeFairButton(){return getDriver().findElement(By.cssSelector("button[id='add-college']"));}
+
+    private WebElement upcomingEventsHeading(){return getDriver().findElement(By.xpath("//div//span[text()='Upcoming Events']"));}
+
+    private WebElement pastEventsHeading(){return getDriver().findElement(By.xpath("//div//span[text()='Past Events']"));}
 
 }
