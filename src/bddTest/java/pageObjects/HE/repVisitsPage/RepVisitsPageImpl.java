@@ -1047,7 +1047,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Month view is not displayed",getDriver().findElement(By.cssSelector("div[class='rbc-month-view']")).isDisplayed());
 
         // Appointments are clickable
-        getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).click();
+        getDriver().findElement(By.cssSelector("div[class='rbc-event']")).click();
         waitForUITransition();
         Assert.assertTrue("The Wizard contains the appointment details are not displayed",getDriver().findElement(By.cssSelector("div[class='ui overlay right very wide visible sidebar _1bTs4IjZQSsADQ671qHLL3']")).isDisplayed());
         getDriver().findElement(By.xpath("//button[@aria-label='Close']")).click();
@@ -1056,7 +1056,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Visits
         Assert.assertTrue(" visit confirmed option is not displayed",text("Visits - Confirmed").isDisplayed());
         Assert.assertTrue("Visit confirmed Checkbox is not displayed",getDriver().findElement(By.xpath("//input[@id='visit' and @type='checkbox']/following::label")).isDisplayed());
-        String visitColor = "rgba(0, 0, 0, 0.87)";
+        String visitColor = "rgba(0, 0, 0, 1)";
         String actualVisitColor = getDriver().findElement(By.xpath("//input[@id='visit']")).getCssValue("color");
         Assert.assertTrue("Background Color for the Visit checkbox are not displayed",actualVisitColor.equals(visitColor));
         getDriver().findElement(By.xpath("//input[@id='visit']/following::label")).click();
@@ -1064,7 +1064,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Fairs
         Assert.assertTrue(" Fair confirmed option is not displayed",text("College Fair - Confirmed").isDisplayed());
         Assert.assertTrue("Fair confirmed Checkbox is not displayed",getDriver().findElement(By.xpath("//input[@id='fair'and @type='checkbox']/following::label")).isDisplayed());
-        String fairColor = "rgba(0, 0, 0, 0.87)";
+        String fairColor = "rgba(0, 0, 0, 1)";
         String actualFairColor = getDriver().findElement(By.xpath("//input[@id='fair']")).getCssValue("color");
         Assert.assertTrue("Background Color for the fair checkbox are not displayed",actualFairColor.equals(fairColor));
         getDriver().findElement(By.xpath("//input[@id='fair']/following::label")).click();
@@ -1072,7 +1072,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //Pending
         Assert.assertTrue("Pending option is not displayed",text("Pending").isDisplayed());
         Assert.assertTrue("Pending Checkbox is not displayed",getDriver().findElement(By.xpath("//input[@id='pending'and @type='checkbox']/following::label")).isDisplayed());
-        String pendingColor = "rgba(0, 0, 0, 0.87)";
+        String pendingColor = "rgba(0, 0, 0, 1)";
         String actualPendingColor = getDriver().findElement(By.xpath("//input[@id='pending']")).getCssValue("color");
         getDriver().findElement(By.xpath("//input[@id='pending']/following::label")).click();
         Assert.assertTrue("Background Color for the Pending checkbox are not displayed",actualPendingColor.equals(pendingColor));
