@@ -170,7 +170,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
       #| Date                | 10                                         |
       | Start time          | 7:04am                                      |
       | Contact phone       | 360-555-1212                                |
-      | Contact email       | purpletest                                  |
+      | Contact email       | purpletest0+hsus...@gmail.com               |
       | Address             | 6840 LAKOTA LN                              |
       | City                | Liberty Township                            |
       | State               | Ohio                                        |
