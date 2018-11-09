@@ -441,7 +441,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectHighSchoolFromResults(String schoolName) {
         waitUntilPageFinishLoading();
-        getDriver().findElement(By.xpath("//td/a[text()='"+schoolName+"']")).click();
+        getDriver().findElement(By.xpath("//td/h3/a[text()='"+schoolName+"']")).click();
         waitUntilPageFinishLoading();
     }
 
@@ -2528,7 +2528,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void openFairDetails(String date) {
         pressCalendarArrowUntil("right", date.split(",")[0], 10);
-        getDateCell(date.split(",")[1].split(" ")[1], date.split(",")[2], 1).click();
+        jsClick(getDateCell(date.split(",")[1].split(" ")[1], date.split(",")[2], 1));
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("h1.ui.header"), 1));
     }
 
@@ -3525,14 +3525,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getFairDate() { return getDriver().findElement(By.cssSelector("div.content span")); }
     private WebElement getStartEndTimeAndTimeZone() { return getDriver().findElement(By.xpath("//div[@class='dJgg9PNwgMdtXUrtb_czW content']/div/b[text()]")); }
     private WebElement requestText() { return getDriver().findElement(By.cssSelector("div.ui.modal.transition.visible.active div.content div")); }
-    private WebElement submitRequestButton() { return getDriver().findElement(By.cssSelector("button.ui.primary.button")); }
+    private WebElement submitRequestButton() { return getDriver().findElement(By.xpath("//button[text()='Yes, Submit Request']")); }
     private WebElement cancelButton() { return getDriver().findElement(By.cssSelector("div.actions button.ui.teal.basic.button")); }
     private WebElement fairsTab() { return getDriver().findElement(By.cssSelector("div.right.button")); }
     private WebElement upperMessage() { return getDriver().findElement(By.cssSelector("span.LkKQEXqh0w8bxd1kyg0Mq + span")); }
     private WebElement rightCalendarRightButton() { return getDriver().findElement(By.cssSelector("button._2UEGkUTszONN0hK0CeHMm0")); }
-    private WebElement rightCalendarHeaderDate() { return getDriver().findElement(By.cssSelector("div.ui.medium.header")); }
+    private WebElement rightCalendarHeaderDate() { return getDriver().findElement(By.cssSelector("h2[class='ui medium header _1ucD2vjQuS9iWHF9uzN__M']")); }
     private WebElement rightCalendarLeftButton() { return getDriver().findElement(By.cssSelector("button[title=\"Backwards\"]")); }
-    private WebElement getDateCell(String day, String time, int row) { return getDriver().findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='" + day + "']/../../following-sibling::div[" + row + "]/div/div[@class='rbc-event']/div/div/span[text()='" + time + "']")); }
+    private WebElement getDateCell(String day, String time, int row) { return getDriver().findElement(By.xpath("//h3/a[text()='" + day + "']/../../../following-sibling::div[" + row + "]/div/div[@class='rbc-event']/div/button/h4/span[text()='" + time + "']")); }
     private List<WebElement> quickViewCalendarHeaderDates() { return getDriver().findElements(By.cssSelector("h1.ui.header + div span span span")); }
     private WebElement quickViewRightButton() { return getDriver().findElement(By.cssSelector("button[aria-label=\"Next week\"]")); }
     private List<WebElement> quickViewEventsList() { return getDriver().findElements(By.cssSelector("ul.ui.huge.pointing.secondary + div div._2qvF1GJtxr-YZYY8wYagxl + div div.ui.stackable.grid")); }
@@ -3650,7 +3650,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return school;
     }
     private WebElement saveButton() {
-        WebElement button=driver.findElement(By.xpath("//button/span[text()='SAVE']"));
+        WebElement button=driver.findElement(By.xpath("//button/span[text()='Save']"));
         return button;
     }
     private WebElement yesButton() {

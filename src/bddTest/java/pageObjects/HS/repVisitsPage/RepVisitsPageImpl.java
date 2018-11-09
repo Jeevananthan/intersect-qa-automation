@@ -6077,9 +6077,9 @@ public void cancelRgisteredCollegeFair(String fairName){
                     break;
                 case "Auto Approvals":
                     if (row.get(1).equals("Yes")) {
-                        autoApprovalYesRadButton().click();
+                        jsClick(autoApprovalYesRadButton());
                     } else if (row.get(1).equals("No")) {
-                        autoApprovalNoRadButton().click();
+                        jsClick(autoApprovalNoRadButton());
                     }
             }
         }

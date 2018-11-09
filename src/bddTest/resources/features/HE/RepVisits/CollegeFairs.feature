@@ -186,10 +186,10 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
       | High School address | 6840 LAKOTA LN Liberty Township, OH 45044                       |
       | Contact name        | NidhuHS User                                                    |
       | Contact email       | purpletest0+hsuser1@gmail.com                                   |
-      | Contact phone       | 1234567890                                                      |
+      | Contact phone       | 555555555                                                       |
       | Start time          | 7:04 AM                                                         |
       | End time            | 8:00 AM                                                         |
-      | Time zone           | (EDT)                                                           |
+      | Time zone           | (EST)                                                           |
       | Cost                | 123                                                             |
       | Number of students  | 5                                                               |
       | Instructions        | Test instruction                                                |
