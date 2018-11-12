@@ -844,3 +844,25 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the college "Williams College" is "pinned" in the why drawer
     And SM I unpin "Williams College"
     And SM I verify the college "Williams College" is "unpinned" in the why drawer
+
+  @MATCH-4669
+  Scenario:when the 'Clear Pinned Schools' action is taken by the HS student when results are currently being displayed
+  , the blue/purple bar goes away but those schools remain at the top of the results even if their fit scores aren't the
+  highest.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Massachusetts      |
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1600 |
+      | ACT Composite   | 36   |
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I pin "Williams College" if it is not pinned already
+    And SM I search for "Bennett College" college in search bar
+    And SM I clear pinned schools list
+    And SM I verify that "Williams College" college is present in search results
+    And SM I verify that "Bennett College" college is not present in search results

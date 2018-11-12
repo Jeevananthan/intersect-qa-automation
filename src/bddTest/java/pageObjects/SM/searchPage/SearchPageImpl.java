@@ -2700,6 +2700,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyCollegeIsPresentInSearchResults(String collegeName) {
+        Assert.assertTrue("The college " + collegeName + " is not present in search results", resultsTable().getText().contains(collegeName));
+    }
+
+    public void verifyCollegeIsNotPresentInSearchResults(String collegeName) {
+        Assert.assertFalse("The college " + collegeName + " is present in search results", resultsTable().getText().contains(collegeName));
+    }
+
+    private WebElement resultsTable() {
+        return driver.findElement(By.xpath("(//table[contains(@class, 'csr-results-table')])[2]"));
+    }
+
     /**
      * Compare two values in the direction indicated -- used by verifyValueFromFooter(String, String)
      * @param current - current value

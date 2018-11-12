@@ -346,5 +346,9 @@ public class SearchPageStepDefs implements En {
         And("^SM I unpin the college \"([^\"]*)\" from the why drawer$", searchPage::unpinCollegeFromWhyDrawer);
 
         And("^SM I verify the college \"([^\"]*)\" is \"([^\"]*)\" in the why drawer$", searchPage::verifyCollegeIsPinnedORUnpinnedInWhyDrawer);
+
+        And("^SM I verify that \"([^\"]*)\" college is present in search results$", searchPage::verifyCollegeIsPresentInSearchResults);
+
+        And("^SM I verify that \"([^\"]*)\" college is not present in search results$", searchPage::verifyCollegeIsNotPresentInSearchResults);
     }
 }
