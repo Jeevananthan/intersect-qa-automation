@@ -107,8 +107,8 @@ public class GlobalSearch extends SeleniumBase {
     private void doSearch(String searchTerm) {
         waitUntilPageFinishLoading();
         getSearchBox().click();
-        getSearchBox().sendKeys(Keys.BACK_SPACE);
-        getSearchBox().sendKeys(Keys.BACK_SPACE);
+        getSearchBox().sendKeys(Keys.chord(Keys.CONTROL,"a"));
+        getSearchBox().sendKeys(Keys.DELETE);
         getSearchBox().clear();
         getSearchBox().sendKeys(searchTerm);
     }
