@@ -78,7 +78,6 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         saveFilterButton().click();
         waitUntilPageFinishLoading();
         if(driver.findElements(By.cssSelector(filterNameUniqueErrorMessageLocator)).size() > 0) {
-            logger.info("A filter with the same name already exists.");
             softly().assertThat(false).as("A filter with the same name already exists.");
             if (driver.findElements(By.cssSelector(createFilterCancelButtonLocator)).size() > 0) {
                 driver.findElement(By.cssSelector(createFilterCancelButtonLocator)).click();
