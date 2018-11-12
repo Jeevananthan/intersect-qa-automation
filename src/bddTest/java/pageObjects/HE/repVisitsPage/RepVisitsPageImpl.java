@@ -458,6 +458,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCheckRepVisitsAvailabilityButton(){
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(0));
         waitUntil(ExpectedConditions.visibilityOf(getCheckRepVisitsAvailabilityButton()));
         Assert.assertTrue("Check RepVisits Availability Button is not present", getCheckRepVisitsAvailabilityButton().isDisplayed());
@@ -2660,6 +2661,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyInActiveSubscription(String schoolName){
+        waitUntilPageFinishLoading();
         waitUntilElementExists(goToDate());
         Assert.assertTrue("Searched school is not displayed",getDriver().findElement(By.xpath("//a[text()='"+schoolName+"']")).isDisplayed());
         try {
