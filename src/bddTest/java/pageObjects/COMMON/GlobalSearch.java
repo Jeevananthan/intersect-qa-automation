@@ -31,6 +31,7 @@ public class GlobalSearch extends SeleniumBase {
 
         setSearchCategory(category);
         doSearch(searchTerms);
+        waitUntilPageFinishLoading();
     }
 
     public void searchForHEInstitutions(String searchTerm) {
