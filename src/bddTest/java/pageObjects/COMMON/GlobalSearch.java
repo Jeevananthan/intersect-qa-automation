@@ -90,10 +90,11 @@ public class GlobalSearch extends SeleniumBase {
                 break;
             case "People":
                 //getDriver().findElement(By.xpath("//*[@id=\"global-search-box-filter\"]/div/div[contains(text(), 'People')]")).click();
-                getSearchSwitcher().findElement(By.id("global-search-box-filter")).findElement(By.xpath("//div/div/span[contains(text(), 'People')]")).click();
+                getDriver().findElement(By.xpath("//span[contains(text(), 'People')]")).click();
+
                 break;
             case "Groups":
-                getSearchSwitcher().findElement(By.className("comments")).click();
+                getDriver().findElement(By.className("comments")).click();
                 break;
             case "HS Accounts":
                 getSearchSwitcher().findElement(By.xpath("//i[@class='university icon']/following-sibling::span[text()='HS Accounts']")).click();
@@ -106,6 +107,8 @@ public class GlobalSearch extends SeleniumBase {
     private void doSearch(String searchTerm) {
         waitUntilPageFinishLoading();
         getSearchBox().click();
+        getSearchBox().sendKeys(Keys.BACK_SPACE);
+        getSearchBox().sendKeys(Keys.BACK_SPACE);
         getSearchBox().clear();
         getSearchBox().sendKeys(searchTerm);
     }
@@ -233,10 +236,11 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         setSearchCategory(category);
         waitUntilPageFinishLoading();
+        getSearchBox().clear();
         doSearch("t ");
-        waitUntilPageFinishLoading();
+        waitUntilElementExists( link("More..."));
         link("More...").click();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(button("UPDATE SEARCH"));
         Assert.assertTrue("Did not end on Advanced Search page!  No Update Search buttons is present!", button("UPDATE SEARCH").isDisplayed());
     }
 
