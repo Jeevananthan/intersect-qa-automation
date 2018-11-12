@@ -19,7 +19,7 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
     And HE I delete the filter of name "FilterTest123"
 
   @MATCH-2895
-  Scenario: As a HE Intersect user, I can create a filter in AM Events from the Create Event Screen (MATCH-5414)
+  Scenario: As a HE Intersect user, I can create a filter in AM Events from the Create Event Screen (MATCH-5414 - fixed)
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I open the Events section
     And HE I open the Create Event screen
