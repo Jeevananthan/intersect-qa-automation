@@ -4590,8 +4590,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         manualEndTime().sendKeys(endTime);
         addAttendee().sendKeys(attendee);
         waitUntilPageFinishLoading();
-//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/div[text()='"+attendee+"']"),1));
-        Assert.assertTrue("Attendee name is not displayed in the dropdown",driver.findElement(By.xpath("//div/div[text()='"+attendee+"']")).isDisplayed());
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.xpath("//div/div[text()='"+attendee+"']")));
         attendee(attendee).click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("calendar-search-reps"),1));
         String selectedAttendeeValue = driver.findElement(By.id("calendar-search-reps")).getAttribute("value");
