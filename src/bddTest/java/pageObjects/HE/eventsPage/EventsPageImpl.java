@@ -704,7 +704,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
-    private WebElement getEventsTab(String tabName) {
+    public WebElement getEventsTab(String tabName) {
         return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]"));
     }
     private WebElement getTimeZoneOption(String optionName) {

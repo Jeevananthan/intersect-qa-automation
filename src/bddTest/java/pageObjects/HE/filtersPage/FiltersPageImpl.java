@@ -8,6 +8,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.eventsPage.EventsPageImpl;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     public FiltersPageImpl() {
         logger = Logger.getLogger(FiltersPageImpl.class);
     }
+
+    private EventsPageImpl eventsPage = new EventsPageImpl();
 
     public  void summaryFilter(DataTable summaryFilterData){
         List<List<String>> filterData = summaryFilterData.asLists(String.class);
@@ -61,6 +64,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
                     filterNameLabel().click();
                     break;
                 case "GPA" :
+                    waitUntilPageFinishLoading();
                     gpaField().click();
                     getCreateFilterDropdownOption(filterDataElement.get(1)).click();
                     filterNameLabel().click();
@@ -72,7 +76,16 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
             }
         }
         saveFilterButton().click();
-        waitForUITransition();
+        waitUntilPageFinishLoading();
+        if(driver.findElements(By.cssSelector(filterNameUniqueErrorMessageLocator)).size() > 0) {
+            logger.info("A filter with the same name already exists.");
+            softly().assertThat(false).as("A filter with the same name already exists.");
+            if (driver.findElements(By.cssSelector(createFilterCancelButtonLocator)).size() > 0) {
+                driver.findElement(By.cssSelector(createFilterCancelButtonLocator)).click();
+            } else {
+                eventsPage.getEventsTab("Filters");
+            }
+        }
     }
 
     public void clickCreateFilter() {
@@ -177,4 +190,6 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement sortByDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'item']//span[text() = '" + optionName + "']")); }
     private String recommendedCountListLocator(String eventBaseName) { return "//div[contains(@class, 'dimmable')]/div/strong[contains(text(), '" + eventBaseName + "')]/../../div[5]/span[2]"; }
     private WebElement getCreateFilterDropdownOption(String option) { return driver.findElement(By.xpath("//span[@class = 'text' and text() = '" + option + "']")); }
+    private String filterNameUniqueErrorMessageLocator = "div.ui.error.message span";
+    private String createFilterCancelButtonLocator = "form.ui.small.form button.ui.basic.right.floated.button span";
 }
