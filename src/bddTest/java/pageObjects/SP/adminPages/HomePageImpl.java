@@ -49,6 +49,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                 driver.manage().deleteAllCookies();
             }
         }catch(Exception e){
+            waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("//*[contains(@class,'ui small icon success message toast')]")));
             link(By.id("user-dropdown")).click();
             driver.findElement(By.cssSelector("div[id='user-dropdown-signout']")).click();
             waitUntilPageFinishLoading();
