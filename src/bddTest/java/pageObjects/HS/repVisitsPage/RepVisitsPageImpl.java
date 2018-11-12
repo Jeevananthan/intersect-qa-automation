@@ -2719,7 +2719,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       saveSettings().click();
       waitUntilPageFinishLoading();
       String successMessage="You've updated Naviance settings.";
-      String actualSuccessMessage=driver.findElement(By.xpath("//span[text()='Great!']/following-sibling::span")).getText();
+      String actualSuccessMessage=driver.findElement(By.xpath("//div[text()='Great!']/following-sibling::p")).getText();
       waitUntilPageFinishLoading();
       Assert.assertTrue("Success Message is not displayed",successMessage.equals(actualSuccessMessage));
     }
