@@ -1,4 +1,4 @@
-@HE
+@HE @RepVisitsFeature
 Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the RepVisits features based on my role,subscription
 
   @MATCH-1697
