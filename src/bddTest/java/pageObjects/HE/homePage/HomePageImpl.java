@@ -42,7 +42,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void logout() {
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("//*[contains(@class,'ui small icon success message toast')]")));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(@class,'ui small icon success message toast')]")));
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
         driver.manage().deleteAllCookies();
