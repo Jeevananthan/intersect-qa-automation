@@ -290,7 +290,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 supportWindow = thisWindow;
             }
         }
-        getDriver().close();
         getDriver().switchTo().window(supportWindow);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-admin-menu-link")));
         waitUntilPageFinishLoading();
@@ -1203,7 +1202,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().switchTo().window(intersectWindow);
         waitUntilPageFinishLoading();
         Assert.assertTrue("hobsons logo is not displayed",logo().isDisplayed());
-        getDriver().close();
         getDriver().switchTo().window(navianceWindow);
         waitUntilPageFinishLoading();
         getNavigationBar().goToRepVisits();
@@ -2546,41 +2544,55 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     if(fairName.equalsIgnoreCase("PreviouslySetFair")){
                         fairName =FairName;
                     }
-                    Assert.assertTrue(fairNameHeader().getText().equals(fairName));
+                    softly().assertThat(fairNameHeader().getText()).as("The College Fair name is incorrect").isEqualTo(fairName);
                     break;
-                case "High School name" : Assert.assertTrue(fairHSName().getText().equals(fairDataElement.get(1)));
+                case "High School name" :
+                    softly().assertThat(fairHSName().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "High School address" : Assert.assertTrue(fairHSAddress().getText().equals(fairDataElement.get(1)));
+                case "High School address" :
+                    softly().assertThat(fairHSAddress().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Contact name" : Assert.assertTrue(fairContactName().getText().equals(fairDataElement.get(1)));
+                case "Contact name" :
+                    softly().assertThat(fairContactName().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Contact title" : Assert.assertTrue(fairContactTitle().getText().equals(fairDataElement.get(1)));
+                case "Contact title" :
+                    softly().assertThat(fairContactTitle().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Contact email" : Assert.assertTrue(fairContactEmail().getText().equals(fairDataElement.get(1)));
+                case "Contact email" :
+                    softly().assertThat(fairContactEmail().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Contact phone" : Assert.assertTrue("UI: " + fairContactPhone().getText(), fairContactPhone().getText().equals(fairDataElement.get(1)));
+                case "Contact phone" :
+                    softly().assertThat(fairContactPhone().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Date" : Assert.assertTrue(fairDate().getText().equals(fairDataElement.get(1)));
+                case "Date" :
+                    softly().assertThat(fairDate().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Start time" : Assert.assertTrue("UI: " + fairStartTime().getText(), fairStartTime().getText().equals(fairDataElement.get(1)));
+                case "Start time" :
+                    softly().assertThat(fairStartTime().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "End time" : Assert.assertTrue(fairEndTime().getText().equals(fairDataElement.get(1)));
+                case "End time" :
+                    softly().assertThat(fairEndTime().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Time zone" : Assert.assertTrue("UI: " + fairTimeZone().getText(), fairTimeZone().getText().equals(fairDataElement.get(1)));
+                case "Time zone" :
+                    softly().assertThat(fairTimeZone().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Cost" : Assert.assertTrue(fairCost().getText().equals(fairDataElement.get(1)));
+                case "Cost" :
+                    softly().assertThat(fairCost().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Number of students" : Assert.assertTrue(fairExpectedStudents().getText().equals(fairDataElement.get(1)));
+                case "Number of students" :
+                    softly().assertThat(fairExpectedStudents().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Instructions" : Assert.assertTrue(fairInstructions().getText().equals(fairDataElement.get(1)));
+                case "Instructions" :
+                    softly().assertThat(fairInstructions().getText()).as(fairDataElement.get(0) + " is incorrect").isEqualTo(fairDataElement.get(1));
                     break;
-                case "Cancellation text" : Assert.assertTrue(fairCancellationInstructions().getText().contains(fairDataElement.get(1)));
+                case "Cancellation text" :
+                    softly().assertThat(fairCancellationInstructions().getText()).as(fairDataElement.get(0) + " is incorrect").contains(fairDataElement.get(1));
                     break;
                 case "Cancel link" :
                     if (fairDataElement.get(1).equals("Present")) {
-                        Assert.assertTrue("The Cancel link is not present", fairCancelLink().isDisplayed());
+                        softly().assertThat(ExpectedConditions.visibilityOf(fairCancelLink())).as(fairDataElement.get(0) + " is incorrect");
                     } else if (fairDataElement.get(1).equals("Not Present")) {
-                        Assert.assertFalse("The Cancel link is present, when it shouldn't", fairCancelLink().isDisplayed());
+                        softly().assertThat(ExpectedConditions.visibilityOf(fairCancelLink())).as(fairDataElement.get(0) + " is incorrect");
                     }
                     break;
                 case "Internal notes" :
@@ -3849,16 +3861,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement fairContactEmail() { return getDriver().findElement(By.cssSelector("div._38U_qKPRgGTogiYwQidWQu")); }
     private WebElement fairContactPhone() { return getDriver().findElement(By.cssSelector("div._2Yft-cZFY8BFL0J6NPSWna")); }
     private WebElement fairDate() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[1]/div/span")); }
-    private WebElement fairStartTime() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[2]/div/span[1]")); }
-    private WebElement fairEndTime() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[2]/div/span[2]")); }
-    private WebElement fairTimeZone() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[3]/div[2]/div/span[3]")); }
-    private WebElement fairCost() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[4]/div[1]/div")); }
+    private WebElement fairStartTime() { return getDriver().findElement(By.xpath("//span[text() = 'Time']/../following-sibling::div/span[1]")); }
+    private WebElement fairEndTime() { return getDriver().findElement(By.xpath("//span[text() = 'Time']/../following-sibling::div/span[2]")); }
+    private WebElement fairTimeZone() { return getDriver().findElement(By.xpath("//span[text() = 'Time']/../following-sibling::div/span[3]")); }
+    private WebElement fairCost() { return getDriver().findElement(By.xpath("//span[text() = 'Cost']/following-sibling::div")); }
     private WebElement fairExpectedStudents() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[4]/div[2]/div")); }
-    private WebElement fairInstructions() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[5]/div/div")); }
+    private WebElement fairInstructions() { return getDriver().findElement(By.xpath("//div[@class='_3dJVJHDv8f4yi7W71sBMV7']/div[@class='ui grid']/div[5]/div/div[2]")); }
     private WebElement fairCancellationInstructions() { return getDriver().findElement(By.xpath("//div[@class='_3JCQh0qrOlZKBKE8m4D5Iz']/span/span")); }
     private WebElement fairCancelLink() { return getDriver().findElement(By.cssSelector("div._3JCQh0qrOlZKBKE8m4D5Iz button span")); }
     private WebElement fairInternalNotesTextBox() { return getDriver().findElement(By.cssSelector("input[aria-label=\"Internal Notes\"]")); }
-    private WebElement fairSaveButton() { return getDriver().findElement(By.cssSelector("button.ui.teal.right.floated.button span")); }
+    private WebElement fairSaveButton() { return getDriver().findElement(By.cssSelector("button.ui.primary.right.floated.button span")); }
     private WebElement fairSavedConfirmationMessage() { return getDriver().findElement(By.cssSelector("div.content span span")); }
     private WebElement dropdownInSearchAndSchedule(){
         WebElement dropdown = getDriver().findElement(By.xpath("//i[@class='teal caret down small icon']"));
