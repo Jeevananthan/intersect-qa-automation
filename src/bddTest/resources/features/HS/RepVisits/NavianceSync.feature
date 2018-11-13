@@ -9,10 +9,10 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     And HS I click on Disconnect RepVisits from Naviance button
     And HS I verify the Cancel on the disconnect confirmation popup
     And HS I click on Disconnect RepVisits from Naviance button
-    And HS I verify the Yes on the disconnect confirmation popup with "7","11:30am","12:30pm","2","PurpleHE Automation","Bowling Green State University-Main Campus" and "Cbba"
-    Then HS I verify and select an appointment in calendar page using "Bowling Green State University-Main Campus","11:30am","7","Scheduled"
+    And HS I verify the Yes on the disconnect confirmation popup with "7","10:30am","12:30pm","2","PurpleHE Automation","PurpleHE Automation" and "Cbba"
+    Then HS I verify and select an appointment in calendar page using "PurpleHE Automation","10:30am","7","Scheduled"
     Then HS I remove the appointment from the calendar
-    Then HS I remove the Time Slot created with "7","11:30am" in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "7","10:30am" in Regular Weekly Hours Tab
 
   @MATCH-4895
   Scenario: When a Naviance High School has their settings set to:
@@ -77,26 +77,28 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   of the wizard. Instead of correcting with this ticket, will adjust the timing of this alert disappearing with MATCH-4205
   2.2PASSED the user selects the "yes" radio  option and completes the full Naviance Settings wizard
     #Precondition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone3"
     Then HS I navigate to naviance settings page
     Then HS I click on Disconnect RepVisits from Naviance button
     Then HS I navigate to the Naviance Settings page through the setup Wizard
     Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
     Then HS I navigate to the Naviance Settings page through the setup Wizard
     Then HS I complete the set up wizard from any location
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
 
     #Verify with No option
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone3"
     Then HS I navigate to the Naviance Settings page through the setup Wizard
     Then HS I select "No" to connect RepVisits with Naviance in the Wizard
     Then HS I verify the toast "not" displayed when setup Wizard is incomplete
     #Verify with Yes option
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone3"
     Then HS I navigate to the Naviance Settings page through the setup Wizard
     Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
     Then HS I verify the toast "is" displayed when setup Wizard is incomplete
     Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
     Then HS I complete the set up wizard from any location
+    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
 
 
 
