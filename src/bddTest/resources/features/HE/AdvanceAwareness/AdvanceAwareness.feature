@@ -12,7 +12,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     | Asian |
     | Hispanic/Latino of any race |
     And HE I click on Advance Awareness menu option "Competitors"
-    And SM I press button "SAVE"
+    And SM I press button "Save"
     And HE I click on Advance Awareness menu option "Diversity"
     And HE I verify following options are checked
       | Asian |
@@ -29,7 +29,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
       | Asian |
       | Hispanic/Latino of any race |
     And HE I click on Advance Awareness menu option "Competitors"
-    And SM I press button "SAVE"
+    And SM I press button "Save"
 
   @MATCH-4399
   Scenario: One Academic Threshold value must be entered if "Use Default Threshold" is selected for a subscription.

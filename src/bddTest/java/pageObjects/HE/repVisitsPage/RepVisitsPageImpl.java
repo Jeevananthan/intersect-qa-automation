@@ -466,7 +466,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         executor.executeScript("arguments[0].click();",getCheckRepVisitsAvailabilityButton());
         //getCheckRepVisitsAvailabilityButton().click();
         getDriver().switchTo().defaultContent();
-        waitUntil(ExpectedConditions.visibilityOf(getRepVisitsAvailabilitySidebar()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(getRepVisitsAvailabilityLabeLocator()));
         Assert.assertTrue("RepVisits Availability Sidebar is not displaying.", getRepVisitsAvailabilitySidebar().isDisplayed());
     }
 
@@ -2499,7 +2499,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchButton().click();
         link(schoolName).click();
         waitUntilPageFinishLoading();
-        waitUntilElementExists( getFairsButton());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(getFairsButtonLocator()));
         getFairsButton().click();
         waitUntilPageFinishLoading();
         getDriver().manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
@@ -3481,6 +3481,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getComingSoonMessageInOverviewPage(){ return getDriver().findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
     private WebElement getCheckRepVisitsAvailabilityButton(){ return getDriver().findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
     private WebElement getRepVisitsAvailabilitySidebar(){ return getDriver().findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
+    private By getRepVisitsAvailabilityLabeLocator(){
+        return By.xpath("//span[text()='Repvisits Availability']");
+    }
     private WebElement saveChanges(){WebElement button=button("Save Changes"); return  button; }
     private WebElement userDropdown() {
         WebElement dropdown=getDriver().findElement(By.id("user-dropdown"));
@@ -3620,6 +3623,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public WebElement getFairsButton() {
         return button("Fairs");
+    }
+    public By getFairsButtonLocator(){
+        return By.cssSelector("button[class='ui button lM1ka_IX-p7Hiuh9URqAJ']");
     }
     private WebElement fairName(String  school,String fairName) {
         WebElement fairname=getDriver().findElement(By.xpath("//a/h3[text()='"+school+"']/parent::a/following-sibling::span[text()='"+fairName+"']"));
