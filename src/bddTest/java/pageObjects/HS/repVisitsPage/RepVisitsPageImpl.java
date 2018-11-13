@@ -1994,6 +1994,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void accessSuccessMessageforFair(String buttonName){
         if(buttonName.equals("Close")){
+            waitForUITransition();
             fairsCloseButton().click();
         }else if(buttonName.equals("Add Attendees")){
             addAttendeeButton().click();
@@ -2130,6 +2131,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("add-college")));
         while (moreUpComingEvents().size()>0) {
             viewMoreUpcomingEventsLink().click();
+            waitForUITransition();
             waitUntilPageFinishLoading();
             }
         fairName = FairName;
@@ -6755,8 +6757,11 @@ public void cancelRgisteredCollegeFair(String fairName){
 
         /* Primary contact is selected using a drop down verification */
         WebElement PrimaryContactDropDown = primaryContact();
+        waitUntilElementExists(PrimaryContactDropDown);
         primaryContact().click();
-        primaryContactName(primaryContactName).click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(primaryContact(primaryContactName)));
+        moveToElement(primaryContactName(primaryContactName));
+        jsClick(primaryContactName(primaryContactName));
         Assert.assertTrue("Primary Contact was not found.", PrimaryContactDropDown.findElement(By.className("text")).getText().contains(primaryContactName));
 
         /* Dropdown is populated with a list of all community members that are tied to my school */
@@ -6816,6 +6821,8 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='ui segments _3pzgJh2J1gbNBaq2S9asNJ']")));
         Assert.assertTrue("Fairs does not contains New Fair", getDriver().findElement(By.cssSelector("div[class='ui segments _3pzgJh2J1gbNBaq2S9asNJ']")).getText().contains(collegeFair));
         Assert.assertTrue("Fairs does not contains Attendee name", getDriver().findElement(By.cssSelector("div[class='ui segments _3pzgJh2J1gbNBaq2S9asNJ']")).getText().contains(attendee));
+        closeFairScreen().click();
+        waitUntilPageFinishLoading();
     }
 
     public void verifyNotificationsToNonMembersSection (String correctEmail, String incorrectEmail){
@@ -6824,24 +6831,18 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntilPageFinishLoading();
         collegeFairsSettings().click();
         waitUntilPageFinishLoading();
-        try {
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("textarea[id='notification_fairs_additional_emails']")));
-            Assert.assertTrue("Notification Area for Non Community Does not exist.", getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).isDisplayed());
-            getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).clear();
-            getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).sendKeys(incorrectEmail);
-            getDriver().findElement(By.cssSelector("button[class='ui primary right floated button']")).click();
-            Assert.assertTrue("Invalid email format error isn't being shown correctly", getDriver().findElement(By.xpath("//span[text() = 'Emails must be valid and separated by comma']")).isDisplayed());
-            getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).clear();
-            getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).sendKeys(correctEmail);
-            getCollegeFairsPrimaryContactPhoneNumberField().clear();
-            getCollegeFairsPrimaryContactPhoneNumberField().sendKeys("555555555");
-            clickSaveSettingsButtonInCollegeFairsTab();
-            Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")).getText().contains("You've updated College Fair settings"));
-        } catch (Exception e) {
-            logger.info("Notifications displayed in bad format: " + e.getMessage());
-            e.printStackTrace();
-            Assert.fail("Notification it's failing.");
-        }
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("textarea[id='notification_fairs_additional_emails']")));
+        Assert.assertTrue("Notification Area for Non Community Does not exist.", getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).isDisplayed());
+        getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).clear();
+        getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).sendKeys(incorrectEmail);
+        getDriver().findElement(By.cssSelector("button[class='ui primary right floated button']")).click();
+        Assert.assertTrue("Invalid email format error isn't being shown correctly", getDriver().findElement(By.xpath("//span[text() = 'Emails must be valid and separated by comma']")).isDisplayed());
+        getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).clear();
+        getDriver().findElement(By.cssSelector("textarea[id='notification_fairs_additional_emails']")).sendKeys(correctEmail);
+        getCollegeFairsPrimaryContactPhoneNumberField().clear();
+        getCollegeFairsPrimaryContactPhoneNumberField().sendKeys("555555555");
+        clickSaveSettingsButtonInCollegeFairsTab();
+        Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")).getText().contains("You've updated College Fair settings"));
     }
 
    public void verifyCalendarPageForaddVisit() {
@@ -9757,4 +9758,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         time = getVisitStartTimeInNaviance();
         return getDriver().findElements(By.xpath("//td[contains(text(),'"+attendee+"')]/following-sibling::td[contains(text(),'"+time+"')]/following-sibling::td/a[text()='view']"));
     }
+      private By primaryContact(String primaryContactName) {
+        return By.xpath("//span[@class='text'][contains(text(), '"+ primaryContactName +"')]");
+      }
 }
