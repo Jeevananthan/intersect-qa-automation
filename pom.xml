@@ -28,7 +28,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @RepVisitsFeature --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+                <cucumber.options>--tags @HE --tags ~@ignore --tags ~@NotInQA</cucumber.options>
             </properties>
             <build>
                 <plugins>
