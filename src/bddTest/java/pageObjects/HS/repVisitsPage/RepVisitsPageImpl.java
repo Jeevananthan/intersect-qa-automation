@@ -1640,6 +1640,30 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return count;
     }
 
+    public void completeTheSetupWizard(){
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        if(availabilityandSettings().size()==1) {
+            availabilityAndSettings().click();
+            waitUntilPageFinishLoading();
+            waitForUITransition();
+        }
+        if(regularWeeklyHoursTab().size()==0){
+            while (takeMetoMyVisitsButton().size()==0){
+                if(optinYesRadioButton().size()==1){
+                    jsClick(optInYesRadioButton());
+                }else if(completePage().size()==1){
+                    jsClick(allRepVisitsUsersRadioButton());
+                }
+                nextButton().click();
+                waitForUITransition();
+            }
+            takeMeToMyVisitsButton().click();
+            waitUntilPageFinishLoading();
+            waitUntilElementExists(todayText());
+        }
+    }
 
     public void verifyEditFairPopup(String fairName,String fairStartTime,String date){
         fairName = FairName;
@@ -6638,7 +6662,8 @@ public void cancelRgisteredCollegeFair(String fairName){
             } catch (WebDriverException e) {
                 optInYesRadioButton().click();
                 nextButton().click();
-                waitUntilElementExists(nextButton());
+                waitForUITransition();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
                 nextButton().click();
                 nextButton().click();
                 nextButton().click();
@@ -6679,8 +6704,10 @@ public void cancelRgisteredCollegeFair(String fairName){
         yeslIndisconnectRVfromNaviancePopup().click();
         /*The ability to add/edit/delete events directly in Naviance is re-enabled and is present in the UI for the user in Naviance*/
         load(GetProperties.get("naviance.visits.url"));
+        waitUntilPageFinishLoading();
         getDriver().navigate().refresh();
-        waitUntilElementExists(getDriver().findElement(By.linkText("add new visit")));
+        getDriver().navigate().refresh();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText("add new visit")));
         Assert.assertTrue("The ability to add new visit was not activated",getDriver().getPageSource().contains("add new visit"));
         Assert.assertTrue("The ability to view was not activated",getDriver().getPageSource().contains("view"));
         Assert.assertTrue("The ability to edit was not activated",getDriver().getPageSource().contains("edit"));
@@ -6695,7 +6722,8 @@ public void cancelRgisteredCollegeFair(String fairName){
         addNewTimeSlotAndAddVisit(date, startTime, endTime, numVisits, attendee, location   );
         getNavigationBar().goToRepVisits();
         calendar().click();
-
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@title='Day']"),1));
         //Verification in RV side
         verifyAppointmentInCalendar(college,startTime,date,"Scheduled");
 
@@ -6720,11 +6748,14 @@ public void cancelRgisteredCollegeFair(String fairName){
         nextButton().click();
         waitUntilElementExists(nextButton());
         nextButton().click();
-
+        takeMeToMyVisitsButton().click();
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(todayText());
+        selectOptionforManuallyorAutomatically("Automatically publish confirmed visits.");
         //Verification in Naviance side
         load(GetProperties.get("naviance.visits.url"));
         driver.navigate().refresh();
-        waitUntilElementExists(driver.findElement(By.linkText("view")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText("view")));
         Assert.assertTrue("Attendee details are not displayed",attendeeDetailsInNaviance(attendee,startTime).size()==1);
         clickViewLink(attendee,startTime).click();
         Assert.assertTrue("Representative was not found in Naviance",getDriver().getPageSource().contains(attendee));
@@ -7060,7 +7091,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         selectDayForSlotTime("div[class='ui button labeled dropdown icon QhYtAi_-mVgTlz73ieZ5W']", visitDay);
         StartTime = startTime(startTime);
         logger.info("Start Time = " + startTime);
-        addStartTime().sendKeys(startTime);
+        addStartTime().sendKeys(StartTime);
         addEndTime().sendKeys(endTime);
         logger.info("End Time = " + endTime);
         visitsNumber(numVisits);
@@ -9761,4 +9792,12 @@ public void cancelRgisteredCollegeFair(String fairName){
       private By primaryContact(String primaryContactName) {
         return By.xpath("//span[@class='text'][contains(text(), '"+ primaryContactName +"')]");
       }
+    private List<WebElement> regularWeeklyHoursTab(){return getDriver().findElements(By.xpath("//a//span[text()='Regular Weekly Hours']"));}
+
+    private List<WebElement> optinYesRadioButton() {
+        return getDriver().findElements(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']"));
+    }
+    private List<WebElement> completePage(){return getDriver().findElements(By.xpath("//label[text()='All RepVisits Users']")); }
+    private List<WebElement> availabilityandSettings(){return getDriver().findElements(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability & Settings']"));}
+    private List<WebElement> takeMetoMyVisitsButton() { return getDriver().findElements(By.xpath("//button/span[text()='Take me to my visits']")); }
 }
