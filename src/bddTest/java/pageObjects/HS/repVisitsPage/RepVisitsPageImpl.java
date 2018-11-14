@@ -876,8 +876,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void accessWelcomeSetupWizard(String optionToSelect) {
         waitForUITransition();
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+        loadSetupWizardPage();
         if (!optionToSelect.equals("")) {
             if (optionToSelect.equalsIgnoreCase("VISITS")) {
                 jsClick(visitButton());
@@ -1231,9 +1230,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCalendarSyncMilestoneInSetupWizard(){
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+        loadSetupWizardPage();
         doubleClick(visitsAndFairsRadioButton());
         while (calendarSyncActiveInSetupWizard().size()==0) {
             waitUntilPageFinishLoading();
@@ -1790,10 +1787,42 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public  void verifyRepvisitsSetupWizardTimeZoneMilestones() {
+    public void loadSetupWizardPage(){
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+        List<WebElement> welcomeWizard = getDriver().findElements(By.xpath("//h1/span[text()='Tell us about your High School']"));
+        List<WebElement> navianceSettings = getDriver().findElements(By.xpath("//h1/span[text()='Connecting Naviance and RepVisits']"));
+        if(navianceSettings.size()==1) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+            WebElement yesOption = getDriver().findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/parent::div/input"));
+            jsClick(yesOption);
+            nextButton().click();
+            waitUntilPageFinishLoading();
+            while (completeWizardActiveStep().size() == 0) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+                nextButton().click();
+                waitUntilPageFinishLoading();
+            }
+            jsClick(allRepVisitsUsersRadioButton());
+            nextButton().click();
+            waitUntilPageFinishLoading();
+            takeMeToMyVisitsButton().click();
+            waitUntilPageFinishLoading();
+            load(GetProperties.get("hs.WizardAppSelect.url"));
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+        }else if(welcomeWizard.size() == 1){
+            logger.info("The Setup Wizard Starts as expected");
+        }else{
+            Assert.fail("Error in the Setup Wizard page");
+        }
+    }
+
+
+    public  void verifyRepvisitsSetupWizardTimeZoneMilestones() {
+        loadSetupWizardPage();
         while (highSchoolInformation().size()==0) {
             waitUntilElementExists(nextButton());
             nextButton().click();
@@ -1812,9 +1841,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void navigateToFairsAndVisistsAndVerifyEachScreen(){
 
      //verifying the navigation of corresponding screen for 'Visits'
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+        loadSetupWizardPage();
         doubleClick(visitsRadioButton());
         while (availabilityActiveInSetupWizard().size()==0) {
             nextButton().click();
@@ -1824,8 +1851,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'Availability' is not displayed", regularWeeklyHoursText().isDisplayed());
 
      //verifying the navigation of corresponding screen for 'Fairs'
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
+        loadSetupWizardPage();
         doubleClick(fairsRadioButton());
         while (collegeFairsActiveInSetupWizard().size()>0) {
             waitUntilElementExists(nextButton());
@@ -1837,9 +1863,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("'College Fairs' is not displayed",collegeFairText() .isDisplayed());
 
      //verifying the navigation of corresponding screen for 'Visits and Fairs'
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
-        doubleClick(visitsAndFairsRadioButton());
+        loadSetupWizardPage();
+        jsClick(visitsAndFairsRadioButton());
         while (availabilityActiveInSetupWizard().size()==0) {
             nextButton().click();
             waitUntilPageFinishLoading();
@@ -2764,8 +2789,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser,String changeNewUser){
         String userTochange;
         waitForUITransition();
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
+        loadSetupWizardPage();
         while (notificationAndPrimaryContactActiveInSetupWizard().size()==0) {
             waitUntilElementExists(nextButton());
             nextButton().click();
@@ -3588,9 +3612,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void navigateToVisitPage(){
         waitUntilPageFinishLoading();
         waitForUITransition();
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        loadSetupWizardPage();
         jsClick(visitsAndFairsRadioButton());
         while (completeWizardActiveStep().size()==0) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Next']")));
@@ -3718,8 +3740,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void navigateToNavianceSettingsPage() {
         waitForUITransition();
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
+        loadSetupWizardPage();
         while (activeStepNavianceSettings().size() == 0) {
             waitUntilElementExists(nextButton());
             nextButton().click();
