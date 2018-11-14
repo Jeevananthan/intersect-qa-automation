@@ -3729,7 +3729,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         studentRegistrationDeadlineField().sendKeys(data.get("Registration will close"));
         hoursDaysDropdown().click();
         hoursDaysOption(data.get("Hours or Days option")).click();
-        Assert.assertTrue("The value greater than 255 was not turned into 255", studentRegistrationDeadlineField().getAttribute("value").contains("655"));
+        Assert.assertTrue("The value greater than 255 was not turned into 255", studentRegistrationDeadlineField().getAttribute("value").contains("255"));
     }
 
     //locators
