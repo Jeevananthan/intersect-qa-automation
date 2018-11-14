@@ -732,5 +732,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify and select an appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAndSelectAppointmentInCalendarPage);
 
+        Then("^HS I complete the setupWizard$",repVisits::completeTheSetupWizard);
     }
 }
