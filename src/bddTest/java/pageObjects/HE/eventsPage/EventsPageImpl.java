@@ -653,7 +653,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The Event status is incorrect. UI: " + eventStatus(eventName).getText(), eventStatus(eventName).getText().equals(status));
     }
 
-
+    public void verifyEventWithGenNameStatus(String status) {
+        verifyEventStatus(status, eventName);
+    }
 
     public void verifyDefaultFilter(String filterName) {
         Assert.assertTrue("The created filter is not displayed by default in the Event Audience field",
@@ -673,7 +675,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTabInEditEvent(String tabName) {
-        getEventsTab(tabName).click();
+        getEventsInternalTab(tabName).click();
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
@@ -730,8 +732,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
-    private WebElement getEventsTab(String tabName) {
-        return driver.findElement(By.xpath("//h2[contains(text(), '" + tabName + "')]"));
+    public WebElement getEventsTab(String tabName) {
+        return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]"));
     }
     private WebElement getTimeZoneOption(String optionName) {
         return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _22IjfAfN4Zs4CnM4Q_AlWZ']" +

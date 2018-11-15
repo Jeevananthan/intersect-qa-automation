@@ -37,6 +37,10 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active 
   Scenario: As an Active Match user,
   I want additional drop-down menu options to filter my Connections to include additional date ranges, easier access to the default view on various devices, and a cl
   so that I don't miss any new or modified connections associated with my institution and so that I have greater flexibility to view additional date ranges that are smaller than a full school year but potentially greater than the "Since Last Export" options.
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Connection" module to "inactive" in the institution page
+    And SP I set the "ActiveMatch Plus" module to "active" in the institution page
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to the ActiveMatch Tab
     And HE I verify the ActiveMatch page

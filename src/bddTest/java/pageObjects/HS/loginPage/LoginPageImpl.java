@@ -113,6 +113,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
                     intersectWindow = thisWindow;
                 }
             }
+            waitForUITransition();
             driver.close();
             driver.switchTo().window(intersectWindow);
         }

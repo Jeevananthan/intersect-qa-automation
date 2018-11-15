@@ -57,7 +57,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
 
   @MATCH-1771
-  Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled
+  Scenario: As a HE user, I am able to submit a fair request with auto approvals enabled (MATCH-5473)
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I create a College Fair with the following data
       | College Fair Name                                         | Fair-MATCH1771          |
@@ -118,7 +118,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HS I successfully sign out
   # Log into HE app and verify that the fair is visible
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify that the previously created fair appears for "Int QA High School 4"
+    Then HE I verify that the previously created fair appears for "Int Qa High School 4"
   # Log into HS app and unpublish the previous College Fair
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
@@ -126,7 +126,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     Then HS I unpublish the College Fair
   # Log into HE app and verify that the fair is not visible
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify that the previously created fair does not appear for "Int QA High School 4"
+    Then HE I verify that the previously created fair does not appear for "Int Qa High School 4"
     And HE I successfully sign out
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
@@ -170,7 +170,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
       #| Date                | 10                                         |
       | Start time          | 7:04am                                      |
       | Contact phone       | 360-555-1212                                |
-      | Contact email       | purpletest                                  |
+      | Contact email       | purpletest0+hsus...@gmail.com               |
       | Address             | 6840 LAKOTA LN                              |
       | City                | Liberty Township                            |
       | State               | Ohio                                        |
