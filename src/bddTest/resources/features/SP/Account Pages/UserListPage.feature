@@ -85,11 +85,14 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     Then HE I am logged in to Intersect HE as user type "locked"
     And HE I am able to successfully login
 
-  @MATCH-1553
+  @MATCH-1553 @MATCH-5502
   Scenario: As a Support user I can able to re-invite an user from the support app.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "The University of Alabama" from the institution dashboard
-    And SP I "re-invite" the user account for "hobsons.purple+amorrison.AT.ua.edu@gmail.com"
+    And SP I "re-invite" the user account for "purpleheautomation+MATCH-1553@gmail.com"
+    Then SP I receive the Intersect Invitation email with the following data:
+      |Subject                    |To                                       |Messages |
+      |Your Intersect Invitation  |purpleheautomation+MATCH-1553@gmail.com  |1        |
 
   @MATCH-1793
   Scenario Outline: As a Support user with the Administrator or Support role I need to be able to create a non primary HE or HS user
