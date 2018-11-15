@@ -7,12 +7,13 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
 #Precondition
     Then HS I complete the setupWizard
+    Then HS I create a new visit to verify the details in naviance with "28","10:30am","12:30pm","2","PurpleHE Automation" and "Cbba"
     Then HS I navigate to naviance settings page
     And HS I click on Disconnect RepVisits from Naviance button
     And HS I verify the Cancel on the disconnect confirmation popup
     And HS I click on Disconnect RepVisits from Naviance button
     And HS I verify the Yes on the disconnect confirmation popup with "28","10:30am","12:30pm","2","PurpleHE Automation","PurpleHE Automation" and "Cbba"
-    Then HS I verify and select an appointment in calendar page using "PurpleHE Automation","11:30am","28","Scheduled"
+    Then HS I verify and select an appointment in calendar page using "PurpleHE Automation","10:30am","28","Scheduled"
     Then HS I remove the appointment from the calendar
     Then HS I remove the Time Slot created with "28","10:30am" in Regular Weekly Hours Tab
 
@@ -87,8 +88,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Then HS I navigate to the Naviance Settings page through the setup Wizard
     Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
     Then HS I navigate to the Naviance Settings page through the setup Wizard
-    Then HS I complete the set up wizard from any location
-    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
+    Then HS I complete the setupWizard
 
     #Verify with No option
     Then HS I navigate to the Naviance Settings page through the setup Wizard
@@ -99,8 +99,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
     Then HS I verify the toast "is" displayed when setup Wizard is incomplete
     Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
-    Then HS I complete the set up wizard from any location
-    Then HS I verify the 'You're All Set' page is correct when Visit Availability is set to "All RepVisits Users"
+    Then HS I complete the setupWizard
 
 
 
