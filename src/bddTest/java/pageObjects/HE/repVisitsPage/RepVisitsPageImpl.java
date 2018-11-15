@@ -1690,20 +1690,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void reInviteSendEmail(String action, String loginName){
 
         waitForUITransition();
-        waitUntilElementExists(getDriver().findElement(By.xpath("//table[@class='ui table']//tbody//tr//td[5]/a[text()='"+loginName+"']")));
-        WebElement login = getDriver().findElement(By.xpath("//table[@class='ui table']//tbody//tr//td[5]/a[text()='"+loginName+"']"));
+        waitUntilElementExists(getDriver().findElement(By.xpath("//table[@class='ui table']//tbody//tr//td[6]/a[text()='"+loginName+"']")));
+        WebElement login = getDriver().findElement(By.xpath("//table[@class='ui table']//tbody//tr//td[6]/a[text()='"+loginName+"']"));
 
         WebElement Actions = getParent(getParent(login)).findElement(By.cssSelector("[aria-label='Actions']"));
         Actions.click();
 
+        Actions actionToDown = new Actions(getDriver());
+        actionToDown.sendKeys(Keys.PAGE_DOWN).sendKeys(Keys.PAGE_DOWN).build().perform();
 
-        JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("window.scrollBy(0,350)", "");
-        org.openqa.selenium.interactions.Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.id("//main[@class='GuR-15HmYdF_kylVxUNpD']"))).perform();
-
-        waitUntilElementExists(getDriver().findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+action+"']")));
-        WebElement selectsReInviteDropDown = getDriver().findElement(By.xpath("//div[@class='menu transition visible']//span[text()='"+action+"']"));
+        waitUntilElementExists(getDriver().findElement(By.xpath("//div[@class='visible menu transition']//span[text()='"+action+"']")));
+        WebElement selectsReInviteDropDown = getDriver().findElement(By.xpath("//div[@class='visible menu transition']//span[text()='"+action+"']"));
         getDriver().executeScript("arguments[0].click();",selectsReInviteDropDown);
         yesButton().click();
     }
