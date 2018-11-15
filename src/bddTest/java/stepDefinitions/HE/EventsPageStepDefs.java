@@ -94,7 +94,7 @@ public class EventsPageStepDefs implements En {
 
         Then("^HE I verify status \"([^\"]*)\" for the event of name \"([^\"]*)\"$", eventsPage::verifyEventStatus);
 
-        Then("^HE I verify status \"([^\"]*)\" for the event of generated name$", eventsPage::verifyEventWithGenNameStatus);
+       // Then("^HE I verify status \"([^\"]*)\" for the event of generated name$", eventsPage::verifyEventWithGenNameStatus);
 
         Then("^HE I verify that the filter of name \"([^\"]*)\" is displayed by default in the Event Audience field$", eventsPage::verifyDefaultFilter);
 
@@ -111,5 +111,7 @@ public class EventsPageStepDefs implements En {
         And("^HE I create and save a new event \"([^\"]*)\" minutes ahead from now with a unique name and the following details:$", eventsPage::createAndSaveEventWithGenDateAndName);
         //Then("^HE I verify status \"([^\"]*)\" under Unpublished tab$",eventsPage:: statusDraft);
         And("^HE I verify Attendee Data Details on Edit Events attendee screen$",eventsPage::VerifyAttendeeData);
-    }
+        And("^HE click on Event Name \"([^\"]*)\" to edit$", eventsPage :: editEventToPublish);
+        And("^HE I edit and publish a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::EditAndPublishEventWithGenDate );
+         }
 }
