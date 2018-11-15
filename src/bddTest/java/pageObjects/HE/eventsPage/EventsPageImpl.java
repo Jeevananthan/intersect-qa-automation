@@ -689,7 +689,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement rsvpTimeField() { return driver.findElement(By.cssSelector("input#registrationDeadlineTime")); }
     public WebElement locationField() { return driver.findElement(By.cssSelector("input[name='locations-dropdown']")); }
     private WebElement primaryContactField() { return driver.findElement(By.cssSelector("input[name='contacts-search']")); }
-    private WebElement audienceField() { return driver.findElement(By.cssSelector("input[name='filters-dropdown']")); }
+    public WebElement audienceField() { return driver.findElement(By.cssSelector("input[name='filters-dropdown']")); }
     private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button[title='Save Draft']")); }
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
