@@ -931,8 +931,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessOneLastStepSetupWizard(String visitAvailability) {
-        load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+        loadSetupWizardPage();
         jsClick(visitAndFairsButton());
         while (completeWizardActiveStep().size() == 0) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
@@ -1662,6 +1661,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void createVisitForNaviance(String date, String startTime, String endTime, String numVisits, String attendee, String location){
+        addNewTimeSlotAndAddVisit(date, startTime, endTime, numVisits, attendee, location   );
+        waitForUITransition();
+    }
+
     public void verifyEditFairPopup(String fairName,String fairStartTime,String date){
         fairName = FairName;
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("edit-college-fair"),1));
@@ -1790,7 +1794,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void loadSetupWizardPage(){
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
         List<WebElement> welcomeWizard = getDriver().findElements(By.xpath("//h1/span[text()='Tell us about your High School']"));
         List<WebElement> navianceSettings = getDriver().findElements(By.xpath("//h1/span[text()='Connecting Naviance and RepVisits']"));
@@ -3742,9 +3745,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         loadSetupWizardPage();
         while (activeStepNavianceSettings().size() == 0) {
-            waitUntilElementExists(nextButton());
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             nextButton().click();
-            waitUntilElementExists(nextButton());
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
         }
     }
 
@@ -6738,6 +6741,11 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntilElementExists(optInYesRadioButton());
         Assert.assertTrue("Opt In was not activated ",optInYesRadioButton().isDisplayed());
         Assert.assertTrue("Opt In was not activated ",optInNoRadioButton().isDisplayed());
+
+        //cancelling created appointment
+        verifyAndSelectAppointmentInCalendarPage(attendee,startTime,date,"Scheduled");
+        removeAppointmentfromCalendar();
+
         /*Events can be added/edited/cancelled separately in both Naviance and RepVisits*/
         addNewTimeSlotAndAddVisit(date, startTime, endTime, numVisits, attendee, location   );
         getNavigationBar().goToRepVisits();
@@ -7068,7 +7076,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         attendeeTextBox().sendKeys(attendee);
         Assert.assertTrue("Attendee name is not displayed in the dropdown",driver.findElement(By.xpath("//div/div[text()='"+attendee+"']")).isDisplayed());
         selectAttendeeOrInstitution(attendee).click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("calendar-search-reps"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("calendar-search-reps")));
         eventLocationTextboxInSchedulePopup().clear();
         eventLocationTextboxInSchedulePopup().sendKeys(location);
         waitForUITransition();
@@ -8597,8 +8605,13 @@ public void cancelRgisteredCollegeFair(String fairName){
         return button;
     }
     private WebElement eventLocationTextboxInSchedulePopup() {
-        WebElement text=driver.findElement(By.xpath("//input[@name='eventLocation']"));
-        return text;
+        WebElement eventLocation = null;
+        if(getDriver().findElements(By.xpath("//input[@name='locationWithinSchool']")).size()==1) {
+            eventLocation = getDriver().findElement(By.xpath("//input[@name='locationWithinSchool']"));
+        } else if(getDriver().findElements(By.xpath("//input[@name='eventLocation']")).size()==1) {
+            eventLocation = getDriver().findElement(By.xpath("//input[@name='eventLocation']"));
+        }
+        return eventLocation;
     }
 
     private WebElement eventLocationNewVisit() {
