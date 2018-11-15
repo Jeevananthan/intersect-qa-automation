@@ -349,7 +349,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         } catch (Exception e) {
             logger.info("Exception while retrieving Gmail messages: " + e.getMessage());
             e.printStackTrace();
-            fail("There was an error retrieving the password reset email from Gmail.");
+            fail("There was an error retrieving the invitation email from Gmail.");
         }
         softly().assertThat(emailBody).as("Main invite message").contains("Welcome to Intersect by Hobsons! A user account has been created for you so that you may access the Counselor Community and manage your college profile in Naviance. To setup your account, go to:");
         softly().assertThat(emailBody).as("Seven day expiration reminder").contains("Note, this password will expire in seven days. Contact your Intersect Administrator or");
