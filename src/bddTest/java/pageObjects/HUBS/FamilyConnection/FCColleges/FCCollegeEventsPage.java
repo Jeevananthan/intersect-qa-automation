@@ -89,7 +89,6 @@ public class FCCollegeEventsPage {
 
     public static String eventNamesList = "h3.event-summary__title.ng-binding";
 
-    //public static String nextArrowsList = "a.fc-pagination__link.ng-scope";
     public static String nextArrowsList = "a[ng-if='!(noNext() || ngDisabled)']";
 
     public static WebElement getSignUpButton(String eventName) {
