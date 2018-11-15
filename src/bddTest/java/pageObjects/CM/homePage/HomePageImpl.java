@@ -226,6 +226,20 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 //        driver.findElement(By.id("edit-delete--3")).click();
     }
 
+    public void verifyHeaderTagsInPage(String headerText, String tabName, String hTagType) {
+
+        iframeExit();
+        communityFrame();
+
+        String[] tabs = tabName.split(">");
+        for(int i = 0; i < tabs.length; i++)
+        {
+            driver.findElement(By.xpath("//a[text()=\"" + tabs[i].trim() + "\"]")).click();
+        }
+
+        Assert.assertTrue(driver.findElement(By.xpath("//" + hTagType + "[contains(text(),'" + headerText + "')]")).isDisplayed());
+    }
+
     public void navigateToCounselorCommunityPage() {
       participateButton().click();
     }
