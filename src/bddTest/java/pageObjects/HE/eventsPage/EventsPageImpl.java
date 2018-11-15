@@ -448,7 +448,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
         Calendar date = Calendar.getInstance();
-        //createEventButton().click();
         waitUntil(ExpectedConditions.visibilityOf(eventStartCalendarButton()));
         eventStartCalendarButton().click();
         try {
