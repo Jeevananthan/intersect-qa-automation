@@ -844,3 +844,21 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the college "Williams College" is "pinned" in the why drawer
     And SM I unpin "Williams College"
     And SM I verify the college "Williams College" is "unpinned" in the why drawer
+
+   @MATCH-3470
+   Scenario: As a HS student that is on the Compare Pinned Schools page, I want to organize the order of my pinned
+   schools so I can control which schools are comparable side by side.
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I clear all pills from Must have  and Nice to have boxes
+     And SM I clear pinned schools list
+     And SM I search for "Williams College" college in search bar
+     And SM I search for "Bennett College" college in search bar
+     And SM I open the Pinned Schools Compare screen
+     And SM I verify that left and right arrow buttons are displayed on top of "Williams College" logo in Compare Pinned Schools page
+     And SM I verify that left and right arrow buttons are displayed on top of "Bennett College" logo in Compare Pinned Schools page
+     And SM I verify that the left arrow button should be disabled for the school "Williams College" since it is ordered #1
+     And SM I verify that the right arrow button should be disabled for the school "Bennett College" since it is ordered last
+     And SM I move "Williams College" to the "right" in Compare Pinned Schools page
+     And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
+     And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
