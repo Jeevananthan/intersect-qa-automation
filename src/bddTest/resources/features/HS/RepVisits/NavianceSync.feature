@@ -101,6 +101,89 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
     Then HS I complete the setupWizard
 
+  @MATCH-2881
+  Scenario Outline: As a Repvisits Naviance user, i cannot view the notification while Rescheduling an appointment that has already been pushed to Naviance
+#Rescheduling an appointment that has already been pushed to Naviance
+#verify settings(select Manually choose which visits to publish)
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    And HS I go to the Naviance Settings to select the option "Manually choose which visits to publish. (If any)"
+#create Visit for Reschedule
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I set the value for Reschedule the visit
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+#create new visit
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    And HS I successfully sign out
+#schedule Visit
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+#verify Naviance Tab
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Then HS I verify the Notification is "displaying" in the Naviance Sync Tab for the following details "<University>","<heTime>","<Date>"
+#verify settings(select Automatically choose which visits to publish)
+    And HS I go to the Naviance Settings to select the option "Automatically publish confirmed visits."
+#verify Naviance Tab
+    Then HS I verify the Notification is "not displaying" in the Naviance Sync Tab for the following details "<University>","<heTime>","<Date>"
+#verify settings(select Manually choose which visits to publish)
+    And HS I go to the Naviance Settings to select the option "Manually choose which visits to publish. (If any)"
+#reschedule visit
+    Then HS I reschedule the visit for the following data "<University>","<heCalendarTime>","<Date>" in calendar
+    Then HS I verify reschedule pop-up for the following data "<User>","<University>","<heCalendarTime>","<Date>"
+    Then HS I reschedule a visit for the following details "<heTimefornewVisit>","<reason>","<Date>"
+#verify Naviance
+    Then HS I verify the Notification is "not displaying" in the Naviance Sync Tab for the following details "<University>","<heTime>","<Date>"
+#Remove the time slot in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<StartDate>","<heStartTime>" in Regular Weekly Hours Tab
+#Remove the appointment from Calendar
+    And HS I select calendar in RepVisits
+    Then HS I verify and select an appointment in calendar page using "<University>","<heCalendarTime>","<Date>","ReScheduled"
+    Then HS I remove the appointment from the calendar
+
+#Rescheduling an appointment that has not been pushed to Naviance
+#verify settings(select Manually choose which visits to publish)
+    And HS I go to the Naviance Settings to select the option "Manually choose which visits to publish. (If any)"
+#create Visit for Reschedule
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I set the value for Reschedule the visit
+#create new visit
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    And HS I successfully sign out
+#schedule Visit
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+#verify Naviance Tab
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Then HS I verify the Notification is "displaying" in the Naviance Sync Tab for the following details "<University>","<heTime>","<Date>"
+#reschedule visit
+    Then HS I reschedule the visit for the following data "<University>","<heCalendarTime>","<Date>" in calendar
+    Then HS I verify reschedule pop-up for the following data "<User>","<University>","<heCalendarTime>","<Date>"
+    Then HS I reschedule a visit for the following details "<heTimefornewVisit>","<reason>","<Date>"
+#verify Naviance
+    Then HS I verify the Rescheduled Notification is "displaying" in the Naviance Sync Tab for an appointment that has not been pushed to Naviance using "<University>","<StartTimefornewVisit>","<Date>"
+#Remove the time slot in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTimefornewVisit>" in Regular Weekly Hours Tab
+#Remove the appointment from Calendar
+    And HS I select calendar in RepVisits
+    Then HS I verify and select an appointment in calendar page using "<University>","<heCalendarTime>","<Date>","ReScheduled"
+    Then HS I remove the appointment from the calendar
+    And HS I successfully sign out
+
+    Examples:
+      |StartTime|EndTime |NumVisits|Option                            |hsEndTime|School                   |University                |heStartTime   |heTime   |Day|Date|StartDate|EndDate|StartTimefornewVisit|User     |reason   |heTimefornewVisit|heCalendarTime|option|
+      |10:34am  |12:59pm |3        |Yes, accept all incoming requests.|12:59pm  |Standalone High School 6 |The University of Alabama |10:34am       |10:34am  |21 |21  |21       |35     |10:28am             |PurpleHE |by QA    |10:28am          |10:33AM       |1     |
+
+
 
 
 

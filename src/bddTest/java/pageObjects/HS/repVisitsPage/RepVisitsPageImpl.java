@@ -4070,6 +4070,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Reschedule Visit is not displayed",rescheduleVisitButton().isDisplayed());
         rescheduleVisitButton().click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
     public void addContactManually(String date,String Time,String FName,String LName,String Email,String PhNo,String Position,String Institution) {
