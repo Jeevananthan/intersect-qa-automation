@@ -55,6 +55,7 @@ Feature: As a Freemium or Legacy Hubs HE user I want to see an additional Commun
   Scenario: The h tags used in Community are not following appropriate accessibility standards and need re-updated.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then I navigate to Counselor Community page
+    Then I verify that the "Community Home" header in "Home" tab is "h1"
     Then I verify that the "Your Profile" header in "Profile" tab is "h1"
     Then I verify that the "Population Served (Territory)" header in "Profile" tab is "h2"
     Then I verify that the "Contact" header in "Profile" tab is "h2"
