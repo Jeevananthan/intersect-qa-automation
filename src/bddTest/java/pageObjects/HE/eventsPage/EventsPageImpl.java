@@ -56,7 +56,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyEventIsPresent(String eventName) {
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Unpublished")));
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Unpublished")));
         driver.get(driver.getCurrentUrl());
         int numberOfEventsFound = driver.findElements(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']" +
                 "/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/div[text()='" + eventName + "']")).size();
@@ -95,7 +95,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEventIsInCancelledList(String eventName) {
-        getEventsTab("Cancelled").click();
+        getEventsInternalTab("Cancelled").click();
         verifyEventIsPresent(eventName);
     }
 
@@ -347,7 +347,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Unpublished")));
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Unpublished")));
         Assert.assertTrue("The deleted event is still present in the list",
                 driver.findElements(By.xpath(eventsListLocator(eventName))).size() == 0);
     }
@@ -732,7 +732,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
     public WebElement getEventsTab(String tabName) {
-        return driver.findElement(By.xpath("//h2[contains(text(), '" + tabName + "')]"));
+        return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]"));
     }
     private WebElement getTimeZoneOption(String optionName) {
         return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _22IjfAfN4Zs4CnM4Q_AlWZ']" +
