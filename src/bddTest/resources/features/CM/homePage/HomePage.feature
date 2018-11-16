@@ -51,7 +51,7 @@ Feature: As a Freemium or Legacy Hubs HE user I want to see an additional Commun
     Then I go to user profile page
     Then I verify the instruction text in the post box
 
-  @MATCH-5471
+  @MATCH-5471 @MATCH-5125
   Scenario: The h tags used in Community are not following appropriate accessibility standards and need re-updated.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then I navigate to Counselor Community page
