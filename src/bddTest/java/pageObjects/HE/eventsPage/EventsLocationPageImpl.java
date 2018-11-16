@@ -216,7 +216,7 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
     private static final String deleteLocationMessageWhenAssociatedWithPublishedEvent =
             "This location can not be deleted since it is associated with a published event";
     private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent1 =
-            "This location is associated with a past published event.Are you sure you want to delete?";
+            "This location is associated with a past published event.";
     private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent2 =
             "Are you sure you want to delete?";
     public WebElement locationAssociatedToPublishedEventOkButton() { return driver.findElement(By.xpath("//button[@class = 'ui primary button']")); }
