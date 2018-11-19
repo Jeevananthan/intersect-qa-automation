@@ -128,7 +128,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
     public void verifyDefaultdropdownMenuSelection(String defaultMenuSelection,DataTable dataTable){
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
-        load(GetProperties.get("he.app.url")+ "connection/connections");
+        load(GetProperties.get("he.app.url")+ "am-plus/view-connections");
         waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
         for (String option : value) {
@@ -137,7 +137,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             getNavigationBar().goToRepVisits();
             waitUntilPageFinishLoading();
-            load(GetProperties.get("he.app.url")+ "connection/connections");
+            load(GetProperties.get("he.app.url")+ "am-plus/view-connections");
             waitUntilPageFinishLoading();
             Assert.assertTrue("Since Last Export is not present as a default dropdown menu selection",driver.findElement(By.xpath("//div[text()='"+defaultMenuSelection+"']")).isDisplayed());
      }}
@@ -224,7 +224,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         return Tab;
     }
     private WebElement exportConnectionsDropdown() {
-        WebElement button=driver.findElement(By.xpath("//div[text()='Since Last Export']"));
+        WebElement button=driver.findElement(By.xpath("//div[@aria-label='Select timeframe to download student connections']/div[@role='alert']"));
         return button;
     }
     private WebElement downloadButton(){

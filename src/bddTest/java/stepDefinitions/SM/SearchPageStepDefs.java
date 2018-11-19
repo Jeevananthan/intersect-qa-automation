@@ -307,6 +307,8 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify the options displayed in Out of State students Select % dropdown$", searchPage::verifyOptionsInOutOfStateStudentsSelectPercentDropdown);
 
+        Then("SM I verify the options displayed in the Average Class Size listbox", searchPage::verifyOptionsInAverageClassSizeListBox);
+
         And("^I select the radio button \"([^\"]*)\"$", searchPage::selectRadioButton);
 
         Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);

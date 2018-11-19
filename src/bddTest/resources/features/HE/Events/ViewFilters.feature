@@ -21,6 +21,8 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
       | Grade Level        | Freshman |
       | GPA                | B     |
       | Filter Name        | ViewFilterTest6674 |
+    When HE I open the Events section
+    And HE I open the "Filters" tab in the Events section
     And HE I edit the Event Filter's name "ViewFilterTest6674" to "ViewFilterTest6674Edited"
     Then HE A filter of name "ViewFilterTest6674Edited" is displayed in the filters list
     And HE I delete the filter of name "ViewFilterTest6674Edited"
@@ -37,11 +39,11 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
       | Race and Ethnicity | White |
       | Grade Level        | Freshman |
       | GPA                | B     |
-      | Filter Name        | FilterToBeRemoved776 |
+      | Filter Name        | FilterToBeRemoved777 |
     When HE I open the Events section
     And HE I open the "Events" tab in the Events section
     When HE I create and save a new event with the following details:
-      | Event Name | TestEventDeletedFilter33 |
+      | Event Name | TestEventDeletedFilter44 |
       | Event Start | 12-21-2018;10:00AM |
       | Timezone    | Eastern Time (i.e. America/New_York) |
       | Description | Test              |
@@ -49,16 +51,16 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
       | RSVP Deadline | 12-15-2018;10:00AM |
       | EVENT LOCATION BY POSITION | 1  |
       | EVENT PRIMARY CONTACT BY POSITION | 1  |
-      | EVENT AUDIENCE        | FilterToBeRemoved776     |
+      | EVENT AUDIENCE        | FilterToBeRemoved777     |
     And HE I open the "Filters" tab in the Events section
-    And HE I delete the filter of name "FilterToBeRemoved776"
+    And HE I delete the filter of name "FilterToBeRemoved777"
     And HE I open the "Events" tab in the Events section
     And HE I open the "Unpublished" tab in Events
-    And HE I open the event of name "TestEventDeletedFilter33"
-    Then HE The filter of name "FilterToBeRemoved776" should not be present in the Event Audience list
+    And HE I open the event of name "TestEventDeletedFilter44"
+    Then HE The filter of name "FilterToBeRemoved777" should not be present in the Event Audience list
     When HE I open the Events section
     And HE I open the "Events" tab in the Events section
-    And HE I delete the event of name "TestEventDeletedFilter33"
+    And HE I delete the event of name "TestEventDeletedFilter44"
 
   @MATCH-2903
   Scenario: The number of published events that a specific filter is assigned to is displayed
@@ -83,7 +85,6 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
       | EVENT LOCATION BY POSITION | 1  |
       | EVENT PRIMARY CONTACT BY POSITION | 1  |
       | EVENT AUDIENCE        | AssignedFilter88663     |
-    #When HE I open the Events section
     And HE I open the "Filters" tab in the Events section
     Then HE I verify that the filter of name "AssignedFilter88663" is assigned to "1" events
     And HE I delete the filter of name "AssignedFilter88663"
