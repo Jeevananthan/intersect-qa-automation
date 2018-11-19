@@ -148,5 +148,55 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Then I check if I can see "Your Advanced Awareness and Connection Subscriptions" on the page
 
 
+  @MATCH-4402 @MATCH-5367
+  Scenario: As an HE user, I need to be be able to compose my AM Next Gen Competitors messaging so that I can  attract
+  the students with interests in other schools.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "advanced-awareness/competitors" url
+    Then HE I check competitors are displayed in alphabetical order
+    Then HE I check each competitor contains option "Display without message"
+    Then HE I check each competitor contains option "Show same message to all audiences"
+    Then HE I check each competitor contains option "Differentiate message per audience"
+    Then HE I select "Show same message to all audiences" option for Competitors
+    Then HE I set a Competitor "Show same message to all audiences automation message" message
+    Then HE I select "Differentiate message per audience" option for Competitors
+    Then HE I set a Competitor "Differentiate message per audience automation message" message
+    Then I submit button "Save"
+    Then I  wait for the success message "Competitor messages have been successfully updated."
+    Then HE I navigate to the "advanced-awareness/competitors" url
+    Then HE I select "Show same message to all audiences" option for Competitors
+    Then I check if I can see "Show same message to all audiences automation message" on the page
+    Then HE I select "Differentiate message per audience" option for Competitors
+    Then I check if I can see "Differentiate message per audience automation message" on the page
+    Then HE I set a Competitor "" message
+    Then HE I select "Differentiate message per audience" option for Competitors
+    Then HE I set a Competitor "" message
+    Then I submit button "Save"
+    Then I  wait for the success message "Competitor messages have been successfully updated."
 
-
+  @MATCH-4403 @MATCH-5368
+  Scenario: As an HE user, I need to be be able to compose my Majors messaging so that I can  attract the students with
+  interests in specific majors and interest of study
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "advanced-awareness/majors" url
+    Then HE I check competitors are displayed in alphabetical order
+    Then HE I check each major contains option "Display without message"
+    Then HE I check each major contains option "Show same message to all majors"
+    Then HE I check each major contains option "Differentiate message per major"
+    Then HE I select "Show same message to all majors" option for Majors
+    Then HE I set a Competitor "Show same message to all majors automation message" message
+    Then HE I select "Differentiate message per major" option for Majors
+    Then HE I set a Competitor "Differentiate message per major automation message" message
+    Then I submit button "Save"
+    Then I  wait for the success message "Major messages have been successfully updated."
+    Then HE I navigate to the "advanced-awareness/majors" url
+    Then HE I select "Show same message to all majors" option for Majors
+    Then I check if I can see "Show same message to all majors automation message" on the page
+    Then HE I select "Differentiate message per major" option for Majors
+    Then I check if I can see "Differentiate message per major automation message" on the page
+    Then HE I select "Show same message to all majors" option for Majors
+    Then HE I set a Competitor "" message
+    Then HE I select "Differentiate message per major" option for Majors
+    Then HE I set a Competitor "" message
+    Then I submit button "Save"
+    Then I  wait for the success message "Major messages have been successfully updated."
