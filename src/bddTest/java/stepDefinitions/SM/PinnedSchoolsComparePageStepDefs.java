@@ -40,5 +40,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I verify all the below options available in Academics fit criteria in Academics expandable drawer$", pinnedSchoolsComparePage::verifyAcademicsExpandableDrawerOptions);
 
+        And("^SM I verify all the below options available in IC fit criteria in IC expandable drawer$", pinnedSchoolsComparePage::verifyICDrawerOptions);
+
     }
 }
