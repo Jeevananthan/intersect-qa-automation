@@ -1860,6 +1860,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyOptionsInAverageClassSizeListBox(DataTable dataTable)
+    {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Institution Characteristics");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        averageClassSizeDropdownChevron().click();
+
+        List<String> averageClassSizeOptionsActual = averageClassSizeDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = averageClassSizeOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Average Class Size dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+    }
+
     public void verifyOptionsInOnCampusHousingSelectPercentDropdown(DataTable dataTable) {
         int optionIndex = 0;
         String actualOption;
@@ -3127,6 +3150,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private List<WebElement> outOfStateStudentsPercentDropdownOptions() {
         return getDriver().findElements(By.xpath("//div[@id='OutOfStateStudents-dropdown']//span"));
+    }
+
+    private WebElement averageClassSizeDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='classsize-dropdown']/i"));
+    }
+
+    private List<WebElement> averageClassSizeDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='classsize-dropdown']//span"));
     }
 
     private WebElement onCampusHousingPercentDropdownChevron() {

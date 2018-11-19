@@ -845,3 +845,21 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the college "Williams College" is "pinned" in the why drawer
     And SM I unpin "Williams College"
     And SM I verify the college "Williams College" is "unpinned" in the why drawer
+
+  @MATCH-3634
+  Scenario: Verify options in Average Class Size List
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I verify the options displayed in the Average Class Size listbox
+    |Select|
+    |10    |
+    |20    |
+    |30    |
+    |40    |
+    |50    |
+    |100   |
+    Then SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "10" from the dropdown "classsize-dropdown"
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "Class size < 10"
