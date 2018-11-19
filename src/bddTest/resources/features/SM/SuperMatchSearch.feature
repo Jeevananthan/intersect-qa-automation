@@ -887,3 +887,21 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | GPA (4.0 scale) | 3  |
       | SAT Composite   | 1000 |
       | ACT Composite   | 26   |
+
+  @MATCH-3835
+  Scenario: As a HS student who has added more than one sport to my college search fit criteria, I want the ability to
+  control whether the SuperMatch component uses 'OR' versus 'AND' logic so I have the ability to be more strict about a
+  college meeting all of my athletic requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I press button "ADD SPORT"
+    And SM I pick "Badminton" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I close the fit criteria selection window
+    And SM I verify that "Search for institutions that have ALL of my selected sports" checkbox is "unselected" in "Athletics" fit criteria
+    And SM I select the "Search for institutions that have ALL of my selected sports" checkbox from "Athletics" fit criteria
