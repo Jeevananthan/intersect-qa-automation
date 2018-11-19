@@ -21,6 +21,8 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
       | Grade Level        | Freshman |
       | GPA                | B     |
       | Filter Name        | ViewFilterTest6674 |
+    When HE I open the Events section
+    And HE I open the "Filters" tab in the Events section
     And HE I edit the Event Filter's name "ViewFilterTest6674" to "ViewFilterTest6674Edited"
     Then HE A filter of name "ViewFilterTest6674Edited" is displayed in the filters list
     And HE I delete the filter of name "ViewFilterTest6674Edited"

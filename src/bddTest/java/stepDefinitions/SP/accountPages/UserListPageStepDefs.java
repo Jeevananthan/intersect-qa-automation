@@ -27,6 +27,7 @@ public class UserListPageStepDefs implements En  {
 
         And("^SP I verify the \"([^\"]*)\" message in the homepage$",userListPage::verifyLoginMessageInHomPage);
 
+        Then("^SP I receive the Intersect Invitation email with the following data:$", userListPage::verifyInviteEmail);
     }
 
 }
