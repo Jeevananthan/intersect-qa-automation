@@ -39,7 +39,7 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to welcome wizard of the repvisits
     And HS I navigate to "Availability" wizard in repvisits
-    Then HS I add the time slot in "Monday" with start time as "05:00AM" and end time as "02:00PM" and "5" vistis
+    Then HS I add the time slot in "Monday" with start time as "05:00AM" and end time as "02:00PM" and "5" visits with "1"
     And HS I navigate to sub tab "Blocked Days" in availability wizard
     Then HS I select "LABOR_DAY" in blocked days tab and verify saving option works successfully
     And HS I navigate to sub tab "Exceptions" in availability wizard
