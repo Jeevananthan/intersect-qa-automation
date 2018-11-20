@@ -254,6 +254,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyInstitutionInRegistrationPage(String school)
+    {
+        softly().assertThat(getDriver().findElement(By.tagName("h1")).getText()).as("School Name").isEqualTo(school);
+    }
+
     public void verifyLink(String navianceORnonNavianceLink)
     {
        Assert.assertTrue("Link is not displayed",link(navianceORnonNavianceLink).isDisplayed());

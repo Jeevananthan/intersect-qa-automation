@@ -295,9 +295,9 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     Then HS I click the new user link in the login page
     And HS I search for "Int Qa High School 4" in "High school" and verify the results
 
-
   @MATCH-5276
   Scenario: As a HS user, I want to see if high schools are displayed in the search results when SEARCH button is pressed
     Given HS I navigate to Registration Intersect url
     And HS I search for "Lakota East High School" in High School Staff Member registration page
+    Then HS I select "Lakota East High School" from the registration page search results
 
