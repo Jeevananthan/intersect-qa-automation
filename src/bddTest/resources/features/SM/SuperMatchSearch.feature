@@ -852,8 +852,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
      And I clear the onboarding popups if present
      And SM I clear all pills from Must have  and Nice to have boxes
      And SM I clear pinned schools list
-     And SM I search for "Williams College" college in search bar
-     And SM I search for "Bennett College" college in search bar
+     Then SM I pin "Williams College" from the search box
+     Then SM I pin "Bennett College" from the search box
      And SM I open the Pinned Schools Compare screen
      And SM I verify that left and right arrow buttons are displayed on top of "Williams College" logo in Compare Pinned Schools page
      And SM I verify that left and right arrow buttons are displayed on top of "Bennett College" logo in Compare Pinned Schools page

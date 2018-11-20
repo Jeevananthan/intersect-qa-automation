@@ -284,6 +284,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     public void pinCollegeFromBottomSearchResult(String collegeName){
+        searchBar().clear();
         searchBar().sendKeys(collegeName);
         String searchedCollegePinString = "//a[text()='"+collegeName+"']/../../div/a/span[text()='PIN']";
         WebElement searchedCollegePinButton = driver.findElement(By.xpath(searchedCollegePinString));
