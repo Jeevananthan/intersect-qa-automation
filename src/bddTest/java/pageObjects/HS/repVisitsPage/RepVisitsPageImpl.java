@@ -4660,10 +4660,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Representative is not present in the Representative text box",selectedAttendeeValue.contains(attendee));
         manualStartTime().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
-        moveToElement(eventLocation());
-        eventLocation().clear();
-        eventLocation().sendKeys(location);
-        eventLocation().sendKeys(Keys.PAGE_DOWN);
+        moveToElement(eventLocationHS());
+        eventLocationHS().clear();
+        eventLocationHS().sendKeys(location);
+        eventLocationHS().sendKeys(Keys.PAGE_DOWN);
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//form[@id='add-calendar-appointment']//button[@class='ui teal right floated button']"),1));
         moveToElement(addVisitButtonInVisitSchedulePopup());
         Assert.assertTrue("AddVisit button is not Enabled",addVisitButtonInVisitSchedulePopup().isEnabled());
@@ -8662,6 +8662,12 @@ public void cancelRgisteredCollegeFair(String fairName){
         WebElement location=driver.findElement(By.name("eventLocation"));
         return location;
     }
+
+    private WebElement eventLocationHS() {
+        WebElement location=driver.findElement(By.name("locationWithinSchool"));
+        return location;
+    }
+
     private WebElement addVisitButtonInVisitSchedulePopup() {
         WebElement button=driver.findElement(By.xpath("//form[@id='add-calendar-appointment']//button[@class='ui teal right floated button']"));
         return button;
