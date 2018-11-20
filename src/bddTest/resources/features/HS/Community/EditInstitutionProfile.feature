@@ -298,6 +298,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-5276
   Scenario: As a HS user, I want to see if high schools are displayed in the search results when SEARCH button is pressed
     Given HS I navigate to Registration Intersect url
-    And HS I search for "Lakota East High School" in High School Staff Member registration page
-    Then HS I select "Lakota East High School" from the registration page search results
+    And HS I search for "Lakota" in High School Staff Member registration page
+    Then HS I verify the search results on the registration page contain "Lakota"
 

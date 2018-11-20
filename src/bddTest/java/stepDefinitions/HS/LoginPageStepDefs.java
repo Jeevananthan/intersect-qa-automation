@@ -56,7 +56,7 @@ public class LoginPageStepDefs implements En {
 
         Then("^SP I am logged in to Support for Intersect$", loginPage::defaultLoginForSupport);
 
-        Then("^HS I select \"([^\"]*)\" from the registration page search results$", loginPage::verifyInstitutionInRegistrationPage);
+        Then("^HS I verify the search results on the registration page contain \"([^\"]*)\"$", loginPage::verifySearchResultsOnRegistrationPage);
 
     }
 }
