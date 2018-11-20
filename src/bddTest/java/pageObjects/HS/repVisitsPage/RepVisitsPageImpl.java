@@ -2372,7 +2372,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void addTimeSlotInRegularWeeklyHours(String day,String startTime,String endTime,String noOfVisits) {
+    public void addTimeSlotInRegularWeeklyHours(String day,String startTime,String endTime,String noOfVisits, String option) {
 
         Assert.assertTrue("Regular Weekly Hours is not displayed", regularWeeklyHoursText().isDisplayed());
 
@@ -2383,12 +2383,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         visitStartTimeTextBox().sendKeys(startTime);
         visitEndTimeTextBox().sendKeys(endTime);
-
         numVisitsTextBox().sendKeys(noOfVisits);
 
         addTimeSlotButton().click();
+        waitForUITransition();
+        List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
+        List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
+
+        if(displayingPopup.size()==1 ){
+            ignoreTimeSlotOption().click();
+            addRegularHoursButton().click();
+            waitUntilPageFinishLoading();
+        }else if(option.contains("2")){
+            addTimeSlot().click();
+            addRegularHoursButton().click();
+        }else{
+            logger.info("'Review Previously Deleted Timeslot' Popup are not found");
+        }
 
         backButton().click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("High school information is not displayed", highSchoolTextInSetupWizard().isDisplayed());
     }
 

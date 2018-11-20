@@ -153,7 +153,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I navigate to \"([^\"]*)\" wizard in repvisits$", repVisits::navigateToRepvisitWizard);
 
-        Then("^HS I add the time slot in \"([^\"]*)\" with start time as \"([^\"]*)\" and end time as \"([^\"]*)\" and \"([^\"]*)\" vistis$", repVisits::addTimeSlotInRegularWeeklyHours);
+        Then("^HS I add the time slot in \"([^\"]*)\" with start time as \"([^\"]*)\" and end time as \"([^\"]*)\" and \"([^\"]*)\" visits with \"([^\"]*)\"$", repVisits::addTimeSlotInRegularWeeklyHours);
 
         And("^HS I navigate to sub tab \"([^\"]*)\" in availability wizard$", repVisits::navigateToSubTabsInAvailabilityWizard);
 
