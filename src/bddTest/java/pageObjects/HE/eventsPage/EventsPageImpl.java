@@ -56,7 +56,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyEventIsPresent(String eventName) {
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Unpublished")));
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Unpublished")));
         driver.get(driver.getCurrentUrl());
         int numberOfEventsFound = driver.findElements(By.xpath("//div[@class='ui stackable middle aligned grid _3nZvz_klAMpfW_NYgtWf9P']" +
                 "/div[@class='row _3yNTg6-hDkFblyeahQOu7_']/div/div/div[text()='" + eventName + "']")).size();
@@ -95,7 +95,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEventIsInCancelledList(String eventName) {
-        getEventsTab("Cancelled").click();
+        getEventsInternalTab("Cancelled").click();
         verifyEventIsPresent(eventName);
     }
 
@@ -255,6 +255,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         getMenuButton("Edit").click();
     }
 
+    public void editEventToPublish(String clickEventName){
+        editEventClick(clickEventName).click();
+
+    }
+
     public void takeNoteOfData() {
         editedData.put("Event Name", eventNameField().getText());
         editedData.put("Event Start", eventStartTimeField().getText());
@@ -316,6 +321,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickSaveDraft() {
+        waitUntilPageFinishLoading();
         saveDraftButton().click();
     }
 
@@ -341,7 +347,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(getEventsTab("Unpublished")));
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Unpublished")));
         Assert.assertTrue("The deleted event is still present in the list",
                 driver.findElements(By.xpath(eventsListLocator(eventName))).size() == 0);
     }
@@ -415,6 +421,13 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         publishNowButton().sendKeys(Keys.RETURN);
     }
 
+    public void EditAndPublishEventWithGenDate (String minutesFromNow, DataTable eventDetailsData) {
+        List<List<String>> eventDetails = eventDetailsData.asLists(String.class);
+        editfillEventStartDateTimeFields(minutesFromNow);
+        fillCreateEventForm(eventDetails);
+        publishNowButton().sendKeys(Keys.RETURN);
+    }
+
     public void fillEventStartDateTimeFields(String minutesFromNow) {
         waitUntilPageFinishLoading();
         generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
@@ -431,6 +444,20 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         eventStartTimeField().sendKeys(getTime(generatedTime).replace(" ", ""));
     }
 
+    public void editfillEventStartDateTimeFields(String minutesFromNow) {
+        waitUntilPageFinishLoading();
+        generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
+        Calendar date = Calendar.getInstance();
+        waitUntil(ExpectedConditions.visibilityOf(eventStartCalendarButton()));
+        eventStartCalendarButton().click();
+        try {
+            pickDateInDatePicker(date);
+        } catch (NoSuchElementException e) {
+            eventStartCalendarButton().click();
+            pickDateInDatePicker(date);
+        }
+        eventStartTimeField().sendKeys(getTime(generatedTime).replace(" ", ""));
+    }
     public void verifyEventInExpiredList() {
         getEventsTab("Expired").click();
 
@@ -591,6 +618,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     private void verifyNoAttendeesMessage() {
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("ATTENDEES")));
         softly().assertThat(noAttendeesMessage().getText()).as("No attendees message").isEqualTo(noAttendeesMessageString);
     }
 
@@ -689,7 +717,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement rsvpTimeField() { return driver.findElement(By.cssSelector("input#registrationDeadlineTime")); }
     public WebElement locationField() { return driver.findElement(By.cssSelector("input[name='locations-dropdown']")); }
     private WebElement primaryContactField() { return driver.findElement(By.cssSelector("input[name='contacts-search']")); }
-    private WebElement audienceField() { return driver.findElement(By.cssSelector("input[name='filters-dropdown']")); }
+    public WebElement audienceField() { return driver.findElement(By.cssSelector("input[name='filters-dropdown']")); }
     private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button[title='Save Draft']")); }
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
     private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
@@ -720,10 +748,10 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//input[@id='availableSeats']/../../../../div[@class='four wide column']/div/span"));
     }
     private WebElement eventLocationError() {
-        return driver.findElement(By.cssSelector("div.ui.icon.input._2PODx9czzn4W7nb0z2u3aA + div span"));
+        return driver.findElement(By.xpath("//span[text()='Please select a location for the event.']"));
     }
     private WebElement primaryContactError() {
-        return driver.findElement(By.cssSelector("div.ui.icon.input._3KUN7Tb1NlCv2_RQqzKQCj + div span"));
+        return driver.findElement(By.xpath("//span[text()='Please select a contact for the event.']"));
     }
     private WebElement unpublishYesButton() {
         return driver.findElement(By.cssSelector("button[data-status='UNPUBLISHED']"));
@@ -777,4 +805,5 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement attendeeDataEmail(String Email){return driver.findElement(By.xpath("//Div[text()='" + Email + "']"));}
     private WebElement attendeeDataStatus(String Status){return driver.findElement(By.xpath("//Div[text()='" + Status + "']"));}
     private WebElement getEventsInternalTab(String tabName) { return  driver.findElement(By.xpath("//h2[contains(text(), '" + tabName + "')]")); }
+    private WebElement editEventClick (String nameOfEvent){return driver.findElement(By.xpath("//h3[text()='" +nameOfEvent+ "']"));}
 }

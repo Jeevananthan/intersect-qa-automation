@@ -17,6 +17,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
     Then HS I Click on the "Edit" button in the College Fair Details Page
     Then HS I set the data to the Edit a college Fair "<College Fair Name>","<VerifyDateEdit>","<Cost>","<NumberofStudentsExpected>","<MaxNumberofColleges>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<ButtonToClick>"
+    Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     Examples:
@@ -39,6 +40,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       | Number of Students Expected                               | 10                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
+    Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I Click on the View Details button for the College Fair Event "Automation Fair for Mass Email"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HEadmin" from the results in the Add Attendee pop-up page
@@ -47,6 +49,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then  HS I Enter Message as "Mass email to attendees to verify automation is sending mass email to attendees"
     Then  HS I click on Send Message
     Then  HS I verify confirmation message
+    Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I Click on the View Details button for the College Fair Event "Automation Fair for Mass Email"
     Then HS I select Edit button to cancel the college Fair "Automation Fair for Mass Email"
     And HS I successfully sign out
@@ -67,10 +70,11 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       | Number of Students Expected                               | 10                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
-
+    Then HS I Click on the "Close" button in the success page of the college fair
     And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Attendee"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     And HS I Add the following Attendee "purple HE" from the results in the Add Attendee pop-up page
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I Click on the View Details button for the College Fair Event "Automation Fair Add Attendee"
     Then HS I select Edit button to cancel the college Fair "Automation Fair Add Attendee"
     And HS I successfully sign out
@@ -91,7 +95,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       | Number of Students Expected                               | 10                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
-
+    Then HS I Click on the "Close" button in the success page of the college fair
     And HS I Click the View Details button for the College Fair Event for "Automation Fair Add Manual Attendee"
     And HS I Click on the "Add Attendee" button in the College Fair Details Page
     Then HS I click on link Add School User Manually
@@ -103,6 +107,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       |Position  |Alma Tester        |
       |Institution|Alma College    |
     Then HS I click on button Add attendees
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I Click on the View Details button for the College Fair Event "Automation Fair Add Manual Attendee"
     Then HS I select Edit button to cancel the college Fair "Automation Fair Add Manual Attendee"
     And HS I successfully sign out
@@ -113,6 +118,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   so I can keep track of who is attending.
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I Click the View Details button for the College Fair Event for "PreviouslySetFair"
     Then HS I verify the Fair Details Page "PreviouslySetFair","<VerifyDate>","<instructionsforCollegeRepresentatives>"
     Then HS I Click on the "Add Attendee" button in the College Fair Details Page
@@ -149,9 +155,11 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       | Number of Students Expected                               | 10                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
+    Then HS I Click on the "Close" button in the success page of the college fair
     And HS I Click the View Details button for the College Fair Event for "Cancel This Fair"
     And HS I click on button Add attendees for fair
     And HS I Add the following Attendee "Franky2" from the results in the Add Attendee pop-up page
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     Then HS I Click on the View Details button for the College Fair Event "Cancel This Fair"
     Then HS I select Edit button to cancel the college Fair "Cancel This Fair"
     And HS I successfully sign out
@@ -181,6 +189,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I set the data to create the College Fair "QA Test Fair New/Edit","3","0900AM","1000AM","2","$25","25","100","Save"
     Then HS I add the following attendees to the College Fair
       |PurpleHE Automation|
+    Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I verify that the user receives an activity notification with "PreviouslySetFair" and "PurpleHE Automation"
     Then HS I verify non community members to be notified with "frank.sejas@gmail.com" and "incorrectemail.com" email
     Then HS I Click on the View Details button for the College Fair Event "QA Test Fair New/Edit"
@@ -205,6 +214,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 #add attendee
     Then HS I add the following attendees to the College Fair
       |<Attendee>|
+    Then HS I Click on the "Close" button in the success page of the college fair
 #cancel attendee
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I Click the "Cancel" button for the attendee "<Attendee>"
@@ -254,6 +264,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
       | Number of Students Expected                               | 10                      |
       | Instructions for College Representatives                  | Submit request by Email |
       | Email Message to Colleges After Confirmation              | why not                 |
+    Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I Click on the View Details button for the College Fair Event "MATCH-2080 Fair"
     Then HS I select Edit button to cancel the college Fair "MATCH-2080 Fair"
     And HS I verify the Canceled events for "MATCH-2080 Fair"

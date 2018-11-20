@@ -198,6 +198,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     And SM I unselect the "4-year" checkbox from the "Institution Characteristics" fit criteria
     Then SM I click "Diversity" filter criteria tab
     And SM I pick "50%" from the dropdown "OutOfStateStudents-dropdown"
+    Then SM I close the fit criteria selection window
     Then SM I press Why button for "Bennett College" college
     Then I check if I can see "Out of State Students ≥ 50%" on the page
     Then I check if I can see "42% are out-of-state students" on the page

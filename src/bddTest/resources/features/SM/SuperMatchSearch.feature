@@ -304,15 +304,16 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   @MATCH-4727
   Scenario: Load saved search which includes the NET family income
     Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I delete the saved search named "SSMATCH4727"
     Then SM I select the following data in the Cost Fit Criteria
       |Radio           |Maximum Total Cost (Tuition, Fees, Room & Board)|
       |Maximum Cost    |$10,000                                         |
       |Home State      |Ohio                                            |
       |Family Income   |$75,001 - $110,000                              |
     Then SM I open the Save Search popup
-    Then SM I save the search with the name "SS123"
+    Then SM I save the search with the name "SSMATCH4727"
     Then SM I remove the "Cost < $10000" fit criteria from the Must Have box or Nice to Have box
-    Then SM I select "SS123" in the Saved Searches dropdown
+    Then SM I select "SSMATCH4727" in the Saved Searches dropdown
     Then SM I verify the following data in the Cost Fit Criteria
       |Family Income|$75,001 - $110,000|
 
@@ -844,6 +845,66 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the college "Williams College" is "pinned" in the why drawer
     And SM I unpin "Williams College"
     And SM I verify the college "Williams College" is "unpinned" in the why drawer
+
+  @MATCH-3634
+  Scenario: Verify options in Average Class Size List
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I verify the options displayed in the Average Class Size listbox
+    |Select|
+    |10    |
+    |20    |
+    |30    |
+    |40    |
+    |50    |
+    |100   |
+    Then SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "10" from the dropdown "classsize-dropdown"
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "Class size < 10"
+
+  @MATCH-4051
+  Scenario: As a HS student, I want the SuperMatch tool to remember my most recent search (fit criteria selected including
+  the GPA, ACT, and SAT score used) even if I don't formally save the search so I can be presented with this search the
+  next time I access SuperMatch and don't have to start my search over again.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I select the "Tutoring Services" checkbox from the Resources fit criteria
+    And SM I move "Tutoring Services" from the Must Have box to the Nice to Have box
+    And I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    Then SM I log out of SuperMatch and close the browser
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I verify that the Must Have box contains "Learning Differences Support"
+    Then SM I verify that the Nice to Have box contains "Tutoring Services"
+    Then I verify the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+
+  @MATCH-3835
+  Scenario: As a HS student who has added more than one sport to my college search fit criteria, I want the ability to
+  control whether the SuperMatch component uses 'OR' versus 'AND' logic so I have the ability to be more strict about a
+  college meeting all of my athletic requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I press button "ADD SPORT"
+    And SM I pick "Badminton" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I close the fit criteria selection window
+    And SM I verify that "Search for institutions that have ALL of my selected sports" checkbox is "unselected" in "Athletics" fit criteria
+    And SM I select the "Search for institutions that have ALL of my selected sports" checkbox from "Athletics" fit criteria
 
    @MATCH-3470
    Scenario: As a HS student that is on the Compare Pinned Schools page, I want to organize the order of my pinned
