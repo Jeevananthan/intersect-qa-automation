@@ -191,14 +191,3 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
     Then SM I verify that the Must Have box contains "Private"
 
 
-  @MATCH-3947
-  Scenario: As a HS student that is comparing my pinned schools, I want to see Institution Characteristics details about each college
-  side by side so I can determine which pinned college is a best fit for me based on their Institution Characteristics.
-    Given SM I am logged in to SuperMatch through Family Connection
-    And I clear the onboarding popups if present
-    And SM I clear all the pinned college
-    And SM I search for "Bennett College" college in search bar
-    And SM I open the Pinned Schools Compare screen
-    And SM I verify all the below options available in IC fit criteria in IC expandable drawer
-      |Public or Private| Nonprofit| Average Class Size| Graduation Rate| Retention Rate| Job Placement Rate - 6 months| Job Placement Rate - 1 year|Campus Housing|Students Living on Campus|Number of Students|Undergraduate|Graduate|
-      |Private|Yes|14 Students|26%|54%|Unknown|Unknown|Yes|61%|583|583|0|
