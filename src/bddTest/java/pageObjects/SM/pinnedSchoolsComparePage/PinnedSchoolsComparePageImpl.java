@@ -350,7 +350,27 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyICDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expICOptions[] = new String[data.get(0).size()];
+        String expICOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++){
+            expICOptions[i] = data.get(0).get(i);
+            expICOptionsValues[i] = data.get(1).get(i);
+        }
+        for (int i = 0; i < institutionCharacteristicsOptions().size(); i++) {
+            Assert.assertTrue(institutionCharacteristicsOptions().get(i) + " option is not matching with the expected option ie " + expICOptions[i], institutionCharacteristicsOptions().get(i).getText().equals(expICOptions[i]));
+            String actICOptionsValues = driver.findElement(By.xpath("//div[text()='"+expICOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue(expICOptionsValues[i]+" is not displaying in application the value which is displaying is = "+actICOptionsValues, actICOptionsValues.equals(expICOptionsValues[i]));
+        }
+    }
+
     // Locators Below
+    private WebElement institutionCharacteristicsDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Institution Characteristics']/.."));
+    }
+    private List<WebElement> institutionCharacteristicsOptions(){ return institutionCharacteristicsDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
     private WebElement athleticsDrawerTable() {
         return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Athletics']/.."));
     }
