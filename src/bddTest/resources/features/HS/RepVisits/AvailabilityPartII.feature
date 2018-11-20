@@ -56,8 +56,8 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
 
   @MATCH-2111 @MATCH-2124
   Scenario: As a RepVisits High School user who works in multiple schools,
-  I want to be able to enter a primary contact number for my school,
-  So that Colleges trying to schedule visits have the correct contact number for me.
+            I want to be able to enter a primary contact number for my school,
+            So that Colleges trying to schedule visits have the correct contact number for me.
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone3"
     And HS I go to the Availability & Settings
     Then HS I verify the Primary Contact Phone Number is required in Availability & Settings
@@ -82,7 +82,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
 
   @MATCH-1812 @MATCH-2124
   Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools who have made their RepVisits availability publicly available
-  so HE users are not presented with high schools in the search results that don't use RepVisits.
+                    so HE users are not presented with high schools in the search results that don't use RepVisits.
 #Pre-condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
@@ -137,8 +137,8 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
 
     Examples:
-      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         | option |
-      |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |15  |Int Qa High School | 1|
+      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location           |option |
+      |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |15  |Int Qa High School |1      |
 
 
   @MATCH-1583
