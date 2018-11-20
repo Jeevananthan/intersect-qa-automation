@@ -4,12 +4,15 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
@@ -77,6 +80,37 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void checkCompetitorsAreInAlphabeticalOrder(){
+       List<String> actualCompetitorsOrder = new ArrayList<>();
+        for (WebElement competitor: getCompetitors()) {
+            actualCompetitorsOrder.add(competitor.getText());
+        }
+       List<String> expectedCompetitorsOrder = actualCompetitorsOrder;
+        java.util.Collections.sort(expectedCompetitorsOrder);
+        Assert.assertTrue(Arrays.equals(actualCompetitorsOrder.toArray(),expectedCompetitorsOrder.toArray()));
+    }
+
+    public void checkEchCompetitorContainsOption(String option){
+        for (WebElement competitor: getCompetitors()) {
+          Assert.assertTrue(competitor.findElement(getOption(option)).isDisplayed());
+        }
+    }
+
+    public void checkEachMajorContainsOption(String option){
+        for (WebElement competitor: getCompetitors()) {
+            Assert.assertTrue(competitor.findElement(getOption(option)).isDisplayed());
+        }
+    }
+
+    public void selectCheckbox(String option){
+       waitForUITransition();
+        getCompetitors().get(0).findElement(getOption(option)).click();
+    }
+
+    public void setCompetitorMessage(String message){
+        getCompetitors().get(0).findElement(textFieldForCOmpatitorMessage()).sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT,Keys.END),message);
+    }
+
 
 
     //locators
@@ -107,5 +141,17 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
 
     private String  audianceName(String subName){
         return "//table [@class='ui table connections-table']/tbody/tr/td/span/div[text()='" + subName + "']";
+    }
+
+    private  List <WebElement> getCompetitors(){
+        return getDriver().findElements(By.className("_2NX7sEemExJO2064BSLXHB"));
+    }
+
+    private By getOption(String option){
+        return By.xpath("..//label[text()='" + option + "']");
+    }
+
+    private By textFieldForCOmpatitorMessage(){
+       return By.xpath("..//textarea");
     }
 }

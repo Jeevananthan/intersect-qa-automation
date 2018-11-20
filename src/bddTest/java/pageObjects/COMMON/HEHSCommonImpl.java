@@ -119,6 +119,15 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
             getDriver().findElement(By.id(getMenuItemById(menuItem))).click();
     }
 
+    public void waitForSuccessMessage(String message){
+        waitUntil(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//*[text()='" +message + "']"))));
+    }
+
+    public void submitButton(String button) {
+        getDriver().findElement(By.xpath("//*[text()='" + button + "']")).submit();
+        waitUntilPageFinishLoading();
+    }
+
 //locators
     private WebElement notification(){
         return driver.findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Notifications']"));

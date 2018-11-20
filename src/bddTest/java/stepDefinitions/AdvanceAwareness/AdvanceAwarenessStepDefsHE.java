@@ -18,5 +18,11 @@ public class AdvanceAwarenessStepDefsHE implements En {
         And("^HE I verify following options are checked$", advanceAwarenessPage:: verifyDiversityOptionschecked);
         And("^HE I verify following options are unchecked$",advanceAwarenessPage:: VerifyDiversityOptionUnChecked);
         And("^HE I verify following audience are present on HE App$", advanceAwarenessPage :: verifyAudienceData);
+        Then("^HE I check competitors are displayed in alphabetical order$",advanceAwarenessPage :: checkCompetitorsAreInAlphabeticalOrder);
+        Then("^HE I check each competitor contains option \"([^\"]*)\"$", advanceAwarenessPage :: checkEchCompetitorContainsOption);
+        Then("^HE I check each major contains option \"([^\"]*)\"$", advanceAwarenessPage :: checkEachMajorContainsOption);
+        Then("^HE I select \"([^\"]*)\" option for Competitors$",advanceAwarenessPage :: selectCheckbox );
+        Then("^HE I select \"([^\"]*)\" option for Majors$",advanceAwarenessPage :: selectCheckbox );
+        Then("^HE I set a Competitor \"([^\"]*)\" message$", advanceAwarenessPage :: setCompetitorMessage);
 
     }}

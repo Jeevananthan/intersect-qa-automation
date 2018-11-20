@@ -1015,6 +1015,30 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifyAdmissionCriteria(DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        waitUntilElementExists(ChooseFitCriteriaText());
+        List<List<String>> entities = dataTable.asLists(String.class);
+        chooseFitCriteriaTab("Admission");
+        for (List<String> criteria : entities) {
+            switch (criteria.get(0)) {
+                case "GPA (4.0 scale)":
+                    Assert.assertTrue(gpaTextBox().getAttribute("value").equals(criteria.get(1)));
+                    break;
+                case "SAT Composite":
+                    Assert.assertTrue(satScoreTextBox().getAttribute("value").equals(criteria.get(1)));
+                    break;
+                case "ACT Composite":
+                    Assert.assertTrue(actScoreTextBox().getAttribute("value").equals(criteria.get(1)));
+                    break;
+            }
+        }
+        getFitCriteriaCloseButton().click();
+        waitUntilPageFinishLoading();
+    }
+
+
+
     /**
      * The below method is to check all the fit criteria is clickable and as per the fit criteria menu option is showing
      */
@@ -1853,6 +1877,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (String expectedOption : expectedOptions) {
             actualOption = outOfStateStudentsPercentOptionsActual.get(optionIndex);
             Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Out of State students 'Select %' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+    }
+
+    public void verifyOptionsInAverageClassSizeListBox(DataTable dataTable)
+    {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Institution Characteristics");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        averageClassSizeDropdownChevron().click();
+
+        List<String> averageClassSizeOptionsActual = averageClassSizeDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = averageClassSizeOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Average Class Size dropdown", expectedOption.equals(actualOption));
             optionIndex++;
         }
 
@@ -3127,6 +3174,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private List<WebElement> outOfStateStudentsPercentDropdownOptions() {
         return getDriver().findElements(By.xpath("//div[@id='OutOfStateStudents-dropdown']//span"));
+    }
+
+    private WebElement averageClassSizeDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='classsize-dropdown']/i"));
+    }
+
+    private List<WebElement> averageClassSizeDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='classsize-dropdown']//span"));
     }
 
     private WebElement onCampusHousingPercentDropdownChevron() {

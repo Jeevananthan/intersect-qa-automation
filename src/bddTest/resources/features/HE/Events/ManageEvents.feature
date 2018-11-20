@@ -49,7 +49,7 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
       | EVENT AUDIENCE BY POSITION       | 2 |
     When HE I cancel the event of name "TestEvent"
-    And HE I open the "Cancelled" tab in the Events section
+    And HE I open the "Cancelled" tab in Events
     Then HE I verify status "Cancelled" for the event of name "TestEvent"
     Then HE The cancelled event should be displayed in the canceled events list
 
@@ -57,7 +57,7 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
   Scenario: View Expired events
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
-    And HE I open the "Expired" tab in the Events section
+    And HE I open the "Expired" tab in Events
     Then HE I verify status "Expired" for the event of name "ExpiredEventForAutomation"
 
   @MATCH-2913
