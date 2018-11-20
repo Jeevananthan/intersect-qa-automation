@@ -618,6 +618,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     private void verifyNoAttendeesMessage() {
+        waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("ATTENDEES")));
         softly().assertThat(noAttendeesMessage().getText()).as("No attendees message").isEqualTo(noAttendeesMessageString);
     }
 
