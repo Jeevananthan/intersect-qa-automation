@@ -44,7 +44,7 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I search for school "Int Qa High School 4" in RepVisits page using "Erlanger, KY" and verify that "<Date>" is blocked
+    Then HE I search for school "Int Qa High School 4" in RepVisits page using "Liberty Township, OH" and verify that "<Date>" is blocked
     Examples:
       |Holiday               | Date                | StartDate  | EndDate     |
       #Ommited by old dates cannot be setup blocked days calrified by Gayathri
