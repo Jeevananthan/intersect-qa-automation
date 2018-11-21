@@ -1,7 +1,7 @@
 @HS @MATCH-1582 @HS1
 Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage exceptions to my regular visit availability schedule
 
-  @MATCH-1582 @test
+  @MATCH-1582
   Scenario: As an HS user, I want to be able to add/remove time slots
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set a date using "-20" and "20" in Regular Weekly Hours Tab
@@ -17,7 +17,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HS I verify that the time slot was removed from the generated date, with the start time "7:03am"
     And HS I successfully sign out
 
-  @MATCH-1582 @test
+  @MATCH-1582
   Scenario: As an HS User, I want to be able to clear a day
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set a date using "-30" and "30" in Regular Weekly Hours Tab
