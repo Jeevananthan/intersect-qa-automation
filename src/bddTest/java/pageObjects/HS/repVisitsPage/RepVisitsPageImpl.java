@@ -2448,6 +2448,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addTimeSlot(DataTable timeSlotData) {
+        waitUntil(ExpectedConditions.elementToBeClickable(newTimeSlotStartTime()));
         List<List<String>> slotData = timeSlotData.asLists(String.class);
         newTimeSlotStartTime().sendKeys(slotData.get(0).get(1));
         newTimeSlotEndTime().sendKeys(slotData.get(1).get(1));
@@ -7377,7 +7378,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
         Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
         jsClick(agendaButton());
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        waitUntilElementExists(getStartDateInAgenda());
         Assert.assertTrue("Agenda page is not displayed in the calendar",getStartDateInAgenda().isDisplayed());
     }
 
