@@ -7348,7 +7348,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
         Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
         jsClick(agendaButton());
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        waitUntilElementExists(getStartDateInAgenda());
         Assert.assertTrue("Agenda page is not displayed in the calendar",getStartDateInAgenda().isDisplayed());
     }
 
