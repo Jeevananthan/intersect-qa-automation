@@ -58,7 +58,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
   Scenario: As a RepVisits High School user who works in multiple schools,
             I want to be able to enter a primary contact number for my school,
             So that Colleges trying to schedule visits have the correct contact number for me.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone3"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I go to the Availability & Settings
     Then HS I verify the Primary Contact Phone Number is required in Availability & Settings
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page

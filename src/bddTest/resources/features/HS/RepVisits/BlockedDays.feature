@@ -5,6 +5,7 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
   @MATCH-2589
   Scenario Outline: In HS RepVisits, The Visit should not be displayed on the blocked days
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I Remove the created blocked days
     Then HS I set a date using "<BlockedDate>" and "<EndDate>"
     Then HS I set Blocked date as "<Reason>" and select the reason as "<BlockedDate>" in the Holiday tab
@@ -17,7 +18,6 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
     And HS I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "publishing"
-#    Given HE I want to login to the HE app using "purpleheautomation+publishing2@gmail.com" as username and "Password!1" as password
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to verify the appointment is not present for "<School>" using "<BlockedDate>" and "<StartTime>"
     Then HE I type into the global search box and select the result using "<School>"
@@ -44,7 +44,7 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I search for school "Int Qa High School 4" in RepVisits page using "Erlanger, KY" and verify that "<Date>" is blocked
+    Then HE I search for school "Int Qa High School 4" in RepVisits page using "Liberty Township, OH" and verify that "<Date>" is blocked
     Examples:
       |Holiday               | Date                | StartDate  | EndDate     |
       #Ommited by old dates cannot be setup blocked days calrified by Gayathri
