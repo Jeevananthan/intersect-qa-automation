@@ -2372,7 +2372,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void addTimeSlotInRegularWeeklyHours(String day,String startTime,String endTime,String noOfVisits) {
+    public void addTimeSlotInRegularWeeklyHours(String day,String startTime,String endTime,String noOfVisits, String option) {
 
         Assert.assertTrue("Regular Weekly Hours is not displayed", regularWeeklyHoursText().isDisplayed());
 
@@ -2383,12 +2383,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         visitStartTimeTextBox().sendKeys(startTime);
         visitEndTimeTextBox().sendKeys(endTime);
-
         numVisitsTextBox().sendKeys(noOfVisits);
 
         addTimeSlotButton().click();
+        waitForUITransition();
+        List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
+        List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
+
+        if(displayingPopup.size()==1 ){
+            ignoreTimeSlotOption().click();
+            addRegularHoursButton().click();
+            waitUntilPageFinishLoading();
+        }else if(option.contains("2")){
+            addTimeSlot().click();
+            addRegularHoursButton().click();
+        }else{
+            logger.info("'Review Previously Deleted Timeslot' Popup are not found");
+        }
 
         backButton().click();
+        waitUntilPageFinishLoading();
         Assert.assertTrue("High school information is not displayed", highSchoolTextInSetupWizard().isDisplayed());
     }
 
@@ -4647,10 +4661,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Representative is not present in the Representative text box",selectedAttendeeValue.contains(attendee));
         manualStartTime().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
-        moveToElement(eventLocation());
-        eventLocation().clear();
-        eventLocation().sendKeys(location);
-        eventLocation().sendKeys(Keys.PAGE_DOWN);
+        moveToElement(eventLocationHS());
+        eventLocationHS().clear();
+        eventLocationHS().sendKeys(location);
+        eventLocationHS().sendKeys(Keys.PAGE_DOWN);
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//form[@id='add-calendar-appointment']//button[@class='ui teal right floated button']"),1));
         moveToElement(addVisitButtonInVisitSchedulePopup());
         Assert.assertTrue("AddVisit button is not Enabled",addVisitButtonInVisitSchedulePopup().isEnabled());
@@ -7335,7 +7349,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='"+agenda+"']"),1));
         Assert.assertTrue("Agenda button is not displayed",agendaButton().isDisplayed());
         jsClick(agendaButton());
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@class='ui teal tiny basic button bne-HEiKl3BvzkB-LIC8M'][1]"),1));
+        waitUntilElementExists(getStartDateInAgenda());
         Assert.assertTrue("Agenda page is not displayed in the calendar",getStartDateInAgenda().isDisplayed());
     }
 
@@ -8649,6 +8663,12 @@ public void cancelRgisteredCollegeFair(String fairName){
         WebElement location=driver.findElement(By.name("eventLocation"));
         return location;
     }
+
+    private WebElement eventLocationHS() {
+        WebElement location=driver.findElement(By.name("locationWithinSchool"));
+        return location;
+    }
+
     private WebElement addVisitButtonInVisitSchedulePopup() {
         WebElement button=driver.findElement(By.xpath("//form[@id='add-calendar-appointment']//button[@class='ui teal right floated button']"));
         return button;

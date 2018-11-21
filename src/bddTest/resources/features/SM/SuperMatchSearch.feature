@@ -905,3 +905,21 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I close the fit criteria selection window
     And SM I verify that "Search for institutions that have ALL of my selected sports" checkbox is "unselected" in "Athletics" fit criteria
     And SM I select the "Search for institutions that have ALL of my selected sports" checkbox from "Athletics" fit criteria
+
+   @MATCH-3470
+   Scenario: As a HS student that is on the Compare Pinned Schools page, I want to organize the order of my pinned
+   schools so I can control which schools are comparable side by side.
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I clear all pills from Must have  and Nice to have boxes
+     And SM I clear pinned schools list
+     Then SM I pin "Williams College" from the search box
+     Then SM I pin "Bennett College" from the search box
+     And SM I open the Pinned Schools Compare screen
+     And SM I verify that left and right arrow buttons are displayed on top of "Williams College" logo in Compare Pinned Schools page
+     And SM I verify that left and right arrow buttons are displayed on top of "Bennett College" logo in Compare Pinned Schools page
+     And SM I verify that the left arrow button should be disabled for the school "Williams College" since it is ordered #1
+     And SM I verify that the right arrow button should be disabled for the school "Bennett College" since it is ordered last
+     And SM I move "Williams College" to the "right" in Compare Pinned Schools page
+     And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
+     And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page

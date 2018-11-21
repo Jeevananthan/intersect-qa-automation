@@ -1435,6 +1435,35 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyLeftAndRightCompareMoveButtonsAreDisplayed(String collegeName) {
+        leftCompareMoveButton(collegeName).isDisplayed();
+        rightCompareMoveButton(collegeName).isDisplayed();
+    }
+
+    public void verifyThatCollegeHasLeftMoveButtonDisabledSinceItIsOrderedNumber1(String collegeName) {
+        Assert.assertTrue("Left move button is not disabled", leftCompareMoveButton(collegeName).getAttribute("class").contains("disabled"));
+    }
+
+    public void verifyThatCollegeHasRightMoveButtonDisabledSinceItIsOrderedLast(String collegeName) {
+        Assert.assertTrue("Right move button is not disabled", rightCompareMoveButton(collegeName).getAttribute("class").contains("disabled"));
+    }
+
+    public void moveCollegeToLeftOrRightInComparePinnedSchoolsPage(String collegeName, String direction) {
+        switch(direction) {
+            case "left":
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", leftCompareMoveButton(collegeName));
+                break;
+            case "right":
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", rightCompareMoveButton(collegeName));
+                break;
+        }
+    }
+
+    public void verifyPositionOfCollegeInComparePinnedSchoolsPage(String collegeName, String position) {
+        Assert.assertTrue(collegeName + " is not in the position " + position + " in the compare schools page",
+          driver.findElement(By.xpath("(//thead[@class='supermatch-compare-data-header']//p[@class='collegename'])[" + position + "]")).getText().equals(collegeName));
+    }
+
     public void openPinnedCompareSchools() {
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -2803,6 +2832,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     // Locators Below
+    private WebElement leftCompareMoveButton(String collegeName) {
+        return driver.findElement(By.xpath("//p[@class='collegename' and text()='" + collegeName + "']//ancestor::div[1]//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'left')]"));
+    }
+    private WebElement rightCompareMoveButton(String collegeName) {
+        return driver.findElement(By.xpath("//p[@class='collegename' and text()='" + collegeName + "']//ancestor::div[1]//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'right')]"));
+    }
     private WebElement getStateInput() { return getDriver().findElement(By.xpath("//div[contains(@class,'sm-filter-search-dropdown')]/div/input")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
     private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"'")))));}
