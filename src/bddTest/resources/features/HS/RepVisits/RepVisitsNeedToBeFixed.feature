@@ -28,6 +28,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #   |purpleheautomation+member@gmail.com       |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |member        |QA       |Test    |purpleheautomation+member@gmail.com       |
 
       #Scenario is failing and need to be fixed
+#  Fixed:
 #  Scenario: As an HS user, I want to be able to add/remove time slots
 #    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    When HS I open the Exceptions page
@@ -41,7 +42,7 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #    And HS I verify that the time slot was removed from the generated date, with the start time "7:03am"
 #    And HS I successfully sign out
 
-
+#  Fixed:
 #  Scenario: As an HS User, I want to be able to clear a day
 #    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    When HS I open the Exceptions page
