@@ -268,6 +268,31 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click on the View Details button for the College Fair Event "MATCH-2080 Fair"
     Then HS I select Edit button to cancel the college Fair "MATCH-2080 Fair"
     And HS I verify the Canceled events for "MATCH-2080 Fair"
+
+  @MATCH-2444
+  Scenario Outline: Verify that email is sent to HS users after cancelling a fair as an HE user
+    Given HS I am logged in to Intersect HS as user type "administrator"
+    Then HS I add the email "<EMail>" in the primary contact in Notifications & Primary Contact page
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    Then HE I verify the calendar page using "<School>","<heCT>","<Date>" for Fairs
+    Then HE I remove the appointment from the calendar for fairs
+    Then HE I verify the Email Notification Message for "<School>" using "<Date>","<EmailTimeForFair>"
+      |Subject                                                             |To       |Messages |
+      |College fair registration cancelled for <School for Notification>   |<EMail>  |1        |
+
+    Given HS I am logged in to Intersect HS as user type "administrator"
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+    And HS I successfully sign out
+
+    Examples:
+      |School for Notification|School          |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
+      |Mays High School (GA)  |Mays High School|purpleheautomation@gmail.com    |QAs Fairs tests       |4   |900AM     |1100AM  |2            |$25 |25                    |100                        | Save          |9AM    |9:00am          |
     
   @MATCH-2381
   Scenario Outline: As a HS RepVisits user verify note to let users know their contact info will be visible
@@ -308,8 +333,8 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     And HS I successfully sign out
-
+    
   Examples:
   |College Fair Name |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|
   |qa Fairs          |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |
-
+ 
