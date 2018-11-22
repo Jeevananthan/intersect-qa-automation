@@ -532,12 +532,13 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         int SchoolLength = School.length();
         Integer codeMessageIndex = emailBody.indexOf("We have cancelled your college fair registration with ");
         String SchoolName = emailBody.substring(codeMessageIndex + 54,codeMessageIndex + 54 + SchoolLength);
-        String CurrentDate = getSpecificDate(Date);
-        Integer DateIndex = emailBody.indexOf("2018");
-        String dateandTime = emailBody.substring(DateIndex+0,DateIndex+21);
-        String getTimeValue[] = dateandTime.split(" ");
+        String CurrentDate = getSpecificEmailDate(Date);
+        String currentYear[] = CurrentDate.split(" ");
+        Integer yearIndex = emailBody.indexOf(currentYear[0]);
+        String dateandTime = emailBody.substring(yearIndex+0,yearIndex+27);
+        String getTimeValue[] = dateandTime.split(" at ");
         String DateValue = getTimeValue[0];
-        String TimeValue = getTimeValue[2];
+        String TimeValue = getTimeValue[1];
         Assert.assertTrue("School is not equal",SchoolName.equals(School));
         Assert.assertTrue("Date is not equal",CurrentDate.equals(DateValue));
         Assert.assertTrue("Time is not equal",Time.contains(TimeValue));
@@ -545,6 +546,16 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public String getSpecificDate(String addDays) {
         String DATE_FORMAT_NOW = "yyyy-MM-dd";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public String getSpecificEmailDate(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd, yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
