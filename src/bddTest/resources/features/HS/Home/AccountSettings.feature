@@ -35,7 +35,7 @@ Feature: HS - Home - AccountSettings - As an HS user, I can manage my account se
                      how those values will be applied to visits when syncing and thereafter should I change them
                      So that I know exactly what to expect as to how those are applied to my visits.
     Given HS I am logged in to Intersect HS through Naviance with account "navianceAdmin"
-    Then HS I complete the set up wizard that not yet completed by selecting "All RepVisits Users" option on the 'One Last Step' page
+#    Then HS I complete the set up wizard that not yet completed by selecting "All RepVisits Users" option on the 'One Last Step' page
     Then HS I go to welcome wizard of the repvisits
     And HS I navigate to "Naviance Settings" wizard in repvisits page
     Then HS I verify the following details are displaying in Naviance Settings page

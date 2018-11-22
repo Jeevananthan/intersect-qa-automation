@@ -1959,6 +1959,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void loadSetupWizardWelcomePage(){
+        waitForUITransition();
         load(GetProperties.get("hs.WizardAppWelcome.url"));
         waitUntilPageFinishLoading();
         waitForUITransition();
@@ -3246,9 +3247,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         if (regularweeklyHours().size()==0){
             while (completeWizardActiveStep().size() == 0) {
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+                waitUntilElementExists(nextButton());
                 nextButton().click();
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Next']"),1));
+                waitUntilElementExists(nextButton());
             }
             Assert.assertTrue("Complete page is not displayed",visitAvailabilityText().isDisplayed());
             if (!visitAvailability.equals("")) {
