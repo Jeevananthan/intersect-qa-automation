@@ -235,6 +235,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I cancel college fair created \"([^\"]*)\"$", repVisits::cancelCollegeFair);
 
+        And("^HS I clean the college fairs created$", repVisits::cleanCollegeFair);
+
         Then("^HS I Click on the \"([^\"]*)\" button in the College Fair Details Page$",repVisits::accessCollegeFairDetailsPage);
 
         And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
