@@ -81,10 +81,11 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
       |Appointment scheduled   | rgba(233, 238, 245, 1) |
 
   @MATCH-1812 @MATCH-2124
-  Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools who have made their RepVisits availability publicly available
+  Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools
+                    who have made their RepVisits availability publicly available
                     so HE users are not presented with high schools in the search results that don't use RepVisits.
 #Pre-condition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
@@ -134,11 +135,12 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
 #Post-Condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
+    And HS I successfully sign out
 
-    Examples:
-      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location           |option |
-      |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |15  |Int Qa High School |1      |
+  Examples:
+   |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location               |option |
+   |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Standalone High School 6|10:32am     |15  |Standalone High School |1      |
 
 
   @MATCH-1583

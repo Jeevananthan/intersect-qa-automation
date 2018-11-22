@@ -1349,7 +1349,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         visit().click();
         waitForUITransition();
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//h3/a[text()='"+school+"']"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
