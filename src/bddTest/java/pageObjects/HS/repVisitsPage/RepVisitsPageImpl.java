@@ -8198,7 +8198,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     public void closeAddEditFairScreen(){
         waitUntilElementExists(closeFairScreen());
         closeFairScreen().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("add-college")));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(closeFairPopup()));
     }
 
     private WebElement rescheduleButtonInReScheduleVisitPage ()
@@ -9888,4 +9888,5 @@ public void cancelRgisteredCollegeFair(String fairName){
     private List<WebElement> completePage(){return getDriver().findElements(By.xpath("//label[text()='All RepVisits Users']")); }
     private List<WebElement> availabilityandSettings(){return getDriver().findElements(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability & Settings']"));}
     private List<WebElement> takeMetoMyVisitsButton() { return getDriver().findElements(By.xpath("//button/span[text()='Take me to my visits']")); }
+    private By closeFairPopup () { return By.cssSelector("button[class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']"); }
 }
