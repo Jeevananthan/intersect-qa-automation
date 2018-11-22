@@ -266,7 +266,6 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       |firstName |lastName |email                 |verifyEmail           |jobTitle |
       |mahi      |qateam   |kpmahi93+12@gmail.com |kpmahi93+12@gmail.com |test role|
 
-
   @MATCH-1565
   Scenario: As a HS Intersect User on the HS Institution edit page I want to see placeholder text when fields are blank
   So there is less confusion on what to put in the field.
@@ -295,3 +294,10 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     Given HS I am navigating to Intersect HS through Non naviance Url
     Then HS I click the new user link in the login page
     And HS I search for "Int Qa High School 4" in "High school" and verify the results
+
+  @MATCH-5276
+  Scenario: As a HS user, I want to see if high schools are displayed in the search results when SEARCH button is pressed
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Lakota" in High School Staff Member registration page
+    Then HS I verify the search results on the registration page contain "Lakota"
+

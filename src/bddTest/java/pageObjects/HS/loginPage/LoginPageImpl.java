@@ -113,6 +113,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
                     intersectWindow = thisWindow;
                 }
             }
+            waitForUITransition();
             driver.close();
             driver.switchTo().window(intersectWindow);
         }
@@ -248,9 +249,17 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).clear();
         driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).sendKeys(school);
         button("Search").click();
-        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
-        driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
+        //Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
+        //driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
         waitUntilPageFinishLoading();
+    }
+
+    public void verifySearchResultsOnRegistrationPage(String school)
+    {
+        List<WebElement> links = registrationPageResultsTable().findElements(By.tagName("a"));
+        for (WebElement link : links) {
+            softly().assertThat(link.getText()).as("School Name").contains(school);
+        }
     }
 
     public void verifyLink(String navianceORnonNavianceLink)
@@ -494,5 +503,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private WebElement showMoreButton(){
         return driver.findElement(By.xpath("//button/span[text()='More Institutions']"));
+    }
+
+    private WebElement registrationPageResultsTable(){
+        return getDriver().findElement(By.id("institution-list"));
     }
 }

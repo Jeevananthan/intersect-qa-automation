@@ -153,7 +153,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I navigate to \"([^\"]*)\" wizard in repvisits$", repVisits::navigateToRepvisitWizard);
 
-        Then("^HS I add the time slot in \"([^\"]*)\" with start time as \"([^\"]*)\" and end time as \"([^\"]*)\" and \"([^\"]*)\" vistis$", repVisits::addTimeSlotInRegularWeeklyHours);
+        Then("^HS I add the time slot in \"([^\"]*)\" with start time as \"([^\"]*)\" and end time as \"([^\"]*)\" and \"([^\"]*)\" visits with \"([^\"]*)\"$", repVisits::addTimeSlotInRegularWeeklyHours);
 
         And("^HS I navigate to sub tab \"([^\"]*)\" in availability wizard$", repVisits::navigateToSubTabsInAvailabilityWizard);
 
@@ -486,7 +486,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Cancel on the disconnect confirmation popup$",repVisits::verifyCancelDisconnectFromNavianceButton);
 
-        Then("^HS I verify the Yes on the disconnect confirmation popup with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyYesDisconnectFromNavianceButton);
+        Then("^HS I verify the Yes on the disconnect confirmation popup with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyYesDisconnectFromNavianceButton);
 
         Then("^HS I verify configuration and staff notifications for \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyStaffNotifications);
 
@@ -731,5 +731,9 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I reschedule the visit for the following data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in calendar$",repVisits::rescheduleVisitInCalendar);
 
         Then("^HS I verify and select an appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAndSelectAppointmentInCalendarPage);
+
+        Then("^HS I complete the setupWizard$",repVisits::completeTheSetupWizard);
+
+        Then("^HS I create a new visit to verify the details in naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::createVisitForNaviance);
     }
 }

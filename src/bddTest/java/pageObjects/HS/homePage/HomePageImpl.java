@@ -78,11 +78,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyAdditionalInfoURLAfterClickingBackToIntersectLink(String additionalInfoURL,String backToIntersect,String institutionID,String info){
-        String currentURL = additionalInfoURL+institutionID+info;
+        String expectedURL = additionalInfoURL+institutionID+info;
         link(backToIntersect).click();
-        String additionalInfoCurrentURL = driver.getCurrentUrl();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
+        String currentURL = driver.getCurrentUrl();
+        softly().assertThat(currentURL).as("URL").isEqualTo(expectedURL);
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
     }

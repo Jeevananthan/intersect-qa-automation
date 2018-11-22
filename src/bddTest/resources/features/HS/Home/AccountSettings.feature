@@ -5,12 +5,12 @@ Feature: HS - Home - AccountSettings - As an HS user, I can manage my account se
   Scenario Outline: As a HS Naviance RepVisits user,I want one page to go to to manage all my settings
                     To simplify my RepVisits configuration experience.
 
-    Given HS I am logged in to Intersect HS through Naviance with account "<navianceUserType>"
+    Given HS I am logged in to Intersect HS through Naviance with user type "<UserType>"
     And HS I verify the items in the user dropdown for a Naviance user
     Then HS I verify the items are navigate to the respective page in the user dropdown for a Naviance user
-    Then HS I verify the user is "<user>" or not
+    Then HS I verify the user is "<Role>" or not
   Examples:
-    |navianceUserType|user      |
+    |UserType        |Role      |
     |navianceAdmin   |ADMIN     |
     |navianceMember  |NON-ADMIN |
 
@@ -18,15 +18,15 @@ Feature: HS - Home - AccountSettings - As an HS user, I can manage my account se
   Scenario Outline: As a HS Non-Naviance RepVisits user,I want one page to go to to manage all my settings
                     To simplify my RepVisits configuration experience.
 
-    Given HS I want to login to the HS app using "<usertype>" as username and "<password>" as password
+    Given HS I am logged in to Intersect HS as user type "<UserType>"
     And HS I verify the items in the user dropdown for a Non-Naviance user
     Then HS I verify the items are navigate to the respective page in the user dropdown for a Non-Naviance user
-    Then HS I verify the user is "<user>" or not
+    Then HS I verify the user is "<Role>" or not
     And HS I verify the items are present in the help center dropdown for a Non-Naviance user
   Examples:
-    |usertype                                  |password  |user      |
-    |purpleheautomation+administrator@gmail.com|Password!1|ADMIN     |
-    |purpleheautomation+member@gmail.com       |Password#1|NON-ADMIN |
+    |UserType     |Role      |
+    |administrator|ADMIN     |
+    |member       |NON-ADMIN |
 
   @MATCH-3715
    Scenario: As a HS admin user of RepVisits that is syncing appointments (visits and college fairs) with Naviance,
