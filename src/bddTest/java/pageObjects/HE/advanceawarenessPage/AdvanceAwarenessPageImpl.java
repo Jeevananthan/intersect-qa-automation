@@ -111,7 +111,10 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
         getCompetitors().get(0).findElement(textFieldForCOmpatitorMessage()).sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT,Keys.END),message);
     }
 
-
+    public void clickOnSaveButton(){
+        waitUntil(ExpectedConditions.visibilityOf(saveButton()));
+        saveButton().click();
+    }
 
     //locators
 
@@ -153,5 +156,9 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
 
     private By textFieldForCOmpatitorMessage(){
        return By.xpath("..//textarea");
+    }
+
+    private WebElement saveButton(){
+        return getDriver().findElement(By.cssSelector("button[class='ui teal primary button']"));
     }
 }
