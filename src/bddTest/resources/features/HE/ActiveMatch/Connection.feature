@@ -3,6 +3,9 @@ Feature: As an HE user, I need to understand my Connection and Advansed Awarenes
 
   @MATCH-4427 @MATCH-4397
   Scenario Outline:As an HE user, I need to understand my subscriptions that have been provisioned so that I can configure or manage that subscription effectively
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Connection" module to "active" in the institution page
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "<URL>" url
     Then I check if I can see "Understanding Your Subscriptions" on the page
@@ -244,3 +247,14 @@ Feature: As an HE user, I need to understand my Connection and Advansed Awarenes
     Then HE I verify "gpa" value for the first row is "0.8" on the Threshold Page
     Then HE I verify "sat" value for the first row is "1250" on the Threshold Page
     Then HE I verify "act" value for the first row is "13" on the Threshold Page
+
+  @MATCH-5138
+  Scenario:  As an Intersect User with Connection provisioned,  I need to have Connection displayed as navigational
+  items so that I can access those subscriptions easily.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then SM I press button "Home"
+    Then HE I pick the "Connection" from the menu items
+    Then I check if I can see "Intersect Connection" on the page
+    Then HE I navigate to the "home" url
+    And SM I press button "Manage"
+    Then I check if I can see "Intersect Connection" on the page

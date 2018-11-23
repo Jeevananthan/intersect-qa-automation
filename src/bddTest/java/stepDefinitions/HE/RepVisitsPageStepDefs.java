@@ -418,5 +418,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify default the HE user to see the REQUESTS subtab when they arrive on the Notifications page$",repVisits::verifyRequestsSubTabIsEnabled);
 
         Then("^HE I verify the Sorting notification entries in the REQUESTS subtab by newest to oldest$",repVisits::verifySortingNotificationEntries);
+
+        Then("^HE I remove the appointment from the calendar for fairs$",repVisits::removeFairsAppointmentFromCalendar);
     }
 }
