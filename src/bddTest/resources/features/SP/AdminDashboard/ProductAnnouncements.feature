@@ -110,8 +110,6 @@ Feature: SP - AdminDashboard - ProductAnnouncements - As a super admin and admin
     Then HE I verify the date is displaying next to the title "Intersect" with "MMM dd" format in the product announcements 'Read More' drawer
     Then HE I verify the content "<content>" is displaying in the product announcements 'Read More' drawer
     Then HE I click close button in the product announcements 'Read More' drawer
-
-#Bug: HS-Naviance and Non-Naviance - Date and title are not displaying under product announcements 'Read More' drawer
 #Verify announcement in HS-Naviance
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer

@@ -277,6 +277,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCloseButtonInProductAnnouncementsReadMoreDrawer(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMoreClose()));
         Assert.assertTrue("Product announcements 'Close' button is not displayed",productAnnouncementsReadMoreCloseButton().isDisplayed());
     }
 
@@ -295,6 +296,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickCloseButtonInProductAnnouncementsReadMoreDrawer(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMoreClose()));
         productAnnouncementsReadMoreCloseButton().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMore()));
     }
@@ -379,7 +381,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//div[text()='Product Announcement']"));
     }
     private WebElement productAnnouncementsReadMoreCloseButton(){
-        return getDriver().findElement(By.cssSelector("div[class='ui overlay right very wide visible sidebar _1bTs4IjZQSsADQ671qHLL3']>button[class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']"));
+        return getDriver().findElement(By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"));
     }
     private WebElement productAnnouncementsReadMoreTitle(String title){
         return getDriver().findElement(By.xpath("//div[text()='"+title+"']"));
@@ -392,4 +394,5 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
     private By productAnnouncementsHeader(){return By.xpath("//div[text()='Product Announcement']");}
     private By productAnnouncementsReadMore(){return By.xpath("//button[text()='Read More']");}
+    private By productAnnouncementsReadMoreClose(){ return By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"); }
 }
