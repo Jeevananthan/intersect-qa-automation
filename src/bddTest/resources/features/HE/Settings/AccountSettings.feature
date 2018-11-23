@@ -112,7 +112,7 @@ Feature: HE - Settings - AccountSettings - As an HE user, I should be able to ma
     When HE I want to login to the HE app using "<usertype>" as username and "<newPassword>" as password
     Then HE I navigate to the "Account Settings" Page
     And HE I verify the left-sub menu "Account Information,Users" are present in the Account Settings page
-    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<FirstName>","<LastName>","<Email>"
+    And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<FirstName>","<LastName>","<usertype>"
       |contain a lowercase letter|contain an uppercase letter|contain a number|
     And HE I validate the password field "<oldPassword>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HE I verify the success message "Success! You've updated your account information." in Account settings page
