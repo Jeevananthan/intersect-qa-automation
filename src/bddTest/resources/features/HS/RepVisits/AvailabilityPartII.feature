@@ -115,7 +115,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I successfully sign out
@@ -133,14 +133,14 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
 #Post-Condition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I successfully sign out
 
   Examples:
    |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location               |option |
-   |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Standalone High School 6|10:32am     |15  |Standalone High School |1      |
+   |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Standalone High School 6|10:32am     |14  |Standalone High School |1      |
 
 
   @MATCH-1583

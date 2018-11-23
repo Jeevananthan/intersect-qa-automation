@@ -381,7 +381,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setAcceptinAvailabilitySettings(String accept, String visitsPerDay){
-        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[id='app']")));
         getNavigationBar().goToRepVisits();
         waitUntilElementExists(availabilityAndSettings());
         waitUntilPageFinishLoading();
@@ -431,10 +431,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilitySettings().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOf(saveChangesAvailability()));
-        waitUntilElementExists(driver.findElement(By.cssSelector("button[class='ui primary button']")));
-        waitUntilElementExists(driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']")));
-        driver.findElement(By.xpath("//label[text()='"+visitAvailability+"']")).click();
-        driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("button[class='ui primary button']")));
+        waitUntilElementExists(getDriver().findElement(By.xpath("//label[text()='"+visitAvailability+"']")));
+        getDriver().findElement(By.xpath("//label[text()='"+visitAvailability+"']")).click();
+        getDriver().findElement(By.cssSelector("button[class='ui primary button']")).click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
@@ -5079,7 +5079,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         StartTime = startTime(startTime);
         deleteDuplicateSlot(StartTime);
         addTimeSlot().click();
-        List<WebElement> slot= driver.findElements(By.cssSelector("button[class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
+        List<WebElement> slot= getDriver().findElements(By.cssSelector("button[class='ui small button IHDZQsICrqtWmvEpqi7Nd']"));
         if(slot.size()>0){
             availabilityButton().sendKeys(Keys.PAGE_DOWN);
         }
@@ -5097,8 +5097,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addTimeSlotSubmit().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        List<WebElement> displayingPopup = driver.findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
-        List<WebElement> duplicateTimeSlot = driver.findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
+        List<WebElement> displayingPopup = getDriver().findElements(By.xpath("//div/span[text()='Review Previously Deleted Time Slots']"));
+        List<WebElement> duplicateTimeSlot = getDriver().findElements(By.xpath("//span[text()='Cannot create a duplicate time slot']"));
         if(displayingPopup.size()==1 && option.contains("1")){
             ignoreTimeSlotOption().click();
             addRegularHoursButton().click();
@@ -5296,8 +5296,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifySuccessMessage(String originalMessage){
         waitUntilPageFinishLoading();
-        waitUntilElementExists(driver.findElement(By.xpath("//div[@class='content']")));
-        String successMessage = driver.findElement(By.xpath("//div[@class='content']")).getText();
+        waitUntilElementExists(getDriver().findElement(By.xpath("//div[@class='content']")));
+        String successMessage = getDriver().findElement(By.xpath("//div[@class='content']")).getText();
         Assert.assertTrue("Success Message is not equal",successMessage.equals(originalMessage));
     }
 
@@ -5305,9 +5305,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String[] parts = date.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
         if(fromOrTo.equals("From")){
-            driver.findElement(By.xpath("//button[@class='ui basic button _1wqaQnL4wzTmKK7w_sXTwT']")).click();
+            getDriver().findElement(By.xpath("//button[@class='ui basic button _1wqaQnL4wzTmKK7w_sXTwT']")).click();
         }else if (fromOrTo.equals("To")){
-            driver.findElement(By.xpath("//button[@class='ui basic button _2pj6YkRYwl9szEe_wh7dxF']")).click();
+            getDriver().findElement(By.xpath("//button[@class='ui basic button _2pj6YkRYwl9szEe_wh7dxF']")).click();
         }else {
             logger.info("Invalid option");
         }
