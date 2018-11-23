@@ -221,9 +221,9 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     And HE I click Request button in visit schedule popup
 
     And HE I select calendar in RepVisits
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
     Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
     Then HE I remove the appointment from the calendar
 
 #community
@@ -232,9 +232,9 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I click Request button in visit schedule popup
 
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
     Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
     Then HE I remove the appointment from the calendar
 
 #freemium
@@ -243,9 +243,9 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>" in freemium
     And HE I click Request button in visit schedule popup
 
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
     Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>" for freemium
-    Then HE I verify the calendar page using "<School>","<heCT>","<Date>"
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
     Then HE I remove the appointment from the calendar
 
 #Remove the time slot in Regular Weekly Hours Tab
@@ -256,4 +256,4 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|Option                                              |School                  |heStartTime|heCT     |heCST   |heCET   |hsAddress                                |contactPhNo  |user          |eMail                                       |option|
-      |21  |21  |11:57am  |12:11pm|10       |21       |49     |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |5555         |School Manager|school_user_61024USPU@localhost.naviance.com|1     |
+      |21  |21  |11:57am  |12:11pm|10       |21       |49     |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |5555555      |School Manager|school_user_61024USPU@localhost.naviance.com|1     |
