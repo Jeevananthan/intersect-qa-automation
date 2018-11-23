@@ -107,4 +107,4 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     |subscription|numberOfErrorMessages|
     |State       |3                    |
     |County      |3                    |
-    |Zip         |4                    |
+    |Zip         |3                    |

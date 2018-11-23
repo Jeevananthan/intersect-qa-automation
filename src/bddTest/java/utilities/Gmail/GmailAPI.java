@@ -42,7 +42,7 @@ public class GmailAPI {
     private static final String APPLICATION_NAME = "match-ui-he QA BDD Framework";
 
     /** Directory to store user credentials for this application. */
-    private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.dir") + "\\src\\bddTest\\resources\\Gmail");
+    private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.dir") + "/src/bddTest/resources/Gmail");
     private static FileDataStoreFactory DATA_STORE_FACTORY;
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
@@ -72,7 +72,7 @@ public class GmailAPI {
      */
     private static Credential authorize() throws IOException {
         // Load client secrets.
-        InputStream in = new FileInputStream(System.getProperty("user.dir") + "\\src\\bddTest\\resources\\Gmail\\gmail-api-credentials.json");
+        InputStream in = new FileInputStream(System.getProperty("user.dir") + "/src/bddTest/resources/Gmail/gmail-api-credentials.json");
         // This doesn't work because it wants to set permissions and can't handle Windows 10, apparently...
         // InputStream in = GmailAPI.class.getResourceAsStream("C:\\SeleniumScripts\\RadiusQAAutomation\\src\\test\\resources\\Gmail\\gmail-api-credentials.json");
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
@@ -198,8 +198,12 @@ public class GmailAPI {
                     }
                     it.remove();
                 }
-
-                String messageBody = messageContent.getPayload().getBody().getData();
+                String messageBody;
+                if (messageContent.getPayload().getBody().getSize() != 0) {
+                    messageBody = messageContent.getPayload().getBody().getData();
+                } else {  // multi-part message, get the body content from parts instead
+                    messageBody = messageContent.getPayload().getParts().get(0).getBody().getData();
+                }
                 // Gmail's Base64 encoding uses specific parameters, this cleans up so we can decode to the real text.
                 messageBody = messageBody.replace("-", "+");
                 messageBody = messageBody.replace("_", "/");

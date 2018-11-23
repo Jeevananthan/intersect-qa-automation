@@ -99,17 +99,17 @@ Feature: HE - Settings - AccountSettings - As an HE user, I should be able to ma
       |community  |NON-ADMIN|
 
 
-  @MATCH-3062
+  @MATCH-3062 @Unstable
   Scenario Outline: As a HE RepVisits User,I need to be able to update my contact information and reset my password
                     So I can effectively manage my RepVisits Account.
 
-    When HE I want to login to the HE app using "<Email>" as username and "<oldPassword>" as password
+    When HE I want to login to the HE app using "<usertype>" as username and "<oldPassword>" as password
     Then HE I navigate to the "Account Settings" Page
     Then HE I reset the password for "<oldPassword>","<newPassword>"
     And HE I verify the success message "Success! You've updated your account information." in Account settings page
     And HE I successfully sign out
 
-    When HE I want to login to the HE app using "<Email>" as username and "<newPassword>" as password
+    When HE I want to login to the HE app using "<usertype>" as username and "<newPassword>" as password
     Then HE I navigate to the "Account Settings" Page
     And HE I verify the left-sub menu "Account Information,Users" are present in the Account Settings page
     And HE I verify the non-password fields "Account Information,Your Name,First Name,Last Name,Contact Information,Email,Change Password,Current Password,New Password,Confirm New Password" are pre-populated with current data "<FirstName>","<LastName>","<Email>"
@@ -117,7 +117,7 @@ Feature: HE - Settings - AccountSettings - As an HE user, I should be able to ma
     And HE I validate the password field "<oldPassword>","<newPassword>","<minimum8character>","<lowercaseletter>","<uppercaseletter>","<withoutNumber>","<withoutspecialcharacter>"
     And HE I verify the success message "Success! You've updated your account information." in Account settings page
     Examples:
-      |Email                                                |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|FirstName|LastName                |
+      |usertype                                             |oldPassword|newPassword|minimum8character|lowercaseletter|uppercaseletter|withoutNumber|withoutspecialcharacter|FirstName|LastName                |
       |purpleheautomation+LimitedPasswordPolicy@gmail.com   |Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |PurpleHE |LimitedPasswordPolicy   |
       |purpleheautomation+PublishingPasswordPolicy@gmail.com|Password!1 |Password#1 |word!1           |password#1     |PASSWORD#1     |Password#*   |Password1              |PurpleHE |PublishingPasswordPolicy|
       

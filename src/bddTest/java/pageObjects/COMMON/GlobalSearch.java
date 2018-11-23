@@ -31,6 +31,7 @@ public class GlobalSearch extends SeleniumBase {
 
         setSearchCategory(category);
         doSearch(searchTerms);
+        waitUntilPageFinishLoading();
     }
 
     public void searchForHEInstitutions(String searchTerm) {
@@ -89,10 +90,11 @@ public class GlobalSearch extends SeleniumBase {
                 break;
             case "People":
                 //getDriver().findElement(By.xpath("//*[@id=\"global-search-box-filter\"]/div/div[contains(text(), 'People')]")).click();
-                getSearchSwitcher().findElement(By.id("global-search-box-filter")).findElement(By.xpath("//div/div/span[contains(text(), 'People')]")).click();
+                getDriver().findElement(By.xpath("//span[contains(text(), 'People')]")).click();
+
                 break;
             case "Groups":
-                getSearchSwitcher().findElement(By.className("comments")).click();
+                getDriver().findElement(By.className("comments")).click();
                 break;
             case "HS Accounts":
                 getSearchSwitcher().findElement(By.xpath("//i[@class='university icon']/following-sibling::span[text()='HS Accounts']")).click();
@@ -105,6 +107,8 @@ public class GlobalSearch extends SeleniumBase {
     private void doSearch(String searchTerm) {
         waitUntilPageFinishLoading();
         getSearchBox().click();
+        getSearchBox().sendKeys(Keys.chord(Keys.CONTROL,"a"));
+        getSearchBox().sendKeys(Keys.DELETE);
         getSearchBox().clear();
         getSearchBox().sendKeys(searchTerm);
     }
@@ -145,6 +149,29 @@ public class GlobalSearch extends SeleniumBase {
         }
         Assert.assertTrue("Search term was not found in the search results",itemFound);
         Assert.assertTrue("No HE Accounts or Institutions whee returned in the search", institutionsReturned);
+    }
+
+    public void verifyHSSchoolResults(String schoolHSResults){
+        waitUntilPageFinishLoading();
+
+        List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
+        boolean institutionsReturned = false;
+        boolean itemFound = false;
+        for (WebElement category : categories) {
+            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HS Accounts")) {
+                institutionsReturned = true;
+                List<WebElement> options = category.findElements(By.className("title"));
+                for (WebElement option : options) {
+                    if (option.getText().toLowerCase().contains(schoolHSResults.toLowerCase())) {
+                        itemFound = true;                    }
+                }
+            }
+        }
+        Assert.assertTrue("Search term was not found in the search results",itemFound);
+        Assert.assertTrue("No HS Accounts or Institutions whee returned in the search", institutionsReturned);
+
+
+
     }
 
     public void selectResult(String optionToSelect) {
@@ -209,10 +236,11 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         setSearchCategory(category);
         waitUntilPageFinishLoading();
+        getSearchBox().clear();
         doSearch("t ");
-        waitUntilPageFinishLoading();
+        waitUntilElementExists( link("More..."));
         link("More...").click();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(button("UPDATE SEARCH"));
         Assert.assertTrue("Did not end on Advanced Search page!  No Update Search buttons is present!", button("UPDATE SEARCH").isDisplayed());
     }
 
@@ -569,22 +597,32 @@ public class GlobalSearch extends SeleniumBase {
                 case("Legacy: Hub page management"):
                     WebElement hub = getDriver().findElement(By.xpath("//span[contains(text(), 'Hub')]/../following-sibling::td/div/i"));
                     hub.click();
-                    jsClick(hub.findElement((By.xpath("//span[contains(text(), 'Hub')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(hub.findElement((By.xpath("//span[contains(text(), 'Hub')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
                 case("Legacy: Community"):
                     WebElement community = getDriver().findElement(By.xpath("//span[contains(text(), 'Community')]/../following-sibling::td/div/i"));
                     community.click();
-                    jsClick(community.findElement((By.xpath("//span[contains(text(), 'Community')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(community.findElement((By.xpath("//span[contains(text(), 'Community')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
                 case("Intersect Awareness Subscription"):
                     WebElement awareness = getDriver().findElement(By.xpath("//span[contains(text(), 'Awareness')]/../following-sibling::td/div/i"));
                     awareness.click();
-                    jsClick(awareness.findElement((By.xpath("//span[contains(text(), 'Awareness')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(awareness.findElement((By.xpath("//span[contains(text(), 'Awareness')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
                 case("Intersect Presence Subscription"):
                     WebElement presence = getDriver().findElement(By.xpath("//span[contains(text(), 'Presence')]/../following-sibling::td/div/i"));
                     presence.click();
-                    jsClick(presence.findElement((By.xpath("//span[contains(text(), 'Presence')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(presence.findElement((By.xpath("//span[contains(text(), 'Presence')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
+                    break;
+                case("Legacy: ActiveMatch Events"):
+                    WebElement events = getDriver().findElement(By.xpath("//span[contains(text(), 'Events')]/../following-sibling::td/div/i"));
+                    events.click();
+                    jsClick(events.findElement((By.xpath("//span[contains(text(), 'Events')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
+                    break;
+                case("ActiveMatch Plus"):
+                    WebElement plus = getDriver().findElement(By.xpath("//span[contains(text(), 'Plus')]/../following-sibling::td/div/i"));
+                    plus.click();
+                    jsClick(plus.findElement((By.xpath("//span[contains(text(), 'Plus')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
             }
         }
@@ -734,7 +772,7 @@ public class GlobalSearch extends SeleniumBase {
 
                 case "Type":
                     if(categorySearch.equalsIgnoreCase("Groups")) {
-                        WebElement typeRadio = getDriver().findElement(By.cssSelector("div[class='ui fitted radio checkbox']"));
+                         WebElement typeRadio = getDriver().findElement(By.xpath("//label/span[text()='"+textBoxData.get(key)+"']"));
                          typeRadio.click();
                     }else {
                         WebElement drpType = getDriver().findElement(By.id("hs-type"));
