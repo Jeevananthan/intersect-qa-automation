@@ -2,6 +2,7 @@ package pageObjects.SM.searchPage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
@@ -318,7 +319,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                         break;
 
                 }
-                closeFitCriteria();
+                closeFitCriteria().click();
             }
         }
     }
@@ -381,17 +382,23 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectRadioButtonInAcademicsFitCriteria(String option) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).sendKeys(Keys.RETURN);
+        openFitCriteria("Academics");
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'" + option.split("'")[0] + "')]"))).click();
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     /**
      * select any radio button only when fit criteria menu is open.
      */
     public void selectRadioButton(String radioButton){
-        WebElement radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        waitUntilPageFinishLoading();
+        WebElement radioButtonLocator;
+        if (radioButton.equalsIgnoreCase("Certificate")) {
+            radioButtonLocator = driver.findElement(By.xpath("//label[text() = '"+radioButton+"']"));
+        } else {
+            radioButtonLocator = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]"));
+        }
         WebElement onlyRadioButton = driver.findElement(By.xpath("//label[contains(text(), '"+radioButton+"')]/../input"));
         Assert.assertTrue(radioButton+" radioButton by default is not selected.", !radioButtonLocator.isSelected());
         if (!radioButtonLocator.isSelected()) {
@@ -408,7 +415,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        openFitCriteria("Academics");
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
         WebElement chevronInSearchMajorsCombobox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[contains(@class, 'supermatch-menuitem-popup')]//i[@class='teal chevron down icon'])[1]")));
 
@@ -426,11 +433,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         //close combobox
         chevronInSearchMajorsCombobox.click();
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     public void unselectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        openFitCriteria("Academics");
 
         List<List<String>> itemsToUnselect = items.raw();
         int itemsToUnselectSize = itemsToUnselect.size();
@@ -440,11 +447,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             getDriver().findElement(By.xpath("(//div[@role='combobox'])[1]//a[text()='" + item + "']/i[@class='delete icon']")).click();
         }
 
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     public void selectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType(DataTable items) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        openFitCriteria("Academics");
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
         WebElement chevronInSearchMinorsCombobox = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//div[contains(@class, 'supermatch-menuitem-popup')]//i[@class='teal chevron down icon'])[2]")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", chevronInSearchMinorsCombobox);
@@ -462,11 +469,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         //close combobox
         chevronInSearchMinorsCombobox.click();
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
     public void unselectMinorsFromSearchMinorsComboBoxForBachelorsDegreeType(DataTable items) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Academics')]")).click();
+        openFitCriteria("Academics");
 
         List<List<String>> itemsToUnselect = items.raw();
         int itemsToUnselectSize = itemsToUnselect.size();
@@ -476,7 +483,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             getDriver().findElement(By.xpath("(//div[@role='combobox'])[2]//a[text()='" + item + "']/i[@class='delete icon']")).click();
         }
 
-        getDriver().findElement(By.xpath("//button[contains(text(),' Close')]")).click();
+        closeButtonForFitCriteria().click();
     }
 
 
@@ -486,7 +493,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param option String with the name of the option to disable.  e.x.: Counseling Services, Day Care Services, etc.
      */
     public void unsetResourcesCriteria(String option) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        openFitCriteria("Resources");
         if (option.equals("Asperger's/Autism Support"))
             option = "Autism Support";
         waitUntilElementExists(getDriver().findElement(By.xpath("//label[contains(text(), '" + option + "')]")));
@@ -507,7 +514,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param checkedOrUnchecked String containing "checked" or "unchecked"
      */
     public void verifyResourcesCriteria(String option, String checkedOrUnchecked) {
-        getDriver().findElement(By.xpath("//li[contains(text(),'Resources')]")).click();
+        openFitCriteria("Resources");
         WebElement label = driver.findElement(By.xpath("//label[contains(text(), '" + option + "')]"));
         WebElement checkbox = driver.findElement(By.xpath("//label[contains(text(), '" + option + "')]/../input"));
         if (checkedOrUnchecked.equalsIgnoreCase("checked")) {
@@ -850,7 +857,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      */
     public void chooseFitCriteriaTab(String filterCriteria) {
         checkbox(By.xpath("(//li[contains(.,'" + filterCriteria.split(":")[0] + "')])")).click();
-
     }
 
     /**
@@ -955,7 +961,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     private void openFitCriteria(String fitCriteria) {
-        driver.findElement(By.xpath("//li[contains(text(), '" + fitCriteria + "')]")).sendKeys(Keys.RETURN);
+        if (getDriver().findElements(By.xpath("//h1[text()='"+fitCriteria+"']")).size() == 0)
+            getDriver().findElement(By.xpath("//li[contains(text(), '" + fitCriteria + "')]")).sendKeys(Keys.RETURN);
     }
 
     public void selectMeest100ofNeedCheckbox(String checkboxName) {
@@ -1007,6 +1014,30 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         getFitCriteriaCloseButton().click();
         waitUntilPageFinishLoading();
     }
+
+    public void verifyAdmissionCriteria(DataTable dataTable) {
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        waitUntilElementExists(ChooseFitCriteriaText());
+        List<List<String>> entities = dataTable.asLists(String.class);
+        chooseFitCriteriaTab("Admission");
+        for (List<String> criteria : entities) {
+            switch (criteria.get(0)) {
+                case "GPA (4.0 scale)":
+                    Assert.assertTrue(gpaTextBox().getAttribute("value").equals(criteria.get(1)));
+                    break;
+                case "SAT Composite":
+                    Assert.assertTrue(satScoreTextBox().getAttribute("value").equals(criteria.get(1)));
+                    break;
+                case "ACT Composite":
+                    Assert.assertTrue(actScoreTextBox().getAttribute("value").equals(criteria.get(1)));
+                    break;
+            }
+        }
+        getFitCriteriaCloseButton().click();
+        waitUntilPageFinishLoading();
+    }
+
+
 
     /**
      * The below method is to check all the fit criteria is clickable and as per the fit criteria menu option is showing
@@ -1148,7 +1179,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyMAndNSyncWithAverageClassSizeFilter() {
-        text("Institution Characteristics").click();
+        openFitCriteria("Institution Characteristics");
         getMustHaveBox().findElement(By.xpath(".//div/button[3]")).click();
         getNiceToHaveBox().findElement(By.xpath(".//div/button[2]")).click();
         getAverageClassSizeListIcon().click();
@@ -1163,11 +1194,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyAverageClassSizeTextInResults() {
-        text("Institution Characteristics").click();
+        openFitCriteria("Institution Characteristics");
         getAverageClassSizeListIcon().click();
         getDriver().findElement(By.id("class-size-selection-option-30")).click();
         getFitCriteriaCloseButton().click();
-        getDriver().findElement(By.className("csr-heading-dropdown-text")).click();
+        jsClick(getDriver().findElement(By.className("csr-heading-dropdown-text")));
         WebElement resultsColumHeader = getParent(getDriver().findElement(By.className("csr-heading-dropdown-text")));
         // This tends to go off screen when running on the grid, so just force click it.  We're not testing the functionality, just the text after this is set.
         jsClick(resultsColumHeader.findElement(By.xpath(".//span[text()='Institution Characteristics']")));
@@ -1402,6 +1433,35 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             case "unpinned": Assert.assertTrue("College is pinned", firstPinLinkInWhyDrawerCoincidence.getText().trim().equals("PIN TO COMPARE"));
                 break;
         }
+    }
+
+    public void verifyLeftAndRightCompareMoveButtonsAreDisplayed(String collegeName) {
+        leftCompareMoveButton(collegeName).isDisplayed();
+        rightCompareMoveButton(collegeName).isDisplayed();
+    }
+
+    public void verifyThatCollegeHasLeftMoveButtonDisabledSinceItIsOrderedNumber1(String collegeName) {
+        Assert.assertTrue("Left move button is not disabled", leftCompareMoveButton(collegeName).getAttribute("class").contains("disabled"));
+    }
+
+    public void verifyThatCollegeHasRightMoveButtonDisabledSinceItIsOrderedLast(String collegeName) {
+        Assert.assertTrue("Right move button is not disabled", rightCompareMoveButton(collegeName).getAttribute("class").contains("disabled"));
+    }
+
+    public void moveCollegeToLeftOrRightInComparePinnedSchoolsPage(String collegeName, String direction) {
+        switch(direction) {
+            case "left":
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", leftCompareMoveButton(collegeName));
+                break;
+            case "right":
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", rightCompareMoveButton(collegeName));
+                break;
+        }
+    }
+
+    public void verifyPositionOfCollegeInComparePinnedSchoolsPage(String collegeName, String position) {
+        Assert.assertTrue(collegeName + " is not in the position " + position + " in the compare schools page",
+          driver.findElement(By.xpath("(//thead[@class='supermatch-compare-data-header']//p[@class='collegename'])[" + position + "]")).getText().equals(collegeName));
     }
 
     public void openPinnedCompareSchools() {
@@ -1846,6 +1906,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (String expectedOption : expectedOptions) {
             actualOption = outOfStateStudentsPercentOptionsActual.get(optionIndex);
             Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Out of State students 'Select %' dropdown", expectedOption.equals(actualOption));
+            optionIndex++;
+        }
+
+        closeFitCriteria().click();
+
+    }
+
+    public void verifyOptionsInAverageClassSizeListBox(DataTable dataTable)
+    {
+        int optionIndex = 0;
+        String actualOption;
+
+        chooseFitCriteriaTab("Institution Characteristics");
+
+        List<String> expectedOptions = dataTable.asList(String.class);
+        averageClassSizeDropdownChevron().click();
+
+        List<String> averageClassSizeOptionsActual = averageClassSizeDropdownOptions().stream().map(item -> item.getText())
+                .collect(Collectors.toList());
+
+        for (String expectedOption : expectedOptions) {
+            actualOption = averageClassSizeOptionsActual.get(optionIndex);
+            Assert.assertTrue("Expected option: " + expectedOption + " but found " + actualOption + " in Average Class Size dropdown", expectedOption.equals(actualOption));
             optionIndex++;
         }
 
@@ -2516,6 +2599,45 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void pickColumnHeader(String option, Integer columnNumber) {
+        firstWhyButton().sendKeys(Keys.PAGE_UP);
+        scrollDown(firstWhyButton());
+        editableColumnHeader(columnNumber).click();
+        List<WebElement> optionsList = driver.findElements(By.cssSelector(editableColumnHeaderOptionListLocator));
+        for (WebElement element : optionsList) {
+            if (element.getText().equals(option)) {
+                element.click();
+                break;
+            }
+        }
+    }
+
+    public void verifyDataInEditableColumn(String selectedOption, Integer columnNumber, String collegeName, DataTable dataTable) {
+        switch (selectedOption) {
+            case "Institution Characteristics" :
+                List<List<String>> institutionsCharElements = dataTable.asLists(String.class);
+                List<WebElement> institutionCharsLeftElements = driver.findElements(By.xpath(institutionsCharsLeftElementsLocator(collegeName, columnNumber)));
+                List<WebElement> institutionsCharsRigthElements = driver.findElements(By.xpath(institutionsCharsRigthElementsLocator(collegeName, columnNumber)));
+                for (int i = 0; i < institutionsCharElements.size(); i++) {
+                    softly().assertThat(institutionsCharElements.get(i).get(0)).as("The element " + institutionsCharElements.get(i).get(0)
+                            + " does not have a correct value").contains(institutionCharsLeftElements.get(i).getText());
+                }
+                for (int i = 0; i < institutionsCharsRigthElements.size(); i++) {
+                    softly().assertThat(institutionsCharElements.get(i).get(1)).as("The element " + institutionsCharElements.get(i).get(1)
+                            + " does not have a correct value").contains(institutionsCharsRigthElements.get(i).getText());
+                }
+                break;
+            case "Admission info":
+                List<String> admissionInfoElements = dataTable.asList(String.class);
+                List<WebElement> wrapperElements = driver.findElements(By.xpath(cellContentsLocator(collegeName, columnNumber)));
+                for (int i = 0; i < wrapperElements.size(); i++) {
+                    softly().assertThat(wrapperElements.get(i).getText()).as("The element is not correct in Admission Info.")
+                            .contains(admissionInfoElements.get(i));
+                }
+                break;
+        }
+    }
+
     public void closeFitCriteriaWindow() {
         getFitCriteriaCloseButton().click();
     }
@@ -2710,6 +2832,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     // Locators Below
+    private WebElement leftCompareMoveButton(String collegeName) {
+        return driver.findElement(By.xpath("//p[@class='collegename' and text()='" + collegeName + "']//ancestor::div[1]//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'left')]"));
+    }
+    private WebElement rightCompareMoveButton(String collegeName) {
+        return driver.findElement(By.xpath("//p[@class='collegename' and text()='" + collegeName + "']//ancestor::div[1]//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'right')]"));
+    }
     private WebElement getStateInput() { return getDriver().findElement(By.xpath("//div[contains(@class,'sm-filter-search-dropdown')]/div/input")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
     private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"'")))));}
@@ -3083,6 +3211,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElements(By.xpath("//div[@id='OutOfStateStudents-dropdown']//span"));
     }
 
+    private WebElement averageClassSizeDropdownChevron() {
+        return getDriver().findElement(By.xpath("//div[@id='classsize-dropdown']/i"));
+    }
+
+    private List<WebElement> averageClassSizeDropdownOptions() {
+        return getDriver().findElements(By.xpath("//div[@id='classsize-dropdown']//span"));
+    }
+
     private WebElement onCampusHousingPercentDropdownChevron() {
         return getDriver().findElement(By.xpath("//div[@id='on-campus-housing-dropdown']/i"));
     }
@@ -3262,6 +3398,24 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement getMatchScoreByPosition(String position) {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
+    }
+
+    private WebElement editableColumnHeader(int position) {
+        return driver.findElement(By.cssSelector("table.ui.unstackable:not(.csr-header-table) th:nth-of-type(" + (position + 3) + ") span"));
+    }
+
+    private String editableColumnHeaderOptionListLocator = "span.text";
+
+    private String institutionsCharsLeftElementsLocator(String collegeName, int columnNumber) {
+        return "//a[text() = '" + collegeName + "']/ancestor::tr/td[" + (columnNumber + 3) + "]//span[1]";
+    }
+
+    private String institutionsCharsRigthElementsLocator(String collegeName, int columnNumber) {
+        return "//table//tr[1]//a[text() = '" + collegeName + "']/ancestor::tr/td[" + columnNumber + "]//span[2]";
+    }
+
+    private String cellContentsLocator(String collegeName, int columnNumber) {
+        return "//td[contains(@class, 'inPinnedList')]//a[text() = '" + collegeName + "']/ancestor::tr/td[" + (columnNumber + 3) + "]//p";
     }
 
     private WebElement innerFitCriteriaTabTitle() { return driver.findElement(By.cssSelector(innerFitCriteriaTabTitleLocator)); }

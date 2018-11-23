@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.loginPage.LoginPageImpl;
 import pageObjects.HS.homePage.HomePageImpl;
@@ -54,6 +55,8 @@ public class LoginPageStepDefs implements En {
         Then("^HS I verify the Intersect Logo present in the Home Page$",loginPage::verifyLogoInHomePage);
 
         Then("^SP I am logged in to Support for Intersect$", loginPage::defaultLoginForSupport);
+
+        Then("^HS I verify the search results on the registration page contain \"([^\"]*)\"$", loginPage::verifySearchResultsOnRegistrationPage);
 
     }
 }

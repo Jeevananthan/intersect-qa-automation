@@ -19,5 +19,7 @@ public class AccessSuperMatchStepDefs implements En {
         Given("^SM I am logged in to SuperMatch through the SuperMatch link$", loginPage::navigateToSuperMatch);
 
         Then("^I clear the onboarding popups if present$", loginPage::clearOnboardingPopups);
+
+        Then("^SM I log out of SuperMatch and close the browser$", loginPage::logOutOfSuperMatchAndCloseBrowser);
     }
 }

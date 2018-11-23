@@ -54,7 +54,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void clickMenuLink(String text) {
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath(getMenuLinkLocator(text))));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(getMenuLinkLocator(text))));
         getMenuLink(text).click();
     }
 
@@ -115,7 +115,17 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void pickFromTHeMenuItems(String menuItem) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(getMenuItemById(menuItem))));
             getDriver().findElement(By.id(getMenuItemById(menuItem))).click();
+    }
+
+    public void waitForSuccessMessage(String message){
+        waitUntil(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//*[text()='" +message + "']"))));
+    }
+
+    public void submitButton(String button) {
+        getDriver().findElement(By.xpath("//*[text()='" + button + "']")).submit();
+        waitUntilPageFinishLoading();
     }
 
 //locators
@@ -145,7 +155,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getFilterValueFirstRow(String filterName) {
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@title='" + filterName + "']/input")));
         return getDriver().findElement(By.xpath("//div[@title='" + filterName + "']/input"));
     }
 
@@ -154,10 +164,10 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private String getMenuLinkLocator(String advancedAwarenessOption) {
-        return "//div[3]//a/span[text()=\"" + advancedAwarenessOption + "\"]";
+        return "//div[3]//a[@class='menu-link']/span[text()=\"" + advancedAwarenessOption + "\"]";
     }
     private String getMenuTabLocator(String advancedAwarenessTab) {
-        return "//div[2]//a/span[text()=\"" + advancedAwarenessTab + "\"]";
+        return String.format("//nav[@aria-label='Active Match Sub Menu']/ul/li/span[text()='%s'] | //nav[@aria-label='Active Match Sub Menu']/ul/li/a/span[text()='%s']",advancedAwarenessTab,advancedAwarenessTab);
     }
 
     private String getMenuItemById(String menuItem) {
