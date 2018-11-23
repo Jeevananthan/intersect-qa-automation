@@ -19,8 +19,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
   @MATCH-4450
   Scenario Outline: As a HE user with active Presence subscription, I can access Agenda view of my appointments
     Given SP I am logged in to the Admin page as an Admin user
-    Then SP I select "The University of Alabama" from the institution dashboard
-    And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    #Then SP I select "The University of Alabama" from the institution dashboard
+    #And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button

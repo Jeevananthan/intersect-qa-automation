@@ -89,7 +89,7 @@ public class FCCollegeEventsPage {
 
     public static String eventNamesList = "h3.event-summary__title.ng-binding";
 
-    public static String nextArrowsList = "a.fc-pagination__link.ng-scope";
+    public static String nextArrowsList = "a[ng-if='!(noNext() || ngDisabled)']";
 
     public static WebElement getSignUpButton(String eventName) {
         return driver.findElement(By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']/div/div/span[@class='ng-scope']"));
@@ -110,7 +110,7 @@ public class FCCollegeEventsPage {
 
     }
     public static WebElement signupForEvent(String eventName){
-        return driver.findElement((By.xpath("//h3[text()='" + eventName + "']/../../../div[@class='event-summary__status-column']")));
+        return driver.findElement((By.xpath("//h3[text()='" + eventName + "']/../../..//div[@ng-switch-when='SIGNUP']")));
     }
     public  static WebElement registerEvent(){
         return  driver.findElement(By.cssSelector("button.fc-button.fc-button--primary"));

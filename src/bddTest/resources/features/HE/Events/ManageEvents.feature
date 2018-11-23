@@ -5,68 +5,59 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
   Scenario: Verify an event can be created/edited/saved/published/deleted
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
-    And HE I create and save a new event with the following details:
-    | Event Name | TestEvent9999 |
-    | Event Start | 12-21-2018;10:00AM |
-    | Timezone    | Eastern Time (i.e. America/New_York) |
-    | Description | Test              |
-    | Max Attendees | 30 |
-    | RSVP Deadline | 12-15-2018;10:00AM |
+    And HE I create and save a new event "60" minutes ahead from now with the following details:
+      | Event Name  | MandeepEventForTesting |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | Test |
+      | Max Attendees | 30 |
+      | EVENT LOCATION BY POSITION  | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
+
 #    Select Location, Contact and Filter (audience) by position (starting in 1).
 #    This is because currently we can create locations, contacts and filters with
 #    the same name.
     | EVENT LOCATION BY POSITION  | 1 |
     | EVENT PRIMARY CONTACT BY POSITION | 1 |
     | EVENT AUDIENCE BY POSITION       | 1 |
-    Then HE I should see the event of name "TestEvent9999" present in the unpublished events list as Draft event
-    Then HE I verify status "Draft" for the event of name "TestEvent9999"
-
-    When HE I edit the event of name "TestEvent9999" with the following details:
-    | Event Name | TestEvent9999Edited |
-    | Event Start | 12-23-2018;11:00AM |
-    | Timezone    | Atlantic Time (i.e. America/Puerto_Rico) |
-    | Description | TestEdited         |
-    | Max Attendees | 40               |
-    | RSVP Deadline | 12-22-2018;11:00AM |
-    | EVENT LOCATION BY POSITION | 2 |
-    | EVENT PRIMARY CONTACT BY POSITION | 2 |
-    | EVENT AUDIENCE BY POSITION       | 2 |
-    And HE I take note of the data in the Event
-    And HE I save the draft
-    Then HE The event of name "TestEvent9999Edited" should be updated
-
-    When HE I publish the current event
-    Then HE I verify status "Published" for the event of name "TestEvent9999Edited"
-    Then HE I should see the event of name "TestEvent9999Edited" present in the events list as a published event
-
-    When HE I unpublish the event of name "TestEvent9999Edited"
-    And HE I delete the event of name "TestEvent9999Edited"
-    Then HE The deleted event of name "TestEvent9999Edited" should not be displayed in the unpublished events list
+    Then HE I should see the event of name "MandeepEventForTesting" present in the unpublished events list as Draft event
+    Then HE I verify status "Draft" for the event of name "MandeepEventForTesting"
+    And HE click on Event Name "MandeepEventForTesting" to edit
+    And HE I edit and publish a new event "60" minutes ahead from now with the following details:
+      | Event Name  | MandeepEventForTestingEdited |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | TestEdited |
+      | Max Attendees | 30 |
+      | EVENT LOCATION BY POSITION  | 1 |
+      | EVENT PRIMARY CONTACT BY POSITION | 1 |
+      | EVENT AUDIENCE BY POSITION       | 2 |
+    Then HE I verify status "Published" for the event of name "MandeepEventForTestingEdited"
+    Then HE I should see the event of name "MandeepEventForTestingEdited" present in the events list as a published event
+    When HE I unpublish the event of name "MandeepEventForTestingEdited"
+    And HE I delete the event of name "MandeepEventForTestingEdited"
+    Then HE The deleted event of name "MandeepEventForTestingEdited" should not be displayed in the unpublished events list
 
   @MATCH-2913 @MATCH-2902 @MATCH-2928
   Scenario: Verify an event can be cancelled
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
-    And HE I create and save a new event with a unique name and the following details:
-      | Event Name | TestEvent |
-      | Event Start | 12-31-2018;10:00AM |
+    And HE I create and publish a new event "60" minutes ahead from now with the following details:
+      | Event Name  | TestEvent |
+      | Timezone    | Eastern Time (i.e. America/New_York) |
+      | Description | TestEdited |
       | Max Attendees | 30 |
-      | RSVP Deadline | 12-30-2018;10:00AM |
-  #    Select Location, Contact and Filter (audience) by position (starting in 1).
-  #    This is because currently we can create locations, contacts and filters with
-  #    the same name.
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
-    When HE I cancel the created event
-    And HE I open the "Cancelled" tab in the Events section
-    Then HE I verify status "Cancelled" for the event of generated name
+      | EVENT AUDIENCE BY POSITION       | 2 |
+    When HE I cancel the event of name "TestEvent"
+    And HE I open the "Cancelled" tab in Events
+    Then HE I verify status "Cancelled" for the event of name "TestEvent"
     Then HE The cancelled event should be displayed in the canceled events list
 
   @MATCH-2928
   Scenario: View Expired events
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
-    And HE I open the "Expired" tab in the Events section
+    And HE I open the "Expired" tab in Events
     Then HE I verify status "Expired" for the event of name "ExpiredEventForAutomation"
 
   @MATCH-2913
@@ -82,7 +73,7 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and save a new event with a unique name and the following details:
-      | Event Name | NewTestEvent |
+      | Event Name | ABCDUniqueName22 |
       | Event Start | 12-21-2018;10:00AM |
       | Timezone    | Eastern Time (i.e. America/New_York) |
       | Description | Test              |
@@ -91,14 +82,11 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I successfully sign out
-    When I log in to Family Connection with the following user details:
-      | rtsa       | benhubs | Hobsons!23  |
-    And I Navigate to old Colleges tab
-    And I open link Upcoming college events
+    When SM I am logged in to SuperMatch through Family Connection as user "benhubs" with password "Hobsons!23" from school "rtsa"
+    And SM I go to College Events from the SuperMatch main menu
     And I look for the host "The University of Alabama"
     Then I sign up for the event of generated name
     And HUBS I successfully sign out
-
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I attempt to unpublish the event of generated name
@@ -120,10 +108,8 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I cancel the created event
-    When I log in to Family Connection with the following user details:
-      | rtsa       | benhubs | Hobsons!23  |
-    And I Navigate to old Colleges tab
-    And I open link Upcoming college events
+    When SM I am logged in to SuperMatch through Family Connection as user "benhubs" with password "Hobsons!23" from school "rtsa"
+    And SM I go to College Events from the SuperMatch main menu
     And I look for the host "The University of Alabama"
     Then I verify the cancelation message for the generated event
 
@@ -132,7 +118,7 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and save a new event "-10" minutes ahead from now with the following details:
-      | Event Name | EventForCancelTest |
+      | Event Name | EventForPastTest |
       | Timezone    | Eastern Time (i.e. America/New_York) |
       | Description | Test |
       | Max Attendees | 30 |
@@ -155,7 +141,6 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
   Scenario: Verify event name is clickable on the Manage Events page
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events section
-    And HE I open the "Events" tab in the Events section
     Then HE I verify that the events' names are clickable and they open the Edit Event screen
 
   @MATCH-2897
@@ -206,5 +191,5 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     And HE I open the "Unpublished" tab in Events
     And HE I delete the event of name "EventForMATCH2897M"
     And HE I successfully sign out
-    # This test case will run only once successfully because of the reported issue MATCH-5019. Once MATCH-5019 is fixed , it will work properly. To re-run manualay edit Event Name
+    # This test case will fail at step HE I unpublish the event of name "EventForMATCH2897M". There is an open issue "MATCH-5019"
 

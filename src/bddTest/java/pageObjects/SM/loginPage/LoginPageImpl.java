@@ -98,6 +98,12 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void logOutOfSuperMatchAndCloseBrowser() {
+        getDriver().manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
+        getDriver().findElement(By.xpath("//button[text()='LOG OUT']")).click();
+        getDriver().quit();
+   }
+
     /**
      * Navigates to the Family Connection login screen
      * @param hsid - SchoolID that is needed for the hsid paramater in the request URL
