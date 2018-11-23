@@ -3313,6 +3313,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 waitUntilPageFinishLoading();
             }
         }
+        if(fairsSubmitButton().size()==1) {
+            editFairsSubmitButton().click();
+            waitUntilElementExists(closeButton());
+            closeButton().click();
+        }
     }
 
     private WebElement getCollegeFairsPrimaryContactPhoneNumberField() {
@@ -9932,5 +9937,9 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement viewDetailsLink() {
         return link("View Details");
+    }
+
+    private List<WebElement> fairsSubmitButton(){
+        return getDriver().findElements(By.xpath("//button/span[text()='Save']"));
     }
 }

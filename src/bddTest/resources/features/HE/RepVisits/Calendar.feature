@@ -208,7 +208,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 #Pre-condition
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "<institution>" from the institution dashboard
-    And SP I "Inactivate" the user account for "<user>"
+    And SP I "inactivate" the user account for "<user>"
 
     Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
 #verify all fields in re assign appointments page
