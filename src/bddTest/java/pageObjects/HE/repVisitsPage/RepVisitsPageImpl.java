@@ -1293,8 +1293,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         verifyCommunityAvatarIsDisplayedToTheLeftOfStaffMemberName();
         verifyNoFeedbackSubmittedYetMessageIsDisplayed();
     }
-    public void navaigateToAccountSettings(String accountSettings)
-    {
+    public void navaigateToAccountSettings(String accountSettings) {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         userDropdown().click();
@@ -2192,14 +2191,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyAccountsettings(String leftSubMenuInaccountSettings) {
         String subMenu[] = leftSubMenuInaccountSettings.split(",");
         for (int i=0;i<subMenu.length-1;i++) {
-            Assert.assertTrue("Tab " + subMenu[i] + " is not displaying as expected!",getDriver().findElement(By.xpath("//a/span[text()='"+subMenu[i]+"']")).isDisplayed());
+            Assert.assertTrue("Tab " + subMenu[i] + " is not displaying as expected!",leftSubMenu(subMenu,i).isDisplayed());
         } }
 
     public void verifyPasswordFields(String AccountInformationPage,String firstName,String lastName,String eMail,DataTable dataTable) {
         String details[] = AccountInformationPage.split(",");
         for(int i=0;i<details.length-1;i++) {
-            Assert.assertTrue(details[i] + " is not showing.",
-                    getDriver().findElement(By.xpath("//span[text()='"+details[i]+"']")).isDisplayed());}
+            Assert.assertTrue(details[i] + " is not showing.",accountSettingsNonPasswordFields(details,i)
+                    .isDisplayed());}
         currentPasswordInput().sendKeys(Keys.PAGE_DOWN);
 
         List<String> list = dataTable.asList(String.class);
@@ -2217,9 +2216,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Email is not displayed",email.equals(eMail));
     }
 
-    public void validatePassword(String userType,String oldPassword,String minimum8character,String lowercaseletter,String uppercaseletter,String withoutNumber,String withoutspecialcharacter) {
+    public void validatePassword(String oldPassword,String newPassword,String minimum8character,String lowercaseletter,String uppercaseletter,String withoutNumber,String withoutspecialcharacter) {
         currentPasswordInput().clear();
-        currentPasswordInput().sendKeys(oldPassword);
+        currentPasswordInput().sendKeys(newPassword);
         //verify the password policy of minimum of 8 characters
         newPasswordInput().sendKeys(minimum8character);
         confirmPasswordInput().sendKeys(minimum8character);
@@ -2266,12 +2265,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify the password accepted with the password policy
         newPasswordInput().clear();
         confirmPasswordInput().clear();
-        newPasswordInput().sendKeys(GetProperties.get("he."+ userType + ".password"));
-        confirmPasswordInput().sendKeys(GetProperties.get("he."+ userType + ".password"));
+        newPasswordInput().sendKeys(oldPassword);
+        confirmPasswordInput().sendKeys(oldPassword);
         saveButton().click();
-        waitForUITransition();
-        List<WebElement> list=getDriver().findElements(By.xpath("//div[@class='ui negative message']/div/span"));
-        if(list.size()==1) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
+        if(negativeMessage().size()==1) {
             Assert.fail("Error Message is displayed");
         }
         waitUntilPageFinishLoading();
@@ -2292,25 +2290,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void resetPassword(String oldPassword,String newPassword)
-    {
+    public void resetPassword(String oldPassword,String newPassword) {
         currentPasswordInput().clear();
         currentPasswordInput().sendKeys(oldPassword);
         newPasswordInput().sendKeys(newPassword);
         confirmPasswordInput().sendKeys(newPassword);
         saveButton().click();
-        waitForUITransition();
-        List<WebElement> list=getDriver().findElements(By.xpath("//div[@class='ui negative message']/div/span"));
-        if(list.size()==1) {
-            logger.info("Error Message is displayed");
-            Assert.fail();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
+        if(negativeMessage().size()==1) {
+            Assert.fail("Error Message is displayed");
         }
     }
 
     public void verifySuccessMessageinAccountSettingsPage(String message){
-        String SuccessMessage = getDriver().findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
+        String SuccessMessage = getSuccessMessage().getText();
         Assert.assertTrue("Success message is not displayed",message.equals(SuccessMessage));
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/sp")));
     }
 
     public void selectCalendar() {
@@ -3682,7 +3676,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return school;
     }
     private WebElement saveButton() {
-        WebElement button=driver.findElement(By.xpath("//button/span[text()='Save']"));
+        WebElement button=getDriver().findElement(By.xpath("//button/span[text()='SAVE']"));
         return button;
     }
     private WebElement yesButton() {
@@ -3978,6 +3972,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public WebElement getCloseShareYourCalendarButton(){
         return getDriver().findElement(By.cssSelector("div>i[class='close icon']"));
     }
+
     /**
      * Get the re assign link
      * @return
@@ -4001,9 +3996,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button("Show More");
     }
     private WebElement submitRequestText(){return text("Yes, Submit Request");}
-    private By successMessage(){
-        return By.xpath("//span[text()='Great! Your notes have been updated']");
-    }
     private WebElement schedulePopupTextInVisitSchedule(){
         return getDriver().findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]"));
     }
@@ -4097,6 +4089,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private By todayButtonInCalendar(){return By.cssSelector("button[title='Today']");}
 
     private WebElement appointmentSlot(String time,String school){return getDriver().findElement(By.xpath("//span[text()='"+time+"']/preceding-sibling::span[text()='"+school+"']"));}
+  
+      private By successMessage(){
+        return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']>span");
+    }
+    private List<WebElement> negativeMessage(){
+        return getDriver().findElements(By.cssSelector("div[class='ui negative message']>div>span"));
+    }
+    private WebElement getSuccessMessage(){return getDriver().findElement(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']>span"));}
+    private WebElement leftSubMenu(String subMenu[],int i){return getDriver().findElement(By.xpath("//a/span[text()='"+subMenu[i]+"']"));}
+    private WebElement accountSettingsNonPasswordFields(String fieldDetails[],int i){return getDriver().findElement(By.xpath("//span[text()='"+fieldDetails[i]+"']"));}
 }
 
 
