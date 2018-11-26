@@ -351,6 +351,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLinks(DataTable linksAndDetails) {
         openHSLoginPage();
+        waitUntil(ExpectedConditions.elementToBeClickable(button("Login")));
         List<List<String>> links = linksAndDetails.asLists(String.class);
         for (List<String> link : links) {
             getDriver().findElement(By.xpath("//span[text()='" + link.get(0) + "']")).click();
