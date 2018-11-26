@@ -4896,7 +4896,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             getNavigationBar().goToRepVisits();
             waitUntilElementExists(collegeFairs());
             collegeFairs().click();
-            waitForUITransition();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("add-college")));
     }
     public void verifyCollgeFairBlankDashBoard(){
         Assert.assertTrue("College Fairs Header is not present",getDriver().findElement(By.cssSelector("h1")).isDisplayed());
@@ -8233,7 +8233,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void clickAddCollegeFairButton() {
-        driver.findElement(By.cssSelector("button[id='add-college']")).click();
+        addCollegeFair().click();
     }
     public void noteForSchools(String note){
         Assert.assertTrue("Note For Schools is not displayed",noteDeclaration().getText().contains(note));
@@ -8241,7 +8241,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     public void closeAddEditFairScreen(){
         waitUntilElementExists(closeFairScreen());
         closeFairScreen().click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(closeFairPopup()));
     }
 
     private WebElement rescheduleButtonInReScheduleVisitPage ()
@@ -9581,6 +9581,8 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement selectVisitInTheCalendar() {  return  getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']"));   }
 
     private WebElement circularIconCloseButton(){  return getDriver().findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")); }
+  
+    private WebElement addCollegeFair(){ return driver.findElement(By.cssSelector("button[id='add-college']")); }
 
     private WebElement yesAcceptAllIncommingRequestsRadioButton(){  return getDriver().findElement(By.xpath("//label[text()='Yes, accept all incoming requests.']")); }
 
@@ -9929,8 +9931,8 @@ public void cancelRgisteredCollegeFair(String fairName){
     private List<WebElement> completePage(){return getDriver().findElements(By.xpath("//label[text()='All RepVisits Users']")); }
     private List<WebElement> availabilityandSettings(){return getDriver().findElements(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Availability & Settings']"));}
     private List<WebElement> takeMetoMyVisitsButton() { return getDriver().findElements(By.xpath("//button/span[text()='Take me to my visits']")); }
-
     private WebElement viewDetailsLink() {
         return link("View Details");
     }
+    private By closeFairPopup () { return By.cssSelector("button[class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']"); }
 }

@@ -293,3 +293,48 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Examples:
       |School for Notification|School          |EMail                           |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |heCT   |EmailTimeForFair|
       |Mays High School (GA)  |Mays High School|purpleheautomation@gmail.com    |QAs Fairs tests       |4   |900AM     |1100AM  |2            |$25 |25                    |100                        | Save          |9AM    |9:00am          |
+    
+  @MATCH-2381
+  Scenario Outline: As a HS RepVisits user verify note to let users know their contact info will be visible
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click button Add a College Fair to Add a fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    And HS I click on Edit button to edit fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+  #cancel the college Fair
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+    And HS I successfully sign out
+
+  Examples:
+  |College Fair Name |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|
+  |qa Fairs          |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |
+ 
+ @MATCH-2381
+  Scenario Outline: As a Non Naviance HS RepVisits user verify note to let users know their contact info will be visible
+    Given HS I am logged in to Intersect HS as user type "administrator"
+    And HS I Navigate to College Fairs tab of the Repvisits Page
+    And HS I Click button Add a College Fair to Add a fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    And HS I click on Edit button to edit fair
+    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
+    And HS I click on close icon on Add Edit College Fair pop-up
+ #cancel the college Fair
+    Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
+    Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+    And HS I successfully sign out
+    
+  Examples:
+  |College Fair Name |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|
+  |qa Fairs          |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |
+ 
