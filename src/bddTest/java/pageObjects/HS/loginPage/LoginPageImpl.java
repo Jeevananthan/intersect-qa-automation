@@ -204,11 +204,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("'sign in ' button is displayed for naviance HS", !button("Sign In").isDisplayed());
             Assert.assertTrue("",driver.findElement(By.xpath("//span[text()='Back to search']")).isDisplayed());
             try{
+                setImplicitWaitTimeout(2);
                 if(!driver.findElement(By.xpath("//span[contains(text(),'Primary User')]")).isDisplayed())
                 {
                     logger.info("Primary user details is not displayed");
                 }else{logger.info("Primary user details is displayed");}
-            }catch(Exception e){}
+                resetImplicitWaitTimeout();
+            }catch(Exception e){
+                resetImplicitWaitTimeout();
+            }
         }
         else{
             Assert.assertTrue("'sign in ' button is not displayed for non-naviance HS", button("Sign In").isDisplayed());
@@ -216,11 +220,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("'please complete this form' link is not displayed for non-naviance HS", link("please complete this form.").isDisplayed());
             Assert.assertTrue("Back to search is not displayed",link("Back to search").isDisplayed());
             try{
+                setImplicitWaitTimeout(2);
                 if(!driver.findElement(By.xpath("//span[contains(text(),'Primary User')]")).isDisplayed())
                 {
                     logger.info("Primary user details is not displayed");
                 }else{logger.info("Primary user details is displayed");}
-            }catch(Exception e){}
+                resetImplicitWaitTimeout();
+            }catch(Exception e){
+                resetImplicitWaitTimeout();
+            }
 
         }
 
@@ -245,12 +253,20 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
     public void searchInstitution(String school)
     {
-        waitUntilElementExists(highSchoolButton());
-        driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).clear();
-        driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).sendKeys(school);
+        waitUntilElementExists(inputTextBox());
+        // .clear() doesn't work for this control, so we need to manually clear with backspace.
+        int oldLength = inputTextBox().getAttribute("value").length();
+        for (int i = 0; i<oldLength; i++) {
+            inputTextBox().sendKeys(Keys.BACK_SPACE);
+        }
+        inputTextBox().sendKeys(school);
         button("Search").click();
-        //Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
-        //driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void selectInstitutionFromRegistration(String school)
+    {
+        registrationPageResultsTable().findElement(By.xpath("//a[text()='"+school+"']")).click();
         waitUntilPageFinishLoading();
     }
 
