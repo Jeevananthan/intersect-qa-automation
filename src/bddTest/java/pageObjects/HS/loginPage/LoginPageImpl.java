@@ -132,11 +132,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     public void searchForHSInstitution(String institutionName,String institutionType){
         if(institutionType.equalsIgnoreCase("High school"))
         highSchoolStaffMember().click();
-        inputTextBox().click();
-        inputTextBox().clear();
-        inputTextBox().sendKeys(institutionName);
-        searchButton().click();
-        waitUntilPageFinishLoading();
+        searchInstitution(institutionName);
         while (showMore().size()==1){
             showMoreButton().click();
             waitUntilPageFinishLoading();

@@ -202,14 +202,6 @@ Feature:  As an HS user, I want to be able to access the features of the RepVisi
 #    And HS I verify Note on Add Edit Fair screen "Please note: Your high school name, address, email, and primary contact phone number will be displayed to admission representatives."
 #    And HS I successfully sign out
 
-#  @MATCH-1781
-#  Scenario: As a HS user, I need to be able to search for high schools during the registration process.
-#  so I can associate myself with45 the high school I work at
-#    Given HS Iam navigating to Intersect HS through Non naviance Url
-#    Then HS I click the new user link in the login page
-#    When HS I click on HIGHER EDUCATION STAFF MEMBER
-#    And HS I search for "Acs Abu Dhabi" in "High school" and verify the results
-
 #Test case is not running accorded to the expected, need to be fixed.
 #  @MATCH-1617 @MATCH-1997
 #  Scenario: As a high school community user, I want to be able to accept or deny a college that requests to attend my fair.
