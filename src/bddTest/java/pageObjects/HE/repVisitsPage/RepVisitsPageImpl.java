@@ -1307,17 +1307,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyDefaultToggleinSearchAndSchedule(String visitOrFairs,String enabledOrDisabled){
         if(visitOrFairs.equals("Visits")) {
             if(enabledOrDisabled.equals("Enabled")) {
-                Assert.assertTrue("Visits toggle is not Enabled",isButtonEnabledInSearchandScheduleTab(getDriver().findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
+                Assert.assertTrue("Visits toggle is not Enabled",isButtonEnabledInSearchandScheduleTab(getDriver().findElement(By.xpath("//span[text()='Visits']/parent::button[@role='button']"))));
             }else if(enabledOrDisabled.equals("Disabled")){
-                Assert.assertTrue("Visits is not Disabled",isButtonDisabledInSearchandScheduleTab(getDriver().findElement(By.xpath("//span[text()='Visits']/parent::div[@role='button']"))));
+                Assert.assertTrue("Visits toggle is not Disabled",isButtonDisabledInSearchandScheduleTab(getDriver().findElement(By.xpath("//span[text()='Visits']/parent::button[@role='button']"))));
             }else {
              logger.info("Invalid option");
             }
         }else if(visitOrFairs.equals("Fairs")) {
             if(enabledOrDisabled.equals("Enabled")) {
-                Assert.assertTrue("Fairs toggle is not Enabled",isButtonEnabledInSearchandScheduleTab(getDriver().findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
+                Assert.assertTrue("Fairs toggle is not Enabled",isButtonEnabledInSearchandScheduleTab(getDriver().findElement(By.xpath("//span[text()='Fairs']/parent::button[@role='button']"))));
             }else if(enabledOrDisabled.equals("Disabled")) {
-                Assert.assertTrue("Fairs toggle is not Disabled",isButtonDisabledInSearchandScheduleTab(getDriver().findElement(By.xpath("//span[text()='Fairs']/parent::div[@role='button']"))));
+                Assert.assertTrue("Fairs toggle is not Disabled",isButtonDisabledInSearchandScheduleTab(getDriver().findElement(By.xpath("//span[text()='Fairs']/parent::button[@role='button']"))));
             }else {
                 logger.info("Invalid option");
             }
@@ -1329,7 +1329,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyAvailabilitySlotInSearchAndSchedule(String time,String startDate,String school){
         waitUntilPageFinishLoading();
         waitForUITransition();
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//td//a[text()='"+school+"']"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
@@ -1349,7 +1349,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         visit().click();
         waitForUITransition();
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//h3/a[text()='"+school+"']"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
@@ -1373,7 +1373,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(search());
         searchButton().click();
         waitForUITransition();
-        WebElement schoolName=getDriver().findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//td//a[contains(text(),'"+school+"')]"));
         waitUntil(ExpectedConditions.visibilityOf(schoolName));
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         schoolName.click();
