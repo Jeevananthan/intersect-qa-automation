@@ -159,6 +159,6 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement saveButton(){
-        return getDriver().findElement(By.cssSelector("button[class='ui teal primary button']"));
+        return getDriver().findElement(By.xpath("//button[@class='ui primary button'] | //button[@class='ui teal primary button']"));
     }
 }
