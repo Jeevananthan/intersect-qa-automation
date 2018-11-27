@@ -340,7 +340,12 @@ public class NavigationBarImpl extends SeleniumBase {
      */
     public void verifyLeftNavAndBreadcrumbsForHS(DataTable dataTable){
         waitUntilPageFinishLoading();
-        navigationDropDown.click();
+        getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        FluentWait<WebDriver> wait = new WebDriverWait(getDriver(), 10);
+        wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[name='mainmenu']")));
+        mainMenu().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-rep-visits-menu-link")));
         List<List<String>> data = dataTable.raw();
         for(List<String> row : data){
             WebElement menu = getDriver().findElement(By.xpath(String.format(
@@ -385,5 +390,8 @@ public class NavigationBarImpl extends SeleniumBase {
     //Read more information here: https://imalittletester.com/2016/05/11/selenium-how-to-wait-for-an-element-to-be-displayed-not-displayed/
     private void waitForElementSetMaxTimeout() {
         getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+    }
+    private WebElement mainMenu(){
+        return getDriver().findElement(By.cssSelector("a[name='mainmenu']"));
     }
 }
