@@ -132,7 +132,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         tabs.add("Regular Weekly Hours");
         tabs.add("Blocked Days");
         tabs.add("Exceptions");
-//        tabs.add("Availability Settings");
         for (String tab : tabs) {
 
             if (tab.contains("Regular Weekly Hours") || tab.contains("Blocked Days") || tab.contains("Exceptions") || tab.contains("Availability Settings")) {
@@ -195,7 +194,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue("Entry in sorted list doesn't match an entry in the original list. Sorted: " + entry + ", Original: " + original.get(i),entry.equalsIgnoreCase(original.get(i)));
             i++;
         }
-        //Assert.assertTrue(sortedList.equals(original));
     }
 
     public void validatingthePaginationof25Contacts()
@@ -224,7 +222,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availabilitySettings().click();
-//        availabilityAndSettings().click();
         Assert.assertTrue("Title 'Visit Scheduling' is not displayed",text("Visit Scheduling").isDisplayed());
         Assert.assertTrue("Text 'Accept' is not displayed",text("Accept").isDisplayed());
         Assert.assertTrue("Listbox is not displayed",driver.findElement(By.cssSelector("div[class='ui selection dropdown'][role='listbox']")).isDisplayed());
@@ -323,7 +320,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         inputEndTime(hourEndTime, minuteEndTime, meridianEndTime);
         visitsNumber(numVisits);
         waitUntilElementExists(submit());
-//        addTimeSlot().click();
         driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
         waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='availability']")));
         if(driver.findElements(By.xpath("//div[@class='ui small modal transition visible active']")).size()>0){
@@ -818,19 +814,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
     }
-//    public void setSpecificDate(int addDays) {
-//        String DATE_FORMAT_NOW = "MMMM dd yyyy";
-//        Calendar cal = Calendar.getInstance();
-//        cal.add(Calendar.DATE, addDays);
-//        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-//        String currentDate = sdf.format(cal.getTime());
-//        String[] parts = currentDate.split(" ");
-//        String calendarHeading = parts[0] + " " + parts[2];
-//        findMonth(calendarHeading);
-//        clickOnDay(parts[1]);
-//        waitUntilPageFinishLoading();
-//    }
-//
 
     public String getSpecificDateForFairsEdit(String addDays) {
         String DATE_FORMAT_NOW = "EEEE, MMM dd, yyyy";
@@ -1022,7 +1005,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyManualBlockedHolidays(String holiday) {
-//        button(By.cssSelector("div[style='display: inline-block;'] :nth-child(3)")).click();
         getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         blockedDays().click();
@@ -3401,6 +3383,72 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void cleanVisits() {
+        getDriver().navigate().refresh();
+        getNavigationBar().goToRepVisits();
+        try {
+            while (selectVisitInTheCalendar().isDisplayed()) {
+                waitUntilElementExists(selectVisitInTheCalendar());
+                selectVisitInTheCalendar().click();
+                button("Cancel This Visit").click();
+                getMessageRegardingCancellationTextBox().sendKeys("Cancel");
+                cancelVisitButton().click();
+                waitUntilElementExists(selectVisitInTheCalendar());
+            }
+        } catch (WebDriverException e) {
+            getDriver().navigate().refresh();
+            getNavigationBar().goToRepVisits();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
+            forwardDayButton().click();
+
+            while(getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).size()>0 || getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")).size()>0) {
+                try {
+                    if (getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).size() > 0 || getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")).size() > 0) {
+                        if (getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).size() > 0) {
+                            while (selectVisitInTheCalendar().isDisplayed()) {
+                                getDriver().navigate().refresh();
+                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
+                                forwardDayButton().click();
+                                waitUntilElementExists(selectVisitInTheCalendar());
+                                selectVisitInTheCalendar().click();
+                                waitUntilElementExists(button("Cancel This Visit"));
+                                button("Cancel This Visit").click();
+                                getMessageRegardingCancellationTextBox().sendKeys("Cancel");
+                                cancelVisitButton().click();
+                                getDriver().navigate().refresh();
+                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
+                                forwardDayButton().click();
+                            }
+                        } else {
+
+                            while (getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")).isDisplayed()) {
+                                getDriver().navigate().refresh();
+                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
+                                forwardDayButton().click();
+                                waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")));
+                                getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")).click();
+                                waitUntilElementExists(button("Cancel This Visit"));
+                                button("Cancel This Visit").click();
+                                getMessageRegardingCancellationTextBox().sendKeys("Cancel");
+                                cancelVisitButton().click();
+                                getDriver().navigate().refresh();
+                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
+                                forwardDayButton().click();
+                            }
+
+                        }
+                    }
+                } catch (WebDriverException g) {
+                    getDriver().navigate().refresh();
+                    getNavigationBar().goToRepVisits();
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
+                    forwardDayButton().click();
+                }
+            }
+        }
+
+    }
+
     public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
         getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.partialLinkText("Calendar"),1));
@@ -4659,9 +4707,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         moveToElement(attendeeTextBox());
         attendeeTextBox().sendKeys(Keys.PAGE_DOWN);
         attendeeTextBox().sendKeys(attendee);
-//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/div[text()='"+attendee+"']"),1));
-//        waitUntilElementExists(driver.findElement(By.xpath("//div/div[text()='"+attendee+"']")));
-        Assert.assertTrue("Attendee name is not displayed in the dropdown",driver.findElement(By.xpath("//div/div[text()='"+attendee +"']")).isDisplayed());
         selectAttendeeOrInstitution(attendee).click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("calendar-search-reps"),1));
         String selectedAttendeeValue = driver.findElement(By.id("calendar-search-reps")).getAttribute("value");
@@ -4699,6 +4744,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             selectMonth = currentMonth.split(" ");
             Month = selectMonth[0];
         }
+        waitForUITransition();
         Assert.assertTrue("university is not displayed", driver.findElement(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + institution + "']")).isDisplayed());
         Assert.assertTrue("time is not displayed", driver.findElement(By.xpath("//span[text()='" + institution + "']/preceding-sibling::span[text()='" + startTime + "']")).isDisplayed());
         waitUntilPageFinishLoading();
@@ -4715,7 +4761,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Want a custom time? Add it manually']"),1));
         addVisitManually().click();
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("button[class$='_3VnqII6ynYglzDU1flY9rw']"),1));
         waitUntilElementExists(selectDateButton());
         doubleClick( selectDateButton());
         setSpecificDateforManuallyCreatingVisit(date);
@@ -7663,7 +7708,8 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
     private WebElement confirmationMessageCreatedVisit(String message) {
         String successMsg[] = message.split(",");
-        WebElement msg=driver.findElement(By.xpath("//span[text()='"+successMsg[0]+"']/following-sibling::span[text()='"+successMsg[1]+"']"));
+//        WebElement msg=driver.findElement(By.xpath("//span[text()='"+successMsg[0]+"']/following-sibling::span[text()='"+successMsg[1]+"']"));
+        WebElement msg=driver.findElement(By.xpath("//div[text()='"+successMsg[0]+"']"));
         return msg;
     }
     private WebElement addcontactManually() {
@@ -8017,7 +8063,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void createVisit(String daysAheadFromNow, DataTable dataTable) {
-        waitUntilElementExists(customTimeLink());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text() = 'Want a custom time? Add it manually']")));
         customTimeLink().click();
         Calendar calendarDate = getDeltaDate(Integer.parseInt(daysAheadFromNow));
         generatedDateDayOfWeek = getDayOfWeek(calendarDate) + " " + getDay(calendarDate);
@@ -8972,7 +9018,9 @@ public void cancelRgisteredCollegeFair(String fairName){
         manualEndTime().sendKeys(endtime);
     }
     public void clickAgenda(){
-       clicklinkAgenda().sendKeys(Keys.RETURN);
+        getDriver().navigate().refresh();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[id='calendar-agenda-view-button']")));
+        clicklinkAgenda().sendKeys(Keys.RETURN);
     }
 
     public  void clickDayCalendar(){
