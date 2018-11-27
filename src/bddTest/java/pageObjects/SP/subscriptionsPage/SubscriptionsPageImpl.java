@@ -116,6 +116,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     public void clickFinish() {
         finishButton().click();
+        waitForUITransition();
     }
 
     public void verifyNewSubscription(DataTable dataTable) {
