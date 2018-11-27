@@ -715,12 +715,6 @@ public class GlobalSearch extends SeleniumBase {
                         waitUntilPageFinishLoading();
                         jsClick(drpInstitutionType.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key) + "')]")));
                         waitUntilPageFinishLoading();
-                        if (categorySearch.equalsIgnoreCase("Higher Education")) {
-                            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                        }else {
-                            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                        }
                     }
                     break;
 
