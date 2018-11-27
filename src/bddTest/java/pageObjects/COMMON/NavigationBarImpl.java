@@ -299,12 +299,12 @@ public class NavigationBarImpl extends SeleniumBase {
         List<List<String>> data = dataTable.raw();
         for(List<String> row : data){
             WebElement menu = getDriver().findElement(By.xpath(String.format(
-                    "//dt[@class='header _3zoxpD-z3dk4-NIOb73TRl']/span[text()='%s']", row.get(0).trim())));
+                    "//dt[@class='header _1ojTdlgPNhtH4N-__uiqvu']/span[text()='%s']", row.get(0).trim())));
             String[] subMenusText = row.get(1).split(",");
             Assert.assertTrue(String.format("The menu: %s is not displayed",row.get(0).trim()),menu.isDisplayed());
             for(String subMenuText : subMenusText){
                 WebElement subMenu = menu.findElement(By.xpath(String.format(
-                        "ancestor::dl[@class='_2PQVKVsDhRwSQYR3V28Dnw _28hxQ33nAx_7ae3SZ4XGnj']/dt/a/span[text()='%s']"
+                        "ancestor::dl[@class='ui huge inverted vertical _3oMJTHrebN5xpDMwkfhCJw menu']/dt/a/span[text()='%s']"
                         ,subMenuText.trim())));
                 Assert.assertTrue(String.format("The submenu: %s is not displayed",subMenuText.trim()),subMenu.isDisplayed());
             }
