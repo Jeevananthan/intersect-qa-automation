@@ -121,22 +121,23 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
       |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|option|
       |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |1      |
 
-#  @MATCH-2391
-#  Scenario: As a HS user, I should not be able to add visits in the past
-#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-#    Given HS I clean the visits created
-#    When HS I navigate to the "Calendar" page in RepVisits
-#    And HS I click on button Add Visit
-#    Given HS I create a visit "3" days ahead from now with the following details
-#      | Start Time | 09:40am |
-#      | End Time   | 10:39am |
-#      | Representative | PurpleHE Publishing |
-#    Then HS verify pills are not available for the past dates in schedule new visit page
-#    Then HS verify the past dates are disabled in the select custom date section
-#    Then HS verify pills are not available for the past dates in Re-schedule visit page
-#    Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
-#    And HS I open the visit with generated time in the Calendar
-#    And HS I cancel the open visit
+  @MATCH-2391
+  Scenario: As a HS user, I should not be able to add visits in the past
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I clean the visits created
+    Then HS I set the date using "3" and "42"
+    When HS I navigate to the "Calendar" page in RepVisits
+    And HS I click on button Add Visit
+    Given HS I create a visit "3" days ahead from now with the following details
+      | Start Time | 09:40am |
+      | End Time   | 10:39am |
+      | Representative | PurpleHE |
+    Then HS verify pills are not available for the past dates in schedule new visit page
+    Then HS verify the past dates are disabled in the select custom date section
+    Then HS verify pills are not available for the past dates in Re-schedule visit page
+    Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
+    And HS I open the visit with generated time in the Calendar
+    And HS I cancel the open visit
 
   @MATCH-2061 @MATCH3954
   Scenario: : As a HS user, I should be able to add internal notes to my visits
