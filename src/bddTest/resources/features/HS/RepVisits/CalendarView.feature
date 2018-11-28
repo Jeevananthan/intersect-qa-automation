@@ -27,6 +27,8 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
   @MATCH-2728
   Scenario: Verify ability to view and edit Fair appointments from Calendar view
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I clean the visits created
+    Then HS I clean the college fairs created
     Then HS I create a dynamic College Fair with the following data
       | College Fair Name                                         | MATCH-2082 Fair         |
       | Automatically Confirm Incoming Requestions From Colleges? | no                      |
