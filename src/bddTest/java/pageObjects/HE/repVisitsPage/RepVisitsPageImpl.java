@@ -1679,7 +1679,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         textBoxInViewDetails().sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("save button is not displayed",viewDetailsSaveButton().isDisplayed());
         viewDetailsSaveButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void clickOnSeeAllUsersLink(String link) {
@@ -1713,7 +1712,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         textBoxInViewDetails().sendKeys(Keys.PAGE_DOWN);
         Assert.assertTrue("save button is not displayed",viewDetailsSaveButton().isDisplayed());
         viewDetailsSaveButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void verifynoNotificationMessage(String message) {
@@ -4011,7 +4009,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public WebElement viewFullDetails(String school,String date,String time){
-        return driver.findElement(By.xpath("//span[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+date+"']/parent::div[text()='"+time+"']/following-sibling::div/a/span[text()='View full details']"));
+        return driver.findElement(By.xpath("//span[text()='"+school+"']/parent::div/following-sibling::div/span[text()='"+date+"']/parent::div[text()='"+time+"']/following-sibling::div/button/span[text()='View Full Details']"));
     }
 
     public By internalNodeTextBox(){
