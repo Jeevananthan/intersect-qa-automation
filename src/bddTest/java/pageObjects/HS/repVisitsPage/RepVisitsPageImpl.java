@@ -3393,7 +3393,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 button("Cancel This Visit").click();
                 getMessageRegardingCancellationTextBox().sendKeys("Cancel");
                 cancelVisitButton().click();
-                waitUntilElementExists(selectVisitInTheCalendar());
+                getDriver().navigate().refresh();
+                getNavigationBar().goToRepVisits();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
             }
         } catch (WebDriverException e) {
             getDriver().navigate().refresh();
