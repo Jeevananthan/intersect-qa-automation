@@ -55,7 +55,7 @@ public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
     private void openInternational() { load(GetProperties.get("hubs.app.int.url")); }
 
     private void openNavianceStudent(String school) {
-        load(GetProperties.get("naviance.student.app.url") + school);
+        load(GetProperties.get("fc.app.url") + school);
     }
 
     public void loginNavianceStudent(String username, String password, String school) {
