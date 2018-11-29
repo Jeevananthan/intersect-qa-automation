@@ -133,7 +133,7 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     Given HS I create a visit "3" days ahead from now with the following details
       | Start Time | 09:40am |
       | End Time   | 10:39am |
-      | Representative | PurpleHE |
+      | Representative | PurpleHE Publishing|
     Then HS verify pills are not available for the past dates in schedule new visit page
     Then HS verify the past dates are disabled in the select custom date section
     Then HS verify pills are not available for the past dates in Re-schedule visit page
