@@ -52,7 +52,7 @@ Feature: HBS - International - As a community user viewing College Hubs, I want 
       | Fees | Application Fee     |
       | Test Requirements | SAT |
       | Applications | Received |
-      | Test Scores  | TOEFL (Paper);Low |
+      | Test Scores  | Michigan (MELAB);Low |
       | Qualifications | Ability to Finance |
       | Accepted English Tests | TOEFL      |
 
