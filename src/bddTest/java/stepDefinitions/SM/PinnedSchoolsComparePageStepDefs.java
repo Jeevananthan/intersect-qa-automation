@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.pinnedSchoolsComparePage.PinnedSchoolsComparePageImpl;
 
@@ -40,5 +39,18 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I verify all the below options available in Academics fit criteria in Academics expandable drawer$", pinnedSchoolsComparePage::verifyAcademicsExpandableDrawerOptions);
 
+        And("^SM I verify all the below options available in Athletics fit criteria in Athletics expandable drawer$", pinnedSchoolsComparePage::verifyAthleticsExpandableDrawerOptions);
+
+        And("^SM I verify all the below options available in IC fit criteria in IC expandable drawer$", pinnedSchoolsComparePage::verifyICDrawerOptions);
+
+        Then("^SM I pin \"([^\"]*)\" from the search box$", pinnedSchoolsComparePage::pinCollegeFromBottomSearchResult);
+
+        Then("^SM I verify that the tooltips are displayed in the Schools Compare screen \"([^\"]*)\"$", pinnedSchoolsComparePage::verifyTooltipInComparePage);
+
+        Then("^SM I verify that the appropriate section in the college's profile is displayed after clicking the following links:$", pinnedSchoolsComparePage::verifyHousingInfoIsDisplayedAfterClickingSections);
+
+        And("^SM I unpin \"([^\"]*)\" from the Schools Compare screen$", pinnedSchoolsComparePage::unpinSchool);
+
+        And("^SM I search for \"([^\"]*)\" college in search bar$", pinnedSchoolsComparePage::pinCollegeFromBottomSearchResult);
     }
 }

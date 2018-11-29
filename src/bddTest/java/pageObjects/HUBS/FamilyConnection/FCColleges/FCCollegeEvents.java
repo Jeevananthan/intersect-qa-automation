@@ -184,7 +184,6 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         }
 
         while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
-            waitForUITransition();
             waitUntilPageFinishLoading();
             waitUntilElementExists(upperNextArrow);
             upperNextArrow.click();
@@ -216,4 +215,5 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         FCCollegeEventsPage.clickUpdateButton(updateEvent).click();
 
     }
+    private String rightUpperArrowDisabled = "//label[text()='Show me:']/../../../following-sibling::p/ul/li[3]";
 }

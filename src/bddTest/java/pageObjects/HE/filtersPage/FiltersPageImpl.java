@@ -4,19 +4,28 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.eventsPage.EventsPageImpl;
+import stepDefinitions.World;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class FiltersPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    private World world;
 
     public FiltersPageImpl() {
+        this.world = new World();
         logger = Logger.getLogger(FiltersPageImpl.class);
     }
+
+    private EventsPageImpl eventsPage = new EventsPageImpl();
 
     public  void summaryFilter(DataTable summaryFilterData){
         List<List<String>> filterData = summaryFilterData.asLists(String.class);
@@ -39,39 +48,17 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
 
     public void createFilter(DataTable newFilterData) {
         List<List<String>> filterData = newFilterData.asLists(String.class);
-        for (List<String> filterDataElement : filterData) {
-            switch (filterDataElement.get(0)) {
-                case "Gender" : genderCheckBox(filterDataElement.get(1)).click();
-                    break;
-                case "Location" :
-                    locationMilesDropdown().click();
-                    getCreateFilterDropdownOption(filterDataElement.get(1).split(";")[0]).click();
-                    locationPostalCodeField().sendKeys(filterDataElement.get(1).split(";")[1]);
-                    break;
-                case "Race and Ethnicity" :
-                    raceAndEthnicityField().click();
-                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
-                    filterNameLabel().click();
-                    break;
-                case "Grade Level" :
-                    gradeLevel().click();
-                    waitForUITransition();
-                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
-                    filterNameLabel().click();
-                    break;
-                case "GPA" :
-                    gpaField().click();
-                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
-                    filterNameLabel().click();
-                    break;
-                case "Filter Name" :
-                    filterNameLabel().click();
-                    filterNameField().sendKeys(filterDataElement.get(1));
-                    break;
+        fillFilterForm(filterData);
+        saveFilterButton().click();
+        waitUntilPageFinishLoading();
+        if(driver.findElements(By.cssSelector(filterNameUniqueErrorMessageLocator)).size() > 0) {
+            softly().assertThat(false).as("A filter with the same name already exists.");
+            if (driver.findElements(By.cssSelector(createFilterCancelButtonLocator)).size() > 0) {
+                driver.findElement(By.cssSelector(createFilterCancelButtonLocator)).click();
+            } else {
+                eventsPage.getEventsTab("Filters");
             }
         }
-        saveFilterButton().click();
-        waitForUITransition();
     }
 
     public void clickCreateFilter() {
@@ -115,8 +102,13 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyNumberOfAssignedEvents(String filterName, String numberOfAssignedEvents) {
-        waitUntilPageFinishLoading();
         waitUntilElementExists(getDriver().findElement(By.xpath("//h1/span[text()='Filters']")));
+        try {
+            numberOfAssignedEvents(filterName).isDisplayed();
+        } catch (NoSuchElementException f) {
+            driver.get(driver.getCurrentUrl());
+            waitUntilPageFinishLoading();
+        }
         Assert.assertTrue("The displayed number does not match the number of events the filter " + filterName + " is assigned to",
                 numberOfAssignedEvents(filterName).getText().equals(numberOfAssignedEvents));
     }
@@ -140,6 +132,63 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
 
     public List<WebElement> getRecommendedCountFromFiltersWithBaseName(String baseName) {
         return driver.findElements(By.xpath(recommendedCountListLocator(baseName)));
+    }
+
+    public void createFilterWithGenName(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss");
+        fillFilterForm(details);
+        filterNameField().sendKeys(dateFormat.format(date));
+        world.string = filterNameField().getAttribute("value");
+        saveFilterButton().click();
+    }
+
+    public void fillFilterForm(List<List<String>> formData) {
+        for (List<String> filterDataElement : formData) {
+            switch (filterDataElement.get(0)) {
+                case "Gender" : genderCheckBox(filterDataElement.get(1)).click();
+                    break;
+                case "Location" :
+                    locationMilesDropdown().click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1).split(";")[0]).click();
+                    locationPostalCodeField().sendKeys(filterDataElement.get(1).split(";")[1]);
+                    break;
+                case "Race and Ethnicity" :
+                    raceAndEthnicityField().click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
+                    filterNameLabel().click();
+                    break;
+                case "Grade Level" :
+                    gradeLevel().click();
+                    waitForUITransition();
+                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
+                    filterNameLabel().click();
+                    break;
+                case "GPA" :
+                    waitUntilPageFinishLoading();
+                    gpaField().click();
+                    getCreateFilterDropdownOption(filterDataElement.get(1)).click();
+                    filterNameLabel().click();
+                    break;
+                case "Filter Name" :
+                    filterNameLabel().click();
+                    filterNameField().sendKeys(filterDataElement.get(1));
+                    break;
+            }
+        }
+    }
+
+    public void verifyFilterOfGenNameIsDefaultInEventAudience() {
+        Assert.assertTrue("The filter " + world.string + " is not displayed in the Event Audience field.",
+                eventsPage.audienceField().getAttribute("value").equals(world.string));
+    }
+
+    public void deleteFilterOfGenName() {
+        threePointsMenu(world.string).click();
+        threePointsMenuElement("Delete").click();
+        deleteConfirmationButton().click();
+        waitForUITransition();
     }
 
     //locators
@@ -171,4 +220,6 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement sortByDropdownOption(String optionName) { return driver.findElement(By.xpath("//div[@class = 'item']//span[text() = '" + optionName + "']")); }
     private String recommendedCountListLocator(String eventBaseName) { return "//div[contains(@class, 'dimmable')]/div/strong[contains(text(), '" + eventBaseName + "')]/../../div[5]/span[2]"; }
     private WebElement getCreateFilterDropdownOption(String option) { return driver.findElement(By.xpath("//span[@class = 'text' and text() = '" + option + "']")); }
+    private String filterNameUniqueErrorMessageLocator = "div.ui.error.message span";
+    private String createFilterCancelButtonLocator = "form.ui.small.form button.ui.basic.right.floated.button span";
 }

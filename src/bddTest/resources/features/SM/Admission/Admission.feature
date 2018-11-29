@@ -121,7 +121,7 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
     Then SM I verify that the Must Have box contains "Application Deadline is on/after Jan 13"
 
   @MATCH-4241
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 00 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual admission data for the college so I can clearly see what
   matched/did not match/partially matched Acceptance rate.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -148,7 +148,7 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
 
 
   @MATCH-4241
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual admission data for the college so I can clearly see what
   matched/did not match/partially matched Application Deadline.
     Given SM I am logged in to SuperMatch through Family Connection

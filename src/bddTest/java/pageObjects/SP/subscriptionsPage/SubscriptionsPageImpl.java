@@ -116,6 +116,8 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     public void clickFinish() {
         finishButton().click();
+        if (getDriver().findElements(By.cssSelector("div.ui.error.message")).size() == 0)
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("subscription-modal"),0));
     }
 
     public void verifyNewSubscription(DataTable dataTable) {

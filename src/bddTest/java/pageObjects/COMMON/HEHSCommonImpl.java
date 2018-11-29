@@ -115,7 +115,17 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void pickFromTHeMenuItems(String menuItem) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(getMenuItemById(menuItem))));
             getDriver().findElement(By.id(getMenuItemById(menuItem))).click();
+    }
+
+    public void waitForSuccessMessage(String message){
+        waitUntil(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//*[text()='" +message + "']"))));
+    }
+
+    public void submitButton(String button) {
+        getDriver().findElement(By.xpath("//*[text()='" + button + "']")).submit();
+        waitUntilPageFinishLoading();
     }
 
 //locators
@@ -145,7 +155,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getFilterValueFirstRow(String filterName) {
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@title='" + filterName + "']/input")));
         return getDriver().findElement(By.xpath("//div[@title='" + filterName + "']/input"));
     }
 

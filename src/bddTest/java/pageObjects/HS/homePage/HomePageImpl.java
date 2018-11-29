@@ -78,11 +78,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyAdditionalInfoURLAfterClickingBackToIntersectLink(String additionalInfoURL,String backToIntersect,String institutionID,String info){
-        String currentURL = additionalInfoURL+institutionID+info;
+        String expectedURL = additionalInfoURL+institutionID+info;
         link(backToIntersect).click();
-        String additionalInfoCurrentURL = driver.getCurrentUrl();
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Additional info URL is not displayed",additionalInfoCurrentURL.equals(currentURL));
+        String currentURL = driver.getCurrentUrl();
+        softly().assertThat(currentURL).as("URL").isEqualTo(expectedURL);
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
     }
@@ -119,7 +119,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         driver.manage().deleteAllCookies();
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//ul/li[text()='Copyright © "+currentYear+", Hobsons Inc.']")).isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © "+currentYear+", Hobsons Inc.']")).isDisplayed());
+        openNavianceLoginPage();
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()=' Copyright © "+currentYear+"']/span[contains(text(),'Hobsons Inc')]")).isDisplayed());
     }
 
 
@@ -212,6 +214,28 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void iframeEnter()  {
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
+    }
+
+    private void openNavianceLoginPage() {
+
+        try {
+            //getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+            load(GetProperties.get("naviance.app.url"));
+            try {
+                setImplicitWaitTimeout(2);
+                getDriver().findElement(By.xpath("//a[@href='/legacy']")).click();
+                resetImplicitWaitTimeout();
+            } catch (Exception e2) {
+                resetImplicitWaitTimeout();
+                logger.info("New Naviance login page was not shown, using legacy flow.");
+            }
+            waitUntilPageFinishLoading();
+        } catch (Exception e) {
+            try{getDriver().close();} catch (Exception e2) { logger.info("Tried to call .close() on an already killed session."); }
+            load("http://www.google.com");
+            System.out.println("Page: " + GetProperties.get("naviance.app.url") + " did not load within 40 seconds!");
+        }
+        waitUntilPageFinishLoading();
     }
 
     private WebElement collageNameLabel() {

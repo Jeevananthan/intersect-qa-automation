@@ -304,10 +304,10 @@ Examples:
     And HE I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the error Message "Please select a Staff Member" is displaying when "Select staff member" is not selected for "4224, Automation"
-    Then HE I verify the error Message "Please select a New Assignee" is displaying when "Select new assignee" is not selected for "4224, Automation"
-    Then HE I verify the error Message "Please select at least one appointment" is displaying when "No appointments" is not selected for "4224, Automation"
-    Then HE I verify the error Message "doesn't have any appointments scheduled." is displaying when "Select staff member, no associated visits or fairs" is not selected for "Fresh, PurpleHE"
+    Then HE I verify the error Message "Please select a Staff Member" is displaying when Select staff member is not selected
+    Then HE I verify the error Message "Please select a New Assignee" is displaying when Select new assignee is not selected using "4224, Automation"
+    Then HE I verify the error Message "Please select at least one appointment" is displaying when appointments is not selected using "4224, Automation","Community, PurpleHE"
+    Then HE I verify the error Message "have any appointments scheduled." is displaying when the user "Fresh, PurpleHE" is selected
     Then HE I verify the error Message "Please select a Staff Member" is disappearing when the error message "doesn't have any appointments scheduled." is displayed for "Fresh, PurpleHE"
 
   Examples:
