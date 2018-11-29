@@ -90,7 +90,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
-        button("Sign In").click();
+        button("Log In").click();
         waitForUITransition();
         waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
         // Necessary to handle the announcements overlay.
