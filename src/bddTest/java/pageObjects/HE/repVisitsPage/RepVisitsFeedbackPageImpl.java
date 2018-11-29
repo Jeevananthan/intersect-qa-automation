@@ -543,7 +543,7 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         List<WebElement> segments = getDriver().findElements(By.xpath("//div[contains(@class,'rating-segment')]"));
         softly().assertThat(segments.size()).isGreaterThan(1);
         // Make sure that the contents of the user area are present
-        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(@class,'rating-user-name')]")).getText()).as("User's Name").isEqualTo(username);
+        softly().assertThat(getDriver().findElement(By.xpath("//h2[contains(@class,'rating-user-name')]")).getText()).as("User's Name").isEqualTo(username);
         softly().assertThat(getUserSummary().isDisplayed()).as("User rating summary displayed").isTrue();
         softly().assertThat(getUserSummary().findElement(By.xpath("./div[@role='radiogroup']")).isDisplayed()).as("Star ratings are displayed for user").isTrue();
         // Verify the contents of an individual rating are present

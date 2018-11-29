@@ -125,8 +125,8 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
         for (String key : generatedValues.keySet()) {
             switch (key) {
                 case "Acceptance Rate" :
-                    assertTrue("The value for " + key + "was not successfully generated",
-                            generatedValues.get(key).equals(acceptanceRateText().getText()));
+                    softly().assertThat(generatedValues.get(key)).as("The value for " + key
+                            + "was not successfully generated").isEqualTo(acceptanceRateText().getText());
                     break;
                 case "Important Policies" :
                     List<String> policiesStrings = new ArrayList<>();
@@ -139,16 +139,15 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
                             policy = row.split(";")[1];
                         }
                     }
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            policiesStrings.contains(policy));
+                    softly().assertThat(policiesStrings).as("The value for " + key + " was not successfully generated").contains(policy);
                     break;
                 case "Deadlines" :
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(earlyActionDeadlineMonthText().getText()));
+                    softly().assertThat(generatedValues.get(key)).as("The value for " + key + " was not successfully generated")
+                            .isEqualTo(earlyActionDeadlineMonthText().getText());
                     break;
                 case "Fees" :
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(applicationFeesText().getText()));
+                    softly().assertThat(generatedValues.get(key)).as("The value for " + key + " was not successfully generated")
+                            .isEqualTo(applicationFeesText().getText());
                     break;
                 case "Application Requirements" :
                     List<String> requirementsStrings = new ArrayList<>();
@@ -161,8 +160,7 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
                             requirement = row.split(";")[2];
                         }
                     }
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            requirementsStrings.contains(requirement));
+                    softly().assertThat(requirementsStrings).as("The value for " + key + " was not successfully generated").contains(requirement);
                     break;
                 case "Recommended Courses" :
                     for (String row : sections) {
@@ -171,8 +169,8 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
                             requiredOrRecommended = row.split(";")[2];
                         }
                     }
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(getCourseYears(course, requiredOrRecommended).getText()));
+                    softly().assertThat(generatedValues.get(key)).as("The value for " + key + " was not successfully generated")
+                            .isEqualTo(getCourseYears(course, requiredOrRecommended).getText());
                     break;
                 case "Application Factors" :
                     List<String> appFactors = new ArrayList<>();
@@ -190,8 +188,8 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
                     } else {
                         isPresentOrNot = "not present";
                     }
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(isPresentOrNot));
+                    softly().assertThat(generatedValues.get(key)).as("The value for " + key + " was not successfully generated")
+                            .isEqualTo(isPresentOrNot);
                     break;
             }
         }

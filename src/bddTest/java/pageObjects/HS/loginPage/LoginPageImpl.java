@@ -42,9 +42,18 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
         button("Sign In").click();
 
-        if(link(By.xpath("//div[@id='announcement-overlay--close']")).isDisplayed()) {
-            waitUntilElementExists(link(By.xpath("//div[@id='announcement-overlay--close']")));
-            link(By.xpath("//div[@id='announcement-overlay--close']")).click();
+        waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
+        // Necessary to handle the announcements overlay.
+        try {
+            link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        } catch (Exception e) {
+            if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
+                //We have to jsclick the close button... because the close button is behind the overlay...
+                jsClick(getDriver().findElement(By.name("continue-button")));
+                link(By.xpath("//li/a[@title='Counselor Community']")).click();
+            } else {
+                throw e;
+            }
         }
 
 
@@ -55,6 +64,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.xpath("//a[@class='ns-top-nav__secondary-link js-community-link']")).click();
             waitUntilPageFinishLoading();
         } else {
+
             waitUntilElementExists(driver.findElement(By.xpath("//a[@title='Counselor Community']")));
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//a[@title='Counselor Community']")).click();
@@ -89,7 +99,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         } catch (Exception e) {
             if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
                 //We have to jsclick the close button... because the close button is behind the overlay...
-                jsClick(getDriver().findElement(By.id("announcement-overlay--close")));
+                jsClick(getDriver().findElement(By.name("continue-button")));
                 link(By.xpath("//li/a[@title='Counselor Community']")).click();
             } else {
                 throw e;
@@ -103,6 +113,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
                     intersectWindow = thisWindow;
                 }
             }
+            waitForUITransition();
             driver.close();
             driver.switchTo().window(intersectWindow);
         }
@@ -238,9 +249,17 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).clear();
         driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).sendKeys(school);
         button("Search").click();
-        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
-        driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
+        //Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
+        //driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
         waitUntilPageFinishLoading();
+    }
+
+    public void verifySearchResultsOnRegistrationPage(String school)
+    {
+        List<WebElement> links = registrationPageResultsTable().findElements(By.tagName("a"));
+        for (WebElement link : links) {
+            softly().assertThat(link.getText()).as("School Name").contains(school);
+        }
     }
 
     public void verifyLink(String navianceORnonNavianceLink)
@@ -332,6 +351,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLinks(DataTable linksAndDetails) {
         openHSLoginPage();
+        waitUntil(ExpectedConditions.elementToBeClickable(button("Login")));
         List<List<String>> links = linksAndDetails.asLists(String.class);
         for (List<String> link : links) {
             getDriver().findElement(By.xpath("//span[text()='" + link.get(0) + "']")).click();
@@ -484,5 +504,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private WebElement showMoreButton(){
         return driver.findElement(By.xpath("//button/span[text()='More Institutions']"));
+    }
+
+    private WebElement registrationPageResultsTable(){
+        return getDriver().findElement(By.id("institution-list"));
     }
 }

@@ -143,7 +143,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     public void verifyErrorMessageInSelectNewAssignee(String errorMessage,String staffMember){
         goToReassignAppointment();
         reAssignAppointmentsButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(errorText(errorMessage)));
+        //waitUntil(ExpectedConditions.visibilityOfElementLocated(errorText(errorMessage)));
         selectStaffMemberDropdown().click();
         jsClick(selectStaff(staffMember));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
@@ -157,7 +157,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     public void verifyErrrorMessageForNoAppointmentsSelected(String errorMessage,String staffMember,String newAssignee){
         goToReassignAppointment();
         reAssignAppointmentsButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(errorText(errorMessage)));
+        //waitUntil(ExpectedConditions.visibilityOfElementLocated(errorText(errorMessage)));
         selectStaffMemberDropdown().click();
         jsClick(selectStaff(staffMember));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
@@ -270,8 +270,8 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement selectStaff(String staff){return driver.findElement(By.xpath("//div[text()='"+staff+"']"));}
     private By disappearingErrorMessage(String disappearingErrorMessage){return By.xpath("//div/span[text()='"+disappearingErrorMessage+"']");}
     private WebElement verifyDisappearingErrorMessage(String disappearingErrorMessage){return driver.findElement(By.xpath("//div/span[text()='"+disappearingErrorMessage+"']"));}
-    private WebElement errorMessage(String errorMessage){return driver.findElement(By.xpath("//div/span[text()='"+errorMessage+"']"));}
-    private By errorText(String errorMessage){return By.xpath("//div/span[text()='"+errorMessage+"']");}
+    private WebElement errorMessage(String errorMessage){return driver.findElement(By.xpath("//span[contains(text(),'"+errorMessage+"')]"));}
+    private By errorText(String errorMessage){return By.xpath("//span[contains(text(),'"+errorMessage+"')]");}
     private WebElement selectNewAssigneeStaff(String newAssignee){return driver.findElement(By.xpath("//div[text()='Select new assignee']/parent::div//div[text()='"+newAssignee+"']"));}
     private WebElement selectAllCount(int count){return driver.findElement(By.xpath("//label[contains(text(), 'Select all (" + count +")')]"));}
     private String getAppointmentsCount(){
