@@ -14,7 +14,7 @@ Feature: HS - Home - HomePage - As an HS user, I want to be able to access the f
     Given HS I am logged in to Intersect HS as user type "administrator"
     Then HS I verify the current year is displayed at the bottom of the window in the Home Page
     And HS I verify the items are present in the help center dropdown
-#    And HS I successfully sign out
+
 #Naviance HS
     Given HS I verify the current year is displayed at the bottom of the window in the login page for Naviance
     Then HS I verify the current year is displayed at the bottom of the window in the Naviance page using "blue4hs","iam.purple","Password!1"
