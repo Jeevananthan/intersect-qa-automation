@@ -120,7 +120,7 @@ public class HelpImpl extends PageObjectFacadeImpl {
                 }
             }
             driver.switchTo().window(communityGuidelinesWindow);
-            waitForUITransition();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span/a[text()='Hobsons Counselor Community']")));
             driver.findElement(By.xpath("//span/a[text()='Hobsons Counselor Community']")).click();
             String communityGuidelinesURL = link("Counselor Community Guidelines").getUrl();
             link("Counselor Community Guidelines").click();

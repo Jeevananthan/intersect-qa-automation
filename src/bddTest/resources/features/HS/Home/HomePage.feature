@@ -14,7 +14,7 @@ Feature: HS - Home - HomePage - As an HS user, I want to be able to access the f
     Given HS I am logged in to Intersect HS as user type "administrator"
     Then HS I verify the current year is displayed at the bottom of the window in the Home Page
     And HS I verify the items are present in the help center dropdown
-#    And HS I successfully sign out
+
 #Naviance HS
     Given HS I verify the current year is displayed at the bottom of the window in the login page for Naviance
     Then HS I verify the current year is displayed at the bottom of the window in the Naviance page using "blue4hs","iam.purple","Password!1"
@@ -49,7 +49,7 @@ Feature: HS - Home - HomePage - As an HS user, I want to be able to access the f
     Then HS I navigate to each page and verify the unique URL is present in the "Privacy Policy" page
     And HS I successfully sign out
 
-    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Given HS I am logged in to Intersect HS as user type "admin"
     Then HS I verify "Terms of Service" is present in the footer
     Then HS I verify "Privacy Policy" is present in the footer
     Then HS I navigate to each page and verify the unique URL is present in the "Terms of Service" page
@@ -63,14 +63,15 @@ Feature: HS - Home - HomePage - As an HS user, I want to be able to access the f
 
   @MATCH-2057 @MATCH-2195
   Scenario: As a HS user, I want to access to secure help links to learn about my features.
-    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Given HS I am logged in to Intersect HS as user type "admin"
     Then HS I verify that the help content is secure and matches the correct URL for "Non-Naviance HS Users"
 
   @MATCH-1430
   Scenario: As an Intersect system, I need to have a Community Guidelines page available
   for users to read and understand how they are supposed to used the system and how the system uses their information.
-    Given HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
+    Given HS I am logged in to Intersect HS as user type "admin"
     Then HS I navigate to each page and verify the unique URL is present in the "Counselor Community Guidelines" page in Help Center
+    And HS I successfully sign out
 
   @MATCH-1496
   Scenario: As an HS user I want the Intersect left navigation bar to be better organized and labeled.

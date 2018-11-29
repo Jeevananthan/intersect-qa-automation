@@ -53,7 +53,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     Then HS I make sure the ENROLLMENT INFORMATION FIELDS exist
       | Male | Female | Nonbinary | Asian or Asian/Pacific Islander | American Indian/Alaska Native | Hawaiian Native/Pacific Islander | Hispanic or Latino | Black/African American | White | Two or More Races | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Title I Status |
     And HS I enter the following ENROLLMENT data on the Institution Profile page and click "Save"
-      | Male                             | 600                                 |
+      | Male                             | 499                                 |
       | Female                           | 600                                 |
       | Nonbinary                        | 600                                 |
       | Asian or Asian/Pacific Islander  | 600                                 |
@@ -82,7 +82,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
-      | Male                             | 600                                 |
+      | Male                             | 499                                 |
       | Female                           | 600                                 |
       | Nonbinary                        | 600                                 |
       | Asian or Asian/Pacific Islander  | 600                                 |

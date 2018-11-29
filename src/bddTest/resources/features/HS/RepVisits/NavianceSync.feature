@@ -5,6 +5,8 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   events into Naviance, I want the ability to opt out/disconnect my RepVisits events from publishing to Naviance,
   so that I can manage events separately in Naviance and RepVisits.
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I clean the visits created
+    Then HS I clean the college fairs created
 #Precondition
     Then HS I complete the setupWizard
     Then HS I create a new visit to verify the details in naviance with "28","10:30am","12:30pm","2","PurpleHE Automation" and "Cbba"
@@ -25,6 +27,8 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   They will not get synced back into Naviance with the updated date/time..
     #Setup environment
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Then HS I clean the visits created
+    Then HS I clean the college fairs created
     Then HS I complete the setupWizard
     Then HS I navigate to naviance settings page
     Then HS I set the date using "21" and "28"
