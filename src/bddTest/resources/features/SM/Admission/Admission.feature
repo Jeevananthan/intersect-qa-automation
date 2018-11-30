@@ -198,6 +198,7 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "West" checkbox from the "Location" fit criteria
     And SM I select the "Test Optional" checkbox from "Admission" fit criteria
     Then SM I verify that "California State University-Los Angeles" contains the label "Test Optional" in Academic Match
     And SM I press Why button for "California State University-Los Angeles" college
