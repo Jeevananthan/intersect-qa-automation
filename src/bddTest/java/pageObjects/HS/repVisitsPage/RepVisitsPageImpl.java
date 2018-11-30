@@ -4768,7 +4768,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addVisitButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Want a custom time? Add it manually']"),1));
         addVisitManually().click();
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         waitUntilElementExists(selectDateButton());
         doubleClick( selectDateButton());
         setSpecificDateforManuallyCreatingVisit(date);

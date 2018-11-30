@@ -27,7 +27,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyUserIsLoggedIn() {
         //Check if user element is present
         waitUntilPageFinishLoading();
-        Assert.assertTrue("User did not sign in successfully", link(By.id("user-dropdown")).isDisplayed());
+        Assert.assertTrue("User did not log in successfully", link(By.id("user-dropdown")).isDisplayed());
         logger.info("Logged in successfully");
     }
 
@@ -168,7 +168,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         textbox(By.name("hsid")).sendKeys(account);
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
-        button("Sign In").click();
+        button("Log In").click();
 
         try {
             link(By.xpath("//li/a[@title='Counselor Community']")).click();
