@@ -154,7 +154,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           And HE I verify the text "These are the login details that provide access to your SFTP server." is displayed
           When HE I select the value "SSH Public Key" in authentication method radio buttons
           And HE I verify the text "SSH Public Keys can be used instead of a password to authenticate over secure protocols. Be careful, personal access tokens should be treated as securely as any other password." is displayed
-          And HE I verify the text of the re generate ssh key button is "DELETE & REGENERATE KEY"
+          Then HE I verify the text of the generate ssh key button is "GENERATE KEY"
           When HE I select the value "Password" in authentication method radio buttons
           And HE I verify the text "TRANSFER FREQUENCY" is displayed
           And HE I verify the text "Choose which days of the week Intersect should transfer new data to your SFTP server." is displayed

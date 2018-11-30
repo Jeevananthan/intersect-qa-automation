@@ -33,7 +33,6 @@ Feature: HE - GlobalSearch - GlobalSearch - As an HE user, I want to be able to 
       | Intersect Presence Subscription   | inactive |
       | Legacy: ActiveMatch Events        | inactive |
       | ActiveMatch Plus                  | inactive |
-
     And SP I successfully sign out
     Given HE I want to login to the HE app using "daniel.kirtman@hobsons.com" as username and "internHOBS25%" as password
     Then HE I verify there is no global search options available
@@ -146,5 +145,5 @@ Feature: HE - GlobalSearch - GlobalSearch - As an HE user, I want to be able to 
   Scenario: As an Intersect user I want the global search box to return results based on a full match.
             So the results returned to me are as accurate and relevant as possible.
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the real-time results return for global search are a partial and full match "Adrian College"
+    Then HE I verify the real-time results return for global search are a partial and full match "Alabama"
       | People | Institutions |

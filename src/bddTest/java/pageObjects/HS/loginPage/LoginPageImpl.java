@@ -40,7 +40,22 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
         logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
-        button("Sign In").click();
+        button("Log In").click();
+
+        waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
+        // Necessary to handle the announcements overlay.
+        try {
+            link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        } catch (Exception e) {
+            if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
+                //We have to jsclick the close button... because the close button is behind the overlay...
+                jsClick(getDriver().findElement(By.name("continue-button")));
+                link(By.xpath("//li/a[@title='Counselor Community']")).click();
+            } else {
+                throw e;
+            }
+        }
+
 
         if (username.contains("molly"))
         {
@@ -49,6 +64,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             driver.findElement(By.xpath("//a[@class='ns-top-nav__secondary-link js-community-link']")).click();
             waitUntilPageFinishLoading();
         } else {
+
             waitUntilElementExists(driver.findElement(By.xpath("//a[@title='Counselor Community']")));
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//a[@title='Counselor Community']")).click();
@@ -74,10 +90,22 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
-        button("Sign In").click();
+        button("Log In").click();
+        waitForUITransition();
         waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
-        waitUntilPageFinishLoading();
-        link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        // Necessary to handle the announcements overlay.
+        try {
+            link(By.xpath("//li/a[@title='Counselor Community']")).click();
+        } catch (Exception e) {
+            if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
+                //We have to jsclick the close button... because the close button is behind the overlay...
+                jsClick(getDriver().findElement(By.name("continue-button")));
+                link(By.xpath("//li/a[@title='Counselor Community']")).click();
+            } else {
+                throw e;
+            }
+        }
+
         Set<String> windows = driver.getWindowHandles();
         if(windows.size()>1){
             for (String thisWindow : windows) {
@@ -85,12 +113,14 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
                     intersectWindow = thisWindow;
                 }
             }
+            waitForUITransition();
             driver.close();
             driver.switchTo().window(intersectWindow);
         }
         //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
         //Read more information here: https://stackoverflow.com/questions/6992993/selenium-c-sharp-webdriver-wait-until-element-is-present
-        new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("app")));
+        new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("user-dropdown")));
+
     }
 
     public void openNonNavianceLoginPage(){
@@ -171,7 +201,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         if(navianceOrNonnaviance.equalsIgnoreCase("naviance")){
             Assert.assertTrue("'access counselor community' text is not displayed for naviance HS", driver.findElement(By.xpath("//span[contains(text(),'Please access the Counselor Community via')]")).isDisplayed());
             Assert.assertTrue("'naviance' link is not displayed for naviance HS", link("Naviance").isDisplayed());
-            Assert.assertTrue("'sign in ' button is displayed for naviance HS", !button("Sign In").isDisplayed());
+            Assert.assertTrue("'log in ' button is displayed for naviance HS", !button("Log In").isDisplayed());
             Assert.assertTrue("",driver.findElement(By.xpath("//span[text()='Back to search']")).isDisplayed());
             try{
                 if(!driver.findElement(By.xpath("//span[contains(text(),'Primary User')]")).isDisplayed())
@@ -181,7 +211,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             }catch(Exception e){}
         }
         else{
-            Assert.assertTrue("'sign in ' button is not displayed for non-naviance HS", button("Sign In").isDisplayed());
+            Assert.assertTrue("'log in ' button is not displayed for non-naviance HS", button("Log In").isDisplayed());
             Assert.assertTrue("'Already have an account? ' text is not displayed for non-naviance HS", text("Already have an account?").isDisplayed());
             Assert.assertTrue("'please complete this form' link is not displayed for non-naviance HS", link("please complete this form.").isDisplayed());
             Assert.assertTrue("Back to search is not displayed",link("Back to search").isDisplayed());
@@ -208,7 +238,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(highSchoolButton());
         Assert.assertTrue("High School Staff Member is not displayed",button("High School Staff Member").isDisplayed());
         Assert.assertTrue("Higher Education Staff Member is not displayed",button("Higher Education Staff Member").isDisplayed());
-        Assert.assertTrue("Sign In button is not displayed",button("Sign In").isDisplayed());
+        Assert.assertTrue("Log In button is not displayed",button("Log In").isDisplayed());
         Assert.assertTrue("text is not displayed",text("New User? Find Your Institution").isDisplayed());
         Assert.assertTrue("textbox is not displayed",driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).isDisplayed());
 
@@ -219,9 +249,17 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).clear();
         driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).sendKeys(school);
         button("Search").click();
-        Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
-        driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
+        //Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
+        //driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
         waitUntilPageFinishLoading();
+    }
+
+    public void verifySearchResultsOnRegistrationPage(String school)
+    {
+        List<WebElement> links = registrationPageResultsTable().findElements(By.tagName("a"));
+        for (WebElement link : links) {
+            softly().assertThat(link.getText()).as("School Name").contains(school);
+        }
     }
 
     public void verifyLink(String navianceORnonNavianceLink)
@@ -313,6 +351,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLinks(DataTable linksAndDetails) {
         openHSLoginPage();
+        waitUntil(ExpectedConditions.elementToBeClickable(button("Login")));
         List<List<String>> links = linksAndDetails.asLists(String.class);
         for (List<String> link : links) {
             getDriver().findElement(By.xpath("//span[text()='" + link.get(0) + "']")).click();
@@ -465,5 +504,9 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private WebElement showMoreButton(){
         return driver.findElement(By.xpath("//button/span[text()='More Institutions']"));
+    }
+
+    private WebElement registrationPageResultsTable(){
+        return getDriver().findElement(By.id("institution-list"));
     }
 }
