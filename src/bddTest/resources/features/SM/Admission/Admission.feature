@@ -190,3 +190,18 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
     And SM I unselect the "51%-75%" checkbox from the "Admission" fit criteria
     And SM I click "Admission" filter criteria tab
     Then SM I verify that the Must Have box contains "Acceptance Rate [2]"
+
+  @MATCH-4644
+  Scenario: As a HS student performing searches and reviewing search results in SuperMatch, I want colleges that are
+  'test optional' to have that information displayed in a more prevalent manner so I can more easily ID them without
+  having to manipulate the selectable results table columns.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "West" checkbox from the "Location" fit criteria
+    And SM I select the "Test Optional" checkbox from "Admission" fit criteria
+    Then SM I verify that "California State University-Los Angeles" contains the label "Test Optional" in Academic Match
+    And SM I press Why button for "California State University-Los Angeles" college
+    Then SM I verify that "Test Optional" is displayed in the "Must Have" box in the Why Drawer
+
+
