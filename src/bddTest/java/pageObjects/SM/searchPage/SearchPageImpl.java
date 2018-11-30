@@ -3396,10 +3396,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") td.left.aligned"));
     }
 
-    private WebElement getMatchScoreByPosition(String position) {
-        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
-    }
-
     private WebElement editableColumnHeader(int position) {
         return driver.findElement(By.cssSelector("table.ui.unstackable:not(.csr-header-table) th:nth-of-type(" + (position + 3) + ") span"));
     }
@@ -3412,6 +3408,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private String institutionsCharsRigthElementsLocator(String collegeName, int columnNumber) {
         return "//table//tr[1]//a[text() = '" + collegeName + "']/ancestor::tr/td[" + columnNumber + "]//span[2]";
+    }
+
+    private WebElement getMatchScoreByPosition(String position) {
+        return driver.findElement(By.cssSelector("tbody tr:nth-of-type(" + position + ") span.supermatch-number"));
     }
 
     private String cellContentsLocator(String collegeName, int columnNumber) {

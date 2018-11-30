@@ -674,6 +674,26 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     | institutions with a fit score of |
     | Not all fields are required. Remember to only fill out the criteria that is most important to you. |
 
+  @MATCH-3440
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Institution Characteristics
+  details about each college in my results table so I can quickly see high level information about the college.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Prairie View A & M University" if it is not pinned already
+    And SM I pick "Institution Characteristics" in the editable column number 1
+    Then SM I verify that "Institution Characteristics" in column number 1 for college "Prairie View A & M University" contains the following data:
+      | Average Class Size | 32 |
+      | Undergrad Size     | 6925 Students |
+      | Job Placement Rate | 55%           |
+      | Graduation Rate    | 9%            |
+      | Retention Rate     | 66%           |
+      | Historically Black |               |
+
   @MATCH-3436
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Admission Info details about each
   college in my results table so I can quickly see information about the college's admission process.
@@ -687,8 +707,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I pin "Prairie View A & M University" if it is not pinned already
     And SM I pick "Admission Info" in the editable column number 1
     Then SM I verify that "Admission info" in column number 1 for college "Prairie View A & M University" contains the following data:
-    | Acceptance Rate 85% |
-    | App Fee $40         |
+      | Acceptance Rate 85% |
+      | App Fee $40         |
 
   @MATCH-3344
   Scenario: As a HS student, I want to filter colleges I am searching for by Student Body Size within the Institution
