@@ -2959,6 +2959,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--disabled' and @aria-label='"+date+"']")));
         String disabled = getDriver().findElement(By.xpath("//div[@class='DayPicker-Day DayPicker-Day--disabled' and @aria-label='"+date+"']")).getAttribute("aria-disabled");
         Assert.assertTrue("Past dates are not disabled",disabled.equalsIgnoreCase("true"));
+        getDriver().navigate().refresh();
+        waitUntilElementExists(forwardDayButton());
     }
     public void verifyPillsNotAvailableinReScheduleVisitPage(){
         getDriver().navigate().refresh();
@@ -2967,7 +2969,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         waitUntilElementExists(currentDateInCalendar());
-        monthInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+//        monthInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
+        forwardDayButton().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")));
         jsClick(selectVisitInTheCalendar());
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='hsNotes']")));
