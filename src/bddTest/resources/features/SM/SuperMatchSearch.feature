@@ -962,3 +962,24 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
      And SM I move "Williams College" to the "right" in Compare Pinned Schools page
      And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
      And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
+
+
+  @MATCH-3441
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Highlights details about each
+    college in my results table so I can quickly see additional information about the college.
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    Then SM I pin "Adrian College" from the search box
+    Then SM I pin "Washington State University" from the search box
+    Then SM I pin "The University of Alabama" from the search box
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    Then SM I verify that "Highlights" in column number 1 for college "Adrian College" contains the following data:
+    |Upcoming College Visits|
+    |Upcoming College Events|
+    Then SM I verify that "Highlights" in column number 1 for college "Washington State University" contains the following data:
+      |Photos/Videos on Profile|
+    Then SM I verify that "Highlights" in column number 1 for college "The University of Alabama" contains the following data:
+      |Profiles|
+    Then HE I click the link "Upcoming College Visits"
