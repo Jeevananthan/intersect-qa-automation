@@ -109,9 +109,15 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         switch (action) {
             case "Cancel":
                 cancelButton().click();
+                communityFrame();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("block-cp-og-tools-cp-og-institution-banner")));
+                driver.switchTo().defaultContent();
                 break;
             case "Save":
                 saveChanges().click();
+                communityFrame();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("block-cp-og-tools-cp-og-institution-banner")));
+                driver.switchTo().defaultContent();
                 break;
         }
         waitUntilPageFinishLoading();
@@ -176,8 +182,6 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
                     Assert.assertEquals("Title I Status data did not save on update", data.get(key), verifyTitleStatus.findElement(By.className("text")).getText());
                     break;
                 default:
-                    waitForUITransition();
-                    waitForUITransition();
                     Assert.assertEquals(key + " data did not save on update", data.get(key), textbox(key).getAttribute("value"));
                     break;
             }
