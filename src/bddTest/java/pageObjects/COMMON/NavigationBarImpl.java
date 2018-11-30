@@ -52,8 +52,7 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="js-main-nav-am-plus-menu-link")
     private WebElement activeMatchMenuLink;
 
-    @FindBy(xpath = "//div[@class='hidden-mobile yBsrTFLn1W-1lYcbX39B6']|" +
-            "//span[@class='hidden-mobile hidden-tablet _3zP6971BAXkchn_VGmJPZr VdkH6dltNSvmQo2ObYzwJ']")
+    @FindBy(css = "a[name='mainmenu'] div.hidden-mobile")
     private  WebElement selectedNavigationMenu;
 
     //Header Bar Search Box Controls
@@ -76,14 +75,17 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="helpNav-dropdown")
     private WebElement helpDropdown;
 
-    @FindBy(css = "i[class='globe big icon WwLybVz7icbheav6VG-r5']")
+    @FindBy(xpath = "//i[@class[contains(.,'globe big icon')]]")
     private WebElement notificationsDropdown;
 
-    @FindBy(css = "div[class='menu transition visible']")
+    @FindBy(xpath = "//div[@class[contains(.,'menu') and contains(.,'transition') and contains(.,'visible')]]")
     private WebElement notificationList;
 
     @FindBy(css = "i[class='user circle big icon _2zVyfrnly39K0rqwywYZo8']")
     private WebElement userDropdown;
+
+    @FindBy(xpath = "//i[@class[contains(.,'pink') and contains(.,'circle')]]")
+    private WebElement notificationsCounter;
 
     public NavigationBarImpl(){
 
@@ -152,7 +154,7 @@ public class NavigationBarImpl extends SeleniumBase {
         eventsMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Events menu was not selected",
-                selectedNavigationMenu.getAttribute("innerText").contains("Events"));
+                selectedNavigationMenu.getText().contains("Events"));
     }
 
     public void goToActiveMatch() {
@@ -217,11 +219,19 @@ public class NavigationBarImpl extends SeleniumBase {
     }
 
     /**
-     * Clicks on the notification dwopdown
+     * Clicks on the notification dropdown
      */
     public void clickNotificationsDropdown(){
         waitUntil(ExpectedConditions.visibilityOf(notificationsDropdown));
-        notificationsDropdown.click();
+        try {
+            notificationsDropdown.click();
+        } catch (Exception e) {
+            if (notificationsCounter.isDisplayed()) {
+                notificationsCounter.click();
+            } else {
+                throw e;
+            }
+        }
         waitUntil(ExpectedConditions.visibilityOf(notificationList));
     }
 
@@ -289,12 +299,12 @@ public class NavigationBarImpl extends SeleniumBase {
         List<List<String>> data = dataTable.raw();
         for(List<String> row : data){
             WebElement menu = getDriver().findElement(By.xpath(String.format(
-                    "//dt[@class='header _3zoxpD-z3dk4-NIOb73TRl']/span[text()='%s']", row.get(0).trim())));
+                    "//dt[@class='header _1ojTdlgPNhtH4N-__uiqvu']/span[text()='%s']", row.get(0).trim())));
             String[] subMenusText = row.get(1).split(",");
             Assert.assertTrue(String.format("The menu: %s is not displayed",row.get(0).trim()),menu.isDisplayed());
             for(String subMenuText : subMenusText){
                 WebElement subMenu = menu.findElement(By.xpath(String.format(
-                        "ancestor::dl[@class='_2PQVKVsDhRwSQYR3V28Dnw _28hxQ33nAx_7ae3SZ4XGnj']/dt/a/span[text()='%s']"
+                        "ancestor::dl[@class='ui huge inverted vertical _3oMJTHrebN5xpDMwkfhCJw menu']/dt/a/span[text()='%s']"
                         ,subMenuText.trim())));
                 Assert.assertTrue(String.format("The submenu: %s is not displayed",subMenuText.trim()),subMenu.isDisplayed());
             }
@@ -330,7 +340,12 @@ public class NavigationBarImpl extends SeleniumBase {
      */
     public void verifyLeftNavAndBreadcrumbsForHS(DataTable dataTable){
         waitUntilPageFinishLoading();
-        navigationDropDown.click();
+        getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        FluentWait<WebDriver> wait = new WebDriverWait(getDriver(), 10);
+        wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[name='mainmenu']")));
+        mainMenu().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-rep-visits-menu-link")));
         List<List<String>> data = dataTable.raw();
         for(List<String> row : data){
             WebElement menu = getDriver().findElement(By.xpath(String.format(
@@ -375,5 +390,8 @@ public class NavigationBarImpl extends SeleniumBase {
     //Read more information here: https://imalittletester.com/2016/05/11/selenium-how-to-wait-for-an-element-to-be-displayed-not-displayed/
     private void waitForElementSetMaxTimeout() {
         getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+    }
+    private WebElement mainMenu(){
+        return getDriver().findElement(By.cssSelector("a[name='mainmenu']"));
     }
 }

@@ -34,7 +34,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
 #    And HS I verify the update button appears and I click update button
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
     Then HS I verify the StartDate is set to "<verifyStartDate>" and EndDate is set to "<verifyEndDate>"
 
@@ -56,15 +56,15 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
 
   @MATCH-2111 @MATCH-2124
   Scenario: As a RepVisits High School user who works in multiple schools,
-  I want to be able to enter a primary contact number for my school,
-  So that Colleges trying to schedule visits have the correct contact number for me.
+            I want to be able to enter a primary contact number for my school,
+            So that Colleges trying to schedule visits have the correct contact number for me.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I go to the Availability & Settings
     Then HS I verify the Primary Contact Phone Number is required in Availability & Settings
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I go to the College Fair Settings page
     Then HS I verify the Primary Contact Phone Number is required in College Fair Settings
-    Then HS I verify the success Message "Great! You've updated College Fair settings." in Fair Settings page
+    Then HS I verify the success Message "Great!You've updated College Fair settings." in Fair Settings page
     And HS I go to the Notifications & Primary Contact Tab in HS Setup Wizard page
     Then HS I verify the Primary Contact Phone Number is required in the Visits and Fairs setup wizard
 
@@ -81,23 +81,24 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
       |Appointment scheduled   | rgba(233, 238, 245, 1) |
 
   @MATCH-1812 @MATCH-2124
-  Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools who have made their RepVisits availability publicly available
-  so HE users are not presented with high schools in the search results that don't use RepVisits.
+  Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools
+                    who have made their RepVisits availability publicly available
+                    so HE users are not presented with high schools in the search results that don't use RepVisits.
 #Pre-condition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
@@ -114,9 +115,9 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I successfully sign out
 
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
@@ -132,13 +133,14 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
     Then HE I successfully sign out
 #Post-Condition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
+    And HS I successfully sign out
 
-    Examples:
-      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         | option |
-      |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |15  |Int Qa High School | 1|
+  Examples:
+   |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location               |option |
+   |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Standalone High School 6|10:32am     |14  |Standalone High School |1      |
 
 
   @MATCH-1583

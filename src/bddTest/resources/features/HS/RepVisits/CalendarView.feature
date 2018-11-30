@@ -13,18 +13,22 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
   So that calendar appointments all have a consistent interface
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I clean the visits created
+    Then HS I clean the college fairs created
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     Then HS I Click on the "Close" button in the success page of the college fair
     And HS I verify the fairs are clickable "<College Fair Name>","<VerifyDateEdit>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>"
-    Then HS I cancel college fair created "<College Fair Name>"
+    Then HS I clean the college fairs created
     Examples:
       |College Fair Name |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
-      |Fair#778         |December 12 2017|0900AM    |1000AM  |April 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
+      |Fair#778         |November 12 2017|0900AM    |1000AM  |April 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
 
 
   @MATCH-2728
   Scenario: Verify ability to view and edit Fair appointments from Calendar view
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I clean the visits created
+    Then HS I clean the college fairs created
     Then HS I create a dynamic College Fair with the following data
       | College Fair Name                                         | MATCH-2082 Fair         |
       | Automatically Confirm Incoming Requestions From Colleges? | no                      |
@@ -75,6 +79,7 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
   Scenario Outline: As a high school user, I want to be able to manually add appointments including custom contact info/custom time slots,
   so that I can create appointments that are custom to my high school's needs.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I clean the visits created
   #verify AddVisit Button is Disabled in Calendar page
     Then HS I select the "Fairs" option on the welcome page in the RepVisits setup wizard
     Then HS I navigate to the calendar page to verify AddVisit Button is "Disabled"
@@ -116,17 +121,19 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
 
     Examples:
       |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|option|
-      |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Community |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |1      |
+      |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |1      |
 
   @MATCH-2391
   Scenario: As a HS user, I should not be able to add visits in the past
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I clean the visits created
+    Then HS I set the date using "3" and "42"
     When HS I navigate to the "Calendar" page in RepVisits
     And HS I click on button Add Visit
     Given HS I create a visit "3" days ahead from now with the following details
-      | Start Time | 09:36am |
-      | End Time   | 10:30am |
-      | Representative | franky sejas |
+      | Start Time | 09:40am |
+      | End Time   | 10:39am |
+      | Representative | PurpleHE Publishing|
     Then HS verify pills are not available for the past dates in schedule new visit page
     Then HS verify the past dates are disabled in the select custom date section
     Then HS verify pills are not available for the past dates in Re-schedule visit page
@@ -137,20 +144,21 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
   @MATCH-2061 @MATCH3954
   Scenario: : As a HS user, I should be able to add internal notes to my visits
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I clean the visits created
     Then HS I set the date using "-15" and "42"
     And HS I am Navigating to Calendar Home Screen
     And HS I click on button Add Visit
     And HS I select custom time manually
-    And HS I select a date "25" days ahead from now
+    And HS I select a date "28" days ahead from now
     And HS I select Visit StartTime "5:40am" and End Time "6:00am"
-    And HS I select representative from drop down "Franky Sejas"
+    And HS I select representative from drop down "PurpleHE Publishing"
     And HS I Enter Internal Notes "Visit Notes Added for Automation Purpose"
     And HS I click on Add Visit button
     And HS I click on Agenda on Calendar
     And Hs I open the date picker on Agenda View
     And HS I select a date "0" days ahead from now from the standard date picker
     And HS I click on Day on Calendar
-    And HS I click on Visit with "Adrian College" from "5:40 AM" to "6:00 AM" on Day Calendar
+    And HS I click on Visit with "The University of Alabama" from "5:40 AM" to "6:00 AM" on Day Calendar
     And HS I verify Internal Notes on Visit Details screen "Visit Notes Added for Automation Purpose"
     And HS I Cancel visit to create again add Notes to Cancel "canceled for automation"
 

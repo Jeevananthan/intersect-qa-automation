@@ -284,6 +284,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     public void pinCollegeFromBottomSearchResult(String collegeName){
+        searchBar().clear();
         searchBar().sendKeys(collegeName);
         String searchedCollegePinString = "//a[text()='"+collegeName+"']/../../div/a/span[text()='PIN']";
         WebElement searchedCollegePinButton = driver.findElement(By.xpath(searchedCollegePinString));
@@ -320,7 +321,67 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyAcademicsExpandableDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expAcademicsOptions[] = new String[data.get(0).size()];
+        String expAcademicsOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++){
+            expAcademicsOptions[i] = data.get(0).get(i);
+            expAcademicsOptionsValues[i] = data.get(1).get(i);
+        }
+        for (int i = 0; i < academicsOptions().size(); i++) {
+            Assert.assertTrue(academicsOptions().get(i) + " option is not matching with the expected option ie " + expAcademicsOptions[i], academicsOptions().get(i).getText().equals(expAcademicsOptions[i]));
+            String actAcademicsOptionsValues = driver.findElement(By.xpath("//div[text()='"+expAcademicsOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue(expAcademicsOptions[i]+" is not displaying in application the value which is displaying is = "+actAcademicsOptionsValues, actAcademicsOptionsValues.equals(expAcademicsOptionsValues[i]));
+        }
+    }
+
+    public void verifyAthleticsExpandableDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expAthleticsOptions[] = new String[data.get(0).size()];
+        String expAthleticsOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++){
+            expAthleticsOptions[i] = data.get(0).get(i);
+            expAthleticsOptionsValues[i] = data.get(1).get(i);
+        }
+        for (int i = 0; i < athleticsOptions().size(); i++) {
+            Assert.assertTrue(athleticsOptions().get(i) + " option is not matching with the expected option ie " + expAthleticsOptions[i], athleticsOptions().get(i).getText().equals(expAthleticsOptions[i]));
+            String actAthleticsOptionsValues = driver.findElement(By.xpath("//div[text()='"+expAthleticsOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue(expAthleticsOptionsValues[i]+" is not displaying in application the value which is displaying is = "+actAthleticsOptionsValues, actAthleticsOptionsValues.equals(expAthleticsOptionsValues[i]));
+        }
+    }
+
+    public void verifyICDrawerOptions(DataTable options) {
+        List<List<String>> data = options.raw();
+        String expICOptions[] = new String[data.get(0).size()];
+        String expICOptionsValues[] = new String[data.get(1).size()];
+        for (int i=0;i<data.get(0).size();i++){
+            expICOptions[i] = data.get(0).get(i);
+            expICOptionsValues[i] = data.get(1).get(i);
+        }
+        for (int i = 0; i < institutionCharacteristicsOptions().size(); i++) {
+            Assert.assertTrue(institutionCharacteristicsOptions().get(i) + " option is not matching with the expected option ie " + expICOptions[i], institutionCharacteristicsOptions().get(i).getText().equals(expICOptions[i]));
+            String actICOptionsValues = driver.findElement(By.xpath("//div[text()='"+expICOptions[i]+"']/../following-sibling::td")).getText();
+            Assert.assertTrue(expICOptionsValues[i]+" is not displaying in application the value which is displaying is = "+actICOptionsValues, actICOptionsValues.equals(expICOptionsValues[i]));
+        }
+    }
+
     // Locators Below
+    private WebElement institutionCharacteristicsDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Institution Characteristics']/.."));
+    }
+    private List<WebElement> institutionCharacteristicsOptions(){ return institutionCharacteristicsDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
+    private WebElement athleticsDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Athletics']/.."));
+    }
+    private List<WebElement> athleticsOptions(){ return athleticsDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
+    private List<WebElement> academicsOptions(){ return academicsDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
+    private WebElement academicsDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Academics']/.."));
+    }
 
     private List<WebElement> diversityOptions(){ return diversityDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
 

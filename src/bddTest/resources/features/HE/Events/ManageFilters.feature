@@ -19,7 +19,7 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
     And HE I delete the filter of name "FilterTest123"
 
   @MATCH-2895
-  Scenario: As a HE Intersect user, I can create a filter in AM Events from the Create Event Screen
+  Scenario: As a HE Intersect user, I can create a filter in AM Events from the Create Event Screen (MATCH-5414 - fixed)
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I open the Events section
     And HE I open the Create Event screen
@@ -51,19 +51,19 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
 
   @MATCH-3512
   Scenario: When a user creates a filter from the Create/Edit Event screen, the newly created Filter/Contact/Location
-  should be selected by default in the Event
+  should be selected by default in the Event (MATCH-5503)
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I open the Events section
     And HE I open the "Events" tab in the Events section
     And HE I open the Create Event screen
     And HE I open the Create Filter dialog from the Event Audience field
-    When HE I create a new filter based on the following details:
+    When HE I create a new filter with a unique name based on the following data
       #Location is expressed in 'miles;zip'. Example: 50 miles outside of the postal code 12345: 50;12345
   | Location | 50 miles;12345 |
   | Filter Name        | FilterTestYY498 |
-    Then HE I verify that the filter of name "FilterTestYY498" is displayed by default in the Event Audience field
+    Then HE I verify that the filter of generated name is displayed by default in the Event Audience field
     And HE I open the "Filters" tab in the Events section
-    And HE I delete the filter of name "FilterTestYY498"
+    And HE I delete the filter of generated name
 
   @MATCH-3338
   Scenario: As a user, view a filter to verify which events are assigned to particular filter

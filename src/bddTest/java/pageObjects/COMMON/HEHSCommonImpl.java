@@ -42,6 +42,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     public void navigateToURL(String URL){
         waitUntilPageFinishLoading();
         load(GetProperties.get("he.app.url")+ URL);
+        waitUntilPageFinishLoading();
     }
 
     public void verifyColumnHeaders(String locator, DataTable dataTable) {
@@ -53,7 +54,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void clickMenuLink(String text) {
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath(getMenuLinkLocator(text))));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(getMenuLinkLocator(text))));
         getMenuLink(text).click();
     }
 
@@ -62,6 +63,70 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         getMenuTab(text).click();
     }
 
+    public void checkCheckboxFirsRow(String checkboxText) {
+        waitUntilPageFinishLoading();
+        if (checkboxText.equals("Enabled")) {
+            if (!getEnabledCheckbox().getAttribute("class").contains("checked")) {
+                getEnabledCheckbox().click();
+            }
+        } else if (checkboxText.equals("Use Default Filter Values")) {
+            if (!getUseDefaultFilterCheckbox().getAttribute("class").contains("checked")) {
+                getUseDefaultFilterCheckbox().click();
+            }
+        }
+    }
+
+    public void uncheckCheckboxFirsRow(String checkboxText) {
+        if (checkboxText.equals("Enabled")) {
+            if (getEnabledCheckbox().getAttribute("class").contains("checked")) {
+                getEnabledCheckbox().click();
+            }
+        } else if (checkboxText.equals("Use Default Filter Values")) {
+            if (getUseDefaultFilterCheckbox().getAttribute("class").contains("checked")) {
+                getUseDefaultFilterCheckbox().click();
+            }
+        }
+    }
+
+    public void setDefaultValue(String value, String defaultValueId) {
+        getDefaultFilterValueBox(defaultValueId).sendKeys(value);
+    }
+
+    public void clearDefaultFIlterValue(String defaultValueId) {
+        getDefaultFilterValueBox(defaultValueId).sendKeys("0");
+        getDefaultFilterValueBox(defaultValueId).clear();
+    }
+
+    public void verifyFilterValue(String filterName, String expectedValue) {
+        waitUntilPageFinishLoading();
+        softly().assertThat(getFilterValueFirstRow(filterName).getText().equals(expectedValue));
+    }
+
+    public void setValue(String value, String valueId) {
+        getFilterValueFirstRow(valueId).sendKeys(value);
+    }
+
+    public void clearFilterValue(String valueId) {
+        getFilterValueFirstRow(valueId).clear();
+    }
+
+    public void checkThereIsNoText(String text) {
+        softly().assertThat(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[text()='" + text + "']")));
+    }
+
+    public void pickFromTHeMenuItems(String menuItem) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(getMenuItemById(menuItem))));
+            getDriver().findElement(By.id(getMenuItemById(menuItem))).click();
+    }
+
+    public void waitForSuccessMessage(String message){
+        waitUntil(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//*[text()='" +message + "']"))));
+    }
+
+    public void submitButton(String button) {
+        getDriver().findElement(By.xpath("//*[text()='" + button + "']")).submit();
+        waitUntilPageFinishLoading();
+    }
 
 //locators
     private WebElement notification(){
@@ -80,10 +145,34 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     private WebElement getMenuTab (String locator) {
         return getDriver().findElement(By.xpath(getMenuTabLocator(locator)));
     }
+
+    private WebElement getEnabledCheckbox(){
+        return  getDriver().findElement(By.xpath("//tr/td[1]//div/div"));
+    }
+
+    private WebElement getUseDefaultFilterCheckbox(){
+        return  getDriver().findElement(By.xpath("//tr/td[3]//div/div"));
+    }
+
+    private WebElement getFilterValueFirstRow(String filterName) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@title='" + filterName + "']/input")));
+        return getDriver().findElement(By.xpath("//div[@title='" + filterName + "']/input"));
+    }
+
+    private WebElement getDefaultFilterValueBox(String id){
+        return  getDriver().findElement(By.id(id));
+    }
+
     private String getMenuLinkLocator(String advancedAwarenessOption) {
-        return "//div[3]//a/span[text()=\"" + advancedAwarenessOption + "\"]";
+        return "//div[3]//a[@class='menu-link']/span[text()=\"" + advancedAwarenessOption + "\"]";
     }
     private String getMenuTabLocator(String advancedAwarenessTab) {
-        return "//div[2]//a/span[text()=\"" + advancedAwarenessTab + "\"]";
+        return String.format("//nav[@aria-label='Active Match Sub Menu']/ul/li/span[text()='%s'] | //nav[@aria-label='Active Match Sub Menu']/ul/li/a/span[text()='%s']",advancedAwarenessTab,advancedAwarenessTab);
+    }
+
+    private String getMenuItemById(String menuItem) {
+        String lowCaseText = menuItem.toLowerCase();
+        lowCaseText = lowCaseText.replace(" ", "-");
+        return "js-main-nav-" + lowCaseText + "-menu-link";
     }
 }

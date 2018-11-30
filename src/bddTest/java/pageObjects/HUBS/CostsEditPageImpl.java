@@ -89,7 +89,11 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
                     generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key).replace(",","")) + 1));
                     break;
                 case "% Receiving Aid" :
-                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    if (Integer.parseInt(fieldValues.get(key)) >= 100) {
+                        generatedValues.put(key, String.valueOf(1));
+                    } else {
+                        generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    }
                     break;
                 case "Average Amount of Aid" :
                     generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key).replace(",","")) + 1));

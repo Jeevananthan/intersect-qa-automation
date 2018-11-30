@@ -19,8 +19,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
   @MATCH-4450
   Scenario Outline: As a HE user with active Presence subscription, I can access Agenda view of my appointments
     Given SP I am logged in to the Admin page as an Admin user
-    Then SP I select "The University of Alabama" from the institution dashboard
-    And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    #Then SP I select "The University of Alabama" from the institution dashboard
+    #And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button
@@ -123,7 +123,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I verify the error Message "Please select a Staff Member" is displaying when Select staff member is not selected
     Then HE I verify the error Message "Please select a New Assignee" is displaying when Select new assignee is not selected using "Publishing, PurpleHE"
     Then HE I verify the error Message "Please select at least one appointment" is displaying when appointments is not selected using "Publishing, PurpleHE","Community, PurpleHE"
-    Then HE I verify the error Message "doesn't have any appointments scheduled." is displaying when the user "Fresh, PurpleHE" is selected
+    Then HE I verify the error Message "have any appointments scheduled." is displaying when the user "Fresh, PurpleHE" is selected
     Then HE I verify the error Message "Please select a Staff Member" is disappearing when the error message "doesn't have any appointments scheduled." is displayed for "Fresh, PurpleHE"
 
     Examples:
