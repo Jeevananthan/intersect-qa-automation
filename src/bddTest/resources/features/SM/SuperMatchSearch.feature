@@ -674,7 +674,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     | institutions with a fit score of |
     | Not all fields are required. Remember to only fill out the criteria that is most important to you. |
 
-  @MATCH-3440 @test
+  @MATCH-3440
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Institution Characteristics
   details about each college in my results table so I can quickly see high level information about the college.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -694,7 +694,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | Retention Rate     | 66%           |
       | Historically Black |               |
 
-  @MATCH-3436 @test
+  @MATCH-3436
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Admission Info details about each
   college in my results table so I can quickly see information about the college's admission process.
     Given SM I am logged in to SuperMatch through Family Connection
