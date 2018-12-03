@@ -128,6 +128,10 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void clickOnCloseIcon(){
+        getCloseIcon().click();
+    }
+
 //locators
     private WebElement notification(){
         return driver.findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Notifications']"));
@@ -174,5 +178,9 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         String lowCaseText = menuItem.toLowerCase();
         lowCaseText = lowCaseText.replace(" ", "-");
         return "js-main-nav-" + lowCaseText + "-menu-link";
+    }
+
+    private WebElement getCloseIcon(){
+      return getDriver().findElement(By.cssSelector(".remove.circle.icon.close"));
     }
 }
