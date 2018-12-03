@@ -5901,7 +5901,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 viewPastEvent = getDriver().findElements(By.xpath("//span[text()='View More Past Events']"));
             }
         }
-        List<WebElement> pastEvents = getDriver().findElements(By.cssSelector("div[class='_1743W0qaWdOtlS0jkveD7o']:nth-child(2)>table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
+        List<WebElement> pastEvents = getDriver().findElements(By.cssSelector("table[class='ui unstackable table']:nth-child(2)>tbody>tr>td+td"));
         int listSize = pastEvents.size();
         int count = 0;
         for (WebElement events : pastEvents) {
