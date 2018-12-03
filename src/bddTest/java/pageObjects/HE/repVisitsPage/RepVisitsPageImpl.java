@@ -434,7 +434,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
-        getDriver().findElement(By.xpath(String.format(".//td[text()[contains(.,'%s')]]/preceding::td//a[text()='%s']",location, schoolName))).click();
+        getDriver().findElement(By.xpath(String.format(".//td//a[text()='%s']",schoolName))).click();
         waitUntilPageFinishLoading();
     }
 
