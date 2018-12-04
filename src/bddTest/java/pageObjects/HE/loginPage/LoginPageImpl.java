@@ -541,7 +541,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         String TimeValue = getTimeValue[1];
         Assert.assertTrue("School is not equal",SchoolName.equals(School));
         Assert.assertTrue("Date is not equal",CurrentDate.equals(DateValue));
-        Assert.assertTrue("Time is not equal",Time.contains(TimeValue));
+        Assert.assertTrue("Time is not equal",TimeValue.contains(Time));
     }
 
     public String getSpecificDate(String addDays) {
@@ -555,7 +555,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     public String getSpecificEmailDate(String addDays) {
-        String DATE_FORMAT_NOW = "MMMM dd, yyyy";
+        String DATE_FORMAT_NOW = "MMMM d, yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
         cal.add(Calendar.DATE, days);
