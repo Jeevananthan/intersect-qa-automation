@@ -1,4 +1,4 @@
-@HS1
+@HS @HS1
 Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage exceptions to my regular visit availability schedule
 
   @MATCH-1582
@@ -33,18 +33,18 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HS I verify that the time slot was removed from the generated date, with the start time "7:04am"
     And HS I successfully sign out
 
-  Scenario Outline: As an HS user, I want to be able to add precondition I want to be able to view the weekly recurring time slots that my school is available for visits
-  so that colleges can manage those availabilities.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
-    Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
-    Examples:
-      | StartDate          |EndDate         |
-      | 23      |79    |
+#  Scenario Outline: As an HS user, I want to be able to add precondition I want to be able to view the weekly recurring time slots that my school is available for visits
+#                    so that colleges can manage those availabilities.
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+#    Then HS I set a date using "<StartDate>" and "<EndDate>"
+#    Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
+#    Examples:
+#      |StartDate|EndDate|
+#      |23       |79     |
 
   @MATCH-2989
   Scenario Outline: When entering an appointment that starts between 12:00 pm and 12:59 pm and ends at 1:00 pm or later,
-  the appointment should not be blocked by the "Start time must be before end time" error.
+                    the appointment should not be blocked by the "Start time must be before end time" error.
   #visit
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set my RepVisits availability to the current school year
@@ -63,7 +63,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
   @MATCH-2682 @MATCH-2689
   Scenario Outline: As a high school staff member, I want to be able to edit my regular hours in RepVisits,
-  so that I can easily change the number of colleges I will allow during a certain time slot.
+                    so that I can easily change the number of colleges I will allow during a certain time slot.
 #precondition
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
@@ -93,10 +93,10 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours to "1"
 
-##verify the Exception tab(after changing the NumofVisits : NumVisits-1)
+#verify the Exception tab(after changing the NumofVisits : NumVisits-1)
 #    Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>","<StartDate>",""
 #    Then HS I verify the pills "<StartDate>","<StartTime>" is not displayed in the schedule new visit popup
-##    And HS I successfully sign out
+#    And HS I successfully sign out
 
 #verify the pills is not present in the search and schedule page
     Given HE I want to login to the HE app using "purpleheautomation+marketing@gmail.com" as username and "Password!1" as password
@@ -127,11 +127,11 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                            |School              |heStartTime|heTime | option |
-      |43  |43  |10:55am  |12:11pm|2        |43       |49     |12:11pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:41am    |10:41am| 1      |
+      |14  |14  |10:55am  |12:11pm|2        |14       |21     |12:11pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:41am    |10:41am| 1      |
 
  @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Unscheduled availability
-  so that I can visually see the status of each appointment window.
+                    so that I can visually see the status of each appointment window.
 #precondition
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
@@ -159,7 +159,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Blocked Days availability
-  so that I can visually see the status of each appointment window.
+                    so that I can visually see the status of each appointment window.
 #Blocked Days
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I clear the time slot for the particular day "<BlockedDate>" in Regular Weekly Hours Tab
@@ -190,7 +190,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Max Appointments availability
-  so that I can visually see the status of each appointment window.
+                    so that I can visually see the status of each appointment window.
 #Max Appointments Met Day
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
@@ -218,7 +218,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Partially Scheduled availability
-  so that I can visually see the status of each appointment window.
+                    so that I can visually see the status of each appointment window.
  #Partially Scheduled Day
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
@@ -251,7 +251,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Fully Booked availability
-  so that I can visually see the status of each appointment window.
+                   so that I can visually see the status of each appointment window.
  #Fully Booked Day
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I clear the time slot for the particular day "<FullyBookedStartDate>" in Regular Weekly Hours Tab
@@ -280,9 +280,9 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
       |21  |Standalone High School 6|2             |11:21am       |10:23am         |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) | 1      |
 
 
-      @MATCH-2692
+  @MATCH-2692
   Scenario: As a high school staff member, I want to be able to toggle blocking of specific availabilities in RepVisits,
-  so that I can effectively close a time slot for further visits and re-open it later, if I choose.
+            so that I can effectively close a time slot for further visits and re-open it later, if I choose.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set a date using "0" and "99"
     Then HS I add the new time slot with "8","5:33am","05:30pm" and "2" with "1"

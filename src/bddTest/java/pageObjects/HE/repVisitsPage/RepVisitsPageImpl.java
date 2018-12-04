@@ -233,12 +233,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
    public  void verifyPillsIsPresent(String school,String startDate,String time){
         visit().click();
         waitForUITransition();
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//h3/a[text()='"+school+"']"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(startDate);
-       setDate(gotoDate, "Go To Date");
+        setDate(gotoDate, "Go To Date");
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         String visitDate=getMonthandDate(startDate);
         WebElement button= getDriver().findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
@@ -248,19 +248,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyPillsIsNotPresent(String school,String startDate,String time){
         visit().click();
         waitUntilPageFinishLoading();
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName = getDriver().findElement(By.xpath("//h3/a[text()='"+school+"']"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(startDate);
         setDate(gotoDate, "Go To Date");
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        String visitDate=getMonthandDate(startDate);
-        List<WebElement> button= getDriver().findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
-        if(button.size()==0)
-        {
+        String visitDate = getMonthandDate(startDate);
+        List<WebElement> button = getDriver().findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        if(button.size()==0) {
             logger.info("appointment is not displayed");
-        }else{logger.info("appointment is displayed");}
+        }else{
+            logger.info("appointment is displayed");}
     }
 
     private void validateInfolink(){
@@ -270,8 +270,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Did not end up in Community!", getDriver().getCurrentUrl().contains("counselor-community/institution"));
     }
 
-    public String selectdateforExportAppointmentsIncalendar(String addDays)
-    {
+    public String selectdateforExportAppointmentsIncalendar(String addDays) {
         String DATE_FORMAT_NOW = "MMMM d yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
