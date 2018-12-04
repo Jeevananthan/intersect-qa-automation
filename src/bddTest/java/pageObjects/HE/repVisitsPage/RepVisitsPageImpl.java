@@ -184,8 +184,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         link("Calendar").click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarDayButton()));
         Assert.assertTrue("Export button is Enabled in Calendar page",getDriver().findElement(By.xpath("//button[@class='ui teal basic disabled button _1I0GHfcjpniiDr2MOWxpxw _3Rc-fBQEQJr4FpMhLBYL0m']")).isDisplayed());
     }
 
@@ -193,14 +192,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         link("Calendar").click();
-        waitForUITransition();
-        waitUntilPageFinishLoading();
-        Assert.assertTrue("Export button is not enabled",button("Export").isEnabled());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarDayButton()));
+        Assert.assertTrue("Export button is not enabled",exportButton().isEnabled());
     }
 
     public void exportAppointmentsInCalendarPage(String startDate,String endDate){
-        button("Export").click();
-        waitUntilPageFinishLoading();
+        exportButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='Export Settings']")));
         Assert.assertTrue("Export Settings text is not displayed in the Export button",getDriver().findElement(By.xpath("//div/span[text()='Export Settings']")).isDisplayed());
         Assert.assertTrue("From Text is not displayed in the Export button",getDriver().findElement(By.xpath("//span[text()='From']")).isDisplayed());
         Assert.assertTrue("To text is not displayed in the Export button",getDriver().findElement(By.xpath("//span[text()='To']")).isDisplayed());
@@ -233,12 +231,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
    public  void verifyPillsIsPresent(String school,String startDate,String time){
         visit().click();
         waitForUITransition();
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//h3/a[text()='"+school+"']"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(startDate);
-       setDate(gotoDate, "Go To Date");
+        setDate(gotoDate, "Go To Date");
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         String visitDate=getMonthandDate(startDate);
         WebElement button= getDriver().findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
@@ -248,19 +246,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyPillsIsNotPresent(String school,String startDate,String time){
         visit().click();
         waitUntilPageFinishLoading();
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/a[text()='"+school+"']"));
+        WebElement schoolName = getDriver().findElement(By.xpath("//h3/a[text()='"+school+"']"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
         waitUntilElementExists(goToDate());
         String gotoDate = getSpecificDate(startDate);
         setDate(gotoDate, "Go To Date");
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        String visitDate=getMonthandDate(startDate);
-        List<WebElement> button= getDriver().findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
-        if(button.size()==0)
-        {
+        String visitDate = getMonthandDate(startDate);
+        List<WebElement> button = getDriver().findElements(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr//td//div/button[text()='"+visitTime+"']"));
+        if(button.size()==0) {
             logger.info("appointment is not displayed");
-        }else{logger.info("appointment is displayed");}
+        }else{
+            logger.info("appointment is displayed");}
     }
 
     private void validateInfolink(){
@@ -270,8 +268,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Did not end up in Community!", getDriver().getCurrentUrl().contains("counselor-community/institution"));
     }
 
-    public String selectdateforExportAppointmentsIncalendar(String addDays)
-    {
+    public String selectdateforExportAppointmentsIncalendar(String addDays) {
         String DATE_FORMAT_NOW = "MMMM d yyyy";
         Calendar cal = Calendar.getInstance();
         int days=Integer.parseInt(addDays);
@@ -2431,9 +2428,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String[] parts = date.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
         if(fromOrTo.equals("From")){
-            getDriver().findElement(By.xpath("//button[@class='ui basic button _1wqaQnL4wzTmKK7w_sXTwT']")).click();
+            getDriver().findElement(By.cssSelector("button[class='ui button _1wqaQnL4wzTmKK7w_sXTwT']")).click();
         }else if (fromOrTo.equals("To")){
-            getDriver().findElement(By.xpath("//button[@class='ui basic button _2pj6YkRYwl9szEe_wh7dxF']")).click();
+            getDriver().findElement(By.cssSelector("button[class='ui button _2pj6YkRYwl9szEe_wh7dxF']")).click();
         }else {
             logger.info("Invalid option");
         }
@@ -4098,6 +4095,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private String actionMenuElementLocator (String action) {
         return "//div[@class='visible menu transition']//span[text()='"+action+"']";
     }
+    private By calendarDayButton(){return By.cssSelector("button[title='Day']");}
+
+    private WebElement exportButton(){return getDriver().findElement(By.cssSelector("button[title='Export']"));}
 }
 
 
