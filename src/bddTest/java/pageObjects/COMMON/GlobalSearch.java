@@ -653,6 +653,7 @@ public class GlobalSearch extends SeleniumBase {
         }
 
         for (String key : textBoxData.keySet()) {
+            List<WebElement> closedArrows;
             switch (key) {
                 case "Advises Students on Admissions Process":
                     WebElement advisesStudents = getDriver().findElement(By.id("advise_students"));
@@ -736,6 +737,12 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "State":
+                    closedArrows = driver.findElements(By.cssSelector(locationArrowClosedLocator));
+                    if(closedArrows.size() > 0) {
+                        for (WebElement closedArrow : closedArrows) {
+                            closedArrow.click();
+                        }
+                    }
                     WebElement drpState;
                     if(categorySearch.equalsIgnoreCase("Higher Education")) {
                         drpState = getDriver().findElement(By.id("he-state"));
@@ -798,6 +805,12 @@ public class GlobalSearch extends SeleniumBase {
                     getParent(getParent(text(key))).findElement(By.tagName("input")).sendKeys(textBoxData.get(key));
                     break;
             }
+            closedArrows = driver.findElements(By.cssSelector(locationArrowClosedLocator));
+            if(closedArrows.size() > 0) {
+                for (WebElement closedArrow : closedArrows) {
+                    closedArrow.click();
+                }
+            }
             getDriver().findElement(By.xpath("//span[contains(text(),'Update Search')]")).click();
             waitUntilPageFinishLoading();
             Assert.assertFalse("The advanced search option " + key + "field did not work properly", getDriver().findElements(By.xpath("//span[contains(text(), 'No results found')]")).size()!=0);
@@ -849,5 +862,5 @@ public class GlobalSearch extends SeleniumBase {
         WebElement date=button("Go to date");
         return date;
     }
-
+    private String locationArrowClosedLocator = "div.accordion.ui div.title:not(.active)";
 }
