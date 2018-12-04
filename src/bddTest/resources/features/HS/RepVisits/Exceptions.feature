@@ -1,4 +1,4 @@
-@HS @MATCH-1582 @HS1
+@HS1
 Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage exceptions to my regular visit availability schedule
 
   @MATCH-1582
@@ -127,7 +127,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|Option                            |School              |heStartTime|heTime | option |
-      |43  |43  |10:55am  |12:11pm|2        |43       |49     |12:11pm  |Yes, accept all incoming requests.|Int Qa High School 4|1041am        |10:    | 1      |
+      |43  |43  |10:55am  |12:11pm|2        |43       |49     |12:11pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:41am    |10:41am| 1      |
 
  @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Unscheduled availability
@@ -153,8 +153,8 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
 
    Examples:
-      |Day|StartDate|EndDate |StartTime|EndTime |heStartTime|NumVisits|SlotColor             |StartTimeColor        |OutlineColor      | option |
-      |28 |28       |49      |10:41am  |12:59pm |10:        |4        |rgba(124, 174, 112, 1)|rgba(255, 255, 255, 1)|rgb(127, 143, 162)| 1      |
+      |Day|StartDate|EndDate |StartTime|EndTime |heStartTime|NumVisits|SlotColor             |StartTimeColor        |OutlineColor   | option |
+      |28 |28       |49      |10:41am  |12:59pm |10:41am    |4        |rgba(124, 174, 112, 1)|rgba(255, 255, 255, 1)|rgb(37, 38, 40)| 1      |
 
 
   @MATCH-1581
@@ -185,7 +185,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
     Examples:
       |StartDate|EndDate|BlockedDate|EndDate |back-ground color|
-      |1       |49     |7          |14      |rgba(0, 0, 0, 0) |
+      |1        |49     |7          |14      |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581
@@ -198,13 +198,11 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<MaxstartTime>","<MaxEndTime>" and "<MaxNumVisits>" with "<option>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-#    Then HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<MaxhestartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<MaxstartTime>" and "<MaxEndTime>"
-#    Then HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "1" visits per day
@@ -214,35 +212,32 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I remove the Time Slot created with "<StartDate>","<MaxstartTime>" in Regular Weekly Hours Tab
 
     Examples:
-      |Day|StartDate|EndDate |School              |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color| option |
-      |28 |28       |49      |Int Qa High School 4|2           |12:am         |12:am           |12:59pm   |rgba(0, 0, 0, 0) | 1  |
+      |Day|StartDate|EndDate |School              |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|option |
+      |28 |28       |49      |Int Qa High School 4|2           |10:21am     |10:21am       |12:59pm   |rgba(0, 0, 0, 0) | 1     |
 
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Partially Scheduled availability
   so that I can visually see the status of each appointment window.
  #Partially Scheduled Day
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<PartiallystartTime>","<PartiallyEndTime>" and "<PartiallyNumVisits>" with "<option>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-#    Then HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<PartiallyhestartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<PartiallystartTime>" and "<PartiallyEndTime>"
-#    Then HE I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<PartiallyhestartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<PartiallystartTime>" and "<PartiallyEndTime>"
-#    Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "5" visits per day
     Then HS I verify the Partially scheduled Appointments With Message "2 Appointments scheduled" in Exception subtab using "<StartDate>"
     Then HS I verify the light blue background color present in the Partially Scheduled availability using "<PartiallystartTime>","<StartDate>","<back-ground color>" in Exception Tab
@@ -250,42 +245,39 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HS I remove the Time Slot created with "<StartDate>","<PartiallystartTime>" in Regular Weekly Hours Tab
 
     Examples:
-      |Day|StartDate|EndDate |School              |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     | option |
-      |28 |28       |49      |Int Qa High School 4|5                 |10:am               |12:am                 |12:59pm          |rgba(255, 255, 255, 1)| 1  |
+      |Day|StartDate|EndDate |School                  |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     | option |
+      |28 |28       |49      |Standalone High School 6|5                 |10:59am           |11:29am             |12:59pm          |rgba(255, 255, 255, 1)| 1      |
 
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Fully Booked availability
   so that I can visually see the status of each appointment window.
  #Fully Booked Day
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I clear the time slot for the particular day "<FullyBookedStartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<FullyBookedStartDate>" and "<FullyBookedEndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<FullystartTime>","<FullyEndTime>" and "<FullyNumVisits>" with "<option>"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
-#    Then HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<FullyBookedStartDate>" and "<FullyhestartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<FullystartTime>" and "<FullyEndTime>"
-#    Then HE I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<FullyBookedStartDate>" and "<FullyhestartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<FullystartTime>" and "<FullyEndTime>"
-#    Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I go to the Exception tab to verify the visits using "Fully booked","<FullyhestartTime>","<FullyBookedStartDate>",""
     Then HS I verify the diagonal HashLines present in the Fully booked date "<FullyBookedStartDate>","<back-ground color>"
     Then HS I remove the Time Slot created with "<FullyBookedStartDate>","<FullystartTime>" in Regular Weekly Hours Tab
 
     Examples:
-      |Day |School              |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color| option |
-      |21  |Int Qa High School 4|2             |11:am           |12:am             |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) | 1  |
+      |Day |School                  |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color| option |
+      |21  |Standalone High School 6|2             |11:21am       |10:23am         |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) | 1      |
 
 
       @MATCH-2692

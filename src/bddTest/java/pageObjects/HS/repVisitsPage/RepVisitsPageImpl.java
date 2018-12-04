@@ -5605,12 +5605,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String Day = getSpecificDate(Date,"EEE").toUpperCase();
         int columnID = getColumnIdFromTable( "//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']/thead",Day );
         columnID = columnID + 1;
-        List<WebElement> rowCount = driver.findElements(By.xpath("//table/tbody/tr/td["+columnID+"]/div/span/i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+        List<WebElement> rowCount = driver.findElements(By.xpath("//table/tbody/tr/td["+columnID+"]/div/span/i[@class='trash alternate outline icon _26AZia1UzBMUnJh9vMujjF']"));
 
         if(columnID > 0 ) {
             //Remove Time slot
             for(int rowID = rowCount.size();rowID>= 1;rowID--) {
-                WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash outline icon _26AZia1UzBMUnJh9vMujjF']"));
+                WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash alternate outline icon _26AZia1UzBMUnJh9vMujjF']"));
                 jsClick(removeIcon);
                 waitUntilPageFinishLoading();
                 driver.findElement(By.cssSelector("button[class='ui primary button']")).click();
@@ -7085,10 +7085,9 @@ public void cancelRgisteredCollegeFair(String fairName){
         waitUntilPageFinishLoading();
         blockedDays().click();
         waitUntilPageFinishLoading();
-        waitForUITransition();
         startDate = getSpecificDateFormat(startDate);
-        //endDate = getSpecificDateFormat(endDate);
         WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span")));
         moveToElement(BlockedDate);
         jsClick(BlockedDate);
         waitUntilPageFinishLoading();
@@ -7335,7 +7334,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         String currentDate=selectdateSpecificformat(Date);
         String originalDate=getDateInDateButton();
         String date=selectCurrentDate(Date);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody/tr/td//button[text()='"+StartTime+"']"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody/tr/td//button[text()='"+StartTime+"']")));
         Assert.assertTrue("date is not equal",currentDate.equals(originalDate));
         Assert.assertTrue("Appointments are not displayed",driver.findElement(By.xpath("//table//th//div/span[text()='"+date+"']/ancestor::table/tbody/tr/td//button[text()='"+StartTime+"']")).isDisplayed());
     }
