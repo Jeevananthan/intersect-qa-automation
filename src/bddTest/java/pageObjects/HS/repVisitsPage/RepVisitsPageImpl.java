@@ -5319,8 +5319,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void exportAppointmentsInCalendarPage(String startDate,String endDate){
-        button("Export").click();
-        waitUntilPageFinishLoading();
+        exportButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='Export Settings']")));
         Assert.assertTrue("Export Settings text is not displayed in the Export button",driver.findElement(By.xpath("//div/span[text()='Export Settings']")).isDisplayed());
         Assert.assertTrue("From Text is not displayed in the Export button",driver.findElement(By.xpath("//span[text()='From']")).isDisplayed());
         Assert.assertTrue("To text is not displayed in the Export button",driver.findElement(By.xpath("//span[text()='To']")).isDisplayed());
@@ -5361,9 +5361,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String[] parts = date.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
         if(fromOrTo.equals("From")){
-            getDriver().findElement(By.xpath("//button[@class='ui basic button _1wqaQnL4wzTmKK7w_sXTwT']")).click();
+            getDriver().findElement(By.cssSelector("button[class='ui button _1wqaQnL4wzTmKK7w_sXTwT']")).click();
         }else if (fromOrTo.equals("To")){
-            getDriver().findElement(By.xpath("//button[@class='ui basic button _2pj6YkRYwl9szEe_wh7dxF']")).click();
+            getDriver().findElement(By.cssSelector("button[class='ui button _2pj6YkRYwl9szEe_wh7dxF']")).click();
         }else {
             logger.info("Invalid option");
         }
@@ -10009,4 +10009,6 @@ public void cancelRgisteredCollegeFair(String fairName){
     private By closeFairPopup () { return By.cssSelector("button[class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']"); }
 
     private List<WebElement> errorMessage(){return getDriver().findElements(By.xpath("//div/span[text()='There were some errors with your submission']"));}
+
+    private WebElement exportButton(){return getDriver().findElement(By.cssSelector("button[title='Export']"));}
 }

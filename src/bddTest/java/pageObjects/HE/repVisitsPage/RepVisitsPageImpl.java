@@ -184,8 +184,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         link("Calendar").click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarDayButton()));
         Assert.assertTrue("Export button is Enabled in Calendar page",getDriver().findElement(By.xpath("//button[@class='ui teal basic disabled button _1I0GHfcjpniiDr2MOWxpxw _3Rc-fBQEQJr4FpMhLBYL0m']")).isDisplayed());
     }
 
@@ -193,14 +192,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         link("Calendar").click();
-        waitForUITransition();
-        waitUntilPageFinishLoading();
-        Assert.assertTrue("Export button is not enabled",button("Export").isEnabled());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarDayButton()));
+        Assert.assertTrue("Export button is not enabled",exportButton().isEnabled());
     }
 
     public void exportAppointmentsInCalendarPage(String startDate,String endDate){
-        button("Export").click();
-        waitUntilPageFinishLoading();
+        exportButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='Export Settings']")));
         Assert.assertTrue("Export Settings text is not displayed in the Export button",getDriver().findElement(By.xpath("//div/span[text()='Export Settings']")).isDisplayed());
         Assert.assertTrue("From Text is not displayed in the Export button",getDriver().findElement(By.xpath("//span[text()='From']")).isDisplayed());
         Assert.assertTrue("To text is not displayed in the Export button",getDriver().findElement(By.xpath("//span[text()='To']")).isDisplayed());
@@ -2431,9 +2429,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String[] parts = date.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
         if(fromOrTo.equals("From")){
-            getDriver().findElement(By.xpath("//button[@class='ui basic button _1wqaQnL4wzTmKK7w_sXTwT']")).click();
+            getDriver().findElement(By.cssSelector("button[class='ui button _1wqaQnL4wzTmKK7w_sXTwT']")).click();
         }else if (fromOrTo.equals("To")){
-            getDriver().findElement(By.xpath("//button[@class='ui basic button _2pj6YkRYwl9szEe_wh7dxF']")).click();
+            getDriver().findElement(By.cssSelector("button[class='ui button _2pj6YkRYwl9szEe_wh7dxF']")).click();
         }else {
             logger.info("Invalid option");
         }
@@ -4098,6 +4096,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private String actionMenuElementLocator (String action) {
         return "//div[@class='visible menu transition']//span[text()='"+action+"']";
     }
+    private By calendarDayButton(){return By.cssSelector("button[title='Day']");}
+
+    private WebElement exportButton(){return getDriver().findElement(By.cssSelector("button[title='Export']"));}
 }
 
 
