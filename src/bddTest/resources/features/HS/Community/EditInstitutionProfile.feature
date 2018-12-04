@@ -4,7 +4,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-811 @MATCH-814 @MATCH-815 @MATCH-1561
   Scenario: As an authorized HS User, I need to be able to update my contact information in the purple community.
   So I should be able to change my address, phone, fax, and website URL.
-    Given HS I am logged in to Intersect HS as user type "admin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the CONTACT INFORMATION FIELDS exist
@@ -12,9 +12,9 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     And HS I enter the following CONTACT data on the Institution Profile page and click "Save"
       | Address     | 3480 DIXIE HWY    |
       | City        | Erlanger          |
-      | State       | Kentucky        |
+      | State       | Kentucky          |
       | Zip         | 41018             |
-      | County      | Kenton     |
+      | County      | Kenton            |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
@@ -26,21 +26,21 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       | City        | Erlanger          |
       | State       | Kentucky          |
       | Zip         | 41018             |
-      | County      | Kenton     |
+      | County      | Kenton            |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
       | Website URL | www.DIXIEHIGH.com |
     Then HS I re-enter original data and click "Save"
-      | Address     | 350 S. Oak Harbor St. |
-      | City        | Oak Harbor            |
-      | State       | Washington            |
-      | Zip         | 98277                 |
-      | County      | Island                |
-      | Country     | United States         |
-      | Phone       | 3602798826            |
-      | Fax         | 3602798827     |
-      | Website URL | www.google.com  |
+      | Address     | 2621 McMenemy St |
+      | City        | Little Canada    |
+      | State       | Minnesota        |
+      | Zip         | 55117            |
+      | County      | Ramsey           |
+      | Country     | United States    |
+      | Phone       | 360.555.1212     |
+      | Fax         | 360.123.4567     |
+      | Website URL | www.hobsons.com  |
 
 
 

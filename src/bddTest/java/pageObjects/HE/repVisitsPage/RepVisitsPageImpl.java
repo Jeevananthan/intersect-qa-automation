@@ -434,7 +434,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
     public void selectHighSchoolFromIntermediateSearchResults(String schoolName, String location) {
-        getDriver().findElement(By.xpath(String.format(".//td[text()[contains(.,'%s')]]/preceding::td//a[text()='%s']",location, schoolName))).click();
+        getDriver().findElement(By.xpath(String.format(".//td//a[text()='%s']",schoolName))).click();
         waitUntilPageFinishLoading();
     }
 
@@ -1687,18 +1687,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void reInviteSendEmail(String action, String loginName){
 
-        waitForUITransition();
-        waitUntilElementExists(getDriver().findElement(By.xpath("//table[@class='ui table']//tbody//tr//td[6]/a[text()='"+loginName+"']")));
-        WebElement login = getDriver().findElement(By.xpath("//table[@class='ui table']//tbody//tr//td[6]/a[text()='"+loginName+"']"));
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(loginRowLocator(loginName)), 0));
+        WebElement login = getDriver().findElement(By.xpath(loginRowLocator(loginName)));
 
         WebElement Actions = getParent(getParent(login)).findElement(By.cssSelector("[aria-label='Actions']"));
         Actions.click();
 
-        Actions actionToDown = new Actions(getDriver());
-        actionToDown.sendKeys(Keys.PAGE_DOWN).sendKeys(Keys.PAGE_DOWN).build().perform();
-
-        waitUntilElementExists(getDriver().findElement(By.xpath("//div[@class='visible menu transition']//span[text()='"+action+"']")));
-        WebElement selectsReInviteDropDown = getDriver().findElement(By.xpath("//div[@class='visible menu transition']//span[text()='"+action+"']"));
+        WebElement selectsReInviteDropDown = getDriver().findElement(By.xpath(actionMenuElementLocator(action)));
         getDriver().executeScript("arguments[0].click();",selectsReInviteDropDown);
         yesButton().click();
     }
@@ -4097,6 +4092,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSuccessMessage(){return getDriver().findElement(By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']>span"));}
     private WebElement leftSubMenu(String subMenu[],int i){return getDriver().findElement(By.xpath("//a/span[text()='"+subMenu[i]+"']"));}
     private WebElement accountSettingsNonPasswordFields(String fieldDetails[],int i){return getDriver().findElement(By.xpath("//span[text()='"+fieldDetails[i]+"']"));}
+    private String loginRowLocator(String loginName) {
+        return "//table[@class='ui table']//tbody//tr//td[6]/a[text()='" + loginName + "']";
+    }
+    private String actionMenuElementLocator (String action) {
+        return "//div[@class='visible menu transition']//span[text()='"+action+"']";
+    }
 }
 
 

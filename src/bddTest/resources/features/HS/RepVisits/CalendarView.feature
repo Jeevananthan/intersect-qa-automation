@@ -139,7 +139,7 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     Then HS verify pills are not available for the past dates in Re-schedule visit page
     Then HS verify the past dates are disabled in the select custom date section for Re-schedule visit page
     And HS I open the visit with generated time in the Calendar
-    And HS I cancel the open visit
+    And HS I clean the visits created
 
   @MATCH-2061 @MATCH3954
   Scenario: : As a HS user, I should be able to add internal notes to my visits
