@@ -191,6 +191,12 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
     }
 
+    public void deleteFilterIfPresent(String filterName) {
+        if (driver.findElements(By.xpath(filterNameLocator(filterName))).size() > 0) {
+            deleteFilter(filterName);
+        }
+    }
+
     //locators
     private WebElement genderCheckBox(String option) { return driver.findElement(By.cssSelector("input[value=\"" + option.toUpperCase() + "\"]")); }
     private WebElement locationMilesDropdown() { return driver.findElement(By.cssSelector("div[name=\"distanceValue\"]")); }
@@ -222,4 +228,5 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private WebElement getCreateFilterDropdownOption(String option) { return driver.findElement(By.xpath("//span[@class = 'text' and text() = '" + option + "']")); }
     private String filterNameUniqueErrorMessageLocator = "div.ui.error.message span";
     private String createFilterCancelButtonLocator = "form.ui.small.form button.ui.basic.right.floated.button span";
+    private String filterNameLocator(String filterName) { return "//strong[text() = '" + filterName + "']";}
 }
