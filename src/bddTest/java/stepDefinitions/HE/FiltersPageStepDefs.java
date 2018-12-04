@@ -39,5 +39,7 @@ public class FiltersPageStepDefs implements En {
         Then("^HE I verify that the filter of generated name is displayed by default in the Event Audience field$", filtersPage::verifyFilterOfGenNameIsDefaultInEventAudience);
 
         And("^HE I delete the filter of generated name$", filtersPage::deleteFilterOfGenName);
+
+        And("^HE I delete the filter of name \"([^\"]*)\" if it is present$", filtersPage::deleteFilterIfPresent);
     }
 }
