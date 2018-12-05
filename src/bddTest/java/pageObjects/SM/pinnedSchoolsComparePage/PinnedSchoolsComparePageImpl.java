@@ -242,7 +242,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private String getDataForSpecificFilter(String fitTab, String criteriaName, int collegPosition) {
         if (fitTab.trim().length() != 0) {
             return driver.findElement(By.xpath("//table[caption='" + fitTab + "']//div[text()='" +
-                    criteriaName + "']/../../td[" + (collegPosition + 1) + "]/span")).getText();
+                    criteriaName + "']/../../td[" + (collegPosition + 1) + "]")).getText();
         } else {
             return driver.findElement(By.xpath("//table//div[text()='" +
                     criteriaName + "']/../../td[" + (collegPosition + 1) + "]")).getText();
@@ -286,7 +286,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     public void pinCollegeFromBottomSearchResult(String collegeName){
         searchBar().clear();
         searchBar().sendKeys(collegeName);
-        String searchedCollegePinString = "//a[text()='"+collegeName+"']/../../div/a/span[text()='PIN']";
+        String searchedCollegePinString = "//*[text()='"+collegeName+"']/../../div/a/span[text()='PIN']";
         WebElement searchedCollegePinButton = driver.findElement(By.xpath(searchedCollegePinString));
         searchedCollegePinButton.click();
     }
