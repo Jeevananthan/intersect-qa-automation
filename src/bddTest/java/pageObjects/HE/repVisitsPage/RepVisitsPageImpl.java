@@ -2733,7 +2733,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDefaultOptionInSearchByDropdown(String defaultOption,DataTable dataTable){
-        navigateToRepVisitsSection("Search and Schedule");
         waitUntilPageFinishLoading();
         String defaultValue[] = defaultOption.split(",");
         List<String> list = dataTable.asList(String.class);
