@@ -1438,17 +1438,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             selectMonth = currentMonth.split(" ");
             Month = selectMonth[0];
         }
-        Assert.assertTrue("university is not displayed", driver.findElement(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + university + "']")).isDisplayed());
-        Assert.assertTrue("time is not displayed", driver.findElement(By.xpath("//span[text()='" + university + "']/preceding-sibling::span[text()='" + startTime + "']")).isDisplayed());
-        driver.findElement(By.xpath("//span[text()='"+university+"']/preceding-sibling::span[text()='"+startTime+"']")).click();
-        waitUntilPageFinishLoading();
+        if (calendarAppointments(startTime,university).size() == 1) {
+            selectAppointmentInCalendar(startTime, university);
+        } else if (calendarAppointments(startTime,university).size() == 0) {
+            int appointment = getAppointmentFromCalendar(startTime, university);
+            if (appointment == 0) {
+                startTime = getCalendarStartTime();
+                if (calendarAppointments(startTime,university).size() == 1) {
+                    selectAppointmentInCalendar(startTime, university);
+                } else if (calendarAppointments(startTime,university).size() == 0) {
+                    appointment = getAppointmentFromCalendar(startTime, university);
+                    if(appointment==1){
+                        selectAppointmentInCalendar(startTime, university);
+                    }else {
+                        Assert.fail("Appointment is not displayed");
+                    }
+                }
+            }else if(appointment == 1){
+                selectAppointmentInCalendar(startTime, university);
+            }
+        }else {
+            Assert.fail("Appointment is not displayed");
+        }
     }
 
     public void verifyActivityforFairs(String option,String user,String university,String date,String time){
         getNavigationBar().goToRepVisits();
         notificationAndTasks().click();
         activityTab().click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='"+user+"']")));
         Assert.assertTrue("user name is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']")).isDisplayed());
         Assert.assertTrue("notification is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
         Assert.assertTrue(option+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
@@ -1684,8 +1702,42 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         editFairsEmailMsgTextBox().sendKeys(Keys.PAGE_DOWN);
         waitUntilPageFinishLoading();
         editFairsSubmitButton().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(),'Close')]")));
+        closeFairCancelConfiration().click();
+        waitForUITransition();
     }
+
+    public void cancelCollegeFairs() {
+        logger.info("Cancelling Job Fair " + FairName + " under RepVisits.");
+        getDriver().navigate().refresh();
+        getNavigationBar().goToRepVisits();
+        collegeFairs().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        try{
+            while (viewDetails().size()>0) {
+                waitUntilElementExists(viewDetailsLink());
+                viewDetailsLink().click();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[id='edit-college-fair']")));
+                editCollegFair().click();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Cancel This College Fair']")));
+                jsClick(cancelFairsButton());
+                waitForUITransition();
+                if (getDriver().findElements(By.xpath("//span[contains(text(), 'Yes, Cancel this fair')]")).size() >= 1) {
+                    button("yes, cancel this fair").click();
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[text()='Close']"), 1));
+                } else if (getDriver().findElements(By.xpath("//span[contains(text(), 'Cancel fair and notify colleges')]")).size() >= 1) {
+                    textbox(By.name("cancellationMessage")).sendKeys("College fair has been cancelled.");
+                    button("cancel fair and notify colleges").click();
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(),'Close')]")));
+                    closeFairCancelConfiration().click();
+                }
+                collegeFairs().click();
+                waitForUITransition();
+            }
+        }catch (Exception e){}
+    }
+
 
     public void verifyTextInReschedulePopup(String expectedText){
         String actualText = driver.findElement(By.xpath("//span[@class='_25XyePHsmpWU1qQ18ojKip']/span")).getText();
@@ -5632,6 +5684,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         activityTab().click();
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='"+user+"']")));
         Assert.assertTrue("user name is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']")).isDisplayed());
         Assert.assertTrue("notification is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
         Assert.assertTrue(option+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
@@ -5647,7 +5700,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         notificationAndTasks().click();
         activityTab().click();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='"+user+"']")));
         Assert.assertTrue("user name is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']")).isDisplayed());
         Assert.assertTrue("notification is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
         Assert.assertTrue(option+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
@@ -5671,7 +5724,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         else {
             while (showMore().isDisplayed()){
                 showMore().click();
+                waitUntilPageFinishLoading();
             }}
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='"+user+"']")));
         Assert.assertTrue("user name is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']")).isDisplayed());
         Assert.assertTrue("notification is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='rescheduled']")).isDisplayed());
         Assert.assertTrue("institution is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='rescheduled']/parent::div[text()='a Visit']/../../following-sibling::div/div/div/b[text()='"+institution+"']")).isDisplayed());
@@ -5711,10 +5766,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void removeAppointmentfromCalendar(){
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Cancel This Visit']"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Cancel This Visit']")));
         Assert.assertTrue("Cancel This Visit is not displayed",driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).isDisplayed());
         driver.findElement(By.xpath("//button/span[text()='Cancel This Visit']")).click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("repVisit-cancelation-message"),1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("repVisit-cancelation-message")));
         driver.findElement(By.id("repVisit-cancelation-message")).click();
         driver.findElement(By.id("repVisit-cancelation-message")).sendKeys(Keys.PAGE_DOWN);
         driver.findElement(By.id("repVisit-cancelation-message")).sendKeys("by QA");
@@ -5724,8 +5779,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCancelOrReSchedule(String option,String user,String time,String institution,String date,String startTime) {
-        waitForUITransition();
         startTime=getRescheduleVisitSchedulePopupStartTimeInCalendar();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'"+institution+"')]")));
         Assert.assertTrue("Institution name is not displayed",driver.findElement(By.xpath("//div[contains(text(),'"+institution+"')]")).isDisplayed());
         Assert.assertTrue("Username is not displayed",driver.findElement(By.xpath("//div[contains(text(),'"+user+"')]")).isDisplayed());
         String actualDate=selectdate(date);
@@ -5744,7 +5799,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         notificationAndTasks().click();
         waitUntilPageFinishLoading();
         activityTab().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='"+user+"']")));
         Assert.assertTrue("user name is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']")).isDisplayed());
         Assert.assertTrue("notification is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
         Assert.assertTrue(option+" is not displayed",driver.findElement(By.xpath("//div/span[text()='"+user+"']/../b[text()='"+option+"']")).isDisplayed());
@@ -10015,4 +10070,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     private List<WebElement> errorMessage(){return getDriver().findElements(By.xpath("//div/span[text()='There were some errors with your submission']"));}
 
     private WebElement exportButton(){return getDriver().findElement(By.cssSelector("button[title='Export']"));}
+
+    private List<WebElement> viewDetails(){return getDriver().findElements(By.xpath("//h2/span[text()='Upcoming Events']/parent::h2/following-sibling::table//span[text()='View Details']"));}
+
 }

@@ -194,7 +194,7 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
       |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
       |navianceAdmin  |navianceMember1 |administrator      |member              |
 
-  @MATCH-1484
+  @MATCH-1484 @ignore
   Scenario Outline: A RepVisits user, I want to be able to export my visit data,
   So that I can easily show and sort the data to students/parents/my boss.
 #Verify unpaid HE users are blocked from exporting
