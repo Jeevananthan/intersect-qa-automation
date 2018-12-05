@@ -4760,9 +4760,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Month = selectMonth[0];
         }
         waitForUITransition();
-        Assert.assertTrue("university is not displayed", driver.findElement(By.xpath("//span[text()='" + startTime + "']/following-sibling::span[text()='" + institution + "']")).isDisplayed());
-        Assert.assertTrue("time is not displayed", driver.findElement(By.xpath("//span[text()='" + institution + "']/preceding-sibling::span[text()='" + startTime + "']")).isDisplayed());
-        waitUntilPageFinishLoading();
+        String currentDay = day(date);
+        List<WebElement> calendarMoreLinksList = driver.findElements(calendarMoreLinks());
+        if (calendarMoreLinksList.size() > 0) {
+            for (WebElement moreLink : calendarMoreLinksList) {
+                moreLink.click();
+                if (overlayHeader().getText().contains(currentDay)) {
+                    Assert.assertTrue("university is not displayed", driver.findElement(By.xpath(universityCalendarElementLocator(startTime, institution))).isDisplayed());
+                    Assert.assertTrue("time is not displayed", driver.findElement(By.xpath(timeCalendarElementLocator(institution, startTime))).isDisplayed());
+                    waitUntilPageFinishLoading();
+                }
+                calendarsTitle().click();
+            }
+        } else {
+            Assert.assertTrue("university is not displayed", driver.findElement(By.xpath(universityCalendarElementLocator(startTime, institution))).isDisplayed());
+            Assert.assertTrue("time is not displayed", driver.findElement(By.xpath(timeCalendarElementLocator(institution, startTime))).isDisplayed());
+            waitUntilPageFinishLoading();
+        }
     }
 
     public void scheduleNewVisitusingCustomTime(String date,String startTime,String endTime,String attendee,String location) {
@@ -10015,4 +10029,16 @@ public void cancelRgisteredCollegeFair(String fairName){
     private List<WebElement> errorMessage(){return getDriver().findElements(By.xpath("//div/span[text()='There were some errors with your submission']"));}
 
     private WebElement exportButton(){return getDriver().findElement(By.cssSelector("button[title='Export']"));}
+
+    private By calendarMoreLinks() { return By.xpath("//a[@class='rbc-show-more']"); }
+
+    private WebElement overlayHeader() { return driver.findElement(By.cssSelector("div.rbc-overlay-header")); }
+
+    private WebElement calendarsTitle() { return driver.findElement(By.cssSelector("div.ui.large.header")); }
+
+    private String universityCalendarElementLocator(String startTime, String institution) { return "//span[text()='" + startTime
+            + "']/following-sibling::span[text()='" + institution + "']"; }
+
+    private String timeCalendarElementLocator(String institution, String startTime) { return "//span[text()='" + institution
+            + "']/preceding-sibling::span[text()='" + startTime + "']"; }
 }
