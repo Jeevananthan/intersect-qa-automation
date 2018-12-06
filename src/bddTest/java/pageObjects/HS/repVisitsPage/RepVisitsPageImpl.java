@@ -2945,8 +2945,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String value[] = cityAndState.split(",");
         String city = value[0];
         String state = value[1];
-        Assert.assertTrue("City and state are not displayed",driver.findElement(By.xpath("//div/span[contains(text(),'"+StartTime+"')]/parent::div/preceding-sibling::div[text()='"+city+","+state+"']/preceding-sibling::div/strong[text()='"+institution+"']")).isDisplayed());
-    }
+        verifyAndClickShowMoreButton("Request",city,state,institution);
+        Assert.assertTrue("City and state are not displayed",verifyCityAndStateInRequest(city,state,institution).isDisplayed());  }
 
     public void verifyCityAndStateInActivitysubTab(String cityAndState,String institution){
         getNavigationBar().goToRepVisits();
@@ -2958,6 +2958,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String value[] = cityAndState.split(",");
         String city = value[0];
         String state = value[1];
+        verifyAndClickShowMoreButton("Activity",city,state,institution);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(cityAndStateInActivity(city,state,institution)));
         Assert.assertTrue("City and state are not displayed",verifyCityAndStateInActivity(city,state,institution).isDisplayed());
     }
@@ -2966,7 +2967,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String value[] = cityAndState.split(",");
         String city = value[0];
         String state = value[1];
-        Assert.assertTrue("City and state are not displayed",driver.findElement(By.xpath("//div[text()='"+city+","+state+"']/preceding-sibling::div/strong[text()='"+institution+"']")).isDisplayed());
+        verifyAndClickShowMoreButtonforFairs("Request",city,state,institution);
+        Assert.assertTrue("City and state are not displayed",cityAndStateInRequestTabforFairs(city,state,institution).isDisplayed());
     }
 
     public void verifyCityAndStateInActivitysubTabforFairs(String cityAndState,String institution){
@@ -2978,8 +2980,77 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String value[] = cityAndState.split(",");
         String city = value[0];
         String state = value[1];
+        verifyAndClickShowMoreButtonforFairs("Activity",city,state,institution);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(cityAndStateInActivityforFairs(city,state,institution)));
         Assert.assertTrue("City and state are not displayed",verifyCityAndStateInActivityforFairs(city,state,institution).isDisplayed());
+    }
+
+    private void verifyAndClickShowMoreButton(String option,String city,String state,String institution) {
+        try {
+            if (option.equals("Activity")) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/b[text()='"+institution+"']")));
+                if (verifyCityAndStateInActivityTab(city, state, institution).size() == 0) {
+                    if (showmore().size() == 1) {
+                        while (verifyCityAndStateInActivityTab(city, state, institution).size() == 1) {
+                            if (showmore().size() == 1) {
+                                jsClick(showMoreButton());
+                                waitUntilPageFinishLoading();
+                                waitForUITransition();
+                            }
+                        }
+                    }
+                }
+            } else if (option.equals("Request")) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/strong[text()='"+institution+"']")));
+                if (cityAndStateInRequestTab(city, state, institution).size() == 0) {
+                    if (showmore().size() == 1) {
+                        while (cityAndStateInRequestTab(city, state, institution).size() == 0) {
+                            if (showmore().size() == 1) {
+                                jsClick(showMoreButton());
+                                waitUntilPageFinishLoading();
+                                waitForUITransition();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Assert.fail("Notification is not displayed");
+        }
+    }
+
+    private void verifyAndClickShowMoreButtonforFairs(String option,String city,String state,String institution) {
+        try {
+            if (option.equals("Request")) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/strong[text()='"+institution+"']")));
+                if (cityAndStateInRequestforFairs(city, state, institution).size() == 0) {
+                    if (showmore().size() == 1) {
+                        while (cityAndStateInRequestforFairs(city, state, institution).size() == 0) {
+                            if (showmore().size() == 1) {
+                                jsClick(showMoreButton());
+                                waitUntilPageFinishLoading();
+                                waitForUITransition();
+                            }
+                        }
+                    }
+                }
+            } else if (option.equals("Activity")) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/b[text()='"+institution+"']")));
+                if (cityAndStateInActivityTabforFairs(city, state, institution).size() == 0) {
+                    if (showmore().size() == 1) {
+                        while (cityAndStateInActivityTabforFairs(city, state, institution).size() == 0) {
+                            if (showmore().size() == 1) {
+                                jsClick(showMoreButton());
+                                waitUntilPageFinishLoading();
+                                waitForUITransition();
+                            }
+                        }
+                    }
+                }
+            }
+        }catch(Exception e){
+            Assert.fail("Notification is not displayed");
+        }
     }
 
     private WebElement updateBtn(){
@@ -10115,4 +10186,26 @@ public void cancelRgisteredCollegeFair(String fairName){
     private String yesCancelThisFairButtonLocator = "//span[contains(text(), 'Yes, Cancel this fair')]";
 
     private String cancelFairAndNotifyCollegesButtonLocator = "//span[contains(text(), 'Cancel fair and notify colleges')]";
+
+    private WebElement verifyCityAndStateInRequest(String city,String state,String institution){return getDriver().findElement(By.xpath("//div/span[contains(text(),'"+StartTime+"')]/parent::div/preceding-sibling::div[text()='"+city+","+state+"']/preceding-sibling::div/strong[text()='"+institution+"']"));}
+
+    private WebElement cityAndStateInRequestTabforFairs(String city,String state,String institution){return getDriver().findElement(By.xpath("//div[text()='"+city+","+state+"']/preceding-sibling::div/strong[text()='"+institution+"']"));}
+
+    private List<WebElement> cityAndStateInRequestforFairs(String city,String state,String institution){return getDriver().findElements(By.xpath("//div[text()='"+city+","+state+"']/preceding-sibling::div/strong[text()='"+institution+"']"));}
+
+    private List<WebElement> cityAndStateInRequestTab(String city,String state,String institution){return getDriver().findElements(By.xpath("//div/span[contains(text(),'"+StartTime+"')]/parent::div/preceding-sibling::div[text()='"+city+","+state+"']/preceding-sibling::div/strong[text()='"+institution+"']"));}
+
+    private List<WebElement> cityAndStateInActivityTabforFairs(String city,String state,String institution){return getDriver().findElements(By.xpath("//div[text()='"+city+","+state+"']/preceding-sibling::div/b[text()='"+institution+"']"));}
+
+    private List<WebElement> verifyCityAndStateInActivityTab(String city,String state,String institution){return getDriver().findElements(By.xpath("//div/span[contains(text(),'"+StartTime+"')]/parent::div/preceding-sibling::div[text()='"+city+","+state+"']/preceding-sibling::div/b[text()='"+institution+"']"));}
+
+    private WebElement closeButtonInRequestTab(){return getDriver().findElement(By.xpath("//span[text()='Close']"));}
+
+    private List<WebElement> showmore(){
+        return getDriver().findElements(By.xpath("//span[text()='Show More']"));
+    }
+
+    private WebElement showMoreButton(){
+        return getDriver().findElement(By.xpath("//span[text()='Show More']"));
+    }
 }
