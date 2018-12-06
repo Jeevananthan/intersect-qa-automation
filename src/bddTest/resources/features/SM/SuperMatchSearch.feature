@@ -983,3 +983,22 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I verify that "Highlights" in column number 1 for college "The University of Alabama" contains the following data:
       |Profiles|
     Then HE I click the link "Upcoming College Visits"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/fb6f5eeb-6ab7-4e31-9165-583562aa2f8c/Overview#visits" finish loading
+    Then I close the current window
+    And I switch to the newly opened window
+    Then HE I click the link "Upcoming College Events"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/fb6f5eeb-6ab7-4e31-9165-583562aa2f8c/Overview#events" finish loading
+    Then I close the current window
+    And I switch to the newly opened window
+    Then I scroll to "No Highlights Available"
+    Then HE I click the link "Photos/Videos on Profile"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/c807fe11-e088-48df-a712-43fef7f7d55a/Overview" finish loading
+    Then I close the current window
+    And I switch to the newly opened window
+    Then HE I click the link "Profiles"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/d5b6754a-f8aa-49e5-8e8c-d3f7ad001830/Profiles" finish loading
+    Then I close the current window
