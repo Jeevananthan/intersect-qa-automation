@@ -3025,11 +3025,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         waitUntilElementExists(currentDateInCalendar());
-//        monthInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
-        forwardDayButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")));
+        if (driver.findElements(By.cssSelector(pillInCalendarLocator)).size() == 0) {
+            forwardDayButton().click();
+        }
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(pillInCalendarLocator)));
         jsClick(selectVisitInTheCalendar());
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='hsNotes']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(notesFieldLocator)));
         hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
         hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
         hsNotesInReScheduleVisitPage().sendKeys(Keys.PAGE_DOWN);
@@ -3038,10 +3039,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         reScheduleTextboxInReScheduleVisitPage().sendKeys(Keys.PAGE_UP);
         waitForUITransition();
-        driver.findElement(By.xpath("//button[@class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']")).click();
+        goToDateButton().click();
         waitForUITransition();
         setDateFixed("October 02 2018", getCurrentDate());
-        Assert.assertTrue("verify the Message 'No availability this week'",driver.findElement(By.xpath("//table[@class='ui unstackable basic table']//span[text()='No availability this week']")).isDisplayed());
+        Assert.assertTrue("verify the Message 'No availability this week'", noAvailabilityInNewScheduleVisitPage().isDisplayed());
     }
 
     public void selectGeneratedDateInExceptions(String daysFromNow) {
@@ -10099,4 +10100,7 @@ public void cancelRgisteredCollegeFair(String fairName){
   
     private List<WebElement> viewDetails(){return getDriver().findElements(By.xpath("//h2/span[text()='Upcoming Events']/parent::h2/following-sibling::table//span[text()='View Details']"));}
 
+    private String pillInCalendarLocator = "div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']";
+
+    private String notesFieldLocator = "input[name='hsNotes']";
 }
