@@ -273,6 +273,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   Scenario Outline: Verify that email is sent to HS users after cancelling a fair as an HE user
     Given HS I am logged in to Intersect HS as user type "administrator"
     Then HS I add the email "<EMail>" in the primary contact in Notifications & Primary Contact page
+    And HS I clean the college fairs created
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 
