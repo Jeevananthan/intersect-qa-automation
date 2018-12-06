@@ -31,7 +31,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
-        waitUntilElementExists(createNewUserButton());
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(createNewUserButtonLocator), 0));
         if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
@@ -377,5 +377,5 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
-    private WebElement createNewUserButton() { return driver.findElement(By.xpath("//span[text() = 'Create New User']")); }
+    private String createNewUserButtonLocator = "//span[text() = 'Create New User']";
 }
