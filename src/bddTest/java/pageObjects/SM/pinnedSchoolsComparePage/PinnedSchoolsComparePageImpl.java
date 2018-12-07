@@ -393,13 +393,16 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
             String heading = entry.getText();
             String value = entry.findElement(By.xpath("../following-sibling::td")).getText();
             if (heading.equals("Profiles")) {
-                Actions action = new Actions(driver);
-                action.moveToElement(institutionHighlightsViewProfilesLink()).build().perform();
-                for(int ii=0;ii<3;ii++){
-                    institutionHighlightsViewProfilesLink().sendKeys(Keys.ARROW_DOWN);
-                }
-                waitForElementTextToEqual(institutionHighlightsViewProfilesLink(), "View Profiles");
+                //Actions action = new Actions(driver);
+                //action.moveToElement(institutionHighlightsViewProfilesLink()).build().perform();
+                //for(int ii=0;ii<3;ii++){
+                //    institutionHighlightsViewProfilesLink().sendKeys(Keys.ARROW_DOWN);
+                //}
+                //waitForUITransition();
+                waitUntil(ExpectedConditions.elementToBeClickable(institutionHighlightsViewProfilesLink()));
+                //waitForElementTextToEqual(institutionHighlightsViewProfilesLink(), "View Profiles");
                 institutionHighlightsViewProfilesLink().click();
+                waitUntilPageFinishLoading();
                 Set<String> winHandles = driver.getWindowHandles();
                 String firstWinHandle = driver.getWindowHandle();
                 winHandles.remove(firstWinHandle);
