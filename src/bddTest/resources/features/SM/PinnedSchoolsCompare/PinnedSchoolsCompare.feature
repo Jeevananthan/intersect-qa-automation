@@ -88,3 +88,15 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | user            | textOnThePage1       | textOnThePage2             |
       | linussupermatch | How you compare with | Visits to your High School |
       | tenthGradeUser  | Quick Links          | College Visits             |
+
+  @MATCH-4458
+  Scenario: As a HS student that is comparing my pinned schools, I want to see institution highlight details about
+  each college side by side so I can determine which pinned college is a best fit for me based on their highlights.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "The University of Alabama" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify all the below options available in Institution Highlights expandable drawer
+      | Photos/Videos on Profile | Profiles      | Upcoming College Events | Upcoming College Visits |
+      | -                        | View Profiles | -                       | -                       |
