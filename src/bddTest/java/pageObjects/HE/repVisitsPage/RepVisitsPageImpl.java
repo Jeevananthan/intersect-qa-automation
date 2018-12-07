@@ -1620,7 +1620,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void visitFairsToRegister(String fairName,String schoolName){
         waitUntilPageFinishLoading();
         String Fair=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
-        waitUntilElementExists(getFairsButton());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsButton()));
         getFairsButton().click();
         waitUntilElementExists(register());
         waitUntilElementExists(fairname(schoolName,Fair));
@@ -4115,19 +4115,59 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private By cityAndStateInRequest(String visitTime,String city,String state,String school){return By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']");}
 
-    private By cityAndStateInActivity(String visitTime,String city,String state,String school){return By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']");}
+    private By cityAndStateInActivity(String visitTime,String city,String state,String school){
+        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        By element = null;
+        if(getDriver().findElements(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
+            element = By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']");
+        }else if(getDriver().findElements(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']")).size()>0){
+            element = By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']");
+        }
+        return element;
+    }
 
     private WebElement verifyCityAndStateInRequest(String visitTime,String city,String state,String school){return getDriver().findElement(By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
 
-    private WebElement verifyCityAndStateInActivity(String visitTime,String city,String state,String school){return getDriver().findElement(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']"));}
+    private WebElement verifyCityAndStateInActivity(String visitTime,String city,String state,String school){
+        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        WebElement element = null;
+        if(getDriver().findElements(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
+            element = getDriver().findElement(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']"));
+        }else if(getDriver().findElements(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']")).size()>0){
+            element = getDriver().findElement(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']"));
+        }
+        return element;
+    }
 
     private By cityAndStateInRequestforFairs(String city,String state,String school){return By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']");}
 
-    private By cityAndStateInActivityforFairs(String city,String state,String school){return By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']");}
+    private By cityAndStateInActivityforFairs(String city,String state,String school){
+        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        By element = null;
+        if(getDriver().findElements(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']")).size()>0){
+            element = By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']");
+        }else if(getDriver().findElements(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
+            element = By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']");
+        }
+        return element;
+    }
 
     private WebElement verifyCityAndStateInRequestforFairs(String city,String state,String school){return getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
 
-    private WebElement verifyCityAndStateInActivityforFairs(String city,String state,String school){return getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/b[text()='"+school+"']"));}
+    private WebElement verifyCityAndStateInActivityforFairs(String city,String state,String school){
+        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        WebElement element = null;
+        if(getDriver().findElements(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
+            element = getDriver().findElement(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']"));
+        }else if(getDriver().findElements(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']")).size()>0){
+            element = getDriver().findElement(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']"));
+        }
+        return element;
+    }
 
     private WebElement viewDetailsSaveButton(){return getDriver().findElement(By.xpath("//button/span[text()='Save']"));}
 
@@ -4184,6 +4224,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private List<WebElement> cityAndStateInRequestTab(String visitTime,String city,String state,String school){return getDriver().findElements(By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
 
+    private By fairsButton(){return By.xpath("//button/span[text()='Fairs']");}
 }
 
 

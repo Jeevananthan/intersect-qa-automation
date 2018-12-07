@@ -241,7 +241,9 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #Create a visits and Fairs
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I cancel the college fairs created
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 #Register Visits and Fairs
@@ -318,7 +320,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
   so I can more easily identify the institution the notification entry is updating me about.
 #Non-Naviance
 #precondition
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "admin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -327,7 +329,9 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #Create a visits and Fairs
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I cancel the college fairs created
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 #Register Visits and Fairs
@@ -339,7 +343,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HE I search for "<Non-NavSchool>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<Non-NavSchool>"
 
-    Then HE I am logged in to Intersect HE as user type "publishing2"
+    Then HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "<Non-NavSchool>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<Non-NavSchool>" using "<StartDate>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<Non-NavSchool>" using "<heTime>" and "<hsEndTime>"
@@ -351,7 +355,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavSchool>" in the Request Notification Tab for Fairs
 
 #Verify the City and State displayed in the HS Request and Activity Notification Tab for Visits
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "admin"
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
@@ -366,11 +370,11 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I successfully sign out
 
 #Verify the City and State displayed in the HE Activity Notification Tab
-    Then HE I am logged in to Intersect HE as user type "publishing2"
+    Then HE I am logged in to Intersect HE as user type "publishing"
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavschoolForHE>" in the Activity Tab
 
 #Verify the City and State displayed in the HS Request and Activity Notification Tab for Fairs
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "admin"
     Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab for Fairs
     And HS I select "Confirm" option for the Notification using "<user>","<Date>","<fairStartTime>","<institution>" for Fairs
@@ -383,10 +387,10 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Activity Tab for Fairs
     And HS I successfully sign out
 #Verify the City and State displayed in the HE Activity Notification Tab
-    Then HE I am logged in to Intersect HE as user type "publishing2"
+    Then HE I am logged in to Intersect HE as user type "publishing"
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavschoolForHE>" in the Activity Tab for Fairs
 
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "admin"
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     And HS I successfully sign out
