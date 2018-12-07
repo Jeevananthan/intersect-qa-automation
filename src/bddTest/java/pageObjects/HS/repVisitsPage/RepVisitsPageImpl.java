@@ -4768,25 +4768,25 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitUntilElementExists(addVisitButton());
         addVisitButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span/span[text()='Go to date']"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(goToDateButtonLocator),1));
         doubleClick(goToDateButton());
         setSpecificDateforManuallyCreatingVisit(date);
-        waitUntilElementExists(driver.findElement(By.xpath("//td/button[text()='"+StartTime+"']")));
-        WebElement button = driver.findElement(By.xpath("//td/button[text()='"+StartTime+"']"));
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(timePill(StartTime)), 0));
+        WebElement button = driver.findElement(By.xpath(timePill(StartTime)));
         moveToElement(button);
-        driver.findElement(By.xpath("//td/button[text()='"+StartTime+"']")).click();
+        driver.findElement(By.xpath(timePill(StartTime))).click();
         moveToElement(attendeeTextBox());
         attendeeTextBox().sendKeys(Keys.PAGE_DOWN);
         attendeeTextBox().sendKeys(attendee);
         selectAttendeeOrInstitution(attendee).click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("calendar-search-reps"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.id("calendar-search-reps"),0));
         String selectedAttendeeValue = driver.findElement(By.id("calendar-search-reps")).getAttribute("value");
         Assert.assertTrue("Representative is not present in the Representative text box",selectedAttendeeValue.equals(attendee));
         eventLocationNewVisit().clear();
         eventLocationNewVisit().sendKeys(location);
         waitForUITransition();
         eventLocationNewVisit().sendKeys(Keys.PAGE_DOWN);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//form[@id='add-calendar-appointment']//button[@class='ui teal right floated button']"),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(addVisitButtonInVisitSchedulePopupLocator),0));
         moveToElement(addVisitButtonInVisitSchedulePopup());
         Assert.assertTrue("AddVisit button is not Enabled",addVisitButtonInVisitSchedulePopup().isEnabled());
         addVisitButtonInVisitSchedulePopup().click();
@@ -4844,8 +4844,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(addVisitButton());
         addVisitButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Want a custom time? Add it manually']"),1));
-        addVisitManually().click();
-        waitForUITransition();
+        try {
+            addVisitManually().click();
+            waitUntilElementExists(selectDateButton());
+        } catch (NoSuchElementException e) {
+            addVisitManually().click();
+        }
         waitUntilElementExists(selectDateButton());
         doubleClick( selectDateButton());
         setSpecificDateforManuallyCreatingVisit(date);
@@ -7760,9 +7764,10 @@ public void cancelRgisteredCollegeFair(String fairName){
         return button;
     }
     private WebElement goToDateButton() {
-        WebElement button=driver.findElement(By.xpath("//button/span/span[text()='Go to date']"));
+        WebElement button=driver.findElement(By.xpath(goToDateButtonLocator));
         return button;
     }
+    private String goToDateButtonLocator = "//button/span/span[text()='Go to date']";
     private WebElement attendeeTextBox() {
         WebElement id=driver.findElement(By.id("calendar-search-reps"));
         return id;
@@ -8890,9 +8895,10 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     private WebElement addVisitButtonInVisitSchedulePopup() {
-        WebElement button=driver.findElement(By.xpath("//form[@id='add-calendar-appointment']//button[@class='ui teal right floated button']"));
+        WebElement button=driver.findElement(By.xpath(addVisitButtonInVisitSchedulePopupLocator));
         return button;
     }
+    private String addVisitButtonInVisitSchedulePopupLocator = "//form[@id='add-calendar-appointment']//button[@class='ui teal right floated button']";
     private WebElement DateButton() {
         WebElement button=driver.findElement(By.cssSelector("button[class$='_3GJIUrSQadO6hk9FZvH28D']"));
         return button;
@@ -10115,4 +10121,6 @@ public void cancelRgisteredCollegeFair(String fairName){
     private String yesCancelThisFairButtonLocator = "//span[contains(text(), 'Yes, Cancel this fair')]";
 
     private String cancelFairAndNotifyCollegesButtonLocator = "//span[contains(text(), 'Cancel fair and notify colleges')]";
+
+    private String timePill(String specificTime) { return "//td/button[text()='" + specificTime + "']"; }
 }
