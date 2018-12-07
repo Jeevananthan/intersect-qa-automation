@@ -3,37 +3,37 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
 
   @MATCH-3379
   Scenario: As a HS student, I want to filter colleges I am searching for by my specific GPA within the Admission
-            category so I can see relevant colleges that accept students similar to me based on my GPA in my search
-            results.
+  category so I can see relevant colleges that accept students similar to me based on my GPA in my search
+  results.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I skip the onboarding modals
     Then SM I verify the system response when the GPA entered by the user is valid
-      |0.1|
-      |2  |
-      |4  |
+      | 0.1 |
+      | 2   |
+      | 4   |
     Then SM I verify the system response when the GPA entered by the user is invalid
-      |0  |
-      |4.1|
-      |5  |
+      | 0   |
+      | 4.1 |
+      | 5   |
     Then SM I verify that entered GPA data persists
-      |3|
+      | 3 |
     Then SM I verify that the Must Have box does not contain "GPA"
 
   @MATCH-3382
   Scenario: As a HS student, I want to filter colleges I am searching for by my specific ACT Scores within the Admission
-            category so I can see relevant colleges that accept students similar to me based on my ACT Scores in my
-            search results.
+  category so I can see relevant colleges that accept students similar to me based on my ACT Scores in my
+  search results.
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I skip the onboarding modals
     Then SM I verify the system response when the ACT score entered by the user is valid
-     |1 |
-     |18|
-     |36|
+      | 1  |
+      | 18 |
+      | 36 |
     Then SM I verify the system response when the ACT score entered by the user is invalid
-     |0|
-     |37|
+      | 0  |
+      | 37 |
     Then SM I verify that entered ACT score data persists
-     |35|
+      | 35 |
     Then SM I verify that the Must Have box does not contain "ACT"
 
   @MATCH-3381
@@ -146,7 +146,6 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
     Then I check if I can see "Acceptance rate is 25%" on the page
 
 
-
   @MATCH-4241
   Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual admission data for the college so I can clearly see what
@@ -203,5 +202,18 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
     Then SM I verify that "California State University-Los Angeles" contains the label "Test Optional" in Academic Match
     And SM I press Why button for "California State University-Los Angeles" college
     Then SM I verify that "Test Optional" is displayed in the "Must Have" box in the Why Drawer
+
+  @MATCH-3710
+  Scenario: As a HS student that is comparing my pinned schools, I want to see Admission details about each college
+  side by side so I can determine which pinned college is a best fit for me based on their Admission Info.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "Haverford College" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify all the below options available in Admission fit criteria in Admission Info expandable drawer
+      | Test Optional | Average High School GPA | Average ACT | Math | Science | English | Reading | Average SAT | Evidence-Based Reading and Writing | Math1 | Acceptance Rate | Accepts AP Credits | Accepts IB Credits | Coalition App Member | Common App Member | Application Fee |
+      | Yes           | Unknown                 | 32          | 31   | Unknown | 33      | Unknown | 710         | 710                                | 710   | 21%             | Yes                | Yes                | Yes                  | Yes               | $65             |
+
 
 

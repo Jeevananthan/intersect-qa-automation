@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -16,6 +17,8 @@ import pageObjects.SM.searchPage.SearchPageImpl;
 import utilities.HUBSEditMode.Navigation;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
 
@@ -366,7 +369,66 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyAdmissionInfoDrawerOptions(DataTable dataTable) {
+        List<Map<String,String>> data = dataTable.asMaps(String.class,String.class);
+        Map<String,String> expectedResults = data.get(0);
+        // Iterate through all of the rows in the "Admission Info" table.
+        for (WebElement entry : admissionInfoOptions()) {
+            String heading = entry.getText();
+            String value = entry.findElement(By.xpath("../following-sibling::td")).getText();
+            // Both ACT and SAT have a "Math" entry, so we need to do something to differentiate them.
+            if (heading.equals("Math")) {
+                if (getParent(entry).getAttribute("aria-label").contains("SAT")) {
+                    heading = "Math1";
+                }
+            }
+            softly().assertThat(value).as(heading).isEqualTo(expectedResults.get(heading));
+        }
+    }
+
+    public void verifyInstitutionHighlightsDrawerOptionsMaps(DataTable dataTable){
+        List<Map<String,String>> data = dataTable.asMaps(String.class,String.class);
+        Map<String,String> expectedResults = data.get(0);
+        for (WebElement entry : institutionHighlightsOptions()) {
+            String heading = entry.getText();
+            String value = entry.findElement(By.xpath("../following-sibling::td")).getText();
+            if (heading.equals("Profiles")) {
+                //Actions action = new Actions(driver);
+                //action.moveToElement(institutionHighlightsViewProfilesLink()).build().perform();
+                //for(int ii=0;ii<3;ii++){
+                //    institutionHighlightsViewProfilesLink().sendKeys(Keys.ARROW_DOWN);
+                //}
+                //waitForUITransition();
+                waitUntil(ExpectedConditions.elementToBeClickable(institutionHighlightsViewProfilesLink()));
+                //waitForElementTextToEqual(institutionHighlightsViewProfilesLink(), "View Profiles");
+                institutionHighlightsViewProfilesLink().click();
+                waitUntilPageFinishLoading();
+                Set<String> winHandles = driver.getWindowHandles();
+                String firstWinHandle = driver.getWindowHandle();
+                winHandles.remove(firstWinHandle);
+                String secondWinHandle=winHandles.iterator().next();
+                driver.switchTo().window(firstWinHandle);
+                driver.switchTo().window(secondWinHandle);
+                setImplicitWaitTimeout(10);
+                Assert.assertTrue("View Profiles link is not working.", universityOfAlabamaTextInSecondWin().isDisplayed());
+                driver.switchTo().window(firstWinHandle);
+            }
+            softly().assertThat(value).as(heading).isEqualTo(expectedResults.get(heading));
+        }
+    }
     // Locators Below
+    private WebElement universityOfAlabamaTextInSecondWin(){ return driver.findElement(By.xpath("//h1[contains(text(),'The University of Alabama')]")); }
+    private WebElement institutionHighlightsViewProfilesLink(){  return driver.findElement(By.xpath("//a[text()='View Profiles']")); }
+    private WebElement institutionHighlightsDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Institution Highlights']/.."));
+    }
+    private List<WebElement> institutionHighlightsOptions(){ return institutionHighlightsDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
+    private WebElement admissionInfoDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Admission Info']/.."));
+    }
+    private List<WebElement> admissionInfoOptions(){ return admissionInfoDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
     private WebElement institutionCharacteristicsDrawerTable() {
         return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Institution Characteristics']/.."));
     }
