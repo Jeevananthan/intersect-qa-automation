@@ -11,6 +11,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
@@ -28,6 +29,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
 #FOR FAIRS
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I cancel the college fairs created
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 
@@ -64,6 +66,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
@@ -88,22 +91,22 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
 #verify notification is not displayed
-    Then HS I verify the Notification is not displayed after "Confirm" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
+    Then HS I verify the Notification is not displayed after "Confirm" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>","<StartDate>"
 #FOR DECLINE
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     And HS I select "Decline" option for the Notification using "<user>","<heStartTime>","<institution>"
     Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<heStartTime>","<StartDate>"
     Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
 #verify notification is not displayed
-    Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
+    Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>","<StartDate>"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 #verify Notification is not displayed in other admin user with same school
 #FOR CONFIRM
     Given HS I am logged in to Intersect HS as user type "admin"
-    Then HS I verify the Notification is not displayed after "Confirm" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
+    Then HS I verify the Notification is not displayed after "Confirm" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>","<StartDate>"
 #FOR DECLINE
-    Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>"
+    Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>","<StartDate>"
     And HS I successfully sign out
 
     Examples:

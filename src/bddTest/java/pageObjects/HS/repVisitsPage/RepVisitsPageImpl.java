@@ -913,6 +913,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         verifyEnabledDates(date, day);}
     }
 
+    public String getSpecificDateForNotification(String addDays) {
+        String DATE_FORMAT_NOW = "EEEE, d MMMM yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
     public void accessOneLastStepSetupWizard(String visitAvailability) {
         loadSetupWizardPage();
         jsClick(visitAndFairsButton());
@@ -6039,16 +6049,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
-    public void verifyNotificationInRequestTab(String option,String user,String institution,String time){
+    public void verifyNotificationInRequestTab(String option,String user,String institution,String time,String date){
         waitUntilPageFinishLoading();
         getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(notificationAndTaskButton()));
         notificationAndTasks().click();
         waitUntilPageFinishLoading();
+        String startDate = getSpecificDateForNotification(date);
         if(option.equals("Decline")) {
-            Assert.assertTrue("Decline button is displayed with visit details", declineButton(user,institution).size() == 0);
+            Assert.assertTrue("Decline button is displayed with visit details", verifyDeclineButton(user,institution,startDate).size() == 0);
         }else if(option.equals("Confirm")) {
-            Assert.assertTrue("Confirm button is displayed with visit details", confirmButton(user,institution).size() == 0);
+            Assert.assertTrue("Confirm button is displayed with visit details", verifyConfirmButton(user,institution,startDate).size() == 0);
         }else {
             Assert.fail("Invalid option");
         }
@@ -10037,9 +10048,9 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement rescheduleDateButton(){return getDriver().findElement(By.cssSelector("button[class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']"));}
 
-    private List<WebElement> declineButton(String user,String institution){return getDriver().findElements(By.xpath("//div[contains(text(),'" + user + "')]/parent::div/parent::div/following-sibling::div/div/div/strong[contains(text(),'" + institution + "')]/parent::div/following-sibling::div/span[contains(text(),'" + StartTime + "')]/../../following-sibling::div/button/span[text()='Decline']"));}
+    private List<WebElement> verifyDeclineButton(String user,String institution,String date){return getDriver().findElements(By.xpath("//div[contains(text(),'"+user+"')]/parent::div/parent::div/following-sibling::div/div/div/strong[contains(text(),'"+institution+"')]/parent::div/following-sibling::div/span/span[text()='"+date+"']/parent::span[contains(text(),'"+StartTime+"')]/../../following-sibling::div/button/span[text()='Decline']"));}
 
-    private List<WebElement> confirmButton(String user,String institution){return getDriver().findElements(By.xpath("//div[contains(text(),'" + user + "')]/parent::div/parent::div/following-sibling::div/div/div/strong[contains(text(),'" + institution + "')]/parent::div/following-sibling::div/span[contains(text(),'" + StartTime + "')]/../../following-sibling::div/button/span[text()='Confirm']"));}
+    private List<WebElement> verifyConfirmButton(String user,String institution,String date){return getDriver().findElements(By.xpath("//div[contains(text(),'"+user+"')]/parent::div/parent::div/following-sibling::div/div/div/strong[contains(text(),'"+institution+"')]/parent::div/following-sibling::div/span/span[text()='"+date+"']/parent::span[contains(text(),'"+StartTime+"')]/../../following-sibling::div/button/span[text()='Confirm']"));}
 
     private By calendarDayButton(){return By.cssSelector("button[title='Day']");}
 
