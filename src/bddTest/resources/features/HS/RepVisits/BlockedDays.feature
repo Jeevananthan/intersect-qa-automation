@@ -30,7 +30,7 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
 
     Examples:
       |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School              |
-      |14         |21     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Int Qa High School 4|
+      |7        |11     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Int Qa High School 4|
 
 
 
