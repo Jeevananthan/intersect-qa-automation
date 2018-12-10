@@ -4602,6 +4602,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void removeTimeSlotsInRegularWeeklyHoursTab(String date, String time) {
+        if(getDay(date).equalsIgnoreCase("Sat")){
+            date = Integer.toString(Integer.parseInt(date)+2);
+        } else{
+            if(getDay(date).equalsIgnoreCase("Sun")) {
+                date =  Integer.toString(Integer.parseInt(date)+1);
+            }
+        }
         time = StartTime.toUpperCase();
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
@@ -8247,6 +8254,16 @@ public void cancelRgisteredCollegeFair(String fairName){
         }else {
             Assert.fail("Appointment is not displayed");
         }
+    }
+
+    public String getDay(String addDays){
+        String DATE_FORMAT_NOW = "EE";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDay = sdf.format(cal.getTime());
+        return currentDay;
     }
 
     public void verifyAppointmentInCalendar(String startTime,String university){
