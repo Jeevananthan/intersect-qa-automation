@@ -4435,10 +4435,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         calendar().click();
         waitUntilPageFinishLoading();
 
-//        driver.findElement(By.cssSelector("button[title= 'Forwards']")).click();
-//        waitUntilElementExists(driver.findElement(By.cssSelector("button[class= 'ui teal basic button _1I0GHfcjpniiDr2MOWxpxw']")));
-//        waitForUITransition();
-        driver.findElement(By.cssSelector("button[title= 'Forwards']")).click();
         while(!driver.findElement(By.xpath("//*[contains(text(), '" + FairName + "')]")).isDisplayed()){
             driver.findElement(By.cssSelector("button[title= 'Forwards']")).click();
         }
@@ -4483,7 +4479,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         if(!RSVPDate.equals("")) {
             String actualDate = driver.findElement(By.id("college-fair-rsvp-deadline")).getAttribute("value");
-            String fairDate = selectdate(4);
+            String fairDate = selectdate(Integer.parseInt(RSVPDate));
             waitUntilPageFinishLoading();
             Assert.assertTrue("Date is not Displayed.", actualDate.equals(fairDate));
         }
