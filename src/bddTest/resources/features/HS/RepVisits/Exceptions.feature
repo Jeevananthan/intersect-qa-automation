@@ -133,7 +133,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   Scenario Outline:As a high school user, I need to be able to view my Unscheduled availability
                     so that I can visually see the status of each appointment window.
 #precondition
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin"
     Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
@@ -162,7 +162,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   Scenario Outline:As a high school user, I need to be able to view my Blocked Days availability
                     so that I can visually see the status of each appointment window.
 #Blocked Days
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin"
     Then HS I clear the time slot for the particular day "<BlockedDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
@@ -194,7 +194,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   Scenario Outline:As a high school user, I need to be able to view my Max Appointments availability
                     so that I can visually see the status of each appointment window.
 #Max Appointments Met Day
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
@@ -207,7 +207,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<MaxhestartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<MaxstartTime>" and "<MaxEndTime>"
 
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin"
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "1" visits per day
     Then HS I go to the Exception tab to verify the visits using "Max visits met","<MaxhestartTime>","<StartDate>",""
     Then HS I verify the diagonal HashLines present in the Max Appointments Met date "<StartDate>","<back-ground color>"
@@ -216,15 +216,15 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HS I successfully sign out
 
     Examples:
-      |Day|StartDate|EndDate |School        |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|option |
-      |28 |28       |49      |Homeconnection|2           |10:21am     |10:21am       |12:59pm   |rgba(0, 0, 0, 0) | 1     |
+      |Day|StartDate|EndDate |School              |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|option |
+      |28 |28       |49      |Harrison High School|2           |10:21am     |10:21am       |12:59pm   |rgba(0, 0, 0, 0) | 1     |
 
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Partially Scheduled availability
                     so that I can visually see the status of each appointment window.
  #Partially Scheduled Day
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
@@ -242,7 +242,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<PartiallyhestartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<PartiallystartTime>" and "<PartiallyEndTime>"
 
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin"
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "5" visits per day
     Then HS I verify the Partially scheduled Appointments With Message "2 Appointments scheduled" in Exception subtab using "<StartDate>"
     Then HS I verify the light blue background color present in the Partially Scheduled availability using "<PartiallystartTime>","<StartDate>","<back-ground color>" in Exception Tab
@@ -251,15 +251,15 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HS I successfully sign out
 
     Examples:
-      |Day|StartDate|EndDate |School        |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     | option |
-      |28 |28       |49      |Homeconnection|5                 |10:59am           |11:29am             |12:59pm          |rgba(255, 255, 255, 1)| 1      |
+      |Day|StartDate|EndDate |School              |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     | option |
+      |28 |28       |49      |Harrison High School|5                 |10:59am           |11:29am             |12:59pm          |rgba(255, 255, 255, 1)| 1      |
 
 
   @MATCH-1581
   Scenario Outline:As a high school user, I need to be able to view my Fully Booked availability
                    so that I can visually see the status of each appointment window.
  #Fully Booked Day
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin"
     Then HS I clear the time slot for the particular day "<FullyBookedStartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<FullyBookedStartDate>" and "<FullyBookedEndDate>"
     And HS I verify the update button appears and I click update button
@@ -277,15 +277,15 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Then HE I select Visits to schedule the appointment for "<School>" using "<FullyBookedStartDate>" and "<FullyhestartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<FullystartTime>" and "<FullyEndTime>"
 
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin"
     Then HS I go to the Exception tab to verify the visits using "Fully booked","<FullyhestartTime>","<FullyBookedStartDate>",""
     Then HS I verify the diagonal HashLines present in the Fully booked date "<FullyBookedStartDate>","<back-ground color>"
     Then HS I remove the Time Slot created with "<FullyBookedStartDate>","<FullystartTime>" in Regular Weekly Hours Tab
     And HS I successfully sign out
 
     Examples:
-      |Day |School        |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color| option |
-      |21  |Homeconnection|2             |11:21am       |10:23am         |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) | 1      |
+      |Day |School              |FullyNumVisits|FullystartTime|FullyhestartTime|FullyEndTime|FullyBookedStartDate|FullyBookedEndDate|back-ground color| option |
+      |21  |Harrison High School|2             |11:21am       |10:23am         |12:59pm     |21                  |35                |rgba(0, 0, 0, 0) | 1      |
 
 
   @MATCH-2692
