@@ -1521,6 +1521,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void visitsSchedule(String school,String startDate,String time){
+        if(getDay(startDate).equalsIgnoreCase("Sat")){
+            startDate = Integer.toString(Integer.parseInt(startDate)+2);
+        } else{
+            if(getDay(startDate).equalsIgnoreCase("Sun")) {
+                startDate =  Integer.toString(Integer.parseInt(startDate)+1);
+            }
+        }
         waitUntil(ExpectedConditions.visibilityOf(visit()));
         visit().click();
         waitUntil(ExpectedConditions.visibilityOf(schoolInVisits(school)));
@@ -1596,6 +1603,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
+    }
+
+    public String getDay(String addDays){
+        String DATE_FORMAT_NOW = "EE";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDay = sdf.format(cal.getTime());
+        return currentDay;
     }
 
     public String getSpecificDate(int addDays, String format) {
@@ -1897,6 +1914,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyVisitDetailsInTravelPlan(String school,String date){
+        if(getDay(date).equalsIgnoreCase("Sat")){
+            date = Integer.toString(Integer.parseInt(date)+2);
+        } else{
+            if(getDay(date).equalsIgnoreCase("Sun")) {
+                date =  Integer.toString(Integer.parseInt(date)+1);
+            }
+        }
         navigateToRepVisitsSection("Travel Plan");
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));

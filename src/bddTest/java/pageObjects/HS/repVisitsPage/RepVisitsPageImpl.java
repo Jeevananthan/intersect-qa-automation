@@ -4673,6 +4673,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void removeTimeSlotsInRegularWeeklyHoursTab(String date, String time) {
+        if(getDay(date).equalsIgnoreCase("Sat")){
+            date = Integer.toString(Integer.parseInt(date)+2);
+        } else{
+            if(getDay(date).equalsIgnoreCase("Sun")) {
+                date =  Integer.toString(Integer.parseInt(date)+1);
+            }
+        }
         time = StartTime.toUpperCase();
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
@@ -4915,11 +4922,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(addVisitButton());
         addVisitButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Want a custom time? Add it manually']"),1));
-        try {
-            addVisitManually().click();
-            waitUntilElementExists(selectDateButton());
-        } catch (NoSuchElementException e) {
-            addVisitManually().click();
+        for (int i = 0; i < 5; i++) {
+            if (driver.findElements(By.cssSelector(selectDateButtonLocator)).size() == 0) {
+                addVisitManually().click();
+            }
         }
         waitUntilElementExists(selectDateButton());
         doubleClick( selectDateButton());
@@ -8320,6 +8326,16 @@ public void cancelRgisteredCollegeFair(String fairName){
         }
     }
 
+    public String getDay(String addDays){
+        String DATE_FORMAT_NOW = "EE";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDay = sdf.format(cal.getTime());
+        return currentDay;
+    }
+
     public void verifyAppointmentInCalendar(String startTime,String university){
         Assert.assertTrue("Appointment is not displayed", calendarAppointment(startTime,university).isDisplayed());
     }
@@ -10195,6 +10211,8 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private String timePill(String specificTime) { return "//td/button[text()='" + specificTime + "']"; }
 
+    private String selectDateButtonLocator = "button.ui.small.fluid.button._3VnqII6ynYglzDU1flY9rw";
+  
     private WebElement verifyCityAndStateInRequest(String city,String state,String institution){return getDriver().findElement(By.xpath("//div/span[contains(text(),'"+StartTime+"')]/parent::div/preceding-sibling::div[text()='"+city+","+state+"']/preceding-sibling::div/strong[text()='"+institution+"']"));}
 
     private WebElement cityAndStateInRequestTabforFairs(String city,String state,String institution){return getDriver().findElement(By.xpath("//div[text()='"+city+","+state+"']/preceding-sibling::div/strong[text()='"+institution+"']"));}
