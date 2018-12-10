@@ -4851,11 +4851,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(addVisitButton());
         addVisitButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Want a custom time? Add it manually']"),1));
-        try {
-            addVisitManually().click();
-            waitUntilElementExists(selectDateButton());
-        } catch (NoSuchElementException e) {
-            addVisitManually().click();
+        for (int i = 0; i < 5; i++) {
+            if (driver.findElements(By.cssSelector(selectDateButtonLocator)).size() == 0) {
+                addVisitManually().click();
+            }
         }
         waitUntilElementExists(selectDateButton());
         doubleClick( selectDateButton());
@@ -10140,4 +10139,6 @@ public void cancelRgisteredCollegeFair(String fairName){
     private String cancelFairAndNotifyCollegesButtonLocator = "//span[contains(text(), 'Cancel fair and notify colleges')]";
 
     private String timePill(String specificTime) { return "//td/button[text()='" + specificTime + "']"; }
+
+    private String selectDateButtonLocator = "button.ui.small.fluid.button._3VnqII6ynYglzDU1flY9rw";
 }
