@@ -15,13 +15,13 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I clean the visits created
     Then HS I clean the college fairs created
-    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I set the data to create the College Fair "<College Fair Name>","<Date>","<Start Time>","<End Time>","<RSVP Deadline>","<Cost>","<Max Number of Colleges>","<Number of Students Expected>","<ButtonToClick>"
     Then HS I Click on the "Close" button in the success page of the college fair
     And HS I verify the fairs are clickable "<College Fair Name>","<VerifyDateEdit>","<verifyStartTime>","<verifyEndTime>","<VerifyRSVPDateEdit>","<Cost>","<MaxNumberofColleges>","<NumberofStudentsExpected>"
     Then HS I clean the college fairs created
     Examples:
-      |College Fair Name |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
-      |Fair#778         |November 12 2017|0900AM    |1000AM  |April 16 2017 |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2017|Wednesday, Nov 15, 2017|09:00          |10:00        |
+      |College Fair Name |Date  |Start Time|End Time|RSVP Deadline |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit |VerifyRSVPDateEdit |verifyStartTime|verifyEndTime|
+      |Fair#778          |3     |0900AM    |1000AM  |2             |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |3              |2                  |09:00          |10:00        |
 
 
   @MATCH-2728
