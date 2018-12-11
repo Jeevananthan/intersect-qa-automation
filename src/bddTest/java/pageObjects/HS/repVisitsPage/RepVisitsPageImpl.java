@@ -4514,16 +4514,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyFairsAreClickable(String collegeFairName,String date,String startTime,String endTime,String RSVPDate,String cost,String maxNumberofColleges,String numberofStudentsExpected){
         getNavigationBar().goToRepVisits();
         calendar().click();
-        waitUntilPageFinishLoading();
-
-        while(!driver.findElement(By.xpath("//*[contains(text(), '" + FairName + "')]")).isDisplayed()){
-            driver.findElement(By.cssSelector("button[title= 'Forwards']")).click();
+        waitUntilElementExists(calendarsTitle());
+        List<WebElement> moreLinks = driver.findElements(calendarMoreLinks());
+        if (driver.findElements(By.xpath(fairInCalendarLocator(FairName))).size() == 0) {
+            if (moreLinks.size() > 0) {
+                for (WebElement moreLink : moreLinks) {
+                    moreLink.click();
+                    if (overlayHeader().getText().contains(day(date))) {
+                        if (driver.findElements(By.xpath(fairInCalendarLocator(FairName))).size() == 0) {
+                            driver.findElement(By.xpath(forwardDayButtonLocator)).click();
+                        } else {
+                            driver.findElement(By.xpath(fairInCalendarLocator(FairName))).click();
+                            break;
+                        }
+                    }
+                    calendarsTitle().click();
+                }
+            }
+        } else {
+            driver.findElement(By.xpath(fairInCalendarLocator(FairName))).click();
         }
-
-        new WebDriverWait(getDriver(), 60).until(presenceOfElementLocated(By.cssSelector("div[title^= '" + FairName +"']")));
-        driver.findElement(By.cssSelector("div[title^='" + FairName + "']")).click();
-        WebElement popup = new WebDriverWait(getDriver(), 60).until(presenceOfElementLocated(By.cssSelector("form[id='college-fair-form']")));
-        Assert.assertTrue("Tray was not displayed!", driver.findElement(By.cssSelector("form[id='college-fair-form']")).isDisplayed());
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(fairFormLocator), 0));
+        Assert.assertTrue("Tray was not displayed!", driver.findElement(By.cssSelector(fairFormLocator)).isDisplayed());
         Actions action = new Actions(driver);
         action.sendKeys(Keys.END).build().perform();
         textbox(By.id("college-fair-max-number-colleges")).sendKeys(Keys.PAGE_DOWN);
@@ -8930,9 +8942,11 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     private WebElement forwardDayButton()
     {
-        WebElement button=driver.findElement(By.xpath("//button[@title='Forwards']"));
+        WebElement button=driver.findElement(By.xpath(forwardDayButtonLocator));
         return button;
     }
+
+    private String forwardDayButtonLocator = "//button[@title='Forwards']";
 
     private WebElement backwardsDayButton()
     {
@@ -10241,4 +10255,10 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement showMoreButton(){
         return getDriver().findElement(By.xpath("//span[text()='Show More']"));
     }
+
+    private String fairInCalendarLocator(String fairName) {
+        return "//div[@class = 'rbc-event-content']//span[text() = '" + fairName + "']";
+    }
+
+    private String fairFormLocator = "form[id='college-fair-form']";
 }
