@@ -2730,7 +2730,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private void verifyAndClickShowMoreButton(String option,String time,String city,String state,String school){
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='"+school+"']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
         try{
             if(option.equals("Activity")){
                 if(cityAndStateInActivityTab(time, city, state, school).size()==0) {
@@ -2763,7 +2763,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     private void verifyAndClickShowMoreButtonforFairs(String option,String city,String state,String school) {
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='"+school+"']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
         try {
             if (option.equals("Request")) {
                 if (cityAndStateInRequestTabforFairs(city, state, school).size() == 0) {
