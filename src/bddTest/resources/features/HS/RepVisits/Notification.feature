@@ -68,7 +68,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
   @MATCH-2565
   Scenario Outline: As a Repvisits admin users, I want to view the all requests should be available for all Admin user until one of the user approves/denies the request.
 #precondition
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
@@ -92,11 +92,11 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
 #verify notification is displayed
 #verify Notification in other admin user with same school
-    Given HS I am logged in to Intersect HS as user type "admin"
+    Given HS I am logged in to Intersect HS as user type "HSadmin3"
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     And HS I successfully sign out
 #verify Notification in admin user
-    Given HS I am logged in to Intersect HS as user type "adminHS"
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
 #FOR CONFIRM
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
@@ -113,15 +113,15 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I successfully sign out
 #verify Notification is not displayed in other admin user with same school
 #FOR CONFIRM
-    Given HS I am logged in to Intersect HS as user type "admin"
+    Given HS I am logged in to Intersect HS as user type "HSadmin3"
     Then HS I verify the Notification is not displayed after "Confirm" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>","<StartDate>"
 #FOR DECLINE
     Then HS I verify the Notification is not displayed after "Decline" the visit in the Request Notification Tab for "<user>","<institution>","<heStartTime>","<StartDate>"
     And HS I successfully sign out
 
     Examples:
-      |Date  |Day|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime |Option                                              |School            |heStartTime|heTime |user    |institution              |option|
-      |7     |7  |10:56am  |12:11pm|3        |7        |49     |12:11pm   |No, I want to manually review all incoming requests.|Homeconnection    |10:56am    |10:56am|PurpleHE|The University of Alabama|1     |
+      |Date  |Day|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime |Option                                              |School                     |heStartTime|heTime |user    |institution              |option|
+      |7     |7  |10:56am  |12:11pm|3        |7        |49     |12:11pm   |No, I want to manually review all incoming requests.|Trimble County High School |10:56am    |10:56am|PurpleHE|The University of Alabama|1     |
 
   @MATCH-2093 @MATCH-2828
   Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab
@@ -323,7 +323,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 
-    Then HE I am logged in to Intersect HE as user type "publishing2"
+    Then HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #verify the City and State displayed in the HE Request Notification tab
@@ -343,7 +343,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Activity Tab for Fairs
     And HS I successfully sign out
 #Verify the City and State displayed in the HE Activity Activity Tab
-    Then HE I am logged in to Intersect HE as user type "publishing2"
+    Then HE I am logged in to Intersect HE as user type "publishing"
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<schoolForHE>" in the Activity Tab for Fairs
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
@@ -363,7 +363,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #FOR VISITS
 #Non-Naviance
 #precondition
-    Given HS I am logged in to Intersect HS as user type "admin"
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -390,7 +390,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavSchool>" in the Request Notification Tab
 
 #Verify the City and State displayed in the HS Request and Activity Notification Tab
-    Given HS I am logged in to Intersect HS as user type "admin"
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
     Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
@@ -409,8 +409,8 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavschoolForHE>" in the Activity Tab
 
     Examples:
-      |user    |institution              |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |heStartTime|heTime |Non-NavSchool |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE         |option|
-      |PurpleHE|The University of Alabama|14 |10:25am  |11:25pm |3        |14       |42      |11:25pm  |No, I want to manually review all incoming requests.|10:25am    |10:25am|Homeconnection|Tuscaloosa, AL           |Oak Harbor, Washington          |Homeconnection - Washington|1     |
+      |user    |institution              |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                                              |heStartTime|heTime |Non-NavSchool             |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE                   |option|
+      |PurpleHE|The University of Alabama|14 |10:25am  |11:25pm |3        |14       |42      |11:25pm  |No, I want to manually review all incoming requests.|10:25am    |10:25am|Trimble County High School|Tuscaloosa, AL           |Bedford, Kentucky               |Trimble County High School - Kentucky|1     |
 
   @MATCH-2168
   Scenario Outline: As a Non-Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page,
@@ -419,7 +419,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #FOR FAIRS
 #Non-Naviance
 #precondition
-    Given HS I am logged in to Intersect HS as user type "admin"
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
 #Create a Fair
     Then HS I cancel the college fairs created
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
@@ -436,7 +436,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavSchool>" in the Request Notification Tab for Fairs
 
 #Verify the City and State displayed in the HS Request and Activity Notification Tab
-    Given HS I am logged in to Intersect HS as user type "admin"
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
     Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Request Notification Tab for Fairs
     And HS I select "Confirm" option for the Notification using "<user>","<Date>","<fairStartTime>","<institution>" for Fairs
@@ -452,11 +452,11 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HE I am logged in to Intersect HE as user type "publishing"
     Then HE I verify the city and state "<cityAndStateofNon-NavianceSchool>" are present in the underneath of School Name "<Non-NavschoolForHE>" in the Activity Tab for Fairs
 
-    Given HS I am logged in to Intersect HS as user type "admin"
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     And HS I successfully sign out
 
     Examples:
-      |user    |institution              |fairStartTime|College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE         |
-      |PurpleHE|The University of Alabama|9:00am       |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Homeconnection|Tuscaloosa, AL           |Oak Harbor, Washington          |Homeconnection - Washington|
+      |user    |institution              |fairStartTime|College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool             |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE                   |
+      |PurpleHE|The University of Alabama|9:00am       |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Trimble County High School|Tuscaloosa, AL           |Bedford, Kentucky               |Trimble County High School - Kentucky|

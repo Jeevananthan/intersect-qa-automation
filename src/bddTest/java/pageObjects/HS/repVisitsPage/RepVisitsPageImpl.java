@@ -4113,6 +4113,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement Declinebutton=driver.findElement(By.xpath("//div[contains(text(),'"+user+"')]/parent::div/parent::div/following-sibling::div/div/div/strong[contains(text(),'"+university+"')]/parent::div/following-sibling::div/span[contains(text(),'"+StartTime+"')]/../../following-sibling::div/button/span[text()='Decline']"));
         if(option.equals("Confirm")) {
             jsClick(Confirmbutton);
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(requestTabCloseButton()));
+            jsClick(closeButtonInRequestTab());
+            waitForUITransition();
         }else if(option.equals("Decline")){
             jsClick(Declinebutton);
             while(!driver.findElement(By.xpath("//span[text()='Are you sure you want to decline?']")).isDisplayed()){
@@ -9648,9 +9651,14 @@ public void cancelRgisteredCollegeFair(String fairName){
     private WebElement cancelCollegeFairButton(){
         return button("Cancel This College Fair");
     }
-     private WebElement eventLocationInAddVisitPopup() {
-        WebElement location=driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
-        return location;
+    private WebElement eventLocationInAddVisitPopup() {
+        WebElement element = null;
+        if(getDriver().findElements(By.cssSelector("input[name='locationWithinSchool']")).size()==1) {
+            element = getDriver().findElement(By.cssSelector("input[name='locationWithinSchool']"));
+        }else if(getDriver().findElements(By.id("eventLocation")).size()==1){
+            element = getDriver().findElement(By.id("eventLocation"));
+        }
+        return element;
     }
     private WebElement editFairsStartTimeTextBox(){
         return getDriver().findElement(By.id("college-fair-start-time"));
@@ -10270,4 +10278,6 @@ public void cancelRgisteredCollegeFair(String fairName){
     private String fairFormLocator = "form[id='college-fair-form']";
   
     private By requestTabUserName(String user){return By.xpath("//div[contains(text(),'"+user+"')]");}
+
+    private By requestTabCloseButton(){return By.xpath("//span[text()='Close']");}
 }
