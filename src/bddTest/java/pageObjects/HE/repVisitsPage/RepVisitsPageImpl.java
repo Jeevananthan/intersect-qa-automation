@@ -965,7 +965,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
         navigateToRepVisitsSection("Travel Plan");
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' button is not displayed",getUpgradeButton().isDisplayed());
