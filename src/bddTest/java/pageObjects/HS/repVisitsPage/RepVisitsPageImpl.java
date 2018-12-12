@@ -7115,6 +7115,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         //Verification in Naviance side
         load(GetProperties.get("naviance.visits.url"));
         driver.navigate().refresh();
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText("view")));
         Assert.assertTrue("Attendee details are not displayed",attendeeDetailsInNaviance(attendee,startTime).size()==1);
         clickViewLink(attendee,startTime).click();
@@ -7367,6 +7368,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         addnewTimeSlotRefactoredForHS(date,startTime,endTime, numVisits);
         setStartandEndDates("0", "99");
         addNewVisit(date, startTime, attendee, location);
+        waitForUITransition();
     }
 
     /**
@@ -9485,6 +9487,7 @@ public void cancelRgisteredCollegeFair(String fairName){
         return text;
     }
     private WebElement notificationAndTasks(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Notifications & Tasks']")));
         WebElement notification=driver.findElement(By.xpath("//a[contains(@class, 'menu-link')]/span[text()='Notifications & Tasks']"));
         return  notification;
     }
