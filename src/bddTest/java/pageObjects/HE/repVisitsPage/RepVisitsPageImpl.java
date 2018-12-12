@@ -965,6 +965,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
     public void verifyUpgradeMessageInTravelPlanInRepVisits(){
         navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         waitUntilPageFinishLoading();
         Assert.assertTrue("'Premium Feature' text is not displayed",text("Premium Feature").isDisplayed());
         Assert.assertTrue("'UPGRADE' button is not displayed",getUpgradeButton().isDisplayed());
@@ -1530,7 +1531,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         waitUntil(ExpectedConditions.visibilityOf(visit()));
         visit().click();
-        waitUntil(ExpectedConditions.visibilityOf(schoolInVisits(school)));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(schoolInVisitsLocator(school)));
         Assert.assertTrue("school is not displayed",schoolInVisits(school).isDisplayed());
         waitUntil(ExpectedConditions.visibilityOf(goToDate()));
         String gotoDate;
@@ -1872,7 +1873,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String state = addressdetails[1];
         String county = addressdetails[2];
         String zip = addressdetails[3];
-        List<WebElement> countOfHighSchoolInSameState = getDriver().findElements(By.xpath("//h2[text()='"+stateName+"']"));
+        List<WebElement> countOfHighSchoolInSameState = getDriver().findElements(By.xpath("//h2[contains(text(),'"+stateName+"')]"));
         Assert.assertTrue("HighSchool count is not displayed",countOfHighSchoolInSameState.size()==1);
         Assert.assertTrue("HighSchool avatar image is not displayed",getDriver().findElement(By.xpath("//div/img[@class='ui centered image yUiNH8XB_uHGXhISF0aaL']")).isDisplayed());
         Assert.assertTrue("School is not displayed",getDriver().findElement(By.xpath("//h3[text()='"+school+"']")).isDisplayed());
@@ -1897,6 +1898,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifysortingStatesInTravelPlan(){
         navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         List<WebElement> elements = getDriver().findElements(By.xpath("//div[@class='ui stackable grid f4StyMpAtcTrzK5AccX8f']/div[1]/div/span"));
         List<String> original = new ArrayList<>();
         for(WebElement element:elements){
@@ -1943,6 +1945,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyFairDetailsInTravelPlan(String school,String date){
         navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         String fairDate = getSpecificDateforTravelPlan(date);
         WebElement fairDetails = getDriver().findElement(By.xpath("//h3[text()='"+school+"']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']//div[@class='content _1SfpP2fklL5GVWMyfqjq4q']//a/span/span[text()='College Fair,']/../../span[text()='"+fairDate+"']"));
         Assert.assertTrue("FairDetails is not displayed",fairDetails.isDisplayed());
@@ -2125,6 +2128,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyTravelPlanIsLocked(){
         navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         Assert.assertTrue("Travel Plan is not locked",text("Unlock Travel Plan").isDisplayed());
     }
      public void navigateToInstitutionNotificationPage(){
@@ -3448,6 +3452,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyViewButtonForTravelPlanSchools(String buttonText, String status, String appointmentsLabel){
         navigateToRepVisitsSection("Travel Plan");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         List<WebElement> schoolRow = getDriver().findElements(By.xpath(String.format(
                 "//span[text()='%s']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']",appointmentsLabel)));
         for(WebElement school:schoolRow){
@@ -3510,8 +3515,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public WebElement schoolInVisits(String school) {
-        WebElement schoolName=getDriver().findElement(By.xpath("//div/h3/a[text()='"+school+"']"));
-        return  schoolName;
+        return getDriver().findElement(schoolInVisitsLocator(school));
+    }
+
+    private By schoolInVisitsLocator(String school){
+        return By.xpath("//div/h3/a[text()='"+school+"']");
     }
 
     public WebElement avialabilityButton(String visitDate,String time){
