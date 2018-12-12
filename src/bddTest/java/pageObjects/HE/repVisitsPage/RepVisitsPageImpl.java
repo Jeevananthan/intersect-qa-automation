@@ -532,9 +532,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifySuccessMessageWithAutoApprovals() {
         waitUntil(ExpectedConditions.visibilityOf(upperMessage()));
+        String a = upperMessage().getText();
         Assert.assertTrue("The sucess message for fairs with Auto Approval enabled is not displayed",
-                upperMessage().getText().trim().equals("Fair registration confirmed! Your request has been automatically " +
-                        "confirmed by the high school."));
+                upperMessage().getText().trim().equalsIgnoreCase("Fair registration confirmed! Your request has been automatically confirmed by the high school."));
     }
 
     public void verifySuccessMessageWithoutAutoApprovals() {
@@ -3634,7 +3634,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement submitRequestButton() { return getDriver().findElement(By.xpath("//button[text()='Yes, Submit Request']")); }
     private WebElement cancelButton() { return getDriver().findElement(By.cssSelector("div.actions button.ui.button:not(.primary)")); }
     private WebElement fairsTab() { return getDriver().findElement(By.cssSelector("div.ui.fluid.buttons button:nth-of-type(2)")); }
-    private WebElement upperMessage() { return getDriver().findElement(By.cssSelector("span.LkKQEXqh0w8bxd1kyg0Mq + span")); }
+    private WebElement upperMessage() { return getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']")); }
     private WebElement rightCalendarRightButton() { return getDriver().findElement(By.cssSelector("button._2UEGkUTszONN0hK0CeHMm0")); }
     private WebElement rightCalendarHeaderDate() { return getDriver().findElement(By.cssSelector("h2.ui.medium.header")); }
     private WebElement rightCalendarLeftButton() { return getDriver().findElement(By.cssSelector("button[title=\"Backwards\"]")); }
