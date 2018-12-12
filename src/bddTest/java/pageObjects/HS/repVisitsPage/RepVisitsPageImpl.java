@@ -3540,69 +3540,82 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void cleanVisits() {
         getDriver().navigate().refresh();
         getNavigationBar().goToRepVisits();
-        try {
-            while (selectVisitInTheCalendar().isDisplayed()) {
-                waitUntilElementExists(selectVisitInTheCalendar());
-                selectVisitInTheCalendar().click();
+        waitUntilElementExists(calendarsTitle());
+        collegeFairConfirmedCheckbox().click();
+        cleanGroupedVisitsInCurrentMonth();
+        cleanNonGroupedVisitsInCalendar();
+        driver.findElement(By.xpath(forwardDayButtonLocator)).click();
+        cleanGroupedVisitsInCurrentMonth();
+        cleanNonGroupedVisitsInCalendar();
+    }
+
+    public void cleanNonGroupedVisitsInCalendar() {
+        while (driver.findElements(By.cssSelector(pillInCalendarLocator)).size() > 0) {
+            driver.findElements(By.cssSelector(pillInCalendarLocator)).get(0).click();
+            if (driver.findElements(By.xpath(noGoBackButtonLocator)).size() > 0) {
+                driver.findElements(By.xpath(noGoBackButtonLocator)).get(0).click();
+            }
+            for (int k = 0; k < 5; k++) {
                 button("Cancel This Visit").click();
+                if (driver.findElements(By.cssSelector(cancelMessageFieldLocator)).size() == 0) {
+                    button("Cancel This Visit").click();
+                } else {
+                    break;
+                }
+            }
+            getMessageRegardingCancellationTextBox().sendKeys("Cancel");
+            cancelVisitButton().click();
+            if (driver.findElements(By.xpath(failedToCancelMessageLocator)).size() > 0) {
+                driver.get(driver.getCurrentUrl());
+                waitUntilPageFinishLoading();
+                collegeFairConfirmedCheckbox().click();
+            } else {
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(visitFormLocator), 0));
+            }
+        }
+    }
+
+    public void cleanGroupedVisitsInCurrentMonth() {
+        List<WebElement> moreLinks = driver.findElements(calendarMoreLinks());
+        int numberOfMoreLinks = moreLinks.size();
+        WebElement moreLink;
+        for (int i = 0; i < numberOfMoreLinks; i++) {
+            moreLink = driver.findElements(calendarMoreLinks()).get(i);
+            waitUntilElementExists(moreLink);
+            moreLink.click();
+            WebElement visitInOverlay;
+            while (driver.findElements(By.cssSelector(pillInOverlayLocator)).size() > 1) {
+                visitInOverlay = driver.findElements(By.cssSelector(pillInOverlayLocator)).get(0);
+                visitInOverlay.click();
+                if (driver.findElements(By.xpath(noGoBackButtonLocator)).size() > 0) {
+                    driver.findElements(By.xpath(noGoBackButtonLocator)).get(0).click();
+                }
+                waitUntil(ExpectedConditions.elementToBeClickable(button("Cancel This Visit")));
+                for (int k = 0; k < 5; k++) {
+                    button("Cancel This Visit").click();
+                    if (driver.findElements(By.cssSelector(cancelMessageFieldLocator)).size() == 0) {
+                        button("Cancel This Visit").click();
+                    } else {
+                        break;
+                    }
+                }
                 getMessageRegardingCancellationTextBox().sendKeys("Cancel");
                 cancelVisitButton().click();
-                getDriver().navigate().refresh();
-                getNavigationBar().goToRepVisits();
-                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
-            }
-        } catch (WebDriverException e) {
-            getDriver().navigate().refresh();
-            getNavigationBar().goToRepVisits();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
-            forwardDayButton().click();
-
-            while(getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).size()>0 || getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")).size()>0) {
-                try {
-                    if (getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).size() > 0 || getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")).size() > 0) {
-                        if (getDriver().findElements(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']")).size() > 0) {
-                            while (selectVisitInTheCalendar().isDisplayed()) {
-                                getDriver().navigate().refresh();
-                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
-                                forwardDayButton().click();
-                                waitUntilElementExists(selectVisitInTheCalendar());
-                                selectVisitInTheCalendar().click();
-                                waitUntilElementExists(button("Cancel This Visit"));
-                                button("Cancel This Visit").click();
-                                getMessageRegardingCancellationTextBox().sendKeys("Cancel");
-                                cancelVisitButton().click();
-                                getDriver().navigate().refresh();
-                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
-                                forwardDayButton().click();
-                            }
-                        } else {
-
-                            while (getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")).isDisplayed()) {
-                                getDriver().navigate().refresh();
-                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
-                                forwardDayButton().click();
-                                waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")));
-                                getDriver().findElement(By.cssSelector("div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa XZ0UqyaSEgdlsPpTsR0zB']")).click();
-                                waitUntilElementExists(button("Cancel This Visit"));
-                                button("Cancel This Visit").click();
-                                getMessageRegardingCancellationTextBox().sendKeys("Cancel");
-                                cancelVisitButton().click();
-                                getDriver().navigate().refresh();
-                                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
-                                forwardDayButton().click();
-                            }
-
-                        }
+                if (driver.findElements(By.xpath(failedToCancelMessageLocator)).size() > 0) {
+                    driver.get(driver.getCurrentUrl());
+                    waitUntilPageFinishLoading();
+                    collegeFairConfirmedCheckbox().click();
+                    if(driver.findElements(calendarMoreLinks()).size() > 0) {
+                        driver.findElements(calendarMoreLinks()).get(i).click();
                     }
-                } catch (WebDriverException g) {
-                    getDriver().navigate().refresh();
-                    getNavigationBar().goToRepVisits();
-                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@title='Forwards']")));
-                    forwardDayButton().click();
+                } else {
+                    waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(visitFormLocator), 0));
+                    if(driver.findElements(calendarMoreLinks()).size() > 0) {
+                        driver.findElements(calendarMoreLinks()).get(i).click();
+                    }
                 }
             }
         }
-
     }
 
     public void setDateInCalendarAgenda(String startDate,String endDate,String agenda){
@@ -10233,7 +10246,7 @@ public void cancelRgisteredCollegeFair(String fairName){
   
     private List<WebElement> viewDetails(){return getDriver().findElements(By.xpath("//h2/span[text()='Upcoming Events']/parent::h2/following-sibling::table//span[text()='View Details']"));}
 
-    private String pillInCalendarLocator = "div[class='_2_SLvlPA02MerU8g5DX1vz _3rlrDh7zu7nSf8Azwwi_pa']";
+    private String pillInCalendarLocator = "div.rbc-event-content div";
 
     private String notesFieldLocator = "input[name='hsNotes']";
 
@@ -10280,4 +10293,16 @@ public void cancelRgisteredCollegeFair(String fairName){
     private By requestTabUserName(String user){return By.xpath("//div[contains(text(),'"+user+"')]");}
 
     private By requestTabCloseButton(){return By.xpath("//span[text()='Close']");}
+
+    private String failedToCancelMessageLocator = "//div[@class = 'ui red message']//span[text() = 'Failed to cancel the appointment.']";
+
+    private String noGoBackButtonLocator = "//button//span[text() = 'No, go back']";
+
+    private String cancelMessageFieldLocator = "textarea#repVisit-cancelation-message";
+
+    private String visitFormLocator = "div.pusher.dimmed._2W8TlpOgDDdSBCwym-4ZmD._1Sl5cBdXlfz2B_mV3fC2cp";
+
+    private String pillInOverlayLocator = "div.rbc-overlay div.rbc-event-content";
+
+    private WebElement collegeFairConfirmedCheckbox() { return driver.findElement(By.xpath("//label[text() = 'College Fair - Confirmed']")); }
 }
