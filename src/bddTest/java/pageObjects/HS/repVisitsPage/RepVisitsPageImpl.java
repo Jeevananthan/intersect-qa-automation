@@ -3545,6 +3545,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         cleanGroupedVisitsInCurrentMonth();
         cleanNonGroupedVisitsInCalendar();
         driver.findElement(By.xpath(forwardDayButtonLocator)).click();
+        driver.get(driver.getCurrentUrl());
+        collegeFairConfirmedCheckbox().click();
         cleanGroupedVisitsInCurrentMonth();
         cleanNonGroupedVisitsInCalendar();
     }
