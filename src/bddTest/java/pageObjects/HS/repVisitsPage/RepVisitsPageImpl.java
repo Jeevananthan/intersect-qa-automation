@@ -7271,8 +7271,8 @@ public void cancelRgisteredCollegeFair(String fairName){
         blockedDays().click();
         waitUntilPageFinishLoading();
         startDate = getSpecificDateFormat(startDate);
-        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span")));
+        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
         moveToElement(BlockedDate);
         jsClick(BlockedDate);
         waitUntilPageFinishLoading();

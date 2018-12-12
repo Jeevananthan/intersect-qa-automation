@@ -217,7 +217,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
     Examples:
       |Day|StartDate|EndDate |School              |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|option |
-      |28 |28       |49      |Harrison High School|2           |10:21am     |10:21am       |12:59pm   |rgba(0, 0, 0, 0) | 1     |
+      |14 |14       |21      |Harrison High School|2           |10:21am     |10:21am       |12:59pm   |rgba(0, 0, 0, 0) | 1     |
 
 
   @MATCH-1581
