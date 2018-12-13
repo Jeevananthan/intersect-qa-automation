@@ -4274,9 +4274,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement Declinebutton=driver.findElement(By.xpath("//div[contains(text(),'"+user+"')]/ancestor::div/following-sibling::div/div/div/strong[contains(text(),'"+university+"')]/parent::div/following-sibling::div/span/span[contains(text(),'"+fairsDate+"')]/parent::span[contains(text(),'"+fairsStartTime+"')]/../../following-sibling::div/button/span[text()='Decline']"));
         if(option.equals("Confirm")) {
             jsClick(Confirmbutton);
-            waitUntilPageFinishLoading();
-            getNavigationBar().goToRepVisits();
-            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(requestTabCloseButton()));
+            jsClick(closeButtonInRequestTab());
+            waitForUITransition();
         }else if(option.equals("Decline")){
             jsClick(Declinebutton);
             waitUntilPageFinishLoading();

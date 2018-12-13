@@ -2,7 +2,7 @@
 Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days for visit availability
 
 
-  @MATCH-2589
+  @issue@MATCH-2589@MATCH-5608
   Scenario Outline: In HS RepVisits, The Visit should not be displayed on the blocked days
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
