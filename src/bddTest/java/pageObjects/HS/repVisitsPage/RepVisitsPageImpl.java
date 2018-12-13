@@ -426,7 +426,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         availabilitySettings().click();
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOf(saveChangesAvailability()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(saveChangesAvailabilityLocator()));
         waitUntilElementExists(getDriver().findElement(By.cssSelector("button[class='ui primary button']")));
         waitUntilElementExists(getDriver().findElement(By.xpath("//label[text()='"+visitAvailability+"']")));
         getDriver().findElement(By.xpath("//label[text()='"+visitAvailability+"']")).click();
@@ -9742,7 +9742,10 @@ public void cancelRgisteredCollegeFair(String fairName){
         return getDriver().findElement(By.id("locationWithinSchool"));
     }
     private WebElement saveChangesNaviance() {return getDriver().findElement(By.xpath("//button/span[text()='Save changes']"));    }
-    private WebElement saveChangesAvailability() {return getDriver().findElement(By.xpath("//button/span[text()='Save Changes']"));    }
+    private By saveChangesAvailabilityLocator(){
+        return By.xpath("//button/span[text()='Save Changes']");
+    }
+    private WebElement saveChangesAvailability() {return getDriver().findElement(saveChangesAvailabilityLocator());    }
 
     private WebElement navianceSync(){
         return getDriver().findElement(By.xpath("//a/span[text()='Naviance Sync']"));
