@@ -416,6 +416,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         saveChangesAvailability().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(successMessage()));
     }
 
     public void accessVisitAvailability(String visitAvailability){
@@ -3770,7 +3771,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
         driver.findElement(By.xpath("//button[@class='ui primary right floated button']")).click();
-        button("Close").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Close']")));
+        fairCloseButton().click();
+        waitUntilPageFinishLoading();
     }
 
     public void unpublishCollegeFair() {
@@ -4913,6 +4916,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addVisitButtonInVisitSchedulePopup().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
     }
 
     public void verifyAppointmentsIncalendar(String date,String time,String institution){
@@ -10313,4 +10318,6 @@ public void cancelRgisteredCollegeFair(String fairName){
     private String pillInOverlayLocator = "div.rbc-overlay div.rbc-event-content";
 
     private WebElement collegeFairConfirmedCheckbox() { return driver.findElement(By.xpath("//label[text() = 'College Fair - Confirmed']")); }
+
+    private WebElement fairCloseButton(){return getDriver().findElement(By.xpath("//button[text()='Close']"));}
 }
