@@ -4393,8 +4393,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addContactManually(String date,String Time,String FName,String LName,String Email,String PhNo,String Position,String Institution) {
-        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
+        try {
+            fillVisitForm(date, Time, FName, LName, Email, PhNo, Position, Institution);
+        } catch (WebDriverException e) {
+            while (driver.findElements(By.xpath(errorsWithASubmissionMessageLocator)).size() > 0) {
+                cleanVisits();
+                fillVisitForm(date, Time, FName, LName, Email, PhNo, Position, Institution);
+                waitForUITransition();
+            }
+        }
+        waitForUITransition();
+    }
+
+    public void fillVisitForm(String date,String Time,String FName,String LName,String Email,String PhNo,String Position,String Institution) {
         calendar().click();
         waitUntilPageFinishLoading();
         waitUntilElementExists(addVisitButton());
@@ -4433,14 +4445,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         institutionTextBox().clear();
         institutionTextBox().sendKeys(Institution);
         waitUntilPageFinishLoading();
-        /*Eventually commented this steps cause causing an issue that will be isolated*/
-//        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[text()='"+Institution+"']"),1));
-//        driver.findElement(By.xpath("//div[text()='"+Institution+"']")).click();
         institutionTextBox().sendKeys(Keys.PAGE_DOWN);
         eventLocationInAddVisitPopup().sendKeys(Keys.PAGE_DOWN);
-        waitForUITransition();
         addVisitButtonInVisitSchedulePopup().click();
-        waitUntilPageFinishLoading();
         waitForUITransition();
     }
 
@@ -10318,6 +10325,8 @@ public void cancelRgisteredCollegeFair(String fairName){
     private String pillInOverlayLocator = "div.rbc-overlay div.rbc-event-content";
 
     private WebElement collegeFairConfirmedCheckbox() { return driver.findElement(By.xpath("//label[text() = 'College Fair - Confirmed']")); }
+    
+    private String errorsWithASubmissionMessageLocator = "//div[@class = 'ui red message']//span[text() = 'There were some errors with your submission']";
 
     private WebElement fairCloseButton(){return getDriver().findElement(By.xpath("//button[text()='Close']"));}
 }
