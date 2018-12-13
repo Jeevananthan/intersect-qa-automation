@@ -416,6 +416,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         saveChangesAvailability().click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(successMessage()));
     }
 
     public void accessVisitAvailability(String visitAvailability){
@@ -3770,7 +3771,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         scrollDown(driver.findElement(By.xpath("//button[@class='ui primary right floated button']")));
         driver.findElement(By.xpath("//button[@class='ui primary right floated button']")).click();
-        button("Close").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Close']")));
+        fairCloseButton().click();
+        waitUntilPageFinishLoading();
     }
 
     public void unpublishCollegeFair() {
@@ -4274,9 +4277,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement Declinebutton=driver.findElement(By.xpath("//div[contains(text(),'"+user+"')]/ancestor::div/following-sibling::div/div/div/strong[contains(text(),'"+university+"')]/parent::div/following-sibling::div/span/span[contains(text(),'"+fairsDate+"')]/parent::span[contains(text(),'"+fairsStartTime+"')]/../../following-sibling::div/button/span[text()='Decline']"));
         if(option.equals("Confirm")) {
             jsClick(Confirmbutton);
-            waitUntilPageFinishLoading();
-            getNavigationBar().goToRepVisits();
-            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(requestTabCloseButton()));
+            jsClick(closeButtonInRequestTab());
+            waitForUITransition();
         }else if(option.equals("Decline")){
             jsClick(Declinebutton);
             waitUntilPageFinishLoading();
@@ -4920,6 +4923,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addVisitButtonInVisitSchedulePopup().click();
         waitUntilPageFinishLoading();
         waitForUITransition();
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
     }
 
     public void verifyAppointmentsIncalendar(String date,String time,String institution){
@@ -7297,8 +7302,8 @@ public void cancelRgisteredCollegeFair(String fairName){
         blockedDays().click();
         waitUntilPageFinishLoading();
         startDate = getSpecificDateFormat(startDate);
-        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span")));
+        WebElement BlockedDate = driver.findElement(By.xpath("//table[@class='ui basic table']//tbody/tr/td/span[text()='"+startDate+"']/../following-sibling::td[@class='_1DmNQ0_pLQlqak2JJluwxn']/span"));
         moveToElement(BlockedDate);
         jsClick(BlockedDate);
         waitUntilPageFinishLoading();
@@ -10320,6 +10325,8 @@ public void cancelRgisteredCollegeFair(String fairName){
     private String pillInOverlayLocator = "div.rbc-overlay div.rbc-event-content";
 
     private WebElement collegeFairConfirmedCheckbox() { return driver.findElement(By.xpath("//label[text() = 'College Fair - Confirmed']")); }
-
+    
     private String errorsWithASubmissionMessageLocator = "//div[@class = 'ui red message']//span[text() = 'There were some errors with your submission']";
+
+    private WebElement fairCloseButton(){return getDriver().findElement(By.xpath("//button[text()='Close']"));}
 }
