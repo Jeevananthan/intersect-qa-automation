@@ -57,5 +57,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I verify all the below options available in Institution Highlights expandable drawer$", pinnedSchoolsComparePage::verifyInstitutionHighlightsDrawerOptionsMaps);
 
+        And("^SM I verify all the below options available in Location fit criteria in Location expandable drawer$", pinnedSchoolsComparePage::verifyLocationExpandableDrawerOptions);
+
     }
 }

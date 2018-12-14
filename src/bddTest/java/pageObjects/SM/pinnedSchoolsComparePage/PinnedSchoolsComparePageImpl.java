@@ -416,7 +416,24 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
             softly().assertThat(value).as(heading).isEqualTo(expectedResults.get(heading));
         }
     }
+
+    public void verifyLocationExpandableDrawerOptions(DataTable dataTable){
+        List<Map<String,String>> data = dataTable.asMaps(String.class, String.class);
+        Map<String,String> expectedResults = data.get(0);
+        // Iterate through all of the rows in the "Locations" table.
+        for (WebElement entry : locationOptions()){
+            String heading = entry.getText();
+            String value = entry.findElement(By.xpath("../following-sibling::td")).getText();
+            softly().assertThat(value).as(heading).isEqualTo(expectedResults.get(heading));
+        }
+    }
+
     // Locators Below
+    private WebElement locationDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Location']/.."));
+    }
+    private List<WebElement> locationOptions(){ return locationDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
     private WebElement universityOfAlabamaTextInSecondWin(){ return driver.findElement(By.xpath("//h1[contains(text(),'The University of Alabama')]")); }
     private WebElement institutionHighlightsViewProfilesLink(){  return driver.findElement(By.xpath("//a[text()='View Profiles']")); }
     private WebElement institutionHighlightsDrawerTable() {
