@@ -782,7 +782,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchBox().sendKeys(school);
         waitUntilElementExists(search());
         getSearchButton().click();
-        WebElement schoolName=getDriver().findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//td/h3/a[contains(text(),'"+school+"')]"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//a[contains(text(),'"+school+"')]")).isDisplayed());
         getDriver().findElement(By.xpath("//a[contains(text(),'"+school+"')]")).click();
