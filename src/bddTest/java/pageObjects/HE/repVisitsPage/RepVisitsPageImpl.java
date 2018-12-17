@@ -1547,7 +1547,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         setDate(gotoDate, "Go To Date");
         time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        waitUntil(ExpectedConditions.visibilityOf(avialabilityButton(visitDate,time)));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(availabilityButtonLocator(visitDate,time)));
         Assert.assertTrue("Availability is not displayed",avialabilityButton(visitDate,time).isDisplayed());
         avialabilityButton(visitDate,time).click();
         waitUntilPageFinishLoading();
@@ -3521,8 +3521,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return By.xpath("//div/h3/a[text()='"+school+"']");
     }
 
+    public By availabilityButtonLocator(String visitDate, String time){
+        return By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr[1]//td//div/button[text()='"+time+"']");
+    }
+
     public WebElement avialabilityButton(String visitDate,String time){
-        return getDriver().findElement(By.xpath("//span[text()='"+visitDate+"']/parent::th/ancestor::thead/following-sibling::tbody/tr[1]//td//div/button[text()='"+time+"']"));
+        return getDriver().findElement(availabilityButtonLocator(visitDate, time));
     }
 
     //Locators
