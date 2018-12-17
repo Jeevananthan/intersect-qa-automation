@@ -782,7 +782,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchBox().sendKeys(school);
         waitUntilElementExists(search());
         getSearchButton().click();
-        WebElement schoolName=getDriver().findElement(By.xpath("//td/a[contains(text(),'"+school+"')]"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//td//a[contains(text(),'"+school+"')]"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//a[contains(text(),'"+school+"')]")).isDisplayed());
         getDriver().findElement(By.xpath("//a[contains(text(),'"+school+"')]")).click();
@@ -3562,7 +3562,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getContactsBtn() {
-        return getDriver().findElement(By.xpath("//a[@class='menu-link']/span[text()='Contacts']"));
+        return getDriver().findElement(By.xpath("//div[contains(@class,'pusher dimmed-opacity')]//span[text()='Contacts']"));
     }
     private WebElement getRecommendationsBtn() {return link("Recommendations");}
     private WebElement getNotificationsBtn() {
@@ -3766,7 +3766,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return school;
     }
     private WebElement saveButton() {
-        WebElement button=getDriver().findElement(By.xpath("//button/span[text()='SAVE']"));
+        WebElement button=getDriver().findElement(By.xpath("//button/span[text()='Save']"));
         return button;
     }
     private WebElement yesButton() {
