@@ -5369,7 +5369,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             addRegularHoursButton().click();
             waitUntilPageFinishLoading();
         }else if(option.contains("2")){
-            addTimeSlot().click();
+            /*No sure about the below instruction but commented that it's working OK*/
+//            addTimeSlot().click();
+            ignoreTimeSlotOption().click();
             addRegularHoursButton().click();
 
         }else if(duplicateTimeSlot.size()==1){
@@ -6521,54 +6523,51 @@ public void cancelRgisteredCollegeFair(String fairName){
         calendar().click();
         waitUntilPageFinishLoading();
         getAddVisitButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(
-                ".//h1/span[text()='schedule new visit']"), 1));
-        Map<String, String> days = new HashMap<String, String>();
-        days.put("Mon", "0");
-        days.put("Tue", "1");
-        days.put("Wed", "2");
-        days.put("Thu", "3");
-        days.put("Fri", "4");
-        WebElement table = driver.findElement(By.xpath(".//tbody"));
-        List<WebElement> rows = table.findElements(By.xpath(".//tr"));
-        boolean timeSlotWasSelected = false;
-        for (WebElement row : rows) {
-            List<WebElement> timeSlots = row.findElements(By.xpath(".//td"));
-            if (!timeSlots.get(Integer.parseInt(days.get(day))).findElements(By.xpath(
-                    String.format(".//button[text()='%s']", time))).isEmpty()) {
-                timeSlots.get(Integer.parseInt(days.get(day))).click();
-                timeSlotWasSelected = true;
-                break;
-            }
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class$='_3GJIUrSQadO6hk9FZvH28D']")));
+        doubleClick( DateButton());
+        waitForUITransition();
+        setSpecificDate(day);
+        waitForUITransition();
+        int Date = Integer.parseInt(day);
+        time = StartTime.toUpperCase();;
+        day = getSpecificDate(Date,"EEE").toUpperCase();
+
+        int columnID = getColumnIdFromTableforManuallyAddVisit( "//table[@class='ui unstackable basic table']/thead",day );
+        int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table']//tbody", columnID, time);
+        if(columnID>= 0 && rowID>= 0) {
+            columnID = columnID + 1;
+            rowID = rowID + 1;
+            WebElement appointmentSlot = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table']//tbody//tr[" + rowID + "]//td[" + columnID + "]//button[text()='"+StartTime+"']"));
+            jsClick(appointmentSlot);
+            waitUntilPageFinishLoading();
+        }else{
+            Assert.fail("The Time Slot "+StartTime+"is not displayed in the Manually adding appointment page ");
         }
-        if (timeSlotWasSelected) {
-            Actions action = new Actions(getDriver());
-            action.sendKeys(Keys.PAGE_DOWN).build().perform();
-            waitForUITransition();
-            getAddRepresentativeManuallyLink().click();
-            getRepresentativeFirstNameTextBox().sendKeys(representativeFirstName);
-            action.sendKeys(Keys.PAGE_UP).build().perform();
-            getRepresentativeLastName().sendKeys(representativeLastName);
-            action.sendKeys(Keys.PAGE_DOWN).build().perform();
-            getRepresentativeInstitutionTextBox().sendKeys(representativeInstitution);
-            action.sendKeys(Keys.TAB).sendKeys(Keys.TAB).build().perform();
-            getEventLocationTextBox().sendKeys(location);
-            getMaxNumberOfStudentsTextBox().sendKeys(maxNumberOfStudents);
-            getRegistrationWillCloseTextBox().sendKeys(registrationWillClose.split(" ")[0]);
-            getRegistrationWillCloseDropDown().click();
-            getDriver().findElement(By.xpath(String.format(".//span[text()='%s']",
-                    registrationWillClose.split(" ")[1]))).click();
-            action.sendKeys(Keys.TAB).build().perform();
-            getInternalNotesLabel().click();
-            action.sendKeys(Keys.END).build().perform();
-            waitForUITransition();
-            getAddVisitCalendarAppointmentButton().click();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(
-                    By.xpath(".//form[@id='add-calendar-appointment']/div/button/span[text()='add visit']"), 0));
-        } else {
-            new AssertionFailedError(String.format("The time slot with day: %s and time: %s could not be selected"
-                    , day, time));
-        }
+        DateButton().sendKeys(Keys.PAGE_DOWN);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[text()='Not in the list? Add them manually']"),1));
+        Actions action = new Actions(getDriver());
+        action.sendKeys(Keys.PAGE_DOWN).build().perform();
+        waitForUITransition();
+        getAddRepresentativeManuallyLink().click();
+        getRepresentativeFirstNameTextBox().sendKeys(representativeFirstName);
+        action.sendKeys(Keys.PAGE_UP).build().perform();
+        getRepresentativeLastName().sendKeys(representativeLastName);
+        action.sendKeys(Keys.PAGE_DOWN).build().perform();
+        getRepresentativeInstitutionTextBox().sendKeys(representativeInstitution);
+        action.sendKeys(Keys.TAB).sendKeys(Keys.TAB).build().perform();
+        getEventLocationTextBox().sendKeys(location);
+        getMaxNumberOfStudentsTextBox().sendKeys(maxNumberOfStudents);
+        getRegistrationWillCloseTextBox().sendKeys(registrationWillClose.split(" ")[0]);
+        getRegistrationWillCloseDropDown().click();
+        getDriver().findElement(By.xpath(String.format(".//span[text()='%s']",
+                registrationWillClose.split(" ")[1]))).click();
+        action.sendKeys(Keys.TAB).build().perform();
+        institutionTextBox().sendKeys(Keys.PAGE_DOWN);
+        eventLocationInAddVisitPopup().sendKeys(Keys.PAGE_DOWN);
+        addVisitButtonInVisitSchedulePopup().click();
+        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//button[text()='Month']")));
     }
 
     /**
@@ -6578,10 +6577,18 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time of the time slot to be selected
      */
     public void verifyBlockThisTimeSlotButtonIsDisplayed (String day, String time){
+        int Date = Integer.parseInt(day);
         getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='previous week']")));
+        waitUntilElementExists(dateButton());
+        String Currentdate=getSpecificDate(day);
+        setDate(Currentdate,"other");
+        waitForUITransition();
+        day = getSpecificDate(Date,"EEE");
         selectTimeSlot(day,StartTime);
         Assert.assertTrue("Block this time slot button is not present", getBlockThisTimeSlotButton()
                 .isDisplayed());
@@ -6595,6 +6602,7 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param day,  string with the day to find a slot time, it could be: MON, TUE, WED, THU, FRI
      */
     public void selectTimeSlot (String day, String time){
+        time = StartTime;
         button(By.xpath(String.format(".//table[.//caption/span ='%s']//button[text()='%s']", day, time)))
                 .click();
     }
@@ -6606,10 +6614,19 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time of the time slot to be selected
      */
     public void verifyBlockThisTimeSlotToolTipIsDisplayed (String day, String time){
+        time = StartTime;
+        int Date = Integer.parseInt(day);
         getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='previous week']")));
+        waitUntilElementExists(dateButton());
+        String Currentdate=getSpecificDate(day);
+        setDate(Currentdate,"other");
+        waitForUITransition();
+        day = getSpecificDate(Date,"EEE");
         selectTimeSlot(day, time);
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getWhatDoesThisMeanLabel()).build().perform();
@@ -6625,6 +6642,9 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time, the time of the time slot to block
      */
     public void blockTimeSlot (String day, String time){
+        time = StartTime;
+        int Date = Integer.parseInt(day);
+        day = getSpecificDate(Date,"EEE");
         selectTimeSlot(day, time);
         getBlockThisTimeSlotButton().click();
         waitForUITransition();
@@ -6637,10 +6657,19 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time of the time slot to be selected
      */
     public void verifyUnblockThisTimeSlotButtonIsDisplayed (String day, String time){
+        time = StartTime;
+        int Date = Integer.parseInt(day);
         getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='previous week']")));
+        waitUntilElementExists(dateButton());
+        String Currentdate=getSpecificDate(day);
+        setDate(Currentdate,"other");
+        waitForUITransition();
+        day = getSpecificDate(Date,"EEE");
         selectTimeSlot(day, time);
         Assert.assertTrue("Unblock this time slot button is not present", getUnblockThisTimeSlotButton()
                 .isDisplayed());
@@ -6652,10 +6681,19 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time, the time of the slot to check the blocked label
      */
     public void verifyBlockedLabelIsDisplayedInTimeSlot (String day, String time){
+        time = StartTime;
+        int Date = Integer.parseInt(day);
         getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='previous week']")));
+        waitUntilElementExists(dateButton());
+        String Currentdate=getSpecificDate(day);
+        setDate(Currentdate,"other");
+        waitForUITransition();
+        day = getSpecificDate(Date,"EEE");
         Assert.assertTrue(String.format("The blocked label is not dosplayed in the time slot with day: %s and time: %s"
                 , day, time), getDriver().findElement(By.xpath(String.format(
                 ".//table[.//caption/span ='%s']//button[text()='%s']/preceding-sibling::span[text()='Blocked']"
@@ -6669,11 +6707,13 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time, the time of the slot time to try to set the appointment, 2:30PM
      */
     public void verifyNewVisitCannotBeSet (String day, String time){
+        time = StartTime;
+        int Date = Integer.parseInt(day);
+        day = getSpecificDate(Date,"EEE");
         getNavigationBar().goToRepVisits();
         calendar().click();
         getAddVisitButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(
-                ".//h1/span[text()='schedule new visit']"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class$='_3GJIUrSQadO6hk9FZvH28D']")));
         WebElement table = driver.findElement(By.xpath(".//tbody"));
         List<WebElement> rows = table.findElements(By.xpath(".//tr"));
         for (WebElement row : rows) {
@@ -6699,10 +6739,18 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time, the time of the time slot to unblock
      */
     public void unblockTimeSlot (String day, String time){
+        int Date = Integer.parseInt(day);
         getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='previous week']")));
+        waitUntilElementExists(dateButton());
+        String Currentdate=getSpecificDate(day);
+        setDate(Currentdate,"other");
+        waitForUITransition();
+        day = getSpecificDate(Date,"EEE");
         selectTimeSlot(day, time);
         getUnblockThisTimeSlotButton().click();
         waitForUITransition();
@@ -6715,10 +6763,18 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param time of the time slot to be verified
      */
     public void verifyBlockedLabelIsNotDisplayedInTimeSlot (String day, String time){
+        int Date = Integer.parseInt(day);
         getNavigationBar().goToRepVisits();
         availabilityAndSettings().click();
         availability().click();
         exception().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='previous week']")));
+        waitUntilElementExists(dateButton());
+        String Currentdate=getSpecificDate(day);
+        setDate(Currentdate,"other");
+        waitForUITransition();
+        day = getSpecificDate(Date,"EEE");
         try {
             (new WebDriverWait(getDriver(), 3)).until(presenceOfElementLocated(By.xpath(String.format(
                             ".//table[.//caption/span ='%s']//button[text()='%s']/preceding-sibling::span[text()='Blocked']"
@@ -6737,6 +6793,8 @@ public void cancelRgisteredCollegeFair(String fairName){
      * @param numberOfVisits, the expected number of visits for the given time slot
      */
     public void verifyNumberOfVisits (String day, String time, String numberOfVisits){
+        int Date = Integer.parseInt(day);
+        day = getSpecificDate(Date,"EEE");
         selectTimeSlot(day, time);
         String actualNumberOfVisits = getNumberOfVisitsTextBox().getAttribute("value");
         Assert.assertEquals("The number of visits are not equal, actual: " + actualNumberOfVisits + ", expected: " +
@@ -9415,7 +9473,7 @@ public void cancelRgisteredCollegeFair(String fairName){
 
     }
     private WebElement clicklinkDays(){
-        waitUntilElementExists(getDriver().findElement(By.cssSelector("button[class='ui button GFr3D5C_jMOwFFfwEoOXq _1aOzhO0fbLlfLnEsVWQZCQ']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class='ui button GFr3D5C_jMOwFFfwEoOXq _1aOzhO0fbLlfLnEsVWQZCQ']")));
         return getDriver().findElement(By.cssSelector("button[class='ui button GFr3D5C_jMOwFFfwEoOXq _1aOzhO0fbLlfLnEsVWQZCQ']"));
 
     }
