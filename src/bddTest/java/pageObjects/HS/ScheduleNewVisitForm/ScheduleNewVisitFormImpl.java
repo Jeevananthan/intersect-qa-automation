@@ -5,9 +5,11 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HS.RescheduleVisitForm.RescheduleVisitFormImpl;
 
 import java.io.File;
 import java.util.Calendar;
@@ -21,6 +23,7 @@ public class ScheduleNewVisitFormImpl extends PageObjectFacadeImpl {
     public ScheduleNewVisitFormImpl() {
         logger = Logger.getLogger(pageObjects.HE.loginPage.LoginPageImpl.class);
     }
+    private RescheduleVisitFormImpl rescheduleVisitForm = new RescheduleVisitFormImpl();
 
     public void verifyInputValidationsInScheduleNewVisit(DataTable dataTable) {
         List<List<String>> details = dataTable.asLists(String.class);
@@ -93,8 +96,13 @@ public class ScheduleNewVisitFormImpl extends PageObjectFacadeImpl {
     }
 
     public void openRescheduleVisitForm() {
-        waitUntil(ExpectedConditions.elementToBeClickable(rescheduleButton()));
+        waitUntilElementExists(rescheduleButton());
         rescheduleButton().click();
+        try {
+            rescheduleVisitForm.customTimeLink().isDisplayed();
+        } catch (NoSuchElementException e) {
+            rescheduleButton().click();
+        }
     }
 
     //Locators

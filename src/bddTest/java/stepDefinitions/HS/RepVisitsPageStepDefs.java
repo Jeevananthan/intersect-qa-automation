@@ -237,6 +237,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I clean the college fairs created$", repVisits::cleanCollegeFair);
 
+        And("^HS I clean the visits created$", repVisits::cleanVisits);
+
         Then("^HS I Click on the \"([^\"]*)\" button in the College Fair Details Page$",repVisits::accessCollegeFairDetailsPage);
 
         And("^HS I set the following data to On the College Fair page \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$", repVisits::accessCreateCollegeFair);
@@ -648,7 +650,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
-        Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
+        Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
 
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
@@ -737,5 +739,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I complete the setupWizard$",repVisits::completeTheSetupWizard);
 
         Then("^HS I create a new visit to verify the details in naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::createVisitForNaviance);
+
+        And("^HS I cancel the college fairs created$", repVisits::cancelCollegeFairs);
     }
 }

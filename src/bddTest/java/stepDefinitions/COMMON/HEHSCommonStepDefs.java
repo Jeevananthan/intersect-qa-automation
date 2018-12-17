@@ -25,6 +25,9 @@ public class HEHSCommonStepDefs implements En {
         Then("^HE I pick the \"([^\"]*)\" from the menu items$", HEHSCommonImpl::pickFromTHeMenuItems);
         Then("^I  wait for the success message \"([^\"]*)\"$",HEHSCommonImpl :: waitForSuccessMessage);
         Then("^I submit button \"([^\"]*)\"$",HEHSCommonImpl::submitButton);
+        Then("^I click on close icon$", HEHSCommonImpl::clickOnCloseIcon);
+        Then("^I scroll to \"([^\"]*)\"$", HEHSCommonImpl::scrollTo);
+        Then("^I switch to the newly opened window$", HEHSCommonImpl::switchToNewWindow);
 
     }
 }

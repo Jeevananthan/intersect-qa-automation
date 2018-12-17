@@ -155,4 +155,14 @@ Feature: SM - Location - Location - As a HS student, I need to be able to search
     And SM I unselect the "Large City" checkbox from the "Location" fit criteria
     And SM I unselect the "Small City" checkbox from the "Location" fit criteria
 
-
+  @MATCH-3708
+  Scenario: As a HS student that is comparing my pinned schools, I want to see Location details about each college
+  side by side so I can determine which pinned college is a best fit for me based on their Location.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "The University of Alabama" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify all the below options available in Location fit criteria in Location expandable drawer
+      | Location | Region    | Campus Surroundings |
+      | Alabama  | Southeast | Small City          |
