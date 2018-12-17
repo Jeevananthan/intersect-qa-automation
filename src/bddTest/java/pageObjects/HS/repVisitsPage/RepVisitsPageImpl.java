@@ -5369,7 +5369,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             addRegularHoursButton().click();
             waitUntilPageFinishLoading();
         }else if(option.contains("2")){
-            addTimeSlot().click();
+            /*No sure about the below instruction but commented that it's working OK*/
+//            addTimeSlot().click();
+            ignoreTimeSlotOption().click();
             addRegularHoursButton().click();
 
         }else if(duplicateTimeSlot.size()==1){

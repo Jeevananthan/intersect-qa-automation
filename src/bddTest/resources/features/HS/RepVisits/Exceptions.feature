@@ -397,5 +397,5 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
     Examples:
       |Day |StartTime|EndTime|NumVisits|StartDate|EndDate|StartDateException|option |
-      |0   |10:55am  |12:11pm|2        |1        |14     |6                 |1      |
-      |1   |10:56am  |12:12pm|2        |1        |18     |7                 |2      |
+      |0   |10:55am  |12:11pm|2        |1        |7    |6                 |1      |
+      |1   |10:56am  |12:12pm|2        |1        |9     |7                 |2      |
