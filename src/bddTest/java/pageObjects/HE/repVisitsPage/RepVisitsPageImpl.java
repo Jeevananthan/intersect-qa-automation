@@ -2489,7 +2489,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         cancelMessageTextBox().sendKeys(Keys.PAGE_DOWN);
         cancelMessageTextBox().sendKeys("by QA");
         visitCancelButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(getSuccessMessage()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successmessage()));
     }
 
     public String getSpecificDateforCalendar(String addDays) {
@@ -4250,7 +4250,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             startTime = "00"+":"+hour[1];
         return startTime;
     }
-    private By getSuccessMessage(){return By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div"); }
     private By cancelVisitButton(){return By.xpath("//button/span[text()='Cancel This Visit']");}
     private WebElement cancelThisVisitButton(){return getDriver().findElement( By.xpath("//button/span[text()='Cancel This Visit']"));}
     private WebElement visitCancelButton(){return button("Yes, Cancel Visit");}
@@ -4361,7 +4360,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement appointmentSlot(String time,String school){return getDriver().findElement(By.xpath("//span[text()='"+time+"']/preceding-sibling::span[text()='"+school+"']"));}
   
     private By successMessage(){
-        return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']>span");
+        return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']");
     }
     private List<WebElement> negativeMessage(){
         return getDriver().findElements(By.cssSelector("div[class='ui negative message']>div>span"));
@@ -4417,6 +4416,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement verifySchoolInFreemium(String school){return getDriver().findElement(By.xpath("//div[text()='"+school+"']"));}
 
     private WebElement circularIconCloseButton(){  return getDriver().findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")); }
+
+    private By successmessage(){return By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div"); }
 }
 
 
