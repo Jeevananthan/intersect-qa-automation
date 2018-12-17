@@ -88,6 +88,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void selectStaffMember(String staffMember){
         jsClick(selectStaffMemberDropdown());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(userSelectStaffMemberLocator(staffMember)));
         jsClick(userInSelectStaffMember(staffMember));
     }
 
@@ -259,7 +260,8 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     }
 
     private List<WebElement> currentUserList(String currentUser){return driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));}
-    private WebElement userInSelectStaffMember(String selectUser){return driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+selectUser+"']"));}
+    public By userSelectStaffMemberLocator(String selectUser){return By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+selectUser+"']");}
+    private WebElement userInSelectStaffMember(String selectUser){return driver.findElement(userSelectStaffMemberLocator(selectUser));}
     private WebElement excludedUser(String user){return driver.findElement(By.xpath("//div[text()= '" + user + "']"));}
     private WebElement userInNewAssignee(String newAssignee){return driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+newAssignee+"']"));}
     private WebElement selectFairsAppointment(String fairsDate,String school,String noOfStudents){return driver.findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
