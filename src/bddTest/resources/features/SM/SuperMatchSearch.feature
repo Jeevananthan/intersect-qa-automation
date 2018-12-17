@@ -972,7 +972,6 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
     Then SM I pin "Adrian College" from the search box
-    Then SM I pin "Washington State University" from the search box
     Then SM I pin "The University of Alabama" from the search box
     And SM I select the "Small City" checkbox from "Location" fit criteria
     Then SM I verify that "Highlights" in column number 1 for college "Adrian College" contains the following data:
@@ -995,7 +994,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then I scroll to "No Highlights Available"
     Then HE I click the link "Photos/Videos on Profile"
     And I switch to the newly opened window
-    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/c807fe11-e088-48df-a712-43fef7f7d55a/Overview" finish loading
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/d5b6754a-f8aa-49e5-8e8c-d3f7ad001830/Overview" finish loading
     Then I close the current window
     And I switch to the newly opened window
     Then HE I click the link "Profiles"
