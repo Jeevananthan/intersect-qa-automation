@@ -428,7 +428,52 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyPinnedCollege(DataTable table){
+        List<String> list = table.asList(String.class);
+        Assert.assertTrue("College image is not displaying.", grayBox().findElement(By.tagName("img")).isDisplayed());
+        for (String itemDetail : list) {
+            switch (itemDetail){
+                case "FAVORITE" :
+                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath("//span[text()='"+itemDetail+"']")).isDisplayed());
+                    break;
+                case "The University of Alabama" :
+                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath(".//p[text()='"+itemDetail+"']")).isDisplayed());
+                    break;
+                case "this.is.yet.another.testing6,14:02" :
+                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath(".//a[text()='"+itemDetail+"']")).isDisplayed());
+                    break;
+                case "PINNED" :
+                    Assert.assertTrue(itemDetail+" text is not displaying.", onlyOnePinnedCollege(itemDetail).isDisplayed());
+                    driver.findElement(By.tagName("button")).sendKeys(Keys.PAGE_DOWN);
+                    waitForElementTextToEqual(onlyOnePinnedCollege(itemDetail), "PINNED");
+                    onlyOnePinnedCollege(itemDetail).click();
+                    Assert.assertTrue("Un-Pinning is not working in Compare Pinned College page.", grayBox().findElements(By.xpath(".//span[text()='"+itemDetail+"']")).size()<=0);
+                    break;
+            }
+        }
+    }
+
+    public void verifyPinnedCollegesFunctionality(){
+        String actualDisableArrow = leftArrowInComparePage().getAttribute("class");
+        String expectedDisableArrow = "ui teal basic icon disabled button";
+        softly().assertThat(actualDisableArrow).as("Left arrow is not disable.").isEqualTo(expectedDisableArrow);
+
+        String actualEnableArrow = rightArrowInComparePage().getAttribute("class");
+        String expectedEnableArrow = "ui teal basic icon button";
+        softly().assertThat(actualEnableArrow).as("Left arrow is not disable.").isEqualTo(expectedEnableArrow);
+
+        rightArrowInComparePage().click();
+        String actualDisplayBarText = numberOfCollegeDisplayBar().getText();
+        String expectedDisplayBarText = "Viewing 5 - 5 of 5";
+        Assert.assertTrue("Fifth pinned college display bar ie "+expectedDisplayBarText+" is not displaying.", actualDisplayBarText.equals(expectedDisplayBarText));
+    }
+
     // Locators Below
+    private WebElement numberOfCollegeDisplayBar(){ return driver.findElement(By.xpath("//strong[text()='Viewing 5 - 5 of 5']"));}
+    private WebElement rightArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Next Items']"));}
+    private WebElement leftArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Prior Items']"));}
+    private WebElement grayBox() { return driver.findElement(By.className("supermatch-compare-data-header"));}
+    private WebElement onlyOnePinnedCollege(String itemDetail){ return grayBox().findElement(By.xpath(".//span[text()='"+itemDetail+"']"));}
     private WebElement locationDrawerTable() {
         return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Location']/.."));
     }
