@@ -14,7 +14,7 @@ Feature: As an HE user, I need to understand my Connection and Advansed Awarenes
       | Audience           |
       | Competitors        |
       | Majors             |
-      | Connection         |
+      | Connection HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engaged to upgrade my subscription to Advanced Awareness        |
       | Academic Threshold |
     Examples:
       | URL                         |

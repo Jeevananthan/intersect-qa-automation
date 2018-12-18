@@ -152,7 +152,8 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
         waitForUITransition();
         FCCollegeEventsPage.hostedByTextBox.sendKeys(collegeName);
-        waitForUITransition();
+         waitUntilPageFinishLoading();//added this instead of  waitForUITransition
+        //waitForUITransition();
     }
 
     public void clickCollegeEventsDetails() {
