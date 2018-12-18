@@ -28,6 +28,8 @@ public class HEHSCommonStepDefs implements En {
         Then("^I click on close icon$", HEHSCommonImpl::clickOnCloseIcon);
         Then("^I scroll to \"([^\"]*)\"$", HEHSCommonImpl::scrollTo);
         Then("^I switch to the newly opened window$", HEHSCommonImpl::switchToNewWindow);
+        Then("^I close the current window$", HEHSCommonImpl::closeCurrentWindow);
+        And("^I wait for the url \"([^\"]*)\" finish loading$",HEHSCommonImpl::waitForLoading);
 
     }
 }
