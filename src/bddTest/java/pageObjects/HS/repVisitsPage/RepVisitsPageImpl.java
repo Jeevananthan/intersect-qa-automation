@@ -928,6 +928,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         while (completeWizardActiveStep().size() == 0) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             nextButton().click();
+            waitForUITransition();
             waitUntilPageFinishLoading();
         }
         Assert.assertTrue("Complete page is not displayed", visitAvailabilityText().isDisplayed());
@@ -1230,9 +1231,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         loadSetupWizardPage();
         doubleClick(visitsAndFairsRadioButton());
         while (calendarSyncActiveInSetupWizard().size()==0) {
-            waitUntilPageFinishLoading();
-            waitForUITransition();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             nextButton().click();
+            waitForUITransition();
             waitUntilPageFinishLoading();
         }
 
