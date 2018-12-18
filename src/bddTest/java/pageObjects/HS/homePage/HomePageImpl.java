@@ -163,43 +163,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void verifyYearInNaviancePage(String account, String username, String password){
-        String currentYear = getCurrentYear();
-        textbox(By.name("hsid")).sendKeys(account);
-        textbox(By.name("username")).sendKeys(username);
-        textbox(By.name("password")).sendKeys(password);
-        button("Log In").click();
-
-        try {
-            link(By.xpath("//li/a[@title='Counselor Community']")).click();
-        } catch (Exception e) {
-            if (getDriver().findElement(By.id("announcement-overlay")).isDisplayed()) {
-                //We have to jsclick the close button... because the close button is behind the overlay...
-                jsClick(getDriver().findElement(By.name("continue-button")));
-                link(By.xpath("//li/a[@title='Counselor Community']")).click();
-            } else {
-                throw e;
-            }
-        }
-
-        waitUntilPageFinishLoading();
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//td[contains(text(),'Copyright © "+currentYear+", Hobsons Inc.')]")).isDisplayed());
-    }
     public void verifyYearInRepVisitsPage(){
         String currentYear = getCurrentYear();
-        String navianceWindow = driver.getWindowHandle();
-        String intersectWindow = null;
-        link(By.cssSelector("[title='Counselor Community']")).click();
-        Set<String> windows = driver.getWindowHandles();
-        for (String thisWindow : windows) {
-            if (!thisWindow.equals(navianceWindow)){
-                intersectWindow = thisWindow;
-            }
-        }
-        driver.close();
-        driver.switchTo().window(intersectWindow);
-        waitUntilPageFinishLoading();
-        new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.id("app")));
         Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
     }
     public String getCurrentYear(){
