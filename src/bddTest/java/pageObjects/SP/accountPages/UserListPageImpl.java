@@ -355,9 +355,9 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(emailBody).as("Seven day expiration reminder").contains("Note, this password will expire in seven days. Contact your Intersect Administrator or");
     }
 
-    public void checkImpersonatedWindow(){
+    public void checkImpersonatedWindow(String expWinCount){
         int winCount = driver.getWindowHandles().size();
-        softly().assertThat(2).as("TotalWindowCount").isEqualTo(winCount);
+        softly().assertThat(Integer.parseInt(expWinCount)).as("TotalWindowCount").isEqualTo(winCount);
     }
 
     public void checkImpersonationAccountSettings(String option){
