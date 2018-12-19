@@ -380,7 +380,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
 
     //Locators
 
-    private List accountSettingOptionInHomePage(){return driver.findElements(By.xpath("//h2[text()='Your settings']"));}
+    private List accountSettingOptionInHomePage(){return driver.findElements(By.xpath("//h2[@id='account-settings']"));}
     private WebElement userDropDown(){ return driver.findElement(By.id("user-dropdown"));}
     private List accountSettingOptionInUserDD(String option){return driver.findElements(By.xpath("//span[text()='"+option+"']"));}
     private WebElement saveButtonInCreateUser(){
