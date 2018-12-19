@@ -116,6 +116,33 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
         saveButton().click();
     }
 
+    public void cleanAllMajorsMessages() {
+        List<WebElement> majorsMessagesFields = driver.findElements(By.xpath(majorsMessagesFieldsLocator));
+        for (WebElement majorMessageField : majorsMessagesFields) {
+            if (majorMessageField.getText().length() > 0) {
+                majorMessageField.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+                majorMessageField.sendKeys(Keys.BACK_SPACE);
+            }
+        }
+        saveButton().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void setMajorsMessages(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        for (List<String> row : details) {
+            majorMessageField(row.get(0)).sendKeys(row.get(1));
+        }
+    }
+
+    public void verifyStringInCard(String searchedString, String collegeName) {
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("div.ui.card"), 0));
+        List<WebElement> majorsInCard = driver.findElements(By.xpath(majorsInCardLocator(collegeName)));
+        Assert.assertTrue("The string: " + searchedString + " was not found in the card.",
+                majorsInCard.get(majorsInCard.size() - 1).getText().contains(searchedString));
+    }
+
     //locators
 
     private WebElement configureSub(String clickConfigure){
@@ -161,4 +188,11 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     private WebElement saveButton(){
         return getDriver().findElement(By.xpath("//button[@class='ui primary button'] | //button[@class='ui teal primary button']"));
     }
+
+    private String majorsMessagesFieldsLocator = "//textarea[contains(@id, 'message')]";
+
+    private WebElement majorMessageField(String majorName) { return driver.findElement(By.xpath("//label[text() = '" + majorName + "']/..//textarea")); }
+
+    private String majorsInCardLocator(String collegeName) { return "//div[@id = 'activematch-app']/div[1]//a[text() = " +
+            "'" + collegeName + "']/../../..//div[@class = 'item custom-bulleted-list']/a"; }
 }
