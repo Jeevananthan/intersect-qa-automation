@@ -117,13 +117,6 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           And HE I verify that the new fingerprint detected alert box is not displayed
           And HE I verify the text "Last Fingerprint Confirmed" is displayed
           And HE I verify the text "c0:4a:58:71:41:f8:44:75:94:7e:2c:a1:d8:9f:f0:b7" is displayed
-          Then HE I verify that when clicking on the title link I am redirected to the main page
-          When HE I disable the server fingerprint verification
-          And HE I enable the server fingerprint verification
-          And HE I select the Disable Server Fingerprint Verification link
-          Then HE I verify that the success toast that says "Configuration saved successfully" is displayed
-          And HE I verify that the server fingerprint verification is disabled
-          And HE I verify that the new fingerprint detected alert box is not displayed
           When SP I am logged in to the Admin page as a Support user
           And SP I select "The University of Alabama" from the institution dashboard
           And SP I go to the log history page
