@@ -367,7 +367,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         String secondWinHandle=winHandles.iterator().next();
         driver.switchTo().window(firstWinHandle);
         driver.switchTo().window(secondWinHandle);
-        softly().assertThat(accountSettingOptionInHomePage().size()).as("Account Setting Option is visible in Home Page").isEqualTo(0);
+        softly().assertThat(accountSettingOptionInHomePageForNonNaviance().size()).as("Account Setting Option is visible in Home Page").isEqualTo(0);
         userDropDown().click();
         softly().assertThat(accountSettingOptionInUserDD(option).size()).as("Account Setting Option is visible in User DropDown").isEqualTo(0);
     }
@@ -380,7 +380,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
 
     //Locators
 
-    private List accountSettingOptionInHomePage(){return driver.findElements(By.xpath("//h2[@id='account-settings']"));}
+    private List accountSettingOptionInHomePageForNonNaviance(){return driver.findElements(By.xpath("//h2[text()='Your settings']"));}
     private WebElement userDropDown(){ return driver.findElement(By.id("user-dropdown"));}
     private List accountSettingOptionInUserDD(String option){return driver.findElements(By.xpath("//span[text()='"+option+"']"));}
     private WebElement saveButtonInCreateUser(){
