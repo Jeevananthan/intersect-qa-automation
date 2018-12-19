@@ -33,6 +33,8 @@ public class UserListPageStepDefs implements En  {
 
         And("^SP I check the \"([^\"]*)\" option will be hidden for impersonation$",userListPage::checkImpersonationAccountSettings);
 
+        And("^SP I use \"([^\"]*)\" feature for login as \"([^\"]*)\"$",userListPage::loginAsWithNonNavianceUser);
+
     }
 
 }

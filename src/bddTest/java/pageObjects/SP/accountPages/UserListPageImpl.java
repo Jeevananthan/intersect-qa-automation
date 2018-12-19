@@ -372,6 +372,11 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(accountSettingOptionInUserDD(option).size()).as("Account Setting Option is visible in User DropDown").isEqualTo(0);
     }
 
+    public void loginAsWithNonNavianceUser(String feature, String user){
+        String username = GetProperties.get("hs."+ user + ".username");
+        setUserStatus(feature, username);
+    }
+
 
     //Locators
 

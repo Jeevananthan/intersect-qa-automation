@@ -132,8 +132,10 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
   nonNaviance HS users in order to troubleshot technical issues and tickets submitted to Hobsons Support.
     When SP I am logged in to the Admin page as a Support user
     And SP I go to the users list for "HS" user, institution "Homeconnection" from the institution dashboard
-    And SP I "Login As" the user account for "purpleheautomation+admin@gmail.com"
+    //And SP I "Login As" the user account for "purpleheautomation+admin@gmail.com"
+    And SP I use "Login As" feature for login as "adminHS"
     And SP I check the impersonated window
-    And SP I "Login As" the user account for "purplehsautomations@gmail.com"
+    //And SP I "Login As" the user account for "purplehsautomations@gmail.com"
+    And SP I use "Login As" feature for login as "admin"
     And SP I check the impersonated window
     And SP I check the "Account Settings" option will be hidden for impersonation
