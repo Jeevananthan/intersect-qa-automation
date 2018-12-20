@@ -27,7 +27,6 @@ Feature: AMNG - AM NextGen Connector
     #Create Majors Messages
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "advanced-awareness/majors" url
-    And HE I clean all the majors messages
     And HE I set messages for the following majors:
       | African-American/Black Studies              | Message 1 |
       | American/United States Studies/Civilization | Message 2 |

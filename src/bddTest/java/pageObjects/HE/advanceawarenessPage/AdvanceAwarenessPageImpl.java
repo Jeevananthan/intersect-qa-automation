@@ -135,7 +135,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     public void setMajorsMessages(DataTable dataTable) {
         List<List<String>> details = dataTable.asLists(String.class);
         for (List<String> row : details) {
-            majorMessageField(row.get(0)).sendKeys(row.get(1));
+            majorMessageField(row.get(0)).sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT,Keys.END), row.get(1));
         }
     }
 
