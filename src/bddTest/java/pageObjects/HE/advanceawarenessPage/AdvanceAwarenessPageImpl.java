@@ -114,24 +114,28 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     public void clickOnSaveButton(){
         waitUntil(ExpectedConditions.visibilityOf(saveButton()));
         saveButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(majorsSavedConfirmationMessageLocator), 0));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(majorsSavedConfirmationMessageLocator), 0));
     }
 
     public void cleanAllMajorsMessages() {
+        waitUntilPageFinishLoading();
         List<WebElement> majorsMessagesFields = driver.findElements(By.xpath(majorsMessagesFieldsLocator));
         for (WebElement majorMessageField : majorsMessagesFields) {
-            if (majorMessageField.getText().length() > 0) {
+            while (majorMessageField.getText().length() > 0) {
                 majorMessageField.sendKeys(Keys.chord(Keys.CONTROL, "a"));
                 majorMessageField.sendKeys(Keys.BACK_SPACE);
             }
         }
         saveButton().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(majorsSavedConfirmationMessageLocator), 0));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(majorsSavedConfirmationMessageLocator), 0));
     }
 
     public void setMajorsMessages(DataTable dataTable) {
         List<List<String>> details = dataTable.asLists(String.class);
         for (List<String> row : details) {
-            majorMessageField(row.get(0)).sendKeys(row.get(1));
+            majorMessageField(row.get(0)).sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT,Keys.END), row.get(1));
         }
     }
 
@@ -195,4 +199,6 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
 
     private String majorsInCardLocator(String collegeName) { return "//div[@id = 'activematch-app']/div[1]//a[text() = " +
             "'" + collegeName + "']/../../..//div[@class = 'item custom-bulleted-list']/a"; }
+
+    private String majorsSavedConfirmationMessageLocator = "//span[text() = 'Major messages have been successfully updated.']";
 }
