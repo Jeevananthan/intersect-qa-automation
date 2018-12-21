@@ -123,7 +123,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           And SP I select "The University of Alabama" from the institution dashboard
           And SP I go to the log history page
           Then SP I verify that it is displayed an entry with action "PurpleHE Automation Edited AMExportConfig" and the following keys
-            |serverFingerprintEnabled:|serverFingerprintMismatch:|
+            |confirmedServerFingerprint:|
 
         @MATCH-4875
         Scenario:
