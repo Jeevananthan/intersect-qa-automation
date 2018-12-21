@@ -111,6 +111,8 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           And HE I verify that the new fingerprint detected alert box has the text "Confirm with your administrator that this is your server's fingerprint:"
           And HE I verify that the new fingerprint detected alert box has the text "c0:4a:58:71:41:f8:44:75:94:7e:2c:a1:d8:9f:f0:b7"
           And HE I verify that the new fingerprint detected alert box has the text "If your server uses load balancing, consider disabling Server Fingerprint Verification. If you suspect malicious activity, consider editing or deleting this configuration."
+          And HE I go to the Main Sftp Connection page
+          And HE I go to the Set Edit Connection page
           When HE I select the Yes, Fingerprint is Correct link
           Then HE I verify that the success toast that says "Configuration saved successfully" is displayed
           And HE I verify that the server fingerprint verification is enabled
@@ -121,7 +123,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           And SP I select "The University of Alabama" from the institution dashboard
           And SP I go to the log history page
           Then SP I verify that it is displayed an entry with action "PurpleHE Automation Edited AMExportConfig" and the following keys
-            |serverFingerprintEnabled:|serverFingerprintMismatch:|
+            |confirmedServerFingerprint:|
 
         @MATCH-4875
         Scenario:
