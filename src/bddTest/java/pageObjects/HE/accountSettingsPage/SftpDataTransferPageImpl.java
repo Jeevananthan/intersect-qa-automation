@@ -37,6 +37,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
             goToEditConnectionPage();
             deleteThisConfigurationLink().click();
             waitUntil(ExpectedConditions.visibilityOf(deleteSftpConfigurationButton()));
+            waitUntil(ExpectedConditions.elementToBeClickable(deleteSftpConfigurationButton()));
             deleteSftpConfigurationButton().click();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupConnectionButtonLocator()));
         }
