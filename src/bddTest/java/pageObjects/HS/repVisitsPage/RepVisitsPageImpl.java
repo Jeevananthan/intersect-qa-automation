@@ -636,13 +636,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setStartAndEndDates(String startDate, String endDate) {
-        if(getDay(startDate).equalsIgnoreCase("Sat")){
-            startDate = Integer.toString(Integer.parseInt(startDate)+2);
-        } else{
-            if(getDay(startDate).equalsIgnoreCase("Sun")) {
-                startDate =  Integer.toString(Integer.parseInt(startDate)+1);
-            }
-        }
         setDefaultDateforStartAndEndDate();
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
