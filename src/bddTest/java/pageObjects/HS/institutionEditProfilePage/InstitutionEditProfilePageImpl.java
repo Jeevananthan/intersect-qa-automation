@@ -109,9 +109,15 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         switch (action) {
             case "Cancel":
                 cancelButton().click();
+                communityFrame();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("block-cp-og-tools-cp-og-institution-banner")));
+                driver.switchTo().defaultContent();
                 break;
             case "Save":
                 saveChanges().click();
+                communityFrame();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("block-cp-og-tools-cp-og-institution-banner")));
+                driver.switchTo().defaultContent();
                 break;
         }
         waitUntilPageFinishLoading();

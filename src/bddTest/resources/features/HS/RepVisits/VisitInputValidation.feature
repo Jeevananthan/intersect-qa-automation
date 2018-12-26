@@ -12,7 +12,7 @@ Feature: HS - RepVisits - CollegeVisits - As an HS user, I want my inputs to be 
     | Custom Time     | Start Time/End Time  | qwerty |
     | Representative          | First Name/Last Name | 30.char.name |
     | Representative          | Institution | 120.char.text |
-    And HS I successfully sign out
+
 
   @MATCH-3600
   Scenario: As a HS RepVisits user I want my inputs to be validated in the Naviance Settings form

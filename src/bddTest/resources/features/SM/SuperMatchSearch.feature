@@ -674,6 +674,26 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     | institutions with a fit score of |
     | Not all fields are required. Remember to only fill out the criteria that is most important to you. |
 
+  @MATCH-3440
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Institution Characteristics
+  details about each college in my results table so I can quickly see high level information about the college.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Prairie View A & M University" if it is not pinned already
+    And SM I pick "Institution Characteristics" in the editable column number 1
+    Then SM I verify that "Institution Characteristics" in column number 1 for college "Prairie View A & M University" contains the following data:
+      | Average Class Size | 32 |
+      | Undergrad Size     | 6925 Students |
+      | Job Placement Rate | 55%           |
+      | Graduation Rate    | 9%            |
+      | Retention Rate     | 66%           |
+      | Historically Black |               |
+
   @MATCH-3436
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Admission Info details about each
   college in my results table so I can quickly see information about the college's admission process.
@@ -687,8 +707,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I pin "Prairie View A & M University" if it is not pinned already
     And SM I pick "Admission Info" in the editable column number 1
     Then SM I verify that "Admission info" in column number 1 for college "Prairie View A & M University" contains the following data:
-    | Acceptance Rate 85% |
-    | App Fee $40         |
+      | Acceptance Rate 85% |
+      | App Fee $40         |
 
   @MATCH-3344
   Scenario: As a HS student, I want to filter colleges I am searching for by Student Body Size within the Institution
@@ -733,6 +753,25 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I select the "Small City" checkbox from the "Location" fit criteria
     And SM I verify that the Must Have box contains "Location [14]"
     And SM I verify that the Must Have box contains "Campus Surroundings [2]"
+
+  @MATCH-3438
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Student Life details about each
+  college in my results table so I can quickly see information about the college's social offerings.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Prairie View A & M University" if it is not pinned already
+    And SM I pick "Student Life" in the editable column number 1
+    Then SM I verify that "Student Life" in column number 1 for college "Prairie View A & M University" contains the following data:
+    | Greek Life |
+    | 22 Student Clubs |
+    | Offers Study Abroad |
+    | Offers Internships/Co-ops |
+    | Offers ROTC\n(Army, Navy, Air Force) |
 
   @MATCH-3777
   Scenario: Certain fit criteria are too wordy/long when they display in the Must Have or Nice to Have box. We need to
@@ -923,3 +962,42 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
      And SM I move "Williams College" to the "right" in Compare Pinned Schools page
      And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
      And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
+
+
+  @MATCH-3441
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Highlights details about each
+    college in my results table so I can quickly see additional information about the college.
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    Then SM I pin "Adrian College" from the search box
+    Then SM I pin "The University of Alabama" from the search box
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    Then SM I verify that "Highlights" in column number 1 for college "Adrian College" contains the following data:
+    |Upcoming College Visits|
+    |Upcoming College Events|
+    Then SM I verify that "Highlights" in column number 1 for college "Washington State University" contains the following data:
+      |Photos/Videos on Profile|
+    Then SM I verify that "Highlights" in column number 1 for college "The University of Alabama" contains the following data:
+      |Profiles|
+    Then HE I click the link "Upcoming College Visits"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/fb6f5eeb-6ab7-4e31-9165-583562aa2f8c/Overview#visits" finish loading
+    Then I close the current window
+    And I switch to the newly opened window
+    Then HE I click the link "Upcoming College Events"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/fb6f5eeb-6ab7-4e31-9165-583562aa2f8c/Overview#events" finish loading
+    Then I close the current window
+    And I switch to the newly opened window
+    Then I scroll to "No Highlights Available"
+    Then HE I click the link "Photos/Videos on Profile"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/d5b6754a-f8aa-49e5-8e8c-d3f7ad001830/Overview" finish loading
+    Then I close the current window
+    And I switch to the newly opened window
+    Then HE I click the link "Profiles"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/d5b6754a-f8aa-49e5-8e8c-d3f7ad001830/Profiles" finish loading
+    Then I close the current window

@@ -54,7 +54,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         List<WebElement> userList = getUsers();
         Assert.assertTrue("User is not displayed",currentUserList(currentUser).size()>0);
         Assert.assertTrue("Users are not displayed",userList.size()>0);
-        jsClick(buttonGoBack());
+        buttonGoBack().click();
         waitUntilPageFinishLoading();
     }
 
@@ -89,6 +89,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void selectStaffMember(String staffMember){
         jsClick(selectStaffMemberDropdown());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(userSelectStaffMemberLocator(staffMember)));
         jsClick(userInSelectStaffMember(staffMember));
     }
 
@@ -156,7 +157,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     public void verifyErrorMessageInSelectNewAssignee(String errorMessage,String staffMember){
         goToReassignAppointment();
         reAssignAppointmentsButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(errorText(errorMessage)));
+        //waitUntil(ExpectedConditions.visibilityOfElementLocated(errorText(errorMessage)));
         selectStaffMemberDropdown().click();
         jsClick(selectStaff(staffMember));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
@@ -170,7 +171,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     public void verifyErrrorMessageForNoAppointmentsSelected(String errorMessage,String staffMember,String newAssignee){
         goToReassignAppointment();
         reAssignAppointmentsButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(errorText(errorMessage)));
+        //waitUntil(ExpectedConditions.visibilityOfElementLocated(errorText(errorMessage)));
         selectStaffMemberDropdown().click();
         jsClick(selectStaff(staffMember));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
@@ -416,7 +417,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement selectStaffMemberDropdown(){ return getDriver().findElement(By.xpath("//div[text()='Select staff member']")); }
     private WebElement selectNewAssigneeDropdown(){ return getDriver().findElement(By.xpath("//div[text()='Select new assignee']")); }
     private WebElement getCalendarBtn() { return link("Calendar"); }
-    private WebElement buttonShowMore(){ return button("SHOW MORE"); }
+    private WebElement buttonShowMore(){ return getDriver().findElement(By.xpath("//button[@class='ui button _38tHkPjAB57rn7zhwYCnge']/span")); }
     private WebElement buttonGoBack(){ return  button("GO BACK"); }
     private WebElement agendaIsDisplayed(){ return getDriver().findElement(By.cssSelector("div[class='_2gJHeLgeouIqly4xt-Bv2C']")); }
     private By reAssignAppointmentsText(){ return By.xpath("//div/span[text()='Re-assign Appointments']"); }

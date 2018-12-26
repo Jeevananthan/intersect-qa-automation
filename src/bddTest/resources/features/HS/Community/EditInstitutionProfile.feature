@@ -4,7 +4,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-811 @MATCH-814 @MATCH-815 @MATCH-1561
   Scenario: As an authorized HS User, I need to be able to update my contact information in the purple community.
   So I should be able to change my address, phone, fax, and website URL.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the CONTACT INFORMATION FIELDS exist
@@ -12,9 +12,9 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     And HS I enter the following CONTACT data on the Institution Profile page and click "Save"
       | Address     | 3480 DIXIE HWY    |
       | City        | Erlanger          |
-      | State       | Kentucky        |
+      | State       | Kentucky          |
       | Zip         | 41018             |
-      | County      | Kenton     |
+      | County      | Kenton            |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
@@ -26,17 +26,17 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       | City        | Erlanger          |
       | State       | Kentucky          |
       | Zip         | 41018             |
-      | County      | Kenton     |
+      | County      | Kenton            |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
       | Website URL | www.DIXIEHIGH.com |
     Then HS I re-enter original data and click "Save"
-      | Address     | 6840 LAKOTA LN   |
-      | City        | LIBERTY TOWNSHIP |
-      | State       | Ohio             |
-      | Zip         | 45044            |
-      | County      | BUTLER COUNTY    |
+      | Address     | 2621 McMenemy St |
+      | City        | Little Canada    |
+      | State       | Minnesota        |
+      | Zip         | 55117            |
+      | County      | Ramsey           |
       | Country     | United States    |
       | Phone       | 360.555.1212     |
       | Fax         | 360.123.4567     |
@@ -53,7 +53,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     Then HS I make sure the ENROLLMENT INFORMATION FIELDS exist
       | Male | Female | Nonbinary | Asian or Asian/Pacific Islander | American Indian/Alaska Native | Hawaiian Native/Pacific Islander | Hispanic or Latino | Black/African American | White | Two or More Races | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Title I Status |
     And HS I enter the following ENROLLMENT data on the Institution Profile page and click "Save"
-      | Male                             | 600                                 |
+      | Male                             | 499                                 |
       | Female                           | 600                                 |
       | Nonbinary                        | 600                                 |
       | Asian or Asian/Pacific Islander  | 600                                 |
@@ -82,7 +82,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
-      | Male                             | 600                                 |
+      | Male                             | 499                                 |
       | Female                           | 600                                 |
       | Nonbinary                        | 600                                 |
       | Asian or Asian/Pacific Islander  | 600                                 |
