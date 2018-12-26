@@ -636,6 +636,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setStartAndEndDates(String startDate, String endDate) {
+        if(getDay(startDate).equalsIgnoreCase("Sat")){
+            startDate = Integer.toString(Integer.parseInt(startDate)+2);
+        } else{
+            if(getDay(startDate).equalsIgnoreCase("Sun")) {
+                startDate =  Integer.toString(Integer.parseInt(startDate)+1);
+            }
+        }
         setDefaultDateforStartAndEndDate();
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
@@ -4741,21 +4748,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         int Date = Integer.parseInt(date);
         String Day = getSpecificDate(Date,"EEE").toUpperCase();
-        int columnID = getColumnIdFromTable( "//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']/thead",Day );
-        int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody", columnID, time);
+        removeSlotTimeByDayAndTime(Day,time);
+        //int columnID = getColumnIdFromTable( "//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']/thead",Day );
+        //int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody", columnID, time);
 
-        if(columnID>= 0 && rowID>= 0) {
-            columnID = columnID + 1;
-            rowID = rowID + 1;
-            //Remove Time slot
-            WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash alternate outline icon _26AZia1UzBMUnJh9vMujjF']"));
-            jsClick(removeIcon);
-            waitUntilPageFinishLoading();
-            acceptButton().click();
-            waitUntilPageFinishLoading();
-        }else{
-            Assert.fail("The Time Slot "+time+"is not displayed in the Regular weekly hours ");
-        }
+        //if(columnID>= 0 && rowID>= 0) {
+        //    columnID = columnID + 1;
+        //    rowID = rowID + 1;
+        //    //Remove Time slot
+        //    WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash alternate outline icon _26AZia1UzBMUnJh9vMujjF']"));
+        //    jsClick(removeIcon);
+        //    waitUntilPageFinishLoading();
+        //    acceptButton().click();
+        //    waitUntilPageFinishLoading();
+        //}else{
+        //    Assert.fail("The Time Slot "+time+"is not displayed in the Regular weekly hours ");
+        //}
     }
 
     public void removeTimeSlotsInExceptionsTab(String date, String time) {
@@ -4782,28 +4790,31 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availabilityAndSettings().click();
         availability().click();
         driver.findElement(By.partialLinkText("REGULAR WEEKLY HOURS")).click();
-        boolean slotWasDeleted = false;
-        Map<String, String> days = new HashMap<String, String>();
-        days.put("Mon", "0");
-        days.put("Tue", "1");
-        days.put("Wed", "2");
-        days.put("Thu", "3");
-        days.put("Fri", "4");
-        WebElement table = driver.findElement(By.xpath(".//tbody"));
-        List<WebElement> rows = table.findElements(By.xpath(".//tr"));
-        for (WebElement row : rows) {
-            List<WebElement> timeSlots = row.findElements(By.xpath(".//td"));
-            if (!timeSlots.get(Integer.parseInt(days.get(day))).findElements
-                    (By.xpath(String.format(".//div/button[text()='%s']", time))).isEmpty()) {
-                WebElement deleteButton = timeSlots.get(Integer.parseInt(days.get(day)))
-                        .findElement(By.xpath(".//span/i"));
-                deleteButton.click();
-                getRemoveTimeSlotButton().click();
-                slotWasDeleted = true;
-                break;
-            }
+        String firstLetterDay = day.substring(0,1).toUpperCase();
+        String restLettersDay = day.substring(1).toLowerCase();
+        day = firstLetterDay + restLettersDay;
+        if(time.length()==6){
+            String meridian = time.substring(4);
+            String hour = time.substring(0,4);
+            time = hour + meridian.toLowerCase();
+        } else{
+            String meridian = time.substring(5);
+            String hour = time.substring(0,5);
+            time = hour + meridian.toLowerCase();
         }
-        Assert.assertTrue(String.format("The time slot with day: %s and time: %s was not deleted", day, time), slotWasDeleted);
+        Map<String, String> days = new HashMap<String, String>();
+        days.put("Mon", "1");
+        days.put("Tue", "2");
+        days.put("Wed", "3");
+        days.put("Thu", "4");
+        days.put("Fri", "5");
+        try{
+            WebElement deleteButton = getDriver().findElement(By.xpath(String.format("//tbody/tr/td[%s]/div/button[text()='%s']/preceding-sibling::span/i", days.get(day), time)));
+            deleteButton.click();
+            getRemoveTimeSlotButton().click();
+        } catch(Exception e){
+            throw new AssertionFailedError(String.format("The slot time with day: %s and time: $s could not be deleted", day, time));
+        }
     }
 
     //Function Name  : getColumnIdByUsingColumnName() for Regular Weekly Hours

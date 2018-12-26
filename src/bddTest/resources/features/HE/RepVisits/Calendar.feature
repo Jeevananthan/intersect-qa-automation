@@ -157,7 +157,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
-    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<Day>","<StartTime>" in Regular Weekly Hours Tab
 
     Examples:
     |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|option|
