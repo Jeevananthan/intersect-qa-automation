@@ -428,6 +428,11 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * This method will verify the Pinned College Page functionality like Pinned/Un-Pinned, Favorited/Not Favorited
+     * Name of College, website etc.
+     * @param table
+     */
     public void verifyPinnedCollege(DataTable table){
         List<String> list = table.asList(String.class);
         Assert.assertTrue("College image is not displaying.", grayBox().findElement(By.tagName("img")).isDisplayed());
@@ -453,6 +458,10 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     *This method will verify left & Right arrow sign to move other colleges in Compare Pinned College page and also
+     * Viewing college number
+     */
     public void verifyPinnedCollegesFunctionality(){
         String actualDisableArrow = leftArrowInComparePage().getAttribute("class");
         String expectedDisableArrow = "ui teal basic icon disabled button";
@@ -460,7 +469,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
 
         String actualEnableArrow = rightArrowInComparePage().getAttribute("class");
         String expectedEnableArrow = "ui teal basic icon button";
-        softly().assertThat(actualEnableArrow).as("Left arrow is not disable.").isEqualTo(expectedEnableArrow);
+        softly().assertThat(actualEnableArrow).as("Right arrow is not disable.").isEqualTo(expectedEnableArrow);
 
         rightArrowInComparePage().click();
         String actualDisplayBarText = numberOfCollegeDisplayBar().getText();
