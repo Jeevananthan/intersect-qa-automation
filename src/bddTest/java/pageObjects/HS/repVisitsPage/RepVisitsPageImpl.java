@@ -4749,21 +4749,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         int Date = Integer.parseInt(date);
         String Day = getSpecificDate(Date,"EEE").toUpperCase();
         removeSlotTimeByDayAndTime(Day,time);
-        //int columnID = getColumnIdFromTable( "//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']/thead",Day );
-        //int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody", columnID, time);
-
-        //if(columnID>= 0 && rowID>= 0) {
-        //    columnID = columnID + 1;
-        //    rowID = rowID + 1;
-        //    //Remove Time slot
-        //    WebElement removeIcon = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//i[@class='trash alternate outline icon _26AZia1UzBMUnJh9vMujjF']"));
-        //    jsClick(removeIcon);
-        //    waitUntilPageFinishLoading();
-        //    acceptButton().click();
-        //    waitUntilPageFinishLoading();
-        //}else{
-        //    Assert.fail("The Time Slot "+time+"is not displayed in the Regular weekly hours ");
-        //}
     }
 
     public void removeTimeSlotsInExceptionsTab(String date, String time) {
