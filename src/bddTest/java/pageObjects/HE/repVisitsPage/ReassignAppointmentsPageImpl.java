@@ -115,12 +115,17 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void selectUserFromSelectStaffMemberDropdown(String user){
         selectStaffMemberButton().click();
+        waitUntil(ExpectedConditions.visibilityOf(userInSelectStaffMember(user)));
+        moveToElement(userInSelectStaffMember(user));
         userInSelectStaffMember(user).click();
         waitUntilPageFinishLoading();
     }
 
     public void selectUserFromSelectNewAssigneeDropdown(String user){
         jsClick(newAssigneeButton());
+        waitForUITransition();
+        moveToElement(userInNewAssignee(user));
+        waitUntil(ExpectedConditions.visibilityOf(userInNewAssignee(user)));
         userInNewAssignee(user).click();
         waitUntilPageFinishLoading();
     }
@@ -375,10 +380,14 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         Collections.sort(sortedList);
         Assert.assertTrue("User list is not in A-Z order",userList.equals(sortedList));
     }
-
+    public void moveToElement (WebElement element){
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
+    }
 
     private List<WebElement> currentUserList(String currentUser){return getDriver().findElements(By.xpath("//div[text()='"+currentUser+"']"));}
     private WebElement userInSelectStaffMember(String selectUser){return getDriver().findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+selectUser+"']"));}
+    private By userSelectStaffMemberLocator(String selectUser){return By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+selectUser+"']");}
     private WebElement excludedUser(String user){return getDriver().findElement(By.xpath("//div[text()= '" + user + "']"));}
     private WebElement userInNewAssignee(String newAssignee){return getDriver().findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+newAssignee+"']"));}
     private WebElement selectFairsAppointment(String fairsDate,String school,String noOfStudents){return getDriver().findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
