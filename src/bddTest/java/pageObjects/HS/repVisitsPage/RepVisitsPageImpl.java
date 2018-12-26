@@ -7302,6 +7302,7 @@ public void cancelRgisteredCollegeFair(String fairName){
     }
 
     public void verifyNotificationsToNonMembersSection (String correctEmail, String incorrectEmail){
+        waitUntilElementExists(driver.findElement(By.cssSelector("div[id='app']")));
         getNavigationBar().goToRepVisits();
         collegeFairs().click();
         waitUntilPageFinishLoading();
