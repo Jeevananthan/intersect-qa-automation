@@ -29,11 +29,6 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
 
   @MATCH-4687
    Scenario: As a HE User, I want to Edit/Update my Contact details and Request Upgrade Information
-      Given SP I am logged in to the Admin page as an Admin user
-      When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
-      And SP I set the "Connection" module to "inactive" in the institution page
-      And SP I Click the Save Changes button
-
       Given HE I am logged in to Intersect HE as user type "upgradeSubscriptions"
       And HE I click on Upgrade button subscription "Advanced Awareness"
       And HE I Edit The Contact Details with the following data
@@ -46,6 +41,10 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
 
   @MATCH-4631 @MATCH-5203
   Scenario: As an HE user, I want to verify that user is able to upgrade subscription for CONNECTIONS Module
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    And SP I set the "Connection" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
     Given HE I am logged in to Intersect HE as user type "upgradeSubscriptions"
     And HE I Verify Upgrade Subscription Ribbon and Button for "Connection"
     And HE I click on Upgrade button subscription "Connection"
