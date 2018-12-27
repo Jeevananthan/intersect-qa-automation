@@ -824,7 +824,6 @@ public class GlobalSearch extends SeleniumBase {
     }
 
     public void selectSearchResult(String searchString){
-        System.out.println("Helloww");
         button(searchString).click();
     }
 
