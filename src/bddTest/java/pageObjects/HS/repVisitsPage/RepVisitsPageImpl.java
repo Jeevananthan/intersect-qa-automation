@@ -367,6 +367,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.sendKeys(Numberofdays);
         button("Save Changes").click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(successMessage()));
     }
 
     public void setPreventCollegesCancellingorRescheduling(String DaysInAdvance) {
@@ -382,6 +383,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.sendKeys(DaysInAdvance);
         button("Save Changes").click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(successMessage()));
     }
 
     public void setAcceptInVisitSchedulingToFullyBooked(String accept) {
