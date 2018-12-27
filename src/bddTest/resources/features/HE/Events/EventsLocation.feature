@@ -41,6 +41,8 @@ Feature: HE - Events - EventsLocation - As an HE Events user, I can manage event
   Scenario: As a HE user, verify the message when deleting a location associated with a unpublished event
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
+    And HE I open the "Unpublished" tab in Events
+    And HE I delete all unpublished events of name "TestEventUnpublished444"
     And HE I open the Create Event screen
     And HE I create and save a new location with the following details:
       | Location Name | LocationToDeleteUnpublished3254 |
