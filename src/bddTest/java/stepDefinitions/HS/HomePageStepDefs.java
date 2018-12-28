@@ -51,8 +51,6 @@ public class HomePageStepDefs implements En {
 
         And("^HS I verify the items are present in the help center dropdown$",homePage::verifyHelpCentre);
 
-        Then("^HS I verify the current year is displayed at the bottom of the window in the Naviance page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",homePage::verifyYearInNaviancePage);
-
         Then("^HS I verify the current year is displayed at the bottom of the window in the RepVisits Page$",homePage::verifyYearInRepVisitsPage);
 
         Then("^HS I verify the current year is displayed at the bottom of the window in the login page for Naviance$",homePage::verifyYearInNavianceLoginPage);

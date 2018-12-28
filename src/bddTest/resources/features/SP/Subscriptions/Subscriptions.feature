@@ -228,3 +228,46 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
       | Start Date | 2 days from now |
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     Then SP I set the "Advanced Awareness" module to "inactive" in the institution page
+
+  @MATCH-5456
+  Scenario Outline: As a Naviance Support user, I want to be restricted from entering a duplicate AM NextGen subscription
+  for an HE client so that a client doesn't end up with duplicate subscriptions in the system
+    Given SP I am logged in to the Admin page as a Support user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
+    And SP I Click the Save Changes button
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SM I press button "ADD NEW SUBSCRIPTION"
+    And SP I select the radio button "<Subscription type>" in Add new Subscription modal
+    And SP I click the Next button
+    And SP I fill the new subscription with the following data:
+      | State            | <State>            |
+      | Counties         | <Counties>         |
+      | Diversity Filter | <Diversity Filter> |
+      | Competitors      | <Competitors>      |
+      | Connection       | <Connection>       |
+      | Start date       | <Start date>       |
+      | End date         | <End date>         |
+      | Zips             | <Zips>             |
+    And SP I save the new subscription
+    And SM I press button "ADD NEW SUBSCRIPTION"
+    And SP I select the radio button "<Subscription type>" in Add new Subscription modal
+    And SP I click the Next button
+    And SP I fill the new subscription with the following data:
+      | State            | <State>            |
+      | Counties         | <Counties>         |
+      | Diversity Filter | <Diversity Filter> |
+      | Competitors      | <Competitors>      |
+      | Connection       | <Connection>       |
+      | Start date       | <Start date>       |
+      | End date         | <End date>         |
+      | Zips             | <Zips>             |
+    And SP I save the new subscription
+    Then I check if I can see "There are multiple subscriptions with " on the page
+
+    Examples:
+      | Subscription type | State   | Counties                      | Diversity Filter         | Competitors                   | Connection | Start date      | End date        | Zips  | Radius from zips |
+      | State             | Alabama | None                          | Female                   | Auburn University Main Campus | no         | 2 days from now | 3 days from now | None  | None             |
+      | County            | Alaska  | Aleutians East Borough County | Male                     | Auburn University Main Campus | yes        | 2 days from now | 3 days from now | None  | None             |
+      | Zip               | Arizona | None                          | Racial & Ethnic Minority | Auburn University Main Campus | no         | 2 days from now | 3 days from now | 76001 | 15               |

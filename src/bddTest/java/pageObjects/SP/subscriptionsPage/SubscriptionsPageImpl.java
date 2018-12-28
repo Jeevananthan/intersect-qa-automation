@@ -6,11 +6,20 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
@@ -29,6 +38,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void fillNewSubscriptionForm(DataTable dataTable) {
+        Actions actions = new Actions(getDriver());
         List<List<String>> details = dataTable.asLists(String.class);
         for (List<String> row : details) {
             switch(row.get(0)) {
@@ -66,14 +76,14 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Start date" :
                     startDate().click();
-                    Calendar futureDate = getDeltaDate(Integer.parseInt(row.get(1).split(" ")[0]));
-                    pickDateInDatePicker(futureDate);
+                    String futureDate = row.get(1).split(" ")[0];
+                    setStartDate(futureDate);
                     startDate().click();
                     break;
                 case "End date" :
                     endDate().click();
-                    Calendar futureEndDate = getDeltaDate(Integer.parseInt(row.get(1).split(" ")[0]));
-                    pickDateInDatePicker(futureEndDate);
+                    String futureEndDate = row.get(1).split(" ")[0];
+                    setEndDate(futureEndDate);
                     endDate().click();
                     break;
                 case "Zips" :
@@ -89,6 +99,43 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
                     }
             }
         }
+    }
+
+    public void setStartDate(String delta){
+        Calendar cal = getDeltaDate(Integer.parseInt(delta));
+
+        String month = getMonth(cal);
+        String dateNo = getDay(cal);
+        if (dateNo.startsWith("0"))
+            dateNo = dateNo.substring(1);
+        String year = getYear(cal);
+        Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        selectYear.selectByVisibleText(year);
+
+        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        dateTemp.click();
+    }
+
+    public void setEndDate(String delta){
+        Calendar cal = getDeltaDate(Integer.parseInt(delta));
+
+        String month = getMonth(cal);
+        String dateNo = getDay(cal);
+        if (dateNo.startsWith("0"))
+            dateNo = dateNo.substring(1);
+        String year = getYear(cal);
+
+        Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        selectYear.selectByVisibleText(year);
+
+        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getCalender().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        dateTemp.click();
     }
 
     protected void pickDateInDatePicker(Calendar date) {
@@ -116,6 +163,8 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     public void clickFinish() {
         finishButton().click();
+        if (getDriver().findElements(By.cssSelector("div.ui.error.message")).size() == 0)
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("subscription-modal"),0));
     }
 
     public void verifyNewSubscription(DataTable dataTable) {
@@ -263,7 +312,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     private WebElement clickSubscriptionName(String subName){
         return  driver.findElement(By.xpath("//a[text()='" + subName + "']"));
     }
-
+    private WebElement getCalender(){ return driver.findElement(By.xpath("//div[@role='application']")); }
 }
 
 

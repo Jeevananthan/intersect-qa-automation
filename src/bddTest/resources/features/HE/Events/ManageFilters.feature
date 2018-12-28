@@ -6,6 +6,7 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I open the Events section
     And HE I open the "Filters" tab in the Events section
+    And HE I delete the filter of name "FilterTest123" if it is present
     And HE I open the Create Filter screen
     When HE I create a new filter based on the following details:
     | Gender | Male |
