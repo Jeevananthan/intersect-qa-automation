@@ -424,7 +424,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         availability().click();
         waitUntilPageFinishLoading();
         availabilitySettings().click();
-        waitUntilElementExists(saveChangesAvailability());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(saveChangesAvailabilityLocator()));
         visitConfirmation(option).click();
         waitUntilPageFinishLoading();
         saveChangesAvailability().click();
@@ -1362,6 +1362,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             viewMoreUpcomingEventsLink().click();
             waitUntilPageFinishLoading();
         }
+        waitUntil(ExpectedConditions.visibilityOf(fairElementDetails(fairName)));
         fairElementDetails(fairName).click();
         editFairButton().click();
         waitUntil(ExpectedConditions.visibilityOf(cancelThisCollegeFair()));
@@ -3783,7 +3784,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void unpublishCollegeFair() {
         waitUntilElementExists(getUnpublishButton());
         getUnpublishButton().click();
-        waitUntilElementExists(close());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(closeButtonLocator()));
         close().click();
     }
 
@@ -8823,8 +8824,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement close() {
-        WebElement button = button("Close");
+        WebElement button = getDriver().findElement(closeButtonLocator());
         return button;
+    }
+
+    private By closeButtonLocator(){
+        return By.cssSelector("button[class='ui button']");
     }
 
     private WebElement goBack() {

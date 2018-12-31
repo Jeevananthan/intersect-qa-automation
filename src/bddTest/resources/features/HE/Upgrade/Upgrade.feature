@@ -44,6 +44,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I set the "Connection" module to "inactive" in the institution page
+    And SP I set the "ActiveMatch Plus" module to "inactive" in the institution page
     And SP I Click the Save Changes button
     Given HE I am logged in to Intersect HE as user type "upgradeSubscriptions"
     And HE I Verify Upgrade Subscription Ribbon and Button for "Connection"
