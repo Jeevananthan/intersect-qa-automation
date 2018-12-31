@@ -367,7 +367,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.sendKeys(Numberofdays);
         button("Save Changes").click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(successMessage()));
     }
 
     public void setPreventCollegesCancellingorRescheduling(String DaysInAdvance) {
@@ -383,7 +382,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         visitBox.sendKeys(DaysInAdvance);
         button("Save Changes").click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(successMessage()));
     }
 
     public void setAcceptInVisitSchedulingToFullyBooked(String accept) {
@@ -5671,8 +5669,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifySuccessMessage(String originalMessage) {
-        waitUntilPageFinishLoading();
-        waitUntilElementExists(getDriver().findElement(By.xpath("//div[@class='content']")));
         String successMessage = getDriver().findElement(By.xpath("//div[@class='content']")).getText();
         Assert.assertTrue("Success Message is not equal", successMessage.equals(originalMessage));
     }
