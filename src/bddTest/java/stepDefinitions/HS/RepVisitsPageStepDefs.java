@@ -741,5 +741,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I create a new visit to verify the details in naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::createVisitForNaviance);
 
         And("^HS I cancel the college fairs created$", repVisits::cancelCollegeFairs);
+
+        And("^HS I clean the visits for particular Month \"([^\"]*)\"$", repVisits::cleanVisitsForParticularMonth);
+
     }
 }

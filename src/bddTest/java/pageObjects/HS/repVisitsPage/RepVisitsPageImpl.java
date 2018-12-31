@@ -1763,6 +1763,62 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void cleanVisitsForParticularMonth(String date){
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@title='Day']"), 1));
+        collegeFairTextBoxInCalendarPage().click();
+        goToCurrentMonthInCalendar(date);
+        selectAndCleanVisits(date);
+    }
+
+    public void selectAndCleanVisits(String date) {
+        WebElement visitInOverlay;
+        while (driver.findElements(By.cssSelector(appointmentLocator)).size() > 0) {
+            visitInOverlay = driver.findElements(By.cssSelector(appointmentLocator)).get(0);
+            visitInOverlay.click();
+            if (driver.findElements(By.xpath(noGoBackButtonLocator)).size() > 0) {
+                driver.findElements(By.xpath(noGoBackButtonLocator)).get(0).click();
+            }
+            waitUntil(ExpectedConditions.elementToBeClickable(button("Cancel This Visit")));
+            for (int k = 0; k < 5; k++) {
+                button("Cancel This Visit").click();
+                if (driver.findElements(By.cssSelector(cancelMessageFieldLocator)).size() == 0) {
+                    button("Cancel This Visit").click();
+                } else {
+                    break;
+                }
+            }
+            getMessageRegardingCancellationTextBox().sendKeys("Cancel");
+            cancelVisitButton().click();
+            if (driver.findElements(By.xpath(failedToCancelMessageLocator)).size() > 0) {
+                driver.get(driver.getCurrentUrl());
+                waitUntilPageFinishLoading();
+                collegeFairConfirmedCheckbox().click();
+                goToCurrentMonthInCalendar(date);
+            } else {
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(visitFormLocator), 0));
+            }
+        }
+    }
+
+    public void goToCurrentMonthInCalendar(String date){
+        String month = month(date);
+        String currentMonth = currentMonthInCalendarPage().getText();
+        String selectMonth[] = currentMonth.split(" ");
+        String Month = selectMonth[0];
+        while (!month.equals(Month)) {
+            nextMonthButton().click();
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@title='Day']"), 1));
+            currentMonth = currentMonthInCalendarPage().getText();
+            selectMonth = currentMonth.split(" ");
+            Month = selectMonth[0];
+        }
+    }
+
 
     public void verifyTextInReschedulePopup(String expectedText) {
         String actualText = driver.findElement(By.xpath("//span[@class='_25XyePHsmpWU1qQ18ojKip']/span")).getText();
@@ -4400,8 +4456,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         rescheduleMessageTextBox().sendKeys(reason);
         Assert.assertTrue("Reschedule Visit is not displayed", rescheduleVisitButton().isDisplayed());
         rescheduleVisitButton().click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void addContactManually(String date, String Time, String FName, String LName, String Email, String PhNo, String Position, String Institution) {
@@ -9135,7 +9190,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement calendar() {
-        WebElement navbar = driver.findElement(By.xpath("//a[@class='menu-link qxSNjKWAyYiOIN9yZHE_d']/span[text()='Calendar']"));
+        WebElement navbar = driver.findElement(By.xpath("//ul[@class='ui pointing secondary hidden-mobile hidden-tablet FutsUBH7pYEk_L4sKJpZq menu']/li/a/span[text()='Calendar']"));
         return navbar;
     }
 
@@ -11056,4 +11111,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement fairCloseButton() {
         return getDriver().findElement(By.xpath("//button[text()='Close']"));
     }
+
+    private String appointmentLocator = ".rbc-event-content";
 }
