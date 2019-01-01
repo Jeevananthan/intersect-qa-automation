@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.welcomePage.HEWelcomePageImpl;
 import utilities.GetProperties;
 
 import java.util.List;
@@ -203,6 +204,109 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void clearHSCommunityProfile(){
+        load(GetProperties.get("hs.community.clear"));
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyHSCommunityActivationForRepVisits(){
+        getNavigationBar().goToRepVisits();
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
+        Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
+        driver.switchTo().defaultContent();
+    }
+
+    public void verifyRequiredPageforNewUser(DataTable dataTable){
+        List<String> list = dataTable.asList(String.class);
+        for(String tab:list){
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@name='mainmenu']")));
+            navigationDropDown().sendKeys(Keys.ENTER);
+            switch (tab){
+                case "Counselor Community":
+                    iframeEnter();
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='welcome-text']")));
+                    Assert.assertTrue("Counselor Community profile form is not displayed",ccProfileForm().isDisplayed());
+                    iframeExit();
+                    break;
+                case "RepVisits":
+                    repVisitsMenuLink().click();
+                    iframeEnter();
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='welcome-text']")));
+                    Assert.assertTrue("Counselor Community profile form is not displayed",ccProfileForm().isDisplayed());
+                    iframeExit();
+                    break;
+                default:
+                    Assert.fail("Invalid option");
+            }
+        }
+    }
+
+    public void verifyRequiredFieldsInCCProfileFormForHS(DataTable dataTable){
+        navigationDropDown().sendKeys(Keys.ENTER);
+        iframeEnter();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
+        saveButtonInCommunity().click();
+        waitUntilPageFinishLoading();
+        List<String> list = dataTable.asList(String.class);
+        for(String fields:list){
+            Assert.assertTrue(fields+" is not displayed",text(fields).isDisplayed());
+        }
+        iframeExit();
+    }
+
+    public void fillCommunityWelcomeMandatoryFieldsForHS(String OfficePhone, String JobTitle, String euCitizen){
+        driver.switchTo().frame(0);
+        getofficePhone().sendKeys(OfficePhone);
+        getJobTitle().sendKeys(JobTitle);
+        driver.findElement(By.xpath(String.format(
+                "//label[@for='edit-field-eu-citizen-und']/following-sibling::div/div/label[text()='%s ']",
+                euCitizen))).click();
+        getTermsAndConditionCheckBox().click();
+        driver.executeScript("arguments[0].click()",getCreationAndMaintenanceConsentCheckBox());
+        saveButton().click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+        getNavigationBar().goToRepVisits();
+    }
+
+    public void verifyRepVisitsLandingPageForHS(){
+        getNavigationBar().goToRepVisits();
+        waitUntilElementExists(getSearchAndScheduleHeading());
+        Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
+    }
+
+
+    //Locators
+    private WebElement getSearchAndScheduleHeading(){ return text("Search"); }
+    private WebElement saveButton(){
+        return button("Save");
+    }
+    private WebElement getCreationAndMaintenanceConsentCheckBox(){
+        return driver.findElement(By.id("edit-field-account-consent-und"));
+    }
+    private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
+
+    private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
+
+    private WebElement getofficePhone() { return driver.findElement(By.id("edit-field-office-phone-und-0-value"));}
+
+    private WebElement saveButtonInCommunity(){
+        return driver.findElement(By.id("edit-submit"));
+    }
+
+    private WebElement navigationDropDown(){
+        return driver.findElement(By.xpath("//a[@name='mainmenu']"));
+    }
+    private WebElement counselorCommunityMenuLink(){
+        return driver.findElement(By.xpath("//dt/a/span[text()='Counselor Community']"));
+    }
+    private WebElement ccProfileForm(){
+        return driver.findElement(By.xpath("//div/h1[text()='Welcome to the Counselor Community!']"));
+    }
+    private WebElement repVisitsMenuLink(){
+        return driver.findElement(By.id("js-main-nav-rep-visits-menu-link"));
+    }
+    private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
     private WebElement collageNameLabel() {
         return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }
