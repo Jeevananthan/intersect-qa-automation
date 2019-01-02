@@ -416,23 +416,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         openFitCriteria("Academics");
-        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
-        WebElement chevronInSearchMajorsCombobox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[contains(@class, 'supermatch-menuitem-popup')]//i[@class='teal chevron down icon'])[1]")));
-
-        //open combobox
-        chevronInSearchMajorsCombobox.click();
+        academicsRadioButton("Bachelor's").click();
 
         List<List<String>> itemsToSelect = items.raw();
         int itemsToSelectSize = itemsToSelect.size();
 
         for (int i = 0; i < itemsToSelectSize; i++) {
+            majorsDropdownArrow().click();
             String item = itemsToSelect.get(i).get(0);
             getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[1]")).click();
 
         }
-
-        //close combobox
-        chevronInSearchMajorsCombobox.click();
         closeButtonForFitCriteria().click();
     }
 
@@ -1466,7 +1460,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void openPinnedCompareSchools() {
         waitUntilPageFinishLoading();
-        waitForUITransition();
         pinnedFooterOption().click();
         comparePinnedCollegesLink().click();
     }
@@ -3427,5 +3420,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private String studentScoresInAcademicMatchLocator(int rowPosition) {
         return "//table[contains(@class, 'csr-results-table')]/tbody/tr[" + rowPosition + "]//tr[contains(@class, 'aligned')]/td[@class = 'you-column']";
     }
+    private WebElement academicsRadioButton(String optionName) { return driver.findElement(By.xpath("//div[@class = 'ui radio checkbox supermatch-academics-radio-left']/label[text() = \"" + optionName + "\"]")); }
+    private WebElement majorsDropdownArrow() { return driver.findElement(By.cssSelector("div[categorysuffix='majors'] i.chevron")); }
 }
 

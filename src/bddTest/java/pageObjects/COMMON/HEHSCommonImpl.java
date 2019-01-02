@@ -4,11 +4,13 @@ import cucumber.api.DataTable;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utilities.GetProperties;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class HEHSCommonImpl extends PageObjectFacadeImpl {
 
@@ -131,6 +133,27 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     public void clickOnCloseIcon(){
         getCloseIcon().click();
     }
+
+    public void scrollTo(String text) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement( getDriver().findElement(By.xpath("//*[text()=\"" + text + "\"]"))).perform();
+    }
+
+    public void switchToNewWindow() {
+        for(String handle:getDriver().getWindowHandles()){
+            getDriver().switchTo().window(handle);
+        }
+    }
+
+    public void closeCurrentWindow() {
+        getDriver().close();
+    }
+
+    public void waitForLoading(String url){
+        waitUntil(ExpectedConditions.urlToBe(url));
+        waitUntilPageFinishLoading();
+    }
+
 
 //locators
     private WebElement notification(){

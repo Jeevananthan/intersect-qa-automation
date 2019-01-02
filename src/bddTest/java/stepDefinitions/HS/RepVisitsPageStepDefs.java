@@ -650,7 +650,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
-        Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
+        Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
 
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
@@ -739,5 +739,10 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I complete the setupWizard$",repVisits::completeTheSetupWizard);
 
         Then("^HS I create a new visit to verify the details in naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::createVisitForNaviance);
+
+        And("^HS I cancel the college fairs created$", repVisits::cancelCollegeFairs);
+
+        And("^HS I clean the visits for particular Month \"([^\"]*)\"$", repVisits::cleanVisitsForParticularMonth);
+
     }
 }

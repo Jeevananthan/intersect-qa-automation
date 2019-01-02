@@ -25,5 +25,7 @@ public class AdvanceAwarenessStepDefsHE implements En {
         Then("^HE I select \"([^\"]*)\" option for Majors$",advanceAwarenessPage :: selectCheckbox );
         Then("^HE I set a Competitor \"([^\"]*)\" message$", advanceAwarenessPage :: setCompetitorMessage);
         And("^HE I click the advanced awareness save button$", advanceAwarenessPage::clickOnSaveButton);
-
+        And("^HE I clean all the majors messages$", advanceAwarenessPage::cleanAllMajorsMessages);
+        And("^HE I set messages for the following majors:$", advanceAwarenessPage::setMajorsMessages);
+        Then("^SM I verify that the string \"([^\"]*)\" is present in the card for \"([^\"]*)\" college$", advanceAwarenessPage::verifyStringInCard);
     }}

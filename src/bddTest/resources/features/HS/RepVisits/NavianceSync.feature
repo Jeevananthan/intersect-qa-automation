@@ -5,19 +5,18 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   events into Naviance, I want the ability to opt out/disconnect my RepVisits events from publishing to Naviance,
   so that I can manage events separately in Naviance and RepVisits.
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
-    Then HS I clean the visits created
-    Then HS I clean the college fairs created
 #Precondition
     Then HS I complete the setupWizard
-    Then HS I create a new visit to verify the details in naviance with "28","10:30am","12:30pm","2","PurpleHE Automation" and "Cbba"
+    Then HS I clean the visits for particular Month "14"
+    Then HS I create a new visit to verify the details in naviance with "14","10:30am","12:30pm","2","PurpleHE Automation" and "Cbba"
     Then HS I navigate to naviance settings page
     And HS I click on Disconnect RepVisits from Naviance button
     And HS I verify the Cancel on the disconnect confirmation popup
     And HS I click on Disconnect RepVisits from Naviance button
-    And HS I verify the Yes on the disconnect confirmation popup with "28","10:30am","12:30pm","2","PurpleHE Automation","PurpleHE Automation" and "Cbba"
-    Then HS I verify and select an appointment in calendar page using "PurpleHE Automation","10:30am","28","Scheduled"
+    And HS I verify the Yes on the disconnect confirmation popup with "14","10:30am","12:30pm","2","PurpleHE Automation","The University of Alabama" and "Cbba"
+    Then HS I verify and select an appointment in calendar page using "The University of Alabama","10:30am","14","Scheduled"
     Then HS I remove the appointment from the calendar
-    Then HS I remove the Time Slot created with "28","10:30am" in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "14","10:30am" in Regular Weekly Hours Tab
 
   @MATCH-4895
   Scenario: When a Naviance High School has their settings set to:
@@ -27,9 +26,9 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   They will not get synced back into Naviance with the updated date/time..
     #Setup environment
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
-    Then HS I clean the visits created
-    Then HS I clean the college fairs created
     Then HS I complete the setupWizard
+    Then HS I clean the visits for particular Month "21"
+    Then HS I clean the college fairs created
     Then HS I navigate to naviance settings page
     Then HS I set the date using "21" and "28"
     Then HS I add the new time slot with "21","11:30am","12:40pm" and "2" with "1"
@@ -109,7 +108,8 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   Scenario Outline: As a Repvisits Naviance user, i cannot view the notification while Rescheduling an appointment that has already been pushed to Naviance
 #Rescheduling an appointment that has already been pushed to Naviance
 #verify settings(select Manually choose which visits to publish)
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
+    Then HS I clean the visits for particular Month "<Date>"
     And HS I go to the Naviance Settings to select the option "Manually choose which visits to publish. (If any)"
 #create Visit for Reschedule
     Then HS I set the date using "<StartDate>" and "<EndDate>"
@@ -129,7 +129,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 #verify Naviance Tab
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I verify the Notification is "displaying" in the Naviance Sync Tab for the following details "<University>","<heTime>","<Date>"
 #verify settings(select Automatically choose which visits to publish)
     And HS I go to the Naviance Settings to select the option "Automatically publish confirmed visits."
@@ -167,7 +167,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 #verify Naviance Tab
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I verify the Notification is "displaying" in the Naviance Sync Tab for the following details "<University>","<heTime>","<Date>"
 #reschedule visit
     Then HS I reschedule the visit for the following data "<University>","<heCalendarTime>","<Date>" in calendar
@@ -185,7 +185,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
 
     Examples:
       |StartTime|EndTime |NumVisits|Option                            |hsEndTime|School                   |University                |heStartTime   |heTime   |Day|Date|StartDate|EndDate|StartTimefornewVisit|User     |reason   |heTimefornewVisit|heCalendarTime|option|
-      |10:34am  |12:59pm |3        |Yes, accept all incoming requests.|12:59pm  |Standalone High School 6 |The University of Alabama |10:34am       |10:34am  |21 |21  |21       |35     |10:28am             |PurpleHE |by QA    |10:28am          |10:33AM       |1     |
+      |10:34am  |12:59pm |3        |Yes, accept all incoming requests.|12:59pm  |Standalone High School 7 |The University of Alabama |10:34am       |10:34am  |21 |21  |21       |35     |10:28am             |PurpleHE |by QA    |10:28am          |10:33AM       |1     |
 
 
 

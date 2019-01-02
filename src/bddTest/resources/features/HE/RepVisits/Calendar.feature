@@ -157,11 +157,11 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
-    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<Day>","<StartTime>" in Regular Weekly Hours Tab
 
     Examples:
     |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|option|
-    |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |14 |14  |14       |35     |1     |
+    |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |3  |3    |1       |20     |1     |
  
   @MATCH-4902
   Scenario Outline: As a HE admin with an active Presence subscription reassigns a college fair registration from one HE rep to another at their institution,

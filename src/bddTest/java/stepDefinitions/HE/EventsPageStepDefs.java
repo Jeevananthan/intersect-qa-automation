@@ -111,5 +111,7 @@ public class EventsPageStepDefs implements En {
         And("^HE I verify Attendee Data Details on Edit Events attendee screen$",eventsPage::VerifyAttendeeData);
         And("^HE click on Event Name \"([^\"]*)\" to edit$", eventsPage :: editEventToPublish);
         And("^HE I edit and publish a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::EditAndPublishEventWithGenDate );
-         }
+
+        And("^HE I delete all unpublished events of name \"([^\"]*)\"$", eventsPage::deleteAllUnpublishedEventsOfName);
+    }
 }
