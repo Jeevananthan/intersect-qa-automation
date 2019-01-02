@@ -436,7 +436,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectHighSchoolFromResults(String schoolName) {
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/h3/a[text()='"+schoolName+"']")));
         getDriver().findElement(By.xpath("//td/h3/a[text()='"+schoolName+"']")).click();
         waitUntilPageFinishLoading();
     }
