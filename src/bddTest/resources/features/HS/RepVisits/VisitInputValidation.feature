@@ -16,7 +16,7 @@ Feature: HS - RepVisits - CollegeVisits - As an HS user, I want my inputs to be 
 
   @MATCH-3600
   Scenario: As a HS RepVisits user I want my inputs to be validated in the Naviance Settings form
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I go to the Naviance settings
     Then HS I verify the input validations for Student Registration Deadline with the data:
     | Registration will close | 1000 |
