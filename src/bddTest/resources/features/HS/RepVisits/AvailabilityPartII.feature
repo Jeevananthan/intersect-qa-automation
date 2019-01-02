@@ -101,7 +101,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
 #by SchoolLocation
     Then HE I search the "<School>" by "<location>"
     Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
@@ -119,7 +119,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
 #by SchoolLocation
     Then HE I search the "<School>" by "<location>"
     Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
