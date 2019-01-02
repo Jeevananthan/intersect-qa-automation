@@ -176,21 +176,23 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
         List<WebElement> listOfEventNames;
         List<String> listOfEventNamesStrings = new ArrayList<>();
         waitForUITransition();
-        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(FCCollegeEventsPage.nextArrowsList)));
-        WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(eventsListHeaderLocator), 0));
         listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
         for (WebElement eventNameElement : listOfEventNames) {
             listOfEventNamesStrings.add(eventNameElement.getText());
         }
 
-        while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
-            waitUntilPageFinishLoading();
-            waitUntilElementExists(upperNextArrow);
-            upperNextArrow.click();
-            waitForUITransition();
-            listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
-            for (WebElement eventNameElement : listOfEventNames) {
-                listOfEventNamesStrings.add(eventNameElement.getText());
+        if (driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).size() > 0) {
+            WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
+            while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                waitUntilPageFinishLoading();
+                waitUntilElementExists(upperNextArrow);
+                upperNextArrow.click();
+                waitForUITransition();
+                listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+                for (WebElement eventNameElement : listOfEventNames) {
+                    listOfEventNamesStrings.add(eventNameElement.getText());
+                }
             }
         }
 
@@ -216,4 +218,5 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
 
     }
     private String rightUpperArrowDisabled = "//label[text()='Show me:']/../../../following-sibling::p/ul/li[3]";
+    private String eventsListHeaderLocator = "div.events-list__header";
 }
