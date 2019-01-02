@@ -9,7 +9,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I verify the text 'Showing all' is displaying in reassignAppointments Page for the user "Publishing, PurpleHE"
     Then HE I click Go Back button
     When HE I go to re assign appointments
-    Then HE I verify Select All check box in reAssignAppointments page using "Publishing, PurpleHE"
+    Then HE I verify Select all check box in reAssignAppointments page using "Publishing, PurpleHE"
     Then HE I verify the appointments count in reAssignAppointments page for the user "Publishing, PurpleHE"
     Then HE I verify the appointments displaying in agenda view
     Then HE I verify show more button displaying when 26 or more appointments are returned for the user "Publishing, PurpleHE" in reassignAppointments Page
