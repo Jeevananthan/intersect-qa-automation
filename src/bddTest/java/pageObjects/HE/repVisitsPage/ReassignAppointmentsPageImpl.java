@@ -115,6 +115,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void selectUserFromSelectStaffMemberDropdown(String user){
         selectStaffMemberButton().click();
+        waitForUITransition();
         waitUntil(ExpectedConditions.visibilityOf(userInSelectStaffMember(user)));
         moveToElement(userInSelectStaffMember(user));
         userInSelectStaffMember(user).click();
@@ -455,7 +456,4 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement selectInActiveUserInSelectNewAssignee(String user){return getDriver().findElement(By.xpath("//div/div[text()='Select new assignee']/following-sibling::div/div//span[text()='Inactive User']/preceding-sibling::div[text()='"+user+"']"));}
     private List<WebElement> selectedUserInSelectNewAssignee(String user){return getDriver().findElements(By.xpath("//div[@class='ui selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC']/div[text()='"+user+"']"));}
     private WebElement getUserFromDropdown(int index){ return getDriver().findElement(By.cssSelector("div[class='menu transition visible']>div:nth-of-type("+index+")")); }
-    private WebElement selectAllCheckBoxText(){ return getDriver().findElement(By.xpath("//label[contains(text(), 'Select all')]"));}
-    private WebElement showingAllText(){return getDriver().findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
-    private WebElement blueNoteAlertMessage(){return getDriver().findElement(By.cssSelector("strong+span>span"));}
 }
