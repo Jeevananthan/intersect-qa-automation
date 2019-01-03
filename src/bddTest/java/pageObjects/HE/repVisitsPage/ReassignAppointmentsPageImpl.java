@@ -88,6 +88,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void selectStaffMember(String staffMember){
         jsClick(selectStaffMemberDropdown());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(userSelectStaffMemberLocator(staffMember)));
         jsClick(userInSelectStaffMember(staffMember));
     }
 
@@ -198,9 +199,10 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
         staffForReassign().click();
         selectStaff(user).click();
-        selectAllCheckBoxText().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
+        jsClick(selectAllCheckbox());
         //Un selecting  action
-        selectAllCheckBoxText().click();
+        jsClick(selectAllCheckbox());
     }
 
     public void verifyAppointmentsCount(String user){
@@ -208,13 +210,15 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         selectStaff(user).click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
         String count = getAppointmentsCount();
-        selectAllCheckBoxText().click();
+        jsClick(selectAllCheckbox());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Reassign "+count+" Appointments']")));
         Assert.assertTrue("No changed the number of items in the button",  selectReAssignAppointmentsButton(count).isDisplayed());
     }
 
     public void verifyUserInSelectStaffMemberDropdown(String user){
         waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
         staffForReassign().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[text()='"+user+"']")));
         Assert.assertTrue("User was not displayed!", selectStaff(user).isDisplayed());
     }
 
@@ -259,7 +263,8 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     }
 
     private List<WebElement> currentUserList(String currentUser){return driver.findElements(By.xpath("//div[text()='"+currentUser+"']"));}
-    private WebElement userInSelectStaffMember(String selectUser){return driver.findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+selectUser+"']"));}
+    public By userSelectStaffMemberLocator(String selectUser){return By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+selectUser+"']");}
+    private WebElement userInSelectStaffMember(String selectUser){return driver.findElement(userSelectStaffMemberLocator(selectUser));}
     private WebElement excludedUser(String user){return driver.findElement(By.xpath("//div[text()= '" + user + "']"));}
     private WebElement userInNewAssignee(String newAssignee){return driver.findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+newAssignee+"']"));}
     private WebElement selectFairsAppointment(String fairsDate,String school,String noOfStudents){return driver.findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
@@ -305,6 +310,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private By calendarText(){return By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum _3GCGVUzheyMFBFnbzJUu6J']/span[text()='Calendar']");}
     private By selectAllCheckBox(){return By.cssSelector("label[for='selectAllCheckBox']");}
     private WebElement selectAllCheckBoxText(){ return driver.findElement(By.xpath("//label[contains(text(), 'Select all')]"));}
+    private WebElement selectAllCheckbox(){ return driver.findElement(By.xpath("//label[contains(text(), 'Select all')]/parent::div/input"));}
     private WebElement showingAllText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
     private WebElement blueNoteAlertMessage(){return driver.findElement(By.cssSelector("strong+span>span"));}
     private By blueNoteAlert(){ return By.cssSelector("strong+span>span"); }

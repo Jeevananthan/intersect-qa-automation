@@ -145,6 +145,16 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void closeCurrentWindow() {
+        getDriver().close();
+    }
+
+    public void waitForLoading(String url){
+        waitUntil(ExpectedConditions.urlToBe(url));
+        waitUntilPageFinishLoading();
+    }
+
+
 //locators
     private WebElement notification(){
         return driver.findElement(By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum']/span[text()='Notifications']"));

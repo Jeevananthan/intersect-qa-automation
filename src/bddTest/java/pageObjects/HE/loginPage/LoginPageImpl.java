@@ -4,13 +4,11 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchSessionException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.SessionNotFoundException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
@@ -27,6 +25,8 @@ import static org.junit.Assert.fail;
 public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+
+    RepVisitsPageImpl repVisitsPage = new RepVisitsPageImpl();
 
     public LoginPageImpl() {
         logger = Logger.getLogger(LoginPageImpl.class);
@@ -442,7 +442,12 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void clickLinkInRegisterationPage(String linkToClick){
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText(linkToClick)));
-        link(linkToClick).click();
+        try {
+            link(linkToClick).click();
+        } catch (WebDriverException e) {
+            repVisitsPage.scrollDown(driver.findElement(By.xpath(highlightsLinkLocator(linkToClick))));
+            link(linkToClick).click();
+        }
     }
 
     public void validateRequestUserForm(DataTable dataTable){
@@ -595,7 +600,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
     private WebElement updatebutton() { return driver.findElement(By.xpath("//a[text()='Update']"));}
-
+    private String highlightsLinkLocator(String linkName) { return "//a[text() = '" + linkName + "']"; }
 
     }
 

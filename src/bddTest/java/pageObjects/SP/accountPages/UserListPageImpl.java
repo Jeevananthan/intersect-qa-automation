@@ -355,9 +355,34 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(emailBody).as("Seven day expiration reminder").contains("Note, this password will expire in seven days. Contact your Intersect Administrator or");
     }
 
+    public void checkImpersonatedWindow(String expWinCount){
+        int winCount = driver.getWindowHandles().size();
+        softly().assertThat(Integer.parseInt(expWinCount)).as("TotalWindowCount").isEqualTo(winCount);
+    }
+
+    public void checkImpersonationAccountSettings(String option){
+        Set<String> winHandles = driver.getWindowHandles();
+        String firstWinHandle = driver.getWindowHandle();
+        winHandles.remove(firstWinHandle);
+        String secondWinHandle=winHandles.iterator().next();
+        driver.switchTo().window(firstWinHandle);
+        driver.switchTo().window(secondWinHandle);
+        softly().assertThat(accountSettingOptionInHomePageForNonNaviance().size()).as("Account Setting Option is visible in Home Page").isEqualTo(0);
+        userDropDown().click();
+        softly().assertThat(accountSettingOptionInUserDD(option).size()).as("Account Setting Option is visible in User DropDown").isEqualTo(0);
+    }
+
+    public void loginAsWithNonNavianceUser(String feature, String user){
+        String username = GetProperties.get("hs."+ user + ".username");
+        setUserStatus(feature, username);
+    }
+
 
     //Locators
-    
+
+    private List accountSettingOptionInHomePageForNonNaviance(){return driver.findElements(By.xpath("//h2[text()='Your settings']"));}
+    private WebElement userDropDown(){ return driver.findElement(By.id("user-dropdown"));}
+    private List accountSettingOptionInUserDD(String option){return driver.findElements(By.xpath("//span[text()='"+option+"']"));}
     private WebElement saveButtonInCreateUser(){
         return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
     }

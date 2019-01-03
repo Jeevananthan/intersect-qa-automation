@@ -1,23 +1,18 @@
 @HS @HS1
 Feature: HS - Home - HomePage - As an HS user, I want to be able to access the features of the Home page
 
-
   @MATCH-3563
   Scenario:As a HS user, I verify the Copyright information
-    #Non-Naviance HS
-    Given HS I verify the current year is displayed at the bottom of the window in the login page
-    Then HS I verify the current year is displayed at the bottom of the window in the Registration page
-
-  @MATCH-3563
-  Scenario:As a HS user, I verify the Copyright information
-
     Given HS I am logged in to Intersect HS as user type "administrator"
     Then HS I verify the current year is displayed at the bottom of the window in the Home Page
     And HS I verify the items are present in the help center dropdown
+    And HS I successfully sign out
 
+    Given HS I verify the current year is displayed at the bottom of the window in the login page
+    Then HS I verify the current year is displayed at the bottom of the window in the Registration page
 #Naviance HS
     Given HS I verify the current year is displayed at the bottom of the window in the login page for Naviance
-    Then HS I verify the current year is displayed at the bottom of the window in the Naviance page using "blue4hs","iam.purple","Password!1"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the current year is displayed at the bottom of the window in the RepVisits Page
 
   @MATCH-4661 @MATCH-4664 @MATCH-4658
