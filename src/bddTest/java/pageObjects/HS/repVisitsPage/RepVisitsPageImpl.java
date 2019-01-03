@@ -11112,20 +11112,5 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private String appointmentLocator = ".rbc-event-content";
-  
-    private WebElement circularIconCloseButton(){  return getDriver().findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")); }
-  
-    private WebElement addCollegeFair(){ return driver.findElement(By.cssSelector("button[id='add-college']")); }
-  
-    private By successMessage() {return By.cssSelector("div[class='ui small icon success message toast']");}
 
-    private WebElement removeButton(){return driver.findElement(By.xpath("//button/span[text()='REMOVE']"));}
-
-    private List<WebElement> duplicateSlot(String startTime){return driver.findElements(By.xpath("//button[text()='"+startTime+"']"));}
-
-    private WebElement clickDuplicateSlot(String startTime){return driver.findElement(By.xpath("//button[text()='"+startTime+"']/preceding-sibling::span/i"));}
-
-    private WebElement allRepVisitsUsersRadioButton(){  return getDriver().findElement(By.xpath("//label[text()='All RepVisits Users']")); }
-  
-    private By fairsViewDetails(String fairNametoClickViewDetails){ return By.xpath("//table[@class='ui unstackable table']//tbody//tr/td[text()='"+fairNametoClickViewDetails+"']/parent::tr/td/a[span='View Details']");}
 }
