@@ -213,7 +213,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         if(getSaveChangesButton().isDisplayed()) {
             getSaveChangesButton().click();
         }
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
     }
 
 
