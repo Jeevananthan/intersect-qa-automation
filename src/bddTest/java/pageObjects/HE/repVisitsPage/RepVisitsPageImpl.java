@@ -436,7 +436,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectHighSchoolFromResults(String schoolName) {
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/h3/a[text()='"+schoolName+"']")));
         getDriver().findElement(By.xpath("//td/h3/a[text()='"+schoolName+"']")).click();
         waitUntilPageFinishLoading();
     }
@@ -1653,8 +1653,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyNotification(String school,String date,String time) {
         Assert.assertTrue("Requests is not displayed",requestsubtab().isDisplayed());
         requestsubtab().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='"+school+"']")));
         Assert.assertTrue("school is not displayed",verifySchoolInNotificationTab(school).isDisplayed());
         String Date = selectdate(date);
+        clickShowMoreButton();
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         Assert.assertTrue("date and time are not displayed",verifyDateAndTimeInNotificationTab(school,Date,visitTime).isDisplayed());
     }
@@ -1665,7 +1667,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(requestsubtab());
         Assert.assertTrue("Requests is not displayed",requestsubtab().isDisplayed());
         requestsubtab().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='"+school+"']")));
         Assert.assertTrue("school is not displayed",verifySchoolInNotificationTab(school).isDisplayed());
+        clickShowMoreButton();
         String Date = selectdate(date);
         Assert.assertTrue("date and time is not displayed",verifyDateAndTimeInNotificationTab(school,Date,time).isDisplayed());
     }
@@ -2733,9 +2737,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private void verifyAndClickShowMoreButton(String option,String time,String city,String state,String school){
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
         try{
             if(option.equals("Activity")){
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
                 if(cityAndStateInActivityTab(time, city, state, school).size()==0) {
                     if (showMore().size() == 1) {
                         while (cityAndStateInActivityTab(time, city, state, school).size() == 1) {
@@ -2748,6 +2752,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     }
                 }
             }else if(option.equals("Request")){
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
                 if(cityAndStateInRequestTab(time, city, state, school).size()==0){
                     if (showMore().size() == 1) {
                         while (cityAndStateInRequestTab(time, city, state, school).size() == 0) { if (showMore().size() == 1) {
@@ -2766,9 +2771,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     private void verifyAndClickShowMoreButtonforFairs(String option,String city,String state,String school) {
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
         try {
             if (option.equals("Request")) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
                 if (cityAndStateInRequestTabforFairs(city, state, school).size() == 0) {
                     if (showMore().size() == 1) {
                         while (cityAndStateInRequestTabforFairs(city, state, school).size() == 0) {
@@ -2781,6 +2786,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     }
                 }
             } else if (option.equals("Activity")) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
                 if (cityAndStateInActivityTabforFairs(city, state, school).size() == 0) {
                     if (showMore().size() == 1) {
                         while (cityAndStateInRequestTabforFairs(city, state, school).size() == 0) {
@@ -3529,6 +3535,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(availabilityButtonLocator(visitDate, time));
     }
 
+    private void clickShowMoreButton(){
+        if(showMore().size()==1){
+            showMoreButton().click();
+            waitForUITransition();
+        }
+    }
     //Locators
     private WebElement staffForReassign(){
         waitUntilPageFinishLoading();
@@ -4113,7 +4125,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public WebElement verifySchoolInNotificationTab(String school){
-        return driver.findElement(By.xpath("//span[text()='"+school+"']"));
+        return getDriver().findElement(By.xpath("//span[text()='"+school+"']"));
     }
 
     public WebElement verifyDateAndTimeInNotificationTab(String school,String date,String time){
@@ -4151,8 +4163,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private By cityAndStateInRequest(String visitTime,String city,String state,String school){return By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']");}
 
     private By cityAndStateInActivity(String visitTime,String city,String state,String school){
-        waitForUITransition();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
         By element = null;
         if(getDriver().findElements(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
             element = By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']");
@@ -4165,8 +4176,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement verifyCityAndStateInRequest(String visitTime,String city,String state,String school){return getDriver().findElement(By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
 
     private WebElement verifyCityAndStateInActivity(String visitTime,String city,String state,String school){
-        waitForUITransition();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
         WebElement element = null;
         if(getDriver().findElements(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
             element = getDriver().findElement(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']"));
@@ -4179,8 +4189,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private By cityAndStateInRequestforFairs(String city,String state,String school){return By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']");}
 
     private By cityAndStateInActivityforFairs(String city,String state,String school){
-        waitForUITransition();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
         By element = null;
         if(getDriver().findElements(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']")).size()>0){
             element = By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']");
@@ -4193,8 +4202,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement verifyCityAndStateInRequestforFairs(String city,String state,String school){return getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
 
     private WebElement verifyCityAndStateInActivityforFairs(String city,String state,String school){
-        waitForUITransition();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
         WebElement element = null;
         if(getDriver().findElements(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
             element = getDriver().findElement(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']"));

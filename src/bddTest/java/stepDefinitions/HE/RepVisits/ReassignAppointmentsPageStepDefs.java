@@ -45,7 +45,7 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         Then("^HE I verify show more button displaying when 26 or more appointments are returned for the user \"([^\"]*)\" in reassignAppointments Page$", reassignAppointmentsPage::verifyShowMoreButton);
 
-        Then("^HE I verify Select all check box in reAssignAppointments page using \"([^\"]*)\"$", reassignAppointmentsPage::verifySelectAllCheckBox);
+        Then("^HE I verify the user \"([^\"]*)\" is displaying in select staff member dropdown$",reassignAppointmentsPage::verifyUserInSelectStaffMemberDropdown);
 
         Then("^HE I verify the appointments count in reAssignAppointments page for the user \"([^\"]*)\"$", reassignAppointmentsPage::verifyAppointmentsCount);
 
@@ -90,5 +90,7 @@ public class ReassignAppointmentsPageStepDefs implements En {
         Then("^HE I verify the in active user \"([^\"]*)\" is displaying with 'Inactive User' notation in new assignee dropdown list$",reassignAppointmentsPage::verifyInActiveUserIsDisplayingInSelectNewAssignee);
 
         Then("^HE I verify the in active user \"([^\"]*)\" is not selectable in Select new assignee dropdown$",reassignAppointmentsPage::verifyInActiveUserIsNotSelectable);
+   
+        Then("^HE I verify Select all check box in reAssignAppointments page using \"([^\"]*)\"$", reassignAppointmentsPage::verifySelectAllCheckBox);
     }
 }

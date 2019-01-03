@@ -217,9 +217,10 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
         staffForReassign().click();
         selectStaff(user).click();
-        selectAllCheckBoxText().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
+        jsClick(selectAllCheckbox());
         //Un selecting  action
-        selectAllCheckBoxText().click();
+        jsClick(selectAllCheckbox());
     }
 
     public void verifyAppointmentsCount(String user){
@@ -227,13 +228,15 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         selectStaff(user).click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
         String count = getAppointmentsCount();
-        selectAllCheckBoxText().click();
+        jsClick(selectAllCheckbox());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Reassign "+count+" Appointments']")));
         Assert.assertTrue("No changed the number of items in the button",  selectReAssignAppointmentsButton(count).isDisplayed());
     }
 
     public void verifyUserInSelectStaffMemberDropdown(String user){
         waitUntil(ExpectedConditions.visibilityOf(staffForReassign()));
         staffForReassign().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[text()='"+user+"']")));
         Assert.assertTrue("User was not displayed!", selectStaff(user).isDisplayed());
     }
 
@@ -436,9 +439,10 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement noAppointment(){return getDriver().findElement(By.cssSelector("p[class='_118YtPAz_wuAU_t1i9SSRo']>span"));}
     private By calendarText(){return By.xpath("//a[@class='_3tCrfAwfbPaYbACR-fQgum _3GCGVUzheyMFBFnbzJUu6J']/span[text()='Calendar']");}
     private By selectAllCheckBox(){return By.cssSelector("label[for='selectAllCheckBox']");}
-    private WebElement selectAllCheckBoxText(){ return getDriver().findElement(By.xpath("//label[contains(text(), 'Select all')]"));}
-    private WebElement showingAllText(){return getDriver().findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
-    private WebElement blueNoteAlertMessage(){return getDriver().findElement(By.cssSelector("strong+span>span"));}
+    private WebElement selectAllCheckBoxText(){ return driver.findElement(By.xpath("//label[contains(text(), 'Select all')]"));}
+    private WebElement selectAllCheckbox(){ return driver.findElement(By.xpath("//label[contains(text(), 'Select all')]/parent::div/input"));}
+    private WebElement showingAllText(){return driver.findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
+    private WebElement blueNoteAlertMessage(){return driver.findElement(By.cssSelector("strong+span>span"));}
     private By blueNoteAlert(){ return By.cssSelector("strong+span>span"); }
     private WebElement reAssignAppointmentText(){return getDriver().findElement(By.xpath("//div/span[text()='Re-assign Appointments']"));}
     private WebElement SelectAppointmentsToReAssignText(){return getDriver().findElement(By.xpath("//div/span[text()='Select appointments to re-assign:']"));}
@@ -451,4 +455,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement selectInActiveUserInSelectNewAssignee(String user){return getDriver().findElement(By.xpath("//div/div[text()='Select new assignee']/following-sibling::div/div//span[text()='Inactive User']/preceding-sibling::div[text()='"+user+"']"));}
     private List<WebElement> selectedUserInSelectNewAssignee(String user){return getDriver().findElements(By.xpath("//div[@class='ui selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC']/div[text()='"+user+"']"));}
     private WebElement getUserFromDropdown(int index){ return getDriver().findElement(By.cssSelector("div[class='menu transition visible']>div:nth-of-type("+index+")")); }
+    private WebElement selectAllCheckBoxText(){ return getDriver().findElement(By.xpath("//label[contains(text(), 'Select all')]"));}
+    private WebElement showingAllText(){return getDriver().findElement(By.xpath("//p[contains(text(), 'Showing all of')]"));}
+    private WebElement blueNoteAlertMessage(){return getDriver().findElement(By.cssSelector("strong+span>span"));}
 }
