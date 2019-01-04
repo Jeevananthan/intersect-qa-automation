@@ -59,5 +59,9 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I verify all the below options available in Location fit criteria in Location expandable drawer$", pinnedSchoolsComparePage::verifyLocationExpandableDrawerOptions);
 
+        And("^SM I verify the following things for pinned college$", pinnedSchoolsComparePage::verifyPinnedCollege);
+
+        And("^SM I verify the displaying more then four colleges in compare pinned college page$", pinnedSchoolsComparePage::verifyPinnedCollegesFunctionality);
+
     }
 }

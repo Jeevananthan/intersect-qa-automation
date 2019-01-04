@@ -55,5 +55,16 @@ public class HomePageStepDefs implements En {
 
         Then("^HS I verify the current year is displayed at the bottom of the window in the login page for Naviance$",homePage::verifyYearInNavianceLoginPage);
 
+        Then("^HS I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer$",homePage::verifyHeaderInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I verify the close button is displaying in the product announcements 'Read More' drawer$",homePage::verifyCloseButtonInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I verify the title \"([^\"]*)\" is displaying in the product announcements 'Read More' drawer$",homePage::verifyTitleInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I verify the date is displaying next to the title \"([^\"]*)\" with \"([^\"]*)\" format in the product announcements 'Read More' drawer$",homePage::verifyDateFormatInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I verify the content \"([^\"]*)\" is displaying in the product announcements 'Read More' drawer$",homePage::verifyContentInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I click close button in the product announcements 'Read More' drawer$",homePage::clickCloseButtonInProductAnnouncementsReadMoreDrawer);
     }
 }
