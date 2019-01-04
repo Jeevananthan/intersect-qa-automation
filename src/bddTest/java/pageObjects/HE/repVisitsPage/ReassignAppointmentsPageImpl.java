@@ -297,15 +297,17 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void selectUserInSelectStaffMemberDropdown(String user){
         goToReassignAppointment();
+        waitUntil(ExpectedConditions.visibilityOf(selectStaffMemberDropdown()));
         jsClick(selectStaffMemberDropdown());
         waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(userInSelectStaffMember(user)));
         jsClick(userInSelectStaffMember(user));
     }
 
     public void verifyCurrentUserIsDisplayingInSelectStaffMember(String currentUser){
         goToReassignAppointment();
         jsClick(selectStaffMemberDropdown());
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(currentUserInSelectStaffMember(currentUser)));
         Assert.assertTrue("Current user is not displayed",currentUserInSelectStaffMember(currentUser).isDisplayed());
     }
 
@@ -316,7 +318,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void verifyCurrentUserIsDisplayingInSelectNewAssignee(String currentUser){
         selectNewAssigneeDropdown().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(currentUserInSelectNewAssignee(currentUser)));
         Assert.assertTrue("Current user is not displayed",currentUserInSelectNewAssignee(currentUser).isDisplayed());
 
     }
@@ -334,6 +336,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         goToReassignAppointment();
         selectStaffMemberDropdown().click();
         waitUntilPageFinishLoading();
+        waitForUITransition();
         sortingUser();
         buttonGoBack().click();
         waitUntilPageFinishLoading();
@@ -342,11 +345,11 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     public void verifyUsersSortingOrderInSelectNewAssigneeDropdown(String user){
         goToReassignAppointment();
         selectStaffMemberDropdown().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(selectStaff(user)));
         selectStaff(user).click();
         waitUntilPageFinishLoading();
         selectNewAssigneeDropdown().click();
-        waitUntilPageFinishLoading();
+        waitForUITransition();
         sortingUser();
         buttonGoBack().click();
         waitUntilPageFinishLoading();
@@ -354,6 +357,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
 
     public void verifyShowMoreButton(String user){
         staffForReassign().click();
+        waitUntil(ExpectedConditions.visibilityOf(selectStaff(user)));
         Assert.assertTrue("User was not displayed!", selectStaff(user).isDisplayed());
         selectStaff(user).click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(selectAllCheckBox()));
