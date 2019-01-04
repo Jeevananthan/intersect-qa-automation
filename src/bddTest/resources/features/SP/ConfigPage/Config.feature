@@ -10,4 +10,6 @@ Feature: SP - AdminDashboard - Configuration page operations
       | purpleheautomation | inactivate | purpleheautomation+inactivate@gmail.com | Administrator (All access) |
     Then HE I inactivate the user account for "purpleheautomation+inactivate@gmail.com"
     And HE I successfully sign out
-    Given SP I am logged in to the Admin page as a Support user
+    Given SP I am logged in to the Admin page as an Admin user
+    And SP I go to "manageBlockedAccounts" page
+    And SP I unblock or activate the account for "purpleheautomation inactivate"
