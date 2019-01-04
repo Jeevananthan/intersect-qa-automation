@@ -204,11 +204,17 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * This method is for clearing the HS community profile for any user.
+     */
     public void clearHSCommunityProfile(){
         load(GetProperties.get("hs.community.clear"));
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * This method is checking the Community Welcome page, which we used to get whenever community profile is not filled
+     */
     public void verifyHSCommunityActivationForRepVisits(){
         getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
@@ -216,6 +222,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         driver.switchTo().defaultContent();
     }
 
+    /**
+     * This method will check the Community welcome page existence whenever any user try to access Counselor Community
+     * and RepVisits before completing the Community profile.
+     * @param dataTable
+     */
     public void verifyRequiredPageforNewUser(DataTable dataTable){
         List<String> list = dataTable.asList(String.class);
         for(String tab:list){
@@ -241,6 +252,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * This method will check the all mandatory fields which we need to fill for community profile activation.
+     * @param dataTable
+     */
     public void verifyRequiredFieldsInCCProfileFormForHS(DataTable dataTable){
         navigationDropDown().sendKeys(Keys.ENTER);
         iframeEnter();
@@ -254,6 +269,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         iframeExit();
     }
 
+    /**
+     * This method will fill all the mandatory fields which require to activate community profile.
+     * @param OfficePhone
+     * @param JobTitle
+     * @param euCitizen
+     */
     public void fillCommunityWelcomeMandatoryFieldsForHS(String OfficePhone, String JobTitle, String euCitizen){
         driver.switchTo().frame(0);
         getofficePhone().sendKeys(OfficePhone);
