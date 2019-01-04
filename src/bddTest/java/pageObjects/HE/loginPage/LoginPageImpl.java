@@ -69,13 +69,15 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Using " + password + " as password");
         loginButton().click();
         logger.info("Clicked the login button");
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
+          waitForUITransition();
         List<WebElement> errorMessage = driver.findElements(By.cssSelector("div[class='ui negative message']"));
         if (errorMessage.size()==1){
             logger.info("Login failed. Invalid user or password.");
         }else {
             waitUntilElementExists(link(By.id("user-dropdown")));
+            //Commenting the below line to increase the performance
             waitForUITransition();
         }
     }

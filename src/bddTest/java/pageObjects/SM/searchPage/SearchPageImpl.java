@@ -2219,11 +2219,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             waitUntilPageFinishLoading();
             button(text).click();
-            waitUntilPageFinishLoading();
+            //Commenting the below line to increase the performance
+            //waitUntilPageFinishLoading();
         } catch (Exception e) {
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
-            waitUntilPageFinishLoading();
+            //Commenting the below line to increase the performance
+            //waitUntilPageFinishLoading();
         }
     }
 
