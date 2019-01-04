@@ -421,6 +421,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I remove the appointment from the calendar for fairs$",repVisits::removeFairsAppointmentFromCalendar);
 
+        Then("^HE I verify the visit details are present in the your schedule section using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInYourSchedule);
+
+        Then("^HE I verify the visit details are present in the calendar using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInCalendar);
+
         Then("^HE I verify and select an appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAndSelectAppointmentInCalendarPage);
     }
 }

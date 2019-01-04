@@ -525,7 +525,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             getEventsTab(tabName).click();
         }
-        waitForUITransition();
+
+         //added below wait instead of waitForUITransition
+         waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitForUITransition();
     }
 
     public void verifyFilterIsPresentInList(String eventName) {
