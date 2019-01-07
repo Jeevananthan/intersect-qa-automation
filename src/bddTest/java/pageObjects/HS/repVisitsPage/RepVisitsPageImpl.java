@@ -2855,7 +2855,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Email is not displayed", email.equals(eMail));
     }
 
-    public void validatePassword(String userType, String oldPassword, String minimum8character, String lowercaseletter, String uppercaseletter, String withoutNumber, String withoutspecialcharacter) {
+    public void validatePassword( String oldPassword,String newPassword, String minimum8character, String lowercaseletter, String uppercaseletter, String withoutNumber, String withoutspecialcharacter) {
         currentPasswordInput().clear();
         currentPasswordInput().sendKeys(newPassword);
         //verify the password policy of minimum of 8 characters
@@ -2907,7 +2907,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         newPasswordInput().sendKeys(oldPassword);
         confirmPasswordInput().sendKeys(oldPassword);
         saveButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='ui small icon success message toast']")));
         List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
         if(list.size()==1) {
             Assert.fail("Error Message is displayed");
@@ -2922,7 +2922,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         newPasswordInput().sendKeys(newPassword);
         confirmPasswordInput().sendKeys(newPassword);
         saveButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='ui small icon success message toast']")));
         List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
         if(list.size()==1) {
             logger.info("Error Message is displayed");
