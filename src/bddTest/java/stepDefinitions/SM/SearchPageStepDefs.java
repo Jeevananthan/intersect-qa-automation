@@ -9,9 +9,9 @@ public class SearchPageStepDefs implements En {
 
         SearchPageImpl searchPage = new SearchPageImpl();
 
-        Then("^I select the following data from the Location Fit Criteria$", searchPage::setLocationCriteria);
+        Then("^SM I select the following data from the Location Fit Criteria$", searchPage::setLocationCriteria);
 
-        Then("^I select the following data from the Diversity Fit Criteria$", searchPage::setDiversityCriteria);
+        Then("^SM I select the following data from the Diversity Fit Criteria$", searchPage::setDiversityCriteria);
 
         Then("^SM I select the \"([^\"]*)\" checkbox from the Resources fit criteria$", searchPage::setResourcesCriteria);
 
@@ -96,6 +96,8 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify the widths of the three boxes$", searchPage::verifyWidthsOfThreeBoxes);
 
         And("^I select the following data from the Admission Fit Criteria$", searchPage::setAdmissionCriteria);
+
+        And("^I verify the following data from the Admission Fit Criteria$", searchPage::verifyAdmissionCriteria);
 
         Then("^SM I verify each fit category in the Choose Fit Criteria header bar is clickable and match the color$", searchPage::verifyEachFitCriteria);
 
@@ -305,7 +307,13 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify the options displayed in Out of State students Select % dropdown$", searchPage::verifyOptionsInOutOfStateStudentsSelectPercentDropdown);
 
+        Then("SM I verify the options displayed in the Average Class Size listbox", searchPage::verifyOptionsInAverageClassSizeListBox);
+
         And("^I select the radio button \"([^\"]*)\"$", searchPage::selectRadioButton);
+
+        And("^SM I pick \"([^\"]*)\" in the editable column number (\\d+)$", searchPage::pickColumnHeader);
+
+        Then("^SM I verify that \"([^\"]*)\" in column number (\\d+) for college \"([^\"]*)\" contains the following data:$", searchPage::verifyDataInEditableColumn);
 
         Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
 
@@ -332,5 +340,25 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:$", searchPage::verifyTabIsOpenAfterClickItemInCriteriaBox);
 
         Then("^SM I verify that the student's scores for the college in position (\\d+) are displayed in the Academic Match cell:$", searchPage::verifyScoresInAcademicMatch);
+
+        And("^SM I verify the college \"([^\"]*)\" is \"([^\"]*)\" in the results table$", searchPage::verifyCollegeIsPinnedORUnpinnedInResultsTable);
+
+        And("^SM I unpin \"([^\"]*)\"$", searchPage::unpinCollege);
+
+        And("^SM I pin the college \"([^\"]*)\" from the why drawer$", searchPage::pinCollegeFromWhyDrawer);
+
+        And("^SM I unpin the college \"([^\"]*)\" from the why drawer$", searchPage::unpinCollegeFromWhyDrawer);
+
+        And("^SM I verify the college \"([^\"]*)\" is \"([^\"]*)\" in the why drawer$", searchPage::verifyCollegeIsPinnedORUnpinnedInWhyDrawer);
+
+        And("^SM I verify that left and right arrow buttons are displayed on top of \"([^\"]*)\" logo in Compare Pinned Schools page$", searchPage::verifyLeftAndRightCompareMoveButtonsAreDisplayed);
+
+        And("^SM I verify that the left arrow button should be disabled for the school \"([^\"]*)\" since it is ordered #1$", searchPage::verifyThatCollegeHasLeftMoveButtonDisabledSinceItIsOrderedNumber1);
+
+        And("^SM I verify that the right arrow button should be disabled for the school \"([^\"]*)\" since it is ordered last$", searchPage::verifyThatCollegeHasRightMoveButtonDisabledSinceItIsOrderedLast);
+
+        And("^SM I move \"([^\"]*)\" to the \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::moveCollegeToLeftOrRightInComparePinnedSchoolsPage);
+
+        And("^SM I verify that position of \"([^\"]*)\" is \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::verifyPositionOfCollegeInComparePinnedSchoolsPage);
     }
 }

@@ -4,11 +4,13 @@ import cucumber.api.DataTable;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import utilities.GetProperties;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class HEHSCommonImpl extends PageObjectFacadeImpl {
 
@@ -40,7 +42,8 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToURL(String URL){
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         load(GetProperties.get("he.app.url")+ URL);
         waitUntilPageFinishLoading();
     }
@@ -54,7 +57,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void clickMenuLink(String text) {
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath(getMenuLinkLocator(text))));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(getMenuLinkLocator(text))));
         getMenuLink(text).click();
     }
 
@@ -98,7 +101,8 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFilterValue(String filterName, String expectedValue) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+       // waitUntilPageFinishLoading();
         softly().assertThat(getFilterValueFirstRow(filterName).getText().equals(expectedValue));
     }
 
@@ -115,8 +119,43 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void pickFromTHeMenuItems(String menuItem) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id(getMenuItemById(menuItem))));
             getDriver().findElement(By.id(getMenuItemById(menuItem))).click();
     }
+
+    public void waitForSuccessMessage(String message){
+        waitUntil(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//*[text()='" +message + "']"))));
+    }
+
+    public void submitButton(String button) {
+        getDriver().findElement(By.xpath("//*[text()='" + button + "']")).submit();
+        waitUntilPageFinishLoading();
+    }
+
+    public void clickOnCloseIcon(){
+        getCloseIcon().click();
+    }
+
+    public void scrollTo(String text) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement( getDriver().findElement(By.xpath("//*[text()=\"" + text + "\"]"))).perform();
+    }
+
+    public void switchToNewWindow() {
+        for(String handle:getDriver().getWindowHandles()){
+            getDriver().switchTo().window(handle);
+        }
+    }
+
+    public void closeCurrentWindow() {
+        getDriver().close();
+    }
+
+    public void waitForLoading(String url){
+        waitUntil(ExpectedConditions.urlToBe(url));
+        waitUntilPageFinishLoading();
+    }
+
 
 //locators
     private WebElement notification(){
@@ -145,7 +184,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getFilterValueFirstRow(String filterName) {
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@title='" + filterName + "']/input")));
         return getDriver().findElement(By.xpath("//div[@title='" + filterName + "']/input"));
     }
 
@@ -154,15 +193,19 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private String getMenuLinkLocator(String advancedAwarenessOption) {
-        return "//div[3]//a/span[text()=\"" + advancedAwarenessOption + "\"]";
+        return "//div[3]//a[@class='menu-link']/span[text()=\"" + advancedAwarenessOption + "\"]";
     }
     private String getMenuTabLocator(String advancedAwarenessTab) {
-        return "//div[2]//a/span[text()=\"" + advancedAwarenessTab + "\"]";
+        return String.format("//nav[@aria-label='Active Match Sub Menu']/ul/li/span[text()='%s'] | //nav[@aria-label='Active Match Sub Menu']/ul/li/a/span[text()='%s']",advancedAwarenessTab,advancedAwarenessTab);
     }
 
     private String getMenuItemById(String menuItem) {
         String lowCaseText = menuItem.toLowerCase();
         lowCaseText = lowCaseText.replace(" ", "-");
         return "js-main-nav-" + lowCaseText + "-menu-link";
+    }
+
+    private WebElement getCloseIcon(){
+      return getDriver().findElement(By.cssSelector(".remove.circle.icon.close"));
     }
 }

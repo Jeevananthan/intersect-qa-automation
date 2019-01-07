@@ -33,5 +33,13 @@ public class FiltersPageStepDefs implements En {
         And("^HE I verify Filter Summary value is greater than zero$",filtersPage:: recommendedCount);
 
         Then("^HE I verify that the filters with base names \"([^\"]*)\" are ordered by \"([^\"]*)\"$", filtersPage::verifyFiltersOrder);
+
+        When("^HE I create a new filter with a unique name based on the following data$", filtersPage::createFilterWithGenName);
+
+        Then("^HE I verify that the filter of generated name is displayed by default in the Event Audience field$", filtersPage::verifyFilterOfGenNameIsDefaultInEventAudience);
+
+        And("^HE I delete the filter of generated name$", filtersPage::deleteFilterOfGenName);
+
+        And("^HE I delete the filter of name \"([^\"]*)\" if it is present$", filtersPage::deleteFilterIfPresent);
     }
 }

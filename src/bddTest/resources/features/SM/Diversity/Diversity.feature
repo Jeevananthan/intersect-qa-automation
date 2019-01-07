@@ -4,7 +4,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
   @MATCH-3848
   Scenario: As a HS student I want to see validation message when only the specific percentage was set
     Given SM I am logged in to SuperMatch through Family Connection
-    When I select the following data from the Diversity Fit Criteria
+    When SM I select the following data from the Diversity Fit Criteria
       | Diversity          | Percentage |
       | Search by distance | 10%        |
     Then SM I see validation message "Select race or ethnicity to finish adding this criteria"
@@ -12,7 +12,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
   @MATCH-3848
   Scenario: As a HS student I want to see validation message when only the specific race was set
     Given SM I am logged in to SuperMatch through Family Connection
-    When I select the following data from the Diversity Fit Criteria
+    When SM I select the following data from the Diversity Fit Criteria
       | Diversity          | Select race or ethnicity                  |
       | Search by distance | Native Hawaiian or other Pacific Islander |
     Then SM I see validation message "Select percentage to finish adding this criteria"
@@ -20,7 +20,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
   @MATCH-3848
   Scenario: As a HS student I want to see validation message when only the specific gender was set
     Given SM I am logged in to SuperMatch through Family Connection
-    When I select the following data from the Diversity Fit Criteria
+    When SM I select the following data from the Diversity Fit Criteria
       | Gender |
       | Male   |
     Then SM I see validation message "Select percentage to finish adding this criteria"
@@ -28,7 +28,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
   @MATCH-3848
   Scenario: As a HS student I want to see validation message when only the specific male\female % was set
     Given SM I am logged in to SuperMatch through Family Connection
-    When I select the following data from the Diversity Fit Criteria
+    When SM I select the following data from the Diversity Fit Criteria
       | % MALE VS. FEMALE |
       | 10              |
     Then SM I see validation message "Select gender to finish adding this criteria"
@@ -198,6 +198,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     And SM I unselect the "4-year" checkbox from the "Institution Characteristics" fit criteria
     Then SM I click "Diversity" filter criteria tab
     And SM I pick "50%" from the dropdown "OutOfStateStudents-dropdown"
+    Then SM I close the fit criteria selection window
     Then SM I press Why button for "Bennett College" college
     Then I check if I can see "Out of State Students ≥ 50%" on the page
     Then I check if I can see "42% are out-of-state students" on the page

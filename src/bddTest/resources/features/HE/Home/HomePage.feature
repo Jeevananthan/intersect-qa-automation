@@ -101,16 +101,14 @@ Feature: HE - Home - HomePage - As an HE user, I want to be able to access the f
 
   @MATCH-1365
   Scenario: As an HE, HS, or Hobsons user,I need to be presented with the notifications globe from Community in the Intersect banner
-  so I can still see when I have notifications from Community.
+            so I can still see when I have notifications from Community.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I add post in the Homepage "test1921"
     And SP I successfully sign out
-
     Then HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the navigation globe is displayed for this user
     And HE I click the navigation globe for viewing the recent notifications
     Then HE I successfully sign out
-
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I verify the navigation globe is displayed for this user
     And HS I click the navigation globe for viewing the recent notifications

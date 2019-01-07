@@ -49,7 +49,8 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         action.sendKeys(Keys.END).build().perform();
         for(String option:value){
             Assert.assertTrue(option+"is not displayed",driver.findElement(By.xpath("//div/span[text()='"+Option+"']/parent::div/following-sibling::div/span[contains(text(),'"+option+"')]")).isDisplayed());
-            waitUntilPageFinishLoading();
+            //Commenting the below line to increase the performance
+            //waitUntilPageFinishLoading();
         }
         action.sendKeys(Keys.UP).build().perform();
         action.sendKeys(Keys.ESCAPE).build().perform();
@@ -127,18 +128,20 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyDefaultdropdownMenuSelection(String defaultMenuSelection,DataTable dataTable){
         getNavigationBar().goToRepVisits();
-        waitUntilPageFinishLoading();
-        load(GetProperties.get("he.app.url")+ "connection/connections");
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
+        load(GetProperties.get("he.app.url")+ "am-plus/view-connections");
         waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
         for (String option : value) {
             exportConnectionsDropdown().click();
             driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
-            waitUntilPageFinishLoading();
+            //Commenting the below line to increase the performance
+            //waitUntilPageFinishLoading();
             getNavigationBar().goToRepVisits();
-            waitUntilPageFinishLoading();
-            load(GetProperties.get("he.app.url")+ "connection/connections");
-            waitUntilPageFinishLoading();
+            //waitUntilPageFinishLoading();
+            load(GetProperties.get("he.app.url")+ "am-plus/view-connections");
+            //waitUntilPageFinishLoading();
             Assert.assertTrue("Since Last Export is not present as a default dropdown menu selection",driver.findElement(By.xpath("//div[text()='"+defaultMenuSelection+"']")).isDisplayed());
      }}
 
@@ -160,12 +163,14 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
 
     public void verifySelectedHeader(String Option,DataTable dataTable){
         getNavigationBar().goToActiveMatch();
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         List<String> value=dataTable.asList(String.class);
             for (String option : value) {
                 exportConnectionsDropdown().click();
                 driver.findElement(By.xpath("//div/span[text()='"+option+"']")).click();
-                waitUntilPageFinishLoading();
+                //Commenting the below line to increase the performance
+                //waitUntilPageFinishLoading();
                 String displayingValue = Option+": "+option;
                 Assert.assertTrue(option + "is not displayed", driver.findElement(By.xpath("//div[text()='"+displayingValue+"']")).isDisplayed());
             }
@@ -224,7 +229,7 @@ public class ActiveMatchPageImpl extends PageObjectFacadeImpl {
         return Tab;
     }
     private WebElement exportConnectionsDropdown() {
-        WebElement button=driver.findElement(By.xpath("//div[text()='Since Last Export']"));
+        WebElement button=driver.findElement(By.xpath("//div[@aria-label='Select timeframe to download student connections']/div[@role='alert']"));
         return button;
     }
     private WebElement downloadButton(){

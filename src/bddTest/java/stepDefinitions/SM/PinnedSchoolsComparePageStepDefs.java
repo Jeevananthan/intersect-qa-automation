@@ -1,6 +1,5 @@
 package stepDefinitions.SM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.pinnedSchoolsComparePage.PinnedSchoolsComparePageImpl;
 
@@ -39,6 +38,30 @@ public class PinnedSchoolsComparePageStepDefs implements En {
         And("^SM I verify all the below options available in Diversity fit criteria in Diversity expandable drawer$", pinnedSchoolsComparePage::verifyDiversityExpandableDrawerOptions);
 
         And("^SM I verify all the below options available in Academics fit criteria in Academics expandable drawer$", pinnedSchoolsComparePage::verifyAcademicsExpandableDrawerOptions);
+
+        And("^SM I verify all the below options available in Athletics fit criteria in Athletics expandable drawer$", pinnedSchoolsComparePage::verifyAthleticsExpandableDrawerOptions);
+
+        And("^SM I verify all the below options available in IC fit criteria in IC expandable drawer$", pinnedSchoolsComparePage::verifyICDrawerOptions);
+
+        Then("^SM I pin \"([^\"]*)\" from the search box$", pinnedSchoolsComparePage::pinCollegeFromBottomSearchResult);
+
+        Then("^SM I verify that the tooltips are displayed in the Schools Compare screen \"([^\"]*)\"$", pinnedSchoolsComparePage::verifyTooltipInComparePage);
+
+        Then("^SM I verify that the appropriate section in the college's profile is displayed after clicking the following links:$", pinnedSchoolsComparePage::verifyHousingInfoIsDisplayedAfterClickingSections);
+
+        And("^SM I unpin \"([^\"]*)\" from the Schools Compare screen$", pinnedSchoolsComparePage::unpinSchool);
+
+        And("^SM I search for \"([^\"]*)\" college in search bar$", pinnedSchoolsComparePage::pinCollegeFromBottomSearchResult);
+
+        And("^SM I verify all the below options available in Admission fit criteria in Admission Info expandable drawer$", pinnedSchoolsComparePage::verifyAdmissionInfoDrawerOptions);
+
+        And("^SM I verify all the below options available in Institution Highlights expandable drawer$", pinnedSchoolsComparePage::verifyInstitutionHighlightsDrawerOptionsMaps);
+
+        And("^SM I verify all the below options available in Location fit criteria in Location expandable drawer$", pinnedSchoolsComparePage::verifyLocationExpandableDrawerOptions);
+
+        And("^SM I verify the following things for pinned college$", pinnedSchoolsComparePage::verifyPinnedCollege);
+
+        And("^SM I verify the displaying more then four colleges in compare pinned college page$", pinnedSchoolsComparePage::verifyPinnedCollegesFunctionality);
 
     }
 }

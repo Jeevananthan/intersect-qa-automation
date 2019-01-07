@@ -112,16 +112,15 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
     Then HE I verify the see details link in RepVisits
     
   @MATCH-3065 @MATCH-3407
-  Scenario: As a RepVisits Admin User
-  I want to be able to configure email forwarding of my ActiveMatch and ActiveMatch Events Reports
-  So that I can keep non RV Using members of my school staff informed
+  Scenario: As a RepVisits Admin User I want to be able to configure email forwarding of my ActiveMatch and ActiveMatch
+            Events Reports So that I can keep non RV Using members of my school staff informed
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to the Institution Notification page
     Then HE I verify the Institution Notification page
     Then HE I validate the Checkbox in the Institution Notification page using "purple HEadmin"
     Then HE I validate the Email in the Institution Notification page using "purpleheautomation@gmail.com","purpleheautomation+admin@gmail.com",",purpleheautomation+admin@gmail.com"
     Then HE I successfully sign out
-
+    #Check access for non-admins
     Given HE I am logged in to Intersect HE as user type "community"
     Then HE I verify the Non-admins do not have the tab in navigation
     Then HE I verify the Non-admins cannot reach the page directly by URL
@@ -193,7 +192,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
 
 Examples:
       |School                  |address                                             |college going rate|senior class size|primary POC      |stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   | option |
-      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |OHIO      |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Butler     |1       |
+      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |OHIO      |2   |10:25am  |11:25pm |3        |2        |30      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |QAs Fairs tests       |2   |0900AM    |1000AM  |1            |$25 |25                    |100                        | Save          |Butler     |1       |
 
   @MATCH-1603
   Scenario Outline: As an HE user I need to be able to view the scheduling results of my Visits search AFTER I have
@@ -305,10 +304,10 @@ Examples:
     And HE I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the error Message "Please select a Staff Member" is displaying when "Select staff member" is not selected for "4224, Automation"
-    Then HE I verify the error Message "Please select a New Assignee" is displaying when "Select new assignee" is not selected for "4224, Automation"
-    Then HE I verify the error Message "Please select at least one appointment" is displaying when "No appointments" is not selected for "4224, Automation"
-    Then HE I verify the error Message "doesn't have any appointments scheduled." is displaying when "Select staff member, no associated visits or fairs" is not selected for "Fresh, PurpleHE"
+    Then HE I verify the error Message "Please select a Staff Member" is displaying when Select staff member is not selected
+    Then HE I verify the error Message "Please select a New Assignee" is displaying when Select new assignee is not selected using "4224, Automation"
+    Then HE I verify the error Message "Please select at least one appointment" is displaying when appointments is not selected using "4224, Automation","Community, PurpleHE"
+    Then HE I verify the error Message "have any appointments scheduled." is displaying when the user "Fresh, PurpleHE" is selected
     Then HE I verify the error Message "Please select a Staff Member" is disappearing when the error message "doesn't have any appointments scheduled." is displayed for "Fresh, PurpleHE"
 
   Examples:

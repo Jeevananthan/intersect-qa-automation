@@ -10,6 +10,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
+import utilities.GetProperties;
+import utilities.Gmail.Email;
+import utilities.Gmail.GmailAPI;
 
 import static org.junit.Assert.fail;
 
@@ -28,6 +31,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(createNewUserButtonLocator), 0));
         if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
@@ -36,7 +40,6 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         try {
             driver.wait(2000);
         } catch (Exception e) {}
-        waitUntilPageFinishLoading();
     }
 
     public void verifyUserStatus(String userName, String activeOrInactive) {
@@ -157,6 +160,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
                 className = "ban icon";
                 break;
         }
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='"+userName+"']/parent::td/parent::tr/td/i[@class='"+className+"']")));
         Assert.assertTrue("Expected user status icon was not found.  Expected " + status, driver.findElement(By.xpath("//a[text()='"+userName+"']/parent::td/parent::tr/td/i[@class='"+className+"']")).isDisplayed());
     }
 
@@ -325,15 +329,60 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
                 HEWindow = thisWindow;
             }
         }
-        driver.close();
         driver.switchTo().window(HEWindow);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")));
         String originalMessage = getLoginMessageInHomePage().getText();
         Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
     }
 
+    public void verifyInviteEmail(DataTable dataTable) {
+        waitForUITransition();
+        String emailBody = "";
+        GetProperties.setGmailAPIWait(120);     //Time unit is in seconds
+        try {
+            waitForUITransition();
+            List<Email> emails = getGmailApi().getMessages(dataTable);
+            for (Email email : emails) {
+                System.out.print(email.toString());
+                emailBody = email.getBody();
+            }
+        } catch (Exception e) {
+            logger.info("Exception while retrieving Gmail messages: " + e.getMessage());
+            e.printStackTrace();
+            fail("There was an error retrieving the invitation email from Gmail.");
+        }
+        softly().assertThat(emailBody).as("Main invite message").contains("Welcome to Intersect by Hobsons! A user account has been created for you so that you may access the Counselor Community and manage your college profile in Naviance. To setup your account, go to:");
+        softly().assertThat(emailBody).as("Seven day expiration reminder").contains("Note, this password will expire in seven days. Contact your Intersect Administrator or");
+    }
+
+    public void checkImpersonatedWindow(String expWinCount){
+        int winCount = driver.getWindowHandles().size();
+        softly().assertThat(Integer.parseInt(expWinCount)).as("TotalWindowCount").isEqualTo(winCount);
+    }
+
+    public void checkImpersonationAccountSettings(String option){
+        Set<String> winHandles = driver.getWindowHandles();
+        String firstWinHandle = driver.getWindowHandle();
+        winHandles.remove(firstWinHandle);
+        String secondWinHandle=winHandles.iterator().next();
+        driver.switchTo().window(firstWinHandle);
+        driver.switchTo().window(secondWinHandle);
+        softly().assertThat(accountSettingOptionInHomePageForNonNaviance().size()).as("Account Setting Option is visible in Home Page").isEqualTo(0);
+        userDropDown().click();
+        softly().assertThat(accountSettingOptionInUserDD(option).size()).as("Account Setting Option is visible in User DropDown").isEqualTo(0);
+    }
+
+    public void loginAsWithNonNavianceUser(String feature, String user){
+        String username = GetProperties.get("hs."+ user + ".username");
+        setUserStatus(feature, username);
+    }
+
+
     //Locators
-    
+
+    private List accountSettingOptionInHomePageForNonNaviance(){return driver.findElements(By.xpath("//h2[text()='Your settings']"));}
+    private WebElement userDropDown(){ return driver.findElement(By.id("user-dropdown"));}
+    private List accountSettingOptionInUserDD(String option){return driver.findElements(By.xpath("//span[text()='"+option+"']"));}
     private WebElement saveButtonInCreateUser(){
         return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
     }
@@ -351,4 +400,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath(
                 "//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span"));
     }
+
+    private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
+    private String createNewUserButtonLocator = "//span[text() = 'Create New User']";
 }

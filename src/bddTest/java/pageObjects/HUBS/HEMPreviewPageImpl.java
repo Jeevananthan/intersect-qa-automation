@@ -34,7 +34,8 @@ public class HEMPreviewPageImpl extends PageObjectFacadeImpl {
         }
         waitUntil(ExpectedConditions.elementToBeClickable(button));
         button.click();
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+       // waitUntilPageFinishLoading();
         if (!button.getText().equals(buttonLabel)) {
             button.click();
         }
