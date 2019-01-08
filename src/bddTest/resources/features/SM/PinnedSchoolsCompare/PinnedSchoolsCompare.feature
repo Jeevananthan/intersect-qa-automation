@@ -89,7 +89,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | linussupermatch | How you compare with | Visits to your High School |
       | tenthGradeUser  | Quick Links          | College Visits             |
 
-  @MATCH-4458
+  @MATCH-4458 @MATCH-4896
   Scenario: As a HS student that is comparing my pinned schools, I want to see institution highlight details about
   each college side by side so I can determine which pinned college is a best fit for me based on their highlights.
     Given SM I am logged in to SuperMatch through Family Connection

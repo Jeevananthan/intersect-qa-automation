@@ -16,6 +16,9 @@ public class CollegesImThinkingAboutPageImpl extends PageObjectFacadeImpl {
 
     public void removeCollegeFromImThinkingAboutList(String collegeName) {
         waitUntilPageFinishLoading();
+        link("/colleges").click();
+        button("Research Colleges").click();
+        link("I'm Thinking About").click();
         if (driver.findElements(By.xpath(collegeCheckBoxInListLocator(collegeName))).size() > 0) {
             collegeCheckBoxInList(collegeName).click();
             removeButton().click();
