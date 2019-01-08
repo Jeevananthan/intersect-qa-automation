@@ -2881,12 +2881,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Email is not displayed", email.equals(eMail));
     }
 
-    public void validatePassword(String userType, String oldPassword, String minimum8character, String lowercaseletter, String uppercaseletter, String withoutNumber, String withoutspecialcharacter) {
+    public void validatePassword( String oldPassword,String newPassword, String minimum8character, String lowercaseletter, String uppercaseletter, String withoutNumber, String withoutspecialcharacter) {
         currentPasswordInput().clear();
-        currentPasswordInput().sendKeys(oldPassword);
-        //verify the password policy of minimum of 8 characters
-        newPasswordInput().clear();
-        confirmPasswordInput().clear();
+        currentPasswordInput().sendKeys(newPassword);
         //verify the password policy of minimum of 8 characters
         newPasswordInput().sendKeys(minimum8character);
         confirmPasswordInput().sendKeys(minimum8character);
@@ -2933,27 +2930,27 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify the password accepted with the password policy
         newPasswordInput().clear();
         confirmPasswordInput().clear();
-        newPasswordInput().sendKeys(GetProperties.get("hs." + userType + ".password"));
-        confirmPasswordInput().sendKeys(GetProperties.get("hs." + userType + ".password"));
+        newPasswordInput().sendKeys(oldPassword);
+        confirmPasswordInput().sendKeys(oldPassword);
         saveButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span"), 1));
-        List<WebElement> list = driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
-        if (list.size() == 1) {
-            logger.info("Error Message is displayed");
-            TestCase.fail();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='ui small icon success message toast']")));
+        List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+        if(list.size()==1) {
+            Assert.fail("Error Message is displayed");
         }
         waitUntilPageFinishLoading();
     }
 
-    public void resetPassword(String oldPassword, String newPassword) {
+    public void resetPassword(String oldPassword,String newPassword) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("current-password-input")));
         currentPasswordInput().clear();
         currentPasswordInput().sendKeys(oldPassword);
         newPasswordInput().sendKeys(newPassword);
         confirmPasswordInput().sendKeys(newPassword);
         saveButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span"), 1));
-        List<WebElement> list = driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
-        if (list.size() == 1) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='ui small icon success message toast']")));
+        List<WebElement> list=driver.findElements(By.xpath("//div[@class='ui negative message']/div/span"));
+        if(list.size()==1) {
             logger.info("Error Message is displayed");
             TestCase.fail();
         }
@@ -10501,6 +10498,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElements(By.id("college-fair-cancellation-message"));
     }
 
+    private WebElement formEmailTextBox(){ return driver.findElement(By.id("user-form-email")); }
+   
     private By fairsClose() {
         return By.xpath("//button[text()='Close']");
     }
