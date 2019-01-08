@@ -1,5 +1,6 @@
 package stepDefinitions.SP.adminPages;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.NavBarImpl;
 import pageObjects.SP.accountPages.UserListPageImpl;
@@ -66,5 +67,7 @@ public class HomePageStepDefs implements En {
         And("^HE I verify the items are present in the help center dropdown$",homePage::verifyHelpCentre);
 
         Then("^SP I go to the users list for \"([^\"]*)\" user, institution \"([^\"]*)\" from the institution dashboard$",homePage::goToAccountUsersList);
+
+        When("^SP I navigate to the GraphiQL page$", homePage::navigateToGraphiQL);
     }
 }
