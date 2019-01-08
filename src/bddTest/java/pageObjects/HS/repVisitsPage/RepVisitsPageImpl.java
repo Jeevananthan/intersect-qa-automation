@@ -1781,6 +1781,32 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         selectAndCleanVisits(date);
     }
 
+    public void verifyTimeSlotIsDisplayedInRegularWeeklyHoursTab(String startDate,String startTime,String endTime){
+        time = StartTime.toUpperCase();
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        navigateToException();
+        availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+        int Date = Integer.parseInt(startDate);
+        String Day = getSpecificDate(Date,"EEE").toUpperCase();
+        int columnID = getColumnIdFromTable( "//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']/thead",Day );
+        int rowID = getRowIdByColumn("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody", columnID, time);
+
+        if(columnID>= 0 && rowID>= 0) {
+            columnID = columnID + 1;
+            rowID = rowID + 1;
+            //Remove Time slot
+            WebElement timeSlot = getDriver().findElement(By.xpath("//table[@class='ui unstackable basic table _3QKM3foA8ikG3FW3DiePM4']//tbody//tr[" + rowID + "]//td[" + columnID + "]//button"));
+            timeSlot.click();
+            Assert.assertTrue("Added time slot is not displayed",driver.findElement(By.xpath("//span[contains(text(),'"+StartTime+" - "+endTime+"')]")).isDisplayed());
+
+        }else{
+            Assert.fail("The Time Slot "+time+"is not displayed in Regular weekly hours ");
+        }
+    }
+
     public void selectAndCleanVisits(String date) {
         WebElement visitInOverlay;
         while (driver.findElements(By.cssSelector(appointmentLocator)).size() > 0) {

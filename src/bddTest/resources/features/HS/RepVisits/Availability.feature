@@ -138,3 +138,16 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
     Then HS I verify the Visit Availability Section for the Availability & Settings tab of the RepVisits with "All RepVisits Users"
+
+  @MATCH-5139
+  Scenario Outline: As a HS RepVisits user I can be able to add a time slot in Regular Weekly Hours
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    Then HS I verify the time slot is added with "<StartDate>","<StartTime>","<EndTime>" in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+
+    Examples:
+      |Day |StartTime|EndTime|NumVisits|StartDate|EndDate| option |
+      |14  |10:55am  |12:11pm|2        |14       |49     | 1      |

@@ -744,5 +744,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I clean the visits for particular Month \"([^\"]*)\"$", repVisits::cleanVisitsForParticularMonth);
 
+        Then("^HS I verify the time slot is added with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::verifyTimeSlotIsDisplayedInRegularWeeklyHoursTab);
+
     }
 }
