@@ -2220,7 +2220,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             button(text).click();
             //Commenting the below line to increase the performance
-            //waitUntilPageFinishLoading();
+           // waitUntilPageFinishLoading();
         } catch (Exception e) {
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
