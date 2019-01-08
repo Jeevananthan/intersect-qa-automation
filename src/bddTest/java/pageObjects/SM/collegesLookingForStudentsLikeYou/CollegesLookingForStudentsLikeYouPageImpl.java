@@ -59,5 +59,4 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
     private WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
     private String cardsGroupsLocator = "div.ui.cards.matches-group";
     private String cardTitleLocator(String collegeName) { return "//div[@class = 'ui cards matches-group'][1]//a[text() = '" + collegeName + "']"; }
-    private String loadingSpinnerLocator = "div.ui.active.loader";
 }
