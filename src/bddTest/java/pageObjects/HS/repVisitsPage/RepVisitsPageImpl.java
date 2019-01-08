@@ -1826,6 +1826,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyAnnouncementTitleIsDisplaying(String announcementTitle){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(announcementTitle(announcementTitle)));
+        Assert.assertTrue("Announcement title is not displayed",verifyAnnouncementTitle(announcementTitle).isDisplayed());
+    }
+
+    public void verifyReadMoreButtonIsDisplaying(){
+        Assert.assertTrue("Read more button is not displayed",readMoreButton().isDisplayed());
+    }
+
+    public void verifyAnnouncementDetailsAfterSuccessMessage(String announcement){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(announcementTitle(announcement)));
+        Assert.assertTrue("Announcement is not displayed",verifyAnnouncementTitle(announcement).isDisplayed());
+    }
+
+    public void verifyDismissButtonInAnnouncementDetails(){
+        Assert.assertTrue("Dismiss button is not displayed",announcementDismissButton().isDisplayed());
+    }
+
+    public void clickDismissButton(){
+        waitUntil(ExpectedConditions.elementToBeClickable(dismissButton()));
+        jsClick(announcementDismissButton());
+    }
+
+    public void verifyAnnouncementIsNotDisplaying(){
+        Assert.assertTrue("Announcement is displayed",announcementsDismissButton().size()==0);
+    }
+
+    public void verifyProductAnnouncementContent(String content){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(content(content)));
+        Assert.assertTrue("Content is not displaying",announcementContent(content).isDisplayed());
+    }
+
+    public void verifyReadMoreButtonIsNotDisplaying(){
+        Assert.assertTrue("Read more button is displayed",readMorebutton().size()==0);
+    }
 
     public void verifyTextInReschedulePopup(String expectedText) {
         String actualText = driver.findElement(By.xpath("//span[@class='_25XyePHsmpWU1qQ18ojKip']/span")).getText();
@@ -11112,4 +11147,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private String appointmentLocator = ".rbc-event-content";
+
+    private WebElement verifyAnnouncementTitle(String announcementTitle){return getDriver().findElement(By.xpath("//div/b[text()='"+announcementTitle+"']"));}
+
+    private By announcementTitle(String announcementTitle){return By.xpath("//div/b[text()='"+announcementTitle+"']");}
+
+    private WebElement readMoreButton(){return button("Read More");}
+
+    private WebElement announcementDismissButton(){return getDriver().findElement(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
+
+    private WebElement announcementContent(String content){return getDriver().findElement(By.xpath("//span[text()='"+content+"']"));}
+
+    private By content(String content){return By.xpath("//span[text()='"+content+"']");}
+
+    private By dismissButton(){return By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']");}
+
+    private List<WebElement> announcementsDismissButton(){return getDriver().findElements(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
+
+    private List<WebElement> readMorebutton(){return getDriver().findElements(By.xpath("//button[text()='Read More']"));}
 }
