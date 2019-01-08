@@ -202,6 +202,13 @@ public class NavBarImpl extends SeleniumBase {
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
     }
 
+    public void goToGraphiQL() {
+        if(!isLinkActive(getGraphiQLBtn()))
+            getGraphiQLBtn().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(graphiQLQueryVariablesHeaderLocator), 0));
+        Assert.assertTrue("Unable to navigate to GraphiQL page", isLinkActive(getGraphiQLBtn()));
+    }
+
     //Getters
     private WebElement notificationIcon()
     {WebElement element=getDriver().findElement(By.xpath("//div[@id='notifications']"));
@@ -278,4 +285,10 @@ public class NavBarImpl extends SeleniumBase {
     private WebElement getAdminDashboardLabel(){
         return getDriver().findElement(By.cssSelector("h1._2uZ_hMKXaU0AzfCZMfjh1t"));
     }
+
+    private WebElement getGraphiQLBtn() {
+        return driver.findElement(By.cssSelector("a#js-main-nav-graphiql-menu-link"));
+    }
+
+    private String graphiQLQueryVariablesHeaderLocator = "div.variable-editor-title";
 }
