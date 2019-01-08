@@ -4433,10 +4433,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private By todayButtonInCalendar(){return By.cssSelector("button[title='Today']");}
 
     private WebElement appointmentSlot(String time,String school){return getDriver().findElement(By.xpath("//span[text()='"+time+"']/preceding-sibling::span[text()='"+school+"']"));}
-  
-    private By schoolNameText(String school){
-        return By.xpath("//td/a[contains(text(),'"+school+"')]");
-    }
+
     private By successMessage(){
         return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']");
     }
