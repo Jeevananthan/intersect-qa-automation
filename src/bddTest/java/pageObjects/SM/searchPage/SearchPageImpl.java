@@ -416,6 +416,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         openFitCriteria("Academics");
+        waitUntil(ExpectedConditions.elementToBeClickable(academicsRadioButton("Bachelor's")));
         academicsRadioButton("Bachelor's").click();
 
         List<List<String>> itemsToSelect = items.raw();
