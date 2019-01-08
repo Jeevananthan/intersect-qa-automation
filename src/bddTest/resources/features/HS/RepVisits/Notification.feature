@@ -276,7 +276,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
-    Then HE I am logged in to Intersect HE as user type "publishing"
+    Then HE I am logged in to Intersect HE as user type "publishing2"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
@@ -300,7 +300,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I successfully sign out
 
 #Verify the City and State displayed in the HE Activity Activity Tab
-    Then HE I am logged in to Intersect HE as user type "publishing"
+    Then HE I am logged in to Intersect HE as user type "publishing2"
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<schoolForHE>" in the Activity Tab
 
     Examples:
@@ -323,7 +323,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 
-    Then HE I am logged in to Intersect HE as user type "publishing"
+    Then HE I am logged in to Intersect HE as user type "publishing2"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #verify the City and State displayed in the HE Request Notification tab
@@ -343,7 +343,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HS I verify the city and state "<cityAndStateofInstitution>" are present in the underneath of Institiution Name "<institution>" in the Activity Tab for Fairs
     And HS I successfully sign out
 #Verify the City and State displayed in the HE Activity Activity Tab
-    Then HE I am logged in to Intersect HE as user type "publishing"
+    Then HE I am logged in to Intersect HE as user type "publishing2"
     Then HE I verify the city and state "<cityAndStateofSchool>" are present in the underneath of School Name "<schoolForHE>" in the Activity Tab for Fairs
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"

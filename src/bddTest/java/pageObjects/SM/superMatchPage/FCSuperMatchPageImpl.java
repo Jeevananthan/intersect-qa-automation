@@ -650,6 +650,13 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         link("College Events").click();
     }
 
+    public void gotToCollegesImThinkingAboutList() {
+        waitUntilPageFinishLoading();
+        getMainMenuTab("Colleges").click();
+        button("Research Colleges").click();
+        link("I'm Thinking About").click();
+    }
+
     // Locators Below
 
     private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//span[@class='supermatch-footer-item-text'][text()='More']"));}

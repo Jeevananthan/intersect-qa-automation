@@ -100,3 +100,28 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
     And SM I verify all the below options available in Institution Highlights expandable drawer
       | Photos/Videos on Profile | Profiles      | Upcoming College Events | Upcoming College Visits |
       | -                        | View Profiles | -                       | -                       |
+
+  @MATCH-3448
+  Scenario: As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
+  compare them side by side.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "The University of Alabama" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify the following things for pinned college
+      | FAVORITE | The University of Alabama | this.is.yet.another.testing6,14:02 | PINNED |
+
+  @MATCH-3448
+  Scenario: As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
+  compare them side by side.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "Curtis Institute of Music" college in search bar
+    And SM I search for "Northwood University-Texas" college in search bar
+    And SM I search for "Bates Technical College" college in search bar
+    And SM I search for "Humber College" college in search bar
+    And SM I search for "York College" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify the displaying more then four colleges in compare pinned college page

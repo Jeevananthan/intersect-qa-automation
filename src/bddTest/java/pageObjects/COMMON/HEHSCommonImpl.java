@@ -42,7 +42,8 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToURL(String URL){
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         load(GetProperties.get("he.app.url")+ URL);
         waitUntilPageFinishLoading();
     }
@@ -100,7 +101,8 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFilterValue(String filterName, String expectedValue) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+       // waitUntilPageFinishLoading();
         softly().assertThat(getFilterValueFirstRow(filterName).getText().equals(expectedValue));
     }
 
@@ -144,6 +146,16 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
             getDriver().switchTo().window(handle);
         }
     }
+
+    public void closeCurrentWindow() {
+        getDriver().close();
+    }
+
+    public void waitForLoading(String url){
+        waitUntil(ExpectedConditions.urlToBe(url));
+        waitUntilPageFinishLoading();
+    }
+
 
 //locators
     private WebElement notification(){

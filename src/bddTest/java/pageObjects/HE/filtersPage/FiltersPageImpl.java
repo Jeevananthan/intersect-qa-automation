@@ -89,7 +89,10 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         threePointsMenu(filterName).click();
         threePointsMenuElement("Delete").click();
         deleteConfirmationButton().click();
-        waitForUITransition();
+        //added below wait instead of waitForUITransition
+         waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitForUITransition();
     }
 
     public void renameFilter(String originalName, String newName) {

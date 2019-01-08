@@ -525,7 +525,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             getEventsTab(tabName).click();
         }
-        waitForUITransition();
+
+         //added below wait instead of waitForUITransition
+         waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitForUITransition();
     }
 
     public void verifyFilterIsPresentInList(String eventName) {
@@ -703,6 +707,16 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Status of the Event is set to Draft under Unpublished tab",unpublishedStatus().getText().status(statusDraft));
     }*/
 
+    public void deleteAllUnpublishedEventsOfName(String eventName) {
+        List<WebElement> eventsToDeleteList = driver.findElements(By.xpath(unpublishedEventsEllipsisLocator(eventName)));
+        for (WebElement eventEllipsis : eventsToDeleteList) {
+            eventEllipsis.click();
+            getMenuButton("Delete").click();
+            deleteYesButton().click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(progressBarLocator), 0));
+        }
+    }
+
     //locators
 //    private WebElement statusDraft(){return  driver.findElement(By.cssSelector(""))};
     private WebElement eventsTitle() { return driver.findElement(By.xpath("//span[text()='Events']")); }
@@ -806,4 +820,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement attendeeDataStatus(String Status){return driver.findElement(By.xpath("//Div[text()='" + Status + "']"));}
     private WebElement getEventsInternalTab(String tabName) { return  driver.findElement(By.xpath("//h2[contains(text(), '" + tabName + "')]")); }
     private WebElement editEventClick (String nameOfEvent){return driver.findElement(By.xpath("//h3[text()='" +nameOfEvent+ "']"));}
+    private String unpublishedEventsEllipsisLocator(String eventName) { return "//h3[text() = '" + eventName + "']/../../../..//i"; }
+    private String progressBarLocator = "div[role='progressbar']";
 }
