@@ -11165,4 +11165,5 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> announcementsDismissButton(){return getDriver().findElements(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
 
     private List<WebElement> readMorebutton(){return getDriver().findElements(By.xpath("//button[text()='Read More']"));}
+
 }

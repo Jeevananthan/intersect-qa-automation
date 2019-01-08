@@ -964,7 +964,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
      And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
 
 
-  @MATCH-3441
+  @MATCH-3441 @MATCH-4896
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Highlights details about each
     college in my results table so I can quickly see additional information about the college.
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
