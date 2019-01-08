@@ -308,6 +308,19 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return GlobalSteps.softly;
     }
 
+    public long getEpochTime(int delta) {
+        Date date =  null;
+        Calendar calendarDate = getDeltaDate(delta);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy HH:mm:ss.SSS zzz");
+        String dateString = dateFormat.format(calendarDate.getTime());
+        try {
+            date = dateFormat.parse(dateString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
+    }
+
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     protected WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }

@@ -131,6 +131,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
         a previously saved Active Match Connections SFTP set-up, so that if anything changes regarding my connection
         details, I can update it accordingly to maintain a successful connection for file transfer.
           Given HE I am logged in to Intersect HE as user type "administrator"
+          And HE I delete the SFTP Data Transfer connection
           And HE I setup a SFTP connection with the following data
             |host          |port|path    |userName|password         |transferFrequency  |checkFingerPrintToVerifyServer|
             |209.97.159.244|22  |/uploads|sftpme  |bruh-you-can-SFTP|mon,tue,wed,thu,fri|no                            |
