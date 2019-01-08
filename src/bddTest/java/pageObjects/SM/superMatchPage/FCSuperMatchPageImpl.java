@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import pageObjects.CM.groupsPage.GroupsPageImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
@@ -657,6 +658,28 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         link("I'm Thinking About").click();
     }
 
+    public void addCollegeToImThinkingAboutList(String collegeName) {
+        gotToCollegesImThinkingAboutList();
+        link("Add Colleges to List").click();
+        Select lookByDropdown = new Select(driver.findElement(By.xpath(lookByDropdownLocator)));
+        lookByDropdown.selectByVisibleText("Keyword");
+        lookupByNameField().sendKeys(collegeName);
+        button("Go").click();
+        if (heartIconInList(collegeName).getAttribute("aria-label").equals("Favorite")) {
+            heartIconInList(collegeName).click();
+            waitUntil(ExpectedConditions.attributeToBe(heartIconInList(collegeName), "aria-label", "Unfavorite"));
+        }
+    }
+
+    public void goToCollegesLookingForStudentsLikeYou() {
+        link("/colleges").click();
+        button("Find Your Fit").click();
+        link("College Match").click();
+        waitUntilPageFinishLoading();
+        getCollegeMatchTab("Colleges Looking For Students Like You!").click();
+        waitUntilPageFinishLoading();
+    }
+
     // Locators Below
 
     private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//span[@class='supermatch-footer-item-text'][text()='More']"));}
@@ -737,4 +760,8 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement infoBarMainWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]")); }
     private WebElement infoBarExtraWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]/span[3]")); }
     private WebElement getMainMenuTab(String tabName) { return driver.findElement(By.xpath("//ul//div[text() = '" + tabName + "']")); }
+    private String lookByDropdownLocator = "//label//select[contains(@id, 'checkbox')]";
+    private WebElement lookupByNameField() { return driver.findElement(By.cssSelector("input[name='name']")); }
+    private WebElement heartIconInList(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/preceding-sibling::button")); }
+    private WebElement getCollegeMatchTab(String tabName) { return driver.findElement(By.xpath("//div//a[text() = '" + tabName + "']")); }
 }

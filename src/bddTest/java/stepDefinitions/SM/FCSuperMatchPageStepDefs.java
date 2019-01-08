@@ -19,5 +19,9 @@ public class FCSuperMatchPageStepDefs implements En {
 
         And("^SM I delete the save search and verify it$",fcSuperMatch::deleteSaveSearch);
 
+        When("^SM I add \"([^\"]*)\" to the Colleges I'm thinking about list if it is not already there$", fcSuperMatch::addCollegeToImThinkingAboutList);
+
+        And("^SM I go to Colleges Looking for Students Like You list$", fcSuperMatch::goToCollegesLookingForStudentsLikeYou);
+
     }
 }
