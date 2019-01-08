@@ -11112,4 +11112,5 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private String appointmentLocator = ".rbc-event-content";
+
 }
