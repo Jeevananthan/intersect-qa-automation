@@ -142,12 +142,32 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
   @MATCH-5139
   Scenario Outline: As a HS RepVisits user I can be able to add a time slot in Regular Weekly Hours
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+#Create a visit and verify the time slot in regular weekly hours
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I verify the time slot is added with "<StartDate>","<StartTime>","<EndTime>" in Regular Weekly Hours Tab
+#Verify and register the appointment in he
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+ #Verify appointment from HE calendar
+    And HE I verify the visit details are present in the calendar using "<School>","<StartDate>","<StartTime>"
+
+#Verify and remove the appointment from HS calendar
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify and select an appointment in calendar page using "<institution>","<StartTime>","<StartDate>","Scheduled"
+    Then HS I remove the appointment from the calendar
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
 
     Examples:
-      |Day |StartTime|EndTime|NumVisits|StartDate|EndDate| option |
-      |14  |10:55am  |12:11pm|2        |14       |49     | 1      |
+      |institution              |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                            |School              |heStartTime|heTime | option|
+      |The University of Alabama|7  |10:25am  |11:25pm |3        |7        |42      |11:25pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:25am    |10:25am|1      |
