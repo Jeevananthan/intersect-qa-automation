@@ -567,7 +567,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement generateKeyButton(){
-        return getDriver().findElement(By.id("sftpGenerateKey"));
+        return getDriver().findElement(By.xpath("//button[@id='sftpReGenerateKey'] | //button[@id='sftpGenerateKey']"));
     }
 
     /**
@@ -640,7 +640,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return
      */
     private By regenerateKeyButtonLocator(){
-        return By.id("sftpReGenerateKey");
+        return By.xpath("//button[@id='sftpReGenerateKey'] | //button[@id='sftpGenerateKey']");
     }
 
     /**
