@@ -744,6 +744,22 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I clean the visits for particular Month \"([^\"]*)\"$", repVisits::cleanVisitsForParticularMonth);
 
+        Then("^HS I verify the announcement title \"([^\"]*)\" in the announcement details$",repVisits::verifyAnnouncementTitleIsDisplaying);
+
+        Then("^HS I verify the 'Read More' button is displaying for the content with more than 140 character limit$",repVisits::verifyReadMoreButtonIsDisplaying);
+
+        Then("^HS I verify the announcement details after the success toast message using \"([^\"]*)\"$",repVisits::verifyAnnouncementDetailsAfterSuccessMessage);
+
+        Then("^HS I verify the dismiss button is displaying in the announcement details$",repVisits::verifyDismissButtonInAnnouncementDetails);
+
+        Then("^HS I click the dismiss button$",repVisits::clickDismissButton);
+
+        Then("^HS I verify the announcement is not displaying after clicking dismiss button$",repVisits::verifyAnnouncementIsNotDisplaying);
+
+        Then("^HS I verify the content begins where title would begin in notification bar \"([^\"]*)\"$",repVisits::verifyProductAnnouncementContent);
+
+        Then("^HS I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);
+
         Then("^HS I verify the time slot is added with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::verifyTimeSlotIsDisplayedInRegularWeeklyHoursTab);
 
         Then("^HS I go to the Naviance Settings to select the option \"([^\"]*)\" and fill the following details \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::fillTheValuesInNavianceSettings);

@@ -1852,114 +1852,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void fillTheValuesInNavianceSettings(String option,String visitsCount,String location,String studentsCount,String deadline,String notes,String deadLineOption) {
-        getNavigationBar().goToRepVisits();
-        waitUntilPageFinishLoading();
-        availabilityAndSettings().click();
-        waitUntilPageFinishLoading();
-        navianceSettings().click();
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Naviance Sync Settings']")));
-        driver.findElement(By.xpath("//div[@class='grouped fields']/div/div/label[text()[contains(.,'"+option+"')]]")).click();
-        maxNoOfVisits().clear();
-        maxNoOfVisits().sendKeys(visitsCount);
-        locationTextBoxInNaviance().sendKeys(Keys.PAGE_DOWN);
-        locationTextBoxInNaviance().clear();
-        locationTextBoxInNaviance().sendKeys(location);
-        maxNoOfStudents().clear();
-        maxNoOfStudents().sendKeys(studentsCount);
-        visitDeadLine().clear();
-        visitDeadLine().sendKeys(deadline);
-        driver.findElement(By.id("rsvpKind")).click();
-        driver.findElement(By.xpath("//span[text()='"+deadLineOption+"']")).click();
-        studentNotes().clear();
-        studentNotes().sendKeys(notes);
-        saveChangesNaviance().click();
-        waitUntilPageFinishLoading();
+    public void verifyAnnouncementTitleIsDisplaying(String announcementTitle){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(announcementTitle(announcementTitle)));
+        Assert.assertTrue("Announcement title is not displayed",verifyAnnouncementTitle(announcementTitle).isDisplayed());
     }
 
-    public void verifyNavianceCollegeVisitPageAfterReschedule(String college,String Date,String PrivateNotes,String rep,String location,String notes,String noofVisits,String deadline,String attendee){
-        String date=selectdateforNavianceVisit(Date);
-        List<String> visitDetails=new ArrayList<>();
-        visitDetails.add(college);
-        visitDetails.add(PrivateNotes);
-        visitDetails.add(date);
-        visitDetails.add(getVisitStartTimeforReschedule());
-        visitDetails.add(rep);
-        visitDetails.add(location);
-        visitDetails.add(notes);
-        visitDetails.add(noofVisits);
-        visitDetails.add(deadline);
-        visitDetails.add(attendee);
-        for(String detail:visitDetails)
-        {
-            Assert.assertTrue(detail+"is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+detail+"')]")).isDisplayed());
-        }
+    public void verifyReadMoreButtonIsDisplaying(){
+        Assert.assertTrue("Read more button is not displayed",readMoreButton().isDisplayed());
     }
 
-    public void verifyNavianceCollegeVisitPage(String college,String Date,String PrivateNotes,String rep,String location,String notes,String noofVisits,String deadline,String attendee) {
-        String date=selectdateforNavianceVisit(Date);
-        List<String> visitDetails=new ArrayList<>();
-        visitDetails.add(college);
-        visitDetails.add(PrivateNotes);
-        visitDetails.add(date);
-        visitDetails.add(getVisitStartTime());
-        visitDetails.add(rep);
-        visitDetails.add(location);
-        visitDetails.add(notes);
-        visitDetails.add(noofVisits);
-        visitDetails.add(deadline);
-        visitDetails.add(attendee);
-        for(String detail:visitDetails) {
-            Assert.assertTrue(detail+"is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+detail+"')]")).isDisplayed());
-        }
+    public void verifyAnnouncementDetailsAfterSuccessMessage(String announcement){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(announcementTitle(announcement)));
+        Assert.assertTrue("Announcement is not displayed",verifyAnnouncementTitle(announcement).isDisplayed());
     }
 
-    public void selectViewOptionInNavianceCollegeVisitPageAfterReschedule(String option,String Date,String Time){
-        String startTime=getVisitStartTimeforReschedule();
-        Actions action = new Actions(driver);
-        action.moveToElement(collegeOptionInNaviancePage()).build().perform();
-        visitsInNavianceColleges().click();
-        String date=selectdateforNaviance(Date);
-        WebElement select=driver.findElement(By.xpath("//td[text()='"+date+"']/following-sibling::td[contains(text(),'"+startTime+"')]/following-sibling::td/a[text()='"+option+"']"));
-        waitUntilElementExists(select);
-        select.click();
-        waitUntilPageFinishLoading();
+    public void verifyDismissButtonInAnnouncementDetails(){
+        Assert.assertTrue("Dismiss button is not displayed",announcementDismissButton().isDisplayed());
     }
 
-    public void selectViewOptionInNavianceCollegeVisitPage(String option,String Date,String Time) {
-        String startTime=getVisitStartTime();
-        Actions action = new Actions(driver);
-        action.moveToElement(collegeOptionInNaviancePage()).build().perform();
-        visitsInNavianceColleges().click();
-        String date=selectdateforNaviance(Date);
-        WebElement select=driver.findElement(By.xpath("//td[text()='"+date+"']/following-sibling::td[contains(text(),'"+startTime+"')]/following-sibling::td/a[text()='"+option+"']"));
-        waitUntilElementExists(select);
-        select.click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+    public void clickDismissButton(){
+        waitUntil(ExpectedConditions.elementToBeClickable(dismissButton()));
+        jsClick(announcementDismissButton());
     }
 
-    public String selectdateforNaviance(String addDays) {
-        String DATE_FORMAT_NOW = "EEE MMMM d, yyyy";
-        Calendar cal = Calendar.getInstance();
-        int days=Integer.parseInt(addDays);
-        cal.add(Calendar.DATE, days);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String currentDate = sdf.format(cal.getTime());
-        return currentDate;
+    public void verifyAnnouncementIsNotDisplaying(){
+        Assert.assertTrue("Announcement is displayed",announcementsDismissButton().size()==0);
     }
 
-    public String selectdateforNavianceVisit(String addDays) {
-        String DATE_FORMAT_NOW = "EEEE MMMM d, yyyy";
-        Calendar cal = Calendar.getInstance();
-        int days=Integer.parseInt(addDays);
-        cal.add(Calendar.DATE, days);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String currentDate = sdf.format(cal.getTime());
-        return currentDate;
+    public void verifyProductAnnouncementContent(String content){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(content(content)));
+        Assert.assertTrue("Content is not displaying",announcementContent(content).isDisplayed());
     }
 
+    public void verifyReadMoreButtonIsNotDisplaying(){
+        Assert.assertTrue("Read more button is displayed",readMorebutton().size()==0);
+    }
 
     public void verifyTextInReschedulePopup(String expectedText) {
         String actualText = driver.findElement(By.xpath("//span[@class='_25XyePHsmpWU1qQ18ojKip']/span")).getText();
@@ -8780,6 +8707,115 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyAppointmentInCalendar(String startTime, String university) {
         Assert.assertTrue("Appointment is not displayed", calendarAppointment(startTime, university).isDisplayed());
     }
+  
+   public void fillTheValuesInNavianceSettings(String option,String visitsCount,String location,String studentsCount,String deadline,String notes,String deadLineOption) {
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
+        navianceSettings().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Naviance Sync Settings']")));
+        driver.findElement(By.xpath("//div[@class='grouped fields']/div/div/label[text()[contains(.,'"+option+"')]]")).click();
+        maxNoOfVisits().clear();
+        maxNoOfVisits().sendKeys(visitsCount);
+        locationTextBoxInNaviance().sendKeys(Keys.PAGE_DOWN);
+        locationTextBoxInNaviance().clear();
+        locationTextBoxInNaviance().sendKeys(location);
+        maxNoOfStudents().clear();
+        maxNoOfStudents().sendKeys(studentsCount);
+        visitDeadLine().clear();
+        visitDeadLine().sendKeys(deadline);
+        driver.findElement(By.id("rsvpKind")).click();
+        driver.findElement(By.xpath("//span[text()='"+deadLineOption+"']")).click();
+        studentNotes().clear();
+        studentNotes().sendKeys(notes);
+        saveChangesNaviance().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyNavianceCollegeVisitPageAfterReschedule(String college,String Date,String PrivateNotes,String rep,String location,String notes,String noofVisits,String deadline,String attendee){
+        String date=selectdateforNavianceVisit(Date);
+        List<String> visitDetails=new ArrayList<>();
+        visitDetails.add(college);
+        visitDetails.add(PrivateNotes);
+        visitDetails.add(date);
+        visitDetails.add(getVisitStartTimeforReschedule());
+        visitDetails.add(rep);
+        visitDetails.add(location);
+        visitDetails.add(notes);
+        visitDetails.add(noofVisits);
+        visitDetails.add(deadline);
+        visitDetails.add(attendee);
+        for(String detail:visitDetails)
+        {
+            Assert.assertTrue(detail+"is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+detail+"')]")).isDisplayed());
+        }
+    }
+
+    public void verifyNavianceCollegeVisitPage(String college,String Date,String PrivateNotes,String rep,String location,String notes,String noofVisits,String deadline,String attendee) {
+        String date=selectdateforNavianceVisit(Date);
+        List<String> visitDetails=new ArrayList<>();
+        visitDetails.add(college);
+        visitDetails.add(PrivateNotes);
+        visitDetails.add(date);
+        visitDetails.add(getVisitStartTime());
+        visitDetails.add(rep);
+        visitDetails.add(location);
+        visitDetails.add(notes);
+        visitDetails.add(noofVisits);
+        visitDetails.add(deadline);
+        visitDetails.add(attendee);
+        for(String detail:visitDetails) {
+            Assert.assertTrue(detail+"is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+detail+"')]")).isDisplayed());
+        }
+    }
+
+    public void selectViewOptionInNavianceCollegeVisitPageAfterReschedule(String option,String Date,String Time){
+        String startTime=getVisitStartTimeforReschedule();
+        Actions action = new Actions(driver);
+        action.moveToElement(collegeOptionInNaviancePage()).build().perform();
+        visitsInNavianceColleges().click();
+        String date=selectdateforNaviance(Date);
+        WebElement select=driver.findElement(By.xpath("//td[text()='"+date+"']/following-sibling::td[contains(text(),'"+startTime+"')]/following-sibling::td/a[text()='"+option+"']"));
+        waitUntilElementExists(select);
+        select.click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void selectViewOptionInNavianceCollegeVisitPage(String option,String Date,String Time) {
+        String startTime=getVisitStartTime();
+        Actions action = new Actions(driver);
+        action.moveToElement(collegeOptionInNaviancePage()).build().perform();
+        visitsInNavianceColleges().click();
+        String date=selectdateforNaviance(Date);
+        WebElement select=driver.findElement(By.xpath("//td[text()='"+date+"']/following-sibling::td[contains(text(),'"+startTime+"')]/following-sibling::td/a[text()='"+option+"']"));
+        waitUntilElementExists(select);
+        select.click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+    }
+
+    public String selectdateforNaviance(String addDays) {
+        String DATE_FORMAT_NOW = "EEE MMMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public String selectdateforNavianceVisit(String addDays) {
+        String DATE_FORMAT_NOW = "EEEE MMMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
 
     // Locators
 
@@ -11246,6 +11282,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private String appointmentLocator = ".rbc-event-content";
 
+    private WebElement verifyAnnouncementTitle(String announcementTitle){return getDriver().findElement(By.xpath("//div/b[text()='"+announcementTitle+"']"));}
+
+    private By announcementTitle(String announcementTitle){return By.xpath("//div/b[text()='"+announcementTitle+"']");}
+
+    private WebElement readMoreButton(){return button("Read More");}
+
+    private WebElement announcementDismissButton(){return getDriver().findElement(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
+
+    private WebElement announcementContent(String content){return getDriver().findElement(By.xpath("//span[text()='"+content+"']"));}
+
+    private By content(String content){return By.xpath("//span[text()='"+content+"']");}
+
+    private By dismissButton(){return By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']");}
+
+    private List<WebElement> announcementsDismissButton(){return getDriver().findElements(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
+
+    private List<WebElement> readMorebutton(){return getDriver().findElements(By.xpath("//button[text()='Read More']"));}
+  
     private String getVisitStartTime(){
         String[] time=StartTime.split("am");
         String startTime=time[0]+" "+"AM";
@@ -11277,4 +11331,5 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String startTime=time[0]+" "+"AM";
         return startTime;
     }
+
 }
