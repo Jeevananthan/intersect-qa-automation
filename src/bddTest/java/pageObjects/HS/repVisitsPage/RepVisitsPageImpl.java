@@ -5109,6 +5109,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Representative is not present in the Representative text box", selectedAttendeeValue.contains(attendee));
         manualStartTime().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(eventLocationHsLocator()));
         moveToElement(eventLocationHS());
         eventLocationHS().clear();
         eventLocationHS().sendKeys(location);
@@ -9375,8 +9376,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement eventLocationHS() {
-        WebElement location = driver.findElement(By.name("locationWithinSchool"));
+        WebElement location = driver.findElement(eventLocationHsLocator());
         return location;
+    }
+
+    private By eventLocationHsLocator(){
+        return By.id("eventLocation");
     }
 
     private WebElement addVisitButtonInVisitSchedulePopup() {
