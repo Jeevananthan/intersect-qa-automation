@@ -420,5 +420,27 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the Sorting notification entries in the REQUESTS subtab by newest to oldest$",repVisits::verifySortingNotificationEntries);
 
         Then("^HE I remove the appointment from the calendar for fairs$",repVisits::removeFairsAppointmentFromCalendar);
+
+        Then("^HE I verify the visit details are present in the your schedule section using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInYourSchedule);
+
+        Then("^HE I verify the visit details are present in the calendar using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInCalendar);
+
+        Then("^HE I verify and select an appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAndSelectAppointmentInCalendarPage);
+
+        Then("^HE I verify the announcement title \"([^\"]*)\" in the announcement details$",repVisits::verifyAnnouncementTitleIsDisplaying);
+
+        Then("^HE I verify the 'Read More' button is displaying for the content with more than 140 character limit$",repVisits::verifyReadMoreButtonIsDisplaying);
+
+        Then("^HE I verify the announcement details after the success toast message using \"([^\"]*)\"$",repVisits::verifyAnnouncementDetailsAfterSuccessMessage);
+
+        Then("^HE I verify the dismiss button is displaying in the announcement details$",repVisits::verifyDismissButtonInAnnouncementDetails);
+
+        Then("^HE I click the dismiss button$",repVisits::clickDismissButton);
+
+        Then("^HE I verify the announcement is not displaying after clicking dismiss button$",repVisits::verifyAnnouncementIsNotDisplaying);
+
+        Then("^HE I verify the content begins where title would begin in notification bar \"([^\"]*)\"$",repVisits::verifyProductAnnouncementContent);
+
+        Then("^HE I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);
     }
 }

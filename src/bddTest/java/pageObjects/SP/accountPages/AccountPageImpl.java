@@ -213,7 +213,8 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
         if(getSaveChangesButton().isDisplayed()) {
             getSaveChangesButton().click();
         }
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
     }
 
 
@@ -233,7 +234,6 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
             if(!status.equalsIgnoreCase("inactive")) {
                 WebElement StartDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='Start Date Calendar']"));
                 WebElement EndDateButton = driver.findElement(By.xpath("//td/span[text()='"+moduleName+"']/parent::td/following-sibling::td/button[@aria-label='End Date Calendar']"));
-
 
                 StartDateButton.click();
                 setStartDateInModulePage();
@@ -327,14 +327,15 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
 
     public void setStartDateInModulePage(String... startDateArray){
         String startDate;
+        Calendar calendarStartDate = getDeltaDate(-1);
         if (startDateArray == null || startDateArray.length==0) {
-            startDate = "June 13, 2017";
+            startDate = getMonth(calendarStartDate) + " " + getDay(calendarStartDate) + ", " + getYear(calendarStartDate);
         } else {
             startDate = startDateArray[0];
         }
-        String month = startDate.substring(0, 4);
-        String dateNo = startDate.substring(5, 7);
-        String year = startDate.substring(9, 13);
+        String month = startDate.split(" ")[0];
+        String dateNo = startDate.split(" ")[1].replace(",", "").replaceFirst("0", "");
+        String year = startDate.split(" ")[2];
 
         Select selectYear = new Select(driver.findElement(By.id("year-select")));
         selectYear.selectByVisibleText(year);

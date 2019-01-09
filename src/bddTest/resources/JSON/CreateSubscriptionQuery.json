@@ -1,0 +1,1 @@
+mutation createAMSubscription($input: createAMSubscriptionInput!) {  createAMSubscription(input: $input) {  amSubscriptions { edges { node {id version institution type majors connection startDate endDate audience { diversity __typename} visible  __typename } __typename} __typename}__typename}}
