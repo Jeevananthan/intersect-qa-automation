@@ -335,6 +335,22 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
     }
 
+    public void verifyUpgradeButtonInHomPage(String message){
+        waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
+        waitUntilPageFinishLoading();
+        String supportWindow = driver.getWindowHandle();
+        String HEWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for(String thisWindow : windows){
+            if(!thisWindow.equals(supportWindow)){
+                HEWindow = thisWindow;
+            }
+        }
+        driver.switchTo().window(HEWindow);
+        softly().assertThat(getUpgradeButton().isDisplayed());
+        softly().assertThat(getUpgradeButton().getText().contains(message));
+    }
+
     public void verifyInviteEmail(DataTable dataTable) {
         waitForUITransition();
         String emailBody = "";
@@ -390,6 +406,9 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//button/span[text()='Cancel']"));
     }
     private WebElement timeDropdown() { return driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")); }
+
+    private WebElement getUpgradeButton() { return driver.findElement(By.cssSelector("button[class='ui secondary button _2gMolwx9EDCmPkEu5Kjlaw']")); }
+
 
     private WebElement timeDropdownOption(String option) { return driver.findElement(By.xpath("//span [text()='"+option+"']")); }
     /**

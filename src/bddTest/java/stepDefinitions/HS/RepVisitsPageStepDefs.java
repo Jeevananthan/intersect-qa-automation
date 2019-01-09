@@ -760,5 +760,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);
 
+        Then("^HS I verify the time slot is added with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::verifyTimeSlotIsDisplayedInRegularWeeklyHoursTab);
+
     }
 }
