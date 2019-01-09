@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -164,6 +165,14 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
         String currentDate = sdf.format(cal.getTime());
         return currentDate;
+    }
+
+    public void logoutFromNaviance(){
+        Actions action = new Actions(driver);
+        action.moveToElement(driver.findElement(By.xpath("//i[@class='icon-cog']"))).build().perform();
+        link("Logout").click();
+        waitUntilPageFinishLoading();
+        driver.manage().deleteAllCookies();
     }
 
     public void verifyYearInRegistrationPage(){

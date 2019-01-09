@@ -254,6 +254,25 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void loginToNaviancePage(String usertype){
+        driver.manage().deleteAllCookies();
+        openNavianceLoginPage();
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        textbox(By.name("hsid")).sendKeys(hsid);
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        textbox(By.name("username")).sendKeys(username);
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        textbox(By.name("password")).sendKeys(password);
+        button("Log In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
+        waitUntilPageFinishLoading();
+    }
+
+    public void navigateToHighSchool() {
+        driver.findElement(By.id("icon-users")).click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-home-menu-link"),1));
+    }
+
     public void verifySearchResultsOnRegistrationPage(String school)
     {
         List<WebElement> links = registrationPageResultsTable().findElements(By.tagName("a"));

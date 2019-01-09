@@ -1852,6 +1852,114 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void fillTheValuesInNavianceSettings(String option,String visitsCount,String location,String studentsCount,String deadline,String notes,String deadLineOption) {
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        availabilityAndSettings().click();
+        waitUntilPageFinishLoading();
+        navianceSettings().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Naviance Sync Settings']")));
+        driver.findElement(By.xpath("//div[@class='grouped fields']/div/div/label[text()[contains(.,'"+option+"')]]")).click();
+        maxNoOfVisits().clear();
+        maxNoOfVisits().sendKeys(visitsCount);
+        locationTextBoxInNaviance().sendKeys(Keys.PAGE_DOWN);
+        locationTextBoxInNaviance().clear();
+        locationTextBoxInNaviance().sendKeys(location);
+        maxNoOfStudents().clear();
+        maxNoOfStudents().sendKeys(studentsCount);
+        visitDeadLine().clear();
+        visitDeadLine().sendKeys(deadline);
+        driver.findElement(By.id("rsvpKind")).click();
+        driver.findElement(By.xpath("//span[text()='"+deadLineOption+"']")).click();
+        studentNotes().clear();
+        studentNotes().sendKeys(notes);
+        saveChangesNaviance().click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyNavianceCollegeVisitPageAfterReschedule(String college,String Date,String PrivateNotes,String rep,String location,String notes,String noofVisits,String deadline,String attendee){
+        String date=selectdateforNavianceVisit(Date);
+        List<String> visitDetails=new ArrayList<>();
+        visitDetails.add(college);
+        visitDetails.add(PrivateNotes);
+        visitDetails.add(date);
+        visitDetails.add(getVisitStartTimeforReschedule());
+        visitDetails.add(rep);
+        visitDetails.add(location);
+        visitDetails.add(notes);
+        visitDetails.add(noofVisits);
+        visitDetails.add(deadline);
+        visitDetails.add(attendee);
+        for(String detail:visitDetails)
+        {
+            Assert.assertTrue(detail+"is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+detail+"')]")).isDisplayed());
+        }
+    }
+
+    public void verifyNavianceCollegeVisitPage(String college,String Date,String PrivateNotes,String rep,String location,String notes,String noofVisits,String deadline,String attendee) {
+        String date=selectdateforNavianceVisit(Date);
+        List<String> visitDetails=new ArrayList<>();
+        visitDetails.add(college);
+        visitDetails.add(PrivateNotes);
+        visitDetails.add(date);
+        visitDetails.add(getVisitStartTime());
+        visitDetails.add(rep);
+        visitDetails.add(location);
+        visitDetails.add(notes);
+        visitDetails.add(noofVisits);
+        visitDetails.add(deadline);
+        visitDetails.add(attendee);
+        for(String detail:visitDetails) {
+            Assert.assertTrue(detail+"is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+detail+"')]")).isDisplayed());
+        }
+    }
+
+    public void selectViewOptionInNavianceCollegeVisitPageAfterReschedule(String option,String Date,String Time){
+        String startTime=getVisitStartTimeforReschedule();
+        Actions action = new Actions(driver);
+        action.moveToElement(collegeOptionInNaviancePage()).build().perform();
+        visitsInNavianceColleges().click();
+        String date=selectdateforNaviance(Date);
+        WebElement select=driver.findElement(By.xpath("//td[text()='"+date+"']/following-sibling::td[contains(text(),'"+startTime+"')]/following-sibling::td/a[text()='"+option+"']"));
+        waitUntilElementExists(select);
+        select.click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void selectViewOptionInNavianceCollegeVisitPage(String option,String Date,String Time) {
+        String startTime=getVisitStartTime();
+        Actions action = new Actions(driver);
+        action.moveToElement(collegeOptionInNaviancePage()).build().perform();
+        visitsInNavianceColleges().click();
+        String date=selectdateforNaviance(Date);
+        WebElement select=driver.findElement(By.xpath("//td[text()='"+date+"']/following-sibling::td[contains(text(),'"+startTime+"')]/following-sibling::td/a[text()='"+option+"']"));
+        waitUntilElementExists(select);
+        select.click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
+    }
+
+    public String selectdateforNaviance(String addDays) {
+        String DATE_FORMAT_NOW = "EEE MMMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public String selectdateforNavianceVisit(String addDays) {
+        String DATE_FORMAT_NOW = "EEEE MMMM d, yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
 
     public void verifyTextInReschedulePopup(String expectedText) {
         String actualText = driver.findElement(By.xpath("//span[@class='_25XyePHsmpWU1qQ18ojKip']/span")).getText();
@@ -11138,4 +11246,35 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private String appointmentLocator = ".rbc-event-content";
 
+    private String getVisitStartTime(){
+        String[] time=StartTime.split("am");
+        String startTime=time[0]+" "+"AM";
+        return startTime;
+    }
+    private WebElement collegeOptionInNaviancePage() {
+        return getDriver().findElement(By.xpath("//li/a[text()='Colleges']"));
+    }
+    private WebElement visitsInNavianceColleges() {
+        return getDriver().findElement(By.xpath("//li/a[text()='Visits']"));
+    }
+    private WebElement maxNoOfVisits() {
+        return getDriver().findElement(By.id("maxStudentVisits"));
+    }
+    private WebElement maxNoOfStudents() {
+        return getDriver().findElement(By.id("maxNumStudents"));
+    }
+    private WebElement visitDeadLine() {
+        return getDriver().findElement(By.id("rsvpNumber"));
+    }
+    private WebElement studentNotes() {
+        return getDriver().findElement(By.id("studentNotes"));
+    }
+    private WebElement eventInCell(String dayNumber, String time) {
+        return driver.findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='" + dayNumber +"']/../../../../div[@class = 'rbc-row-content']/div/div/div/div/div/span[text() = '" + time.replaceFirst("0", "") + "']"));
+    }
+    private String getVisitStartTimeforReschedule(){
+        String[] time=RescheduleStartTimeforNewVisit.split("am");
+        String startTime=time[0]+" "+"AM";
+        return startTime;
+    }
 }
