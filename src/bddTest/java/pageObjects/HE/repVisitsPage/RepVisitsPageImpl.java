@@ -2546,6 +2546,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getSearchBox().sendKeys(schoolName);
         getSearchButton().click();
+        waitUntil(ExpectedConditions.visibilityOf(link(schoolName)));
         link(schoolName).click();
         waitForUITransition();
         waitUntilElementExists(getFairsButton());
