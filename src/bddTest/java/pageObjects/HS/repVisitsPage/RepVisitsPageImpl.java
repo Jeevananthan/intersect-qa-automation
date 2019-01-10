@@ -8710,115 +8710,103 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyAppointmentInCalendar(String startTime, String university) {
         Assert.assertTrue("Appointment is not displayed", calendarAppointment(startTime, university).isDisplayed());
     }
-  
-   public void fillTheValuesInNavianceSettings(String option,String visitsCount,String location,String studentsCount,String deadline,String notes,String deadLineOption) {
-        getNavigationBar().goToRepVisits();
-        waitUntilPageFinishLoading();
-        availabilityAndSettings().click();
-        waitUntilPageFinishLoading();
-        navianceSettings().click();
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Naviance Sync Settings']")));
-        driver.findElement(By.xpath("//div[@class='grouped fields']/div/div/label[text()[contains(.,'"+option+"')]]")).click();
-        maxNoOfVisits().clear();
-        maxNoOfVisits().sendKeys(visitsCount);
-        locationTextBoxInNaviance().sendKeys(Keys.PAGE_DOWN);
-        locationTextBoxInNaviance().clear();
-        locationTextBoxInNaviance().sendKeys(location);
-        maxNoOfStudents().clear();
-        maxNoOfStudents().sendKeys(studentsCount);
-        visitDeadLine().clear();
-        visitDeadLine().sendKeys(deadline);
-        driver.findElement(By.id("rsvpKind")).click();
-        driver.findElement(By.xpath("//span[text()='"+deadLineOption+"']")).click();
-        studentNotes().clear();
-        studentNotes().sendKeys(notes);
+  /* Filling the the values in Naviance settings page */
+   public void submitTheValuesInNavianceSettings(DataTable dataTable) {
+       getNavigationBar().goToRepVisits();
+       waitUntilPageFinishLoading();
+       availabilityAndSettings().click();
+       waitUntilPageFinishLoading();
+       navianceSettings().click();
+       waitUntilPageFinishLoading();
+       waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Naviance Sync Settings']")));
+        Map<String,String> data = dataTable.asMap(String.class,String.class);
+        for(String key:data.keySet()){
+            switch(key){
+                case "option":
+                    getDriver().findElement(By.xpath("//div[@class='grouped fields']/div/div/label[text()[contains(.,'"+data.get(key)+"')]]")).click();
+                    break;
+                case "NumVisits":
+                    maxNoOfVisits().clear();
+                    maxNoOfVisits().sendKeys(data.get(key));
+                    break;
+                case "Location":
+                    locationTextBoxInNaviance().sendKeys(Keys.PAGE_DOWN);
+                    locationTextBoxInNaviance().clear();
+                    locationTextBoxInNaviance().sendKeys(data.get(key));
+                    break;
+                case "studentsCount":
+                    maxNoOfStudents().clear();
+                    maxNoOfStudents().sendKeys(data.get(key));
+                    break;
+                case "DeadlineValue":
+                    visitDeadLine().clear();
+                    visitDeadLine().sendKeys(data.get(key));
+                    break;
+                case "Notes":
+                    studentNotes().clear();
+                    studentNotes().sendKeys(data.get(key));
+                    break;
+                case "deadlineOption":
+                    getDriver().findElement(By.id("rsvpKind")).click();
+                    getDriver().findElement(By.xpath("//span[text()='"+data.get(key)+"']")).click();
+                    break;
+                default:
+                    Assert.fail("Invalid option");
+                    break;
+            }
+        }
         saveChangesNaviance().click();
         waitUntilPageFinishLoading();
     }
-
-    public void verifyNavianceCollegeVisitPageAfterReschedule(String college,String Date,String PrivateNotes,String rep,String location,String notes,String noofVisits,String deadline,String attendee){
-        String date=selectdateforNavianceVisit(Date);
-        List<String> visitDetails=new ArrayList<>();
-        visitDetails.add(college);
-        visitDetails.add(PrivateNotes);
-        visitDetails.add(date);
-        visitDetails.add(getVisitStartTimeforReschedule());
-        visitDetails.add(rep);
-        visitDetails.add(location);
-        visitDetails.add(notes);
-        visitDetails.add(noofVisits);
-        visitDetails.add(deadline);
-        visitDetails.add(attendee);
-        for(String detail:visitDetails)
-        {
-            Assert.assertTrue(detail+"is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+detail+"')]")).isDisplayed());
-        }
-    }
-
-    public void verifyNavianceCollegeVisitPage(String college,String Date,String PrivateNotes,String rep,String location,String notes,String noofVisits,String deadline,String attendee) {
-        String date=selectdateforNavianceVisit(Date);
-        List<String> visitDetails=new ArrayList<>();
-        visitDetails.add(college);
-        visitDetails.add(PrivateNotes);
-        visitDetails.add(date);
-        visitDetails.add(getVisitStartTime());
-        visitDetails.add(rep);
-        visitDetails.add(location);
-        visitDetails.add(notes);
-        visitDetails.add(noofVisits);
-        visitDetails.add(deadline);
-        visitDetails.add(attendee);
+/*verify visit details in naviance page after reschedule the appointment*/
+    public void verifyNavianceCollegeVisitPageAfterReschedule(String Date,DataTable dataTable){
+        int getDate = Integer.parseInt(Date);
+        String date=getSpecificDate(getDate,"EEEE MMMM d, yyyy");
+        List<String> visitDetails=dataTable.asList(String.class);
         for(String detail:visitDetails) {
             Assert.assertTrue(detail+"is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+detail+"')]")).isDisplayed());
         }
+        Assert.assertTrue("Date is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+date+"')]")).isDisplayed());
+        Assert.assertTrue("Start Time is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+getVisitStartTimeforReschedule()+"')]")).isDisplayed());
     }
-
+/*verify visit details in naviance page before reschedule the appointment*/
+    public void verifyNavianceCollegeVisitPage(String Date,DataTable dataTable) {
+        List<String> data = dataTable.asList(String.class);
+        int getDate = Integer.parseInt(Date);
+        String date=getSpecificDate(getDate,"EEEE MMMM d, yyyy");
+        for(String visitDetails:data) {
+            Assert.assertTrue(visitDetails+"is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+visitDetails+"')]")).isDisplayed());
+        }
+        Assert.assertTrue("Date is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+date+"')]")).isDisplayed());
+        Assert.assertTrue("Start Time is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+getVisitStartTime()+"')]")).isDisplayed());
+    }
+/*select view option for the respective appointment in naviance page after reschedule the appointment*/
     public void selectViewOptionInNavianceCollegeVisitPageAfterReschedule(String option,String Date,String Time){
         String startTime=getVisitStartTimeforReschedule();
         Actions action = new Actions(driver);
         action.moveToElement(collegeOptionInNaviancePage()).build().perform();
         visitsInNavianceColleges().click();
-        String date=selectdateforNaviance(Date);
+        int getDate = Integer.parseInt(Date);
+        String date=getSpecificDate(getDate,"EEE MMMM d, yyyy");
         WebElement select=driver.findElement(By.xpath("//td[text()='"+date+"']/following-sibling::td[contains(text(),'"+startTime+"')]/following-sibling::td/a[text()='"+option+"']"));
         waitUntilElementExists(select);
         select.click();
         waitUntilPageFinishLoading();
     }
-
+/*select view option for the respective appointment in naviance page before reschedule the appointment*/
     public void selectViewOptionInNavianceCollegeVisitPage(String option,String Date,String Time) {
         String startTime=getVisitStartTime();
         Actions action = new Actions(driver);
         action.moveToElement(collegeOptionInNaviancePage()).build().perform();
         visitsInNavianceColleges().click();
-        String date=selectdateforNaviance(Date);
+        int getDate = Integer.parseInt(Date);
+        String date=getSpecificDate(getDate,"EEE MMMM d, yyyy");
         WebElement select=driver.findElement(By.xpath("//td[text()='"+date+"']/following-sibling::td[contains(text(),'"+startTime+"')]/following-sibling::td/a[text()='"+option+"']"));
         waitUntilElementExists(select);
         select.click();
         waitUntilPageFinishLoading();
         waitForUITransition();
     }
-
-    public String selectdateforNaviance(String addDays) {
-        String DATE_FORMAT_NOW = "EEE MMMM d, yyyy";
-        Calendar cal = Calendar.getInstance();
-        int days=Integer.parseInt(addDays);
-        cal.add(Calendar.DATE, days);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String currentDate = sdf.format(cal.getTime());
-        return currentDate;
-    }
-
-    public String selectdateforNavianceVisit(String addDays) {
-        String DATE_FORMAT_NOW = "EEEE MMMM d, yyyy";
-        Calendar cal = Calendar.getInstance();
-        int days=Integer.parseInt(addDays);
-        cal.add(Calendar.DATE, days);
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-        String currentDate = sdf.format(cal.getTime());
-        return currentDate;
-    }
-
 
     // Locators
 

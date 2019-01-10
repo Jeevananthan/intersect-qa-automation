@@ -268,11 +268,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
-    public void navigateToHighSchool() {
-        driver.findElement(By.id("icon-users")).click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.id("js-main-nav-home-menu-link"),1));
-    }
-
     public void verifySearchResultsOnRegistrationPage(String school)
     {
         List<WebElement> links = registrationPageResultsTable().findElements(By.tagName("a"));
