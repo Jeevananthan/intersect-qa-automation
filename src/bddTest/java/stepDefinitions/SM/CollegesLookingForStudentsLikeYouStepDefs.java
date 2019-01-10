@@ -16,4 +16,7 @@ public class CollegesLookingForStudentsLikeYouStepDefs implements En {
         Then("^SM I verify all the steps of the Visual Step Progress Indicator with the following data:$", collegesLookingForStudentsLikeYouPage::verifyVisualStepProgressIndicator);
 
         Then("^SM I click the button \"([^\"]*)\" in the connection dialog$", collegesLookingForStudentsLikeYouPage::clickButtonInConnectDialog);
+
+        Then("^SM I verify a matching card is \"([^\"]*)\" for \"([^\"]*)\"$", collegesLookingForStudentsLikeYouPage::verifyIfMatchingCardIsDisplayed);
+
     }}

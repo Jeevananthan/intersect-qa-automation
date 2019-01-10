@@ -294,7 +294,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void postMessageInHomePage(String message){
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a/img[@alt='Intersect Logo']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[name='mainmenu']")));
         getNavigationBar().goToCommunity();
         waitUntilPageFinishLoading();
         WebElement element=getDriver().findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
@@ -2546,6 +2546,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getSearchBox().sendKeys(schoolName);
         getSearchButton().click();
+        waitUntil(ExpectedConditions.visibilityOf(link(schoolName)));
         link(schoolName).click();
         waitForUITransition();
         waitUntilElementExists(getFairsButton());
@@ -3483,6 +3484,43 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         findHEButton(time).click();
         findHEButton("Yes, Request this time").click();
+    }
+
+    public void verifyAnnouncementTitleIsDisplaying(String announcementTitle){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(announcementTitle(announcementTitle)));
+        Assert.assertTrue("Announcement title is not displayed",verifyAnnouncementTitle(announcementTitle).isDisplayed());
+    }
+
+    public void verifyReadMoreButtonIsDisplaying(){
+        Assert.assertTrue("Read more button is not displayed",readMoreButton().isDisplayed());
+    }
+
+    public void verifyAnnouncementDetailsAfterSuccessMessage(String announcement){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(announcementTitle(announcement)));
+        Assert.assertTrue("Announcement is not displayed",verifyAnnouncementTitle(announcement).isDisplayed());
+    }
+
+    public void verifyDismissButtonInAnnouncementDetails(){
+        Assert.assertTrue("Dismiss button is not displayed",announcementDismissButton().isDisplayed());
+    }
+
+    public void clickDismissButton(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(dismissButton()));
+        waitUntil(ExpectedConditions.elementToBeClickable(dismissButton()));
+        jsClick(announcementDismissButton());
+    }
+
+    public void verifyAnnouncementIsNotDisplaying(){
+        waitForUITransition();
+        Assert.assertTrue("Announcement is displayed",announcementsDismissButton().size()==0);
+    }
+
+    public void verifyProductAnnouncementContent(String content){
+        Assert.assertTrue("Content is not displaying",announcementContent(content).isDisplayed());
+    }
+
+    public void verifyReadMoreButtonIsNotDisplaying(){
+        Assert.assertTrue("Read more button is displayed",readMorebutton().size()==0);
     }
 
     /**
@@ -4497,6 +4535,22 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement circularIconCloseButton(){  return getDriver().findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")); }
 
     private By successmessage(){return By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div"); }
+  
+    private WebElement verifyAnnouncementTitle(String announcementTitle){return getDriver().findElement(By.xpath("//div/b[text()='"+announcementTitle+"']"));}
+
+    private By announcementTitle(String announcementTitle){return By.xpath("//div/b[text()='"+announcementTitle+"']");}
+
+    private WebElement readMoreButton(){return button("Read More");}
+
+    private WebElement announcementDismissButton(){return getDriver().findElement(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
+
+    private WebElement announcementContent(String content){return getDriver().findElement(By.xpath("//span[text()='"+content+"']"));}
+
+    private List<WebElement> announcementsDismissButton(){return getDriver().findElements(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
+
+    private List<WebElement> readMorebutton(){return getDriver().findElements(By.xpath("//button[text()='Read More']"));}
+
+    private By dismissButton(){return By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']");}
 
 }
 

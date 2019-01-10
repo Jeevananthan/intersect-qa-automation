@@ -416,6 +416,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         openFitCriteria("Academics");
+        waitUntil(ExpectedConditions.elementToBeClickable(academicsRadioButton("Bachelor's")));
         academicsRadioButton("Bachelor's").click();
 
         List<List<String>> itemsToSelect = items.raw();
@@ -2220,7 +2221,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             button(text).click();
             //Commenting the below line to increase the performance
-            //waitUntilPageFinishLoading();
+           // waitUntilPageFinishLoading();
         } catch (Exception e) {
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
