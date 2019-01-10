@@ -260,15 +260,14 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       
   @MATCH-4147
   Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user,
-  I want the ability to easily access a path to reassign other HE users visits at my institution from RepVisits>Calendar view,
-  so that I can support rep attritition, rep absences, and so forth while maintaining scheduled appointments and do so from the location in RV that I'm used to managing my own appointments.
+                    I want the ability to easily access a path to reassign other HE users visits at my institution from RepVisits>Calendar view,
+                    so that I can support rep attritition, rep absences, and so forth while maintaining scheduled appointments and do so from the location in RV that I'm used to managing my own appointments.
 #Pre-condition
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "<institution>" from the institution dashboard
     And SP I "inactivate" the user account for "<user>"
-
-    Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
 #verify all fields in re assign appointments page
+    Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
     When HE I go to re assign appointments
     Then HE I verify the text 'Re-assign Appointments' is displaying in re assign appointments page
     Then HE I verify the text 'Select appointments to re-assign:' is displaying in re assign appointments page
@@ -291,7 +290,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I click Go Back button
     Then HE I verify the users are listed in A-Z order in 'Select new assignee' dropdown using "HE, Purple"
     Then HE I verify the user "HE, Purple" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
-
 #verify 'GO BACK' button
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I cancel registered college fair "<College Fair Name>"
