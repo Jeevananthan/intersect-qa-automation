@@ -32,6 +32,10 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
         closeButton().click();
     }
 
+    public void clickButtonInConnectDialog(String buttonText) {
+        connectDialogButton(buttonText).click();
+    }
+
     //Locators
     private WebElement heartIcon(String collegeName) {
         return driver.findElement(By.xpath("//div[@id = 'activematch-app']/div[1]//a[text() = '" + collegeName + "']/../..//div[1]/i"));
@@ -44,4 +48,5 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
     private WebElement submitButton() { return driver.findElement(By.cssSelector("button#submitForm")); }
     private WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
     private String cardsGroupsLocator = "div.ui.cards.matches-group";
+    private WebElement connectDialogButton(String buttonText) { return driver.findElement(By.xpath("//button[text() = '" + buttonText + "']")); }
 }
