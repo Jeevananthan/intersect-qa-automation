@@ -1045,6 +1045,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * The below method is to clear all the pills present in Must Have & Nice to Have box.
+     */
     public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
         List<WebElement> allPills = getAllPillsCloseIcon();
         for (WebElement singlePill :
@@ -1929,7 +1932,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-
+    /**
+     * The method will clear all the pinned college.
+     */
     public void verifyPinnedCollegesClearedWhenYesClearButtonIsClicked()
     {
         boolean isPinnedListCleared = true;

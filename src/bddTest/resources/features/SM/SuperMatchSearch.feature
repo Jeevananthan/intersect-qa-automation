@@ -846,8 +846,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify the college "Williams College" is "unpinned" in the why drawer
 
   @MATCH-4669
-  Scenario:when the 'Clear Pinned Schools' action is taken by the HS student when results are currently being displayed
-  , the blue/purple bar goes away but those schools remain at the top of the results even if their fit scores aren't the
+  Scenario: The 'Clear Pinned Schools' action is taken by the HS student when results are currently being displayed
+  , the bluepurple bar goes away but those schools remain at the top of the results even if their fit scores aren't the
   highest.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
