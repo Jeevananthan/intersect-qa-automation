@@ -1548,7 +1548,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             visitDate = getShortMonth(dateParts[0]) + " " + dateParts[1];
         }
         setDate(gotoDate, "Go To Date");
-        time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime==null?time:pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         waitUntil(ExpectedConditions.visibilityOfElementLocated(availabilityButtonLocator(visitDate,time)));
         Assert.assertTrue("Availability is not displayed",avialabilityButton(visitDate,time).isDisplayed());
         avialabilityButton(visitDate,time).click();
