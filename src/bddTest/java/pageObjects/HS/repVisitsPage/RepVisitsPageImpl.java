@@ -5109,6 +5109,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Representative is not present in the Representative text box", selectedAttendeeValue.contains(attendee));
         manualStartTime().sendKeys(Keys.PAGE_DOWN);
         waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(eventLocationHsLocator()));
         moveToElement(eventLocationHS());
         eventLocationHS().clear();
         eventLocationHS().sendKeys(location);
@@ -6775,11 +6776,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getRepresentativeInstitutionTextBox().sendKeys(representativeInstitution);
         action.sendKeys(Keys.TAB).sendKeys(Keys.TAB).build().perform();
         getEventLocationTextBox().sendKeys(location);
-        getMaxNumberOfStudentsTextBox().sendKeys(maxNumberOfStudents);
-        getRegistrationWillCloseTextBox().sendKeys(registrationWillClose.split(" ")[0]);
-        getRegistrationWillCloseDropDown().click();
-        getDriver().findElement(By.xpath(String.format(".//span[text()='%s']",
-                registrationWillClose.split(" ")[1]))).click();
+        /* Actually it's not displaying in the UI
+//        getMaxNumberOfStudentsTextBox().sendKeys(maxNumberOfStudents);
+////           getRegistrationWillCloseTextBox().sendKeys(registrationWillClose.split(" ")[0]);
+////        getRegistrationWillCloseDropDown().click();
+////        getDriver().findElement(By.xpath(String.format(".//span[text()='%s']",
+////                registrationWillClose.split(" ")[1]))).click();
+         Actually it's not displaying in the UI*/
         action.sendKeys(Keys.TAB).build().perform();
         institutionTextBox().sendKeys(Keys.PAGE_DOWN);
         eventLocationInAddVisitPopup().sendKeys(Keys.PAGE_DOWN);
@@ -9170,7 +9173,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      * @return webelement
      */
     private WebElement getEventLocationTextBox() {
-        return textbox(By.cssSelector("input[aria-label='Event Location']"));
+        return textbox(By.cssSelector("input[id='eventLocation']"));
     }
 
     /**
@@ -9482,8 +9485,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement eventLocationHS() {
-        WebElement location = driver.findElement(By.name("locationWithinSchool"));
+        WebElement location = driver.findElement(eventLocationHsLocator());
         return location;
+    }
+
+    private By eventLocationHsLocator(){
+        return By.id("eventLocation");
     }
 
     private WebElement addVisitButtonInVisitSchedulePopup() {

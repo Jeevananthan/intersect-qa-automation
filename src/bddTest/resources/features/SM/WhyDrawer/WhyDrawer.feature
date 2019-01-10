@@ -105,7 +105,7 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     When SM I click "Diversity" filter criteria tab
     And SM I pick "Christ and Missionary Alliance Church" from the dropdown "sm-filter-search-dropdown"
     When SM I click "Student Life" filter criteria tab
-    And SM I pick "Gay and Lesbian" from the dropdown "sm-filter-search-dropdown"
+    And SM I pick "LGBTQ+" from the dropdown "sm-filter-search-dropdown"
     And SM I press Why button for "Crown College" college
     Then I check if I can see "Organizations and Clubs [1]" on the page
     And  I check if I can see "Doesn't offer any of your organizations and clubs selection(s)." on the page

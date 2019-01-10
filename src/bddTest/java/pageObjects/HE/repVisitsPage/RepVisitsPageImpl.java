@@ -294,7 +294,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void postMessageInHomePage(String message){
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a/img[@alt='Intersect Logo']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[name='mainmenu']")));
         getNavigationBar().goToCommunity();
         waitUntilPageFinishLoading();
         WebElement element=getDriver().findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
@@ -2546,6 +2546,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getSearchBox().sendKeys(schoolName);
         getSearchButton().click();
+        waitUntil(ExpectedConditions.visibilityOf(link(schoolName)));
         link(schoolName).click();
         waitForUITransition();
         waitUntilElementExists(getFairsButton());
