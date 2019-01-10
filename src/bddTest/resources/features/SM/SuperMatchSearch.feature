@@ -786,7 +786,6 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I click "Diversity" filter criteria tab
     And I click the dropdown "input.search + span + div"
     And I select the option "Advent Christian Church" from the list "span.text"
-    And SM I select the "Bachelor's" radio button from the Academics fit criteria
     Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
       |Accounting|
     Then SM I select the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type
@@ -828,7 +827,6 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I click "Diversity" filter criteria tab
     And I click the dropdown "input.search + span + div"
     And I select the option "Advent Christian Church" from the list "span.text"
-    And SM I select the "Bachelor's" radio button from the Academics fit criteria
     Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
       |Accounting|
     Then SM I select the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type

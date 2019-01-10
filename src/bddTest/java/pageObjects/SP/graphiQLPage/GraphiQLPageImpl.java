@@ -7,13 +7,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 public class GraphiQLPageImpl extends PageObjectFacadeImpl {
@@ -63,6 +62,7 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
     }
 
     private boolean isPresentInResults(String keyword) {
+        waitUntilPageFinishLoading();
         boolean result = false;
         List<WebElement> resultsLinesList = driver.findElements(By.cssSelector(resultsLinesListLocatorssSelector));
         for (WebElement resultLine : resultsLinesList) {
