@@ -1,5 +1,5 @@
 @HE
-Feature: HE - Events - Verify Events functionality
+Feature: HE - Events Contact  - Verify Events functionality - Contacts
 
 
   @MATCH-2912
