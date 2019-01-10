@@ -75,4 +75,6 @@ Feature: SM - ActiveMatch Next Gen
     | 0 days before now | 2 days after now  | displayed  |
     | 2 days after now  | 3 days after now  | not displayed |
 
-
+    @MATCH-5029
+    Scenario: We need to put both the AM Legacy Matches and AM NextGen matches into the same component so that they
+    can be displayed similarly on the Colleges Looking For Students Like You page in CollegeMatch of Naviance Student.
