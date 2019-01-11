@@ -97,6 +97,8 @@ public class SearchPageStepDefs implements En {
 
         And("^I select the following data from the Admission Fit Criteria$", searchPage::setAdmissionCriteria);
 
+        And("^I verify the following data from the Admission Fit Criteria$", searchPage::verifyAdmissionCriteria);
+
         Then("^SM I verify each fit category in the Choose Fit Criteria header bar is clickable and match the color$", searchPage::verifyEachFitCriteria);
 
         Then("^SM I verify clicking outside of the box will also close the box$", searchPage::checkOutsideClick);
@@ -305,13 +307,15 @@ public class SearchPageStepDefs implements En {
 
         Then("^SM I verify the options displayed in Out of State students Select % dropdown$", searchPage::verifyOptionsInOutOfStateStudentsSelectPercentDropdown);
 
-        And("^I select the radio button \"([^\"]*)\"$", searchPage::selectRadioButton);
+        Then("SM I verify the options displayed in the Average Class Size listbox", searchPage::verifyOptionsInAverageClassSizeListBox);
 
-        Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
+        And("^I select the radio button \"([^\"]*)\"$", searchPage::selectRadioButton);
 
         And("^SM I pick \"([^\"]*)\" in the editable column number (\\d+)$", searchPage::pickColumnHeader);
 
         Then("^SM I verify that \"([^\"]*)\" in column number (\\d+) for college \"([^\"]*)\" contains the following data:$", searchPage::verifyDataInEditableColumn);
+
+        Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
 
         And("^SM I verify that radio button with text \"([^\"]*)\" is selected$", searchPage::verifyRadioButtonIsSelected);
 
@@ -350,5 +354,16 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify that \"([^\"]*)\" college is present in search results$", searchPage::verifyCollegeIsPresentInSearchResults);
 
         And("^SM I verify that \"([^\"]*)\" college is not present in search results$", searchPage::verifyCollegeIsNotPresentInSearchResults);
+      
+        And("^SM I verify that left and right arrow buttons are displayed on top of \"([^\"]*)\" logo in Compare Pinned Schools page$", searchPage::verifyLeftAndRightCompareMoveButtonsAreDisplayed);
+
+        And("^SM I verify that the left arrow button should be disabled for the school \"([^\"]*)\" since it is ordered #1$", searchPage::verifyThatCollegeHasLeftMoveButtonDisabledSinceItIsOrderedNumber1);
+
+        And("^SM I verify that the right arrow button should be disabled for the school \"([^\"]*)\" since it is ordered last$", searchPage::verifyThatCollegeHasRightMoveButtonDisabledSinceItIsOrderedLast);
+
+        And("^SM I move \"([^\"]*)\" to the \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::moveCollegeToLeftOrRightInComparePinnedSchoolsPage);
+
+        And("^SM I verify that position of \"([^\"]*)\" is \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::verifyPositionOfCollegeInComparePinnedSchoolsPage);
+
     }
 }

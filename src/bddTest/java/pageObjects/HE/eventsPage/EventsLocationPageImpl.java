@@ -162,18 +162,20 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
         deleteLocationLink().click();
         if(eventStatus.equals("unpublished")) {
             Assert.assertTrue("The message when deleting a location associated to an unpublished event is not correct: "
-                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
-                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithUnpublishedEvent));
+                    + locationDeleteMessage1().getText(), locationDeleteMessage1().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithUnpublishedEvent1) &
+                    locationDeleteMessage2().getText().equals(EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithUnpublishedEvent2));
             deleteLocationYesButton().click();
         } else if(eventStatus.equals("published")) {
             Assert.assertTrue("The message when deleting a location associated to a published event is not correct: "
-                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
+                    + locationDeleteMessage1().getText(), locationDeleteMessage1().getText().equals
                     (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithPublishedEvent));
             locationAssociatedToPublishedEventOkButton().click();
         } else if(eventStatus.equals("expired")) {
             Assert.assertTrue("The message when deleting a location associated to a expired event is not correct: "
-                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
-                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithExpiredEvent));
+                    + locationDeleteMessage1().getText(), locationDeleteMessage1().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithExpiredEvent1) &&
+                    locationDeleteMessage2().getText().equals(EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithExpiredEvent2));
         }
     }
 
@@ -206,13 +208,17 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> locationList() {
         return driver.findElements(By.cssSelector("div._1mf5Fc8-Wa2hXhNfBdgxce"));
     }
-    public WebElement locationDeleteMessage() { return driver.findElement(By.xpath("//div[@name='eventLocation']//div[@class='ui warning message']")); }
-    private static final String deleteLocationMessageWhenAssociatedWithUnpublishedEvent =
-            "This location is associated with an existing unpublished event.Are you sure you want to delete?";
+    public WebElement locationDeleteMessage1() { return driver.findElement(By.xpath("//div[@name='eventLocation']//div[@class='ui warning message']/span[1]")); }
+    public WebElement locationDeleteMessage2() { return driver.findElement(By.xpath("//div[@name='eventLocation']//div[@class='ui warning message']/span[2]")); }
+    private static final String deleteLocationMessageWhenAssociatedWithUnpublishedEvent1 =
+            "This location is associated with an existing unpublished event.";
+    private static final String deleteLocationMessageWhenAssociatedWithUnpublishedEvent2 = "Are you sure you want to delete?";
     private static final String deleteLocationMessageWhenAssociatedWithPublishedEvent =
             "This location can not be deleted since it is associated with a published event";
-    private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent =
-            "This location is associated with a past published event.Are you sure you want to delete?";
+    private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent1 =
+            "This location is associated with a past published event.";
+    private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent2 =
+            "Are you sure you want to delete?";
     public WebElement locationAssociatedToPublishedEventOkButton() { return driver.findElement(By.xpath("//button[@class = 'ui primary button']")); }
     private String locationsList = "//div[@class = 'content']//td[1]/div[1]";
 }

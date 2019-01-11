@@ -40,9 +40,8 @@ public class RescheduleVisitFormImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
-
-        Assert.assertTrue("The 'Reschedule Visit' button is not disabled when wrong data is entered for Start and End Time",
-                disabledRescheduleButton().isDisplayed());
+        softly().assertThat(ExpectedConditions.visibilityOf(disabledRescheduleButton()))
+                .as("The 'Reschedule Visit' button is not disabled when wrong data is entered for Start and End Time");
     }
 
     public void closeRescheduleVisitForm() {
@@ -50,7 +49,7 @@ public class RescheduleVisitFormImpl extends PageObjectFacadeImpl {
     }
 
     //Locators
-    private WebElement customTimeLink() { return driver.findElement(By.xpath("//span[text() = 'Want a custom time? Add it manually']")); }
+    public WebElement customTimeLink() { return driver.findElement(By.xpath("//span[text() = 'Want a custom time? Add it manually']")); }
     private WebElement selectDateButton() { return driver.findElement(By.cssSelector("button.ui.small.fluid.button")); }
     private WebElement rescheduleMessageField() { return driver.findElement(By.cssSelector("textarea#rescheduleMessage")); }
     private WebElement manualStartTimeField() { return driver.findElement(By.cssSelector("input#manualStartTime")); }

@@ -16,6 +16,8 @@ import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
 import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import utilities.GetProperties;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +44,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void logout() {
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(@class,'ui small icon success message toast')]")));
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
         driver.manage().deleteAllCookies();
@@ -266,6 +269,48 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertEquals(actualURL, expectedURL);
     }
 
+    public void verifyHeaderInProductAnnouncementsReadMoreDrawer(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMore()));
+        productAnnouncementsReadMoreButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsHeader()));
+        Assert.assertTrue("Product announcements 'header' is not displayed",productAnnouncementsReadMoreHeader().isDisplayed());
+    }
+
+    public void verifyCloseButtonInProductAnnouncementsReadMoreDrawer(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMoreClose()));
+        Assert.assertTrue("Product announcements 'Close' button is not displayed",productAnnouncementsReadMoreCloseButton().isDisplayed());
+    }
+
+    public void verifyTitleInProductAnnouncementsReadMoreDrawer(String productAnnouncementsTitle){
+        Assert.assertTrue("Product announcements 'Title' is not displayed",productAnnouncementsReadMoreTitle(productAnnouncementsTitle).isDisplayed());
+    }
+
+    public void verifyDateFormatInProductAnnouncementsReadMoreDrawer(String productAnnouncementsTitle,String dateFormat){
+        String date = selectDateForProductAnnouncements("0",dateFormat);
+        Assert.assertTrue("Product announcements 'Date' is not displayed",productAnnouncementsReadMoreDate(productAnnouncementsTitle,date).isDisplayed());
+    }
+
+    public void verifyContentInProductAnnouncementsReadMoreDrawer(String content){
+        String actualContent = getProductAnnouncementsContent().getText();
+        Assert.assertTrue("Product announcements 'content' is not equal",actualContent.equals(content));
+    }
+
+    public void clickCloseButtonInProductAnnouncementsReadMoreDrawer(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMoreClose()));
+        productAnnouncementsReadMoreCloseButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMore()));
+    }
+
+    public String selectDateForProductAnnouncements(String addDays,String format) {
+        String DATE_FORMAT_NOW = format;
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
     public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
         getNavigationBar().verifyLeftNavAndBreadcrumbs(dataTable);
     }
@@ -328,4 +373,26 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement saveButton(){
         return button("Save");
     }
+
+    private WebElement productAnnouncementsReadMoreButton(){
+        return getDriver().findElement(By.xpath("//button[text()='Read More']"));
+    }
+    private WebElement productAnnouncementsReadMoreHeader() {
+        return getDriver().findElement(By.xpath("//div[text()='Product Announcement']"));
+    }
+    private WebElement productAnnouncementsReadMoreCloseButton(){
+        return getDriver().findElement(By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"));
+    }
+    private WebElement productAnnouncementsReadMoreTitle(String title){
+        return getDriver().findElement(By.xpath("//div[text()='"+title+"']"));
+    }
+    private WebElement productAnnouncementsReadMoreDate(String title,String date){
+        return getDriver().findElement(By.xpath("//div[text()='"+title+"']/span[text()='"+date+"']"));
+    }
+    private WebElement getProductAnnouncementsContent(){
+        return getDriver().findElement(By.cssSelector("div[class='_15nVgLN5TXRcsMm5l81wvA']"));
+    }
+    private By productAnnouncementsHeader(){return By.xpath("//div[text()='Product Announcement']");}
+    private By productAnnouncementsReadMore(){return By.xpath("//button[text()='Read More']");}
+    private By productAnnouncementsReadMoreClose(){ return By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"); }
 }

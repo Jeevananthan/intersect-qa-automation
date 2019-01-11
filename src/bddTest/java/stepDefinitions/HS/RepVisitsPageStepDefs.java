@@ -60,7 +60,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
 
-        Then("^HS I verify that availability dates are from \"([^\"]*)\" to \"([^\"]*)\" for visits the days \"([^\"]*)\" in the calendar$", repVisits::verifyAvaliabilityDates);
+        Then("^HS I verify that availability dates are from \"([^\"]*)\" to \"([^\"]*)\" for visits the days \"([^\"]*)\",\"([^\"]*)\" in the calendar$", repVisits::verifyAvaliabilityDates);
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::removeTimeSlotAdded);
 
@@ -153,7 +153,7 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I navigate to \"([^\"]*)\" wizard in repvisits$", repVisits::navigateToRepvisitWizard);
 
-        Then("^HS I add the time slot in \"([^\"]*)\" with start time as \"([^\"]*)\" and end time as \"([^\"]*)\" and \"([^\"]*)\" vistis$", repVisits::addTimeSlotInRegularWeeklyHours);
+        Then("^HS I add the time slot in \"([^\"]*)\" with start time as \"([^\"]*)\" and end time as \"([^\"]*)\" and \"([^\"]*)\" visits with \"([^\"]*)\"$", repVisits::addTimeSlotInRegularWeeklyHours);
 
         And("^HS I navigate to sub tab \"([^\"]*)\" in availability wizard$", repVisits::navigateToSubTabsInAvailabilityWizard);
 
@@ -234,6 +234,10 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS I verify the fairs are clickable \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$", repVisits::verifyFairsAreClickable);
 
         And("^HS I cancel college fair created \"([^\"]*)\"$", repVisits::cancelCollegeFair);
+
+        And("^HS I clean the college fairs created$", repVisits::cleanCollegeFair);
+
+        And("^HS I clean the visits created$", repVisits::cleanVisits);
 
         Then("^HS I Click on the \"([^\"]*)\" button in the College Fair Details Page$",repVisits::accessCollegeFairDetailsPage);
 
@@ -486,7 +490,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the Cancel on the disconnect confirmation popup$",repVisits::verifyCancelDisconnectFromNavianceButton);
 
-        Then("^HS I verify the Yes on the disconnect confirmation popup with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyYesDisconnectFromNavianceButton);
+        Then("^HS I verify the Yes on the disconnect confirmation popup with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifyYesDisconnectFromNavianceButton);
 
         Then("^HS I verify configuration and staff notifications for \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::verifyStaffNotifications);
 
@@ -646,7 +650,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I cancel the \"([^\"]*)\" College Fair$", repVisits::cancelCollegeFair);
 
-        Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
+        Then("^HS I verify the Notification is not displayed after \"([^\"]*)\" the visit in the Request Notification Tab for \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyNotificationInRequestTab);
 
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
@@ -731,5 +735,32 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I reschedule the visit for the following data \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in calendar$",repVisits::rescheduleVisitInCalendar);
 
         Then("^HS I verify and select an appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAndSelectAppointmentInCalendarPage);
+
+        Then("^HS I complete the setupWizard$",repVisits::completeTheSetupWizard);
+
+        Then("^HS I create a new visit to verify the details in naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::createVisitForNaviance);
+
+        And("^HS I cancel the college fairs created$", repVisits::cancelCollegeFairs);
+
+        And("^HS I clean the visits for particular Month \"([^\"]*)\"$", repVisits::cleanVisitsForParticularMonth);
+
+        Then("^HS I verify the announcement title \"([^\"]*)\" in the announcement details$",repVisits::verifyAnnouncementTitleIsDisplaying);
+
+        Then("^HS I verify the 'Read More' button is displaying for the content with more than 140 character limit$",repVisits::verifyReadMoreButtonIsDisplaying);
+
+        Then("^HS I verify the announcement details after the success toast message using \"([^\"]*)\"$",repVisits::verifyAnnouncementDetailsAfterSuccessMessage);
+
+        Then("^HS I verify the dismiss button is displaying in the announcement details$",repVisits::verifyDismissButtonInAnnouncementDetails);
+
+        Then("^HS I click the dismiss button$",repVisits::clickDismissButton);
+
+        Then("^HS I verify the announcement is not displaying after clicking dismiss button$",repVisits::verifyAnnouncementIsNotDisplaying);
+
+        Then("^HS I verify the content begins where title would begin in notification bar \"([^\"]*)\"$",repVisits::verifyProductAnnouncementContent);
+
+        Then("^HS I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);
+
+        Then("^HS I verify the time slot is added with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::verifyTimeSlotIsDisplayedInRegularWeeklyHoursTab);
+
     }
 }

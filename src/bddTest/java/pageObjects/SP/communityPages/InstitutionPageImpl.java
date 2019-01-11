@@ -25,12 +25,14 @@ public class InstitutionPageImpl extends PageObjectFacadeImpl {
         WebElement viewNavianceCollegeProfile = link("VIEW NAVIANCE COLLEGE PROFILE");
         waitUntil(ExpectedConditions.visibilityOf(viewNavianceCollegeProfile));
         viewNavianceCollegeProfile.click();
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         waitUntilPageFinishLoading();
         waitForUITransition();
         getDriver().switchTo().frame(driver.findElement(By.className("IdFjPLV2funrJ0xNAJdsL")));
-        waitForUITransition();
-        waitForUITransition();
+        //Commenting the below line to increase the performance
+        //waitForUITransition();
+       // waitForUITransition();
         try{
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("h1.masthead__name"), 1));
             /*Commented because changed the UI

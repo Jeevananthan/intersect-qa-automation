@@ -37,6 +37,10 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active 
   Scenario: As an Active Match user,
   I want additional drop-down menu options to filter my Connections to include additional date ranges, easier access to the default view on various devices, and a cl
   so that I don't miss any new or modified connections associated with my institution and so that I have greater flexibility to view additional date ranges that are smaller than a full school year but potentially greater than the "Since Last Export" options.
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Connection" module to "inactive" in the institution page
+    And SP I set the "ActiveMatch Plus" module to "active" in the institution page
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to the ActiveMatch Tab
     And HE I verify the ActiveMatch page
@@ -49,3 +53,21 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active 
     And HE I verify the Header "Since Last Export"
     And HE I verify the Default drop-down Menu selection to remain "Since Last Export" after all connections are modified
       |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
+
+  @MATCH-5754
+  Scenario Outline: HE Admin users are not seeing the 'Connections' home page tile with the lock icon/upgrade form hyperlink when
+  their HE institution does not have an active 'ActiveMatch Plus' module subscription.
+
+  #precondition
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "Alpena Community College" from the institution dashboard
+    Then SP I set the "ActiveMatch Plus" module to "inactive" in the institution page
+  #Find an HE institution that does not have the 'ActiveMatch Plus' module subscription active
+    Then SP I go to the users list for "<institution>" from the institution dashboard
+    And SP I "Login As" the user account for "<user>"
+  #verify upgrade button in home Page - HE
+    Then SP I verify the "Upgrade" button in Home Page
+    And SP I successfully sign out
+    Examples:
+      |user                                   |institution              |
+      |purpleheautomation+LogHistory@gmail.com|Alpena Community College |

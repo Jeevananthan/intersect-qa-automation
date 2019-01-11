@@ -109,9 +109,15 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         switch (action) {
             case "Cancel":
                 cancelButton().click();
+                communityFrame();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("block-cp-og-tools-cp-og-institution-banner")));
+                driver.switchTo().defaultContent();
                 break;
             case "Save":
                 saveChanges().click();
+                communityFrame();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("block-cp-og-tools-cp-og-institution-banner")));
+                driver.switchTo().defaultContent();
                 break;
         }
         waitUntilPageFinishLoading();
@@ -136,6 +142,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
         System.out.println();
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         for (String key : data.keySet()) {
+            waitForUITransition();
             switch (key) {
                 case "Country":
                     WebElement verifyCountry = driver.findElement(By.id("country"));

@@ -68,10 +68,11 @@ public class GlobalSearch extends SeleniumBase {
 
 
     public void setSearchCategory(String searchCategory) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-filter")));
         getSearchSwitcher().click();
-        waitUntilPageFinishLoading();
+        //waitUntilPageFinishLoading();
         switch(searchCategory) {
             case "All":
                 getSearchSwitcher().findElement(By.className("search")).click();
@@ -90,10 +91,11 @@ public class GlobalSearch extends SeleniumBase {
                 break;
             case "People":
                 //getDriver().findElement(By.xpath("//*[@id=\"global-search-box-filter\"]/div/div[contains(text(), 'People')]")).click();
-                getSearchSwitcher().findElement(By.id("global-search-box-filter")).findElement(By.xpath("//div/div/span[contains(text(), 'People')]")).click();
+                getDriver().findElement(By.xpath("//span[contains(text(), 'People')]")).click();
+
                 break;
             case "Groups":
-                getSearchSwitcher().findElement(By.className("comments")).click();
+                getDriver().findElement(By.className("comments")).click();
                 break;
             case "HS Accounts":
                 getSearchSwitcher().findElement(By.xpath("//i[@class='university icon']/following-sibling::span[text()='HS Accounts']")).click();
@@ -101,11 +103,15 @@ public class GlobalSearch extends SeleniumBase {
             default:
                 Assert.fail(searchCategory + " is not a valid search category.  Valid categories: All, HE Accounts, College Core, Institutions, Users, People, Groups");
         }
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
     }
     private void doSearch(String searchTerm) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         getSearchBox().click();
+        getSearchBox().sendKeys(Keys.chord(Keys.CONTROL,"a"));
+        getSearchBox().sendKeys(Keys.DELETE);
         getSearchBox().clear();
         getSearchBox().sendKeys(searchTerm);
     }
@@ -172,7 +178,8 @@ public class GlobalSearch extends SeleniumBase {
     }
 
     public void selectResult(String optionToSelect) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         waitUntilElementExists(getDriver().findElement(By.cssSelector("div[id='global-search-box-results']")));
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;
@@ -233,10 +240,11 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         setSearchCategory(category);
         waitUntilPageFinishLoading();
+        getSearchBox().clear();
         doSearch("t ");
-        waitUntilPageFinishLoading();
+        waitUntilElementExists( link("More..."));
         link("More...").click();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(button("UPDATE SEARCH"));
         Assert.assertTrue("Did not end on Advanced Search page!  No Update Search buttons is present!", button("UPDATE SEARCH").isDisplayed());
     }
 
@@ -649,6 +657,7 @@ public class GlobalSearch extends SeleniumBase {
         }
 
         for (String key : textBoxData.keySet()) {
+            List<WebElement> closedArrows;
             switch (key) {
                 case "Advises Students on Admissions Process":
                     WebElement advisesStudents = getDriver().findElement(By.id("advise_students"));
@@ -711,12 +720,6 @@ public class GlobalSearch extends SeleniumBase {
                         waitUntilPageFinishLoading();
                         jsClick(drpInstitutionType.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key) + "')]")));
                         waitUntilPageFinishLoading();
-                        if (categorySearch.equalsIgnoreCase("Higher Education")) {
-                            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                        }else {
-                            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                        }
                     }
                     break;
 
@@ -738,6 +741,12 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "State":
+                    closedArrows = driver.findElements(By.cssSelector(locationArrowClosedLocator));
+                    if(closedArrows.size() > 0) {
+                        for (WebElement closedArrow : closedArrows) {
+                            closedArrow.click();
+                        }
+                    }
                     WebElement drpState;
                     if(categorySearch.equalsIgnoreCase("Higher Education")) {
                         drpState = getDriver().findElement(By.id("he-state"));
@@ -800,6 +809,12 @@ public class GlobalSearch extends SeleniumBase {
                     getParent(getParent(text(key))).findElement(By.tagName("input")).sendKeys(textBoxData.get(key));
                     break;
             }
+            closedArrows = driver.findElements(By.cssSelector(locationArrowClosedLocator));
+            if(closedArrows.size() > 0) {
+                for (WebElement closedArrow : closedArrows) {
+                    closedArrow.click();
+                }
+            }
             getDriver().findElement(By.xpath("//span[contains(text(),'Update Search')]")).click();
             waitUntilPageFinishLoading();
             Assert.assertFalse("The advanced search option " + key + "field did not work properly", getDriver().findElements(By.xpath("//span[contains(text(), 'No results found')]")).size()!=0);
@@ -851,5 +866,5 @@ public class GlobalSearch extends SeleniumBase {
         WebElement date=button("Go to date");
         return date;
     }
-
+    private String locationArrowClosedLocator = "div.accordion.ui div.title:not(.active)";
 }

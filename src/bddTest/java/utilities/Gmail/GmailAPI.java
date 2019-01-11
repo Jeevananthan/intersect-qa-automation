@@ -198,8 +198,12 @@ public class GmailAPI {
                     }
                     it.remove();
                 }
-
-                String messageBody = messageContent.getPayload().getBody().getData();
+                String messageBody;
+                if (messageContent.getPayload().getBody().getSize() != 0) {
+                    messageBody = messageContent.getPayload().getBody().getData();
+                } else {  // multi-part message, get the body content from parts instead
+                    messageBody = messageContent.getPayload().getParts().get(0).getBody().getData();
+                }
                 // Gmail's Base64 encoding uses specific parameters, this cleans up so we can decode to the real text.
                 messageBody = messageBody.replace("-", "+");
                 messageBody = messageBody.replace("_", "/");
