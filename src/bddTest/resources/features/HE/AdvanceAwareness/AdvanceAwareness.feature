@@ -179,6 +179,14 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
   @MATCH-4403 @MATCH-5368
   Scenario: As an HE user, I need to be be able to compose my Majors messaging so that I can  attract the students with
   interests in specific majors and interest of study
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "advanced-awareness/majors" url
     Then HE I check competitors are displayed in alphabetical order
@@ -202,3 +210,8 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Then HE I set a Competitor "" message
     Then I submit button "Save"
     Then I  wait for the success message "Major messages have been successfully updated."
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I successfully sign out
