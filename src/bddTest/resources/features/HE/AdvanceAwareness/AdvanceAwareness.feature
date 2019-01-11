@@ -36,6 +36,14 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
   @MATCH-4399
   Scenario: One Academic Threshold value must be entered if "Use Default Threshold" is selected for a subscription.
   GPA, SAT, ACT are not required
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "advanced-awareness/threshold" url
     Then HE I check "Enabled" checkbox for the first row on the Threshold Page
@@ -59,6 +67,11 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Then HE I set default filter value "30" for "act" on the Threshold Page
     Then SM I press button "Save"
     Then I check there is no "Invalid Default Filter Values" text on the page
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I successfully sign out
 
   @MATCH-4399
   Scenario Outline: Academic Threshold min and max values for default GPA,SAT,ACT
@@ -84,6 +97,14 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
 
   @MATCH-4399
   Scenario Outline: Academic Threshold min and max values for GPA,SAT,ACT
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "advanced-awareness/threshold" url
     Then HE I check "Enabled" checkbox for the first row on the Threshold Page
@@ -100,6 +121,11 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Then HE I clear filter value for "<valueName>" on the Threshold Page
     Then HE I set filter value "<moreThanMax>" for "<valueName>" on the Threshold Page
     Then I check if I can see "<message>" on the page
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I successfully sign out
     Examples:
       | valueName | minValue | maxValue | lessThanMin | moreThanMax | message                          |
       | gpa          | 0.1      | 4.0      | 0.02        | 4.1         | Value must be between 0.1 - 4    |
@@ -110,6 +136,14 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
 
   @MATCH-4399
   Scenario Outline: Academic Threshold GPA, SAT, ACT default values are applied
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "advanced-awareness/threshold" url
     Then HE I clear default filter value for "<filterValue>" on the Threshold Page
@@ -117,6 +151,11 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Then HE I check "Enabled" checkbox for the first row on the Threshold Page
     Then HE I check "Use Default Filter Values" checkbox for the first row on the Threshold Page
     Then HE I verify "<filterValue>" value for the first row is "<value>" on the Threshold Page
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I successfully sign out
     Examples:
       | filterValue | value |
       | gpa         | 0.8   |
@@ -125,6 +164,14 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
 
   @MATCH-4399
   Scenario: Academic Threshold check all fields
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "advanced-awareness/threshold" url
     Then HE I check "Enabled" checkbox for the first row on the Threshold Page
@@ -137,6 +184,11 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Then HE I verify "gpa" value for the first row is "0.8" on the Threshold Page
     Then HE I verify "sat" value for the first row is "1250" on the Threshold Page
     Then HE I verify "act" value for the first row is "13" on the Threshold Page
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I successfully sign out
 
   @MATCH-5138
   Scenario:  As an Intersect User with Advanced Awareness provisioned,  I need to have Advanced Awareness displayed

@@ -132,7 +132,7 @@ public class NavigationBarImpl extends SeleniumBase {
         navianceCollegeProfileMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Naviance College Profile menu was not selected",
-                selectedNavigationMenu.getAttribute("innerText").contains("Naviance College Profile"));
+                selectedNavigationMenu.getAttribute("innerText").contains("College Profile"));
     }
 
     public void goToRepVisits() {
