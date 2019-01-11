@@ -21,4 +21,10 @@ public class ConnectorStepDefs implements En {
         Then("^SM I verify that the following connector fields are not editable:$", connectorPage::verifyConnectorFieldsNotEditable);
 
         And("^HE I click the button \"([^\"]*)\" in the connector dialog$", connectorPage::clickButtonInConnectorDialog);
+
+        Then("^SM I verify that at least one of the following fields is required for submitting the form: Email, Phone, Address$", connectorPage::verifyRequiredFieldsEmailPhoneStreet);
+
+        Then("^SM I verify that, when \"([^\"]*)\" is used as value for Phone, an error message is displayed$", connectorPage::verifyPhoneErrorMessage);
+
+        Then("^SM I verify that the birthday format is: Month\\(abbreviated\\) DD, YYYY$", connectorPage::verifyBirthdayFormat);
     }}
