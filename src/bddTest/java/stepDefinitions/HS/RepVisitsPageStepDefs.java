@@ -762,5 +762,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the time slot is added with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::verifyTimeSlotIsDisplayedInRegularWeeklyHoursTab);
 
+        Then("^HS I verify the Default the HS user to see the Request subtab when they arrive on the Notifications page$",repVisits::verifySubTabInNotifications);
     }
 }

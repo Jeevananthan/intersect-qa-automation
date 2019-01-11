@@ -460,3 +460,86 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Examples:
       |user    |institution              |fairStartTime|College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool             |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE                   |
       |PurpleHE|The University of Alabama|9:00am       |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Trimble County High School|Tuscaloosa, AL           |Bedford, Kentucky               |Trimble County High School - Kentucky|
+
+  @MATCH-2091
+  Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page REQUESTS subtab
+  so I can efficiently find the updates I am looking for within RepVisits
+  #Activity subtab covered on MATCH-2093
+  #FOR VISITS
+    #precondition
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    Then HS I verify the Message "You currently have no notifications." is displayed in the Request Notification Tab
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    Then HE I am logged in to Intersect HE as user type "publishing"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I verify the Default the HS user to see the Request subtab when they arrive on the Notifications page
+    Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I select "Confirm" option for the Notification using "<user>","<heStartTime>","<institution>"
+
+    Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I select "Decline" option for the Notification using "<user>","<heStartTime>","<institution>"
+    Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<heStartTime>","<StartDate>"
+    Then HS I select the "No, go back" button by entering the message "" for "<user>"
+    Then HS I verify the Notification "<user>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
+    And HS I select "Decline" option for the Notification using "<user>","<heStartTime>","<institution>"
+    Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<heStartTime>","<StartDate>"
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+
+  #FOR FAIRS
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "publishing"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+    And HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS as user type "HSadmin2"
+#    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I verify the Default the HS user to see the Request subtab when they arrive on the Notifications page
+    Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Confirm" option for the Notification using "<user>","<Date>","<fairStartTime>","<institution>" for Fairs
+
+    Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Decline" option for the Notification using "<user>","<Date>","<fairStartTime>","<institution>" for Fairs
+    Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<fairStartTime>","<Date>" for Fairs
+    Then HS I select the "No, go back" button by entering the message "" for "<user>"
+    Then HS I verify the Notification "<user>","<institution>","<fairStartTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Decline" option for the Notification using "<user>","<Date>","<fairStartTime>","<institution>" for Fairs
+    Then HS I verify the Decline Pop-up in the Notification Tab "<user>","<institution>","<fairStartTime>","<Date>" for Fairs
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<user>"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option2>"
+    And HS I successfully sign out
+
+    Examples:
+      |user    |institution               |fairStartTime|Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |Option2                           |School                    |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |option|
+      |PurpleHE|The University of Alabama |9:00am       |14  |10:32am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests. |Yes, accept all incoming requests.|Trimble County High School|10:32am     |10:32am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |1     |
+
