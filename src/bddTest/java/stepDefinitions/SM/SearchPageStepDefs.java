@@ -351,6 +351,10 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the college \"([^\"]*)\" is \"([^\"]*)\" in the why drawer$", searchPage::verifyCollegeIsPinnedORUnpinnedInWhyDrawer);
 
+        And("^SM I verify that \"([^\"]*)\" college is present in search results$", searchPage::verifyCollegeIsPresentInSearchResults);
+
+        And("^SM I verify that \"([^\"]*)\" college is not present in search results$", searchPage::verifyCollegeIsNotPresentInSearchResults);
+      
         And("^SM I verify that left and right arrow buttons are displayed on top of \"([^\"]*)\" logo in Compare Pinned Schools page$", searchPage::verifyLeftAndRightCompareMoveButtonsAreDisplayed);
 
         And("^SM I verify that the left arrow button should be disabled for the school \"([^\"]*)\" since it is ordered #1$", searchPage::verifyThatCollegeHasLeftMoveButtonDisabledSinceItIsOrderedNumber1);
@@ -360,5 +364,6 @@ public class SearchPageStepDefs implements En {
         And("^SM I move \"([^\"]*)\" to the \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::moveCollegeToLeftOrRightInComparePinnedSchoolsPage);
 
         And("^SM I verify that position of \"([^\"]*)\" is \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::verifyPositionOfCollegeInComparePinnedSchoolsPage);
+
     }
 }
