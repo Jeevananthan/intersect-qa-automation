@@ -33,6 +33,10 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
         closeButton().click();
     }
 
+    public void clickButtonInConnectDialog(String buttonText) {
+        connectDialogButton(buttonText).click();
+    }
+
     public void verifyIfMatchingCardIsDisplayed(String cardStatus, String collegeName) {
         waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(cardsGroupsLocator), 0));
         if (cardStatus.equals("displayed")) {
@@ -43,7 +47,6 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
             Assert.assertTrue("Matching card is not displayed, when it should.",
                     driver.findElements(By.xpath(cardTitleLocator(collegeName))).size() == 0);
         }
-
     }
 
     //Locators
@@ -58,5 +61,6 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
     private WebElement submitButton() { return driver.findElement(By.cssSelector("button#submitForm")); }
     private WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
     private String cardsGroupsLocator = "div.ui.cards.matches-group";
+    private WebElement connectDialogButton(String buttonText) { return driver.findElement(By.xpath("//button[text() = '" + buttonText + "']")); }
     private String cardTitleLocator(String collegeName) { return "//div[@class = 'ui cards matches-group'][1]//a[text() = '" + collegeName + "']"; }
 }
