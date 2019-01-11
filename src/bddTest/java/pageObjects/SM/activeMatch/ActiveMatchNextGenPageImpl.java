@@ -34,6 +34,7 @@ public class ActiveMatchNextGenPageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkLegacyCardDisplayes(String collegeName, DataTable dataTable){
+        waitUntilPageFinishLoading();
         List<List<String>> details = dataTable.asLists(String.class);
         for (List<String> row : details) {
             Assert.assertTrue(getLegacyMatches().findElement(By.xpath("//a[text()=\"" + collegeName + "\"]//../..//*[contains(text(),\"" + row.get(0) + "\")]")).isDisplayed());
