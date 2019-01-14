@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.SM.collegesLookingForStudentsLikeYou.CollegesLookingForStudentsLikeYouPageImpl;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     }
 
     private Logger logger;
+    private CollegesLookingForStudentsLikeYouPageImpl collegesLookingForStudentsLikeYouPage = new CollegesLookingForStudentsLikeYouPageImpl();
 
     public void verifyCheckboxesRelatedTo(String checkboxesStatus, String mainCheckBoxLabel, String mainCheckboxStatus) {
         if (connectorCheckbox(mainCheckBoxLabel).getAttribute("class").contains(mainCheckboxStatus)) {
@@ -132,9 +134,20 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyBirthdayFormat() {
-        String control = birthdayValue().getText().split("\\n")[1];
         Assert.assertTrue("The birthday date format is incorrect",
                 birthdayValue().getText().split("\\n")[1].matches("([a-z]|[A-Z]){3}\\s(3[01]|[12][0-9]|[1-9]\\w*),\\s[0-9]{4}"));
+    }
+
+    public void verifyItsPossibleToSubmit(String value) {
+        collegesLookingForStudentsLikeYouPage.yesIDoButton().click();
+        waitUntilElementExists(button("Submit"));
+        if (birthdayValue().getText().split("\\n")[1].equals(value)) {
+            button("Submit").click();
+        }
+        waitUntilElementExists(collegesLookingForStudentsLikeYouPage.closeButton());
+        Assert.assertTrue("It was not possible to submit the form with " + value + " as value for Birthday",
+                collegesLookingForStudentsLikeYouPage.stepTitle3().getText().equals("Successfully Submitted!"));
+        collegesLookingForStudentsLikeYouPage.closeButton().click();
     }
 
     //Locators

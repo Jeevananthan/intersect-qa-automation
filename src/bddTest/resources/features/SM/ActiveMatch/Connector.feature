@@ -86,3 +86,33 @@ Feature: AMNG - AM NextGen Connector
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
+
+  @MATCH-5615 @ignore
+  Scenario: The Birthday field should not be required
+
+  #Clean existing subscriptions and create a new one
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+
+  #Make the connector verifications
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I go to Colleges Looking for Students Like You list
+    And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
+    Then SM I verify that it is possible to submit the form with "N/A" as Birthday value
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    And SM I remove "Babson College" from the I'm thinking about list if it is added in the list
+
+  #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
