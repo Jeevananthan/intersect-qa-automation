@@ -8,6 +8,7 @@ package pageObjects.SM.activeMatch;
         import org.openqa.selenium.support.ui.ExpectedConditions;
         import pageObjects.COMMON.PageObjectFacadeImpl;
 
+        import javax.swing.text.StringContent;
         import java.util.List;
 
 public class ActiveMatchNextGenPageImpl extends PageObjectFacadeImpl {
@@ -41,12 +42,21 @@ public class ActiveMatchNextGenPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+     public void checkActiveMatchNextGenDisplayes(String collegeName, DataTable dataTable){
+             waitUntil(ExpectedConditions.visibilityOf(getAMNextGenMatches()));
+             List<List<String>> details = dataTable.asLists(String.class);
+             for (List<String> row : details) {
+                 waitUntil(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[text()=\"" + collegeName + "\"]//../../..//*[contains(text(),\"" + row.get(0) + "\")]")));
+             }
+     }
+
     //Locators
     private WebElement getCard(String card) {
         return driver.findElement(By.xpath("//*[@class = 'ui card']//a[text()='" + card + "']"));
     }
 
     private WebElement getAMNextGenMatches(){
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@class = \"ui cards matches-group\"][1]")));
         return driver.findElement(By.xpath("//*[@class = \"ui cards matches-group\"][1]"));
     }
 
