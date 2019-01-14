@@ -14,6 +14,6 @@ public class ActiveMatchNextGenStepDefs implements En{
             Then("^SM I check ActiveMatch NextGen matches are displayed$", activeMatchNextGenPage::checkActiveMatchNextGenAreDisplayed);
             Then("^SM I check Legacy AM matches are displayed$",activeMatchNextGenPage::checkLegacyAMAreDisplayed);
             Then("^SM I check Legacy AM match for \"([^\"]*)\" displayes:$",activeMatchNextGenPage::checkLegacyCardDisplayes);
-            Then("^SM I verify the card for \"([^\"]*)\" contains:$",activeMatchNextGenPage::clickOnForTheCard);
+            Then("^SM I verify the card for \"([^\"]*)\" contains:$",activeMatchNextGenPage::checkActiveMatchNextGenDisplayes);
         }
 }

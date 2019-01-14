@@ -106,51 +106,53 @@ Feature: SM - ActiveMatch Next Gen
       When SP I select "The University of Alabama" from the institution dashboard
       And HE I click the link "Advanced Awareness"
       And SP I delete all the subscriptions for school
-  @MATCH-5504
-  Scenario Outline: As a Naviance Student student user, I want to only be matched against Audience Profiles from active subscriptions.
-  Active subscriptions are subscriptions where the start date is equal to or before the current date, and the end date is
-  equal to or after the current date.
- #Clean existing subscriptions
+
+  @MATCH-5004
+  Scenario: As a Naviance Student student user, I'd like to see why I matched with an HE institution who has
+  an Advanced Awareness subscription configuration, because I am interested in a particular major.
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
-
- #Create a subscription with today as end date.
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5507SubscriptionData.json" and the following settings:
-      | startDate | <startDate> |
-      | endDate   | <endDate>   |
+      | startDate | 0 days before now |
+      | endDate   | 2 days after now  |
     And SP I successfully sign out
-
- #Verify match or not match
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
     And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
     And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
-    Then SM I select the "Bachelor's" radio button from the Academics fit criteria
+    And SM I navigate to page via URL path "colleges/supermatch-next"
     Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
       | Accounting       |
       | Philosophy       |
       | Geography        |
       | Physics, General |
       | Social Work      |
-#      | Anthropology     |
-
-
-
     And SM I go to Colleges Looking for Students Like You list
-    Then SM I verify a matching card is "<cardStatus>" for "The University of Alabama"
-    Then SM I verify the card for "" contains:
-
- #Clean existing subscriptions
+    Then SM I verify the card for "The University of Alabama" contains:
+      | Accounting       |
+      | Philosophy       |
+      | Geography        |
+      | Physics, General |
+      | Social Work      |
+    And SM I navigate to page via URL path "colleges/supermatch-next"
+    And SM I remove the "Major [5]" fit criteria from the Must Have box or Nice to Have box
+    Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      | Accounting       |
+      | Philosophy       |
+      | Geography        |
+      | Physics, General |
+      | Social Work      |
+      | Anthropology |
+    And SM I go to Colleges Looking for Students Like You list
+    Then SM I verify the card for "The University of Alabama" contains:
+      | and more |
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
-    Examples:
-      | startDate         | endDate           | cardStatus |
-      | 0 days before now | 2 days after now  | displayed  |
-      | 2 days after now  | 3 days after now  | not displayed |
 
 
