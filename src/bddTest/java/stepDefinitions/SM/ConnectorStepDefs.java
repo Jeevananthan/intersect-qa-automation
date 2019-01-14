@@ -27,4 +27,7 @@ public class ConnectorStepDefs implements En {
         Then("^SM I verify that, when \"([^\"]*)\" is used as value for Phone, an error message is displayed$", connectorPage::verifyPhoneErrorMessage);
 
         Then("^SM I verify that the birthday format is: Month\\(abbreviated\\) DD, YYYY$", connectorPage::verifyBirthdayFormat);
+
+        Then("^SM I verify that it is possible to submit the form with \"([^\"]*)\" as Birthday value$", connectorPage::verifyItsPossibleToSubmit);
+
     }}
