@@ -480,32 +480,35 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         if (driver.findElements(By.cssSelector(FCCollegeEventsPage.welcomeTooltipLocator)).size() > 0) {
             FCCollegeEventsPage.welcomeTooltipCloseButton.click();
         }
-        List<WebElement> listOfEventNames = new ArrayList<>();
+        List<WebElement> listOfEventNames;
         List<String> listOfEventNamesStrings = new ArrayList<>();
 
-        WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
-
-        listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
-        for (WebElement eventNameElement : listOfEventNames) {
-            listOfEventNamesStrings.add(eventNameElement.getText());
-        }
-
-        while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
-            waitForUITransition();
-            waitUntilPageFinishLoading();
-            waitUntilElementExists(upperNextArrow);
-            upperNextArrow.click();
-            waitForUITransition();
+        if (driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).size() > 0) {
+            while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                waitForUITransition();
+                waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(collegeNameHeader), 0));
+                listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+                for (WebElement eventNameElement : listOfEventNames) {
+                    listOfEventNamesStrings.add(eventNameElement.getText());
+                }
+                if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                    Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
+                                    cancelledEventMessage(EventsPageImpl.eventName).getText(),
+                            cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+                    break;
+                }
+                driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0).click();
+            }
+        } else {
             listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
             for (WebElement eventNameElement : listOfEventNames) {
                 listOfEventNamesStrings.add(eventNameElement.getText());
             }
-        }
-
-        if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
-            Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
-                            cancelledEventMessage(EventsPageImpl.eventName).getText(),
-                    cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+            if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
+                                cancelledEventMessage(EventsPageImpl.eventName).getText(),
+                        cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+            }
         }
         waitForUITransition();
     }
@@ -822,4 +825,5 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement editEventClick (String nameOfEvent){return driver.findElement(By.xpath("//h3[text()='" +nameOfEvent+ "']"));}
     private String unpublishedEventsEllipsisLocator(String eventName) { return "//h3[text() = '" + eventName + "']/../../../..//i"; }
     private String progressBarLocator = "div[role='progressbar']";
+    private String collegeNameHeader = "div.events-list__column-head.events-list__column-head--name";
 }
