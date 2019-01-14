@@ -25,7 +25,8 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     And HE I verify following options are unchecked
       | Multiracial |
     #Following will un-check previously checked values
-    And HE I select following Diversity Settings
+    And HE I unselect following Diversity Settings
+    #And HE I select following Diversity Settings
       | Asian |
       | Hispanic/Latino of any race |
     And HE I click on Advance Awareness menu option "Competitors"
@@ -133,7 +134,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
 
 
   @MATCH-4399
-    Scenario Outline: Academic Threshold GPA, SAT, ACT default values are applied
+  Scenario Outline: Academic Threshold GPA, SAT, ACT default values are applied
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"

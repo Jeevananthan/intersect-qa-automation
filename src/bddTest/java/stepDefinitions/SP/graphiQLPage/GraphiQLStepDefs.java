@@ -1,8 +1,6 @@
 package stepDefinitions.SP.graphiQLPage;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
-import pageObjects.COMMON.HelpImpl;
 import pageObjects.SP.graphiQLPage.GraphiQLPageImpl;
 
 public class GraphiQLStepDefs implements En {

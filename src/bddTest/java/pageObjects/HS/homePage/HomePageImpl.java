@@ -120,9 +120,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         driver.manage().deleteAllCookies();
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © "+currentYear+", Hobsons Inc.']")).isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © 2018, Hobsons Inc.']")).isDisplayed());
         openNavianceLoginPage();
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()=' Copyright © "+currentYear+"']/span[contains(text(),'Hobsons Inc')]")).isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()=' Copyright © 2018']/span[contains(text(),'Hobsons Inc')]")).isDisplayed());
     }
 
     public void verifyHeaderInProductAnnouncementsReadMoreDrawer(){
@@ -196,9 +196,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         }
         driver.switchTo().window(intersectWindow);
         waitUntilPageFinishLoading();
-        String currentYear = getCurrentYear();
+//        String currentYear = getCurrentYear();
         Assert.assertTrue("hobsons logo is not displayed",logo().isDisplayed());
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//span[text()='Copyright © "+currentYear+" ']/parent::span/following-sibling::span[text()='Hobsons']")).isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//span[text()='Copyright © 2018 ']/parent::span/following-sibling::span[text()='Hobsons']")).isDisplayed());
         driver.close();
         driver.switchTo().window(navianceWindow);
         waitUntilPageFinishLoading();
