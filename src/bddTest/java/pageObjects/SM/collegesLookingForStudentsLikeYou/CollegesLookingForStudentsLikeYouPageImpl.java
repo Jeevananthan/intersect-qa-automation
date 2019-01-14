@@ -2,6 +2,7 @@ package pageObjects.SM.collegesLookingForStudentsLikeYou;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -32,6 +33,22 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
         closeButton().click();
     }
 
+    public void clickButtonInConnectDialog(String buttonText) {
+        connectDialogButton(buttonText).click();
+    }
+
+    public void verifyIfMatchingCardIsDisplayed(String cardStatus, String collegeName) {
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(cardsGroupsLocator), 0));
+        if (cardStatus.equals("displayed")) {
+            waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(cardTitleLocator(collegeName)), 0));
+            Assert.assertTrue("Matching card is not displayed, when it should.",
+                    driver.findElements(By.xpath(cardTitleLocator(collegeName))).size() == 1);
+        } else {
+            Assert.assertTrue("Matching card is not displayed, when it should.",
+                    driver.findElements(By.xpath(cardTitleLocator(collegeName))).size() == 0);
+        }
+    }
+
     //Locators
     private WebElement heartIcon(String collegeName) {
         return driver.findElement(By.xpath("//div[@id = 'activematch-app']/div[1]//a[text() = '" + collegeName + "']/../..//div[1]/i"));
@@ -39,9 +56,11 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
     private String modalCancelButton = "//span[text() = 'CANCEL']";
     private WebElement stepTitle() { return driver.findElement(By.cssSelector("main h2")); }
     private WebElement stepTitle2() { return driver.findElement(By.cssSelector("div.ui.header")); }
-    private WebElement stepTitle3() { return driver.findElement(By.cssSelector("div.connect-message h1")); }
-    private WebElement yesIDoButton() { return driver.findElement(By.cssSelector("button#yesIDoButton")); }
+    public WebElement stepTitle3() { return driver.findElement(By.cssSelector("div.connect-message h1")); }
+    public WebElement yesIDoButton() { return driver.findElement(By.cssSelector("button#yesIDoButton")); }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("button#submitForm")); }
-    private WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
+    public WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
     private String cardsGroupsLocator = "div.ui.cards.matches-group";
+    private WebElement connectDialogButton(String buttonText) { return driver.findElement(By.xpath("//button[text() = '" + buttonText + "']")); }
+    private String cardTitleLocator(String collegeName) { return "//div[@class = 'ui cards matches-group'][1]//a[text() = '" + collegeName + "']"; }
 }

@@ -94,13 +94,11 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
   Scenario: Verify cancelled events can still be viewed in Naviance Student
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
-    And HE I create and save a new event with a unique name and the following details:
+    And HE I create and save a new event "120" minutes ahead from now with a unique name and the following details:
       | Event Name | EventForCancelTest |
-      | Event Start | 12-21-2018;10:00AM |
       | Timezone    | Eastern Time (i.e. America/New_York) |
       | Description | Test              |
       | Max Attendees | 30 |
-      | RSVP Deadline | 12-15-2018;10:00AM |
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I cancel the created event
