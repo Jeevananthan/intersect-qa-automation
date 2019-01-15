@@ -228,6 +228,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteMultipleSubscriptions(){
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h2[text()='Advanced Awareness and Connections Subscriptions']")));
         List<WebElement> buttonList = driver.findElements(By.cssSelector(removeButtonListLocator));
         for (WebElement removeButton : buttonList){
@@ -237,7 +238,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
             deleteButton().click();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h2[text()='Advanced Awareness and Connections Subscriptions']")));
         }
-
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(removeButtonListLocator),0 ));
 
 

@@ -12,8 +12,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     | Asian |
     | Hispanic/Latino of any race |
     And HE I click on Advance Awareness menu option "Competitors"
-    And SM I press button "SAVE"
-   # And HE I click the advanced awareness save button
+    And HE I click the advanced awareness save button
     And HE I click on Advance Awareness menu option "Diversity"
     And HE I verify following options are checked
       | Asian |
@@ -31,7 +30,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
       | Asian |
       | Hispanic/Latino of any race |
     And HE I click on Advance Awareness menu option "Competitors"
-    And SM I press button "SAVE"
+    And HE I click the advanced awareness save button
 
   @MATCH-4399
   Scenario: One Academic Threshold value must be entered if "Use Default Threshold" is selected for a subscription.
@@ -39,6 +38,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
       | startDate | 2 days before now |
@@ -100,6 +100,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
       | startDate | 2 days before now |
@@ -139,6 +140,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
       | startDate | 2 days before now |
@@ -167,6 +169,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
       | startDate | 2 days before now |
@@ -208,6 +211,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
       | startDate | 2 days before now |
@@ -247,6 +251,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
       | startDate | 2 days before now |
