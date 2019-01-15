@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -336,7 +337,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         publish.clickPublishButton();
         publish.enterPublishReasonsText(details.get(11).get(1));
         publish.clickSubmitChangesButton();
-        publish.clickContinueEditingLink();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(loadingIconLeftMenuLocator), 1));
         logger.info("All changes were submitted");
     }
 
@@ -435,4 +436,5 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         return dropDown;
     }
     private WebElement errorMsg() { return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span")); }
+    public String loadingIconLeftMenuLocator = "div.fc-loader.fc-loader-three-bounce.fc-loader--color-primary";
 }
