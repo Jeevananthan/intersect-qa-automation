@@ -75,4 +75,84 @@ Feature: SM - ActiveMatch Next Gen
     | 0 days before now | 2 days after now  | displayed  |
     | 2 days after now  | 3 days after now  | not displayed |
 
+    @MATCH-5029
+    Scenario: We need to put both the AM Legacy Matches and AM NextGen matches into the same component so that they
+    can be displayed similarly on the Colleges Looking For Students Like You page in CollegeMatch of Naviance Student.
+       #Clean existing subscriptions and create a new one
+      Given SP I am logged in to the Admin page as an Admin user
+      When SP I select "The University of Alabama" from the institution dashboard
+      And HE I click the link "Advanced Awareness"
+      And SP I delete all the subscriptions for school
+      And SP I navigate to the GraphiQL page
+      And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+        | startDate | 2 days before now |
+        | endDate   | 2 days after now  |
+      And SP I successfully sign out
+
+    #Make matches verifications
+      Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+      And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+      When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+      And SM I go to Colleges Looking for Students Like You list
+      Then SM I check ActiveMatch NextGen matches are displayed
+      Then SM I check Legacy AM matches are displayed
+      Then SM I check Legacy AM match for "The University of Alabama" displayes:
+        | 702 miles from your school |
+        | Favorite                   |
+        | Not Interested            |
+
+    #Clean subscriptions
+      Given SP I am logged in to the Admin page as an Admin user
+      When SP I select "The University of Alabama" from the institution dashboard
+      And HE I click the link "Advanced Awareness"
+      And SP I delete all the subscriptions for school
+
+  @MATCH-5004
+  Scenario: As a Naviance Student student user, I'd like to see why I matched with an HE institution who has
+  an Advanced Awareness subscription configuration, because I am interested in a particular major.
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5507SubscriptionData.json" and the following settings:
+      | startDate | 0 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    And SM I navigate to page via URL path "colleges/supermatch-next"
+    Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      | Accounting       |
+      | Philosophy       |
+      | Geography        |
+      | Physics, General |
+      | Social Work      |
+    And SM I go to Colleges Looking for Students Like You list
+    Then SM I verify the card for "The University of Alabama" contains:
+      | Accounting       |
+      | Philosophy       |
+      | Geography        |
+      | Physics, General |
+      | Social Work      |
+    And SM I navigate to page via URL path "colleges/supermatch-next"
+    And SM I remove the "Major [5]" fit criteria from the Must Have box or Nice to Have box
+    Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      | Accounting       |
+      | Philosophy       |
+      | Geography        |
+      | Physics, General |
+      | Social Work      |
+      | Anthropology |
+    And SM I go to Colleges Looking for Students Like You list
+    Then SM I verify the card for "The University of Alabama" contains:
+      | and more |
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+
+
 

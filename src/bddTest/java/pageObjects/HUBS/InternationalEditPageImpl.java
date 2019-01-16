@@ -222,7 +222,6 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
         publish.clickPublishButton();
         publish.enterPublishReasonsText(details.get(7).get(1));
         publish.clickSubmitChangesButton();
-        publish.clickContinueEditingLink();
         logger.info("All changes were submitted");
     }
 
