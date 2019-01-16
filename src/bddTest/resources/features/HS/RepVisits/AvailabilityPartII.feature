@@ -98,7 +98,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
-    And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "administrator"
 #by SchoolLocation
@@ -107,19 +106,16 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
-    Then HE I successfully sign out
   #by SchoolName
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
-    Then HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
-    And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "administrator"
 #by SchoolLocation
@@ -128,19 +124,16 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
-    Then HE I successfully sign out
  #by SchoolName
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
-    Then HE I successfully sign out
 #Post-Condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
-    And HS I successfully sign out
 
   Examples:
    |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location               |option |
