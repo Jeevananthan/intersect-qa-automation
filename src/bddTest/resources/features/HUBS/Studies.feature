@@ -19,7 +19,7 @@ Feature: HUBS - Studies - As a community user viewing College Hubs, I want to be
       | Top Areas of Study   |1;test |
       | Study Options        |Study Abroad Credit;disabled |
 
-  @HUBS-1043
+  @HUBS-1043 @Unstable
   Scenario: Changes done in HEM are successfully published to HUBS
     When HUBS I open "Studies" in the edit menu
     And HUBS I take note of the values from the following fields:
