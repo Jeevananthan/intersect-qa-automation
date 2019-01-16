@@ -9586,7 +9586,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private By eventLocationHsLocator(){
-        return By.id("eventLocation");
+        return By.name("locationWithinSchool");
     }
 
     private WebElement addVisitButtonInVisitSchedulePopup() {
