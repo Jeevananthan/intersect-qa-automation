@@ -3902,7 +3902,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(getUnpublishButton());
         getUnpublishButton().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(closeButtonLocator()));
-        close().click();
+        jsClick(close());
     }
 
     public void addEmailInNotificationandPrimaryContactPage(String Email) {
