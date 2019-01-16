@@ -772,5 +772,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I select \"([^\"]*)\" In Naviance college visit Page using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectViewOptionInNavianceCollegeVisitPage);
 
+        Then("^HS I verify the Appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAppointmentCalendarPage);
+
     }
 }

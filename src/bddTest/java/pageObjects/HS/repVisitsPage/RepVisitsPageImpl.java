@@ -8712,7 +8712,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyAppointmentInCalendar(String startTime, String university) {
         Assert.assertTrue("Appointment is not displayed", calendarAppointment(startTime, university).isDisplayed());
     }
-  /* Filling the the values in Naviance settings page */
+  /**
+   *
+   *  Submitting required values in Naviance settings page
+   *
+   *  Accept the data table values
+   * @param dataTable - valid sections : option , NumVisits , Location , studentsCount , DeadlineValue , Notes , deadlineOption
+   *                  Acceptable values : Ex: Automatically publish confirmed visits., 3 ,etc..
+   */
    public void submitTheValuesInNavianceSettings(DataTable dataTable) {
        getNavigationBar().goToRepVisits();
        waitUntilPageFinishLoading();
@@ -8760,7 +8767,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         saveChangesNaviance().click();
         waitUntilPageFinishLoading();
     }
-/*verify visit details in naviance page after reschedule the appointment*/
+    /**
+     *
+     *  Verifying visit details in Naviance page after reschedule the visit
+     *
+     *  Accept the data table values
+     * @param Date - Accepting date as string value and converting to Date value
+     *
+     * @param dataTable - Getting values using data table
+     *                   Acceptable values are : college ,attendee etc..
+     */
     public void verifyNavianceCollegeVisitPageAfterReschedule(String Date,DataTable dataTable){
         int getDate = Integer.parseInt(Date);
         String date=getSpecificDate(getDate,"EEEE MMMM d, yyyy");
@@ -8771,7 +8787,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Date is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+date+"')]")).isDisplayed());
         Assert.assertTrue("Start Time is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+getVisitStartTimeforReschedule()+"')]")).isDisplayed());
     }
-/*verify visit details in naviance page before reschedule the appointment*/
+    /**
+     *
+     *  Verifying visit details in Naviance page before reschedule the visit
+     *
+     *  Accept the data table values
+     * @param Date - Accepting date as string value and converting to Date value
+     *
+     * @param dataTable - Getting values using data table
+     *                   Acceptable values are : college ,attendee etc..
+     */
     public void verifyNavianceCollegeVisitPage(String Date,DataTable dataTable) {
         List<String> data = dataTable.asList(String.class);
         int getDate = Integer.parseInt(Date);
@@ -8782,7 +8807,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Date is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+date+"')]")).isDisplayed());
         Assert.assertTrue("Start Time is not displayed",driver.findElement(By.xpath("//td[contains(text(),'"+getVisitStartTime()+"')]")).isDisplayed());
     }
-/*select view option for the respective appointment in naviance page after reschedule the appointment*/
+/**
+ * select view option for the respective appointment in naviance page after reschedule the appointment
+ *
+ * @param Date - Accepting date as string value and converting to Date value
+ *
+ * @param option - View
+ *
+ * @param Time - Ex : 10:34 AM
+ */
     public void selectViewOptionInNavianceCollegeVisitPageAfterReschedule(String option,String Date,String Time){
         String startTime=getVisitStartTimeforReschedule();
         Actions action = new Actions(driver);
@@ -8795,7 +8828,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         select.click();
         waitUntilPageFinishLoading();
     }
-/*select view option for the respective appointment in naviance page before reschedule the appointment*/
+    /**
+     * select view option for the respective appointment in naviance page before reschedule the appointment
+     *
+     * @param Date - Accepting date as string value and converting to Date value
+     *
+     * @param option - View
+     *
+     * @param Time - Ex : 10:34 AM
+     */
     public void selectViewOptionInNavianceCollegeVisitPage(String option,String Date,String Time) {
         String startTime=getVisitStartTime();
         Actions action = new Actions(driver);
@@ -8808,6 +8849,71 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         select.click();
         waitUntilPageFinishLoading();
         waitForUITransition();
+    }
+
+    /**
+     * verify the appointment in calendar page
+     *
+     * @param university : Ex:Alpena Community College
+     *
+     * @param time : Ex :10:58AM
+     *
+     * @param date : Accepting date as string value and converting to Date value
+     *
+     * @param option : Ex : scheduled or rescheduled
+     */
+    public void verifyAppointmentCalendarPage(String university, String time, String date, String option){
+        String startTime = "";
+        if (option.equals("Scheduled")) {
+            startTime = getVisitStartTimeInCalendar();
+        } else if (option.equals("ReScheduled")) {
+            startTime = getRescheduledVisitStartTimeInCalendar();
+        }
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@title='Day']"), 1));
+        collegeFairTextBoxInCalendarPage().click();
+        pendingCheckBoxInCalendarPage().click();
+        String month = month(date);
+        String currentMonth = currentMonthInCalendarPage().getText();
+        String selectMonth[] = currentMonth.split(" ");
+        String Month = selectMonth[0];
+        while (!month.equals(Month)) {
+            nextMonthButton().click();
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button[@title='Day']"), 1));
+            currentMonth = currentMonthInCalendarPage().getText();
+            selectMonth = currentMonth.split(" ");
+            Month = selectMonth[0];
+        }
+        if (calendarAppointments(startTime, university).size() == 1) {
+            verifyAppointment(startTime, university);
+        } else if (calendarAppointments(startTime, university).size() == 0) {
+            int appointment = getAppointmentFromCalendar(startTime, university);
+            if (appointment == 0) {
+                startTime = getCalendarStartTime();
+                if (calendarAppointments(startTime, university).size() == 1) {
+                    verifyAppointment(startTime, university);
+                } else if (calendarAppointments(startTime, university).size() == 0) {
+                    appointment = getAppointmentFromCalendar(startTime, university);
+                    if (appointment == 1) {
+                        verifyAppointment(startTime, university);
+                    } else {
+                        Assert.fail("Appointment is not displayed");
+                    }
+                }
+            } else if (appointment == 1) {
+                verifyAppointment(startTime, university);
+            }
+        } else {
+            Assert.fail("Appointment is not displayed");
+        }
+    }
+
+    public void verifyAppointment(String startTime, String university) {
+        Assert.assertTrue("Appointment is not displayed", calendarAppointment(startTime, university).isDisplayed());
     }
 
     // Locators
@@ -11296,7 +11402,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> announcementsDismissButton(){return getDriver().findElements(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
 
     private List<WebElement> readMorebutton(){return getDriver().findElements(By.xpath("//button[text()='Read More']"));}
-  
+
+    /**
+     * @return return visit start time
+     */
+
     private String getVisitStartTime(){
         String[] time=StartTime.split("am");
         String startTime=time[0]+" "+"AM";
@@ -11323,6 +11433,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement eventInCell(String dayNumber, String time) {
         return driver.findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='" + dayNumber +"']/../../../../div[@class = 'rbc-row-content']/div/div/div/div/div/span[text() = '" + time.replaceFirst("0", "") + "']"));
     }
+    /**
+     * @return return Reschedule visit start time
+     */
     private String getVisitStartTimeforReschedule(){
         String[] time=RescheduleStartTimeforNewVisit.split("am");
         String startTime=time[0]+" "+"AM";

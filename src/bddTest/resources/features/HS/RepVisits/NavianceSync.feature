@@ -182,6 +182,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Then HS I verify and select an appointment in calendar page using "<University>","<heCalendarTime>","<Date>","ReScheduled"
     Then HS I remove the appointment from the calendar
     And HS I successfully sign out
+    And HE I successfully sign out
 
     Examples:
       |StartTime|EndTime |NumVisits|Option                            |hsEndTime|School                   |University                |heStartTime   |heTime   |Day|Date|StartDate|EndDate|StartTimefornewVisit|User     |reason   |heTimefornewVisit|heCalendarTime|option|
@@ -241,7 +242,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   #Remove the appointment from Calendar
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I select calendar in RepVisits
-    Then HS I verify the calendar page using "Alpena Community College","10:58AM","14","ReScheduled"
+    Then HS I verify the Appointment in calendar page using "Alpena Community College","10:58AM","14","ReScheduled"
     Then HS I remove the appointment from the calendar
     And HS I successfully sign out
 
