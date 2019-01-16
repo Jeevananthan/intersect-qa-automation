@@ -42,7 +42,6 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I cancel the college fairs created
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
-    And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
     And HE I search for "<School>" in RepVisits page
@@ -59,7 +58,6 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
-    And HS I successfully sign out
 
     Examples:
       |School                   |College Fair Name         |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |fairTime|
