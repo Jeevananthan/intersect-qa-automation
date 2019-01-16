@@ -168,6 +168,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    /**
+     *
+     * Logout from the naviance page
+     */
     public void logoutFromNaviance(){
         Actions action = new Actions(driver);
         action.moveToElement(driver.findElement(By.xpath("//i[@class='icon-cog']"))).build().perform();

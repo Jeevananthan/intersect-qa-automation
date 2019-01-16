@@ -254,6 +254,11 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     *
+     * Login to the naviance page
+     */
+
     public void loginToNaviancePage(String usertype){
         driver.manage().deleteAllCookies();
         openNavianceLoginPage();

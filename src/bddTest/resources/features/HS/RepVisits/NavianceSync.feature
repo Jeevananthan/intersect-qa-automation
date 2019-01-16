@@ -203,6 +203,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
       |deadlineOption         |hours                                  |
   #create new visit for Reschedule
     Then HS I set a date using "21" and "42"
+    Then HS I clear the time slot for the particular day "21" in Regular Weekly Hours Tab
     Then HS I add the new time slot with "21","10:34am","12:33pm" and "3" with "1"
     Then HS I set the value for Reschedule the visit
   #create Visit

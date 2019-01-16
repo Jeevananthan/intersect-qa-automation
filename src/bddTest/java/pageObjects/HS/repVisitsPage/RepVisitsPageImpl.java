@@ -1643,7 +1643,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public int getAppointmentFromCalendar(String startTime, String university) {
         if (getMonthRow().size() > 0) {
             outerloop:
-            for (int i = 1; i <= getMonthRow().size(); i++) {
+            for (int i = 1; i <= 7; i++) {
                 for (int j = 1; j <= 7; j++) {
                     int rowCount = getShowMoreRowCount(i, j);
                     if (rowCount > 0) {
@@ -11412,27 +11412,56 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String startTime=time[0]+" "+"AM";
         return startTime;
     }
+
+    /**
+     *
+     * @return : colleges text
+     */
+
     private WebElement collegeOptionInNaviancePage() {
         return getDriver().findElement(By.xpath("//li/a[text()='Colleges']"));
     }
+
+    /**
+     *
+     * @return : visit text
+     */
     private WebElement visitsInNavianceColleges() {
         return getDriver().findElement(By.xpath("//li/a[text()='Visits']"));
     }
+
+    /**
+     *
+     * @return : max no of visits
+     */
     private WebElement maxNoOfVisits() {
         return getDriver().findElement(By.id("maxStudentVisits"));
     }
+
+    /**
+     *
+     * @return : max no of students
+     */
     private WebElement maxNoOfStudents() {
         return getDriver().findElement(By.id("maxNumStudents"));
     }
+
+    /**
+     *
+     * @return rsvp number
+     */
     private WebElement visitDeadLine() {
         return getDriver().findElement(By.id("rsvpNumber"));
     }
+
+    /**
+     *
+     * @return student notes
+     */
     private WebElement studentNotes() {
         return getDriver().findElement(By.id("studentNotes"));
     }
-    private WebElement eventInCell(String dayNumber, String time) {
-        return driver.findElement(By.xpath("//div[@class='rbc-date-cell']/a[text()='" + dayNumber +"']/../../../../div[@class = 'rbc-row-content']/div/div/div/div/div/span[text() = '" + time.replaceFirst("0", "") + "']"));
-    }
+
     /**
      * @return return Reschedule visit start time
      */
