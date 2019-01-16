@@ -45,6 +45,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
             userAnotherAccount.click();
         }
         logger.info("Login in to the admin page");
+        waitUntilPageFinishLoading();
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
         button("Next").click();

@@ -56,10 +56,10 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
     private String modalCancelButton = "//span[text() = 'CANCEL']";
     private WebElement stepTitle() { return driver.findElement(By.cssSelector("main h2")); }
     private WebElement stepTitle2() { return driver.findElement(By.cssSelector("div.ui.header")); }
-    private WebElement stepTitle3() { return driver.findElement(By.cssSelector("div.connect-message h1")); }
-    private WebElement yesIDoButton() { return driver.findElement(By.cssSelector("button#yesIDoButton")); }
+    public WebElement stepTitle3() { return driver.findElement(By.cssSelector("div.connect-message h1")); }
+    public WebElement yesIDoButton() { return driver.findElement(By.cssSelector("button#yesIDoButton")); }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("button#submitForm")); }
-    private WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
+    public WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
     private String cardsGroupsLocator = "div.ui.cards.matches-group";
     private WebElement connectDialogButton(String buttonText) { return driver.findElement(By.xpath("//button[text() = '" + buttonText + "']")); }
     private String cardTitleLocator(String collegeName) { return "//div[@class = 'ui cards matches-group'][1]//a[text() = '" + collegeName + "']"; }

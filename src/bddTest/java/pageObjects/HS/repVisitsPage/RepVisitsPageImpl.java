@@ -595,6 +595,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectDayForSlotTime(String element, String day) {
         WebElement dayList = driver.findElement(By.cssSelector(element.toString()));
+        Actions action = new Actions(getDriver());
+        action.moveToElement(dayList).build().perform();
         dayList.click();
         if (day.contains("Saturday") || day.contains("Sunday")) {
             driver.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(), 'Monday')]")).click();
@@ -9390,7 +9392,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private By eventLocationHsLocator(){
-        return By.id("eventLocation");
+        return By.name("locationWithinSchool");
     }
 
     private WebElement addVisitButtonInVisitSchedulePopup() {

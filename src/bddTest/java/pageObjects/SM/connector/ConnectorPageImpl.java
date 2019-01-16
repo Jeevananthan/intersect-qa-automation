@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.SM.collegesLookingForStudentsLikeYou.CollegesLookingForStudentsLikeYouPageImpl;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     }
 
     private Logger logger;
+    private CollegesLookingForStudentsLikeYouPageImpl collegesLookingForStudentsLikeYouPage = new CollegesLookingForStudentsLikeYouPageImpl();
 
     public void verifyCheckboxesRelatedTo(String checkboxesStatus, String mainCheckBoxLabel, String mainCheckboxStatus) {
         if (connectorCheckbox(mainCheckBoxLabel).getAttribute("class").contains(mainCheckboxStatus)) {
@@ -102,6 +104,52 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
         connectorDialogButton(label).click();
     }
 
+    public void verifyRequiredFieldsEmailPhoneStreet() {
+        uncheckCheckbox("Email");
+        uncheckCheckbox("Phone");
+        uncheckCheckbox("Address");
+        driver.findElement(By.cssSelector("button#submitForm")).click();
+        waitUntilElementExists(driver.findElement(By.xpath(missingEmailPhoneStreetErrorMessageLocator)));
+        Assert.assertTrue("No error message was displayed when the form was submited without email, phone or street",
+                driver.findElements(By.xpath(missingEmailPhoneStreetErrorMessageLocator)).size() > 0);
+        checkCheckbox("Share all");
+        if (emailField().getAttribute("value").equals("")) {
+            emailField().sendKeys("test@mail.com");
+        }
+    }
+
+    public void verifyPhoneErrorMessage(String erroneousPhoneNumber) {
+        String phoneOriginalValue = phoneField().getAttribute("value");
+        phoneField().clear();
+        phoneField().sendKeys(erroneousPhoneNumber);
+        button("Submit").click();
+        Assert.assertTrue("The error message for erroneous phone numbers is not displayed",
+                phoneError().getText().equals(phoneErrorMessageString));
+        phoneField().clear();
+        if (!phoneOriginalValue.equals("")) {
+            phoneField().sendKeys(phoneOriginalValue);
+        } else {
+            uncheckCheckbox("Phone");
+        }
+    }
+
+    public void verifyBirthdayFormat() {
+        Assert.assertTrue("The birthday date format is incorrect",
+                birthdayValue().getText().split("\\n")[1].matches("([a-z]|[A-Z]){3}\\s(3[01]|[12][0-9]|[1-9]\\w*),\\s[0-9]{4}"));
+    }
+
+    public void verifyItsPossibleToSubmit(String value) {
+        collegesLookingForStudentsLikeYouPage.yesIDoButton().click();
+        waitUntilElementExists(button("Submit"));
+        if (birthdayValue().getText().split("\\n")[1].equals(value)) {
+            button("Submit").click();
+        }
+        waitUntilElementExists(collegesLookingForStudentsLikeYouPage.closeButton());
+        Assert.assertTrue("It was not possible to submit the form with " + value + " as value for Birthday",
+                collegesLookingForStudentsLikeYouPage.stepTitle3().getText().equals("Successfully Submitted!"));
+        collegesLookingForStudentsLikeYouPage.closeButton().click();
+    }
+
     //Locators
     private WebElement connectorCheckbox(String label) { return driver.findElement(By.xpath("//label[text() = '" + label + "']/..")); }
     private String connectorCheckboxesLocator = "//label[@class = 'form-checkbox-label']/..";
@@ -114,5 +162,9 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     private WebElement zipCodeField() { return driver.findElement(By.cssSelector("input#zipCode")); }
     private WebElement nonEditableConnectorField(String fieldLabel) { return driver.findElement(By.xpath("//label[contains(text(), '" + fieldLabel + "')]/../../..")); }
     private WebElement birthdayField() { return driver.findElement(By.xpath("//label[contains(text(), 'Birthday')]")); }
+    private WebElement birthdayValue() { return driver.findElement(By.xpath("//label[contains(text(), 'Birthday')]/..")); }
     private WebElement connectorDialogButton(String label) { return driver.findElement(By.xpath("//button[text() = '" + label + "']")); }
+    private String missingEmailPhoneStreetErrorMessageLocator = "//p[text() = 'Please select one method of contact: Email, Phone, or Address.']";
+    private WebElement phoneError() { return driver.findElement(By.cssSelector("div#phoneError")); }
+    private String phoneErrorMessageString = "Please provide a 10 digit phone number";
 }
