@@ -39,6 +39,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button(By.cssSelector("i.sign.out.icon + span.text")).click();
         waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
+        waitUntil(ExpectedConditions.elementToBeClickable(loginButton()));
         Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
     }
 
@@ -289,4 +290,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private By productAnnouncementsHeader(){return By.xpath("//div[text()='Product Announcement']");}
     private By productAnnouncementsReadMore(){return By.id("read-more-announcement-button");}
     private By productAnnouncementsReadMoreClose(){ return By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"); }
+    /**
+     * @return  : return login button
+     */
+    private By loginButton(){
+        return By.xpath("//button/span[text()='Login']");
+    }
 }

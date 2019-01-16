@@ -1809,6 +1809,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * verify the request subtab is enabled by default, after clicking notification and tasks
+     */
     public void verifySubTabInNotifications() {
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
@@ -5918,6 +5921,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    /**
+     * Verify no notification message in notification tab
+     * @param message : no notification message
+     *                ex : You currently have no notifications...
+     */
     public void verifynoNotificationMessage(String message) {
         getNavigationBar().goToRepVisits();
         waitUntilElementExists(notificationsAndTasks());
@@ -6545,6 +6553,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.id("webInstructions"));
     }
 
+    /**
+     * remove notification from request tab
+     * @param message : declined message
+     *
+     * @param submit : submit button name
+     */
     public void removeNotificationRequestSubtab(String message, String submit) {
         try{
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class='ui mini button _3wYCijG-cEpNomL_5h1LcD']")));
