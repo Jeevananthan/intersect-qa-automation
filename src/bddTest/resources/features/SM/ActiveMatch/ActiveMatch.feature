@@ -154,5 +154,49 @@ Feature: SM - ActiveMatch Next Gen
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
+  @MATCH-5201
+  Scenario: As a Naviance Student student user, I'd like to see why I matched with an HE institution who has
+  an Advanced Awareness subscription configuration, because I am interested in another school
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5201SubscriptionData.json" and the following settings:
+      | startDate | 0 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And I clear the onboarding popups if present
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    And SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "Auburn University" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "Assumption College" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "Art Academy of Cincinnati" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "Anna Maria College" to the Colleges I'm thinking about list if it is not already there
+    And SM I navigate to page via URL path "colleges/applying-to/add"
+    And SM I add "Babson College" to I'm applying list
 
+    And SM I go to Colleges Looking for Students Like You list
+    Then SM I verify the card for "The University of Alabama" contains:
+      | Babson College                |
+      | Auburn University |
+      | Assumption College            |
+      | Art Academy of Cincinnati     |
+      | Anna Maria College            |
+    And SM I navigate to page via URL path "colleges/supermatch-next"
+    And SM I add "American University" to the Colleges I'm thinking about list if it is not already there
+    And SM I go to Colleges Looking for Students Like You list
+    Then SM I verify the card for "The University of Alabama" contains:
+      | & more... |
+    Then SM I remove "Babson College" from the I'm thinking about list if it is added in the list
+    Then SM I remove "Auburn University" from the I'm thinking about list if it is added in the list
+    Then SM I remove "Assumption College" from the I'm thinking about list if it is added in the list
+    Then SM I remove "Art Academy of Cincinnati" from the I'm thinking about list if it is added in the list
+    Then SM I remove "Anna Maria College" from the I'm thinking about list if it is added in the list
+    Then SM I remove "American University" from the I'm thinking about list if it is added in the list
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
 
