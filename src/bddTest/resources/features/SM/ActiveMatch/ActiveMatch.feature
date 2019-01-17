@@ -176,7 +176,6 @@ Feature: SM - ActiveMatch Next Gen
     And SM I add "Anna Maria College" to the Colleges I'm thinking about list if it is not already there
     And SM I navigate to page via URL path "colleges/applying-to/add"
     And SM I add "Babson College" to I'm applying list
-
     And SM I go to Colleges Looking for Students Like You list
     Then SM I verify the card for "The University of Alabama" contains:
       | Babson College                |
@@ -184,7 +183,7 @@ Feature: SM - ActiveMatch Next Gen
       | Assumption College            |
       | Art Academy of Cincinnati     |
       | Anna Maria College            |
-    And SM I navigate to page via URL path "colleges/supermatch-next"
+    And SM I navigate to the Colleges I'm thinking about list
     And SM I add "American University" to the Colleges I'm thinking about list if it is not already there
     And SM I go to Colleges Looking for Students Like You list
     Then SM I verify the card for "The University of Alabama" contains:
