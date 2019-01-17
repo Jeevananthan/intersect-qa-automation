@@ -1229,6 +1229,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         setTimeZoneValue(timeZone);
         button("Update time zone").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='content']")));
     }
 
     public void verifyHolidayCheckBoxStatus(Boolean holidayStatus, String holiday, int index) {
