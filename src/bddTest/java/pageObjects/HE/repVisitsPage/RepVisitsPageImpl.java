@@ -3586,6 +3586,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             getMoreResultsButton().click();
             waitUntilPageFinishLoading();
         }
+        waitUntilPageFinishLoading();
     }
 
     public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){

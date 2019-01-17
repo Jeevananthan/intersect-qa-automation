@@ -1480,6 +1480,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 driver.findElements(By.xpath("saveSearchPopupCancelLinkLocator")).size() < 1);
     }
 
+    public void selectOrUnselectStudentLifeCriteria(String selectOrUnselect, String option)
+    {
+        switch (selectOrUnselect.toUpperCase())
+        {
+            case "SELECT": selectCheckBox(option, "Student Life");
+                break;
+            case "UNSELECT": unselectCheckbox(option, "Student Life");
+                break;
+        }
+
+    }
     public void verifyTextInsideSaveSearchBox() {
         Assert.assertTrue("The text in the Save Search popup header is not correct",
                 saveSearchPopupHeader().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.header")));
