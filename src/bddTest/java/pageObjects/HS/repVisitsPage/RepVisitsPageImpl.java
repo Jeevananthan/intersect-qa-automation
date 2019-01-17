@@ -4209,6 +4209,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         studentRegistrationDeadlineField().sendKeys(data.get("Registration will close"));
         hoursDaysDropdown().click();
+        hoursDaysOption("days").click();
+        hoursDaysDropdown().click();
         hoursDaysOption(data.get("Hours or Days option")).click();
         Assert.assertTrue("The value greater than 255 was not turned into 255", studentRegistrationDeadlineField().getAttribute("value").contains("255"));
     }
