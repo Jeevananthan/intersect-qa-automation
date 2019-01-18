@@ -419,6 +419,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         fillEventStartDateTimeFields(minutesFromNow);
         fillCreateEventForm(eventDetails);
         publishNowButton().sendKeys(Keys.RETURN);
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(loadingIconLocator), 1));
     }
 
     public void EditAndPublishEventWithGenDate (String minutesFromNow, DataTable eventDetailsData) {
@@ -429,7 +430,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void fillEventStartDateTimeFields(String minutesFromNow) {
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(createEventButton());
         generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
         Calendar date = Calendar.getInstance();
         createEventButton().click();
@@ -520,7 +521,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTab(String tabName) {
-        waitForUITransition();
+        waitUntilElementExists(getEventsTab(tabName));
         try {
             getEventsTab(tabName).click();
         } catch(WebDriverException e) {
@@ -750,7 +751,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
     public WebElement getEventsTab(String tabName) {
-        return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]"));
+        return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]/.."));
     }
     private WebElement getTimeZoneOption(String optionName) {
         return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _22IjfAfN4Zs4CnM4Q_AlWZ']" +
@@ -826,4 +827,5 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private String unpublishedEventsEllipsisLocator(String eventName) { return "//h3[text() = '" + eventName + "']/../../../..//i"; }
     private String progressBarLocator = "div[role='progressbar']";
     private String collegeNameHeader = "div.events-list__column-head.events-list__column-head--name";
+    private String loadingIconLocator = "div.ui.active.loader";
 }

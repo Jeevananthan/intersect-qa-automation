@@ -66,5 +66,7 @@ public class HomePageStepDefs implements En {
         Then("^HS I verify the content \"([^\"]*)\" is displaying in the product announcements 'Read More' drawer$",homePage::verifyContentInProductAnnouncementsReadMoreDrawer);
 
         Then("^HS I click close button in the product announcements 'Read More' drawer$",homePage::clickCloseButtonInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I successfully sign out from the Naviance$",homePage::logoutFromNaviance);
     }
 }

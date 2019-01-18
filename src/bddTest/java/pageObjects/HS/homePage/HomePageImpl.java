@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -167,6 +168,18 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    /**
+     *
+     * Logout from the naviance page
+     */
+    public void logoutFromNaviance(){
+        Actions action = new Actions(driver);
+        action.moveToElement(driver.findElement(By.xpath("//i[@class='icon-cog']"))).build().perform();
+        link("Logout").click();
+        waitUntilPageFinishLoading();
+        driver.manage().deleteAllCookies();
+    }
+
     public void verifyYearInRegistrationPage(){
         String currentYear = getCurrentYear();
         load(GetProperties.get("hs.registration.url"));
@@ -290,6 +303,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private By productAnnouncementsHeader(){return By.xpath("//div[text()='Product Announcement']");}
     private By productAnnouncementsReadMore(){return By.id("read-more-announcement-button");}
     private By productAnnouncementsReadMoreClose(){ return By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"); }
+
     /**
      * @return  : return login button
      */
